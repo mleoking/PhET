@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;

@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
@@ -132,7 +132,7 @@ public class CrustModel extends PlateModel {
                     for ( int row = 0; row < TERRAIN_Z_SAMPLES; row++ ) {
                         final float rowRatio = ( (float) row ) / ( (float) ( TERRAIN_Z_SAMPLES - 1 ) );
                         float z = bounds.getMinZ() + rowRatio * ( bounds.getMaxZ() - bounds.getMinZ() );
-                        add( new TerrainSample( (float) LEFT_OCEANIC_ELEVATION, getTextureStrategy().mapTop( new ImmutableVector2F( x, z ) ) ) );
+                        add( new TerrainSample( (float) LEFT_OCEANIC_ELEVATION, getTextureStrategy().mapTop( new Vector2F( x, z ) ) ) );
                     }
                 }} );
             }
@@ -145,7 +145,7 @@ public class CrustModel extends PlateModel {
                     for ( int row = 0; row < TERRAIN_Z_SAMPLES; row++ ) {
                         final float rowRatio = ( (float) row ) / ( (float) ( TERRAIN_Z_SAMPLES - 1 ) );
                         float z = bounds.getMinZ() + rowRatio * ( bounds.getMaxZ() - bounds.getMinZ() );
-                        add( new TerrainSample( (float) getCenterCrustElevation(), getTextureStrategy().mapTop( new ImmutableVector2F( x, z ) ) ) );
+                        add( new TerrainSample( (float) getCenterCrustElevation(), getTextureStrategy().mapTop( new Vector2F( x, z ) ) ) );
                     }
                 }} );
             }
@@ -159,7 +159,7 @@ public class CrustModel extends PlateModel {
                     for ( int row = 0; row < TERRAIN_Z_SAMPLES; row++ ) {
                         final float rowRatio = ( (float) row ) / ( (float) ( TERRAIN_Z_SAMPLES - 1 ) );
                         float z = bounds.getMinZ() + rowRatio * ( bounds.getMaxZ() - bounds.getMinZ() );
-                        add( new TerrainSample( (float) RIGHT_CONTINENTAL_ELEVATION, getTextureStrategy().mapTop( new ImmutableVector2F( x, z ) ) ) );
+                        add( new TerrainSample( (float) RIGHT_CONTINENTAL_ELEVATION, getTextureStrategy().mapTop( new Vector2F( x, z ) ) ) );
                     }
                 }} );
             }
@@ -182,31 +182,31 @@ public class CrustModel extends PlateModel {
         *----------------------------------------------------------------------------*/
 
         final float lowerBoundary = bounds.getMinY();
-        Function1<ImmutableVector2F, ImmutableVector2F> lowerBoundaryFunct = new Function1<ImmutableVector2F, ImmutableVector2F>() {
-            public ImmutableVector2F apply( ImmutableVector2F vector ) {
-                return new ImmutableVector2F( vector.x, lowerBoundary );
+        Function1<Vector2F, Vector2F> lowerBoundaryFunct = new Function1<Vector2F, Vector2F>() {
+            public Vector2F apply( Vector2F vector ) {
+                return new Vector2F( vector.x, lowerBoundary );
             }
         };
 
-        ImmutableVector2F[] oceanTop = oceanicTerrain.getFrontVertices();
-        final ImmutableVector2F[] oceanCrustBottom = map( oceanTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
-            public ImmutableVector2F apply( ImmutableVector2F vector ) {
-                return new ImmutableVector2F( vector.x, (float) ( vector.y - LEFT_OCEANIC_THICKNESS ) );
+        Vector2F[] oceanTop = oceanicTerrain.getFrontVertices();
+        final Vector2F[] oceanCrustBottom = map( oceanTop, new Function1<Vector2F, Vector2F>() {
+            public Vector2F apply( Vector2F vector ) {
+                return new Vector2F( vector.x, (float) ( vector.y - LEFT_OCEANIC_THICKNESS ) );
             }
-        }, new ImmutableVector2F[oceanTop.length] );
-        final ImmutableVector2F[] oceanSideMinY = map( oceanTop, lowerBoundaryFunct, new ImmutableVector2F[oceanTop.length] );
+        }, new Vector2F[oceanTop.length] );
+        final Vector2F[] oceanSideMinY = map( oceanTop, lowerBoundaryFunct, new Vector2F[oceanTop.length] );
 
-        ImmutableVector2F[] continentTop = continentalTerrain.getFrontVertices();
-        ImmutableVector2F[] continentCrustBottom = map( continentTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
-            public ImmutableVector2F apply( ImmutableVector2F vector ) {
-                return new ImmutableVector2F( vector.x, (float) ( vector.y - RIGHT_CONTINENTAL_THICKNESS ) );
+        Vector2F[] continentTop = continentalTerrain.getFrontVertices();
+        Vector2F[] continentCrustBottom = map( continentTop, new Function1<Vector2F, Vector2F>() {
+            public Vector2F apply( Vector2F vector ) {
+                return new Vector2F( vector.x, (float) ( vector.y - RIGHT_CONTINENTAL_THICKNESS ) );
             }
-        }, new ImmutableVector2F[continentTop.length] );
-        ImmutableVector2F[] continentSideMinY = map( continentTop, lowerBoundaryFunct, new ImmutableVector2F[continentTop.length] );
+        }, new Vector2F[continentTop.length] );
+        Vector2F[] continentSideMinY = map( continentTop, lowerBoundaryFunct, new Vector2F[continentTop.length] );
 
-        final ImmutableVector2F[] middleTop = middleTerrain.getFrontVertices();
-        final ImmutableVector2F[] middleCrustBottom = new ImmutableVector2F[middleTop.length];
-        final ImmutableVector2F[] middleSideMinY = map( middleTop, lowerBoundaryFunct, new ImmutableVector2F[middleTop.length] );
+        final Vector2F[] middleTop = middleTerrain.getFrontVertices();
+        final Vector2F[] middleCrustBottom = new Vector2F[middleTop.length];
+        final Vector2F[] middleSideMinY = map( middleTop, lowerBoundaryFunct, new Vector2F[middleTop.length] );
 
         final Sample[] middleTopSamples = new Sample[middleTop.length];
         final Sample[] middleCrustBottomSamples = new Sample[middleCrustBottom.length];
@@ -222,16 +222,16 @@ public class CrustModel extends PlateModel {
 
         // initialize with dummy values (TODO fix)
         for ( int i = 0; i < middleTop.length; i++ ) {
-            middleTopSamples[i] = new Sample( new ImmutableVector3F(),
+            middleTopSamples[i] = new Sample( new Vector3F(),
                                               0, (float) getCenterCrustDensity(),
-                                              new ImmutableVector2F() );
-            middleCrustBottomSamples[i] = new Sample( new ImmutableVector3F(),
+                                              new Vector2F() );
+            middleCrustBottomSamples[i] = new Sample( new Vector3F(),
                                                       0, (float) getCenterCrustDensity(),
-                                                      new ImmutableVector2F() );
-            middleMantleTopSamples[i] = new Sample( new ImmutableVector3F(),
+                                                      new Vector2F() );
+            middleMantleTopSamples[i] = new Sample( new Vector3F(),
                                                     ZERO_CELSIUS + 700, MANTLE_DENSITY,
-                                                    new ImmutableVector2F() );
-            middleSideMinYSamples[i] = new Sample( new ImmutableVector3F( middleSideMinY[i].x, middleSideMinY[i].y, 0 ),
+                                                    new Vector2F() );
+            middleSideMinYSamples[i] = new Sample( new Vector3F( middleSideMinY[i].x, middleSideMinY[i].y, 0 ),
                                                    ZERO_CELSIUS + 700, MANTLE_DENSITY, getTextureStrategy().mapFront( middleSideMinY[i] ) );
         }
 
@@ -240,15 +240,15 @@ public class CrustModel extends PlateModel {
                 System.arraycopy( middleTerrain.getFrontVertices(), 0, middleTop, 0, middleTop.length );
                 final float centerCrustDensity = (float) getCenterCrustDensity();
                 for ( int i = 0; i < middleTop.length; i++ ) {
-                    middleCrustBottom[i] = new ImmutableVector2F( middleTop[i].getX(), (float) ( middleTop[i].getY() - thickness.get() ) );
+                    middleCrustBottom[i] = new Vector2F( middleTop[i].getX(), (float) ( middleTop[i].getY() - thickness.get() ) );
                 }
                 for ( int i = 0; i < middleTop.length; i++ ) {
-                    final ImmutableVector3F crustTopPosition = new ImmutableVector3F( middleTop[i].x, middleTop[i].y, 0 );
-                    final ImmutableVector3F crustBottomPosition = new ImmutableVector3F( middleCrustBottom[i].x, middleCrustBottom[i].y, 0 );
+                    final Vector3F crustTopPosition = new Vector3F( middleTop[i].x, middleTop[i].y, 0 );
+                    final Vector3F crustBottomPosition = new Vector3F( middleCrustBottom[i].x, middleCrustBottom[i].y, 0 );
                     middleTopSamples[i].setPosition( crustTopPosition );
                     middleCrustBottomSamples[i].setPosition( crustBottomPosition );
-                    middleTopSamples[i].setTextureCoordinates( getTextureStrategy().mapFront( new ImmutableVector2F( middleTop[i].x, 0 ) ) );
-                    ImmutableVector2F position = new ImmutableVector2F( middleTop[i].x, -thickness.get() );
+                    middleTopSamples[i].setTextureCoordinates( getTextureStrategy().mapFront( new Vector2F( middleTop[i].x, 0 ) ) );
+                    Vector2F position = new Vector2F( middleTop[i].x, -thickness.get() );
                     middleCrustBottomSamples[i].setTextureCoordinates( getTextureStrategy().mapFront( position ) );
                     middleMantleTopSamples[i].setPosition( crustBottomPosition );
                     middleMantleTopSamples[i].setTextureCoordinates( getTextureStrategy().mapFront( middleCrustBottom[i] ) );
@@ -265,30 +265,30 @@ public class CrustModel extends PlateModel {
         middleUpdateObserver.update();
 
 
-        ImmutableVector2F[] mantleTop = new ImmutableVector2F[oceanSideMinY.length + middleSideMinY.length + continentSideMinY.length - 2];
+        Vector2F[] mantleTop = new Vector2F[oceanSideMinY.length + middleSideMinY.length + continentSideMinY.length - 2];
         System.arraycopy( oceanSideMinY, 0, mantleTop, 0, oceanSideMinY.length );
         System.arraycopy( middleSideMinY, 0, mantleTop, oceanSideMinY.length - 1, middleSideMinY.length );
         System.arraycopy( continentSideMinY, 0, mantleTop, oceanSideMinY.length + middleSideMinY.length - 2, continentSideMinY.length );
-        ImmutableVector2F[] mantleMiddle = map( mantleTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
-            public ImmutableVector2F apply( ImmutableVector2F vector2f ) {
-                return new ImmutableVector2F( vector2f.x, UPPER_LOWER_MANTLE_BOUNDARY_Y ); // to 750km depth
+        Vector2F[] mantleMiddle = map( mantleTop, new Function1<Vector2F, Vector2F>() {
+            public Vector2F apply( Vector2F vector2f ) {
+                return new Vector2F( vector2f.x, UPPER_LOWER_MANTLE_BOUNDARY_Y ); // to 750km depth
             }
-        }, new ImmutableVector2F[mantleTop.length] );
-        ImmutableVector2F[] mantleBottom = map( mantleTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
-            public ImmutableVector2F apply( ImmutableVector2F vector2f ) {
-                return new ImmutableVector2F( vector2f.x, MANTLE_CORE_BOUNDARY_Y ); // to 2921km depth
+        }, new Vector2F[mantleTop.length] );
+        Vector2F[] mantleBottom = map( mantleTop, new Function1<Vector2F, Vector2F>() {
+            public Vector2F apply( Vector2F vector2f ) {
+                return new Vector2F( vector2f.x, MANTLE_CORE_BOUNDARY_Y ); // to 2921km depth
             }
-        }, new ImmutableVector2F[mantleTop.length] );
-        ImmutableVector2F[] innerOuterCoreBoundary = map( mantleTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
-            public ImmutableVector2F apply( ImmutableVector2F vector2f ) {
-                return new ImmutableVector2F( vector2f.x, INNER_OUTER_CORE_BOUNDARY_Y ); // to 5180km depth
+        }, new Vector2F[mantleTop.length] );
+        Vector2F[] innerOuterCoreBoundary = map( mantleTop, new Function1<Vector2F, Vector2F>() {
+            public Vector2F apply( Vector2F vector2f ) {
+                return new Vector2F( vector2f.x, INNER_OUTER_CORE_BOUNDARY_Y ); // to 5180km depth
             }
-        }, new ImmutableVector2F[mantleTop.length] );
-        ImmutableVector2F[] centerOfTheEarth = map( innerOuterCoreBoundary, new Function1<ImmutableVector2F, ImmutableVector2F>() {
-            public ImmutableVector2F apply( ImmutableVector2F immutableVector2F ) {
-                return new ImmutableVector2F( 0, CENTER_OF_EARTH_Y );
+        }, new Vector2F[mantleTop.length] );
+        Vector2F[] centerOfTheEarth = map( innerOuterCoreBoundary, new Function1<Vector2F, Vector2F>() {
+            public Vector2F apply( Vector2F immutableVector2F ) {
+                return new Vector2F( 0, CENTER_OF_EARTH_Y );
             }
-        }, new ImmutableVector2F[innerOuterCoreBoundary.length] );
+        }, new Vector2F[innerOuterCoreBoundary.length] );
 
         /*---------------------------------------------------------------------------*
         * right oceanic crust
@@ -297,10 +297,10 @@ public class CrustModel extends PlateModel {
             Sample[] tops = new Sample[oceanTop.length];
             Sample[] bottoms = new Sample[oceanTop.length];
             for ( int i = 0; i < oceanTop.length; i++ ) {
-                tops[i] = new Sample( new ImmutableVector3F( oceanTop[i].x, oceanTop[i].y, 0 ),
+                tops[i] = new Sample( new Vector3F( oceanTop[i].x, oceanTop[i].y, 0 ),
                                       middleCrustTemperatureFunction.apply( oceanTop[i].y ), (float) LEFT_OCEANIC_DENSITY,
                                       getTextureStrategy().mapFront( oceanTop[i] ) );
-                bottoms[i] = new Sample( new ImmutableVector3F( oceanCrustBottom[i].x, oceanCrustBottom[i].y, 0 ),
+                bottoms[i] = new Sample( new Vector3F( oceanCrustBottom[i].x, oceanCrustBottom[i].y, 0 ),
                                          middleCrustTemperatureFunction.apply( oceanCrustBottom[i].y ), (float) LEFT_OCEANIC_DENSITY,
                                          getTextureStrategy().mapFront( oceanCrustBottom[i] ) );
             }
@@ -325,10 +325,10 @@ public class CrustModel extends PlateModel {
                 }
             };
             for ( int i = 0; i < continentTop.length; i++ ) {
-                tops[i] = new Sample( new ImmutableVector3F( continentTop[i].x, continentTop[i].y, 0 ),
+                tops[i] = new Sample( new Vector3F( continentTop[i].x, continentTop[i].y, 0 ),
                                       temperatureFunction.apply( continentTop[i].y ), (float) RIGHT_CONTINENTAL_DENSITY,
                                       getTextureStrategy().mapFront( continentTop[i] ) );
-                bottoms[i] = new Sample( new ImmutableVector3F( continentCrustBottom[i].x, continentCrustBottom[i].y, 0 ),
+                bottoms[i] = new Sample( new Vector3F( continentCrustBottom[i].x, continentCrustBottom[i].y, 0 ),
                                          temperatureFunction.apply( continentCrustBottom[i].y ), (float) RIGHT_CONTINENTAL_DENSITY,
                                          getTextureStrategy().mapFront( continentCrustBottom[i] ) );
             }
@@ -384,12 +384,12 @@ public class CrustModel extends PlateModel {
         updateView();
     }
 
-    private CrossSectionStrip rectangularConstantStrip( final ImmutableVector2F[] top, final ImmutableVector2F[] bottom,
+    private CrossSectionStrip rectangularConstantStrip( final Vector2F[] top, final Vector2F[] bottom,
                                                         final float topDensity, final float bottomDensity,
                                                         final float topTemperature, final float bottomTemperature ) {
         return new CrossSectionStrip() {{
             for ( int i = 0; i < top.length; i++ ) {
-                addPatch( RIGHT, new Sample( new ImmutableVector3F( top[i].x, top[i].y, 0 ), topTemperature, topDensity, getTextureStrategy().mapFront( top[i] ) ), new Sample( new ImmutableVector3F( bottom[i].x, bottom[i].y, 0 ), bottomTemperature, bottomDensity, getTextureStrategy().mapFront( bottom[i] ) ) );
+                addPatch( RIGHT, new Sample( new Vector3F( top[i].x, top[i].y, 0 ), topTemperature, topDensity, getTextureStrategy().mapFront( top[i] ) ), new Sample( new Vector3F( bottom[i].x, bottom[i].y, 0 ), bottomTemperature, bottomDensity, getTextureStrategy().mapFront( bottom[i] ) ) );
             }
         }};
     }

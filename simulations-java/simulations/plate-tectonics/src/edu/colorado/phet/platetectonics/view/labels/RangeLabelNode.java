@@ -3,12 +3,12 @@ package edu.colorado.phet.platetectonics.view.labels;
 
 import java.awt.geom.AffineTransform;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
@@ -40,15 +40,15 @@ public class RangeLabelNode extends BaseLabelNode {
 
     // dimensions for the normal view
     public static final float BAR_WIDTH = 7;
-    public static final ImmutableVector3F NORMAL = ImmutableVector3F.Z_UNIT;
+    public static final Vector3F NORMAL = Vector3F.Z_UNIT;
 
     // basic properties from the model label
-    private final Property<ImmutableVector3F> top;
-    private final Property<ImmutableVector3F> bottom;
+    private final Property<Vector3F> top;
+    private final Property<Vector3F> bottom;
     private final String label;
 
     // where the label is positioned (this can be overridden)
-    private Property<ImmutableVector3F> labelLocation;
+    private Property<Vector3F> labelLocation;
 
     private ThreadedPlanarPiccoloNode labelNode;
     private GLNode labelNodeContainer;
@@ -66,9 +66,9 @@ public class RangeLabelNode extends BaseLabelNode {
      * @param colorMode What is the current color mode
      * @param isDark    Whether we are dark for the Density color mode, or the opposite
      */
-    public RangeLabelNode( final Property<ImmutableVector3F> top, final Property<ImmutableVector3F> bottom, String label, Property<Float> scale, Property<ColorMode> colorMode, boolean isDark ) {
+    public RangeLabelNode( final Property<Vector3F> top, final Property<Vector3F> bottom, String label, Property<Float> scale, Property<ColorMode> colorMode, boolean isDark ) {
         // label is centered between the top and bottom
-        this( top, bottom, label, scale, colorMode, isDark, new Property<ImmutableVector3F>( top.get().plus( bottom.get() ).times( 0.5f ) ) {{
+        this( top, bottom, label, scale, colorMode, isDark, new Property<Vector3F>( top.get().plus( bottom.get() ).times( 0.5f ) ) {{
             // by default, place the label perfectly between the top and bottom
             SimpleObserver recenterLabelPosition = new SimpleObserver() {
                 public void update() {
@@ -89,7 +89,7 @@ public class RangeLabelNode extends BaseLabelNode {
      * @param isDark        Whether we are dark for the Density color mode, or the opposite
      * @param labelLocation The position of the label (3d point). This can update over time, and is used so we can change the position from the center
      */
-    public RangeLabelNode( final Property<ImmutableVector3F> top, final Property<ImmutableVector3F> bottom, String label, final Property<Float> scale, final Property<ColorMode> colorMode, final boolean isDark, final Property<ImmutableVector3F> labelLocation ) {
+    public RangeLabelNode( final Property<Vector3F> top, final Property<Vector3F> bottom, String label, final Property<Float> scale, final Property<ColorMode> colorMode, final boolean isDark, final Property<Vector3F> labelLocation ) {
         super( colorMode, isDark );
         this.top = top;
         this.bottom = bottom;
@@ -116,7 +116,7 @@ public class RangeLabelNode extends BaseLabelNode {
                 public void update() {
                     setTransform( new AffineTransform() );
                     if ( shouldRotate ) {
-                        rotateAboutPoint( top.get().minus( bottom.get() ).angleBetween( new ImmutableVector3F( 0, 1, 0 ) ) * ( top.get().x > bottom.get().x ? 1 : -1 ),
+                        rotateAboutPoint( top.get().minus( bottom.get() ).angleBetween( new Vector3F( 0, 1, 0 ) ) * ( top.get().x > bottom.get().x ? 1 : -1 ),
                                           labelPNode.getFullBounds().getWidth() / 2, labelPNode.getFullBounds().getHeight() / 2 );
                     }
                     // rescale so we draw correctly in the canvas. we will be centered later
@@ -154,14 +154,14 @@ public class RangeLabelNode extends BaseLabelNode {
 
     @Override
     public void renderSelf( GLOptions options ) {
-        ImmutableVector3F topToBottom = bottom.get().minus( top.get() ).normalized();
-        ImmutableVector3F crossed = topToBottom.cross( NORMAL ).normalized();
-        ImmutableVector3F perpendicular = crossed.times( scale.get() * BAR_WIDTH / 2 );
-        ImmutableVector3F middle = labelLocation.get();
+        Vector3F topToBottom = bottom.get().minus( top.get() ).getNormalizedInstance();
+        Vector3F crossed = topToBottom.cross( NORMAL ).getNormalizedInstance();
+        Vector3F perpendicular = crossed.times( scale.get() * BAR_WIDTH / 2 );
+        Vector3F middle = labelLocation.get();
         float labelAllowance = (float) ( labelPNode.getFullBounds().getHeight() / 2 * LABEL_SCALE * 1.3f * scale.get() );
 
-        ImmutableVector3F topMiddle = middle.minus( topToBottom.times( labelAllowance ) );
-        ImmutableVector3F bottomMiddle = middle.plus( topToBottom.times( labelAllowance ) );
+        Vector3F topMiddle = middle.minus( topToBottom.times( labelAllowance ) );
+        Vector3F bottomMiddle = middle.plus( topToBottom.times( labelAllowance ) );
 
         boolean labelFits = topMiddle.minus( top.get() ).dot( topToBottom ) >= 0;
 
@@ -201,8 +201,8 @@ public class RangeLabelNode extends BaseLabelNode {
             glBegin( GL_LINE_STRIP );
             LWJGLUtils.color4f( getColor() );
             vertex3f( middle );
-            vertex3f( middle.plus( new ImmutableVector3F( COLLAPSED_DIAGONAL_SEGMENT_LENGTH, COLLAPSED_DIAGONAL_SEGMENT_LENGTH, 0 ).times( scale.get() ) ) );
-            vertex3f( middle.plus( new ImmutableVector3F( COLLAPSED_DIAGONAL_SEGMENT_LENGTH + COLLAPSED_HORIZONTAL_SEGMENT_LENGTH,
+            vertex3f( middle.plus( new Vector3F( COLLAPSED_DIAGONAL_SEGMENT_LENGTH, COLLAPSED_DIAGONAL_SEGMENT_LENGTH, 0 ).times( scale.get() ) ) );
+            vertex3f( middle.plus( new Vector3F( COLLAPSED_DIAGONAL_SEGMENT_LENGTH + COLLAPSED_HORIZONTAL_SEGMENT_LENGTH,
                                                           COLLAPSED_DIAGONAL_SEGMENT_LENGTH, 0 ).times( scale.get() ) ) );
             glEnd();
         }

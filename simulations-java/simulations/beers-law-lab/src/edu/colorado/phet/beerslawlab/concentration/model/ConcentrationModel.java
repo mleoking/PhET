@@ -12,7 +12,7 @@ import edu.colorado.phet.beerslawlab.concentration.model.Solute.PotassiumChromat
 import edu.colorado.phet.beerslawlab.concentration.model.Solute.PotassiumDichromate;
 import edu.colorado.phet.beerslawlab.concentration.model.Solute.PotassiumPermanganate;
 import edu.colorado.phet.beerslawlab.concentration.model.Solute.SoluteForm;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;

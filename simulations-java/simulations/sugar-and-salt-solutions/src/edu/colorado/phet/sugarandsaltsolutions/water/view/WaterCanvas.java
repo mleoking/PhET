@@ -33,7 +33,7 @@ import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SALT;

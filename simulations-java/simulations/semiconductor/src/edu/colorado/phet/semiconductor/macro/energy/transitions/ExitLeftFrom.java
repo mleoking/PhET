@@ -3,7 +3,7 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.transitions;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.macro.energy.StateTransition;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;

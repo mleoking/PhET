@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
@@ -55,7 +55,7 @@ public abstract class PlateModel {
         }
     };
 
-    public final Notifier<ImmutableVector3F> debugPing = new Notifier<ImmutableVector3F>();
+    public final Notifier<Vector3F> debugPing = new Notifier<Vector3F>();
 
     protected PlateModel( final Bounds3D bounds, TextureStrategy textureStrategy ) {
         this.bounds = bounds;
@@ -70,9 +70,9 @@ public abstract class PlateModel {
 
     public double rayTraceDensity( Ray3F ray, LWJGLTransform modelViewTransform, boolean useWaterDensity ) {
         for ( Terrain terrain : terrains ) {
-            Option<ImmutableVector3F> hitOption = terrain.intersectWithRay( ray, modelViewTransform );
+            Option<Vector3F> hitOption = terrain.intersectWithRay( ray, modelViewTransform );
             if ( hitOption.isSome() ) {
-                ImmutableVector3F modelPosition = PlateModel.convertToPlanar( modelViewTransform.inversePosition( hitOption.get() ) );
+                Vector3F modelPosition = PlateModel.convertToPlanar( modelViewTransform.inversePosition( hitOption.get() ) );
                 if ( modelPosition.y < 0 ) {
                     if ( useWaterDensity ) {
                         // underwater, return water density at the surface
@@ -257,8 +257,8 @@ public abstract class PlateModel {
     public static final float EARTH_RADIUS = 6371000;
     public static final float CENTER_OF_EARTH_Y = -PlateModel.EARTH_RADIUS;
     public static final float MAX_FLAT_X = (float) ( Math.abs( CENTER_OF_EARTH_Y ) * Math.PI );
-    public static final ImmutableVector3F EARTH_CENTER = new ImmutableVector3F( 0, -EARTH_RADIUS, 0 );
-    public static final ImmutableVector3F RADIAL_Z_0 = new ImmutableVector3F( 1, 1, 0 );
+    public static final Vector3F EARTH_CENTER = new Vector3F( 0, -EARTH_RADIUS, 0 );
+    public static final Vector3F RADIAL_Z_0 = new Vector3F( 1, 1, 0 );
 
     /**
      * Converts a given "planar" point into a full 3D model point.
@@ -269,54 +269,54 @@ public abstract class PlateModel {
      *               as spherical coordinates.
      * @return A point in the cartesian coordinate frame in 3D
      */
-    public static ImmutableVector3F convertToRadial( ImmutableVector3F planar ) {
+    public static Vector3F convertToRadial( Vector3F planar ) {
         return convertToRadial( getXRadialVector( planar.x ), getZRadialVector( planar.z ), planar.y );
     }
 
     /**
-     * Decomposed performance shortcut for convertToRadial( ImmutableVector3F planar ).
+     * Decomposed performance shortcut for convertToRadial( Vector3F planar ).
      *
      * @param xRadialVector result of getXRadialVector( x )
      * @param zRadialVector result of getZRadialVector( z )
      * @param y             Same as in the simple version
      * @return A point in the cartesian coordinate frame in 3D
      */
-    public static ImmutableVector3F convertToRadial( ImmutableVector3F xRadialVector, ImmutableVector3F zRadialVector, float y ) {
+    public static Vector3F convertToRadial( Vector3F xRadialVector, Vector3F zRadialVector, float y ) {
         float radius = y + EARTH_RADIUS; // add in the radius of the earth, since y is relative to mean sea level
         return xRadialVector.componentTimes( zRadialVector ).times( radius ).plus( EARTH_CENTER );
     }
 
     // improved performance version for z=0 plane
-    public static ImmutableVector3F convertToRadial( float x, float y ) {
+    public static Vector3F convertToRadial( float x, float y ) {
         return convertToRadial( getXRadialVector( x ), y );
     }
 
     // improved performance version for z=0 plane
-    public static ImmutableVector3F convertToRadial( ImmutableVector3F xRadialVector, float y ) {
+    public static Vector3F convertToRadial( Vector3F xRadialVector, float y ) {
         return convertToRadial( xRadialVector, RADIAL_Z_0, y );
     }
 
-    public static ImmutableVector3F getXRadialVector( float x ) {
+    public static Vector3F getXRadialVector( float x ) {
         float theta = (float) Math.PI / 2 - x / EARTH_RADIUS; // dividing by the radius actually gets us the correct angle
-        return new ImmutableVector3F( (float) Math.cos( theta ), (float) Math.sin( theta ), 1 );
+        return new Vector3F( (float) Math.cos( theta ), (float) Math.sin( theta ), 1 );
     }
 
-    public static ImmutableVector3F getZRadialVector( float z ) {
+    public static Vector3F getZRadialVector( float z ) {
         float phi = (float) Math.PI / 2 - z / EARTH_RADIUS; // dividing by the radius actually gets us the correct angle
         float sinPhi = (float) Math.sin( phi );
-        return new ImmutableVector3F( sinPhi, sinPhi, (float) Math.cos( phi ) );
+        return new Vector3F( sinPhi, sinPhi, (float) Math.cos( phi ) );
     }
 
-    public static ImmutableVector3F convertToPlanar( ImmutableVector3F radial ) {
-        ImmutableVector3F fromCenter = radial.minus( EARTH_CENTER );
-        float radius = fromCenter.magnitude();
+    public static Vector3F convertToPlanar( Vector3F radial ) {
+        Vector3F fromCenter = radial.minus( EARTH_CENTER );
+        float radius = fromCenter.getMagnitude();
         float phi = ( (float) Math.acos( fromCenter.z / radius ) );
         float theta = (float) Math.atan2( fromCenter.y, fromCenter.x );
         double mappedTheta = ( Math.PI / 2 ) - theta;
         if ( mappedTheta > Math.PI ) {
             mappedTheta -= 2 * Math.PI;
         }
-        return new ImmutableVector3F( (float) ( mappedTheta * EARTH_RADIUS ),
+        return new Vector3F( (float) ( mappedTheta * EARTH_RADIUS ),
                                       radius - EARTH_RADIUS,
                                       (float) ( ( ( Math.PI / 2 ) - phi ) * EARTH_RADIUS ) );
     }

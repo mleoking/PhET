@@ -2,7 +2,7 @@
 package edu.colorado.phet.beerslawlab.concentration.model;
 
 import edu.colorado.phet.beerslawlab.common.model.Movable;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.umd.cs.piccolo.util.PBounds;

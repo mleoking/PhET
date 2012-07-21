@@ -4,7 +4,9 @@ package edu.colorado.phet.platetectonics.modules;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -13,8 +15,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
@@ -75,8 +75,8 @@ public class CrustTab extends PlateTectonicsTab {
 
         sceneLayer.addChild( new PlateView( getModel(), this ) );
 
-        final Function1<ImmutableVector3F, ImmutableVector3F> flatModelToView = new Function1<ImmutableVector3F, ImmutableVector3F>() {
-            public ImmutableVector3F apply( ImmutableVector3F v ) {
+        final Function1<Vector3F, Vector3F> flatModelToView = new Function1<Vector3F, Vector3F>() {
+            public Vector3F apply( Vector3F v ) {
                 return getModelViewTransform().transformPosition( PlateModel.convertToRadial( v ) );
             }
         };
@@ -95,29 +95,29 @@ public class CrustTab extends PlateTectonicsTab {
         *----------------------------------------------------------------------------*/
 
         // crust label
-        layerLabels.addChild( new RangeLabelNode( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+        layerLabels.addChild( new RangeLabelNode( new Property<Vector3F>( new Vector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                 public void update() {
-                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
+                    set( flatModelToView.apply( new Vector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
                 }
             }, true );
-        }}, new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+        }}, new Property<Vector3F>( new Vector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                 public void update() {
-                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
+                    set( flatModelToView.apply( new Vector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
                 }
             }, true );
         }}, Strings.CRUST, scaleProperty, colorMode, true
         ) );
 
-        final Property<ImmutableVector3F> upperMantleTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+        final Property<Vector3F> upperMantleTop = new Property<Vector3F>( new Vector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                 public void update() {
-                    set( flatModelToView.apply( new ImmutableVector3F( 0, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
+                    set( flatModelToView.apply( new Vector3F( 0, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
                 }
             }, true );
         }};
-        final Property<ImmutableVector3F> upperMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 0, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
+        final Property<Vector3F> upperMantleBottom = new Property<Vector3F>( flatModelToView.apply( new Vector3F( 0, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
 
         // mantle
         layerLabels.addChild( new RangeLabelNode(
@@ -128,8 +128,8 @@ public class CrustTab extends PlateTectonicsTab {
                 getLabelPosition( upperMantleTop, upperMantleBottom, scaleProperty )
         ) );
 
-        Property<ImmutableVector3F> lowerMantleTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
-        Property<ImmutableVector3F> lowerMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
+        Property<Vector3F> lowerMantleTop = new Property<Vector3F>( flatModelToView.apply( new Vector3F( 150000, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
+        Property<Vector3F> lowerMantleBottom = new Property<Vector3F>( flatModelToView.apply( new Vector3F( 150000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
 
         // lower mantle
         layerLabels.addChild( new RangeLabelNode(
@@ -140,8 +140,8 @@ public class CrustTab extends PlateTectonicsTab {
                 getLabelPosition( lowerMantleTop, lowerMantleBottom, scaleProperty )
         ) );
 
-        Property<ImmutableVector3F> outerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
-        Property<ImmutableVector3F> outerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
+        Property<Vector3F> outerCoreTop = new Property<Vector3F>( flatModelToView.apply( new Vector3F( -250000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
+        Property<Vector3F> outerCoreBottom = new Property<Vector3F>( flatModelToView.apply( new Vector3F( -250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
 
         // outer core
         layerLabels.addChild( new RangeLabelNode(
@@ -152,8 +152,8 @@ public class CrustTab extends PlateTectonicsTab {
                 getLabelPosition( outerCoreTop, outerCoreBottom, scaleProperty )
         ) );
 
-        Property<ImmutableVector3F> innerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
-        Property<ImmutableVector3F> innerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, -PlateModel.EARTH_RADIUS, 0 ) ) );
+        Property<Vector3F> innerCoreTop = new Property<Vector3F>( flatModelToView.apply( new Vector3F( 250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
+        Property<Vector3F> innerCoreBottom = new Property<Vector3F>( flatModelToView.apply( new Vector3F( 250000, -PlateModel.EARTH_RADIUS, 0 ) ) );
 
         // inner core
         layerLabels.addChild( new RangeLabelNode(
@@ -267,13 +267,13 @@ public class CrustTab extends PlateTectonicsTab {
         zoomRatio.addObserver( new SimpleObserver() {
             public void update() {
                 // TODO: make getCameraRay invertible so we can actually compute this better
-                ImmutableVector2F viewBottom = getViewPositionOnZPlane( 0.5f, 0 );
-                ImmutableVector2F viewLeft = getViewPositionOnZPlane( 0, 0.5f );
-                ImmutableVector2F viewRight = getViewPositionOnZPlane( 1, 0.5f );
+                Vector2F viewBottom = getViewPositionOnZPlane( 0.5f, 0 );
+                Vector2F viewLeft = getViewPositionOnZPlane( 0, 0.5f );
+                Vector2F viewRight = getViewPositionOnZPlane( 1, 0.5f );
 
                 for ( GLNode glNode : new ArrayList<GLNode>( toolLayer.getChildren() ) ) {
                     DraggableTool2D tool = (DraggableTool2D) glNode;
-                    ImmutableVector3F sensorViewPosition = tool.getSensorViewPosition();
+                    Vector3F sensorViewPosition = tool.getSensorViewPosition();
                     if ( sensorViewPosition.getY() < viewBottom.getY()
                          || sensorViewPosition.getX() > viewRight.getX()
                          || sensorViewPosition.getX() < viewLeft.getX() ) {

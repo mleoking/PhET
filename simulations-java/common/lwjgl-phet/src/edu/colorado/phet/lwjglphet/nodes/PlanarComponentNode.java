@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.lwjglphet.ComponentImage;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.lwjglphet.math.PlaneF;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
@@ -91,7 +91,7 @@ public class PlanarComponentNode extends GLNode {
     }
 
     public boolean doesLocalRayHit( Ray3F ray ) {
-        ImmutableVector3F planeHitPoint = PlaneF.XY.intersectWithRay( ray );
+        Vector3F planeHitPoint = PlaneF.XY.intersectWithRay( ray );
         return get2DBounds().contains( planeHitPoint.x, planeHitPoint.y );
     }
 

@@ -4,7 +4,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 import java.awt.BasicStroke;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.common.model.Bond;

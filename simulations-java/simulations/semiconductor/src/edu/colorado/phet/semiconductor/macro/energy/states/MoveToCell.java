@@ -3,8 +3,8 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.states;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;

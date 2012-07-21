@@ -4,7 +4,7 @@ package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 

@@ -4,7 +4,7 @@ package edu.colorado.phet.membranechannels.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 
 /**
  * Base class for motion strategies that can be used to set the type of motion

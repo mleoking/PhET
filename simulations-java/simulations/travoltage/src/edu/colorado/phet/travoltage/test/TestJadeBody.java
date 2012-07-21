@@ -21,8 +21,8 @@ import org.cove.jade.primitives.CircleParticle;
 import org.cove.jade.surfaces.LineSurface;
 import org.cove.jade.util.GVector;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.travoltage.MoveElectronsJade;
 
 public class TestJadeBody extends Component implements ActionListener {

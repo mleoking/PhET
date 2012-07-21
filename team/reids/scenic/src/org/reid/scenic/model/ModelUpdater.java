@@ -3,7 +3,7 @@ package org.reid.scenic.model;
 
 import org.reid.scenic.TestScenicPanel;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**

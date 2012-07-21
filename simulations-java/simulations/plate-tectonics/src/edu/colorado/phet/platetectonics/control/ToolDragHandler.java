@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserActions;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 
@@ -21,7 +21,7 @@ public class ToolDragHandler {
 
     private boolean dragging = false;
     private DraggableTool2D tool;
-    private ImmutableVector2F lastPosition;
+    private Vector2F lastPosition;
 
     private ToolboxState toolboxState;
 
@@ -29,19 +29,19 @@ public class ToolDragHandler {
         this.toolboxState = toolboxState;
     }
 
-    public void mouseDownOnTool( DraggableTool2D tool, ImmutableVector2F viewPosition ) {
+    public void mouseDownOnTool( DraggableTool2D tool, Vector2F viewPosition ) {
         if ( tool.allowsDrag( viewPosition ) ) {
             startDragging( tool, viewPosition );
         }
     }
 
-    public void startDragging( DraggableTool2D tool, ImmutableVector2F viewPosition ) {
+    public void startDragging( DraggableTool2D tool, Vector2F viewPosition ) {
         this.tool = tool;
-        lastPosition = new ImmutableVector2F( viewPosition );
+        lastPosition = new Vector2F( viewPosition );
         dragging = true;
 
         /// send an empty drag delta to hopefully synchronize any model
-        tool.dragDelta( new ImmutableVector2F( 0, 0 ) );
+        tool.dragDelta( new Vector2F( 0, 0 ) );
 
         SimSharingManager.sendUserMessage( tool.getUserComponent(), UserComponentTypes.sprite, startDrag, getToolLocationParameterSet( tool ) );
     }
@@ -56,7 +56,7 @@ public class ToolDragHandler {
         dragging = false;
     }
 
-    public void mouseMove( ImmutableVector2F viewPosition ) {
+    public void mouseMove( Vector2F viewPosition ) {
         if ( dragging ) {
             tool.dragDelta( viewPosition.minus( lastPosition ) );
             lastPosition = viewPosition;

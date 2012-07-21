@@ -6,10 +6,10 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -147,9 +147,9 @@ public class WaterStripNode extends GLNode {
                                 assert xIntercept <= x;
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
-                                ImmutableVector3F position = module.getModelViewTransform().transformPosition( z == 0
+                                Vector3F position = module.getModelViewTransform().transformPosition( z == 0
                                                                                                                ? PlateModel.convertToRadial( xIntercept, 0 )
-                                                                                                               : PlateModel.convertToRadial( new ImmutableVector3F( xIntercept, 0, z ) ) );
+                                                                                                               : PlateModel.convertToRadial( new Vector3F( xIntercept, 0, z ) ) );
                                 positionBuffer.put( new float[]{
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z} );
@@ -168,9 +168,9 @@ public class WaterStripNode extends GLNode {
                                 assert xIntercept <= x;
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
-                                ImmutableVector3F position = module.getModelViewTransform().transformPosition( z == 0
+                                Vector3F position = module.getModelViewTransform().transformPosition( z == 0
                                                                                                                ? PlateModel.convertToRadial( xIntercept, 0 )
-                                                                                                               : PlateModel.convertToRadial( new ImmutableVector3F( xIntercept, 0, z ) ) );
+                                                                                                               : PlateModel.convertToRadial( new Vector3F( xIntercept, 0, z ) ) );
                                 positionBuffer.put( new float[]{
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z} );
@@ -178,12 +178,12 @@ public class WaterStripNode extends GLNode {
                                 indexBuffer.put( vertexQuantity++ );
                             }
 
-                            ImmutableVector3F topPosition = module.getModelViewTransform().transformPosition( z == 0
+                            Vector3F topPosition = module.getModelViewTransform().transformPosition( z == 0
                                                                                                               ? PlateModel.convertToRadial( x, 0 )
-                                                                                                              : PlateModel.convertToRadial( new ImmutableVector3F( x, 0, z ) ) );
-                            ImmutableVector3F bottomPosition = module.getModelViewTransform().transformPosition( z == 0
+                                                                                                              : PlateModel.convertToRadial( new Vector3F( x, 0, z ) ) );
+                            Vector3F bottomPosition = module.getModelViewTransform().transformPosition( z == 0
                                                                                                                  ? PlateModel.convertToRadial( x, y )
-                                                                                                                 : PlateModel.convertToRadial( new ImmutableVector3F( x, y, z ) ) );
+                                                                                                                 : PlateModel.convertToRadial( new Vector3F( x, y, z ) ) );
                             positionBuffer.put( new float[]{
                                     topPosition.x, topPosition.y, topPosition.z,
                                     bottomPosition.x, bottomPosition.y, bottomPosition.z

@@ -7,14 +7,14 @@ import java.util.Map;
 
 import org.lwjgl.BufferUtils;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.SmokePuff;
@@ -76,7 +76,7 @@ public class SmokeNode extends GLNode {
 
             for ( int i = 0; i < NUM_SAMPLES; i++ ) {
                 float theta = (float) ( 2 * Math.PI * i / ( NUM_SAMPLES - 1 ) );
-                ImmutableVector2F position = computeCloudShape( theta );
+                Vector2F position = computeCloudShape( theta );
                 positionBuffer.put( new float[]{position.y, -position.x, 0} );
             }
         }
@@ -88,7 +88,7 @@ public class SmokeNode extends GLNode {
             // positions and scales the smoke
             final SimpleObserver updateObserver = new SimpleObserver() {
                 public void update() {
-                    ImmutableVector3F viewCoordinates = tab.getModelViewTransform().transformPosition(
+                    Vector3F viewCoordinates = tab.getModelViewTransform().transformPosition(
                             PlateModel.convertToRadial( puff.position.get() ) );
                     transform.set( ImmutableMatrix4F.translation( viewCoordinates.x, viewCoordinates.y, viewCoordinates.z ).times(
                             ImmutableMatrix4F.scaling( puff.scale.get() ) ) );
@@ -118,7 +118,7 @@ public class SmokeNode extends GLNode {
         }
 
         // it's basically the equation for a circle, but stretched in a certain way. similar to the teardrop curve
-        private static ImmutableVector2F computeCloudShape( float theta ) {
+        private static Vector2F computeCloudShape( float theta ) {
             float smokeFactor = (float) ( 1 + Math.cos( 20 * theta ) / 20 );
             // in the future, just scale this amout if you want the tip pointier or less pointy
             final double tipScale = 1;
@@ -127,8 +127,8 @@ public class SmokeNode extends GLNode {
 
             final double tipXPosition = 1 + tipScale; // 1 is from the radius of the circle
 
-            return new ImmutableVector2F( smokeFactor * Math.cos( theta ) + tipAmount,
-                                          Math.sin( theta ) * ( smokeFactor - tipAmount * tipAmount ) ).minus( new ImmutableVector2F( tipXPosition, 0 ) );
+            return new Vector2F( smokeFactor * Math.cos( theta ) + tipAmount,
+                                          Math.sin( theta ) * ( smokeFactor - tipAmount * tipAmount ) ).minus( new Vector2F( tipXPosition, 0 ) );
         }
     }
 }

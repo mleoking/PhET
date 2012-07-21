@@ -6,8 +6,8 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.lwjglphet.GLOptions;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -35,7 +35,7 @@ public abstract class GridStripNode extends GLNode {
     private IntBuffer indexBuffer;
 
     // used for normal computation
-    private ImmutableVector3F[] positionArray;
+    private Vector3F[] positionArray;
 
     private boolean computeNormals = true;
 
@@ -91,12 +91,12 @@ public abstract class GridStripNode extends GLNode {
 
         // used for normal computation
         if ( isComputeNormals() ) {
-            positionArray = new ImmutableVector3F[numXSamples * numZSamples];
+            positionArray = new Vector3F[numXSamples * numZSamples];
         }
 
         // used for faster trig calculations for positioning
-        ImmutableVector3F[] xRadials = new ImmutableVector3F[numXSamples];
-        ImmutableVector3F[] zRadials = new ImmutableVector3F[numZSamples];
+        Vector3F[] xRadials = new Vector3F[numXSamples];
+        Vector3F[] zRadials = new Vector3F[numZSamples];
 
         for ( int i = 0; i < numXSamples; i++ ) {
             xRadials[i] = PlateModel.getXRadialVector( getXPosition( i ) );
@@ -109,11 +109,11 @@ public abstract class GridStripNode extends GLNode {
         * position buffer (and array, used later for normals)
         *----------------------------------------------------------------------------*/
         for ( int zIndex = 0; zIndex < numZSamples; zIndex++ ) {
-            ImmutableVector3F zRadial = zRadials[zIndex];
+            Vector3F zRadial = zRadials[zIndex];
             for ( int xIndex = 0; xIndex < numXSamples; xIndex++ ) {
                 float elevation = getElevation( xIndex, zIndex );
-                ImmutableVector3F cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
-                ImmutableVector3F viewVector = modelViewTransform.transformPosition( cartesianModelVector );
+                Vector3F cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
+                Vector3F viewVector = modelViewTransform.transformPosition( cartesianModelVector );
 
                 // fill the position array, so we can compute normals in a second
                 if ( isComputeNormals() ) {
@@ -131,22 +131,22 @@ public abstract class GridStripNode extends GLNode {
         if ( isComputeNormals() ) {
             for ( int zIndex = 0; zIndex < numZSamples; zIndex++ ) {
                 for ( int xIndex = 0; xIndex < numXSamples; xIndex++ ) {
-                    ImmutableVector3F normal = getArrayNormal( zIndex, xIndex );
+                    Vector3F normal = getArrayNormal( zIndex, xIndex );
                     normalBuffer.put( new float[]{normal.x, normal.y, normal.z} );
                 }
             }
         }
     }
 
-    private ImmutableVector3F getArrayPosition( int zIndex, int xIndex ) {
+    private Vector3F getArrayPosition( int zIndex, int xIndex ) {
         return positionArray[zIndex * getNumColumns() + xIndex];
     }
 
     // adapted from GridMesh
-    private ImmutableVector3F getArrayNormal( int zIndex, int xIndex ) {
+    private Vector3F getArrayNormal( int zIndex, int xIndex ) {
         // basic approximation based on neighbors.
-        ImmutableVector3F position = getArrayPosition( zIndex, xIndex );
-        ImmutableVector3F up, down, left, right;
+        Vector3F position = getArrayPosition( zIndex, xIndex );
+        Vector3F up, down, left, right;
 
         // calculate up/down vectors
         if ( zIndex > 0 ) {
@@ -168,13 +168,20 @@ public abstract class GridStripNode extends GLNode {
             left = right.negated();
         }
 
-        ImmutableVector3F normal = new ImmutableVector3F();
-        // basically, sum up the normals of each quad this vertex is part of, and take the average
-        normal = normal.plus( right.cross( up ).normalized() );
-        normal = normal.plus( up.cross( left ).normalized() );
-        normal = normal.plus( left.cross( down ).normalized() );
-        normal = normal.plus( down.cross( right ).normalized() );
-        return normal.normalized();
+        Vector3F normal = new Vector3F();
+        try {
+            // basically, sum up the normals of each quad this vertex is part of, and take the average
+            normal = normal.plus( right.cross( up ).getNormalizedInstance() );
+            normal = normal.plus( up.cross( left ).getNormalizedInstance() );
+            normal = normal.plus( left.cross( down ).getNormalizedInstance() );
+            normal = normal.plus( down.cross( right ).getNormalizedInstance() );
+        }
+        catch( UnsupportedOperationException e ) {
+            // probably one of the cross-products has no magnitude
+            // as a catch-all, return a vector pointing towards the user
+            return new Vector3F( 0, 0, 1 );
+        }
+        return normal.getNormalizedInstance();
     }
 
     private void updateIndexBuffer( int numXSamples, int numZSamples ) {

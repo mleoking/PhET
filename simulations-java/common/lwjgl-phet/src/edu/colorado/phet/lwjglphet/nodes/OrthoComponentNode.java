@@ -12,7 +12,8 @@ import javax.swing.JComponent;
 
 import org.lwjgl.input.Mouse;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
@@ -24,7 +25,6 @@ import edu.colorado.phet.lwjglphet.ComponentImage;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -104,7 +104,7 @@ public class OrthoComponentNode extends GLNode {
                     public void update() {
                         if ( componentImage != null && isMouseEnabled() ) {
                             // reversal of Y coordinate, and subtract out the offset that the ComponentImage doesn't have access to
-                            ImmutableVector2F localCoordinates = screenToLocalCoordinates( new ImmutableVector2F( Mouse.getEventX(), Mouse.getEventY() ) );
+                            Vector2F localCoordinates = screenToLocalCoordinates( new Vector2F( Mouse.getEventX(), Mouse.getEventY() ) );
                             componentImage.handleMouseEvent( (int) localCoordinates.x, (int) localCoordinates.y );
                         }
                     }
@@ -114,20 +114,20 @@ public class OrthoComponentNode extends GLNode {
     // NOTE: run from Swing EDT
     public Component getComponentAt( int mouseX, int mouseY ) {
         if ( componentImage != null ) {
-            ImmutableVector2F localCoordinates = screenToLocalCoordinates( new ImmutableVector2F( Mouse.getEventX(), Mouse.getEventY() ) );
-            ImmutableVector2F componentCoordinates = componentImage.localToComponentCoordinates( new ImmutableVector2F( localCoordinates.x, localCoordinates.y ) );
+            Vector2F localCoordinates = screenToLocalCoordinates( new Vector2F( Mouse.getEventX(), Mouse.getEventY() ) );
+            Vector2F componentCoordinates = componentImage.localToComponentCoordinates( new Vector2F( localCoordinates.x, localCoordinates.y ) );
             return componentImage.componentAt( (int) componentCoordinates.x, (int) componentCoordinates.y );
         }
         return null;
     }
 
-    public ImmutableVector2F screenToLocalCoordinates( ImmutableVector2F screenCoordinates ) {
-        return new ImmutableVector2F( screenCoordinates.x - offsetX,
+    public Vector2F screenToLocalCoordinates( Vector2F screenCoordinates ) {
+        return new Vector2F( screenCoordinates.x - offsetX,
                                       ( tab.canvasSize.get().height - Mouse.getEventY() ) - offsetY
         );
     }
 
-    public ImmutableVector2F screentoComponentCoordinates( ImmutableVector2F screenCoordinates ) {
+    public Vector2F screentoComponentCoordinates( Vector2F screenCoordinates ) {
         return componentImage.localToComponentCoordinates( screenToLocalCoordinates( screenCoordinates ) );
     }
 

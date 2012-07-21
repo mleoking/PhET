@@ -4,13 +4,13 @@ package edu.colorado.phet.platetectonics.view;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.Arrow2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.math.PlaneF;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
@@ -25,23 +25,23 @@ import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
 
-import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.Y_UNIT;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector3F.Y_UNIT;
 import static org.lwjgl.opengl.GL11.*;
 
 public class HandleNode extends GLNode {
     private static int radialColumns = 30;
     private static int rows = 30;
-    private ImmutableVector3F[] handlePositions;
-    private ImmutableVector3F[] ballPositions;
+    private Vector3F[] handlePositions;
+    private Vector3F[] ballPositions;
     private GridMesh handleMesh;
     private GridMesh ballMesh;
-    private final Property<ImmutableVector3F> offset;
+    private final Property<Vector3F> offset;
     private final PlateMotionTab tab;
     private final boolean isRightHandle;
     private final LWJGLTransform transform = new LWJGLTransform();  // for rotation of the handle
     private PlateMotionModel model;
 
-    public HandleNode( final Property<ImmutableVector3F> offset, final PlateMotionTab tab, final boolean isRightHandle ) {
+    public HandleNode( final Property<Vector3F> offset, final PlateMotionTab tab, final boolean isRightHandle ) {
         this.offset = offset;
         this.tab = tab;
         this.isRightHandle = isRightHandle;
@@ -73,8 +73,8 @@ public class HandleNode extends GLNode {
         tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
         tab.isAutoMode.addObserver( visibilityObserver );
 
-        handlePositions = new ImmutableVector3F[radialColumns * 2];
-        ballPositions = new ImmutableVector3F[radialColumns * rows];
+        handlePositions = new Vector3F[radialColumns * 2];
+        ballPositions = new Vector3F[radialColumns * rows];
 
         updateLocations();
 
@@ -109,12 +109,12 @@ public class HandleNode extends GLNode {
         final Property<MotionType> motionType = tab.getPlateMotionModel().motionType;
 
         // back arrow
-        addChild( new ArrowNode( new Arrow2F( new ImmutableVector2F( arrowOffset, 0 ),
-                                              new ImmutableVector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
+        addChild( new ArrowNode( new Arrow2F( new Vector2F( arrowOffset, 0 ),
+                                              new Vector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
             setFillMaterial( arrowTransformFill );
             setStrokeMaterial( arrowStroke );
-            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
-            ImmutableVector3F viewPosition = convertToRadial( position );
+            Vector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
+            Vector3F viewPosition = convertToRadial( position );
             translate( viewPosition.x, viewPosition.y, viewPosition.z );
             rotate( Y_UNIT, (float) ( Math.PI / 2 ) );
 
@@ -129,13 +129,13 @@ public class HandleNode extends GLNode {
         }} );
 
         // right arrow
-        addChild( new ArrowNode( new Arrow2F( new ImmutableVector2F( arrowOffset, 0 ),
-                                              new ImmutableVector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
+        addChild( new ArrowNode( new Arrow2F( new Vector2F( arrowOffset, 0 ),
+                                              new Vector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
             final boolean isConvergent = !isRightHandle;
             setFillMaterial( isConvergent ? arrowConvergentFill : arrowDivergentFill );
             setStrokeMaterial( arrowStroke );
-            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
-            ImmutableVector3F viewPosition = convertToRadial( position );
+            Vector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
+            Vector3F viewPosition = convertToRadial( position );
             translate( viewPosition.x, viewPosition.y, viewPosition.z );
 
             SimpleObserver visibilityObserver = new SimpleObserver() {
@@ -154,13 +154,13 @@ public class HandleNode extends GLNode {
         }} );
 
         // left arrow
-        addChild( new ArrowNode( new Arrow2F( new ImmutableVector2F( -arrowOffset, 0 ),
-                                              new ImmutableVector2F( -arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
+        addChild( new ArrowNode( new Arrow2F( new Vector2F( -arrowOffset, 0 ),
+                                              new Vector2F( -arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
             final boolean isConvergent = isRightHandle;
             setFillMaterial( isConvergent ? arrowConvergentFill : arrowDivergentFill );
             setStrokeMaterial( arrowStroke );
-            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
-            ImmutableVector3F viewPosition = convertToRadial( position );
+            Vector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
+            Vector3F viewPosition = convertToRadial( position );
             translate( viewPosition.x, viewPosition.y, viewPosition.z );
 
             SimpleObserver visibilityObserver = new SimpleObserver() {
@@ -179,12 +179,12 @@ public class HandleNode extends GLNode {
         }} );
 
         // front arrow
-        addChild( new ArrowNode( new Arrow2F( new ImmutableVector2F( arrowOffset, 0 ),
-                                              new ImmutableVector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
+        addChild( new ArrowNode( new Arrow2F( new Vector2F( arrowOffset, 0 ),
+                                              new Vector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
             setFillMaterial( arrowTransformFill );
             setStrokeMaterial( arrowStroke );
-            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
-            ImmutableVector3F viewPosition = convertToRadial( position );
+            Vector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
+            Vector3F viewPosition = convertToRadial( position );
             translate( viewPosition.x, viewPosition.y, viewPosition.z );
             rotate( Y_UNIT, (float) ( -Math.PI / 2 ) );
 
@@ -213,12 +213,12 @@ public class HandleNode extends GLNode {
         updateLocations();
     }
 
-    private ImmutableVector3F yzHit( Ray3F ray ) {
-        return new PlaneF( new ImmutableVector3F( 1, 0, 0 ), offset.get().getX() ).intersectWithRay( ray );
+    private Vector3F yzHit( Ray3F ray ) {
+        return new PlaneF( new Vector3F( 1, 0, 0 ), offset.get().getX() ).intersectWithRay( ray );
     }
 
-    private ImmutableVector3F xyHit( Ray3F ray ) {
-        return new PlaneF( new ImmutableVector3F( 0, 0, 1 ), offset.get().getZ() ).intersectWithRay( ray );
+    private Vector3F xyHit( Ray3F ray ) {
+        return new PlaneF( new Vector3F( 0, 0, 1 ), offset.get().getZ() ).intersectWithRay( ray );
     }
 
     private Ray3F startRay = null;
@@ -229,9 +229,9 @@ public class HandleNode extends GLNode {
 
     public void drag( Ray3F ray ) {
         if ( model.motionType.get() == null ) {
-            ImmutableVector3F xyDelta = xyHit( ray ).minus( xyHit( startRay ) );
-            if ( xyDelta.magnitude() > 5 ) {
-                float rightStrength = xyDelta.dot( ImmutableVector3F.X_UNIT );
+            Vector3F xyDelta = xyHit( ray ).minus( xyHit( startRay ) );
+            if ( xyDelta.getMagnitude() > 5 ) {
+                float rightStrength = xyDelta.dot( Vector3F.X_UNIT );
                 float verticalStrength = Math.abs( xyDelta.dot( Y_UNIT ) );
                 if ( model.allowsTransformMotion() && verticalStrength > Math.abs( rightStrength ) ) {
                     // starting transform
@@ -260,14 +260,14 @@ public class HandleNode extends GLNode {
         boolean horizontal = model.motionType.get() != MotionType.TRANSFORM;
 
         if ( horizontal ) {
-            ImmutableVector3F hit = xyHit( ray );
-            ImmutableVector3F startHit = xyHit( startRay );
-            ImmutableVector3F origin = getBase();
+            Vector3F hit = xyHit( ray );
+            Vector3F startHit = xyHit( startRay );
+            Vector3F origin = getBase();
 
-            ImmutableVector3F hitDir = hit.minus( origin );
-            ImmutableVector3F startDir = startHit.minus( origin );
+            Vector3F hitDir = hit.minus( origin );
+            Vector3F startDir = startHit.minus( origin );
 
-            float angle = (float) ( Math.signum( hitDir.x - startDir.x ) * Math.min( 0.8f * Math.PI / 2, Math.acos( hitDir.normalized().dot( startDir.normalized() ) ) ) );
+            float angle = (float) ( Math.signum( hitDir.x - startDir.x ) * Math.min( 0.8f * Math.PI / 2, Math.acos( hitDir.getNormalizedInstance().dot( startDir.getNormalizedInstance() ) ) ) );
 
             switch( model.motionType.get() ) {
                 case CONVERGENT:
@@ -290,38 +290,38 @@ public class HandleNode extends GLNode {
                     break;
             }
 
-            tab.motionVectorRight.set( new ImmutableVector2F( isRightHandle ? angle : -angle, 0 ) );
+            tab.motionVectorRight.set( new Vector2F( isRightHandle ? angle : -angle, 0 ) );
 
 //            updateTransform( angle, 0 );
         }
         else {
-            ImmutableVector3F hit = yzHit( ray );
-            ImmutableVector3F startHit = yzHit( startRay );
-            ImmutableVector3F origin = getBase();
+            Vector3F hit = yzHit( ray );
+            Vector3F startHit = yzHit( startRay );
+            Vector3F origin = getBase();
 
-            ImmutableVector3F hitDir = hit.minus( origin );
-            ImmutableVector3F startDir = startHit.minus( origin );
+            Vector3F hitDir = hit.minus( origin );
+            Vector3F startDir = startHit.minus( origin );
 
-            float angle = (float) ( Math.min( 0.8f * Math.PI / 2, Math.acos( hitDir.normalized().dot( startDir.normalized() ) ) ) );
+            float angle = (float) ( Math.min( 0.8f * Math.PI / 2, Math.acos( hitDir.getNormalizedInstance().dot( startDir.getNormalizedInstance() ) ) ) );
             if ( hitDir.z < startDir.z ) {
                 angle = 0;
             }
 //            updateTransform( 0, angle );
-            tab.motionVectorRight.set( new ImmutableVector2F( 0, isRightHandle ? angle : -angle ) );
+            tab.motionVectorRight.set( new Vector2F( 0, isRightHandle ? angle : -angle ) );
         }
     }
 
     public void endDrag() {
-        tab.motionVectorRight.set( new ImmutableVector2F() );
+        tab.motionVectorRight.set( new Vector2F() );
     }
 
     public boolean intersectRay( Ray3F ray ) {
         // transform it to intersect with a unit sphere at the origin
         Ray3F localRay = new Ray3F( ray.pos.minus( getBallCenter() ).times( 1 / ballRadius ), ray.dir );
 
-        ImmutableVector3F centerToRay = localRay.pos;
+        Vector3F centerToRay = localRay.pos;
         float tmp = localRay.dir.dot( centerToRay );
-        float centerToRayDistSq = centerToRay.magnitudeSquared();
+        float centerToRayDistSq = centerToRay.getMagnitudeSq();
         float det = 4 * tmp * tmp - 4 * ( centerToRayDistSq - 1 ); // 1 is radius
         return det >= 0;
     }
@@ -332,8 +332,8 @@ public class HandleNode extends GLNode {
             float sin = (float) ( Math.sin( 2 * Math.PI * radialRatio ) );
             float cos = (float) ( Math.cos( 2 * Math.PI * radialRatio ) );
 
-            handlePositions[col] = convertToRadial( transform.transformPosition( new ImmutableVector3F( sin * stickRadius, stickHeight, cos * stickRadius ) ).plus( offset.get() ) );
-            handlePositions[radialColumns + col] = convertToRadial( transform.transformPosition( new ImmutableVector3F( sin * stickRadius, 0, cos * stickRadius ) ).plus( offset.get() ) );
+            handlePositions[col] = convertToRadial( transform.transformPosition( new Vector3F( sin * stickRadius, stickHeight, cos * stickRadius ) ).plus( offset.get() ) );
+            handlePositions[radialColumns + col] = convertToRadial( transform.transformPosition( new Vector3F( sin * stickRadius, 0, cos * stickRadius ) ).plus( offset.get() ) );
         }
 
         if ( handleMesh != null ) {
@@ -341,10 +341,10 @@ public class HandleNode extends GLNode {
         }
     }
 
-    private ImmutableVector3F convertToRadial( ImmutableVector3F planarViewCoordinates ) {
-        ImmutableVector3F planarModelCoordinates = tab.getModelViewTransform().inversePosition( planarViewCoordinates );
-        ImmutableVector3F radialModelCoordinates = PlateModel.convertToRadial( planarModelCoordinates );
-        ImmutableVector3F radialViewCoordinates = tab.getModelViewTransform().transformPosition( radialModelCoordinates );
+    private Vector3F convertToRadial( Vector3F planarViewCoordinates ) {
+        Vector3F planarModelCoordinates = tab.getModelViewTransform().inversePosition( planarViewCoordinates );
+        Vector3F radialModelCoordinates = PlateModel.convertToRadial( planarModelCoordinates );
+        Vector3F radialViewCoordinates = tab.getModelViewTransform().transformPosition( radialModelCoordinates );
         return radialViewCoordinates;
     }
 
@@ -352,7 +352,7 @@ public class HandleNode extends GLNode {
     @Override public void renderSelf( GLOptions options ) {
         // red sphere TODO cleanup
         GL11.glPushMatrix();
-        ImmutableVector3F center = getBallCenter();
+        Vector3F center = getBallCenter();
         GL11.glTranslatef( center.x, center.y, center.z );
         glEnable( GL_COLOR_MATERIAL );
         glColorMaterial( GL_FRONT, GL_DIFFUSE );
@@ -381,11 +381,11 @@ public class HandleNode extends GLNode {
         super.renderSelf( options );
     }
 
-    private ImmutableVector3F getBallCenter() {
-        return convertToRadial( transform.transformPosition( new ImmutableVector3F( 0, stickHeight, 0 ) ).plus( offset.get() ) );
+    private Vector3F getBallCenter() {
+        return convertToRadial( transform.transformPosition( new Vector3F( 0, stickHeight, 0 ) ).plus( offset.get() ) );
     }
 
-    private ImmutableVector3F getBase() {
+    private Vector3F getBase() {
         return convertToRadial( offset.get() );
     }
 }

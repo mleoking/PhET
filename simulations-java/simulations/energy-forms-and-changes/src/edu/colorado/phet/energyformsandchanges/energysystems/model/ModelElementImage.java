@@ -3,7 +3,7 @@ package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * Class that provides information about an image that is used in the view

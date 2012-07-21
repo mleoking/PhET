@@ -1,15 +1,15 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.FreeOxygen;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Nitrogen;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.createPolar;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystal.NITROGEN_OXYGEN_SPACING;
 
 /**

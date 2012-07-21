@@ -12,7 +12,7 @@ import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.NickelIIChl
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumChromateSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumDichromateSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumPermanganateSolution;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;

@@ -3,6 +3,9 @@ package edu.colorado.phet.lwjglphet.math;
 
 import java.nio.FloatBuffer;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector4F;
+
 // some code is copied from LWJGL's Matrix4f, so their license in the file follows
 
 /*
@@ -101,7 +104,7 @@ public class ImmutableMatrix4F {
      * @param axis  The vector representing the rotation axis. Must be normalized.
      * @return The rotation matrix
      */
-    public static ImmutableMatrix4F rotation( ImmutableVector3F axis, float angle ) {
+    public static ImmutableMatrix4F rotation( Vector3F axis, float angle ) {
         float c = (float) Math.cos( angle );
         float s = (float) Math.sin( angle );
         float C = 1 - c;
@@ -275,37 +278,37 @@ public class ImmutableMatrix4F {
     }
 
     // regular multiplication
-    public ImmutableVector4F times( ImmutableVector4F v ) {
+    public Vector4F times( Vector4F v ) {
         float x = this.m00 * v.getX() + this.m10 * v.getY() + this.m20 * v.getZ() + this.m30 * v.getW();
         float y = this.m01 * v.getX() + this.m11 * v.getY() + this.m21 * v.getZ() + this.m31 * v.getW();
         float z = this.m02 * v.getX() + this.m12 * v.getY() + this.m22 * v.getZ() + this.m32 * v.getW();
         float w = this.m03 * v.getX() + this.m13 * v.getY() + this.m23 * v.getZ() + this.m33 * v.getW();
-        return new ImmutableVector4F( x, y, z, w );
+        return new Vector4F( x, y, z, w );
     }
 
     // multiplication of the transpose of this matrix and v
-    public ImmutableVector4F timesTranspose( ImmutableVector4F v ) {
+    public Vector4F timesTranspose( Vector4F v ) {
         float x = this.m00 * v.getX() + this.m01 * v.getY() + this.m02 * v.getZ() + this.m03 * v.getW();
         float y = this.m10 * v.getX() + this.m11 * v.getY() + this.m12 * v.getZ() + this.m13 * v.getW();
         float z = this.m20 * v.getX() + this.m21 * v.getY() + this.m22 * v.getZ() + this.m23 * v.getW();
         float w = this.m30 * v.getX() + this.m31 * v.getY() + this.m32 * v.getZ() + this.m33 * v.getW();
-        return new ImmutableVector4F( x, y, z, w );
+        return new Vector4F( x, y, z, w );
     }
 
     // multiplication of the XYZ coordinates of the vector (not including translation, so we can preserve offsets)
-    public ImmutableVector3F timesVector( ImmutableVector3F v ) {
+    public Vector3F timesVector( Vector3F v ) {
         float x = this.m00 * v.getX() + this.m01 * v.getY() + this.m02 * v.getZ();
         float y = this.m10 * v.getX() + this.m11 * v.getY() + this.m12 * v.getZ();
         float z = this.m20 * v.getX() + this.m21 * v.getY() + this.m22 * v.getZ();
-        return new ImmutableVector3F( x, y, z );
+        return new Vector3F( x, y, z );
     }
 
-    public ImmutableVector3F times( ImmutableVector3F v ) {
-        return times( new ImmutableVector4F( v ) ).to3F();
+    public Vector3F times( Vector3F v ) {
+        return times( new Vector4F( v ) ).to3F();
     }
 
-    public ImmutableVector3F timesTranspose( ImmutableVector3F v ) {
-        return timesTranspose( new ImmutableVector4F( v ) ).to3F();
+    public Vector3F timesTranspose( Vector3F v ) {
+        return timesTranspose( new Vector4F( v ) ).to3F();
     }
 
     public ImmutableMatrix4F transposed() {
@@ -478,12 +481,12 @@ public class ImmutableMatrix4F {
         return buf.toString();
     }
 
-    public ImmutableVector3F getTranslation() {
-        return new ImmutableVector3F( m30, m31, m32 );
+    public Vector3F getTranslation() {
+        return new Vector3F( m30, m31, m32 );
     }
 
-    public ImmutableVector3F getScaling() {
-        return new ImmutableVector3F( m00, m11, m22 );
+    public Vector3F getScaling() {
+        return new Vector3F( m00, m11, m22 );
     }
 
 }

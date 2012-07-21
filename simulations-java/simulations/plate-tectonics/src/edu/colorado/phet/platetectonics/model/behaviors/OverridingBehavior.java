@@ -3,11 +3,11 @@ package edu.colorado.phet.platetectonics.model.behaviors;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
@@ -76,14 +76,14 @@ public class OverridingBehavior extends PlateBehavior {
         magmaTarget = getMagmaChamberTop();
         magmaSpeed = MELT_SPEED;
 
-        fakeUnderSubductionSample = new Sample( getFakeSubductionSamplePosition(), 0, 0, new ImmutableVector2F() );
+        fakeUnderSubductionSample = new Sample( getFakeSubductionSamplePosition(), 0, 0, new Vector2F() );
         Sample replacedSample = plate.getLithosphere().getBottomBoundary().getEdgeSample( getSide().opposite() );
         plate.getModel().joiningBoundaryLabel.getBoundary().replaceSample( replacedSample, fakeUnderSubductionSample );
     }
 
-    private ImmutableVector3F getFakeSubductionSamplePosition() {
+    private Vector3F getFakeSubductionSamplePosition() {
         float ourDepth = getLithosphere().getBottomBoundary().getEdgeSample( getSide().opposite() ).getPosition().y;
-        ImmutableVector3F subductionPoint = getOtherPlate().getLithosphere().getBottomBoundary().getEdgeSample( getSide() ).getPosition();
+        Vector3F subductionPoint = getOtherPlate().getLithosphere().getBottomBoundary().getEdgeSample( getSide() ).getPosition();
 
         if ( subductionPoint.y < ourDepth ) {
             // subducting plate has sunk enough where this "fake" boundary is not needed anymore, thus we will set the
@@ -92,7 +92,7 @@ public class OverridingBehavior extends PlateBehavior {
         }
         else {
             // return the point under the subduction point that is at our depth
-            return new ImmutableVector3F( subductionPoint.x, ourDepth, subductionPoint.z );
+            return new Vector3F( subductionPoint.x, ourDepth, subductionPoint.z );
         }
     }
 
@@ -120,9 +120,9 @@ public class OverridingBehavior extends PlateBehavior {
                 public Sample apply( Integer yIndex, Integer xIndex ) {
                     final float x = magmaCenterX + ( xIndex == 0 ? -0.5f : 0.5f ) * MAGMA_TUBE_WIDTH;
                     final float y = getMagmaChamberTop().y - 500;
-                    return new Sample( new ImmutableVector3F( x, y, 0 ),
+                    return new Sample( new Vector3F( x, y, 0 ),
                                        PlateMotionModel.SIMPLE_MAGMA_TEMP, PlateMotionModel.SIMPLE_MAGMA_DENSITY,
-                                       plate.getTextureStrategy().mapFront( new ImmutableVector2F( x, y ) ) );
+                                       plate.getTextureStrategy().mapFront( new Vector2F( x, y ) ) );
                 }
             } );
             plate.regions.add( magmaTube );
@@ -222,8 +222,8 @@ public class OverridingBehavior extends PlateBehavior {
         *----------------------------------------------------------------------------*/
 
         // points along the "melt line" where melt can be generated from
-        final ImmutableVector2F lowMeltPoint = getSubductingBehavior().getLowestMeltingLocation();
-        final ImmutableVector2F highMeltPoint = getSubductingBehavior().getHighestMeltingLocation();
+        final Vector2F lowMeltPoint = getSubductingBehavior().getLowestMeltingLocation();
+        final Vector2F highMeltPoint = getSubductingBehavior().getHighestMeltingLocation();
 
         // only create magma if we have both points
         if ( lowMeltPoint != null && highMeltPoint != null ) {
@@ -232,12 +232,12 @@ public class OverridingBehavior extends PlateBehavior {
             repeat(
                     new Runnable() {
                         public void run() {
-                            ImmutableVector2F location = lowMeltPoint.plus( highMeltPoint.minus( lowMeltPoint ).times( (float) Math.random() ) );
+                            Vector2F location = lowMeltPoint.plus( highMeltPoint.minus( lowMeltPoint ).times( (float) Math.random() ) );
 
                             MagmaRegion blob = addMagma( location, 0.7f );
                             animateMagmaBlob( blob, (float) ( Math.random() * millionsOfYears ), false );
                         }
-                    }, samplePoisson( millionsOfYears * MELT_CHANCE_FACTOR * ( lowMeltPoint.getDistance( highMeltPoint ) ) ) );
+                    }, samplePoisson( millionsOfYears * MELT_CHANCE_FACTOR * ( lowMeltPoint.distance( highMeltPoint ) ) ) );
         }
 
         {
@@ -264,21 +264,21 @@ public class OverridingBehavior extends PlateBehavior {
             }
 
             // TODO: remove this. copy/paste helped in a jam (need to grab positions of volcanoes, not just hack-compute them)
-            createSmokeAt( new ImmutableVector3F( magmaCenterX, maxElevationInTimestep, 0 ), millionsOfYears );
-            createSmokeAt( new ImmutableVector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 2000, -zStep ), millionsOfYears );
-            createSmokeAt( new ImmutableVector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 2000, -2 * zStep ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX, maxElevationInTimestep, 0 ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 2000, -zStep ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 2000, -2 * zStep ), millionsOfYears );
 
-            createSmokeAt( new ImmutableVector3F( magmaCenterX, maxElevationInTimestep - 2000, -3 * zStep ), millionsOfYears );
-            createSmokeAt( new ImmutableVector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 4000, -4 * zStep ), millionsOfYears );
-            createSmokeAt( new ImmutableVector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 4000, -5 * zStep ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX, maxElevationInTimestep - 2000, -3 * zStep ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 4000, -4 * zStep ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 4000, -5 * zStep ), millionsOfYears );
 
-            createSmokeAt( new ImmutableVector3F( magmaCenterX, maxElevationInTimestep - 4000, -6 * zStep ), millionsOfYears );
-            createSmokeAt( new ImmutableVector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 6000, -7 * zStep ), millionsOfYears );
-            createSmokeAt( new ImmutableVector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 6000, -8 * zStep ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX, maxElevationInTimestep - 4000, -6 * zStep ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 6000, -7 * zStep ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 6000, -8 * zStep ), millionsOfYears );
 
-            createSmokeAt( new ImmutableVector3F( magmaCenterX, maxElevationInTimestep - 6000, -9 * zStep ), millionsOfYears );
-            createSmokeAt( new ImmutableVector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 8000, -10 * zStep ), millionsOfYears );
-            createSmokeAt( new ImmutableVector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 8000, -11 * zStep ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX, maxElevationInTimestep - 6000, -9 * zStep ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 8000, -10 * zStep ), millionsOfYears );
+            createSmokeAt( new Vector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 8000, -11 * zStep ), millionsOfYears );
         }
 
         /*---------------------------------------------------------------------------*
@@ -290,15 +290,15 @@ public class OverridingBehavior extends PlateBehavior {
             // 250m offset down so it doesn't go quite to the top
             float topDelta = maxElevationInTimestep - 250 - magmaTube.getTopElevation( 0 );
             for ( Sample sample : magmaTube.getTopBoundary().samples ) {
-                sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( 0, topDelta, 0 ) ) );
+                sample.setPosition( sample.getPosition().plus( new Vector3F( 0, topDelta, 0 ) ) );
                 sample.setTextureCoordinates( sample.getTextureCoordinates().plus(
-                        plate.getTextureStrategy().mapFrontDelta( new ImmutableVector2F( 0, topDelta ) ) ) );
+                        plate.getTextureStrategy().mapFrontDelta( new Vector2F( 0, topDelta ) ) ) );
             }
 
             float textureDelta = MELT_SPEED * millionsOfYears;
             for ( Sample sample : magmaTube.getSamples() ) {
                 sample.setTextureCoordinates( sample.getTextureCoordinates().plus(
-                        plate.getTextureStrategy().mapFrontDelta( new ImmutableVector2F( 0, -textureDelta ) ) ) );
+                        plate.getTextureStrategy().mapFrontDelta( new Vector2F( 0, -textureDelta ) ) ) );
             }
         }
 
@@ -336,7 +336,7 @@ public class OverridingBehavior extends PlateBehavior {
         else {
             puff.scale.set( (float) Math.sqrt( puff.age ) );
             puff.alpha.set( alpha / 15 );
-            final ImmutableVector3F heightChange = new ImmutableVector3F( 0, millionsOfYears * 2000f, 0 );
+            final Vector3F heightChange = new Vector3F( 0, millionsOfYears * 2000f, 0 );
 
             final Property<Integer> count = new Property<Integer>( 0 );
             final Property<Double> xRandom = new Property<Double>( 0.0 );
@@ -355,7 +355,7 @@ public class OverridingBehavior extends PlateBehavior {
             xRandom.set( xRandom.get() / count.get() );
             yRandom.set( yRandom.get() / count.get() );
 
-            final ImmutableVector3F randomness = new ImmutableVector3F(
+            final Vector3F randomness = new Vector3F(
                     (float) ( ( xRandom.get() - 0.5 ) * 800 ),
                     (float) ( ( yRandom.get() - 0.5 ) * 100 ),
                     0
@@ -400,7 +400,7 @@ public class OverridingBehavior extends PlateBehavior {
         return timeElapsed >= ( getOtherPlate().getPlateType() == PlateType.YOUNG_OCEANIC ? 26.5 : 24 );
     }
 
-    private void createSmokeAt( final ImmutableVector3F location, final float millionsOfYears ) {
+    private void createSmokeAt( final Vector3F location, final float millionsOfYears ) {
         if ( maxElevationInTimestep < 0 ) {
             return;
         }
@@ -461,8 +461,8 @@ public class OverridingBehavior extends PlateBehavior {
         }
     }
 
-    private ImmutableVector2F getMagmaChamberTop() {
-        return new ImmutableVector2F( magmaCenterX, plate.getPlateType().getCrustTopY() );
+    private Vector2F getMagmaChamberTop() {
+        return new Vector2F( magmaCenterX, plate.getPlateType().getCrustTopY() );
     }
 
     @Override protected void onMagmaRemoved( MagmaRegion magma ) {

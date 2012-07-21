@@ -16,7 +16,7 @@ import java.util.EventObject;
 import java.util.List;
 
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 public class HotAirBalloon extends HollowSphere {

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.event.CompositeNotifier;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
@@ -57,9 +57,9 @@ public abstract class Molecule {
         // move based on velocity
         for ( PairGroup group : nonCentralGroups ) {
             Bond<PairGroup> parentBond = getParentBond( group );
-            ImmutableVector3D origin = parentBond.getOtherAtom( group ).position.get();
+            Vector3D origin = parentBond.getOtherAtom( group ).position.get();
 
-            double oldDistance = ( group.position.get().minus( origin ) ).magnitude();
+            double oldDistance = ( group.position.get().minus( origin ) ).getMagnitude();
             group.stepForward( tpf );
             group.attractToIdealDistance( tpf, oldDistance, parentBond );
         }
@@ -184,7 +184,7 @@ public abstract class Molecule {
         // add the group, but delay notifications (inconsistent state)
         addGroup( group, false );
 
-        addBond( group, parent, bondOrder, group.position.get().minus( parent.position.get() ).magnitude() / PairGroup.REAL_TMP_SCALE );
+        addBond( group, parent, bondOrder, group.position.get().minus( parent.position.get() ).getMagnitude() / PairGroup.REAL_TMP_SCALE );
 
         // notify after bond added, so we don't send notifications in an inconsistent state
         onGroupAdded.updateListeners( group );
@@ -264,7 +264,7 @@ public abstract class Molecule {
         return groups;
     }
 
-    public List<ImmutableVector3D> getCorrespondingIdealGeometryVectors() {
+    public List<Vector3D> getCorrespondingIdealGeometryVectors() {
         return new VseprConfiguration( getRadialAtoms().size(), getRadialLonePairs().size() ).geometry.unitVectors;
     }
 
@@ -309,17 +309,17 @@ public abstract class Molecule {
 
     public void addTerminalLonePairs( PairGroup atom, int quantity ) {
         VseprConfiguration pairConfig = new VseprConfiguration( 1, quantity );
-        List<ImmutableVector3D> lonePairOrientations = pairConfig.geometry.unitVectors;
+        List<Vector3D> lonePairOrientations = pairConfig.geometry.unitVectors;
         ResultMapping mapping = AttractorModel.findClosestMatchingConfiguration(
                 // last vector should be lowest energy (best bond if ambiguous), and is negated for the proper coordinate frame
-                Arrays.asList( atom.position.get().normalized() ), // TODO: why did this have to get changed to non-negated?
+                Arrays.asList( atom.position.get().getNormalizedInstance() ), // TODO: why did this have to get changed to non-negated?
                 Arrays.asList( lonePairOrientations.get( lonePairOrientations.size() - 1 ).negated() ),
                 Arrays.asList( Permutation.identity( 1 ) )
         );
 
         for ( int i = 0; i < quantity; i++ ) {
             // mapped into our coordinates
-            ImmutableVector3D lonePairOrientation = mapping.rotateVector( lonePairOrientations.get( i ) );
+            Vector3D lonePairOrientation = mapping.rotateVector( lonePairOrientations.get( i ) );
             addGroup( new PairGroup( atom.position.get().plus( lonePairOrientation.times( PairGroup.LONE_PAIR_DISTANCE ) ), true, false ), atom, 0 );
         }
     }

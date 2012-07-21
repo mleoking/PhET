@@ -5,8 +5,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 
 /**
  * User: Sam Reid

@@ -10,7 +10,7 @@ import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.balanceandtorque.common.model.AttachmentBar;
 import edu.colorado.phet.balanceandtorque.common.view.ModelObjectNode;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;

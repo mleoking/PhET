@@ -6,8 +6,8 @@ import Jama.SingularValueDecomposition;
 
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 import static edu.colorado.phet.jamaphet.JamaUtils.*;
 
@@ -45,8 +45,8 @@ public class RigidMotionLeastSquares {
                               }} );
     }
 
-    public static RigidMotionTransformation bestFitMotion3D( final List<ImmutableVector3D> points,
-                                                             final List<ImmutableVector3D> targets,
+    public static RigidMotionTransformation bestFitMotion3D( final List<Vector3D> points,
+                                                             final List<Vector3D> targets,
                                                              final boolean allowReflection ) {
         assert points.size() == targets.size();
 
@@ -55,8 +55,8 @@ public class RigidMotionLeastSquares {
                               allowReflection );
     }
 
-    public static RigidMotionTransformation bestFitMotion3D( final List<ImmutableVector3D> points,
-                                                             final List<ImmutableVector3D> targets,
+    public static RigidMotionTransformation bestFitMotion3D( final List<Vector3D> points,
+                                                             final List<Vector3D> targets,
                                                              final boolean allowReflection,
                                                              final List<Double> weights ) {
         assert points.size() == targets.size();
@@ -132,7 +132,7 @@ public class RigidMotionLeastSquares {
         }
 
         // for 3d case only
-        public ImmutableVector3D transformVector3D( ImmutableVector3D v ) {
+        public Vector3D transformVector3D( Vector3D v ) {
             return vectorFromMatrix3D( rotation.times( columnVector( v ) ).plus( translation ), 0 );
         }
 

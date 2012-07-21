@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.mechanics;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 
 /**
  * Vector3D

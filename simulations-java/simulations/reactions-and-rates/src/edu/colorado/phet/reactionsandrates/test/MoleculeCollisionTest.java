@@ -15,7 +15,7 @@ import junit.framework.TestSuite;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;

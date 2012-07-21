@@ -3,7 +3,7 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.quantumwaveinterference.model.Wave;
 import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 import edu.colorado.phet.quantumwaveinterference.model.waves.PlaneWave2D;

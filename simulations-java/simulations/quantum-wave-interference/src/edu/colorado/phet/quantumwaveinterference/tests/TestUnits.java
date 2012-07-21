@@ -6,7 +6,7 @@ package edu.colorado.phet.quantumwaveinterference.tests;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.quantumwaveinterference.model.WaveDebugger;
 import edu.colorado.phet.quantumwaveinterference.model.WaveSetup;
 import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;

@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.conductivity.macro.bands;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
 //            EnergyLevel, BandParticle

@@ -3,7 +3,7 @@ package edu.colorado.phet.functions.game;
 
 import fj.data.List;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * Functions that can be used in the game maker

@@ -3,7 +3,7 @@ package edu.colorado.phet.semiconductor.macro.circuit.battery;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.semiconductor.macro.circuit.LinearBranch;
 
 

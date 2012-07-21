@@ -5,6 +5,8 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -13,8 +15,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
@@ -41,7 +41,7 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
     private final PlateTectonicsTab tab;
 
     private int zoomMultiplier = 1;
-    public ImmutableVector2F draggedPosition = new ImmutableVector2F();
+    public Vector2F draggedPosition = new Vector2F();
 
     public RulerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab ) {
         super( new RulerNode2D( modelViewTransform.transformDeltaX( (float) 1000 ), tab ) {{
@@ -98,11 +98,11 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
         return result;
     }
 
-    public boolean allowsDrag( ImmutableVector2F initialPosition ) {
+    public boolean allowsDrag( Vector2F initialPosition ) {
         return true; // if this node is picked, always allow a drag anywhere on it
     }
 
-    public void dragDelta( ImmutableVector2F delta ) {
+    public void dragDelta( Vector2F delta ) {
         transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
         draggedPosition = draggedPosition.plus( delta );
     }
@@ -111,8 +111,8 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
         return toolboxState.rulerInToolbox;
     }
 
-    public ImmutableVector2F getInitialMouseOffset() {
-        return new ImmutableVector2F( 10, -10 );
+    public Vector2F getInitialMouseOffset() {
+        return new Vector2F( 10, -10 );
     }
 
     public IUserComponent getUserComponent() {
@@ -120,12 +120,12 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
     }
 
     // bottom-left corner of the ruler
-    public ImmutableVector3F getSensorModelPosition() {
+    public Vector3F getSensorModelPosition() {
         return modelViewTransform.inversePosition( getSensorViewPosition() );
     }
 
-    public ImmutableVector3F getSensorViewPosition() {
-        return new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 );
+    public Vector3F getSensorViewPosition() {
+        return new Vector3F( draggedPosition.x, draggedPosition.y, 0 );
     }
 
     public ParameterSet getCustomParameters() {

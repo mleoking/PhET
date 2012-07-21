@@ -15,7 +15,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.idealgas.coreadditions.Translatable;
 

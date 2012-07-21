@@ -11,7 +11,7 @@ import java.util.Map;
 
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
@@ -203,7 +203,7 @@ public class MoleculeModelNode extends Node {
         bondNodes.clear();
         for ( final PairGroup atom : molecule.getRadialAtoms() ) {
             BondNode bondNode = new BondNode(
-                    new Property<ImmutableVector3D>( new ImmutableVector3D() ), // center position
+                    new Property<Vector3D>( new Vector3D() ), // center position
                     atom.position,
                     // TODO: redo bonds as above so we can remove this junk!
                     FunctionalUtils.first( molecule.getBonds( atom ), new Function1<Bond<PairGroup>, Boolean>() {
@@ -251,10 +251,10 @@ public class MoleculeModelNode extends Node {
         // calculate position changes due to taking lone-pair distances into account
         boolean hasLonePair = !molecule.getRadialLonePairs().isEmpty();
         final double timeEpsilon = 0.1; // a small amount of time to consider the forces
-        Map<PairGroup, ImmutableVector3D> lonePairModifiedPositions = new HashMap<PairGroup, ImmutableVector3D>();
+        Map<PairGroup, Vector3D> lonePairModifiedPositions = new HashMap<PairGroup, Vector3D>();
         if ( hasLonePair ) {
             for ( PairGroup group : molecule.getRadialAtoms() ) {
-                ImmutableVector3D position = group.position.get();
+                Vector3D position = group.position.get();
                 for ( PairGroup otherGroup : molecule.getGroups() ) {
                     if ( otherGroup == group ) { continue; }
 
@@ -263,7 +263,7 @@ public class MoleculeModelNode extends Node {
                     // add in impulse calculated with true from-central-atom distances
                     position = position.plus( group.getRepulsionImpulse( otherGroup, timeEpsilon, 1 ) ).times( lonePairFactor );
                 }
-                lonePairModifiedPositions.put( group, position.normalized() );
+                lonePairModifiedPositions.put( group, position.getNormalizedInstance() );
             }
         }
 
@@ -273,8 +273,8 @@ public class MoleculeModelNode extends Node {
                 PairGroup a = bondAngleNode.getA();
                 PairGroup b = bondAngleNode.getB();
 
-                final ImmutableVector3D aDir = a.position.get().normalized();
-                final ImmutableVector3D bDir = b.position.get().normalized();
+                final Vector3D aDir = a.position.get().getNormalizedInstance();
+                final Vector3D bDir = b.position.get().getNormalizedInstance();
 
                 final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, localCameraPosition, molecule.getRadialAtoms().size() );
                 if ( brightness == 0 ) {

@@ -21,7 +21,8 @@ import javax.swing.SwingUtilities;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -36,7 +37,6 @@ import edu.colorado.phet.lwjglphet.CanvasTransform.StageCenteringCanvasTransform
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
@@ -149,8 +149,8 @@ public class TestingTab extends LWJGLTab {
             int terrainRows = 20;
             int groundRows = 100;
             int cols = 100;
-            ImmutableVector3F[] terrain = new ImmutableVector3F[terrainRows * cols];
-            ImmutableVector3F[] ground = new ImmutableVector3F[groundRows * cols];
+            Vector3F[] terrain = new Vector3F[terrainRows * cols];
+            Vector3F[] ground = new Vector3F[groundRows * cols];
 
             float[] frontHeights = new float[cols];
 
@@ -162,14 +162,14 @@ public class TestingTab extends LWJGLTab {
                     if ( row == terrainRows - 1 ) {
                         frontHeights[col] = height;
                     }
-                    terrain[row * cols + col] = convertToRadial( new ImmutableVector3F( x, height, z ) );
+                    terrain[row * cols + col] = convertToRadial( new Vector3F( x, height, z ) );
                 }
             }
             for ( int row = 0; row < groundRows; row++ ) {
                 for ( int col = 0; col < cols; col++ ) {
                     float x = ( ( (float) col ) / ( (float) ( cols - 1 ) ) ) * 40 - 20;
                     float y = ( ( (float) row ) / ( (float) ( groundRows - 1 ) ) ) * 40 - 40 + frontHeights[col];
-                    ground[row * cols + col] = convertToRadial( new ImmutableVector3F( x, y, 0 ) );
+                    ground[row * cols + col] = convertToRadial( new Vector3F( x, y, 0 ) );
                 }
             }
             testTerrain = new GridMesh( terrainRows, cols, terrain );
@@ -391,8 +391,8 @@ public class TestingTab extends LWJGLTab {
     }
 
     public static final float RADIUS = 100;
-    public static final ImmutableVector3F CENTER = new ImmutableVector3F( 0, -RADIUS, 0 );
-    public static final ImmutableVector3F RADIAL_Z_0 = new ImmutableVector3F( 1, 1, 0 );
+    public static final Vector3F CENTER = new Vector3F( 0, -RADIUS, 0 );
+    public static final Vector3F RADIAL_Z_0 = new Vector3F( 1, 1, 0 );
 
     /**
      * Converts a given "planar" point into a full 3D model point.
@@ -403,7 +403,7 @@ public class TestingTab extends LWJGLTab {
      *               as spherical coordinates.
      * @return A point in the cartesian coordinate frame in 3D
      */
-    public static ImmutableVector3F convertToRadial( ImmutableVector3F planar ) {
+    public static Vector3F convertToRadial( Vector3F planar ) {
         return convertToRadial( getXRadialVector( planar.getX() ), getZRadialVector( planar.getZ() ), planar.getY() );
     }
 
@@ -415,30 +415,30 @@ public class TestingTab extends LWJGLTab {
      * @param y             Same as in the simple version
      * @return A point in the cartesian coordinate frame in 3D
      */
-    public static ImmutableVector3F convertToRadial( ImmutableVector3F xRadialVector, ImmutableVector3F zRadialVector, float y ) {
+    public static Vector3F convertToRadial( Vector3F xRadialVector, Vector3F zRadialVector, float y ) {
         float radius = y + RADIUS; // add in the radius of the earth, since y is relative to mean sea level
         return xRadialVector.componentTimes( zRadialVector ).times( radius ).plus( CENTER );
     }
 
     // improved performance version for z=0 plane
-    public static ImmutableVector3F convertToRadial( float x, float y ) {
+    public static Vector3F convertToRadial( float x, float y ) {
         return convertToRadial( getXRadialVector( x ), y );
     }
 
     // improved performance version for z=0 plane
-    public static ImmutableVector3F convertToRadial( ImmutableVector3F xRadialVector, float y ) {
+    public static Vector3F convertToRadial( Vector3F xRadialVector, float y ) {
         return convertToRadial( xRadialVector, RADIAL_Z_0, y );
     }
 
-    public static ImmutableVector3F getXRadialVector( float x ) {
+    public static Vector3F getXRadialVector( float x ) {
         float theta = (float) Math.PI / 2 - x / RADIUS; // dividing by the radius actually gets us the correct angle
-        return new ImmutableVector3F( (float) Math.cos( theta ), (float) Math.sin( theta ), 1 );
+        return new Vector3F( (float) Math.cos( theta ), (float) Math.sin( theta ), 1 );
     }
 
-    public static ImmutableVector3F getZRadialVector( float z ) {
+    public static Vector3F getZRadialVector( float z ) {
         float phi = (float) Math.PI / 2 - z / RADIUS; // dividing by the radius actually gets us the correct angle
         float sinPhi = (float) Math.sin( phi );
-        return new ImmutableVector3F( sinPhi, sinPhi, (float) Math.cos( phi ) );
+        return new Vector3F( sinPhi, sinPhi, (float) Math.cos( phi ) );
     }
 
     //Return a wrong component for the convenience of not having to create a new UserComponent.  OK since not used in production.

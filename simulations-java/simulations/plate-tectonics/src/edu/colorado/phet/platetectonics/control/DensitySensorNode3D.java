@@ -11,6 +11,8 @@ import java.awt.geom.Line2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.DampedMassSpringSystem;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -27,8 +29,6 @@ import edu.colorado.phet.common.piccolophet.nodes.SpeedometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
@@ -59,7 +59,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
     private final PlateTectonicsTab tab;
     private final PlateModel model;
 
-    public ImmutableVector2F draggedPosition = new ImmutableVector2F();
+    public Vector2F draggedPosition = new Vector2F();
 
     public DensitySensorNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
 
@@ -111,15 +111,15 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         return tab.getSceneDistanceZoomFactor() * 0.75f / PICCOLO_PIXELS_TO_VIEW_UNIT;
     }
 
-    public boolean allowsDrag( ImmutableVector2F initialPosition ) {
+    public boolean allowsDrag( Vector2F initialPosition ) {
         // correctly offset "view" position
-        ImmutableVector2F localPosition = new ImmutableVector2F(
+        Vector2F localPosition = new Vector2F(
                 initialPosition.x - draggedPosition.x + getSensorXOffset(),
                 initialPosition.y - draggedPosition.y
         );
 
         // position in the piccolo coordinate frame, re-scaled and y-axis flipped
-        ImmutableVector2F piccoloPosition = new ImmutableVector2F(
+        Vector2F piccoloPosition = new Vector2F(
                 localPosition.getX() / getScale(),
                 getComponentHeight() - localPosition.getY() / getScale()
         );
@@ -129,7 +129,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         return true; // if the tool is intersected in doesLocalRayHit, then we don't need to filter here
     }
 
-    public void dragDelta( ImmutableVector2F delta ) {
+    public void dragDelta( Vector2F delta ) {
         transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
         draggedPosition = draggedPosition.plus( delta );
         updateReadout();
@@ -146,24 +146,24 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
     }
 
     private Double getDensityValue() {
-        ImmutableVector3F modelSensorPosition = getSensorModelPosition();
+        Vector3F modelSensorPosition = getSensorModelPosition();
         double density = model.getDensity( modelSensorPosition.getX(), modelSensorPosition.getY() );
         if ( density < 50 ) {
             // i.e. it hit air. let's see if we can ray-trace to see what terrain it hit
-            ImmutableVector3F cameraViewPosition = tab.getCameraPosition();
-            ImmutableVector3F viewSamplePosition = getSensorViewPosition();
-            Ray3F ray = new Ray3F( cameraViewPosition, viewSamplePosition.minus( cameraViewPosition ).normalized() );
+            Vector3F cameraViewPosition = tab.getCameraPosition();
+            Vector3F viewSamplePosition = getSensorViewPosition();
+            Ray3F ray = new Ray3F( cameraViewPosition, viewSamplePosition.minus( cameraViewPosition ).getNormalizedInstance() );
             density = model.rayTraceDensity( ray, modelViewTransform, tab.isWaterVisible() );
         }
         return density;
     }
 
-    public ImmutableVector3F getSensorModelPosition() {
+    public Vector3F getSensorModelPosition() {
         return PlateModel.convertToPlanar( modelViewTransform.inversePosition( getSensorViewPosition() ) );
     }
 
-    public ImmutableVector3F getSensorViewPosition() {
-        return new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 );
+    public Vector3F getSensorViewPosition() {
+        return new Vector3F( draggedPosition.x, draggedPosition.y, 0 );
     }
 
     private float getSensorXOffset() {
@@ -178,9 +178,9 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         return toolboxState.densitySensorInToolbox;
     }
 
-    public ImmutableVector2F getInitialMouseOffset() {
+    public Vector2F getInitialMouseOffset() {
         final double s = getScale();
-        return new ImmutableVector2F( 0, ( DensitySensorNode2D.h / 3 ) * s );
+        return new Vector2F( 0, ( DensitySensorNode2D.h / 3 ) * s );
     }
 
     public IUserComponent getUserComponent() {

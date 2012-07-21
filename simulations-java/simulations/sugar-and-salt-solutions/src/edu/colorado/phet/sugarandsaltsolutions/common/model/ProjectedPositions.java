@@ -4,7 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Carbon;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Hydrogen;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.NeutralOxygen;

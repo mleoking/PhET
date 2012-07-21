@@ -6,7 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.GeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.common.model.Protein;

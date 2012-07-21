@@ -8,8 +8,8 @@ import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -291,10 +291,11 @@ public class MoleculeShapesTab extends MoleculeViewTab {
         *----------------------------------------------------------------------------*/
 
         // start with two single bonds
-        PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+        PairGroup centralAtom = new PairGroup( new Vector3D(), false, false );
         getMolecule().addCentralAtom( centralAtom );
-        getMolecule().addGroup( new PairGroup( new ImmutableVector3D( 8, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
-        getMolecule().addGroup( new PairGroup( new ImmutableVector3D( 2, 8, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
+        getMolecule().addGroup( new PairGroup( new Vector3D( 8, 0, 3 ).getNormalizedInstance().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
+        Vector3D vector3D = new Vector3D( 2, 8, -5 );
+        getMolecule().addGroup( new PairGroup( vector3D.getNormalizedInstance().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
 
         /*---------------------------------------------------------------------------*
         * bond overlays
@@ -323,34 +324,34 @@ public class MoleculeShapesTab extends MoleculeViewTab {
 
         JMEView singleBondOverlay = createBondOverlayView.apply( "Single Bond", singleBondOverlayStageBounds );
         singleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMolecule() {{
-            PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+            PairGroup centralAtom = new PairGroup( new Vector3D(), false, false );
             addCentralAtom( centralAtom );
-            addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
+            addGroup( new PairGroup( Vector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
         }}, singleBondOverlay, this, addSingleBondEnabled ) );
         addLighting( singleBondOverlay.getScene() );
 
         JMEView doubleBondOverlay = createBondOverlayView.apply( "Double Bond", doubleBondOverlayStageBounds );
         doubleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMolecule() {{
-            PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+            PairGroup centralAtom = new PairGroup( new Vector3D(), false, false );
             addCentralAtom( centralAtom );
-            addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 2 );
+            addGroup( new PairGroup( Vector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 2 );
         }}, doubleBondOverlay, this, addDoubleBondEnabled ) );
         addLighting( doubleBondOverlay.getScene() );
 
         JMEView tripleBondOverlay = createBondOverlayView.apply( "Triple Bond", tripleBondOverlayStageBounds );
         tripleBondOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMolecule() {{
-            PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+            PairGroup centralAtom = new PairGroup( new Vector3D(), false, false );
             addCentralAtom( centralAtom );
-            addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 3 );
+            addGroup( new PairGroup( Vector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 3 );
         }}, tripleBondOverlay, this, addTripleBondEnabled ) );
         addLighting( tripleBondOverlay.getScene() );
 
         if ( !isBasicsVersion() ) {
             JMEView lonePairOverlay = createBondOverlayView.apply( "Lone Pair", lonePairOverlayStageBounds );
             lonePairOverlay.getScene().attachChild( new BondTypeOverlayNode( new VSEPRMolecule() {{
-                PairGroup centralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+                PairGroup centralAtom = new PairGroup( new Vector3D(), false, false );
                 addCentralAtom( centralAtom );
-                addGroup( new PairGroup( ImmutableVector3D.X_UNIT.times( PairGroup.LONE_PAIR_DISTANCE ), true, false ), centralAtom, 0 );
+                addGroup( new PairGroup( Vector3D.X_UNIT.times( PairGroup.LONE_PAIR_DISTANCE ), true, false ), centralAtom, 0 );
             }}, lonePairOverlay, this, addLonePairEnabled ) );
             addLighting( lonePairOverlay.getScene() );
         }

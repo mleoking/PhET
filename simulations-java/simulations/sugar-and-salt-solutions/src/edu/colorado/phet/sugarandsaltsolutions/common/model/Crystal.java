@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.DivisionResult;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
 import static java.util.Collections.min;
 
 /**

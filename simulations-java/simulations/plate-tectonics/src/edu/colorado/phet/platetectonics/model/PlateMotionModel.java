@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -16,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ModelActions;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ModelComponents;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ParameterKeys;
@@ -171,7 +171,7 @@ public class PlateMotionModel extends PlateModel {
     private void addMantleLabel() {
         if ( hasBothPlates.get() ) {
             final float mantleLabelHeight = -180000;
-            textLabels.add( new TextLabel( new Property<ImmutableVector3F>( new ImmutableVector3F( 0, mantleLabelHeight, 0 ) ) {{
+            textLabels.add( new TextLabel( new Property<Vector3F>( new Vector3F( 0, mantleLabelHeight, 0 ) ) {{
 
                 // if we have a colliding behavior, we must push the mantle label down as the lithosphere sinks
                 if ( leftPlate.getBehavior() != null && leftPlate.getBehavior() instanceof CollidingBehavior ) {
@@ -180,7 +180,7 @@ public class PlateMotionModel extends PlateModel {
                     final float depthFromBottom = mantleLabelHeight - initialContinentalBottom;
                     modelChanged.addUpdateListener( new UpdateListener() {
                         public void update() {
-                            set( new ImmutableVector3F( 0, depthFromBottom + trackedSample.getPosition().y, 0 ) );
+                            set( new Vector3F( 0, depthFromBottom + trackedSample.getPosition().y, 0 ) );
                         }
                     }, false );
                 }
@@ -453,7 +453,7 @@ public class PlateMotionModel extends PlateModel {
 
     @Override
     public double getDensity( double x, double y ) {
-        ImmutableVector3F point = new ImmutableVector3F( (float) x, (float) y, 0 );
+        Vector3F point = new Vector3F( (float) x, (float) y, 0 );
         HitResult hitResult = firstStripIntersection( point );
         if ( hitResult != null ) {
             return hitResult.density;
@@ -468,7 +468,7 @@ public class PlateMotionModel extends PlateModel {
 
     @Override
     public double getTemperature( double x, double y ) {
-        ImmutableVector3F point = new ImmutableVector3F( (float) x, (float) y, 0 );
+        Vector3F point = new Vector3F( (float) x, (float) y, 0 );
         HitResult hitResult = firstStripIntersection( point );
         if ( hitResult != null ) {
             return hitResult.temperature;
@@ -572,7 +572,7 @@ public class PlateMotionModel extends PlateModel {
     }
 
     // (x,y) raytracing (ignores z coordinate) to see what part of the cross-section is at the specific (x,y) coordinates
-    private HitResult firstStripIntersection( ImmutableVector3F point ) {
+    private HitResult firstStripIntersection( Vector3F point ) {
         final List<CrossSectionStrip> strips = getStripsInOrder();
         for ( CrossSectionStrip strip : strips ) {
             for ( int i = 0; i < strip.getLength() - 1; i++ ) {
@@ -600,7 +600,7 @@ public class PlateMotionModel extends PlateModel {
     }
 
     // not the most numerically accurate way, but that doesn't matter in this scenario
-    private static HitResult triangleXYIntersection( Sample a, Sample b, Sample c, ImmutableVector3F point ) {
+    private static HitResult triangleXYIntersection( Sample a, Sample b, Sample c, Vector3F point ) {
         float areaA = triangleXYArea( point, b.getPosition(), c.getPosition() );
         float areaB = triangleXYArea( point, c.getPosition(), a.getPosition() );
         float areaC = triangleXYArea( point, a.getPosition(), b.getPosition() );
@@ -619,7 +619,7 @@ public class PlateMotionModel extends PlateModel {
         }
     }
 
-    private static float triangleXYArea( ImmutableVector3F a, ImmutableVector3F b, ImmutableVector3F c ) {
+    private static float triangleXYArea( Vector3F a, Vector3F b, Vector3F c ) {
         return Math.abs( ( ( a.x - c.x ) * ( b.y - c.y ) - ( b.x - c.x ) * ( a.y - c.y ) ) / 2.0f );
     }
 

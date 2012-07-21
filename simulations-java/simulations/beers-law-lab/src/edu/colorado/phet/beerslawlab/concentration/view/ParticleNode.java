@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.beerslawlab.concentration.model.PrecipitateParticle;
 import edu.colorado.phet.beerslawlab.concentration.model.ShakerParticle;
 import edu.colorado.phet.beerslawlab.concentration.model.SoluteParticle;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.nodes.PPath;
 

@@ -3,8 +3,8 @@ package edu.colorado.phet.platetectonics.control;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -60,25 +60,25 @@ public class CrustChooserPanel extends PNode {
         addChild( oldOceanicSpacer );
     }
 
-    private ImmutableVector2F getPieceCenter( Spacer node ) {
+    private Vector2F getPieceCenter( Spacer node ) {
         Point2D globalPoint = node.localToGlobal( new Point2D.Double(
                 node.getRectangle().getX() + CRUST_AREA_MAX_WIDTH / 2,
                 node.getRectangle().getY() + CRUST_AREA_MAX_HEIGHT / 2 ) );
-        return new ImmutableVector2F( globalPoint.getX(), globalPoint.getY() );
+        return new Vector2F( globalPoint.getX(), globalPoint.getY() );
     }
 
     /*---------------------------------------------------------------------------*
     * coordinates for where the crust pieces should be placed
     *----------------------------------------------------------------------------*/
-    public ImmutableVector2F getContinentalCenter() {
+    public Vector2F getContinentalCenter() {
         return getPieceCenter( continentalSpacer );
     }
 
-    public ImmutableVector2F getYoungOceanicCenter() {
+    public Vector2F getYoungOceanicCenter() {
         return getPieceCenter( youngOceanicSpacer );
     }
 
-    public ImmutableVector2F getOldOceanicCenter() {
+    public Vector2F getOldOceanicCenter() {
         return getPieceCenter( oldOceanicSpacer );
     }
 }

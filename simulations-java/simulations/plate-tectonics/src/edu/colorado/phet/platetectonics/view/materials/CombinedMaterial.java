@@ -3,7 +3,7 @@ package edu.colorado.phet.platetectonics.view.materials;
 
 import java.awt.*;
 
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 
 /**
  * Heuristic material that is somewhat of a combination of the temperature and density views. It tries to keep the lightness/darkness
@@ -13,7 +13,7 @@ public class CombinedMaterial implements EarthMaterial {
     private static final Color min = new Color( 64, 64, 64 );
     private static final Color max = new Color( 255, 64, 64 );
 
-    public Color getColor( float density, float temperature, ImmutableVector2F position, float alpha ) {
+    public Color getColor( float density, float temperature, Vector2F position, float alpha ) {
         float tempValue = TemperatureMaterial.temperatureMap( temperature ).x;
         float densityValue = DensityMaterial.densityMap( density ).x;
 

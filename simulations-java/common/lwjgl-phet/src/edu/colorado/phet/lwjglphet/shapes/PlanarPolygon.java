@@ -13,8 +13,8 @@ import org.poly2tri.geometry.polygon.Polygon;
 import org.poly2tri.geometry.polygon.PolygonPoint;
 import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.lwjglphet.GLOptions;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -72,7 +72,7 @@ public class PlanarPolygon extends GLNode {
         }
     }
 
-    public PlanarPolygon( int maxVertexCount, ImmutableVector2F[] vertices, ImmutableVector2F[] textureCoordinates ) {
+    public PlanarPolygon( int maxVertexCount, Vector2F[] vertices, Vector2F[] textureCoordinates ) {
         this( maxVertexCount );
 
         setVertices( vertices, textureCoordinates );
@@ -84,7 +84,7 @@ public class PlanarPolygon extends GLNode {
      * @param vertices           Vertex positions
      * @param textureCoordinates Corresponding vertex texture coordinates
      */
-    public void setVertices( ImmutableVector2F[] vertices, ImmutableVector2F[] textureCoordinates ) {
+    public void setVertices( Vector2F[] vertices, Vector2F[] textureCoordinates ) {
         if ( vertices.length > positionBuffer.capacity() ) {
             updateMaxVertexCount( Math.max( vertices.length, positionBuffer.capacity() + 20 ) ); // update by at least 20
         }
@@ -94,14 +94,14 @@ public class PlanarPolygon extends GLNode {
         indexBuffer.clear();
 
         // fill the position buffer
-        for ( ImmutableVector2F vertex : vertices ) {
+        for ( Vector2F vertex : vertices ) {
             positionBuffer.put( new float[] { vertex.x, vertex.y, 0 } );
         }
         positionBuffer.limit( positionBuffer.position() );
         normalBuffer.limit( positionBuffer.position() ); // also set the limit on the normal buffer to the same position
 
         // fill the texture buffer
-        for ( ImmutableVector2F textureCoordinate : textureCoordinates ) {
+        for ( Vector2F textureCoordinate : textureCoordinates ) {
             textureBuffer.put( new float[] { textureCoordinate.x, textureCoordinate.y } );
         }
         textureBuffer.limit( textureBuffer.position() );

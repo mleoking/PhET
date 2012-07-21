@@ -3,7 +3,7 @@
 package edu.colorado.phet.conductivity.macro.particles;
 
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.conductivity.macro.circuit.Circuit;

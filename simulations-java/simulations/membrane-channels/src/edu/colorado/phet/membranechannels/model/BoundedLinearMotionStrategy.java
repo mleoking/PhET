@@ -4,7 +4,7 @@ package edu.colorado.phet.membranechannels.model;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 
 /**
  * A simple motion strategy for moving in a straight line and bouncing if

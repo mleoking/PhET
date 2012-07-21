@@ -3,7 +3,7 @@ package edu.colorado.phet.theramp.v2.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 public class RampModel {
     private ArrayList tracks = new ArrayList();

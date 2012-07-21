@@ -2,7 +2,7 @@
 package edu.colorado.phet.moleculeshapes.model;
 
 import edu.colorado.phet.chemistry.model.Element;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 
 public class RealPairGroup extends PairGroup {
 
@@ -13,7 +13,7 @@ public class RealPairGroup extends PairGroup {
      * @param isLonePair Whether the pair group is a lone pair.
      * @param element    Chemical element
      */
-    public RealPairGroup( ImmutableVector3D position, boolean isLonePair, Element element ) {
+    public RealPairGroup( Vector3D position, boolean isLonePair, Element element ) {
         super( position, isLonePair, false );
 
         this.element = element;

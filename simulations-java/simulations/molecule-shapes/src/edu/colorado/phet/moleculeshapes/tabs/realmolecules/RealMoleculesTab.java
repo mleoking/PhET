@@ -8,9 +8,9 @@ import java.awt.Dimension;
 import java.util.List;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.Permutation;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -444,9 +444,9 @@ public class RealMoleculesTab extends MoleculeViewTab {
                     List<PairGroup> groups = new RealMolecule( realMolecule.get() ).getRadialGroups();
                     final ResultMapping mapping = AttractorModel.findClosestMatchingConfiguration(
                             AttractorModel.getOrientationsFromOrigin( mappingMolecule.getRadialGroups() ),
-                            FunctionalUtils.map( LocalShape.sortedLonePairsFirst( groups ), new Function1<PairGroup, ImmutableVector3D>() {
-                                public ImmutableVector3D apply( PairGroup pair ) {
-                                    return pair.position.get().normalized();
+                            FunctionalUtils.map( LocalShape.sortedLonePairsFirst( groups ), new Function1<PairGroup, Vector3D>() {
+                                public Vector3D apply( PairGroup pair ) {
+                                    return pair.position.get().getNormalizedInstance();
                                 }
                             } ),
                             LocalShape.vseprPermutations( mappingMolecule.getRadialGroups() ) );
@@ -461,13 +461,13 @@ public class RealMoleculesTab extends MoleculeViewTab {
         else {
             final ResultMapping mapping = vseprConfiguration.getIdealGroupRotationToPositions( LocalShape.sortedLonePairsFirst( mappingMolecule.getRadialGroups() ) );
             final Permutation permutation = mapping.permutation.inverted();
-            final List<ImmutableVector3D> idealUnitVectors = vseprConfiguration.getAllUnitVectors();
+            final List<Vector3D> idealUnitVectors = vseprConfiguration.getAllUnitVectors();
 
             setMolecule( new VSEPRMolecule() {{
-                PairGroup newCentralAtom = new PairGroup( new ImmutableVector3D(), false, false );
+                PairGroup newCentralAtom = new PairGroup( new Vector3D(), false, false );
                 addCentralAtom( newCentralAtom );
                 for ( int i = 0; i < numRadialAtoms + numRadialLonePairs; i++ ) {
-                    ImmutableVector3D unitVector = mapping.rotateVector( idealUnitVectors.get( i ) );
+                    Vector3D unitVector = mapping.rotateVector( idealUnitVectors.get( i ) );
                     if ( i < numRadialLonePairs ) {
                         addGroup( new PairGroup( unitVector.times( PairGroup.LONE_PAIR_DISTANCE ), true, false ), newCentralAtom, 0 );
                     }

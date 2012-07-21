@@ -5,7 +5,7 @@ package edu.colorado.phet.faraday.model;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 
 /**
  * AbstractMagnet is the abstract base class for all magnets.

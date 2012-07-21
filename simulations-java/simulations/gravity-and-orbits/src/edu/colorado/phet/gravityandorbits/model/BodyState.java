@@ -4,7 +4,7 @@ package edu.colorado.phet.gravityandorbits.model;
 
 import java.io.Serializable;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * Immutable state returned by the physics engine update algorithm, it is applied to the mutable Body.

@@ -19,7 +19,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.FaucetMetrics;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerAndShakerCanvas.canvasSize;
 

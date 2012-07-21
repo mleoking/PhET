@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model.behaviors;
 
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
@@ -60,7 +60,7 @@ public class SubductingBehavior extends PlateBehavior {
         *----------------------------------------------------------------------------*/
         ColumnResult[] result = new ColumnResult[getNumCrustXSamples()];
         for ( int columnIndex = 0; columnIndex < getNumCrustXSamples(); columnIndex++ ) {
-            final ImmutableVector2F offsetVector = new ImmutableVector2F(
+            final Vector2F offsetVector = new Vector2F(
                     getOffsetSize(),
                     0
             );
@@ -76,11 +76,11 @@ public class SubductingBehavior extends PlateBehavior {
                 continue;
             }
             Sample sample = getCrust().getTopBoundary().samples.get( regionIndex );
-            ImmutableVector2F currentPosition = new ImmutableVector2F( sample.getPosition().x, sample.getPosition().y );
-            ImmutableVector2F newPosition = result[regionIndex].crustTop;
+            Vector2F currentPosition = new Vector2F( sample.getPosition().x, sample.getPosition().y );
+            Vector2F newPosition = result[regionIndex].crustTop;
 
             // in x-y, how we need to move
-            ImmutableVector2F delta = newPosition.minus( currentPosition );
+            Vector2F delta = newPosition.minus( currentPosition );
 
             getTerrain().xPositions.set( terrainIndex, newPosition.x );
 
@@ -117,8 +117,8 @@ public class SubductingBehavior extends PlateBehavior {
             boolean isCrust = region == getCrust();
 
             for ( int i = 0; i < getNumCrustXSamples(); i++ ) {
-                ImmutableVector2F top = isCrust ? result[i].crustTop : result[i].crustBottom;
-                ImmutableVector2F bottom = isCrust ? result[i].crustBottom : result[i].lithosphereBottom;
+                Vector2F top = isCrust ? result[i].crustTop : result[i].crustBottom;
+                Vector2F bottom = isCrust ? result[i].crustBottom : result[i].lithosphereBottom;
 
                 for ( int boundaryIndex = 0; boundaryIndex < region.getBoundaries().size(); boundaryIndex++ ) {
                     Boundary boundary = region.getBoundaries().get( boundaryIndex );
@@ -127,7 +127,7 @@ public class SubductingBehavior extends PlateBehavior {
 
                     Sample sample = boundary.samples.get( i );
 
-                    ImmutableVector3F newPosition = new ImmutableVector3F(
+                    Vector3F newPosition = new Vector3F(
                             ( 1 - ratio ) * top.x + ( ratio ) * bottom.x,
                             ( 1 - ratio ) * top.y + ( ratio ) * bottom.y,
                             sample.getPosition().z
@@ -176,31 +176,31 @@ public class SubductingBehavior extends PlateBehavior {
     }
 
     // NOTE: will return null if there is no point
-    public ImmutableVector2F getLowestMeltingLocation() {
+    public Vector2F getLowestMeltingLocation() {
         float bestY = Float.MAX_VALUE;
-        ImmutableVector2F location = null;
+        Vector2F location = null;
         for ( Sample sample : getTopCrustBoundary().samples ) {
             float y = sample.getPosition().y;
 
             // melt padding added so we don't start creating melt from a single point, but only across an area
             if ( y < TOP_MELT_Y - MELT_PADDING_Y && y > BOTTOM_MELT_Y && y < bestY ) {
                 bestY = y;
-                location = new ImmutableVector2F( sample.getPosition().x, sample.getPosition().y );
+                location = new Vector2F( sample.getPosition().x, sample.getPosition().y );
             }
         }
         return location;
     }
 
     // NOTE: will return null if there is no point
-    public ImmutableVector2F getHighestMeltingLocation() {
+    public Vector2F getHighestMeltingLocation() {
         float bestY = -Float.MAX_VALUE;
-        ImmutableVector2F location = null;
+        Vector2F location = null;
         for ( Sample sample : getTopCrustBoundary().samples ) {
             float y = sample.getPosition().y;
 
             if ( y < TOP_MELT_Y && y > BOTTOM_MELT_Y && y > bestY ) {
                 bestY = y;
-                location = new ImmutableVector2F( sample.getPosition().x, sample.getPosition().y );
+                location = new Vector2F( sample.getPosition().x, sample.getPosition().y );
             }
         }
         return location;
@@ -232,7 +232,7 @@ public class SubductingBehavior extends PlateBehavior {
         return getOppositeSide().getEnd( getCrust().getTopBoundary().samples ).getPosition().y;
     }
 
-    private static float yInterceptAtX0BetweenPoints( ImmutableVector3F a, ImmutableVector3F b ) {
+    private static float yInterceptAtX0BetweenPoints( Vector3F a, Vector3F b ) {
         return a.y - a.x * ( b.y - a.y ) / ( b.x - a.x );
     }
 
@@ -269,12 +269,12 @@ public class SubductingBehavior extends PlateBehavior {
     *----------------------------------------------------------------------------*/
 
     public static class ColumnResult {
-        public final ImmutableVector2F crustTop;
-        public final ImmutableVector2F crustBottom;
-        public final ImmutableVector2F lithosphereBottom;
-        public final ImmutableVector2F lithosphereCenter;
+        public final Vector2F crustTop;
+        public final Vector2F crustBottom;
+        public final Vector2F lithosphereBottom;
+        public final Vector2F lithosphereCenter;
 
-        public ColumnResult( ImmutableVector2F crustTop, ImmutableVector2F crustBottom, ImmutableVector2F lithosphereBottom, ImmutableVector2F lithosphereCenter ) {
+        public ColumnResult( Vector2F crustTop, Vector2F crustBottom, Vector2F lithosphereBottom, Vector2F lithosphereCenter ) {
             this.crustTop = crustTop;
             this.crustBottom = crustBottom;
             this.lithosphereBottom = lithosphereBottom;
@@ -300,65 +300,65 @@ public class SubductingBehavior extends PlateBehavior {
     private final float t2 = t1 + theta1 * radius1;
     private final float t3 = t2 + theta2 * radius2;
 
-    private final ImmutableVector2F center0 = new ImmutableVector2F( 0, y0 - radius0 );
+    private final Vector2F center0 = new Vector2F( 0, y0 - radius0 );
 
-    private ImmutableVector2F p0( float t ) {
-        return new ImmutableVector2F( -t, y0 );
+    private Vector2F p0( float t ) {
+        return new Vector2F( -t, y0 );
     }
 
-    private static final ImmutableVector2F value_pd0 = new ImmutableVector2F( -1, 0 );
+    private static final Vector2F value_pd0 = new Vector2F( -1, 0 );
 
     // TODO: refactor
-    private ImmutableVector2F pd0( float t ) {
+    private Vector2F pd0( float t ) {
         return value_pd0;
     }
 
-    private ImmutableVector2F p1( float t ) {
+    private Vector2F p1( float t ) {
         float theta = (float) ( Math.PI / 2 + ( t - t0 ) / radius0 );
         return center0.plus( vectorFromAngle( theta ).times( radius0 ) );
     }
 
-    private ImmutableVector2F pd1( float t ) {
-        return bottomFromTangent( p1( t ).minus( center0 ).normalized() );
+    private Vector2F pd1( float t ) {
+        return bottomFromTangent( p1( t ).minus( center0 ).getNormalizedInstance() );
     }
 
-    private final ImmutableVector2F center1 = p1( t1 ).plus( center0.minus( p1( t1 ) ).normalized().times( radius1 ) );
+    private final Vector2F center1 = p1( t1 ).plus( center0.minus( p1( t1 ) ).getNormalizedInstance().times( radius1 ) );
 
-    private ImmutableVector2F p2( float t ) {
+    private Vector2F p2( float t ) {
         float theta = (float) ( Math.PI / 2 + theta0 + ( t - t1 ) / radius1 );
         return center1.plus( vectorFromAngle( theta ).times( radius1 ) );
     }
 
-    private ImmutableVector2F pd2( float t ) {
-        return bottomFromTangent( p2( t ).minus( center1 ).normalized() );
+    private Vector2F pd2( float t ) {
+        return bottomFromTangent( p2( t ).minus( center1 ).getNormalizedInstance() );
     }
 
-    private final ImmutableVector2F center2 = p2( t2 ).plus( center1.minus( p2( t2 ) ).normalized().times( radius2 ) );
+    private final Vector2F center2 = p2( t2 ).plus( center1.minus( p2( t2 ) ).getNormalizedInstance().times( radius2 ) );
 
-    private ImmutableVector2F p3( float t ) {
+    private Vector2F p3( float t ) {
         float theta = (float) ( Math.PI / 2 + theta0 + theta1 + ( t - t2 ) / radius2 );
         return center2.plus( vectorFromAngle( theta ).times( radius2 ) );
     }
 
-    private ImmutableVector2F pd3( float t ) {
-        return bottomFromTangent( p3( t ).minus( center2 ).normalized() );
+    private Vector2F pd3( float t ) {
+        return bottomFromTangent( p3( t ).minus( center2 ).getNormalizedInstance() );
     }
 
-    private final ImmutableVector2F dir4 = vectorFromAngle( (float) ( totalAngle + Math.PI ) );
+    private final Vector2F dir4 = vectorFromAngle( (float) ( totalAngle + Math.PI ) );
 
-    private final ImmutableVector2F p3oft3 = p3( t3 );
+    private final Vector2F p3oft3 = p3( t3 );
 
-    private ImmutableVector2F p4( float t ) {
+    private Vector2F p4( float t ) {
         return p3oft3.plus( dir4.times( t - t3 ) );
     }
 
-    private ImmutableVector2F pd4( float t ) {
+    private Vector2F pd4( float t ) {
         return dir4;
     }
 
-    public ColumnResult computeSubductingPosition( float t, ImmutableVector2F offset ) {
-        ImmutableVector2F position;
-        ImmutableVector2F derivative;
+    public ColumnResult computeSubductingPosition( float t, Vector2F offset ) {
+        Vector2F position;
+        Vector2F derivative;
 
         if ( t < t0 ) {
             position = p0( t );
@@ -381,15 +381,15 @@ public class SubductingBehavior extends PlateBehavior {
             derivative = pd4( t );
         }
 
-        ImmutableVector2F tangent = topFromTangent( derivative );
+        Vector2F tangent = topFromTangent( derivative );
 
         // add in the offset
         position = position.plus( offset );
 
         // if the plate is the left side, we actually switch it here
         if ( getSide() == Side.LEFT ) {
-            position = new ImmutableVector2F( -position.x, position.y );
-            tangent = new ImmutableVector2F( -tangent.x, tangent.y );
+            position = new Vector2F( -position.x, position.y );
+            tangent = new Vector2F( -tangent.x, tangent.y );
         }
 
         return new ColumnResult(
@@ -400,15 +400,15 @@ public class SubductingBehavior extends PlateBehavior {
         );
     }
 
-    private static ImmutableVector2F topFromTangent( ImmutableVector2F v ) {
-        return new ImmutableVector2F( v.y, -v.x );
+    private static Vector2F topFromTangent( Vector2F v ) {
+        return new Vector2F( v.y, -v.x );
     }
 
-    private static ImmutableVector2F bottomFromTangent( ImmutableVector2F v ) {
+    private static Vector2F bottomFromTangent( Vector2F v ) {
         return topFromTangent( v ).negate();
     }
 
-    private static ImmutableVector2F vectorFromAngle( float angle ) {
-        return new ImmutableVector2F( Math.cos( angle ), Math.sin( angle ) );
+    private static Vector2F vectorFromAngle( float angle ) {
+        return new Vector2F( Math.cos( angle ), Math.sin( angle ) );
     }
 }

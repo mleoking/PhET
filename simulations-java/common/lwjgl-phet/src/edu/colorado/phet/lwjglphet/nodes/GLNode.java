@@ -8,7 +8,7 @@ import edu.colorado.phet.lwjglphet.GLMaterial;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -288,7 +288,7 @@ public class GLNode {
         transform.append( ImmutableMatrix4F.scaling( s ) );
     }
 
-    public void rotate( ImmutableVector3F axis, float angle ) {
+    public void rotate( Vector3F axis, float angle ) {
         transform.append( ImmutableMatrix4F.rotation( axis, angle ) );
     }
 

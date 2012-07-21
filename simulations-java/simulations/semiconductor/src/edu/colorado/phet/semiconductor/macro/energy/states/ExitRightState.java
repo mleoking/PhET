@@ -3,7 +3,7 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.states;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 
 

@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -141,7 +141,7 @@ public abstract class TextureImage {
         }
     }
 
-    public ImmutableVector2F localToComponentCoordinates( ImmutableVector2F localCoordinates ) {
+    public Vector2F localToComponentCoordinates( Vector2F localCoordinates ) {
         Point2D swingPoint;
         try {
             swingPoint = getImageTransform().inverseTransform( new Point2D.Float( localCoordinates.x, localCoordinates.y ), new Point2D.Float() );
@@ -151,6 +151,6 @@ public abstract class TextureImage {
         }
         final double x = swingPoint.getX();
         final double y = swingPoint.getY();
-        return new ImmutableVector2F( x, y );
+        return new Vector2F( x, y );
     }
 }

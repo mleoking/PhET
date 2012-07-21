@@ -4,7 +4,7 @@ package edu.colorado.phet.common.photonabsorption.model.molecules;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
 import edu.colorado.phet.common.photonabsorption.model.atoms.OxygenAtom;

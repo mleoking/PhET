@@ -13,14 +13,14 @@ import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.model.MediumColorFactory;
 import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.bendinglight.view.LaserView;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 
 import static edu.colorado.phet.bendinglight.model.IntensityMeter.Reading.MISS;
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.getLineCircleIntersection;
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.createPolar;
 import static java.lang.Math.*;
 
 /**

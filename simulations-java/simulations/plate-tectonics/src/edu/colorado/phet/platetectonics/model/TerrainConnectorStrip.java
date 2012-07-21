@@ -4,7 +4,7 @@ package edu.colorado.phet.platetectonics.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 
 import static edu.colorado.phet.platetectonics.util.Side.RIGHT;
 
@@ -54,7 +54,7 @@ public class TerrainConnectorStrip extends Terrain {
 
                     // TODO: do we need to change the texture coordinates?
                     final float elevation = leftElevation + ratio * ( rightElevation - leftElevation );
-                    add( new TerrainSample( elevation, new ImmutableVector2F( ( ratio ) / 2, rowRatio * 100 ) ) );
+                    add( new TerrainSample( elevation, new Vector2F( ( ratio ) / 2, rowRatio * 100 ) ) );
                 }
             }} );
         }

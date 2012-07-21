@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import edu.colorado.phet.chemistry.model.Element;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
@@ -31,19 +31,19 @@ public class RealMolecule extends Molecule {
         final int numLonePairs = realMolecule.getCentralLonePairCount();
         final int numBonds = realMolecule.getBonds().size();
 
-        List<ImmutableVector3D> idealCentralOrientations = new ArrayList<ImmutableVector3D>();
+        List<Vector3D> idealCentralOrientations = new ArrayList<Vector3D>();
         List<PairGroup> centralPairGroups = new ArrayList<PairGroup>();
 
-        addCentralAtom( new RealPairGroup( new ImmutableVector3D(), false, realMolecule.getCentralAtom().getElement() ) );
+        addCentralAtom( new RealPairGroup( new Vector3D(), false, realMolecule.getCentralAtom().getElement() ) );
 
         // add in bonds
         for ( Bond<Atom3D> bond : realMolecule.getBonds() ) {
             Atom3D atom = bond.getOtherAtom( realMolecule.getCentralAtom() );
-            final ImmutableVector3D normalizedPosition = atom.position.get().normalized();
+            final Vector3D normalizedPosition = atom.position.get().getNormalizedInstance();
             idealCentralOrientations.add( normalizedPosition );
-            final double bondLength = atom.position.get().magnitude();
+            final double bondLength = atom.position.get().getMagnitude();
 
-            ImmutableVector3D atomLocation = normalizedPosition.times( PairGroup.REAL_TMP_SCALE * bondLength );
+            Vector3D atomLocation = normalizedPosition.times( PairGroup.REAL_TMP_SCALE * bondLength );
             final RealPairGroup group = new RealPairGroup( atomLocation, false, atom.getElement() );
             centralPairGroups.add( group );
             addGroup( group, getCentralAtom(), bond.order, bondLength );
@@ -54,13 +54,13 @@ public class RealMolecule extends Molecule {
 
         // all of the ideal vectors (including for lone pairs)
         VseprConfiguration vseprConfiguration = new VseprConfiguration( numBonds, numLonePairs );
-        final List<ImmutableVector3D> idealModelVectors = vseprConfiguration.getAllUnitVectors();
+        final List<Vector3D> idealModelVectors = vseprConfiguration.getAllUnitVectors();
 
         ResultMapping mapping = vseprConfiguration.getIdealBondRotationToPositions( LocalShape.sortedLonePairsFirst( getNeighboringAtoms( getCentralAtom() ) ) );
 
         // add in lone pairs in their correct "initial" positions
         for ( int i = 0; i < numLonePairs; i++ ) {
-            ImmutableVector3D normalizedPosition = mapping.rotateVector( idealModelVectors.get( i ) );
+            Vector3D normalizedPosition = mapping.rotateVector( idealModelVectors.get( i ) );
             idealCentralOrientations.add( normalizedPosition );
             PairGroup group = new PairGroup( normalizedPosition.times( PairGroup.LONE_PAIR_DISTANCE ), true, false );
             addGroup( group, getCentralAtom(), 0, PairGroup.LONE_PAIR_DISTANCE / PairGroup.REAL_TMP_SCALE );

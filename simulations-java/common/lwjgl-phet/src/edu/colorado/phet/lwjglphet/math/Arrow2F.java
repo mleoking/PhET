@@ -1,28 +1,30 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet.math;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+
 // copied somewhat from the Arrow class TODO cleanup
 public class Arrow2F {
-    private ImmutableVector2F tailLocation;
-    private ImmutableVector2F tipLocation;
+    private Vector2F tailLocation;
+    private Vector2F tipLocation;
     private float headHeight;
     private float headWidth;
     private float tailWidth;
     private float fractionalHeadHeight;
     private boolean scaleTailToo;
     private float headScale;
-    private ImmutableVector2F direction;
-    private ImmutableVector2F norm;
+    private Vector2F direction;
+    private Vector2F norm;
     boolean isHeadDynamic = false;
 
-    private ImmutableVector2F rightFlap;
-    private ImmutableVector2F leftFlap;
-    private ImmutableVector2F rightPin;
-    private ImmutableVector2F leftPin;
-    private ImmutableVector2F rightTail;
-    private ImmutableVector2F leftTail;
+    private Vector2F rightFlap;
+    private Vector2F leftFlap;
+    private Vector2F rightPin;
+    private Vector2F leftPin;
+    private Vector2F rightTail;
+    private Vector2F leftTail;
 
-    public Arrow2F( ImmutableVector2F tailLocation, ImmutableVector2F tipLocation, float headHeight, float headWidth, float tailWidth ) {
+    public Arrow2F( Vector2F tailLocation, Vector2F tipLocation, float headHeight, float headWidth, float tailWidth ) {
         init( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
         computeArrow();
     }
@@ -31,7 +33,7 @@ public class Arrow2F {
      * @param fractionalHeadHeight When the head size is less than fractionalHeadHeight * arrow length,
      *                             the head will be scaled.
      */
-    public Arrow2F( ImmutableVector2F tailLocation, ImmutableVector2F tipLocation,
+    public Arrow2F( Vector2F tailLocation, Vector2F tipLocation,
                     float headHeight, float headWidth, float tailWidth,
                     float fractionalHeadHeight, boolean scaleTailToo ) {
         this.fractionalHeadHeight = fractionalHeadHeight;
@@ -42,7 +44,7 @@ public class Arrow2F {
     }
 
 
-    void init( ImmutableVector2F tailLocation, ImmutableVector2F tipLocation, float headHeight, float headWidth, float tailWidth ) {
+    void init( Vector2F tailLocation, Vector2F tipLocation, float headHeight, float headWidth, float tailWidth ) {
         this.tailLocation = tailLocation;
         this.tipLocation = tipLocation;
         this.headHeight = headHeight;
@@ -51,10 +53,10 @@ public class Arrow2F {
     }
 
     private void computeArrow() {
-        if ( tailLocation.getDistance( tipLocation ) != 0 ) {
-            ImmutableVector2F distanceVector = tipLocation.getSubtractedInstance( tailLocation );
+        if ( tailLocation.distance( tipLocation ) != 0 ) {
+            Vector2F distanceVector = tipLocation.minus( tailLocation );
             direction = distanceVector.getNormalizedInstance();
-            float length = tipLocation.getDistance( tailLocation );
+            float length = tipLocation.distance( tailLocation );
             float tempHeadHeight = headHeight;
             float tempHeadWidth = headWidth;
             float tempTailWidth = tailWidth;
@@ -96,32 +98,32 @@ public class Arrow2F {
 
 
     //parallel and normal are from the tip
-    private ImmutableVector2F getPoint( float parallel, float normal ) {
+    private Vector2F getPoint( float parallel, float normal ) {
         // do scaling and addition of vector components inline to improve performance
         float x = ( direction.getX() * parallel ) + ( norm.getX() * normal ) + tipLocation.getX();
         float y = ( direction.getY() * parallel ) + ( norm.getY() * normal ) + tipLocation.getY();
-        return new ImmutableVector2F( x, y );
+        return new Vector2F( x, y );
     }
 
-    public ImmutableVector2F getTailLocation() {
+    public Vector2F getTailLocation() {
         return tailLocation;
     }
 
-    public ImmutableVector2F getTipLocation() {
+    public Vector2F getTipLocation() {
         return tipLocation;
     }
 
-    public void setTailLocation( ImmutableVector2F tailLocation ) {
+    public void setTailLocation( Vector2F tailLocation ) {
         this.tailLocation = tailLocation;
         computeArrow();
     }
 
-    public void setTipLocation( ImmutableVector2F tipLocation ) {
+    public void setTipLocation( Vector2F tipLocation ) {
         this.tipLocation = tipLocation;
         computeArrow();
     }
 
-    public void setTipAndTailLocations( ImmutableVector2F tipLocation, ImmutableVector2F tailLocation ) {
+    public void setTipAndTailLocations( Vector2F tipLocation, Vector2F tailLocation ) {
         this.tipLocation = tipLocation;
         this.tailLocation = tailLocation;
         computeArrow();
@@ -172,27 +174,27 @@ public class Arrow2F {
         return scaleTailToo;
     }
 
-    public ImmutableVector2F getLeftFlap() {
+    public Vector2F getLeftFlap() {
         return leftFlap;
     }
 
-    public ImmutableVector2F getLeftPin() {
+    public Vector2F getLeftPin() {
         return leftPin;
     }
 
-    public ImmutableVector2F getLeftTail() {
+    public Vector2F getLeftTail() {
         return leftTail;
     }
 
-    public ImmutableVector2F getRightFlap() {
+    public Vector2F getRightFlap() {
         return rightFlap;
     }
 
-    public ImmutableVector2F getRightPin() {
+    public Vector2F getRightPin() {
         return rightPin;
     }
 
-    public ImmutableVector2F getRightTail() {
+    public Vector2F getRightTail() {
         return rightTail;
     }
 }

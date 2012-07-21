@@ -4,11 +4,11 @@ package edu.colorado.phet.platetectonics.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.platetectonics.util.Side;
@@ -102,11 +102,11 @@ public class Terrain {
     }
 
     // an array of the vertices at z=0
-    public ImmutableVector2F[] getFrontVertices() {
-        ImmutableVector2F[] result = new ImmutableVector2F[getNumColumns()];
+    public Vector2F[] getFrontVertices() {
+        Vector2F[] result = new Vector2F[getNumColumns()];
         int zIndex = getFrontZIndex();
         for ( int xIndex = 0; xIndex < getNumColumns(); xIndex++ ) {
-            result[xIndex] = new ImmutableVector2F( xPositions.get( xIndex ), getSample( xIndex, zIndex ).getElevation() );
+            result[xIndex] = new Vector2F( xPositions.get( xIndex ), getSample( xIndex, zIndex ).getElevation() );
         }
         return result;
     }
@@ -131,7 +131,7 @@ public class Terrain {
 
         for ( TerrainSample sample : getColumn( columnIndex ) ) {
             // only change the X part of the texture, not the Z portion
-            sample.setTextureCoordinates( sample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new ImmutableVector2F( xOffset, 0 ) ) ) );
+            sample.setTextureCoordinates( sample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new Vector2F( xOffset, 0 ) ) ) );
         }
     }
 
@@ -147,13 +147,13 @@ public class Terrain {
         }
     }
 
-    private ImmutableVector3F[] getViewSpaceRow( int zIndex, ImmutableVector3F[] xRadials, LWJGLTransform modelViewTransform ) {
-        ImmutableVector3F[] result = new ImmutableVector3F[xPositions.size()];
-        ImmutableVector3F zRadial = PlateModel.getZRadialVector( zPositions.get( zIndex ) );
+    private Vector3F[] getViewSpaceRow( int zIndex, Vector3F[] xRadials, LWJGLTransform modelViewTransform ) {
+        Vector3F[] result = new Vector3F[xPositions.size()];
+        Vector3F zRadial = PlateModel.getZRadialVector( zPositions.get( zIndex ) );
         for ( int xIndex = 0; xIndex < xPositions.size(); xIndex++ ) {
             float elevation = getSample( xIndex, zIndex ).getElevation();
-            ImmutableVector3F cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
-            ImmutableVector3F viewVector = modelViewTransform.transformPosition( cartesianModelVector );
+            Vector3F cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
+            Vector3F viewVector = modelViewTransform.transformPosition( cartesianModelVector );
 
             result[xIndex] = viewVector;
         }
@@ -161,9 +161,9 @@ public class Terrain {
     }
 
     // returns the point in "planar" form, not radial. ray is implied as view space
-    public Option<ImmutableVector3F> intersectWithRay( Ray3F ray, LWJGLTransform modelViewTransform ) {
+    public Option<Vector3F> intersectWithRay( Ray3F ray, LWJGLTransform modelViewTransform ) {
         // used for faster trig calculations for positioning
-        ImmutableVector3F[] xRadials = new ImmutableVector3F[xPositions.size()];
+        Vector3F[] xRadials = new Vector3F[xPositions.size()];
 
         for ( int i = 0; i < xPositions.size(); i++ ) {
             xRadials[i] = PlateModel.getXRadialVector( xPositions.get( i ) );
@@ -172,18 +172,18 @@ public class Terrain {
         // try intersecting from front to back
         // NOTE: this is reliant on the order of z indices decreasing
         int zIndex = zSamples - 1;
-        ImmutableVector3F[] lastRow = getViewSpaceRow( zIndex, xRadials, modelViewTransform );
+        Vector3F[] lastRow = getViewSpaceRow( zIndex, xRadials, modelViewTransform );
         while ( zIndex >= 1 ) {
             zIndex--;
-            ImmutableVector3F[] nextRow = getViewSpaceRow( zIndex, xRadials, modelViewTransform );
+            Vector3F[] nextRow = getViewSpaceRow( zIndex, xRadials, modelViewTransform );
             for ( int i = 1; i < xPositions.size(); i++ ) {
-                ImmutableVector3F leftLast = lastRow[i - 1];
-                ImmutableVector3F rightLast = lastRow[i];
-                ImmutableVector3F leftNext = nextRow[i - 1];
-                ImmutableVector3F rightNext = nextRow[i];
+                Vector3F leftLast = lastRow[i - 1];
+                Vector3F rightLast = lastRow[i];
+                Vector3F leftNext = nextRow[i - 1];
+                Vector3F rightNext = nextRow[i];
 
                 // check two "triangles" for each quad
-                Option<ImmutableVector3F> hit = ray.intersectWithTriangle( leftNext, rightNext, rightLast );
+                Option<Vector3F> hit = ray.intersectWithTriangle( leftNext, rightNext, rightLast );
                 if ( hit.isSome() ) {
                     return hit;
                 }
@@ -196,6 +196,6 @@ public class Terrain {
         }
 
         // no hit found
-        return new None<ImmutableVector3F>();
+        return new None<Vector3F>();
     }
 }

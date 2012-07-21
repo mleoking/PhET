@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.common.phetcommon.math;
+package edu.colorado.phet.common.phetcommon.math.vector;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -65,9 +65,11 @@ public @EqualsAndHashCode(callSuper = false) @ToString class MutableVector2D ext
         setY( y );
     }
 
-    public void setValue( Vector2D value ) { setComponents( value.getX(), value.getY() ); }
+    public void setValue( AbstractVector2D value ) { setComponents( value.getX(), value.getY() ); }
 
-    public void setMagnitudeAndAngle( double magnitude, double angle ) { setComponents( Math.cos( angle ) * magnitude, Math.sin( angle ) * magnitude ); }
+    public void setMagnitudeAndAngle( double magnitude, double angle ) {
+        setComponents( Math.cos( angle ) * magnitude, Math.sin( angle ) * magnitude );
+    }
 
     public void setMagnitude( double magnitude ) { setMagnitudeAndAngle( magnitude, getAngle() ); }
 

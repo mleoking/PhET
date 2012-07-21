@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -27,7 +27,7 @@ import com.jme3.util.TangentBinormalGenerator;
  */
 public class LonePairNode extends Node {
     public final PairGroup pair;
-    public final Property<ImmutableVector3D> position;
+    public final Property<Vector3D> position;
 
     private static Spatial lonePairGeometry;
 
@@ -72,14 +72,14 @@ public class LonePairNode extends Node {
         // update based on electron pair position
         position.addObserver( new SimpleObserver() {
             public void update() {
-                ImmutableVector3D lonePairOrientation = ImmutableVector3D.Y_UNIT;
-                ImmutableVector3D offsetFromParentAtom = position.get().minus( parentAtom.position.get() );
-                ImmutableVector3D orientation = offsetFromParentAtom.normalized();
+                Vector3D lonePairOrientation = Vector3D.Y_UNIT;
+                Vector3D offsetFromParentAtom = position.get().minus( parentAtom.position.get() );
+                Vector3D orientation = offsetFromParentAtom.getNormalizedInstance();
                 Matrix3f matrix = new Matrix3f();
                 JMEUtils.fromStartEndVectors( matrix, lonePairOrientation, orientation );
                 setLocalRotation( matrix );
 
-                if ( offsetFromParentAtom.magnitude() > PairGroup.LONE_PAIR_DISTANCE ) {
+                if ( offsetFromParentAtom.getMagnitude() > PairGroup.LONE_PAIR_DISTANCE ) {
                     setLocalTranslation( JMEUtils.convertVector( position.get().minus( orientation.times( PairGroup.LONE_PAIR_DISTANCE ) ) ) );
                 }
                 else {

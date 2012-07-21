@@ -4,11 +4,11 @@ package edu.colorado.phet.platetectonics.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.model.behaviors.PlateBehavior;
 import edu.colorado.phet.platetectonics.model.behaviors.RiftingBehavior;
@@ -57,8 +57,8 @@ public class PlateMotionPlate extends Plate {
         final float yRatio = ( (float) yIndex ) / ( (float) verticalSamples );
         float y = mantleTopY + ( mantleBottomY - mantleTopY ) * yRatio;
         float temp = mantleTopTemp + ( mantleBottomTemp - mantleTopTemp ) * yRatio;
-        return new Sample( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
-                           textureStrategy.mapFront( new ImmutableVector2F( x, y ) ) );
+        return new Sample( new Vector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
+                           textureStrategy.mapFront( new Vector2F( x, y ) ) );
     }
 
     // called when the user drops a crust piece on this side. initializes the crust and lithosphere, and resets the mantle on this side
@@ -87,8 +87,8 @@ public class PlateMotionPlate extends Plate {
                 float y = crustTopY + ( crustBottomY - crustTopY ) * yRatio;
 
                 float temp = getCrustTemperatureFromYRatio( yRatio );
-                return new Sample( new ImmutableVector3F( x, y, 0 ), temp, crustDensity,
-                                   textureStrategy.mapFront( new ImmutableVector2F( x, y ) ) );
+                return new Sample( new Vector3F( x, y, 0 ), temp, crustDensity,
+                                   textureStrategy.mapFront( new Vector2F( x, y ) ) );
             }
         } ) );
 
@@ -174,8 +174,8 @@ public class PlateMotionPlate extends Plate {
 
                 float temp = getCrustTemperatureFromYRatio( yRatio );
                 final float x = mySample.getPosition().x + xOffset;
-                add( new Sample( new ImmutableVector3F( x, y, 0 ), temp, type.getDensity(),
-                                 mySample.getTextureCoordinates().plus( textureStrategy.mapFrontDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
+                add( new Sample( new Vector3F( x, y, 0 ), temp, type.getDensity(),
+                                 mySample.getTextureCoordinates().plus( textureStrategy.mapFrontDelta( new Vector2F( xOffset, 0 ) ) ) ) );
             }
         }} );
 
@@ -190,8 +190,8 @@ public class PlateMotionPlate extends Plate {
 
                 float temp = getLithosphereTemperatureFromYRatio( yRatio );
                 final float x = mySample.getPosition().x + xOffset;
-                add( new Sample( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
-                                 mySample.getTextureCoordinates().plus( textureStrategy.mapFrontDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
+                add( new Sample( new Vector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
+                                 mySample.getTextureCoordinates().plus( textureStrategy.mapFrontDelta( new Vector2F( xOffset, 0 ) ) ) ) );
             }
         }} );
 
@@ -200,7 +200,7 @@ public class PlateMotionPlate extends Plate {
                 final TerrainSample mySample = getTerrain().getSample( side.getIndex( getTerrain().getNumColumns() ), zIndex );
                 // elevation to be fixed later
                 // TODO: fix texture coordinates on newly added terrain
-                add( new TerrainSample( getCrust().getTopBoundary().getEdgeSample( side ).getPosition().y, mySample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
+                add( new TerrainSample( getCrust().getTopBoundary().getEdgeSample( side ).getPosition().y, mySample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new Vector2F( xOffset, 0 ) ) ) ) );
             }
         }} );
     }
@@ -215,7 +215,7 @@ public class PlateMotionPlate extends Plate {
     public void fullSyncTerrain() {
         for ( int column = 0; column < getTerrain().getNumColumns(); column++ ) {
             // left side
-            ImmutableVector3F position = ( plateType != null ? getCrust().getTopBoundary() : getMantle().getTopBoundary() ).samples.get( column ).getPosition();
+            Vector3F position = ( plateType != null ? getCrust().getTopBoundary() : getMantle().getTopBoundary() ).samples.get( column ).getPosition();
             for ( int row = 0; row < TERRAIN_DEPTH_SAMPLES; row++ ) {
                 // set the elevation for the whole column
                 getTerrain().getSample( column, row ).setElevation( position.y );
@@ -256,8 +256,8 @@ public class PlateMotionPlate extends Plate {
                 float z = getTerrain().zPositions.get( side == LEFT ? getTerrain().getNumRows() - xIndex - 1 : xIndex );
 
                 // sample copied from other one. we reverse texture coordinates also for the left plate, so it wraps over the edge nicely
-                return new Sample( new ImmutableVector3F( x, y, z ), sample.getTemperature(), sample.getDensity(),
-                                   textureStrategy.mapFront( new ImmutableVector2F( z * side.getSign(), y ) ) );
+                return new Sample( new Vector3F( x, y, z ), sample.getTemperature(), sample.getDensity(),
+                                   textureStrategy.mapFront( new Vector2F( z * side.getSign(), y ) ) );
             }
         } ) );
 
@@ -277,8 +277,8 @@ public class PlateMotionPlate extends Plate {
                 float z = getTerrain().zPositions.get( side == LEFT ? getTerrain().getNumRows() - xIndex - 1 : xIndex );
 
                 // sample copied from other one. we reverse texture coordinates also for the left plate, so it wraps over the edge nicely
-                return new Sample( new ImmutableVector3F( x, y, z ), sample.getTemperature(), sample.getDensity(),
-                                   textureStrategy.mapFront( new ImmutableVector2F( z * side.getSign(), y ) ) );
+                return new Sample( new Vector3F( x, y, z ), sample.getTemperature(), sample.getDensity(),
+                                   textureStrategy.mapFront( new Vector2F( z * side.getSign(), y ) ) );
             }
         } ) );
 
@@ -303,7 +303,7 @@ public class PlateMotionPlate extends Plate {
                                 for ( int xIndex = 0; xIndex < getTopBoundary().samples.size(); xIndex++ ) {
                                     Sample sample = boundary.getSample( xIndex );
                                     Sample recomputedSample = factory.apply( yIndex, xIndex );
-                                    sample.setPosition( new ImmutableVector3F( sample.getPosition().x,
+                                    sample.setPosition( new Vector3F( sample.getPosition().x,
                                                                                recomputedSample.getPosition().y,
                                                                                sample.getPosition().z ) );
                                 }
@@ -344,8 +344,8 @@ public class PlateMotionPlate extends Plate {
 
                 float temp = getCrustTemperatureFromYRatio( yRatio );
                 // sample copied from other one. we reverse texture coordinates also for the left plate, so it wraps over the edge nicely
-                return new Sample( new ImmutableVector3F( x, y, z ), temp, sample.getDensity(),
-                                   textureStrategy.mapFront( new ImmutableVector2F( z * side.getSign(), y ) ) );
+                return new Sample( new Vector3F( x, y, z ), temp, sample.getDensity(),
+                                   textureStrategy.mapFront( new Vector2F( z * side.getSign(), y ) ) );
             }
         };
     }
@@ -420,9 +420,9 @@ public class PlateMotionPlate extends Plate {
         getTerrain().elevationChanged.updateListeners();
     }
 
-    public class BoundaryTrackingProperty extends Property<ImmutableVector3F> {
+    public class BoundaryTrackingProperty extends Property<Vector3F> {
         public BoundaryTrackingProperty( final Boundary boundary, int labelIndex ) {
-            super( new ImmutableVector3F() );
+            super( new Vector3F() );
 
             final Sample sample = boundary.getSample( labelIndex );
             assert sample != null;
@@ -435,7 +435,7 @@ public class PlateMotionPlate extends Plate {
                                 set( sample.getPosition() );
                             }
                             else {
-                                set( new ImmutableVector3F( initialX, boundary.getApproximateYFromX( initialX ), 0 ) );
+                                set( new Vector3F( initialX, boundary.getApproximateYFromX( initialX ), 0 ) );
                             }
                         }
                     }, true );

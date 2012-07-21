@@ -4,7 +4,7 @@ package edu.colorado.phet.moleculeshapes.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
@@ -13,8 +13,8 @@ public class VseprConfiguration {
     public final int x;
     public final int e;
 
-    public final List<ImmutableVector3D> bondedUnitVectors;
-    public final List<ImmutableVector3D> lonePairUnitVectors;
+    public final List<Vector3D> bondedUnitVectors;
+    public final List<Vector3D> lonePairUnitVectors;
 
     public final GeometryConfiguration geometry;
 
@@ -25,8 +25,8 @@ public class VseprConfiguration {
         this.e = e;
 
         geometry = GeometryConfiguration.getConfiguration( x + e );
-        bondedUnitVectors = new ArrayList<ImmutableVector3D>();
-        lonePairUnitVectors = new ArrayList<ImmutableVector3D>();
+        bondedUnitVectors = new ArrayList<Vector3D>();
+        lonePairUnitVectors = new ArrayList<Vector3D>();
         for ( int i = 0; i < x + e; i++ ) {
             if ( i < e ) {
                 // fill up the lone pair unit vectors first
@@ -107,12 +107,12 @@ public class VseprConfiguration {
         }
     }
 
-    public List<ImmutableVector3D> getAllUnitVectors() {
+    public List<Vector3D> getAllUnitVectors() {
         return geometry.unitVectors;
     }
 
-    public List<ImmutableVector3D> getIdealBondUnitVectors() {
-        return new ArrayList<ImmutableVector3D>() {{
+    public List<Vector3D> getIdealBondUnitVectors() {
+        return new ArrayList<Vector3D>() {{
             for ( int i = e; i < x + e; i++ ) {
                 add( geometry.unitVectors.get( i ) );
             }
@@ -129,7 +129,7 @@ public class VseprConfiguration {
     public ResultMapping getIdealBondRotationToPositions( List<PairGroup> groups ) {
         // ideal vectors excluding lone pairs (just for the bonds)
         assert ( x ) == groups.size();
-        List<ImmutableVector3D> idealModelBondVectors = getIdealBondUnitVectors();
+        List<Vector3D> idealModelBondVectors = getIdealBondUnitVectors();
 
         return AttractorModel.findClosestMatchingConfiguration( AttractorModel.getOrientationsFromOrigin( groups ), idealModelBondVectors, Permutation.permutations( idealModelBondVectors.size() ) );
     }
@@ -169,7 +169,7 @@ public class VseprConfiguration {
             indices.add( i );
             for ( int k = 0; k < pairs.size(); k++ ) {
                 configAngles[i][k] = Math.acos( geometry.unitVectors.get( i ).dot( geometry.unitVectors.get( k ) ) );
-                groupAngles[i][k] = Math.acos( orderedGroups.get( i ).position.get().normalized().dot( orderedGroups.get( k ).position.get().normalized() ) );
+                groupAngles[i][k] = Math.acos( orderedGroups.get( i ).position.get().getNormalizedInstance().dot( orderedGroups.get( k ).position.get().getNormalizedInstance() ) );
             }
         }
 

@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
@@ -50,7 +50,7 @@ public class RiftingBehavior extends PlateBehavior {
 
         moveMantleTopTo( PlateType.OLD_OCEANIC.getCrustTopY() - 1000 );
 
-        magmaTarget = new ImmutableVector2F( 0, RIDGE_TOP_Y );
+        magmaTarget = new Vector2F( 0, RIDGE_TOP_Y );
         magmaSpeed = RIFT_PLATE_SPEED;
     }
 
@@ -68,8 +68,8 @@ public class RiftingBehavior extends PlateBehavior {
         final float spread = 0.5f;
         final float maxDistance = 100000;
         float angle = (float) ( Math.PI / 2 + ( Math.random() - 0.5 ) * spread );
-        ImmutableVector2F directionFromEnd = new ImmutableVector2F( Math.cos( angle ), Math.sin( angle ) ).negate();
-        ImmutableVector2F position = new ImmutableVector2F( 0, RIDGE_TOP_Y ).plus( directionFromEnd.times(
+        Vector2F directionFromEnd = new Vector2F( Math.cos( angle ), Math.sin( angle ) ).negate();
+        Vector2F position = new Vector2F( 0, RIDGE_TOP_Y ).plus( directionFromEnd.times(
                 onlyAtBottom ? maxDistance - additionalMagnitude : (float) ( Math.random() * maxDistance ) ) );
         addMagma( position );
     }
@@ -89,7 +89,7 @@ public class RiftingBehavior extends PlateBehavior {
         if ( plate.getSide() == Side.LEFT && magmaChamber == null ) {
             if ( plate.getSide() == Side.LEFT ) {
                 magmaChamber = new MagmaRegion( plate.getTextureStrategy(), PlateType.YOUNG_OCEANIC.getCrustThickness() / 3f, (float) ( Math.PI / 2 ), 16,
-                                                new ImmutableVector2F( 0, RIDGE_TOP_Y ) );
+                                                new Vector2F( 0, RIDGE_TOP_Y ) );
                 plate.regions.add( magmaChamber );
                 magmaChamber.moveToFront();
 
@@ -113,17 +113,17 @@ public class RiftingBehavior extends PlateBehavior {
         // watch for when to add labels to the oceanic crust that is new (12km threshold)
         if ( ( oceanYBefore < -13000 ) != ( oceanYAfter < -13000 ) ) {
             plate.getModel().rangeLabels.add( new RangeLabel(
-                    new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                    new Property<Vector3F>( new Vector3F() ) {{
                         plate.getModel().modelChanged.addUpdateListener( new UpdateListener() {
                             public void update() {
-                                set( new ImmutableVector3F( oceanLabelX, getCrust().getTopBoundary().getApproximateYFromX( oceanLabelX ), 0 ) );
+                                set( new Vector3F( oceanLabelX, getCrust().getTopBoundary().getApproximateYFromX( oceanLabelX ), 0 ) );
                             }
                         }, true );
                     }},
-                    new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                    new Property<Vector3F>( new Vector3F() ) {{
                         plate.getModel().modelChanged.addUpdateListener( new UpdateListener() {
                             public void update() {
-                                set( new ImmutableVector3F( oceanLabelX, getCrust().getBottomBoundary().getApproximateYFromX( oceanLabelX ), 0 ) );
+                                set( new Vector3F( oceanLabelX, getCrust().getBottomBoundary().getApproximateYFromX( oceanLabelX ), 0 ) );
                             }
                         }, true );
                     }},
@@ -148,7 +148,7 @@ public class RiftingBehavior extends PlateBehavior {
         final Region[] mobileRegions = {getPlate().getLithosphere(), getPlate().getCrust()};
         for ( Region region : mobileRegions ) {
             for ( Sample sample : region.getSamples() ) {
-                sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( xOffset, 0, 0 ) ) );
+                sample.setPosition( sample.getPosition().plus( new Vector3F( xOffset, 0, 0 ) ) );
             }
         }
 
@@ -158,7 +158,7 @@ public class RiftingBehavior extends PlateBehavior {
             TerrainSample frontTerrainSample = getPlate().getTerrain().getSample( i, getPlate().getTerrain().getFrontZIndex() );
 
             float oldXPosition = getPlate().getTerrain().xPositions.get( i );
-            ImmutableVector3F delta = crustSample.getPosition().minus( new ImmutableVector3F( oldXPosition,
+            Vector3F delta = crustSample.getPosition().minus( new Vector3F( oldXPosition,
                                                                                               frontTerrainSample.getElevation(), 0 ) );
 
             for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
@@ -227,8 +227,8 @@ public class RiftingBehavior extends PlateBehavior {
                 for ( Region region : getLithosphereRegions() ) {
                     for ( Boundary boundary : region.getBoundaries() ) {
                         Sample sample = boundary.samples.get( newIndex );
-                        ImmutableVector2F staticTextureCoordinates = plate.getTextureStrategy().mapFront( new ImmutableVector2F( sample.getPosition().x, sample.getPosition().y ) );
-                        sample.setTextureCoordinates( new ImmutableVector2F( sample.getTextureCoordinates().x, staticTextureCoordinates.y ) );
+                        Vector2F staticTextureCoordinates = plate.getTextureStrategy().mapFront( new Vector2F( sample.getPosition().x, sample.getPosition().y ) );
+                        sample.setTextureCoordinates( new Vector2F( sample.getTextureCoordinates().x, staticTextureCoordinates.y ) );
                     }
                 }
 
@@ -378,7 +378,7 @@ public class RiftingBehavior extends PlateBehavior {
             for ( Region region : getLithosphereRegions() ) {
                 for ( Boundary boundary : region.getBoundaries() ) {
                     final Sample sample = boundary.samples.get( columnIndex );
-                    sample.setPosition( sample.getPosition().plus( ImmutableVector3F.Y_UNIT.times( offsetY ) ) );
+                    sample.setPosition( sample.getPosition().plus( Vector3F.Y_UNIT.times( offsetY ) ) );
                 }
             }
             getTerrain().shiftColumnElevation( columnIndex, offsetY );
@@ -421,7 +421,7 @@ public class RiftingBehavior extends PlateBehavior {
     private void shiftColumn( int columnIndex, float xOffset ) {
         for ( Region region : getLithosphereRegions() ) {
             for ( Boundary boundary : region.getBoundaries() ) {
-                boundary.samples.get( columnIndex ).shiftWithTexture( new ImmutableVector3F( xOffset, 0, 0 ), plate.getTextureStrategy() );
+                boundary.samples.get( columnIndex ).shiftWithTexture( new Vector3F( xOffset, 0, 0 ), plate.getTextureStrategy() );
             }
         }
 

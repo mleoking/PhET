@@ -2,6 +2,7 @@
 package edu.colorado.phet.scalacommon.math
 
 import java.awt.geom.{Point2D, Line2D}
+import edu.colorado.phet.common.phetcommon.math.vector
 
 /**
  * Immutable Vector class for simplified vector arithmetic.
@@ -41,7 +42,7 @@ class Vector2D(val x: Double, val y: Double) {
   override lazy val toString = "x=" + x + ", y=" + y
   override lazy val hashCode = new Point2D.Double(x, y).hashCode
 
-  def toImmutableVector2D = new edu.colorado.phet.common.phetcommon.math.Vector2D(x, y)
+  def toImmutableVector2D = new vector.Vector2D(x, y)
 
   override def equals(obj: Any) = {
     obj match {

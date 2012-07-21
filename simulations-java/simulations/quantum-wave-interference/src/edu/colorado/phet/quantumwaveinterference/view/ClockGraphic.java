@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;

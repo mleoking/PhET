@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import edu.colorado.phet.chemistry.model.Element;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -25,12 +25,12 @@ public class LocalShape {
     private final List<PairGroup> groups;
 
     // the ideal orientations (unit vectors) for the groups representing the ideal local shape
-    private final List<ImmutableVector3D> idealOrientations;
+    private final List<Vector3D> idealOrientations;
 
     // denotes how we can map the groups into the orientation vectors. some combinations may not be possible
     private final List<Permutation> allowedPermutations;
 
-    public LocalShape( List<Permutation> allowedPermutations, PairGroup centralAtom, List<PairGroup> groups, List<ImmutableVector3D> idealOrientations ) {
+    public LocalShape( List<Permutation> allowedPermutations, PairGroup centralAtom, List<PairGroup> groups, List<Vector3D> idealOrientations ) {
         this.allowedPermutations = allowedPermutations;
         this.centralAtom = centralAtom;
         this.groups = groups;

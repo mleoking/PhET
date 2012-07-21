@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model.behaviors;
 
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
@@ -52,6 +52,6 @@ public class TransformBehavior extends PlateBehavior {
     public void shiftIndexElevation( int index, float delta ) {
         getTerrain().shiftColumnElevation( getOppositeSide().getFromIndex( getTerrain().getNumColumns(), index ), delta );
         final Sample sample = getOppositeSide().getFromEnd( getCrust().getTopBoundary().samples, index );
-        sample.setPosition( sample.getPosition().plus( ImmutableVector3F.Y_UNIT.times( delta ) ) );
+        sample.setPosition( sample.getPosition().plus( Vector3F.Y_UNIT.times( delta ) ) );
     }
 }

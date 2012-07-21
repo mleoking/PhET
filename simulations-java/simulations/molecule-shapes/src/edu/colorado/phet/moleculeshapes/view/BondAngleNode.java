@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -141,8 +141,8 @@ public class BondAngleNode extends Node {
     }
 
     public void updateView( Vector3f localCameraPosition, Vector3f lastMidpoint ) {
-        ImmutableVector3D aDir = aGroup.position.get().normalized();
-        ImmutableVector3D bDir = bGroup.position.get().normalized();
+        Vector3D aDir = aGroup.position.get().getNormalizedInstance();
+        Vector3D bDir = bGroup.position.get().getNormalizedInstance();
 
         alpha.set( calculateBrightness( aDir, bDir, localCameraPosition, molecule.getRadialAtoms().size() ) );
 
@@ -163,7 +163,7 @@ public class BondAngleNode extends Node {
     private static final float[] lowThresholds = new float[] { 0, 0, 0, 0, 0.35f, 0.45f, 0.5f };
     private static final float[] highThresholds = new float[] { 0, 0, 0, 0.5f, 0.55f, 0.65f, 0.75f };
 
-    public static float calculateBrightness( ImmutableVector3D aDir, ImmutableVector3D bDir, Vector3f localCameraPosition, int bondQuantity ) {
+    public static float calculateBrightness( Vector3D aDir, Vector3D bDir, Vector3f localCameraPosition, int bondQuantity ) {
         // if there are less than 3 bonds, always show the bond angle. (experimental)
         if ( bondQuantity <= 2 ) {
             return 1;

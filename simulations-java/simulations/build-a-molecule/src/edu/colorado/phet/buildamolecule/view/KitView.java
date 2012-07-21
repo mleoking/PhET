@@ -11,7 +11,7 @@ import edu.colorado.phet.buildamolecule.model.Bucket;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.umd.cs.piccolo.PNode;

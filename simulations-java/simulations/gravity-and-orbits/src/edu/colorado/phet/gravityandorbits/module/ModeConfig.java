@@ -3,7 +3,7 @@ package edu.colorado.phet.gravityandorbits.module;
 
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 import static edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock.DEFAULT_DT;
 

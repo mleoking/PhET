@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -81,10 +81,10 @@ public class PlateView extends GLNode {
         } );
 
         // add a marker when debugPing is notified
-        model.debugPing.addListener( new VoidFunction1<ImmutableVector3F>() {
-            public void apply( final ImmutableVector3F location ) {
+        model.debugPing.addListener( new VoidFunction1<Vector3F>() {
+            public void apply( final Vector3F location ) {
                 addChild( new UnitMarker() {{
-                    ImmutableVector3F viewLocation = tab.getModelViewTransform().transformPosition( PlateModel.convertToRadial( location ) );
+                    Vector3F viewLocation = tab.getModelViewTransform().transformPosition( PlateModel.convertToRadial( location ) );
                     translate( viewLocation.x, viewLocation.y, viewLocation.z );
                     scale( 3 );
                 }} );

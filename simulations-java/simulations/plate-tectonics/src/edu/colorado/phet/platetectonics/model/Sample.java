@@ -1,22 +1,22 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 
 /**
  * A location with specific temp/density information that can move over time.
  */
 public class Sample {
-    private ImmutableVector3F position;
+    private Vector3F position;
     private float temperature;
     private float density;
-    private ImmutableVector2F textureCoordinates;
+    private Vector2F textureCoordinates;
 
     // records the random elevation offset that was used at this point
     private float randomTerrainOffset = 0;
 
-    public Sample( ImmutableVector3F position, float temperature, float density, ImmutableVector2F textureCoordinates ) {
+    public Sample( Vector3F position, float temperature, float density, Vector2F textureCoordinates ) {
         this.position = position;
         this.temperature = temperature;
         this.density = density;
@@ -24,20 +24,20 @@ public class Sample {
     }
 
     // moves both the position AND the texture coordinates, using the offset to modify both
-    public void shiftWithTexture( ImmutableVector3F offset, TextureStrategy textureStrategy ) {
+    public void shiftWithTexture( Vector3F offset, TextureStrategy textureStrategy ) {
         // change the position
         setPosition( getPosition().plus( offset ) );
 
         // and the relevant texture coordinates
         setTextureCoordinates( getTextureCoordinates().plus(
-                textureStrategy.mapFrontDelta( new ImmutableVector2F( offset.x, offset.y ) ) ) );
+                textureStrategy.mapFrontDelta( new Vector2F( offset.x, offset.y ) ) ) );
     }
 
-    public ImmutableVector3F getPosition() {
+    public Vector3F getPosition() {
         return position;
     }
 
-    public void setPosition( ImmutableVector3F position ) {
+    public void setPosition( Vector3F position ) {
         this.position = position;
     }
 
@@ -57,11 +57,11 @@ public class Sample {
         this.density = density;
     }
 
-    public ImmutableVector2F getTextureCoordinates() {
+    public Vector2F getTextureCoordinates() {
         return textureCoordinates;
     }
 
-    public void setTextureCoordinates( ImmutableVector2F textureCoordinates ) {
+    public void setTextureCoordinates( Vector2F textureCoordinates ) {
         this.textureCoordinates = textureCoordinates;
     }
 

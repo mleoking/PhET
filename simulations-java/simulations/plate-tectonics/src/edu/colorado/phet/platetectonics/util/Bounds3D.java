@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.util;
 
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 
 /**
  * Bounds, generalized to a 3D bounding box (cuboid)
@@ -75,15 +75,15 @@ public class Bounds3D {
         return z + depth;
     }
 
-    public ImmutableVector3F getPosition() {
-        return new ImmutableVector3F( x, y, z );
+    public Vector3F getPosition() {
+        return new Vector3F( x, y, z );
     }
 
-    public ImmutableVector3F getExtent() {
-        return new ImmutableVector3F( x + width, y + height, z + depth );
+    public Vector3F getExtent() {
+        return new Vector3F( x + width, y + height, z + depth );
     }
 
-    public ImmutableVector3F getCenter() {
+    public Vector3F getCenter() {
         return getPosition().plus( getExtent() ).times( 0.5f );
     }
 

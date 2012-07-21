@@ -25,7 +25,7 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.Pbuffer;
 import org.lwjgl.opengl.PixelFormat;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -75,12 +75,12 @@ public class JMEUtils {
     /*---------------------------------------------------------------------------*
     * Vector3f conversion
     *----------------------------------------------------------------------------*/
-    public static Vector3f convertVector( ImmutableVector3D vec ) {
+    public static Vector3f convertVector( Vector3D vec ) {
         return new Vector3f( (float) vec.getX(), (float) vec.getY(), (float) vec.getZ() );
     }
 
-    public static ImmutableVector3D convertVector( Vector3f vec ) {
-        return new ImmutableVector3D( vec.getX(), vec.getY(), vec.getZ() );
+    public static Vector3D convertVector( Vector3f vec ) {
+        return new Vector3D( vec.getX(), vec.getY(), vec.getZ() );
     }
 
     /*---------------------------------------------------------------------------*
@@ -110,7 +110,7 @@ public class JMEUtils {
      * @see "Tomas M�ller, John Hughes \"Efficiently Building a Matrix to Rotate \
      *      One Vector to Another\" Journal of Graphics Tools, 4(4):1-4, 1999"
      */
-    public static void fromStartEndVectors( Matrix3f matrix, ImmutableVector3D a, ImmutableVector3D b ) {
+    public static void fromStartEndVectors( Matrix3f matrix, Vector3D a, Vector3D b ) {
         Vector3f start = convertVector( a );
         Vector3f end = convertVector( b );
 
