@@ -261,7 +261,7 @@ public class ContainerNode extends PNode {
         return isAtStartingLocation() && initialY > 600;
     }
 
-    public void pieceAdded( final RectangularPiece piece ) {
+    public void pieceAdded( final PieceNode piece ) {
         if ( !splitButton.getVisible() ) {
             splitButton.setVisible( true );
             splitButton.setPickable( true );

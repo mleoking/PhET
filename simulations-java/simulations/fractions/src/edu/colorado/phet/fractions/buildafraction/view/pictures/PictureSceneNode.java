@@ -66,7 +66,7 @@ import static fj.function.Booleans.not;
  *
  * @author Sam Reid
  */
-public class PictureSceneNode extends SceneNode implements ContainerContext, PieceContext, StackContext<RectangularPiece> {
+public class PictureSceneNode extends SceneNode implements ContainerContext, PieceContext, StackContext<PieceNode> {
     private final BuildAFractionModel model;
     private final List<Target> targetPairs;
     private final RichPNode toolboxNode;
@@ -165,11 +165,11 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             int pieceIndex = 0;
 
             Rectangle2D bounds = null;
-            ArrayList<RectangularPiece> pieces = new ArrayList<RectangularPiece>();
+            ArrayList<PieceNode> pieces = new ArrayList<PieceNode>();
             for ( final Integer pieceDenominator : group ) {
                 final double delta = toDelta( numInGroup, pieceIndex );
-                final PhetPPath shape = new PhetPPath( SimpleContainerNode.createRect( pieceDenominator ), level.color, RectangularPiece.stroke, Color.black );
-                final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this, shape );
+                final PhetPPath shape = new PhetPPath( SimpleContainerNode.createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black );
+                final PieceNode piece = new PieceNode( pieceDenominator, PictureSceneNode.this, shape );
                 piece.setOffset( layoutXOffset + INSET + 20 + delta + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta );
                 piece.setInitialScale( TINY_SCALE );
 
@@ -182,10 +182,10 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 pieces.add( piece );
             }
 
-            final List<RectangularPiece> pieceList = iterableList( pieces );
-            final Stack<RectangularPiece> stack = new Stack<RectangularPiece>( pieceList, stackIndex, this );
-            for ( P2<RectangularPiece, Integer> pieceAndIndex : pieceList.zipIndex() ) {
-                final RectangularPiece piece = pieceAndIndex._1();
+            final List<PieceNode> pieceList = iterableList( pieces );
+            final Stack<PieceNode> stack = new Stack<PieceNode>( pieceList, stackIndex, this );
+            for ( P2<PieceNode, Integer> pieceAndIndex : pieceList.zipIndex() ) {
+                final PieceNode piece = pieceAndIndex._1();
                 final Integer index = pieceAndIndex._2();
                 piece.setStack( stack );
                 piece.setPositionInStack( Option.some( index ) );
@@ -296,16 +296,16 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             containerNode.splitAll();
             containerNode.animateHome();
         }
-        for ( RectangularPiece rectangularPiece : getPieceNodes() ) {
+        for ( PieceNode rectangularPiece : getPieceNodes() ) {
             rectangularPiece.moveToTopOfStack();
         }
     }
 
-    private List<RectangularPiece> getPieceNodes() {
-        ArrayList<RectangularPiece> children = new ArrayList<RectangularPiece>();
+    private List<PieceNode> getPieceNodes() {
+        ArrayList<PieceNode> children = new ArrayList<PieceNode>();
         for ( Object child : this.getChildrenReference() ) {
-            if ( child instanceof RectangularPiece ) {
-                children.add( (RectangularPiece) child );
+            if ( child instanceof PieceNode ) {
+                children.add( (PieceNode) child );
             }
         }
         return iterableList( children );
@@ -374,7 +374,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         syncModelFractions();
     }
 
-    public void endDrag( final RectangularPiece piece, final PInputEvent event ) {
+    public void endDrag( final PieceNode piece, final PInputEvent event ) {
         boolean droppedInto = false;
         List<SingleContainerNode> targets = getContainerNodes().bind( _getSingleContainerNodes );
         List<SingleContainerNode> containerNodes = targets.sort( ord( new F<SingleContainerNode, Double>() {
@@ -401,7 +401,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     }
 
     //Rectangular piece dropped into container
-    private void dropInto( final RectangularPiece piece, final SingleContainerNode container ) {
+    private void dropInto( final PieceNode piece, final SingleContainerNode container ) {
         Point2D translation = container.getGlobalTranslation();
         piece.globalToLocal( translation );
         piece.localToParent( translation );
@@ -428,7 +428,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     //TODO: when we have multiple containers, this will have to be modified
     private List<Fraction> getUserCreatedFractions() { return getContainerNodes().filter( not( ContainerNode._isInTargetCell ) ).map( ContainerNode._getFractionValue ); }
 
-    public void splitPieceFromContainer( final RectangularPiece piece ) {
+    public void splitPieceFromContainer( final PieceNode piece ) {
         Point2D offset = piece.getGlobalTranslation();
         addChild( piece );
         piece.setGlobalTranslation( offset );
@@ -462,7 +462,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         faceNodeDialog.setChildrenPickable( false );
     }
 
-    public Vector2D getLocation( final int stackIndex, final int cardIndex, final RectangularPiece card ) {
+    public Vector2D getLocation( final int stackIndex, final int cardIndex, final PieceNode card ) {
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         double delta = toDelta( groups.index( stackIndex ).length(), cardIndex );
         return new Vector2D( layoutXOffset + INSET + 20 + delta + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta );

@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.fractions.buildafraction.view.pictures.RectangularPiece._toFraction;
+import static edu.colorado.phet.fractions.buildafraction.view.pictures.PieceNode._toFraction;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.sum;
 
@@ -88,7 +88,7 @@ public class SingleContainerNode extends PNode {
     public boolean isInToolbox() { return parent.isInToolbox(); }
 
     //Return true if the piece would overflow this container
-    public boolean willOverflow( final RectangularPiece piece ) {
+    public boolean willOverflow( final PieceNode piece ) {
         final Fraction sum = getFractionValue().plus( piece.toFraction() );
         return sum.numerator > sum.denominator;
     }
@@ -101,21 +101,21 @@ public class SingleContainerNode extends PNode {
         }
     };
 
-    private List<RectangularPiece> getRectangularPieces() {return getChildren( this, RectangularPiece.class );}
+    private List<PieceNode> getRectangularPieces() {return getChildren( this, PieceNode.class );}
 
     //How far over should a new piece be added in?
     public double getPiecesWidth() {
-        List<RectangularPiece> children = getRectangularPieces();
+        List<PieceNode> children = getRectangularPieces();
         return children.length() == 0 ? 0 :
-               fj.data.List.iterableList( children ).maximum( FJUtils.ord( new F<RectangularPiece, Double>() {
-                   @Override public Double f( final RectangularPiece r ) {
+               fj.data.List.iterableList( children ).maximum( FJUtils.ord( new F<PieceNode, Double>() {
+                   @Override public Double f( final PieceNode r ) {
                        return r.getFullBounds().getMaxX();
                    }
                } ) ).getFullBounds().getMaxX();
     }
 
     //Assumes the piece is already in the right spot.
-    public void addPiece( final RectangularPiece piece ) {
+    public void addPiece( final PieceNode piece ) {
         Point2D offset = piece.getGlobalTranslation();
         addChild( piece );
         piece.setGlobalTranslation( offset );
@@ -131,7 +131,7 @@ public class SingleContainerNode extends PNode {
         double totalDeltaSpacing = separationBetweenPieces * ( numPieces - 1 );
 //        int index = 0;
 //        LinearFunction f = new LinearFunction( 0, numPieces - 1, -totalDeltaSpacing / 2, totalDeltaSpacing / 2 );
-        for ( RectangularPiece child : getRectangularPieces() ) {
+        for ( PieceNode child : getRectangularPieces() ) {
             parent.parent.splitPieceFromContainer( child );
         }
     }
