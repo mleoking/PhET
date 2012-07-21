@@ -33,7 +33,7 @@ public class SingleContainerNode extends PNode {
     public final ContainerNode parent;
     private final PNode dottedLineLayer;
 
-    SingleContainerNode( final ContainerNode parent, final ObservableProperty<Integer> number ) {
+    public SingleContainerNode( final ContainerNode parent, final ObservableProperty<Integer> number ) {
         this.parent = parent;
         dottedLineLayer = new PNode() {{
             number.addObserver( new VoidFunction1<Integer>() {
