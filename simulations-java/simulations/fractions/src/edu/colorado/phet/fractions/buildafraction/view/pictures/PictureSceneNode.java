@@ -82,7 +82,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
 
     final int spacing = 140;
     private final int layoutXOffset;
-    double dx = -3;
     private final PictureLevel level;
 
     public PictureSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
@@ -180,9 +179,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 PictureSceneNode.this.addChild( piece );
                 pieceIndex++;
                 if ( bounds == null ) { bounds = piece.getFullBounds(); }
-                else {
-                    bounds = bounds.createUnion( piece.getFullBounds() );
-                }
+                else { bounds = bounds.createUnion( piece.getFullBounds() ); }
                 pieces.add( piece );
             }
 
@@ -198,7 +195,15 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             stackList.add( stack );
 
             final PieceIconNode child = new PieceIconNode( group.head(), level.shapeType );
-            child.setOffset( pieces.get( 0 ).getOffset() );
+            final PieceNode firstPiece = pieces.get( 0 );
+
+            if ( level.shapeType == ShapeType.PIE ) {
+                child.setOffset( firstPiece.getFullBounds().getMaxX() - child.getFullBounds().getWidth(), firstPiece.pieceSize == 1 ? firstPiece.getYOffset() :
+                                                                                                          firstPiece.getFullBounds().getMaxY() - child.getFullBounds().getHeight() / 2 );
+            }
+            else {
+                child.setOffset( pieces.get( 0 ).getOffset() );
+            }
             addChild( child );
             child.moveToBack();
             stackIndex++;
@@ -273,6 +278,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     }
 
     private double toDelta( final int numInGroup, final int pieceIndex ) {
+        double dx = level.shapeType == ShapeType.HORIZONTAL_BAR ? -3.0 : -3.0;
         double totalHorizontalSpacing = dx * ( numInGroup - 1 );
         return getDelta( numInGroup, pieceIndex, totalHorizontalSpacing );
     }

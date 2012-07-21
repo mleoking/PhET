@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.SimpleContainerNode.*;
 
 /**
- * Shows an icon on the bucket with a single slice in the context of its container.
+ * Shows an icon in the toolbox with empty pieces.  The draggable pieces are stacked on top.
  *
  * @author Sam Reid
  */
