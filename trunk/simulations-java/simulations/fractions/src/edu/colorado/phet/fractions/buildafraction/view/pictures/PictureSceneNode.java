@@ -296,8 +296,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             containerNode.splitAll();
             containerNode.animateHome();
         }
-        for ( PieceNode rectangularPiece : getPieceNodes() ) {
-            rectangularPiece.moveToTopOfStack();
+        for ( PieceNode piece : getPieceNodes() ) {
+            piece.moveToTopOfStack();
         }
     }
 
@@ -400,7 +400,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         }
     }
 
-    //Rectangular piece dropped into container
+    //Piece dropped into container
     private void dropInto( final PieceNode piece, final SingleContainerNode container ) {
         Point2D translation = container.getGlobalTranslation();
         piece.globalToLocal( translation );

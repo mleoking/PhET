@@ -93,7 +93,7 @@ public class SingleContainerNode extends PNode {
         return sum.numerator > sum.denominator;
     }
 
-    public Fraction getFractionValue() { return sum( getRectangularPieces().map( _toFraction ) ); }
+    public Fraction getFractionValue() { return sum( getPieces().map( _toFraction ) ); }
 
     public static F<SingleContainerNode, Fraction> _getFractionValue = new F<SingleContainerNode, Fraction>() {
         @Override public Fraction f( final SingleContainerNode singleContainerNode ) {
@@ -101,11 +101,11 @@ public class SingleContainerNode extends PNode {
         }
     };
 
-    private List<PieceNode> getRectangularPieces() {return getChildren( this, PieceNode.class );}
+    private List<PieceNode> getPieces() {return getChildren( this, PieceNode.class );}
 
     //How far over should a new piece be added in?
     public double getPiecesWidth() {
-        List<PieceNode> children = getRectangularPieces();
+        List<PieceNode> children = getPieces();
         return children.length() == 0 ? 0 :
                fj.data.List.iterableList( children ).maximum( FJUtils.ord( new F<PieceNode, Double>() {
                    @Override public Double f( final PieceNode r ) {
@@ -126,12 +126,12 @@ public class SingleContainerNode extends PNode {
 
     //TODO: have cards separate for a minute before animating home?  Maybe unnecessary now that we are showing individual cards in the container.
     public void splitAll() {
-        int numPieces = getRectangularPieces().length();
+        int numPieces = getPieces().length();
         double separationBetweenPieces = 4;
         double totalDeltaSpacing = separationBetweenPieces * ( numPieces - 1 );
 //        int index = 0;
 //        LinearFunction f = new LinearFunction( 0, numPieces - 1, -totalDeltaSpacing / 2, totalDeltaSpacing / 2 );
-        for ( PieceNode child : getRectangularPieces() ) {
+        for ( PieceNode child : getPieces() ) {
             parent.parent.splitPieceFromContainer( child );
         }
     }
