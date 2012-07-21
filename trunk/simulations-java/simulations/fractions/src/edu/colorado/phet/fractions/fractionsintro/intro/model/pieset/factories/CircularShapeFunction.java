@@ -23,10 +23,9 @@ public @Data class CircularShapeFunction extends F<Slice, Shape> {
     @Override public Shape f( final Slice slice ) { return createShape( slice.position, slice.angle ); }
 
     public Shape createShape( Vector2D position, double angle ) {
-        Vector2D tip = position;
         double epsilon = 1E-6;
         return extent >= Math.PI * 2 - epsilon ?
-               new Ellipse2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2 ) :
-               new Arc2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2, angle * 180.0 / Math.PI, extent * 180.0 / Math.PI, Arc2D.PIE );
+               new Ellipse2D.Double( position.getX() - radius, position.getY() - radius, radius * 2, radius * 2 ) :
+               new Arc2D.Double( position.getX() - radius, position.getY() - radius, radius * 2, radius * 2, angle * 180.0 / Math.PI, extent * 180.0 / Math.PI, Arc2D.PIE );
     }
 }
