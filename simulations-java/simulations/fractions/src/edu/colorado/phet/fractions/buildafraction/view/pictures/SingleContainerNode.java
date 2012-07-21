@@ -43,10 +43,6 @@ public class SingleContainerNode extends PNode {
                     double x = pieceWidth;
                     for ( int i = 0; i < number - 1; i++ ) {
                         addChild( new PhetPPath( new Line2D.Double( x, 0, x, SimpleContainerNode.height ), new BasicStroke( 1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
-
-                        //Lines that stick out
-//                        addChild( new PhetPPath( new Line2D.Double( x, -5, x, 0 ), new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1 ), Color.lightGray ) );
-//                        addChild( new PhetPPath( new Line2D.Double( x, SimpleContainerNode.height, x, SimpleContainerNode.height+5 ), new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1 ), Color.lightGray ) );
                         x += pieceWidth;
                     }
                 }
