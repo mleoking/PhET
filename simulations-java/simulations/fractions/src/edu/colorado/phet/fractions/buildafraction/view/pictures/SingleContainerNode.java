@@ -12,21 +12,25 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType;
+import edu.colorado.phet.fractions.buildafraction.view.pictures.PictureSceneNode.DropLocation;
 import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.v;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.PieceNode._toFraction;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.sum;
+import static fj.function.Doubles.add;
 
 /**
  * @author Sam Reid
@@ -134,4 +138,19 @@ public class SingleContainerNode extends PNode {
             s.splitAll();
         }
     };
+
+    public DropLocation getDropLocation( final PieceNode piece, final ShapeType shapeType ) {
+        if ( shapeType == ShapeType.HORIZONTAL_BAR ) {
+            return new DropLocation( v( getPiecesWidth(), 0 ), 0 );
+        }
+        else {
+            List<Double> pieceAngleExtents = getPieces().map( new F<PieceNode, Double>() {
+                @Override public Double f( final PieceNode pieceNode ) {
+                    return Math.PI * 2 / pieceNode.pieceSize;
+                }
+            } );
+            double sumAngle = pieceAngleExtents.foldLeft( add, 0.0 );
+            return new DropLocation( Vector2D.ZERO, -sumAngle );
+        }
+    }
 }
