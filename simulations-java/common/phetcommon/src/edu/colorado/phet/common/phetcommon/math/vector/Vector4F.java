@@ -42,6 +42,13 @@ public @EqualsAndHashCode(callSuper = false) @ToString class Vector4F extends Ab
         this.w = w;
     }
 
+    public Vector4F( double x, double y, double z, double w ) {
+        this.x = (float) x;
+        this.y = (float) y;
+        this.z = (float) z;
+        this.w = (float) w;
+    }
+
     @Override public float getX() {
         return x;
     }

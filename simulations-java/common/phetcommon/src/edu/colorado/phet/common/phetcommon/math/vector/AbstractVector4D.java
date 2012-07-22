@@ -70,7 +70,7 @@ public abstract class AbstractVector4D implements Serializable {
     public Vector4D negated() { return new Vector4D( -getX(), -getY(), -getZ(), -getW() ); }
 
     // ignore the w component
-    public Vector3F to3F() {
-        return new Vector3F( getX(), getY(), getZ() );
-    }
+    public Vector3F to3F() { return new Vector3F( getX(), getY(), getZ() ); }
+
+    public Vector4F to4F() { return new Vector4F( getX(), getY(), getZ(), getW() );}
 }
