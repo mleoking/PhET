@@ -68,6 +68,6 @@ public class MagmaRegion extends Region {
         final double tipXPosition = 1 + tipScale; // 1 is from the radius of the circle
 
         return new Vector2F( Math.cos( theta ) + tipAmount,
-                                      Math.sin( theta ) * ( 1 - tipAmount * tipAmount ) ).minus( new Vector2F( tipXPosition, 0 ) );
+                             Math.sin( theta ) * ( 1 - tipAmount * tipAmount ) ).minus( new Vector2F( tipXPosition, 0 ) );
     }
 }

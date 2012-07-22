@@ -19,7 +19,6 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Displays the top terrain of a plate model, within the bounds of the specified grid
  * <p/>
- * TODO: don't render if we don't have at least 2 columns
  */
 public class TerrainNode extends GridStripNode {
     private final Terrain terrainStrip;
@@ -28,7 +27,6 @@ public class TerrainNode extends GridStripNode {
 
     private FloatBuffer textureBuffer;
     private FloatBuffer colorBuffer;
-
 
     public TerrainNode( final Terrain terrainStrip, final LWJGLTransform modelViewTransform ) {
         super( modelViewTransform );
@@ -107,6 +105,7 @@ public class TerrainNode extends GridStripNode {
         float grassGreen = (float) ( PlateTectonicsConstants.EARTH_GREEN.getGreen() ) / 255f;
         float grassBlue = (float) ( PlateTectonicsConstants.EARTH_GREEN.getBlue() ) / 255f;
 
+        // we color the terrain based on the elevation, and let the other texture show through the color
         for ( int zIndex = 0; zIndex < numZSamples; zIndex++ ) {
             for ( int xIndex = 0; xIndex < numXSamples; xIndex++ ) {
                 float elevation = terrainStrip.getSample( xIndex, zIndex ).getElevation();
@@ -152,7 +151,6 @@ public class TerrainNode extends GridStripNode {
         }
     }
 
-    // TODO: better handling for the enabling/disabling of lighting
     @Override protected void preRender( GLOptions options ) {
         super.preRender( options );
 

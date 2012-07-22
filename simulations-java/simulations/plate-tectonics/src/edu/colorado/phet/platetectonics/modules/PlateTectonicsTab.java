@@ -1,20 +1,14 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
+import java.awt.*;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -674,14 +668,14 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     // similar to gluUnProject
     public Vector3F getNormalizedDeviceCoordinates( Vector3F screenCoordinates ) {
         return new Vector3F( 2 * screenCoordinates.x / (float) getCanvasWidth() - 1,
-                                      2 * screenCoordinates.y / (float) getCanvasHeight() - 1,
-                                      2 * screenCoordinates.z - 1 );
+                             2 * screenCoordinates.y / (float) getCanvasHeight() - 1,
+                             2 * screenCoordinates.z - 1 );
     }
 
-    private FloatBuffer specular = LWJGLUtils.floatBuffer( new float[] { 0, 0, 0, 0 } );
-    private FloatBuffer shininess = LWJGLUtils.floatBuffer( new float[] { 50 } );
-    private FloatBuffer sunDirection = LWJGLUtils.floatBuffer( new float[] { 1, 3, 2, 0 } );
-    private FloatBuffer moonDirection = LWJGLUtils.floatBuffer( new float[] { -2, 1, -1, 0 } );
+    private FloatBuffer specular = LWJGLUtils.floatBuffer( new float[]{0, 0, 0, 0} );
+    private FloatBuffer shininess = LWJGLUtils.floatBuffer( new float[]{50} );
+    private FloatBuffer sunDirection = LWJGLUtils.floatBuffer( new float[]{1, 3, 2, 0} );
+    private FloatBuffer moonDirection = LWJGLUtils.floatBuffer( new float[]{-2, 1, -1, 0} );
 
     public void loadLighting() {
         glMaterial( GL_FRONT, GL_SPECULAR, specular );
@@ -865,8 +859,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
     // if the range of a label goes off of the screen, we center it within the on-screen portion
     public Property<Vector3F> getLabelPosition( final Property<Vector3F> aProp,
-                                                         final Property<Vector3F> bProp,
-                                                         final Property<Float> scaleProperty ) {
+                                                final Property<Vector3F> bProp,
+                                                final Property<Float> scaleProperty ) {
         return new Property<Vector3F>( new Vector3F() ) {{
             final SimpleObserver observer = new SimpleObserver() {
                 public void update() {

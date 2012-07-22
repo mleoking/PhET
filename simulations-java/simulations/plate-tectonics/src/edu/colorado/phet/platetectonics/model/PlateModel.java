@@ -317,8 +317,8 @@ public abstract class PlateModel {
             mappedTheta -= 2 * Math.PI;
         }
         return new Vector3F( (float) ( mappedTheta * EARTH_RADIUS ),
-                                      radius - EARTH_RADIUS,
-                                      (float) ( ( ( Math.PI / 2 ) - phi ) * EARTH_RADIUS ) );
+                             radius - EARTH_RADIUS,
+                             (float) ( ( ( Math.PI / 2 ) - phi ) * EARTH_RADIUS ) );
     }
 
     public List<Region> getRegions() {

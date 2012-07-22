@@ -160,8 +160,8 @@ public abstract class PlateBehavior {
             assert ratio >= 0;
             assert ratio <= 1;
             mantleSample.setPosition( new Vector3F( mantleSample.getPosition().x,
-                                                             verticalPadding + leftSample.getPosition().y * ( 1 - ratio ) + rightSample.getPosition().y * ratio,
-                                                             mantleSample.getPosition().z ) );
+                                                    verticalPadding + leftSample.getPosition().y * ( 1 - ratio ) + rightSample.getPosition().y * ratio,
+                                                    mantleSample.getPosition().z ) );
         }
     }
 

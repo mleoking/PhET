@@ -22,7 +22,8 @@ import static org.lwjgl.opengl.GL11.glNormalPointer;
 import static org.lwjgl.opengl.GL11.glVertexPointer;
 
 /**
- * Handles general grids where vertices can be more easily added to each side
+ * Handles general grids where vertices can be more easily added to each side. Very useful because it takes care of the model/view and radial/planar
+ * coordinate transforms in an efficient way for multiple subclasses.
  */
 public abstract class GridStripNode extends GLNode {
     private final LWJGLTransform modelViewTransform;

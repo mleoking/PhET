@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.TextureStrategy;
 import edu.colorado.phet.platetectonics.util.Side;
@@ -85,8 +85,8 @@ public class Region {
             final float oldY = oldPosition.y;
             final float newY = ( 1 - ratio ) * top + ( ratio ) * bottom;
             sample.setPosition( new Vector3F( oldPosition.x,
-                                                       newY,
-                                                       oldPosition.z ) );
+                                              newY,
+                                              oldPosition.z ) );
             if ( updateTextures ) {
                 sample.setTextureCoordinates( sample.getTextureCoordinates().plus( textureStrategy.mapFrontDelta( new Vector2F( 0, newY - oldY ) ) ) );
             }
