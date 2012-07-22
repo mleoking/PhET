@@ -40,7 +40,7 @@ public class LightWaveNode extends PNode {
 
     private GradientPaint createPaint( ModelViewTransform transform, LightRay lightRay ) {
         double viewWavelength = transform.modelToViewDeltaX( lightRay.getWavelength() );
-        final Vector2D directionVector = transform.modelToViewDelta( lightRay.toVector2D() ).getNormalizedInstance();
+        final Vector2D directionVector = transform.modelToViewDelta( lightRay.toVector2D() ).normalized();
         final Vector2D waveVector = directionVector.times( viewWavelength );
 
         //Choose the color of the peaks

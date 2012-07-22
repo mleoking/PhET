@@ -30,7 +30,7 @@ public class PlaneF {
         if ( normal.getMagnitude() == 0 ) {
             return null;
         }
-        normal = normal.getNormalizedInstance();
+        normal = normal.normalized();
 
         return new PlaneF( normal, normal.dot( a ) );
     }

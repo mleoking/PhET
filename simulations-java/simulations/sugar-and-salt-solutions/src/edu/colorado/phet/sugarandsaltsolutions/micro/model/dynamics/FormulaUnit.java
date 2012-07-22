@@ -27,7 +27,7 @@ public class FormulaUnit<T extends Particle> extends Pair<T, T> implements IForm
 
     //Move the particles closer together at the free particle speed
     public void moveTogether( double dt ) {
-        Vector2D unitVectorFromAToB = new Vector2D( _1.getPosition(), _2.getPosition() ).getNormalizedInstance();
+        Vector2D unitVectorFromAToB = new Vector2D( _1.getPosition(), _2.getPosition() ).normalized();
         Vector2D velocity = unitVectorFromAToB.times( FREE_PARTICLE_SPEED );
         _1.velocity.set( velocity );
         _2.velocity.set( velocity.times( -1 ) );

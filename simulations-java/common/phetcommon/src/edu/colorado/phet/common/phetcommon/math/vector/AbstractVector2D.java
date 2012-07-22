@@ -67,7 +67,7 @@ public abstract class AbstractVector2D implements Serializable {
         return ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
     }
 
-    public Vector2D getNormalizedInstance() {
+    public Vector2D normalized() {
         double magnitude = getMagnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );

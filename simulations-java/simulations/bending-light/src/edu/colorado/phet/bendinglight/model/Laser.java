@@ -67,7 +67,7 @@ public class Laser {
     }
 
     public Vector2D getDirectionUnitVector() {
-        return pivot.get().minus( emissionPoint.get() ).getNormalizedInstance();
+        return pivot.get().minus( emissionPoint.get() ).normalized();
     }
 
     //Rotate about the fixed pivot

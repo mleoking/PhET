@@ -154,8 +154,8 @@ public class RangeLabelNode extends BaseLabelNode {
 
     @Override
     public void renderSelf( GLOptions options ) {
-        Vector3F topToBottom = bottom.get().minus( top.get() ).getNormalizedInstance();
-        Vector3F crossed = topToBottom.cross( NORMAL ).getNormalizedInstance();
+        Vector3F topToBottom = bottom.get().minus( top.get() ).normalized();
+        Vector3F crossed = topToBottom.cross( NORMAL ).normalized();
         Vector3F perpendicular = crossed.times( scale.get() * BAR_WIDTH / 2 );
         Vector3F middle = labelLocation.get();
         float labelAllowance = (float) ( labelPNode.getFullBounds().getHeight() / 2 * LABEL_SCALE * 1.3f * scale.get() );

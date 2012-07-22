@@ -55,7 +55,7 @@ public class Arrow2F {
     private void computeArrow() {
         if ( tailLocation.distance( tipLocation ) != 0 ) {
             Vector2F distanceVector = tipLocation.minus( tailLocation );
-            direction = distanceVector.getNormalizedInstance();
+            direction = distanceVector.normalized();
             float length = tipLocation.distance( tailLocation );
             float tempHeadHeight = headHeight;
             float tempHeadWidth = headWidth;

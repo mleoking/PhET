@@ -91,9 +91,9 @@ public class Filament extends PathBranch {
         if ( !connectAtRight ) {
             tilt = -tilt;
         }
-        northDir = new MutableVector2D( tailJunction.getPosition(), shellJunction.getPosition() ).getNormalizedInstance();
+        northDir = new MutableVector2D( tailJunction.getPosition(), shellJunction.getPosition() ).normalized();
         northDir = northDir.getRotatedInstance( -tilt );
-        eastDir = northDir.getNormalVector().getNormalizedInstance();
+        eastDir = northDir.getNormalVector().normalized();
         if ( !connectAtRight ) {
             eastDir = eastDir.times( -1 );
         }

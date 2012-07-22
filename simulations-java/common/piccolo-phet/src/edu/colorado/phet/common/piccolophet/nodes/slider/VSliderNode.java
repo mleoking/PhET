@@ -107,7 +107,7 @@ public class VSliderNode extends SliderNode {
 
                         Point2D minGlobal = trackNode.localToGlobal( new Point2D.Double( 0, 0 ) );
                         Point2D maxGlobal = trackNode.localToGlobal( createEndPoint() );
-                        final Vector2D unitVector = new Vector2D( minGlobal, maxGlobal ).getNormalizedInstance();
+                        final Vector2D unitVector = new Vector2D( minGlobal, maxGlobal ).normalized();
                         double viewDelta = vector.dot( unitVector );
 
                         double modelDelta = ( min - max ) / trackNode.getFullBounds().getHeight() * viewDelta;

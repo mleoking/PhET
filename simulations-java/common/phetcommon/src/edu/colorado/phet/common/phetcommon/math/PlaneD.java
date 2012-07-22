@@ -33,7 +33,7 @@ public class PlaneD {
         if ( normal.getMagnitude() == 0 ) {
             return null;
         }
-        normal = normal.getNormalizedInstance();
+        normal = normal.normalized();
 
         return new PlaneD( normal, normal.dot( a ) );
     }

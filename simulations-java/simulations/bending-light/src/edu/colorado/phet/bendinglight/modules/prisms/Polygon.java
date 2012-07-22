@@ -72,8 +72,8 @@ public class Polygon implements IShape {
                                                                                                                 ray.tail.plus( ray.directionUnitVector.times( 1 ) ).toPoint2D() ) );
             if ( intersection != null && !isNaN( intersection.getX() ) && !isNaN( intersection.getY() ) ) {
                 //Choose the normal vector that points the opposite direction of the incoming ray
-                Vector2D normal1 = new Vector2D( lineSegment.getP1(), lineSegment.getP2() ).getRotatedInstance( +Math.PI / 2 ).getNormalizedInstance();
-                Vector2D normal2 = new Vector2D( lineSegment.getP1(), lineSegment.getP2() ).getRotatedInstance( -Math.PI / 2 ).getNormalizedInstance();
+                Vector2D normal1 = new Vector2D( lineSegment.getP1(), lineSegment.getP2() ).getRotatedInstance( +Math.PI / 2 ).normalized();
+                Vector2D normal2 = new Vector2D( lineSegment.getP1(), lineSegment.getP2() ).getRotatedInstance( -Math.PI / 2 ).normalized();
                 Vector2D unitNormal = ray.directionUnitVector.dot( normal1 ) < 0 ? normal1 : normal2;
 
                 //Add to the list of intersections

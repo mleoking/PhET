@@ -90,7 +90,7 @@ public class Arrow {
 
         Vector2D tailPt = new Vector2D( tailLocation );
         Vector2D tipPt = new Vector2D( tipLocation );
-        direction = tipPt.minus( tailPt ).getNormalizedInstance();
+        direction = tipPt.minus( tailPt ).normalized();
         double dist = tipLocation.distance( tailLocation );
         double tempHeadHeight = headHeight;
         double tempHeadWidth = headWidth;

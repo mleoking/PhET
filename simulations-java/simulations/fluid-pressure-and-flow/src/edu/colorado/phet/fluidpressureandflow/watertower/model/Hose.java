@@ -64,6 +64,6 @@ public class Hose {
 
     //Gets a unit vector pointing from the nozzle input point to the output point, used to place the arrow drag handles
     public Vector2D getUnitDirectionVector() {
-        return outputPoint.get().minus( getNozzleInputPoint() ).getNormalizedInstance();
+        return outputPoint.get().minus( getNozzleInputPoint() ).normalized();
     }
 }

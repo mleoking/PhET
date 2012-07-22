@@ -228,7 +228,7 @@ public class ConductivityApplication {
 
     public void pointAt( Vector2D phetvector ) {
         MutableVector2D phetvector1 = light.getPosition();
-        Vector2D phetvector2 = phetvector.minus( phetvector1 ).getNormalizedInstance();
+        Vector2D phetvector2 = phetvector.minus( phetvector1 ).normalized();
         double d = phetvector2.getAngle();
         double d1 = Math.toRadians( 126D );
         double d2 = -d + d1;

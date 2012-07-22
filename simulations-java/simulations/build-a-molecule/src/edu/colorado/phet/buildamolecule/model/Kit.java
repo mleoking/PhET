@@ -426,7 +426,7 @@ public class Kit {
                         Vector2D bCenter = new Vector2D( bBounds.getCenter2D() ).plus( Math.random() - 0.5, Math.random() - 0.5 );
 
                         // delta from center of A to center of B, scaled to half of our push amount.
-                        Vector2D delta = bCenter.minus( aCenter ).getNormalizedInstance().times( pushAmount );
+                        Vector2D delta = bCenter.minus( aCenter ).normalized().times( pushAmount );
 
                         // how hard B should be pushed (A will be pushed (1-pushRatio)). Heuristic, power is to make the ratio not too skewed
                         // this is done so that heavier molecules will be pushed less, while lighter ones will be pushed more

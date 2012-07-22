@@ -44,7 +44,7 @@ public class ThreeParticleFormulaUnit<T extends Particle> implements IFormulaUni
 
     //Move a particle to the centroid so the particles can get closer together to form a crystal
     private void moveToCentroid( Particle particle, Vector2D centroid, double dt ) {
-        Vector2D unitVectorToCentroid = new Vector2D( particle.getPosition(), centroid ).getNormalizedInstance();
+        Vector2D unitVectorToCentroid = new Vector2D( particle.getPosition(), centroid ).normalized();
         Vector2D velocity = unitVectorToCentroid.times( FREE_PARTICLE_SPEED );
         particle.velocity.set( velocity );
         particle.stepInTime( ZERO, dt );

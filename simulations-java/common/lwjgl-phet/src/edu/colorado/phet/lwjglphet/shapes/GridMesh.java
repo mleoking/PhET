@@ -159,11 +159,11 @@ public class GridMesh extends GLNode {
 
         Vector3F normal = new Vector3F();
         // basically, sum up the normals of each quad this vertex is part of, and take the average
-        normal = normal.plus( right.cross( up ).getNormalizedInstance() );
-        normal = normal.plus( up.cross( left ).getNormalizedInstance() );
-        normal = normal.plus( left.cross( down ).getNormalizedInstance() );
-        normal = normal.plus( down.cross( right ).getNormalizedInstance() );
-        return normal.getNormalizedInstance();
+        normal = normal.plus( right.cross( up ).normalized() );
+        normal = normal.plus( up.cross( left ).normalized() );
+        normal = normal.plus( left.cross( down ).normalized() );
+        normal = normal.plus( down.cross( right ).normalized() );
+        return normal.normalized();
     }
 
     public void setUpdateNormals( boolean updateNormals ) {

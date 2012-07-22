@@ -39,7 +39,7 @@ public class RealMolecule extends Molecule {
         // add in bonds
         for ( Bond<Atom3D> bond : realMolecule.getBonds() ) {
             Atom3D atom = bond.getOtherAtom( realMolecule.getCentralAtom() );
-            final Vector3D normalizedPosition = atom.position.get().getNormalizedInstance();
+            final Vector3D normalizedPosition = atom.position.get().normalized();
             idealCentralOrientations.add( normalizedPosition );
             final double bondLength = atom.position.get().getMagnitude();
 

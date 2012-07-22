@@ -124,7 +124,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
                         vectorToPreviousPoint = new Vector2D( 1, 1 );
                     }
                     double scalarForceDueToPreviousPoint = ( -springConstant ) * ( currentPoint.getTargetDistanceToPreviousPoint() - currentPoint.distance( previousPoint ) );
-                    Vector2D forceDueToPreviousPoint = vectorToPreviousPoint.getNormalizedInstance().times( scalarForceDueToPreviousPoint );
+                    Vector2D forceDueToPreviousPoint = vectorToPreviousPoint.normalized().times( scalarForceDueToPreviousPoint );
                     Vector2D vectorToNextPoint = new Vector2D( nextPoint.getPosition() ).minus( new Vector2D( currentPoint.getPosition() ) );
                     if ( vectorToNextPoint.getMagnitude() == 0 ) {
                         // This point is sitting on top of the next point,
@@ -132,7 +132,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
                         vectorToNextPoint = new Vector2D( -1, -1 );
                     }
                     double scalarForceDueToNextPoint = ( -springConstant ) * ( currentPoint.getTargetDistanceToPreviousPoint() - currentPoint.distance( nextPoint ) );
-                    Vector2D forceDueToNextPoint = vectorToNextPoint.getNormalizedInstance().times( scalarForceDueToNextPoint );
+                    Vector2D forceDueToNextPoint = vectorToNextPoint.normalized().times( scalarForceDueToNextPoint );
                     Vector2D dampingForce = currentPoint.getVelocity().times( -dampingConstant );
                     Vector2D totalForce = forceDueToPreviousPoint.plus( forceDueToNextPoint ).plus( dampingForce );
                     Vector2D acceleration = totalForce.times( 1 / pointMass );

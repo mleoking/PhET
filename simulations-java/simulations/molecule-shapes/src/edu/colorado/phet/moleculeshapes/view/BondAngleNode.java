@@ -141,8 +141,8 @@ public class BondAngleNode extends Node {
     }
 
     public void updateView( Vector3f localCameraPosition, Vector3f lastMidpoint ) {
-        Vector3D aDir = aGroup.position.get().getNormalizedInstance();
-        Vector3D bDir = bGroup.position.get().getNormalizedInstance();
+        Vector3D aDir = aGroup.position.get().normalized();
+        Vector3D bDir = bGroup.position.get().normalized();
 
         alpha.set( calculateBrightness( aDir, bDir, localCameraPosition, molecule.getRadialAtoms().size() ) );
 

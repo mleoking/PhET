@@ -567,8 +567,8 @@ public class RadiometricDatingMeterNode extends PNode {
             double dist = srcLoc.distance( dstLoc );
             if ( dist > 0 ) {
                 DoubleGeneralPath path = new DoubleGeneralPath( srcLoc );
-                Vector2D parallel = new MutableVector2D( srcLoc, dstLoc ).getNormalizedInstance();
-                Vector2D perp = parallel.getRotatedInstance( Math.PI / 2 ).getNormalizedInstance();
+                Vector2D parallel = new MutableVector2D( srcLoc, dstLoc ).normalized();
+                Vector2D perp = parallel.getRotatedInstance( Math.PI / 2 ).normalized();
                 lineToDst( path, parallel, perp, dist / 5 );
                 curveToDst( path, parallel, perp, dist / 5 );
                 lineToDst( path, parallel, perp, dist / 5 );

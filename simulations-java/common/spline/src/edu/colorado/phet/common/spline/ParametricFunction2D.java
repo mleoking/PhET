@@ -241,7 +241,7 @@ public abstract class ParametricFunction2D implements Serializable {
         if ( vector.getMagnitude() == 0 ) {
             throw new RuntimeException( "unit parallel vector failed: alpha=" + alpha + ", eval=" + evaluate( alpha ) );
         }
-        return vector.getNormalizedInstance();
+        return vector.normalized();
     }
 
     public Vector2D getUnitNormalVector( double alpha ) {

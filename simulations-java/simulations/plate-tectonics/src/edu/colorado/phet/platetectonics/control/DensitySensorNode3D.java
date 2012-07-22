@@ -152,7 +152,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
             // i.e. it hit air. let's see if we can ray-trace to see what terrain it hit
             Vector3F cameraViewPosition = tab.getCameraPosition();
             Vector3F viewSamplePosition = getSensorViewPosition();
-            Ray3F ray = new Ray3F( cameraViewPosition, viewSamplePosition.minus( cameraViewPosition ).getNormalizedInstance() );
+            Ray3F ray = new Ray3F( cameraViewPosition, viewSamplePosition.minus( cameraViewPosition ).normalized() );
             density = model.rayTraceDensity( ray, modelViewTransform, tab.isWaterVisible() );
         }
         return density;

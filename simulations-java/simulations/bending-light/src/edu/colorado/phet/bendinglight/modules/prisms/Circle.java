@@ -55,7 +55,7 @@ public class Circle implements IShape {
 
                 //Only consider intersections that are in front of the ray
                 if ( vector.dot( ray.directionUnitVector ) > 0 ) {
-                    Vector2D normalVector = new Vector2D( intersectionPoint ).minus( center ).getNormalizedInstance();
+                    Vector2D normalVector = new Vector2D( intersectionPoint ).minus( center ).normalized();
                     if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
                         normalVector = normalVector.negate();
                     }

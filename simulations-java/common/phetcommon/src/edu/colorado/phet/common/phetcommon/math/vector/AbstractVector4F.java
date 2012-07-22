@@ -42,7 +42,7 @@ public abstract class AbstractVector4F implements Serializable {
         return (float) sqrt( dx * dx + dy * dy + dz * dz + dw * dw );
     }
 
-    public Vector4F getNormalizedInstance() {
+    public Vector4F normalized() {
         float magnitude = getMagnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );

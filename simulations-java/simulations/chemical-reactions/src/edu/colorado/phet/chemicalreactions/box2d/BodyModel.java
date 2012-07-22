@@ -163,12 +163,12 @@ public class BodyModel implements Collidable2D {
     }
 
     private float transformAngle( float angle ) {
-        Vector2D newVector = bodyToModelTransform.modelToViewDelta( new Vector2D( Math.cos( angle ), Math.sin( angle ) ) ).getNormalizedInstance();
+        Vector2D newVector = bodyToModelTransform.modelToViewDelta( new Vector2D( Math.cos( angle ), Math.sin( angle ) ) ).normalized();
         return (float) Math.atan2( newVector.getY(), newVector.getX() );
     }
 
     private float inverseTransformAngle( float angle ) {
-        Vector2D newVector = bodyToModelTransform.viewToModelDelta( new Vector2D( Math.cos( angle ), Math.sin( angle ) ) ).getNormalizedInstance();
+        Vector2D newVector = bodyToModelTransform.viewToModelDelta( new Vector2D( Math.cos( angle ), Math.sin( angle ) ) ).normalized();
         return (float) Math.atan2( newVector.getY(), newVector.getX() );
     }
 

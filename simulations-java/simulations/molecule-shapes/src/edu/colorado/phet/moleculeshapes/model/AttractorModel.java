@@ -39,7 +39,7 @@ public class AttractorModel {
     public static double applyAttractorForces( List<PairGroup> groups, final float timeElapsed, List<Vector3D> idealOrientations, List<Permutation> allowablePermutations, final Vector3D center, boolean angleRepulsion ) {
         List<Vector3D> currentOrientations = map( groups, new Function1<PairGroup, Vector3D>() {
             public Vector3D apply( PairGroup group ) {
-                return group.position.get().minus( center ).getNormalizedInstance();
+                return group.position.get().minus( center ).normalized();
             }
         } );
         final ResultMapping mapping = findClosestMatchingConfiguration( currentOrientations, idealOrientations, allowablePermutations );
@@ -97,17 +97,17 @@ public class AttractorModel {
                 PairGroup b = groups.get( bIndex );
 
                 // current orientations w.r.t. the center
-                Vector3D aOrientation = a.position.get().minus( center ).getNormalizedInstance();
-                Vector3D bOrientation = b.position.get().minus( center ).getNormalizedInstance();
+                Vector3D aOrientation = a.position.get().minus( center ).normalized();
+                Vector3D bOrientation = b.position.get().minus( center ).normalized();
 
                 // desired orientations
-                Vector3D aTarget = JamaUtils.vectorFromMatrix3D( mapping.target, aIndex ).getNormalizedInstance();
-                Vector3D bTarget = JamaUtils.vectorFromMatrix3D( mapping.target, bIndex ).getNormalizedInstance();
+                Vector3D aTarget = JamaUtils.vectorFromMatrix3D( mapping.target, aIndex ).normalized();
+                Vector3D bTarget = JamaUtils.vectorFromMatrix3D( mapping.target, bIndex ).normalized();
                 double targetAngle = Math.acos( MathUtil.clamp( -1, aTarget.dot( bTarget ), 1 ) );
                 double currentAngle = Math.acos( MathUtil.clamp( -1, aOrientation.dot( bOrientation ), 1 ) );
                 double angleDifference = ( targetAngle - currentAngle );
 
-                Vector3D dirTowardsA = a.position.get().minus( b.position.get() ).getNormalizedInstance();
+                Vector3D dirTowardsA = a.position.get().minus( b.position.get() ).normalized();
                 double timeFactor = PairGroup.getTimescaleImpulseFactor( timeElapsed );
 
                 double extraClosePushFactor = MathUtil.clamp( 1, 3 * Math.pow( Math.PI - currentAngle, 2 ) / ( Math.PI * Math.PI ), 3 );
@@ -184,7 +184,7 @@ public class AttractorModel {
     public static List<Vector3D> getOrientationsFromOrigin( List<PairGroup> groups ) {
         return map( groups, new Function1<PairGroup, Vector3D>() {
             public Vector3D apply( PairGroup group ) {
-                return group.position.get().getNormalizedInstance();
+                return group.position.get().normalized();
             }
         } );
     }

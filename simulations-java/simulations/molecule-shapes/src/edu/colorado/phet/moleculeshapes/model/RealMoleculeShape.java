@@ -58,7 +58,7 @@ public class RealMoleculeShape {
 
     public void addRadialAtom( Atom3D atom, int bondOrder ) {
         if ( useSimplifiedBondLength ) {
-            atom.position.set( atom.position.get().getNormalizedInstance().times( simplifiedBondLength ) );
+            atom.position.set( atom.position.get().normalized().times( simplifiedBondLength ) );
         }
         addAtom( atom );
         addBond( atom, centralAtom, bondOrder, useSimplifiedBondLength ? simplifiedBondLength : atom.position.get().getMagnitude() );
