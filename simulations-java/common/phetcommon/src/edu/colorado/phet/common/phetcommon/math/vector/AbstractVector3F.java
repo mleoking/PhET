@@ -87,6 +87,5 @@ public abstract class AbstractVector3F implements Serializable {
 
     public Vector3F minus( float x, float y, float z ) { return new Vector3F( getX() - x, getY() - y, getZ() - z ); }
 
-    // TODO: resolve naming conflict with Vector2D
     public Vector3F negated() { return new Vector3F( -getX(), -getY(), -getZ() ); }
 }

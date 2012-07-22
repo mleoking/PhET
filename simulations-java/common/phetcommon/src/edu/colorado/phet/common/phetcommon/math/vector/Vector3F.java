@@ -38,7 +38,4 @@ public @EqualsAndHashCode(callSuper = false) @ToString class Vector3F extends Ab
     @Override public float getY() { return y; }
 
     @Override public float getZ() { return z; }
-
-    // TODO: resolve naming conflict with Vector2D
-    public Vector3F negated() { return new Vector3F( -x, -y, -z ); }
 }

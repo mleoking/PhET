@@ -91,6 +91,11 @@ public @EqualsAndHashCode(callSuper = false) @ToString class MutableVector2D ext
         return this;
     }
 
+    public MutableVector2D negate() {
+        setComponents( -getX(), -getY() );
+        return this;
+    }
+
     @Override public double getY() { return y; }
 
     @Override public double getX() { return x; }
