@@ -222,7 +222,7 @@ public class FreeBodyDiagram extends PNode {
             double viewAngle = surfaceGraphic.getViewAngle();
 
 //            origin = new Point2D.Double( origin.getX() + dx, origin.getY() + dy );
-            origin = MutableVector2D.createPolar( verticalOffset, viewAngle ).getNormalVector().getNormalVector().getNormalVector().getDestination( origin );
+            origin = MutableVector2D.createPolar( verticalOffset, viewAngle ).getPerpendicularVector().getPerpendicularVector().getPerpendicularVector().getDestination( origin );
             Arrow arrow = new Arrow( origin, v.getDestination( origin ), 20, 20, 8, 0.5, true );
             Shape sh = arrow.getShape();
             if ( lastArrow == null || !lastArrow.equals( arrow ) ) {

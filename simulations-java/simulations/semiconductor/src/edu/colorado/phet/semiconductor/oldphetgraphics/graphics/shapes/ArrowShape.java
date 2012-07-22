@@ -27,7 +27,7 @@ public class ArrowShape {
         if ( dist < headHeight ) {
             throw new RuntimeException( "Head too big." );
         }
-        norm = direction.getNormalVector();
+        norm = direction.getPerpendicularVector();
         this.tipLocation = tipLocation;
         Vector2D rightFlap = getPoint( -1 * headHeight, -headWidth / 2 );
         Vector2D leftFlap = getPoint( -1 * headHeight, headWidth / 2 );

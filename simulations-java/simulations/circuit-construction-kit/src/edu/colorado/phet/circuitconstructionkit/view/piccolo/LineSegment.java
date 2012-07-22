@@ -19,7 +19,7 @@ public class LineSegment {
 
     public static Shape getSegment( double x1, double y1, double x2, double y2, double thickness ) {
         Vector2D vec = new Vector2D( x2 - x1, y2 - y1 );
-        Vector2D norm = vec.getNormalVector().getInstanceOfMagnitude( thickness / 2 );
+        Vector2D norm = vec.getPerpendicularVector().getInstanceOfMagnitude( thickness / 2 );
         DoubleGeneralPath doublePath = new DoubleGeneralPath( x1 + norm.getX(), y1 + norm.getY() );
 
         doublePath.lineToRelative( vec.getX(), vec.getY() );

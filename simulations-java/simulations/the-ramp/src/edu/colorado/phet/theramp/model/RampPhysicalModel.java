@@ -442,7 +442,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
 
         public double getPerpendicularComponent() {
             Vector2D dir = MutableVector2D.createPolar( 1, -getSurface().getAngle() );
-            dir = dir.getNormalVector();
+            dir = dir.getPerpendicularVector();
             return dir.dot( this );
         }
 

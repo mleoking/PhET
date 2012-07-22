@@ -115,7 +115,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         blackGraphic.setPathTo( shape );
 
         MutableVector2D dir = new MutableVector2D( start, end ).normalize();
-        Vector2D north = dir.getNormalVector();
+        Vector2D north = dir.getPerpendicularVector();
 
         double angle = new MutableVector2D( start, end ).getAngle();
         Rectangle r = shape.getBounds();

@@ -245,7 +245,7 @@ public abstract class ParametricFunction2D implements Serializable {
     }
 
     public Vector2D getUnitNormalVector( double alpha ) {
-        return getUnitParallelVector( alpha ).getNormalVector();
+        return getUnitParallelVector( alpha ).getPerpendicularVector();
     }
 
     public double getAngle( double alpha ) {

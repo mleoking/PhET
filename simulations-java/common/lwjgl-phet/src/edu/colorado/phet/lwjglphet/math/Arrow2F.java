@@ -76,7 +76,7 @@ public class Arrow2F {
                 throw new RuntimeException( "headHeight is bigger than arrow length: length=" + length + " headHeight=" + headHeight );
             }
             headScale = tempHeadHeight / headHeight;
-            norm = direction.getNormalVector();
+            norm = direction.getPerpendicularVector();
 
             rightFlap = getPoint( -1 * tempHeadHeight, -tempHeadWidth / 2 );
             leftFlap = getPoint( -1 * tempHeadHeight, tempHeadWidth / 2 );

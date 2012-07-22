@@ -148,7 +148,7 @@ public class ForceArrowGraphic extends PNode {
     private Point2D offsetTail( Point2D tail ) {
         double viewAngle = blockGraphic.getCurrentSurfaceGraphic().getViewAngle();
         Vector2D v = MutableVector2D.createPolar( verticalOffset, viewAngle );
-        v = v.getNormalVector();
+        v = v.getPerpendicularVector();
         return v.getDestination( tail );
     }
 
