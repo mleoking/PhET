@@ -304,8 +304,8 @@ public class PlateMotionPlate extends Plate {
                                     Sample sample = boundary.getSample( xIndex );
                                     Sample recomputedSample = factory.apply( yIndex, xIndex );
                                     sample.setPosition( new Vector3F( sample.getPosition().x,
-                                                                               recomputedSample.getPosition().y,
-                                                                               sample.getPosition().z ) );
+                                                                      recomputedSample.getPosition().y,
+                                                                      sample.getPosition().z ) );
                                 }
                             }
                         }

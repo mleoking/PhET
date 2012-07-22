@@ -28,7 +28,13 @@ import edu.colorado.phet.platetectonics.util.ColorMaterial;
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector3F.Y_UNIT;
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Displays a draggable ball-and-stick draggable handle (like a shifter in a car) that can go in various directions depending on the selected crust
+ * types. This is how the user (in manual mode) selects the movement direction, and how they control speed. It does not show up in automatic mode.
+ */
 public class HandleNode extends GLNode {
+
+    // what resolution the mesh will be (much coarser and it will look faceted)
     private static int radialColumns = 30;
     private static int rows = 30;
     private Vector3F[] handlePositions;

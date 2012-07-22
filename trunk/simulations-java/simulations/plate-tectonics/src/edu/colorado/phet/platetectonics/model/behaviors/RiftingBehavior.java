@@ -159,7 +159,7 @@ public class RiftingBehavior extends PlateBehavior {
 
             float oldXPosition = getPlate().getTerrain().xPositions.get( i );
             Vector3F delta = crustSample.getPosition().minus( new Vector3F( oldXPosition,
-                                                                                              frontTerrainSample.getElevation(), 0 ) );
+                                                                            frontTerrainSample.getElevation(), 0 ) );
 
             for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
                 final TerrainSample terrainSample = getPlate().getTerrain().getSample( i, row );

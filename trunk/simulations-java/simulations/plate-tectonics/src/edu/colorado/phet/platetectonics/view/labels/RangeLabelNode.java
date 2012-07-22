@@ -203,7 +203,7 @@ public class RangeLabelNode extends BaseLabelNode {
             vertex3f( middle );
             vertex3f( middle.plus( new Vector3F( COLLAPSED_DIAGONAL_SEGMENT_LENGTH, COLLAPSED_DIAGONAL_SEGMENT_LENGTH, 0 ).times( scale.get() ) ) );
             vertex3f( middle.plus( new Vector3F( COLLAPSED_DIAGONAL_SEGMENT_LENGTH + COLLAPSED_HORIZONTAL_SEGMENT_LENGTH,
-                                                          COLLAPSED_DIAGONAL_SEGMENT_LENGTH, 0 ).times( scale.get() ) ) );
+                                                 COLLAPSED_DIAGONAL_SEGMENT_LENGTH, 0 ).times( scale.get() ) ) );
             glEnd();
         }
     }

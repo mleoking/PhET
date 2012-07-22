@@ -71,7 +71,7 @@ public class CrustModel extends PlateModel {
     private double crustVelocity = 0;
 
     // km, kg/m^3
-    private static final int[] mantleDepthDensity = new int[] {
+    private static final int[] mantleDepthDensity = new int[]{
             0, 1020,
             3, 2600,
             15, 2900,

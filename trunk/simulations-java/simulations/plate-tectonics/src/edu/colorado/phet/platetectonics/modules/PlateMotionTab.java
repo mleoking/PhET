@@ -1,8 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.Color;
-import java.awt.Cursor;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -477,7 +476,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private void manualHandleDragTimeChange( float timeChange ) {
         if ( !Float.isNaN( timeChange ) ) {
             SimSharingManager.sendUserMessage( UserComponents.handle, UserComponentTypes.sprite, edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.drag,
-                                               new ParameterSet( new Parameter[] {
+                                               new ParameterSet( new Parameter[]{
                                                        new Parameter( ParameterKeys.timeChangeMillionsOfYears, timeChange ),
                                                        new Parameter( ParameterKeys.motionType, getPlateMotionModel().motionType.get().toString() )
                                                } ) );
@@ -492,7 +491,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private Vector2F getCrustOffset( Vector2F pieceOffset ) {
         Vector2D nodeOffset = crustChooserNode.position.get();
         return new Vector2F( (float) nodeOffset.getX() + pieceOffset.x,
-                                      (float) nodeOffset.getY() + pieceOffset.y );
+                             (float) nodeOffset.getY() + pieceOffset.y );
     }
 
     private Vector2F getContinentalOffset() {

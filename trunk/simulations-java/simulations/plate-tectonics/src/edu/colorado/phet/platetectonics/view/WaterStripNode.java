@@ -42,6 +42,7 @@ public class WaterStripNode extends GLNode {
         // allow blending of the alpha in the water
         requireEnabled( GL_BLEND );
 
+        // the top is effectively just a curved mesh on top. much simpler
         addChild( new WaterTopMesh( module.getModelViewTransform() ) {{
             setMaterial( new ColorMaterial( 0.2f, 0.5f, 0.8f, 0.5f ) );
             setRenderPass( RenderPass.TRANSPARENCY );
@@ -61,6 +62,10 @@ public class WaterStripNode extends GLNode {
         }} );
     }
 
+    /**
+     * Just a curved plane basically. We rely on OpenGL's depth tests for the terrain to "cut" through the water so we only see water where the
+     * terrain is below sea-level. GridStripNode (superclass) takes care of the curvature.
+     */
     private class WaterTopMesh extends GridStripNode {
         public WaterTopMesh( final LWJGLTransform modelViewTransform ) {
             super( modelViewTransform );
@@ -108,6 +113,7 @@ public class WaterStripNode extends GLNode {
             positionBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
             indexBuffer = BufferUtils.createIntBuffer( maxVertexCount );
 
+            // we essentially create a triangle strip that needs to determine where the front terran crosses sea-level
             final Runnable setPositions = new Runnable() {
                 public void run() {
                     checkSize();
@@ -148,8 +154,8 @@ public class WaterStripNode extends GLNode {
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
                                 Vector3F position = module.getModelViewTransform().transformPosition( z == 0
-                                                                                                               ? PlateModel.convertToRadial( xIntercept, 0 )
-                                                                                                               : PlateModel.convertToRadial( new Vector3F( xIntercept, 0, z ) ) );
+                                                                                                      ? PlateModel.convertToRadial( xIntercept, 0 )
+                                                                                                      : PlateModel.convertToRadial( new Vector3F( xIntercept, 0, z ) ) );
                                 positionBuffer.put( new float[]{
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z} );
@@ -169,8 +175,8 @@ public class WaterStripNode extends GLNode {
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
                                 Vector3F position = module.getModelViewTransform().transformPosition( z == 0
-                                                                                                               ? PlateModel.convertToRadial( xIntercept, 0 )
-                                                                                                               : PlateModel.convertToRadial( new Vector3F( xIntercept, 0, z ) ) );
+                                                                                                      ? PlateModel.convertToRadial( xIntercept, 0 )
+                                                                                                      : PlateModel.convertToRadial( new Vector3F( xIntercept, 0, z ) ) );
                                 positionBuffer.put( new float[]{
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z} );
@@ -179,11 +185,11 @@ public class WaterStripNode extends GLNode {
                             }
 
                             Vector3F topPosition = module.getModelViewTransform().transformPosition( z == 0
-                                                                                                              ? PlateModel.convertToRadial( x, 0 )
-                                                                                                              : PlateModel.convertToRadial( new Vector3F( x, 0, z ) ) );
+                                                                                                     ? PlateModel.convertToRadial( x, 0 )
+                                                                                                     : PlateModel.convertToRadial( new Vector3F( x, 0, z ) ) );
                             Vector3F bottomPosition = module.getModelViewTransform().transformPosition( z == 0
-                                                                                                                 ? PlateModel.convertToRadial( x, y )
-                                                                                                                 : PlateModel.convertToRadial( new Vector3F( x, y, z ) ) );
+                                                                                                        ? PlateModel.convertToRadial( x, y )
+                                                                                                        : PlateModel.convertToRadial( new Vector3F( x, y, z ) ) );
                             positionBuffer.put( new float[]{
                                     topPosition.x, topPosition.y, topPosition.z,
                                     bottomPosition.x, bottomPosition.y, bottomPosition.z

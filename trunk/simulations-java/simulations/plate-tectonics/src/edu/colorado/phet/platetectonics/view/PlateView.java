@@ -28,7 +28,6 @@ import edu.colorado.phet.platetectonics.view.labels.BoundaryLabelNode;
  * A view (node) that displays everything physical related to a plate model, within the bounds
  * of the specified grid
  * <p/>
- * TODO: allow a certain method of putting a certain side "in front" instead of putting everything in one?
  */
 public class PlateView extends GLNode {
 
@@ -48,6 +47,7 @@ public class PlateView extends GLNode {
         this.tab = tab;
         this.showWater = showWater;
 
+        // add in the initial main nodes for the model
         for ( final Terrain terrain : model.getTerrains() ) {
             addTerrain( terrain );
         }
@@ -56,6 +56,7 @@ public class PlateView extends GLNode {
             addCrossSectionStrip( strip );
         }
 
+        // handle additions
         model.crossSectionStripAdded.addListener( new VoidFunction1<CrossSectionStrip>() {
             public void apply( CrossSectionStrip strip ) {
                 addCrossSectionStrip( strip );
@@ -67,6 +68,7 @@ public class PlateView extends GLNode {
             }
         } );
 
+        // handle removals
         model.crossSectionStripRemoved.addListener( new VoidFunction1<CrossSectionStrip>() {
             public void apply( CrossSectionStrip strip ) {
                 removeChild( nodeMap.get( strip ) );
@@ -92,6 +94,7 @@ public class PlateView extends GLNode {
         } );
 
         if ( tab instanceof PlateMotionTab ) {
+            // add smoke handling in
             final SmokeNode smokeNode = new SmokeNode( tab, ( (PlateMotionTab) tab ).getPlateMotionModel().smokePuffs );
             addChild( smokeNode );
 
@@ -181,6 +184,7 @@ public class PlateView extends GLNode {
         }} );
     }
 
+    // record the added children in the node map so we can remove them later
     public void addWrappedChild( Object object, GLNode node ) {
         assert nodeMap.get( object ) == null;
         addChild( node );

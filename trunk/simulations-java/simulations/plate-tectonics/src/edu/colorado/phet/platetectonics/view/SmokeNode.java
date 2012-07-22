@@ -30,10 +30,15 @@ import static org.lwjgl.opengl.GL11.glDrawArrays;
 import static org.lwjgl.opengl.GL11.glEnableClientState;
 import static org.lwjgl.opengl.GL11.glVertexPointer;
 
+/**
+ * Handles the smoke puffs for the volcanoes
+ */
 public class SmokeNode extends GLNode {
 
+    // TODO: try to reduce tab dependency
     private final PlateTectonicsTab tab;
 
+    // record what model puff corresponds to what node, so we can remove them later
     private final Map<SmokePuff, SmokePuffNode> map = new HashMap<SmokePuff, SmokePuffNode>();
 
     public SmokeNode( final PlateTectonicsTab tab, final ObservableList<SmokePuff> smokePuffs ) {
@@ -63,6 +68,10 @@ public class SmokeNode extends GLNode {
         removeChild( map.get( puff ) );
     }
 
+    /**
+     * Smoke is composed of multiple puffs. This shows one, which is in a kind of a teardrop shape with a ruffled border. See the assets directory
+     * for the Mathematica notebook with the formula and explanation
+     */
     public static class SmokePuffNode extends GLNode {
 
         private static int NUM_SAMPLES = 80;
@@ -128,7 +137,7 @@ public class SmokeNode extends GLNode {
             final double tipXPosition = 1 + tipScale; // 1 is from the radius of the circle
 
             return new Vector2F( smokeFactor * Math.cos( theta ) + tipAmount,
-                                          Math.sin( theta ) * ( smokeFactor - tipAmount * tipAmount ) ).minus( new Vector2F( tipXPosition, 0 ) );
+                                 Math.sin( theta ) * ( smokeFactor - tipAmount * tipAmount ) ).minus( new Vector2F( tipXPosition, 0 ) );
         }
     }
 }

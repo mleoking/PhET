@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.flatten;

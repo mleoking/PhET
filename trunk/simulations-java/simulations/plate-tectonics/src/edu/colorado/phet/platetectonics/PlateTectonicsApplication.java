@@ -81,7 +81,9 @@ public class PlateTectonicsApplication extends LWJGLPhetApplication {
             frame.addMenu( optionsMenu );
         }
 
-        // Developer menu
+        /*---------------------------------------------------------------------------*
+        * developer controls
+        *----------------------------------------------------------------------------*/
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
 
