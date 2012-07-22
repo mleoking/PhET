@@ -106,7 +106,7 @@ public class ElectronSource implements ModelElement {
             double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
             double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
             MutableVector2D direction = new MutableVector2D( emf.getElectronAcceleration() );
-            if ( direction.getMagnitude() > 0 ) {
+            if ( direction.magnitude() > 0 ) {
                 direction.normalize().scale( Electron.ELECTRON_RADIUS );
             }
             electron.setPosition( x + direction.getX(), y + direction.getY() );

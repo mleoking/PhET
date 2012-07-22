@@ -24,10 +24,10 @@ public abstract class AbstractVector3D implements Serializable {
 
     public abstract double getZ();
 
-    // the magnitude squared, which is equal to this.dot( this )
-    public double getMagnitudeSq() { return getX() * getX() + getY() * getY() + getZ() * getZ(); }
+    public double magnitude() { return sqrt( magnitudeSquared() ); }
 
-    public double getMagnitude() { return sqrt( getMagnitudeSq() ); }
+    // the magnitude squared, which is equal to this.dot( this )
+    public double magnitudeSquared() { return getX() * getX() + getY() * getY() + getZ() * getZ(); }
 
     public double dot( AbstractVector3D v ) {
         return getX() * v.getX() + getY() * v.getY() + getZ() * v.getZ();
@@ -65,14 +65,14 @@ public abstract class AbstractVector3D implements Serializable {
     public double angleBetweenInDegrees( AbstractVector3D v ) { return angleBetween( v ) * 180 / Math.PI; }
 
     public Vector3D normalized() {
-        double magnitude = getMagnitude();
+        double magnitude = magnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
         }
         return new Vector3D( getX() / magnitude, getY() / magnitude, getZ() / magnitude );
     }
 
-    public Vector3D getInstanceOfMagnitude( double magnitude ) { return times( magnitude / getMagnitude() ); }
+    public Vector3D getInstanceOfMagnitude( double magnitude ) { return times( magnitude / magnitude() ); }
 
     public Vector3D times( double scalar ) { return new Vector3D( getX() * scalar, getY() * scalar, getZ() * scalar ); }
 

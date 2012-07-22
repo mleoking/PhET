@@ -209,7 +209,7 @@ public class FreeBodyDiagramNode extends PNode {
             else {
                 textGraphic.setVisible( false );
             }
-            if ( v.getMagnitude() <= 0.05 ) {
+            if ( v.magnitude() <= 0.05 ) {
                 setVisible( false );
             }
             else {

@@ -65,13 +65,13 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
                 // used again.
                 currentDestinationIndex = Integer.MAX_VALUE;
             }
-            else if ( currentPositionRef.distance( traversalPoints.get( currentDestinationIndex ) ) < velocityVector.getMagnitude() * dt ) {
+            else if ( currentPositionRef.distance( traversalPoints.get( currentDestinationIndex ) ) < velocityVector.magnitude() * dt ) {
                 // We have arrived at the first traversal point, so now start
                 // heading towards the second.
                 movableModelElement.setPosition( traversalPoints.get( currentDestinationIndex ) );
                 currentDestinationIndex++;
                 setCourseForPoint( movableModelElement.getPosition(), traversalPoints.get( currentDestinationIndex ),
-                                   velocityVector.getMagnitude() );
+                                   velocityVector.magnitude() );
             }
             else {
                 // Keep moving towards current destination.
@@ -93,13 +93,13 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
                     bouncing = true; // Flag for tracking that we need to bounce.
                 }
             }
-            if ( currentPositionRef.distance( traversalPoints.get( currentDestinationIndex ) ) < velocityVector.getMagnitude() * dt ) {
+            if ( currentPositionRef.distance( traversalPoints.get( currentDestinationIndex ) ) < velocityVector.magnitude() * dt ) {
                 // The element has reached the current traversal point, so
                 // it should start moving towards the next.
                 movableModelElement.setPosition( traversalPoints.get( currentDestinationIndex ) );
                 currentDestinationIndex++;
                 setCourseForPoint( movableModelElement.getPosition(), traversalPoints.get( currentDestinationIndex ),
-                                   velocityVector.getMagnitude() );
+                                   velocityVector.magnitude() );
                 if ( bouncing ) {
                     // Slow down if we are bouncing - it looks better this way.
                     velocityVector.scale( 0.5 );
@@ -112,7 +112,7 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
         }
         else if ( currentDestinationIndex == 2 ) {
             // Currently moving towards the 3rd point.
-            if ( currentPositionRef.distance( traversalPoints.get( currentDestinationIndex ) ) < velocityVector.getMagnitude() * dt ) {
+            if ( currentPositionRef.distance( traversalPoints.get( currentDestinationIndex ) ) < velocityVector.magnitude() * dt ) {
                 // The element has reached the last traversal point, so a
                 // new motion strategy is set to have it move away and then
                 // fade out.
@@ -215,7 +215,7 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
     private void setCourseForPoint( Point2D startLocation, Point2D destination, double velocityScaler ) {
         velocityVector.setComponents( destination.getX() - startLocation.getX(),
                                       destination.getY() - startLocation.getY() );
-        double scaleFactor = maxVelocity / velocityVector.getMagnitude();
+        double scaleFactor = maxVelocity / velocityVector.magnitude();
         velocityVector.scale( scaleFactor );
     }
 
@@ -223,7 +223,7 @@ public class DualGateChannelTraversalMotionStrategy extends MembraneTraversalMot
         if ( currentDestinationIndex < traversalPoints.size() ) {
             Point2D dest = traversalPoints.get( currentDestinationIndex );
             velocityVector.setComponents( dest.getX() - currentLocation.getX(), dest.getY() - currentLocation.getY() );
-            double scaleFactor = maxVelocity / velocityVector.getMagnitude();
+            double scaleFactor = maxVelocity / velocityVector.magnitude();
             velocityVector.scale( scaleFactor );
         }
         else {

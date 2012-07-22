@@ -31,7 +31,7 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
     }
 
     public LinearMotionStrategy( Rectangle2D bounds, Point2D initialLocation, MutableVector2D velocityVector, double time ) {
-        this( bounds, initialLocation, velocityAndTimeToPoint( initialLocation, velocityVector, time ), velocityVector.getMagnitude() );
+        this( bounds, initialLocation, velocityAndTimeToPoint( initialLocation, velocityVector, time ), velocityVector.magnitude() );
     }
 
     @Override
@@ -45,7 +45,7 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
         Point2D position = modelElement.getPositionRef();
         MutableVector2D velocity = modelElement.getVelocityRef();
         double distanceToDestination = getDestinationRef().distance( modelElement.getPositionRef() );
-        double distanceToTravelThisTimeStep = velocity.getMagnitude() * dt;
+        double distanceToTravelThisTimeStep = velocity.magnitude() * dt;
 
         if ( distanceToDestination > 0 && distanceToTravelThisTimeStep > distanceToDestination ) {
             // We have pretty much arrived at the destination, so set the
@@ -64,7 +64,7 @@ public class LinearMotionStrategy extends AbstractMotionStrategy {
             isBoundsReached = true;
         }
 
-        if ( modelElement.getVelocityRef().getMagnitude() > 0 ) {
+        if ( modelElement.getVelocityRef().magnitude() > 0 ) {
             modelElement.setPosition( modelElement.getPositionRef().getX() + modelElement.getVelocityRef().getX() * dt,
                                       modelElement.getPositionRef().getY() + modelElement.getVelocityRef().getY() * dt );
         }

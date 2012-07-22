@@ -108,12 +108,12 @@ public class MoveElectronsJade implements ModelElement {
 
     protected AbstractVector2D getForce( JadeElectron circleParticle, JadeElectron particle, double k ) {
         AbstractVector2D vec = new MutableVector2D( circleParticle.getPosition(), particle.getPosition() );
-        if ( vec.getMagnitude() <= 1 ) {
+        if ( vec.magnitude() <= 1 ) {
             return new MutableVector2D();
         }
-        Vector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.5 ) );
+        Vector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.magnitude(), 1.5 ) );
         double max = 0.05;
-        if ( v.getMagnitude() > max ) {
+        if ( v.magnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );
         }
 //        System.out.println( "v = " + v );

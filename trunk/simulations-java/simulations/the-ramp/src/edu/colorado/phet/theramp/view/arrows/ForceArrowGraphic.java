@@ -107,7 +107,7 @@ public class ForceArrowGraphic extends PNode {
     public void update() {
         Vector2D force = new Vector2D( forceComponent.getForce() );
         force = force.times( RampModule.FORCE_LENGTH_SCALE );
-        if ( force.getMagnitude() <= THRESHOLD ) {
+        if ( force.magnitude() <= THRESHOLD ) {
             setVisible( false );
             nonZero = false;
             return;
@@ -138,7 +138,7 @@ public class ForceArrowGraphic extends PNode {
         if ( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
             shapeGraphic.setPathTo( forceArrowShape );
 
-            Vector2D dstVector = force.getInstanceOfMagnitude( force.getMagnitude() + textOffset );
+            Vector2D dstVector = force.getInstanceOfMagnitude( force.magnitude() + textOffset );
             Point2D dest = dstVector.getDestination( arrowTail );
             textGraphic.setOffset( dest.getX() - textGraphic.getFullBounds().getWidth() / 2, dest.getY() - textGraphic.getFullBounds().getHeight() / 2 );
         }

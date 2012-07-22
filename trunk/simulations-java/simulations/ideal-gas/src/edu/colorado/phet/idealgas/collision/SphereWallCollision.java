@@ -53,7 +53,7 @@ public class SphereWallCollision implements Collision {
             MutableVector2D loa = new MutableVector2D( sphere.getPosition().getX() - closestPointOnWall.getX(),
                                                        sphere.getPosition().getY() - closestPointOnWall.getY() );
 
-            if ( loa.getMagnitude() == 0 ) {
+            if ( loa.magnitude() == 0 ) {
                 MutableVector2D v2 = new MutableVector2D( sphere.getVelocity() ).normalize().scale( 0.1 );
                 Point2D p2 = new Point2D.Double( sphere.getPosition().getX() + v2.getX(),
                                                  sphere.getPosition().getY() + v2.getY() );

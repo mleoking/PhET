@@ -73,7 +73,7 @@ public class Electron extends SphericalBody {
      * @return
      */
     public double getEnergy() {
-        double ke = DischargeLampsConfig.PIXELS_PER_NM * DischargeLampsConfig.PIXELS_PER_NM * getVelocity().getMagnitudeSq() * getMass() / 2;
+        double ke = DischargeLampsConfig.PIXELS_PER_NM * DischargeLampsConfig.PIXELS_PER_NM * getVelocity().magnitudeSquared() * getMass() / 2;
         double ev = ke * PhysicsUtil.EV_PER_JOULE;
         return ev;
     }
@@ -88,7 +88,7 @@ public class Electron extends SphericalBody {
 
         // compute the speed of the electron
         double sNew = Math.sqrt( 2 * ke / getMass() );
-        double sCurr = getVelocity().getMagnitude();
+        double sCurr = getVelocity().magnitude();
         setVelocity( getVelocity().scale( sNew / sCurr / DischargeLampsConfig.PIXELS_PER_NM ) );
         changeListenerProxy.energyChanged( new ChangeEvent( this ) );
     }

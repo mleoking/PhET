@@ -85,7 +85,7 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
                 Ion ion = (Ion) capturedIons.get( i );
                 ion.setPosition( new Point2D.Double( getPosition().getX() + inputToOutputOffset.getX(),
                                                      getPosition().getY() + inputToOutputOffset.getY() ) );
-                ion.setVelocity( new MutableVector2D( ion.getVelocity().getMagnitude(), 0 ).rotate( Math.PI / 2 ) );
+                ion.setVelocity( new MutableVector2D( ion.getVelocity().magnitude(), 0 ).rotate( Math.PI / 2 ) );
             }
         }
     }

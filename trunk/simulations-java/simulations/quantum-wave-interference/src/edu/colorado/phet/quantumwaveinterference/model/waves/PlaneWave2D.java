@@ -43,7 +43,7 @@ public class PlaneWave2D implements Wave {
     public Complex getValue( int i, int j, double simulationTime ) {
         MutableVector2D loc = new MutableVector2D( i, j );
         double kDotJ = k.dot( loc );
-        double w = 1.0 / k.getMagnitude();
+        double w = 1.0 / k.magnitude();
         phase = 0 + dPhase;
 //        System.out.println( "w = " + w );
         Complex complex = new Complex(

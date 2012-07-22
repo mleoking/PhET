@@ -621,7 +621,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
                 // What is the change in energy represented by moving the body?
                 double dE = -( gravity * dY * body.getMass() );
-                double currSpeed = body.getVelocity().getMagnitude();
+                double currSpeed = body.getVelocity().magnitude();
                 double newSpeed = (float)Math.sqrt( ( 2 * dE ) / body.getMass()
                                                     + currSpeed * currSpeed );
 

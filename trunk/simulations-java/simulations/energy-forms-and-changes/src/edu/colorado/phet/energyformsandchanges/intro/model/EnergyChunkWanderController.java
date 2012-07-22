@@ -63,12 +63,12 @@ public final class EnergyChunkWanderController {
             energyChunk.position.set( destination.get() );
             velocity.setMagnitude( 0 );
         }
-        else if ( energyChunk.position.get().distance( destination.get() ) < dt * velocity.getMagnitude() ) {
+        else if ( energyChunk.position.get().distance( destination.get() ) < dt * velocity.magnitude() ) {
             // Prevent overshoot.
             velocity.times( energyChunk.position.get().distance( destination.get() ) * dt );
         }
 
-        if ( velocity.getMagnitude() > 0 ) {
+        if ( velocity.magnitude() > 0 ) {
             energyChunk.position.set( energyChunk.position.get().plus( velocity.times( dt ) ) );
             countdownTimer -= dt;
             if ( countdownTimer <= 0 ) {
@@ -81,7 +81,7 @@ public final class EnergyChunkWanderController {
     private void changeVelocityVector() {
         Vector2D vectorToDestination = destination.get().minus( energyChunk.position.get() );
         double angle = vectorToDestination.getAngle();
-        if ( vectorToDestination.getMagnitude() > DISTANCE_AT_WHICH_TO_STOP_WANDERING ) {
+        if ( vectorToDestination.magnitude() > DISTANCE_AT_WHICH_TO_STOP_WANDERING ) {
             // Add some randomness to the direction of travel.
             angle = angle + ( RAND.nextDouble() - 0.5 ) * 2 * MAX_ANGLE_VARIATION;
         }

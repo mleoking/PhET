@@ -416,7 +416,7 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
                     _point.setLocation( gridPoint.getX(), gridPoint.getY() );
                     _magnetModel.getBField( _point, _fieldVector /* output */ );
                     double angle = _fieldVector.getAngle();
-                    double magnitude = _fieldVector.getMagnitude();
+                    double magnitude = _fieldVector.magnitude();
 
                     // convert scaled magnitude to intensity
                     double intensity = ( magnitude / _magnetModel.getMaxStrength() );

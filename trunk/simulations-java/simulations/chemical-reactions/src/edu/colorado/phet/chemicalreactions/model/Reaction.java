@@ -63,7 +63,7 @@ public class Reaction {
         if ( zeroError < 15 ) {
             double averageVelocity = 0;
             for ( Molecule reactant : reactants ) {
-                averageVelocity += reactant.getVelocity().getMagnitude();
+                averageVelocity += reactant.getVelocity().magnitude();
             }
             averageVelocity /= reactants.size();
 
@@ -107,9 +107,9 @@ public class Reaction {
         Vector2D currentTrajectoryDestination = molecule.getPosition().plus( molecule.getVelocity().times( target.t ) );
         Vector2D acceleration = targetPosition.minus( currentTrajectoryDestination ).times( 2 / ( t * t ) );
 
-        if ( acceleration.getMagnitude() > MAX_ACCELERATION ) {
+        if ( acceleration.magnitude() > MAX_ACCELERATION ) {
             // TODO: can we prevent this and just 0-fitness this reaction out?
-            acceleration = acceleration.times( MAX_ACCELERATION / acceleration.getMagnitude() );
+            acceleration = acceleration.times( MAX_ACCELERATION / acceleration.magnitude() );
         }
         return acceleration;
     }
@@ -203,7 +203,7 @@ public class Reaction {
         // return the mean square of the differences (equivalent to the RMS for our minimization case, and faster)
         return reduceLeft( map( differences, new Function1<Vector2D, Double>() {
             public Double apply( Vector2D v ) {
-                return v.getMagnitude();
+                return v.magnitude();
             }
         } ), new Function2<Double, Double, Double>() {
             public Double apply( Double a, Double b ) {
@@ -327,7 +327,7 @@ public class Reaction {
 
                     Vector2D acceleration = delta.times( 2 / ( t * t ) );
 
-                    if ( acceleration.getMagnitude() > MAX_ACCELERATION ) {
+                    if ( acceleration.magnitude() > MAX_ACCELERATION ) {
                         isOverAccelerationLimit.set( true );
                     }
 
@@ -354,7 +354,7 @@ public class Reaction {
                 Vector2D positionDifference = finalPositionB.minus( finalPositionA );
                 Vector2D velocityDifference = finalVelocityB.minus( finalVelocityA );
 
-                if ( positionDifference.getMagnitude() > 1.05 * moleculeA.shape.getBoundingCircleRadius() + moleculeB.shape.getBoundingCircleRadius() ) {
+                if ( positionDifference.magnitude() > 1.05 * moleculeA.shape.getBoundingCircleRadius() + moleculeB.shape.getBoundingCircleRadius() ) {
                     // if the molecules aren't touching in their collision positions (and we approximate this by checking the bounding circles),
                     // then we don't bother to run the check
                     continue;

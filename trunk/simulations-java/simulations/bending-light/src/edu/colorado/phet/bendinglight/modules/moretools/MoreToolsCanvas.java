@@ -116,7 +116,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         //Create the VelocitySensorNode to depict in the toolbox
         final Function1<Vector2D, String> formatter = new Function1<Vector2D, String>() {
             public String apply( Vector2D velocity ) {
-                final String value = new DecimalFormat( "0.00" ).format( velocity.getMagnitude() / 2.99792458E8 );
+                final String value = new DecimalFormat( "0.00" ).format( velocity.magnitude() / 2.99792458E8 );
                 return MessageFormat.format( BendingLightStrings.PATTERN_SPEED_OF_LIGHT_READOUT_VALUE_C, value );
             }
         };

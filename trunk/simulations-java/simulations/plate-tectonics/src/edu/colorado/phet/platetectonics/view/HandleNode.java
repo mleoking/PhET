@@ -236,7 +236,7 @@ public class HandleNode extends GLNode {
     public void drag( Ray3F ray ) {
         if ( model.motionType.get() == null ) {
             Vector3F xyDelta = xyHit( ray ).minus( xyHit( startRay ) );
-            if ( xyDelta.getMagnitude() > 5 ) {
+            if ( xyDelta.magnitude() > 5 ) {
                 float rightStrength = xyDelta.dot( Vector3F.X_UNIT );
                 float verticalStrength = Math.abs( xyDelta.dot( Y_UNIT ) );
                 if ( model.allowsTransformMotion() && verticalStrength > Math.abs( rightStrength ) ) {
@@ -327,7 +327,7 @@ public class HandleNode extends GLNode {
 
         Vector3F centerToRay = localRay.pos;
         float tmp = localRay.dir.dot( centerToRay );
-        float centerToRayDistSq = centerToRay.getMagnitudeSq();
+        float centerToRayDistSq = centerToRay.magnitudeSquared();
         float det = 4 * tmp * tmp - 4 * ( centerToRayDistSq - 1 ); // 1 is radius
         return det >= 0;
     }

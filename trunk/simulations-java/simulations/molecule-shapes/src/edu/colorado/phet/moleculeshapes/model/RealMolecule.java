@@ -41,7 +41,7 @@ public class RealMolecule extends Molecule {
             Atom3D atom = bond.getOtherAtom( realMolecule.getCentralAtom() );
             final Vector3D normalizedPosition = atom.position.get().normalized();
             idealCentralOrientations.add( normalizedPosition );
-            final double bondLength = atom.position.get().getMagnitude();
+            final double bondLength = atom.position.get().magnitude();
 
             Vector3D atomLocation = normalizedPosition.times( PairGroup.REAL_TMP_SCALE * bondLength );
             final RealPairGroup group = new RealPairGroup( atomLocation, false, atom.getElement() );

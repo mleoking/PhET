@@ -180,10 +180,10 @@ public class A_BC_AB_C_Reaction extends Reaction {
             // of the threshold and the floor on the appropriate side of the profile
             if ( DebugFlags.PROVISIONAL_BOND_SPRINGS ) {
                 double de = getThresholdEnergy( cm2, sm2 );
-                double sCm2 = Math.sqrt( cm2.getVelocity().getMagnitudeSq() + ( de / cm2.getMass() ) );
-                double sSm2 = Math.sqrt( sm2.getVelocity().getMagnitudeSq() + ( de / sm2.getMass() ) );
-                MutableVector2D dvCm2 = new MutableVector2D( sm2.getPosition(), cm2.getPosition() ).normalize().scale( sCm2 - cm2.getVelocity().getMagnitude() );
-                MutableVector2D dvSm2 = new MutableVector2D( cm2.getPosition(), sm2.getPosition() ).normalize().scale( sSm2 - sm2.getVelocity().getMagnitude() );
+                double sCm2 = Math.sqrt( cm2.getVelocity().magnitudeSquared() + ( de / cm2.getMass() ) );
+                double sSm2 = Math.sqrt( sm2.getVelocity().magnitudeSquared() + ( de / sm2.getMass() ) );
+                MutableVector2D dvCm2 = new MutableVector2D( sm2.getPosition(), cm2.getPosition() ).normalize().scale( sCm2 - cm2.getVelocity().magnitude() );
+                MutableVector2D dvSm2 = new MutableVector2D( cm2.getPosition(), sm2.getPosition() ).normalize().scale( sSm2 - sm2.getVelocity().magnitude() );
                 cm2.setVelocity( cm2.getVelocity().add( dvCm2 ) );
                 sm2.setVelocity( sm2.getVelocity().add( dvSm2 ) );
             }
@@ -192,8 +192,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
             double pe1 = getPotentialEnergy( cm2, sm2 );
             double ke1 = cm2.getKineticEnergy() + sm2.getKineticEnergy();
             double dTe = ( pe0 + ke0 ) - ( pe1 + ke1 );
-            double sCm2 = Math.sqrt( cm2.getVelocity().getMagnitudeSq() + ( dTe / cm2.getMass() ) );
-            double sSm2 = Math.sqrt( sm2.getVelocity().getMagnitudeSq() + ( dTe / sm2.getMass() ) );
+            double sCm2 = Math.sqrt( cm2.getVelocity().magnitudeSquared() + ( dTe / cm2.getMass() ) );
+            double sSm2 = Math.sqrt( sm2.getVelocity().magnitudeSquared() + ( dTe / sm2.getMass() ) );
             return;
         }
 
@@ -274,9 +274,9 @@ public class A_BC_AB_C_Reaction extends Reaction {
             cb.addBody( newComposite );
 
             MutableVector2D vFreeMoleculeRelCM = new MutableVector2D( newFreeMolecule.getVelocity() ).subtract( cb.getVelocity() );
-            double sFree = MathUtil.getProjection( vFreeMoleculeRelCM, sep ).getMagnitude();
+            double sFree = MathUtil.getProjection( vFreeMoleculeRelCM, sep ).magnitude();
             MutableVector2D vCompositeMoleculeRelCM = new MutableVector2D( newComposite.getVelocity() ).subtract( cb.getVelocity() );
-            double sComposite = MathUtil.getProjection( vCompositeMoleculeRelCM, sep ).getMagnitude();
+            double sComposite = MathUtil.getProjection( vCompositeMoleculeRelCM, sep ).magnitude();
             double ke = ( newFreeMolecule.getMass() * sFree * sFree + newComposite.getMass() * sComposite * sComposite ) / 2;
 
             pe += ke;
@@ -442,7 +442,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
      */
     public double getDistanceToCollision( AbstractMolecule mA, AbstractMolecule mB ) {
         if ( moleculesAreProperTypes( mA, mB ) ) {
-            double collisionDist = getCollisionVector( mA, mB ).getMagnitude();
+            double collisionDist = getCollisionVector( mA, mB ).magnitude();
 
             // Determine if the molecules are overlapping
             // One of the molecules must be a composite, and the other a simple one.

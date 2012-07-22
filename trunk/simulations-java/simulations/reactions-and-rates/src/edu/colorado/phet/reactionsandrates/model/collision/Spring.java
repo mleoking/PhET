@@ -152,7 +152,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
         // A and phi depend on the initial elongation of the spring and the initial
         // velocity of the attached body
         MutableVector2D vSpring = new MutableVector2D( fixedEnd, freeEnd );
-        double v0 = MathUtil.getProjection( vRel, vSpring ).getMagnitude();
+        double v0 = MathUtil.getProjection( vRel, vSpring ).magnitude();
 //        double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).getMagnitude();
         phi = 0;
         A = v0 / ( omega * Math.cos( phi ) );
@@ -180,7 +180,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
         // velocity of the attached body
 //        Vector2D.Double vSpring = new Vector2D.Double( fixedEnd, freeEnd );
 
-        double v0 = body.getVelocity().getMagnitude();
+        double v0 = body.getVelocity().magnitude();
         if ( v0 != 0 ) {
             v0 *= Math.cos( body.getVelocity().getAngle() - angle );
         }
@@ -212,7 +212,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
         // A and phi depend on the initial elongation of the spring and the initial
         // velocity of the attached body
         MutableVector2D vSpring = new MutableVector2D( fixedEnd, freeEnd );
-        double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).getMagnitude();
+        double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).magnitude();
         double x0 = getElongation();
         double rad = ( v0 * v0 ) / ( ( x0 * x0 * omega * omega ) + ( v0 * v0 ) );
         phi = Math.acos( Math.sqrt( rad ) );

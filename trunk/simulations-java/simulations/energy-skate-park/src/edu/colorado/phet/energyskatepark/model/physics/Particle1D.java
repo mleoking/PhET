@@ -95,7 +95,7 @@ public class Particle1D implements Serializable {
         }
 
         assert ( !Double.isNaN( getEnergy() ) );
-        if ( getThrust().getMagnitude() == 0 ) {
+        if ( getThrust().magnitude() == 0 ) {
             fixEnergy( initAlpha, initEnergy );
         }
 
@@ -502,12 +502,12 @@ public class Particle1D implements Serializable {
     }
 
     public AbstractVector2D getFrictionForce() {
-        if ( getTotalFriction() == 0 || getVelocity2D().getMagnitude() < 1E-2 ) {
+        if ( getTotalFriction() == 0 || getVelocity2D().magnitude() < 1E-2 ) {
             return new MutableVector2D();
         }
         else {
-            Vector2D f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );
-            if ( ( Double.isNaN( f.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
+            Vector2D f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().magnitude() * 25 );
+            if ( ( Double.isNaN( f.magnitude() ) ) ) { throw new IllegalArgumentException();}
             return f;//todo factor out heuristic
         }
 
@@ -527,10 +527,10 @@ public class Particle1D implements Serializable {
             alpha += track.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             if ( getTotalFriction() > 0 ) {
                 AbstractVector2D frictionForce = getFrictionForce();
-                if ( ( Double.isNaN( frictionForce.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
-                double therm = frictionForce.getMagnitude() * getLocation().distance( origLoc );
+                if ( ( Double.isNaN( frictionForce.magnitude() ) ) ) { throw new IllegalArgumentException();}
+                double therm = frictionForce.magnitude() * getLocation().distance( origLoc );
                 thermalEnergy += therm;
-                if ( getThrust().getMagnitude() == 0 ) {//only conserve energy if the user is not adding energy
+                if ( getThrust().magnitude() == 0 ) {//only conserve energy if the user is not adding energy
                     if ( getEnergy() < origEnergy ) {
                         thermalEnergy += Math.abs( getEnergy() - origEnergy );//add some thermal to exactly match
                         if ( Math.abs( getEnergy() - origEnergy ) > 1E-6 ) {
@@ -553,7 +553,7 @@ public class Particle1D implements Serializable {
             }
             if ( ( Double.isNaN( getKineticEnergy() ) ) ) { throw new IllegalArgumentException();}
             if ( ( Double.isInfinite( getKineticEnergy() ) ) ) { throw new IllegalArgumentException();}
-            if ( ( Double.isNaN( getVelocity2D().getMagnitude() ) ) ) { throw new IllegalArgumentException();}
+            if ( ( Double.isNaN( getVelocity2D().magnitude() ) ) ) { throw new IllegalArgumentException();}
             handleBoundary();
         }
     }

@@ -94,7 +94,7 @@ public class BondCharacterNode extends PComposite {
         // when difference in electronegativity changes, move the thumb
         molecule.bond.dipole.addObserver( new VoidFunction1<Vector2D>() {
             public void apply( Vector2D dipole ) {
-                pointerNode.setOffset( xOffsetFunction.evaluate( dipole.getMagnitude() ), pointerNode.getYOffset() );
+                pointerNode.setOffset( xOffsetFunction.evaluate( dipole.magnitude() ), pointerNode.getYOffset() );
             }
         } );
 

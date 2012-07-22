@@ -18,10 +18,10 @@ public abstract class AbstractVector4F implements Serializable {
 
     public abstract float getW();
 
-    // the magnitude squared, which is equal to this.dot( this )
-    public float getMagnitudeSq() { return getX() * getX() + getY() * getY() + getZ() * getZ() + getW() * getW(); }
+    public float magnitude() { return (float) sqrt( magnitudeSquared() ); }
 
-    public float getMagnitude() { return (float) sqrt( getMagnitudeSq() ); }
+    // the magnitude squared, which is equal to this.dot( this )
+    public float magnitudeSquared() { return getX() * getX() + getY() * getY() + getZ() * getZ() + getW() * getW(); }
 
     public float dot( AbstractVector4F v ) {
         return getX() * v.getX() + getY() * v.getY() + getZ() * v.getZ() + getW() * v.getW();
@@ -43,14 +43,14 @@ public abstract class AbstractVector4F implements Serializable {
     }
 
     public Vector4F normalized() {
-        float magnitude = getMagnitude();
+        float magnitude = magnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
         }
         return new Vector4F( getX() / magnitude, getY() / magnitude, getZ() / magnitude, getW() / magnitude );
     }
 
-    public Vector4F getInstanceOfMagnitude( float magnitude ) { return times( magnitude / getMagnitude() ); }
+    public Vector4F getInstanceOfMagnitude( float magnitude ) { return times( magnitude / magnitude() ); }
 
     public Vector4F times( float scalar ) { return new Vector4F( getX() * scalar, getY() * scalar, getZ() * scalar, getW() * scalar ); }
 

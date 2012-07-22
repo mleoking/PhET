@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 public class Vector3D extends PhysicalVector {
 
     public static Vector3D createCrossProduct( MutableVector2D v1, MutableVector2D v2 ) {
-        double z = v1.getMagnitude() * v2.getMagnitude() * Math.sin( v2.getAngle() - v1.getAngle() );
+        double z = v1.magnitude() * v2.magnitude() * Math.sin( v2.getAngle() - v1.getAngle() );
         return new Vector3D( 0, 0, z );
     }
 

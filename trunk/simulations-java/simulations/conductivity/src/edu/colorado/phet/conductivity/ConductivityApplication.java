@@ -203,7 +203,7 @@ public class ConductivityApplication {
                 for ( int i = 0; i < photons.size(); i++ ) {
                     Photon photon = (Photon) photons.get( i );
                     photon.stepInTime( d );
-                    double distToCenter = photon.getPosition().minus( resistorCenter ).getMagnitude();
+                    double distToCenter = photon.getPosition().minus( resistorCenter ).magnitude();
                     int DIST_FUDGE_FACTOR = 5;//introduced when switched from arrow to image.
                     if ( distToCenter <= photon.getSpeed() * d * DIST_FUDGE_FACTOR ) {
                         photons.remove( i );

@@ -107,7 +107,7 @@ public class InjectionMotionStrategy extends MotionStrategy {
             angularRange = angularRange * ( (double) ( velocityChangeCounter + 1 ) / (double) NUM_UPDATES_BEFORE_ANY_DIRECTION_ALLOWED );
         }
         double rotationAngle = ( RAND.nextDouble() - 0.5 ) * angularRange;
-        velocityVector.scale( generateNewVelocityScalar() / velocityVector.getMagnitude() );
+        velocityVector.scale( generateNewVelocityScalar() / velocityVector.magnitude() );
         velocityVector.rotate( rotationAngle );
         velocityChangeCounter++;
     }

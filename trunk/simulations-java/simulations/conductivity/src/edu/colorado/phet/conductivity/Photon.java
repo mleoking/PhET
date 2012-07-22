@@ -46,7 +46,7 @@ public class Photon extends SimpleObservable
     }
 
     public double getSpeed() {
-        return getVelocity().getMagnitude();
+        return getVelocity().magnitude();
     }
 
     Particle particle;

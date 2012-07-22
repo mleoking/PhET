@@ -59,7 +59,7 @@ public abstract class Molecule {
             Bond<PairGroup> parentBond = getParentBond( group );
             Vector3D origin = parentBond.getOtherAtom( group ).position.get();
 
-            double oldDistance = ( group.position.get().minus( origin ) ).getMagnitude();
+            double oldDistance = ( group.position.get().minus( origin ) ).magnitude();
             group.stepForward( tpf );
             group.attractToIdealDistance( tpf, oldDistance, parentBond );
         }
@@ -184,7 +184,7 @@ public abstract class Molecule {
         // add the group, but delay notifications (inconsistent state)
         addGroup( group, false );
 
-        addBond( group, parent, bondOrder, group.position.get().minus( parent.position.get() ).getMagnitude() / PairGroup.REAL_TMP_SCALE );
+        addBond( group, parent, bondOrder, group.position.get().minus( parent.position.get() ).magnitude() / PairGroup.REAL_TMP_SCALE );
 
         // notify after bond added, so we don't send notifications in an inconsistent state
         onGroupAdded.updateListeners( group );

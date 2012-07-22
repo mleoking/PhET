@@ -129,7 +129,7 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
                 Ion ion = (Ion) iterator.next();
                 MutableVector2D vPrev = (MutableVector2D) unadjustedVelocities.get( ion );
                 MutableVector2D vCurr = ion.getVelocity();
-                vCurr.normalize().scale( vPrev.getMagnitude() );
+                vCurr.normalize().scale( vPrev.magnitude() );
             }
             unadjustedVelocities.clear();
         }

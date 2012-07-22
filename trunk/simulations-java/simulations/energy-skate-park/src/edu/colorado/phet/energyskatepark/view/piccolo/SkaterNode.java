@@ -172,7 +172,7 @@ public class SkaterNode extends PNode {
     private void update() {
         updateSkaterTransform();
 
-        jetPackNode.setVisible( body.getThrust().getMagnitude() > 0 );
+        jetPackNode.setVisible( body.getThrust().magnitude() > 0 );
         updateJetPackTransform();
 
         double ellipseWidth = 0.1 * 0.85;

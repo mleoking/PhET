@@ -105,7 +105,7 @@ public class ImageMass extends Mass {
 
     @Override public void stepInTime( double dt ) {
         if ( animatingProperty.get() ) {
-            if ( getPosition().distance( animationDestination ) < animationMotionVector.getMagnitude() * dt ) {
+            if ( getPosition().distance( animationDestination ) < animationMotionVector.magnitude() * dt ) {
                 // Close enough - animation is complete.
                 setPosition( animationDestination );
                 animatingProperty.set( false );

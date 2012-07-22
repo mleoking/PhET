@@ -94,7 +94,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Determine the length from one corner to the center of the rectangle, this is used to determine how far to move the periodic boundary condition from the visible model rectangle
     //So that particles don't disappear when they wrap from one side to the other
     private static double getHalfDiagonal( Rectangle2D bounds2D ) {
-        return new Vector2D( new Point2D.Double( bounds2D.getX(), bounds2D.getY() ), new Point2D.Double( bounds2D.getCenterX(), bounds2D.getCenterY() ) ).getMagnitude();
+        return new Vector2D( new Point2D.Double( bounds2D.getX(), bounds2D.getY() ), new Point2D.Double( bounds2D.getCenterX(), bounds2D.getCenterY() ) ).magnitude();
     }
 
     //Width of the box2D model.  Box2D is a physics engine used to drive the dynamics for this tab, see implementation-notes.txt and Box2DAdapter

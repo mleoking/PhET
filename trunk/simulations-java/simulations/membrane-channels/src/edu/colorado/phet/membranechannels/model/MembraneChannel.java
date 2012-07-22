@@ -261,7 +261,7 @@ public class MembraneChannel {
 	            }
 	            particleToCapture.setMotionStrategy(new TraverseChannelMotionStrategy(this, 
 	                    particleToCapture.getPosition(), preTraversalMotionBounds, postTraversalMotionBounds,
-	                    particleToCapture.getVelocity().getMagnitude()));
+	                    particleToCapture.getVelocity().magnitude()));
 	            
 	            // Add a listener so that we get a notification when the particle has
 	            // completed the traversal.

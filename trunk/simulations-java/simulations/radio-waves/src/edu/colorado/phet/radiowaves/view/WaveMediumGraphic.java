@@ -158,7 +158,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
 
         // Draw a line or arc for each value in the amplitude array of the wave front
         for ( double x = 1; x * direction < xExtent; x += s_defaultStrokeWidth * direction ) {
-            g.setPaint( getColorForAmplitude( electron.getDynamicFieldAt( new Point2D.Double( origin.getX() + x, origin.getY() ) ).getMagnitude() ) );
+            g.setPaint( getColorForAmplitude( electron.getDynamicFieldAt( new Point2D.Double( origin.getX() + x, origin.getY() ) ).magnitude() ) );
             if ( this.isPlanar ) {
                 end1.setLocation( origin.getX() + ( xOffset * direction ) + x - s_defaultStrokeWidth / 2, origin.getY() - height / 2 );
                 //                end2.setLocation( origin.getX() + ( xOffset * direction ) + x, origin.getY() + height / 2 );

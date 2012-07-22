@@ -150,7 +150,7 @@ public class SimpleCollisionAgentA {
 
         // If the loa vector has zero length, then the two bodies are right on top of each other,
         // and the collision can't be computed
-        if ( loa.getMagnitude() == 0 ) {
+        if ( loa.magnitude() == 0 ) {
             return;
         }
 
@@ -190,7 +190,7 @@ public class SimpleCollisionAgentA {
 
             // Get the unit vector along the line of action
             n.setComponents( loa.getX(), loa.getY() );
-            if ( n.getMagnitude() == 0 ) {
+            if ( n.magnitude() == 0 ) {
                 System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
             }
             n.normalize();

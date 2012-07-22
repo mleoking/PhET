@@ -135,7 +135,7 @@ public class BrickStack extends ShapeMass {
     @Override public void stepInTime( double dt ) {
         if ( animatingProperty.get() ) {
             // Do a step of the linear animation towards the destination.
-            if ( getPosition().distance( animationDestination ) >= animationMotionVector.getMagnitude() * dt ) {
+            if ( getPosition().distance( animationDestination ) >= animationMotionVector.magnitude() * dt ) {
                 // Perform next step of animation.
                 translate( animationMotionVector.times( dt ) );
                 animationScale = Math.max( animationScale - ( dt / expectedAnimationTime ) * 0.9, 0.1 );

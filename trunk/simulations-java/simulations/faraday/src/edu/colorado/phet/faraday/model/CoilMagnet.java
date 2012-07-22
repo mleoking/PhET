@@ -184,8 +184,8 @@ public abstract class CoilMagnet extends AbstractMagnet {
         outputVector.setComponents( Bx, By );
 
         // Use this to calibrate.
-        if ( outputVector.getMagnitude() > _maxStrengthOutside ) {
-            _maxStrengthOutside = outputVector.getMagnitude();
+        if ( outputVector.magnitude() > _maxStrengthOutside ) {
+            _maxStrengthOutside = outputVector.magnitude();
             // System.out.println( "CoilMagnet: maxStrengthOutside=" + _maxStrengthOutside ); // DEBUG
         }
     }

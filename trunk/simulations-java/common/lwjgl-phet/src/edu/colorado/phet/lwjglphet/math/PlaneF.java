@@ -27,7 +27,7 @@ public class PlaneF {
     // NOTE: will return null if points are collinear
     public static PlaneF fromTriangle( Vector3F a, Vector3F b, Vector3F c ) {
         Vector3F normal = ( c.minus( a ) ).cross( b.minus( a ) );
-        if ( normal.getMagnitude() == 0 ) {
+        if ( normal.magnitude() == 0 ) {
             return null;
         }
         normal = normal.normalized();

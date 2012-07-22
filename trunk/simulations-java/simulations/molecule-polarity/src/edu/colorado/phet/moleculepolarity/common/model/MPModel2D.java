@@ -53,7 +53,7 @@ public abstract class MPModel2D implements Resettable {
     protected void updateMoleculeOrientation( Molecule2D molecule ) {
 
         // magnitude of angular velocity is proportional to molecular dipole magnitude
-        final double deltaDipoleAngle = Math.abs( ANGULAR_VELOCITY_FUNCTION.evaluate( molecule.dipole.get().getMagnitude() ) );
+        final double deltaDipoleAngle = Math.abs( ANGULAR_VELOCITY_FUNCTION.evaluate( molecule.dipole.get().magnitude() ) );
 
         // convert angle to range [0,2*PI)
         final double dipoleAngle = normalizeAngle( molecule.dipole.get().getAngle() );

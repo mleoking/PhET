@@ -14,7 +14,7 @@ public class ArrowShape {
 
     public ArrowShape( AbstractVector2D phetvector, AbstractVector2D phetvector1, double d, double d1, double d2 ) {
         direction = phetvector1.minus( phetvector ).normalized();
-        double d3 = phetvector1.minus( phetvector ).getMagnitude();
+        double d3 = phetvector1.minus( phetvector ).magnitude();
         if ( d3 < d ) {
             throw new RuntimeException( "Head too big." );
         }

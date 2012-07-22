@@ -43,7 +43,7 @@ public class CrystalVesselCollisionExpert implements CollisionExpert, ContactDet
             vessel = (Vessel) ( bodyA instanceof Vessel ? bodyA : bodyB );
 
             // Only do something if the crystal is moving
-            if ( crystal.getVelocity().getMagnitudeSq() != 0 ) {
+            if ( crystal.getVelocity().magnitudeSquared() != 0 ) {
                 double dx = 0;
                 double dy = 0;
                 Rectangle2D vesselBounds = vessel.getShape();

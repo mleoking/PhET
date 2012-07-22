@@ -44,7 +44,7 @@ public class MoveToCell implements BandParticleState {
         MutableVector2D myLoc = particle.getPosition();
         Vector2D dx = targetLoc.minus( myLoc );
 //        particle.setVelocity(dx.getScaledInstance(1.0/dt));
-        double dist = dx.getMagnitude();
+        double dist = dx.magnitude();
         if ( dist <= distPerStep ) {
             //got there
             particle.setPosition( targetLoc );

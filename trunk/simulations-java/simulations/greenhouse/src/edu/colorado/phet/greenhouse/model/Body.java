@@ -139,7 +139,7 @@ public abstract class Body extends Observable implements ModelElement {
     public abstract double getMomentOfInertia();
 
     public double getKineticEnergy() {
-        return ( getMass() * getVelocity().getMagnitudeSq() / 2 ) +
+        return ( getMass() * getVelocity().magnitudeSquared() / 2 ) +
                getMomentOfInertia() * omega * omega / 2;
     }
 

@@ -150,11 +150,11 @@ class IsotopeProprotionsPieChart extends PNode {
                         double maxY = OVERALL_HEIGHT / 2 - labelNode.getFullBoundsReference().height / 2;
                         double xSign = labelOnLeft ? -1 : 1;
                         if ( positionVector.getY() < minY ) {
-                            positionVector.setX( xSign * Math.sqrt( positionVector.getMagnitudeSq() - minY * minY ) );
+                            positionVector.setX( xSign * Math.sqrt( positionVector.magnitudeSquared() - minY * minY ) );
                             positionVector.setY( minY );
                         }
                         else if ( positionVector.getY() > maxY ) {
-                            positionVector.setX( xSign * Math.sqrt( positionVector.getMagnitudeSq() - maxY * maxY ) );
+                            positionVector.setX( xSign * Math.sqrt( positionVector.magnitudeSquared() - maxY * maxY ) );
                             positionVector.setY( maxY );
                         }
 

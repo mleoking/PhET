@@ -21,9 +21,9 @@ public abstract class AbstractVector2F implements Serializable {
 
     public abstract float getY();
 
-    public float getMagnitudeSq() { return getX() * getX() + getY() * getY(); }
+    public float magnitude() { return (float) sqrt( magnitudeSquared() ); }
 
-    public float getMagnitude() { return (float) sqrt( getMagnitudeSq() ); }
+    public float magnitudeSquared() { return getX() * getX() + getY() * getY(); }
 
     public float dot( AbstractVector2F v ) {
         float result = 0;
@@ -53,18 +53,18 @@ public abstract class AbstractVector2F implements Serializable {
     }
 
     public float getCrossProductScalar( AbstractVector2F v ) {
-        return (float) ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
+        return (float) ( this.magnitude() * v.magnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
     }
 
     public Vector2F normalized() {
-        float magnitude = getMagnitude();
+        float magnitude = magnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
         }
         return new Vector2F( getX() / magnitude, getY() / magnitude );
     }
 
-    public Vector2F getInstanceOfMagnitude( float magnitude ) { return times( magnitude / getMagnitude() ); }
+    public Vector2F getInstanceOfMagnitude( float magnitude ) { return times( magnitude / magnitude() ); }
 
     public Vector2F times( float scale ) { return new Vector2F( getX() * scale, getY() * scale ); }
 
@@ -80,5 +80,5 @@ public abstract class AbstractVector2F implements Serializable {
 
     public Vector2F minus( AbstractVector2F v ) { return minus( v.getX(), v.getY() ); }
 
-    public Vector2F getRotatedInstance( float angle ) { return Vector2F.createPolar( getMagnitude(), getAngle() + angle ); }
+    public Vector2F getRotatedInstance( float angle ) { return Vector2F.createPolar( magnitude(), getAngle() + angle ); }
 }

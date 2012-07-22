@@ -164,7 +164,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
         if ( isEnabled() ) {
             getLocation( _somePoint /* output */ );
             _magnetModel.getBField( _somePoint, _someVector /* output */ );
-            if ( _someVector.getMagnitude() != 0 ) {
+            if ( _someVector.magnitude() != 0 ) {
                 _behavior.setDirection( _someVector, dt );
             }
         }
@@ -301,7 +301,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
 
         public void setDirection( MutableVector2D fieldVector, double dt ) {
 
-            double magnitude = fieldVector.getMagnitude();
+            double magnitude = fieldVector.magnitude();
             double angle = fieldVector.getAngle();
 
             // Difference between the field angle and the compass angle.

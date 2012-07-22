@@ -14,7 +14,7 @@ public class LinearBranch {
     }
 
     public double getLength() {
-        return dv.getMagnitude();
+        return dv.magnitude();
     }
 
     public Vector2D getLocation( double d ) {

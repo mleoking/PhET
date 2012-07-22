@@ -118,11 +118,11 @@ public class ProvisionalBond extends SimpleObservable implements ModelElement, P
             // molecules
             if( spring != null && spring.getPotentialEnergy() != 0 ) {
                 double peRes = spring.getPotentialEnergy();
-                double vM0i = getMolecules()[0].getFullMolecule().getVelocity().getMagnitude();
+                double vM0i = getMolecules()[0].getFullMolecule().getVelocity().magnitude();
                 double vM0f = Math.sqrt( peRes / getMolecules()[0].getFullMass() + vM0i * vM0i );
                 getMolecules()[0].getFullMolecule().setVelocity( getMolecules()[0].getFullMolecule().getVelocity().normalize().scale( vM0f ) );
 
-                double vM1i = getMolecules()[1].getFullMolecule().getVelocity().getMagnitude();
+                double vM1i = getMolecules()[1].getFullMolecule().getVelocity().magnitude();
                 double vM1f = Math.sqrt( peRes / getMolecules()[1].getFullMass() + vM1i * vM1i );
                 getMolecules()[1].getFullMolecule().setVelocity( getMolecules()[1].getFullMolecule().getVelocity().normalize().scale( vM1f ) );
             }

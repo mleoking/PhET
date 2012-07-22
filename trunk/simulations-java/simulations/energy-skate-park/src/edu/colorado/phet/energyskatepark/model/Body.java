@@ -136,7 +136,7 @@ public class Body implements Serializable {
             notifyPositionAngleChanged();
         }
         double err = Math.abs( origEnergy - getTotalEnergy() );
-        if ( err > 1E-5 && getThrust().getMagnitude() == 0 && !isUserControlled() && !isSplineUserControlled() ) {
+        if ( err > 1E-5 && getThrust().magnitude() == 0 && !isUserControlled() && !isSplineUserControlled() ) {
             EnergySkateParkLogging.println( "err = " + err );
             errorCount++;
             fractionalEnergyError += err / Math.abs( origEnergy );
@@ -266,7 +266,7 @@ public class Body implements Serializable {
     }
 
     public double getSpeed() {
-        return getVelocity().getMagnitude();
+        return getVelocity().magnitude();
     }
 
     public void setPosition( SerializablePoint2D point2D ) {

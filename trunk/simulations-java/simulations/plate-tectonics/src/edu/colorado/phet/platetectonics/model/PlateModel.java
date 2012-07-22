@@ -309,7 +309,7 @@ public abstract class PlateModel {
 
     public static Vector3F convertToPlanar( Vector3F radial ) {
         Vector3F fromCenter = radial.minus( EARTH_CENTER );
-        float radius = fromCenter.getMagnitude();
+        float radius = fromCenter.magnitude();
         float phi = ( (float) Math.acos( fromCenter.z / radius ) );
         float theta = (float) Math.atan2( fromCenter.y, fromCenter.x );
         double mappedTheta = ( Math.PI / 2 ) - theta;

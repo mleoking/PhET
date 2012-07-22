@@ -53,11 +53,11 @@ public class CurveScreenGraphic extends AbstractScreenGraphic {
 //            double waveValue = getWaveModel().getValue( getWaveModel().getWidth() - 1, j );
             double waveValue = getWaveModel().getAverageValue( getWaveModel().getWidth() - 1, j, 2 );
             MutableVector2D vec = new MutableVector2D( getDx(), -getDy() );
-            double mag = vec.getMagnitude();
+            double mag = vec.magnitude();
             vec.normalize();
 
             vec.scale( waveValue * intensityScale );
-            if ( vec.getMagnitude() > mag ) {
+            if ( vec.magnitude() > mag ) {
                 vec = new MutableVector2D( getDx(), -getDy() );
                 if ( waveValue < 0 ) {
                     vec.scale( -1 );

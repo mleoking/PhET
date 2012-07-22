@@ -692,7 +692,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         }
 
         public double getDistanceToDestination() {
-            return dst.getPosition().minus( donor.getPosition() ).getMagnitude();
+            return dst.getPosition().minus( donor.getPosition() ).magnitude();
         }
 
         public double getFractionalDistanceToDestination() {

@@ -205,7 +205,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
             _fieldMeterModel.getStrength( _fieldVector /* output */ );
 
             // Get the components, adjust the coordinate system.
-            double b = _fieldVector.getMagnitude();
+            double b = _fieldVector.magnitude();
             double bx = _fieldVector.getX();
             double by = -( _fieldVector.getY() ); // +Y is up
             double angle = -( _fieldVector.getAngle() );  // +angle is counterclockwise

@@ -300,7 +300,7 @@ public class ParticleModel {
             Vector2D velocityVector = getVelocity( particle );
             sum.add( velocityVector );
         }
-        return sum.getMagnitude() / numParticles() / speed;
+        return sum.magnitude() / numParticles() / speed;
     }
 
     private Vector2D getVelocity( Particle particle ) {

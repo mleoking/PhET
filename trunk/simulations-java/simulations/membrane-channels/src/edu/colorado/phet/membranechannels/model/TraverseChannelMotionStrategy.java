@@ -193,7 +193,7 @@ public class TraverseChannelMotionStrategy extends MotionStrategy {
         if ( currentDestinationIndex < traversalPoints.size() ) {
             Point2D dest = traversalPoints.get( currentDestinationIndex );
             velocityVector.setComponents( dest.getX() - currentLocation.getX(), dest.getY() - currentLocation.getY() );
-            double scaleFactor = velocityScaler / velocityVector.getMagnitude();
+            double scaleFactor = velocityScaler / velocityVector.magnitude();
             velocityVector.scale( scaleFactor );
         }
         else {

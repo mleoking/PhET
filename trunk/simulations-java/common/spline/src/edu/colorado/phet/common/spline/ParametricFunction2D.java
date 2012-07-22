@@ -238,7 +238,7 @@ public abstract class ParametricFunction2D implements Serializable {
 //        EnergySkateParkLogging.println( "a0 = " + a0 +", a1="+a1);
 
         MutableVector2D vector = new MutableVector2D( evaluate( a0 ), evaluate( a1 ) );
-        if ( vector.getMagnitude() == 0 ) {
+        if ( vector.magnitude() == 0 ) {
             throw new RuntimeException( "unit parallel vector failed: alpha=" + alpha + ", eval=" + evaluate( alpha ) );
         }
         return vector.normalized();

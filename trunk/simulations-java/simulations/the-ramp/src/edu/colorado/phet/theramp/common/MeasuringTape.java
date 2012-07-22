@@ -126,7 +126,7 @@ public class MeasuringTape extends PNode {
         bodyGraphic.rotateAboutPoint( viewVector.getAngle(), bodyGraphic.getImageGraphic().getWidth(), bodyGraphic.getImageGraphic().getHeight() );
         endGraphic.setOffset( viewDst.getX() - endGraphic.getShapeGraphic().getWidth() / 2, viewDst.getY() - endGraphic.getShapeGraphic().getHeight() / 2 );
 
-        double modelDistance = new MutableVector2D( modelSrc, modelDst ).getMagnitude();
+        double modelDistance = new MutableVector2D( modelSrc, modelDst ).magnitude();
         readoutGraphic.setDistance( modelDistance );
         readoutGraphic.setOffset( viewSrc.x, (int) ( viewSrc.y + readoutGraphic.getHeight() * 1.2 + 7 ) );
     }

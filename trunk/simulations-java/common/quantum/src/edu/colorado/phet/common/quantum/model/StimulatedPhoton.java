@@ -42,8 +42,8 @@ public class StimulatedPhoton extends Photon {
 //        double yOffset = (double)(( 1 + idx / 2 ) * 4);
         double yOffset = SEPARATION;
         int sign = idx % 2 == 0 ? 1 : -1;
-        double dy = yOffset * sign * ( stimulatingPhoton.getVelocity().getX() / stimulatingPhoton.getVelocity().getMagnitude() );
-        double dx = yOffset * -sign * ( stimulatingPhoton.getVelocity().getY() / stimulatingPhoton.getVelocity().getMagnitude() );
+        double dy = yOffset * sign * ( stimulatingPhoton.getVelocity().getX() / stimulatingPhoton.getVelocity().magnitude() );
+        double dx = yOffset * -sign * ( stimulatingPhoton.getVelocity().getY() / stimulatingPhoton.getVelocity().magnitude() );
         double newY = stimulatingPhoton.getPosition().getY() + dy;
         double newX = stimulatingPhoton.getPosition().getX() + dx;
 

@@ -175,7 +175,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
 
         final ItemList<Constituent<T>> atLocation = constituents.filter( new Function1<Constituent<T>, Boolean>() {
             public Boolean apply( Constituent<T> constituent ) {
-                return constituent.relativePosition.minus( location ).getMagnitude() < spacing / 100;
+                return constituent.relativePosition.minus( location ).magnitude() < spacing / 100;
             }
         } );
 

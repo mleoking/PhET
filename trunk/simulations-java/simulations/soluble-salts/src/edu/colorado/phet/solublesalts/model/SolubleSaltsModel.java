@@ -331,9 +331,9 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         List ions = getIons();
         for ( int i = 0; i < ions.size(); i++ ) {
             Ion ion = (Ion) ions.get( i );
-            double speed0 = ion.getVelocity().getMagnitude();
+            double speed0 = ion.getVelocity().magnitude();
             double speed1 = Math.sqrt( Math.max( MIN_SPEED, speed0 * speed0 + ( 2 * heat / ion.getMass() ) ) );
-            if ( ion.getVelocity().getMagnitude() > 0 ) {
+            if ( ion.getVelocity().magnitude() > 0 ) {
                 ion.setVelocity( ion.getVelocity().normalize().scale( speed1 ) );
             }
         }

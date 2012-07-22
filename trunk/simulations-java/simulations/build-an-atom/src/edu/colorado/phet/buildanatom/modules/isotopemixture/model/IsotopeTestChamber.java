@@ -359,7 +359,7 @@ public class IsotopeTestChamber {
                         forceFromIsotope.setComponents(
                                 isotope1.getPosition().getX() - isotope2.getPosition().getX(),
                                 isotope1.getPosition().getY() - isotope2.getPosition().getY() );
-                        double distance = Math.max( forceFromIsotope.getMagnitude(), minInterParticleDistance );
+                        double distance = Math.max( forceFromIsotope.magnitude(), minInterParticleDistance );
                         forceFromIsotope.normalize();
                         forceFromIsotope.scale( interParticleForceConst / ( distance * distance ) );
                     }
