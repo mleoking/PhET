@@ -81,4 +81,6 @@ public abstract class AbstractVector2F implements Serializable {
     public Vector2F minus( AbstractVector2F v ) { return minus( v.getX(), v.getY() ); }
 
     public Vector2F getRotatedInstance( float angle ) { return Vector2F.createPolar( magnitude(), getAngle() + angle ); }
+
+    public Vector2D to2F() { return new Vector2D( getX(), getY() );}
 }
