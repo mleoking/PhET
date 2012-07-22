@@ -82,6 +82,11 @@ public @EqualsAndHashCode(callSuper = false) @ToString class MutableVector2F ext
         return this;
     }
 
+    public MutableVector2F negate() {
+        setComponents( -getX(), -getY() );
+        return this;
+    }
+
     @Override public float getY() { return y; }
 
     @Override public float getX() { return x; }

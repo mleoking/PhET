@@ -67,7 +67,6 @@ public abstract class AbstractVector4F implements Serializable {
 
     public Vector4F minus( float x, float y, float z, float w ) { return new Vector4F( getX() - x, getY() - y, getZ() - z, getW() - w ); }
 
-    // TODO: resolve naming conflict with Vector2D
     public Vector4F negated() { return new Vector4F( -getX(), -getY(), -getZ(), -getW() ); }
 
     // ignore the w component

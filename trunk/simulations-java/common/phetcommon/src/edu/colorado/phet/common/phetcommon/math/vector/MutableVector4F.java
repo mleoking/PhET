@@ -58,6 +58,11 @@ public @EqualsAndHashCode(callSuper = false) @ToString class MutableVector4F ext
         return this;
     }
 
+    public MutableVector4F negate() {
+        setComponents( -getX(), -getY(), -getZ(), -getW() );
+        return this;
+    }
+
     public void setX( float x ) { this.x = x; }
 
     public void setY( float y ) { this.y = y; }

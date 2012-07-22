@@ -94,4 +94,6 @@ public abstract class AbstractVector2D implements Serializable {
     public Vector2D minus( AbstractVector2D v ) { return minus( v.getX(), v.getY() ); }
 
     public Vector2D getRotatedInstance( double angle ) { return Vector2D.createPolar( getMagnitude(), getAngle() + angle ); }
+
+    public Vector2D negated() { return new Vector2D( -getX(), -getY() ); }
 }

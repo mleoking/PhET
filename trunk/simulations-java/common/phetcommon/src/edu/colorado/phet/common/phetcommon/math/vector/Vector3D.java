@@ -32,7 +32,4 @@ public @EqualsAndHashCode(callSuper = false) @ToString class Vector3D extends Ab
     @Override public double getY() { return y; }
 
     @Override public double getZ() { return z; }
-
-    // TODO: resolve naming conflict with Vector2D
-    public Vector3D negated() { return new Vector3D( -x, -y, -z ); }
 }

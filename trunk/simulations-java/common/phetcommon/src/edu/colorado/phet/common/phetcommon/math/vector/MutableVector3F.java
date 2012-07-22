@@ -52,6 +52,11 @@ public @EqualsAndHashCode(callSuper = false) @ToString class MutableVector3F ext
         return this;
     }
 
+    public MutableVector3F negate() {
+        setComponents( -getX(), -getY(), -getZ() );
+        return this;
+    }
+
     public void setX( float x ) { this.x = x; }
 
     public void setY( float y ) { this.y = y; }

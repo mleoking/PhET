@@ -45,6 +45,11 @@ public @EqualsAndHashCode(callSuper = false) @ToString class MutableVector3D ext
         return scale( 1.0 / magnitude );
     }
 
+    public MutableVector3D negate() {
+        setComponents( -getX(), -getY(), -getZ() );
+        return this;
+    }
+
     public MutableVector3D scale( double scale ) {
         setX( getX() * scale );
         setY( getY() * scale );

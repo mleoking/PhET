@@ -58,8 +58,6 @@ public @EqualsAndHashCode(callSuper = false) @ToString class Vector2D extends Ab
 
     public static Vector2D createPolar( double radius, double angle ) { return new Vector2D( Math.cos( angle ), Math.sin( angle ) ).times( radius ); }
 
-    public Vector2D negate() { return times( -1 ); }
-
     //Convenience creation method for when extreme terseness is desired
     public static Vector2D v( double x, double y ) {return new Vector2D( x, y );}
 
