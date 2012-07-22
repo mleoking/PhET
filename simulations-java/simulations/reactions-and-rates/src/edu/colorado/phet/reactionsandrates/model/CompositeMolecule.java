@@ -434,7 +434,7 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
 //            SimpleMolecule component = components[i];
 //            v.add( component.getVelocity());
 //        }
-//        double ke = 0.5 * getMass() * v.getMagnitudeSq();
+//        double ke = 0.5 * getMass() * v.magnitudeSquared();
 //        return ke + angKE;
 //    }
 }

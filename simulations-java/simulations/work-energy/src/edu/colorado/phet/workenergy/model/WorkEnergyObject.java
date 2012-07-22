@@ -71,7 +71,7 @@ public class WorkEnergyObject {
         //Velocity changing should trigger KE changing
         final SimpleObserver updateKineticEnergy = new SimpleObserver() {
             public void update() {
-                kineticEnergy.set( 1 / 2.0 * mass.get() * velocity.get().getMagnitudeSq() );
+                kineticEnergy.set( 1 / 2.0 * mass.get() * velocity.get().magnitudeSquared() );
             }
         };
         mass.addObserver( updateKineticEnergy );

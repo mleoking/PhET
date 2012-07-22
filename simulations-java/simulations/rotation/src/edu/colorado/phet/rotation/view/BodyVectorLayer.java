@@ -98,7 +98,7 @@ public class BodyVectorLayer extends PNode {
             Point2D position = rotationBody.getPosition();
             Vector2D vector = vectorFunction.getVector();
             arrowNode.setPathTo( new Arrow( position, vector, 20 * RotationPlayAreaNode.SCALE, 20 * RotationPlayAreaNode.SCALE, 3 * RotationPlayAreaNode.SCALE, 0.75, true ).getShape() );
-            labelNode.setVisible( vector.getMagnitude() > VISIBLE_THRESHOLD );
+            labelNode.setVisible( vector.magnitude() > VISIBLE_THRESHOLD );
             if ( labelNode.getVisible() ) {
                 labelNode.setTransform( AffineTransform.getScaleInstance( RotationPlayAreaNode.SCALE, -1.0 * RotationPlayAreaNode.SCALE ) );
                 labelNode.setOffset( increase( vector, 20 * RotationPlayAreaNode.SCALE ).getDestination( position ) );
@@ -107,7 +107,7 @@ public class BodyVectorLayer extends PNode {
         }
 
         private Vector2D increase( Vector2D orig, double dx ) {
-            return Math.abs( orig.getMagnitude() ) < VISIBLE_THRESHOLD ? orig : orig.getInstanceOfMagnitude( orig.getMagnitude() + dx );
+            return Math.abs( orig.magnitude() ) < VISIBLE_THRESHOLD ? orig : orig.getInstanceOfMagnitude( orig.magnitude() + dx );
         }
     }
 

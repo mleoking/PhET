@@ -67,8 +67,8 @@ public class EnergyChunkDistributor {
                         if ( p != otherP ) {
                             // Calculate force vector, but handle cases where too close.
                             Vector2D vectorToOther = p.position.minus( otherP.position );
-                            if ( vectorToOther.getMagnitude() < minDistance ) {
-                                if ( vectorToOther.getMagnitude() == 0 ) {
+                            if ( vectorToOther.magnitude() < minDistance ) {
+                                if ( vectorToOther.magnitude() == 0 ) {
                                     // Create a random vector of min distance.
                                     System.out.println( "Creating random vector" );
                                     double angle = RAND.nextDouble() * Math.PI * 2;
@@ -78,7 +78,7 @@ public class EnergyChunkDistributor {
                                     vectorToOther = vectorToOther.getInstanceOfMagnitude( minDistance );
                                 }
                             }
-                            p.applyForce( vectorToOther.getInstanceOfMagnitude( forceConstant / ( vectorToOther.getMagnitudeSq() ) ) );
+                            p.applyForce( vectorToOther.getInstanceOfMagnitude( forceConstant / ( vectorToOther.magnitudeSquared() ) ) );
                         }
                     }
                 }
@@ -166,8 +166,8 @@ public class EnergyChunkDistributor {
                         if ( p != otherP ) {
                             // Calculate force vector, but handle cases where too close.
                             Vector2D vectorToOther = p.position.minus( otherP.position );
-                            if ( vectorToOther.getMagnitude() < minDistance ) {
-                                if ( vectorToOther.getMagnitude() == 0 ) {
+                            if ( vectorToOther.magnitude() < minDistance ) {
+                                if ( vectorToOther.magnitude() == 0 ) {
                                     // Create a random vector of min distance.
                                     System.out.println( "Creating random vector" );
                                     double angle = RAND.nextDouble() * Math.PI * 2;
@@ -177,7 +177,7 @@ public class EnergyChunkDistributor {
                                     vectorToOther = vectorToOther.getInstanceOfMagnitude( minDistance );
                                 }
                             }
-                            p.applyForce( vectorToOther.getInstanceOfMagnitude( particleForceConstant / ( vectorToOther.getMagnitudeSq() ) ) );
+                            p.applyForce( vectorToOther.getInstanceOfMagnitude( particleForceConstant / ( vectorToOther.magnitudeSquared() ) ) );
                         }
                     }
                 }
@@ -286,8 +286,8 @@ public class EnergyChunkDistributor {
                         if ( p != otherP ) {
                             // Calculate force vector, but handle cases where too close.
                             Vector2D vectorToOther = p.position.minus( otherP.position );
-                            if ( vectorToOther.getMagnitude() < minDistance ) {
-                                if ( vectorToOther.getMagnitude() == 0 ) {
+                            if ( vectorToOther.magnitude() < minDistance ) {
+                                if ( vectorToOther.magnitude() == 0 ) {
                                     // Create a random vector of min distance.
                                     System.out.println( "Creating random vector" );
                                     double angle = RAND.nextDouble() * Math.PI * 2;
@@ -297,7 +297,7 @@ public class EnergyChunkDistributor {
                                     vectorToOther = vectorToOther.getInstanceOfMagnitude( minDistance );
                                 }
                             }
-                            p.applyForce( vectorToOther.getInstanceOfMagnitude( particleForceConstant / ( vectorToOther.getMagnitudeSq() ) ) );
+                            p.applyForce( vectorToOther.getInstanceOfMagnitude( particleForceConstant / ( vectorToOther.magnitudeSquared() ) ) );
                         }
                     }
                 }
@@ -342,7 +342,7 @@ public class EnergyChunkDistributor {
         }
 
         public void applyForce( Vector2D force ) {
-            acceleration.add( force.times( force.getMagnitude() / MASS ) );
+            acceleration.add( force.times( force.magnitude() / MASS ) );
         }
 
         public void clearAcceleration() {
@@ -359,7 +359,7 @@ public class EnergyChunkDistributor {
                 // Limit the velocity.  This acts much like a drag force that
                 // gets stronger as the velocity gets bigger.
                 double maxVelocity = Math.min( containerShape.getBounds2D().getWidth(), containerShape.getBounds2D().getHeight() ) / 20 / dt;
-                velocity.setMagnitude( maxVelocity * velocity.getMagnitude() / ( velocity.getMagnitude() + maxVelocity ) );
+                velocity.setMagnitude( maxVelocity * velocity.magnitude() / ( velocity.magnitude() + maxVelocity ) );
 
                 // Check that the velocity won't move the point outside of the container.
                 if ( containerShape.contains( position.toPoint2D() ) && !containerShape.contains( position.plus( velocity.times( dt ) ).toPoint2D() ) ) {

@@ -17,7 +17,7 @@ public class Ray3F {
         this.pos = pos;
 
         // normalize dir if needed
-        this.dir = dir.getMagnitude() == 1 ? dir : dir.normalized();
+        this.dir = dir.magnitude() == 1 ? dir : dir.normalized();
     }
 
     // a ray whose position is shifted by the specified distance in the direction of the ray

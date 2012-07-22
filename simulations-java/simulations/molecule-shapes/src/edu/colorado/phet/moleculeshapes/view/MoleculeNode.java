@@ -32,7 +32,7 @@ public class MoleculeNode extends Node {
             atomNodes.add( atomNode );
             attachChild( atomNode );
 
-            boundingRadius = Math.max( boundingRadius, (float) ( atom.position.get().getMagnitude() + atomNode.getRadius() ) );
+            boundingRadius = Math.max( boundingRadius, (float) ( atom.position.get().magnitude() + atomNode.getRadius() ) );
         }
 
         for ( Bond<Atom3D> bond : molecule.getBonds() ) {

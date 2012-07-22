@@ -226,7 +226,7 @@ public class CollisionUtils {
 
         return reduceLeft( map( differences, new Function1<Vector2D, Double>() {
             public Double apply( Vector2D v ) {
-                return v.getMagnitude();
+                return v.magnitude();
             }
         } ), new Function2<Double, Double, Double>() {
             public Double apply( Double a, Double b ) {

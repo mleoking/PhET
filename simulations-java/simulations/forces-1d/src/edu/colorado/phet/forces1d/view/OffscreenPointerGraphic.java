@@ -52,7 +52,7 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
                     Point2D.Double dst = new Point2D.Double( source.getX() + x, yRel );
                     Vector2D arrowVector = new Vector2D( source, dst );
                     int maxArrowLength = textGraphic.getWidth() / 2;
-                    if ( arrowVector.getMagnitude() > maxArrowLength ) {
+                    if ( arrowVector.magnitude() > maxArrowLength ) {
                         arrowVector = arrowVector.getInstanceOfMagnitude( maxArrowLength );
                     }
 

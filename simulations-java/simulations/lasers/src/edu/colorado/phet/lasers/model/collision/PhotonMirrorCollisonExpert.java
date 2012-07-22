@@ -72,7 +72,7 @@ public class PhotonMirrorCollisonExpert implements CollisionExpert {
         double vx = 0;
         double vy = 0;
         if ( Math.abs( photon.getVelocity().getAngle() % Math.PI ) < cheatFactor ) {
-            vx = -photon.getVelocity().getMagnitude() * MathUtil.getSign( photon.getVelocity().getX() );
+            vx = -photon.getVelocity().magnitude() * MathUtil.getSign( photon.getVelocity().getX() );
             vy = 0;
         }
         else {

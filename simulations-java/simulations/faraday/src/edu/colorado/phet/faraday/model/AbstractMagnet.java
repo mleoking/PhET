@@ -182,7 +182,7 @@ public abstract class AbstractMagnet extends FaradayObservable {
         // Clamp magnitude to magnet strength.
         //TODO: why do we need to do this?
         double magnetStrength = getStrength();
-        double magnitude = outputVector.getMagnitude();
+        double magnitude = outputVector.magnitude();
         if ( magnitude > magnetStrength ) {
             outputVector.setMagnitude( magnetStrength );
             //System.out.println( "AbstractMagnet.getStrength - magnitude exceeds magnet strength by " + (magnitude - magnetStrength ) ); // DEBUG

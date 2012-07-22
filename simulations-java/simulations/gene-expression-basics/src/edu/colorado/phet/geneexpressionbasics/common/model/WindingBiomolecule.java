@@ -118,7 +118,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
                     // This is not the last point on the list, so go ahead and
                     // run the spring algorithm on it.
                     Vector2D vectorToPreviousPoint = new Vector2D( previousPoint.getPosition() ).minus( new Vector2D( currentPoint.getPosition() ) );
-                    if ( vectorToPreviousPoint.getMagnitude() == 0 ) {
+                    if ( vectorToPreviousPoint.magnitude() == 0 ) {
                         // This point is sitting on top of the previous point,
                         // so create an arbitrary vector away from it.
                         vectorToPreviousPoint = new Vector2D( 1, 1 );
@@ -126,7 +126,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
                     double scalarForceDueToPreviousPoint = ( -springConstant ) * ( currentPoint.getTargetDistanceToPreviousPoint() - currentPoint.distance( previousPoint ) );
                     Vector2D forceDueToPreviousPoint = vectorToPreviousPoint.normalized().times( scalarForceDueToPreviousPoint );
                     Vector2D vectorToNextPoint = new Vector2D( nextPoint.getPosition() ).minus( new Vector2D( currentPoint.getPosition() ) );
-                    if ( vectorToNextPoint.getMagnitude() == 0 ) {
+                    if ( vectorToNextPoint.magnitude() == 0 ) {
                         // This point is sitting on top of the next point,
                         // so create an arbitrary vector away from it.
                         vectorToNextPoint = new Vector2D( -1, -1 );

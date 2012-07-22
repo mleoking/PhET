@@ -79,7 +79,7 @@ public class LonePairNode extends Node {
                 JMEUtils.fromStartEndVectors( matrix, lonePairOrientation, orientation );
                 setLocalRotation( matrix );
 
-                if ( offsetFromParentAtom.getMagnitude() > PairGroup.LONE_PAIR_DISTANCE ) {
+                if ( offsetFromParentAtom.magnitude() > PairGroup.LONE_PAIR_DISTANCE ) {
                     setLocalTranslation( JMEUtils.convertVector( position.get().minus( orientation.times( PairGroup.LONE_PAIR_DISTANCE ) ) ) );
                 }
                 else {

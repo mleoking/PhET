@@ -38,7 +38,7 @@ public @EqualsAndHashCode(callSuper = false) @ToString class MutableVector3F ext
     }
 
     public MutableVector3F normalize() {
-        float magnitude = getMagnitude();
+        float magnitude = magnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
         }

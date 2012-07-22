@@ -40,7 +40,7 @@ public class FlowToDrainStrategy extends UpdateStrategy {
             //If not closest to the drain, follow some random walk motion to look more natural, but still move toward the drain a little bit
             //If closest to the drain, move directly toward the drain so it can reach it in the desired amount of time to keep the concentration as steady as possible
             if ( randomWalk ) {
-                double initVelocity = particle.velocity.get().getMagnitude();
+                double initVelocity = particle.velocity.get().magnitude();
 
                 //Mix in more of the original velocity to keep more of the random walk component
                 Vector2D newVelocity = particle.velocity.get().times( 3 ).plus( velocity ).getInstanceOfMagnitude( initVelocity );

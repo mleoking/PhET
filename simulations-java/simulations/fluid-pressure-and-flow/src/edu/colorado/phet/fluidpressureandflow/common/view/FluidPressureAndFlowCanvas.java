@@ -220,7 +220,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         return new Function1<Vector2D, String>() {
             public String apply( Vector2D aDouble ) {
                 final Unit unit = model.units.get().velocity;
-                return MessageFormat.format( VALUE_WITH_UNITS_PATTERN, unit.getDecimalFormat().format( unit.siToUnit( aDouble.getMagnitude() ) ), unit.getAbbreviation() );
+                return MessageFormat.format( VALUE_WITH_UNITS_PATTERN, unit.getDecimalFormat().format( unit.siToUnit( aDouble.magnitude() ) ), unit.getAbbreviation() );
             }
         };
     }

@@ -446,7 +446,7 @@ public class PressureWaveGraphic extends PNode {
 //        }
 
         private void accelerateToTarget( MutableVector2D vec, double accelScale, double frictionScale ) {
-            if ( vec.getMagnitude() >= 1.2 ) {
+            if ( vec.magnitude() >= 1.2 ) {
                 vec.normalize();
                 double finalAcceleration = acceleration * accelScale;
                 vec.scale( finalAcceleration );
@@ -485,7 +485,7 @@ public class PressureWaveGraphic extends PNode {
         }
 
         private void stepToTarget( MutableVector2D vec ) {
-            if ( vec.getMagnitude() >= 1.2 ) {
+            if ( vec.magnitude() >= 1.2 ) {
                 vec.normalize();
                 vec.scale( speed );
 //                System.out.println( "vec = " + vec );

@@ -21,10 +21,10 @@ public class RampObject {
     }
 
     public RampObject( double mass, Vector2D position, Vector2D v, Vector2D a, double staticFrictionCoefficient, double kineticFrictionCoefficient, double angle, boolean interacting ) {
-        if ( position.getMagnitude() > 0 ) {
+        if ( position.magnitude() > 0 ) {
             started = true;
         }
-        if ( started && position.getMagnitude() == 0 ) {
+        if ( started && position.magnitude() == 0 ) {
             System.out.println( "" );
         }
         this.mass = mass;

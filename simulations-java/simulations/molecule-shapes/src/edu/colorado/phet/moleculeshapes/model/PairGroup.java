@@ -76,7 +76,7 @@ public class PairGroup {
         /*---------------------------------------------------------------------------*
         * prevent movement away from our ideal distance
         *----------------------------------------------------------------------------*/
-        double currentError = Math.abs( ( position.get().minus( origin ) ).getMagnitude() - idealDistanceFromCenter );
+        double currentError = Math.abs( ( position.get().minus( origin ) ).magnitude() - idealDistanceFromCenter );
         double oldError = Math.abs( oldDistance - idealDistanceFromCenter );
         if ( currentError > oldError ) {
             // our error is getting worse! for now, don't let us slide AWAY from the ideal distance ever
@@ -89,7 +89,7 @@ public class PairGroup {
         *----------------------------------------------------------------------------*/
         Vector3D toCenter = position.get().minus( origin );
 
-        double distance = toCenter.getMagnitude();
+        double distance = toCenter.magnitude();
         Vector3D directionToCenter = toCenter.normalized();
 
         double offset = idealDistanceFromCenter - distance;
@@ -125,12 +125,12 @@ public class PairGroup {
         *----------------------------------------------------------------------------*/
 
         // adjusted distances from the center atom
-        double adjustedMagnitude = interpolate( BONDED_PAIR_DISTANCE, position.get().getMagnitude(), trueLengthsRatioOverride );
-        double adjustedOtherMagnitude = interpolate( BONDED_PAIR_DISTANCE, other.position.get().getMagnitude(), trueLengthsRatioOverride );
+        double adjustedMagnitude = interpolate( BONDED_PAIR_DISTANCE, position.get().magnitude(), trueLengthsRatioOverride );
+        double adjustedOtherMagnitude = interpolate( BONDED_PAIR_DISTANCE, other.position.get().magnitude(), trueLengthsRatioOverride );
 
         // adjusted positions
         Vector3D adjustedPosition = position.get().normalized().times( adjustedMagnitude );
-        Vector3D adjustedOtherPosition = other.position.get().getMagnitude() == 0 ? new Vector3D() : other.position.get().normalized().times( adjustedOtherMagnitude );
+        Vector3D adjustedOtherPosition = other.position.get().magnitude() == 0 ? new Vector3D() : other.position.get().normalized().times( adjustedOtherMagnitude );
 
         // from other => this (adjusted)
         Vector3D delta = adjustedPosition.minus( adjustedOtherPosition );
@@ -142,7 +142,7 @@ public class PairGroup {
         double repulsionFactor = 1;
 
         // mimic Coulomb's Law
-        Vector3D coulombVelocityDelta = delta.normalized().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.getMagnitude() * delta.getMagnitude() ) );
+        Vector3D coulombVelocityDelta = delta.normalized().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.magnitude() * delta.magnitude() ) );
 
         // apply a nonphysical reduction on coulomb's law when the frame-rate is low, so we can avoid oscillation
         double coulombDowngrade = getTimescaleImpulseFactor( timeElapsed ); // TODO: isolate the "standard" tpf?
@@ -180,7 +180,7 @@ public class PairGroup {
     public void stepForward( double timeElapsed ) {
         // velocity changes so that it doesn't point at all towards or away from the origin
         double velocityMagnitudeOutwards = velocity.get().dot( position.get().normalized() );
-        if ( position.get().getMagnitude() > 0 ) {
+        if ( position.get().magnitude() > 0 ) {
             velocity.set( velocity.get().minus( position.get().normalized().times( velocityMagnitudeOutwards ) ) ); // subtract the outwards-component out
         }
 

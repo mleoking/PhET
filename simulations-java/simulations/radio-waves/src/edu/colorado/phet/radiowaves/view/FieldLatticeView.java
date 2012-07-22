@@ -227,7 +227,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             g2.setStroke( hollowArrowStroke );
             for ( int i = 0; i < latticePts.length; i++ ) {
                 Vector2D f = latticePts[i].field.times( fieldSense );//see #958
-                double l = f.getMagnitude();
+                double l = f.magnitude();
 
                 if ( l > 3 ) {
                     double theta = f.getAngle();
@@ -317,7 +317,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         for ( int i = 1; i < pts.size(); i++ ) {
             FieldPt fieldPt = (FieldPt) pts.get( i );
             int arrowDir = MathUtil.getSign( fieldPt.field.getY() ) * ( fieldSense == EmfConfig.SHOW_FORCE_ON_ELECTRON ? 1 : -1 );
-            double magnitude = fieldPt.field.getMagnitude();
+            double magnitude = fieldPt.field.magnitude();
             if ( fixedSizeArrows ) {
                 magnitude = 50;
             }
@@ -341,7 +341,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         p.setLocation( new Point2D.Double( Math.abs( fieldPt.getX() ), transmittingElectronOrigin.getY() ) );
         MutableVector2D field = sourceElectron.getDynamicFieldAt( p );
         double curveAmplitudeOffset = 1 - EmfConfig.SINGLE_VECTOR_ROW_OFFSET;
-        double yTip = transmittingElectronOrigin.getY() + ( field.getMagnitude() * MathUtil.getSign( field.getY() ) * curveAmplitudeOffset );
+        double yTip = transmittingElectronOrigin.getY() + ( field.magnitude() * MathUtil.getSign( field.getY() ) * curveAmplitudeOffset );
         p.setLocation( p.getX(), yTip );
         return p;
     }
@@ -359,7 +359,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
         // Start the path at the first field point
         GeneralPath curve = new GeneralPath();
-        curve.moveTo( (float) orig.getX(), (float) ( orig.getY() + orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() ) * curveAmplitudeOffset ) );
+        curve.moveTo( (float) orig.getX(), (float) ( orig.getY() + orig.field.magnitude() * MathUtil.getSign( orig.field.getY() ) * curveAmplitudeOffset ) );
         // Make cubic curves through the rest of the points
         Point2D p = new Point2D.Double();
 
@@ -428,15 +428,15 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         double curveAmplitudeOffset = 1 - EmfConfig.SINGLE_VECTOR_ROW_OFFSET;
         FieldPt orig = (FieldPt) pts.get( curveStartingIdx );
         int xSign = MathUtil.getSign( orig.getX() - transmittingElectronOrigin.getX() );
-        DoubleGeneralPath curve = new DoubleGeneralPath( orig.getX(), orig.getY() + orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() ) * curveAmplitudeOffset );
-        double yLast = orig.field.getMagnitude() * MathUtil.getSign( orig.field.getY() * curveAmplitudeOffset );
+        DoubleGeneralPath curve = new DoubleGeneralPath( orig.getX(), orig.getY() + orig.field.magnitude() * MathUtil.getSign( orig.field.getY() ) * curveAmplitudeOffset );
+        double yLast = orig.field.magnitude() * MathUtil.getSign( orig.field.getY() * curveAmplitudeOffset );
         double yCurr = yLast;
         double xLimit = ( (FieldPt) pts.get( pts.size() - 1 ) ).getX();
         Point2D fieldPt = new Point2D.Double();
         for ( double x = orig.getX(); xSign > 0 ? x < xLimit : x > xLimit; x += 10 * xSign ) {
             fieldPt.setLocation( new Point2D.Double( Math.abs( x ), transmittingElectronOrigin.getY() ) );
             MutableVector2D field = sourceElectron.getDynamicFieldAt( fieldPt );
-            yCurr = field.getMagnitude() * MathUtil.getSign( field.getY() );
+            yCurr = field.magnitude() * MathUtil.getSign( field.getY() );
             //            if( yCurr != yLast ) {
             curve.lineTo( x, transmittingElectronOrigin.getY() + yCurr * curveAmplitudeOffset );
             yLast = yCurr;

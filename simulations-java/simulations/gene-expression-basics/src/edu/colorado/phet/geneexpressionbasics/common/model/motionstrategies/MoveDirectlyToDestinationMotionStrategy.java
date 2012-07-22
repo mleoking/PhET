@@ -88,7 +88,7 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
         // Make sure that the current motion won't move the model element past
         // the destination.
         double distanceToDestination = currentLocation2D.distance( currentDestination2D );
-        if ( velocityVector2D.getMagnitude() * dt > distanceToDestination ) {
+        if ( velocityVector2D.magnitude() * dt > distanceToDestination ) {
             return currentDestination3D;
         }
 

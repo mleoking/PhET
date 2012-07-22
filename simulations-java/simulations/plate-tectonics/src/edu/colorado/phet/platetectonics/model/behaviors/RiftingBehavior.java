@@ -57,7 +57,7 @@ public class RiftingBehavior extends PlateBehavior {
     @Override protected void onMagmaRemoved( MagmaRegion magma ) {
         super.onMagmaRemoved( magma );
 
-        addMagmaBlob( true, magma.position.get().minus( magmaTarget ).getMagnitude() );
+        addMagmaBlob( true, magma.position.get().minus( magmaTarget ).magnitude() );
     }
 
     public void addMagmaBlob( boolean onlyAtBottom ) {

@@ -61,7 +61,7 @@ public class RealMoleculeShape {
             atom.position.set( atom.position.get().normalized().times( simplifiedBondLength ) );
         }
         addAtom( atom );
-        addBond( atom, centralAtom, bondOrder, useSimplifiedBondLength ? simplifiedBondLength : atom.position.get().getMagnitude() );
+        addBond( atom, centralAtom, bondOrder, useSimplifiedBondLength ? simplifiedBondLength : atom.position.get().magnitude() );
     }
 
     public void centerOnCentralAtom() {

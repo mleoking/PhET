@@ -693,7 +693,7 @@ public class ChainReactionModel {
         int numNuclei = nuclei.size();
         for ( int i = 0; i < numNuclei; i++ ) {
             nuke = (AtomicNucleus) nuclei.get( i );
-            if ( ( nuke.getVelocity().getMagnitude() != 0 ) &&
+            if ( ( nuke.getVelocity().magnitude() != 0 ) &&
                  ( _containmentVessel.isPositionContained( nuke.getPositionReference() ) ) ) {
                 // Freeze the nucleus at the edge of the containment vessel.
                 nuke.setAcceleration( ZERO_ACCELERATION );

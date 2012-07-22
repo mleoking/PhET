@@ -25,7 +25,7 @@ public class CrystallizationMatch<T extends Particle> {
     public CrystallizationMatch( T particle, OpenSite<T> site ) {
         this.particle = particle;
         this.site = site;
-        this.distance = particle.getPosition().minus( site.absolutePosition ).getMagnitude();
+        this.distance = particle.getPosition().minus( site.absolutePosition ).magnitude();
     }
 
     @Override public String toString() {

@@ -45,8 +45,8 @@ public abstract class EnergyAbsorptionStrategy {
         double collisionDist = Math.sqrt( prevDistSq ) - Math.sqrt( atomRadSq );
 
         collisionDist = prevDist;
-        double a = electron.getAcceleration().getMagnitude() / 2;
-        double b = electron.getVelocityPrev().getMagnitude();
+        double a = electron.getAcceleration().magnitude() / 2;
+        double b = electron.getVelocityPrev().magnitude();
 
         double c = -collisionDist;
         double[] roots = MathUtil.quadraticRoots( a, b, c );
@@ -55,7 +55,7 @@ public abstract class EnergyAbsorptionStrategy {
             energy = 0;
         }
         else {
-            double v = electron.getVelocityPrev().getMagnitude() + electron.getAcceleration().getMagnitude() * t;
+            double v = electron.getVelocityPrev().magnitude() + electron.getAcceleration().magnitude() * t;
             energy = DischargeLampsConfig.PIXELS_PER_NM * DischargeLampsConfig.PIXELS_PER_NM * v * v * electron.getMass() / 2 * PhysicsUtil.EV_PER_JOULE;
         }
         return energy;

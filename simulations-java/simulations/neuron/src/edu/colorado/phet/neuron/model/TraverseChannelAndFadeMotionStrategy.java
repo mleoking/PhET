@@ -116,7 +116,7 @@ public class TraverseChannelAndFadeMotionStrategy extends MembraneTraversalMotio
         if ( currentDestinationIndex < traversalPoints.size() ) {
             Point2D dest = traversalPoints.get( currentDestinationIndex );
             velocityVector.setComponents( dest.getX() - currentLocation.getX(), dest.getY() - currentLocation.getY() );
-            double scaleFactor = maxVelocity / velocityVector.getMagnitude();
+            double scaleFactor = maxVelocity / velocityVector.magnitude();
             velocityVector.scale( scaleFactor );
         }
         else {

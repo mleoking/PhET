@@ -264,7 +264,7 @@ public class Dipole extends Body implements Collidable {
 
         public void setOrientation( MutableVector2D fieldVector, double dt ) {
 
-            double magnitude = fieldVector.getMagnitude();
+            double magnitude = fieldVector.magnitude();
             double angle = fieldVector.getAngle();
 
             // Difference between the field angle and the compass angle.

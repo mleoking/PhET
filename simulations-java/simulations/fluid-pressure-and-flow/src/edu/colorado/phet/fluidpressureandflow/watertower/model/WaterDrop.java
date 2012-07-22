@@ -42,13 +42,13 @@ public class WaterDrop {
 
         //v = 4/3 pi * r^3
         //constrain fluxes to be constant: velocity_1 * volume_1 = velocity_2 * volume_2
-        this.radius = new Property<Double>( toRadius( volume, v.getMagnitude(), v.getMagnitude() ) );
+        this.radius = new Property<Double>( toRadius( volume, v.magnitude(), v.magnitude() ) );
 
         //Water flowing out of the tower needs to get smaller to look natural, but water coming out of the hose looks weird if it gets bigger as it gets closer to the top of its arch
         if ( changeRadius ) {
             this.velocity.addObserver( new SimpleObserver() {
                 public void update() {
-                    radius.set( toRadius( volume, velocity.get().getMagnitude(), v.getMagnitude() ) );
+                    radius.set( toRadius( volume, velocity.get().magnitude(), v.magnitude() ) );
                 }
             } );
         }

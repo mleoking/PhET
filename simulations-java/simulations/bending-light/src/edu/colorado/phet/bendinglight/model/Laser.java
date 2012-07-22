@@ -81,7 +81,7 @@ public class Laser {
     }
 
     public double getDistanceFromPivot() {
-        return emissionPoint.get().minus( pivot.get() ).getMagnitude();
+        return emissionPoint.get().minus( pivot.get() ).magnitude();
     }
 
     public double getWavelength() {

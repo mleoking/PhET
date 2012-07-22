@@ -222,7 +222,7 @@ public class Circuit {
             Branch branch = adjacentBranches[i];
             Junction opposite = branch.opposite( junction );
             Vector2D vec = new Vector2D( opposite.getPosition(), junction.getPosition() );
-            double curLength = vec.getMagnitude();
+            double curLength = vec.magnitude();
             double newLength = Math.abs( curLength - CCKModel.JUNCTION_RADIUS * 1.5 );
             vec = vec.getInstanceOfMagnitude( newLength );
             Point2D desiredDst = vec.getDestination( opposite.getPosition() );
@@ -744,7 +744,7 @@ public class Circuit {
             Point2D tipCenterModel = new Point2D.Double( tipShape.getBounds2D().getCenterX(), tipShape.getBounds2D().getCenterY() );
             Point2D.Double branchStartModel = branch.getStartJunction().getPosition();
             MutableVector2D vec = new MutableVector2D( branchStartModel, tipCenterModel );
-            double dist = vec.getMagnitude();
+            double dist = vec.magnitude();
             result = new Connection.BranchConnection( branch, dist );
         }
         return result;

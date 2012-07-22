@@ -55,7 +55,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
         if ( particle.hasSubmerged() && waterVolume.get() > 0 ) {
 
             //If the particle velocity was set to zero (from a zero water volume, restore it to non-zero so it can be scaled
-            if ( particle.velocity.get().getMagnitude() == 0 ) {
+            if ( particle.velocity.get().magnitude() == 0 ) {
                 particle.velocity.set( createPolar( 1, randomAngle() ) );
             }
             particle.velocity.set( particle.velocity.get().getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
@@ -63,7 +63,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
 
         //If the particle was stopped by the water completely evaporating, start it moving again
         //Must be done before particle.stepInTime so that the particle doesn't pick up a small velocity in that method, since this assumes particle velocity of zero implies evaporated to the bottom
-        if ( particle.velocity.get().getMagnitude() == 0 ) {
+        if ( particle.velocity.get().magnitude() == 0 ) {
             model.collideWithWater( particle );
         }
 
@@ -87,7 +87,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
         //And randomize the velocity so it will hopefully move away from the wall soon, and won't get stuck in the corner
         if ( initiallyUnderwater && !underwater ) {
             particle.setPosition( initialPosition );
-            particle.velocity.set( createPolar( initialVelocity.getMagnitude(), randomAngle() ) );
+            particle.velocity.set( createPolar( initialVelocity.magnitude(), randomAngle() ) );
         }
 
         //Keep the particle within the beaker solution bounds
@@ -101,7 +101,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
         boolean partiallySubmerged = particle.getShape().getBounds2D().getMinY() < model.solution.shape.get().getBounds2D().getMaxY();
         boolean nearTheBottom = particle.getShape().getBounds2D().getMinY() <= model.solution.shape.get().getBounds().getMinY() + 1E-12;
         if ( !initiallyUnderwater && !underwater && shapeIntersectsWater && partiallySubmerged && nearTheBottom ) {
-            particle.velocity.set( createPolar( initialVelocity.getMagnitude(), randomAngle() ) );
+            particle.velocity.set( createPolar( initialVelocity.magnitude(), randomAngle() ) );
         }
 
         //Stop the particle completely if there is no water to move within, though it should probably find another particle to crystallize with (if partner is required)

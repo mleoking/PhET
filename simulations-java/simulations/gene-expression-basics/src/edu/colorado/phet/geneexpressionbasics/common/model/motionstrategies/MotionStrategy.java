@@ -95,7 +95,7 @@ public abstract class MotionStrategy {
                                                            motionBounds.getBounds().getBounds2D().getCenterY() );
         MutableVector2D vectorToMotionBoundsCenter = new MutableVector2D( centerOfMotionBounds.getX() - shape.getBounds2D().getCenterX(),
                                                                           centerOfMotionBounds.getY() - shape.getBounds2D().getCenterY() );
-        vectorToMotionBoundsCenter.scale( maxVelocity / vectorToMotionBoundsCenter.getMagnitude() );
+        vectorToMotionBoundsCenter.scale( maxVelocity / vectorToMotionBoundsCenter.magnitude() );
         return new Vector2D( vectorToMotionBoundsCenter );
     }
 

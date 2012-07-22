@@ -129,7 +129,7 @@ public class RotationBody {
             }
             else {
                 AbstractVector2D vec = new MutableVector2D( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
-                if ( vec.getMagnitudeSq() == 0 ) {
+                if ( vec.magnitudeSquared() == 0 ) {
                     vec = MutableVector2D.createPolar( 1.0, lastNonZeroRadiusAngle );
                 }
                 Vector2D m = vec.getInstanceOfMagnitude( f.getValue() );
@@ -230,8 +230,8 @@ public class RotationBody {
         if ( !getPosition().equals( origPosition ) ) {//todo: integrate listener behavior into xBody and yBody?
             notifyPositionChanged();
         }
-        speed.addValue( getVelocity().getMagnitude(), time );
-        accelMagnitude.addValue( getAcceleration().getMagnitude(), time );
+        speed.addValue( getVelocity().magnitude(), time );
+        accelMagnitude.addValue( getAcceleration().magnitude(), time );
         orientation.addValue( getOrientation(), time );
 
 //        debugSeries();
@@ -286,7 +286,7 @@ public class RotationBody {
                                                                     circle.getCenter2D() );
                 double aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
 
-                if ( accelVector.getMagnitude() < 0.1 ) {
+                if ( accelVector.magnitude() < 0.1 ) {
                     accelVector = new MutableVector2D( 0.1, 0.1 );//todo: remove this dummy test value
                 }
                 accelVector = accelVector.getInstanceOfMagnitude( aMag );
@@ -487,7 +487,7 @@ public class RotationBody {
         }
 //        System.out.println( "newV.getMagnitude() = " + newV.getMagnitude() );
         //System.out.println("newV.getMagnitude() * newV.getMagnitude() / r / ( 9.8 * 1000)=  "+newV.getMagnitude() * newV.getMagnitude() / r / ( 9.8 * 1000));
-        if ( newV.getMagnitude() * newV.getMagnitude() / r / 9.8 > COEFFICIENT_OF_STATIC_FRICTION_MU ) {//v*v/r >= mu g
+        if ( newV.magnitude() * newV.magnitude() / r / 9.8 > COEFFICIENT_OF_STATIC_FRICTION_MU ) {//v*v/r >= mu g
 //            System.out.println( "flying off" );
             setUpdateStrategy( new FlyingOff( newV ) );
 //            RotationResources.getInstance().getAudioClip( "bug-flyoff.wav" );
@@ -523,7 +523,7 @@ public class RotationBody {
         //these should be colinear
         double angle = cv.getAngle() - av.getAngle();
 
-        if ( Math.abs( angle ) > 1E-2 & av.getMagnitude() > 1E-9 ) {
+        if ( Math.abs( angle ) > 1E-2 & av.magnitude() > 1E-9 ) {
 //            System.out.println( "RotationBody.updateBodyOnPlatform, angle="+angle );
         }
     }

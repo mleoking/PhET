@@ -111,7 +111,7 @@ public class AppliedForce {
     }
 
     private void updateDependentValues( Line2D.Double appliedForce ) {
-        radius.setValue( new MutableVector2D( appliedForce.getP1() ).getMagnitude() );
+        radius.setValue( new MutableVector2D( appliedForce.getP1() ).magnitude() );
         signedForce.setValue( getForceMagnitude() * MathUtil.getSign( getTorque() ) );//todo: assumes platform center is (0,0)
         torque.setValue( getTorque() );
     }

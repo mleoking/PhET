@@ -123,9 +123,9 @@ public class TestJadeBody extends Component implements ActionListener {
         Point2D loc2 = new Point2D.Double( particle.curr.x, particle.curr.y );
         Vector2D vec = new Vector2D( loc, loc2 );
         double k = 1.0;
-        Vector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.35 ) );
+        Vector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.magnitude(), 1.35 ) );
         double max = 1;
-        if ( v.getMagnitude() > max ) {
+        if ( v.magnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );
         }
         return v;

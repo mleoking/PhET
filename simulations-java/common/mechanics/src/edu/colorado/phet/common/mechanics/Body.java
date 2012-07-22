@@ -75,7 +75,7 @@ public abstract class Body extends Particle {
      * @return the kinetic energy
      */
     public double getKineticEnergy() {
-        return ( getMass() * getVelocity().getMagnitudeSq() / 2 ) +
+        return ( getMass() * getVelocity().magnitudeSquared() / 2 ) +
                getMomentOfInertia() * omega * omega / 2;
     }
 
@@ -97,7 +97,7 @@ public abstract class Body extends Particle {
     }
 
     public double getSpeed() {
-        return getVelocity().getMagnitude();
+        return getVelocity().magnitude();
     }
 
     public double getTheta() {

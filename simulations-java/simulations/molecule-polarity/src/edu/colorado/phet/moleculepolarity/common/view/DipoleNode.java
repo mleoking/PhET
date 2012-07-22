@@ -53,7 +53,7 @@ public abstract class DipoleNode extends PPath {
     // Updates the arrow to match the dipole's length and orientation.
     private void updateNode() {
         final double y = 0;
-        if ( dipole.get().getMagnitude() == 0 ) {
+        if ( dipole.get().magnitude() == 0 ) {
             setPathTo( new Rectangle2D.Double() ); // because Arrow doesn't handle zero-length arrows
         }
         else {
@@ -100,7 +100,7 @@ public abstract class DipoleNode extends PPath {
 
     // Gets the length of the dipole in view coordinates
     protected double getDipoleViewLength() {
-        return dipole.get().getMagnitude() * ( REFERENCE_LENGTH / REFERENCE_MAGNITUDE );
+        return dipole.get().magnitude() * ( REFERENCE_LENGTH / REFERENCE_MAGNITUDE );
     }
 
     // Creates a dipole icon, with arrow pointing to the right.

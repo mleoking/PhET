@@ -69,7 +69,7 @@ public class InjectionMotionStrategy extends AbstractMotionStrategy {
                 }
             }
 
-            if ( modelElement.getVelocityRef().getMagnitude() > 0 ) {
+            if ( modelElement.getVelocityRef().magnitude() > 0 ) {
                 // Update position.
                 modelElement.setPosition(
                         modelElement.getPositionRef().getX() + modelElement.getVelocityRef().getX() * dt,

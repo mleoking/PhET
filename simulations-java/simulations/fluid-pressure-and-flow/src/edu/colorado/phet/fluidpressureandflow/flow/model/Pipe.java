@@ -330,7 +330,7 @@ public class Pipe {
     public double getTweakedVx( double x, double y ) {
         Vector2D velocity = getVelocity( x, y );
         Vector2D xVelocity = new Vector2D( velocity.getX(), 0 );
-        double vx = getSpeed( x ) / ( velocity.getMagnitude() / xVelocity.getMagnitude() );
+        double vx = getSpeed( x ) / ( velocity.magnitude() / xVelocity.magnitude() );
 
         //If friction is enabled, then scale down quadratically (like a parabola) as you get further from the center of the pipe.
         //But instead of reaching zero velocity at the edge of the pipe (which could cause particles to pile up indefinitely), extend the region

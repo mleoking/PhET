@@ -576,7 +576,7 @@ public class Crystal extends Body implements Collidable {
 
         if ( openSites.size() == 0 ) {
             double angle = random.nextDouble() * Math.PI * 2;
-            releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+            releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().magnitude(), 0 ).rotate( angle );
             return releaseVelocity;
         }
 
@@ -597,7 +597,7 @@ public class Crystal extends Body implements Collidable {
                     double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
                     if ( Math.abs( angle2 - angle1 ) < Math.PI ) {
                         double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
-                        releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+                        releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().magnitude(), 0 ).rotate( angle );
                         return releaseVelocity;
                     }
                 }
@@ -612,7 +612,7 @@ public class Crystal extends Body implements Collidable {
                                                       p2.getY() - ionToRelease.getPosition().getY() );
             double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
             double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
-            releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+            releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().magnitude(), 0 ).rotate( angle );
             return releaseVelocity;
         }
 
@@ -625,10 +625,10 @@ public class Crystal extends Body implements Collidable {
         minAngle = angle < minAngle ? angle : minAngle;
 
         angle = random.nextDouble() * ( maxAngle - minAngle ) + minAngle;
-        releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+        releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().magnitude(), 0 ).rotate( angle );
 
         // Sanity check
-        if ( releaseVelocity.getMagnitude() < 0.0001 ) {
+        if ( releaseVelocity.magnitude() < 0.0001 ) {
             System.out.println( "Crystal.determineReleaseVelocity < 0.0001" );
         }
         return releaseVelocity;

@@ -23,9 +23,9 @@ public abstract class AbstractVector2D implements Serializable {
 
     public abstract double getY();
 
-    public double getMagnitudeSq() { return getX() * getX() + getY() * getY(); }
+    public double magnitude() { return sqrt( magnitudeSquared() ); }
 
-    public double getMagnitude() { return sqrt( getMagnitudeSq() ); }
+    public double magnitudeSquared() { return getX() * getX() + getY() * getY(); }
 
     public double dot( AbstractVector2D v ) {
         double result = 0;
@@ -64,18 +64,18 @@ public abstract class AbstractVector2D implements Serializable {
     public Point2D.Double getDestination( Point2D startPt ) { return new Point2D.Double( startPt.getX() + getX(), startPt.getY() + getY() ); }
 
     public double getCrossProductScalar( AbstractVector2D v ) {
-        return ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
+        return ( this.magnitude() * v.magnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
     }
 
     public Vector2D normalized() {
-        double magnitude = getMagnitude();
+        double magnitude = magnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
         }
         return new Vector2D( getX() / magnitude, getY() / magnitude );
     }
 
-    public Vector2D getInstanceOfMagnitude( double magnitude ) { return times( magnitude / getMagnitude() ); }
+    public Vector2D getInstanceOfMagnitude( double magnitude ) { return times( magnitude / magnitude() ); }
 
     public Vector2D times( double scale ) { return new Vector2D( getX() * scale, getY() * scale ); }
 
@@ -93,7 +93,7 @@ public abstract class AbstractVector2D implements Serializable {
 
     public Vector2D minus( AbstractVector2D v ) { return minus( v.getX(), v.getY() ); }
 
-    public Vector2D getRotatedInstance( double angle ) { return Vector2D.createPolar( getMagnitude(), getAngle() + angle ); }
+    public Vector2D getRotatedInstance( double angle ) { return Vector2D.createPolar( magnitude(), getAngle() + angle ); }
 
     public Vector2D negated() { return new Vector2D( -getX(), -getY() ); }
 }

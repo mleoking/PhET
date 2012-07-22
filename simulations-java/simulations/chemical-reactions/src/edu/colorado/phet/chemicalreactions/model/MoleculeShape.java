@@ -42,7 +42,7 @@ public class MoleculeShape {
     public double getBoundingCircleRadius() {
         double result = 0;
         for ( AtomSpot spot : spots ) {
-            result = Math.max( result, spot.position.getMagnitude() + spot.element.getRadius() );
+            result = Math.max( result, spot.position.magnitude() + spot.element.getRadius() );
         }
         return result;
     }

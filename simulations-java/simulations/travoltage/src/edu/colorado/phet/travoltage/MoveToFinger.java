@@ -68,9 +68,9 @@ public class MoveToFinger extends MoveElectronsJade {
         Line2D.Double closest = getClosestSegment( node.getPosition().getX(), node.getPosition().getY() );
         Vector2D vec = new Vector2D( node.getPosition(), closest.getP2() );
         double k = 30;
-        Vector2D v = vec.getInstanceOfMagnitude( k / Math.pow( vec.getMagnitude(), 1 ) );
+        Vector2D v = vec.getInstanceOfMagnitude( k / Math.pow( vec.magnitude(), 1 ) );
         double max = 10;
-        if ( v.getMagnitude() > max ) {
+        if ( v.magnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );
         }
         return v;

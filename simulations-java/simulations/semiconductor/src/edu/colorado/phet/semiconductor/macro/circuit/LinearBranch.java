@@ -22,7 +22,7 @@ public class LinearBranch {
     }
 
     public double getLength() {
-        return dv.getMagnitude();
+        return dv.magnitude();
     }
 
     /**

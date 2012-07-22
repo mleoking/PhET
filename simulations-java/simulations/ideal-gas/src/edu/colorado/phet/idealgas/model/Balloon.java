@@ -61,7 +61,7 @@ public class Balloon extends HollowSphere {
 
         // Compute the change in momentum and record it as pressure
         MutableVector2D momentumChange = momentumPost.subtract( momentumPre );
-        double impact = momentumChange.getMagnitude();
+        double impact = momentumChange.magnitude();
         // todo: change this to a test that relies on containsBody, when that is correctly implemented
         int sign = this.contains( particle ) ? 1 : -1;
         accumulatedImpact += impact * sign;

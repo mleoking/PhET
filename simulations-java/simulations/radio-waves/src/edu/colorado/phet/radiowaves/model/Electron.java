@@ -243,7 +243,7 @@ public class Electron extends Body {
 
     public double getMass() {
         //mr = m0 /sqrt(1 - v2/c2)
-        float vMag = (float) this.getVelocity().getMagnitude();
+        float vMag = (float) this.getVelocity().magnitude();
         //        float vMag = this.getVelocity().getLength();
         float denom = (float) Math.sqrt( 1 - ( vMag * vMag ) / ( RadioWavesApplication.s_speedOfLight * RadioWavesApplication.s_speedOfLight ) );
         if ( denom < 1 ) {

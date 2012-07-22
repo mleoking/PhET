@@ -74,7 +74,7 @@ import static edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Anim
     private Vector2D getVelocity() {return animationTarget.position.minus( position ).getInstanceOfMagnitude( 30 );}
 
     private Slice checkFinishAnimation() {
-        if ( position.distance( animationTarget.position ) < getVelocity().getMagnitude() ) {
+        if ( position.distance( animationTarget.position ) < getVelocity().magnitude() ) {
             return withPosition( animationTarget.position ).withAnimationTarget( (AnimationTarget) null ).withAngle( animationTarget.angle );
         }
         return this;

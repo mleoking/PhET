@@ -64,7 +64,7 @@ public abstract class SugarDispenser<T extends SugarAndSaltSolutionModel> extend
         for ( int i = 0; i < positions.size() - 1; i++ ) {
             Vector2D a = positions.get( i );
             Vector2D b = positions.get( i + 1 );
-            speeds.add( a.minus( b ).getMagnitude() );
+            speeds.add( a.minus( b ).magnitude() );
         }
 
         //Compute the average speed over the last positions.size() time steps

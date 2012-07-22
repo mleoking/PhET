@@ -106,7 +106,7 @@ public class Capacitor3DShapeSet {
     }
 
     private double getDistToPlate() {
-        return ( new MutableVector2D( inPt, outPt ).getMagnitude() - distBetweenPlates ) / 2.0;
+        return ( new MutableVector2D( inPt, outPt ).magnitude() - distBetweenPlates ) / 2.0;
     }
 
     public Shape getPlate1Shape() {
@@ -143,7 +143,7 @@ public class Capacitor3DShapeSet {
     public Point2D getPlate2EdgePoint() {
         Vector2D vector = new Vector2D( inPt, outPt );
         double a = width * Math.cos( tiltAngle );
-        double initDist = new MutableVector2D( inPt, getPlate2Point() ).getMagnitude();
+        double initDist = new MutableVector2D( inPt, getPlate2Point() ).magnitude();
         vector = vector.getInstanceOfMagnitude( initDist + a / 2.0 );
         return vector.getDestination( inPt );
     }

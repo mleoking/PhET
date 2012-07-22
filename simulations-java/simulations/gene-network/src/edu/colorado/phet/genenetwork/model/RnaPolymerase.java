@@ -101,7 +101,7 @@ public class RnaPolymerase extends SimpleModelElement {
                         // This polymerase is currently transcribing a portion
                         // of the DNA strand. Continue growing the messenger
                         // RNA until we run off the end of the gene.
-                        mRna.grow( getVelocityRef().getMagnitude() * dt );
+                        mRna.grow( getVelocityRef().magnitude() * dt );
                         if ( touchedLacIGene && !dnaStrand.isOnLacIGeneSpace( getLeftEdgePoint() ) ) {
                             // We have fully traversed the LacI gene.  Time to
                             // tell the mRNA what to spawn, detach the mRNA,

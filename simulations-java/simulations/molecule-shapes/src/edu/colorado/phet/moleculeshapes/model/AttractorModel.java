@@ -53,11 +53,11 @@ public class AttractorModel {
             PairGroup pair = groups.get( i );
 
             Vector3D targetOrientation = JamaUtils.vectorFromMatrix3D( mapping.target, i );
-            double currentMagnitude = ( pair.position.get().minus( center ) ).getMagnitude();
+            double currentMagnitude = ( pair.position.get().minus( center ) ).magnitude();
             Vector3D targetLocation = targetOrientation.times( currentMagnitude ).plus( center );
 
             Vector3D delta = targetLocation.minus( pair.position.get() );
-            totalDeltaMagnitude += delta.getMagnitude() * delta.getMagnitude();
+            totalDeltaMagnitude += delta.magnitude() * delta.magnitude();
 
             /*
              * NOTE: adding delta here effectively is squaring the distance, thus more force when far from the target,
@@ -65,7 +65,7 @@ public class AttractorModel {
              * otherwise-stable position, and less force where our coulomb-like repulsion will settle it into a stable
              * position
              */
-            double strength = timeElapsed * 3 * delta.getMagnitude();
+            double strength = timeElapsed * 3 * delta.magnitude();
 
             // change the velocity of all of the pairs, unless it is an atom at the origin!
             if ( pair.isLonePair || !pair.isCentralAtom() ) {

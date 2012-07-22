@@ -92,7 +92,7 @@ public class LightRay {
     }
 
     public double getLength() {
-        return tip.minus( tail ).getMagnitude();
+        return tip.minus( tail ).magnitude();
     }
 
     public Vector2D toVector2D() {

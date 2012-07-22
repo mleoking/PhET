@@ -138,7 +138,7 @@ public class TestBFieldGrid extends JFrame {
 
             Point2D tailLocation = new Point2D.Double( 0, 0 );
             Point2D tipLocation = new Point2D.Double( scaledVector.getX(), scaledVector.getY() );
-            double headHeight = 0.25 * scaledVector.getMagnitude();
+            double headHeight = 0.25 * scaledVector.magnitude();
             double headWidth = headHeight;
             double tailWidth = headWidth / 2;
             ArrowNode arrowNode = new ArrowNode( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
@@ -151,9 +151,9 @@ public class TestBFieldGrid extends JFrame {
         * Dubson's vector scaling algorithm.
         */
         public MutableVector2D scaleVector( MutableVector2D vector ) {
-            double multiplier = Math.pow( vector.getMagnitude(), 1.0 / BFIELD_DISPLAY_SCALING_FACTOR );
-            double bxScaled = multiplier * ( vector.getX() / vector.getMagnitude() );
-            double byScaled = multiplier * ( vector.getY() / vector.getMagnitude() );
+            double multiplier = Math.pow( vector.magnitude(), 1.0 / BFIELD_DISPLAY_SCALING_FACTOR );
+            double bxScaled = multiplier * ( vector.getX() / vector.magnitude() );
+            double byScaled = multiplier * ( vector.getY() / vector.magnitude() );
             return new MutableVector2D( bxScaled, byScaled );
         }
     }

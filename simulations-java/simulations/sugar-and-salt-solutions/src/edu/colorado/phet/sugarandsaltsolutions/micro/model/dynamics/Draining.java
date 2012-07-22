@@ -115,7 +115,7 @@ public class Draining {
             //Account for the particle width when checking whether it is close enough since wide particles like sucrose won't be able to match their centroid with the
             //center of the drain because they are prevented from leaving the bounds of the water
             double dist = particle.getPosition().distance( model.getDrainFaucetMetrics().getInputPoint() );
-            if ( dist <= particle.velocity.get().getMagnitude() * dt + particle.getShape().getBounds2D().getWidth() / 2 ) {
+            if ( dist <= particle.velocity.get().magnitude() * dt + particle.getShape().getBounds2D().getWidth() / 2 ) {
 
                 // drain out all of the particles within the formula unit
                 for ( Particle unitParticle : closestFormulaUnit ) {

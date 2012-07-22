@@ -41,7 +41,7 @@ public @EqualsAndHashCode(callSuper = false) @ToString class MutableVector2D ext
     }
 
     public MutableVector2D normalize() {
-        double magnitude = getMagnitude();
+        double magnitude = magnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
         }
@@ -73,7 +73,7 @@ public @EqualsAndHashCode(callSuper = false) @ToString class MutableVector2D ext
 
     public void setMagnitude( double magnitude ) { setMagnitudeAndAngle( magnitude, getAngle() ); }
 
-    public void setAngle( double angle ) { setMagnitudeAndAngle( getMagnitude(), angle ); }
+    public void setAngle( double angle ) { setMagnitudeAndAngle( magnitude(), angle ); }
 
     public MutableVector2D subtract( AbstractVector2D v ) {
         setX( getX() - v.getX() );
@@ -82,7 +82,7 @@ public @EqualsAndHashCode(callSuper = false) @ToString class MutableVector2D ext
     }
 
     public MutableVector2D rotate( double theta ) {
-        double r = getMagnitude();
+        double r = magnitude();
         double alpha = getAngle();
         double gamma = alpha + theta;
         double xPrime = r * Math.cos( gamma );

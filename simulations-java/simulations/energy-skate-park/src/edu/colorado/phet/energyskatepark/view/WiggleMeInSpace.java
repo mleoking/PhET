@@ -58,7 +58,7 @@ public class WiggleMeInSpace {
         hintNode.animateTo( module.getEnergySkateParkSimulationPanel().getWidth() / 2, (int) ( module.getEnergySkateParkSimulationPanel().getHeight() * 1.0 / 4.0 ) );
         module.getEnergySkateParkModel().getBody( 0 ).addListener( new Body.ListenerAdapter() {
             public void thrustChanged() {
-                if ( module.getEnergySkateParkModel().getBody( 0 ).getThrust().getMagnitude() > 0 ) {
+                if ( module.getEnergySkateParkModel().getBody( 0 ).getThrust().magnitude() > 0 ) {
                     hintNode.setVisible( false );
                     hintDone = true;
                 }

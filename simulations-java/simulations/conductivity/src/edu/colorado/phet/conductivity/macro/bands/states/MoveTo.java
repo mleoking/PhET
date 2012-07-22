@@ -28,7 +28,7 @@ public class MoveTo
         MutableVector2D phetvector = target.getPosition();
         MutableVector2D phetvector1 = bandparticle.getPosition();
         Vector2D phetvector2 = phetvector.minus( phetvector1 );
-        double d3 = phetvector2.getMagnitude();
+        double d3 = phetvector2.magnitude();
         if ( d3 <= d2 ) {
             bandparticle.setPosition( phetvector );
             return new Waiting();

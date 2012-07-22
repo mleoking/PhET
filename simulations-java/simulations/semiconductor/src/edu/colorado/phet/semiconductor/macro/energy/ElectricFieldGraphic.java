@@ -53,7 +53,7 @@ public class ElectricFieldGraphic extends TransformGraphic {
                 double tailWidth = .1;
                 double headWidth = .2;
                 double headHeight = .1;
-                double dist = start.minus( dest ).getMagnitude();
+                double dist = start.minus( dest ).magnitude();
                 if ( dist < headHeight ) {
                     headHeight = dist * .9;
 //                    headWidth=headHeight;

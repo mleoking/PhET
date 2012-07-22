@@ -382,7 +382,7 @@ public class TorqueModel extends RotationModel {
         }
 
         AbstractVector2D x = v;
-        if ( x.getMagnitude() == 0 ) {
+        if ( x.magnitude() == 0 ) {
             return new Line2D.Double( appliedForce.getP1(), appliedForce.getP1() );
         }
         double magnitude = new MutableVector2D( appliedForce.getP1(), appliedForce.getP2() ).dot( x.normalized() );

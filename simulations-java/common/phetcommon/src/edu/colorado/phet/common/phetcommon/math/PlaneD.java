@@ -30,7 +30,7 @@ public class PlaneD {
     // NOTE: will return null if points are collinear
     public static PlaneD fromTriangle( Vector3D a, Vector3D b, Vector3D c ) {
         Vector3D normal = ( c.minus( a ) ).cross( b.minus( a ) );
-        if ( normal.getMagnitude() == 0 ) {
+        if ( normal.magnitude() == 0 ) {
             return null;
         }
         normal = normal.normalized();

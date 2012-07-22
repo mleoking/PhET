@@ -105,7 +105,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
             return Double.POSITIVE_INFINITY;
         }
         MutableVector2D site = cell.getPosition();
-        return getPosition().minus( site ).getMagnitude();
+        return getPosition().minus( site ).magnitude();
     }
 
     public double getY() {

@@ -162,7 +162,7 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
                         launcher.setTheta( originalAngle + dTheta );
                     }
 
-                    double dr = v2.getMagnitude() - v1.getMagnitude();
+                    double dr = v2.magnitude() - v1.magnitude();
                     extension = Math.min( MRConfig.LAUNCHER_MAX_EXTENSION, originalR + dr );
 
                 }

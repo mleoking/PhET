@@ -24,10 +24,10 @@ public abstract class AbstractVector3F implements Serializable {
 
     public abstract float getZ();
 
-    // the magnitude squared, which is equal to this.dot( this )
-    public float getMagnitudeSq() { return getX() * getX() + getY() * getY() + getZ() * getZ(); }
+    public float magnitude() { return (float) sqrt( magnitudeSquared() ); }
 
-    public float getMagnitude() { return (float) sqrt( getMagnitudeSq() ); }
+    // the magnitude squared, which is equal to this.dot( this )
+    public float magnitudeSquared() { return getX() * getX() + getY() * getY() + getZ() * getZ(); }
 
     public float dot( AbstractVector3F v ) {
         return getX() * v.getX() + getY() * v.getY() + getZ() * v.getZ();
@@ -65,14 +65,14 @@ public abstract class AbstractVector3F implements Serializable {
     public float angleBetweenInDegrees( AbstractVector3F v ) { return (float) ( angleBetween( v ) * 180 / Math.PI ); }
 
     public Vector3F normalized() {
-        float magnitude = getMagnitude();
+        float magnitude = magnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
         }
         return new Vector3F( getX() / magnitude, getY() / magnitude, getZ() / magnitude );
     }
 
-    public Vector3F getInstanceOfMagnitude( float magnitude ) { return times( magnitude / getMagnitude() ); }
+    public Vector3F getInstanceOfMagnitude( float magnitude ) { return times( magnitude / magnitude() ); }
 
     public Vector3F times( float scalar ) { return new Vector3F( getX() * scalar, getY() * scalar, getZ() * scalar ); }
 

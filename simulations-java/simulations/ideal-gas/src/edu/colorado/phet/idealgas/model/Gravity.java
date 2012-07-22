@@ -40,9 +40,9 @@ public class Gravity implements ModelElement {
     }
 
     public void setAmt( double amt ) {
-        double oldAmt = acceleration.getMagnitude();
+        double oldAmt = acceleration.magnitude();
         this.acceleration = new MutableVector2D( 0, amt );
-        double change = acceleration.getMagnitude() - oldAmt;
+        double change = acceleration.magnitude() - oldAmt;
 //        fireEvent( new ChangeEvent( this, change ) );
 
         try {

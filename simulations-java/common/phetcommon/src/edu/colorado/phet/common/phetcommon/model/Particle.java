@@ -75,7 +75,7 @@ public class Particle extends SimpleObservable implements ModelElement {
     }
 
     public double getSpeed() {
-        return velocity.getMagnitude();
+        return velocity.magnitude();
     }
 
     public MutableVector2D getAcceleration() {

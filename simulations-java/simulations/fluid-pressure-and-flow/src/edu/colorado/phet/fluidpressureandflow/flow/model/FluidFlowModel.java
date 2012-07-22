@@ -97,7 +97,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     @Override public Option<Double> getPressure( double x, double y ) {
         Option<Vector2D> velocity = getVelocity( x, y );
 
-        double vSquared = velocity.isSome() ? velocity.get().getMagnitudeSq() : 0.0;
+        double vSquared = velocity.isSome() ? velocity.get().magnitudeSquared() : 0.0;
         double K = 101325;//choose a base value for pipe internal pressure, also ensure that pressure is never negative in the pipe in a narrow region
         if ( pipe.getShape().contains( x, y ) ) {
             return new Some<Double>( K - 0.5 * liquidDensity.get() * vSquared - liquidDensity.get() * gravity.get() * y );

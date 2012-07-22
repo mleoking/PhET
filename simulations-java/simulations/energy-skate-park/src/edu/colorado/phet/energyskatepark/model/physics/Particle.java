@@ -83,7 +83,7 @@ public class Particle implements Serializable {
             updateStrategy.stepInTime( dt );
             double finalEnergy = getTotalEnergy();
             double dE = finalEnergy - origEnergy;
-            if ( Math.abs( dE ) > 1E-6 && getThrust().getMagnitude() == 0.0 ) {
+            if ( Math.abs( dE ) > 1E-6 && getThrust().magnitude() == 0.0 ) {
                 EnergySkateParkLogging.println( "Particle.stepInTime: de = " + dE + ", strategy=" + updateClass + ", newStrategy=" + updateStrategy.getClass() );
             }
             update();
@@ -354,7 +354,7 @@ public class Particle implements Serializable {
     }
 
     private void correctEnergyReduceVelocity( double e0 ) {
-        double velocity = getVelocity().getMagnitude();
+        double velocity = getVelocity().magnitude();
         for ( int i = 0; i < 100; i++ ) {
             double dv = ( getTotalEnergy() - e0 ) / ( mass * velocity );
             velocity -= dv;
@@ -528,9 +528,9 @@ public class Particle implements Serializable {
             Vector2D newNormalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) ).times( elasticity );
             Vector2D newVelocity = parallelVelocity.minus( newNormalVelocity );
 
-            double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
+            double testVal = Math.abs( newNormalVelocity.magnitude() / newVelocity.magnitude() );
 
-            double p = Math.abs( getVelocity().getMagnitude() / getGravity() / dt );
+            double p = Math.abs( getVelocity().magnitude() / getGravity() / dt );
 
             boolean bounce = testVal >= ( stickiness + getTrackStickiness( cubicSpline ) );
             double GRAB_THRESHOLD = 3.0;

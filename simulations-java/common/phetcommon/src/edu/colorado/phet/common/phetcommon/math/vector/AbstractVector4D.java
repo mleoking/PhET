@@ -18,10 +18,10 @@ public abstract class AbstractVector4D implements Serializable {
 
     public abstract double getW();
 
-    // the magnitude squared, which is equal to this.dot( this )
-    public double getMagnitudeSq() { return getX() * getX() + getY() * getY() + getZ() * getZ() + getW() * getW(); }
+    public double magnitude() { return (double) sqrt( magnitudeSquared() ); }
 
-    public double getMagnitude() { return (double) sqrt( getMagnitudeSq() ); }
+    // the magnitude squared, which is equal to this.dot( this )
+    public double magnitudeSquared() { return getX() * getX() + getY() * getY() + getZ() * getZ() + getW() * getW(); }
 
     public double dot( AbstractVector4D v ) {
         return getX() * v.getX() + getY() * v.getY() + getZ() * v.getZ() + getW() * v.getW();
@@ -43,14 +43,14 @@ public abstract class AbstractVector4D implements Serializable {
     }
 
     public Vector4D normalized() {
-        double magnitude = getMagnitude();
+        double magnitude = magnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
         }
         return new Vector4D( getX() / magnitude, getY() / magnitude, getZ() / magnitude, getW() / magnitude );
     }
 
-    public Vector4D getInstanceOfMagnitude( double magnitude ) { return times( magnitude / getMagnitude() ); }
+    public Vector4D getInstanceOfMagnitude( double magnitude ) { return times( magnitude / magnitude() ); }
 
     public Vector4D times( double scalar ) { return new Vector4D( getX() * scalar, getY() * scalar, getZ() * scalar, getW() * scalar ); }
 
