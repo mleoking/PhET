@@ -105,7 +105,7 @@ public class Arrow {
         else if ( dist < headHeight ) {
             throw new RuntimeException( "Head too big." );
         }
-        norm = direction.getNormalVector();
+        norm = direction.getPerpendicularVector();
 
         Vector2D rightFlap = getPoint( -1 * tempHeadHeight, -tempHeadWidth / 2 );
         Vector2D leftFlap = getPoint( -1 * tempHeadHeight, tempHeadWidth / 2 );

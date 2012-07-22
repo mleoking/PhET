@@ -76,7 +76,7 @@ public class SchematicResistorNode extends ComponentNode {
         anoPoint = vector.times( fracDistToAnode ).getDestination( srcpt );
 
         eastDir = vector.getInstanceOfMagnitude( 1 );
-        northDir = eastDir.getNormalVector();
+        northDir = eastDir.getPerpendicularVector();
         double viewThickness = wireThickness;
         double resistorThickness = viewThickness / 2.5;
         double resistorWidth = catPoint.distance( anoPoint );

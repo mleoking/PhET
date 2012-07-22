@@ -438,7 +438,7 @@ public class RotationBody {
 
         Point2D newX = MutableVector2D.createPolar( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         MutableVector2D centripetalVector = new MutableVector2D( newX, rotationPlatform.getCenter() );
-        Vector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
+        Vector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getPerpendicularVector();
         Vector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
 
         xBody.getVelocityVariable().setValue( newV.getX() );
@@ -455,19 +455,19 @@ public class RotationBody {
         Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
                                 : MutableVector2D.createPolar( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         MutableVector2D centripetalVector = new MutableVector2D( newX, rotationPlatform.getCenter() );
-        AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
+        AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getPerpendicularVector();
         AbstractVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
         boolean offsetVelocityDueToConstantAccel = !centered && ( rotationPlatform.isAccelDriven() || rotationPlatform.isForceDriven() );
         boolean offsetVelocityDueToUserControl = !centered && ( rotationPlatform.isPositionDriven() );// && Math.abs( rotationPlatform.getVelocity() ) > 1E-2;
 //        System.out.println( "offsetVelocityDueToUserControl = " + offsetVelocityDueToUserControl );
         if ( offsetVelocityDueToConstantAccel ) {
             //add on the tangential part under constant angular acceleration
-            Vector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * rotationPlatform.getAcceleration() ).getNormalVector();
+            Vector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * rotationPlatform.getAcceleration() ).getPerpendicularVector();
             newA = newA.plus( tanVector );
         }
         else if ( offsetVelocityDueToUserControl ) {
             double avgAccel = rotationPlatform.getAccelerationVariable().estimateAverage( 2 );
-            Vector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * avgAccel ).getNormalVector();
+            Vector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * avgAccel ).getPerpendicularVector();
 //            System.out.println( "avgAccel = " + avgAccel+", tanVector="+tanVector );
             newA = newA.plus( tanVector );
 //            newA=new Vector2D.Double(5,5);

@@ -800,7 +800,7 @@ public class Circuit {
             if ( !branch.hasJunction( junction ) ) {
                 if ( branch.getShape().intersects( junction.getShape().getBounds2D() ) ) {
                     Vector2D vec = branch.getDirectionVector();
-                    vec = vec.getNormalVector();
+                    vec = vec.getPerpendicularVector();
                     vec = vec.normalized().times( junction.getShape().getBounds2D().getWidth() );
                     BranchSet bs = new BranchSet( this, strongConnections );
                     bs.addJunction( junction );

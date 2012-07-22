@@ -72,7 +72,7 @@ public class SchematicOscillateNode extends ComponentNode {
         anoPoint = vector.times( fracDistToAnode ).getDestination( srcpt );
 
         eastDir = vector.getInstanceOfMagnitude( 1 );
-        northDir = eastDir.getNormalVector();
+        northDir = eastDir.getPerpendicularVector();
         double viewThickness = getViewThickness();
         double resistorThickness = viewThickness / 2.5;
         DoubleGeneralPath path = new DoubleGeneralPath();

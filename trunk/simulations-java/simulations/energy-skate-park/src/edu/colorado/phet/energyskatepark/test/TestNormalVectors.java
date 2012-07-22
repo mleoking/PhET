@@ -42,8 +42,8 @@ public class TestNormalVectors extends TestCase {
         MutableVector2D a = new MutableVector2D( x, y );
         Vector2D rotated = a.getRotatedInstance( -Math.PI / 2.0 );
 
-        Vector2D normed = a.getNormalVector();
-        EnergySkateParkLogging.println( "original vector=" + a + ", rotated vector= " + rotated + ", getNormalVector=" + normed );
+        Vector2D normed = a.getPerpendicularVector();
+        EnergySkateParkLogging.println( "original vector=" + a + ", rotated vector= " + rotated + ", getPerpendicularVector=" + normed );
         double error = rotated.minus( normed ).magnitude();
         assertEquals( error, 0.0, 1E-6 );
         return error;

@@ -19,7 +19,7 @@ public class ArrowShape {
             throw new RuntimeException( "Head too big." );
         }
         else {
-            norm = direction.getNormalVector();
+            norm = direction.getPerpendicularVector();
             tipLocation = phetvector1;
             Vector2D phetvector2 = getPoint( -1D * d, -d1 / 2D );
             Vector2D phetvector3 = getPoint( -1D * d, d1 / 2D );

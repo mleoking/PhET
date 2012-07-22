@@ -62,7 +62,7 @@ public class SchematicPlatedNode extends ComponentNode {
         Point2D cat = vector.times( fracDistToPlate ).getDestination( src );
         Point2D ano = vector.times( 1 - fracDistToPlate ).getDestination( src );
         Vector2D east = vector.getInstanceOfMagnitude( 1 );
-        Vector2D north = east.getNormalVector();
+        Vector2D north = east.getPerpendicularVector();
         double catHeight = viewThickness * this.scaleHeightLeft;
         double anoHeight = viewThickness * this.scaleHeightRight;
         Point2D catHat = north.getInstanceOfMagnitude( catHeight ).getDestination( cat );

@@ -74,7 +74,7 @@ public abstract class AbstractVector2F implements Serializable {
 
     public Vector2F plus( float x, float y ) { return new Vector2F( getX() + x, getY() + y ); }
 
-    public Vector2F getNormalVector() { return new Vector2F( getY(), -getX() ); }
+    public Vector2F getPerpendicularVector() { return new Vector2F( getY(), -getX() ); }
 
     public Vector2F minus( float x, float y ) { return new Vector2F( getX() - x, getY() - y ); }
 
