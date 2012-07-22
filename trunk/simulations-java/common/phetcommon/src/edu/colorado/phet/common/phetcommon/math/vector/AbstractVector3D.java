@@ -58,13 +58,13 @@ public abstract class AbstractVector3D implements Serializable {
 
     // The angle between this vector and "v", in radians
     public double angleBetween( AbstractVector3D v ) {
-        return Math.acos( MathUtil.clamp( -1, getNormalizedInstance().dot( v.getNormalizedInstance() ), 1 ) );
+        return Math.acos( MathUtil.clamp( -1, normalized().dot( v.normalized() ), 1 ) );
     }
 
     // The angle between this vector and "v", in degrees
     public double angleBetweenInDegrees( AbstractVector3D v ) { return angleBetween( v ) * 180 / Math.PI; }
 
-    public Vector3D getNormalizedInstance() {
+    public Vector3D normalized() {
         double magnitude = getMagnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );

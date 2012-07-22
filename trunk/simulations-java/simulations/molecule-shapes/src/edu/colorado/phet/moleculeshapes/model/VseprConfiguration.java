@@ -169,7 +169,7 @@ public class VseprConfiguration {
             indices.add( i );
             for ( int k = 0; k < pairs.size(); k++ ) {
                 configAngles[i][k] = Math.acos( geometry.unitVectors.get( i ).dot( geometry.unitVectors.get( k ) ) );
-                groupAngles[i][k] = Math.acos( orderedGroups.get( i ).position.get().getNormalizedInstance().dot( orderedGroups.get( k ).position.get().getNormalizedInstance() ) );
+                groupAngles[i][k] = Math.acos( orderedGroups.get( i ).position.get().normalized().dot( orderedGroups.get( k ).position.get().normalized() ) );
             }
         }
 

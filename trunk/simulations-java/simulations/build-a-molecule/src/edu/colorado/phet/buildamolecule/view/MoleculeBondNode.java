@@ -166,7 +166,7 @@ public class MoleculeBondNode extends PNode {
         // listener that will update the position of our hit target
         positionObserver = new RichSimpleObserver() {
             public void update() {
-                Vector2D location = b.getPosition().minus( a.getPosition() ).getNormalizedInstance().times( a.getRadius() ).plus( a.getPosition() );
+                Vector2D location = b.getPosition().minus( a.getPosition() ).normalized().times( a.getRadius() ).plus( a.getPosition() );
                 setOffset( MODEL_VIEW_TRANSFORM.modelToView( location.toPoint2D() ) );
             }
         };

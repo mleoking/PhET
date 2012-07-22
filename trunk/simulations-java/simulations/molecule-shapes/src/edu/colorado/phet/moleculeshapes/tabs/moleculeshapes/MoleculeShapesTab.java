@@ -293,9 +293,9 @@ public class MoleculeShapesTab extends MoleculeViewTab {
         // start with two single bonds
         PairGroup centralAtom = new PairGroup( new Vector3D(), false, false );
         getMolecule().addCentralAtom( centralAtom );
-        getMolecule().addGroup( new PairGroup( new Vector3D( 8, 0, 3 ).getNormalizedInstance().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
+        getMolecule().addGroup( new PairGroup( new Vector3D( 8, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
         Vector3D vector3D = new Vector3D( 2, 8, -5 );
-        getMolecule().addGroup( new PairGroup( vector3D.getNormalizedInstance().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
+        getMolecule().addGroup( new PairGroup( vector3D.normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
 
         /*---------------------------------------------------------------------------*
         * bond overlays

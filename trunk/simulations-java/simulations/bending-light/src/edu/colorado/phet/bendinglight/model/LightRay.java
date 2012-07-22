@@ -149,7 +149,7 @@ public class LightRay {
     }
 
     public Vector2D getUnitVector() {
-        return new Vector2D( tail.toPoint2D(), tip.toPoint2D() ).getNormalizedInstance();
+        return new Vector2D( tail.toPoint2D(), tip.toPoint2D() ).normalized();
     }
 
     public double getAngle() {
@@ -200,7 +200,7 @@ public class LightRay {
     }
 
     public Vector2D getVelocityVector() {
-        return tip.minus( tail ).getNormalizedInstance().times( getSpeed() );
+        return tip.minus( tail ).normalized().times( getSpeed() );
     }
 
     public double getFrequency() {

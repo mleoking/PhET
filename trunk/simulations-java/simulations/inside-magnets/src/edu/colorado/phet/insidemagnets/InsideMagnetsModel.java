@@ -128,7 +128,7 @@ The tmp arrays hold positions at t+0.5*dt.          */
             //Normalize the spin vectors
             for ( int x = 0; x < getLatticeWidth(); x++ ) {
                 for ( int y = 0; y < getLatticeHeight(); y++ ) {
-                    Vector2D spinVector = getLattice().getValue( x, y ).getSpinVector().getNormalizedInstance();
+                    Vector2D spinVector = getLattice().getValue( x, y ).getSpinVector().normalized();
                     getLattice().getValue( x, y ).sx = spinVector.getX();
                     getLattice().getValue( x, y ).sy = spinVector.getY();
                 }

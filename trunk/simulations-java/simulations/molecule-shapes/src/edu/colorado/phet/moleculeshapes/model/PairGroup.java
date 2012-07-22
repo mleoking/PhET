@@ -81,7 +81,7 @@ public class PairGroup {
         if ( currentError > oldError ) {
             // our error is getting worse! for now, don't let us slide AWAY from the ideal distance ever
             // set our distance to the old one, so it is easier to process
-            position.set( position.get().getNormalizedInstance().times( oldDistance ).plus( origin ) );
+            position.set( position.get().normalized().times( oldDistance ).plus( origin ) );
         }
 
         /*---------------------------------------------------------------------------*
@@ -90,7 +90,7 @@ public class PairGroup {
         Vector3D toCenter = position.get().minus( origin );
 
         double distance = toCenter.getMagnitude();
-        Vector3D directionToCenter = toCenter.getNormalizedInstance();
+        Vector3D directionToCenter = toCenter.normalized();
 
         double offset = idealDistanceFromCenter - distance;
 
@@ -129,8 +129,8 @@ public class PairGroup {
         double adjustedOtherMagnitude = interpolate( BONDED_PAIR_DISTANCE, other.position.get().getMagnitude(), trueLengthsRatioOverride );
 
         // adjusted positions
-        Vector3D adjustedPosition = position.get().getNormalizedInstance().times( adjustedMagnitude );
-        Vector3D adjustedOtherPosition = other.position.get().getMagnitude() == 0 ? new Vector3D() : other.position.get().getNormalizedInstance().times( adjustedOtherMagnitude );
+        Vector3D adjustedPosition = position.get().normalized().times( adjustedMagnitude );
+        Vector3D adjustedOtherPosition = other.position.get().getMagnitude() == 0 ? new Vector3D() : other.position.get().normalized().times( adjustedOtherMagnitude );
 
         // from other => this (adjusted)
         Vector3D delta = adjustedPosition.minus( adjustedOtherPosition );
@@ -142,7 +142,7 @@ public class PairGroup {
         double repulsionFactor = 1;
 
         // mimic Coulomb's Law
-        Vector3D coulombVelocityDelta = delta.getNormalizedInstance().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.getMagnitude() * delta.getMagnitude() ) );
+        Vector3D coulombVelocityDelta = delta.normalized().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.getMagnitude() * delta.getMagnitude() ) );
 
         // apply a nonphysical reduction on coulomb's law when the frame-rate is low, so we can avoid oscillation
         double coulombDowngrade = getTimescaleImpulseFactor( timeElapsed ); // TODO: isolate the "standard" tpf?
@@ -179,9 +179,9 @@ public class PairGroup {
 
     public void stepForward( double timeElapsed ) {
         // velocity changes so that it doesn't point at all towards or away from the origin
-        double velocityMagnitudeOutwards = velocity.get().dot( position.get().getNormalizedInstance() );
+        double velocityMagnitudeOutwards = velocity.get().dot( position.get().normalized() );
         if ( position.get().getMagnitude() > 0 ) {
-            velocity.set( velocity.get().minus( position.get().getNormalizedInstance().times( velocityMagnitudeOutwards ) ) ); // subtract the outwards-component out
+            velocity.set( velocity.get().minus( position.get().normalized().times( velocityMagnitudeOutwards ) ) ); // subtract the outwards-component out
         }
 
         // move position forward by scaled velocity
@@ -197,7 +197,7 @@ public class PairGroup {
      * Returns a unit vector that is the component of "vector" that is perpendicular to the "position" vector
      */
     public static Vector3D getTangentDirection( Vector3D position, Vector3D vector ) {
-        Vector3D normalizedPosition = position.getNormalizedInstance();
+        Vector3D normalizedPosition = position.normalized();
         return vector.minus( normalizedPosition.times( vector.dot( normalizedPosition ) ) );
     }
 

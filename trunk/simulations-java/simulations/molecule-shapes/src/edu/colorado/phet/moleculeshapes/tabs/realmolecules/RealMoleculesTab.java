@@ -446,7 +446,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
                             AttractorModel.getOrientationsFromOrigin( mappingMolecule.getRadialGroups() ),
                             FunctionalUtils.map( LocalShape.sortedLonePairsFirst( groups ), new Function1<PairGroup, Vector3D>() {
                                 public Vector3D apply( PairGroup pair ) {
-                                    return pair.position.get().getNormalizedInstance();
+                                    return pair.position.get().normalized();
                                 }
                             } ),
                             LocalShape.vseprPermutations( mappingMolecule.getRadialGroups() ) );

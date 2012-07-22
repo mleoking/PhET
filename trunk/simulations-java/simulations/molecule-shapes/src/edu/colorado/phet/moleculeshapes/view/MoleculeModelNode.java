@@ -263,7 +263,7 @@ public class MoleculeModelNode extends Node {
                     // add in impulse calculated with true from-central-atom distances
                     position = position.plus( group.getRepulsionImpulse( otherGroup, timeEpsilon, 1 ) ).times( lonePairFactor );
                 }
-                lonePairModifiedPositions.put( group, position.getNormalizedInstance() );
+                lonePairModifiedPositions.put( group, position.normalized() );
             }
         }
 
@@ -273,8 +273,8 @@ public class MoleculeModelNode extends Node {
                 PairGroup a = bondAngleNode.getA();
                 PairGroup b = bondAngleNode.getB();
 
-                final Vector3D aDir = a.position.get().getNormalizedInstance();
-                final Vector3D bDir = b.position.get().getNormalizedInstance();
+                final Vector3D aDir = a.position.get().normalized();
+                final Vector3D bDir = b.position.get().normalized();
 
                 final float brightness = BondAngleNode.calculateBrightness( aDir, bDir, localCameraPosition, molecule.getRadialAtoms().size() );
                 if ( brightness == 0 ) {

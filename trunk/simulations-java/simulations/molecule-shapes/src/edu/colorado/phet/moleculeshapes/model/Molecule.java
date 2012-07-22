@@ -312,7 +312,7 @@ public abstract class Molecule {
         List<Vector3D> lonePairOrientations = pairConfig.geometry.unitVectors;
         ResultMapping mapping = AttractorModel.findClosestMatchingConfiguration(
                 // last vector should be lowest energy (best bond if ambiguous), and is negated for the proper coordinate frame
-                Arrays.asList( atom.position.get().getNormalizedInstance() ), // TODO: why did this have to get changed to non-negated?
+                Arrays.asList( atom.position.get().normalized() ), // TODO: why did this have to get changed to non-negated?
                 Arrays.asList( lonePairOrientations.get( lonePairOrientations.size() - 1 ).negated() ),
                 Arrays.asList( Permutation.identity( 1 ) )
         );

@@ -51,7 +51,7 @@ public class CollectionBoxHintNode extends PNode {
         addChild( labelNode );
 
         Vector2D textEnd = new Vector2D( labelNode.getFullBounds().getMaxX() - 5, labelNode.getFullBounds().getCenterY() );
-        Vector2D direction = tipTarget.minus( textEnd ).getNormalizedInstance();
+        Vector2D direction = tipTarget.minus( textEnd ).normalized();
 
         final ArrowNode blueArrow = new ArrowNode( textEnd.plus( direction.times( 15 ) ).toPoint2D(), tipTarget.toPoint2D(), 30, 40, 20 ) {{
             setPaint( Color.BLUE );
@@ -83,7 +83,7 @@ public class CollectionBoxHintNode extends PNode {
      */
     private Vector2D getInterceptPoint( Rectangle2D bounds, double padding, Vector2D tail ) {
         Vector2D center = new Vector2D( bounds.getCenterX(), bounds.getCenterY() );
-        Vector2D unitDirection = center.minus( tail ).getNormalizedInstance();
+        Vector2D unitDirection = center.minus( tail ).normalized();
 
         double minX = bounds.getMinX() - padding;
         double maxX = bounds.getMaxX() + padding;

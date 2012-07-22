@@ -74,7 +74,7 @@ public class LonePairNode extends Node {
             public void update() {
                 Vector3D lonePairOrientation = Vector3D.Y_UNIT;
                 Vector3D offsetFromParentAtom = position.get().minus( parentAtom.position.get() );
-                Vector3D orientation = offsetFromParentAtom.getNormalizedInstance();
+                Vector3D orientation = offsetFromParentAtom.normalized();
                 Matrix3f matrix = new Matrix3f();
                 JMEUtils.fromStartEndVectors( matrix, lonePairOrientation, orientation );
                 setLocalRotation( matrix );

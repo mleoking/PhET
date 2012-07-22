@@ -24,7 +24,7 @@ public class Ray {
         this.wavelength = wavelength;
         this.mediumIndexOfRefraction = mediumIndexOfRefraction;
         this.frequency = frequency;
-        this.directionUnitVector = directionUnitVector.getNormalizedInstance();
+        this.directionUnitVector = directionUnitVector.normalized();
     }
 
     //Gets the wavelength for this ray if it wasn't inside a medium

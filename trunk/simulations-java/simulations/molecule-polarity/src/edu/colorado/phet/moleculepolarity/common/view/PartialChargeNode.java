@@ -96,7 +96,7 @@ public abstract class PartialChargeNode extends PComposite {
                      * hasn't moved yet. This sorts itself out when both atoms have moved.
                      */
                     if ( v.getMagnitude() > 0 ) {
-                        v = v.getNormalizedInstance();
+                        v = v.normalized();
                     }
                     return v;
                 }
@@ -115,7 +115,7 @@ public abstract class PartialChargeNode extends PComposite {
                 public Vector2D apply() {
                     Vector2D normalVector;
                     if ( molecule.dipole.get().getMagnitude() > 0 ) {
-                        normalVector = molecule.dipole.get().getRotatedInstance( Math.PI ).getNormalizedInstance();
+                        normalVector = molecule.dipole.get().getRotatedInstance( Math.PI ).normalized();
                     }
                     else {
                         // can't normalize a zero-magnitude vector, so create our own with the proper angle

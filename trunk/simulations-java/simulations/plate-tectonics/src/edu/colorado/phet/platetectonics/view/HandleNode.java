@@ -273,7 +273,7 @@ public class HandleNode extends GLNode {
             Vector3F hitDir = hit.minus( origin );
             Vector3F startDir = startHit.minus( origin );
 
-            float angle = (float) ( Math.signum( hitDir.x - startDir.x ) * Math.min( 0.8f * Math.PI / 2, Math.acos( hitDir.getNormalizedInstance().dot( startDir.getNormalizedInstance() ) ) ) );
+            float angle = (float) ( Math.signum( hitDir.x - startDir.x ) * Math.min( 0.8f * Math.PI / 2, Math.acos( hitDir.normalized().dot( startDir.normalized() ) ) ) );
 
             switch( model.motionType.get() ) {
                 case CONVERGENT:
@@ -308,7 +308,7 @@ public class HandleNode extends GLNode {
             Vector3F hitDir = hit.minus( origin );
             Vector3F startDir = startHit.minus( origin );
 
-            float angle = (float) ( Math.min( 0.8f * Math.PI / 2, Math.acos( hitDir.getNormalizedInstance().dot( startDir.getNormalizedInstance() ) ) ) );
+            float angle = (float) ( Math.min( 0.8f * Math.PI / 2, Math.acos( hitDir.normalized().dot( startDir.normalized() ) ) ) );
             if ( hitDir.z < startDir.z ) {
                 angle = 0;
             }

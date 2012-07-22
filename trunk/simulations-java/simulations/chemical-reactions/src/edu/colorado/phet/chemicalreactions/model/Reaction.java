@@ -78,7 +78,7 @@ public class Reaction {
 
                         // approximately keep momentum with random direction of velocity
                         double randomSpeed = Math.random() * finalAverageVelocity * 2;
-                        setVelocity( transformedPosition.minus( transformedOrigin ).getNormalizedInstance().times( randomSpeed ) );
+                        setVelocity( transformedPosition.minus( transformedOrigin ).normalized().times( randomSpeed ) );
                     }};
                 }
             } ) );

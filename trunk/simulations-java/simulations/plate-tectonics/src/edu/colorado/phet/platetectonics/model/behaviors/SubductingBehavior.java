@@ -319,10 +319,10 @@ public class SubductingBehavior extends PlateBehavior {
     }
 
     private Vector2F pd1( float t ) {
-        return bottomFromTangent( p1( t ).minus( center0 ).getNormalizedInstance() );
+        return bottomFromTangent( p1( t ).minus( center0 ).normalized() );
     }
 
-    private final Vector2F center1 = p1( t1 ).plus( center0.minus( p1( t1 ) ).getNormalizedInstance().times( radius1 ) );
+    private final Vector2F center1 = p1( t1 ).plus( center0.minus( p1( t1 ) ).normalized().times( radius1 ) );
 
     private Vector2F p2( float t ) {
         float theta = (float) ( Math.PI / 2 + theta0 + ( t - t1 ) / radius1 );
@@ -330,10 +330,10 @@ public class SubductingBehavior extends PlateBehavior {
     }
 
     private Vector2F pd2( float t ) {
-        return bottomFromTangent( p2( t ).minus( center1 ).getNormalizedInstance() );
+        return bottomFromTangent( p2( t ).minus( center1 ).normalized() );
     }
 
-    private final Vector2F center2 = p2( t2 ).plus( center1.minus( p2( t2 ) ).getNormalizedInstance().times( radius2 ) );
+    private final Vector2F center2 = p2( t2 ).plus( center1.minus( p2( t2 ) ).normalized().times( radius2 ) );
 
     private Vector2F p3( float t ) {
         float theta = (float) ( Math.PI / 2 + theta0 + theta1 + ( t - t2 ) / radius2 );
@@ -341,7 +341,7 @@ public class SubductingBehavior extends PlateBehavior {
     }
 
     private Vector2F pd3( float t ) {
-        return bottomFromTangent( p3( t ).minus( center2 ).getNormalizedInstance() );
+        return bottomFromTangent( p3( t ).minus( center2 ).normalized() );
     }
 
     private final Vector2F dir4 = vectorFromAngle( (float) ( totalAngle + Math.PI ) );

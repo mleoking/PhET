@@ -191,7 +191,7 @@ public abstract class PlateBehavior {
     }
 
     public MagmaRegion addMagma( Vector2F position, float initialAlpha ) {
-        Vector2F dirToTarget = magmaTarget.minus( position ).getNormalizedInstance();
+        Vector2F dirToTarget = magmaTarget.minus( position ).normalized();
         float angle = (float) Math.atan2( dirToTarget.y, dirToTarget.x );
 
         MagmaRegion magmaBlob = new MagmaRegion( plate.getTextureStrategy(), 1000, angle, 6, position );
@@ -216,7 +216,7 @@ public abstract class PlateBehavior {
 
     protected void animateMagmaBlob( MagmaRegion blob, float millionsOfYears, boolean reAdd ) {
         final Vector2F currentPosition = blob.position.get();
-        final Vector2F directionToTarget = magmaTarget.minus( currentPosition ).getNormalizedInstance();
+        final Vector2F directionToTarget = magmaTarget.minus( currentPosition ).normalized();
         final Vector2F newPosition = currentPosition.plus( directionToTarget.times( magmaSpeed * millionsOfYears ) );
         if ( newPosition.y > magmaTarget.y ) {
             // get rid of blob and create a new one

@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
 public class IntersectionNode extends PNode {
     public IntersectionNode( final ModelViewTransform transform, final Intersection intersection ) {
         Vector2D center = transform.modelToView( intersection.getPoint() );
-        Vector2D unitNormal = transform.modelToViewDelta( intersection.getUnitNormal() ).getNormalizedInstance();
+        Vector2D unitNormal = transform.modelToViewDelta( intersection.getUnitNormal() ).normalized();
         int length = 100;//in stage coordinates
 
         //Show a dotted line of the normal at the interface between two mediums where the laser struck
