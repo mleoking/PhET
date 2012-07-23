@@ -330,7 +330,9 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             }
         } ) );
         boolean hit = false;
-        for ( Target pair : pairs ) {
+
+        //Only consider the closest box, otherwise students can overlap many boxes instead of thinking of the correct answer
+        for ( Target pair : pairs.take( 1 ) ) {
             final boolean intersects = pair.cell.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
             final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value );
             final boolean occupied = pair.getCell().isCompleted();
