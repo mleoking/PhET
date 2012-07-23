@@ -9,7 +9,7 @@ import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
 
 /**
- * Visual representation of a line in point-slope form.
+ * Visual representation of a line in simplified point-slope form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -20,6 +20,6 @@ class PointSlopeLineNode extends StraightLineNode {
     }
 
     protected EquationNode createEquationNode( StraightLine line, PhetFont font ) {
-        return new PointSlopeEquationFactory().createNode( line, font );
+        return new PointSlopeEquationFactory().createSimplifiedNode( line, font );
     }
 }

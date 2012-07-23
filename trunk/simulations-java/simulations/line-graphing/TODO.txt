@@ -7,7 +7,6 @@ DESIGN
 - revisit the placement algorithm for equations on graphed lines
 
 HIGH
-- move responsibility of simplification out of *EquationNodeFactory
 - ordering problem with notification of game "phase" change
 - create quick-and-dirty examples of each type of challenge
 

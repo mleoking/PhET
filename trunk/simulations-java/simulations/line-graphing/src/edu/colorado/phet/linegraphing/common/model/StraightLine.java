@@ -81,13 +81,18 @@ public class StraightLine {
         }
     }
 
-    // Get the reduced form of the rise. For example, if rise/run=6/4, reduced slope=3/2, and reduced rise=3.
-    public int getReducedRise() {
+    // Creates a simplified instance of the line. For our purposes, this means simplifying (aka, reducing) the slope.
+    public StraightLine simplify() {
+        return new StraightLine( getReducedRise(), getReducedRun(), x1, y1, color, highlightColor );
+    }
+
+    // Gets the reduced form of the rise. For example, if rise/run=6/4, reduced slope=3/2, and reduced rise=3.
+    private int getReducedRise() {
         return MathUtil.roundHalfUp( rise / getGCD() );
     }
 
-    // Get the reduced form of the rise. For example, if rise/run=6/4, reduced slope=3/2, and reduced run=3.
-    public int getReducedRun() {
+    // Gets the reduced form of the rise. For example, if rise/run=6/4, reduced slope=3/2, and reduced run=3.
+    private int getReducedRun() {
         return MathUtil.roundHalfUp( run / getGCD() );
     }
 
