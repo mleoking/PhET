@@ -10,8 +10,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.view.EquationFactory;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
-import edu.colorado.phet.linegraphing.common.view.SimplifiedEquationFactory;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointSlopeEquationFactory extends SimplifiedEquationFactory {
+public class PointSlopeEquationFactory extends EquationFactory {
 
     public EquationNode createNode( StraightLine line, PhetFont font ) {
         if ( line.run == 0 ) {
@@ -34,10 +34,10 @@ public class PointSlopeEquationFactory extends SimplifiedEquationFactory {
         else if ( line.rise == 0 ) {
             return new ZeroSlopeNode( line, font );
         }
-        else if ( Math.abs( line.getReducedRise() ) == Math.abs( line.getReducedRun() ) ) {
+        else if ( Math.abs( line.rise ) == Math.abs( line.run ) ) {
             return new UnitSlopeNode( line, font );
         }
-        else if ( Math.abs( line.getReducedRun() ) == 1 ) {
+        else if ( Math.abs( line.run ) == 1 ) {
             return new IntegerSlopeNode( line, font );
         }
         else {
@@ -46,7 +46,7 @@ public class PointSlopeEquationFactory extends SimplifiedEquationFactory {
     }
 
     // Verbose form of point-slope, not reduced, for debugging.
-    private static class VerboseNode extends SimplifiedEquationNode {
+    private static class VerboseNode extends EquationNode {
         public VerboseNode( StraightLine line, PhetFont font ) {
             addChild( new PhetPText( MessageFormat.format( "(y - {0}) = ({1}/{2})(x - {3})", line.y1, line.rise, line.run, line.x1 ), font, line.color ) );
         }
@@ -56,7 +56,7 @@ public class PointSlopeEquationFactory extends SimplifiedEquationFactory {
      * Forms when slope is zero.
      * y = y1
      */
-    private static class ZeroSlopeNode extends SimplifiedEquationNode {
+    private static class ZeroSlopeNode extends EquationNode {
 
         public ZeroSlopeNode( StraightLine line, PhetFont font ) {
 
@@ -82,7 +82,7 @@ public class PointSlopeEquationFactory extends SimplifiedEquationFactory {
      * (y - y1) = (x - x1)
      * (y - y1) = -(x - x1)
      */
-    private static class UnitSlopeNode extends SimplifiedEquationNode {
+    private static class UnitSlopeNode extends EquationNode {
 
         public UnitSlopeNode( StraightLine line, PhetFont font ) {
 
@@ -108,13 +108,13 @@ public class PointSlopeEquationFactory extends SimplifiedEquationFactory {
      * (y - y1) = m(x - x1)
      * (y - y1) = -m(x - x1)
      */
-    private static class IntegerSlopeNode extends SimplifiedEquationNode {
+    private static class IntegerSlopeNode extends EquationNode {
 
         public IntegerSlopeNode( StraightLine line, PhetFont font ) {
 
             PText yNode = new PhetPText( getYText( line.y1 ), font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
-            PText slopeNode = new PhetPText( toIntString( line.getReducedRise() / line.getReducedRun() ), font, line.color );
+            PText slopeNode = new PhetPText( toIntString( line.rise / line.run ), font, line.color );
             PText xNode = new PhetPText( getXText( line.x1 ), font, line.color );
 
             // rendering order
@@ -136,20 +136,18 @@ public class PointSlopeEquationFactory extends SimplifiedEquationFactory {
     * (y - y1) = (rise/run)(x - x1)
     * (y - y1) = -(rise/run)(x - x1)
     */
-    private static class FractionSlopeNode extends SimplifiedEquationNode {
+    private static class FractionSlopeNode extends EquationNode {
 
         public FractionSlopeNode( StraightLine line, PhetFont font ) {
 
-            final int reducedRise = Math.abs( line.getReducedRise() );
-            final int reducedRun = Math.abs( line.getReducedRun() );
             final boolean slopeIsPositive = ( line.rise * line.run ) >= 0;
 
             // y = -(reducedRise/reducedRun)x + b
             PText yNode = new PhetPText( getYText( line.y1 ), font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
             PText slopeSignNode = new PhetPText( slopeIsPositive ? "" : "-", font, line.color );
-            PText riseNode = new PhetPText( toIntString( Math.abs( reducedRise ) ), font, line.color );
-            PText runNode = new PhetPText( toIntString( Math.abs( reducedRun ) ), font, line.color );
+            PText riseNode = new PhetPText( toIntString( Math.abs( line.rise ) ), font, line.color );
+            PText runNode = new PhetPText( toIntString( Math.abs( line.run ) ), font, line.color );
             PPath lineNode = new PhetPPath( new Line2D.Double( 0, 0, Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), 0 ), new BasicStroke( 1f ), line.color );
             PText xNode = new PhetPText( getXText( line.x1 ), font, line.color );
 

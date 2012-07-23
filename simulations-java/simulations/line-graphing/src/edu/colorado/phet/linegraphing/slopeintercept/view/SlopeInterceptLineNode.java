@@ -9,7 +9,7 @@ import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
 
 /**
- * Visual representation of a line in slope-intercept form (y = mx + b).
+ * Visual representation of a line in simplified slope-intercept form (y = mx + b).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -20,6 +20,6 @@ class SlopeInterceptLineNode extends StraightLineNode {
     }
 
     protected EquationNode createEquationNode( StraightLine line, PhetFont font ) {
-        return new SlopeInterceptEquationFactory().createNode( line, font );
+        return new SlopeInterceptEquationFactory().createSimplifiedNode( line, font );
     }
 }

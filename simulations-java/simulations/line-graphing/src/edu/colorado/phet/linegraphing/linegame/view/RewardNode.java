@@ -41,9 +41,9 @@ import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.view.EquationFactory;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
-import edu.colorado.phet.linegraphing.common.view.SimplifiedEquationFactory;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationFactory;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
 import edu.umd.cs.piccolo.PNode;
@@ -167,14 +167,14 @@ public class RewardNode extends PhetPNode {
             StraightLine line = new StraightLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
                                                   getRandomNonZeroInteger( -20, 20 ),
                                                   color, color );
-            SimplifiedEquationFactory factory = new SlopeInterceptEquationFactory();
+            EquationFactory factory = new SlopeInterceptEquationFactory();
             node = factory.createNode( line, font );
         }
         else {
             StraightLine line = new StraightLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
                                                   getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
                                                   color, color );
-            SimplifiedEquationFactory factory = new PointSlopeEquationFactory();
+            EquationFactory factory = new PointSlopeEquationFactory();
             node = factory.createNode( line, font );
         }
         return new PadBoundsNode( node ).toImage();
