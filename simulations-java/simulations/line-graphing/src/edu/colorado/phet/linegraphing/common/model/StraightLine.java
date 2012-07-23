@@ -102,7 +102,33 @@ public class StraightLine {
         return "rise=" + rise + ",run=" + run + ",x1=" + x1 + ",y1=" + y1 + ",yIntercept=" + yIntercept;
     }
 
-    // Specialization that rounds its constructor args to integers, using nearest-neighbor rounding.
+    /*
+     * Two line objects are equal if they have identical field values.
+     * Note that this is different than being "the same line"; two objects may describe the same line, but be unequal.
+     */
+    @Override public boolean equals( Object o ) {
+        if ( !(o instanceof  StraightLine ) ) {
+            return false;
+        }
+        else {
+            StraightLine line = (StraightLine) o;
+            return ( rise == line.rise ) &&
+                   ( run == line.run ) &&
+                   ( x1 == line.x1 ) &&
+                   ( y1 == line.y1 ) &&
+                   ( yIntercept == line.yIntercept );
+            //Note: colors are not significant for comparison
+        }
+    }
+
+    //TODO override hashCode, since we overrode equals
+
+    // Two lines are the same if they have the same simplified form.
+    public boolean same( StraightLine line ) {
+        return simplified().equals( line.simplified() );
+    }
+
+        // Specialization that rounds its constructor args to integers, using nearest-neighbor rounding.
     public static class RoundedStraightLine extends StraightLine {
 
         public RoundedStraightLine( double rise, double run, double yIntercept, Color color, Color highlightColor ) {
