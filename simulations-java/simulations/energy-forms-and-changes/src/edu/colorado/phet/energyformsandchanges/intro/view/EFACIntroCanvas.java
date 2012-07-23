@@ -183,7 +183,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         airLayer.addChild( new AirNode( model.getAir(), mvt ) );
 
         // Add the movable objects.
-        final BlockNode brickNode = new BlockNode( model, model.getConfigurableBlock(), mvt );
+        final ConfigurableHeatCapacityBlockNode brickNode = new ConfigurableHeatCapacityBlockNode( model, model.getConfigurableBlock(), mvt );
         brickNode.setApproachingEnergyChunkParentNode( airLayer );
         blockLayer.addChild( brickNode );
         final BlockNode ironBlockNode = new BlockNode( model, model.getIronBlock(), mvt );
