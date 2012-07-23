@@ -64,11 +64,13 @@ public class ConfigurableHeatCapacityBlock extends Block {
                 // Add or remove energy chunks so that they match the energy
                 // level.  The chunks are not transferred, the just appear or
                 // vanish as needed.
-                if ( getEnergyChunkBalance() > 0 ) {
-                    extractClosestEnergyChunk( getCenterPoint() );
-                }
-                else if ( getEnergyChunkBalance() < 0 ) {
-                    addEnergyChunk( new EnergyChunk( clock, getCenterPoint(), energyChunksVisible, false ) );
+                while ( getEnergyChunkBalance() != 0 ) {
+                    if ( getEnergyChunkBalance() > 0 ) {
+                        extractClosestEnergyChunk( getCenterPoint() );
+                    }
+                    else if ( getEnergyChunkBalance() < 0 ) {
+                        addEnergyChunk( new EnergyChunk( clock, getCenterPoint(), energyChunksVisible, false ) );
+                    }
                 }
             }
         } );
