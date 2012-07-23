@@ -25,9 +25,12 @@ public class FieldModel {
     private var _yC:Number;         //y-position of charge in pixels
     private var _vX:Number;         //x-component of charge velocity
     private var _vY:Number;         //y-component of charge velocity
+    private var aX: Number;         //x-component of charge acceleration
+    private var aY: Number;         //y-component of charge acceleration
     private var vXInit:Number;      //x-comp of velocity when starting to brake stopping charge
     private var vYInit:Number;      //y-comp of velocity when starting to brake stopping charge
     private var _v:Number;          //speed of charge
+    private var _a:Number;          //classical acceleration of charge = delta-v/delta-t
     private var gamma:Number;       //gamma factor
     private var fX:Number;          //x-component of force on charge
     private var fY:Number;          //y-component of force on charge
@@ -45,10 +48,11 @@ public class FieldModel {
     private var sin_arr:Array;      //sines of angles of the rays,
     private var _fieldLine_arr:Array;  //array of field lines
 
-    //types of motion called from radio button group in control panel
+    //types of motion
     private var _motionType: int;
     private const STOPPING: int = -1;
-    private const STARTING: int = -2;
+    private const STARTING: int = -2;    //currently unused
+    //types of motion called from radio button group in control panel
     private const _MANUAL_WITH_FRICTION: int = 0;
     private const _MANUAL_NO_FRICTION: int = 1;
     private const LINEAR: int = 2;
@@ -58,24 +62,16 @@ public class FieldModel {
     private const RANDOM: int = 6;
 
     private var _paused:Boolean;        //true if sim is paused
-    private var _outOfBounds:Boolean;   //true if charge is off-screen
-    //private var motionType:String;  //type of motion: user-controlled, linear, sinusoidal, circular, etc
-    //private var _noFriction_str:String;
-    //private var MANUAL_WITH_FRICTION:String;
-    //private var LINEAR:String;
-    //private var SINUSOIDAL:String;
-    //private var CIRCULAR:String;
-    //private var BUMP:String;
-    //private var random_str:String;
-    //private var stopping_str:String;
+    private var _outOfBounds:Boolean;   //true if charge is a ways off-screen
 
     private var _t:Number;              //time in arbitrary units
     private var _tLastPhoton: Number;	//time of previous Photon emission
     private var tRate: Number;	        //1 = real time; 0.25 = 1/4 of real time, etc.
     private var dt: Number;  	        //default time step in seconds
-    private var delTPhoton:Number;      //time in sec between photon emission events
+    private var delTPhoton:Number;      //time in sec between photon emission events, depends on acceleration
+    private var delTPhotonDefault: Number;   //default time between photon emission events
     private var stepsPerFrame:int;      //number of algorithm steps between screen draws
-    private var tBump:Number;           //time that charge is bumped
+    private var tBump:Number;           //time that charge is "bumped" = moved thru one cycle of sine wave
     private var _bumpDuration:Number;    //duration of bump in seconds
     private var tLastRandomStep:Number; //time of previous step in random walk motion
     private var delTRandomWalk:Number;  //time between steps in random walk motion
@@ -111,21 +107,11 @@ public class FieldModel {
         for( var i:int = 0; i < this._nbrFieldLines ; i++ ) {
             this._fieldLine_arr[i] = new Array( this._nbrPhotonsPerLine );
             for (var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){
-                this._fieldLine_arr[i][j]= new Photon( _xC,  _yC );     //each photon has a position (x,y) and direction vector (cos, sin)
-            }
+                this._fieldLine_arr[i][j]= new Photon( _xC,  _yC );     //each photon has a position (x,y)
+            }                                                           //and direction vector (cos, sin) with default (0,0)
         }
 
-        //set motion-type strings. NOTE: these are not visible on the stage and should NOT be internationalized.
-//        this.MANUAL_NO_FRICTION = "noFriction";
-//        this.MANUAL_WITH_FRICTION = "manual";
-//        this.LINEAR = "linear";
-//        this.SINUSOIDAL = "sinusoidal";
-//        this.CIRCULAR = "circular";
-//        this.BUMP = "bump";
-//        this.random_str = "random";
-        //this.stopping_str = "stopping";
         this._motionType = _MANUAL_WITH_FRICTION;
-
         this.c = this.stageW/4;     //n seconds to cross height of stage
         this.k = 10;                //spring constant
         this.m = 1;                 //mass
@@ -147,7 +133,8 @@ public class FieldModel {
         this._t = 0;
         this._tLastPhoton = 0;
         this.dt = 0.006;
-        this.delTPhoton = 0.02;
+        this.delTPhotonDefault = 0.02;
+        this.delTPhoton = delTPhotonDefault;
         this.tRate = 1;         //not currently used
         this.stepsPerFrame = 4;
         this.msTimer = new Timer( stepsPerFrame*dt * 1000 );   //argument of Timer constructor is time step in ms
@@ -246,14 +233,17 @@ public class FieldModel {
         this.myMainView.myControlPanel.presetMotion_rgb.selectedValue = 0;
         //this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;         //is there a more elegant way?
         this._motionType = STOPPING;
+        this.delTPhoton = delTPhotonDefault;
         this.vXInit = this._vX;
         this.vYInit = this._vY;
     }
 
+    //UNUSED
     public function startCharge():void{
         this._motionType = STARTING;
     }
 
+    /*Place charge at origin, center of screen, at rest.*/
     public function centerCharge():void{
         this._xC = 0;
         this._yC = 0;
@@ -266,6 +256,7 @@ public class FieldModel {
         //this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;
         this.initializeFieldLines();
     }
+
 
     public function restartCharge():void{
         this.setTypeOfMotion( 2 );  //restart linear motion of charge at left edge of screen
@@ -307,34 +298,35 @@ public class FieldModel {
 
     public function setTypeOfMotion( choice:int ):void{
         this.stopRadiation();
+        this._motionType = choice;
         //trace("FieldModel.setTypeOfMotion() called. choice = " + choice );
+        this.delTPhoton = delTPhotonDefault;  //default values, changed for linear motion = const velocity motion
+        this.stepsPerFrame = 4;
         if( choice == _MANUAL_WITH_FRICTION ){
-            _motionType = _MANUAL_WITH_FRICTION;
+            //do nothing
         }else if( choice == _MANUAL_NO_FRICTION ){
-            _motionType = _MANUAL_NO_FRICTION;
+            //do nothing
         }else if( choice == LINEAR ){    //linear
             this.initializeFieldLines();
-            _motionType = LINEAR;
             this.fX = 0;
             this.fY = 0;
             this.beta = this.myMainView.myControlPanel.speedSlider.getVal();
-            trace("FieldModel.setTypeOfMotion  linear motion, beta = " + this.beta);
+            //trace("FieldModel.setTypeOfMotion  linear motion, beta = " + this.beta);
             this._vX = this.beta*this.c;
             this._vY = 0;
             this._v = beta*this.c;
             this._xC = -stageW/2;
             this._yC = 0;
+            this.delTPhoton = 0.1;
+            //this.stepsPerFrame = this.delTPhoton/this.dt;
         }else if(choice == SINUSOIDAL ){  //sinusoid
             this.initializeFieldLines();
-            _motionType = SINUSOIDAL;
             this.phi = 0;
         }else if( choice == CIRCULAR ){  //circular
             //this._t = 0;      //this is FATAL!!  Why??
             this.initializeFieldLines();
-            _motionType = CIRCULAR;
         }else if( choice == BUMP ){   //bump
             this.initializeFieldLines();
-            _motionType = BUMP;
             _xC = 0;
             _yC = 0;
             _vX = 0;
@@ -357,7 +349,7 @@ public class FieldModel {
 
 
     private function moveCharge():void{
-        var fw:Number = 1.4;     //fudge factors: recenter charge if outside zone fw*stageW x fh*stageH
+        var fw:Number = 1.4;     //fudge factors: recenter charge if outside zone = fw*stageW x fh*stageH
         var fh:Number = 1.6;
         if( xC > fw*stageW/2 || xC < -fw*stageW/2 || yC > fh*stageH/2 || yC < -fh*stageH/2 ){
             outOfBounds = true;          //charge is recentered in ChargeView if outOfBounds
@@ -444,6 +436,12 @@ public class FieldModel {
         this._yC = A*Math.sin( 2*Math.PI*f*this._t + phi ) ;
         this._vX = 0;
         this._vY = A*2*Math.PI*f*Math.cos( 2*Math.PI*f*this._t + phi );
+//        this.aX = 0;
+//        this.aY =  -A*(2*Math.PI)*f*(2*Math.PI*f)*Math.sin( 2*Math.PI*f*this._t + phi );
+//        var fudge: Number = Math.abs(aY)/(c);
+//        this.delTPhoton = delTPhotonDefault/fudge;
+//        if(delTPhoton > 0.1){delTPhoton = 0.1 };
+        //trace("FieldModel.sinusoidalStep()  aY = "+aY/c);
         this._v = Math.sqrt( _vX*_vX + _vY*_vY );
         this.beta = this._v/this.c;
     } //end sinusoidal step
@@ -460,9 +458,6 @@ public class FieldModel {
     }//end cicularStep();
 
     private function bumpStep():void{
-        //trace("FieldModel.bumpCharge called()");
-        //this._xC = 0;
-        //this.vX = 0;
         var A:Number = amplitude;
         var f:Number = 1/bumpDuration;
         var omega:Number = 2*Math.PI*f;
