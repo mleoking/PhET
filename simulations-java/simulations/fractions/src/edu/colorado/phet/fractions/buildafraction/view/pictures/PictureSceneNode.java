@@ -38,6 +38,7 @@ import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
+import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -209,8 +210,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         for ( int i = 0; i < numInGroup; i++ ) {
             final double delta = toDelta( numInGroup, i );
             final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
-                this.setInitialState( layoutXOffset + INSET + 20 + delta + finalGroupIndex * spacing,
-                                      STAGE_SIZE.height - INSET - toolboxHeight + 20 + delta, TINY_SCALE );
+                setInitialState( layoutXOffset + INSET + 20 + delta + finalGroupIndex * spacing,
+                                 STAGE_SIZE.height - INSET - toolboxHeight + 20 + delta, TINY_SCALE );
             }};
             addChild( containerNode );
         }
@@ -404,6 +405,30 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         }
     }
 
+    public double getNextAngle( final PieceNode pieceNode ) {
+
+        for ( ContainerNode containerNode : getContainerNodes() ) {
+            System.out.println( "containerNode = " + containerNode + ", t = " + containerNode.isInToolbox() );
+        }
+
+        //find closest container
+        SingleContainerNode closest = getContainerNodes().
+                bind( _getSingleContainerNodes ).
+                filter( new F<SingleContainerNode, Boolean>() {
+                    @Override public Boolean f( final SingleContainerNode n ) {
+                        return !n.isInToolbox();
+                    }
+                } ).
+                sort( FJUtils.ord( new F<SingleContainerNode, Double>() {
+                    @Override public Double f( final SingleContainerNode n ) {
+                        return n.getGlobalFullBounds().getCenter2D().distance( pieceNode.getGlobalFullBounds().getCenter2D() );
+                    }
+                } ) ).
+                head();
+        DropLocation dropLocation = closest.getDropLocation( pieceNode, level.shapeType );
+        return dropLocation.angle;
+    }
+
     public @Data static class DropLocation {
         public final Vector2D position;
         public final double angle;
@@ -414,9 +439,9 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         if ( level.shapeType == ShapeType.PIE ) {
             DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
             PTransformActivity activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, 1, 0, 200 );
-            if ( level.shapeType == ShapeType.PIE ) {
-                piece.animateToRotation( dropLocation.angle );
-            }
+
+            //Should already be at correct angle, update again just in case
+            piece.setPieceRotation( dropLocation.angle );
             piece.setPickable( false );
             piece.setChildrenPickable( false );
             activity.setDelegate( new PActivityDelegate() {

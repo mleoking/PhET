@@ -142,20 +142,14 @@ public class SingleContainerNode extends PNode {
     };
 
     public DropLocation getDropLocation( final PieceNode piece, final ShapeType shapeType ) {
-
         if ( shapeType == ShapeType.HORIZONTAL_BAR ) {
             return new DropLocation( v( getPiecesWidth(), 0 ), 0 );
         }
-
-        Rectangle2D bounds = shapeLayer.getGlobalFullBounds();
-
-        bounds = piece.globalToLocal( bounds );
-        bounds = piece.localToParent( bounds );
-
-        if ( shapeType == HORIZONTAL_BAR ) {
-            return new DropLocation( v( getPiecesWidth(), 0 ).plus( bounds.getX(), bounds.getY() ), 0 );
-        }
         else {
+
+            Rectangle2D bounds = shapeLayer.getGlobalFullBounds();
+            bounds = piece.globalToLocal( bounds );
+            bounds = piece.localToParent( bounds );
 
             List<Double> pieceAngleExtents = getPieces().map( new F<PieceNode, Double>() {
                 @Override public Double f( final PieceNode pieceNode ) {
@@ -164,8 +158,6 @@ public class SingleContainerNode extends PNode {
             } );
             double sumAngle = pieceAngleExtents.foldLeft( Doubles.add, 0.0 );
             return new DropLocation( new Vector2D( bounds.getX(), bounds.getY() ), sumAngle );
-//            final DropLocation dropLocation = new DropLocation( new Vector2D( center ).plus( piece.getFullBounds().getWidth() / 2, piece.getFullBounds().getHeight() / 2 ), -sumAngle );
-//            return dropLocation;
         }
     }
 }

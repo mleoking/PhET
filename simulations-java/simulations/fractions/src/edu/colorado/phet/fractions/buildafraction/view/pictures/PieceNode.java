@@ -58,14 +58,15 @@ public class PieceNode extends Stackable {
                 super.startDrag( event );
                 PieceNode.this.moveToFront();
                 setPositionInStack( Option.<Integer>none() );
-                addActivity( new AnimateToScale( PieceNode.this, 200 ) );
+                final AnimateToScale activity = new AnimateToScale( PieceNode.this, 200 );
+                addActivity( activity );
+                animateToAngle( context.getNextAngle( PieceNode.this ) );
             }
 
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 final PDimension delta = event.getDeltaRelativeTo( event.getPickedNode().getParent() );
                 translate( delta.width, delta.height );
-//                setPieceRotation( pieceRotation + 0.1 );
             }
 
             @Override protected void endDrag( final PInputEvent event ) {
@@ -92,7 +93,7 @@ public class PieceNode extends Stackable {
 
     protected double getAnimateToScale() { return this.initialScale; }
 
-    public void animateToRotation( final double angle ) {
+    public void animateToAngle( final double angle ) {
         addActivity( new AnimateToAngle( this, 200, angle ) );
     }
 
