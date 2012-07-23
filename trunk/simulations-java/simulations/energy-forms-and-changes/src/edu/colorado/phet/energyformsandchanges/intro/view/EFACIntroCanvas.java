@@ -3,6 +3,7 @@ package edu.colorado.phet.energyformsandchanges.intro.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
@@ -29,6 +30,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
@@ -241,7 +243,10 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                                                               ConfigurableHeatCapacityBlock.MIN_SPECIFIC_HEAT,
                                                               ConfigurableHeatCapacityBlock.MAX_SPECIFIC_HEAT,
                                                               model.getConfigurableBlock().specificHeat );
-            heatCapacitySlider.setTrackFillPaint( Color.BLACK );
+            heatCapacitySlider.setTrackFillPaint( new GradientPaint( new Point2D.Double( 0, 0 ),
+                                                                     ConfigurableHeatCapacityBlock.HIGH_SPECIFIC_HEAT_COLOR,
+                                                                     new Point2D.Double( 0, VSliderNode.DEFAULT_TRACK_LENGTH ),
+                                                                     ConfigurableHeatCapacityBlock.LOW_SPECIFIC_HEAT_COLOR ) );
             Font sliderLabelFont = new PhetFont( 16 );
             heatCapacitySlider.addLabel( ConfigurableHeatCapacityBlock.MIN_SPECIFIC_HEAT, new PhetPText( "low", sliderLabelFont ) );
             heatCapacitySlider.addLabel( ConfigurableHeatCapacityBlock.MAX_SPECIFIC_HEAT, new PhetPText( "high", sliderLabelFont ) );
