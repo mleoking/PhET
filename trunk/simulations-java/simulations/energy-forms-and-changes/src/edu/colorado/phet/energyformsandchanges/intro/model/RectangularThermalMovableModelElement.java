@@ -30,7 +30,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     public final BooleanProperty energyChunksVisible;
     protected double energy = 0; // In Joules.
     private final double specificHeat; // In J/kg-K
-    private final double mass; // In kg
+    protected final double mass; // In kg
     protected final ConstantDtClock clock;
     private final double width;
     private final double height;

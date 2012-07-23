@@ -83,4 +83,8 @@ public class ConfigurableHeatCapacityBlock extends Block {
         specificHeat.reset();
         super.reset();
     }
+
+    @Override public double getTemperature() {
+        return energy / ( mass * specificHeat.get() );
+    }
 }
