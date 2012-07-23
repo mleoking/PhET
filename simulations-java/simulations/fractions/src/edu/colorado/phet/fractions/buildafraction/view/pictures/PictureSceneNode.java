@@ -153,7 +153,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         addChild( firstContainerNode );
 
         //Pieces in the toolbar that the user can drag
-        //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         int numGroups = groups.length();
         int stackIndex = 0;
