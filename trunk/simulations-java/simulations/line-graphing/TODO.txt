@@ -14,6 +14,7 @@ HIGH
 MEDIUM
 
 LOW
+- override hashCode in every class that overrides equals
 
 SIM-SHARING
 
