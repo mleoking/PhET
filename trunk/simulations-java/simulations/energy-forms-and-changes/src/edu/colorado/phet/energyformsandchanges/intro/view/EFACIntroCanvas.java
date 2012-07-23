@@ -10,7 +10,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -235,10 +236,11 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         // Add the control for setting the specific heat of the configurable block.
         PNode heatCapacitySliderNode;
         {
-            heatCapacitySliderNode = new ControlPanelNode( new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,
-                                                                            ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT,
-                                                                            ConfigurableSpecificHeatBlock.MAX_SPECIFIC_HEAT,
-                                                                            new DoubleProperty( ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT ) ),
+            heatCapacitySliderNode = new ControlPanelNode( new VBox( new PhetPText( "Heat Capacity", new PhetFont( 18 ) ),
+                                                                     new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,
+                                                                                      ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT,
+                                                                                      ConfigurableSpecificHeatBlock.MAX_SPECIFIC_HEAT,
+                                                                                      new DoubleProperty( ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT ) ) ),
                                                            EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
             heatCapacitySliderNode.setOffset( thermometerToolBox.getFullBoundsReference().getMaxX() + EDGE_INSET, EDGE_INSET );
             backLayer.addChild( heatCapacitySliderNode );
