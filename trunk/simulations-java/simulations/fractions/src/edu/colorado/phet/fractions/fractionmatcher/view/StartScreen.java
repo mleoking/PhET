@@ -23,8 +23,6 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel;
 import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameModel;
-import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState;
-import edu.colorado.phet.fractions.fractionmatcher.model.Mode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -32,7 +30,6 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
-import static edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState.newLevel;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 
@@ -78,12 +75,7 @@ public class StartScreen extends PNode {
             public void apply() {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-
-                        final MatchingGameState m = newLevel( gameSettings.level.get(), model.state.get().gameResults, model.levelFactory ).
-                                withMode( Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).
-                                withAudio( gameSettings.soundEnabled.get() ).
-                                withTimerVisible( gameSettings.timerEnabled.get() );
-                        model.state.set( m );
+                        model.startGame( gameSettings.level.get(), gameSettings.soundEnabled.get(), gameSettings.timerEnabled.get() );
                     }
                 } );
             }

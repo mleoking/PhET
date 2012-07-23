@@ -33,6 +33,7 @@ class ScoreboardNode extends PNode {
 
         addChild( new VBox( 20, new VBox( VBox.RIGHT_ALIGNED, level, score, optionalTimerValue ), new RefreshButtonNode( new VoidFunction0() {
             public void apply() {
+                matchingGameModel.refresh();
             }
         } ) ) );
     }
