@@ -33,7 +33,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
     public static Color[] colors = new Color[] { Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN, Colors.LIGHT_ORANGE, Color.magenta, Color.yellow };
 
     public LevelSelectionNode( final String title, final BuildAFractionCanvas canvas2, BooleanProperty audioEnabled, IntegerProperty selectedPage ) {
-        super( title, list( new Page( createPage1() ), new Page( createPage2() ) ), canvas2, selectedPage );
+        super( title, list( new Page( page1() ), new Page( page2() ) ), canvas2, selectedPage );
 
         //Add the audio on/off panel
         addChild( new SettingsOnOffPanel( list( new Element( new PImage( SOUND_OFF_ICON ),
@@ -42,7 +42,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
         }} );
     }
 
-    private static List<List<LevelInfo>> createPage1() {
+    private static List<List<LevelInfo>> page1() {
         return list( list( toShapeLevelInfo( 1, Pattern.pie( 1 ), 3 ),
                            toShapeLevelInfo( 2, Pattern.verticalBars( 2 ), 3 ),
                            toShapeLevelInfo( 3, 3 ),
@@ -55,7 +55,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
                            createNumberLevel( 5, 3 ) ) );
     }
 
-    private static List<List<LevelInfo>> createPage2() {
+    private static List<List<LevelInfo>> page2() {
         return list( list( toShapeLevelInfo( 6, 4 ),
                            toShapeLevelInfo( 7, 4 ),
                            toShapeLevelInfo( 8, 4 ),
