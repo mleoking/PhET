@@ -69,7 +69,7 @@ public class RewardNode extends PhetPNode {
     private final ArrayList<Image> imagePool; // images currently in use by the animation
 
     private int population; // number of images in the animation
-    private int motionDelta; // nominal motion of each image
+    private int motionDelta; // maximum motion of each image
     private IMotionStrategy motionStrategy; // type of motion
 
     /**
@@ -387,20 +387,7 @@ public class RewardNode extends PhetPNode {
         setRunning( visible );
     }
 
-    /**
-     * Plays the animation.
-     */
-    public void play() {
-        clock.start();
-    }
-
-    /**
-     * Pauses the animation.
-     */
-    public void pause() {
-        clock.pause();
-    }
-
+    // Sets whether the animation is running.
     public void setRunning( boolean running ) {
         if ( running ) {
             clock.start();
