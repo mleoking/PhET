@@ -419,7 +419,6 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             faceNodeDialog.moveToFront();
 
             playSoundForAllComplete();
-            model.numberScore.add( 1 );
         }
     }
 
@@ -441,9 +440,6 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
         //Only subtract from the score if the face dialog was showing.  Otherwise you can get a negative score by removing an item from the target container since this method is called
         //each time.
-        if ( faceNodeDialog.getPickable() ) {
-            model.numberScore.subtract( 1 );
-        }
         faceNodeDialog.animateToTransparency( 0.0f, 200 );
         faceNodeDialog.setPickable( false );
         faceNodeDialog.setChildrenPickable( false );

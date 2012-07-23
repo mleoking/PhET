@@ -22,7 +22,7 @@ public class NumberLevel {
     public final List<NumberTarget> targets;
 
     //True if the scoring target cell should blink when the user creates a match.  Disabled on higher levels to make it more difficult.
-    public final boolean flashTargetCellOnMatch;
+    public final boolean flashTargetCellOnMatch = false;
 
     //Infer the number cards from the list of targets, using exactly what is necessary
     public NumberLevel( boolean flashTargetCellOnMatch, final List<NumberTarget> targets ) {
@@ -49,7 +49,8 @@ public class NumberLevel {
     }
 
     public NumberLevel( boolean flashTargetCellOnMatch, final List<Integer> numbers, final List<NumberTarget> targets ) {
-        this.flashTargetCellOnMatch = flashTargetCellOnMatch;
+        //TODO: are we keeping this feature?  In mid-july 2012 we were directed to avoid flashing target matches, but weren't sure if we'd keep it that way
+        //this.flashTargetCellOnMatch = flashTargetCellOnMatch;
         this.numbers = numbers.sort( Ord.intOrd );
         this.targets = targets;
     }
