@@ -220,7 +220,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                                       STAGE_SIZE.height - INSET - 127 + 20 + delta, TINY_SCALE );
             }};
             addChild( containerNode );
-//            addChild( new ContainerFrontNode( containerNode ) );
         }
 
         //Add a piece container toolbox the user can use to get containers
