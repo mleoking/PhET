@@ -174,7 +174,7 @@ public class GameNode extends PNode {
         //Update the scoreboard when level, score, timerVisible, or time (in seconds) changes
         addChild( new UpdateNode( new Effect<PNode>() {
             @Override public void e( final PNode parent ) {
-                parent.addChild( new ScoreboardNode( model.state ) {{
+                parent.addChild( new ScoreboardNode( model ) {{
 
                     //Update the location, but get it approximately right so it doesn't expand the dirty region
                     setOffset( AbstractFractionsCanvas.STAGE_SIZE.width - AbstractFractionsCanvas.INSET * 2, scoreCellsLayer.getMaxY() + AbstractFractionsCanvas.INSET );
