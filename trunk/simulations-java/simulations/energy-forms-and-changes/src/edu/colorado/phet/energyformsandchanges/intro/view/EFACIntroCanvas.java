@@ -30,7 +30,7 @@ import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
-import edu.colorado.phet.energyformsandchanges.intro.model.ConfigurableSpecificHeatBlock;
+import edu.colorado.phet.energyformsandchanges.intro.model.ConfigurableHeatCapacityBlock;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
 import edu.umd.cs.piccolo.PNode;
@@ -237,8 +237,8 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         {
             heatCapacitySliderNode = new ControlPanelNode( new VBox( new PhetPText( "Heat Capacity", new PhetFont( 18 ) ),
                                                                      new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,
-                                                                                      ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT,
-                                                                                      ConfigurableSpecificHeatBlock.MAX_SPECIFIC_HEAT,
+                                                                                      ConfigurableHeatCapacityBlock.MIN_SPECIFIC_HEAT,
+                                                                                      ConfigurableHeatCapacityBlock.MAX_SPECIFIC_HEAT,
                                                                                       model.getConfigurableBlock().specificHeat ) ),
                                                            EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
             heatCapacitySliderNode.setOffset( thermometerToolBox.getFullBoundsReference().getMaxX() + EDGE_INSET, EDGE_INSET );

@@ -15,7 +15,7 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
  *
  * @author John Blanco
  */
-public class ConfigurableSpecificHeatBlock extends Block {
+public class ConfigurableHeatCapacityBlock extends Block {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -41,7 +41,7 @@ public class ConfigurableSpecificHeatBlock extends Block {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected ConfigurableSpecificHeatBlock( ConstantDtClock clock, Vector2D initialPosition, BooleanProperty energyChunksVisible ) {
+    protected ConfigurableHeatCapacityBlock( ConstantDtClock clock, Vector2D initialPosition, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, DENSITY, INITIAL_SPECIFIC_HEAT, energyChunksVisible );
     }
 

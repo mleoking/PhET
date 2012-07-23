@@ -55,7 +55,7 @@ public class EFACIntroModel {
     private final Burner rightBurner;
 
     // Movable thermal model objects.
-    private final ConfigurableSpecificHeatBlock configurableBlock;
+    private final ConfigurableHeatCapacityBlock configurableBlock;
     private final IronBlock ironBlock;
     private final Beaker beaker;
 
@@ -91,7 +91,7 @@ public class EFACIntroModel {
         leftBurner = new Burner( clock, new Vector2D( 0.08, 0 ), energyChunksVisible );
 
         // Add and position the blocks
-        configurableBlock = new ConfigurableSpecificHeatBlock( clock, new Vector2D( -0.1, 0 ), energyChunksVisible );
+        configurableBlock = new ConfigurableHeatCapacityBlock( clock, new Vector2D( -0.1, 0 ), energyChunksVisible );
         ironBlock = new IronBlock( clock, new Vector2D( -0.175, 0 ), energyChunksVisible );
 
         // Add and position the beaker.
@@ -469,7 +469,7 @@ public class EFACIntroModel {
         return clock;
     }
 
-    public ConfigurableSpecificHeatBlock getConfigurableBlock() {
+    public ConfigurableHeatCapacityBlock getConfigurableBlock() {
         return configurableBlock;
     }
 
