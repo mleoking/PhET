@@ -30,6 +30,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
 import static edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType.HORIZONTAL_BAR;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.PieceNode._toFraction;
+import static edu.colorado.phet.fractions.buildafraction.view.pictures.SimpleContainerNode.circleDiameter;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.sum;
 
@@ -47,11 +48,24 @@ public class SingleContainerNode extends PNode {
             number.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer number ) {
                     removeAllChildren();
-                    final double pieceWidth = SimpleContainerNode.rectangleWidth / number;
-                    double x = pieceWidth;
-                    for ( int i = 0; i < number - 1; i++ ) {
-                        addChild( new PhetPPath( new Line2D.Double( x, 0, x, SimpleContainerNode.rectangleHeight ), new BasicStroke( 1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
-                        x += pieceWidth;
+
+                    if ( shapeType == HORIZONTAL_BAR ) {
+                        final double pieceWidth = SimpleContainerNode.rectangleWidth / number;
+                        double x = pieceWidth;
+                        for ( int i = 0; i < number - 1; i++ ) {
+                            addChild( new PhetPPath( new Line2D.Double( x, 0, x, SimpleContainerNode.rectangleHeight ), new BasicStroke( 1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
+                            x += pieceWidth;
+                        }
+                    }
+                    else {
+                        final double pieceAngle = Math.PI * 2 / number;
+                        double angle = 0;
+                        for ( int i = 0; i < number && number >= 2; i++ ) {
+                            Vector2D delta = Vector2D.createPolar( circleDiameter / 2, angle );
+                            Vector2D center = new Vector2D( circleDiameter / 2, circleDiameter / 2 );
+                            addChild( new PhetPPath( center.lineTo( center.plus( delta ) ), new BasicStroke( 1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
+                            angle += pieceAngle;
+                        }
                     }
                 }
             } );
