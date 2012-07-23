@@ -25,7 +25,7 @@ public class ConfigurableHeatCapacityBlock extends Block {
     //-------------------------------------------------------------------------
 
     public static final double MIN_SPECIFIC_HEAT = 840;
-    public static final double MAX_SPECIFIC_HEAT = 1000;
+    public static final double MAX_SPECIFIC_HEAT = 3000;
     private static final double INITIAL_SPECIFIC_HEAT = MIN_SPECIFIC_HEAT; // In J/kg-K, source = design document.
     private static final double DENSITY = 2000; // In kg/m^3.
 
@@ -46,7 +46,7 @@ public class ConfigurableHeatCapacityBlock extends Block {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected ConfigurableHeatCapacityBlock( ConstantDtClock clock, Vector2D initialPosition, BooleanProperty energyChunksVisible ) {
+    protected ConfigurableHeatCapacityBlock( final ConstantDtClock clock, Vector2D initialPosition, final BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, DENSITY, INITIAL_SPECIFIC_HEAT, energyChunksVisible );
 
         specificHeat.addObserver( new ChangeObserver<Double>() {
@@ -57,12 +57,20 @@ public class ConfigurableHeatCapacityBlock extends Block {
                 double proportion = MathUtil.clamp( 0, ( newSpecificHeat - MIN_SPECIFIC_HEAT ) / ( MAX_SPECIFIC_HEAT - MIN_SPECIFIC_HEAT ), 1 );
                 color.set( ColorUtils.interpolateRBGA( LOW_SPECIFIC_HEAT_COLOR, HIGH_SPECIFIC_HEAT_COLOR, proportion ) );
 
-                // Add or remove energy in order to keep the temperature
-                // constant.
+                // Add or remove energy in order to keep the temperature constant.
                 double oldTemperature = getEnergy() / ( mass * oldSpecificHeat );
                 double newTemperature = getEnergy() / ( mass * newSpecificHeat );
                 changeEnergy( ( oldTemperature - newTemperature ) * mass * specificHeat.get() );
-                System.out.println( "Energy change = " + ( ( oldTemperature - newTemperature ) * mass * specificHeat.get() ) );
+
+                // Add or remove energy chunks so that they match the energy
+                // level.  The chunks are not transferred, the just appear or
+                // vanish as needed.
+                if ( getEnergyChunkBalance() > 0 ) {
+                    extractClosestEnergyChunk( getCenterPoint() );
+                }
+                else if ( getEnergyChunkBalance() < 0 ) {
+                    addEnergyChunk( new EnergyChunk( clock, getCenterPoint(), energyChunksVisible, false ) );
+                }
             }
         } );
     }
@@ -81,7 +89,10 @@ public class ConfigurableHeatCapacityBlock extends Block {
     }
 
     public EnergyContainerCategory getEnergyContainerCategory() {
-        return EnergyContainerCategory.CUSTOM;
+        // TODO: Rather than add a bunch of temporary heat transfer factors,
+        // just use the ones for the brick.  If the configurable block is made
+        // permanent, factors for this block may be needed.
+        return EnergyContainerCategory.BRICK;
     }
 
     @Override public IUserComponent getUserComponent() {
