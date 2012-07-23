@@ -27,6 +27,9 @@ public class PictureLevel {
 
     public final ShapeType shapeType;
 
+    //True if the scoring target cell should blink when the user creates a match.  Disabled on higher levels to make it more difficult.
+    public final boolean flashTargetCellOnMatch = false;
+
     //Cannot be a constructor because has same erasure
     public static PictureLevel pictureLevel( final List<Integer> pieces, final List<Fraction> targets, Color color, ShapeType shapeType ) {
         return new PictureLevel( pieces, targets.map( new F<Fraction, PictureTarget>() {

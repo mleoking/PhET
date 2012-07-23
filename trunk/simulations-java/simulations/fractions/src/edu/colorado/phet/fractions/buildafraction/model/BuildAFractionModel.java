@@ -21,7 +21,6 @@ public class BuildAFractionModel {
 
     public final IntegerProperty numberLevel = new IntegerProperty( 0 );
     public final ArrayList<NumberLevel> numberLevels = new NumberLevelList();
-    public final IntegerProperty numberScore = new IntegerProperty( 0 );
 
     public final IntegerProperty pictureLevel = new IntegerProperty( 0 );
     public final ArrayList<PictureLevel> pictureLevels = new PictureLevelList();

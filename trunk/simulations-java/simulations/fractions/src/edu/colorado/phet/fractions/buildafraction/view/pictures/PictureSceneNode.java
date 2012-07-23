@@ -109,7 +109,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             FractionNode f = new FractionNode( target.fraction, 0.33 );
             final PictureScoreBoxNode cell = new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator,
                                                                       level.createdFractions, this,
-                                                                      model.getNumberLevel( levelIndex ).flashTargetCellOnMatch );
+                                                                      level.flashTargetCellOnMatch );
             pairList.add( new Target( cell, new ZeroOffsetNode( f ), target.fraction ) );
         }
         this.targetPairs = iterableList( pairList );
@@ -378,7 +378,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             faceNodeDialog.setPickable( true );
             faceNodeDialog.setChildrenPickable( true );
             faceNodeDialog.moveToFront();
-            model.numberScore.add( 1 );
         }
         if ( !allTargetsComplete() && hit ) {
             playSoundForOneComplete();
@@ -496,11 +495,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     }
 
     public void hideFace() {
-        //Only subtract from the score if the face dialog was showing.  Otherwise you can get a negative score by removing an item from the target container since this method is called
-        //each time.
-        if ( faceNodeDialog.getPickable() ) {
-            model.numberScore.subtract( 1 );
-        }
         faceNodeDialog.animateToTransparency( 0.0f, 200 );
         faceNodeDialog.setPickable( false );
         faceNodeDialog.setChildrenPickable( false );
