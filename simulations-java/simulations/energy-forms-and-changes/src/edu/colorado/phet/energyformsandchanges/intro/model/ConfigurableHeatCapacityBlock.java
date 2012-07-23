@@ -7,9 +7,9 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 
@@ -49,11 +49,20 @@ public class ConfigurableHeatCapacityBlock extends Block {
     protected ConfigurableHeatCapacityBlock( ConstantDtClock clock, Vector2D initialPosition, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, DENSITY, INITIAL_SPECIFIC_HEAT, energyChunksVisible );
 
-        specificHeat.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double newSpecificHeat ) {
-                assert newSpecificHeat >= MIN_SPECIFIC_HEAT && newSpecificHeat <= MAX_SPECIFIC_HEAT;
+        specificHeat.addObserver( new ChangeObserver<Double>() {
+            public void update( Double newSpecificHeat, Double oldSpecificHeat ) {
+                assert newSpecificHeat >= MIN_SPECIFIC_HEAT && newSpecificHeat <= MAX_SPECIFIC_HEAT; // Bounds checking.
+
+                // Set the color based on the specific heat value.
                 double proportion = MathUtil.clamp( 0, ( newSpecificHeat - MIN_SPECIFIC_HEAT ) / ( MAX_SPECIFIC_HEAT - MIN_SPECIFIC_HEAT ), 1 );
                 color.set( ColorUtils.interpolateRBGA( LOW_SPECIFIC_HEAT_COLOR, HIGH_SPECIFIC_HEAT_COLOR, proportion ) );
+
+                // Add or remove energy in order to keep the temperature
+                // constant.
+                double oldTemperature = getEnergy() / ( mass * oldSpecificHeat );
+                double newTemperature = getEnergy() / ( mass * newSpecificHeat );
+                changeEnergy( ( oldTemperature - newTemperature ) * mass * specificHeat.get() );
+                System.out.println( "Energy change = " + ( ( oldTemperature - newTemperature ) * mass * specificHeat.get() ) );
             }
         } );
     }
