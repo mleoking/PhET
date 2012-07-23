@@ -230,7 +230,7 @@ public class ConfigurableHeatCapacityBlockNode extends PComposite {
 
         // Add the filled shape.  Note that in cases where a texture is
         // provided, this may end up getting partially or entirely covered up.
-        final PhetPPath shapeNode = new PhetPPath( shape, fillColor.get() );
+        final PhetPPath shapeNode = new PhetPPath( shape );
         fillColor.addObserver( new VoidFunction1<Color>() {
             public void apply( Color color ) {
                 shapeNode.setPaint( color );
