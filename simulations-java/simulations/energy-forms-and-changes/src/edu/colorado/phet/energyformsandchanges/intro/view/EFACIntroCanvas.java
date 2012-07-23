@@ -25,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
@@ -235,7 +236,8 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         // Add the control for setting the specific heat of the configurable block.
         PNode heatCapacitySliderNode;
         {
-            heatCapacitySliderNode = new ControlPanelNode( new VBox( new PhetPText( "Heat Capacity", new PhetFont( 18 ) ),
+            heatCapacitySliderNode = new ControlPanelNode( new VBox( new HBox( new BlockIconNode( model.getConfigurableBlock().color ),
+                                                                               new PhetPText( "Heat Capacity", new PhetFont( 18 ) ) ),
                                                                      new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,
                                                                                       ConfigurableHeatCapacityBlock.MIN_SPECIFIC_HEAT,
                                                                                       ConfigurableHeatCapacityBlock.MAX_SPECIFIC_HEAT,
