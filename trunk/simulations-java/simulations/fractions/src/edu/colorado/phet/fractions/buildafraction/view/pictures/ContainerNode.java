@@ -261,7 +261,7 @@ public class ContainerNode extends PNode {
     }
 
     public boolean isInToolbox() {
-        return isAtStartingLocation() && initialY > 600;
+        return isAtStartingLocation() && initialY > 500;
     }
 
     public void pieceAdded( final PieceNode piece ) {

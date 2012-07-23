@@ -8,4 +8,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public interface PieceContext {
     void endDrag( PieceNode piece, PInputEvent event );
+
+    double getNextAngle( final PieceNode pieceNode );
 }
