@@ -159,6 +159,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         int stackIndex = 0;
         layoutXOffset = ( 6 - numGroups ) * spacing / 4;
         stackList = new ArrayList<Stack>();
+        final int toolboxHeight = level.shapeType == ShapeType.HORIZONTAL_BAR ? 100 : 140;
         for ( List<Integer> group : groups ) {
             int numInGroup = group.length();
             int pieceIndex = 0;
@@ -172,7 +173,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 final PhetPPath shape = level.shapeType == ShapeType.HORIZONTAL_BAR ? new PhetPPath( SimpleContainerNode.createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) :
                                         new PhetPPath( SimpleContainerNode.createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black );
                 final PieceNode piece = new PieceNode( pieceDenominator, PictureSceneNode.this, shape, level.shapeType );
-                piece.setOffset( layoutXOffset + INSET + 20 + delta + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta );
+                piece.setOffset( layoutXOffset + INSET + 20 + delta + stackIndex * spacing, STAGE_SIZE.height - INSET - toolboxHeight + 20 + delta );
                 piece.setInitialScale( TINY_SCALE );
 
                 PictureSceneNode.this.addChild( piece );
@@ -215,7 +216,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             final double delta = toDelta( numInGroup, i );
             final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
                 this.setInitialState( layoutXOffset + INSET + 20 + delta + finalGroupIndex * spacing,
-                                      STAGE_SIZE.height - INSET - 127 + 20 + delta, TINY_SCALE );
+                                      STAGE_SIZE.height - INSET - toolboxHeight + 20 + delta, TINY_SCALE );
             }};
             addChild( containerNode );
         }
@@ -227,7 +228,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             double min = FNode.getChildren( PictureSceneNode.this, PieceIconNode.class ).map( _minX ).minimum( doubleOrd );
             double max = FNode.getChildren( PictureSceneNode.this, ContainerNode.class ).map( _maxX ).maximum( doubleOrd );
             double width = max - min;
-            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, width + INSET * 6, 127, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
+            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, width + INSET * 6, toolboxHeight, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
             addChild( border );
             setOffset( min - INSET * 3, AbstractFractionsCanvas.STAGE_SIZE.height - INSET - this.getFullHeight() );
         }};
