@@ -396,12 +396,9 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             }
         }
 
-        //If didn't intersect a container, see if it should go back to the bucket
+        //If didn't intersect a container, see if it should go back to the toolbox
         if ( !droppedInto ) {
             piece.moveToTopOfStack();
-        }
-        else if ( !droppedInto && piece.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() ) ) {
-            piece.animateToPositionScaleRotation( piece.getXOffset(), piece.getYOffset() - 100, 1, 0, 200 );
         }
     }
 

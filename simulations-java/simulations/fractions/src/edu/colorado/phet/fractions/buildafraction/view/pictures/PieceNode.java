@@ -29,12 +29,14 @@ public class PieceNode extends Stackable {
     public final Integer pieceSize;
     private double initialScale = Double.NaN;
     private PhetPPath pathNode;
+    private final ShapeType shapeType;
     public static final BasicStroke stroke = new BasicStroke( 2 );
     double pieceRotation = 0.0;
 
     public PieceNode( final Integer pieceSize, final PieceContext context, PhetPPath shape, ShapeType shapeType ) {
         this.pieceSize = pieceSize;
         pathNode = shape;
+        this.shapeType = shapeType;
 
         if ( shapeType == ShapeType.HORIZONTAL_BAR ) {
 
@@ -89,7 +91,12 @@ public class PieceNode extends Stackable {
         }
     };
 
-    public void moveToTopOfStack() { stack.moveToTopOfStack( this ); }
+    public void moveToTopOfStack() {
+        if ( shapeType == ShapeType.PIE ) {
+            animateToAngle( 0 );
+        }
+        stack.moveToTopOfStack( this );
+    }
 
     protected double getAnimateToScale() { return this.initialScale; }
 
