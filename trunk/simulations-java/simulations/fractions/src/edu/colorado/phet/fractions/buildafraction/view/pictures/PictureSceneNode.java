@@ -137,7 +137,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
         double offsetY = INSET;
         double insetY = 5;
-//        addChild( title );
         for ( Target pair : pairList ) {
 
             pair.cell.setOffset( offsetX, offsetY );
@@ -152,7 +151,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             setInitialPosition( 285, 200 );
         }};
         addChild( firstContainerNode );
-//        addChild( new ContainerFrontNode( firstContainerNode ) );
 
         //Pieces in the toolbar that the user can drag
         //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
