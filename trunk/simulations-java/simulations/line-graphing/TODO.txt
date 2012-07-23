@@ -19,3 +19,4 @@ SIM-SHARING
 MIGRATE TO COMMON
 GameTimer, copied from BCE and RPAL
 RewardNode, copied and adapted from BCE and RPAL
+"game phase" framework
