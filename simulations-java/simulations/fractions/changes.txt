@@ -1,3 +1,4 @@
+Fraction Matcher: Added a "refresh" level button that creates new challenges for the same level
 Build a Fraction: Improved support for pie shapes
 Build a Fraction: Initial support for pie shapes
 Fraction Matcher: Switched to use common Vector2D implementation, see #3374

@@ -26,6 +26,7 @@ import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Model
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState.initialState;
+import static edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState.newLevel;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ModelActions.changed;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ModelComponentTypes.scale;
 
@@ -220,5 +221,18 @@ public class MatchingGameModel {
                                                     changed, parameterSet( ParameterKeys.value, value ) );
             }
         } );
+    }
+
+    //Load a new level from the same distribution.  Fade out/fade in for transition, as in build a fraction.
+    public void refresh() {
+        startGame( level.get(), gameAudioPlayer.isEnabled(), timerVisible.get() );
+    }
+
+    public void startGame( final int level, final boolean soundEnabled, final boolean timerEnabled ) {
+        final MatchingGameState m = newLevel( level, state.get().gameResults, levelFactory ).
+                withMode( Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).
+                withAudio( soundEnabled ).
+                withTimerVisible( timerEnabled );
+        state.set( m );
     }
 }
