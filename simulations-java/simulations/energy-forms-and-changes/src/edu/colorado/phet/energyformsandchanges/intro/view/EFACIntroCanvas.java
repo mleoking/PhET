@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxWithIcon;
@@ -240,7 +239,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                                                                      new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,
                                                                                       ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT,
                                                                                       ConfigurableSpecificHeatBlock.MAX_SPECIFIC_HEAT,
-                                                                                      new DoubleProperty( ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT ) ) ),
+                                                                                      model.getConfigurableBlock().specificHeat ) ),
                                                            EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
             heatCapacitySliderNode.setOffset( thermometerToolBox.getFullBoundsReference().getMaxX() + EDGE_INSET, EDGE_INSET );
             backLayer.addChild( heatCapacitySliderNode );
