@@ -37,6 +37,6 @@ class SlopeInterceptEquationControls extends EquationControls {
         super( MessageFormat.format( "{0} = {1}{2} + {3}", /* y = mx + b */
                                      Strings.SYMBOL_Y, Strings.SYMBOL_SLOPE, Strings.SYMBOL_X, Strings.SYMBOL_INTERCEPT ),
                interactiveLine, savedLines, maximized, linesVisible,
-               new SlopeInterceptEquationNode( interactiveLine, riseRange, runRange, yInterceptRange ) );
+               new SlopeInterceptInteractiveEquationNode( interactiveLine, riseRange, runRange, yInterceptRange ) );
     }
 }

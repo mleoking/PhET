@@ -29,10 +29,7 @@ import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.InterceptSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RunSpinnerNode;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Interface for manipulating a slope-intercept equation.
@@ -40,27 +37,27 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptEquationNode extends PhetPNode {
+class SlopeInterceptInteractiveEquationNode extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private final Property<Double> rise, run, yIntercept;
 
-    public SlopeInterceptEquationNode( final Property<StraightLine> interactiveLine,
-                                       Property<DoubleRange> riseRange,
-                                       Property<DoubleRange> runRange,
-                                       Property<DoubleRange> yInterceptRange ) {
+    public SlopeInterceptInteractiveEquationNode( final Property<StraightLine> interactiveLine,
+                                                  Property<DoubleRange> riseRange,
+                                                  Property<DoubleRange> runRange,
+                                                  Property<DoubleRange> yInterceptRange ) {
         this( interactiveLine, riseRange, runRange, yInterceptRange,
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
-    private SlopeInterceptEquationNode( final Property<StraightLine> interactiveLine,
-                                        Property<DoubleRange> riseRange,
-                                        Property<DoubleRange> runRange,
-                                        Property<DoubleRange> yInterceptRange,
-                                        PhetFont interactiveFont,
-                                        PhetFont staticFont,
-                                        Color staticColor ) {
+    private SlopeInterceptInteractiveEquationNode( final Property<StraightLine> interactiveLine,
+                                                   Property<DoubleRange> riseRange,
+                                                   Property<DoubleRange> runRange,
+                                                   Property<DoubleRange> yInterceptRange,
+                                                   PhetFont interactiveFont,
+                                                   PhetFont staticFont,
+                                                   Color staticColor ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
@@ -150,7 +147,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
         Property<DoubleRange> yInterceptRange = new Property<DoubleRange>( range );
 
         // equation
-        SlopeInterceptEquationNode equationNode = new SlopeInterceptEquationNode( line, riseRange, runRange, yInterceptRange );
+        SlopeInterceptInteractiveEquationNode equationNode = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange );
         equationNode.setOffset( 100, 100 );
 
         // canvas
