@@ -173,7 +173,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 //Choose the shape for the level, pies or horizontal bars
                 final PhetPPath shape = level.shapeType == ShapeType.HORIZONTAL_BAR ? new PhetPPath( SimpleContainerNode.createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) :
                                         new PhetPPath( SimpleContainerNode.createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black );
-                final PieceNode piece = new PieceNode( pieceDenominator, PictureSceneNode.this, shape );
+                final PieceNode piece = new PieceNode( pieceDenominator, PictureSceneNode.this, shape, level.shapeType );
                 piece.setOffset( layoutXOffset + INSET + 20 + delta + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta );
                 piece.setInitialScale( TINY_SCALE );
 
@@ -418,26 +418,51 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
 
     //Piece dropped into container
     private void dropInto( final PieceNode piece, final SingleContainerNode container ) {
-        Point2D translation = container.getGlobalTranslation();
-        piece.globalToLocal( translation );
-        piece.localToParent( translation );
-        DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
-        final Vector2D a = dropLocation.position.plus( translation );
-        PTransformActivity activity = piece.animateToPositionScaleRotation( a.x, a.y, 1, dropLocation.angle, 200 );
-        piece.setPickable( false );
-        piece.setChildrenPickable( false );
-        activity.setDelegate( new PActivityDelegate() {
-            public void activityStarted( final PActivity activity ) {
+        if ( level.shapeType == ShapeType.PIE ) {
+            DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
+            PTransformActivity activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, 1, 0, 200 );
+            if ( level.shapeType == ShapeType.PIE ) {
+                piece.animateToRotation( dropLocation.angle );
             }
+            piece.setPickable( false );
+            piece.setChildrenPickable( false );
+            activity.setDelegate( new PActivityDelegate() {
+                public void activityStarted( final PActivity activity ) {
+                }
 
-            public void activityStepped( final PActivity activity ) {
-            }
+                public void activityStepped( final PActivity activity ) {
+                }
 
-            public void activityFinished( final PActivity activity ) {
-                container.addPiece( piece );
-                syncModelFractions();
-            }
-        } );
+                public void activityFinished( final PActivity activity ) {
+                    container.addPiece( piece );
+                    syncModelFractions();
+                }
+            } );
+        }
+
+        //TODO: Factor out duplicated code
+        else {
+            Point2D translation = container.getGlobalTranslation();
+            piece.globalToLocal( translation );
+            piece.localToParent( translation );
+            DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
+            final Vector2D a = dropLocation.position.plus( translation );
+            PTransformActivity activity = piece.animateToPositionScaleRotation( a.x, a.y, 1, dropLocation.angle, 200 );
+            piece.setPickable( false );
+            piece.setChildrenPickable( false );
+            activity.setDelegate( new PActivityDelegate() {
+                public void activityStarted( final PActivity activity ) {
+                }
+
+                public void activityStepped( final PActivity activity ) {
+                }
+
+                public void activityFinished( final PActivity activity ) {
+                    container.addPiece( piece );
+                    syncModelFractions();
+                }
+            } );
+        }
     }
 
     public void syncModelFractions() { level.createdFractions.set( getUserCreatedFractions() ); }

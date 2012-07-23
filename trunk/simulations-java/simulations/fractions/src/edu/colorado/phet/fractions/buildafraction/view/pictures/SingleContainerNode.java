@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.buildafraction.view.pictures;
 import fj.Effect;
 import fj.F;
 import fj.data.List;
+import fj.function.Doubles;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -27,10 +28,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
+import static edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType.HORIZONTAL_BAR;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.PieceNode._toFraction;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.sum;
-import static fj.function.Doubles.add;
 
 /**
  * @author Sam Reid
@@ -38,6 +39,7 @@ import static fj.function.Doubles.add;
 public class SingleContainerNode extends PNode {
     public final ContainerNode parent;
     private final PNode dottedLineLayer;
+    private final SimpleContainerNode shapeLayer;
 
     public SingleContainerNode( final ShapeType shapeType, final ContainerNode parent, final ObservableProperty<Integer> number ) {
         this.parent = parent;
@@ -54,10 +56,10 @@ public class SingleContainerNode extends PNode {
                 }
             } );
         }};
-        SimpleContainerNode node = new SimpleContainerNode( number.get(), Color.white, shapeType ) {{
+        shapeLayer = new SimpleContainerNode( number.get(), Color.white, shapeType ) {{
             //Thicker outer stroke
-            addChild( new PhetPPath( shapeType == ShapeType.HORIZONTAL_BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight ) :
-                                     new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), Color.white, new BasicStroke( 2 ), Color.black ) );
+            addChild( new PhetPPath( shapeType == HORIZONTAL_BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight )
+                                                                 : new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), Color.white, new BasicStroke( 2 ), Color.black ) );
 
             addInputEventListener( new SimSharingDragHandler( null, true ) {
                 @Override protected void startDrag( final PInputEvent event ) {
@@ -82,7 +84,7 @@ public class SingleContainerNode extends PNode {
             } );
             addInputEventListener( new CursorHandler() );
         }};
-        addChild( node );
+        addChild( shapeLayer );
 
         addChild( dottedLineLayer );
 
@@ -140,17 +142,30 @@ public class SingleContainerNode extends PNode {
     };
 
     public DropLocation getDropLocation( final PieceNode piece, final ShapeType shapeType ) {
+
         if ( shapeType == ShapeType.HORIZONTAL_BAR ) {
             return new DropLocation( v( getPiecesWidth(), 0 ), 0 );
         }
+
+        Rectangle2D bounds = shapeLayer.getGlobalFullBounds();
+
+        bounds = piece.globalToLocal( bounds );
+        bounds = piece.localToParent( bounds );
+
+        if ( shapeType == HORIZONTAL_BAR ) {
+            return new DropLocation( v( getPiecesWidth(), 0 ).plus( bounds.getX(), bounds.getY() ), 0 );
+        }
         else {
+
             List<Double> pieceAngleExtents = getPieces().map( new F<PieceNode, Double>() {
                 @Override public Double f( final PieceNode pieceNode ) {
                     return Math.PI * 2 / pieceNode.pieceSize;
                 }
             } );
-            double sumAngle = pieceAngleExtents.foldLeft( add, 0.0 );
-            return new DropLocation( Vector2D.ZERO, -sumAngle );
+            double sumAngle = pieceAngleExtents.foldLeft( Doubles.add, 0.0 );
+            return new DropLocation( new Vector2D( bounds.getX(), bounds.getY() ), sumAngle );
+//            final DropLocation dropLocation = new DropLocation( new Vector2D( center ).plus( piece.getFullBounds().getWidth() / 2, piece.getFullBounds().getHeight() / 2 ), -sumAngle );
+//            return dropLocation;
         }
     }
 }
