@@ -24,7 +24,7 @@ public class ConfigurableHeatCapacityBlock extends Block {
     // Class Data
     //-------------------------------------------------------------------------
 
-    public static final double MIN_SPECIFIC_HEAT = 100;
+    public static final double MIN_SPECIFIC_HEAT = 840;
     public static final double MAX_SPECIFIC_HEAT = 1000;
     private static final double INITIAL_SPECIFIC_HEAT = MIN_SPECIFIC_HEAT; // In J/kg-K, source = design document.
     private static final double DENSITY = 2000; // In kg/m^3.
