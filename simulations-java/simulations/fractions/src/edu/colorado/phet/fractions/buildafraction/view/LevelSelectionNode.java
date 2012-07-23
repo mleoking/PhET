@@ -73,11 +73,10 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
     }
 
     private static LevelInfo toShapeLevelInfo( final int level, Pattern pattern, int maxStars ) {
-        final int levelIndex = level - 1;
-        return new LevelInfo( "Level " + level, new PatternNode( sequentialFill( pattern, level ), colors[levelIndex % colors.length] ), 0, maxStars, levelIndex, LevelType.SHAPES );
+        return new LevelInfo( new LevelIdentifier( level - 1, LevelType.SHAPES ), "Level " + level, new PatternNode( sequentialFill( pattern, level ), colors[( level - 1 ) % colors.length] ), 0, maxStars );
     }
 
-    private static LevelInfo createNumberLevel( int level, int maxStars ) {return new LevelInfo( "Level " + level, createLevelIcon( level ), 0, maxStars, level - 1, LevelType.NUMBERS );}
+    private static LevelInfo createNumberLevel( int level, int maxStars ) {return new LevelInfo( new LevelIdentifier( level - 1, LevelType.NUMBERS ), "Level " + level, createLevelIcon( level ), 0, maxStars );}
 
     private static PNode createLevelIcon( final int level ) {
         return new PNode() {{

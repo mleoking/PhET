@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Paint;
 import java.awt.Stroke;
+import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
@@ -71,6 +72,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     private void animateTo( final PNode node, Direction direction ) {
+        node.setTransparency( 1 );
         Vector2D nodeOffset = direction == Direction.RIGHT ? new Vector2D( STAGE_SIZE.width, 0 ) :
                               direction == Direction.LEFT ? new Vector2D( -STAGE_SIZE.width, 0 ) :
                               direction == Direction.DOWN ? new Vector2D( 0, STAGE_SIZE.height ) :
@@ -113,8 +115,19 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
         currentScene = node;
     }
 
+    private final HashMap<LevelIdentifier, PNode> map = new HashMap<LevelIdentifier, PNode>();
+
     public void levelButtonPressed( final AbstractLevelSelectionNode parent, final LevelInfo info ) {
-        animateTo( createLevelNode( info.levelIndex, info.levelType ), Direction.RIGHT );
+
+        //if level was in progress, go back to it.  Otherwise create a new one and cache it.
+        animateTo( levelNode( info.levelIdentifier ), Direction.RIGHT );
+    }
+
+    private PNode levelNode( final LevelIdentifier level ) {
+        if ( !map.containsKey( level ) ) {
+            map.put( level, createLevelNode( level.levelIndex, level.levelType ) );
+        }
+        return map.get( level );
     }
 
     public void reset() {
