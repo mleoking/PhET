@@ -81,24 +81,21 @@ public class StraightLine {
         }
     }
 
-    // Creates a simplified instance of the line. For our purposes, this means simplifying (aka, reducing) the slope.
-    public StraightLine simplify() {
-        return new StraightLine( getReducedRise(), getReducedRun(), x1, y1, color, highlightColor );
-    }
-
-    // Gets the reduced form of the rise. For example, if rise/run=6/4, reduced slope=3/2, and reduced rise=3.
-    private int getReducedRise() {
-        return MathUtil.roundHalfUp( rise / getGCD() );
-    }
-
-    // Gets the reduced form of the rise. For example, if rise/run=6/4, reduced slope=3/2, and reduced run=3.
-    private int getReducedRun() {
-        return MathUtil.roundHalfUp( run / getGCD() );
-    }
-
-    // Gets the greatest common divisor (GCD) of the rise and run.
-    private int getGCD() {
-        return MathUtil.getGreatestCommonDivisor( MathUtil.roundHalfUp( Math.abs( rise ) ), MathUtil.roundHalfUp( Math.abs( run ) ) );
+    /*
+     * Creates a simplified instance of the line.
+     * For our purposes, this means simplifying (aka, reducing) the slope.
+     * Simplification uses Euclid's algorithm for computing the greatest common divisor (GCD) of two integers,
+     * so this is effective only if the rise and run are integer values. Otherwise 'this' is returned.
+     */
+    public StraightLine simplified() {
+        if ( ( rise == (int) rise ) && ( run == (int) run ) ) { // true if rise and run are integers
+            final int reducedRise = (int)( rise / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
+            final int reducedRun = (int)( run / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
+            return new StraightLine( reducedRise, reducedRun, x1, y1, color, highlightColor );
+        }
+        else {
+            return this;
+        }
     }
 
     @Override public String toString() {

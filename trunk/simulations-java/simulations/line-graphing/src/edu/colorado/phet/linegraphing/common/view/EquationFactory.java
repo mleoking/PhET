@@ -20,7 +20,7 @@ public abstract class EquationFactory {
     public abstract EquationNode createNode( StraightLine line, PhetFont font );
 
     public EquationNode createSimplifiedNode( StraightLine line, PhetFont font ) {
-        return createNode( line.simplify(), font );
+        return createNode( line.simplified(), font );
     }
 
     /*

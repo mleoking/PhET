@@ -1,3 +1,4 @@
+7/23/12 simplify a line only if its rise and run are who numbers
 7/23/12 modify *EquationFactory interfaces so that equation simplification is optional
 7/23/12 move responsibility for equation simplification into the model
 7/23/12 rename nodes for interactive equations
