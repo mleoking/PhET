@@ -24,14 +24,13 @@ public class ConfigurableHeatCapacityBlock extends Block {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double INITIAL_SPECIFIC_HEAT = 840; // In J/kg-K, source = design document.
-    private static final double DENSITY = 2000; // In kg/m^3.
-
     public static final double MIN_SPECIFIC_HEAT = 100;
     public static final double MAX_SPECIFIC_HEAT = 1000;
+    private static final double INITIAL_SPECIFIC_HEAT = MIN_SPECIFIC_HEAT; // In J/kg-K, source = design document.
+    private static final double DENSITY = 2000; // In kg/m^3.
 
-    public static final Color LOW_SPECIFIC_HEAT_COLOR = Color.RED;
-    public static final Color HIGH_SPECIFIC_HEAT_COLOR = Color.BLUE;
+    public static final Color LOW_SPECIFIC_HEAT_COLOR = new Color( 200, 22, 11 );
+    public static final Color HIGH_SPECIFIC_HEAT_COLOR = new Color( 150, 150, 150 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -54,7 +53,6 @@ public class ConfigurableHeatCapacityBlock extends Block {
             public void apply( Double newSpecificHeat ) {
                 assert newSpecificHeat >= MIN_SPECIFIC_HEAT && newSpecificHeat <= MAX_SPECIFIC_HEAT;
                 double proportion = MathUtil.clamp( 0, ( newSpecificHeat - MIN_SPECIFIC_HEAT ) / ( MAX_SPECIFIC_HEAT - MIN_SPECIFIC_HEAT ), 1 );
-                System.out.println( "proportion = " + proportion );
                 color.set( ColorUtils.interpolateRBGA( LOW_SPECIFIC_HEAT_COLOR, HIGH_SPECIFIC_HEAT_COLOR, proportion ) );
             }
         } );
