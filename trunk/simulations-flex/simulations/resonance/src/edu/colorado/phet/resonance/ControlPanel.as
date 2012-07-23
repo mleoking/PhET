@@ -1,3 +1,4 @@
+
 package edu.colorado.phet.resonance {
 
 import edu.colorado.phet.flexcommon.FlexSimStrings;
