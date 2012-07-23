@@ -40,7 +40,7 @@ public class ConfigurableHeatCapacityBlock extends Block {
     public final Property<Double> specificHeat = new Property<Double>( INITIAL_SPECIFIC_HEAT );
 
     // Color changes as specific heat changes.
-    public final Property<Color> color = new Property<Color>( new Color( 200, 22, 11 ) );
+    public final Property<Color> color = new Property<Color>( mapSpecificHeatToColor( INITIAL_SPECIFIC_HEAT ) );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -54,8 +54,7 @@ public class ConfigurableHeatCapacityBlock extends Block {
                 assert newSpecificHeat >= MIN_SPECIFIC_HEAT && newSpecificHeat <= MAX_SPECIFIC_HEAT; // Bounds checking.
 
                 // Set the color based on the specific heat value.
-                double proportion = MathUtil.clamp( 0, ( newSpecificHeat - MIN_SPECIFIC_HEAT ) / ( MAX_SPECIFIC_HEAT - MIN_SPECIFIC_HEAT ), 1 );
-                color.set( ColorUtils.interpolateRBGA( LOW_SPECIFIC_HEAT_COLOR, HIGH_SPECIFIC_HEAT_COLOR, proportion ) );
+                color.set( mapSpecificHeatToColor( newSpecificHeat ) );
 
                 // Add or remove energy in order to keep the temperature constant.
                 double oldTemperature = getEnergy() / ( mass * oldSpecificHeat );
@@ -106,5 +105,10 @@ public class ConfigurableHeatCapacityBlock extends Block {
 
     @Override public double getTemperature() {
         return energy / ( mass * specificHeat.get() );
+    }
+
+    private static Color mapSpecificHeatToColor( double specificHeat ) {
+        double proportion = MathUtil.clamp( 0, ( specificHeat - MIN_SPECIFIC_HEAT ) / ( MAX_SPECIFIC_HEAT - MIN_SPECIFIC_HEAT ), 1 );
+        return ColorUtils.interpolateRBGA( LOW_SPECIFIC_HEAT_COLOR, HIGH_SPECIFIC_HEAT_COLOR, proportion );
     }
 }
