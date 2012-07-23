@@ -30,7 +30,6 @@ import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.X1SpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.Y1SpinnerNode;
-import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -39,29 +38,29 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class PointSlopeEquationNode extends PhetPNode {
+class PointSlopeInteractiveEquationNode extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private final Property<Double> rise, run, x1, y1;
 
-    public PointSlopeEquationNode( final Property<StraightLine> interactiveLine,
-                                   Property<DoubleRange> riseRange,
-                                   Property<DoubleRange> runRange,
-                                   Property<DoubleRange> x1Range,
-                                   Property<DoubleRange> y1Range ) {
+    public PointSlopeInteractiveEquationNode( final Property<StraightLine> interactiveLine,
+                                              Property<DoubleRange> riseRange,
+                                              Property<DoubleRange> runRange,
+                                              Property<DoubleRange> x1Range,
+                                              Property<DoubleRange> y1Range ) {
         this( interactiveLine, riseRange, runRange, x1Range, y1Range,
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
-    private PointSlopeEquationNode( final Property<StraightLine> interactiveLine,
-                                    Property<DoubleRange> riseRange,
-                                    Property<DoubleRange> runRange,
-                                    Property<DoubleRange> x1Range,
-                                    Property<DoubleRange> y1Range,
-                                    PhetFont interactiveFont,
-                                    PhetFont staticFont,
-                                    Color staticColor ) {
+    private PointSlopeInteractiveEquationNode( final Property<StraightLine> interactiveLine,
+                                               Property<DoubleRange> riseRange,
+                                               Property<DoubleRange> runRange,
+                                               Property<DoubleRange> x1Range,
+                                               Property<DoubleRange> y1Range,
+                                               PhetFont interactiveFont,
+                                               PhetFont staticFont,
+                                               Color staticColor ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
@@ -179,7 +178,7 @@ class PointSlopeEquationNode extends PhetPNode {
         Property<DoubleRange> y1Range = new Property<DoubleRange>( range );
 
         // equation
-        PointSlopeEquationNode equationNode = new PointSlopeEquationNode( line, riseRange, runRange, x1Range, y1Range );
+        PointSlopeInteractiveEquationNode equationNode = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range );
         equationNode.setOffset( 50, 100 );
 
         // canvas
