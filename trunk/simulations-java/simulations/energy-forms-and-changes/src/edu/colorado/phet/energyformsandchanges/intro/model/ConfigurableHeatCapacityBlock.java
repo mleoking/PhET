@@ -29,8 +29,8 @@ public class ConfigurableHeatCapacityBlock extends Block {
     private static final double INITIAL_SPECIFIC_HEAT = MIN_SPECIFIC_HEAT; // In J/kg-K, source = design document.
     private static final double DENSITY = 2000; // In kg/m^3.
 
-    public static final Color LOW_SPECIFIC_HEAT_COLOR = new Color( 200, 22, 11 );
-    public static final Color HIGH_SPECIFIC_HEAT_COLOR = new Color( 150, 150, 150 );
+    public static final Color LOW_SPECIFIC_HEAT_COLOR = new Color( 142, 107, 35 );
+    public static final Color HIGH_SPECIFIC_HEAT_COLOR = new Color( 255, 185, 15 );
 
     //-------------------------------------------------------------------------
     // Instance Data
