@@ -196,13 +196,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             final PieceIconNode child = new PieceIconNode( group.head(), level.shapeType );
             final PieceNode firstPiece = pieces.get( 0 );
 
-            if ( level.shapeType == ShapeType.PIE ) {
-                child.setOffset( firstPiece.getFullBounds().getMaxX() - child.getFullBounds().getWidth(), firstPiece.pieceSize == 1 ? firstPiece.getYOffset() :
-                                                                                                          firstPiece.getFullBounds().getMaxY() - child.getFullBounds().getHeight() / 2 );
-            }
-            else {
-                child.setOffset( pieces.get( 0 ).getOffset() );
-            }
+            child.setOffset( level.shapeType == ShapeType.PIE ? new Point2D.Double( firstPiece.getFullBounds().getMaxX() - child.getFullBounds().getWidth(), firstPiece.getYOffset() )
+                                                              : pieces.get( 0 ).getOffset() );
             addChild( child );
             child.moveToBack();
             stackIndex++;
