@@ -83,7 +83,9 @@ public class FractionCardNode extends RichPNode {
                         return scoreBoxNode.getGlobalFullBounds().getCenter2D().distance( FractionCardNode.this.getGlobalFullBounds().getCenter2D() );
                     }
                 } ) );
-                for ( NumberScoreBoxNode scoreCell : sortedCells ) {
+
+                //Only consider the closest box, otherwise students can overlap many boxes instead of thinking of the correct answer
+                for ( NumberScoreBoxNode scoreCell : sortedCells.take( 1 ) ) {
                     if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) &&
                          scoreCell.fraction.approxEquals( fractionNode.getValue() ) &&
                          !scoreCell.isCompleted() ) {
