@@ -9,9 +9,9 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 /**
- * ImmutableVector2D represents an (x,y) offset in Cartesian coordinates.
+ * Vector2D represents an (x,y) offset in Cartesian coordinates.
  * This class is immutable, which means that it cannot be modified.
- * There is a subclass Vector2D that adds mutable functionality.
+ * If you need mutability, see MutableVector2D.
  * Uses Lombok to generate equals/hashcode/toString.
  *
  * @author Ron LeMaster

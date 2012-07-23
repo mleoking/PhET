@@ -7,9 +7,9 @@ import lombok.ToString;
 import java.awt.geom.Point2D;
 
 /**
- * Vector2D represents an offset in (x,y) Cartesian coordinates.  This class has all the functionality of the parent
- * class (i.e. functions that do not change the state of this Vector2D and return an ImmutableVector2D) as well as
- * mutator functions.  Uses Lombok to generate equals/hashcode/toString.
+ * MutableVector2D represents an offset in (x,y) Cartesian coordinates.
+ * This class has all the functionality of Vector2D (the immutable version), as well as mutator functions.
+ * Uses Lombok to generate equals/hashcode/toString.
  *
  * @author Sam Reid
  * @author Ron LeMaster
