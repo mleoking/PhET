@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.model;
 
+import java.awt.Color;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.games.GameSettings;
@@ -9,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 
 /**
  * Model for the "Line Game" module.
@@ -51,11 +53,15 @@ public class LineGameModel {
     public final Property<GamePhase> phase;
     public final Property<PlayState> state;
 
+    public final Property<MatchingChallenge> challenge; // the current challenge
+
     public LineGameModel() {
 
         settings = new GameSettings( new IntegerRange( 1, 3 ), true /* soundEnabled */, true /* timerEnabled */ );
 
         score = new Property<Integer>( 0 );
+
+        challenge = new Property<MatchingChallenge>( new MatchingChallenge( new StraightLine( 10, 5, 3, Color.RED, Color.RED ) ) );
 
         // time
         timer = new GameTimer( new ConstantDtClock( 1000 / 5, 1 ) );
