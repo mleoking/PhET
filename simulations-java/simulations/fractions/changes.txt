@@ -1,3 +1,4 @@
+Build a Fraction: Fixed toolbox height for different shape types
 Build a Fraction: Store progress when pushing back button
 Build a Fraction: Don't highlight the target box
 Build a Fraction: Only consider the target collection box for matching (based on centers), otherwise students can overlap many boxes instead of thinking of the correct answer
