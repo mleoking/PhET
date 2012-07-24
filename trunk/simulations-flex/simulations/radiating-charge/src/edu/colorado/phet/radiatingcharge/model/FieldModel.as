@@ -11,6 +11,7 @@ import edu.colorado.phet.radiatingcharge.view.MainView;
 import flash.events.TimerEvent;
 
 import flash.utils.Timer;
+import flash.utils.getTimer;
 
 import mx.rpc.AbstractInvoker;
 
@@ -64,10 +65,13 @@ public class FieldModel {
     private var _paused:Boolean;        //true if sim is paused
     private var _outOfBounds:Boolean;   //true if charge is a ways off-screen
 
-    private var _t:Number;              //time in arbitrary units
+    private var _t:Number;              //time in seconds
+    //private var tLastStep:Number;       //time of last screendraw
+    //private var elapsedTime:Number;     //elapsed time since previous screen draw
     private var _tLastPhoton: Number;	//time of previous Photon emission
     private var tRate: Number;	        //1 = real time; 0.25 = 1/4 of real time, etc.
-    private var dt: Number;  	        //default time step in seconds
+    private var dt: Number;  	        //current time step in seconds used in time-based animation
+    //private var dtDefault: Number;      //default time step in seconds
     private var delTPhoton:Number;      //time in sec between photon emission events, depends on acceleration
     private var delTPhotonDefault: Number;   //default time between photon emission events
     private var stepsPerFrame:int;      //number of algorithm steps between screen draws
@@ -132,6 +136,7 @@ public class FieldModel {
         this._outOfBounds = false;
         this._t = 0;
         this._tLastPhoton = 0;
+        //this.dtDefault = 0.006;
         this.dt = 0.006;
         this.delTPhotonDefault = 0.02;
         this.delTPhoton = delTPhotonDefault;
@@ -186,7 +191,7 @@ public class FieldModel {
         }else{
             this.startRadiation();
         }
-    } //end set Paused
+    }
 
     public function get paused():Boolean{
         return this._paused;
@@ -209,6 +214,7 @@ public class FieldModel {
         this._frequency = freq;
         this.phi += 2*Math.PI*this._t*( oldF - _frequency );
     }
+
 
     public function setBeta( beta:Number ):void{
         this.beta = beta;
@@ -236,6 +242,11 @@ public class FieldModel {
         this.delTPhoton = delTPhotonDefault;
         this.vXInit = this._vX;
         this.vYInit = this._vY;
+    }
+
+    private function setTEqualZero():void{
+        this._t = 0;
+        this._tLastPhoton = 0;
     }
 
     //UNUSED
@@ -289,8 +300,8 @@ public class FieldModel {
             for( var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){
                 this._fieldLine_arr[i][j].xP = this._xC;
                 this._fieldLine_arr[i][j].yP = this._yC;
-                this._fieldLine_arr[i][j].cos = 0;
-                this._fieldLine_arr[i][j].sin = 0;
+                this._fieldLine_arr[i][j].cos = cos_arr[i];
+                this._fieldLine_arr[i][j].sin = sin_arr[i];
                 this._fieldLine_arr[i][j].emitted = false;
             }
         }
@@ -307,23 +318,17 @@ public class FieldModel {
         }else if( choice == _MANUAL_NO_FRICTION ){
             //do nothing
         }else if( choice == LINEAR ){    //linear
-            this.initializeFieldLines();
-            this.fX = 0;
-            this.fY = 0;
-            this.beta = this.myMainView.myControlPanel.speedSlider.getVal();
-            //trace("FieldModel.setTypeOfMotion  linear motion, beta = " + this.beta);
-            this._vX = this.beta*this.c;
-            this._vY = 0;
-            this._v = beta*this.c;
-            this._xC = -stageW/2;
-            this._yC = 0;
-            this.delTPhoton = 0.1;
-            //this.stepsPerFrame = this.delTPhoton/this.dt;
+             this.initializeLinearMotion();
         }else if(choice == SINUSOIDAL ){  //sinusoid
+            _xC = 0;
+            _yC = 0;
+            _vX = 0;
+            _vY = 0;
             this.initializeFieldLines();
+            this.setTEqualZero();
             this.phi = 0;
         }else if( choice == CIRCULAR ){  //circular
-            //this._t = 0;      //this is FATAL!!  Why??
+            this.setTEqualZero();
             this.initializeFieldLines();
         }else if( choice == BUMP ){   //bump
             this.initializeFieldLines();
@@ -342,17 +347,36 @@ public class FieldModel {
             this._vX = this.c*(Math.random() - 0.5);   //c * random number between -1 and +1
             this._vY = this.c*(Math.random() - 0.5);
         }
-        //this.initializeFieldLines();
+        this.initializeFieldLines();
         this.startRadiation();
         this.paused = false;
     }//end setTypeOfMotion()
+
+    private function initializeLinearMotion():void{
+        this.initializeFieldLines();
+        this.fX = 0;
+        this.fY = 0;
+        this.beta = this.myMainView.myControlPanel.speedSlider.getVal();
+        //trace("FieldModel.setTypeOfMotion  linear motion, beta = " + this.beta);
+        this._vX = this.beta*this.c;
+        this._vY = 0;
+        this._v = beta*this.c;
+        this._xC = -stageW/2;
+        this._yC = 0;
+        this.delTPhoton = 0.1;
+        //this.stepsPerFrame = this.delTPhoton/this.dtDefault;
+    }
 
 
     private function moveCharge():void{
         var fw:Number = 1.4;     //fudge factors: recenter charge if outside zone = fw*stageW x fh*stageH
         var fh:Number = 1.6;
-        if( xC > fw*stageW/2 || xC < -fw*stageW/2 || yC > fh*stageH/2 || yC < -fh*stageH/2 ){
-            outOfBounds = true;          //charge is recentered in ChargeView if outOfBounds
+        if( xC > fw*stageW/2 || xC < -fw*stageW/2 || yC > fh*stageH/2 || yC < -fh*stageH/2 ){   //if charge is out of bounds
+            if(_motionType != LINEAR ) {
+                outOfBounds = true; //charge is recentered in ChargeView if outOfBounds
+            }else{
+                initializeLinearMotion();
+            }
         }
         if( _motionType == _MANUAL_NO_FRICTION ){
             this.manualNoFrictionStep();
@@ -570,6 +594,16 @@ public class FieldModel {
     }//end stoppingStep();
 
     private function reDrawScreen( evt: TimerEvent ):void{
+//        var currentTime:Number = this._t;
+//        this._t = getTimer();
+//        dt = _t - tLastStep;
+//        if(dt > 0.05 ){
+//            dt = dtDefault;
+//        }
+        //dt = elapsedTime;
+        //this.tLastStep = currentTime;
+        //this.dt = dtDefault;
+
         for(var s:int = 0; s < stepsPerFrame; s++ ) {
             this._t += this.dt;
             if( this._t > this._tLastPhoton + this.delTPhoton ){

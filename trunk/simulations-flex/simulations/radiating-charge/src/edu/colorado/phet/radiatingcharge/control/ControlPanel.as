@@ -47,10 +47,8 @@ public class ControlPanel extends Canvas {
     private var circular_rb : RadioButton;
     private var bump_rb: RadioButton;
 
-    //Show Velocity controls
 
-//    public var myComboBox: ComboBox;
-//    private var choiceList_arr:Array;
+
 
     private var selectedMotionControlsVBox: VBox;
     private var amplitudeSlider:HorizontalSlider;   //amplitude of both oscillatory and bumb motions
@@ -65,11 +63,12 @@ public class ControlPanel extends Canvas {
     private var frequencySlider_UI:SpriteUIComponent;
     private var speedSlider_UI:SpriteUIComponent;
     private var durationSlider_UI:SpriteUIComponent;
-    //private var lessRezRadioButton:RadioButton;
+
+    //Show Velocity controls
+    private var speedIndicatorVBox:VBox;
     private var speedIndicatorContainer: Sprite;
     private var speedIndicatorContainer_UI: SpriteUIComponent;
-    //private var speedOfLightArrow: Sprite;
-    //private var speedOLightArrow_UI: SpriteUIComponent;
+
     private var moreSpeedCheckBox:CheckBox;
 
     //internationalized strings
@@ -116,7 +115,7 @@ public class ControlPanel extends Canvas {
             setStyle( "cornerRadius", 10 );
             setStyle( "borderThickness", 4 );
             setStyle( "paddingTop", 15 );
-            setStyle( "paddingBottom", 15 );
+            setStyle( "paddingBottom", 5 );
             setStyle( "paddingRight", 5 );
             setStyle( "paddingLeft", 5 );
             setStyle( "verticalGap", 10 );
@@ -207,7 +206,19 @@ public class ControlPanel extends Canvas {
         durationSlider.removeReadout();
 
         var showVelocityVBox: VBox = new VBox();
-        showVelocityVBox.setStyle ( "verticalGap", 10 );
+        with(showVelocityVBox){
+            setStyle( "backgroundColor", 0x000000 );    //0x88ff88
+            setStyle( "borderStyle", "solid" )
+            setStyle( "borderColor", 0x00ff00 );  //0x009900
+            setStyle( "cornerRadius", 5 );
+            setStyle( "borderThickness", 2 );
+            setStyle( "paddingTop", 2 );
+            setStyle( "paddingBottom", 2 );
+            setStyle( "paddingRight", 2 );
+            setStyle( "paddingLeft", 2 );
+            setStyle( "verticalGap", 0 );
+            setStyle( "horizontalAlign", "center" );
+        }
         var showVelocityHBox: HBox = new HBox();
         showVelocity_cb = new CheckBox();
 
