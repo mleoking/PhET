@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.model;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 
@@ -60,6 +61,8 @@ public class LineGameModel {
 
     public final Graph graph; // the graph that plots the lines
     public final Property<MatchingChallenge> challenge; // the current challenge
+    private MatchingChallenge[] challenges = new MatchingChallenge[CHALLENGES_PER_GAME];
+    private int challengeIndex;
 
     // Defaults
     public LineGameModel() {
@@ -82,7 +85,7 @@ public class LineGameModel {
 
         graph = new Graph( xRange, yRange );
 
-        challenge = new Property<MatchingChallenge>( new MatchingChallenge( new StraightLine( 4, 2, 3, GameConstants.GIVEN_COLOR ) ) );
+        challenge = new Property<MatchingChallenge>( new MatchingChallenge( new StraightLine( 1, 1, 1, Color.BLACK ) ) ); // initial value is meaningless
 
         // time
         timer = new GameTimer( new ConstantDtClock( 1000 / 5, 1 ) );
@@ -97,10 +100,11 @@ public class LineGameModel {
             @Override public void set( GamePhase phase ) {
                 LOGGER.info( "game phase = " + phase );
                 if ( phase == GamePhase.SETTINGS ) {
-                    //TODO
+                    // do nothing
                 }
                 else if ( phase == GamePhase.PLAY ) {
-                    //TODO set up challenges
+                    initChallenges();
+                    state.set( PlayState.FIRST_CHECK );
                     timer.start();
                 }
                 else if ( phase == GamePhase.RESULTS ) {
@@ -114,14 +118,38 @@ public class LineGameModel {
             }
         };
 
+        initChallenges();
+
         state = new Property<PlayState>( PlayState.FIRST_CHECK ) {{
             addObserver( new VoidFunction1<PlayState>() {
                 public void apply( PlayState state ) {
                     LOGGER.info( "play state = " + state );
-                    //TODO
+                    if ( state == PlayState.FIRST_CHECK ) {
+                        if ( challengeIndex == challenges.length ) {
+                            // game has been completed
+                            phase.set( GamePhase.RESULTS );
+                        }
+                        else {
+                            // next challenge
+                            challenge.set( challenges[challengeIndex] );
+                            challengeIndex++;
+                        }
+                    }
                 }
             } );
         }};
+    }
+
+    private void initChallenges() {
+        //TODO create different types of challenges, randomized for level
+        challengeIndex = 0;
+        challenges[0] = new MatchingChallenge( new StraightLine( 4, 2, 3, GameConstants.GIVEN_COLOR ) );
+        challenges[1] = new MatchingChallenge( new StraightLine( 5, 1, 1, GameConstants.GIVEN_COLOR ) );
+        challenges[2] = new MatchingChallenge( new StraightLine( -3, 3, -2, GameConstants.GIVEN_COLOR ) );
+        challenges[3] = new MatchingChallenge( new StraightLine( 10, 2, -6, GameConstants.GIVEN_COLOR ) );
+        challenges[4] = new MatchingChallenge( new StraightLine( 0, 3, 2, GameConstants.GIVEN_COLOR ) );
+        challenge.set( challenges[challengeIndex] );
+        challengeIndex++;
     }
 
     public boolean isPerfectScore() {

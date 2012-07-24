@@ -172,7 +172,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
         // "Next" button
         nextButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                //TODO tell model to advance to the next challenge
+                model.state.set( PlayState.FIRST_CHECK );
             }
         } );
     }
