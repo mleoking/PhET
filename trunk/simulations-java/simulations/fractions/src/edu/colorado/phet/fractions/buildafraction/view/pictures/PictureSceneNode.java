@@ -158,30 +158,27 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         //Pieces in the toolbar that the user can drag
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         int numGroups = groups.length();
-        int stackIndex = 0;
         layoutXOffset = ( 6 - numGroups ) * spacing / 4;
         stackList = new ArrayList<Stack>();
         final int toolboxHeight = level.shapeType == ShapeType.HORIZONTAL_BAR ? 100 : 140;
-        for ( List<Integer> group : groups ) {
-            int numInGroup = group.length();
-            int pieceIndex = 0;
+        for ( P2<List<Integer>, Integer> groupWithIndex : groups.zipIndex() ) {
+            int stackIndex = groupWithIndex._2();
+            List<Integer> group = groupWithIndex._1();
 
             Rectangle2D bounds = null;
             ArrayList<PieceNode> pieces = new ArrayList<PieceNode>();
-            for ( final Integer pieceDenominator : group ) {
-                final double delta = toDelta( numInGroup, pieceIndex );
+            for ( final P2<Integer, Integer> pieceDenominatorWithIndex : group.zipIndex() ) {
+                int pieceDenominator = pieceDenominatorWithIndex._1();
+                int cardIndex = pieceDenominatorWithIndex._2();
 
                 //Choose the shape for the level, pies or horizontal bars
                 final PhetPPath shape = level.shapeType == ShapeType.HORIZONTAL_BAR ? new PhetPPath( createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black )
                                                                                     : new PhetPPath( createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black );
                 final PieceNode piece = new PieceNode( pieceDenominator, PictureSceneNode.this, shape, level.shapeType );
-                int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
-                piece.setOffset( layoutXOffset + INSET + 20 + delta * sign + stackIndex * spacing,
-                                 STAGE_SIZE.height - INSET - toolboxHeight + 20 + delta );
+                piece.setOffset( getLocation( stackIndex, cardIndex, piece ).toPoint2D() );
                 piece.setInitialScale( TINY_SCALE );
 
                 PictureSceneNode.this.addChild( piece );
-                pieceIndex++;
                 if ( bounds == null ) { bounds = piece.getFullBounds(); }
                 else { bounds = bounds.createUnion( piece.getFullBounds() ); }
                 pieces.add( piece );
@@ -205,11 +202,10 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                                                               : pieces.get( 0 ).getOffset() );
             addChild( child );
             child.moveToBack();
-            stackIndex++;
         }
 
         //Containers the user can drag out of the toolbox.
-        final int finalGroupIndex = stackIndex;
+        final int finalGroupIndex = groups.length();
         final int numInGroup = level.targets.length() - 1;
         for ( int i = 0; i < numInGroup; i++ ) {
             final double delta = toDelta( numInGroup, i );
