@@ -1,9 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.view;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
 
@@ -12,9 +9,7 @@ import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameScoreboardNode.GameScoreboardListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -37,7 +32,7 @@ class PlayNode extends PhetPNode {
         PDimension challengeSize = new PDimension( stageSize.getWidth(), scoreboardNode.getFullBoundsReference().getMinY() );
 
         // challenge
-        FindLineNode challengeNode = new FindLineNode( model, audioPlayer, challengeSize );
+        GraphSlopeInterceptLineNode challengeNode = new GraphSlopeInterceptLineNode( model, audioPlayer, challengeSize );
         challengeNode.setOffset( 0, 0 ); // this node handles it's own layout within challengeSize
 
         // rendering order

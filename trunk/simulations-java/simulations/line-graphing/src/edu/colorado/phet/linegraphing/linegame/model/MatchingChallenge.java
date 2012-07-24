@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.linegame.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 
 /**
  * A game challenge where the user is trying to match some "given" line.
@@ -16,7 +17,7 @@ public class MatchingChallenge {
 
     public MatchingChallenge( StraightLine answer ) {
         this.answer = answer;
-        this.guess = new Property<StraightLine>( StraightLine.Y_EQUALS_X_LINE.withColor( answer.color ) );
+        this.guess = new Property<StraightLine>( StraightLine.Y_EQUALS_X_LINE.withColor( GameConstants.GUESS_COLOR ) );
     }
 
     // Correct if the we have 2 descriptions of the same line.
