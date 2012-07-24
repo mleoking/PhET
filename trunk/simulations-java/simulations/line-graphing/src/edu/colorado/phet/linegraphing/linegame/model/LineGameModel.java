@@ -70,33 +70,34 @@ public class LineGameModel {
             bestTimes.put( i, 0L );
         }
 
-        phase = new Property<GamePhase>( GamePhase.SETTINGS ) {{
-            //XXX Problem: best time won't necessarily be updated before other observers are notified. Override Property.set?
-            addObserver( new VoidFunction1<GamePhase>() {
-                public void apply( GamePhase phase ) {
-                    LOGGER.info( "game phase = " + phase );
-                    if ( phase == GamePhase.SETTINGS ) {
+        phase = new Property<GamePhase>( GamePhase.SETTINGS ) {
 
-                    }
-                    else if ( phase == GamePhase.PLAY ) {
-                        timer.start();
-                    }
-                    else if ( phase == GamePhase.RESULTS ) {
-                        timer.stop();
-                        updateBestTime();
-                    }
-                    else {
-                        throw new UnsupportedOperationException( "unsupported game phase = " + phase );
-                    }
+            // Update fields so that they are accurate before property observers are notified.
+            @Override public void set( GamePhase phase ) {
+                LOGGER.info( "game phase = " + phase );
+                if ( phase == GamePhase.SETTINGS ) {
+                    //TODO
                 }
-            } );
-        }};
+                else if ( phase == GamePhase.PLAY ) {
+                    //TODO set up challenges
+                    timer.start();
+                }
+                else if ( phase == GamePhase.RESULTS ) {
+                    timer.stop();
+                    updateBestTime();
+                }
+                else {
+                    throw new UnsupportedOperationException( "unsupported game phase = " + phase );
+                }
+                super.set( phase );
+            }
+        };
 
         state = new Property<PlayState>( PlayState.CHECK ) {{
             addObserver( new VoidFunction1<PlayState>() {
                 public void apply( PlayState state ) {
                     LOGGER.info( "play state = " + state );
-                    //XXX
+                    //TODO
                 }
             } );
         }};
@@ -132,7 +133,6 @@ public class LineGameModel {
 
     // Updates the best time for the current level, at the end of a game with a perfect score.
     private void updateBestTime() {
-        assert( phase.get() == GamePhase.RESULTS );
         assert( !timer.isRunning() );
         if ( settings.timerEnabled.get() && score.get() == getPerfectScore() ) {
             isNewBestTime = false;
