@@ -1,3 +1,4 @@
+7/24/12 update game-model fields before notifying observers that game phase has changed
 7/24/12 simplify identification of objects that describe the same line, delete problematic override of equals
 7/24/12 move highlight color out of line model and into view, since it is applicable to saved lines only
 7/24/12 replace odd mutation constructor with "with" method in StraightLine
