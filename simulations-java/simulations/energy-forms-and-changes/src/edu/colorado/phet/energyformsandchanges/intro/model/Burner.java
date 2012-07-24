@@ -66,9 +66,12 @@ public class Burner extends ModelElement {
     /**
      * Constructor.
      *
-     * @param clock
-     * @param position The position in model space where this burner exists.
-     *                 By convention for this simulation, the position is
+     * @param clock               Clock that steps this burner in time.
+     * @param position            The position in model space where this burner
+     *                            exists. By convention for this simulation,
+     *                            the position is
+     * @param energyChunksVisible Property that controls whether the energy
+     *                            chunks are visible.
      */
     public Burner( ConstantDtClock clock, Vector2D position, BooleanProperty energyChunksVisible ) {
         this.clock = clock;
@@ -101,7 +104,7 @@ public class Burner extends ModelElement {
      * Get a rectangle that defines the outline of the burner.  In the model,
      * the burner is essentially a 2D rectangle.
      *
-     * @return
+     * @return Rectangle that defines the outline in model space.
      */
     public Rectangle2D getOutlineRect() {
         return new Rectangle2D.Double( position.getX() - WIDTH / 2,
@@ -149,8 +152,8 @@ public class Burner extends ModelElement {
     /**
      * Request an energy chunk from the burner.
      *
-     * @param point
-     * @return
+     * @param point Point from which to search for closest chunk.
+     * @return Closest energy chunk, null if none are contained.
      */
     public EnergyChunk extractClosestEnergyChunk( Vector2D point ) {
         EnergyChunk closestEnergyChunk = null;
@@ -313,11 +316,6 @@ public class Burner extends ModelElement {
 
         private DoubleRange bounds;
 
-        /**
-         * Create a property with the specified initial value
-         *
-         * @param value
-         */
         public BoundedDoubleProperty( Double value, double minValue, double maxValue ) {
             super( value );
             bounds = new DoubleRange( minValue, maxValue );
