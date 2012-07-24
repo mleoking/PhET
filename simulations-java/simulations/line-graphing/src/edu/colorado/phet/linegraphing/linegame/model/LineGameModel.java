@@ -120,7 +120,7 @@ public class LineGameModel {
 
         initChallenges();
 
-        state = new Property<PlayState>( PlayState.FIRST_CHECK ) {{
+        state = new Property<PlayState>( PlayState.NEXT ) {{  // initialized to anything except FIRST_CHECK, to force a state change
             addObserver( new VoidFunction1<PlayState>() {
                 public void apply( PlayState state ) {
                     LOGGER.info( "play state = " + state );
@@ -148,8 +148,6 @@ public class LineGameModel {
         challenges[2] = new MatchingChallenge( new StraightLine( -3, 3, -2, GameConstants.GIVEN_COLOR ) );
         challenges[3] = new MatchingChallenge( new StraightLine( 10, 2, -6, GameConstants.GIVEN_COLOR ) );
         challenges[4] = new MatchingChallenge( new StraightLine( 0, 3, 2, GameConstants.GIVEN_COLOR ) );
-        challenge.set( challenges[challengeIndex] );
-        challengeIndex++;
     }
 
     public boolean isPerfectScore() {
