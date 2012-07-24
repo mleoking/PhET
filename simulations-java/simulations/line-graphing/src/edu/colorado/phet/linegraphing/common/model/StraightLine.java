@@ -115,7 +115,7 @@ public class StraightLine {
                    ( x1 == line.x1 ) &&
                    ( y1 == line.y1 ) &&
                    ( yIntercept == line.yIntercept );
-            //Note: colors are not significant for comparison
+            //Note: color is not significant for comparison //TODO this could cause problems
         }
     }
 
