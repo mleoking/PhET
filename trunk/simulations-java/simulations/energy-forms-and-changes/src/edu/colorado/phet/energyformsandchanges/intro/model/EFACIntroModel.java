@@ -191,9 +191,9 @@ public class EFACIntroModel {
         leftBurner.updateHeatCoolLimits( dt, ironBlock, configurableBlock, beaker );
         rightBurner.updateHeatCoolLimits( dt, ironBlock, configurableBlock, beaker );
 
-        //---------------------------------------------------------------------
+        //=====================================================================
         // Energy and Energy Chunk Exchange
-        //---------------------------------------------------------------------
+        //=====================================================================
 
         // Loop through all the movable thermal energy containers and have them
         // exchange energy with one another.
@@ -271,14 +271,17 @@ public class EFACIntroModel {
                 immersedInBeaker = true;
             }
 
-            // Exchange energy chunks with the air if appropriate conditions met.
+            // Exchange energy and energy chunks with the air if appropriate
+            // conditions met.
             if ( !contactWithOtherMovableElement || ( !immersedInBeaker && maxTemperatureDifference < MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE ) ) {
                 air.exchangeEnergyWith( movableEnergyContainer, dt );
-                if ( movableEnergyContainer.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
+                // TODO: exchange constant added for HCL prototype, remove when done.
+                double exchangeConstant = HeatTransferConstants.getHeatTransferFactor( air.getEnergyContainerCategory(), movableEnergyContainer.getEnergyContainerCategory() );
+                if ( exchangeConstant > 0 && movableEnergyContainer.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
                     Vector2D pointAbove = new Vector2D( movableEnergyContainer.getCenterPoint().getX(), movableEnergyContainer.getRect().getMaxY() );
                     air.addEnergyChunk( movableEnergyContainer.extractClosestEnergyChunk( pointAbove ) );
                 }
-                else if ( movableEnergyContainer.getEnergyChunkBalance() < 0 && movableEnergyContainer.getTemperature() < air.getTemperature() && air.canSupplyEnergyChunk() ) {
+                else if ( exchangeConstant > 0 && movableEnergyContainer.getEnergyChunkBalance() < 0 && movableEnergyContainer.getTemperature() < air.getTemperature() && air.canSupplyEnergyChunk() ) {
                     movableEnergyContainer.addEnergyChunk( air.requestEnergyChunk( movableEnergyContainer.getCenterPoint() ) );
                 }
             }
