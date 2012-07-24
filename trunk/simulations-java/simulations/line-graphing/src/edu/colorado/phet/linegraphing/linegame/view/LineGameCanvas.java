@@ -24,9 +24,17 @@ public class LineGameCanvas extends LGCanvas  {
 
     public LineGameCanvas( final LineGameModel model ) {
 
+        // audio
+        audioPlayer = new GameAudioPlayer( model.settings.soundEnabled.get() );
+        model.settings.soundEnabled.addObserver( new SimpleObserver() {
+            public void update() {
+                audioPlayer.setEnabled( model.settings.soundEnabled.get() );
+            }
+        } );
+
         // parent nodes for various "phases" of the game
         settingsNode = new SettingsNode( model, getStageSize() );
-        playNode = new PlayNode( model, getStageSize() );
+        playNode = new PlayNode( model, getStageSize(), audioPlayer );
         resultsNode = new ResultsNode( model, getStageSize(), this );
 
         // rendering order
@@ -35,14 +43,6 @@ public class LineGameCanvas extends LGCanvas  {
             addChild( playNode );
             addChild( settingsNode );
         }
-
-        // audio
-        audioPlayer = new GameAudioPlayer( model.settings.soundEnabled.get() );
-        model.settings.soundEnabled.addObserver( new SimpleObserver() {
-            public void update() {
-                audioPlayer.setEnabled( model.settings.soundEnabled.get() );
-            }
-        } );
 
         // game "phase" changes
         model.phase.addObserver( new VoidFunction1<GamePhase>() {

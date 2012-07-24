@@ -13,7 +13,7 @@ import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptLineNode extends StraightLineNode {
+public class SlopeInterceptLineNode extends StraightLineNode {
 
     public SlopeInterceptLineNode( final StraightLine line, Graph graph, ModelViewTransform mvt ) {
         super( line, graph, mvt );

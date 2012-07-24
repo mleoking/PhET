@@ -7,16 +7,17 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameScoreboardNode.GameScoreboardListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Portion of the scenegraph that corresponds to the "play" game phase
@@ -25,15 +26,25 @@ import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
  */
 class PlayNode extends PhetPNode {
 
-    public PlayNode( final LineGameModel model, Dimension2D stageSize ) {
+    public PlayNode( final LineGameModel model, Dimension2D stageSize, GameAudioPlayer audioPlayer ) {
 
         final GameScoreboardNode scoreboardNode = new GameScoreboardNode( model.settings.level.getMax(), model.getPerfectScore(), new DecimalFormat( "0" ) );
-        scoreboardNode.setBackgroundWidth( stageSize.getWidth() - 150 );
-        addChild( scoreboardNode );
-
-        // bottom center
+        scoreboardNode.setBackgroundWidth( stageSize.getWidth() - 150 ); // bottom center
         scoreboardNode.setOffset( ( stageSize.getWidth() - scoreboardNode.getFullBoundsReference().getWidth() ) / 2,
                                   stageSize.getHeight() - scoreboardNode.getFullBoundsReference().getHeight() - 10 );
+
+        // compute the size of the area available for the challenges
+        PDimension challengeSize = new PDimension( stageSize.getWidth(), scoreboardNode.getFullBoundsReference().getMinY() );
+
+        // challenge
+        FindLineNode challengeNode = new FindLineNode( model, audioPlayer, challengeSize );
+        challengeNode.setOffset( 0, 0 ); // this node handles it's own layout within challengeSize
+
+        // rendering order
+        {
+            addChild( scoreboardNode );
+            addChild( challengeNode );
+        }
 
         // When "New Game" button is pressed, change game phase
         scoreboardNode.addGameScoreboardListener( new GameScoreboardListener() {
@@ -65,28 +76,28 @@ class PlayNode extends PhetPNode {
 
         //XXX temporary test buttons for ending game
         {
-            // end game with perfect score
-            TextButtonNode endWithPerfectScoreButton = new TextButtonNode( "End with perfect score", new PhetFont( 30 ), Color.GREEN );
-            endWithPerfectScoreButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    model.score.set( model.getPerfectScore() );
-                    model.phase.set( GamePhase.RESULTS );
-                }
-            } );
-            addChild( endWithPerfectScoreButton );
-            endWithPerfectScoreButton.setOffset( ( stageSize.getWidth() - endWithPerfectScoreButton.getFullBoundsReference().getWidth() ) / 2, 100 );
-
-            // end game with imperfect score
-            TextButtonNode endWithImperfectScoreButton = new TextButtonNode( "End with imperfect score", new PhetFont( 30 ), Color.RED );
-            endWithImperfectScoreButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    model.score.set( model.getPerfectScore() - 1 );
-                    model.phase.set( GamePhase.RESULTS );
-                }
-            } );
-            addChild( endWithImperfectScoreButton );
-            endWithImperfectScoreButton.setOffset( ( stageSize.getWidth() - endWithImperfectScoreButton.getFullBoundsReference().getWidth() ) / 2,
-                                                   endWithPerfectScoreButton.getFullBoundsReference().getMaxY() + 25 );
+//            // end game with perfect score
+//            TextButtonNode endWithPerfectScoreButton = new TextButtonNode( "End with perfect score", new PhetFont( 30 ), Color.GREEN );
+//            endWithPerfectScoreButton.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    model.score.set( model.getPerfectScore() );
+//                    model.phase.set( GamePhase.RESULTS );
+//                }
+//            } );
+//            addChild( endWithPerfectScoreButton );
+//            endWithPerfectScoreButton.setOffset( ( stageSize.getWidth() - endWithPerfectScoreButton.getFullBoundsReference().getWidth() ) / 2, 100 );
+//
+//            // end game with imperfect score
+//            TextButtonNode endWithImperfectScoreButton = new TextButtonNode( "End with imperfect score", new PhetFont( 30 ), Color.RED );
+//            endWithImperfectScoreButton.addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    model.score.set( model.getPerfectScore() - 1 );
+//                    model.phase.set( GamePhase.RESULTS );
+//                }
+//            } );
+//            addChild( endWithImperfectScoreButton );
+//            endWithImperfectScoreButton.setOffset( ( stageSize.getWidth() - endWithImperfectScoreButton.getFullBoundsReference().getWidth() ) / 2,
+//                                                   endWithPerfectScoreButton.getFullBoundsReference().getMaxY() + 25 );
         }
     }
 }
