@@ -2,6 +2,7 @@
 package edu.colorado.phet.linegraphing.linegame.model;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.games.GameSettings;
@@ -10,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 
 /**
@@ -21,6 +24,7 @@ public class LineGameModel {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( LineGameModel.class.getCanonicalName() );
 
+    private static final int GRID_VIEW_UNITS = 400; // max dimension (width or height) of the grid in the view
     private static final int CHALLENGES_PER_GAME = 5;
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
 
@@ -38,13 +42,14 @@ public class LineGameModel {
      * can enter coefficients and press the "Check" button to check their answer.
      */
     public static enum PlayState {
-        CHECK,
+        FIRST_CHECK,
         TRY_AGAIN,
+        SECOND_CHECK,
         SHOW_ANSWER,
-        NEXT,
-        NEW_GAME
+        NEXT
     }
 
+    public final ModelViewTransform mvt; // transform between model and view coordinate frames
     public final GameSettings settings;
     public final GameTimer timer;
     private final HashMap<Integer, Long> bestTimes; // best times, maps level to time in ms
@@ -53,13 +58,29 @@ public class LineGameModel {
     public final Property<GamePhase> phase;
     public final Property<PlayState> state;
 
+    public final Graph graph; // the graph that plots the lines
     public final Property<MatchingChallenge> challenge; // the current challenge
 
+    // Defaults
     public LineGameModel() {
+        this( 10 );
+    }
+
+    // Uses a graph with with uniform quadrant sizes.
+    private LineGameModel( int quadrantSize ) {
+        this( new IntegerRange( -quadrantSize, quadrantSize ), new IntegerRange( -quadrantSize, quadrantSize ) );
+    }
+
+    private LineGameModel( IntegerRange xRange, IntegerRange yRange ) {
+
+        final double mvtScale = GRID_VIEW_UNITS / Math.max( xRange.getLength(), yRange.getLength() ); // view units / model units
+        this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), mvtScale, -mvtScale ); // y is inverted
 
         settings = new GameSettings( new IntegerRange( 1, 3 ), true /* soundEnabled */, true /* timerEnabled */ );
 
         score = new Property<Integer>( 0 );
+
+        graph = new Graph( xRange, yRange );
 
         challenge = new Property<MatchingChallenge>( new MatchingChallenge( new StraightLine( 10, 5, 3, Color.RED ) ) );
 
@@ -93,7 +114,7 @@ public class LineGameModel {
             }
         };
 
-        state = new Property<PlayState>( PlayState.CHECK ) {{
+        state = new Property<PlayState>( PlayState.FIRST_CHECK ) {{
             addObserver( new VoidFunction1<PlayState>() {
                 public void apply( PlayState state ) {
                     LOGGER.info( "play state = " + state );
@@ -149,7 +170,7 @@ public class LineGameModel {
     }
 
     // Compute points to be awarded for a correct answer.
-    private static int computePoints( int attempts ) {
+    public int computePoints( int attempts ) {
         return Math.max( 0, MAX_POINTS_PER_CHALLENGE - attempts + 1 ) ;
     }
 }

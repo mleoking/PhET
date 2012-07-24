@@ -11,16 +11,16 @@ import edu.colorado.phet.linegraphing.common.model.StraightLine;
  */
 public class MatchingChallenge {
 
-    public final StraightLine given;
-    public final Property<StraightLine> answer;
+    public final StraightLine answer; // the correct answer
+    public final Property<StraightLine> guess; // the user's current guess
 
-    public MatchingChallenge( StraightLine given ) {
-        this.given = given;
-        this.answer = new Property<StraightLine>( StraightLine.Y_EQUALS_X_LINE );
+    public MatchingChallenge( StraightLine answer ) {
+        this.answer = answer;
+        this.guess = new Property<StraightLine>( StraightLine.Y_EQUALS_X_LINE.withColor( answer.color ) );
     }
 
     // Correct if the we have 2 descriptions of the same line.
-    public boolean correct() {
-        return given.same( answer.get() );
+    public boolean isCorrect() {
+        return answer.same( guess.get() );
     }
 }
