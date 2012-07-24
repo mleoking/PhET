@@ -34,7 +34,7 @@ public class StraightLine {
         this.highlightColor = highlightColor;
     }
 
-    // point-slope form: y = m(x-x1) + y1, or (y-y1) = m(x-x1)
+    // point-slope form: (y - y1) = m(x - x1)
     public StraightLine( double rise, double run, double x1, double y1, Color color, Color highlightColor ) {
         this.rise = rise;
         this.run = run;
