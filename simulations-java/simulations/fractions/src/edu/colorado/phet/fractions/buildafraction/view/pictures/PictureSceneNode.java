@@ -173,7 +173,9 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 final PhetPPath shape = level.shapeType == ShapeType.HORIZONTAL_BAR ? new PhetPPath( SimpleContainerNode.createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) :
                                         new PhetPPath( SimpleContainerNode.createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black );
                 final PieceNode piece = new PieceNode( pieceDenominator, PictureSceneNode.this, shape, level.shapeType );
-                piece.setOffset( layoutXOffset + INSET + 20 + delta + stackIndex * spacing, STAGE_SIZE.height - INSET - toolboxHeight + 20 + delta );
+                int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
+                piece.setOffset( layoutXOffset + INSET + 20 + delta * sign + stackIndex * spacing,
+                                 STAGE_SIZE.height - INSET - toolboxHeight + 20 + delta );
                 piece.setInitialScale( TINY_SCALE );
 
                 PictureSceneNode.this.addChild( piece );
@@ -515,8 +517,9 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     }
 
     public Vector2D getLocation( final int stackIndex, final int cardIndex, final PieceNode card ) {
+        int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         double delta = toDelta( groups.index( stackIndex ).length(), cardIndex );
-        return new Vector2D( layoutXOffset + INSET + 20 + delta + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta );
+        return new Vector2D( layoutXOffset + INSET + 20 + delta * sign + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta );
     }
 }
