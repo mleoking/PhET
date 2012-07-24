@@ -68,6 +68,8 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
 
         addChild( interceptManipulatorNode );
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
+
+        updateInteractiveLine( interactiveLine.get(), graph, mvt ); // initial position of manipulators
     }
 
     // Hides the manipulators at appropriate times (when dragging or based on visibility of lines).

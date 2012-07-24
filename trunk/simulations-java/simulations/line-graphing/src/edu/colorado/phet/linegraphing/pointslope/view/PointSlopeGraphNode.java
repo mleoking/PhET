@@ -70,7 +70,7 @@ public class PointSlopeGraphNode extends LineGraphNode {
         addChild( pointManipulator );
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
-        updateInteractiveLine( interactiveLine.get(), graph, mvt ); //TODO delete this after pointManipulator drag handler is working
+        updateInteractiveLine( interactiveLine.get(), graph, mvt ); // initial position of manipulators
     }
 
     // Hides the manipulators at appropriate times (when dragging or based on visibility of lines).
