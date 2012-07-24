@@ -39,8 +39,7 @@ public class PointSlopeModel extends LineFormsModel {
      * @param y1 initial y1 value
      */
     private PointSlopeModel( final IntegerRange xRange, final IntegerRange yRange, int rise, int run, int x1, int y1 ) {
-        super( xRange, yRange,
-               new WellDefinedLineProperty( new StraightLine( rise, run, x1, y1, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) ) );
+        super( xRange, yRange, new WellDefinedLineProperty( new StraightLine( rise, run, x1, y1, LGColors.INTERACTIVE_LINE ) ) );
 
         assert( xRange.contains( x1 ) );
         assert( yRange.contains( y1 ) );

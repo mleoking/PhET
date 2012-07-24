@@ -121,7 +121,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
         // sync the model with the controls
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
-                interactiveLine.set( new StraightLine( rise.get(), run.get(), yIntercept.get(), interactiveLine.get().color, interactiveLine.get().highlightColor ) );
+                interactiveLine.set( new StraightLine( rise.get(), run.get(), yIntercept.get(), interactiveLine.get().color ) );
             }
         };
         lineUpdater.observe( rise, run, yIntercept );
@@ -140,7 +140,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
     public static void main( String[] args ) {
 
         // model
-        WellDefinedLineProperty line = new WellDefinedLineProperty( new StraightLine( 1, 1, 1, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) );
+        WellDefinedLineProperty line = new WellDefinedLineProperty( new StraightLine( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
         DoubleRange range = new DoubleRange( -10, 10 );
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );

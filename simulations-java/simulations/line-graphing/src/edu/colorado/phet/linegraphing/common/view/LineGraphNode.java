@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighlightHandler;
+import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.RiseRunBracketNode.Direction;
@@ -126,8 +128,15 @@ public abstract class LineGraphNode extends GraphNode {
         removeLine( line, standardLinesParentNode );
     }
 
-    private void addSavedLine( StraightLine line ) {
-        savedLinesParentNode.addChild( createLineNode( line, graph, mvt ) );
+    private void addSavedLine( final StraightLine line ) {
+        final StraightLineNode lineNode = createLineNode( line, graph, mvt );
+        savedLinesParentNode.addChild( lineNode );
+        // highlight on mouseOver
+        lineNode.addInputEventListener( new FunctionHighlightHandler( new VoidFunction1<Boolean>() {
+            public void apply( Boolean highlighted ) {
+                lineNode.updateColor( highlighted ? LGColors.SAVED_LINE_HIGHLIGHT : line.color );
+            }
+        } ) );
     }
 
     private void removeSavedLine( StraightLine line ) {
