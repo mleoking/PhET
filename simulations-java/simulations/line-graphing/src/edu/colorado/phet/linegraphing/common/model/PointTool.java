@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -20,7 +21,7 @@ public class PointTool implements Resettable {
     public final Property<Vector2D> location;
     public final Property<StraightLine> onLine; // line that the tool is on, possibly null
 
-    private final Property<StraightLine> interactiveLine;
+    private final ObservableProperty<StraightLine> interactiveLine;
     private final ObservableList<StraightLine> savedLines;
     private final ObservableList<StraightLine> standardLines;
 
@@ -32,7 +33,7 @@ public class PointTool implements Resettable {
      * @param savedLines      lines that have been saved by the user
      * @param standardLines   standard lines (eg, y=x) that are available for viewing
      */
-    public PointTool( Vector2D location, Property<StraightLine> interactiveLine, ObservableList<StraightLine> savedLines, ObservableList<StraightLine> standardLines ) {
+    public PointTool( Vector2D location, ObservableProperty<StraightLine> interactiveLine, ObservableList<StraightLine> savedLines, ObservableList<StraightLine> standardLines ) {
 
         this.location = new Property<Vector2D>( location );
         this.onLine = new Property<StraightLine>( null );
