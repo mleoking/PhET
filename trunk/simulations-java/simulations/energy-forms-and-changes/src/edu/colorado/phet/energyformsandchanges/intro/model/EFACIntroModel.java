@@ -173,6 +173,7 @@ public class EFACIntroModel {
                     movableModelElement.verticalVelocity.set( 0.0 );
                     if ( potentialSupportingSurface != null ) {
                         movableModelElement.setSupportingSurface( potentialSupportingSurface );
+                        potentialSupportingSurface.get().addElementToSurface( movableModelElement );
                     }
                 }
                 else {
@@ -525,6 +526,16 @@ public class EFACIntroModel {
                 }
             }
         }
+
+        // Make sure that the best supporting surface isn't at the bottom of
+        // a stack, which can happen in cases where the model element being
+        // tested isn't directly above the best surface's center.
+        if ( bestOverlappingSurface != null ) {
+            while ( bestOverlappingSurface.get().getElementOnSurface() != null ) {
+                bestOverlappingSurface = bestOverlappingSurface.get().getElementOnSurface().getTopSurfaceProperty();
+            }
+        }
+
         return bestOverlappingSurface;
     }
 

@@ -89,6 +89,7 @@ public class ModelElement {
     public void reset() {
         if ( supportingSurface != null ) {
             supportingSurface.removeAllObservers();
+            supportingSurface.get().clearSurface();
             supportingSurface = null;
         }
     }

@@ -45,6 +45,7 @@ public abstract class UserMovableModelElement extends ModelElement {
                     // longer sitting on any surface.
                     if ( getSupportingSurface() != null ) {
                         getSupportingSurface().removeObserver( surfaceMotionObserver );
+                        getSupportingSurface().get().clearSurface();
                         setSupportingSurface( null );
                     }
                 }

@@ -1,3 +1,4 @@
+Added a fix for an issue where blocks and beakers could be made to overlap if the user dropped the block on the edge of the burner.
 # 0.00.14 (66155) Jul 23, 2012
 7/23/12 Publishing prototype version of Heat Capacity Lab to dev for potential interviews.
 # 0.00.13 (65960) Jul 17, 2012

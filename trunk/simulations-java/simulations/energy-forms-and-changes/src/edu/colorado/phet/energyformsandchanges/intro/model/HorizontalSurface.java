@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 public class HorizontalSurface {
     public final DoubleRange xRange;
     public final double yPos;
+    private ModelElement elementOnSurface = null;
 
     private final ModelElement owner;
 
@@ -31,6 +32,19 @@ public class HorizontalSurface {
 
     public ModelElement getOwner() {
         return owner;
+    }
+
+    public ModelElement getElementOnSurface() {
+        return elementOnSurface;
+    }
+
+    public void addElementToSurface( ModelElement modelElement ) {
+        assert elementOnSurface == null; // Only one thing on surface allowed at a time.
+        elementOnSurface = modelElement;
+    }
+
+    public void clearSurface() {
+        elementOnSurface = null;
     }
 
     @Override
