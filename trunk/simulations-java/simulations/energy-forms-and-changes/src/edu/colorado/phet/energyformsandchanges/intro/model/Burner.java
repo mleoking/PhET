@@ -31,7 +31,7 @@ public class Burner extends ModelElement {
 
     private static final double WIDTH = 0.075; // In meters.
     private static final double HEIGHT = WIDTH;
-    private static final double MAX_ENERGY_GENERATION_RATE = 5000; // joules/sec TODO: Needs tweaking.
+    private static final double MAX_ENERGY_GENERATION_RATE = 5000; // joules/sec, empirically chosen.
     private static final double CONTACT_DISTANCE = 0.001; // In meters.
 
     // Distance at which energy chunks must start fading out.  Value empirically determined.
