@@ -7,7 +7,9 @@ DESIGN
 - revisit the placement algorithm for equations on graphed lines
 
 HIGH
-- disable manipulators when not in FIRST_CHECK or SECOND_CHECK states
+- disable manipulators and hand cursors when not in FIRST_CHECK or SECOND_CHECK states
+- add 2 point tools to "Graph the Line" challenge
+- change PointTool to use a single list of lines
 - create quick-and-dirty examples of each type of challenge
 
 MEDIUM
