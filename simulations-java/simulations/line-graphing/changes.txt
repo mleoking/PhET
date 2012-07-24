@@ -1,3 +1,4 @@
+7/23/12 fix initial position of slope-intercept manipulators, broken in [66153] by overriding StraightLine.equals
 7/23/12 rudimentary challenge added to game model
 7/23/12 simplify a line only if its rise and run are who numbers
 7/23/12 modify *EquationFactory interfaces so that equation simplification is optional
