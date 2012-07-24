@@ -25,7 +25,7 @@ import edu.colorado.phet.fractions.common.util.FJUtils;
 public @Data class Stack<T extends Stackable> {
     public final List<T> cards;
     private final Integer stackIndex;
-    private final StackContext context;
+    private final StackContext<T> context;
 
     public Stack( List<T> cards, final Integer stackIndex, final StackContext<T> context ) {
         this.cards = cards;
