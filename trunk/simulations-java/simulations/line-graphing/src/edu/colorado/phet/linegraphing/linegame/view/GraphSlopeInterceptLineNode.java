@@ -166,6 +166,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
             public void actionPerformed( ActionEvent e ) {
                 graphNode.setAnswerVisible( true );
                 model.state.set( PlayState.NEXT );
+                equationNode.setEquationColor( GameConstants.CORRECT_ANSWER_COLOR );
             }
         } );
 
