@@ -34,7 +34,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class MassValueEntryNode extends PNode {
 
     private static final Font TEXT_FONT = new PhetFont( 18 );
-    private static final int ANSWER_ENTRY_FIELD_COLUMNS = 8;
+    private static final int ANSWER_ENTRY_FIELD_COLUMNS = 4;
     private static final Color BACKGROUND_COLOR = new Color( 234, 234, 174 );
 
     private final JFormattedTextField numberEntryField;
