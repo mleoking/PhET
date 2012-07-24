@@ -1,3 +1,4 @@
+Changed the tilt-prediction challenge to allow two attempts instead of one (for greater consistency with other challenges).
 # 1.01.00 (64020) May 8, 2012
 5/8/12 >Deployment to production server of version that includes the "tip prediction" challenge in the game.
 # 1.00.09 (63992) May 7, 2012

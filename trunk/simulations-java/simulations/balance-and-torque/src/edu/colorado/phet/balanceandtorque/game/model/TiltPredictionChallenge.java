@@ -19,8 +19,8 @@ public class TiltPredictionChallenge extends BalanceGameChallenge {
 
     private static final ChallengeViewConfig VIEW_CONFIG = new ChallengeViewConfig( "What will happen?", false, true );
 
-    // This type of challenge can only be attempted once.
-    private static final int NUM_ATTEMPTS_ALLOWED = 1;
+    // Number of attempts that the user gets to answer this challenge.
+    private static final int NUM_ATTEMPTS_ALLOWED = 2;
 
     /**
      * Constructor.
