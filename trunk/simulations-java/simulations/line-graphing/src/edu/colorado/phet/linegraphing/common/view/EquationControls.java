@@ -132,7 +132,7 @@ public class EquationControls extends PhetPNode {
         // Save the current state of the interactive line.
         saveLineButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                savedLines.add( interactiveLine.get().withColors( LGColors.SAVED_LINE_NORMAL, LGColors.SAVED_LINE_HIGHLIGHT ) );
+                savedLines.add( interactiveLine.get().withColor( LGColors.SAVED_LINE_NORMAL ) );
             }
         } );
 

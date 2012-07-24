@@ -42,6 +42,6 @@ public class WellDefinedLineProperty extends Property<StraightLine> {
             SimSharingManager.sendModelMessage( ModelComponents.line, ModelComponentTypes.modelElement, ModelActions.adjustingSlopeToPreventUndefinedLine,
                                                             new ParameterSet().with( ParameterKeys.rise, newRise ).with( ParameterKeys.run, newRun ) );
         }
-        super.set( new StraightLine( newRise, newRun, line.x1, line.y1, line.color, line.highlightColor ) );
+        super.set( new StraightLine( newRise, newRun, line.x1, line.y1, line.color ) );
     }
 }

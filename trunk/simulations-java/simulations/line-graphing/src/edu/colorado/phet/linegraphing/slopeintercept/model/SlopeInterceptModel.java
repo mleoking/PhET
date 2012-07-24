@@ -38,8 +38,7 @@ public class SlopeInterceptModel extends LineFormsModel {
      * @param yIntercept initial yIntercept value
      */
     private SlopeInterceptModel( final IntegerRange xRange, final IntegerRange yRange, int rise, int run, int yIntercept ) {
-        super( xRange, yRange,
-               new WellDefinedLineProperty( new StraightLine( rise, run, yIntercept, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) ) );
+        super( xRange, yRange, new WellDefinedLineProperty( new StraightLine( rise, run, yIntercept, LGColors.INTERACTIVE_LINE ) ) );
 
         assert( yRange.contains( yIntercept ) );
 

@@ -14,40 +14,38 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 public class StraightLine {
 
     // standard lines
-    public static final StraightLine Y_EQUALS_X_LINE = new StraightLine( 1, 1, 0, LGColors.Y_EQUALS_X, LGColors.Y_EQUALS_X );  // y = x
-    public static final StraightLine Y_EQUALS_NEGATIVE_X_LINE = new StraightLine( -1, 1, 0, LGColors.Y_EQUALS_NEGATIVE_X, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
+    public static final StraightLine Y_EQUALS_X_LINE = new StraightLine( 1, 1, 0, LGColors.Y_EQUALS_X );  // y = x
+    public static final StraightLine Y_EQUALS_NEGATIVE_X_LINE = new StraightLine( -1, 1, 0, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
 
     public final double rise; // vertical component of the slope
     public final double run; // horizontal component of the slope
     public final double x1, y1; // some point
     public final double yIntercept; // y intercept, Double.NaN if the line doesn't intersect the y axis
-    public final Color color, highlightColor; // colors used for visualizing the line
+    public final Color color; // color used for visualizing the line
 
     // slope-intercept form: y = mx + b
-    public StraightLine( double rise, double run, double yIntercept, Color color, Color highlightColor ) {
+    public StraightLine( double rise, double run, double yIntercept, Color color ) {
         this.rise = rise;
         this.run = run;
         this.x1 = 0;
         this.y1 = yIntercept;
         this.yIntercept = yIntercept;
         this.color = color;
-        this.highlightColor = highlightColor;
     }
 
     // point-slope form: (y - y1) = m(x - x1)
-    public StraightLine( double rise, double run, double x1, double y1, Color color, Color highlightColor ) {
+    public StraightLine( double rise, double run, double x1, double y1, Color color ) {
         this.rise = rise;
         this.run = run;
         this.x1 = x1;
         this.y1 = y1;
         this.yIntercept = ( x1 == 0 )? y1 : solveY( 0 );
         this.color = color;
-        this.highlightColor = highlightColor;
     }
 
-    // Creates a new instance with different colors
-    public StraightLine withColors( Color color, Color highlightColor ) {
-        return new StraightLine( rise, run, x1, y1, color, highlightColor );
+    // Creates a new instance with a different color.
+    public StraightLine withColor( Color color ) {
+        return new StraightLine( rise, run, x1, y1, color );
     }
 
     // Line is undefined if its slope is undefined.
@@ -91,7 +89,7 @@ public class StraightLine {
         if ( ( rise == (int) rise ) && ( run == (int) run ) ) { // true if rise and run are integers
             final int reducedRise = (int)( rise / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
             final int reducedRun = (int)( run / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
-            return new StraightLine( reducedRise, reducedRun, x1, y1, color, highlightColor );
+            return new StraightLine( reducedRise, reducedRun, x1, y1, color );
         }
         else {
             return this;
@@ -131,12 +129,12 @@ public class StraightLine {
         // Specialization that rounds its constructor args to integers, using nearest-neighbor rounding.
     public static class RoundedStraightLine extends StraightLine {
 
-        public RoundedStraightLine( double rise, double run, double yIntercept, Color color, Color highlightColor ) {
-            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( yIntercept ), color, highlightColor );
+        public RoundedStraightLine( double rise, double run, double yIntercept, Color color ) {
+            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( yIntercept ), color );
         }
 
-        public RoundedStraightLine( double rise, double run, double x1, double y1, Color color, Color highlightColor ) {
-            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( x1 ), MathUtil.roundHalfUp( y1 ), color, highlightColor );
+        public RoundedStraightLine( double rise, double run, double x1, double y1, Color color ) {
+            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( x1 ), MathUtil.roundHalfUp( y1 ), color );
         }
     }
 }

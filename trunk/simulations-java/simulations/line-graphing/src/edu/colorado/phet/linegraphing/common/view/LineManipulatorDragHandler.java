@@ -43,12 +43,12 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
 
     // Update the line using point-slope form, snaps to integer grid.
     protected void updateLine( double rise, double run, double x1, double y1 ) {
-        line.set( new RoundedStraightLine( rise, run, x1, y1, line.get().color, line.get().highlightColor ) );
+        line.set( new RoundedStraightLine( rise, run, x1, y1, line.get().color ) );
     }
 
     // Update the line using slope-intercept form, snaps to integer grid.
     protected void updateLine( double rise, double run, double yIntercept ) {
-        line.set( new RoundedStraightLine( rise, run, yIntercept, line.get().color, line.get().highlightColor ) );
+        line.set( new RoundedStraightLine( rise, run, yIntercept, line.get().color ) );
     }
 
     @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {

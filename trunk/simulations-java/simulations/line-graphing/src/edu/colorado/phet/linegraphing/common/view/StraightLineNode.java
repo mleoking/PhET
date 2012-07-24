@@ -109,13 +109,6 @@ public abstract class StraightLineNode extends PComposite {
             zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12,
                                       -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
         }
-
-        // highlight on mouseOver
-        addInputEventListener( new FunctionHighlightHandler( new VoidFunction1<Boolean>() {
-            public void apply( Boolean highlighted ) {
-                updateColor( highlighted ? line.highlightColor : line.color );
-            }
-        } ) );
     }
 
     // Creates the equation in the correct form.

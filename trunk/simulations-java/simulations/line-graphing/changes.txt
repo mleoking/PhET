@@ -1,3 +1,4 @@
+7/24/12 move highlight color out of line model and into view, since it is applicable to saved lines only
 7/24/12 replace odd mutation constructor with "with" method in StraightLine
 7/24/12 fix initial position of slope-intercept manipulators, broken in [66153] by overriding StraightLine.equals
 7/23/12 rudimentary challenge added to game model

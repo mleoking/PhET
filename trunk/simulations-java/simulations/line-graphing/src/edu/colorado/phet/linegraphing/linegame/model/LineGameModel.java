@@ -61,7 +61,7 @@ public class LineGameModel {
 
         score = new Property<Integer>( 0 );
 
-        challenge = new Property<MatchingChallenge>( new MatchingChallenge( new StraightLine( 10, 5, 3, Color.RED, Color.RED ) ) );
+        challenge = new Property<MatchingChallenge>( new MatchingChallenge( new StraightLine( 10, 5, 3, Color.RED ) ) );
 
         // time
         timer = new GameTimer( new ConstantDtClock( 1000 / 5, 1 ) );
