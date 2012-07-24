@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -46,7 +47,7 @@ public class ModelElement {
      * @return Surface upon which this element is resting, null if there is
      *         none.
      */
-    public Property<HorizontalSurface> getSupportingSurface() {
+    public ObservableProperty<HorizontalSurface> getSupportingSurface() {
         return supportingSurface;
     }
 
