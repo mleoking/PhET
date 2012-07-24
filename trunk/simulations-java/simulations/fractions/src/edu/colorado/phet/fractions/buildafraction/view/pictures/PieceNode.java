@@ -7,6 +7,7 @@ import fj.data.Option;
 import java.awt.BasicStroke;
 import java.awt.Shape;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -106,16 +107,19 @@ public class PieceNode extends Stackable {
 
     public static class AnimateToAngle extends PInterpolatingActivity {
         private final PieceNode node;
-        private final double angle;
+        private final double finalAngle;
+        private double initialAngle;
 
-        public AnimateToAngle( final PieceNode node, long duration, double angle ) {
+        public AnimateToAngle( final PieceNode node, long duration, double finalAngle ) {
             super( duration );
             this.node = node;
-            this.angle = angle;
+            this.finalAngle = finalAngle;
+            this.initialAngle = node.pieceRotation;
         }
 
         @Override public void setRelativeTargetValue( final float zeroToOne ) {
-            node.setPieceRotation( zeroToOne * angle );
+            LinearFunction linearFunction = new LinearFunction( 0, 1, initialAngle, finalAngle );
+            node.setPieceRotation( linearFunction.evaluate( zeroToOne ) );
         }
     }
 
