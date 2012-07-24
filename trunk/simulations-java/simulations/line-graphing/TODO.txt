@@ -7,7 +7,7 @@ DESIGN
 - revisit the placement algorithm for equations on graphed lines
 
 HIGH
-- move line colors out of model, into view
+- move line color out of model, into view
 - ordering problem with notification of game "phase" change
 - create quick-and-dirty examples of each type of challenge
 
