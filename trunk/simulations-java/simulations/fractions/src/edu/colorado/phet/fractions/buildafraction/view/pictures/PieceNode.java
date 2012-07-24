@@ -34,7 +34,7 @@ public class PieceNode extends Stackable {
     public static final BasicStroke stroke = new BasicStroke( 2 );
     double pieceRotation = 0.0;
 
-    public PieceNode( final Integer pieceSize, final PieceContext context, PhetPPath shape, ShapeType shapeType ) {
+    public PieceNode( final Integer pieceSize, final PieceContext context, PhetPPath shape, final ShapeType shapeType ) {
         this.pieceSize = pieceSize;
         pathNode = shape;
         this.shapeType = shapeType;
@@ -63,7 +63,9 @@ public class PieceNode extends Stackable {
                 setPositionInStack( Option.<Integer>none() );
                 final AnimateToScale activity = new AnimateToScale( PieceNode.this, 200 );
                 addActivity( activity );
-                animateToAngle( context.getNextAngle( PieceNode.this ) );
+                if ( shapeType == ShapeType.PIE ) {
+                    animateToAngle( context.getNextAngle( PieceNode.this ) );
+                }
             }
 
             @Override protected void drag( final PInputEvent event ) {
