@@ -45,9 +45,9 @@ public class StraightLine {
         this.highlightColor = highlightColor;
     }
 
-    // duplicates a line with different colors
-    public StraightLine( StraightLine line, Color color, Color highlightColor ) {
-        this( line.rise, line.run, line.x1, line.y1, color, highlightColor );
+    // Creates a new instance with different colors
+    public StraightLine withColors( Color color, Color highlightColor ) {
+        return new StraightLine( rise, run, x1, y1, color, highlightColor );
     }
 
     // Line is undefined if its slope is undefined.
