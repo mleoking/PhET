@@ -9,7 +9,6 @@ DESIGN
 
 HIGH
 - create quick-and-dirty examples of each type of challenge
-- delete test buttons (dead code) in PlayNode
 
 MEDIUM
 
