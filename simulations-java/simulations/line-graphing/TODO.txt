@@ -3,7 +3,8 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- what to do with line manipulators during game states where line shouldn't be manipulated?
+- what to do with line manipulators during game states where line shouldn't be manipulated? hide? disabled? what does disabled look like?
+- how should equations and lines be colored, and how should colors change, during game play?
 - revisit the placement algorithm for equations on graphed lines
 
 HIGH

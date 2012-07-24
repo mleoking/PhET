@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.model;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 
@@ -14,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 
 /**
  * Model for the "Line Game" module.
@@ -82,7 +82,7 @@ public class LineGameModel {
 
         graph = new Graph( xRange, yRange );
 
-        challenge = new Property<MatchingChallenge>( new MatchingChallenge( new StraightLine( 10, 5, 3, Color.RED ) ) );
+        challenge = new Property<MatchingChallenge>( new MatchingChallenge( new StraightLine( 4, 2, 3, GameConstants.GIVEN_COLOR ) ) );
 
         // time
         timer = new GameTimer( new ConstantDtClock( 1000 / 5, 1 ) );

@@ -1,3 +1,5 @@
+7/24/12 mess around with colors for given, guess and correct answer
+7/24/12 move game constants to GameConstants
 7/24/12 first challenge: add manipulators, display points
 7/24/12 partial first-pass at first challenge, no interactivity, brute-force implementation to investigate issues and architecture
 7/24/12 update game-model fields before notifying observers that game phase has changed

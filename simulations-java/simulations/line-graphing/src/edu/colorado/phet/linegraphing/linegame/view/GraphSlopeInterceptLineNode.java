@@ -26,6 +26,7 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
@@ -40,44 +41,33 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * TODO class doc
+ * View components for a challenge in which the user is given an equation and must graph the line.
+ * The equation and line manipulators correspond to slope-intercept form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class FindLineNode extends PhetPNode {
-
-    //TODO use these constants in the view for all challenges
-    private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 40 );
-    private static final Color TITLE_COLOR = Color.BLACK;
-    private static final Font BUTTON_FONT = new PhetFont( Font.BOLD, 22 );
-    private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 40 );
-    private static final double FACE_DIAMETER = 240;
-    private static final Color GUESS_COLOR = PhetColorScheme.RED_COLORBLIND;
-    private static final Color CORRECT_ANSWER_COLOR = Color.GREEN;
-    private static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
-    private static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
-    private static final Color POINTS_COLOR = Color.BLACK;
-    private static final PhetFont POINTS_FONT = new PhetFont( Font.BOLD, 36 );
+public class GraphSlopeInterceptLineNode extends PhetPNode {
 
     //TODO this class has too much access to model, narrow the interface
-    public FindLineNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public GraphSlopeInterceptLineNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
-        PNode titleNode = new PhetPText( "Make the Line", TITLE_FONT, TITLE_COLOR ); //TODO i18n
+        PNode titleNode = new PhetPText( "Graph the Line", GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR ); //TODO i18n
 
-        PNode equationNode = new SlopeInterceptEquationFactory().createNode( model.challenge.get().answer.withColor( GUESS_COLOR ), EQUATION_FONT );
+        final EquationNode equationNode = new SlopeInterceptEquationFactory().createNode( model.challenge.get().answer.withColor( GameConstants.GIVEN_COLOR ), GameConstants.EQUATION_FONT );
 
         final GameGraphNode graphNode = new GameGraphNode( model.graph, model.challenge.get().guess, model.challenge.get().answer, model.mvt );
 
-        final FaceNode faceNode = new FaceNode( FACE_DIAMETER, FACE_COLOR );
+        final FaceNode faceNode = new FaceNode( GameConstants.FACE_DIAMETER, GameConstants.FACE_COLOR );
 
-        final PText pointsNode = new PhetPText( "", POINTS_FONT, POINTS_COLOR );
+        final PText pointsNode = new PhetPText( "", GameConstants.POINTS_FONT, GameConstants.POINTS_COLOR );
 
         // Buttons
+        final Font buttonFont = GameConstants.BUTTON_FONT;
         final Color buttonForeground = LGColors.GAME_INSTRUCTION_COLORS;
-        final TextButtonNode checkButton = new TextButtonNode( Strings.CHECK, BUTTON_FONT, buttonForeground );
-        final TextButtonNode tryAgainButton = new TextButtonNode( Strings.TRY_AGAIN, BUTTON_FONT, buttonForeground );
-        final TextButtonNode showAnswerButton = new TextButtonNode( Strings.SHOW_ANSWER, BUTTON_FONT, buttonForeground );
-        final TextButtonNode nextButton = new TextButtonNode( Strings.NEXT, BUTTON_FONT, buttonForeground );
+        final TextButtonNode checkButton = new TextButtonNode( Strings.CHECK, buttonFont, buttonForeground );
+        final TextButtonNode tryAgainButton = new TextButtonNode( Strings.TRY_AGAIN, buttonFont, buttonForeground );
+        final TextButtonNode showAnswerButton = new TextButtonNode( Strings.SHOW_ANSWER, buttonFont, buttonForeground );
+        final TextButtonNode nextButton = new TextButtonNode( Strings.NEXT, buttonFont, buttonForeground );
 
         // rendering order
         {
@@ -142,6 +132,8 @@ public class FindLineNode extends PhetPNode {
                 if ( model.challenge.get().isCorrect() ) {
                     faceNode.smile();
                     audioPlayer.correctAnswer();
+                    equationNode.setEquationColor( GameConstants.CORRECT_ANSWER_COLOR );
+                    model.challenge.get().guess.set( model.challenge.get().guess.get().withColor( GameConstants.CORRECT_ANSWER_COLOR ) );
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.score.set( model.score.get() + points );
                     pointsNode.setText( MessageFormat.format( Strings.POINTS_AWARDED, String.valueOf( points ) ) );
@@ -203,13 +195,13 @@ public class FindLineNode extends PhetPNode {
             final PNode guessNodeParent = new PComposite();
 
             // the correct answer, initially hidden
-            answerNode = new SlopeInterceptLineNode( answerLine.withColor( CORRECT_ANSWER_COLOR ), graph, mvt );
+            answerNode = new SlopeInterceptLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
             answerNode.setEquationVisible( false );
             addChild( answerNode );
             answerNode.setVisible( false );
 
             // Manipulators for the interactive line
-            final double manipulatorDiameter = mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
+            final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
 
             // ranges
             final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange.getMin(), graph.yRange.getMax() ) );
@@ -239,7 +231,7 @@ public class FindLineNode extends PhetPNode {
                     // draw the line
                     {
                         guessNodeParent.removeAllChildren();
-                        SlopeInterceptLineNode guessNode = new SlopeInterceptLineNode( line.withColor( GUESS_COLOR ), graph, mvt );
+                        SlopeInterceptLineNode guessNode = new SlopeInterceptLineNode( line, graph, mvt );
                         guessNode.setEquationVisible( false );
                         guessNodeParent.addChild( guessNode );
                     }
