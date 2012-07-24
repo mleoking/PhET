@@ -1,3 +1,4 @@
+Build a Fraction: Fixed: Pie shapes should stack up and to the right
 Build a Fraction: Fixed: Pieces should rotate when going back to the toolbox
 Build a Fraction: Fixed container divisions for pie shapes
 Build a Fraction: Rotate pie shapes when dragged from toolbox, not when dropped into container
