@@ -1,3 +1,4 @@
+7/24/12 complete game-play cycle for one type of challenge
 7/24/12 mess around with colors for given, guess and correct answer
 7/24/12 move game constants to GameConstants
 7/24/12 first challenge: add manipulators, display points

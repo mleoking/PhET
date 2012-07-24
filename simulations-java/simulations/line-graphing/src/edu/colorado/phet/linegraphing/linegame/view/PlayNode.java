@@ -12,7 +12,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
+import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Portion of the scenegraph that corresponds to the "play" game phase
@@ -21,25 +24,20 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 class PlayNode extends PhetPNode {
 
-    public PlayNode( final LineGameModel model, Dimension2D stageSize, GameAudioPlayer audioPlayer ) {
+    public PlayNode( final LineGameModel model, Dimension2D stageSize, final GameAudioPlayer audioPlayer ) {
 
         final GameScoreboardNode scoreboardNode = new GameScoreboardNode( model.settings.level.getMax(), model.getPerfectScore(), new DecimalFormat( "0" ) );
         scoreboardNode.setBackgroundWidth( stageSize.getWidth() - 150 ); // bottom center
         scoreboardNode.setOffset( ( stageSize.getWidth() - scoreboardNode.getFullBoundsReference().getWidth() ) / 2,
                                   stageSize.getHeight() - scoreboardNode.getFullBoundsReference().getHeight() - 10 );
+        addChild( scoreboardNode );
 
         // compute the size of the area available for the challenges
-        PDimension challengeSize = new PDimension( stageSize.getWidth(), scoreboardNode.getFullBoundsReference().getMinY() );
+        final PDimension challengeSize = new PDimension( stageSize.getWidth(), scoreboardNode.getFullBoundsReference().getMinY() );
 
-        // challenge
-        GraphSlopeInterceptLineNode challengeNode = new GraphSlopeInterceptLineNode( model, audioPlayer, challengeSize );
-        challengeNode.setOffset( 0, 0 ); // this node handles it's own layout within challengeSize
-
-        // rendering order
-        {
-            addChild( scoreboardNode );
-            addChild( challengeNode );
-        }
+        // challenge parent, to maintain rendering order
+        final PNode challengeParent = new PNode();
+        addChild( challengeParent );
 
         // When "New Game" button is pressed, change game phase
         scoreboardNode.addGameScoreboardListener( new GameScoreboardListener() {
@@ -69,30 +67,13 @@ class PlayNode extends PhetPNode {
             }
         } );
 
-        //XXX temporary test buttons for ending game
-        {
-//            // end game with perfect score
-//            TextButtonNode endWithPerfectScoreButton = new TextButtonNode( "End with perfect score", new PhetFont( 30 ), Color.GREEN );
-//            endWithPerfectScoreButton.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    model.score.set( model.getPerfectScore() );
-//                    model.phase.set( GamePhase.RESULTS );
-//                }
-//            } );
-//            addChild( endWithPerfectScoreButton );
-//            endWithPerfectScoreButton.setOffset( ( stageSize.getWidth() - endWithPerfectScoreButton.getFullBoundsReference().getWidth() ) / 2, 100 );
-//
-//            // end game with imperfect score
-//            TextButtonNode endWithImperfectScoreButton = new TextButtonNode( "End with imperfect score", new PhetFont( 30 ), Color.RED );
-//            endWithImperfectScoreButton.addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    model.score.set( model.getPerfectScore() - 1 );
-//                    model.phase.set( GamePhase.RESULTS );
-//                }
-//            } );
-//            addChild( endWithImperfectScoreButton );
-//            endWithImperfectScoreButton.setOffset( ( stageSize.getWidth() - endWithImperfectScoreButton.getFullBoundsReference().getWidth() ) / 2,
-//                                                   endWithPerfectScoreButton.getFullBoundsReference().getMaxY() + 25 );
-        }
+        // Set up a new challenge
+        model.challenge.addObserver( new VoidFunction1<MatchingChallenge>() {
+            public void apply( MatchingChallenge challenge ) {
+                challengeParent.removeAllChildren();
+                //TODO type of challenge will vary
+                challengeParent.addChild( new GraphSlopeInterceptLineNode( model, audioPlayer, challengeSize ) );
+            }
+        } );
     }
 }
