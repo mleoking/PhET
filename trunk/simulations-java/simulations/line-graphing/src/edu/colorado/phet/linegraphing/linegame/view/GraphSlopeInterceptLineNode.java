@@ -179,6 +179,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
     }
 
     //TODO generalize and promote to top level
+    //TODO could SlopeInterceptGraphNode be generalize to handle this?
     private static class GameGraphNode extends GraphNode {
 
         private final SlopeInterceptLineNode answerNode;
