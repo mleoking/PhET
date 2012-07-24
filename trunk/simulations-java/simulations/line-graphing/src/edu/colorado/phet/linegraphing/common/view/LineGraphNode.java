@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for graph that displays static lines.
+ * Base class for graph that displays static lines (no interactivity.)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
