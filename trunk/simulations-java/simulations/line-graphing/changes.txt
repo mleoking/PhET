@@ -1,3 +1,4 @@
+7/24/12 first challenge: add manipulators, display points
 7/24/12 partial first-pass at first challenge, no interactivity, brute-force implementation to investigate issues and architecture
 7/24/12 update game-model fields before notifying observers that game phase has changed
 7/24/12 simplify identification of objects that describe the same line, delete problematic override of equals

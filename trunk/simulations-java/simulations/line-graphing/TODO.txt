@@ -3,7 +3,7 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- Game
+- what to do with line manipulators during game states where line shouldn't be manipulated?
 - revisit the placement algorithm for equations on graphed lines
 
 HIGH
