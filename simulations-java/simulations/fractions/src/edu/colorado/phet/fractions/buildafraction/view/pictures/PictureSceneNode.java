@@ -56,6 +56,8 @@ import static edu.colorado.phet.fractions.buildafraction.view.pictures.Container
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.ContainerNode._isAtStartingLocation;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.PieceIconNode.TINY_SCALE;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.RefreshButtonNode.BUTTON_COLOR;
+import static edu.colorado.phet.fractions.buildafraction.view.pictures.SimpleContainerNode.createPieSlice;
+import static edu.colorado.phet.fractions.buildafraction.view.pictures.SimpleContainerNode.createRect;
 import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
@@ -170,8 +172,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 final double delta = toDelta( numInGroup, pieceIndex );
 
                 //Choose the shape for the level, pies or horizontal bars
-                final PhetPPath shape = level.shapeType == ShapeType.HORIZONTAL_BAR ? new PhetPPath( SimpleContainerNode.createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) :
-                                        new PhetPPath( SimpleContainerNode.createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black );
+                final PhetPPath shape = level.shapeType == ShapeType.HORIZONTAL_BAR ? new PhetPPath( createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black )
+                                                                                    : new PhetPPath( createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black );
                 final PieceNode piece = new PieceNode( pieceDenominator, PictureSceneNode.this, shape, level.shapeType );
                 int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
                 piece.setOffset( layoutXOffset + INSET + 20 + delta * sign + stackIndex * spacing,
