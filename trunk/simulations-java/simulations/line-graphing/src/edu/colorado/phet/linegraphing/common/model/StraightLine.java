@@ -97,36 +97,20 @@ public class StraightLine {
     }
 
     @Override public String toString() {
-        return "rise=" + rise + ",run=" + run + ",x1=" + x1 + ",y1=" + y1 + ",yIntercept=" + yIntercept;
+        return "rise=" + rise + ",run=" + run + ",x1=" + x1 + ",y1=" + y1 + ",yIntercept=" + yIntercept + ",color=" + color;
     }
 
-    /*
-     * Two line objects are equal if they have identical field values.
-     * Note that this is different than being "the same line"; two objects may describe the same line, but be unequal.
-     */
-    @Override public boolean equals( Object o ) {
-        if ( !(o instanceof  StraightLine ) ) {
-            return false;
-        }
-        else {
-            StraightLine line = (StraightLine) o;
-            return ( rise == line.rise ) &&
-                   ( run == line.run ) &&
-                   ( x1 == line.x1 ) &&
-                   ( y1 == line.y1 ) &&
-                   ( yIntercept == line.yIntercept );
-            //Note: color is not significant for comparison //TODO this could cause problems
-        }
-    }
-
-    //TODO override hashCode, since we overrode equals
-
-    // Two lines are the same if they have the same simplified form.
+    // Two lines are the same if they describe the same simplified line.
     public boolean same( StraightLine line ) {
-        return simplified().equals( line.simplified() );
+        StraightLine thisSimplified = this.simplified();
+        StraightLine thatSimplified = line.simplified();
+        return ( thisSimplified.rise == thatSimplified.rise ) &&
+               ( thisSimplified.run == thatSimplified.run ) &&
+               ( thisSimplified.x1 == thatSimplified.x1 ) &&
+               ( thisSimplified.y1 == thatSimplified.y1 );
     }
 
-        // Specialization that rounds its constructor args to integers, using nearest-neighbor rounding.
+    // Specialization that rounds its constructor args to integers, using nearest-neighbor rounding.
     public static class RoundedStraightLine extends StraightLine {
 
         public RoundedStraightLine( double rise, double run, double yIntercept, Color color ) {
