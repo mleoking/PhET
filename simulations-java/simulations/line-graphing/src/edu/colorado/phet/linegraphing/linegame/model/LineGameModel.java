@@ -39,8 +39,8 @@ public class LineGameModel {
     /*
      * States during the "play" phase of a game, mutually exclusive.
      * For lack of better names, the state names correspond to the main action that
-     * the user can take in that state.  For example. the CHECK state is where the user
-     * can enter coefficients and press the "Check" button to check their answer.
+     * the user can take in that state.  For example. the FIRST_CHECK state is where the user
+     * has their first opportunity to press the "Check" button to check their answer.
      */
     public static enum PlayState {
         FIRST_CHECK,
