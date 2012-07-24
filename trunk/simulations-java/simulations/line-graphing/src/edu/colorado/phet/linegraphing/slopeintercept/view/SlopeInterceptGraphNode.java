@@ -47,7 +47,11 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
                                     Property<StraightLine> interactiveLine,
                                     ObservableList<StraightLine> savedLines,
                                     ObservableList<StraightLine> standardLines,
-                                    Property<Boolean> linesVisible, Property<Boolean> interactiveLineVisible, Property<Boolean> interactiveEquationVisible, Property<Boolean> slopeVisible, Property<DoubleRange> riseRange,
+                                    Property<Boolean> linesVisible,
+                                    Property<Boolean> interactiveLineVisible,
+                                    Property<Boolean> interactiveEquationVisible,
+                                    Property<Boolean> slopeVisible,
+                                    Property<DoubleRange> riseRange,
                                     Property<DoubleRange> runRange,
                                     Property<DoubleRange> yInterceptRange ) {
         super( graph, mvt, interactiveLine, savedLines, standardLines, linesVisible, interactiveLineVisible, interactiveEquationVisible, slopeVisible );
