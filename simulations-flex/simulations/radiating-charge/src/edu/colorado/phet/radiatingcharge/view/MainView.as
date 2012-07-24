@@ -37,7 +37,7 @@ public class MainView extends Canvas {
     public var myControlPanel:ControlPanel;
     public var topCanvas:RadiatingChargeCanvas;
 
-    public var phetLogo: Sprite;
+    public var phetLogo: PhetIcon;
     public var stageH: Number;
     public var stageW: Number;
 
@@ -63,6 +63,7 @@ public class MainView extends Canvas {
         this.myControlPanel.y = 0.02*stageH;
 
         this.phetLogo = new PhetIcon();
+        this.phetLogo.setColor( 0x3fd7fc );
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
         this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
         this.addChild( new SpriteUIComponent( phetLogo ) );

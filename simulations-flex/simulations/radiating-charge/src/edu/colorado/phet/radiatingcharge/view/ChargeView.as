@@ -38,7 +38,7 @@ public class ChargeView extends Sprite {
     private var dt:Number;          //time step, in seconds
     private var springTimer:Timer;  //spring timer
     private var chargeGraphic:Sprite;
-    [Embed(source='radiatingChargeGraphics.fla',symbol='chargeBall')]
+    [Embed(source='radiatingChargeGraphics.swf',symbol='chargeBall')]
     public static var ChargeGraphic: Class;
 
     public function ChargeView( myMainView:MainView, myFieldModel:FieldModel) {
