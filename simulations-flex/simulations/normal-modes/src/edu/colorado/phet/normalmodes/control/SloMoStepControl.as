@@ -24,7 +24,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
     //private var canvas:Sprite;
     //private var myMainView: MainView;
     private var myControlPanel: ControlPanel;
-    private var myModel: Object; //Model1 or Model1, can change with setModel();
+    private var myModel: Object; //Model1D or Model1D, can change with setModel();
     //private var backGroundRectangle:Sprite;
     private var timeRateSlider: HSlider;
     //private var playPauseButton: Sprite;

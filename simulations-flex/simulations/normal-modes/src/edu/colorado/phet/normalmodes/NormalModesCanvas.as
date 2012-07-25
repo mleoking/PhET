@@ -30,11 +30,11 @@ public class NormalModesCanvas extends Canvas {
         percentWidth = 100;
         percentHeight = 100;
 
-        const myMainView : MainView = new MainView( RENDER_WIDTH, RENDER_HEIGHT )
+        const myMainView: MainView = new MainView( RENDER_WIDTH, RENDER_HEIGHT )
         this.addChild( myMainView );
 
-        const listener: Function = function( event: Event ): void {
-            const sx: Number  = stage.stageWidth / RENDER_WIDTH;
+        const listener: Function = function ( event: Event ): void {
+            const sx: Number = stage.stageWidth / RENDER_WIDTH;
             const sy: Number = stage.stageHeight / RENDER_HEIGHT;
             myMainView.scaleX = Math.min( sx, sy );
             myMainView.scaleY = Math.min( sx, sy );

@@ -18,8 +18,8 @@ import flash.display.Sprite;
  */
 
 public class TwoHeadedArrow extends Sprite {
-    private var colorFill:Number;
-    private var canvas:Sprite;
+    private var colorFill: Number;
+    private var canvas: Sprite;
 
     public function TwoHeadedArrow() {
         this.colorFill = 0x00ff00;
@@ -31,25 +31,25 @@ public class TwoHeadedArrow extends Sprite {
     /**
      * Draw double-headed horizontal arrow
      */
-    private function drawArrow( headRadius:Number, headWidth:Number, shaftRadius:Number,  shaftLength:Number ):void{
+    private function drawArrow( headRadius: Number, headWidth: Number, shaftRadius: Number, shaftLength: Number ): void {
         //trace("TwoHeadedArrow.drawArrow called.");
-        var g:Graphics = this.canvas.graphics;
+        var g: Graphics = this.canvas.graphics;
         g.clear();
         g.lineStyle( 2, 0x0000ff, 1, true );
-        var hR:Number = headRadius;     //radius of arrow Head
-        var hW:Number = headWidth;      //width of arrow Head (from tip to base of triangular head)
-        var sR:Number = shaftRadius;    //radius of arrow shaft
-        var sL:Number = shaftLength;    //length of arrow shaft
+        var hR: Number = headRadius;     //radius of arrow Head
+        var hW: Number = headWidth;      //width of arrow Head (from tip to base of triangular head)
+        var sR: Number = shaftRadius;    //radius of arrow shaft
+        var sL: Number = shaftLength;    //length of arrow shaft
         g.beginFill( this.colorFill, 1 );
         g.moveTo( 0, 0 );
-        g.lineTo( hW,  -hR );
-        g.lineTo( hW,  -sR );
+        g.lineTo( hW, -hR );
+        g.lineTo( hW, -sR );
         g.lineTo( hW + sL, -sR );
         g.lineTo( hW + sL, -hR );
-        g.lineTo( hW + sL + hW,  0 );
-        g.lineTo( hW + sL,  hR );
-        g.lineTo( hW + sL,  sR );
-        g.lineTo( hW,  sR );
+        g.lineTo( hW + sL + hW, 0 );
+        g.lineTo( hW + sL, hR );
+        g.lineTo( hW + sL, sR );
+        g.lineTo( hW, sR );
         g.lineTo( hW, hR );
         g.lineTo( 0, 0 );
         g.endFill();
@@ -58,17 +58,18 @@ public class TwoHeadedArrow extends Sprite {
     /**
      * Draw arrow according to user specs.
      */
-    public function setArrowDimensions( headRadius:Number, headWidth:Number, shaftRadius:Number, shaftLength:Number ):void{
+    public function setArrowDimensions( headRadius: Number, headWidth: Number, shaftRadius: Number, shaftLength: Number ): void {
         this.drawArrow( headRadius, headWidth, shaftRadius, shaftLength );
     }
 
     /**
      * Move registration point from left tip to center.
      */
-    public function setRegistrationPointAtCenter( tOrF:Boolean ):void{
-        if( tOrF ){
-            this.canvas.x = - 0.5*this.canvas.width;
-        }else{
+    public function setRegistrationPointAtCenter( tOrF: Boolean ): void {
+        if ( tOrF ) {
+            this.canvas.x = -0.5 * this.canvas.width;
+        }
+        else {
             this.canvas.x = 0;
         }
     }

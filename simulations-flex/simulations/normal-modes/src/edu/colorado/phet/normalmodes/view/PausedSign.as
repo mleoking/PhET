@@ -19,17 +19,17 @@ import mx.core.UIComponent;
 * Different pausedSigns for the two different model/views (view1 and view2)
 * */
 public class PausedSign extends UIComponent {
-    private var paused_txt:TextField;
-    private var tFormat:TextFormat;
-    private var paused_str:String;
-    private var myModel:Object;     //either model1 or model2
+    private var paused_txt: TextField;
+    private var tFormat: TextFormat;
+    private var paused_str: String;
+    private var myModel: Object;     //either model1 or model2
 
-    public function PausedSign( myModel:Object ) {
+    public function PausedSign( myModel: Object ) {
         this.myModel = myModel;
         this.myModel.registerView( this );
         paused_txt = new TextField();
         tFormat = new TextFormat();
-        paused_str = FlexSimStrings.get("paused", "PAUSED");
+        paused_str = FlexSimStrings.get( "paused", "PAUSED" );
         tFormat.font = "Arial";
         tFormat.size = 80;
         tFormat.color = 0xffcc00;
@@ -41,13 +41,13 @@ public class PausedSign extends UIComponent {
     }//end constructor
 
     //register this pausedSign view with the appropriate model
-    public function setModel( currentModel: Object ):void{
+    public function setModel( currentModel: Object ): void {
         this.myModel.unregisterView( this );
         this.myModel = currentModel;
         this.myModel.registerView( this );
     }
 
-    public function update():void{
+    public function update(): void {
         this.visible = myModel.paused;
     }
 
