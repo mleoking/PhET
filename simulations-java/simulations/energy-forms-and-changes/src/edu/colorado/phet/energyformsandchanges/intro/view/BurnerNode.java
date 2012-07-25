@@ -16,10 +16,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.HeaterCoolerNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.Burner;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.intro.view.stove.HeaterCoolerWithLimitsNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -49,7 +49,7 @@ public class BurnerNode extends PNode {
 
         // Add the heater-cooler node to the center bottom.
         // TODO: i18n
-        PNode heaterCoolerNode = new HeaterCoolerNode( burner.heatCoolLevel, "Heat", "Cool" ) {{
+        PNode heaterCoolerNode = new HeaterCoolerWithLimitsNode( burner.heatCoolLevel, "Heat", "Cool" ) {{
             setScale( mvt.modelToViewDeltaX( burner.getOutlineRect().getWidth() ) * 0.7 / getFullBoundsReference().width );
             setOffset( burnerViewRect.getX() + burnerViewRect.getWidth() / 2 - getFullBoundsReference().width / 2,
                        burnerViewRect.getMaxY() - getFullBoundsReference().height * 0.9 );
