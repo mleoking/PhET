@@ -92,15 +92,28 @@ public class BurnerNode extends PNode {
         burner.heatCoolLevel.getBoundsProperty().addObserver( new VoidFunction1<DoubleRange>() {
             public void apply( DoubleRange allowedRange ) {
                 if ( !heatCoolModeChangeLockoutTimer.isRunning() ) {
+
                     // Change is not locked out, so an update is allowed.
                     HeatCoolMode modeBeforeUpdate = heaterCoolerNode.heatCoolMode.get();
                     updateHeatCoolMode( allowedRange );
                     if ( heaterCoolerNode.heatCoolMode.get() != modeBeforeUpdate ) {
+
                         // A mode change occurred, so start the lockout timer.
                         heatCoolModeChangeLockoutTimer.restart();
                     }
                 }
                 // else ignore the change and let the timer handle it.
+            }
+        } );
+
+        // Update heat/cool mode when elements are added to or removed from burner.
+        burner.getIsSomethingOnTopProperty().addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean isSomethingOnBurner ) {
+                if ( !isSomethingOnBurner ) {
+                    // Whatever was on burner was removed, so clear limits.
+                    heatCoolModeChangeLockoutTimer.stop();
+                    updateHeatCoolMode( burner.heatCoolLevel.getBoundsProperty().get() );
+                }
             }
         } );
 

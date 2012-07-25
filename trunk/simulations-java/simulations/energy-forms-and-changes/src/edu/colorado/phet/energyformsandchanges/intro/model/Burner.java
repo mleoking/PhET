@@ -47,15 +47,13 @@ public class Burner extends ModelElement {
 
     private final Vector2D position;
 
-    // Property that is used to control the amount of heating or cooling that
-    // is being done.
     public final BoundedDoubleProperty heatCoolLevel = new BoundedDoubleProperty( 0.0, -1, 1 );
-
     private final Property<HorizontalSurface> topSurface;
     private final BooleanProperty energyChunksVisible;
     private final ConstantDtClock clock;
     public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     private final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
+    private final BooleanProperty isSomethingOnTop = new BooleanProperty( false );
 
     // Track build up of energy for transferring chunks to/from the air.
     private double energyExchangedWithAirSinceLastChunkTransfer = 0;
@@ -242,6 +240,9 @@ public class Burner extends ModelElement {
             // Nothing is currently in contact, so clear any limits.
             heatCoolLevel.setRange( -1, 1 );
         }
+
+        // Update property that tracks whether something is on this burner.
+        isSomethingOnTop.set( contact );
     }
 
     public boolean areAnyOnTop( ThermalEnergyContainer... thermalEnergyContainers ) {
@@ -310,6 +311,10 @@ public class Burner extends ModelElement {
 
     public boolean canAcceptEnergyChunk() {
         return heatCoolLevel.get() < 0;
+    }
+
+    public ObservableProperty<Boolean> getIsSomethingOnTopProperty() {
+        return isSomethingOnTop;
     }
 
     // Convenience class - a Property<Double> with a limited range.

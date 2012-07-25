@@ -1,3 +1,4 @@
+Changed the burner to explicitly indicate when heating and cooling are disallowed by modifying the slider on the heater/cooler.
 # 0.00.15 (66196) Jul 24, 2012
 7/24/12 Publishing some fixes for the Heat Capacity Lab prototype.
 Added a fix for an issue where blocks and beakers could be made to overlap if the user dropped the block on the edge of the burner.
