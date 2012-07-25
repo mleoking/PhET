@@ -1,3 +1,7 @@
+/*
+ * Copyright 2002-2012, University of Colorado
+ */
+
 /**
  * Created by IntelliJ IDEA.
  * User: General User
@@ -17,21 +21,21 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 /*
-* MassView2 is the view for an individual mass in View2, which is view for Model2D, a 2D array of coupled masses
+* MassView2 is the view for an individual mass in View2D, which is view for Model2D, a 2D array of coupled masses
 * When mouse is inside border zone surrounding mass, vertical or horizontal arrows appear,
 * cuing user that mass is grabbable.  All arrows disappear after user grabs any mass.
 * */
 public class MassView2 extends Sprite {
     private var _iJIndices: Array = new Array( 2 );       // i, j integers labeling the mass: i = row = 1, 2, .. N, j = column = 1, 2, .. N
     private var myModel2: Model2D;
-    private var container: View2;
+    private var container: View2D;
     private var mass: Sprite;          //graphic for mass
     private var borderZone: Sprite;    //when user mouses over borderZone, arrows appear around mass
     private var arrows: Sprite;        //arrows cue user that mass is grabbable
     private var label_txt: TextField;
     private var tFormat: TextFormat;
 
-    public function MassView2( i: int, j: int, myModel2: Model2D, container: View2 ) {
+    public function MassView2( i: int, j: int, myModel2: Model2D, container: View2D ) {
         this._iJIndices[0] = i;
         this._iJIndices[1] = j;
         this.myModel2 = myModel2;
@@ -154,7 +158,7 @@ public class MassView2 extends Sprite {
         this.arrows.visible = false;
     }
 
-    //Called by View2 when any mass is grabbed
+    //Called by View2D when any mass is grabbed
     public function killArrowListeners(): void {
         this.removeEventListener( MouseEvent.ROLL_OVER, this.showArrows );
         this.removeEventListener( MouseEvent.ROLL_OUT, this.hideArrows );

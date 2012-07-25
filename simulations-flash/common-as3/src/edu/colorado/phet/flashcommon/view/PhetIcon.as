@@ -31,8 +31,7 @@ public class PhetIcon extends Sprite {
 
     public function setColor( myColor: uint ):void{
         this.tFormat.color = myColor;
-        this.phet_txt.defaultTextFormat = this.tFormat;
-        this.phet_txt.text = " PhET ";
+        this.phet_txt.setTextFormat( this.tFormat );
     }
 
 }//end of class

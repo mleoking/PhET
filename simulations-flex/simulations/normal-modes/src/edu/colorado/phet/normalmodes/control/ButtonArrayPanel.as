@@ -1,6 +1,10 @@
+/*
+ * Copyright 2002-2012, University of Colorado
+ */
+
 /**
  * Created by IntelliJ IDEA.
- * User: General User
+ * User: Dubson
  * Date: 6/14/11
  * Time: 8:01 PM
  * To change this template use File | Settings | File Templates.
@@ -26,7 +30,7 @@ import mx.containers.Canvas;
 public class ButtonArrayPanel extends Canvas {
 
     private var myMainView: MainView;
-    private var myModel2: Model2D;
+    private var myModel2D: Model2D;
     private var container: Sprite;          //sprite container for array of buttons
     private var miniTabBar: MiniTabBar;     //bar with two tabs at top of array of buttons, for selecting between vert and horiz polarization
     private var maxContainerWidth: Number;  //max width of container in pixels
@@ -44,19 +48,19 @@ public class ButtonArrayPanel extends Canvas {
         percentWidth = 100;
         percentHeight = 100;
         this.myMainView = myMainView;
-        this.myModel2 = myModel2;
-        this.myModel2.registerView( this );
-        this.nMax = this.myModel2.nMax;     //in 2D, the max number of mobile masses is nMax*nMax
+        this.myModel2D = myModel2;
+        this.myModel2D.registerView( this );
+        this.nMax = this.myModel2D.nMax;     //in 2D, the max number of mobile masses is nMax*nMax
         this.maxContainerWidth = 300;
         this.buttonPadding = 4;
         this.container = new Sprite();
-        this.miniTabBar = new MiniTabBar( this.myModel2 );
+        this.miniTabBar = new MiniTabBar( this.myModel2D );
         this.tFormat = new TextFormat();
         this.initializeStrings();
         this.topLabel_txt = new NiceLabel( 15, this.modeSpectrumDisplay_str );
         this.bottomLabel_txt = new NiceLabel( 15, this.modesNxNy_str );
         this.formatLabels();
-        var nbrMasses: int = this.myModel2.N;
+        var nbrMasses: int = this.myModel2D.N;
         /**
          * Button_arr is nMax+1 * nMax+1,  i = 0 row and j = 0 column are dummies,
          * so that button_arr[i][j] corresponds to mode i, j.  Lowest mode is 1,1. Highest mode is nMax,nMax
@@ -79,7 +83,7 @@ public class ButtonArrayPanel extends Canvas {
         this.addChild( new SpriteUIComponent( this.miniTabBar ) );
         this.addChild( new SpriteUIComponent( this.container ) );
         this.addChild( new SpriteUIComponent( this.bottomLabel_txt ) );
-        this.positionChildren();
+        this.positionLabelsAndTabs();
         this.setNbrButtons();
     } //end constructor
 
@@ -100,7 +104,7 @@ public class ButtonArrayPanel extends Canvas {
         this.bottomLabel_txt.setTextFormat( this.tFormat );
     }
 
-    private function positionChildren(): void {
+    private function positionLabelsAndTabs(): void {
         this.topLabel_txt.y = 0;
         this.miniTabBar.y = 1.2 * this.topLabel_txt.height;
     }
@@ -113,7 +117,7 @@ public class ButtonArrayPanel extends Canvas {
                 this.button_arr[i][j].visible = false;
             }
         }
-        var N: int = this.myModel2.N;
+        var N: int = this.myModel2D.N;
         var size: Number = (this.maxContainerWidth - this.buttonPadding) / N - this.buttonPadding;
         var xOffset: Number;
         var yOffset: Number;
@@ -135,7 +139,6 @@ public class ButtonArrayPanel extends Canvas {
                 }
                 else if ( N >= 5 ) {
                     yOffset = this.buttonPadding + this.maxContainerWidth / 2 - (N * (size + this.buttonPadding) + this.buttonPadding) / 2;
-                    //do nothing; size =  (this.maxContainerWidth /N);
                 }
                 xOffset = this.buttonPadding + this.maxContainerWidth / 2 - (N * (size + this.buttonPadding) + this.buttonPadding) / 2;
                 this.button_arr[i][j].setSize( size );
@@ -156,32 +159,31 @@ public class ButtonArrayPanel extends Canvas {
         this.bottomLabel_txt.y = ySpacer + yOffset + N * (size + this.buttonPadding) + this.buttonPadding;
     }//end setNbrButtons()
 
-    /*Set color of buttons and background to indicate vert or horiz mode and set extent of colored region on button to indicate amplitude*/
+    /*Set colors of buttons and background to indicate vert or horiz mode and set extent of colored region on button to indicate amplitude*/
     private function setButtonColors(): void {
-        //trace("ButtonArrayPanel.setButtonColors called.");
-        var N: int = this.myModel2.N;
+        var N: int = this.myModel2D.N;
         var polarizationX: Boolean;    //true if polarization is horizontal
-        if ( this.myModel2.xModes ) {
+        if ( this.myModel2D.xModes ) {
             polarizationX = true;
         }
         else {
             polarizationX = false;
         }
         var springLength: Number = 1 / (N + 1);
-        var largeAmplitude: Number = 0.3 * springLength;
+        var fullAmplitude: Number = 0.3 * springLength;    //amplitude at which button is completely filled in with color
         for ( var i: int = 1 ; i <= N ; i++ ) {
             for ( var j: int = 1 ; j <= N ; j++ ) {
                 var amplitude: Number;  //amplitude of mode (i,j)
                 var borderColor: uint;  //color of button trim, depends on polarization shown
                 if ( polarizationX ) {
-                    amplitude = this.myModel2.getModeAmpliX( i, j );
+                    amplitude = this.myModel2D.getModeAmpliX( i, j );
                     borderColor = 0xff0000;
                 }
                 else {
-                    amplitude = this.myModel2.getModeAmpliY( i, j );
+                    amplitude = this.myModel2D.getModeAmpliY( i, j );
                     borderColor = 0x0000ff;
                 }
-                var colorSize: int = Math.round( 16 * Math.min( 1, amplitude / largeAmplitude ) );
+                var colorSize: int = Math.round( 16 * Math.min( 1, amplitude / fullAmplitude ) );
                 this.button_arr[i][j].changeBackgroundHeight( colorSize );
                 this.button_arr[i][j].borderColor = borderColor;
             }
@@ -189,17 +191,16 @@ public class ButtonArrayPanel extends Canvas {
     }//end setButtonColors();
 
     public function update(): void {
-        if ( this.myModel2.nChanged || this.myModel2.modesZeroed ) {
+        if ( this.myModel2D.nChanged || this.myModel2D.modesZeroed ) {
             this.setNbrButtons();
             this.setButtonColors();
-            this.myModel2.modesZeroed = false;
+            this.myModel2D.modesZeroed = false;
         }
-        if ( this.myModel2.modesChanged ) {
+        if ( this.myModel2D.modesChanged ) {
             this.setButtonColors();
-            this.myModel2.modesChanged = false;
+            this.myModel2D.modesChanged = false;
         }
-
-    }//end update()
+    }
 
 } //end class
 } //end package
