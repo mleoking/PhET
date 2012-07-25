@@ -1,3 +1,7 @@
+/*
+ * Copyright 2002-2012, University of Colorado
+ */
+
 /**
  * Created by ${PRODUCT_NAME}.
  * User: General User

@@ -1,3 +1,7 @@
+/*
+ * Copyright 2002-2012, University of Colorado
+ */
+
 /**
  * Created by IntelliJ IDEA.
  * User: Dubson
@@ -35,9 +39,9 @@ public class MainView extends Canvas {
     public var oneDMode: Boolean;       //true if in 1D mode, false if in 2D mode
     public var myModel1: Model1D;       //model for 1D array of masses and springs
     public var myModel2: Model2D;       //model for 2D array of masses and springs
-    public var myView1: View1;         //view for Model1D
+    public var myView1: View1D;         //view for Model1D
     public var myView1DModes: View1DModes; //another view for Model1D, showing individual modes
-    public var myView2: View2;         //view for Model2D
+    public var myView2: View2D;         //view for Model2D
 
     public var mySliderArrayPanel: SliderArrayPanel;
     public var myButtonArrayPanel: ButtonArrayPanel;
@@ -83,9 +87,9 @@ public class MainView extends Canvas {
         this.myModel1 = new Model1D();
         this.myModel2 = new Model2D( this );
         this.myModel2.stopMotion();
-        this.myView1 = new View1( this, myModel1 );
+        this.myView1 = new View1D( this, myModel1 );
         this.myView1DModes = new View1DModes( this, myModel1 );
-        this.myView2 = new View2( this, myModel2 );
+        this.myView2 = new View2D( this, myModel2 );
 
         this.myView1.x = 0;
         this.myView1.y = 0;

@@ -1,12 +1,16 @@
+/*
+ * Copyright 2002-2012, University of Colorado
+ */
+
 package edu.colorado.phet.normalmodes.view {
 import edu.colorado.phet.normalmodes.model.Model1D;
 
 import flash.display.*;
 
 /*
-*view for Model1D, a 1-dimensional array of masses and springs
+*View for Model1D, a 1-dimensional array of masses and springs
 */
-public class View1 extends Sprite {
+public class View1D extends Sprite {
     public var myMainView: MainView;		//MainView
     private var myModel1D: Model1D;			//model for this view
     private var _pixPerMeter: Number;		//scale: number of pixels in 1 meter
@@ -24,7 +28,7 @@ public class View1 extends Sprite {
     private var stageW: int;
     private var stageH: int;
 
-    public function View1( myMainView: MainView, myModel1: Model1D ) {
+    public function View1D( myMainView: MainView, myModel1: Model1D ) {
         this.myMainView = myMainView;
         this.myModel1D = myModel1;
         this.myModel1D.registerView( this );

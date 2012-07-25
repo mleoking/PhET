@@ -1,3 +1,7 @@
+/*
+ * Copyright 2002-2012, University of Colorado
+ */
+
 /**
  * Created by IntelliJ IDEA.
  * User: General User
@@ -15,20 +19,20 @@ import flash.events.MouseEvent;
 import flash.geom.Point;
 
 /*
-* MassView1 is the view for an individual mass in View1, which is view for Model1D, a 1D array of coupled masses
+* MassView1 is the view for an individual mass in View1D, which is view for Model1D, a 1D array of coupled masses
 * When mouse is inside border zone surrounding mass, vertical or horizontal arrows appear,
 * cuing user that mass is grabbable.  All arrows disappear after user grabs any mass.
 * */
 public class MassView1 extends Sprite {
     private var _index: int;           //integer labeling the mass
     private var myModel1D: Model1D;
-    private var container: View1;
+    private var container: View1D;
     private var mass: Sprite;          //graphic for the mass
     private var borderZone: Sprite;    //when user mouses over borderZone, arrows appear around mass
     private var arrowH: Sprite;        //horizontal arrow, cues user that mass is movable
     private var arrowV: Sprite;        //vertical arrow
 
-    public function MassView1( index: int, myModel1: Model1D, container: View1 ) {
+    public function MassView1( index: int, myModel1: Model1D, container: View1D ) {
         this._index = index;
         this.myModel1D = myModel1;
         this.container = container;
@@ -153,7 +157,7 @@ public class MassView1 extends Sprite {
         this.arrowV.visible = false;
     }
 
-    //Called by View1 when any mass is moved.
+    //Called by View1D when any mass is moved.
     public function killArrowListeners(): void {
         this.removeEventListener( MouseEvent.ROLL_OVER, this.showArrows );
         this.removeEventListener( MouseEvent.ROLL_OUT, this.hideArrows );

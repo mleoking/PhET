@@ -1,3 +1,7 @@
+/*
+ * Copyright 2002-2012, University of Colorado
+ */
+
 package edu.colorado.phet.normalmodes.control {
 import edu.colorado.phet.flashcommon.controls.HorizontalSlider;
 import edu.colorado.phet.flashcommon.controls.NiceButton2;
@@ -24,24 +28,22 @@ import mx.controls.CheckBox;
 public class ControlPanel extends Canvas {
 
     private var myMainView: MainView;
-    private var myModel: Object;                     //Model1D (1D) or Model2D (2D), can change with setModel();
+    private var currentModel: Object;                //current model = Model1D or Model2D, can change with setModel();
     private var background: VBox;
     private var nbrMassesSlider: HorizontalSlider;   //slider to set number of masses
     private var startStopButton: NiceButton2;
     public var mySloMoStepControl: SloMoStepControl;
     private var resetPositionsButton: NiceButton2;   //button to reset all masses to initial positions set by user
-    private var paused: Boolean;                      //true if sim paused
+    private var paused: Boolean;                     //true if sim paused
     private var zeroPositionsButton: NiceButton2;    //button to reset all masses to equilibrium positions
 
+    private var innerBckgrnd1: HBox;
     private var innerBckgrnd2: HBox;
-    private var innerBckgrnd3: HBox;
     private var showPhasesCheckBox: CheckBox;
     private var showPhasesLabel: NiceLabel;
-    private var innerBckgrnd4: HBox;
+    private var innerBckgrnd3: HBox;
     private var showSpringsCheckBox: CheckBox;
     private var showSpringsLabel: NiceLabel;
-
-    //private var resetAllButton: NiceButton2;
 
     //internationalized strings
     public var numberOfMasses_str: String;
@@ -54,13 +56,12 @@ public class ControlPanel extends Canvas {
     public var showSprings_str: String;
 
 
-    public function ControlPanel( myMainView: MainView, model1: Object ) {
+    public function ControlPanel( myMainView: MainView, model1D: Object ) {
         super();
         this.myMainView = myMainView;
-        this.myModel = model1;
+        this.currentModel = model1D;
         this.init();
-    }//end of constructor
-
+    }
 
     public function init(): void {
         this.initializeStrings();
@@ -84,16 +85,16 @@ public class ControlPanel extends Canvas {
         this.nbrMassesSlider.setLabelText( this.numberOfMasses_str );
         this.paused = true;
         this.startStopButton = new NiceButton2( 100, 25, start_str, startStop, 0x00ff00, 0x000000 );
-        this.mySloMoStepControl = new SloMoStepControl( this, myModel );
+        this.mySloMoStepControl = new SloMoStepControl( this, currentModel );
         this.resetPositionsButton = new NiceButton2( 120, 25, resetPositions_str, resetPositions, 0xffff00, 0x000000 )
         this.zeroPositionsButton = new NiceButton2( 120, 25, zeroPositions_str, zeroPositions, 0xff0000, 0xffffff );
 
+        this.innerBckgrnd1 = new HBox();
+        this.innerBckgrnd1.setStyle( "horizontalGap", 0 );
         this.innerBckgrnd2 = new HBox();
         this.innerBckgrnd2.setStyle( "horizontalGap", 0 );
         this.innerBckgrnd3 = new HBox();
         this.innerBckgrnd3.setStyle( "horizontalGap", 0 );
-        this.innerBckgrnd4 = new HBox();
-        this.innerBckgrnd4.setStyle( "horizontalGap", 0 );
 
         this.showPhasesCheckBox = new CheckBox();
         this.showPhasesCheckBox.addEventListener( Event.CHANGE, clickShowPhases );
@@ -105,21 +106,18 @@ public class ControlPanel extends Canvas {
 
         //Layout of components
         this.addChild( this.background );
-
         this.background.addChild( new SpriteUIComponent( this.startStopButton, true ) );
-        this.background.addChild( this.innerBckgrnd2 );
-        this.innerBckgrnd2.addChild( this.mySloMoStepControl );      //SloMoStepControl is a UIComponent, does not need wrapper
+        this.background.addChild( this.innerBckgrnd1 );
+        this.innerBckgrnd1.addChild( this.mySloMoStepControl );      //SloMoStepControl is a UIComponent, does not need wrapper
         this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ) );
         this.background.addChild( new SpriteUIComponent( this.zeroPositionsButton, true ) );
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ) );
-        this.background.addChild( innerBckgrnd4 );
-
-        this.innerBckgrnd4.addChild( showSpringsCheckBox );
-        this.innerBckgrnd4.addChild( new SpriteUIComponent( showSpringsLabel, true ) );
-
-        this.background.addChild( this.innerBckgrnd3 );
-        this.innerBckgrnd3.addChild( showPhasesCheckBox );
-        this.innerBckgrnd3.addChild( new SpriteUIComponent( showPhasesLabel, true ) );
+        this.background.addChild( innerBckgrnd3 );
+        this.innerBckgrnd3.addChild( showSpringsCheckBox );
+        this.innerBckgrnd3.addChild( new SpriteUIComponent( showSpringsLabel, true ) );
+        this.background.addChild( this.innerBckgrnd2 );
+        this.innerBckgrnd2.addChild( showPhasesCheckBox );
+        this.innerBckgrnd2.addChild( new SpriteUIComponent( showPhasesLabel, true ) );
     } //end of init()
 
     public function initializeStrings(): void {
@@ -128,14 +126,15 @@ public class ControlPanel extends Canvas {
         resetPositions_str = FlexSimStrings.get( "resetPositions", "Initial Positions" );
         zeroPositions_str = FlexSimStrings.get( "zeroPositions", "Zero Positions" );
         numberOfMasses_str = FlexSimStrings.get( "numberOfMasses", "Number of Masses" );
-        polarization_str = FlexSimStrings.get( "polarization:", "Polarizaton:" );
+        polarization_str = FlexSimStrings.get( "polarization:", "Polarization:" );
         showPhases_str = FlexSimStrings.get( "showPhases", "Show Phases" );
         showSprings_str = FlexSimStrings.get( "showSprings", "Show Springs" );
     }
 
+    /*Set the number of masses in the current model.*/
     private function setNbrMasses(): void {
         var nbrM: Number = this.nbrMassesSlider.getVal();
-        this.myModel.setN( nbrM );
+        this.currentModel.setN( nbrM );
         if ( this.myMainView.oneDMode ) {
             this.myMainView.mySliderArrayPanel.locateSlidersAndLabels();
         }
@@ -144,40 +143,42 @@ public class ControlPanel extends Canvas {
     /*If in 1D mode, control panel has a Show Phases checkbox.*/
     public function setShowPhasesControl(): void {
         if ( this.myMainView.oneDMode ) {
-            this.background.addChild( innerBckgrnd3 );
+            this.background.addChild( innerBckgrnd2 );
         }
         else {
-            this.background.removeChild( innerBckgrnd3 );
+            this.background.removeChild( innerBckgrnd2 );
         }
     }
 
     /*Programmatic control of number-of-masses slider*/
     public function setNbrMassesExternally( nbrM: int ): void {
         this.nbrMassesSlider.setVal( nbrM );
-        this.myModel.setN( nbrM );
+        this.currentModel.setN( nbrM );
         this.zeroPositions();
     }
 
-    /*Programmatic control of number-of-masses slider without updating model*/
+    /**
+     * Programmatic control of number-of-masses slider without updating model,
+     * sometimes needed to prevent infinite loop.
+     */
     public function setNbrMassesExternallyWithNoAction( nbrM: int ): void {
         this.nbrMassesSlider.setSliderWithoutAction( nbrM );
     }
 
-    /*Set the model for the control panel: 1D or 2D*/
+    /*Set the current model for the control panel: 1D or 2D*/
     public function setModel( currentModel: Object ): void {
-        this.myModel = currentModel;
+        this.currentModel = currentModel;
     }
 
     private function startStop(): void {
-        if ( this.myModel.paused ) {     //if paused, unPause sim,
-            this.myModel.unPauseSim();
+        if ( this.currentModel.paused ) {     //if paused, unPause sim,
+            this.currentModel.unPauseSim();
             this.startStopButton.setLabel( stop_str );
             this.startStopButton.setBodyColor( 0xff0000 );  //red
             this.startStopButton.setFontColor( 0xffffff );  //white
         }
         else {
-            //this.paused = true;
-            this.myModel.pauseSim();
+            this.currentModel.pauseSim();
             this.startStopButton.setLabel( start_str );
             this.startStopButton.setBodyColor( 0x00ff00 );  //green
             this.startStopButton.setFontColor( 0x000000 );  //black
@@ -185,7 +186,7 @@ public class ControlPanel extends Canvas {
     }//end startStop()
 
     public function initializeStartStopButton(): void {
-        if ( !this.myModel.paused ) {     //if not paused, set button to say STOP
+        if ( !this.currentModel.paused ) {     //if not paused, set button to say STOP
             this.startStopButton.setLabel( stop_str );
             this.startStopButton.setBodyColor( 0xff0000 );  //red
             this.startStopButton.setFontColor( 0xffffff );  //white
@@ -197,46 +198,39 @@ public class ControlPanel extends Canvas {
         }
     }
 
+    /*Reset positions of all masses to initial positions set by user.*/
     private function resetPositions(): void {
-        this.myModel.t = 0;
-        this.myModel.pauseSim();
+        this.currentModel.t = 0;
+        this.currentModel.pauseSim();
         this.startStopButton.setLabel( start_str );
         this.startStopButton.setBodyColor( 0x00ff00 );  //green
         this.startStopButton.setFontColor( 0x000000 );  //black
     }
 
+    /*Set all masses to their zero (equilibrium) positions.*/
     private function zeroPositions(): void {
         //Doesn't matter if in 1D or 2D mode, want all modes zeroed.
-        this.myModel.initializeKinematicArrays();
-        this.myModel.zeroModeArrays();
+        this.currentModel.initializeKinematicArrays();
+        this.currentModel.zeroModeArrays();
     }
 
 
+    /*In 1D mode, user can show or hide phase sliders.*/
     private function clickShowPhases( evt: Event ): void {
         var shown: Boolean = this.showPhasesCheckBox.selected;
         this.myMainView.mySliderArrayPanel.showPhaseSliders( shown );
     }
 
-    public function showPhasesVisible( tOrF: Boolean ): void {
-        this.innerBckgrnd3.visible = tOrF;
-    }
+//    public function showPhasesVisible( tOrF: Boolean ): void {
+//        this.innerBckgrnd2.visible = tOrF;
+//    }
 
+    /*In either 1D or 2D mode, user can show or hide springs between masses.*/
     private function clickShowSprings( evt: Event ): void {
         var shown: Boolean = this.showSpringsCheckBox.selected;
         this.myMainView.myView2.springsVisible = shown;
         this.myMainView.myView1.springsVisible = shown;
-        this.myModel.updateViews();
-    }
-
-    /*Usused*/
-    private function onHitEnter( keyEvt: KeyboardEvent ): void {
-        //this.setSelectedResonatorNbr();
-    }
-
-    /*Unused*/
-    private function onFocusOut( focusEvt: FocusEvent ): void {
-        //trace( "ControlPanel.onFocuOut called.");
-        //this.setSelectedResonatorNbr();
+        this.currentModel.updateViews();
     }
 
 

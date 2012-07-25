@@ -1,6 +1,10 @@
+/*
+ * Copyright 2002-2012, University of Colorado
+ */
+
 /**
  * Created by IntelliJ IDEA.
- * User: General User
+ * User: Dubson
  * Date: 6/12/11
  * Time: 6:23 AM
  * To change this template use File | Settings | File Templates.
@@ -15,7 +19,7 @@ import flash.display.Sprite;
 /*
 * View for Model2D, a 2-dimensional array of masses and springs
 */
-public class View2 extends Sprite {
+public class View2D extends Sprite {
 
     public var myMainView: MainView;		//MainView
     private var myModel2: Model2D;			//model for this view
@@ -36,7 +40,7 @@ public class View2 extends Sprite {
     private var stageW: int;
     private var stageH: int;
 
-    public function View2( myMainView: MainView, myModel2: Model2D ) {
+    public function View2D( myMainView: MainView, myModel2: Model2D ) {
         this.myMainView = myMainView;
         this.myModel2 = myModel2;
         this.myModel2.registerView( this );
@@ -102,7 +106,7 @@ public class View2 extends Sprite {
     }//end of initialize()
 
     private function drawSprings(): void {        //only the visible springs are drawn
-        //trace("View2.drawSprings() called.");
+        //trace("View2D.drawSprings() called.");
         var nMasses: int = this.myModel2.N;   //number of mobile masses in 1D chain
         this.L0Spring = ( this._LinPix ) / (nMasses + 1);  //equilibrium length of single spring in pixels
         var leadL: Number = 20;                  //length of each straight end of spring
