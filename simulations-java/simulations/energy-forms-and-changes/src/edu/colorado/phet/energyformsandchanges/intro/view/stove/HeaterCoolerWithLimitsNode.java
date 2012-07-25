@@ -124,7 +124,7 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         PNode burnerInterior = new PhetPPath( burnerInteriorShape, burnerInteriorPaint, new BasicStroke( 1 ), Color.LIGHT_GRAY );
 
         // Create the control sliders.  Only one will be visible at a time.
-        final HeaterCoolerSliderNode heatAndCoolSlider = new HeaterCoolerSliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, heatLabel, coolLabel, heatCoolMode, HeatCoolMode.HEAT_AND_COOL );
+        final HeatCoolSliderNode heatAndCoolSlider = new HeatCoolSliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, heatLabel, coolLabel, heatCoolMode, HeatCoolMode.HEAT_AND_COOL );
         final HeatOnlySliderNode heatOnlySliderNode = new HeatOnlySliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, heatLabel, heatCoolMode, HeatCoolMode.HEAT_ONLY );
         final CoolOnlySliderNode coolOnlySlider = new CoolOnlySliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, coolLabel, heatCoolMode, HeatCoolMode.COOL_ONLY );
 
@@ -227,18 +227,14 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         fireImage.setVisible( heatCoolLevel.get() > 0 );
     }
 
-    /*
-     * Slider that controls level of heating/cooling.
-     */
-    private static class HeaterCoolerSliderNode extends VSliderNode {
+    //-------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //-------------------------------------------------------------------------
 
-        public HeaterCoolerSliderNode( final SettableProperty<Double> value, String heatLabel, String coolLabel, final Property<HeatCoolMode> heatCoolMode, final HeatCoolMode modeWhenVisible ) {
-            super( UserComponents.heaterCoolerSlider, -1, 1, TRACK_THICKNESS, SLIDER_TRACK_LENGTH, value, new BooleanProperty( true ) );
+    private static abstract class AbstractHeatCoolSliderNode extends VSliderNode {
 
-            // Show labels for add, zero, and remove.
-            addLabel( +1, new PhetPText( heatLabel, LABEL_FONT ) );
-            addLabel( 0.0, new SliderTickMark() );
-            addLabel( -1, new PhetPText( coolLabel, LABEL_FONT ) );
+        public AbstractHeatCoolSliderNode( final SettableProperty<Double> value, DoubleRange range, Property<HeatCoolMode> heatCoolMode, final HeatCoolMode modeWhenVisible, Color topOfTrackColor, Color bottomOfTrackColor ) {
+            super( UserComponents.heaterCoolerSlider, range.getMin(), range.getMax(), TRACK_THICKNESS, ( range.getMax() - range.getMin() ) * SLIDER_TRACK_LENGTH / 2, value, new BooleanProperty( true ) );
 
             // Return to 0 when the user releases the slider.
             addInputEventListener( new PBasicInputEventHandler() {
@@ -247,9 +243,8 @@ public class HeaterCoolerWithLimitsNode extends PNode {
                 }
             } );
 
-            // Show a gradient in the track that goes from orange to light blue to
-            // indicate the heat/coolness setting.
-            setTrackFillPaint( new GradientPaint( 0, 0, WARM_COLOR, 0, (float) trackLength, COLD_COLOR, false ) );
+            // Show a gradient in the track.
+            setTrackFillPaint( new GradientPaint( 0, 0, topOfTrackColor, 0, (float) trackLength, bottomOfTrackColor, false ) );
 
             // Control visibility.
             heatCoolMode.addObserver( new VoidFunction1<HeatCoolMode>() {
@@ -261,64 +256,42 @@ public class HeaterCoolerWithLimitsNode extends PNode {
     }
 
     /*
+     * Slider that controls level of heating/cooling.
+     */
+    private static class HeatCoolSliderNode extends AbstractHeatCoolSliderNode {
+        public HeatCoolSliderNode( final SettableProperty<Double> value, String heatLabel, String coolLabel, final Property<HeatCoolMode> heatCoolMode, final HeatCoolMode modeWhenVisible ) {
+            super( value, new DoubleRange( -1.0, 1.0 ), heatCoolMode, modeWhenVisible, WARM_COLOR, COLD_COLOR );
+
+            // Add labels.
+            addLabel( +1, new PhetPText( heatLabel, LABEL_FONT ) );
+            addLabel( 0.0, new SliderTickMark() );
+            addLabel( -1, new PhetPText( coolLabel, LABEL_FONT ) );
+        }
+    }
+
+    /*
      * Slider that controls level of cooling only, heating is disallowed.
      */
-    private static class CoolOnlySliderNode extends VSliderNode {
-
-        public CoolOnlySliderNode( final SettableProperty<Double> value, String coolLabel, Property<HeatCoolMode> heatCoolMode, final HeatCoolMode modeWhenVisible ) {
-            super( UserComponents.heaterCoolerSlider, -1, 0, TRACK_THICKNESS, SLIDER_TRACK_LENGTH / 2, value, new BooleanProperty( true ) );
+    private static class CoolOnlySliderNode extends AbstractHeatCoolSliderNode {
+        public CoolOnlySliderNode( final SettableProperty<Double> value, String coolLabel, final Property<HeatCoolMode> heatCoolMode, final HeatCoolMode modeWhenVisible ) {
+            super( value, new DoubleRange( -1.0, 0.0 ), heatCoolMode, modeWhenVisible, IN_BETWEEN_COLOR, COLD_COLOR );
 
             // Add labels.
             addLabel( 0.0, new SliderTickMark() );
             addLabel( -1, new PhetPText( coolLabel, LABEL_FONT ) );
-
-            // Return to 0 when the user releases the slider.
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mouseReleased( PInputEvent event ) {
-                    value.set( 0.0 );
-                }
-            } );
-
-            // Show a gradient in the track.
-            setTrackFillPaint( new GradientPaint( 0, 0, IN_BETWEEN_COLOR, 0, (float) trackLength, COLD_COLOR, false ) );
-
-            // Control visibility.
-            heatCoolMode.addObserver( new VoidFunction1<HeatCoolMode>() {
-                public void apply( HeatCoolMode newHeatCoolMode ) {
-                    setVisible( newHeatCoolMode == modeWhenVisible );
-                }
-            } );
         }
     }
 
     /*
      * Slider that controls level of cooling only, heating is disallowed.
      */
-    private static class HeatOnlySliderNode extends VSliderNode {
+    private static class HeatOnlySliderNode extends AbstractHeatCoolSliderNode {
+        public HeatOnlySliderNode( final SettableProperty<Double> value, String heatLabel, final Property<HeatCoolMode> heatCoolMode, final HeatCoolMode modeWhenVisible ) {
+            super( value, new DoubleRange( 0.0, 1.0 ), heatCoolMode, modeWhenVisible, WARM_COLOR, IN_BETWEEN_COLOR );
 
-        public HeatOnlySliderNode( final SettableProperty<Double> value, String heatLabel, Property<HeatCoolMode> heatCoolMode, final HeatCoolMode modeWhenVisible ) {
-            super( UserComponents.heaterCoolerSlider, 0, 1, TRACK_THICKNESS, SLIDER_TRACK_LENGTH / 2, value, new BooleanProperty( true ) );
-
-            // Show labels for add, zero, and remove.
+            // Add labels.
             addLabel( 0.0, new SliderTickMark() );
             addLabel( 1, new PhetPText( heatLabel, LABEL_FONT ) );
-
-            // Return to 0 when the user releases the slider.
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mouseReleased( PInputEvent event ) {
-                    value.set( 0.0 );
-                }
-            } );
-
-            // Show a gradient in the track.
-            setTrackFillPaint( new GradientPaint( 0, 0, WARM_COLOR, 0, (float) trackLength, IN_BETWEEN_COLOR, false ) );
-
-            // Control visibility.
-            heatCoolMode.addObserver( new VoidFunction1<HeatCoolMode>() {
-                public void apply( HeatCoolMode newHeatCoolMode ) {
-                    setVisible( newHeatCoolMode == modeWhenVisible );
-                }
-            } );
         }
     }
 
