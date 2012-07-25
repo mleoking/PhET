@@ -1,3 +1,4 @@
+# 0.00.22 (66238) Jul 25, 2012
 7/25/12 dev version to demo progress on first challenge type: graph a line in slope-intercept form
 7/25/12 setPickable(false) for game challenge nodes that aren't interactive
 7/25/12 fix color of correct answer line, as shown by point tool
