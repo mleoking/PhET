@@ -283,7 +283,7 @@ public class HeaterCoolerWithLimitsNode extends PNode {
     }
 
     /*
-     * Slider that controls level of cooling only, heating is disallowed.
+     * Slider that controls level of heating only, cooling is disallowed.
      */
     private static class HeatOnlySliderNode extends AbstractHeatCoolSliderNode {
         public HeatOnlySliderNode( final SettableProperty<Double> value, String heatLabel, final Property<HeatCoolMode> heatCoolMode, final HeatCoolMode modeWhenVisible ) {
