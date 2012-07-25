@@ -129,6 +129,10 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
                 tryAgainButton.setVisible( state == PlayState.TRY_AGAIN );
                 showAnswerButton.setVisible( state == PlayState.SHOW_ANSWER );
                 nextButton.setVisible( state == PlayState.NEXT );
+
+                // states in which the graph is interactive
+                graphNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK );
+                graphNode.setChildrenPickable( graphNode.getPickable() );
             }
         } );
 
