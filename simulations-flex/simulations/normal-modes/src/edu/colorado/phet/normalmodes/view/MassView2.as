@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.view {
-import edu.colorado.phet.normalmodes.model.Model2;
+import edu.colorado.phet.normalmodes.model.Model2D;
 import edu.colorado.phet.normalmodes.util.TwoHeadedArrow;
 
 import flash.display.Graphics;
@@ -17,13 +17,13 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 /*
-* MassView2 is the view for an individual mass in View2, which is view for Model2, a 2D array of coupled masses
+* MassView2 is the view for an individual mass in View2, which is view for Model2D, a 2D array of coupled masses
 * When mouse is inside border zone surrounding mass, vertical or horizontal arrows appear,
 * cuing user that mass is grabbable.  All arrows disappear after user grabs any mass.
 * */
 public class MassView2 extends Sprite {
     private var _iJIndices: Array = new Array( 2 );       // i, j integers labeling the mass: i = row = 1, 2, .. N, j = column = 1, 2, .. N
-    private var myModel2: Model2;
+    private var myModel2: Model2D;
     private var container: View2;
     private var mass: Sprite;          //graphic for mass
     private var borderZone: Sprite;    //when user mouses over borderZone, arrows appear around mass
@@ -31,7 +31,7 @@ public class MassView2 extends Sprite {
     private var label_txt: TextField;
     private var tFormat: TextFormat;
 
-    public function MassView2( i: int, j: int, myModel2: Model2, container: View2 ) {
+    public function MassView2( i: int, j: int, myModel2: Model2D, container: View2 ) {
         this._iJIndices[0] = i;
         this._iJIndices[1] = j;
         this.myModel2 = myModel2;

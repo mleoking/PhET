@@ -6,19 +6,19 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.view {
-import edu.colorado.phet.normalmodes.model.Model2;
+import edu.colorado.phet.normalmodes.model.Model2D;
 
 import flash.display.Graphics;
 import flash.display.LineScaleMode;
 import flash.display.Sprite;
 
 /*
-* View for Model2, a 2-dimensional array of masses and springs
+* View for Model2D, a 2-dimensional array of masses and springs
 */
 public class View2 extends Sprite {
 
     public var myMainView: MainView;		//MainView
-    private var myModel2: Model2;			//model for this view
+    private var myModel2: Model2D;			//model for this view
 
     private var _pixPerMeter: Number;		//scale: number of pixels in 1 meter
     private var LinMeters: Number;           //distance between fixed walls in meters
@@ -36,7 +36,7 @@ public class View2 extends Sprite {
     private var stageW: int;
     private var stageH: int;
 
-    public function View2( myMainView: MainView, myModel2: Model2 ) {
+    public function View2( myMainView: MainView, myModel2: Model2D ) {
         this.myMainView = myMainView;
         this.myModel2 = myModel2;
         this.myModel2.registerView( this );
