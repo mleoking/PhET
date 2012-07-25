@@ -117,25 +117,20 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         Paint burnerInteriorPaint = new GradientPaint( 0, 0, ColorUtils.darkerColor( BASE_COLOR, 0.25 ), (float) WIDTH, 0, ColorUtils.brighterColor( BASE_COLOR, 0.5 ) );
         PNode burnerInterior = new PhetPPath( burnerInteriorShape, burnerInteriorPaint, new BasicStroke( 1 ), Color.LIGHT_GRAY );
 
-        // Create the slider.
-        HeaterCoolerSliderNode stoveControlSlider = new HeaterCoolerSliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, heatLabel, coolLabel ) {{
-            // Scale the slider to look reasonable on the body of the stove.  It
-            // may be scaled differently for different translations.
+        // Create the control sliders.  Only one will be visible at a time.
+        HeaterCoolerSliderNode stoveControlSlider = new HeaterCoolerSliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, heatLabel, coolLabel );
+        CoolOnlySliderNode coolOnlySlider = new CoolOnlySliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, coolLabel );
+
+        // Scale the sliders to fit well on the bucket.  The scaling may be
+        // different for different translations.
+        {
             double maxWidth = WIDTH * 0.8;
             double maxHeight = HEIGHT * 0.8;
-            double scale = Math.min( maxWidth / getFullBoundsReference().width,
-                                     maxHeight / getFullBoundsReference().height );
-            setScale( scale );
-        }};
-        CoolOnlySliderNode coolOnlySlider = new CoolOnlySliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, coolLabel ) {{
-            // Scale the slider to look reasonable on the body of the stove.  It
-            // may be scaled differently for different translations.
-            double maxWidth = WIDTH * 0.8;
-            double maxHeight = HEIGHT * 0.8;
-            double scale = Math.min( maxWidth / getFullBoundsReference().width,
-                                     maxHeight / getFullBoundsReference().height );
-            setScale( scale );
-        }};
+            double sliderScale = Math.min( maxWidth / stoveControlSlider.getFullBoundsReference().width,
+                                           maxHeight / stoveControlSlider.getFullBoundsReference().height );
+            stoveControlSlider.setScale( sliderScale );
+            coolOnlySlider.setScale( sliderScale );
+        }
 
         // Add the images for fire and ice that come out of the stove.
         fireImage = new PImage( PiccoloPhetResources.getImage( "flame.png" ) );
@@ -157,8 +152,7 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         burnerInterior.setOffset( 0, -burnerInterior.getFullBoundsReference().height / 2 ); // Note - Goes a little negative in Y direction.
         stoveControlSlider.setOffset( WIDTH / 2 - stoveControlSlider.getFullBoundsReference().width / 2,
                                       HEIGHT / 2 - stoveControlSlider.getFullBoundsReference().height / 2 + burnerInterior.getFullBoundsReference().height / 2 );
-        coolOnlySlider.setOffset( WIDTH / 2 - coolOnlySlider.getFullBoundsReference().width / 2,
-                                  HEIGHT / 2 - coolOnlySlider.getFullBoundsReference().height / 2 + burnerInterior.getFullBoundsReference().height / 2 );
+        coolOnlySlider.setOffset( WIDTH / 2 - coolOnlySlider.getFullBoundsReference().width / 2, HEIGHT / 2 );
 
         // Add a handler that updates the appearance when the heat-cool amount
         // changes.
