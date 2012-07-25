@@ -26,6 +26,24 @@ belong to plates (like a combined mantle or earth core, or magma chambers), etc.
 Each tab creates a PlateTectonicsView that is responsible for displaying the Earth view (water / terrain / cross-section / etc.) of the relevant
 mode. Each tab is then responsible itself for creating the overlays and controls necessary.
 
+Also of note are the various coordinate transformations that the model coordinates go through onto the screen:
+"Planar" model coordinates:
+    All model locations (Samples, etc) are in what I called "planar" coordinates. The Y coordinate is the elevation relative to sea-level.
+    X and Z wrap around the globe left/right and front/back.
+    Technically, these are a rescaled version of Spherical Coordinates (see http://en.wikipedia.org/wiki/Spherical_coordinate_system), where X/Z
+    are effectively re-scaled angles such that at sea-level, the X/Z coordinates move you along the circumference of the earth by that distance.
+    Thus (0,0,0) and (earth-circumference,0,0) map to the same physical point (the origin is the "top" of the earth, which is the frontmost center point)
+    Using this warped system is extremely convenient for all of the elevation-dependent and up/down/left/right transformations needed by the model.
+    PlateTectonicsModel.convertToRadial() converts to -->
+"Radial" model coordinates:
+    These are the Euclidean coordinates for the 3D system, where the earth center is at (0,-earthRadius,0).
+    (tab) modelView transform -->
+View coordinates:
+    General view coordinates, where other things in the scene may be added.
+    OpenGL MODEL_VIEW transform (different from the above transform) -->
+Eye coordinates:
+    OpenGL PROJECTION transform -->
+(Other viewport transformations, etc. that are set up by LWJGL)
 
 *** "Plate Motion" Tab-specific Information
 
