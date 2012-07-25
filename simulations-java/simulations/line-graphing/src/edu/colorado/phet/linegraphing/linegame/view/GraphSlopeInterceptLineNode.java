@@ -84,10 +84,10 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
             addChild( tryAgainButton );
             addChild( showAnswerButton );
             addChild( nextButton );
-            addChild( faceNode );
-            addChild( pointsNode );
             addChild( pointToolNode1 );
             addChild( pointToolNode2 );
+            addChild( faceNode );
+            addChild( pointsNode );
         }
 
         // layout
