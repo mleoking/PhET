@@ -61,6 +61,11 @@ public class HeaterCoolerWithLimitsNode extends PNode {
     // Valid range of heat values.
     private static DoubleRange heatRange = new DoubleRange( -1, 1 );
 
+    // Constants that control the appearance of the sliders.
+    private static final Font LABEL_FONT = new PhetFont( 20, true );
+    private static final double SLIDER_TRACK_LENGTH = 76;
+    private static final int TRACK_THICKNESS = 6;
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -122,6 +127,15 @@ public class HeaterCoolerWithLimitsNode extends PNode {
                                      maxHeight / getFullBoundsReference().height );
             setScale( scale );
         }};
+        CoolOnlySliderNode coolOnlySlider = new CoolOnlySliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, coolLabel ) {{
+            // Scale the slider to look reasonable on the body of the stove.  It
+            // may be scaled differently for different translations.
+            double maxWidth = WIDTH * 0.8;
+            double maxHeight = HEIGHT * 0.8;
+            double scale = Math.min( maxWidth / getFullBoundsReference().width,
+                                     maxHeight / getFullBoundsReference().height );
+            setScale( scale );
+        }};
 
         // Add the images for fire and ice that come out of the stove.
         fireImage = new PImage( PiccoloPhetResources.getImage( "flame.png" ) );
@@ -137,11 +151,14 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         addChild( iceImage );
         addChild( burner );
         addChild( stoveControlSlider );
+        addChild( coolOnlySlider );
 
         // Do the layout.
         burnerInterior.setOffset( 0, -burnerInterior.getFullBoundsReference().height / 2 ); // Note - Goes a little negative in Y direction.
         stoveControlSlider.setOffset( WIDTH / 2 - stoveControlSlider.getFullBoundsReference().width / 2,
                                       HEIGHT / 2 - stoveControlSlider.getFullBoundsReference().height / 2 + burnerInterior.getFullBoundsReference().height / 2 );
+        coolOnlySlider.setOffset( WIDTH / 2 - coolOnlySlider.getFullBoundsReference().width / 2,
+                                  HEIGHT / 2 - coolOnlySlider.getFullBoundsReference().height / 2 + burnerInterior.getFullBoundsReference().height / 2 );
 
         // Add a handler that updates the appearance when the heat-cool amount
         // changes.
@@ -213,14 +230,12 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         private static final Color TOP_SIDE_TRACK_COLOR = new Color( 255, 69, 0 );    // Meant to look warm.
         private static final Color BOTTOM_SIDE_TRACK_COLOR = new Color( 0, 0, 240 );  // Meant to look cold.
 
-        private static final Font LABEL_FONT = new PhetFont( 20, true );
-
         public HeaterCoolerSliderNode( final SettableProperty<Double> value, String heatLabel, String coolLabel ) {
-            super( UserComponents.heaterCoolerSlider, -1, 1, 6, 75, value, new BooleanProperty( true ) );
+            super( UserComponents.heaterCoolerSlider, -1, 1, TRACK_THICKNESS, SLIDER_TRACK_LENGTH, value, new BooleanProperty( true ) );
 
             // Show labels for add, zero, and remove.
             addLabel( +1, new PhetPText( heatLabel, LABEL_FONT ) );
-            addLabel( 0.0, new TickMark() );
+            addLabel( 0.0, new SliderTickMark() );
             addLabel( -1, new PhetPText( coolLabel, LABEL_FONT ) );
 
             // Return to 0 when the user releases the slider.
@@ -230,27 +245,54 @@ public class HeaterCoolerWithLimitsNode extends PNode {
                 }
             } );
 
-
             // Show a gradient in the track that goes from orange to light blue to
             // indicate the heat/coolness setting.
             setTrackFillPaint( new GradientPaint( 0, 0, TOP_SIDE_TRACK_COLOR, 0, (float) trackLength, BOTTOM_SIDE_TRACK_COLOR, false ) );
         }
 
-        // Convenience class for creating a tick mark that works for this slider.
-        private static class TickMark extends PNode {
-            private static final double INDENT = 4;
-            private static final double LENGTH = 10;
-            private static final float STROKE_WIDTH = 2;
-            private static final Stroke STROKE = new BasicStroke( STROKE_WIDTH );
+    }
 
-            private TickMark() {
-                DoubleGeneralPath path = new DoubleGeneralPath( INDENT, STROKE_WIDTH / 2 ) {{
-                    lineTo( INDENT + LENGTH, STROKE_WIDTH / 2 );
-                }};
-                addChild( new PhetPPath( path.getGeneralPath(), STROKE, Color.BLACK ) );
-            }
+    /*
+     * Slider that controls level of heating/cooling.
+     */
+    private static class CoolOnlySliderNode extends VSliderNode {
+
+        private static final Color TOP_SIDE_TRACK_COLOR = Color.BLACK;    // Meant to look warm.
+        private static final Color BOTTOM_SIDE_TRACK_COLOR = new Color( 0, 0, 240 );  // Meant to look cold.
+
+        public CoolOnlySliderNode( final SettableProperty<Double> value, String coolLabel ) {
+            super( UserComponents.heaterCoolerSlider, -1, 0, TRACK_THICKNESS, SLIDER_TRACK_LENGTH / 2, value, new BooleanProperty( true ) );
+
+            // Show labels for add, zero, and remove.
+            addLabel( -1, new PhetPText( coolLabel, LABEL_FONT ) );
+
+            // Return to 0 when the user releases the slider.
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mouseReleased( PInputEvent event ) {
+                    value.set( 0.0 );
+                }
+            } );
+
+            // Show a gradient in the track.
+            setTrackFillPaint( new GradientPaint( 0, 0, TOP_SIDE_TRACK_COLOR, 0, (float) trackLength, BOTTOM_SIDE_TRACK_COLOR, false ) );
         }
     }
+
+    // Convenience class for creating tick marks that work well on the sliders.
+    private static class SliderTickMark extends PNode {
+        private static final double INDENT = 4;
+        private static final double LENGTH = 10;
+        private static final float STROKE_WIDTH = 2;
+        private static final Stroke STROKE = new BasicStroke( STROKE_WIDTH );
+
+        private SliderTickMark() {
+            DoubleGeneralPath path = new DoubleGeneralPath( INDENT, STROKE_WIDTH / 2 ) {{
+                lineTo( INDENT + LENGTH, STROKE_WIDTH / 2 );
+            }};
+            addChild( new PhetPPath( path.getGeneralPath(), STROKE, Color.BLACK ) );
+        }
+    }
+
 
     // Test harness.
     public static void main( String[] args ) {
