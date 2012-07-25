@@ -10,7 +10,7 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.JPopupMenu;
+import javax.swing.*;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.GL11;
@@ -58,7 +58,7 @@ public class StartupUtils {
             }
             pb.destroy();
         }
-        catch ( LWJGLException e ) {
+        catch( LWJGLException e ) {
             //e.printStackTrace();
         }
         return result;
@@ -202,7 +202,7 @@ public class StartupUtils {
         if ( in == null ) {
             if ( !warning ) {
                 logger.log( Level.WARNING, "Cannot locate native library: {0}/{1}",
-                            new String[] { sysName, fullname } );
+                            new String[]{sysName, fullname} );
             }
             return;
         }
@@ -216,7 +216,7 @@ public class StartupUtils {
             in.close();
             out.close();
         }
-        catch ( FileNotFoundException ex ) {
+        catch( FileNotFoundException ex ) {
             if ( ex.getMessage().contains( "used by another process" ) ) {
                 return;
             }
@@ -228,7 +228,7 @@ public class StartupUtils {
                 System.load( targetFile.getAbsolutePath() );
             }
         }
-        logger.log( Level.FINE, "Copied {0} to {1}", new Object[] { fullname, targetFile } );
+        logger.log( Level.FINE, "Copied {0} to {1}", new Object[]{fullname, targetFile} );
     }
 
     public static void extractNativeLibs( File extractionDir, Platform platform, boolean loadSoundSupport, boolean loadJoystickSupport ) throws IOException {

@@ -11,15 +11,23 @@ import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.lwjglphet.math.Ray3F;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 
 /**
  * Base class for plate tectonics models. All units in SI unless otherwise noted
+ * <p/>
+ * Each model is generally composed of the basic building blocks:
+ * |    Terrain instances, which model a patch of the surface of the earth
+ * |    CrossSectionStrip instances, which model a (generally) horizontal strip of the earth cross-section
+ * |    Region instances which are composed of CrossSectionStrips stacked vertically, each separated by boundaries
+ * |    Plate instances, which have references to their relevant terrain and crust / lithosphere regions
+ * <p/>
+ * Each model also allows querying the temperature / density at arbitrary points (for user-controlled sensors, etc.)
  */
-public abstract class PlateModel {
+public abstract class PlateTectonicsModel {
     // event notification
     public final VoidNotifier modelChanged = new VoidNotifier();
     public final Notifier<CrossSectionStrip> crossSectionStripAdded = new Notifier<CrossSectionStrip>();
@@ -57,7 +65,7 @@ public abstract class PlateModel {
 
     public final Notifier<Vector3F> debugPing = new Notifier<Vector3F>();
 
-    protected PlateModel( final Bounds3D bounds, TextureStrategy textureStrategy ) {
+    protected PlateTectonicsModel( final Bounds3D bounds, TextureStrategy textureStrategy ) {
         this.bounds = bounds;
         this.textureStrategy = textureStrategy;
     }
@@ -72,11 +80,11 @@ public abstract class PlateModel {
         for ( Terrain terrain : terrains ) {
             Option<Vector3F> hitOption = terrain.intersectWithRay( ray, modelViewTransform );
             if ( hitOption.isSome() ) {
-                Vector3F modelPosition = PlateModel.convertToPlanar( modelViewTransform.inversePosition( hitOption.get() ) );
+                Vector3F modelPosition = PlateTectonicsModel.convertToPlanar( modelViewTransform.inversePosition( hitOption.get() ) );
                 if ( modelPosition.y < 0 ) {
                     if ( useWaterDensity ) {
                         // underwater, return water density at the surface
-                        return PlateModel.getWaterDensity( 0 );
+                        return PlateTectonicsModel.getWaterDensity( 0 );
                     }
                     else {
                         // otherwise, return average surface-crust density
@@ -255,7 +263,7 @@ public abstract class PlateModel {
     *----------------------------------------------------------------------------*/
 
     public static final float EARTH_RADIUS = 6371000;
-    public static final float CENTER_OF_EARTH_Y = -PlateModel.EARTH_RADIUS;
+    public static final float CENTER_OF_EARTH_Y = -PlateTectonicsModel.EARTH_RADIUS;
     public static final float MAX_FLAT_X = (float) ( Math.abs( CENTER_OF_EARTH_Y ) * Math.PI );
     public static final Vector3F EARTH_CENTER = new Vector3F( 0, -EARTH_RADIUS, 0 );
     public static final Vector3F RADIAL_Z_0 = new Vector3F( 1, 1, 0 );

@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.color4f;
@@ -42,7 +42,7 @@ public class BoxHighlightNode extends GLNode {
     }
 
     private Vector3F transformPoint( Vector3F planarPoint ) {
-        return modelViewTransform.transformPosition( PlateModel.convertToRadial( planarPoint ) );
+        return modelViewTransform.transformPosition( PlateTectonicsModel.convertToRadial( planarPoint ) );
     }
 
     private Vector3F[] transformedLine( Vector3F start, Vector3F end, int samples ) {

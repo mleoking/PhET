@@ -4,7 +4,7 @@ package edu.colorado.phet.lwjglphet.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
@@ -22,59 +22,59 @@ public class GLSwingForwardingClock implements IClock {
         this.clock = clock;
     }
 
-    @Override public void start() {
+    public void start() {
         clock.start();
     }
 
-    @Override public void pause() {
+    public void pause() {
         clock.pause();
     }
 
-    @Override public boolean isPaused() {
+    public boolean isPaused() {
         return clock.isPaused();
     }
 
-    @Override public boolean isRunning() {
+    public boolean isRunning() {
         return clock.isRunning();
     }
 
-    @Override public void addClockListener( final ClockListener clockListener ) {
+    public void addClockListener( final ClockListener clockListener ) {
         ClockListener swingListener = new ClockListener() {
-            @Override public void clockTicked( final ClockEvent clockEvent ) {
+            public void clockTicked( final ClockEvent clockEvent ) {
                 SwingUtilities.invokeLater( new Runnable() {
-                    @Override public void run() {
+                    public void run() {
                         clockListener.clockTicked( clockEvent );
                     }
                 } );
             }
 
-            @Override public void clockStarted( final ClockEvent clockEvent ) {
+            public void clockStarted( final ClockEvent clockEvent ) {
                 SwingUtilities.invokeLater( new Runnable() {
-                    @Override public void run() {
+                    public void run() {
                         clockListener.clockStarted( clockEvent );
                     }
                 } );
             }
 
-            @Override public void clockPaused( final ClockEvent clockEvent ) {
+            public void clockPaused( final ClockEvent clockEvent ) {
                 SwingUtilities.invokeLater( new Runnable() {
-                    @Override public void run() {
+                    public void run() {
                         clockListener.clockPaused( clockEvent );
                     }
                 } );
             }
 
-            @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
+            public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 SwingUtilities.invokeLater( new Runnable() {
-                    @Override public void run() {
+                    public void run() {
                         clockListener.simulationTimeChanged( clockEvent );
                     }
                 } );
             }
 
-            @Override public void simulationTimeReset( final ClockEvent clockEvent ) {
+            public void simulationTimeReset( final ClockEvent clockEvent ) {
                 SwingUtilities.invokeLater( new Runnable() {
-                    @Override public void run() {
+                    public void run() {
                         clockListener.simulationTimeReset( clockEvent );
                     }
                 } );
@@ -84,43 +84,43 @@ public class GLSwingForwardingClock implements IClock {
         clock.addClockListener( swingListener );
     }
 
-    @Override public void removeClockListener( ClockListener clockListener ) {
+    public void removeClockListener( ClockListener clockListener ) {
         clock.removeClockListener( swingToGLListenerMap.get( clockListener ) );
     }
 
-    @Override public void resetSimulationTime() {
+    public void resetSimulationTime() {
         clock.resetSimulationTime();
     }
 
-    @Override public long getWallTime() {
+    public long getWallTime() {
         return clock.getWallTime();
     }
 
-    @Override public long getWallTimeChange() {
+    public long getWallTimeChange() {
         return clock.getWallTimeChange();
     }
 
-    @Override public double getSimulationTimeChange() {
+    public double getSimulationTimeChange() {
         return clock.getSimulationTimeChange();
     }
 
-    @Override public double getSimulationTime() {
+    public double getSimulationTime() {
         return clock.getSimulationTime();
     }
 
-    @Override public void setSimulationTime( double simulationTime ) {
+    public void setSimulationTime( double simulationTime ) {
         clock.setSimulationTime( simulationTime );
     }
 
-    @Override public void stepClockWhilePaused() {
+    public void stepClockWhilePaused() {
         clock.stepClockWhilePaused();
     }
 
-    @Override public void stepClockBackWhilePaused() {
+    public void stepClockBackWhilePaused() {
         clock.stepClockBackWhilePaused();
     }
 
-    @Override public boolean containsClockListener( ClockListener clockListener ) {
+    public boolean containsClockListener( ClockListener clockListener ) {
         return clock.containsClockListener( swingToGLListenerMap.get( clockListener ) );
     }
 }

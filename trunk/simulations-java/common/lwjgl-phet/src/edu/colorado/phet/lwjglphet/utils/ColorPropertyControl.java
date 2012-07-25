@@ -8,6 +8,9 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 
+/**
+ * Convenience control that handles a color property in the LWJGL thread.
+ */
 public class ColorPropertyControl extends ColorControl {
     public ColorPropertyControl( Frame parentFrame, String labelString, final Property<Color> color ) {
         super( parentFrame, labelString, color.get() );

@@ -12,10 +12,10 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
 
 import static org.lwjgl.opengl.GL11.GL_BLEND;
@@ -31,10 +31,10 @@ import static org.lwjgl.opengl.GL11.glVertexPointer;
  */
 public class WaterStripNode extends GLNode {
     private final Terrain terrain;
-    private final PlateModel model;
+    private final PlateTectonicsModel model;
     private final PlateTectonicsTab module;
 
-    public WaterStripNode( final Terrain terrain, PlateModel model, final PlateTectonicsTab module ) {
+    public WaterStripNode( final Terrain terrain, PlateTectonicsModel model, final PlateTectonicsTab module ) {
         this.terrain = terrain;
         this.model = model;
         this.module = module;
@@ -154,8 +154,8 @@ public class WaterStripNode extends GLNode {
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
                                 Vector3F position = module.getModelViewTransform().transformPosition( z == 0
-                                                                                                      ? PlateModel.convertToRadial( xIntercept, 0 )
-                                                                                                      : PlateModel.convertToRadial( new Vector3F( xIntercept, 0, z ) ) );
+                                                                                                      ? PlateTectonicsModel.convertToRadial( xIntercept, 0 )
+                                                                                                      : PlateTectonicsModel.convertToRadial( new Vector3F( xIntercept, 0, z ) ) );
                                 positionBuffer.put( new float[]{
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z} );
@@ -175,8 +175,8 @@ public class WaterStripNode extends GLNode {
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
                                 Vector3F position = module.getModelViewTransform().transformPosition( z == 0
-                                                                                                      ? PlateModel.convertToRadial( xIntercept, 0 )
-                                                                                                      : PlateModel.convertToRadial( new Vector3F( xIntercept, 0, z ) ) );
+                                                                                                      ? PlateTectonicsModel.convertToRadial( xIntercept, 0 )
+                                                                                                      : PlateTectonicsModel.convertToRadial( new Vector3F( xIntercept, 0, z ) ) );
                                 positionBuffer.put( new float[]{
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z} );
@@ -185,11 +185,11 @@ public class WaterStripNode extends GLNode {
                             }
 
                             Vector3F topPosition = module.getModelViewTransform().transformPosition( z == 0
-                                                                                                     ? PlateModel.convertToRadial( x, 0 )
-                                                                                                     : PlateModel.convertToRadial( new Vector3F( x, 0, z ) ) );
+                                                                                                     ? PlateTectonicsModel.convertToRadial( x, 0 )
+                                                                                                     : PlateTectonicsModel.convertToRadial( new Vector3F( x, 0, z ) ) );
                             Vector3F bottomPosition = module.getModelViewTransform().transformPosition( z == 0
-                                                                                                        ? PlateModel.convertToRadial( x, y )
-                                                                                                        : PlateModel.convertToRadial( new Vector3F( x, y, z ) ) );
+                                                                                                        ? PlateTectonicsModel.convertToRadial( x, y )
+                                                                                                        : PlateTectonicsModel.convertToRadial( new Vector3F( x, y, z ) ) );
                             positionBuffer.put( new float[]{
                                     topPosition.x, topPosition.y, topPosition.z,
                                     bottomPosition.x, bottomPosition.y, bottomPosition.z

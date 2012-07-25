@@ -1,6 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet;
 
+/**
+ * Encapsulates a rendering state that is passed along the GLNode hierarchy as it is rendering. Any time a node wants to make a change for its
+ * children, it should call getCopy() and modify the copy before passing it.
+ */
 public class GLOptions implements Cloneable {
     /*
      * IMPORTANT NOTE: this class is cloneable and so shallow copies of all fields
@@ -33,7 +37,7 @@ public class GLOptions implements Cloneable {
         try {
             return (GLOptions) clone();
         }
-        catch ( CloneNotSupportedException e ) {
+        catch( CloneNotSupportedException e ) {
             throw new RuntimeException( e );
         }
     }

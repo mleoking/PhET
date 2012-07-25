@@ -1,0 +1,56 @@
+Implementation Notes for Plate Tectonics
+
+It is first of all highly recommended that you should read lwjgl-implementation-notes.txt (at lwjgl-phet) and this document before digging into much
+of the code.
+
+
+*** High Level Overview
+
+Since we can have only one LWJGL display canvas at one time, this simulation technically has only one module (a TabbedModule), which has multiple tabs
+(LWJGLTab instances). lwjgl-phet handles the boilerplate that lets us use the same canvas by multiple tabs, and handles event and state conversions
+when tabs are switched. End result: we have CrustTab and PlateMotionTab instead of modules (PlateTectonicsTab contains shared tab code).
+
+Each tab has a single model instance (CrustModel and PlateMotionModel, PlateTectonicsModel contains shared behavior).
+
+Each model is generally composed of the basic building blocks:
+    * Terrain instances, which model a patch of the surface of the earth
+    * CrossSectionStrip instances, which model a (generally) horizontal strip of the earth cross-section
+    * Region instances which are composed of CrossSectionStrips stacked vertically, each separated by boundaries
+    * Plate instances, which have references to their relevant terrain and crust / lithosphere regions
+Each model also allows querying the temperature / density at arbitrary points (for user-controlled sensors, etc.)
+
+Regions are generally a conceptual unit of cross-section (the crust of a plate), and are effectively specified by a grid of Sample instances which
+specify locations along with temperature and density at that point. The model isn't just a list of plates because we can have regions that don't
+belong to plates (like a combined mantle or earth core, or magma chambers), etc.
+
+Each tab creates a PlateTectonicsView that is responsible for displaying the Earth view (water / terrain / cross-section / etc.) of the relevant
+mode. Each tab is then responsible itself for creating the overlays and controls necessary.
+
+
+*** "Plate Motion" Tab-specific Information
+
+Since we are not directly controlling the frame-rate (only limiting it so we don't use up all computational power), code written for this tab
+is given the simulation time passed in a frame (usually in millions of years). We use a custom TectonicsClock that is pushed forward by a variable
+amount each frame. The clock's "speed" is changed by how fast the simulation should run (controlled either by handles in manual mode or an explicit
+speed slider in automatic mode), and allows for time-limits for each situation.
+
+The state of the model (and how it needs to react to the user) is very helpful to understand. Here's a simplified (linear) state machine view of
+the model (note that the user can switch between automatic and manual mode at any time):
+
+A) No crusts dropped (i.e. like the start of the simulation)
+    * user drops two crusts into place (plate.droppedCrust() is called for each) -->
+B) Crusts initialized, but no motion type or behaviors set or chosen. model.hasBothPlates flag is true
+    * user can change model.motionTypeIfStarted in automatic mode with the motion type radio buttons (with green / red / blue icons),
+      but it isn't set in stone
+    * user either drags the handles in a specific direction (manual mode) or presses play for 1st time (automatic mode) -->
+C) Motion type fixed (won't change), plate-specific behaviors are created depending on crust types. model.animationStarted flag is true
+        (model.initializeBehaviors() is called after model.motionType is set)
+    * user can animate as they want (automatic or manual mode)
+    * user presses "Rewind" --> rewinds animation, goes to (C) with same motion type / behaviors
+    * user presses "Reset" --> goes to (A)
+
+PlateMotionModel also includes label models (the positioning is much easier to deal with in the model), and it uses PlateMotionPlate subclass
+instances for the plates with added behavior.
+
+The behaviors mentioned earlier are instances of PlateBehavior, and they are assigned to each plate. Each behavior is solely responsible for plate
+changes each timestep (for instance, causing a plate to subduct).

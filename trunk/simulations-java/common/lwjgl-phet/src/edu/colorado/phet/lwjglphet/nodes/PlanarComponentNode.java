@@ -1,27 +1,30 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet.nodes;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.math.PlaneF;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.lwjglphet.ComponentImage;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
-import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.lwjglphet.math.PlaneF;
-import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Renders an arbitrary Swing component into a quad
+ */
 public class PlanarComponentNode extends GLNode {
     public final ValueNotifier<PlanarComponentNode> onResize = new ValueNotifier<PlanarComponentNode>( this );
 
@@ -84,10 +87,10 @@ public class PlanarComponentNode extends GLNode {
 
     public <T> void updateOnEvent( Notifier<T> notifier ) {
         notifier.addUpdateListener( new UpdateListener() {
-                                        public void update() {
-                                            PlanarComponentNode.this.update();
-                                        }
-                                    }, false );
+            public void update() {
+                PlanarComponentNode.this.update();
+            }
+        }, false );
     }
 
     public boolean doesLocalRayHit( Ray3F ray ) {

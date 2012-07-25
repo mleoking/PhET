@@ -13,8 +13,8 @@ import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
-import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
+import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
 import edu.umd.cs.piccolo.PNode;
 
 /**

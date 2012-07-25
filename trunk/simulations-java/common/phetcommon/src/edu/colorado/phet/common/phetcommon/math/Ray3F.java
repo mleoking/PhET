@@ -1,11 +1,14 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lwjglphet.math;
+package edu.colorado.phet.common.phetcommon.math;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 
+/**
+ * A three-dimensional ray (position and direction), with floats
+ */
 public class Ray3F {
     // the position where the ray is pointed from
     public final Vector3F pos;

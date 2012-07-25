@@ -9,7 +9,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.labels.TextLabel;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -61,7 +61,7 @@ public class TextLabelNode extends BaseLabelNode {
 
     @Override
     public void renderSelf( GLOptions options ) {
-        Vector3F labelLocation = modelViewTransform.transformPosition( PlateModel.convertToRadial( textLabel.centerPosition.get() ) );
+        Vector3F labelLocation = modelViewTransform.transformPosition( PlateTectonicsModel.convertToRadial( textLabel.centerPosition.get() ) );
         labelNode.transform.set( ImmutableMatrix4F.translation( labelLocation.x, labelLocation.y, labelLocation.z ) );
         labelNode.transform.append( ImmutableMatrix4F.scaling( LABEL_SCALE * scale.get() ) );
         labelNode.transform.append( ImmutableMatrix4F.translation( -labelNode.getComponentWidth() / 2,

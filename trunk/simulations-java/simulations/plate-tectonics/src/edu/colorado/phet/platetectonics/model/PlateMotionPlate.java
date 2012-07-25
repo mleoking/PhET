@@ -382,6 +382,7 @@ public class PlateMotionPlate extends Plate {
         return boundaryLabel;
     }
 
+    // add slight elevation variation into the terrain (it gets enhanced in continental collisions also)
     public void randomizeTerrain() {
         // always the same seed, allows us to have seamless random elevations across different plates
         Random rand = new Random( 0 );

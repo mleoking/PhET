@@ -1,21 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet;
 
-import java.awt.AWTEvent;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 
-import javax.swing.JComponent;
-import javax.swing.JRootPane;
-import javax.swing.JTabbedPane;
-import javax.swing.RepaintManager;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -23,7 +14,11 @@ import org.lwjgl.input.Mouse;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
-// TODO: event handling (listen to events). use similar to HUDNode model
+/**
+ * An image backed by a Swing component that can be rendered as a texture in OpenGL
+ * <p/>
+ * NOTE: Much of the ugly ugly code is copied and slightly tweaked with necessary licensing. Not my own.
+ */
 public class ComponentImage extends TextureImage {
     private final JComponent component;
 
@@ -133,7 +128,7 @@ public class ComponentImage extends TextureImage {
     }
 
     private static void layoutComponent( Component component ) {
-        synchronized ( component.getTreeLock() ) {
+        synchronized( component.getTreeLock() ) {
             component.doLayout();
 
             if ( component instanceof Container ) {
@@ -226,7 +221,7 @@ public class ComponentImage extends TextureImage {
             try {
                 return SwingUtilities.convertPoint( parent, x, y, comp );
             }
-            catch ( Throwable e ) {
+            catch( Throwable e ) {
                 useConvertPoint = false;
             }
         }
@@ -463,7 +458,7 @@ public class ComponentImage extends TextureImage {
             child = null;
         }
         else {
-            synchronized ( parent.getTreeLock() ) {
+            synchronized( parent.getTreeLock() ) {
                 if ( parent instanceof Container ) {
                     Container container = (Container) parent;
                     int ncomponents = container.getComponentCount();

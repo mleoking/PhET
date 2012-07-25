@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
@@ -112,7 +112,7 @@ public class CrossSectionStripNode extends GLNode {
         final Color color = colorMode.get().getMaterial().getColor( point.getDensity(), point.getTemperature(),
                                                                     new Vector2F( point.getPosition().x, point.getPosition().y ),
                                                                     strip.alpha.get() );
-        final Vector3F position = modelViewTransform.transformPosition( PlateModel.convertToRadial( point.getPosition() ) );
+        final Vector3F position = modelViewTransform.transformPosition( PlateTectonicsModel.convertToRadial( point.getPosition() ) );
 
         // fill the three necessary buffers
         colorBuffer.put( color.getComponents( new float[4] ) );

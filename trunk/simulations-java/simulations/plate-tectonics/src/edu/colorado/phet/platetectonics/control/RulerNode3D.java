@@ -20,8 +20,8 @@ import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
-import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
+import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;

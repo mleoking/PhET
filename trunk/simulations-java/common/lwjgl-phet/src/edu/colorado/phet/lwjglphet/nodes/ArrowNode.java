@@ -5,9 +5,14 @@ import edu.colorado.phet.lwjglphet.GLMaterial;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.Arrow2F;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_POLYGON_OFFSET_FILL;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glPolygonOffset;
 
-// TODO: extend into a general paint/fill container!!!!
+/**
+ * An arrow rendered in OpenGL
+ */
 public class ArrowNode extends GLNode {
     private final Arrow2F arrow;
     private ArrowBodyNode body;
@@ -18,7 +23,6 @@ public class ArrowNode extends GLNode {
 
         body = new ArrowBodyNode( arrow ) {
             @Override public void renderSelf( GLOptions options ) {
-                // TODO: extend into a general paint/fill container!!!!
                 glEnable( GL_POLYGON_OFFSET_FILL );
                 glPolygonOffset( 1, 1 );
                 super.renderSelf( options );

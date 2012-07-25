@@ -23,10 +23,10 @@ import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
-import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
+import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -52,13 +52,13 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
 
     private final LWJGLTransform modelViewTransform;
     private final PlateTectonicsTab tab;
-    private final PlateModel model;
+    private final PlateTectonicsModel model;
 
     private final float sensorVerticalOffset;
 
     public Vector2F draggedPosition = new Vector2F();
 
-    public ThermometerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
+    public ThermometerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateTectonicsModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
         super( new ThermometerNode2D( modelViewTransform.transformDeltaX( (float) 1000 ) ) {{
@@ -130,7 +130,7 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
     }
 
     public Vector3F getSensorModelPosition() {
-        return PlateModel.convertToPlanar(
+        return PlateTectonicsModel.convertToPlanar(
                 modelViewTransform.inversePosition(
                         getSensorViewPosition() ) );
     }
@@ -211,7 +211,7 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
         }
 
         public void setTemperature( double temperature ) {
-            final double relativeTemp = ( temperature - PlateModel.ZERO_CELSIUS ) / DEGREES_C_IN_THERMOMETER;
+            final double relativeTemp = ( temperature - PlateTectonicsModel.ZERO_CELSIUS ) / DEGREES_C_IN_THERMOMETER;
 
             int extraThermometerQuantity = (int) Math.floor( relativeTemp );
 

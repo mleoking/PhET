@@ -24,7 +24,7 @@ import static edu.colorado.phet.platetectonics.util.Side.RIGHT;
  * Displays a simplified block model of crusts resting on the mantle. Their elevation is dependent on
  * their density (temperature and composition), and the center crust is user controlled.
  */
-public class CrustModel extends PlateModel {
+public class CrustModel extends PlateTectonicsModel {
 
     public static final float INNER_OUTER_CORE_BOUNDARY_Y = -5180000;
     public static final float MANTLE_CORE_BOUNDARY_Y = -2921000;
@@ -127,7 +127,7 @@ public class CrustModel extends PlateModel {
             for ( int col = SIDE_X_SAMPLES - 1; col >= 0; col-- ) {
                 float ratio = ( (float) col ) / ( (float) ( SIDE_X_SAMPLES - 1 ) );
                 ratio = (float) Math.pow( ratio, 0.3 );
-                final float x = -PlateModel.MAX_FLAT_X + ratio * ( (float) LEFT_BOUNDARY - -PlateModel.MAX_FLAT_X );
+                final float x = -PlateTectonicsModel.MAX_FLAT_X + ratio * ( (float) LEFT_BOUNDARY - -PlateTectonicsModel.MAX_FLAT_X );
                 addColumn( LEFT, x, new ArrayList<TerrainSample>() {{
                     for ( int row = 0; row < TERRAIN_Z_SAMPLES; row++ ) {
                         final float rowRatio = ( (float) row ) / ( (float) ( TERRAIN_Z_SAMPLES - 1 ) );
@@ -154,7 +154,7 @@ public class CrustModel extends PlateModel {
             for ( int col = 0; col < SIDE_X_SAMPLES; col++ ) {
                 float ratio = ( (float) col ) / ( (float) ( SIDE_X_SAMPLES - 1 ) );
                 ratio = (float) ( 1 - Math.pow( 1 - ratio, 0.3 ) );
-                final float x = (float) RIGHT_BOUNDARY + ratio * ( PlateModel.MAX_FLAT_X - (float) RIGHT_BOUNDARY );
+                final float x = (float) RIGHT_BOUNDARY + ratio * ( PlateTectonicsModel.MAX_FLAT_X - (float) RIGHT_BOUNDARY );
                 addColumn( RIGHT, x, new ArrayList<TerrainSample>() {{
                     for ( int row = 0; row < TERRAIN_Z_SAMPLES; row++ ) {
                         final float rowRatio = ( (float) row ) / ( (float) ( TERRAIN_Z_SAMPLES - 1 ) );
@@ -638,7 +638,7 @@ public class CrustModel extends PlateModel {
             new Vector2D( 250000, 2000 ),
             new Vector2D( 2700000, 3400 ),
             new Vector2D( 2890000, 4000 ),
-            new Vector2D( PlateModel.EARTH_RADIUS, 5778 )
+            new Vector2D( PlateTectonicsModel.EARTH_RADIUS, 5778 )
     );
 
     private static PiecewiseLinearFunction2D simplifiedOceanicDifference = new PiecewiseLinearFunction2D(
@@ -649,7 +649,7 @@ public class CrustModel extends PlateModel {
             new Vector2D( 250000, 2000 ),
             new Vector2D( 2700000, 3400 ),
             new Vector2D( 2890000, 4000 ),
-            new Vector2D( PlateModel.EARTH_RADIUS, 5778 )
+            new Vector2D( PlateTectonicsModel.EARTH_RADIUS, 5778 )
     );
 
     public static double getSimplifiedContinentalTemperature( double depth, double surfaceTemperature ) {
