@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.view {
-import edu.colorado.phet.normalmodes.model.Model1;
+import edu.colorado.phet.normalmodes.model.Model1D;
 import edu.colorado.phet.normalmodes.util.TwoHeadedArrow;
 
 import flash.display.Graphics;
@@ -15,20 +15,20 @@ import flash.events.MouseEvent;
 import flash.geom.Point;
 
 /*
-* MassView1 is the view for an individual mass in View1, which is view for Model1, a 1D array of coupled masses
+* MassView1 is the view for an individual mass in View1, which is view for Model1D, a 1D array of coupled masses
 * When mouse is inside border zone surrounding mass, vertical or horizontal arrows appear,
 * cuing user that mass is grabbable.  All arrows disappear after user grabs any mass.
 * */
-public class MassView1 extends Sprite{
-    private var _index:int;           //integer labeling the mass
-    private var myModel1:Model1;
-    private var container:View1;
-    private var mass:Sprite;          //graphic for the mass
-    private var borderZone:Sprite;    //when user mouses over borderZone, arrows appear around mass
-    private var arrowH:Sprite;        //horizontal arrow, cues user that mass is movable
-    private var arrowV:Sprite;        //vertical arrow
+public class MassView1 extends Sprite {
+    private var _index: int;           //integer labeling the mass
+    private var myModel1: Model1D;
+    private var container: View1;
+    private var mass: Sprite;          //graphic for the mass
+    private var borderZone: Sprite;    //when user mouses over borderZone, arrows appear around mass
+    private var arrowH: Sprite;        //horizontal arrow, cues user that mass is movable
+    private var arrowV: Sprite;        //vertical arrow
 
-    public function MassView1( index:int, myModel1:Model1, container:View1 ) {
+    public function MassView1( index: int, myModel1: Model1D, container: View1 ) {
         this._index = index;
         this.myModel1 = myModel1;
         this.container = container;
@@ -47,20 +47,20 @@ public class MassView1 extends Sprite{
         this.makeMassGrabbable();
     } //end constructor
 
-    
-    public function drawBorderZone( width:Number,  height:Number ):void{
-        var w:Number = width;
-        var h:Number = height;
-        var g:Graphics = this.borderZone.graphics;
+
+    public function drawBorderZone( width: Number, height: Number ): void {
+        var w: Number = width;
+        var h: Number = height;
+        var g: Graphics = this.borderZone.graphics;
         g.clear();
-        g.lineStyle(3, 0xffffff, 0);
-        g.beginFill(0xffffff, 0);
-        g.drawRoundRect(-w/2, -h/2, w,  h,  w/4 );
+        g.lineStyle( 3, 0xffffff, 0 );
+        g.beginFill( 0xffffff, 0 );
+        g.drawRoundRect( -w / 2, -h / 2, w, h, w / 4 );
         g.endFill();
     }
 
-    public function drawVerticalArrow():void{
-        var arrow2HV:TwoHeadedArrow = new TwoHeadedArrow();
+    public function drawVerticalArrow(): void {
+        var arrow2HV: TwoHeadedArrow = new TwoHeadedArrow();
         arrow2HV.setArrowDimensions( 10, 20, 4, 50 );  //headRadius, headWidth, shaftRadius,  shaftLength
         arrow2HV.setRegistrationPointAtCenter( true );
         arrow2HV.rotation = 90;
@@ -68,36 +68,36 @@ public class MassView1 extends Sprite{
         this.arrowV.visible = false;
     }
 
-    public function drawHorizontalArrow():void{
-        var arrow2HH:TwoHeadedArrow = new TwoHeadedArrow();
+    public function drawHorizontalArrow(): void {
+        var arrow2HH: TwoHeadedArrow = new TwoHeadedArrow();
         arrow2HH.setArrowDimensions( 10, 20, 4, 50 );  //headRadius, headWidth, shaftRadius,  shaftLength
         arrow2HH.setRegistrationPointAtCenter( true );
         this.arrowH.addChild( arrow2HH );
         this.arrowH.visible = false;
     }
 
-    private function drawMass():void{
-        var g:Graphics = this.mass.graphics;
+    private function drawMass(): void {
+        var g: Graphics = this.mass.graphics;
         g.clear();
-        var d:Number = 20;   //edge length of square mass in pixels
-        g.lineStyle(3, 0x0000ff, 1);
-        g.beginFill(0x6666ff, 1);
-        g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
+        var d: Number = 20;   //edge length of square mass in pixels
+        g.lineStyle( 3, 0x0000ff, 1 );
+        g.beginFill( 0x6666ff, 1 );
+        g.drawRoundRect( -d / 2, -d / 2, d, d, d / 4 );
         g.endFill();
         this.mass.visible = true;      //mass always visible
     }//end drawMass()
 
-    public function get index():int{
+    public function get index(): int {
         return this._index;
     }
 
     private function makeMassGrabbable(): void {
         //var target = mySprite;
         //var wasRunning: Boolean;
-        var leftEdgeX:Number = this.container.leftEdgeX;
-        var leftEdgeY:Number = this.container.leftEdgeY;
-        var pixPerMeter:Number = this.container.pixPerMeter;
-        var thisObject:Object = this;
+        var leftEdgeX: Number = this.container.leftEdgeX;
+        var leftEdgeY: Number = this.container.leftEdgeY;
+        var pixPerMeter: Number = this.container.pixPerMeter;
+        var thisObject: Object = this;
         this.mass.buttonMode = true;
         this.mass.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
         this.addEventListener( MouseEvent.ROLL_OVER, thisObject.showArrows );
@@ -123,36 +123,38 @@ public class MassView1 extends Sprite{
         }
 
         function dragTarget( evt: MouseEvent ): void {
-            var xInPix:Number = thisObject.container.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
-            var yInPix:Number = thisObject.container.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
-            if(thisObject.myModel1.xModes){
-                var xInMeters:Number = (xInPix - leftEdgeX) / pixPerMeter;
-                thisObject.myModel1.setX( thisObject.index,  xInMeters );
-            }else{
-                var yInMeters:Number = -(yInPix - leftEdgeY) / pixPerMeter;    //screen coords vs. cartesian coordinates, hence the minus sign
-                thisObject.myModel1.setY( thisObject.index,  yInMeters );
+            var xInPix: Number = thisObject.container.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
+            var yInPix: Number = thisObject.container.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
+            if ( thisObject.myModel1.xModes ) {
+                var xInMeters: Number = (xInPix - leftEdgeX) / pixPerMeter;
+                thisObject.myModel1.setX( thisObject.index, xInMeters );
+            }
+            else {
+                var yInMeters: Number = -(yInPix - leftEdgeY) / pixPerMeter;    //screen coords vs. cartesian coordinates, hence the minus sign
+                thisObject.myModel1.setY( thisObject.index, yInMeters );
             }
             evt.updateAfterEvent();
         }//end of dragTarget()
     } //end makeMassGrabble
 
-    private function showArrows( evt: MouseEvent ):void {
-        if( this.myModel1.xModes ){
+    private function showArrows( evt: MouseEvent ): void {
+        if ( this.myModel1.xModes ) {
             this.arrowH.visible = true;
             this.arrowV.visible = false;
-        } else {
+        }
+        else {
             this.arrowV.visible = true;
             this.arrowH.visible = false;
         }
     }
 
-    private function hideArrows( evt: MouseEvent ):void{
+    private function hideArrows( evt: MouseEvent ): void {
         this.arrowH.visible = false;
         this.arrowV.visible = false;
     }
 
     //Called by View1 when any mass is moved.
-    public function killArrowListeners():void{
+    public function killArrowListeners(): void {
         this.removeEventListener( MouseEvent.ROLL_OVER, this.showArrows );
         this.removeEventListener( MouseEvent.ROLL_OUT, this.hideArrows );
         this.drawBorderZone( 0, 0 );

@@ -19,12 +19,12 @@ import mx.controls.CheckBox;
 /**
  * Control panel view for both 1D and 2D tabs.
  * The two control panels for the two tabs differ only in that the 1D Control Panel has a "Show phases" checkbox.
- * Depending on the tab (1D or 2D), the control panel interacts with either Model1 or Model2
+ * Depending on the tab (1D or 2D), the control panel interacts with either Model1D or Model2
  */
 public class ControlPanel extends Canvas {
 
     private var myMainView: MainView;
-    private var myModel: Object;                     //Model1 (1D) or Model2 (2D), can change with setModel();
+    private var myModel: Object;                     //Model1D (1D) or Model2 (2D), can change with setModel();
     private var background: VBox;
     private var nbrMassesSlider: HorizontalSlider;   //slider to set number of masses
     private var startStopButton: NiceButton2;

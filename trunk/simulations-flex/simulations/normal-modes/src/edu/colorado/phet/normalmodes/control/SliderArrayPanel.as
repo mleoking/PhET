@@ -10,7 +10,7 @@ package edu.colorado.phet.normalmodes.control {
 import edu.colorado.phet.flashcommon.controls.VerticalSlider;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
-import edu.colorado.phet.normalmodes.model.Model1;
+import edu.colorado.phet.normalmodes.model.Model1D;
 import edu.colorado.phet.normalmodes.view.MainView;
 
 import flash.display.Graphics;
@@ -26,7 +26,7 @@ import mx.containers.Canvas;
 public class SliderArrayPanel extends Canvas {
 
     private var myMainView: MainView;
-    private var myModel1: Model1;
+    private var myModel1: Model1D;
     private var showHideButton: ShowHideButton;
     private var container: Sprite;
     private var boundingBox: Sprite;
@@ -55,7 +55,7 @@ public class SliderArrayPanel extends Canvas {
     private var plusPi_str: String;
     private var minusPi_str: String;
 
-    public function SliderArrayPanel( myMainView: MainView, myModel1: Model1 ) {
+    public function SliderArrayPanel( myMainView: MainView, myModel1: Model1D ) {
         //percentWidth = 100;
         //percentHeight = 100;
         this.myMainView = myMainView;

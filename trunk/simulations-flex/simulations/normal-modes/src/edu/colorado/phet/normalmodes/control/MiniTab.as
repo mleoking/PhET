@@ -115,6 +115,7 @@ public class MiniTab extends Sprite {
         this.addEventListener( MouseEvent.MOUSE_OUT, tabBehave );
         this.addEventListener( MouseEvent.MOUSE_UP, tabBehave );
         var localRef: Object = this;
+
         function tabBehave( evt: MouseEvent ): void {
             if ( evt.type == "mouseDown" ) {
                 if ( localRef.polarizationType == "V" ) {

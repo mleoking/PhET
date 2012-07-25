@@ -1,7 +1,4 @@
-﻿
-package edu.colorado.phet.normalmodes.util {
-import edu.colorado.phet.normalmodes.*;
-
+﻿package edu.colorado.phet.normalmodes.util {
 import flash.display.Sprite;
 import flash.events.*;
 import flash.geom.*;

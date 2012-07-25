@@ -19,8 +19,8 @@ import flash.text.TextFormatAlign;
 import mx.containers.Canvas;
 
 /**
- *View of a square array of buttons which control and display the spectrum of normal modes in 2D
- *There are two modes: vertical and horizontal, selectable with miniTabs.
+ *View of a square array of buttons which control and display the spectrum of normal modes in 2D.
+ *There are two tabs, for selecting between vertical and horizontal modes.
  */
 
 public class ButtonArrayPanel extends Canvas {
@@ -29,17 +29,15 @@ public class ButtonArrayPanel extends Canvas {
     private var myModel2: Model2;
     private var container: Sprite;          //sprite container for array of buttons
     private var miniTabBar: MiniTabBar;     //bar with two tabs at top of array of buttons, for selecting between vert and horiz polarization
-    private var maxContainerWidth: Number;   //max width of container in pixels
-    private var padding: Number;             //vert and horiz gap between buttons in pixels
-    //private var containerHeight:Number;     //height of array in pixels
-    private var topLabel_txt: NiceLabel;           //Mode Spectrum label, shown above array
-    private var bottomLabel_txt: NiceLabel;        //Mode Numbers label, shown below array
-    private var tFormat: TextFormat;         //format for labels
+    private var maxContainerWidth: Number;  //max width of container in pixels
+    private var buttonPadding: Number;      //vert and horiz gap between buttons in pixels
+    private var topLabel_txt: NiceLabel;    //Mode Spectrum label, shown above array
+    private var bottomLabel_txt: NiceLabel; //Mode Numbers label, shown below array
+    private var tFormat: TextFormat;        //format for labels
     private var modeSpectrumDisplay_str: String; //text of top label
     private var modesNxNy_str: String;      //text of bottom label
-    private var button_arr: Array;           //N x N array of push buttons, ModeButton objects
-    //private var topLeftX:Number;
-    //private var topLeftY:Number;
+    private var button_arr: Array;          //N x N array of push buttons, which are ModeButton objects
+
     private var nMax: int;                   //maximum number N in NxN array of buttons
 
     public function ButtonArrayPanel( myMainView: MainView, myModel2: Model2 ) {
@@ -50,7 +48,7 @@ public class ButtonArrayPanel extends Canvas {
         this.myModel2.registerView( this );
         this.nMax = this.myModel2.nMax;     //in 2D, the max number of mobile masses is nMax*nMax
         this.maxContainerWidth = 300;
-        this.padding = 4;
+        this.buttonPadding = 4;
         this.container = new Sprite();
         this.miniTabBar = new MiniTabBar( this.myModel2 );
         this.tFormat = new TextFormat();
@@ -59,18 +57,20 @@ public class ButtonArrayPanel extends Canvas {
         this.bottomLabel_txt = new NiceLabel( 15, this.modesNxNy_str );
         this.formatLabels();
         var nbrMasses: int = this.myModel2.N;
-        //Button_arr is nMax+1 X nMax+1,  i = 0 row and j = 0 column are dummies,
-        //so that button_arr[i][j] corresponds to mode i, j.  Lowest mode is 1,1. Highest mode is nMax,nMax
+        /**
+         * Button_arr is nMax+1 * nMax+1,  i = 0 row and j = 0 column are dummies,
+         * so that button_arr[i][j] corresponds to mode i, j.  Lowest mode is 1,1. Highest mode is nMax,nMax
+         */
         this.button_arr = new Array( nMax + 1 );
         for ( var i: int = 0 ; i < nMax + 1 ; i++ ) {
             this.button_arr[i] = new Array( nMax + 1 )
         }
-        //i, j order of addChild() important so that buttons look OK when pressed
-        var buttonWidth: Number = ((this.maxContainerWidth - this.padding) / nbrMasses) - this.padding;
+        //i, j order of addChild() important so that buttons look OK when pressed. Pressed button should always in front of others.
+        var buttonWidth: Number = ((this.maxContainerWidth - this.buttonPadding) / nbrMasses) - this.buttonPadding;
         for ( i = nMax ; i >= 1 ; i-- ) {
             for ( var j: int = nMax ; j >= 1 ; j-- ) {
-                //nbrButtonsInRow*(buttonWidth + padding) + padding = maxContainerWidth  (need one extra padding on end of row)
-                //buttonWidth = [(MaxContainerWidth - padding)/nbrButtonsInRow] - padding
+                //nbrButtonsInRow*(buttonWidth + buttonPadding) + buttonPadding = maxContainerWidth  (need one extra buttonPadding on end of row)
+                //buttonWidth = [(MaxContainerWidth - buttonPadding)/nbrButtonsInRow] - buttonPadding
                 this.button_arr[i][j] = new ModeButton( myModel2, i, j, buttonWidth );
                 this.container.addChild( this.button_arr[i][j] );    //don't add i = 0 or j = 0, since these are dummies
             }
@@ -114,7 +114,7 @@ public class ButtonArrayPanel extends Canvas {
             }
         }
         var N: int = this.myModel2.N;
-        var size: Number = (this.maxContainerWidth - this.padding) / N - this.padding;
+        var size: Number = (this.maxContainerWidth - this.buttonPadding) / N - this.buttonPadding;
         var xOffset: Number;
         var yOffset: Number;
 
@@ -123,29 +123,29 @@ public class ButtonArrayPanel extends Canvas {
                 //if..else to keep buttons and bottom label well-placed in folder regardless of number of buttons
                 if ( N == 1 || N == 2 ) {
                     size = this.maxContainerWidth / 4;
-                    yOffset = this.padding + 0.5 * this.maxContainerWidth / 2 - (1 * (size + this.padding) + this.padding) / 2;
+                    yOffset = this.buttonPadding + 0.5 * this.maxContainerWidth / 2 - (1 * (size + this.buttonPadding) + this.buttonPadding) / 2;
                 }
                 else if ( N == 3 ) {
                     size = this.maxContainerWidth / 5;
-                    yOffset = this.padding + 0.8 * this.maxContainerWidth / 2 - (N * (size + this.padding) + this.padding) / 2;
+                    yOffset = this.buttonPadding + 0.8 * this.maxContainerWidth / 2 - (N * (size + this.buttonPadding) + this.buttonPadding) / 2;
                 }
                 else if ( N == 4 ) {
                     size = this.maxContainerWidth / 5;
-                    yOffset = this.padding + this.maxContainerWidth / 2 - (N * (size + this.padding) + this.padding) / 2;
+                    yOffset = this.buttonPadding + this.maxContainerWidth / 2 - (N * (size + this.buttonPadding) + this.buttonPadding) / 2;
                 }
                 else if ( N >= 5 ) {
-                    yOffset = this.padding + this.maxContainerWidth / 2 - (N * (size + this.padding) + this.padding) / 2;
+                    yOffset = this.buttonPadding + this.maxContainerWidth / 2 - (N * (size + this.buttonPadding) + this.buttonPadding) / 2;
                     //do nothing; size =  (this.maxContainerWidth /N);
                 }
-                xOffset = this.padding + this.maxContainerWidth / 2 - (N * (size + this.padding) + this.padding) / 2;
+                xOffset = this.buttonPadding + this.maxContainerWidth / 2 - (N * (size + this.buttonPadding) + this.buttonPadding) / 2;
                 this.button_arr[i][j].setSize( size );
                 this.button_arr[i][j].visible = true;
                 this.button_arr[i][j].changeBackgroundHeight( 0 );
                 this.button_arr[i][j].pushedIn = false;
                 this.button_arr[i][j].activatedH = false;
                 this.button_arr[i][j].activatedV = false;
-                this.button_arr[i][j].x = xOffset + ( j - 1 ) * (size + this.padding);
-                this.button_arr[i][j].y = ySpacer + yOffset + ( i - 1 ) * (size + this.padding);   //
+                this.button_arr[i][j].x = xOffset + ( j - 1 ) * (size + this.buttonPadding);
+                this.button_arr[i][j].y = ySpacer + yOffset + ( i - 1 ) * (size + this.buttonPadding);   //
             }
         }
         //var borderWidth:Number = 5;
@@ -153,7 +153,7 @@ public class ButtonArrayPanel extends Canvas {
         if ( N == 4 ) {
             yOffset -= 10; //Kludge to prevent bottomLabel from colliding with bottom edge of folder
         }
-        this.bottomLabel_txt.y = ySpacer + yOffset + N * (size + this.padding) + this.padding;
+        this.bottomLabel_txt.y = ySpacer + yOffset + N * (size + this.buttonPadding) + this.buttonPadding;
     }//end setNbrButtons()
 
     /*Set color of buttons and background to indicate vert or horiz mode and set extent of colored region on button to indicate amplitude*/
