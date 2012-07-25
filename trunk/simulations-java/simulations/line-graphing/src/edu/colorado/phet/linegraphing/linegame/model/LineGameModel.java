@@ -169,7 +169,7 @@ public class LineGameModel {
         allLines.add( challenge.get().guess.get() );
         if ( state.get() == PlayState.NEXT && !challenge.get().isCorrect() ) {
             // user got it wrong and we're showing the correct answer
-            allLines.add( challenge.get().answer );
+            allLines.add( challenge.get().answer.withColor( GameConstants.CORRECT_ANSWER_COLOR ) );
         }
     }
 
