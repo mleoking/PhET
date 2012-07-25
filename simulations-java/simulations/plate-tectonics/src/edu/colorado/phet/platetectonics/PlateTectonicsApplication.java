@@ -33,7 +33,6 @@ public class PlateTectonicsApplication extends LWJGLPhetApplication {
 
     public static final Property<Boolean> showFPSMeter = new Property<Boolean>( false );
     public static final Property<Boolean> showDebuggingItems = new Property<Boolean>( false );
-    public static final Property<Boolean> useTwoDialDensityMeter = new Property<Boolean>( false );
 
     /**
      * Sole constructor.
@@ -110,18 +109,6 @@ public class PlateTectonicsApplication extends LWJGLPhetApplication {
                     LWJGLUtils.invoke( new Runnable() {
                         public void run() {
                             showDebuggingItems.set( show );
-                        }
-                    } );
-                }
-            } );
-        }} );
-        developerMenu.add( new JCheckBoxMenuItem( "Use two-dial density meter" ) {{
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    final boolean show = isSelected();
-                    LWJGLUtils.invoke( new Runnable() {
-                        public void run() {
-                            useTwoDialDensityMeter.set( show );
                         }
                     } );
                 }
