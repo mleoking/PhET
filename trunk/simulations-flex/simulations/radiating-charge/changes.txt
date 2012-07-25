@@ -1,3 +1,5 @@
+# 1.00.18 (66216) Jul 25, 2012
+7/25/12 Ready for interviews.
 # 1.00.17 (65941) Jul 17, 2012
 7/17/12 Attempting dev deploy after some issues with dev.
 # 1.00.16 (65753) Jul 11, 2012
