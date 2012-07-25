@@ -162,7 +162,8 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         heatAndCoolSlider.setOffset( WIDTH / 2 - heatAndCoolSlider.getFullBoundsReference().width / 2,
                                      HEIGHT / 2 - heatAndCoolSlider.getFullBoundsReference().height / 2 + burnerInterior.getFullBoundsReference().height / 2 );
         heatOnlySliderNode.setOffset( WIDTH / 2 - coolOnlySlider.getFullBoundsReference().width / 2, heatAndCoolSlider.getFullBoundsReference().getMinY() );
-        coolOnlySlider.setOffset( WIDTH / 2 - coolOnlySlider.getFullBoundsReference().width / 2, HEIGHT / 2 );
+        coolOnlySlider.setOffset( WIDTH / 2 - coolOnlySlider.getFullBoundsReference().width / 2,
+                                  heatAndCoolSlider.getFullBoundsReference().getMaxY() - coolOnlySlider.getFullBoundsReference().getHeight() );
 
         // Add a handler that updates the appearance when the heat-cool amount
         // changes.
