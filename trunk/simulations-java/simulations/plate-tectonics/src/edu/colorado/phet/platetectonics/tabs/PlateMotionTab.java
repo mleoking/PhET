@@ -559,7 +559,6 @@ public class PlateMotionTab extends PlateTectonicsTab {
     public void resetAll() {
         super.resetAll();
 
-        // TODO: this is probably buggy?
         showLabels.reset();
         showWater.reset();
         isAutoMode.reset();
@@ -646,7 +645,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     // show the hand cursor instead of the "default" when over the play area (AND plates exist)
     @Override
     protected void uncaughtCursor() {
-        // TODO: use a closed-hand grab cursor instead?
+        // TODO: use a closed-hand grab cursor instead if possible?
         final Ray3F ray = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
         final boolean hitsRightHandle = isOverRightHandle( ray );
         final boolean hitsLeftHandle = isOverLeftHandle( ray );
