@@ -8,8 +8,9 @@ DESIGN
 
 HIGH
 - disable manipulators and hand cursors when not in FIRST_CHECK or SECOND_CHECK states
-- add 2 point tools to "Graph the Line" challenge
 - create quick-and-dirty examples of each type of challenge
+- offset values used for LineGameModel.mvt determine when the graph is located, and will vary depending on where the graph is located in the challenge. Better to have a location for the graph than mvt offset?
+- some of the fields and responsibilities in LineGameModel are challenge specific. Eg, point tools, whether to maintain a list of lines, etc.
 
 MEDIUM
 
