@@ -37,7 +37,9 @@ import mx.controls.Label;
 import mx.controls.TextInput;
 import mx.core.FlexSimpleButton;
 
-//control panel for projectile motion flex
+/**
+ * Control panel for projectile motion flex
+ */
 
 public class ControlPanel extends Canvas {
     private var mainView: MainView;

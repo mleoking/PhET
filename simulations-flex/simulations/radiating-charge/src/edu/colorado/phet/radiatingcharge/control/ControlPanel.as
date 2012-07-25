@@ -25,7 +25,10 @@ import mx.controls.RadioButton;
 import mx.controls.RadioButtonGroup;
 import mx.events.ItemClickEvent;
 
-//Control Panel for Radiating Charge sim
+/**
+ * Control Panel for Radiating Charge sim
+ */
+
 public class ControlPanel extends Canvas {
     private var myMainView:MainView;
     private var myFieldModel:FieldModel;
@@ -47,9 +50,6 @@ public class ControlPanel extends Canvas {
     private var circular_rb : RadioButton;
     private var bump_rb: RadioButton;
 
-
-
-
     private var selectedMotionControlsVBox: VBox;
     private var amplitudeSlider:HorizontalSlider;   //amplitude of both oscillatory and bumb motions
     private var minAmplitudeOscillatory:Number;     //max and min values for amplitude of oscillation
@@ -68,18 +68,20 @@ public class ControlPanel extends Canvas {
     private var speedIndicatorVBox:VBox;
     private var speedIndicatorContainer: Sprite;
     private var speedIndicatorContainer_UI: SpriteUIComponent;
-
-    private var moreSpeedCheckBox:CheckBox;
+    private var showVelocity_cb: CheckBox;
+    private var showVelocity_str: String;
 
     //internationalized strings
     private var pause_str:String;
     private var unPause_str:String;
+
     //private var start_str:String;
     private var stop_str:String;
     private var restart_str:String;
     private var reset_str:String;
     private var c_str:String;
     private var duration_str:String;
+
     //radio button choices
     private var manualNoFricton_str:String;
     private var manualWithFricton_str:String;
@@ -87,14 +89,12 @@ public class ControlPanel extends Canvas {
     private var sinusoid_str:String;
     private var circular_str:String;
     private var bump_str:String;
-    //private var random_str:String;  //not used
+
     //slider labels
     private var amplitude_str:String;
     private var frequency_str:String;
     private var speed_str:String;
-    //show velocity label
-    private var showVelocity_cb: CheckBox;
-    private var showVelocity_str: String;
+
 
 
     public function ControlPanel( mainView:MainView, model:FieldModel ) {
@@ -301,7 +301,7 @@ public class ControlPanel extends Canvas {
         speed_str = FlexSimStrings.get( "speed", "speed" );
         c_str = FlexSimStrings.get( "speedOfLight", "c");
         duration_str = FlexSimStrings.get( "duration", "duration" );
-        showVelocity_str = FlexSimStrings.get ("showVelocity", "Show velocity" );
+        showVelocity_str = FlexSimStrings.get ("showVelocity", "Show velocity " );
     }
 
     private function initializeRadioButton( rb:RadioButton, lbl:String,  value: int, selected: Boolean ):void{
