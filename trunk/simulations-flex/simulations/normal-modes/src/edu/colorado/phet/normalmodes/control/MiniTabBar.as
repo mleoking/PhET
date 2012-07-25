@@ -9,7 +9,7 @@
  */
 package edu.colorado.phet.normalmodes.control {
 import edu.colorado.phet.flexcommon.FlexSimStrings;
-import edu.colorado.phet.normalmodes.model.Model2;
+import edu.colorado.phet.normalmodes.model.Model2D;
 
 import flash.display.Sprite;
 
@@ -18,7 +18,7 @@ import flash.display.Sprite;
  * One miniTab for selecting horiz polarization, the other for vert polarization
  */
 public class MiniTabBar extends Sprite {
-    private var myModel2: Model2;
+    private var myModel2: Model2D;
     private var tabH: MiniTab;          //tab to select horizontal polarization
     private var tabV: MiniTab;          //tab to select vertical polarization
     private var _tabWidth: Number;
@@ -27,7 +27,7 @@ public class MiniTabBar extends Sprite {
     private var horizontal_str: String;
     private var vertical_str: String;
 
-    public function MiniTabBar( myModel2: Model2 ) {
+    public function MiniTabBar( myModel2: Model2D ) {
         this.myModel2 = myModel2;
         this._tabWidth = 125;
         this._tabHeight = 25;

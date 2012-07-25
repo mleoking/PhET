@@ -22,7 +22,7 @@ import mx.controls.RadioButtonGroup;
 
 public class PolarizationPanel extends Canvas {
     private var myMainView: MainView;
-    private var myModel: Object;     //either Model1D or Model2
+    private var myModel: Object;     //either Model1D or Model2D
 
     //Polarization radio buttons
     private var innerBckgrnd: VBox;

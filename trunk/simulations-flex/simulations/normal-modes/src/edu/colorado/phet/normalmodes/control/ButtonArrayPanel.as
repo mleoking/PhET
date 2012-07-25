@@ -9,7 +9,7 @@ package edu.colorado.phet.normalmodes.control {
 import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
-import edu.colorado.phet.normalmodes.model.Model2;
+import edu.colorado.phet.normalmodes.model.Model2D;
 import edu.colorado.phet.normalmodes.view.MainView;
 
 import flash.display.Sprite;
@@ -26,7 +26,7 @@ import mx.containers.Canvas;
 public class ButtonArrayPanel extends Canvas {
 
     private var myMainView: MainView;
-    private var myModel2: Model2;
+    private var myModel2: Model2D;
     private var container: Sprite;          //sprite container for array of buttons
     private var miniTabBar: MiniTabBar;     //bar with two tabs at top of array of buttons, for selecting between vert and horiz polarization
     private var maxContainerWidth: Number;  //max width of container in pixels
@@ -40,7 +40,7 @@ public class ButtonArrayPanel extends Canvas {
 
     private var nMax: int;                   //maximum number N in NxN array of buttons
 
-    public function ButtonArrayPanel( myMainView: MainView, myModel2: Model2 ) {
+    public function ButtonArrayPanel( myMainView: MainView, myModel2: Model2D ) {
         percentWidth = 100;
         percentHeight = 100;
         this.myMainView = myMainView;

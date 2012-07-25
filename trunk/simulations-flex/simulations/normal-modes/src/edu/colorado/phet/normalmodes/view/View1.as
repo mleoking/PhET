@@ -8,7 +8,7 @@ import flash.display.*;
 */
 public class View1 extends Sprite {
     public var myMainView: MainView;		//MainView
-    private var myModel1: Model1D;			//model for this view
+    private var myModel1D: Model1D;			//model for this view
     private var _pixPerMeter: Number;		//scale: number of pixels in 1 meter
     private var LinMeters: Number;           //distance, in meters, between fixed walls at edges of 1D array
     private var _LinPix: Number;             //distance between fixed walls in pixels
@@ -26,25 +26,25 @@ public class View1 extends Sprite {
 
     public function View1( myMainView: MainView, myModel1: Model1D ) {
         this.myMainView = myMainView;
-        this.myModel1 = myModel1;
-        this.myModel1.registerView( this );
+        this.myModel1D = myModel1;
+        this.myModel1D.registerView( this );
         this.initialize();
     }//end of constructor
 
     public function initialize(): void {
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
-        this.LinMeters = this.myModel1.L;
+        this.LinMeters = this.myModel1D.L;
         this._LinPix = 0.78 * this.stageW;
         this._pixPerMeter = this._LinPix / this.LinMeters;
         this._springsVisible = true;
         this._leftEdgeX = 0.02 * this.stageW;
         this._leftEdgeY = 0.27 * this.stageH;
-        var nMax: int = this.myModel1.nMax;        //maximum number of mobile masses
+        var nMax: int = this.myModel1D.nMax;        //maximum number of mobile masses
         this.mass_arr = new Array( nMax );
         //mass graphic drawn in MassView
         for ( i = 0 ; i < nMax ; i++ ) {
-            this.mass_arr[i] = new MassView1( i + 1, this.myModel1, this );
+            this.mass_arr[i] = new MassView1( i + 1, this.myModel1D, this );
         }
         this.spring_arr = new Array( nMax + 1 );  //one more spring than masses
         for ( var i: int = 0 ; i <= nMax ; i++ ) {       //notice one more spring than nbr masses
@@ -56,10 +56,10 @@ public class View1 extends Sprite {
 
         this.setVisiblityGraphics();
 
-        for ( i = 0 ; i <= this.myModel1.nMax ; i++ ) {
+        for ( i = 0 ; i <= this.myModel1D.nMax ; i++ ) {
             this.addChild( this.spring_arr[i] );
         }
-        for ( i = 0 ; i < this.myModel1.nMax ; i++ ) {
+        for ( i = 0 ; i < this.myModel1D.nMax ; i++ ) {
             this.addChild( this.mass_arr[i] );
         }
         this.addChild( this.walls );
@@ -69,7 +69,7 @@ public class View1 extends Sprite {
 
 
     private function drawSprings(): void {        //springs drawn horizontal, rotated later as needed
-        var nMasses: Number = this.myModel1.N;   //number of mobile masses in chain ; only the visible springs are drawn
+        var nMasses: Number = this.myModel1D.N;   //number of mobile masses in chain ; only the visible springs are drawn
         this.L0Spring = ( this._LinPix ) / (nMasses + 1);  //equilibrium length of single spring in pixels
         var leadL: Number = 20;                  //length of each straight end of spring
         var nTurns: Number = 5;                  //number of turns in spring
@@ -95,7 +95,7 @@ public class View1 extends Sprite {
     }//end drawSprings()
 
     private function makeAllSpringsInvisible(): void {
-        for ( var i: int = 0 ; i <= this.myModel1.nMax ; i++ ) {
+        for ( var i: int = 0 ; i <= this.myModel1D.nMax ; i++ ) {
             this.spring_arr[i].visible = false;
             this.spring_arr[i].rotation = 0;        //rotation performed in update
         }
@@ -114,8 +114,8 @@ public class View1 extends Sprite {
 
     //Determines how many masses are visible, called when user changes number of masses
     private function setVisiblityGraphics(): void {
-        var N: int = this.myModel1.N;            //number of visible, mobile masses
-        var nMax: int = this.myModel1.nMax;
+        var N: int = this.myModel1D.N;            //number of visible, mobile masses
+        var nMax: int = this.myModel1D.nMax;
         //Not necessary to position massView graphics or springGraphics here,
         //since these are automatically positioned by update();
         //Make all masses visible and then hide excess masses
@@ -167,7 +167,7 @@ public class View1 extends Sprite {
     //Called from startTargetDrag() inside MassView1
     public function clearBorderZones(): void {
         this._massGrabbedByUser = true;
-        for ( var i: int = 0 ; i < this.myModel1.nMax ; i++ ) {
+        for ( var i: int = 0 ; i < this.myModel1D.nMax ; i++ ) {
             this.mass_arr[i].killArrowListeners();
         }
     }
@@ -180,15 +180,15 @@ public class View1 extends Sprite {
         var yInPix: Number;
         var springLengthInPix: Number;
 
-        if ( this.myModel1.nChanged ) {
+        if ( this.myModel1D.nChanged ) {
             this.setNbrMasses();
         }
 
         //position masses
-        for ( var j: int = 0 ; j < this.myModel1.N ; j++ ) {
+        for ( var j: int = 0 ; j < this.myModel1D.N ; j++ ) {
             var i: int = j + 1;    //index of mobile mass, left mass = 1
-            xInMeters = this.myModel1.getX( i );       //irrelevant when in transverse mode
-            yInMeters = this.myModel1.getY( i );       //irrelevant when in longitudinal mode
+            xInMeters = this.myModel1D.getX( i );       //irrelevant when in transverse mode
+            yInMeters = this.myModel1D.getY( i );       //irrelevant when in longitudinal mode
             xInPix = this._leftEdgeX + xInMeters * this._pixPerMeter;
             yInPix = this._leftEdgeY - yInMeters * this._pixPerMeter;   //don't forget. +y direction is down in screen coords, is up in cartesian coords
             this.mass_arr[j].x = xInPix;
@@ -197,23 +197,23 @@ public class View1 extends Sprite {
 
         //position springs
         if ( this._springsVisible ) {
-            for ( i = 0 ; i <= this.myModel1.N ; i++ ) {
+            for ( i = 0 ; i <= this.myModel1D.N ; i++ ) {
                 //position left end of spring
-                xInMeters = this.myModel1.getX( i );      //irrelevant when in transverse mode
-                yInMeters = this.myModel1.getY( i );      //irrelevant when in longitudinal mode
+                xInMeters = this.myModel1D.getX( i );      //irrelevant when in transverse mode
+                yInMeters = this.myModel1D.getY( i );      //irrelevant when in longitudinal mode
                 xInPix = this._leftEdgeX + xInMeters * this._pixPerMeter;
                 yInPix = this._leftEdgeY - yInMeters * this._pixPerMeter;
                 this.spring_arr[i].x = xInPix;
                 this.spring_arr[i].y = yInPix;
                 //position right end of spring; when in transverse mode, this requires rotation
-                if ( this.myModel1.xModes ) {
+                if ( this.myModel1D.xModes ) {
                     this.spring_arr[i].rotation = 0;
-                    springLengthInPix = (this.myModel1.getX( i + 1 ) - this.myModel1.getX( i )) * this.pixPerMeter;
+                    springLengthInPix = (this.myModel1D.getX( i + 1 ) - this.myModel1D.getX( i )) * this.pixPerMeter;
                     this.spring_arr[i].scaleX = springLengthInPix / this.L0Spring;
                 }
                 else {  //if in transverse mode
-                    var sprLX: Number = (this.myModel1.getX( i + 1 ) - this.myModel1.getX( i )) * this.pixPerMeter;
-                    var sprLY: Number = (this.myModel1.getY( i + 1 ) - this.myModel1.getY( i )) * this.pixPerMeter;
+                    var sprLX: Number = (this.myModel1D.getX( i + 1 ) - this.myModel1D.getX( i )) * this.pixPerMeter;
+                    var sprLY: Number = (this.myModel1D.getY( i + 1 ) - this.myModel1D.getY( i )) * this.pixPerMeter;
                     springLengthInPix = Math.sqrt( sprLX * sprLX + sprLY * sprLY );
                     this.spring_arr[i].scaleX = springLengthInPix / this.L0Spring;
                     //set rotation of stretched spring

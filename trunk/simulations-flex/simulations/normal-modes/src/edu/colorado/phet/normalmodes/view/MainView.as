@@ -15,7 +15,7 @@ import edu.colorado.phet.normalmodes.control.ButtonArrayPanel;
 import edu.colorado.phet.normalmodes.control.ControlPanel;
 import edu.colorado.phet.normalmodes.control.SliderArrayPanel;
 import edu.colorado.phet.normalmodes.model.Model1D;
-import edu.colorado.phet.normalmodes.model.Model2;
+import edu.colorado.phet.normalmodes.model.Model2D;
 
 import flash.display.Sprite;
 
@@ -34,10 +34,10 @@ public class MainView extends Canvas {
 
     public var oneDMode: Boolean;       //true if in 1D mode, false if in 2D mode
     public var myModel1: Model1D;       //model for 1D array of masses and springs
-    public var myModel2: Model2;       //model for 2D array of masses and springs
+    public var myModel2: Model2D;       //model for 2D array of masses and springs
     public var myView1: View1;         //view for Model1D
     public var myView1DModes: View1DModes; //another view for Model1D, showing individual modes
-    public var myView2: View2;         //view for Model2
+    public var myView2: View2;         //view for Model2D
 
     public var mySliderArrayPanel: SliderArrayPanel;
     public var myButtonArrayPanel: ButtonArrayPanel;
@@ -81,7 +81,7 @@ public class MainView extends Canvas {
         this.addChild( new SpriteUIComponent( tabBar ) );
         //Model
         this.myModel1 = new Model1D();
-        this.myModel2 = new Model2( this );
+        this.myModel2 = new Model2D( this );
         this.myModel2.stopMotion();
         this.myView1 = new View1( this, myModel1 );
         this.myView1DModes = new View1DModes( this, myModel1 );
@@ -135,7 +135,7 @@ public class MainView extends Canvas {
     }
 
     /*
-     * This sim has two models, with accompanying views: Model1D = a 1D array of coupled masses and Model2 = a 2D array of coupled masses
+     * This sim has two models, with accompanying views: Model1D = a 1D array of coupled masses and Model2D = a 2D array of coupled masses
      * The tab bar controls which model/view the user accesses/sees by calling the set1DOr2D function.
      * */
 
@@ -188,7 +188,7 @@ public class MainView extends Canvas {
         this.myControlPanel.mySloMoStepControl.unPauseExternally();
         this.myControlPanel.mySloMoStepControl.setSliderExternally( 1 );
         this.myControlPanel.setNbrMassesExternally( 3 );    //this initializes Model1D
-        this.myModel2.setN( 2 );                            //this initializes Model2
+        this.myModel2.setN( 2 );                            //this initializes Model2D
         this.mySliderArrayPanel.drawBoundingBox();
         this.myButtonArrayPanel.initializeButtonArray();
     }

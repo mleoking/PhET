@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.control {
-import edu.colorado.phet.normalmodes.model.Model2;
+import edu.colorado.phet.normalmodes.model.Model2D;
 
 import flash.display.Graphics;
 import flash.display.Sprite;
@@ -22,7 +22,7 @@ import flash.text.TextFormat;
  * Different colors and directions of fill for the two polarization modes.
  */
 public class ModeButton extends Sprite {
-    private var myModel2: Model2;
+    private var myModel2: Model2D;
     private var rIndex: int;                //r-Index = x mode number  (standard notation in textbooks)
     private var sIndex: int;                //s-Index = y mode number
     private var colorLayer: Sprite;         //bottom layer of sprite is a solid color
@@ -43,7 +43,7 @@ public class ModeButton extends Sprite {
     private var _activatedV: Boolean;         //state of button in vertical polarization mode: true = on; false = off
     private var _pushedIn: Boolean;           //true if button pushed in by mouseDown
 
-    public function ModeButton( myModel2: Model2, iIndx: int, jIndx: int, sizeInPix: Number ) {
+    public function ModeButton( myModel2: Model2D, iIndx: int, jIndx: int, sizeInPix: Number ) {
         this.myModel2 = myModel2;
         this.rIndex = iIndx;
         this.sIndex = jIndx;

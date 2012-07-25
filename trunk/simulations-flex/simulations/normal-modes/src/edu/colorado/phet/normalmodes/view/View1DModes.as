@@ -24,7 +24,7 @@ import flash.text.TextFormatAlign;
 public class View1DModes extends Sprite {
 
     public var myMainView: MainView;		//MainView
-    private var myModel1: Model1D;			//model for this view
+    private var myModel1D: Model1D;			//model for this view
     private var _N: int;                    //current max mode number = nbr of masses
     private var _pixPerMeter: Number;		//scale: number of pixels in 1 meter
     private var _LinMeters: Number;         //wall-to-wall distance in meters
@@ -43,8 +43,8 @@ public class View1DModes extends Sprite {
 
     public function View1DModes( myMainView: MainView, myModel1: Model1D ) {
         this.myMainView = myMainView;
-        this.myModel1 = myModel1;
-        this.myModel1.registerView( this );
+        this.myModel1D = myModel1;
+        this.myModel1D.registerView( this );
         this.showHideButton = new ShowHideButton( this );
         this.addChild( showHideButton );
         this.initialize();
@@ -53,12 +53,12 @@ public class View1DModes extends Sprite {
     private function initialize(): void {
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
-        this._LinMeters = this.myModel1.L;
+        this._LinMeters = this.myModel1D.L;
         this._LinPix = Math.round( 0.15 * this.stageW );
         this._pixPerMeter = this._LinPix / this._LinMeters;
         //trace("View1DMode.initialize. pixPerMeter =" + _pixPerMeter );
         this._ySeparationOfGraphs = 30;
-        var nMax: int = this.myModel1.nMax;
+        var nMax: int = this.myModel1D.nMax;
         this.walls_arr = new Array( nMax + 1 );  //need nMax+1 elements, since zero element is dummy
         this.sineWave_arr = new Array( nMax + 1 );
         for ( var i: int = 0 ; i <= nMax ; i++ ) {
@@ -77,10 +77,10 @@ public class View1DModes extends Sprite {
      * */
     private function drawModeN( modeN: int ): void {
         //Get amplitude, frequency, and phase of mode from the model
-        var amplitude: Number = myModel1.getModeAmpli( modeN );
-        var omega: Number = myModel1.getModeOmega( modeN );
-        var phase: Number = myModel1.getModePhase( modeN );
-        var time: Number = myModel1.t;
+        var amplitude: Number = myModel1D.getModeAmpli( modeN );
+        var omega: Number = myModel1D.getModeOmega( modeN );
+        var phase: Number = myModel1D.getModePhase( modeN );
+        var time: Number = myModel1D.t;
         var leftEdgeX: Number = 0;
         var leftEdgeY: Number = ( modeN - 1) * this._ySeparationOfGraphs;
         var g: Graphics = this.sineWave_arr[ modeN ].graphics;
@@ -97,7 +97,7 @@ public class View1DModes extends Sprite {
 
     //Draw walls at left and right edges of sine wave
     private function drawWalls(): void {
-        var nMax: int = this.myModel1.nMax;
+        var nMax: int = this.myModel1D.nMax;
         var h: Number = 10; //height of wall in pix
         var leftEdgeX: Number = 0;
         for ( var i: int = 1 ; i <= nMax ; i++ ) {
@@ -114,7 +114,7 @@ public class View1DModes extends Sprite {
 
     private function makeLabels(): void {
         normalModes_str = FlexSimStrings.get( "normalModes", "Normal Modes" );
-        var nMax: int = this.myModel1.nMax;
+        var nMax: int = this.myModel1D.nMax;
         this.nbrLabel_arr = new Array( nMax + 1 );
         var tFormat1: TextFormat = new TextFormat();
         tFormat1.align = TextFormatAlign.CENTER;
@@ -136,7 +136,7 @@ public class View1DModes extends Sprite {
     }//end make Labels
 
     private function positionLabels(): void {
-        var nMax: int = this.myModel1.nMax;
+        var nMax: int = this.myModel1D.nMax;
         this.normalModes_txt.y = -40;
         this.normalModes_txt.x = 0.5 * _LinPix - 0.5 * this.normalModes_txt.width;
         this.showHideButton.y = -30;
@@ -165,9 +165,9 @@ public class View1DModes extends Sprite {
     }
 
     public function update(): void {
-        if ( this.myModel1.nChanged ) {
-            this._N = this.myModel1.N;
-            for ( var j: int = 0 ; j <= this.myModel1.nMax ; j++ ) {
+        if ( this.myModel1D.nChanged ) {
+            this._N = this.myModel1D.N;
+            for ( var j: int = 0 ; j <= this.myModel1D.nMax ; j++ ) {
                 this.walls_arr[j].visible = false;
                 this.sineWave_arr[j].visible = false;
                 this.nbrLabel_arr[j].visible = false;

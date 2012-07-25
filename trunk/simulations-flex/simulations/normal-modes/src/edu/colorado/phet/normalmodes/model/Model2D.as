@@ -18,7 +18,7 @@ import flash.utils.getTimer;
  * Displacement from equilibrium is either in x-direction (x polarization mode) or y-direction(y polarization mode)
  * Initial configuration is set by MainView.initializeAll()
  */
-public class Model2 {
+public class Model2D {
 
     public var myMainView: MainView;
     public var views_arr: Array;     //views associated with this model;
@@ -65,7 +65,7 @@ public class Model2 {
     private var dt: Number;  	    //default time step in seconds
     private var msTimer: Timer;	    //millisecond timer
 
-    public function Model2( myMainView: MainView ) {
+    public function Model2D( myMainView: MainView ) {
         this.myMainView = myMainView;
         this.views_arr = new Array();
         //all 2D arrays are in row-column format: x (column) increases to right; y (row) increases down
@@ -198,7 +198,7 @@ public class Model2 {
     //SETTERS and GETTERS
     /*Set number N of masses in one row of N x N 2D array of masses.*/
     public function setN( nbrMobileMassesInRow: int ): void {
-        //trace( "Model2.setN called.  NbrMobleMasses in Row = " + nbrMobileMassesInRow );
+        //trace( "Model2D.setN called.  NbrMobleMasses in Row = " + nbrMobileMassesInRow );
         if ( nbrMobileMassesInRow > this._nMax ) {
             this._N = this._nMax;
             trace( "ERROR: nbr of masses too high" );
@@ -312,7 +312,7 @@ public class Model2 {
 
     //Called from ModeButton
     public function setModeAmpli( polarization: String, modeNbrR: int, modeNbrS: int, A: Number ): void {
-        //trace("Model2.setModeAmpli  r = " + modeNbrR + "    s = "+modeNbrS );
+        //trace("Model2D.setModeAmpli  r = " + modeNbrR + "    s = "+modeNbrS );
         this._verletOn = false;
         if ( polarization == "x" ) {
             this.modeAmpliX_arr[ modeNbrR ][ modeNbrS ] = A;
@@ -369,7 +369,7 @@ public class Model2 {
     //called from MassView.startTargetDrag();
     public function set grabbedMassIndices( iJIndices: Array ): void {
         this._grabbedMassIndices = iJIndices;
-        //trace("Model2.setGrabbeMassIndices called. u = " + this._grabbedMassIndices[0] + "   j = " + this._grabbedMassIndices[1]);
+        //trace("Model2D.setGrabbeMassIndices called. u = " + this._grabbedMassIndices[0] + "   j = " + this._grabbedMassIndices[1]);
     }
 
     //END SETTERS and GETTERS
@@ -500,13 +500,13 @@ public class Model2 {
         this._modesChanged = true;
         this.setExactPositions();
         this.updateViews();
-        trace( "Model2.computeModeAmplitudesAndPhases called. time = " + this._t );
+        trace( "Model2D.computeModeAmplitudesAndPhases called. time = " + this._t );
         //this._modesChanged = false;
 
         //For testing only: test shows takes 0.024 s to loop through 10000 times with no sine function calc. T
         //Takes only 0.031 s with sine function calc.
         //var _t:Number = (getTimer() - t0)/1000;
-        //trace("Model2.computeAmplitudesAndPhases. Counter = "+ counter+"   time is "+ _t + " s");
+        //trace("Model2D.computeAmplitudesAndPhases. Counter = "+ counter+"   time is "+ _t + " s");
     }//end computeModeAmplitudesAndPhases();
 
     /*Step forward in time one time step.  Time-based animation.*/

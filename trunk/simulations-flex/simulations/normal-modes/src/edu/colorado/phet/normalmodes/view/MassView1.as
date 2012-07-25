@@ -21,7 +21,7 @@ import flash.geom.Point;
 * */
 public class MassView1 extends Sprite {
     private var _index: int;           //integer labeling the mass
-    private var myModel1: Model1D;
+    private var myModel1D: Model1D;
     private var container: View1;
     private var mass: Sprite;          //graphic for the mass
     private var borderZone: Sprite;    //when user mouses over borderZone, arrows appear around mass
@@ -30,7 +30,7 @@ public class MassView1 extends Sprite {
 
     public function MassView1( index: int, myModel1: Model1D, container: View1 ) {
         this._index = index;
-        this.myModel1 = myModel1;
+        this.myModel1D = myModel1;
         this.container = container;
         this.mass = new Sprite();
         this.borderZone = new Sprite();
@@ -138,7 +138,7 @@ public class MassView1 extends Sprite {
     } //end makeMassGrabble
 
     private function showArrows( evt: MouseEvent ): void {
-        if ( this.myModel1.xModes ) {
+        if ( this.myModel1D.xModes ) {
             this.arrowH.visible = true;
             this.arrowV.visible = false;
         }
