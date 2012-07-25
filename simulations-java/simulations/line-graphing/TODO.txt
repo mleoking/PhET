@@ -4,7 +4,6 @@ DEADLINES
 
 DESIGN
 - play area layout feels very unbalanced for game challenges, very heavy on the graph side
-- what to do with line manipulators during game states where line shouldn't be manipulated? hide? disabled? what does disabled look like?
 - revisit the placement algorithm for equations on graphed lines
 
 HIGH
