@@ -17,5 +17,7 @@
     <string key="speed" value = "Speed"/>
     <string key="speedOfLight" value = "c"/>
     <string key="duration" value = "duration"/>
+    <string key="duration" value = "duration"/>
+    <string key="showVelocity" value = "Show velocity  "/>
 </SimStrings>
 

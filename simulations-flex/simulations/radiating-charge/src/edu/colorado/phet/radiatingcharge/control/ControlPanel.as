@@ -301,7 +301,7 @@ public class ControlPanel extends Canvas {
         speed_str = FlexSimStrings.get( "speed", "speed" );
         c_str = FlexSimStrings.get( "speedOfLight", "c");
         duration_str = FlexSimStrings.get( "duration", "duration" );
-        showVelocity_str = FlexSimStrings.get ("showVelocity", "Show velocity " );
+        showVelocity_str = FlexSimStrings.get ("showVelocity", "Show velocity  " );
     }
 
     private function initializeRadioButton( rb:RadioButton, lbl:String,  value: int, selected: Boolean ):void{
