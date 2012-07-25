@@ -11,6 +11,7 @@ import java.awt.geom.Line2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.DampedMassSpringSystem;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
@@ -30,10 +31,8 @@ import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
-import edu.colorado.phet.platetectonics.PlateTectonicsApplication;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
@@ -200,15 +199,13 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
      */
     public static class DensitySensorNode2D extends SpeedometerSensorNode {
 
-        // TODO: change this to a 2D offset
+        // TODO: change this to a 2D offset (along with the equivalent code for the thermometer
         public final double horizontalSensorOffset;
 
         public static double w;
         public static double h;
 
         private final PNode extraHolderNode = new PNode();
-        private final SpeedometerNode miniGauge;
-        private Property<Option<Double>> miniGaugeDensity;
 
         // we use a damped spring system to essentially add inertial to the density needle in the 1-dial case
         private double p = 0;
@@ -239,13 +236,6 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
             addChild( extraHolderNode );
 
-            miniGaugeDensity = new Property<Option<Double>>( new Some<Double>( (double) 0 ) );
-            miniGauge = new SpeedometerNode( "", 100, miniGaugeDensity, MAX_SPEEDOMETER_DENSITY ) {{
-                double scale = 0.3;
-                setOffset( 50 - 50 * scale, 60 );
-                scale( scale );
-            }};
-
             // scale it so that we achieve adherence to the model scale
             scale( ThermometerNode3D.PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / ThermometerNode3D.PIXEL_SCALE );
 
@@ -255,25 +245,10 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
             addInputEventListener( new LWJGLCursorHandler() );
         }
 
-        private void clearExtraItems() {
-            extraHolderNode.removeAllChildren();
-            if ( miniGauge.getParent() != null ) {
-                removeChild( miniGauge );
-            }
-        }
-
-        // support multiple different density meter styles TODO remove once decided
+        // support multiple different density meter styles
         public void setDensity( double density, double simulationTimeChange ) {
-            clearExtraItems();
-            if ( PlateTectonicsApplication.useTwoDialDensityMeter.get() ) {
-                setTwoDialDensity( density );
-            }
-            else {
-                setWrapAroundDensity( density, simulationTimeChange );
-            }
-        }
+            extraHolderNode.removeAllChildren();
 
-        public void setWrapAroundDensity( double density, double simulationTimeChange ) {
             // calculate using the speedometer what the angles are at 0 and max
             // speedometer returns angles that are actually the opposite (negative) of what is usually used in the cartesian
             // lane
@@ -291,7 +266,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
             // reference into the speedometer to change it
             double wrappedDensity = p % wrapAroundDensityAmount;
-            pointSensor.value.set( new Option.Some<Double>( wrappedDensity ) );
+            pointSensor.value.set( new Some<Double>( wrappedDensity ) );
 
             int overflowQuantity = (int) Math.floor( p / wrapAroundDensityAmount );
 
@@ -358,17 +333,6 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
                 double angleDifference = ( angle - minAngle ) % ( Math.PI * 2 );
                 intersect( new Area( new Arc2D.Double( 0, 0, 100, 100, 180 * minAngle / Math.PI, 180 * angleDifference / Math.PI, Arc2D.PIE ) ) );
             }}, colorWithAlpha, null, null );
-        }
-
-        public void setTwoDialDensity( double density ) {
-            // don't add this into the toolbox version
-            if ( miniGauge.getParent() == null ) {
-                addChild( miniGauge );
-            }
-
-            // reference into the speedometer to change it
-            pointSensor.value.set( new Option.Some<Double>( density * 4 ) );
-            miniGaugeDensity.set( new Some<Double>( density / 4 ) );
         }
     }
 

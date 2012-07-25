@@ -168,7 +168,6 @@ public class CrustModel extends PlateTectonicsModel {
         addTerrain( middleTerrain );
         addTerrain( continentalTerrain );
 
-        // TODO: terrain connectors!
         TerrainConnectorStrip leftConnector = new TerrainConnectorStrip( oceanicTerrain, middleTerrain, 10, bounds.getMinZ(), bounds.getMaxZ() );
         terrainConnectors.add( leftConnector );
         addTerrain( leftConnector );
