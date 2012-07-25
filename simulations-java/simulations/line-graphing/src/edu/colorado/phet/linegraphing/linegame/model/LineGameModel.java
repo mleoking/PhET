@@ -167,8 +167,6 @@ public class LineGameModel {
     private void updateListOfLines() {
         allLines.clear();
         allLines.add( challenge.get().guess.get() );
-        System.out.println( "state = " + state );
-        System.out.println( "challenge = " + challenge );
         if ( state.get() == PlayState.NEXT && !challenge.get().isCorrect() ) {
             // user got it wrong and we're showing the correct answer
             allLines.add( challenge.get().answer );
