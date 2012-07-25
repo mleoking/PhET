@@ -78,6 +78,9 @@ public class HeaterCoolerWithLimitsNode extends PNode {
     private final Property<Double> heatCoolLevel;
     private final PNode burner;
 
+    // Property that is used to control the heater-cooler operational mode.
+    public final Property<HeatCoolMode> heatCoolMode = new Property<HeatCoolMode>( HeatCoolMode.HEAT_AND_COOL );
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -121,18 +124,18 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         PNode burnerInterior = new PhetPPath( burnerInteriorShape, burnerInteriorPaint, new BasicStroke( 1 ), Color.LIGHT_GRAY );
 
         // Create the control sliders.  Only one will be visible at a time.
-        HeaterCoolerSliderNode stoveControlSlider = new HeaterCoolerSliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, heatLabel, coolLabel );
-        HeatOnlySliderNode heatOnlySliderNode = new HeatOnlySliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, heatLabel );
-        CoolOnlySliderNode coolOnlySlider = new CoolOnlySliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, coolLabel );
+        final HeaterCoolerSliderNode heatAndCoolSlider = new HeaterCoolerSliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, heatLabel, coolLabel, heatCoolMode, HeatCoolMode.HEAT_AND_COOL );
+        final HeatOnlySliderNode heatOnlySliderNode = new HeatOnlySliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, heatLabel, heatCoolMode, HeatCoolMode.HEAT_ONLY );
+        final CoolOnlySliderNode coolOnlySlider = new CoolOnlySliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, coolLabel, heatCoolMode, HeatCoolMode.COOL_ONLY );
 
         // Scale the sliders to fit well on the bucket.  The scaling may be
         // different for different translations.
         {
             double maxWidth = WIDTH * 0.8;
             double maxHeight = HEIGHT * 0.8;
-            double sliderScale = Math.min( maxWidth / stoveControlSlider.getFullBoundsReference().width,
-                                           maxHeight / stoveControlSlider.getFullBoundsReference().height );
-            stoveControlSlider.setScale( sliderScale );
+            double sliderScale = Math.min( maxWidth / heatAndCoolSlider.getFullBoundsReference().width,
+                                           maxHeight / heatAndCoolSlider.getFullBoundsReference().height );
+            heatAndCoolSlider.setScale( sliderScale );
             heatOnlySliderNode.setScale( sliderScale );
             coolOnlySlider.setScale( sliderScale );
         }
@@ -150,15 +153,15 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         addChild( fireImage );
         addChild( iceImage );
         addChild( burner );
-        addChild( stoveControlSlider );
+        addChild( heatAndCoolSlider );
         addChild( coolOnlySlider );
         addChild( heatOnlySliderNode );
 
         // Do the layout.
         burnerInterior.setOffset( 0, -burnerInterior.getFullBoundsReference().height / 2 ); // Note - Goes a little negative in Y direction.
-        stoveControlSlider.setOffset( WIDTH / 2 - stoveControlSlider.getFullBoundsReference().width / 2,
-                                      HEIGHT / 2 - stoveControlSlider.getFullBoundsReference().height / 2 + burnerInterior.getFullBoundsReference().height / 2 );
-        heatOnlySliderNode.setOffset( WIDTH / 2 - coolOnlySlider.getFullBoundsReference().width / 2, stoveControlSlider.getFullBoundsReference().getMinY() );
+        heatAndCoolSlider.setOffset( WIDTH / 2 - heatAndCoolSlider.getFullBoundsReference().width / 2,
+                                     HEIGHT / 2 - heatAndCoolSlider.getFullBoundsReference().height / 2 + burnerInterior.getFullBoundsReference().height / 2 );
+        heatOnlySliderNode.setOffset( WIDTH / 2 - coolOnlySlider.getFullBoundsReference().width / 2, heatAndCoolSlider.getFullBoundsReference().getMinY() );
         coolOnlySlider.setOffset( WIDTH / 2 - coolOnlySlider.getFullBoundsReference().width / 2, HEIGHT / 2 );
 
         // Add a handler that updates the appearance when the heat-cool amount
@@ -228,7 +231,7 @@ public class HeaterCoolerWithLimitsNode extends PNode {
      */
     private static class HeaterCoolerSliderNode extends VSliderNode {
 
-        public HeaterCoolerSliderNode( final SettableProperty<Double> value, String heatLabel, String coolLabel ) {
+        public HeaterCoolerSliderNode( final SettableProperty<Double> value, String heatLabel, String coolLabel, final Property<HeatCoolMode> heatCoolMode, final HeatCoolMode modeWhenVisible ) {
             super( UserComponents.heaterCoolerSlider, -1, 1, TRACK_THICKNESS, SLIDER_TRACK_LENGTH, value, new BooleanProperty( true ) );
 
             // Show labels for add, zero, and remove.
@@ -246,8 +249,14 @@ public class HeaterCoolerWithLimitsNode extends PNode {
             // Show a gradient in the track that goes from orange to light blue to
             // indicate the heat/coolness setting.
             setTrackFillPaint( new GradientPaint( 0, 0, WARM_COLOR, 0, (float) trackLength, COLD_COLOR, false ) );
-        }
 
+            // Control visibility.
+            heatCoolMode.addObserver( new VoidFunction1<HeatCoolMode>() {
+                public void apply( HeatCoolMode newHeatCoolMode ) {
+                    setVisible( newHeatCoolMode == modeWhenVisible );
+                }
+            } );
+        }
     }
 
     /*
@@ -255,7 +264,7 @@ public class HeaterCoolerWithLimitsNode extends PNode {
      */
     private static class CoolOnlySliderNode extends VSliderNode {
 
-        public CoolOnlySliderNode( final SettableProperty<Double> value, String coolLabel ) {
+        public CoolOnlySliderNode( final SettableProperty<Double> value, String coolLabel, Property<HeatCoolMode> heatCoolMode, final HeatCoolMode modeWhenVisible ) {
             super( UserComponents.heaterCoolerSlider, -1, 0, TRACK_THICKNESS, SLIDER_TRACK_LENGTH / 2, value, new BooleanProperty( true ) );
 
             // Add labels.
@@ -271,6 +280,13 @@ public class HeaterCoolerWithLimitsNode extends PNode {
 
             // Show a gradient in the track.
             setTrackFillPaint( new GradientPaint( 0, 0, IN_BETWEEN_COLOR, 0, (float) trackLength, COLD_COLOR, false ) );
+
+            // Control visibility.
+            heatCoolMode.addObserver( new VoidFunction1<HeatCoolMode>() {
+                public void apply( HeatCoolMode newHeatCoolMode ) {
+                    setVisible( newHeatCoolMode == modeWhenVisible );
+                }
+            } );
         }
     }
 
@@ -279,7 +295,7 @@ public class HeaterCoolerWithLimitsNode extends PNode {
      */
     private static class HeatOnlySliderNode extends VSliderNode {
 
-        public HeatOnlySliderNode( final SettableProperty<Double> value, String heatLabel ) {
+        public HeatOnlySliderNode( final SettableProperty<Double> value, String heatLabel, Property<HeatCoolMode> heatCoolMode, final HeatCoolMode modeWhenVisible ) {
             super( UserComponents.heaterCoolerSlider, 0, 1, TRACK_THICKNESS, SLIDER_TRACK_LENGTH / 2, value, new BooleanProperty( true ) );
 
             // Show labels for add, zero, and remove.
@@ -295,6 +311,13 @@ public class HeaterCoolerWithLimitsNode extends PNode {
 
             // Show a gradient in the track.
             setTrackFillPaint( new GradientPaint( 0, 0, WARM_COLOR, 0, (float) trackLength, IN_BETWEEN_COLOR, false ) );
+
+            // Control visibility.
+            heatCoolMode.addObserver( new VoidFunction1<HeatCoolMode>() {
+                public void apply( HeatCoolMode newHeatCoolMode ) {
+                    setVisible( newHeatCoolMode == modeWhenVisible );
+                }
+            } );
         }
     }
 
@@ -313,6 +336,12 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         }
     }
 
+    // Enum for the various heat/cool modes.
+    public enum HeatCoolMode {
+        HEAT_AND_COOL, HEAT_ONLY, COOL_ONLY
+    }
+
+    ;
 
     // Test harness.
     public static void main( String[] args ) {
@@ -322,6 +351,7 @@ public class HeaterCoolerWithLimitsNode extends PNode {
                     addNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 1000, 1000 ), Color.black ) );
                     addNode( new HeaterCoolerWithLimitsNode( new Property<Double>( 0.0 ), "Heat", "Cool" ) {{
                         setOffset( 100, 200 );
+                        heatCoolMode.set( HeatCoolMode.HEAT_AND_COOL );
                     }} );
                     setBackground( Color.black );
                 }}.setVisible( true );
