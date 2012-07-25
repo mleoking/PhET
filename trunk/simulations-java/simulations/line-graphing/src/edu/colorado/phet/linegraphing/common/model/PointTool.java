@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -21,36 +22,29 @@ public class PointTool implements Resettable {
     public final Property<Vector2D> location;
     public final Property<StraightLine> onLine; // line that the tool is on, possibly null
 
-    private final ObservableProperty<StraightLine> interactiveLine;
-    private final ObservableList<StraightLine> savedLines;
-    private final ObservableList<StraightLine> standardLines;
+    private final ObservableList<StraightLine> lines;
 
     /**
      * Constructor
      *
      * @param location        location of the tool, in model coordinate frame
-     * @param interactiveLine the line that can be manipulated by the user
-     * @param savedLines      lines that have been saved by the user
-     * @param standardLines   standard lines (eg, y=x) that are available for viewing
+     * @param lines           lines that the tool might intersect
      */
-    public PointTool( Vector2D location, ObservableProperty<StraightLine> interactiveLine, ObservableList<StraightLine> savedLines, ObservableList<StraightLine> standardLines ) {
+    public PointTool( Vector2D location, ObservableList<StraightLine> lines ) {
 
         this.location = new Property<Vector2D>( location );
         this.onLine = new Property<StraightLine>( null );
 
-        this.interactiveLine = interactiveLine;
-        this.savedLines = savedLines;
-        this.standardLines = standardLines;
+        this.lines = lines;
 
         // When location or lines change, update highlighting
         {
-            // interactive line
-            final RichSimpleObserver observer = new RichSimpleObserver() {
+            // location
+            this.location.addObserver( new SimpleObserver() {
                 public void update() {
                     updateOnLine();
                 }
-            };
-            observer.observe( this.location, interactiveLine );
+            } );
 
             // saved & standard lines
             final VoidFunction1<StraightLine> linesChanged = new VoidFunction1<StraightLine>() {
@@ -58,28 +52,19 @@ public class PointTool implements Resettable {
                     updateOnLine();
                 }
             };
-            savedLines.addElementAddedObserver( linesChanged );
-            savedLines.addElementRemovedObserver( linesChanged );
-            standardLines.addElementAddedObserver( linesChanged );
-            standardLines.addElementRemovedObserver( linesChanged );
+            lines.addElementAddedObserver( linesChanged );
+            lines.addElementRemovedObserver( linesChanged );
         }
     }
 
     // Determine which line (if any) the tool is placed on.
     private void updateOnLine() {
-
-        ArrayList<StraightLine> lines = new ArrayList<StraightLine>();
-        lines.addAll( savedLines );
-        lines.addAll( standardLines );
-        lines.add( interactiveLine.get() );
-
         for ( StraightLine line : lines ) {
             if ( isOnLine( line ) ) {
                 onLine.set( line );
                 return;
             }
         }
-
         onLine.set( null );
     }
 
