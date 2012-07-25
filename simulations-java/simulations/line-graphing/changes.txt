@@ -1,3 +1,4 @@
+7/25/12 fix color of correct answer line, as shown by point tool
 7/25/12 make game graph interactive only when in "Check" state
 7/25/12 add 2 point tools to "Graph the Line" challenge
 7/25/12 change PointTool to use a single list of lines, so it can be reused in the game
