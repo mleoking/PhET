@@ -21,7 +21,9 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  *
  * @author John Blanco
  */
-public class Faucet extends EnergySource {
+public class FaucetAndWater extends EnergySource {
+
+    public static final Vector2D OFFSET_FROM_CENTER_TO_WATER_ORIGIN = new Vector2D( 0.05, 0.05 );
 
     public final Property<Double> flowProportion = new Property<Double>( 0.0 );
     public final BooleanProperty enabled = new BooleanProperty( true );
@@ -30,7 +32,7 @@ public class Faucet extends EnergySource {
         add( new ModelElementImage( TEMP_FAUCET, TEMP_FAUCET.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( -0.035, 0.075 ) ) );
     }};
 
-    protected Faucet() {
+    protected FaucetAndWater() {
         super( EnergyFormsAndChangesResources.Images.FAUCET_ICON, IMAGE_LIST );
         flowProportion.addObserver( new VoidFunction1<Double>() {
             public void apply( Double flowProportion ) {

@@ -50,7 +50,7 @@ public class EnergySystemsModel {
     public final List<ShapeModelElement> shapeModelElementList = new ArrayList<ShapeModelElement>();
 
     // Energy sources.
-    public final Faucet faucet = new Faucet();
+    public final FaucetAndWater faucet = new FaucetAndWater();
     public final Sun sun = new Sun();
     public final TeaPot teaPot = new TeaPot();
 
