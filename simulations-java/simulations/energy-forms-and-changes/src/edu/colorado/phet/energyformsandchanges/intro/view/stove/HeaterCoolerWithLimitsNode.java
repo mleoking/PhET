@@ -341,8 +341,6 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         HEAT_AND_COOL, HEAT_ONLY, COOL_ONLY
     }
 
-    ;
-
     // Test harness.
     public static void main( String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
