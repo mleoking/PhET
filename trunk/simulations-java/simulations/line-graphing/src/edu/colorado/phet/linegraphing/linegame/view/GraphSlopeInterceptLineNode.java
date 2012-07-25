@@ -6,9 +6,11 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -27,6 +29,7 @@ import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
+import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
@@ -67,6 +70,11 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
         final TextButtonNode showAnswerButton = new TextButtonNode( Strings.SHOW_ANSWER, buttonFont, buttonForeground );
         final TextButtonNode nextButton = new TextButtonNode( Strings.NEXT, buttonFont, buttonForeground );
 
+        // Point tools
+        Rectangle2D pointToolDragBounds = new Rectangle2D.Double( 0, 0, challengeSize.getWidth(), challengeSize.getHeight() );
+        PointToolNode pointToolNode1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
+        PointToolNode pointToolNode2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
+
         // rendering order
         {
             addChild( titleNode );
@@ -78,6 +86,8 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
             addChild( nextButton );
             addChild( faceNode );
             addChild( pointsNode );
+            addChild( pointToolNode1 );
+            addChild( pointToolNode2 );
         }
 
         // layout
@@ -88,9 +98,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
             // equation centered in left half of challenge space
             equationNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
                                     ( challengeSize.getHeight() / 2 ) - ( equationNode.getFullBoundsReference().getHeight() / 2 ) );
-            // graph centered in right half of challenge space
-            graphNode.setOffset( ( challengeSize.getWidth() / 2 ),
-                                 titleNode.getFullBoundsReference().getMaxY() );
+            // graphNode is positioned automatically based on mvt's origin offset.
             // buttons centered at bottom of challenge space
             final double ySpacing = 15;
             final double buttonCenterX = ( challengeSize.getWidth() / 2 );

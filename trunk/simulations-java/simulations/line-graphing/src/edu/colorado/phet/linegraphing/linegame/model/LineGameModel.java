@@ -6,13 +6,17 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.games.GameSettings;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 
@@ -63,6 +67,8 @@ public class LineGameModel {
     public final Property<MatchingChallenge> challenge; // the current challenge
     private MatchingChallenge[] challenges = new MatchingChallenge[CHALLENGES_PER_GAME];
     private int challengeIndex;
+    public final PointTool pointTool1, pointTool2;
+    private final ObservableList<StraightLine> allLines;
 
     // Defaults
     public LineGameModel() {
@@ -77,7 +83,7 @@ public class LineGameModel {
     private LineGameModel( IntegerRange xRange, IntegerRange yRange ) {
 
         final double mvtScale = GRID_VIEW_UNITS / Math.max( xRange.getLength(), yRange.getLength() ); // view units / model units
-        this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), mvtScale, -mvtScale ); // y is inverted
+        this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 700, 300 ), mvtScale, -mvtScale ); // y is inverted
 
         settings = new GameSettings( new IntegerRange( 1, 3 ), true /* soundEnabled */, true /* timerEnabled */ );
 
@@ -86,6 +92,10 @@ public class LineGameModel {
         graph = new Graph( xRange, yRange );
 
         challenge = new Property<MatchingChallenge>( new MatchingChallenge( new StraightLine( 1, 1, 1, Color.BLACK ) ) ); // initial value is meaningless
+
+        allLines = new ObservableList<StraightLine>(  );
+        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ), allLines );
+        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), pointTool1.location.get().getY() ), allLines );
 
         // time
         timer = new GameTimer( new ConstantDtClock( 1000 / 5, 1 ) );
@@ -120,7 +130,7 @@ public class LineGameModel {
 
         initChallenges();
 
-        state = new Property<PlayState>( PlayState.NEXT ) {{  // initialized to anything except FIRST_CHECK, to force a state change
+        state = new Property<PlayState>( PlayState.TRY_AGAIN ) {{  // initialized to anything except FIRST_CHECK, to force a state change
             addObserver( new VoidFunction1<PlayState>() {
                 public void apply( PlayState state ) {
                     LOGGER.info( "play state = " + state );
@@ -135,9 +145,34 @@ public class LineGameModel {
                             challengeIndex++;
                         }
                     }
+                    else if ( state == PlayState.NEXT ) {
+                        updateListOfLines();
+                    }
                 }
             } );
         }};
+
+        // When the user's guess changes, update the list of lines.
+        challenge.addObserver( new VoidFunction1<MatchingChallenge>() {
+            public void apply( MatchingChallenge challenge ) {
+                challenge.guess.addObserver( new SimpleObserver() {
+                    public void update() {
+                        updateListOfLines();
+                    }
+                } );
+            }
+        } );
+    }
+
+    private void updateListOfLines() {
+        allLines.clear();
+        allLines.add( challenge.get().guess.get() );
+        System.out.println( "state = " + state );
+        System.out.println( "challenge = " + challenge );
+        if ( state.get() == PlayState.NEXT && !challenge.get().isCorrect() ) {
+            // user got it wrong and we're showing the correct answer
+            allLines.add( challenge.get().answer );
+        }
     }
 
     private void initChallenges() {
