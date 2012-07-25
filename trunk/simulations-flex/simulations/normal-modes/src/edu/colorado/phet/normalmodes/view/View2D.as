@@ -66,7 +66,7 @@ public class View2D extends Sprite {
         //Mass graphic is drawn in MassView
         for ( i = 0 ; i < nMax ; i++ ) {
             for ( j = 0 ; j < nMax ; j++ ) {
-                this.mass_arr[i][j] = new MassView2( i + 1, j + 1, this.myModel2, this );
+                this.mass_arr[i][j] = new MassView2D( i + 1, j + 1, this.myModel2, this );
             }
         }
 
@@ -223,7 +223,7 @@ public class View2D extends Sprite {
         return this._topLeftCornerY;
     }
 
-    //called from startTargetDrag() inside MassView2
+    //called from startTargetDrag() inside MassView2D
     public function clearBorderZones(): void {
         if ( !_massGrabbedByUser ) {
             var N: int = this.myModel2.nMax;

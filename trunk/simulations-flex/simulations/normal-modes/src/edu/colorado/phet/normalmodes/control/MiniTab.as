@@ -78,7 +78,7 @@ public class MiniTab extends Sprite {
             this.tabIcon.x += 5;    //have to tweek position so icon doesn't collide with border
             this.tabIcon.y += 2;
         }
-    } //end setIcon()
+    }
 
     private function drawTabShape(): void {
         var tW: Number = this.tabWidth;

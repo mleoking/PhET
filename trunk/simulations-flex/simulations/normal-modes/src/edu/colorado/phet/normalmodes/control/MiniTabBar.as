@@ -16,11 +16,11 @@ import edu.colorado.phet.normalmodes.model.Model2D;
 import flash.display.Sprite;
 
 /**
- * MiniTabBar holds 2 miniTabs at top of ButtonArrayPanel.
+ * MiniTabBar holds 2 miniTabs at top of ButtonArrayPanel, which is view/controller of 2D mode spectrum
  * One miniTab for selecting horiz polarization, the other for vert polarization
  */
 public class MiniTabBar extends Sprite {
-    private var myModel2: Model2D;
+    private var myModel2D: Model2D;
     private var tabH: MiniTab;          //tab to select horizontal polarization
     private var tabV: MiniTab;          //tab to select vertical polarization
     private var _tabWidth: Number;
@@ -29,8 +29,8 @@ public class MiniTabBar extends Sprite {
     private var horizontal_str: String;
     private var vertical_str: String;
 
-    public function MiniTabBar( myModel2: Model2D ) {
-        this.myModel2 = myModel2;
+    public function MiniTabBar( myModel2D: Model2D ) {
+        this.myModel2D = myModel2D;
         this._tabWidth = 125;
         this._tabHeight = 25;
         this._folderWidth = 300;
@@ -60,11 +60,12 @@ public class MiniTabBar extends Sprite {
         return _tabHeight;
     }
 
+    /*Set type of polarization mode (H or V) displayed on ButtonArrayPanel. */
     public function setPolarization( polarizationType: String ): void {
         var hTabDepth: int = this.getChildIndex( this.tabH );
         var vTabDepth: int = this.getChildIndex( this.tabV );
         if ( polarizationType == "H" ) {    //if horizontal tab selected, bring that folder to top
-            this.myModel2.xModes = true;
+            this.myModel2D.xModes = true;
             this.tabH.selected = true;
             this.tabV.selected = false;
             if ( vTabDepth > hTabDepth ) {
@@ -72,7 +73,7 @@ public class MiniTabBar extends Sprite {
             }
         }
         else {                              //if vertical tab selected
-            this.myModel2.xModes = false;
+            this.myModel2D.xModes = false;
             this.tabV.selected = true;
             this.tabH.selected = false;
             if ( hTabDepth > vTabDepth ) {
