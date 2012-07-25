@@ -75,6 +75,18 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
         PointToolNode pointToolNode1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
         PointToolNode pointToolNode2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
 
+        // non-interactive nodes
+        {
+            titleNode.setPickable( false );
+            titleNode.setChildrenPickable( false );
+            equationNode.setPickable( false );
+            equationNode.setChildrenPickable( false );
+            faceNode.setPickable( false );
+            faceNode.setChildrenPickable( false );
+            pointsNode.setPickable( false );
+            pointsNode.setChildrenPickable( false );
+        }
+
         // rendering order
         {
             addChild( titleNode );
