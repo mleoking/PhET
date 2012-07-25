@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -312,33 +313,39 @@ public class Burner extends ModelElement {
     }
 
     // Convenience class - a Property<Double> with a limited range.
-    private static class BoundedDoubleProperty extends Property<Double> {
+    public static class BoundedDoubleProperty extends Property<Double> {
 
-        private DoubleRange bounds;
+        private final Property<DoubleRange> bounds;
 
         public BoundedDoubleProperty( Double value, double minValue, double maxValue ) {
             super( value );
-            bounds = new DoubleRange( minValue, maxValue );
+            bounds = new Property<DoubleRange>( new DoubleRange( minValue, maxValue ) );
         }
 
         @Override public void set( Double value ) {
-            double boundedValue = MathUtil.clamp( bounds.getMin(), value, bounds.getMax() );
+            double boundedValue = MathUtil.clamp( bounds.get().getMin(), value, bounds.get().getMax() );
             super.set( boundedValue );
         }
 
         public void setMin( double min ) {
-            bounds = new DoubleRange( min, bounds.getMax() );
-            update();
+            if ( min != bounds.get().getMin() ) {
+                bounds.set( new DoubleRange( min, bounds.get().getMax() ) );
+                update();
+            }
         }
 
         public void setMax( double max ) {
-            bounds = new DoubleRange( bounds.getMin(), max );
-            update();
+            if ( max != bounds.get().getMax() ) {
+                bounds.set( new DoubleRange( bounds.get().getMin(), max ) );
+                update();
+            }
         }
 
         public void setRange( double min, double max ) {
-            bounds = new DoubleRange( min, max );
-            update();
+            if ( min != bounds.get().getMin() || max != bounds.get().getMax() ) {
+                bounds.set( new DoubleRange( min, max ) );
+                update();
+            }
         }
 
         // Make sure that the current value is within the range.
@@ -347,11 +354,15 @@ public class Burner extends ModelElement {
         }
 
         public double getMax() {
-            return bounds.getMax();
+            return bounds.get().getMax();
         }
 
         public double getMin() {
-            return bounds.getMin();
+            return bounds.get().getMin();
+        }
+
+        public ObservableProperty<DoubleRange> getBoundsProperty() {
+            return bounds;
         }
     }
 }

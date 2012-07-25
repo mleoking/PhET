@@ -12,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -49,12 +50,27 @@ public class BurnerNode extends PNode {
 
         // Add the heater-cooler node to the center bottom.
         // TODO: i18n
-        PNode heaterCoolerNode = new HeaterCoolerWithLimitsNode( burner.heatCoolLevel, "Heat", "Cool" ) {{
+        final HeaterCoolerWithLimitsNode heaterCoolerNode = new HeaterCoolerWithLimitsNode( burner.heatCoolLevel, "Heat", "Cool" ) {{
             setScale( mvt.modelToViewDeltaX( burner.getOutlineRect().getWidth() ) * 0.7 / getFullBoundsReference().width );
             setOffset( burnerViewRect.getX() + burnerViewRect.getWidth() / 2 - getFullBoundsReference().width / 2,
                        burnerViewRect.getMaxY() - getFullBoundsReference().height * 0.9 );
         }};
         addChild( heaterCoolerNode );
+
+        // TODO: Comment
+        burner.heatCoolLevel.getBoundsProperty().addObserver( new VoidFunction1<DoubleRange>() {
+            public void apply( DoubleRange allowedRange ) {
+                if ( allowedRange.getMin() == 0 && heaterCoolerNode.heatCoolMode.get() != HeaterCoolerWithLimitsNode.HeatCoolMode.HEAT_ONLY ) {
+                    heaterCoolerNode.heatCoolMode.set( HeaterCoolerWithLimitsNode.HeatCoolMode.HEAT_ONLY );
+                }
+                else if ( allowedRange.getMax() == 0 && heaterCoolerNode.heatCoolMode.get() != HeaterCoolerWithLimitsNode.HeatCoolMode.COOL_ONLY ) {
+                    heaterCoolerNode.heatCoolMode.set( HeaterCoolerWithLimitsNode.HeatCoolMode.COOL_ONLY );
+                }
+                else if ( heaterCoolerNode.heatCoolMode.get() != HeaterCoolerWithLimitsNode.HeatCoolMode.HEAT_AND_COOL ) {
+                    heaterCoolerNode.heatCoolMode.set( HeaterCoolerWithLimitsNode.HeatCoolMode.HEAT_AND_COOL );
+                }
+            }
+        } );
 
         // Add the left and right sides of the stand.
         addChild( new BurnerStandSide( new Point2D.Double( burnerViewRect.getX(), burnerViewRect.getY() ), burnerViewRect.getHeight() ) );
