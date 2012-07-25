@@ -30,17 +30,17 @@ import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.lwjglphet.math.Ray3F;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsApplication;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
-import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
+import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -57,11 +57,11 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
     private final LWJGLTransform modelViewTransform;
     private final PlateTectonicsTab tab;
-    private final PlateModel model;
+    private final PlateTectonicsModel model;
 
     public Vector2F draggedPosition = new Vector2F();
 
-    public DensitySensorNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
+    public DensitySensorNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateTectonicsModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
         super( new DensitySensorNode2D( modelViewTransform.transformDeltaX( (float) 1000 ), tab ) {{
@@ -159,7 +159,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
     }
 
     public Vector3F getSensorModelPosition() {
-        return PlateModel.convertToPlanar( modelViewTransform.inversePosition( getSensorViewPosition() ) );
+        return PlateTectonicsModel.convertToPlanar( modelViewTransform.inversePosition( getSensorViewPosition() ) );
     }
 
     public Vector3F getSensorViewPosition() {

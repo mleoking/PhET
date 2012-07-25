@@ -1,20 +1,19 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.lwjglphet.nodes;
 
-import java.awt.Cursor;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+import edu.colorado.phet.common.phetcommon.math.PlaneF;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.PiccoloImage;
-import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.lwjglphet.math.PlaneF;
-import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PNode;
@@ -26,7 +25,10 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * An alternative to PlanarPiccoloNode that attempts to minimize the thread message passing and
  * frame latency issues experienced by having to pass rendering to be done at a later time in the
- * Swing EDT
+ * Swing EDT.
+ * <p/>
+ * Also, don't add any sort of PSwing under this node. I haven't tried it, but it seems like the
+ * perfect way to create an evil threading heisenbug.
  */
 public class ThreadedPlanarPiccoloNode extends GLNode {
     public final ValueNotifier<ThreadedPlanarPiccoloNode> onResize = new ValueNotifier<ThreadedPlanarPiccoloNode>( this );

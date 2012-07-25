@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
@@ -13,7 +13,11 @@ import org.lwjgl.opengl.GL11;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
-// TODO: with how OpenGL works, can't we just ignore this general kind of thing?
+/**
+ * Handles the stage to canvas transforms that allow scaling based on how large the canvas is to a fixed stage size.
+ * <p/>
+ * TODO: with how OpenGL works, can't we just ignore this general kind of thing and wrap it in the projection matrix?
+ */
 public abstract class CanvasTransform {
     public final Property<AffineTransform> transform = new Property<AffineTransform>( null );
 
@@ -27,7 +31,7 @@ public abstract class CanvasTransform {
         try {
             return transform.get().createInverse().createTransformedShape( bounds ).getBounds2D();
         }
-        catch ( NoninvertibleTransformException e ) {
+        catch( NoninvertibleTransformException e ) {
             throw new RuntimeException( e );
         }
     }
@@ -103,7 +107,7 @@ public abstract class CanvasTransform {
         transform.getMatrix( m );
         DoubleBuffer buffer = BufferUtils.createDoubleBuffer( 16 );
         // column-major order. argh
-        buffer.put( new double[] { m[0], m[1], 0, 0, m[2], m[3], 0, 0, 0, 0, 1, 0, m[4], m[5], 0, 1 } );
+        buffer.put( new double[]{m[0], m[1], 0, 0, m[2], m[3], 0, 0, 0, 0, 1, 0, m[4], m[5], 0, 1} );
         buffer.rewind();
         GL11.glMultMatrix( buffer );
     }

@@ -39,8 +39,23 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
  * Main model for the Plate Motion tab. Starts with just the mantle, then 2 plates are added. The UI and user decide what type of plate
  * behaviors (plate types and motion direction decide this) at the start of the animation, and the PlateBehavior for each plate takes care
  * of the specific type of animation.
+ * <p/>
+ * The state of the model (and how it needs to react to the user) is very helpful to understand. Here's a simplified (linear) state machine view of
+ * the model (note that the user can switch between automatic and manual mode at any time):
+ * <p/>
+ * A) No crusts dropped (i.e. like the start of the simulation)
+ * |    * user drops two crusts into place -->
+ * B) Crusts (and plates) initialized, but no motion type or behaviors set or chosen. model.hasBothPlates flag is true
+ * |    * user can change model.motionTypeIfStarted in automatic mode with the motion type radio buttons (with green / red / blue icons),
+ * |      but it isn't set in stone
+ * |    * user either drags the handles in a specific direction (manual mode) or presses play for 1st time (automatic mode) -->
+ * C) Motion type fixed (won't change), plate-specific behaviors are created depending on crust types. model.animationStarted flag is true
+ * |        (model.initializeBehaviors() is called after model.motionType is set)
+ * |    * user can animate as they want (automatic or manual mode)
+ * |    * user presses "Rewind" --> rewinds animation, goes to (C) with same motion type / behaviors
+ * |    * user presses "Reset" --> goes to (A)
  */
-public class PlateMotionModel extends PlateModel {
+public class PlateMotionModel extends PlateTectonicsModel {
 
     // the two main plates
     private PlateMotionPlate leftPlate;
@@ -113,17 +128,6 @@ public class PlateMotionModel extends PlateModel {
         };
         leftPlateType.addObserver( observer );
         rightPlateType.addObserver( observer );
-    }};
-
-    public final Property<Boolean> canRun = new Property<Boolean>( false ) {{
-        SimpleObserver observer = new SimpleObserver() {
-            public void update() {
-                set( hasLeftPlate() && hasRightPlate() && motionType.get() != null );
-            }
-        };
-        leftPlateType.addObserver( observer );
-        rightPlateType.addObserver( observer );
-        motionType.addObserver( observer );
     }};
 
     // TODO: change bounds to possibly a Z range, or just bake it in
@@ -339,7 +343,6 @@ public class PlateMotionModel extends PlateModel {
         resetPlates();
         resetTerrain();
 
-        canRun.reset();
         motionType.reset();
         motionTypeIfStarted.reset();
         animationStarted.reset();
@@ -459,10 +462,10 @@ public class PlateMotionModel extends PlateModel {
             return hitResult.density;
         }
         else if ( y < 0 ) {
-            return PlateModel.getWaterDensity( y );
+            return PlateTectonicsModel.getWaterDensity( y );
         }
         else {
-            return PlateModel.getAirDensity( y );
+            return PlateTectonicsModel.getAirDensity( y );
         }
     }
 
@@ -474,10 +477,10 @@ public class PlateMotionModel extends PlateModel {
             return hitResult.temperature;
         }
         else if ( y < 0 ) {
-            return PlateModel.getWaterTemperature( y );
+            return PlateTectonicsModel.getWaterTemperature( y );
         }
         else {
-            return PlateModel.getAirTemperature( y );
+            return PlateTectonicsModel.getAirTemperature( y );
         }
     }
 

@@ -1,31 +1,40 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet.utils;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.lwjgl.BufferUtils;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
-import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glVertex3f;
 
+/**
+ * Useful utility functions related to LWJGL
+ */
 public class LWJGLUtils {
 
     private static int nextDisplayList = 1;
 
+    // common spot to handle display list names (identifiers)
     public static synchronized int getDisplayListName() {
         return nextDisplayList++;
     }
 
+    // to support all needed video card architectures, we need to be able to make texture dimensions a power of 2 in many cases.
     public static int toPowerOf2( int n ) {
         int result = 1;
         while ( result < n ) {
@@ -41,6 +50,10 @@ public class LWJGLUtils {
     public static boolean isPowerOf2( int n ) {
         return n == toPowerOf2( n );
     }
+
+    /*---------------------------------------------------------------------------*
+    * convenience methods
+    *----------------------------------------------------------------------------*/
 
     public static void color4f( Color color ) {
         glColor4f( (float) color.getRed() / 255f,
@@ -58,6 +71,10 @@ public class LWJGLUtils {
         glVertex3f( v.x, v.y, 0 );
     }
 
+    /*---------------------------------------------------------------------------*
+    * buffer creation
+    *----------------------------------------------------------------------------*/
+
     public static FloatBuffer floatBuffer( float[] floats ) {
         FloatBuffer result = BufferUtils.createFloatBuffer( floats.length );
         result.put( floats );
@@ -71,6 +88,10 @@ public class LWJGLUtils {
         result.rewind();
         return result;
     }
+
+    /*---------------------------------------------------------------------------*
+    * threading
+    *----------------------------------------------------------------------------*/
 
     public static void invoke( Runnable runnable ) {
         LWJGLCanvas.addTask( runnable );
@@ -103,6 +124,10 @@ public class LWJGLUtils {
             }
         };
     }
+
+    /*---------------------------------------------------------------------------*
+    * capability handling (if in a GLNode, use the behavior there instead)
+    *----------------------------------------------------------------------------*/
 
     public static void withEnabled( int glCapability, Runnable runnable ) {
         glEnable( glCapability );

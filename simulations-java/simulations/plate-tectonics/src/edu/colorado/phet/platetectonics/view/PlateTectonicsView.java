@@ -14,13 +14,13 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
-import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
+import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.labels.BoundaryLabelNode;
 
@@ -29,20 +29,20 @@ import edu.colorado.phet.platetectonics.view.labels.BoundaryLabelNode;
  * of the specified grid
  * <p/>
  */
-public class PlateView extends GLNode {
+public class PlateTectonicsView extends GLNode {
 
     // keep track of which object corresponds to which node, so we can remove them later
     private final Map<Object, GLNode> nodeMap = new HashMap<Object, GLNode>();
-    private final PlateModel model;
+    private final PlateTectonicsModel model;
     private final PlateTectonicsTab tab;
     private final Property<Boolean> showWater;
 
     // by default, show water
-    public PlateView( final PlateModel model, final PlateTectonicsTab tab ) {
+    public PlateTectonicsView( final PlateTectonicsModel model, final PlateTectonicsTab tab ) {
         this( model, tab, new Property<Boolean>( true ) );
     }
 
-    public PlateView( final PlateModel model, final PlateTectonicsTab tab, final Property<Boolean> showWater ) {
+    public PlateTectonicsView( final PlateTectonicsModel model, final PlateTectonicsTab tab, final Property<Boolean> showWater ) {
         this.model = model;
         this.tab = tab;
         this.showWater = showWater;
@@ -86,7 +86,7 @@ public class PlateView extends GLNode {
         model.debugPing.addListener( new VoidFunction1<Vector3F>() {
             public void apply( final Vector3F location ) {
                 addChild( new UnitMarker() {{
-                    Vector3F viewLocation = tab.getModelViewTransform().transformPosition( PlateModel.convertToRadial( location ) );
+                    Vector3F viewLocation = tab.getModelViewTransform().transformPosition( PlateTectonicsModel.convertToRadial( location ) );
                     translate( viewLocation.x, viewLocation.y, viewLocation.z );
                     scale( 3 );
                 }} );

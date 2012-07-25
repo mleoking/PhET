@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.platetectonics.modules;
+package edu.colorado.phet.platetectonics.tabs;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,11 +25,11 @@ import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
 import edu.colorado.phet.platetectonics.control.ZoomPanel;
 import edu.colorado.phet.platetectonics.model.CrustModel;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.ColorMode;
-import edu.colorado.phet.platetectonics.view.PlateView;
+import edu.colorado.phet.platetectonics.view.PlateTectonicsView;
 import edu.colorado.phet.platetectonics.view.labels.RangeLabelNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -73,11 +73,11 @@ public class CrustTab extends PlateTectonicsTab {
         // create the model and terrain
         setModel( new CrustModel( grid ) );
 
-        sceneLayer.addChild( new PlateView( getModel(), this ) );
+        sceneLayer.addChild( new PlateTectonicsView( getModel(), this ) );
 
         final Function1<Vector3F, Vector3F> flatModelToView = new Function1<Vector3F, Vector3F>() {
             public Vector3F apply( Vector3F v ) {
-                return getModelViewTransform().transformPosition( PlateModel.convertToRadial( v ) );
+                return getModelViewTransform().transformPosition( PlateTectonicsModel.convertToRadial( v ) );
             }
         };
 
@@ -89,6 +89,9 @@ public class CrustTab extends PlateTectonicsTab {
             } );
         }};
         sceneLayer.addChild( layerLabels );
+
+
+        // TODO: since in the other tab labels are handled in the model, should we consolidate them and handle these labels in CrustModel?
 
         /*---------------------------------------------------------------------------*
         * cross-section labels
@@ -153,7 +156,7 @@ public class CrustTab extends PlateTectonicsTab {
         ) );
 
         Property<Vector3F> innerCoreTop = new Property<Vector3F>( flatModelToView.apply( new Vector3F( 250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
-        Property<Vector3F> innerCoreBottom = new Property<Vector3F>( flatModelToView.apply( new Vector3F( 250000, -PlateModel.EARTH_RADIUS, 0 ) ) );
+        Property<Vector3F> innerCoreBottom = new Property<Vector3F>( flatModelToView.apply( new Vector3F( 250000, -PlateTectonicsModel.EARTH_RADIUS, 0 ) ) );
 
         // inner core
         layerLabels.addChild( new RangeLabelNode(

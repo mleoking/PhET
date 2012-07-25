@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
@@ -76,7 +75,7 @@ public abstract class TextureImage {
         Runnable updateTextureRunnable = new Runnable() {
             public void run() {
                 // make sure to lock this instance so we don't read the buffer while it is being written to
-                synchronized ( TextureImage.this ) {
+                synchronized( TextureImage.this ) {
                     buffer.clear();
                     buffer.put( data, 0, data.length );
                     buffer.rewind();
@@ -108,7 +107,7 @@ public abstract class TextureImage {
 
     public void useTexture() {
         // lock the instance to prevent concurrent buffer modification
-        synchronized ( this ) {
+        synchronized( this ) {
             if ( textureInitialized ) {
                 glBindTexture( GL_TEXTURE_2D, textureId );
                 glColor4f( 1, 1, 1, 1 );
@@ -146,7 +145,7 @@ public abstract class TextureImage {
         try {
             swingPoint = getImageTransform().inverseTransform( new Point2D.Float( localCoordinates.x, localCoordinates.y ), new Point2D.Float() );
         }
-        catch ( NoninvertibleTransformException e ) {
+        catch( NoninvertibleTransformException e ) {
             throw new RuntimeException( e );
         }
         final double x = swingPoint.getX();

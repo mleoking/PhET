@@ -17,7 +17,15 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_COORD_ARRAY;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glDrawElements;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glNormalPointer;
+import static org.lwjgl.opengl.GL11.glTexCoordPointer;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
 
 /**
  * A mesh that is a polygon without holes or crossings (convex or concave) that lives in the z=0 plane
@@ -68,7 +76,7 @@ public class PlanarPolygon extends GLNode {
 
         // pre-initialize the normal data
         for ( int i = 0; i < maxVertexCount; i++ ) {
-            normalBuffer.put( new float[] { 0, 0, 1 } );
+            normalBuffer.put( new float[]{0, 0, 1} );
         }
     }
 
@@ -95,14 +103,14 @@ public class PlanarPolygon extends GLNode {
 
         // fill the position buffer
         for ( Vector2F vertex : vertices ) {
-            positionBuffer.put( new float[] { vertex.x, vertex.y, 0 } );
+            positionBuffer.put( new float[]{vertex.x, vertex.y, 0} );
         }
         positionBuffer.limit( positionBuffer.position() );
         normalBuffer.limit( positionBuffer.position() ); // also set the limit on the normal buffer to the same position
 
         // fill the texture buffer
         for ( Vector2F textureCoordinate : textureCoordinates ) {
-            textureBuffer.put( new float[] { textureCoordinate.x, textureCoordinate.y } );
+            textureBuffer.put( new float[]{textureCoordinate.x, textureCoordinate.y} );
         }
         textureBuffer.limit( textureBuffer.position() );
 
@@ -131,7 +139,7 @@ public class PlanarPolygon extends GLNode {
             try {
                 Poly2Tri.triangulate( polygon );
             }
-            catch ( Exception e ) {
+            catch( Exception e ) {
                 System.out.println( "triangulation failure:" );
                 for ( PolygonPoint point : points ) {
                     System.out.println( "{" + point.getX() + ", " + point.getY() + "}," );
@@ -149,10 +157,10 @@ public class PlanarPolygon extends GLNode {
                     continue;
                 }
                 // find the indices of the points
-                short[] indices = new short[] {
+                short[] indices = new short[]{
                         ( (IndexedPolygonPoint) triangle.points[0] ).index,
                         ( (IndexedPolygonPoint) triangle.points[1] ).index,
-                        ( (IndexedPolygonPoint) triangle.points[2] ).index };
+                        ( (IndexedPolygonPoint) triangle.points[2] ).index};
 
                 // add the indices into the index buffer
                 indexBuffer.put( indices );

@@ -1,9 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.lwjglphet.nodes;
 
-import java.awt.FlowLayout;
+import java.awt.*;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
@@ -13,6 +13,9 @@ import edu.colorado.phet.lwjglphet.CanvasTransform;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.umd.cs.piccolo.PNode;
 
+/**
+ * Allows overlaying a Piccolo-based GUI onto LWJGL. This should only be rendered in an orthographic mode.
+ */
 public class OrthoPiccoloNode extends OrthoComponentNode {
     private final PNode node;
 

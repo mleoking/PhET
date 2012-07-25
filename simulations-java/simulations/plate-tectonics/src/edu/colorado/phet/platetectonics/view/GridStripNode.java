@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 
 import static org.lwjgl.opengl.GL11.GL_NORMAL_ARRAY;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;
@@ -100,10 +100,10 @@ public abstract class GridStripNode extends GLNode {
         Vector3F[] zRadials = new Vector3F[numZSamples];
 
         for ( int i = 0; i < numXSamples; i++ ) {
-            xRadials[i] = PlateModel.getXRadialVector( getXPosition( i ) );
+            xRadials[i] = PlateTectonicsModel.getXRadialVector( getXPosition( i ) );
         }
         for ( int i = 0; i < numZSamples; i++ ) {
-            zRadials[i] = PlateModel.getZRadialVector( getZPosition( i ) );
+            zRadials[i] = PlateTectonicsModel.getZRadialVector( getZPosition( i ) );
         }
 
         /*---------------------------------------------------------------------------*
@@ -113,7 +113,7 @@ public abstract class GridStripNode extends GLNode {
             Vector3F zRadial = zRadials[zIndex];
             for ( int xIndex = 0; xIndex < numXSamples; xIndex++ ) {
                 float elevation = getElevation( xIndex, zIndex );
-                Vector3F cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
+                Vector3F cartesianModelVector = PlateTectonicsModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
                 Vector3F viewVector = modelViewTransform.transformPosition( cartesianModelVector );
 
                 // fill the position array, so we can compute normals in a second

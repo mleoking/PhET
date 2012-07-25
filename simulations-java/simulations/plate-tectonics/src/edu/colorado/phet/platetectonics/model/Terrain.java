@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.lwjglphet.math.Ray3F;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.platetectonics.util.Side;
 
 /**
@@ -149,10 +149,10 @@ public class Terrain {
 
     private Vector3F[] getViewSpaceRow( int zIndex, Vector3F[] xRadials, LWJGLTransform modelViewTransform ) {
         Vector3F[] result = new Vector3F[xPositions.size()];
-        Vector3F zRadial = PlateModel.getZRadialVector( zPositions.get( zIndex ) );
+        Vector3F zRadial = PlateTectonicsModel.getZRadialVector( zPositions.get( zIndex ) );
         for ( int xIndex = 0; xIndex < xPositions.size(); xIndex++ ) {
             float elevation = getSample( xIndex, zIndex ).getElevation();
-            Vector3F cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
+            Vector3F cartesianModelVector = PlateTectonicsModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
             Vector3F viewVector = modelViewTransform.transformPosition( cartesianModelVector );
 
             result[xIndex] = viewVector;
@@ -166,7 +166,7 @@ public class Terrain {
         Vector3F[] xRadials = new Vector3F[xPositions.size()];
 
         for ( int i = 0; i < xPositions.size(); i++ ) {
-            xRadials[i] = PlateModel.getXRadialVector( xPositions.get( i ) );
+            xRadials[i] = PlateTectonicsModel.getXRadialVector( xPositions.get( i ) );
         }
 
         // try intersecting from front to back

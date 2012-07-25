@@ -3,7 +3,9 @@ package edu.colorado.phet.lwjglphet.math;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 
-// copied somewhat from the Arrow class TODO cleanup
+/**
+ * copied somewhat from the Arrow class TODO cleanup
+ */
 public class Arrow2F {
     private Vector2F tailLocation;
     private Vector2F tipLocation;

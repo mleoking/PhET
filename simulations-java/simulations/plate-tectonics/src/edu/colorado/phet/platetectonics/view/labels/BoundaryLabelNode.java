@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.util.Side;
@@ -66,16 +66,16 @@ public class BoundaryLabelNode extends BaseLabelNode {
                 // cap it off early
                 float lastSampleX = lastSample.getPosition().getX();
                 float ratio = ( boundaryLabel.maxX.get() - lastSampleX ) / ( position.getX() - lastSampleX );
-                vertex3f( modelViewTransform.transformPosition( PlateModel.convertToRadial( position.times( ratio ).plus( lastSample.getPosition().times( 1 - ratio ) ) ) ) );
+                vertex3f( modelViewTransform.transformPosition( PlateTectonicsModel.convertToRadial( position.times( ratio ).plus( lastSample.getPosition().times( 1 - ratio ) ) ) ) );
             }
             else {
                 if ( lastSample != null && lastSample.getPosition().getX() < boundaryLabel.minX.get() ) {
                     // add an initial point here that is between two
                     float lastSampleX = lastSample.getPosition().getX();
                     float ratio = ( boundaryLabel.minX.get() - lastSampleX ) / ( position.getX() - lastSampleX );
-                    vertex3f( modelViewTransform.transformPosition( PlateModel.convertToRadial( position.times( ratio ).plus( lastSample.getPosition().times( 1 - ratio ) ) ) ) );
+                    vertex3f( modelViewTransform.transformPosition( PlateTectonicsModel.convertToRadial( position.times( ratio ).plus( lastSample.getPosition().times( 1 - ratio ) ) ) ) );
                 }
-                vertex3f( modelViewTransform.transformPosition( PlateModel.convertToRadial( position ) ) );
+                vertex3f( modelViewTransform.transformPosition( PlateTectonicsModel.convertToRadial( position ) ) );
             }
 
             lastSample = sample;

@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.platetectonics.modules;
+package edu.colorado.phet.platetectonics.tabs;
 
 import java.awt.*;
 import java.nio.FloatBuffer;
@@ -35,8 +35,8 @@ import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.lwjglphet.math.PlaneF;
-import edu.colorado.phet.lwjglphet.math.Ray3F;
+import edu.colorado.phet.common.phetcommon.math.PlaneF;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
@@ -54,7 +54,7 @@ import edu.colorado.phet.platetectonics.control.RulerNode3D;
 import edu.colorado.phet.platetectonics.control.ThermometerNode3D;
 import edu.colorado.phet.platetectonics.control.ToolDragHandler;
 import edu.colorado.phet.platetectonics.control.ToolboxNode;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.TectonicsClock;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.view.ColorMode;
@@ -120,7 +120,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     private boolean showWireframe = false;
 
     // reference to the model. subclasses of this tab will have references to the specific model subclasses, but this is used for tab-common behavior
-    private PlateModel model;
+    private PlateTectonicsModel model;
 
     // list of all orthographic user interfaces (stored here so we can handle mouse events correctly)
     protected final List<OrthoComponentNode> guiNodes = new ArrayList<OrthoComponentNode>();
@@ -440,11 +440,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         } );
     }
 
-    public PlateModel getModel() {
+    public PlateTectonicsModel getModel() {
         return model;
     }
 
-    protected void setModel( PlateModel model ) {
+    protected void setModel( PlateTectonicsModel model ) {
         this.model = model;
     }
 
@@ -545,11 +545,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
     public Vector3F viewToPlanarModel( Vector3F position ) {
         // TODO: turn these into a sub-class of LWJGLTransform that applies the planar/radial transform
-        return PlateModel.convertToPlanar( modelViewTransform.inversePosition( position ) );
+        return PlateTectonicsModel.convertToPlanar( modelViewTransform.inversePosition( position ) );
     }
 
     public Vector3F planarModelToView( Vector3F position ) {
-        return getModelViewTransform().transformPosition( PlateModel.convertToRadial( position ) );
+        return getModelViewTransform().transformPosition( PlateTectonicsModel.convertToRadial( position ) );
     }
 
     public float getTimeElapsed() {
@@ -607,7 +607,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         float minAngle = 13;
         float maxAngle = 0;
         float minY = -80;
-        float maxY = modelViewTransform.transformDeltaY( -PlateModel.CENTER_OF_EARTH_Y / 2 );
+        float maxY = modelViewTransform.transformDeltaY( -PlateTectonicsModel.CENTER_OF_EARTH_Y / 2 );
         float minZ = -400;
         float maxZ = -400 * 45;
         float ratio = getEffectiveZoomRatio();

@@ -1,14 +1,13 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.lwjglphet.nodes;
 
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 import org.lwjgl.input.Mouse;
 
@@ -31,7 +30,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
- * Allows overlaying a GUI onto LWJGL. This should only be rendered in an orthographic mode.
+ * Allows overlaying a Swing GUI onto LWJGL. This should only be rendered in an orthographic mode.
  */
 public class OrthoComponentNode extends GLNode {
 
@@ -123,7 +122,7 @@ public class OrthoComponentNode extends GLNode {
 
     public Vector2F screenToLocalCoordinates( Vector2F screenCoordinates ) {
         return new Vector2F( screenCoordinates.x - offsetX,
-                                      ( tab.canvasSize.get().height - Mouse.getEventY() ) - offsetY
+                             ( tab.canvasSize.get().height - Mouse.getEventY() ) - offsetY
         );
     }
 

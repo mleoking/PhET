@@ -1,8 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.lwjglphet;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 import edu.umd.cs.piccolo.PNode;
@@ -12,7 +11,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * Version of ComponentImage but optimized for Piccolo, so that we can run things outside
  * the Swing EDT and not have to do multiple message passes to render.
  * <p/>
- * TODO: add (simple) mouse event handling, similar to ComponentImage.
+ * TODO: add (simple) mouse event handling, similar to ComponentImage. this will hopefully allow direct interaction with Piccolo in the LWJGL thread
  */
 public class PiccoloImage extends TextureImage {
     public final PNode node;

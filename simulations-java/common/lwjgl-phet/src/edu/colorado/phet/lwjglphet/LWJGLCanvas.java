@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet;
 
-import java.awt.Canvas;
+import java.awt.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.lwjgl.LWJGLException;
@@ -52,7 +52,7 @@ public class LWJGLCanvas extends Canvas {
         try {
             renderThread.join();
         }
-        catch ( InterruptedException e ) {
+        catch( InterruptedException e ) {
             e.printStackTrace();
         }
         super.removeNotify();
@@ -84,7 +84,7 @@ public class LWJGLCanvas extends Canvas {
                                                      Math.min( 4, maxAntiAliasingSamples ) ) // antialiasing samples
                     );
                 }
-                catch ( LWJGLException e ) {
+                catch( LWJGLException e ) {
                     e.printStackTrace();
                 }
 

@@ -1,13 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet.nodes;
 
-import java.awt.FlowLayout;
+import java.awt.*;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.Piccolo3DCanvas;
 import edu.umd.cs.piccolo.PNode;
 
+/**
+ * Renders an arbitrary Piccolo node into a quadrilateral
+ */
 public class PlanarPiccoloNode extends PlanarComponentNode {
     private final PNode node;
 

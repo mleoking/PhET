@@ -23,8 +23,8 @@ import edu.colorado.phet.lwjglphet.StartupUtils;
 import edu.colorado.phet.lwjglphet.utils.ColorPropertyControl;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.dev.PerformanceFrame;
-import edu.colorado.phet.platetectonics.modules.CrustTab;
-import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
+import edu.colorado.phet.platetectonics.tabs.CrustTab;
+import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
 
 /**
  * Main simulation entry point
@@ -59,6 +59,9 @@ public class PlateTectonicsApplication extends LWJGLPhetApplication {
 
         final LWJGLCanvas canvas = LWJGLCanvas.getCanvasInstance();
 
+        // uses our TabbedMolecule interface to present multiple tabs using the same LWJGL canvas.
+        // at the current time, it is impractical to have multiple LWJGL canvases at the same time, and the module system was not flexible enough to
+        // not hide and re-display the LWJGL canvas when switching tabs (which causes 1-2 seconds of artifacts)
         addModule( new TabbedModule( canvas ) {{
             addTab( new CrustTab( canvas ) );
             addTab( new PlateMotionTab( canvas ) );

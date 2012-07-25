@@ -12,17 +12,17 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.Arrow2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.lwjglphet.math.PlaneF;
-import edu.colorado.phet.lwjglphet.math.Ray3F;
+import edu.colorado.phet.common.phetcommon.math.PlaneF;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.ArrowNode;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
 import edu.colorado.phet.platetectonics.model.PlateType;
-import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
+import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector3F.Y_UNIT;
@@ -349,7 +349,7 @@ public class HandleNode extends GLNode {
 
     private Vector3F convertToRadial( Vector3F planarViewCoordinates ) {
         Vector3F planarModelCoordinates = tab.getModelViewTransform().inversePosition( planarViewCoordinates );
-        Vector3F radialModelCoordinates = PlateModel.convertToRadial( planarModelCoordinates );
+        Vector3F radialModelCoordinates = PlateTectonicsModel.convertToRadial( planarModelCoordinates );
         Vector3F radialViewCoordinates = tab.getModelViewTransform().transformPosition( radialModelCoordinates );
         return radialViewCoordinates;
     }

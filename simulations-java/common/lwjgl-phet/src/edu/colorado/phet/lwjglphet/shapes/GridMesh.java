@@ -63,7 +63,7 @@ public class GridMesh extends GLNode {
                 *----------------------------------------------------------------------------*/
 
                 // add texture coordinates based on the largest overall space that will fit in our unit square with the correct aspect ratio
-                textureBuffer.put( new float[] {
+                textureBuffer.put( new float[]{
                         ( (float) ( col ) ) / maxSize,
                         ( (float) ( row ) ) / maxSize, // consider moving this out of the loop for optimization
                         /*
@@ -118,7 +118,7 @@ public class GridMesh extends GLNode {
                 * position
                 *----------------------------------------------------------------------------*/
                 Vector3F position = positions[rowOffset + col];
-                positionBuffer.put( new float[] { position.x, position.y, position.z } );
+                positionBuffer.put( new float[]{position.x, position.y, position.z} );
 
 
                 /*---------------------------------------------------------------------------*
@@ -126,7 +126,7 @@ public class GridMesh extends GLNode {
                 *----------------------------------------------------------------------------*/
                 if ( updateNormals ) {
                     Vector3F normal = getNormal( row, col );
-                    normalBuffer.put( new float[] { normal.x, normal.y, normal.z } );
+                    normalBuffer.put( new float[]{normal.x, normal.y, normal.z} );
                 }
             }
         }

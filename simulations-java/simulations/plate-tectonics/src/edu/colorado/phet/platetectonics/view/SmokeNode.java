@@ -16,9 +16,9 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.SmokePuff;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
 
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
@@ -98,7 +98,7 @@ public class SmokeNode extends GLNode {
             final SimpleObserver updateObserver = new SimpleObserver() {
                 public void update() {
                     Vector3F viewCoordinates = tab.getModelViewTransform().transformPosition(
-                            PlateModel.convertToRadial( puff.position.get() ) );
+                            PlateTectonicsModel.convertToRadial( puff.position.get() ) );
                     transform.set( ImmutableMatrix4F.translation( viewCoordinates.x, viewCoordinates.y, viewCoordinates.z ).times(
                             ImmutableMatrix4F.scaling( puff.scale.get() ) ) );
                 }

@@ -1,0 +1,34 @@
+"Crust" Tab
+    Simplified to be "blocky" in general to show off isostacy.
+    The density and temperature for the mantle and below uses the latest gradient data that I could find (should be fairly realistic).
+        * Any extremely sharp changes in density / temperature (e.g. mantle to core) are modeled as a discrete change.
+    Each crust has a constant density throughout (top to bottom).
+    The elevation of the central (movable) crust's top relative to sea-level = CrustThickness * ( 1 - CrustDensity / MantleDensity ) - 3500km
+        * It uses damping when moving into position, so it is not immediate
+    Temperature and composition controls both affect the density of the crust (in a linear combination of the two).
+    Temperature control does not affect the very top temperature of the crust, only the gradient below it.
+
+"Plate Motion" Tab
+    In general, the motion and shapes here are approximate, and although the distances should be fairly accurate, it is meant as a simplified
+    interpretation. Notably, the mantle's motion is not considered or displayed in any of the cases.
+
+    Notable simplifications:
+        1)  Small variations and gradations in temperature and/or density may be missing
+        2)  The initial shape and conditions at the boundary is simplified (blocky-looking) so that it is easier to drag-drop the crusts. The
+            boundary type is chosen AFTER the crusts are placed (when the animation is started), and the initial conditions with the same crusts
+            but different boundary types would be different, and it would be awkward to switch right as the user hits "play" or drags the handles.
+            Thus we have "hard" corners as the starting conditions when two different types of crusts are used.
+        3)  Continental collisions show no folding or other behaviors that would be present, and the elevations of the mountains is exaggerated.
+        4)  The subducting lithosphere doesn't push and reform the overriding lithosphere (instead it passes through, and no accretionary material
+            is shown).
+        5)  The subducting lithosphere does not change shape significantly as it subducts (usually the leading edges would be worn away and deformed)
+        6)  Magma chambers, magma and melt are somewhat stylized to be visible, and has simplified density / temperature profiles. Formation of the
+            magma chambers (and how it "fills") is heavily simplified.
+        7)  In general, a rough approximation to "erosion" is made at the plate boundary which would occur. Its shape and motion may be different than
+            how erosion would function (as this is not the focus on the simulation)
+        8)  Volcano creation is simplified, and smoke is constantly shown to better indicate to students what they are. Most volcanoes would not
+            constantly have smoke like that.
+        9)  In transform motion, the rift valley's depth is significantly exaggerated for visibility.
+        10) Divergent motion's animation is simplified and does not include many of the surface features that would exist. The mid-oceanic ridge
+            that appears has an elevation that is significantly higher than in real life (its height is exaggerated for visibility).
+        11) Freshly created new crust in the divergent animations does not significantly change in temperature or density as it would as it ages.

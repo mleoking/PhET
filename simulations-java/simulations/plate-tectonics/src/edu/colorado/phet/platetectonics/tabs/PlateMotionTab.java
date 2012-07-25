@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.platetectonics.modules;
+package edu.colorado.phet.platetectonics.tabs;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.Ray3F;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
@@ -42,7 +42,7 @@ import edu.colorado.phet.platetectonics.control.PlayModePanel;
 import edu.colorado.phet.platetectonics.control.ResetPanel;
 import edu.colorado.phet.platetectonics.control.TectonicsTimeControl;
 import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
-import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
@@ -52,7 +52,7 @@ import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
-import edu.colorado.phet.platetectonics.view.PlateView;
+import edu.colorado.phet.platetectonics.view.PlateTectonicsView;
 import edu.colorado.phet.platetectonics.view.labels.RangeLabelNode;
 import edu.colorado.phet.platetectonics.view.labels.TextLabelNode;
 
@@ -120,7 +120,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         setModel( new PlateMotionModel( getClock(), grid.getBounds() ) );
 
         // add the main view
-        sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
+        sceneLayer.addChild( new PlateTectonicsView( getModel(), this, showWater ) );
 
         // add in the handles for manual mode
         leftHandle = new HandleNode( new Property<Vector3F>( new Vector3F( -120, 0, -125 / 2 ) ), this, false ) {{
@@ -693,7 +693,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     }
 
     private Vector3F convertRadial( Vector3F v ) {
-        return getModelViewTransform().transformPosition( PlateModel.convertToRadial( v ) );
+        return getModelViewTransform().transformPosition( PlateTectonicsModel.convertToRadial( v ) );
     }
 
     public IUserComponent getUserComponent() {
