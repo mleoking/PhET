@@ -112,7 +112,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode energyUsersCarouselController = new EnergySystemElementSelector( model.energyUsersCarousel );
 
         // Add the various energy system elements.
-        EnergySystemElementNode faucetNode = new EnergySystemElementNode( model.faucet, mvt );
+        FaucetAndWaterNode faucetAndWaterNode = new FaucetAndWaterNode( model.faucet, mvt );
         EnergySystemElementNode sunNode = new EnergySystemElementNode( model.sun, mvt );
         EnergySystemElementNode teaPotNode = new EnergySystemElementNode( model.teaPot, mvt );
         EnergySystemElementNode waterPoweredGeneratorNode = new EnergySystemElementNode( model.waterPoweredGenerator, mvt );
@@ -135,7 +135,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         for ( PNode shapeNode : shapeNodes ) {
             rootNode.addChild( shapeNode );
         }
-        rootNode.addChild( faucetNode );
+        rootNode.addChild( faucetAndWaterNode );
         rootNode.addChild( sunNode );
         rootNode.addChild( teaPotNode );
         rootNode.addChild( waterPoweredGeneratorNode );
