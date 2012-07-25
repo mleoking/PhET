@@ -65,6 +65,9 @@ public class HeaterCoolerWithLimitsNode extends PNode {
     private static final Font LABEL_FONT = new PhetFont( 20, true );
     private static final double SLIDER_TRACK_LENGTH = 76;
     private static final int TRACK_THICKNESS = 6;
+    private static final Color WARM_COLOR = new Color( 255, 69, 0 );    // Meant to look warm.
+    private static final Color COLD_COLOR = new Color( 0, 0, 240 );     // Meant to look cold.
+    private static final Color IN_BETWEEN_COLOR = ColorUtils.interpolateRBGA( WARM_COLOR, COLD_COLOR, 0.5 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -119,6 +122,7 @@ public class HeaterCoolerWithLimitsNode extends PNode {
 
         // Create the control sliders.  Only one will be visible at a time.
         HeaterCoolerSliderNode stoveControlSlider = new HeaterCoolerSliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, heatLabel, coolLabel );
+        HeatOnlySliderNode heatOnlySliderNode = new HeatOnlySliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, heatLabel );
         CoolOnlySliderNode coolOnlySlider = new CoolOnlySliderNode( HeaterCoolerWithLimitsNode.this.heatCoolLevel, coolLabel );
 
         // Scale the sliders to fit well on the bucket.  The scaling may be
@@ -129,6 +133,7 @@ public class HeaterCoolerWithLimitsNode extends PNode {
             double sliderScale = Math.min( maxWidth / stoveControlSlider.getFullBoundsReference().width,
                                            maxHeight / stoveControlSlider.getFullBoundsReference().height );
             stoveControlSlider.setScale( sliderScale );
+            heatOnlySliderNode.setScale( sliderScale );
             coolOnlySlider.setScale( sliderScale );
         }
 
@@ -147,11 +152,13 @@ public class HeaterCoolerWithLimitsNode extends PNode {
         addChild( burner );
         addChild( stoveControlSlider );
         addChild( coolOnlySlider );
+        addChild( heatOnlySliderNode );
 
         // Do the layout.
         burnerInterior.setOffset( 0, -burnerInterior.getFullBoundsReference().height / 2 ); // Note - Goes a little negative in Y direction.
         stoveControlSlider.setOffset( WIDTH / 2 - stoveControlSlider.getFullBoundsReference().width / 2,
                                       HEIGHT / 2 - stoveControlSlider.getFullBoundsReference().height / 2 + burnerInterior.getFullBoundsReference().height / 2 );
+        heatOnlySliderNode.setOffset( WIDTH / 2 - coolOnlySlider.getFullBoundsReference().width / 2, stoveControlSlider.getFullBoundsReference().getMinY() );
         coolOnlySlider.setOffset( WIDTH / 2 - coolOnlySlider.getFullBoundsReference().width / 2, HEIGHT / 2 );
 
         // Add a handler that updates the appearance when the heat-cool amount
@@ -221,9 +228,6 @@ public class HeaterCoolerWithLimitsNode extends PNode {
      */
     private static class HeaterCoolerSliderNode extends VSliderNode {
 
-        private static final Color TOP_SIDE_TRACK_COLOR = new Color( 255, 69, 0 );    // Meant to look warm.
-        private static final Color BOTTOM_SIDE_TRACK_COLOR = new Color( 0, 0, 240 );  // Meant to look cold.
-
         public HeaterCoolerSliderNode( final SettableProperty<Double> value, String heatLabel, String coolLabel ) {
             super( UserComponents.heaterCoolerSlider, -1, 1, TRACK_THICKNESS, SLIDER_TRACK_LENGTH, value, new BooleanProperty( true ) );
 
@@ -241,23 +245,21 @@ public class HeaterCoolerWithLimitsNode extends PNode {
 
             // Show a gradient in the track that goes from orange to light blue to
             // indicate the heat/coolness setting.
-            setTrackFillPaint( new GradientPaint( 0, 0, TOP_SIDE_TRACK_COLOR, 0, (float) trackLength, BOTTOM_SIDE_TRACK_COLOR, false ) );
+            setTrackFillPaint( new GradientPaint( 0, 0, WARM_COLOR, 0, (float) trackLength, COLD_COLOR, false ) );
         }
 
     }
 
     /*
-     * Slider that controls level of heating/cooling.
+     * Slider that controls level of cooling only, heating is disallowed.
      */
     private static class CoolOnlySliderNode extends VSliderNode {
-
-        private static final Color TOP_SIDE_TRACK_COLOR = Color.BLACK;    // Meant to look warm.
-        private static final Color BOTTOM_SIDE_TRACK_COLOR = new Color( 0, 0, 240 );  // Meant to look cold.
 
         public CoolOnlySliderNode( final SettableProperty<Double> value, String coolLabel ) {
             super( UserComponents.heaterCoolerSlider, -1, 0, TRACK_THICKNESS, SLIDER_TRACK_LENGTH / 2, value, new BooleanProperty( true ) );
 
-            // Show labels for add, zero, and remove.
+            // Add labels.
+            addLabel( 0.0, new SliderTickMark() );
             addLabel( -1, new PhetPText( coolLabel, LABEL_FONT ) );
 
             // Return to 0 when the user releases the slider.
@@ -268,7 +270,31 @@ public class HeaterCoolerWithLimitsNode extends PNode {
             } );
 
             // Show a gradient in the track.
-            setTrackFillPaint( new GradientPaint( 0, 0, TOP_SIDE_TRACK_COLOR, 0, (float) trackLength, BOTTOM_SIDE_TRACK_COLOR, false ) );
+            setTrackFillPaint( new GradientPaint( 0, 0, IN_BETWEEN_COLOR, 0, (float) trackLength, COLD_COLOR, false ) );
+        }
+    }
+
+    /*
+     * Slider that controls level of cooling only, heating is disallowed.
+     */
+    private static class HeatOnlySliderNode extends VSliderNode {
+
+        public HeatOnlySliderNode( final SettableProperty<Double> value, String heatLabel ) {
+            super( UserComponents.heaterCoolerSlider, 0, 1, TRACK_THICKNESS, SLIDER_TRACK_LENGTH / 2, value, new BooleanProperty( true ) );
+
+            // Show labels for add, zero, and remove.
+            addLabel( 0.0, new SliderTickMark() );
+            addLabel( 1, new PhetPText( heatLabel, LABEL_FONT ) );
+
+            // Return to 0 when the user releases the slider.
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mouseReleased( PInputEvent event ) {
+                    value.set( 0.0 );
+                }
+            } );
+
+            // Show a gradient in the track.
+            setTrackFillPaint( new GradientPaint( 0, 0, WARM_COLOR, 0, (float) trackLength, IN_BETWEEN_COLOR, false ) );
         }
     }
 
