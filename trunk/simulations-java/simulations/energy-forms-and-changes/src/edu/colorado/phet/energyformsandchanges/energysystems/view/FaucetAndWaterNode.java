@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
-import edu.colorado.phet.energyformsandchanges.energysystems.model.Faucet;
+import edu.colorado.phet.energyformsandchanges.energysystems.model.FaucetAndWater;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -16,10 +16,13 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class FaucetAndWaterNode extends PNode {
 
-    public FaucetAndWaterNode( Faucet faucet, final ModelViewTransform mvt ) {
+    public FaucetAndWaterNode( FaucetAndWater faucet, final ModelViewTransform mvt ) {
 
-        final FaucetNode faucetNode = new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet, faucet.flowProportion, faucet.enabled, 100, false );
+        final FaucetNode faucetNode = new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet, faucet.flowProportion, faucet.enabled, 200, false );
+        faucetNode.setOffset( -faucetNode.getGlobalOutputCenter().getX() + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
+                              -faucetNode.getGlobalOutputCenter().getY() + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
         addChild( faucetNode );
+        System.out.println( "faucetNode.getGlobalOutputCenter() = " + faucetNode.getGlobalOutputCenter() );
 
         faucet.getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
             public void apply( Vector2D immutableVector2D ) {
