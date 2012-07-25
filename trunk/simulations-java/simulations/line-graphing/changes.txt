@@ -1,3 +1,4 @@
+7/25/12 setPickable(false) for game challenge nodes that aren't interactive
 7/25/12 fix color of correct answer line, as shown by point tool
 7/25/12 make game graph interactive only when in "Check" state
 7/25/12 add 2 point tools to "Graph the Line" challenge
