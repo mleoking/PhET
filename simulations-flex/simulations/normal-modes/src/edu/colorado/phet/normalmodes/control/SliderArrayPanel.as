@@ -9,7 +9,8 @@
  * Time: 8:26 AM
  * To change this template use File | Settings | File Templates.
  */
-//Array of VerticalSliders, two sliders for each mode: amplitude and phase
+
+
 package edu.colorado.phet.normalmodes.control {
 import edu.colorado.phet.flashcommon.controls.VerticalSlider;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
@@ -26,18 +27,21 @@ import flash.text.TextFormatAlign;
 
 import mx.containers.Canvas;
 
-//Array of amplitude and phase sliders which only appear with 1D View
+/**
+ * Array of vertical sliders which only appear in 1D View
+ * Two sliders for each normal mode: amplitude and phase
+ */
 public class SliderArrayPanel extends Canvas {
 
     private var myMainView: MainView;
-    private var myModel1: Model1D;
-    private var showHideButton: ShowHideButton;
+    private var myModel1D: Model1D;
+    private var showHideButton: ShowHideButton;   //button to display or hide the entire slider array
     private var container: Sprite;
     private var boundingBox: Sprite;
     private var myPolarizationPanel: PolarizationPanel;
     private var leftEdgeX: int;
-    private var ampliSlider_arr: Array;   //array of verticalSliders for setting amplitude of mode.
-    private var phaseSlider_arr: Array    //array of vertical Sliders for setting phase of mode
+    private var ampliSlider_arr: Array;   //array of verticalSliders for setting amplitude of modes
+    private var phaseSlider_arr: Array    //array of vertical Sliders for setting phase of modes
     private var nMax: int;                //maximum number of mobile masses = max nbr of normal modes
     private var phasesShown: Boolean;     //true if phases sliders are visible
     private var modeSpectrum_txt: TextField;
@@ -49,7 +53,6 @@ public class SliderArrayPanel extends Canvas {
     private var plusPi_txt: TextField;
     private var zero_txt: TextField;
     private var minusPi_txt: TextField;
-    //private var tFormat1:TextFormat;
     private var modeSpectrum_str: String;
     private var mode_str: String;
     private var amplitude_str: String;
@@ -59,27 +62,21 @@ public class SliderArrayPanel extends Canvas {
     private var plusPi_str: String;
     private var minusPi_str: String;
 
-    public function SliderArrayPanel( myMainView: MainView, myModel1: Model1D ) {
+    public function SliderArrayPanel( myMainView: MainView, myModel1D: Model1D ) {
         //percentWidth = 100;
         //percentHeight = 100;
         this.myMainView = myMainView;
-        this.myModel1 = myModel1;
-        this.myModel1.registerView( this );
+        this.myModel1D = myModel1D;
+        this.myModel1D.registerView( this );
         this.showHideButton = new ShowHideButton( this );
         this.container = new Sprite();
         this.boundingBox = new Sprite();
-        this.myPolarizationPanel = new PolarizationPanel( myMainView, myModel1 );
+        this.myPolarizationPanel = new PolarizationPanel( myMainView, myModel1D );
         this.leftEdgeX = this.myMainView.myView1.leftEdgeX;
-        this.nMax = this.myModel1.nMax;
+        this.nMax = this.myModel1D.nMax;
         this.phasesShown = false;
         this.ampliSlider_arr = new Array( nMax );
         this.phaseSlider_arr = new Array( nMax );
-        //this.amplitudeLabel_txt = new TextField();
-        //this.phaseLabel_txt = new TextField();
-        //this.tFormat1 = new TextFormat();
-        //var vertSlider:VerticalSlider = new VerticalSlider( actionFunction, 150, 0, 10, true  );
-        //vertSlider.setLabelText( "amplitude");
-        //this.slider_arr[0] = vertSlider;
 
         this.addChild( new SpriteUIComponent( this.container ) );
         this.addChild( new SpriteUIComponent( this.boundingBox ) );
@@ -198,8 +195,8 @@ public class SliderArrayPanel extends Canvas {
         //this.plusPi_txt.border = true;    //for testing only
     }//end createLabels()
 
+    //Sine Wave Icons above each amplitude slider
     private function createModeIcons(): void {
-        //Sine Wave Icons above each amplitude slider
         var nI: uint = 10;  //number of icons shown
         //draw a sine wave with i half-wavelengths
         for ( var i: int = 1 ; i <= nI ; i++ ) {
@@ -225,16 +222,15 @@ public class SliderArrayPanel extends Canvas {
         }
     }//end createModeIcons
 
+    //Labels showing frequency of mode at bottom of each amplitude slider
     private function createFrequencyLabels(): void {
-        //label showing frequency of mode at bottom of each amplitude slider
         var tFormatGreek: TextFormat = new TextFormat();
         tFormatGreek.align = TextFormatAlign.CENTER;
-        //tFormatGreek.font = "Symbol";            //don't need to set the font
         tFormatGreek.size = 15;
         tFormatGreek.color = 0x000000;
-        for ( var i: int = 0 ; i < this.myModel1.nMax ; i++ ) {
+        for ( var i: int = 0 ; i < this.myModel1D.nMax ; i++ ) {
             var freq_txt: TextField = new TextField();
-            freq_txt.text = this.myModel1.freqDividedByOmega_arr[ 0 ].toFixed( 2 );   //need a height to establish layout
+            freq_txt.text = this.myModel1D.freqDividedByOmega_arr[ 0 ].toFixed( 2 );   //need a height to establish layout
             freq_txt.autoSize = TextFieldAutoSize.CENTER;
             freq_txt.setTextFormat( tFormatGreek );
             freq_txt.defaultTextFormat = tFormatGreek;
@@ -245,12 +241,12 @@ public class SliderArrayPanel extends Canvas {
         }
     }//end createFrequencyLabels()
 
+    /*Must be called whenever number of masses is changed.*/
     private function setFrequencyLabels(): void {
-        //must be called whenever number of masses is changed
-        for ( var i: int = 0 ; i < this.myModel1.N ; i++ ) {
+        for ( var i: int = 0 ; i < this.myModel1D.N ; i++ ) {
             var freq_txt: TextField = this.ampliSlider_arr[i].getChildAt( this.freqLabelIndex );
-            var freqValue_str: String = this.myModel1.freqDividedByOmega_arr[i].toFixed( 2 );
-            freq_txt.text = freqValue_str + omega_str; //FlexSimStrings.get("freq omega", "{0}w",[freqValue_str]);
+            var freqValue_str: String = this.myModel1D.freqDividedByOmega_arr[i].toFixed( 2 );
+            freq_txt.text = freqValue_str + omega_str;
             var tFormatArial: TextFormat = new TextFormat();
             tFormatArial.font = "Arial";
             tFormatArial.size = 15;
@@ -263,7 +259,7 @@ public class SliderArrayPanel extends Canvas {
 
     //Arrange the layout of sliders, called whenever number of masses is changed
     public function locateSlidersAndLabels(): void {
-        var nbrSliders: int = this.myModel1.N;    //number of mobile masses = number normal modes
+        var nbrSliders: int = this.myModel1D.N;    //number of mobile masses = number normal modes
         var lengthBetweenWallsInPix: Number = this.myMainView.myView1.LinPix;
         var horizSpacing: Number = 0.7 * lengthBetweenWallsInPix / (nbrSliders + 1);
         var yOffset: int = 60;       //nbr of pixels graphics are shifted down
@@ -309,13 +305,12 @@ public class SliderArrayPanel extends Canvas {
     } //end positionSliders();
 
     public function drawBoundingBox(): void {
-        //var g:Graphics = this.container.graphics;
         var g: Graphics = this.boundingBox.graphics;
         g.clear();
         g.lineStyle( 5, 0x999999, 1 );  //gray color
         var xPos: Number = Math.min( modeLabel_txt.x, frequency_txt.x ) - 15;
         var yPos: Number = this.container.y - 20;//this.modeSpectrum_txt.y; // - this.modeSpectrum_txt.height; //
-        var rightEdgeOfSliders: Number = this.ampliSlider_arr[myModel1.N - 1].x + this.ampliSlider_arr[myModel1.N - 1].width;
+        var rightEdgeOfSliders: Number = this.ampliSlider_arr[myModel1D.N - 1].x + this.ampliSlider_arr[myModel1D.N - 1].width;
         //Next line necessary for correct start-up. On first start-up, this.myPolarizationPanel.width = 0
         var polarizationPanelWidth: Number = Math.max( 97, this.myPolarizationPanel.width );
         var w: int = rightEdgeOfSliders + polarizationPanelWidth + 20 - xPos;
@@ -335,17 +330,14 @@ public class SliderArrayPanel extends Canvas {
         //position showHideButton
         this.showHideButton.x = xPos + this.showHideButton.width;
         this.showHideButton.y = yPos + this.showHideButton.height;
-        //Locate Main Label in top left of bounding box;
-        //this.modeSpectrum_txt.x = xPos;
-        //this.modeSpectrum_txt.x = yPos;
     }
 
     public function resetSliders(): void {
         var amplitude: Number;
         var phase: Number;
-        for ( var j: int = 1 ; j <= this.myModel1.N ; j++ ) {
-            amplitude = this.myModel1.getModeAmpli( j );
-            phase = this.myModel1.getModePhase( j );
+        for ( var j: int = 1 ; j <= this.myModel1D.N ; j++ ) {
+            amplitude = this.myModel1D.getModeAmpli( j );
+            phase = this.myModel1D.getModePhase( j );
             this.ampliSlider_arr[ j - 1 ].setSliderWithoutAction( amplitude );
             this.phaseSlider_arr[ j - 1 ].setSliderWithoutAction( phase );
             //trace("SliderArrayPanel.resetSliders. slider = "+ j + "   phase =" + phase);
@@ -354,22 +346,20 @@ public class SliderArrayPanel extends Canvas {
 
     private function setAmplitude( indx: int ): void {
         var A: Number = this.ampliSlider_arr[ indx - 1 ].getVal();
-        this.myModel1.setModeAmpli( indx, A );
+        this.myModel1D.setModeAmpli( indx, A );
         //trace("SliderArrayPanel.amplitudeFunction. Index = "+passedIndex)
     }
 
     private function setPhase( indx: int ): void {
         var phase: Number = this.phaseSlider_arr[ indx - 1 ].getVal();
-        this.myModel1.setModePhase( indx, phase );
+        this.myModel1D.setModePhase( indx, phase );
     }
 
     public function showPhaseSliders( tOrF: Boolean ): void {
         this.phasesShown = tOrF;
-        var nbrMasses: int = this.myModel1.N;
+        var nbrMasses: int = this.myModel1D.N;
         this.phaseLabel_txt.visible = tOrF;
         this.plusPi_txt.visible = tOrF;
-
-
         this.zero_txt.visible = tOrF;
         this.minusPi_txt.visible = tOrF;
         for ( var i: int = 0 ; i < nbrMasses ; i++ ) {
@@ -382,7 +372,7 @@ public class SliderArrayPanel extends Canvas {
         this.drawBoundingBox();
     }
 
-    //show() hide() functions required by ShowHideButton
+    //show() and hide() functions required by ShowHideButton
     public function show(): void {
         this.container.visible = true;
         this.myPolarizationPanel.visible = true;
@@ -398,9 +388,9 @@ public class SliderArrayPanel extends Canvas {
     }
 
     public function update(): void {
-        if ( this.myModel1.modesChanged ) {
+        if ( this.myModel1D.modesChanged ) {
             this.resetSliders();
-            this.myModel1.modesChanged = false;
+            this.myModel1D.modesChanged = false;
         }
     }
 }//end class

@@ -21,13 +21,13 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 /*
-* MassView2 is the view for an individual mass in View2D, which is view for Model2D, a 2D array of coupled masses
+* MassView2D is the view for an individual mass in View2D, which is view for Model2D, a 2D array of coupled masses
 * When mouse is inside border zone surrounding mass, vertical or horizontal arrows appear,
 * cuing user that mass is grabbable.  All arrows disappear after user grabs any mass.
 * */
-public class MassView2 extends Sprite {
+public class MassView2D extends Sprite {
     private var _iJIndices: Array = new Array( 2 );       // i, j integers labeling the mass: i = row = 1, 2, .. N, j = column = 1, 2, .. N
-    private var myModel2: Model2D;
+    private var myModel2D: Model2D;
     private var container: View2D;
     private var mass: Sprite;          //graphic for mass
     private var borderZone: Sprite;    //when user mouses over borderZone, arrows appear around mass
@@ -35,10 +35,10 @@ public class MassView2 extends Sprite {
     private var label_txt: TextField;
     private var tFormat: TextFormat;
 
-    public function MassView2( i: int, j: int, myModel2: Model2D, container: View2D ) {
+    public function MassView2D( i: int, j: int, myModel2D: Model2D, container: View2D ) {
         this._iJIndices[0] = i;
         this._iJIndices[1] = j;
-        this.myModel2 = myModel2;
+        this.myModel2D = myModel2D;
         this.container = container;
         this.mass = new Sprite();
         this.borderZone = new Sprite();
@@ -120,8 +120,8 @@ public class MassView2 extends Sprite {
 
         function startTargetDrag( evt: MouseEvent ): void {
             thisObject.arrows.visible = false;
-            thisObject.myModel2.grabbedMassIndices = thisObject._iJIndices;
-            thisObject.myModel2.verletOn = true;
+            thisObject.myModel2D.grabbedMassIndices = thisObject._iJIndices;
+            thisObject.myModel2D.verletOn = true;
             clickOffset = new Point( evt.localX, evt.localY );
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
@@ -129,9 +129,9 @@ public class MassView2 extends Sprite {
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
-            thisObject.myModel2.grabbedMassIndices = [0, 0];     //convention for when masses in not grabbed
-            thisObject.myModel2.verletOn = false;
-            thisObject.myModel2.computeModeAmplitudesAndPhases();
+            thisObject.myModel2D.grabbedMassIndices = [0, 0];     //convention for when masses in not grabbed
+            thisObject.myModel2D.verletOn = false;
+            thisObject.myModel2D.computeModeAmplitudesAndPhases();
             clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
@@ -144,7 +144,7 @@ public class MassView2 extends Sprite {
             var yInMeters: Number = (yInPix - topEdgeY) / pixPerMeter;   //screen coords and cartesian coordinates in sign harmony here
             var i: int = thisObject._iJIndices[0];
             var j: int = thisObject._iJIndices[1];
-            thisObject.myModel2.setXY( i, j, xInMeters, yInMeters );
+            thisObject.myModel2D.setXY( i, j, xInMeters, yInMeters );
             evt.updateAfterEvent();
         }//end of dragTarget()
 

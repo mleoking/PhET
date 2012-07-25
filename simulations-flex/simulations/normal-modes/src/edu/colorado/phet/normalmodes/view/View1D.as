@@ -48,7 +48,7 @@ public class View1D extends Sprite {
         this.mass_arr = new Array( nMax );
         //mass graphic drawn in MassView
         for ( i = 0 ; i < nMax ; i++ ) {
-            this.mass_arr[i] = new MassView1( i + 1, this.myModel1D, this );
+            this.mass_arr[i] = new MassView1D( i + 1, this.myModel1D, this );
         }
         this.spring_arr = new Array( nMax + 1 );  //one more spring than masses
         for ( var i: int = 0 ; i <= nMax ; i++ ) {       //notice one more spring than nbr masses
@@ -168,7 +168,7 @@ public class View1D extends Sprite {
         return this._leftEdgeY;
     }
 
-    //Called from startTargetDrag() inside MassView1
+    //Called from startTargetDrag() inside MassView1D
     public function clearBorderZones(): void {
         this._massGrabbedByUser = true;
         for ( var i: int = 0 ; i < this.myModel1D.nMax ; i++ ) {

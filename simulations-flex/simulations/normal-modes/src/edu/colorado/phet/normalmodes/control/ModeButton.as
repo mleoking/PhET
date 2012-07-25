@@ -21,12 +21,12 @@ import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
 /**
- * Button which displays amplitude of x,y 2D mode by filling with color.
+ * Button which displays amplitude of (x,y) 2D mode. 
  * Amount of color fill indicates amplitude of mode.
- * Different colors and directions of fill for the two polarization modes.
+ * Different colors and different directions of fill for the two polarization modes (H or V).
  */
 public class ModeButton extends Sprite {
-    private var myModel2: Model2D;
+    private var myMddel2D: Model2D;
     private var rIndex: int;                //r-Index = x mode number  (standard notation in textbooks)
     private var sIndex: int;                //s-Index = y mode number
     private var colorLayer: Sprite;         //bottom layer of sprite is a solid color
@@ -47,8 +47,8 @@ public class ModeButton extends Sprite {
     private var _activatedV: Boolean;         //state of button in vertical polarization mode: true = on; false = off
     private var _pushedIn: Boolean;           //true if button pushed in by mouseDown
 
-    public function ModeButton( myModel2: Model2D, iIndx: int, jIndx: int, sizeInPix: Number ) {
-        this.myModel2 = myModel2;
+    public function ModeButton( myMddel2D: Model2D, iIndx: int, jIndx: int, sizeInPix: Number ) {
+        this.myMddel2D = myMddel2D;
         this.rIndex = iIndx;
         this.sIndex = jIndx;
         this.sizeInPix = sizeInPix;
@@ -94,7 +94,7 @@ public class ModeButton extends Sprite {
 
         this.colorLayer.mask = this.colorLayerMask;
 
-        var nbrOfButtonsInRow: int = this.myModel2.N;
+        var nbrOfButtonsInRow: int = this.myMddel2D.N;
         //Set label text size according to size of button
         var textSize: Number;
         if ( nbrOfButtonsInRow == 10 ) {
@@ -155,7 +155,7 @@ public class ModeButton extends Sprite {
 
     /*Draw colorLayer to height(for xModes) or width(yModes) indicating amplitude of mode*/
     public function changeBackgroundHeight( inputHeight: int ): void {
-        if ( this.myModel2.xModes ) {
+        if ( this.myMddel2D.xModes ) {
             this.fillColor = this.fillColorH;
         }
         else {
@@ -166,7 +166,7 @@ public class ModeButton extends Sprite {
         var h: Number = inputHeight * hMax / this.nMax;
         var gC: Graphics = this.colorLayer.graphics;
         gC.clear();
-        if ( this.myModel2.xModes ) {  //if horizontal polarization, fill from left to right
+        if ( this.myMddel2D.xModes ) {  //if horizontal polarization, fill from left to right
             gC.beginFill( this.fillColor );
             gC.drawRect( 0, 0, h, w );   //x, y, width, height
             gC.endFill();
@@ -227,7 +227,7 @@ public class ModeButton extends Sprite {
 
         function buttonBehave( evt: MouseEvent ): void {
             //When button pushed, amplitude of mode set to "largeAmplitude" = 0.3*equilibrium spring length
-            var springLength: Number = 1 / (localRef.myModel2.N + 1);   // ~ distance between masses = equilibrium spring length
+            var springLength: Number = 1 / (localRef.myMddel2D.N + 1);   // ~ distance between masses = equilibrium spring length
             var largeAmplitude: Number = 0.3 * springLength;
             if ( evt.type == "mouseDown" ) {
                 if ( !localRef._pushedIn ) {
@@ -236,23 +236,23 @@ public class ModeButton extends Sprite {
                     localRef._pushedIn = true;
                 }
 
-                if ( localRef.myModel2.xModes ) {
+                if ( localRef.myMddel2D.xModes ) {
                     if ( !localRef._activatedH ) {
-                        localRef.myModel2.setModeAmpli( "x", localRef.rIndex, localRef.sIndex, largeAmplitude );
+                        localRef.myMddel2D.setModeAmpli( "x", localRef.rIndex, localRef.sIndex, largeAmplitude );
                         localRef._activatedH = true;
                     }
                     else {
-                        localRef.myModel2.setModeAmpli( "x", localRef.rIndex, localRef.sIndex, 0 );
+                        localRef.myMddel2D.setModeAmpli( "x", localRef.rIndex, localRef.sIndex, 0 );
                         localRef._activatedH = false;
                     }
                 }
                 else {
                     if ( !localRef._activatedV ) {
-                        localRef.myModel2.setModeAmpli( "y", localRef.rIndex, localRef.sIndex, largeAmplitude );
+                        localRef.myMddel2D.setModeAmpli( "y", localRef.rIndex, localRef.sIndex, largeAmplitude );
                         localRef._activatedV = true;
                     }
                     else {
-                        localRef.myModel2.setModeAmpli( "y", localRef.rIndex, localRef.sIndex, 0 );
+                        localRef.myMddel2D.setModeAmpli( "y", localRef.rIndex, localRef.sIndex, 0 );
                         localRef._activatedV = false;
                     }
                 }
@@ -268,7 +268,7 @@ public class ModeButton extends Sprite {
                     localRef.y -= 2;
                     localRef._pushedIn = false;
                 }
-                if ( localRef.myModel2.xModes ) {
+                if ( localRef.myMddel2D.xModes ) {
                     if ( !localRef._activatedH ) {
                         localRef.changeColor( 0xffffff );
                     }

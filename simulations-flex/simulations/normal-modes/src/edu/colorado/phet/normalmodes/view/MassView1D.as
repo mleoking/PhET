@@ -19,11 +19,11 @@ import flash.events.MouseEvent;
 import flash.geom.Point;
 
 /*
-* MassView1 is the view for an individual mass in View1D, which is view for Model1D, a 1D array of coupled masses
+* MassView1D is the view for an individual mass in View1D, which is view for Model1D, a 1D array of coupled masses
 * When mouse is inside border zone surrounding mass, vertical or horizontal arrows appear,
 * cuing user that mass is grabbable.  All arrows disappear after user grabs any mass.
 * */
-public class MassView1 extends Sprite {
+public class MassView1D extends Sprite {
     private var _index: int;           //integer labeling the mass
     private var myModel1D: Model1D;
     private var container: View1D;
@@ -32,9 +32,9 @@ public class MassView1 extends Sprite {
     private var arrowH: Sprite;        //horizontal arrow, cues user that mass is movable
     private var arrowV: Sprite;        //vertical arrow
 
-    public function MassView1( index: int, myModel1: Model1D, container: View1D ) {
+    public function MassView1D( index: int, myModel1D: Model1D, container: View1D ) {
         this._index = index;
-        this.myModel1D = myModel1;
+        this.myModel1D = myModel1D;
         this.container = container;
         this.mass = new Sprite();
         this.borderZone = new Sprite();
@@ -111,7 +111,7 @@ public class MassView1 extends Sprite {
         function startTargetDrag( evt: MouseEvent ): void {
             thisObject.arrowH.visible = false;
             thisObject.arrowV.visible = false;
-            thisObject.myModel1.grabbedMass = thisObject._index;
+            thisObject.myModel1D.grabbedMass = thisObject._index;
             clickOffset = new Point( evt.localX, evt.localY );
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
@@ -119,8 +119,8 @@ public class MassView1 extends Sprite {
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
-            thisObject.myModel1.grabbedMass = 0;
-            thisObject.myModel1.computeModeAmplitudesAndPhases();
+            thisObject.myModel1D.grabbedMass = 0;
+            thisObject.myModel1D.computeModeAmplitudesAndPhases();
             clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
@@ -129,13 +129,13 @@ public class MassView1 extends Sprite {
         function dragTarget( evt: MouseEvent ): void {
             var xInPix: Number = thisObject.container.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
             var yInPix: Number = thisObject.container.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
-            if ( thisObject.myModel1.xModes ) {
+            if ( thisObject.myModel1D.xModes ) {
                 var xInMeters: Number = (xInPix - leftEdgeX) / pixPerMeter;
-                thisObject.myModel1.setX( thisObject.index, xInMeters );
+                thisObject.myModel1D.setX( thisObject.index, xInMeters );
             }
             else {
                 var yInMeters: Number = -(yInPix - leftEdgeY) / pixPerMeter;    //screen coords vs. cartesian coordinates, hence the minus sign
-                thisObject.myModel1.setY( thisObject.index, yInMeters );
+                thisObject.myModel1D.setY( thisObject.index, yInMeters );
             }
             evt.updateAfterEvent();
         }//end of dragTarget()

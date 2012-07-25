@@ -4,7 +4,7 @@
 
 /**
  * Created by IntelliJ IDEA.
- * User: General User
+ * User: Dubson
  * Date: 7/14/11
  * Time: 7:10 AM
  * To change this template use File | Settings | File Templates.
@@ -24,19 +24,22 @@ import mx.containers.VBox;
 import mx.controls.RadioButton;
 import mx.controls.RadioButtonGroup;
 
+/**
+ * Small control panel for setting horizontal or vertical polarization mode in 1D mode.
+ */
 public class PolarizationPanel extends Canvas {
     private var myMainView: MainView;
-    private var myModel: Object;     //either Model1D or Model2D
+    private var myModel: Object;     //could be either 1D or 2D model, but currently only used for 1D
 
     //Polarization radio buttons
-    private var innerBckgrnd: VBox;
+    private var background: VBox;
     private var polarizationLabel: NiceLabel;
     private var modeTypeHBox: HBox;
     private var directionOfMode_rbg: RadioButtonGroup;
     private var horizPolarizationButton: RadioButton;
     private var vertPolarizationButton: RadioButton;
-    private var horizArrow: TwoHeadedArrow;
-    private var vertArrow: TwoHeadedArrow;
+    private var horizArrow: TwoHeadedArrow;       //icon representing horizontal mode
+    private var vertArrow: TwoHeadedArrow;        //icon representing vertical mode
 
     public var polarization_str: String;
 
@@ -50,9 +53,9 @@ public class PolarizationPanel extends Canvas {
     private function init(): void {
         this.polarization_str = FlexSimStrings.get( "polarization:", "Polarization<br>Control:" );
 
-        this.innerBckgrnd = new VBox();
-        with ( this.innerBckgrnd ) {
-            setStyle( "backgroundColor", 0x88ff88 );   //0xdddd00
+        this.background = new VBox();
+        with ( this.background ) {
+            setStyle( "backgroundColor", 0x88ff88 );
             percentWidth = 100;
             setStyle( "borderStyle", "solid" );
             setStyle( "borderColor", 0x0000ff );
@@ -73,16 +76,18 @@ public class PolarizationPanel extends Canvas {
         this.directionOfMode_rbg = new RadioButtonGroup();
         this.horizPolarizationButton = new RadioButton();
         this.vertPolarizationButton = new RadioButton();
+        //Create and position icons
         this.horizArrow = new TwoHeadedArrow();
         this.horizArrow.height = 10;
         this.horizArrow.width = 20;
         this.horizArrow.y = -0.5 * this.horizArrow.height;   //I don't understand why this must be negative.
-        this.horizArrow.x = 5;                              //and why this is positive
+        this.horizArrow.x = 5;                               //and why this is positive
         this.vertArrow = new TwoHeadedArrow();
         this.vertArrow.height = 10;
         this.vertArrow.width = 20;
         this.vertArrow.rotation = -90;
         this.vertArrow.x = 5;
+        //set up radio buttons
         this.horizPolarizationButton.group = directionOfMode_rbg;
         this.vertPolarizationButton.group = directionOfMode_rbg;
         this.horizPolarizationButton.value = 1;
@@ -92,15 +97,16 @@ public class PolarizationPanel extends Canvas {
         this.directionOfMode_rbg.addEventListener( Event.CHANGE, setPolarization );
 
         //Polarization type radio buttons
-        this.addChild( this.innerBckgrnd );
-        this.innerBckgrnd.addChild( new SpriteUIComponent( this.polarizationLabel ) );
-        this.innerBckgrnd.addChild( this.modeTypeHBox );
+        this.addChild( this.background );
+        this.background.addChild( new SpriteUIComponent( this.polarizationLabel ) );
+        this.background.addChild( this.modeTypeHBox );
         this.modeTypeHBox.addChild( this.horizPolarizationButton );
         this.modeTypeHBox.addChild( new SpriteUIComponent( this.horizArrow, true ) );
         this.modeTypeHBox.addChild( this.vertPolarizationButton );
         this.modeTypeHBox.addChild( new SpriteUIComponent( this.vertArrow, true ) );
     }//end init()
 
+    //Unused.
     public function setModel( currentModel: Object ): void {
         this.myModel = currentModel;
     }
@@ -109,11 +115,9 @@ public class PolarizationPanel extends Canvas {
         var val: Object = this.directionOfMode_rbg.selectedValue;
         if ( val == 1 ) {
             this.myModel.xModes = true;
-            //this.myMainView.myButtonArrayPanel.showVerticalPolarization( false );
         }
         else {
             this.myModel.xModes = false;
-            //this.myMainView.myButtonArrayPanel.showVerticalPolarization( true );
         }
     }//end setPolarization();
 
