@@ -117,27 +117,7 @@ public class MotionDeveloper extends JDialog {
                                 Reaction.ReactionTarget target = reaction.computeForTime( linearPredictionTime.get() );
                                 double displayTime = Math.min( leastSquaresTime.get(), target.t );
 
-                                Color color = null;
-
-                                switch( target.isValidReactionTarget( kit ) ) {
-                                    case VIABLE:
-                                        double acceleration = target.getApproximateAccelerationMagnitude();
-                                        double score = acceleration * target.t;
-                                        double minThreshold = 400;
-                                        double maxThreshold = 1400;
-                                        double ratio = ( score - minThreshold ) / ( maxThreshold - minThreshold );
-                                        color = new Color( 0, 0, 255, 127 + (int) ( 128 * MathUtil.clamp( 0, 1 - ratio, 1 ) ) );
-                                        break;
-                                    case OUT_OF_BOUNDS:
-                                        color = new Color( 250, 250, 250 );
-                                        break;
-                                    case TOO_MUCH_ACCELERATION:
-                                        color = new Color( 255, 220, 220 );
-                                        break;
-                                    case PREDICTED_SELF_COLLISION:
-                                        color = new Color( 255, 220, 255 );
-                                        break;
-                                }
+                                Color color = getTargetColor( target );
                                 Color fadedColor = alphaMultiplier( color, 180 );
 
                                 drawReactionTarget( target, color, fadedColor, fadedColor, displayTime );
@@ -147,11 +127,14 @@ public class MotionDeveloper extends JDialog {
                         if ( showLeastSquaresRotationTimeTarget.get() ) {
                             for ( Reaction reaction : possibleReactions ) {
                                 double time = linearPredictionTime.get();
-                                double rotation = reaction.computeRotationFromTime( time );
+                                double rotation = reaction.computeRotationFromTime( 0 );
                                 Reaction.ReactionTarget target = reaction.computeForTimeWithRotation( time, rotation );
                                 double displayTime = Math.min( leastSquaresTime.get(), target.t );
-                                drawReactionTarget( target,
-                                                    Color.BLUE, new Color( 0, 0, 255, 84 ), new Color( 0, 0, 255, 84 ), displayTime );
+
+                                Color color = getTargetColor( target );
+                                Color fadedColor = alphaMultiplier( color, 180 );
+
+                                drawReactionTarget( target, color, fadedColor, fadedColor, displayTime );
                             }
                         }
                     }
@@ -235,6 +218,31 @@ public class MotionDeveloper extends JDialog {
             pack();
             SwingUtils.centerInParent( this );
         }}.setVisible( true );
+    }
+
+    private Color getTargetColor( Reaction.ReactionTarget target ) {
+        Color color = null;
+
+        switch( target.isValidReactionTarget( kit ) ) {
+            case VIABLE:
+                double acceleration = target.getApproximateAccelerationMagnitude();
+                double score = acceleration * target.t;
+                double minThreshold = 400;
+                double maxThreshold = 1400;
+                double ratio = ( score - minThreshold ) / ( maxThreshold - minThreshold );
+                color = new Color( 0, 0, 255, 127 + (int) ( 128 * MathUtil.clamp( 0, 1 - ratio, 1 ) ) );
+                break;
+            case OUT_OF_BOUNDS:
+                color = new Color( 250, 250, 250 );
+                break;
+            case TOO_MUCH_ACCELERATION:
+                color = new Color( 255, 220, 220 );
+                break;
+            case PREDICTED_SELF_COLLISION:
+                color = new Color( 255, 220, 255 );
+                break;
+        }
+        return color;
     }
 
     private void drawReactionTarget( Reaction.ReactionTarget reactionTarget, Color timedColor, Color pathColor, Color targetColor, double timedTime ) {
