@@ -188,10 +188,11 @@ public class Kit {
         /*---------------------------------------------------------------------------*
         * try to identify new reactions (potential collisions)
         *----------------------------------------------------------------------------*/
-        for ( final Reaction potentialReaction : getAllPossibleReactions() ) {
+        List<Reaction> allPossibleReactions = getAllPossibleReactions();
+        for ( final Reaction potentialReaction : allPossibleReactions ) {
 
             // compute the reaction's properties
-            potentialReaction.update();
+            potentialReaction.initialize( 500 / allPossibleReactions.size() ); // scale the rate so we hit approximately N attempts / frame
 
             // bail if it isn't "possible"
             if ( potentialReaction.getFitness() <= 0 ) {
@@ -238,7 +239,7 @@ public class Kit {
         * update the reaction targets
         *----------------------------------------------------------------------------*/
         for ( Reaction reaction : new ArrayList<Reaction>( reactions ) ) {
-            reaction.update();
+            reaction.tick( simulationTimeChange );
 
             // kick out now-invalid reactions
             if ( reaction.getFitness() == 0 ) {

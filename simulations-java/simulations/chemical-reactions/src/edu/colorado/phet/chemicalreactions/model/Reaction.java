@@ -6,8 +6,6 @@ import Jama.Matrix;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Optimization1D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
@@ -16,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.jamaphet.RigidMotionLeastSquares;
 import edu.colorado.phet.jamaphet.collision.Collidable2D;
-import edu.colorado.phet.jamaphet.collision.CollisionUtils;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.chemicalreactions.model.Reaction.ReactionTargetViability.OUT_OF_BOUNDS;
@@ -25,11 +22,19 @@ import static edu.colorado.phet.chemicalreactions.model.Reaction.ReactionTargetV
 import static edu.colorado.phet.chemicalreactions.model.Reaction.ReactionTargetViability.VIABLE;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.reduceLeft;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.repeat;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.sum;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.zip;
 import static edu.colorado.phet.jamaphet.RigidMotionLeastSquares.RigidMotionTransformation;
 
 public class Reaction {
+
+    // how close to "reacting" we need to be to react
+    public static final double REACTION_ERROR_THRESHOLD = 15;
+
+    public static final double MAX_SEARCH_TIME = 20;
+
+    public static final int INITIAL_ATTEMPTS = 5;
 
     public static final double MAX_ACCELERATION = 10000;
     public static final double MAX_ANGULAR_ACCELERATION = 500;
@@ -67,7 +72,7 @@ public class Reaction {
         assert target != null;
         assert fitness > 0;
 
-        if ( zeroError < 15 ) {
+        if ( zeroError < Reaction.REACTION_ERROR_THRESHOLD ) {
             double averageVelocity = 0;
             for ( Molecule reactant : reactants ) {
                 averageVelocity += reactant.getVelocity().magnitude();
@@ -120,40 +125,65 @@ public class Reaction {
         return fixAngle( a - b );
     }
 
+    // TODO: move this to phetcommon
+    private int samplePoisson( double lambda ) {
+        double l = Math.exp( -lambda );
+        int k = 0;
+        double p = 1;
+        do {
+            k = k + 1;
+            p = p * Math.random();
+        } while ( p > l );
+        return k - 1;
+    }
+
     // compute the fitness and reaction target
-    public void update() {
-        // default for "null" reaction
+    public void initialize( double rate ) {
         fitness = 0;
 
-        // make sure every molecule is getting closer to every other molecule (filters out heavy computation that
-        // we otherwise don't want to do)
-        for ( Pair<Molecule, Molecule> moleculePair : FunctionalUtils.pairs( reactants ) ) {
-            if ( !moleculePair._1.isMovingCloserTo( moleculePair._2 ) ) {
-                return;
-            }
-        }
+        // make some attempts to find a good solution
+        repeat( new Runnable() {
+            public void run() {
+                double t = Math.random() * MAX_SEARCH_TIME;
 
-        ReactionTarget atZero = computeForTime( 0 );
-        zeroError = atZero.error;
-        ReactionTarget afterZero = computeForTime( 0.001 );
-        if ( atZero.error < afterZero.error ) {
-            // increasing error!
+                // check both types of target finding
+                ReactionTarget mainTarget = computeForTime( t );
+                ReactionTarget rotationTarget = computeForTimeWithRotation( t, mainTarget.rotation );
+
+                if ( mainTarget.getFitness( kit ) > fitness ) {
+                    target = mainTarget;
+                    fitness = target.getFitness( kit );
+                }
+
+                if ( rotationTarget.getFitness( kit ) > fitness ) {
+                    target = rotationTarget;
+                    fitness = target.getFitness( kit );
+                }
+            }
+        }, samplePoisson( rate ) );
+
+        // used for "close enough" reactions   TODO: better handling for this
+        zeroError = computeForTime( 0 ).error;
+    }
+
+    public void tick( double dt ) {
+        double t = target.t - dt;
+
+        // used for "close enough" reactions
+        zeroError = computeForTime( 0 ).error;
+
+        // bail if we passed time AND we aren't close enough to react
+        if ( t < 0 && zeroError > REACTION_ERROR_THRESHOLD ) {
+            fitness = 0;
             return;
         }
 
-        CollisionUtils.CollisionFit2D collisionFitting = CollisionUtils.bestFitIntersection2D( reactants );
-
-        double bestT = Optimization1D.goldenSectionSearch( new Function1<Double, Double>() {
-            public Double apply( Double t ) {
-                return computeForTime( t ).error;
-            }
-        }, 0, MathUtil.clamp( 0.5, collisionFitting.t, 20 ), 0.1 ); // TODO: is this the right epsilon?
-
-        target = computeForTime( bestT );
-
-        // for now. consider in the future penalizing "long distance" and likely to collide before-hand reactions
-        boolean isValidTarget = target.isValidReactionTarget( kit ) == ReactionTargetViability.VIABLE;
-        fitness = isValidTarget ? Math.exp( -target.error ) : 0;
+        target = computeForTime( t );
+        ReactionTarget rotationTarget = computeForTimeWithRotation( t, target.rotation );
+        if ( rotationTarget.getFitness( kit ) > target.getFitness( kit ) ) {
+            target = rotationTarget;
+        }
+        fitness = target.getFitness( kit );
     }
 
     private double errorFunction( List<Vector2D> currentDestinations, List<Vector2D> targetDestinations ) {
@@ -294,7 +324,10 @@ public class Reaction {
             this.rotation = rotation;
         }
 
-        public double getApproximateFitness() {
+        public double getFitness( Kit kit ) {
+            if ( isValidReactionTarget( kit ) != VIABLE ) {
+                return 0;
+            }
             return Math.exp( -getApproximateAccelerationMagnitude() * Math.pow( t, 1.3 ) );
         }
 
