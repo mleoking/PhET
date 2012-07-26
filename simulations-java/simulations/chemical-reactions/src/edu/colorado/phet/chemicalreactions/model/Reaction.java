@@ -294,6 +294,10 @@ public class Reaction {
             this.rotation = rotation;
         }
 
+        public double getApproximateFitness() {
+            return Math.exp( -getApproximateAccelerationMagnitude() * Math.pow( t, 1.3 ) );
+        }
+
         public double getApproximateAccelerationMagnitude() {
             double accelerationFactor = Math.sqrt( sum( map( reaction.getReactants(), new Function1<Molecule, Double>() {
                 public Double apply( Molecule molecule ) {
@@ -416,14 +420,14 @@ public class Reaction {
 
                 if ( tXMax > 0 && tXMax < t ) {
                     double x = molecule.getPosition().x + molecule.getVelocity().x * tXMax + 0.5 * acceleration.x * tXMax * tXMax;
-                    if( x - radius < availablePlayAreaModelBounds.getMinX() || x + radius > availablePlayAreaModelBounds.getMaxX() ) {
+                    if ( x - radius < availablePlayAreaModelBounds.getMinX() || x + radius > availablePlayAreaModelBounds.getMaxX() ) {
                         return OUT_OF_BOUNDS;
                     }
                 }
 
-                if( tYMax > 0 && tYMax < t ) {
+                if ( tYMax > 0 && tYMax < t ) {
                     double y = molecule.getPosition().y + molecule.getVelocity().y * tYMax + 0.5 * acceleration.y * tYMax * tYMax;
-                    if( y - radius < availablePlayAreaModelBounds.getMinY() || y + radius > availablePlayAreaModelBounds.getMaxY() ) {
+                    if ( y - radius < availablePlayAreaModelBounds.getMinY() || y + radius > availablePlayAreaModelBounds.getMaxY() ) {
                         return OUT_OF_BOUNDS;
                     }
                 }
