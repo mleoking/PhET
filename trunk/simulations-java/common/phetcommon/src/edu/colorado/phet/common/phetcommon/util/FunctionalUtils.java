@@ -224,6 +224,22 @@ public class FunctionalUtils {
         return result;
     }
 
+    public static double sum( Collection<Double> collection ) {
+        return foldLeft( collection, new Function2<Double, Double, Double>() {
+            public Double apply( Double a, Double b ) {
+                return a + b;
+            }
+        }, 0.0 );
+    }
+
+    public static double product( Collection<Double> collection ) {
+        return foldLeft( collection, new Function2<Double, Double, Double>() {
+            public Double apply( Double a, Double b ) {
+                return a * b;
+            }
+        }, 1.0 );
+    }
+
     // typical right reduce, equal to foldRight( allButLast( collection ), f, last( collection ) )
     public static <T> T reduceRight( Collection<T> collection, final Function2<? super T, ? super T, ? extends T> f ) {
         ArrayList<T> coll = new ArrayList<T>( collection );
@@ -266,6 +282,23 @@ public class FunctionalUtils {
         List<Integer> result = new ArrayList<Integer>( b - a + 1 );
         for ( int i = a; i <= b; i++ ) {
             result.add( i );
+        }
+        return result;
+    }
+
+    // returns a copy of the list with the first element removed
+    public static <T> List<T> tail( List<T> list ) {
+        ArrayList<T> result = new ArrayList<T>();
+        boolean skippedFirst = false;
+
+        // iteration, in case list is a linked list
+        for ( T element : list ) {
+            if ( skippedFirst ) {
+                result.add( element );
+            }
+            else {
+                skippedFirst = true;
+            }
         }
         return result;
     }
@@ -327,6 +360,69 @@ public class FunctionalUtils {
             result.addAll( recursiveCominations( list, nextCandidate, n, i + 1 ) );
         }
         return result;
+    }
+
+    /**
+     * Return a list of what is essentially a tuple of combinations. Each element of the result will be a list of combinations, one for each
+     * integer-collection pair presented.
+     * <p/>
+     * As an example:
+     * List<List<List<String>>> result = multipleCombinations( new ArrayList<Pair<Integer, Collection<String>>>() {{
+     * add( new Pair<Integer, Collection<String>>( 3, Arrays.asList( "A", "B", "C", "D" ) ) );
+     * add( new Pair<Integer, Collection<String>>( 1, Arrays.asList( "0", "1" ) ) );
+     * add( new Pair<Integer, Collection<String>>( 2, Arrays.asList( "?", "!", "." ) ) );
+     * }} );
+     * for ( List<List<String>> lists : result ) {
+     * System.out.println( mkString( flatten( lists ), " " ) );
+     * }
+     * <p/>
+     * will print a result like the following (trimmed here because it is long):
+     * <p/>
+     * A B C 0 ? !
+     * A B C 0 ? .
+     * A B C 0 ! .
+     * A B C 1 ? !
+     * A B C 1 ? .
+     * ...
+     * B C D 1 ? !
+     * B C D 1 ? .
+     * B C D 1 ! .
+     *
+     * @param combinationGroups Has integer-collection pairs where N of the collection should be chosen for each result.
+     * @param <T>               Generic type
+     * @return See above description
+     */
+    public static <T> List<List<List<T>>> multipleCombinations( List<Pair<Integer, Collection<T>>> combinationGroups ) {
+        ArrayList<List<List<T>>> result = new ArrayList<List<List<T>>>();
+        if ( !combinationGroups.isEmpty() ) {
+            recursiveMultipleCombinations( result, combinationGroups, new ArrayList<List<T>>() );
+        }
+        return result;
+    }
+
+    // private workhorse for multipleCombinations(). modifies the result array by appending.
+    private static <T> void recursiveMultipleCombinations( List<List<List<T>>> result, List<Pair<Integer, Collection<T>>> remainingCombinationGroups, List<List<T>> candidate ) {
+        // base case
+        if ( remainingCombinationGroups.isEmpty() ) {
+            result.add( candidate );
+        }
+        else {
+            // what group are we generating combinations for at this depth?
+            Pair<Integer, Collection<T>> combinationGroup = remainingCombinationGroups.get( 0 );
+
+            // the remaining combination groups after this
+            List<Pair<Integer, Collection<T>>> newRemainingCombinationGroups = tail( remainingCombinationGroups );
+
+            // for each combination in our group
+            for ( List<T> combination : combinations( combinationGroup._2, combinationGroup._1 ) ) {
+                // generate a new (partial) candidate from our older candidate by appending our new combination
+                List<List<T>> newCandidate = new ArrayList<List<T>>( candidate );
+                newCandidate.add( combination );
+
+                // and recursively execute
+                recursiveMultipleCombinations( result, newRemainingCombinationGroups, newCandidate );
+            }
+        }
     }
 
     // a faster variant of combinations(), unrolled for pairs of elements

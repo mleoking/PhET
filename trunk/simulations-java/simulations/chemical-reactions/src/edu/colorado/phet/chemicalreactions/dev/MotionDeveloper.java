@@ -1,16 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.dev;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.BoxLayout;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -20,11 +16,12 @@ import edu.colorado.phet.chemicalreactions.model.Kit;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.MoleculeShape;
 import edu.colorado.phet.chemicalreactions.model.Reaction;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function3;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -45,6 +42,20 @@ import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.MOD
 public class MotionDeveloper extends JDialog {
     public final Kit kit;
 
+    private final PNode base = new PNode();
+
+    private final Property<Boolean> showMolecules = new Property<Boolean>( true );
+    private final Property<Boolean> showBoundingSpheres = new Property<Boolean>( false );
+    private final Property<Boolean> showReactionTargets = new Property<Boolean>( true );
+    private final Property<Boolean> showLinearPrediction = new Property<Boolean>( true );
+    private final Property<Boolean> showLeastSquaresTimeTarget = new Property<Boolean>( false );
+    private final Property<Boolean> showLeastSquaresRotationTimeTarget = new Property<Boolean>( false );
+    private final Property<Double> linearPredictionTime = new Property<Double>( 0.0 );
+    private final Property<Double> leastSquaresTime = new Property<Double>( 0.0 );
+    private final double linearPredictionTimeScale = 0.1;
+
+    private final Property<Integer> possibleReactionQuantity = new Property<Integer>( 0 );
+
     public MotionDeveloper( final Kit kit, final IClock clock, Frame frame ) {
         super( frame );
         this.kit = kit;
@@ -54,27 +65,7 @@ public class MotionDeveloper extends JDialog {
             setResizable( false );
 
             setContentPane( new JPanel() {{
-
-                final PNode base = new PNode();
                 setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-
-                final Property<Boolean> showMolecules = new Property<Boolean>( true );
-                final Property<Boolean> showBoundingSpheres = new Property<Boolean>( false );
-                final Property<Boolean> showReactionTargets = new Property<Boolean>( true );
-                final Property<Double> linearPredictionTime = new Property<Double>( 0.0 );
-                final double linearPredictionTimeScale = 0.1;
-
-                // draw a circle in model coordinates
-                final Function3<Vector2D, Double, Color, Void> drawCircle = new Function3<Vector2D, Double, Color, Void>() {
-                    public Void apply( Vector2D modelPoint, Double modelRadius, Color color ) {
-                        Vector2D viewPoint = MODEL_VIEW_TRANSFORM.modelToView( modelPoint );
-                        double viewRadius = Math.abs( MODEL_VIEW_TRANSFORM.modelToViewDeltaX( modelRadius ) );
-
-                        base.addChild( new PhetPPath( new Ellipse2D.Double( viewPoint.getX() - viewRadius, viewPoint.getY() - viewRadius,
-                                                                            viewRadius * 2, viewRadius * 2 ), null, new BasicStroke( 1 ), color ) );
-                        return null;
-                    }
-                };
 
                 /*---------------------------------------------------------------------------*
                 * graphics display
@@ -83,96 +74,84 @@ public class MotionDeveloper extends JDialog {
                     public void run() {
                         base.removeAllChildren();
 
-                        ModelViewTransform transform = ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM;
+                        final ModelViewTransform transform = ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM;
 
                         if ( showMolecules.get() ) {
                             for ( Molecule molecule : kit.moleculesInPlayArea ) {
                                 for ( Atom atom : molecule.getAtoms() ) {
-                                    drawCircle.apply( atom.position.get(), atom.getRadius(), Color.BLACK );
+                                    drawCircle( atom.position.get(), atom.getRadius(), Color.BLACK );
                                 }
                             }
                         }
                         if ( showBoundingSpheres.get() ) {
                             for ( Molecule molecule : kit.moleculesInPlayArea ) {
-                                drawCircle.apply( molecule.position.get(), molecule.shape.getBoundingCircleRadius(), new Color( 0, 0, 0, 64 ) );
+                                drawCircle( molecule.position.get(), molecule.shape.getBoundingCircleRadius(), new Color( 0, 0, 0, 64 ) );
                             }
                         }
-                        if ( linearPredictionTime.get() > 0 ) {
-                            for ( Molecule molecule : kit.moleculesInPlayArea ) {
-                                for ( Atom atom : molecule.getAtoms() ) {
-                                    Vector2D currentPosition = transform.modelToView( atom.position.get() );
+                        if ( showLinearPrediction.get() && linearPredictionTime.get() > 0 ) {
+                            for ( final Molecule molecule : kit.moleculesInPlayArea ) {
+                                for ( final Atom atom : molecule.getAtoms() ) {
+                                    drawTimedPath( new Function1<Double, Vector2D>() {
+                                        public Vector2D apply( Double time ) {
+                                            return transform.modelToView( molecule.predictLinearAtomPosition( atom, time ) );
+                                        }
+                                    }, new Color( 0, 255, 0, 84 ), true );
 
-                                    // dotted line
-                                    final DoubleGeneralPath path = new DoubleGeneralPath();
-                                    path.moveTo( currentPosition.getX(), currentPosition.getY() );
-                                    for ( double time = 0; time < linearPredictionTime.get(); time += 0.05 ) {
-                                        Vector2D viewPosition = transform.modelToView( molecule.predictLinearAtomPosition( atom, time ) );
-                                        path.lineTo( viewPosition.getX(), viewPosition.getY() );
-                                    }
-                                    base.addChild( new PPath() {{
-                                        setPathTo( path.getGeneralPath() );
-                                        setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[] { 2, 3 }, 0.0f ) );
-                                        setStrokePaint( new Color( 0, 255, 0, 84 ) );
-                                    }} );
-
-                                    {
-                                        // actual position
-                                        drawCircle.apply( molecule.predictLinearAtomPosition( atom, linearPredictionTime.get() ),
-                                                          atom.getRadius(), Color.GREEN );
-                                    }
+                                    // actual position
+                                    drawCircle( molecule.predictLinearAtomPosition( atom, linearPredictionTime.get() ),
+                                                atom.getRadius(), Color.GREEN );
                                 }
                             }
                         }
                         if ( showReactionTargets.get() ) {
                             for ( Reaction reaction : kit.getReactions() ) {
+                                double displayTime = Math.min( leastSquaresTime.get(), reaction.getTarget().t );
+                                drawReactionTarget( reaction.getTarget(), Color.RED, new Color( 255, 0, 0, 84 ), new Color( 255, 0, 0, 84 ), displayTime );
+                            }
+                        }
+                        List<Reaction> possibleReactions = kit.getAllPossibleReactions();
+                        possibleReactionQuantity.set( possibleReactions.size() );
 
-                                // target outlines
-                                for ( int i = 0; i < reaction.reactants.size(); i++ ) {
-                                    Molecule molecule = reaction.reactants.get( i );
-                                    Vector2D targetPosition = reaction.getTarget().transformedTargets.get( i );
-                                    double angle = reaction.getTarget().rotation + reaction.getShape().reactantSpots.get( i ).rotation;
+                        if ( showLeastSquaresTimeTarget.get() ) {
+                            for ( Reaction reaction : possibleReactions ) {
+                                Reaction.ReactionTarget target = reaction.computeForTime( linearPredictionTime.get() );
+                                double displayTime = Math.min( leastSquaresTime.get(), target.t );
 
-                                    MoleculeShape moleculeShape = molecule.shape;
+                                Color color = null;
 
-                                    for ( MoleculeShape.AtomSpot spot : moleculeShape.spots ) {
-                                        Vector2D spotLocalPosition = spot.position;
-                                        Vector2D rotatedPosition = spotLocalPosition.getRotatedInstance( angle );
-                                        Vector2D translatedPosition = rotatedPosition.plus( targetPosition );
-                                        Color color = spot.element.getColor();
-                                        drawCircle.apply( translatedPosition, spot.element.getRadius(), new Color( 255, 0, 0, 84 ) );
-                                    }
+                                switch( target.isValidReactionTarget( kit ) ) {
+                                    case VIABLE:
+                                        double acceleration = target.getApproximateAccelerationMagnitude();
+                                        double score = acceleration * target.t;
+                                        double minThreshold = 400;
+                                        double maxThreshold = 1400;
+                                        double ratio = ( score - minThreshold ) / ( maxThreshold - minThreshold );
+                                        color = new Color( 0, 0, 255, 127 + (int) ( 128 * MathUtil.clamp( 0, 1 - ratio, 1 ) ) );
+                                        break;
+                                    case OUT_OF_BOUNDS:
+                                        color = new Color( 250, 250, 250 );
+                                        break;
+                                    case TOO_MUCH_ACCELERATION:
+                                        color = new Color( 255, 220, 220 );
+                                        break;
+                                    case PREDICTED_SELF_COLLISION:
+                                        color = new Color( 255, 220, 255 );
+                                        break;
                                 }
+                                Color fadedColor = alphaMultiplier( color, 180 );
 
-                                // path (dotted line)
-                                for ( int i = 0; i < reaction.reactants.size(); i++ ) {
-                                    Molecule molecule = reaction.reactants.get( i );
+                                drawReactionTarget( target, color, fadedColor, fadedColor, displayTime );
+                            }
+                        }
 
-                                    Vector2D acceleration = reaction.getTweakAcceleration( i );
-                                    double angularAcceleration = reaction.getTweakAngularAcceleration( i );
-
-                                    for ( Atom atom : molecule.getAtoms() ) {
-                                        Vector2D currentPosition = transform.modelToView( atom.position.get() );
-
-                                        // path (dotted line)
-                                        final DoubleGeneralPath path = new DoubleGeneralPath();
-                                        path.moveTo( currentPosition.getX(), currentPosition.getY() );
-                                        for ( double time = 0; time < reaction.getTarget().t; time += 0.05 ) {
-                                            Vector2D viewPosition = transform.modelToView(
-                                                    molecule.predictConstantAccelerationAtomPosition( atom, time, acceleration, angularAcceleration ) );
-                                            path.lineTo( viewPosition.getX(), viewPosition.getY() );
-                                        }
-                                        base.addChild( new PPath() {{
-                                            setPathTo( path.getGeneralPath() );
-                                            setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[] { 2, 3 }, 0.0f ) );
-                                            setStrokePaint( new Color( 255, 0, 0, 84 ) );
-                                        }} );
-
-                                        // position at linear time
-                                        drawCircle.apply( molecule.predictConstantAccelerationAtomPosition( atom, linearPredictionTime.get(),
-                                                                                                            acceleration, angularAcceleration ),
-                                                          atom.getRadius(), Color.BLUE );
-                                    }
-                                }
+                        if ( showLeastSquaresRotationTimeTarget.get() ) {
+                            for ( Reaction reaction : possibleReactions ) {
+                                double time = linearPredictionTime.get();
+                                double rotation = reaction.computeRotationFromTime( time );
+                                Reaction.ReactionTarget target = reaction.computeForTimeWithRotation( time, rotation );
+                                double displayTime = Math.min( leastSquaresTime.get(), target.t );
+                                drawReactionTarget( target,
+                                                    Color.BLUE, new Color( 0, 0, 255, 84 ), new Color( 0, 0, 255, 84 ), displayTime );
                             }
                         }
                     }
@@ -186,11 +165,15 @@ public class MotionDeveloper extends JDialog {
                 kit.timestepCompleted.addListener( new VoidFunction1<Double>() {
                     public void apply( Double dt ) {
                         linearPredictionTime.set( linearPredictionTime.get() - dt );
+                        leastSquaresTime.set( leastSquaresTime.get() - dt );
                         updateGraphics.run();
                     }
                 } );
                 showMolecules.addObserver( graphicsObserver );
                 showBoundingSpheres.addObserver( graphicsObserver );
+                showLinearPrediction.addObserver( graphicsObserver );
+                showLeastSquaresTimeTarget.addObserver( graphicsObserver );
+                showLeastSquaresRotationTimeTarget.addObserver( graphicsObserver );
 
                 /*---------------------------------------------------------------------------*
                 * canvas
@@ -218,13 +201,31 @@ public class MotionDeveloper extends JDialog {
                     add( new JPanel() {{
                         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
                         add( new PropertyCheckBox( "Molecules", showMolecules ) );
+                        add( new PropertyCheckBox( "Linear Prediction", showLinearPrediction ) );
                         add( new PropertyCheckBox( "Bounding Spheres", showBoundingSpheres ) );
                         add( new PropertyCheckBox( "Reaction Targets", showReactionTargets ) );
+                        add( new PropertyCheckBox( "Full Least Squares Targets", showLeastSquaresTimeTarget ) );
+                        add( new PropertyCheckBox( "Rotation Least Squares Targets", showLeastSquaresRotationTimeTarget ) );
                         add( new JSlider( 0, 150, 0 ) {{
                             addChangeListener( new ChangeListener() {
                                 public void stateChanged( ChangeEvent e ) {
                                     linearPredictionTime.set( getValue() * linearPredictionTimeScale );
                                     updateGraphics.run();
+                                }
+                            } );
+                        }} );
+                        add( new JSlider( 0, 150, 0 ) {{
+                            addChangeListener( new ChangeListener() {
+                                public void stateChanged( ChangeEvent e ) {
+                                    leastSquaresTime.set( getValue() * linearPredictionTimeScale );
+                                    updateGraphics.run();
+                                }
+                            } );
+                        }} );
+                        add( new JLabel() {{
+                            possibleReactionQuantity.addObserver( new SimpleObserver() {
+                                public void update() {
+                                    setText( "Reactions possible: " + possibleReactionQuantity.get() );
                                 }
                             } );
                         }} );
@@ -234,5 +235,101 @@ public class MotionDeveloper extends JDialog {
             pack();
             SwingUtils.centerInParent( this );
         }}.setVisible( true );
+    }
+
+    private void drawReactionTarget( Reaction.ReactionTarget reactionTarget, Color timedColor, Color pathColor, Color targetColor, double timedTime ) {
+        final ModelViewTransform transform = ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM;
+
+        Reaction reaction = reactionTarget.reaction;
+
+        // target outlines
+        for ( int i = 0; i < reaction.reactants.size(); i++ ) {
+            Molecule molecule = reaction.reactants.get( i );
+            Vector2D targetPosition = reactionTarget.transformedTargets.get( i );
+            double angle = reactionTarget.rotation + reaction.getShape().reactantSpots.get( i ).rotation;
+
+            drawMolecule( molecule.shape, targetPosition, angle, targetColor );
+        }
+
+        // path (dotted line)
+        for ( int i = 0; i < reaction.reactants.size(); i++ ) {
+            final Molecule molecule = reaction.reactants.get( i );
+
+            final Vector2D acceleration = reactionTarget.getTweakAcceleration( molecule );
+            final double angularAcceleration = reactionTarget.getTweakAngularAcceleration( molecule );
+
+            for ( final Atom atom : molecule.getAtoms() ) {
+                drawTimedPath( new Function1<Double, Vector2D>() {
+                    public Vector2D apply( Double time ) {
+                        return transform.modelToView(
+                                molecule.predictConstantAccelerationAtomPosition( atom, time, acceleration, angularAcceleration ) );
+                    }
+                }, pathColor, true, reactionTarget.t );
+
+                // position at timed time
+                if ( timedTime > 0 ) {
+                    drawCircle( molecule.predictConstantAccelerationAtomPosition( atom, timedTime,
+                                                                                  acceleration, angularAcceleration ),
+                                atom.getRadius(), timedColor );
+                }
+            }
+        }
+    }
+
+    // draw a circle in model coordinates
+    private void drawCircle( Vector2D modelPoint, Double modelRadius, Color color ) {
+        Vector2D viewPoint = MODEL_VIEW_TRANSFORM.modelToView( modelPoint );
+        double viewRadius = Math.abs( MODEL_VIEW_TRANSFORM.modelToViewDeltaX( modelRadius ) );
+
+        base.addChild( new PhetPPath( new Ellipse2D.Double( viewPoint.getX() - viewRadius, viewPoint.getY() - viewRadius,
+                                                            viewRadius * 2, viewRadius * 2 ), null, new BasicStroke( 1 ), color ) );
+    }
+
+    private PPath createPath( List<Vector2D> points ) {
+        final DoubleGeneralPath path = new DoubleGeneralPath();
+        if ( !points.isEmpty() ) {
+            path.moveTo( points.get( 0 ).x, points.get( 0 ).y );
+        }
+        for ( Vector2D point : points ) {
+            path.lineTo( point.x, point.y );
+        }
+        return new PPath() {{
+            setPathTo( path.getGeneralPath() );
+        }};
+    }
+
+    // create a path from a time => point mapping for the current linearPredictionTime
+    private void drawTimedPath( final Function1<Double, Vector2D> pointAtTime, Color color, Boolean dotted ) {
+        drawTimedPath( pointAtTime, color, dotted, linearPredictionTime.get() );
+    }
+
+    private void drawTimedPath( final Function1<Double, Vector2D> pointAtTime, Color color, Boolean dotted, final double maxTime ) {
+        PPath path = createPath( new ArrayList<Vector2D>() {{
+            for ( double time = 0; time < maxTime; time += 0.05 ) {
+                add( pointAtTime.apply( time ) );
+            }
+        }} );
+        if ( dotted ) {
+            dotPath( path );
+        }
+        path.setStrokePaint( color );
+        base.addChild( path );
+    }
+
+    private void drawMolecule( MoleculeShape shape, Vector2D position, double angle, Color color ) {
+        for ( MoleculeShape.AtomSpot spot : shape.spots ) {
+            Vector2D spotLocalPosition = spot.position;
+            Vector2D rotatedPosition = spotLocalPosition.getRotatedInstance( angle );
+            Vector2D translatedPosition = rotatedPosition.plus( position );
+            drawCircle( translatedPosition, spot.element.getRadius(), color );
+        }
+    }
+
+    private static void dotPath( PPath path ) {
+        path.setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[]{2, 3}, 0.0f ) );
+    }
+
+    private static Color alphaMultiplier( Color color, int alpha ) {
+        return new Color( color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha() * alpha / 255 );
     }
 }

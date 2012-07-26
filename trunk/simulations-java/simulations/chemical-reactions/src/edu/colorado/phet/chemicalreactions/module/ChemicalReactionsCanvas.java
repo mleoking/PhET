@@ -1,8 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.module;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsApplication;
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
@@ -73,7 +72,7 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
             }
         } );
 
-        ReactionShape[] reactions = new ReactionShape[] { ReactionShape.H2_O2_TO_H2O, ReactionShape.H2_N2_TO_NH3, ReactionShape.H2_Cl2_TO_HCl };
+        ReactionShape[] reactions = new ReactionShape[]{ReactionShape.H2_O2_TO_H2O, ReactionShape.H2_N2_TO_NH3, ReactionShape.H2_Cl2_TO_HCl};
 
 //        final double xOffset = 600;
         final double xOffset = 600;

@@ -3,6 +3,7 @@ package edu.colorado.phet.chemicalreactions.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,10 +16,15 @@ import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.*;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.flatten;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.multipleCombinations;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.unique;
 
 /**
  * A kit is basically a collection of buckets (some hold reactants, some hold products), and all of the molecules and reactions that are
@@ -182,51 +188,36 @@ public class Kit {
         /*---------------------------------------------------------------------------*
         * try to identify new reactions (potential collisions)
         *----------------------------------------------------------------------------*/
-        for ( ReactionShape reactionShape : possibleReactions ) {
-            // TODO: replace with a more performant version
-            if ( moleculesInPlayArea.size() >= reactionShape.reactantSpots.size() ) {
-                for ( List<Molecule> reactants : combinations( moleculesInPlayArea, reactionShape.reactantSpots.size() ) ) {
-                    // for now, verify that the molecule types match up
-                    boolean matches = true;
-                    for ( int i = 0; i < reactionShape.reactantSpots.size(); i++ ) {
-                        if ( reactionShape.reactantSpots.get( i ).shape != reactants.get( i ).shape ) {
-                            matches = false;
-                            break;
-                        }
-                    }
-                    if ( !matches ) {
-                        continue;
-                    }
-                    // compute the reaction's properties
-                    final Reaction potentialReaction = new Reaction( this, reactionShape, reactants );
-                    potentialReaction.update();
+        for ( final Reaction potentialReaction : getAllPossibleReactions() ) {
 
-                    if ( potentialReaction.getFitness() <= 0 ) {
-                        continue;
-                    }
-                    // we need to check for all reactions that are currently in place and would use the molecules we want
-                    List<Reaction> replaceableReactions = filter( unique( map( reactants, new Function1<Molecule, Reaction>() {
-                        public Reaction apply( Molecule molecule ) {
-                            return reactionMap.get( molecule );
-                        }
-                    } ) ), new Function1<Reaction, Boolean>() {
-                        public Boolean apply( Reaction reaction ) {
-                            return reaction != null;
-                        }
-                    } );
+            // compute the reaction's properties
+            potentialReaction.update();
 
-                    // only if we are better than every other reaction with those molecules do we become active
-                    if ( FunctionalUtils.every( replaceableReactions, new Function1<Reaction, Boolean>() {
-                        public Boolean apply( Reaction reaction ) {
-                            return potentialReaction.getFitness() > reaction.getFitness();
-                        }
-                    } ) ) {
-                        for ( Reaction replaceableReaction : replaceableReactions ) {
-                            removeReaction( replaceableReaction );
-                        }
-                        addReaction( potentialReaction );
-                    }
+            // bail if it isn't "possible"
+            if ( potentialReaction.getFitness() <= 0 ) {
+                continue;
+            }
+            // we need to check for all reactions that are currently in place and would use the molecules we want
+            List<Reaction> replaceableReactions = filter( unique( map( potentialReaction.getReactants(), new Function1<Molecule, Reaction>() {
+                public Reaction apply( Molecule molecule ) {
+                    return reactionMap.get( molecule );
                 }
+            } ) ), new Function1<Reaction, Boolean>() {
+                public Boolean apply( Reaction reaction ) {
+                    return reaction != null;
+                }
+            } );
+
+            // only if we are better than every other reaction with those molecules do we become active
+            if ( FunctionalUtils.every( replaceableReactions, new Function1<Reaction, Boolean>() {
+                public Boolean apply( Reaction reaction ) {
+                    return potentialReaction.getFitness() > reaction.getFitness();
+                }
+            } ) ) {
+                for ( Reaction replaceableReaction : replaceableReactions ) {
+                    removeReaction( replaceableReaction );
+                }
+                addReaction( potentialReaction );
             }
         }
 
@@ -389,5 +380,65 @@ public class Kit {
             moleculesInPlayArea.add( newMolecule );
         }
         reactions.remove( reaction );
+    }
+
+    // get a list of all possible reaction-combinations, with the molecule-list ordering matching the ordering of the reaction shape
+    public List<Reaction> getAllPossibleReactions() {
+
+        List<Reaction> result = new ArrayList<Reaction>();
+
+        // list of molecules for each molecule type
+        final Map<MoleculeShape, List<Molecule>> moleculeShapeMap = new HashMap<MoleculeShape, List<Molecule>>() {{
+            for ( final Molecule molecule : moleculesInPlayArea ) {
+                // fill it for all molecules in the play area
+                if ( containsKey( molecule.shape ) ) {
+                    get( molecule.shape ).add( molecule );
+                }
+                else {
+                    put( molecule.shape, new ArrayList<Molecule>() {{
+                        add( molecule );
+                    }} );
+                }
+            }
+        }};
+
+        for ( final ReactionShape reactionShape : possibleReactions ) {
+            // how many of each type of molecule are needed
+            final Map<MoleculeShape, Integer> moleculeShapeCounts = reactionShape.getMoleculeShapeCounts();
+
+            // verify that we have enough molecules of each type for this reaction to occur
+            boolean hasEnoughMolecules = true;
+            for ( MoleculeShape moleculeShape : moleculeShapeCounts.keySet() ) {
+                int requiredQuantity = moleculeShapeCounts.get( moleculeShape );
+                if ( !moleculeShapeMap.containsKey( moleculeShape ) || moleculeShapeMap.get( moleculeShape ).size() < requiredQuantity ) {
+                    hasEnoughMolecules = false;
+                    break;
+                }
+            }
+            // if not, try other reaction types
+            if ( !hasEnoughMolecules ) {
+                continue;
+            }
+
+            // compute all of the possible combinations that we could have for reactions
+            List<List<List<Molecule>>> combinationsList = multipleCombinations( new ArrayList<Pair<Integer, Collection<Molecule>>>() {{
+                for ( MoleculeShape moleculeShape : reactionShape.getMoleculeShapeOrdering() ) {
+                    // for each shape, create "combinationCount" of these in combinations
+                    Integer combinationCount = moleculeShapeCounts.get( moleculeShape );
+                    add( new Pair<Integer, Collection<Molecule>>( combinationCount, moleculeShapeMap.get( moleculeShape ) ) );
+                }
+            }} );
+
+            for ( List<List<Molecule>> lists : combinationsList ) {
+                List<Molecule> matchingListOfMolecules = flatten( lists );
+
+                // create a reaction for each symmetry. this can handle necessary reflections
+                for ( List<Molecule> moleculeList : reactionShape.getSymmetries( matchingListOfMolecules ) ) {
+                    result.add( new Reaction( this, reactionShape, moleculeList ) );
+                }
+            }
+        }
+
+        return result;
     }
 }
