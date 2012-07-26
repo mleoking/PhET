@@ -13,8 +13,7 @@ public @Data class LevelInfo {
     public final LevelIdentifier levelIdentifier;
     public final String name;
     public final PNode icon;
-    public final int filledStars;
-    public final int maxStars;
+    public final LevelProgress levelProgress;
 
     public static final F<LevelInfo, PNode> _icon = new F<LevelInfo, PNode>() {
         @Override public PNode f( final LevelInfo levelInfo ) {

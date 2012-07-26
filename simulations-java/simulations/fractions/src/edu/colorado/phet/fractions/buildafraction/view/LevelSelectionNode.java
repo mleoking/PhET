@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view;
 
+import fj.F;
 import fj.data.List;
 
 import java.awt.Color;
@@ -21,6 +22,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.games.GameConstants.SOUND_ICON;
 import static edu.colorado.phet.common.games.GameConstants.SOUND_OFF_ICON;
+import static edu.colorado.phet.fractions.buildafraction.view.LevelType.NUMBERS;
+import static edu.colorado.phet.fractions.buildafraction.view.LevelType.SHAPES;
 import static edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern.sequentialFill;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
@@ -32,8 +35,8 @@ import static fj.data.List.list;
 public class LevelSelectionNode extends AbstractLevelSelectionNode {
     public static Color[] colors = new Color[] { Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN, Colors.LIGHT_ORANGE, Color.magenta, Color.yellow };
 
-    public LevelSelectionNode( final String title, final BuildAFractionCanvas canvas, BooleanProperty audioEnabled, IntegerProperty selectedPage ) {
-        super( title, list( new Page( page1() ), new Page( page2() ) ), canvas, selectedPage );
+    public LevelSelectionNode( final String title, final BuildAFractionCanvas canvas, BooleanProperty audioEnabled, IntegerProperty selectedPage, F<LevelIdentifier, LevelProgress> gameProgress ) {
+        super( title, list( new Page( page1( gameProgress ) ), new Page( page2( gameProgress ) ) ), canvas, selectedPage );
 
         //Add the audio on/off panel
         addChild( new SettingsOnOffPanel( list( new Element( new PImage( SOUND_OFF_ICON ),
@@ -42,41 +45,45 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
         }} );
     }
 
-    private static List<List<LevelInfo>> page1() {
-        return list( list( toShapeLevelInfo( 1, Pattern.pie( 1 ), 3 ),
-                           toShapeLevelInfo( 2, Pattern.verticalBars( 2 ), 3 ),
-                           toShapeLevelInfo( 3, 3 ),
-                           toShapeLevelInfo( 4, 3 ),
-                           toShapeLevelInfo( 5, 3 ) ),
-                     list( createNumberLevel( 1, 3 ),
-                           createNumberLevel( 2, 3 ),
-                           createNumberLevel( 3, 3 ),
-                           createNumberLevel( 4, 3 ),
-                           createNumberLevel( 5, 3 ) ) );
+    private static List<List<LevelInfo>> page1( final F<LevelIdentifier, LevelProgress> gameProgress ) {
+        return list( list( shapeLevel( 1, Pattern.pie( 1 ), gameProgress ),
+                           shapeLevel( 2, Pattern.verticalBars( 2 ), gameProgress ),
+                           shapeLevel( 3, gameProgress ),
+                           shapeLevel( 4, gameProgress ),
+                           shapeLevel( 5, gameProgress ) ),
+                     list( numberLevel( 1, gameProgress ),
+                           numberLevel( 2, gameProgress ),
+                           numberLevel( 3, gameProgress ),
+                           numberLevel( 4, gameProgress ),
+                           numberLevel( 5, gameProgress ) ) );
     }
 
-    private static List<List<LevelInfo>> page2() {
-        return list( list( toShapeLevelInfo( 6, 4 ),
-                           toShapeLevelInfo( 7, 4 ),
-                           toShapeLevelInfo( 8, 4 ),
-                           toShapeLevelInfo( 9, 4 ),
-                           toShapeLevelInfo( 10, 4 ) ),
-                     list( createNumberLevel( 6, 4 ),
-                           createNumberLevel( 7, 4 ),
-                           createNumberLevel( 8, 4 ),
-                           createNumberLevel( 9, 4 ),
-                           createNumberLevel( 10, 4 ) ) );
+    private static List<List<LevelInfo>> page2( final F<LevelIdentifier, LevelProgress> gameProgress ) {
+        return list( list( shapeLevel( 6, gameProgress ),
+                           shapeLevel( 7, gameProgress ),
+                           shapeLevel( 8, gameProgress ),
+                           shapeLevel( 9, gameProgress ),
+                           shapeLevel( 10, gameProgress ) ),
+                     list( numberLevel( 6, gameProgress ),
+                           numberLevel( 7, gameProgress ),
+                           numberLevel( 8, gameProgress ),
+                           numberLevel( 9, gameProgress ),
+                           numberLevel( 10, gameProgress ) ) );
     }
 
-    private static LevelInfo toShapeLevelInfo( final int level, int maxStars ) {
-        return toShapeLevelInfo( level, Pattern.polygon( 80, level ), maxStars );
+    private static LevelInfo shapeLevel( final int level, final F<LevelIdentifier, LevelProgress> gameProgress ) {
+        return shapeLevel( level, Pattern.polygon( 80, level ), gameProgress );
     }
 
-    private static LevelInfo toShapeLevelInfo( final int level, Pattern pattern, int maxStars ) {
-        return new LevelInfo( new LevelIdentifier( level - 1, LevelType.SHAPES ), "Level " + level, new PatternNode( sequentialFill( pattern, level ), colors[( level - 1 ) % colors.length] ), 0, maxStars );
+    private static LevelInfo shapeLevel( final int level, Pattern pattern, final F<LevelIdentifier, LevelProgress> gameProgress ) {
+        final LevelProgress f = gameProgress.f( new LevelIdentifier( level - 1, SHAPES ) );
+        return new LevelInfo( new LevelIdentifier( level - 1, SHAPES ), "Level " + level, new PatternNode( sequentialFill( pattern, level ), colors[( level - 1 ) % colors.length] ), f );
     }
 
-    private static LevelInfo createNumberLevel( int level, int maxStars ) {return new LevelInfo( new LevelIdentifier( level - 1, LevelType.NUMBERS ), "Level " + level, createLevelIcon( level ), 0, maxStars );}
+    private static LevelInfo numberLevel( int level, final F<LevelIdentifier, LevelProgress> gameProgress ) {
+        final LevelProgress f = gameProgress.f( new LevelIdentifier( level - 1, NUMBERS ) );
+        return new LevelInfo( new LevelIdentifier( level - 1, NUMBERS ), "Level " + level, createLevelIcon( level ), f );
+    }
 
     private static PNode createLevelIcon( final int level ) {
         return new PNode() {{

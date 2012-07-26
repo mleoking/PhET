@@ -160,7 +160,7 @@ public class AbstractLevelSelectionNode extends PNode {
 
         final Property<Boolean> selected = new Property<Boolean>( false );
         final PaddedIcon centerIcon = new PaddedIcon( maxSize, info.icon );
-        LevelIconNode node = new LevelIconNode( info.name, centerIcon, info.filledStars, info.maxStars );
+        LevelIconNode node = new LevelIconNode( info.name, centerIcon, info.levelProgress.stars, info.levelProgress.maxStars );
         ToggleButtonNode button = new ToggleButtonNode( node, selected, new VoidFunction0() {
             public void apply() {
                 SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.levelButton, info.name ) );
