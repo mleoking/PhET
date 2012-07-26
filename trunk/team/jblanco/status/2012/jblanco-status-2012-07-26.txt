@@ -1,0 +1,52 @@
+PhET Progress Report, J. Blanco, 7-26-2012
+
+PhET Weekly Progress Report
+John Blanco
+July 26th, 2012
+
+Time period covered: July 19th through July 25th.
+
+Heat Capacity Lab - 16.5 hrs
+
+o	Discussed prototype in chem meeting.
+o	Added block with custom heat capacity (replaced the brick).
+o	Added slider for controlling heat capacity.
+o	Reviewed with Julia C.
+o	Turned off interaction with movable objects and air.
+o	Fixed issue where chunks would move into air when heat capacity slider was changed quickly.
+o	Removed other tabs and changed name (temporary changes to support prototype).
+o	Published versions for review.
+
+Energy Forms and Changes - 12.0 hrs
+
+o	Fixed an issue where blocks could be made to overlap if dropped on side of burner.
+o	Improved layout of buttons on 2nd tab.
+o	Added dynamic slider control (heat-cool, heat-only, cool-only) to the burner.
+o	Skimmed paper on the use of energy chunks in teaching.
+
+Balancing Act - 1.5 hrs
+
+o	Changed tip-prediction challenge to give user a 2nd chance.
+o	Looked at right justification of the text in mass deduction challenges, decided against due to cursor issues.
+
+Installer Builder - 2.0 hrs
+
+o	Started work on migrating to Java.
+o	Started work on creating translated versions of the web site, see tickets #3391, #3339.
+o	Contacted IT about getting more disk space on Figaro.
+
+Customer Support - 1.0 hrs
+
+o	Emailed the folks at the Oregon Virtual School District to see if they wanted any support with meta data or obtaining new sims.  No response so far.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o	Annual evaluation paperwork and meeting.
+o	Weekly status meeting.
+o	Weekly status report.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 0.0 hrs
+
+o	Planning to take vacation on the week of July 30th (next week).
