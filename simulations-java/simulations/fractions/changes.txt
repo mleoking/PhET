@@ -1,3 +1,5 @@
+Build a Fraction: Fixed: Stars should not clear on "refresh"
+Build a Fraction: Fixed: Stars do not clear on "reset all"
 Build a Fraction: Fill in stars as challenges and levels are completed
 Build a Fraction: Fixed: Pie shapes don't go back to the right location in the toolbox
 Build a Fraction: Fixed: Pie shapes should stack up and to the right

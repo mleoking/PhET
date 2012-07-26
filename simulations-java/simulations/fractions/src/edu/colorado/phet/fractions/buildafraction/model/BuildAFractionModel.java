@@ -73,7 +73,7 @@ public class BuildAFractionModel {
         int n = numberLevel.get();
         int m = pictureLevel.get();
         Scene scene = selectedScene.get();
-        resetAll();
+
         selectedScene.set( scene );
         numberLevel.set( n );
         pictureLevel.set( m );
