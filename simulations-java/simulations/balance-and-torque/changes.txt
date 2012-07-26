@@ -1,3 +1,5 @@
+# 1.01.01 (66291) Jul 26, 2012
+7/26/12 Deploying to dev for testing of recent changes.
 Modified width of the text box used for entering mass value guesses.
 Changed the tilt-prediction challenge to allow two attempts instead of one (for greater consistency with other challenges).
 # 1.01.00 (64020) May 8, 2012
