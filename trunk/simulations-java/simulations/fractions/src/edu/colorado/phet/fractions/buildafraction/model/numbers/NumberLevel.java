@@ -5,7 +5,7 @@ import fj.F;
 import fj.Ord;
 import fj.data.List;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.fractions.buildafraction.model.Level;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
 /**
@@ -13,10 +13,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
  *
  * @author Sam Reid
  */
-public class NumberLevel {
-
-    //Fractions the user has created in the play area, which may match a target
-    public final Property<List<Fraction>> createdFractions = new Property<List<Fraction>>( List.<Fraction>nil() );
+public class NumberLevel extends Level {
 
     public final List<Integer> numbers;
     public final List<NumberTarget> targets;
@@ -58,6 +55,4 @@ public class NumberLevel {
     public NumberTarget getTarget( final int i ) {
         return targets.index( i );
     }
-
-    public void resetAll() { createdFractions.reset(); }
 }
