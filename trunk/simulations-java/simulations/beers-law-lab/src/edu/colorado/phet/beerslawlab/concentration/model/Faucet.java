@@ -27,6 +27,7 @@ public class Faucet implements Resettable {
         this.enabled = new Property<Boolean>( true );
     }
 
+
     public void reset() {
         flowRate.reset();
         enabled.reset();
