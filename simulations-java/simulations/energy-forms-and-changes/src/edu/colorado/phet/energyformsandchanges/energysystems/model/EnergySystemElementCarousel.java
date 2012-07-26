@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author John Blanco
  */
-public class EnergySystemElementCarousel extends Carousel<EnergySystemElement> {
+public class EnergySystemElementCarousel<T extends EnergySystemElement> extends Carousel<T> {
     public EnergySystemElementCarousel( Vector2D selectedElementPosition, Vector2D offsetBetweenElements ) {
         super( selectedElementPosition, offsetBetweenElements );
 

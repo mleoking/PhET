@@ -38,9 +38,9 @@ public class EnergySystemsModel {
 
     // Carousels that control the positions of the energy sources, converters,
     // and users.
-    public final EnergySystemElementCarousel energySourcesCarousel = new EnergySystemElementCarousel( new Vector2D( -0.15, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
-    public final EnergySystemElementCarousel energyConvertersCarousel = new EnergySystemElementCarousel( new Vector2D( -0.025, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
-    public final EnergySystemElementCarousel energyUsersCarousel = new EnergySystemElementCarousel( new Vector2D( 0.1, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
+    public final EnergySystemElementCarousel<EnergySource> energySourcesCarousel = new EnergySystemElementCarousel( new Vector2D( -0.15, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
+    public final EnergySystemElementCarousel<EnergyConverter> energyConvertersCarousel = new EnergySystemElementCarousel( new Vector2D( -0.025, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
+    public final EnergySystemElementCarousel<EnergyUser> energyUsersCarousel = new EnergySystemElementCarousel( new Vector2D( 0.1, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
     private final List<Carousel> carousels = new ArrayList<Carousel>() {{
         add( energySourcesCarousel );
         add( energyConvertersCarousel );
@@ -106,8 +106,18 @@ public class EnergySystemsModel {
     }
 
     private void stepInTime( double dt ) {
+
+        // Step the animation for the carousels.
         for ( Carousel carousel : carousels ) {
             carousel.stepInTime( dt );
+        }
+
+        if ( !energySourcesCarousel.getAnimationInProgressProperty().get() &&
+             !energyConvertersCarousel.getAnimationInProgressProperty().get() &&
+             !energyUsersCarousel.getAnimationInProgressProperty().get() ) {
+
+            // Step the active elements in time to produce, convert, and use energy.
+
         }
     }
 

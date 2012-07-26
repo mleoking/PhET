@@ -61,6 +61,7 @@ public class MassValueEntryNode extends PNode {
         numberEntryField.setColumns( ANSWER_ENTRY_FIELD_COLUMNS );
         numberEntryField.setFont( TEXT_FONT );
         numberEntryField.setBorder( BorderFactory.createEtchedBorder() );
+        numberEntryField.requestFocus();
         numericalValueEntryPanel.add( numberEntryField );
 
         // Add the units label.

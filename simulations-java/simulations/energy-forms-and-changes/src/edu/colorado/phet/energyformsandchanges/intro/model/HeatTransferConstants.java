@@ -21,14 +21,10 @@ public class HeatTransferConstants {
     // which is why they are now properties.
     public static final Property<Double> BRICK_IRON_HEAT_TRANSFER_FACTOR = new Property<Double>( 1000.0 );
     public static final Property<Double> BRICK_WATER_HEAT_TRANSFER_FACTOR = new Property<Double>( 1000.0 );
-    // TODO: Air interaction turned off for heat capacity lab prototype, will need to be turned back on.
-//    public static final Property<Double> BRICK_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
-    public static final Property<Double> BRICK_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 0.0 );
+    public static final Property<Double> BRICK_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
     public static final Property<Double> IRON_WATER_HEAT_TRANSFER_FACTOR = new Property<Double>( 1000.0 );
-    //    public static final Property<Double> IRON_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
-    public static final Property<Double> IRON_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 0.0 );
-    //    public static final Property<Double> WATER_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
-    public static final Property<Double> WATER_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 0.0 );
+    public static final Property<Double> IRON_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
+    public static final Property<Double> WATER_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
     public static final Property<Double> AIR_TO_SURROUNDING_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 10000.0 );
 
     // Maps for obtaining transfer constants for a given thermal element.
