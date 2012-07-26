@@ -1,3 +1,4 @@
+# 0.00.07 (66262) Jul 26, 2012
 Reduced size of the play area
 Increased size of the molecule icons
 Removed text from molecule icons
