@@ -1,3 +1,4 @@
+Reduced size of the play area
 Increased size of the molecule icons
 Removed text from molecule icons
 Collision improvements
