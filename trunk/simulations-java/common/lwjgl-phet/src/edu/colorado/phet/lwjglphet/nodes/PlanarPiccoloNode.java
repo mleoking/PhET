@@ -9,7 +9,10 @@ import edu.colorado.phet.common.piccolophet.nodes.Piccolo3DCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Renders an arbitrary Piccolo node into a quadrilateral
+ * Renders an arbitrary Piccolo node into a quadrilateral. Does not have to be orthographic, and can have arbitrary transformations applied to it.
+ * <p/>
+ * NOTE: Any updates to the Piccolo node should be done exclusively within the Swing Event Dispatch Thread, since this is backed by a PCanvas
+ * See lwjgl-implementation-notes.txt
  */
 public class PlanarPiccoloNode extends PlanarSwingNode {
     private final PNode node;

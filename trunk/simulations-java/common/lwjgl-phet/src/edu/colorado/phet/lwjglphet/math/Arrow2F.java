@@ -4,6 +4,7 @@ package edu.colorado.phet.lwjglphet.math;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 
 //REVIEW I hate to see this awful interface (headHeight before headWidth) copied into another common lib.
+
 /**
  * copied somewhat from the Arrow class TODO cleanup
  */
