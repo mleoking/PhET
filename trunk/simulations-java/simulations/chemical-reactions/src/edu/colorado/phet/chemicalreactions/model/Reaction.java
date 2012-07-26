@@ -351,11 +351,7 @@ public class Reaction {
                 Vector2D transformedTarget = transformedTargets.get( i );
                 double radius = reaction.reactants.get( i ).shape.getBoundingCircleRadius();
 
-                // circle inside rectangle checking is easily accomplished by checking the four maximal points:
-                if ( transformedTarget.x - radius < availablePlayAreaModelBounds.getMinX()
-                     || transformedTarget.x + radius > availablePlayAreaModelBounds.getMaxX()
-                     || transformedTarget.y - radius < availablePlayAreaModelBounds.getMinY()
-                     || transformedTarget.y + radius > availablePlayAreaModelBounds.getMaxY() ) {
+                if ( isPointOutsideRadiusBounds( transformedTarget, radius, availablePlayAreaModelBounds ) ) {
                     return OUT_OF_BOUNDS;
                 }
             }
@@ -408,8 +404,41 @@ public class Reaction {
                 }
             }
 
+            // double-check that our molecules won't go outside of the bounds DURING animation
+            for ( Molecule molecule : molecules ) {
+                Vector2D acceleration = getTweakAcceleration( molecule );
+
+                // to go outside of starting / ending bounds, the maximal point would need to be where the velocity component is zero.
+                // just solve for that here:
+                double tXMax = -molecule.getVelocity().x / acceleration.x;
+                double tYMax = -molecule.getVelocity().y / acceleration.y;
+                double radius = molecule.shape.getBoundingCircleRadius();
+
+                if ( tXMax > 0 && tXMax < t ) {
+                    double x = molecule.getPosition().x + molecule.getVelocity().x * tXMax + 0.5 * acceleration.x * tXMax * tXMax;
+                    if( x - radius < availablePlayAreaModelBounds.getMinX() || x + radius > availablePlayAreaModelBounds.getMaxX() ) {
+                        return OUT_OF_BOUNDS;
+                    }
+                }
+
+                if( tYMax > 0 && tYMax < t ) {
+                    double y = molecule.getPosition().y + molecule.getVelocity().y * tYMax + 0.5 * acceleration.y * tYMax * tYMax;
+                    if( y - radius < availablePlayAreaModelBounds.getMinY() || y + radius > availablePlayAreaModelBounds.getMaxY() ) {
+                        return OUT_OF_BOUNDS;
+                    }
+                }
+            }
+
             // didn't fail any tests, probably viable
             return VIABLE;
         }
+    }
+
+    // circle inside rectangle checking is easily accomplished by checking the four maximal points:
+    private static boolean isPointOutsideRadiusBounds( Vector2D point, double radius, PBounds bounds ) {
+        return point.x - radius < bounds.getMinX()
+               || point.x + radius > bounds.getMaxX()
+               || point.y - radius < bounds.getMinY()
+               || point.y + radius > bounds.getMaxY();
     }
 }
