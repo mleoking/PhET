@@ -192,7 +192,7 @@ public class Kit {
         for ( final Reaction potentialReaction : allPossibleReactions ) {
 
             // compute the reaction's properties
-            potentialReaction.initialize( 500 / allPossibleReactions.size() ); // scale the rate so we hit approximately N attempts / frame
+            potentialReaction.initialize( 250 / allPossibleReactions.size() ); // scale the rate so we hit approximately N attempts / frame
 
             // bail if it isn't "possible"
             if ( potentialReaction.getFitness() <= 0 ) {
