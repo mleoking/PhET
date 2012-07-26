@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * Allows overlaying a Piccolo-based GUI onto LWJGL. This should only be rendered in an orthographic mode.
  */
-public class OrthoPiccoloNode extends OrthoComponentNode {
+public class OrthoPiccoloNode extends OrthoSwingNode {
     private final PNode node;
 
     public OrthoPiccoloNode( final PNode node, final LWJGLTab tab, CanvasTransform canvasTransform, Property<Vector2D> position, final VoidNotifier mouseEventNotifier ) {

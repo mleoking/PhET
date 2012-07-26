@@ -46,11 +46,11 @@ Swing (or Piccolo in situations explained later) with the necessary thread-chang
 
 There are multiple classes devoted to displaying (and sometimes being able to interact) with Swing and Piccolo Components/PNodes.
 
-For interactive interfaces (like control panels and the such that lay orthographically in screen coordinates) use OrthoComponentNode for general
+For interactive interfaces (like control panels and the such that lay orthographically in screen coordinates) use OrthoSwingNode for general
 Swing components, or OrthoPiccoloNode for Piccolo nodes. (NOTE: be in the Swing EDT to make Piccolo modifications to the wrapped node)
 
 For (currently, July 2012) non-interactive interfaces that can be rotated to arbitrary angles (although currently are still planar), use
-PlanarComponentNode for Swing and either PlanarPiccoloNode or ThreadedPlanarPiccoloNode for Piccolo. PlanarPiccoloNode uses PlanarComponentNode
+PlanarSwingNode for Swing and either PlanarPiccoloNode or ThreadedPlanarPiccoloNode for Piccolo. PlanarPiccoloNode uses PlanarSwingNode
 for its rendering (and thus any changes to the wrapped Piccolo node need to be made in the Swing EDT), however that was causing unnecessary latency
 in many actions. ThreadedPlanarPiccoloNode is an improvement for Piccolo that does NOT use Swing or a PCanvas to render the PNode into a texture,
 so that changes to the Piccolo node CAN be made in the LWJGL thread. This removes a whole frame (or more) of latency when updating the nodes.

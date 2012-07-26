@@ -26,7 +26,7 @@ public class LWJGLRepaintManager extends PSwingRepaintManager {
     }
 
     private void notifyComponent( JComponent component ) {
-        VoidFunction0 callback = (VoidFunction0) component.getClientProperty( ComponentImage.ON_REPAINT_CALLBACK );
+        VoidFunction0 callback = (VoidFunction0) component.getClientProperty( SwingImage.ON_REPAINT_CALLBACK );
         if ( callback != null ) {
             callback.apply();
         }

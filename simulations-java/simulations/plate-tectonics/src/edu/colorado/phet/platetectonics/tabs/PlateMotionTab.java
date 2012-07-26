@@ -28,7 +28,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
-import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
+import edu.colorado.phet.lwjglphet.nodes.OrthoSwingNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
@@ -368,7 +368,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         * time control
         *----------------------------------------------------------------------------*/
         tectonicsTimeControl = new TectonicsTimeControl( getClock(), isAutoMode );
-        final OrthoComponentNode timeControlPanelNode = new OrthoComponentNode( tectonicsTimeControl,
+        final OrthoSwingNode timeControlPanelNode = new OrthoSwingNode( tectonicsTimeControl,
                                                                                 this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ),
                                                                                 mouseEventNotifier ) {{
             onResize.addUpdateListener( new UpdateListener() {
