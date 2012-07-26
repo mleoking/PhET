@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -62,6 +63,13 @@ public class EnergySystemsModel {
     public final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb();
     public final FluorescentLightBulb fluorescentLightBulb = new FluorescentLightBulb();
     public final BeakerHeater beakerHeater = new BeakerHeater();
+
+    // List of all energy systems.
+    private final List<EnergySystemElement> energySystemElements = Arrays.asList(
+            faucet, sun, teaPot,
+            waterPoweredGenerator, solarPanel,
+            incandescentLightBulb, fluorescentLightBulb, beakerHeater
+    );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
