@@ -1,3 +1,4 @@
+Build a Fraction: Fill in stars as challenges and levels are completed
 Build a Fraction: Fixed: Pie shapes don't go back to the right location in the toolbox
 Build a Fraction: Fixed: Pie shapes should stack up and to the right
 Build a Fraction: Fixed: Pieces should rotate when going back to the toolbox
