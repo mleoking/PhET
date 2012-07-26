@@ -135,7 +135,7 @@ public class FractionCardNode extends RichPNode {
             public void apply( final Option<Fraction> fractions ) {
                 removeChild( cardShapeNode );
                 if ( fractions.isSome() ) {
-                    numberSceneNode.myLevel.createdFractions.set( numberSceneNode.myLevel.createdFractions.get().delete( fractions.some(), Equal.<Fraction>anyEqual() ) );
+                    numberSceneNode.level.createdFractions.set( numberSceneNode.level.createdFractions.get().delete( fractions.some(), Equal.<Fraction>anyEqual() ) );
                 }
             }
         } );
