@@ -1,3 +1,4 @@
+Increased size of the molecule icons
 Removed text from molecule icons
 Collision improvements
 # 0.00.06 (66016) Jul 19, 2012

@@ -34,8 +34,7 @@ public class MoleculeBucketNode extends BucketView {
                 setPosition( MODEL_VIEW_TRANSFORM.viewToModel( new Vector2D( 0, 0 ) ) );
             }} ) {{
                 setLabelVisible( false );
-                setOffset( -getFullBounds().getWidth() / 3, 0 );
-                scale( 0.4 );
+                scale( 0.5 );
 
                 // don't show the mouse hand over it
                 for ( PInputEventListener listener : Arrays.asList( getInputEventListeners() ) ) {
@@ -43,7 +42,9 @@ public class MoleculeBucketNode extends BucketView {
                 }
             }};
             addChild( label );
-            addChild( icon );
+            addChild( new ZeroOffsetNode( icon ) {{
+                setOffset( -getFullBounds().getWidth() - 10, -getFullBounds().getHeight() / 2 );
+            }} );
         }} ) );
     }
 }
