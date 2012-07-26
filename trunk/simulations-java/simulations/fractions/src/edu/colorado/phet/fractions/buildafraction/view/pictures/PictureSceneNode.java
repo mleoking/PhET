@@ -303,6 +303,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         for ( PieceNode piece : getPieceNodes() ) {
             piece.moveToTopOfStack();
         }
+        level.filledTargets.reset();
     }
 
     private List<PieceNode> getPieceNodes() {
@@ -340,6 +341,10 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 hit = true;
                 break;
             }
+        }
+
+        if ( hit ) {
+            level.incrementFilledTargets();
         }
 
         //Put the piece back in its starting location, but only if it is empty
@@ -508,7 +513,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         } ).length() == targetPairs.length();
     }
 
-    public void hideFace() {
+    public void scoreBoxSplit() {
+        level.filledTargets.decrement();
         faceNodeDialog.animateToTransparency( 0.0f, 200 );
         faceNodeDialog.setPickable( false );
         faceNodeDialog.setChildrenPickable( false );
