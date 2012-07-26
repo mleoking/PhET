@@ -363,7 +363,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             final List<ContainerNode> inToolbox = getContainerNodes().filter( _isAtStartingLocation );
             if ( inPlayArea.length() == 0 && inToolbox.length() > 0 ) {
                 ContainerNode g = inToolbox.head();
-                g.animateToPositionScaleRotation( toolboxNode.getCenterX() - g.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 );
+                Vector2D offset = level.shapeType == ShapeType.HORIZONTAL_BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
+                g.animateToPositionScaleRotation( toolboxNode.getCenterX() - g.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, 1000 );
             }
         }
 
@@ -407,11 +408,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     }
 
     public double getNextAngle( final PieceNode pieceNode ) {
-
-        for ( ContainerNode containerNode : getContainerNodes() ) {
-            System.out.println( "containerNode = " + containerNode + ", t = " + containerNode.isInToolbox() );
-        }
-
         //find closest container
         SingleContainerNode closest = getContainerNodes().
                 bind( _getSingleContainerNodes ).
