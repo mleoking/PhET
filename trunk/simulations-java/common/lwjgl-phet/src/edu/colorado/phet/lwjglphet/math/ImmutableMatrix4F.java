@@ -6,6 +6,9 @@ import java.nio.FloatBuffer;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector4F;
 
+//REVIEW Why was LWJGL's Matrix4f insufficient, what does this implementation add?
+//REVIEW "some code is copied"? Impossible to tell which code. Consider putting copied code in a separate class and delegating to it.
+
 // some code is copied from LWJGL's Matrix4f, so their license in the file follows
 
 /*

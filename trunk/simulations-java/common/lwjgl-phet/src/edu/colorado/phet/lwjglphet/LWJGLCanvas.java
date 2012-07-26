@@ -8,6 +8,10 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.PixelFormat;
 
+//REVIEW  In the class doc, please say something about why this is a singleton,
+// how to support multiple "play areas" for a sim, and anything else that differs PCanvas.
+// This will be helpful for developers who are familiar with Piccolo and 2D PhET sim framework.
+
 /**
  * Main rendering area for an LWJGL-based simulation. Native code will take over painting of this
  * canvas with the OpenGL accelerated view.

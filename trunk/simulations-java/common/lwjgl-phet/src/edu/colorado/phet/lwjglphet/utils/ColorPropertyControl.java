@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 
+//REVIEW mention why it's necessary to do this in the LWJGL thread. Discussed in lwjgl-implementation-notes.txt, but best to describe close to where doc is needed.
 /**
  * Convenience control that handles a color property in the LWJGL thread.
  */

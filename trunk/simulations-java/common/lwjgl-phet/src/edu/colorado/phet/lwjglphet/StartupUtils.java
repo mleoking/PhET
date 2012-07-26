@@ -64,6 +64,7 @@ public class StartupUtils {
         return result;
     }
 
+    //REVIEW Recommend to move copied code (and license info) to a separate class and delegate to that class.
     /*
     * Uses some code adapted from JME, so their license follows.
     */
