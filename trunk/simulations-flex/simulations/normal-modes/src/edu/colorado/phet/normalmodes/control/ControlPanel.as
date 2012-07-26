@@ -228,8 +228,8 @@ public class ControlPanel extends Canvas {
     /*In either 1D or 2D mode, user can show or hide springs between masses.*/
     private function clickShowSprings( evt: Event ): void {
         var shown: Boolean = this.showSpringsCheckBox.selected;
-        this.myMainView.myView2.springsVisible = shown;
-        this.myMainView.myView1.springsVisible = shown;
+        this.myMainView.myView2D.springsVisible = shown;
+        this.myMainView.myView1D.springsVisible = shown;
         this.currentModel.updateViews();
     }
 

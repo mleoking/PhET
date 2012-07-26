@@ -24,7 +24,6 @@ import flash.utils.getTimer;
  */
 public class Model2D {
 
-    public var myMainView: MainView;
     public var views_arr: Array;     //views associated with this model;
     //physical variables
     private var m: Number;           //mass in kg of each mass in array (all masses equal)
@@ -69,8 +68,7 @@ public class Model2D {
     private var dt: Number;  	    //default time step in seconds
     private var msTimer: Timer;	    //millisecond timer
 
-    public function Model2D( myMainView: MainView ) {
-        this.myMainView = myMainView;
+    public function Model2D(){
         this.views_arr = new Array();
         //all 2D arrays are in row-column format: x (column) increases to right; y (row) increases down
         this._nMax = 10;                        //maximum of 10*10 mobile masses in 2D array

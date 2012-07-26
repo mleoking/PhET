@@ -4,7 +4,7 @@
 
 /**
  * Created by IntelliJ IDEA.
- * User: General User
+ * User: Dubson
  * Date: 7/11/11
  * Time: 7:29 PM
  * To change this template use File | Settings | File Templates.
@@ -20,7 +20,7 @@ import mx.core.UIComponent;
 
 /*
 * "Paused sign" appears in background when user pauses sim.
-* Different pausedSigns for the two different model/views (view1 and view2)
+* Different pausedSigns for the two different model/views (view1D and view2D)
 * */
 public class PausedSign extends UIComponent {
     private var paused_txt: TextField;
