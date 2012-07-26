@@ -119,7 +119,7 @@ public class PictureScoreBoxNode extends PNode {
             containerNode.animateHome();
             containerNode = null;
 
-            sceneNode.hideFace();
+            sceneNode.scoreBoxSplit();
             sceneNode.syncModelFractions();
         }
     }

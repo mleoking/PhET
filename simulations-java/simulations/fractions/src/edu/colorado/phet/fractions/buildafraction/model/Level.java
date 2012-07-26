@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.buildafraction.model;
 import fj.data.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
 /**
@@ -17,7 +18,7 @@ public class Level {
     public final int numTargets;
 
     //For keeping score
-    public final Property<Integer> filledTargets = new Property<Integer>( 0 );
+    public final IntegerProperty filledTargets = new IntegerProperty( 0 );// {{trace( "filled targets" );}};
 
     public Level( final int numTargets ) { this.numTargets = numTargets; }
 
@@ -25,4 +26,6 @@ public class Level {
         createdFractions.reset();
         filledTargets.reset();
     }
+
+    public void incrementFilledTargets() { filledTargets.increment(); }
 }
