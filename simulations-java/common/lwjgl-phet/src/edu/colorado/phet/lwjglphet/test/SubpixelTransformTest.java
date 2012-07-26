@@ -12,7 +12,14 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.Piccolo3DCanvas;
 import edu.umd.cs.piccolo.PNode;
 
-//REVIEW briefly describe the purpose of this test
+/**
+ * Piccolo rendering test to verify suspicions that setting translations to less than half a pixel (sub-pixel offsets) did not change the antialiasing
+ * as anticipated.
+ * <p/>
+ * The circle moves much slower than the mouse (and the transform is printed to console to confirm that it is indeed using subpixel transformations),
+ * however the circle's motion visually is not linear (instead, staggered like a step function), and it steps forward pixel by pixel instead of
+ * smoothly blending across a pixel's range.
+ */
 public class SubpixelTransformTest {
 
     public static AffineTransform transform = new AffineTransform();
