@@ -1,3 +1,4 @@
+# 3.20.05 (66287) Jul 26, 2012
 7/26/2012 Added a new sim that has 1.0 Ohm internal resistance batteries by default
 # 3.20.04 (65848) Jul 16, 2012
 7/16/12 dev version that reflects changes to sponsor feature
