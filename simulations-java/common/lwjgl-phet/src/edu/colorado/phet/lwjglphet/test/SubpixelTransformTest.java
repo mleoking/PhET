@@ -12,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.Piccolo3DCanvas;
 import edu.umd.cs.piccolo.PNode;
 
+//REVIEW briefly describe the purpose of this test
 public class SubpixelTransformTest {
 
     public static AffineTransform transform = new AffineTransform();

@@ -14,6 +14,7 @@ import org.lwjgl.input.Mouse;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
+//REVIEW Rename to SwingImage, for consistency with PiccoloImage?
 /**
  * An image backed by a Swing component that can be rendered as a texture in OpenGL
  * <p/>
@@ -149,6 +150,9 @@ public class ComponentImage extends TextureImage {
             }
         } );
     }
+
+    //REVIEW I recommend moving this JMEDesktop code (and license info) into a separate class, then delegate to that class.
+    // "Here follows" is true now, but it's all too easy for someone to insert new code below.
 
     /*---------------------------------------------------------------------------*
     * Here follows a lot of JMEDesktop code, listed with the relevant license information

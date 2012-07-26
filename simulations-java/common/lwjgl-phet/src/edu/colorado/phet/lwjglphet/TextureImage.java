@@ -46,6 +46,7 @@ public abstract class TextureImage {
         paintableImage = new BufferedImage( width, height, hasAlpha ? BufferedImage.TYPE_4BYTE_ABGR : BufferedImage.TYPE_3BYTE_BGR );
     }
 
+    //REVIEW reiterate why it's necessary to call from the EDT thread.
     /**
      * Call from the EDT thread
      */

@@ -4,6 +4,7 @@ package edu.colorado.phet.lwjglphet.utils;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
+//REVIEW might want to give a concrete example here of when you'd want to use this.
 /**
  * A property that can be handled by the Swing EDT directly, that forwards to an underlying property controlled by the LWJGL thread.
  * <p/>

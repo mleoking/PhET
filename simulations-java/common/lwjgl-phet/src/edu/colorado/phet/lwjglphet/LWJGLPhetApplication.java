@@ -36,6 +36,7 @@ public class LWJGLPhetApplication extends PhetApplication {
         }
     }
 
+    //REVIEW unused? Is Mac Cmd-Q currently broken for any production sims?
     // General quit handler; fed to the OSXAdapter as the method to call when a system quit event occurs
     // A quit event is triggered by Cmd-Q, selecting Quit from the application or Dock menu, or logging out.
     // This will be called via reflection by OSXAdapter, so IDEs may identify this as an unused method.
