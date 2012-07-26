@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * Renders an arbitrary Piccolo node into a quadrilateral
  */
-public class PlanarPiccoloNode extends PlanarComponentNode {
+public class PlanarPiccoloNode extends PlanarSwingNode {
     private final PNode node;
 
     public PlanarPiccoloNode( final PNode node ) {

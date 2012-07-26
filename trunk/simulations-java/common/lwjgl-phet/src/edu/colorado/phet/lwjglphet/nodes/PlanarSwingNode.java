@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
-import edu.colorado.phet.lwjglphet.ComponentImage;
+import edu.colorado.phet.lwjglphet.SwingImage;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
@@ -27,15 +27,15 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Renders an arbitrary Swing component into a quad
  */
-public class PlanarComponentNode extends GLNode {
-    public final ValueNotifier<PlanarComponentNode> onResize = new ValueNotifier<PlanarComponentNode>( this );
+public class PlanarSwingNode extends GLNode {
+    public final ValueNotifier<PlanarSwingNode> onResize = new ValueNotifier<PlanarSwingNode>( this );
 
     private final JComponent component;
 
     private Dimension size = new Dimension(); // our current size
-    private ComponentImage componentImage;
+    private SwingImage componentImage;
 
-    public PlanarComponentNode( final JComponent component ) {
+    public PlanarSwingNode( final JComponent component ) {
         this.component = component;
 
         size = component.getPreferredSize();
@@ -90,7 +90,7 @@ public class PlanarComponentNode extends GLNode {
     public <T> void updateOnEvent( Notifier<T> notifier ) {
         notifier.addUpdateListener( new UpdateListener() {
             public void update() {
-                PlanarComponentNode.this.update();
+                PlanarSwingNode.this.update();
             }
         }, false );
     }
@@ -153,7 +153,7 @@ public class PlanarComponentNode extends GLNode {
         final int hudHeight = LWJGLUtils.toPowerOf2( size.height );
 
         // create the new image within the EDT
-        final ComponentImage newComponentImage = new ComponentImage( hudWidth, hudHeight, true, GL_LINEAR, GL_LINEAR, new AffineTransform(), component );
+        final SwingImage newComponentImage = new SwingImage( hudWidth, hudHeight, true, GL_LINEAR, GL_LINEAR, new AffineTransform(), component );
 
         // do the rest of the work in the LWJGL thread
         LWJGLCanvas.addTask( new Runnable() {

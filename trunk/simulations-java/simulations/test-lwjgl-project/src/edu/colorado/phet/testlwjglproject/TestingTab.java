@@ -37,7 +37,7 @@ import edu.colorado.phet.lwjglphet.CanvasTransform.StageCenteringCanvasTransform
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
-import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
+import edu.colorado.phet.lwjglphet.nodes.OrthoSwingNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
@@ -53,9 +53,9 @@ public class TestingTab extends LWJGLTab {
 
     private long timeElapsed = 0;
     private long lastTime = 0;
-    private OrthoComponentNode testSwingNode;
+    private OrthoSwingNode testSwingNode;
     private OrthoPiccoloNode testPiccoloNode;
-    private OrthoComponentNode fpsNode;
+    private OrthoSwingNode fpsNode;
     private CanvasTransform canvasTransform;
     private Dimension stageSize;
     private GridMesh testTerrain;
@@ -76,7 +76,7 @@ public class TestingTab extends LWJGLTab {
         stageSize = initialCanvasSize;
         canvasTransform = new StageCenteringCanvasTransform( canvasSize, stageSize );
 
-        testSwingNode = new OrthoComponentNode( new JPanel() {{
+        testSwingNode = new OrthoSwingNode( new JPanel() {{
             setOpaque( false );
             add( new JButton( "Swing Button" ) {{
                 setOpaque( false );
@@ -142,7 +142,7 @@ public class TestingTab extends LWJGLTab {
                 } );
             }} );
         }};
-        fpsNode = new OrthoComponentNode( fpsPanel, this, canvasTransform,
+        fpsNode = new OrthoSwingNode( fpsPanel, this, canvasTransform,
                                           new Property<Vector2D>( new Vector2D( 0, stageSize.getHeight() - fpsPanel.getPreferredSize().getHeight() ) ), mouseEventNotifier );
 
         {

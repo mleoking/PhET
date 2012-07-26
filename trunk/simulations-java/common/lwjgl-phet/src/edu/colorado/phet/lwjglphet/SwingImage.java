@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
  * <p/>
  * NOTE: Much of the ugly ugly code is copied and slightly tweaked with necessary licensing. Not my own.
  */
-public class ComponentImage extends TextureImage {
+public class SwingImage extends TextureImage {
     private final JComponent component;
 
     // owned by the EDT
@@ -28,13 +28,13 @@ public class ComponentImage extends TextureImage {
 
     public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
-    public ComponentImage( int width, int height, boolean hasAlpha, int magFilter, int minFilter, JComponent component ) {
+    public SwingImage( int width, int height, boolean hasAlpha, int magFilter, int minFilter, JComponent component ) {
         super( width, height, hasAlpha, magFilter, minFilter );
         this.component = component;
         init();
     }
 
-    public ComponentImage( int width, int height, boolean hasAlpha, int magFilter, int minFilter, AffineTransform imageTransform, JComponent component ) {
+    public SwingImage( int width, int height, boolean hasAlpha, int magFilter, int minFilter, AffineTransform imageTransform, JComponent component ) {
         super( width, height, hasAlpha, magFilter, minFilter, imageTransform );
         this.component = component;
         init();
@@ -444,8 +444,8 @@ public class ComponentImage extends TextureImage {
 
     public Component componentAt( final int x, final int y ) {
         // wrap the necessary parts within a Swing lock so that we know we don't tromp over parts
-        Component component = componentAt( x, y, ComponentImage.this.component, true );
-        if ( component != ComponentImage.this.component ) {
+        Component component = componentAt( x, y, SwingImage.this.component, true );
+        if ( component != SwingImage.this.component ) {
             return component;
         }
         return null;

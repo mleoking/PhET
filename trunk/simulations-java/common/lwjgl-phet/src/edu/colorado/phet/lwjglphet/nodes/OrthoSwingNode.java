@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.CanvasTransform;
-import edu.colorado.phet.lwjglphet.ComponentImage;
+import edu.colorado.phet.lwjglphet.SwingImage;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
@@ -29,16 +29,14 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 import static org.lwjgl.opengl.GL11.*;
 
-//REVIEW Consider renaming this OrthoSwingNode, for consistency with OrthoPiccoloNode. The other alternative is to rename OrthoPiccoloNode to OrthoNodeNode, which is ugly.
-//REVIEW Class doc indicates "should only be rendered in an orthographic mode". Is there a way to verify via an assert?
-//REVIEW OrthoComponentNode, PlanarComponentNode and ThreadedPlanarPiccoloNode contain some duplication/overlap, extract a base class and/or interface?
+//REVIEW OrthoSwingNode, PlanarSwingNode and ThreadedPlanarPiccoloNode contain some duplication/overlap, extract a base class and/or interface?
 
 /**
  * Allows overlaying a Swing GUI onto LWJGL. This should only be rendered in an orthographic mode.
  */
-public class OrthoComponentNode extends GLNode {
+public class OrthoSwingNode extends GLNode {
 
-    public final ValueNotifier<OrthoComponentNode> onResize = new ValueNotifier<OrthoComponentNode>( this );
+    public final ValueNotifier<OrthoSwingNode> onResize = new ValueNotifier<OrthoSwingNode>( this );
     public final Property<Vector2D> position;
 
     // whether mouse events will pass through
@@ -49,12 +47,12 @@ public class OrthoComponentNode extends GLNode {
     private final CanvasTransform canvasTransform;
 
     private Dimension size = new Dimension(); // our current size
-    private ComponentImage componentImage;
+    private SwingImage componentImage;
 
     private int offsetX;
     private int offsetY;
 
-    public OrthoComponentNode( final JComponent component, final LWJGLTab tab, CanvasTransform canvasTransform, Property<Vector2D> position, final VoidNotifier mouseEventNotifier ) {
+    public OrthoSwingNode( final JComponent component, final LWJGLTab tab, CanvasTransform canvasTransform, Property<Vector2D> position, final VoidNotifier mouseEventNotifier ) {
         this.component = component;
         this.tab = tab;
         this.canvasTransform = canvasTransform;
@@ -142,7 +140,7 @@ public class OrthoComponentNode extends GLNode {
     public <T> void updateOnEvent( Notifier<T> notifier ) {
         notifier.addUpdateListener( new UpdateListener() {
             public void update() {
-                OrthoComponentNode.this.update();
+                OrthoSwingNode.this.update();
             }
         }, false );
     }
@@ -236,7 +234,7 @@ public class OrthoComponentNode extends GLNode {
 //        System.out.println( "----" );
 
         // create the new image within the EDT
-        final ComponentImage newComponentImage = new ComponentImage( hudWidth, hudHeight, true, GL_NEAREST, GL_NEAREST, new AffineTransform() {{
+        final SwingImage newComponentImage = new SwingImage( hudWidth, hudHeight, true, GL_NEAREST, GL_NEAREST, new AffineTransform() {{
             // TODO: note that these image offset values are being ignored in TextureImage due to unexplained "jittery" behavior when slight offsets are encountered
             translate( imageOffsetX, -imageOffsetY );
             scale( scaleX, scaleY );

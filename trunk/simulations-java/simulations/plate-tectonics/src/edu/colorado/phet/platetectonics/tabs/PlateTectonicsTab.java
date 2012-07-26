@@ -39,7 +39,7 @@ import edu.colorado.phet.common.phetcommon.math.PlaneF;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
-import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
+import edu.colorado.phet.lwjglphet.nodes.OrthoSwingNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
@@ -123,7 +123,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     private PlateTectonicsModel model;
 
     // list of all orthographic user interfaces (stored here so we can handle mouse events correctly)
-    protected final List<OrthoComponentNode> guiNodes = new ArrayList<OrthoComponentNode>();
+    protected final List<OrthoSwingNode> guiNodes = new ArrayList<OrthoSwingNode>();
 
     // separate "model" state of the toolbox
     protected ToolboxState toolboxState = new ToolboxState();
@@ -313,7 +313,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                         // on left mouse button change
                         if ( Mouse.getEventButton() == 0 ) {
                             ThreadedPlanarPiccoloNode toolCollision = getToolUnder( Mouse.getEventX(), Mouse.getEventY() );
-                            OrthoComponentNode guiCollision = getGuiUnder( Mouse.getEventX(), Mouse.getEventY() );
+                            OrthoSwingNode guiCollision = getGuiUnder( Mouse.getEventX(), Mouse.getEventY() );
 
                             // if mouse is down
                             if ( Mouse.getEventButtonState() ) {
@@ -686,7 +686,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         glEnable( GL_LIGHT1 );
     }
 
-    public OrthoComponentNode createFPSReadout( final Color color ) {
+    public OrthoSwingNode createFPSReadout( final Color color ) {
         JPanel fpsPanel = new JPanel() {{
             setPreferredSize( new Dimension( 100, 30 ) );
             setOpaque( true );
@@ -704,7 +704,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                 } );
             }} );
         }};
-        return new OrthoComponentNode( fpsPanel, this, canvasTransform,
+        return new OrthoSwingNode( fpsPanel, this, canvasTransform,
                                        new Property<Vector2D>(
                                                new Vector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth() - 200,
                                                              10 ) ), mouseEventNotifier ) {{
@@ -737,13 +737,13 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return new Vector2F( intersection.x, intersection.y );
     }
 
-    public void addGuiNode( OrthoComponentNode node ) {
+    public void addGuiNode( OrthoSwingNode node ) {
         guiLayer.addChild( node );
         guiNodes.add( node );
     }
 
-    public OrthoComponentNode getGuiUnder( int x, int y ) {
-        for ( OrthoComponentNode guiNode : guiNodes ) {
+    public OrthoSwingNode getGuiUnder( int x, int y ) {
+        for ( OrthoSwingNode guiNode : guiNodes ) {
             if ( isGuiUnder( guiNode, x, y ) ) {
                 return guiNode;
             }
@@ -751,7 +751,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return null;
     }
 
-    public boolean isGuiUnder( OrthoComponentNode guiNode, int screenX, int screenY ) {
+    public boolean isGuiUnder( OrthoSwingNode guiNode, int screenX, int screenY ) {
         Vector2F screenPosition = new Vector2F( screenX, screenY );
         if ( guiNode.isReady() ) {
             Vector2F componentPoint = guiNode.screentoComponentCoordinates( screenPosition );
@@ -785,7 +785,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         final Canvas canvas = getCanvas();
 
         final ThreadedPlanarPiccoloNode toolCollision = getToolUnder( Mouse.getEventX(), Mouse.getEventY() );
-        final OrthoComponentNode guiCollision = getGuiUnder( Mouse.getEventX(), Mouse.getEventY() );
+        final OrthoSwingNode guiCollision = getGuiUnder( Mouse.getEventX(), Mouse.getEventY() );
 
         // swing-related calls need to be done in this thread. unfortunately this DOES introduce a delay in the shown cursor.
         SwingUtilities.invokeLater( new Runnable() {
