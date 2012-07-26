@@ -29,6 +29,10 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 import static org.lwjgl.opengl.GL11.*;
 
+//REVIEW Consider renaming this OrthoSwingNode, for consistency with OrthoPiccoloNode. The other alternative is to rename OrthoPiccoloNode to OrthoNodeNode, which is ugly.
+//REVIEW Class doc indicates "should only be rendered in an orthographic mode". Is there a way to verify via an assert?
+//REVIEW OrthoComponentNode, PlanarComponentNode and ThreadedPlanarPiccoloNode contain some duplication/overlap, extract a base class and/or interface?
+
 /**
  * Allows overlaying a Swing GUI onto LWJGL. This should only be rendered in an orthographic mode.
  */
@@ -110,6 +114,7 @@ public class OrthoComponentNode extends GLNode {
                 }, false );
     }
 
+    //REVIEW why are method parameters unused? Is this a bug, or can they be deleted?
     // NOTE: run from Swing EDT
     public Component getComponentAt( int mouseX, int mouseY ) {
         if ( componentImage != null ) {
@@ -183,6 +188,7 @@ public class OrthoComponentNode extends GLNode {
         glDisable( GL_TEXTURE_2D );
     }
 
+    //REVIEW Define HUD, I'm guessing it's "Heads Up Display"
     // if necessary, creates a new HUD node of a different size to display our component
     public synchronized void rebuildComponentImage() {
         /*
