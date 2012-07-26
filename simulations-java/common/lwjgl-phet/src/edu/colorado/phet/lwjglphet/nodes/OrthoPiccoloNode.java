@@ -15,6 +15,9 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Allows overlaying a Piccolo-based GUI onto LWJGL. This should only be rendered in an orthographic mode.
+ * <p/>
+ * NOTE: Any updates to the Piccolo node should be done exclusively within the Swing Event Dispatch Thread, since this is backed by a PCanvas
+ * See lwjgl-implementation-notes.txt
  */
 public class OrthoPiccoloNode extends OrthoSwingNode {
     private final PNode node;

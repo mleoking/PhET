@@ -20,10 +20,10 @@ import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.CanvasTransform;
-import edu.colorado.phet.lwjglphet.SwingImage;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
+import edu.colorado.phet.lwjglphet.SwingImage;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -33,6 +33,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Allows overlaying a Swing GUI onto LWJGL. This should only be rendered in an orthographic mode.
+ * <p/>
+ * NOTE: Any updates to the Swing component should be done exclusively within the Swing Event Dispatch Thread. See lwjgl-implementation-notes.txt
  */
 public class OrthoSwingNode extends GLNode {
 

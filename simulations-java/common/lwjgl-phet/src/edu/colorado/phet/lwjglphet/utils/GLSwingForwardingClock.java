@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 //REVIEW currently unused, delete or keep?
 //REVIEW mention why it's necessary to do this.
+
 /**
  * Handles forwarding clock events between the EDT and LWJGL threads.
  */

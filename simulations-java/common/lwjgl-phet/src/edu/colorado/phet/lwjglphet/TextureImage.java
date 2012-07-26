@@ -47,6 +47,7 @@ public abstract class TextureImage {
     }
 
     //REVIEW reiterate why it's necessary to call from the EDT thread.
+
     /**
      * Call from the EDT thread
      */

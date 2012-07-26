@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.lwjglphet.nodes;
 
 import java.awt.*;
@@ -14,17 +14,19 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
-import edu.colorado.phet.lwjglphet.SwingImage;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.SwingImage;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import static org.lwjgl.opengl.GL11.*;
 
-//REVIEW Class doc for OrthoSwingNode indicates "should only be rendered in an orthographic mode", is there a similar constraint here? Is there a way to verify via an assert?
 /**
- * Renders an arbitrary Swing component into a quad
+ * Renders an arbitrary Swing component into a quad. This node can be transformed arbitrarily (it does not have to be orthographic, and is meant to
+ * display a flat surface somewhere within a perspective projection).
+ * <p/>
+ * NOTE: Any updates to the Swing component should be done exclusively within the Swing Event Dispatch Thread. See lwjgl-implementation-notes.txt
  */
 public class PlanarSwingNode extends GLNode {
     public final ValueNotifier<PlanarSwingNode> onResize = new ValueNotifier<PlanarSwingNode>( this );

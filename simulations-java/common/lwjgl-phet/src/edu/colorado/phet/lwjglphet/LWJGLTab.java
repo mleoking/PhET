@@ -79,6 +79,9 @@ public abstract class LWJGLTab implements Tab {
     /**
      * A single iteration of the run-time loop responsible for rendering the scene and
      * handling various events. This will be called by the LWJGL thread.
+     * <p/>
+     * Generally, the LWJGLTab's loop() should call Display.sync(), update the necessary state
+     * and make LWJGL graphics calls, and then Display.update(). This will take care of all of the rendering.
      */
     public abstract void loop();
 

@@ -28,8 +28,10 @@ operates, but see GLNode's documentation for more.
 There is also a quite generic GLMaterial interface that allows you to handle the rendering of the shape in a GLNode and the appearance in a
 GLMaterial.
 
-//REVIEW say something about how LWJGLCanvas differs from PCanvas. You mentioned this a little bit above, but elaborate a bit
-// for the benefit of 2D-sim developers who are familiar with the architecture that has a PCanvas for each Module.
+Instead of having a PCanvas displaying and tied to a single scene graph, multiple different scene graphs usually exist in LWJGL simulations
+(notably, at least one per tab). There is only one LWJGLCanvas (which is not tied to any scene graph in particular), and the LWJGLTab's loop()
+is responsible for calling render() on the desired scene graphs to render their contents onto the LWJGLCanvas. Do not try to make multiple LWJGLCanvas
+instances.
 
 
 *** Swing / Piccolo Inter-operation and Threading
@@ -56,10 +58,13 @@ in many actions. ThreadedPlanarPiccoloNode is an improvement for Piccolo that do
 so that changes to the Piccolo node CAN be made in the LWJGL thread. This removes a whole frame (or more) of latency when updating the nodes.
 In the future, it should be possible to add input handling to it.
 
-//REVIEW This is a nice threading description. But it needs to be reiterated in important class/method doc, or at least insert
-// a note to the reader that they should consult this file.
+If a GLNode requires internal changes to Swing or Piccolo objects from the Swing EDT, it will state that in the class documentation.
 
-//REVIEW might want to mention how polytri-core is used, I see it in dependencies
+
+*** Dependencies
+
+poly2tri-core is used for Delaunay triangulation, used currently (July 2012) in PlanarPolygon
+
 
 
 
