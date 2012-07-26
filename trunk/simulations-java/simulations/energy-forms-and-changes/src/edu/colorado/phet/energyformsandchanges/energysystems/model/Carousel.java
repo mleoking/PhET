@@ -113,6 +113,13 @@ public class Carousel<T extends PositionableModelElement> {
         return selectedElementPosition;
     }
 
+    public T getSelectedElement() {
+        if ( targetIndex.get() < managedElements.size() ) {
+            return managedElements.get( targetIndex.get() );
+        }
+        return null;
+    }
+
     /*
      * Perform any animation changes needed.
      */
