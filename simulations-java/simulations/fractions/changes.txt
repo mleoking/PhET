@@ -1,3 +1,4 @@
+Build a Fraction: Added shadows for dragged pie pieces
 Build a Fraction: Fixed: Stars should not clear on "refresh"
 Build a Fraction: Fixed: Stars do not clear on "reset all"
 Build a Fraction: Fill in stars as challenges and levels are completed
