@@ -17,6 +17,8 @@ public class LayoutBounds {
 
     // extra padding so we can put other controls on the left side of the play area
     public static final double LEFT_EXTRA_PADDING = MODEL_PADDING * 8;
+    public static final double RIGHT_EXTRA_PADDING = MODEL_PADDING * 8;
+    public static final double BOTTOM_PADDING = MODEL_PADDING * 8;
 
     /**
      * Construct the necessary layout. If wide is true, the collectionAreaModelWidth is ignored
@@ -33,9 +35,9 @@ public class LayoutBounds {
 
         availablePlayAreaBounds = new PBounds(
                 -MODEL_SIZE.getWidth() / 2 + MODEL_PADDING + LEFT_EXTRA_PADDING, // far left part of model
-                -MODEL_SIZE.getHeight() / 2 + MODEL_PADDING, // top of kit
-                availableKitBounds.width - LEFT_EXTRA_PADDING, // add in padding, since there is padding in-between the kit and collection area
-                kitBottom + MODEL_SIZE.getHeight() / 2 - MODEL_PADDING * 2 );
+                -MODEL_SIZE.getHeight() / 2 + MODEL_PADDING + BOTTOM_PADDING, // top of kit
+                availableKitBounds.width - LEFT_EXTRA_PADDING - RIGHT_EXTRA_PADDING, // add in padding, since there is padding in-between the kit and collection area
+                kitBottom + MODEL_SIZE.getHeight() / 2 - MODEL_PADDING * 2 - BOTTOM_PADDING );
     }
 
     /**
