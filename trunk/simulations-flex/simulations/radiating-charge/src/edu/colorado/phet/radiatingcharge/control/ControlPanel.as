@@ -33,11 +33,11 @@ public class ControlPanel extends Canvas {
     private var myMainView:MainView;
     private var myFieldModel:FieldModel;
     private var background:VBox;
-    private var firstPanel: VBox;            //main control panel
+    private var firstPanel: VBox;            //main control panel, contains radio buttons for motion type
     private var secondPanel: VBox;
     private var pauseButton:NiceButton2;
     private var stopButton:NiceButton2;
-    private var resetButton:NiceButton2;
+    private var resetAllButton:NiceButton2;
     private var restartButton:NiceButton2;
     private var restartButton_UI:SpriteUIComponent;
     private var bumpButton:NiceButton2;
@@ -125,11 +125,10 @@ public class ControlPanel extends Canvas {
         }
 
         this.pauseButton = new NiceButton2( 80, 25, pause_str, pauseUnPause, 0xffff00, 0x000000 );
-        this.stopButton = new NiceButton2( 80, 25, stop_str, stopCharge, 0xff0000, 0xffffff )
-        this.resetButton = new NiceButton2( 80, 25, reset_str, resetCharge, 0xffa500, 0x000000 )
+        this.stopButton = new NiceButton2( 100, 25, stop_str, stopCharge, 0xff0000, 0xffffff )
         this.restartButton = new NiceButton2( 80, 25, restart_str, restart, 0x00ff00, 0x000000 );
         this.bumpButton = new NiceButton2( 80, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
-
+        this.resetAllButton = new NiceButton2( 80, 25, reset_str, resetAll, 0xffa500, 0x000000 )
 
         radioGroupVBox = new VBox();
         radioGroupVBox.setStyle( "align", "left" );
@@ -186,7 +185,6 @@ public class ControlPanel extends Canvas {
         amplitudeSlider.drawKnob( 0x00ff00, 0x009900 );  //lighter color than default
         frequencySlider.drawKnob( 0x00ff00, 0x009900 );
         durationSlider.drawKnob( 0x00ff00, 0x009900 );
-        //var c: Number = myFieldModel.getSpeedOfLight();
         speedSlider = new HorizontalSlider( setSpeed, sliderWidth, 0.1, 0.95 );
 
         amplitudeSlider.setLabelText( amplitude_str );
@@ -229,9 +227,7 @@ public class ControlPanel extends Canvas {
         firstPanel.addChild( new SpriteUIComponent( pauseButton, true ) );
         firstPanel.addChild( new SpriteUIComponent( stopButton, true ) );
         firstPanel.addChild( radioGroupVBox );
-        //this.background.addChild( new SpriteUIComponent( resetButton, true ) );
-
-        //this.background.addChild( myComboBox );
+        //radio buttons
         this.firstPanel.addChild( radioGroupVBox );
         this.radioGroupVBox.addChild( manualWithFricton_rb );
         this.radioGroupVBox.addChild( manualNoFricton_rb );
@@ -239,7 +235,7 @@ public class ControlPanel extends Canvas {
         this.radioGroupVBox.addChild( sinusoidal_rb );
         this.radioGroupVBox.addChild( circular_rb );
         this.radioGroupVBox.addChild( bump_rb );
-
+        //subcontrols for specific radio button choices
         firstPanel.addChild( selectedMotionControlsVBox );
         amplitudeSlider_UI = new SpriteUIComponent( amplitudeSlider, true );
         selectedMotionControlsVBox.addChild( amplitudeSlider_UI );
@@ -253,8 +249,7 @@ public class ControlPanel extends Canvas {
         selectedMotionControlsVBox.addChild( restartButton_UI );
         bumpButton_UI = new SpriteUIComponent( bumpButton, true );
         selectedMotionControlsVBox.addChild( bumpButton_UI );
-
-
+        //Show Velocity control in separate panel
         background.addChild( secondPanel );
         secondPanel.addChild( showVelocityHBox );
         showVelocityHBox.addChild( showVelocity_cb );
@@ -262,17 +257,14 @@ public class ControlPanel extends Canvas {
         speedIndicatorContainer = myMainView.myVelocityArrowView.speedIndicatorContainer;
         speedIndicatorContainer_UI = new SpriteUIComponent( speedIndicatorContainer, true );
         secondPanel.addChild( speedIndicatorContainer_UI );
-        //speedOfLightArrow = myMainView.myVelocityArrowView.speedOfLightArrow;
-        //speedOLightArrow_UI = new SpriteUIComponent( speedOfLightArrow );
-        //secondPanel.addChild( speedOLightArrow_UI );
         myMainView.myVelocityArrowView.velocityArrow.visible = showVelocity_cb.selected;       //start with velocity arrow invisible
 
 
         setVisibilityOfControls();
 
-        addChild( new SpriteUIComponent( resetButton ) );
-        resetButton.x = 0.1 * myMainView.stageW;
-        resetButton.y = 0.9 * myMainView.stageH;
+        addChild( new SpriteUIComponent( resetAllButton ) );
+        resetAllButton.x = 0.1 * myMainView.stageW;
+        resetAllButton.y = 0.9 * myMainView.stageH;
         //this.checkRadioButtonBounds();
     }//end init()
 
@@ -284,7 +276,7 @@ public class ControlPanel extends Canvas {
     private function initializeStrings():void{
         pause_str = FlexSimStrings.get( "pause", "Pause" );
         play_str = FlexSimStrings.get( "play", "Play" );
-        stop_str = FlexSimStrings.get( "stop", "Stop" );
+        stop_str = FlexSimStrings.get( "stopCharge", "Stop Charge" );
         restart_str = FlexSimStrings.get( "restart", "Restart" );
         reset_str = FlexSimStrings.get("reset", "Reset");
         manualNoFricton_str = FlexSimStrings.get( "noFrictionManual", "No Friction" );
@@ -332,9 +324,12 @@ public class ControlPanel extends Canvas {
         this.setVisibilityOfControls();
     }
 
-    public function resetCharge():void{
+    public function resetAll():void{
         this.myFieldModel.paused = false;
+        this.pauseButton.setLabel( pause_str );
         this.myFieldModel.centerCharge();
+        this.myFieldModel.initializeAmplitudeAndFrequency();
+        this.closeShowVelocityPanel();
         this.setVisibilityOfControls();
     }
 
@@ -410,6 +405,13 @@ public class ControlPanel extends Canvas {
         //myMainView.myVelocityArrowView.setVisibilityOfVelocityArrow( selected );
         setVisibilityOfControls();
         //trace("ControlPanel.showVelocityListener selected = " + selected );
+    }
+
+    //Called from resetAll()
+    private function closeShowVelocityPanel():void{
+        showVelocity_cb.selected = false;
+        speedIndicatorContainer.visible = false;
+        myMainView.myVelocityArrowView.velocityArrow.visible = false;
     }
 
 //    private function toggleShowVelocityCheckBox():void{

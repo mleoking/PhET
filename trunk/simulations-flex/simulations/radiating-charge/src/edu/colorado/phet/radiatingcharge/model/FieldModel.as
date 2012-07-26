@@ -127,8 +127,9 @@ public class FieldModel {
         this._v = Math.sqrt( _vX*_vX + _vY*_vY );
         this.beta = v/c;
         this.gamma = 1/Math.sqrt( 1 - beta*beta );
-        this._amplitude = 5;
-        this._frequency = 2;
+//        this._amplitude = 5;
+//        this._frequency = 2;
+        this.initializeAmplitudeAndFrequency();
         this.phi = 0;
         this._bumpDuration = 0.5;
 
@@ -146,6 +147,12 @@ public class FieldModel {
         this.msTimer.addEventListener( TimerEvent.TIMER, reDrawScreen );
         this.updateViews();
         this.startRadiation();
+    }
+
+    public function initializeAmplitudeAndFrequency():void{
+        this._amplitude = 5;
+        this._frequency = 2;
+        this.updateViews();
     }
 
     public function get nbrLines():int{
