@@ -258,6 +258,7 @@ public class GLNode {
         }
     }
 
+    //REVIEW Dangerous because List is mutable. Rename to getChildrenReference ala Piccolo? Or return a new instance of the list?
     public List<GLNode> getChildren() {
         return children;
     }
