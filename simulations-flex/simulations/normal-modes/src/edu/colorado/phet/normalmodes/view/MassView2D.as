@@ -21,8 +21,8 @@ import flash.text.TextField;
 import flash.text.TextFormat;
 
 /*
-* MassView2D is the view for an individual mass in View2D, which is view for Model2D, a 2D array of coupled masses
-* When mouse is inside border zone surrounding mass, vertical or horizontal arrows appear,
+* MassView2D is the view for an individual mass in View2D, which is view for Model2D, a 2D array of coupled masses.
+* When mouse is inside invisible border zone surrounding mass, vertical or horizontal arrows appear,
 * cuing user that mass is grabbable.  All arrows disappear after user grabs any mass.
 * */
 public class MassView2D extends Sprite {
@@ -56,8 +56,8 @@ public class MassView2D extends Sprite {
 
 
     /*
-     * Invisible border zone. When zone is moused over, arrows appear, cueing user that mass is grabbable
-     * */
+     * Invisible border zone. When zone is moused over, arrows appear, cuing user that mass is grabbable
+     */
     public function drawBorderZone( width: Number, height: Number ): void {
         var w: Number = width;
         var h: Number = height;

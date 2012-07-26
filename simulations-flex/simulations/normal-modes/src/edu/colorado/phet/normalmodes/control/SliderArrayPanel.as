@@ -37,9 +37,9 @@ public class SliderArrayPanel extends Canvas {
     private var myModel1D: Model1D;
     private var showHideButton: ShowHideButton;   //button to display or hide the entire slider array
     private var container: Sprite;
-    private var boundingBox: Sprite;
-    private var myPolarizationPanel: PolarizationPanel;
-    private var leftEdgeX: int;
+    private var boundingBox: Sprite;      //border showing perimeter of control area
+    private var myPolarizationPanel: PolarizationPanel;   //small control panel for selecting horiz or vert polarization
+    private var leftEdgeX: int;           //left edge of polarization panel, in pixels, relative to stage
     private var ampliSlider_arr: Array;   //array of verticalSliders for setting amplitude of modes
     private var phaseSlider_arr: Array    //array of vertical Sliders for setting phase of modes
     private var nMax: int;                //maximum number of mobile masses = max nbr of normal modes
@@ -72,7 +72,7 @@ public class SliderArrayPanel extends Canvas {
         this.container = new Sprite();
         this.boundingBox = new Sprite();
         this.myPolarizationPanel = new PolarizationPanel( myMainView, myModel1D );
-        this.leftEdgeX = this.myMainView.myView1.leftEdgeX;
+        this.leftEdgeX = this.myMainView.myView1D.leftEdgeX;
         this.nMax = this.myModel1D.nMax;
         this.phasesShown = false;
         this.ampliSlider_arr = new Array( nMax );
@@ -96,8 +96,6 @@ public class SliderArrayPanel extends Canvas {
         this.myPolarizationPanel.x = this.container.width + 20;
         this.myPolarizationPanel.y = 0;
         this.addChild( new SpriteUIComponent( this.showHideButton ) );
-        //this.showHideButton.x =  this.container.width + 40;
-        //this.showHideButton.y = -20;
         this.locateSlidersAndLabels();
     } //end constructor
 
@@ -106,23 +104,13 @@ public class SliderArrayPanel extends Canvas {
             // VericalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 , readoutShown:Boolean = true )
             var vertSliderAmpli: VerticalSlider = new VerticalSlider( setAmplitude, 100, 0, 0.1, false, false, 0, false );
             var vertSliderPhase: VerticalSlider = new VerticalSlider( setPhase, 100, -Math.PI, +Math.PI, false, false, 0, false );
-            //vertSliderAmpli.setReadoutPrecision( 3 );
-            //vertSliderPhase.setReadoutPrecision( 2 );
-
-//             function amplitudeFunction():void{
-//                 trace( "SliderArrayPanel.sliderIndex = " + vertSliderAmpli.index);
-//             }
-            var j: int = i + 1;
+            var j: int = i + 1;            //because there is no zero mode
             vertSliderAmpli.index = j;     //label slider with index = mode number (not array element number)
             vertSliderPhase.index = j;
             vertSliderAmpli.setLabelText( j.toString() );
             vertSliderPhase.killLabel();
-            //vertSliderPhase.setLabelText( "Phase " + j );
             vertSliderAmpli.setScale( 100 );
             vertSliderAmpli.setLabelFontSize( 18, true );
-            //vertSliderPhase.setScale( 1/Math.PI );
-            //vertSliderAmpli.setUnitsText("cm");
-            //vertSliderPhase.setUnitsText("pi");
             vertSliderAmpli.setReadoutPrecision( 1 );
 
             this.ampliSlider_arr[i] = vertSliderAmpli;
@@ -222,7 +210,7 @@ public class SliderArrayPanel extends Canvas {
         }
     }//end createModeIcons
 
-    //Labels showing frequency of mode at bottom of each amplitude slider
+    /*Labels showing frequency of mode at bottom of each amplitude slider*/
     private function createFrequencyLabels(): void {
         var tFormatGreek: TextFormat = new TextFormat();
         tFormatGreek.align = TextFormatAlign.CENTER;
@@ -241,7 +229,7 @@ public class SliderArrayPanel extends Canvas {
         }
     }//end createFrequencyLabels()
 
-    /*Must be called whenever number of masses is changed.*/
+    /*Must be called whenever number of masses is changed, since freqs of modes depend on number of masses.*/
     private function setFrequencyLabels(): void {
         for ( var i: int = 0 ; i < this.myModel1D.N ; i++ ) {
             var freq_txt: TextField = this.ampliSlider_arr[i].getChildAt( this.freqLabelIndex );
@@ -256,11 +244,10 @@ public class SliderArrayPanel extends Canvas {
         }
     }
 
-
-    //Arrange the layout of sliders, called whenever number of masses is changed
+    /*Arrange the layout of sliders, called whenever number of masses is changed*/
     public function locateSlidersAndLabels(): void {
         var nbrSliders: int = this.myModel1D.N;    //number of mobile masses = number normal modes
-        var lengthBetweenWallsInPix: Number = this.myMainView.myView1.LinPix;
+        var lengthBetweenWallsInPix: Number = this.myMainView.myView1D.LinPix;
         var horizSpacing: Number = 0.7 * lengthBetweenWallsInPix / (nbrSliders + 1);
         var yOffset: int = 60;       //nbr of pixels graphics are shifted down
         var widthOfAllVisibleSliders: Number = ( nbrSliders - 1) * horizSpacing;
@@ -269,12 +256,10 @@ public class SliderArrayPanel extends Canvas {
             this.ampliSlider_arr[i].x = this.leftEdgeX + 0.5 * lengthBetweenWallsInPix - 0.5 * widthOfAllVisibleSliders + i * horizSpacing;
             this.ampliSlider_arr[i].y = yOffset;
             this.phaseSlider_arr[i].y = yOffset + 1.0 * this.ampliSlider_arr[i].height - 30;
-            //this.phaseSlider_arr[i].visible = false;
             this.phaseSlider_arr[i].x = this.leftEdgeX + 0.5 * lengthBetweenWallsInPix - 0.5 * widthOfAllVisibleSliders + i * horizSpacing;
         }
         for ( i = nbrSliders ; i < this.nMax ; i++ ) {
             this.ampliSlider_arr[i].visible = false;
-            //this.phaseSlider_arr[i].visible = false;
         }
         var rightEdgeOfSliders: Number = this.ampliSlider_arr[nbrSliders - 1].x + this.ampliSlider_arr[nbrSliders - 1].width;
         this.setFrequencyLabels();
@@ -296,12 +281,11 @@ public class SliderArrayPanel extends Canvas {
         var xOffset: Number = 10;
         this.plusPi_txt.x = leftEdgeOfSliders + xOffset - this.plusPi_txt.width;
         this.zero_txt.x = leftEdgeOfSliders + xOffset - this.zero_txt.width;
-        this.minusPi_txt.x = this.plusPi_txt.x; //leftEdgeOfSliders + xOffset - this.minusPi_txt.width;
+        this.minusPi_txt.x = this.plusPi_txt.x;
 
         this.container.x = 0;
         this.myPolarizationPanel.x = rightEdgeOfSliders;
         this.drawBoundingBox();
-
     } //end positionSliders();
 
     public function drawBoundingBox(): void {
@@ -314,7 +298,6 @@ public class SliderArrayPanel extends Canvas {
         //Next line necessary for correct start-up. On first start-up, this.myPolarizationPanel.width = 0
         var polarizationPanelWidth: Number = Math.max( 97, this.myPolarizationPanel.width );
         var w: int = rightEdgeOfSliders + polarizationPanelWidth + 20 - xPos;
-        //trace("SliderArrayPanel.myPolarizationPanel.width = "+this.myPolarizationPanel.width) ;
         var h: int;
         if ( this.phasesShown && this.container.visible ) {
             h = 40 + phaseSlider_arr[0].y + phaseSlider_arr[1].height - container.y;
@@ -340,14 +323,12 @@ public class SliderArrayPanel extends Canvas {
             phase = this.myModel1D.getModePhase( j );
             this.ampliSlider_arr[ j - 1 ].setSliderWithoutAction( amplitude );
             this.phaseSlider_arr[ j - 1 ].setSliderWithoutAction( phase );
-            //trace("SliderArrayPanel.resetSliders. slider = "+ j + "   phase =" + phase);
         }
     }
 
     private function setAmplitude( indx: int ): void {
         var A: Number = this.ampliSlider_arr[ indx - 1 ].getVal();
         this.myModel1D.setModeAmpli( indx, A );
-        //trace("SliderArrayPanel.amplitudeFunction. Index = "+passedIndex)
     }
 
     private function setPhase( indx: int ): void {
@@ -372,7 +353,7 @@ public class SliderArrayPanel extends Canvas {
         this.drawBoundingBox();
     }
 
-    //show() and hide() functions required by ShowHideButton
+    /*show() and hide() functions required by ShowHideButton*/
     public function show(): void {
         this.container.visible = true;
         this.myPolarizationPanel.visible = true;
