@@ -13,6 +13,7 @@ public class LabeledAtomNode extends PNode {
 
     private final ShadedSphereNode sphericalNode;
     private final PNode labelContainer = new PNode();
+    private final PText labelNode;
 
     public LabeledAtomNode( final Element element ) {
 
@@ -21,7 +22,7 @@ public class LabeledAtomNode extends PNode {
         addChild( sphericalNode );
 
         // Create, scale, and add the label
-        PText labelNode = new PText() {{
+        labelNode = new PText() {{
             setText( element.getSymbol() );
             setFont( new PhetFont( 10, true ) );
             setScale( sphericalNode.getFullBoundsReference().width * 0.65 / getFullBoundsReference().width );
@@ -40,5 +41,9 @@ public class LabeledAtomNode extends PNode {
     // added this in, because rotating the ShadedSphereNode actually causes painting errors
     public void rotateTo( double theta ) {
         labelContainer.setRotation( -theta );
+    }
+
+    public PText getLabelNode() {
+        return labelNode;
     }
 }
