@@ -1,3 +1,5 @@
+Removed text from molecule icons
+Collision improvements
 # 0.00.06 (66016) Jul 19, 2012
 "Refill Kit" now essentially resets the kit molecules
 Added graphical labels to the molecule buckets

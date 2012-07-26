@@ -33,6 +33,7 @@ public class MoleculeBucketNode extends BucketView {
             MoleculeNode icon = new MoleculeNode( new Molecule( bucket.getShape() ) {{
                 setPosition( MODEL_VIEW_TRANSFORM.viewToModel( new Vector2D( 0, 0 ) ) );
             }} ) {{
+                setLabelVisible( false );
                 setOffset( -getFullBounds().getWidth() / 3, 0 );
                 scale( 0.4 );
 
