@@ -340,6 +340,9 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 hit = true;
                 break;
             }
+            else {
+                animateToCenterScreen( containerNode );
+            }
         }
 
         if ( hit ) {
@@ -363,8 +366,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             final List<ContainerNode> inToolbox = getContainerNodes().filter( _isAtStartingLocation );
             if ( inPlayArea.length() == 0 && inToolbox.length() > 0 ) {
                 ContainerNode g = inToolbox.head();
-                Vector2D offset = level.shapeType == ShapeType.HORIZONTAL_BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
-                g.animateToPositionScaleRotation( toolboxNode.getCenterX() - g.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, 1000 );
+                animateToCenterScreen( g );
             }
         }
 
@@ -382,6 +384,11 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         }
 
         syncModelFractions();
+    }
+
+    private void animateToCenterScreen( final ContainerNode g ) {
+        Vector2D offset = level.shapeType == ShapeType.HORIZONTAL_BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
+        g.animateToPositionScaleRotation( toolboxNode.getCenterX() - g.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, 1000 );
     }
 
     public void endDrag( final PieceNode piece, final PInputEvent event ) {
