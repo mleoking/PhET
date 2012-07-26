@@ -19,7 +19,14 @@ import edu.colorado.phet.jamaphet.collision.Collidable2D;
 import edu.colorado.phet.jamaphet.collision.CollisionUtils;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.*;
+import static edu.colorado.phet.chemicalreactions.model.Reaction.ReactionTargetViability.OUT_OF_BOUNDS;
+import static edu.colorado.phet.chemicalreactions.model.Reaction.ReactionTargetViability.PREDICTED_SELF_COLLISION;
+import static edu.colorado.phet.chemicalreactions.model.Reaction.ReactionTargetViability.TOO_MUCH_ACCELERATION;
+import static edu.colorado.phet.chemicalreactions.model.Reaction.ReactionTargetViability.VIABLE;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.reduceLeft;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.sum;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.zip;
 import static edu.colorado.phet.jamaphet.RigidMotionLeastSquares.RigidMotionTransformation;
 
 public class Reaction {
@@ -40,17 +47,17 @@ public class Reaction {
     private double zeroError;
     private ReactionTarget target;
 
-    public Reaction( Kit kit, ReactionShape shape, List<Molecule> reactants ) {
+    public Reaction( Kit kit, ReactionShape reactionShape, List<Molecule> reactants ) {
         this.kit = kit;
-        this.shape = shape;
+        this.shape = reactionShape;
         this.reactants = reactants;
 
         // verify that the ordering of the molecule types are consistent
-        for ( int i = 0; i < shape.reactantSpots.size(); i++ ) {
-            assert shape.reactantSpots.get( i ).shape == reactants.get( i ).shape;
+        for ( int i = 0; i < reactionShape.reactantSpots.size(); i++ ) {
+            assert reactionShape.reactantSpots.get( i ).shape == reactants.get( i ).shape;
         }
 
-        for ( ReactionShape.MoleculeSpot spot : shape.reactantSpots ) {
+        for ( ReactionShape.MoleculeSpot spot : reactionShape.reactantSpots ) {
             reactantMoleculeShapePositions.add( spot.position );
         }
     }
@@ -85,57 +92,14 @@ public class Reaction {
             return;
         }
 
-        for ( int i = 0; i < reactants.size(); i++ ) {
-            Molecule molecule = reactants.get( i );
-
+        for ( Molecule molecule : reactants ) {
             // how long our acceleration should last
             double effectiveTime = Math.min( simulationTimeChange, target.t );
 
             // apply the accelerations
-            molecule.setVelocity( molecule.getVelocity().plus( getTweakAcceleration( i ).times( effectiveTime ) ) );
-            molecule.setAngularVelocity( (float) ( molecule.getAngularVelocity() + getTweakAngularAcceleration( i ) * effectiveTime ) );
+            molecule.setVelocity( molecule.getVelocity().plus( target.getTweakAcceleration( molecule ).times( effectiveTime ) ) );
+            molecule.setAngularVelocity( (float) ( molecule.getAngularVelocity() + target.getTweakAngularAcceleration( molecule ) * effectiveTime ) );
         }
-    }
-
-    public Vector2D getTweakAcceleration( int index ) {
-        Molecule molecule = reactants.get( index );
-        double t = target.t;
-
-        Vector2D targetPosition = target.transformedTargets.get( index );
-
-        // compute the necessary (constant) acceleration to reach the target precisely on time
-        Vector2D currentTrajectoryDestination = molecule.getPosition().plus( molecule.getVelocity().times( target.t ) );
-        Vector2D acceleration = targetPosition.minus( currentTrajectoryDestination ).times( 2 / ( t * t ) );
-
-        if ( acceleration.magnitude() > MAX_ACCELERATION ) {
-            // TODO: can we prevent this and just 0-fitness this reaction out?
-            acceleration = acceleration.times( MAX_ACCELERATION / acceleration.magnitude() );
-        }
-        return acceleration;
-    }
-
-    public double getTweakAngularAcceleration( int index ) {
-        Molecule molecule = reactants.get( index );
-        double t = target.t;
-
-        double targetAngle = fixAngle( target.rotation + shape.reactantSpots.get( index ).rotation ); // both the reaction AND molecule rotations
-        double destinationAngle = fixAngle( molecule.getAngle() + molecule.getAngularVelocity() * target.t );
-
-        // find the "closest" angle difference that we can use
-        double closestDelta = Double.POSITIVE_INFINITY;
-        for ( double symmetryAngle : molecule.shape.symmetryAngles ) {
-            double delta = angleDifference( targetAngle + symmetryAngle, destinationAngle );
-            if ( Math.abs( delta ) < Math.abs( closestDelta ) ) {
-                closestDelta = delta;
-            }
-        }
-
-        double angularAcceleration = closestDelta * 2 / ( t * t );
-        if ( Math.abs( angularAcceleration ) > MAX_ANGULAR_ACCELERATION ) {
-            // TODO: can we prevent this and just 0-fitness this reaction out?
-            angularAcceleration = angularAcceleration * MAX_ANGULAR_ACCELERATION / Math.abs( angularAcceleration );
-        }
-        return angularAcceleration;
     }
 
     // return angle inclusive in [-pi, pi]
@@ -188,7 +152,7 @@ public class Reaction {
         target = computeForTime( bestT );
 
         // for now. consider in the future penalizing "long distance" and likely to collide before-hand reactions
-        boolean isValidTarget = target.isValidReactionTarget( kit, reactants );
+        boolean isValidTarget = target.isValidReactionTarget( kit ) == ReactionTargetViability.VIABLE;
         fitness = isValidTarget ? Math.exp( -target.error ) : 0;
     }
 
@@ -224,7 +188,7 @@ public class Reaction {
         return RigidMotionLeastSquares.bestFitMotion2D( reactantMoleculeShapePositions, getReactantPositionsAfterTime( 0 ), false ).getRotation2D();
     }
 
-    private ReactionTarget computeForTime( final double t ) {
+    public ReactionTarget computeForTime( final double t ) {
         // positions after time T
         List<Vector2D> positions = getReactantPositionsAfterTime( t );
 
@@ -242,10 +206,19 @@ public class Reaction {
         double averageError = errorFunction( positions, transformedTargets );
         double rotation = transformation.getRotation2D();
 
-        return new ReactionTarget( t, transformation, transformedTargets, averageError, rotation );
+        return new ReactionTarget( this, t, transformation, transformedTargets, averageError, rotation );
     }
 
-    private ReactionTarget computeForTimeWithRotation( final double t, final double rotation ) {
+    public double computeRotationFromTime( final double t ) {
+        // positions after time T
+        List<Vector2D> positions = getReactantPositionsAfterTime( t );
+
+        final RigidMotionLeastSquares.RigidMotionTransformation transformation = RigidMotionLeastSquares.bestFitMotion2D( reactantMoleculeShapePositions, positions, false );
+
+        return transformation.getRotation2D();
+    }
+
+    public ReactionTarget computeForTimeWithRotation( final double t, final double rotation ) {
         // positions after time T
         List<Vector2D> destinations = getReactantPositionsAfterTime( t );
 
@@ -274,7 +247,7 @@ public class Reaction {
 
         double averageError = errorFunction( destinations, transformedTargets );
 
-        return new ReactionTarget( t, transformation, transformedTargets, averageError, rotation );
+        return new ReactionTarget( this, t, transformation, transformedTargets, averageError, rotation );
     }
 
     public ReactionShape getShape() {
@@ -297,14 +270,23 @@ public class Reaction {
         return target;
     }
 
+    public static enum ReactionTargetViability {
+        VIABLE,
+        TOO_MUCH_ACCELERATION,
+        PREDICTED_SELF_COLLISION,
+        OUT_OF_BOUNDS
+    }
+
     public static class ReactionTarget {
+        public final Reaction reaction;
         public final double t;
         public final RigidMotionTransformation transformation;
         public final List<Vector2D> transformedTargets;
         public final double error;
         public final double rotation;
 
-        public ReactionTarget( double t, RigidMotionTransformation transformation, List<Vector2D> transformedTargets, double error, double rotation ) {
+        public ReactionTarget( Reaction reaction, double t, RigidMotionTransformation transformation, List<Vector2D> transformedTargets, double error, double rotation ) {
+            this.reaction = reaction;
             this.t = t;
             this.transformation = transformation;
             this.transformedTargets = transformedTargets;
@@ -312,22 +294,87 @@ public class Reaction {
             this.rotation = rotation;
         }
 
+        public double getApproximateAccelerationMagnitude() {
+            double accelerationFactor = Math.sqrt( sum( map( reaction.getReactants(), new Function1<Molecule, Double>() {
+                public Double apply( Molecule molecule ) {
+                    double magnitude = getTweakAcceleration( molecule ).magnitude();
+                    return magnitude * magnitude;
+                }
+            } ) ) );
+
+            double angularFactor = Math.sqrt( sum( map( reaction.getReactants(), new Function1<Molecule, Double>() {
+                public Double apply( Molecule molecule ) {
+                    double magnitude = getTweakAngularAcceleration( molecule );
+                    return magnitude * magnitude;
+                }
+            } ) ) );
+
+            return accelerationFactor + angularFactor * MAX_ACCELERATION / MAX_ANGULAR_ACCELERATION;
+        }
+
+        public Vector2D getTweakAcceleration( Molecule molecule ) {
+            int index = reaction.reactants.indexOf( molecule );
+
+            Vector2D targetPosition = transformedTargets.get( index );
+
+            // compute the necessary (constant) acceleration to reach the target precisely on time
+            Vector2D currentTrajectoryDestination = molecule.getPosition().plus( molecule.getVelocity().times( t ) );
+
+            return targetPosition.minus( currentTrajectoryDestination ).times( 2 / ( t * t ) );
+        }
+
+        public double getTweakAngularAcceleration( Molecule molecule ) {
+            int index = reaction.reactants.indexOf( molecule );
+
+            double targetAngle = fixAngle( rotation + reaction.shape.reactantSpots.get( index ).rotation ); // both the reaction AND molecule rotations
+            double destinationAngle = fixAngle( molecule.getAngle() + molecule.getAngularVelocity() * t );
+
+            // find the "closest" angle difference that we can use
+            double closestDelta = Double.POSITIVE_INFINITY;
+            for ( double symmetryAngle : molecule.shape.symmetryAngles ) {
+                double delta = angleDifference( targetAngle + symmetryAngle, destinationAngle );
+                if ( Math.abs( delta ) < Math.abs( closestDelta ) ) {
+                    closestDelta = delta;
+                }
+            }
+
+            return closestDelta * 2 / ( t * t );
+        }
+
         // ensure that the reaction target will not cause its own molecules to collide before they reach the target area, AND that we don't go over our max accelerations
-        public boolean isValidReactionTarget( Kit kit, List<Molecule> molecules ) {
+        public ReactionTargetViability isValidReactionTarget( Kit kit ) {
+            List<Molecule> molecules = reaction.getReactants();
+
+            // invalidate the reaction if part of the target is outside of the play area bounds
+            PBounds availablePlayAreaModelBounds = kit.getLayoutBounds().getAvailablePlayAreaModelBounds();
+            for ( int i = 0; i < transformedTargets.size(); i++ ) {
+                Vector2D transformedTarget = transformedTargets.get( i );
+                double radius = reaction.reactants.get( i ).shape.getBoundingCircleRadius();
+
+                // circle inside rectangle checking is easily accomplished by checking the four maximal points:
+                Vector2D[] targets = new Vector2D[]{
+                        transformedTarget.plus( new Vector2D( radius, 0 ) ),
+                        transformedTarget.plus( new Vector2D( -radius, 0 ) ),
+                        transformedTarget.plus( new Vector2D( 0, radius ) ),
+                        transformedTarget.plus( new Vector2D( 0, -radius ) )
+                };
+
+                for ( Vector2D target : targets ) {
+                    if ( !availablePlayAreaModelBounds.contains( target.toPoint2D() ) ) {
+                        return OUT_OF_BOUNDS;
+                    }
+                }
+            }
+
             final Property<Boolean> isOverAccelerationLimit = new Property<Boolean>( false );
 
             // compute final velocities so we can calculate whether collisions are likely
-            List<Vector2D> finalVelocities = FunctionalUtils.mapWithIndex( molecules, new Function2<Molecule, Integer, Vector2D>() {
-                public Vector2D apply( Molecule molecule, Integer i ) {
-                    // where the molecule would end up with no changes to its velocity
-                    Vector2D destinationAfterTime = molecule.getPosition().plus( molecule.getVelocity().times( t ) );
+            List<Vector2D> finalVelocities = FunctionalUtils.map( molecules, new Function1<Molecule, Vector2D>() {
+                public Vector2D apply( Molecule molecule ) {
+                    Vector2D acceleration = getTweakAcceleration( molecule );
 
-                    // the distance we need to push the molecule extra over time t
-                    Vector2D delta = transformedTargets.get( i ).minus( destinationAfterTime );
-
-                    Vector2D acceleration = delta.times( 2 / ( t * t ) );
-
-                    if ( acceleration.magnitude() > MAX_ACCELERATION ) {
+                    if ( acceleration.magnitude() > MAX_ACCELERATION
+                         || Math.abs( getTweakAngularAcceleration( molecule ) ) > MAX_ANGULAR_ACCELERATION ) {
                         isOverAccelerationLimit.set( true );
                     }
 
@@ -337,7 +384,7 @@ public class Reaction {
 
             // bail out of the accelerations are too much
             if ( isOverAccelerationLimit.get() ) {
-//                return false;
+                return TOO_MUCH_ACCELERATION;
             }
 
             // between each pair of molecules, reject cases where they are touching at the final collision AND would be moving away from each other
@@ -363,19 +410,12 @@ public class Reaction {
                 if ( positionDifference.dot( velocityDifference ) > 0 ) {
                     // our molecules would keep "drifting", so they must have had a collision before our planned collision
                     // do not allow this reaction target
-                    return false;
+                    return PREDICTED_SELF_COLLISION;
                 }
             }
 
-            // invalidate the reaction if part of the target is outside of the play area bounds
-            PBounds availablePlayAreaModelBounds = kit.getLayoutBounds().getAvailablePlayAreaModelBounds();
-            for ( Vector2D transformedTarget : transformedTargets ) {
-                if ( !availablePlayAreaModelBounds.contains( transformedTarget.toPoint2D() ) ) {
-                    return false;
-                }
-            }
-
-            return true;
+            // didn't fail any tests, probably viable
+            return VIABLE;
         }
     }
 }
