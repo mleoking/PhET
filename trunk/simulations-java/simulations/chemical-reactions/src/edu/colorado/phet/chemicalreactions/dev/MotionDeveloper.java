@@ -2,7 +2,10 @@
 package edu.colorado.phet.chemicalreactions.dev;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +46,9 @@ public class MotionDeveloper extends JDialog {
     public final Kit kit;
 
     private final PNode base = new PNode();
+    private final PNode graph = new PNode();
+
+    private static final int GRAPH_HEIGHT = 100;
 
     private final Property<Boolean> showMolecules = new Property<Boolean>( true );
     private final Property<Boolean> showBoundingSpheres = new Property<Boolean>( false );
@@ -50,6 +56,7 @@ public class MotionDeveloper extends JDialog {
     private final Property<Boolean> showLinearPrediction = new Property<Boolean>( true );
     private final Property<Boolean> showLeastSquaresTimeTarget = new Property<Boolean>( false );
     private final Property<Boolean> showLeastSquaresRotationTimeTarget = new Property<Boolean>( false );
+    private final Property<Boolean> updateGraph = new Property<Boolean>( true );
     private final Property<Double> linearPredictionTime = new Property<Double>( 0.0 );
     private final Property<Double> leastSquaresTime = new Property<Double>( 0.0 );
     private final double linearPredictionTimeScale = 0.1;
@@ -137,6 +144,8 @@ public class MotionDeveloper extends JDialog {
                                 drawReactionTarget( target, color, fadedColor, fadedColor, displayTime );
                             }
                         }
+
+                        drawGraph();
                     }
                 };
                 SimpleObserver graphicsObserver = new SimpleObserver() {
@@ -155,12 +164,24 @@ public class MotionDeveloper extends JDialog {
                 showMolecules.addObserver( graphicsObserver );
                 showBoundingSpheres.addObserver( graphicsObserver );
                 showLinearPrediction.addObserver( graphicsObserver );
+                showReactionTargets.addObserver( graphicsObserver );
                 showLeastSquaresTimeTarget.addObserver( graphicsObserver );
                 showLeastSquaresRotationTimeTarget.addObserver( graphicsObserver );
+                updateGraph.addObserver( graphicsObserver );
 
                 /*---------------------------------------------------------------------------*
                 * canvas
                 *----------------------------------------------------------------------------*/
+
+                // canvas for graphing scores
+                add( new PCanvas() {{
+                    removeInputEventListener( getZoomEventHandler() );
+                    removeInputEventListener( getPanEventHandler() );
+                    getLayer().addChild( graph );
+                    PBounds bounds = kit.getLayoutBounds().getAvailablePlayAreaViewBounds();
+                    setPreferredSize( new Dimension( (int) bounds.width, GRAPH_HEIGHT ) );
+                    setBackground( Color.GRAY );
+                }} );
 
                 // canvas that shows the play area (and any debugging information)
                 add( new PCanvas() {{
@@ -189,6 +210,7 @@ public class MotionDeveloper extends JDialog {
                         add( new PropertyCheckBox( "Reaction Targets", showReactionTargets ) );
                         add( new PropertyCheckBox( "Full Least Squares Targets", showLeastSquaresTimeTarget ) );
                         add( new PropertyCheckBox( "Rotation Least Squares Targets", showLeastSquaresRotationTimeTarget ) );
+                        add( new PropertyCheckBox( "Update Graph", updateGraph ) );
                         add( new JSlider( 0, 150, 0 ) {{
                             addChangeListener( new ChangeListener() {
                                 public void stateChanged( ChangeEvent e ) {
@@ -212,12 +234,48 @@ public class MotionDeveloper extends JDialog {
                                 }
                             } );
                         }} );
+                        add( new JButton( "Graph score vs. time" ) {{
+                            addActionListener( new ActionListener() {
+                                public void actionPerformed( ActionEvent e ) {
+                                    drawGraph();
+                                }
+                            } );
+                        }} );
                     }} );
                 }} );
             }} );
             pack();
             SwingUtils.centerInParent( this );
         }}.setVisible( true );
+    }
+
+    private void drawGraph() {
+        graph.removeAllChildren();
+
+        if ( !updateGraph.get() ) {
+            return;
+        }
+
+        List<Reaction> possibleReactions = kit.getAllPossibleReactions();
+
+        double timeMultiplier = 40;
+        double timeX = linearPredictionTime.get() * timeMultiplier;
+
+        graph.addChild( new PhetPPath( new Line2D.Double( timeX, 0, timeX, GRAPH_HEIGHT ), new BasicStroke( 1 ), Color.BLACK ) );
+
+        for ( Reaction reaction : possibleReactions ) {
+            for ( double t = 0.01; t < 15; t += 0.03 ) {
+                Reaction.ReactionTarget target = reaction.computeForTime( t );
+
+                Color color = getTargetColor( target );
+
+                double radius = 0.5;
+                double x = t * timeMultiplier;
+                double y = GRAPH_HEIGHT - target.getApproximateAccelerationMagnitude() * Math.pow( t, 1.5 ) / 50;
+
+                graph.addChild( new PhetPPath( new Ellipse2D.Double( x - radius, y - radius, radius * 2, radius * 2 ), color, null, Color.BLACK ) );
+            }
+        }
     }
 
     private Color getTargetColor( Reaction.ReactionTarget target ) {
