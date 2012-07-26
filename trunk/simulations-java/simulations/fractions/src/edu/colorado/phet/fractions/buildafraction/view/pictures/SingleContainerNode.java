@@ -155,9 +155,11 @@ public class SingleContainerNode extends PNode {
         }
     };
 
+    //TODO: Refactor to subclasses
     public DropLocation getDropLocation( final PieceNode piece, final ShapeType shapeType ) {
         if ( shapeType == ShapeType.HORIZONTAL_BAR ) {
-            return new DropLocation( v( getPiecesWidth(), 0 ), 0 );
+            Vector2D strokeInsets = v( 1, 1 );
+            return new DropLocation( v( getPiecesWidth(), 0 ).minus( strokeInsets ), 0 );
         }
         else {
 
@@ -171,7 +173,9 @@ public class SingleContainerNode extends PNode {
                 }
             } );
             double sumAngle = pieceAngleExtents.foldLeft( Doubles.add, 0.0 );
-            return new DropLocation( new Vector2D( bounds.getX(), bounds.getY() ), sumAngle );
+
+            //+1 offset fixes an alignment problem probably caused by stroke widths
+            return new DropLocation( new Vector2D( bounds.getX() + 1, bounds.getY() ), sumAngle );
         }
     }
 }
