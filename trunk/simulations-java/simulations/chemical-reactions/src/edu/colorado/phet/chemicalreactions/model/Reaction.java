@@ -352,17 +352,11 @@ public class Reaction {
                 double radius = reaction.reactants.get( i ).shape.getBoundingCircleRadius();
 
                 // circle inside rectangle checking is easily accomplished by checking the four maximal points:
-                Vector2D[] targets = new Vector2D[]{
-                        transformedTarget.plus( new Vector2D( radius, 0 ) ),
-                        transformedTarget.plus( new Vector2D( -radius, 0 ) ),
-                        transformedTarget.plus( new Vector2D( 0, radius ) ),
-                        transformedTarget.plus( new Vector2D( 0, -radius ) )
-                };
-
-                for ( Vector2D target : targets ) {
-                    if ( !availablePlayAreaModelBounds.contains( target.toPoint2D() ) ) {
-                        return OUT_OF_BOUNDS;
-                    }
+                if ( transformedTarget.x - radius < availablePlayAreaModelBounds.getMinX()
+                     || transformedTarget.x + radius > availablePlayAreaModelBounds.getMaxX()
+                     || transformedTarget.y - radius < availablePlayAreaModelBounds.getMinY()
+                     || transformedTarget.y + radius > availablePlayAreaModelBounds.getMaxY() ) {
+                    return OUT_OF_BOUNDS;
                 }
             }
 
