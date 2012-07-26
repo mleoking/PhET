@@ -32,7 +32,9 @@ import mx.events.ItemClickEvent;
 public class ControlPanel extends Canvas {
     private var myMainView:MainView;
     private var myFieldModel:FieldModel;
-    private var background: VBox;
+    private var background:VBox;
+    private var firstPanel: VBox;            //main control panel
+    private var secondPanel: VBox;
     private var pauseButton:NiceButton2;
     private var stopButton:NiceButton2;
     private var resetButton:NiceButton2;
@@ -41,7 +43,7 @@ public class ControlPanel extends Canvas {
     private var bumpButton:NiceButton2;
     private var bumpButton_UI:SpriteUIComponent;
 
-    private var radioGroupVBox: VBox;
+    private var radioGroupVBox: VBox;        //inside main control panel
     public var presetMotion_rgb: RadioButtonGroup;
     private var manualNoFricton_rb: RadioButton;
     private var manualWithFricton_rb: RadioButton;
@@ -50,7 +52,7 @@ public class ControlPanel extends Canvas {
     private var circular_rb : RadioButton;
     private var bump_rb: RadioButton;
 
-    private var selectedMotionControlsVBox: VBox;
+    private var selectedMotionControlsVBox: VBox;   //inside main control panel
     private var amplitudeSlider:HorizontalSlider;   //amplitude of both oscillatory and bumb motions
     private var minAmplitudeOscillatory:Number;     //max and min values for amplitude of oscillation
     private var maxAmplitudeOscillatory:Number;
@@ -65,7 +67,7 @@ public class ControlPanel extends Canvas {
     private var durationSlider_UI:SpriteUIComponent;
 
     //Show Velocity controls
-    private var speedIndicatorVBox:VBox;
+    private var speedIndicatorVBox:VBox;            //outside main control panel
     private var speedIndicatorContainer: Sprite;
     private var speedIndicatorContainer_UI: SpriteUIComponent;
     private var showVelocity_cb: CheckBox;
@@ -73,7 +75,7 @@ public class ControlPanel extends Canvas {
 
     //internationalized strings
     private var pause_str:String;
-    private var unPause_str:String;
+    private var play_str:String;
 
     //private var start_str:String;
     private var stop_str:String;
@@ -106,9 +108,9 @@ public class ControlPanel extends Canvas {
 
     private function init():void {
         this.initializeStrings();
-
         this.background = new VBox();
-        with ( this.background ) {
+        this.firstPanel = new VBox();
+        with ( this.firstPanel ) {
             setStyle( "backgroundColor", 0x000000 );    //0x88ff88
             setStyle( "borderStyle", "solid" )
             setStyle( "borderColor", 0x00ff00 );  //0x009900
@@ -128,12 +130,6 @@ public class ControlPanel extends Canvas {
         this.restartButton = new NiceButton2( 80, 25, restart_str, restart, 0x00ff00, 0x000000 );
         this.bumpButton = new NiceButton2( 80, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
 
-//        this.myComboBox = new ComboBox();
-//        myComboBox.width = 100;
-//        this.choiceList_arr = new Array( );
-//        choiceList_arr = [ manualNoFricton_str, linear_str, sinusoid_str, circular_str, bump_str, random_str ];
-//        myComboBox.dataProvider = choiceList_arr;
-//        myComboBox.addEventListener( DropdownEvent.CLOSE, comboBoxListener );
 
         radioGroupVBox = new VBox();
         radioGroupVBox.setStyle( "align", "left" );
@@ -184,7 +180,7 @@ public class ControlPanel extends Canvas {
         amplitudeSlider = new HorizontalSlider( setAmplitude, sliderWidth, minAmplitudeOscillatory, maxAmplitudeOscillatory );
         frequencySlider = new HorizontalSlider( setFrequency, sliderWidth, 0, 3 );
         durationSlider = new HorizontalSlider( setDuration, sliderWidth, 0.01, 1 );
-        amplitudeSlider.setTextColor( 0xffffff );       //white text against black panel background
+        amplitudeSlider.setTextColor( 0xffffff );       //white text against black panel firstPanel
         frequencySlider.setTextColor( 0xffffff );
         durationSlider.setTextColor( 0xffffff );
         amplitudeSlider.drawKnob( 0x00ff00, 0x009900 );  //lighter color than default
@@ -205,8 +201,8 @@ public class ControlPanel extends Canvas {
         durationSlider.setLabelText( duration_str );
         durationSlider.removeReadout();
 
-        var showVelocityVBox: VBox = new VBox();
-        with(showVelocityVBox){
+        var secondPanel: VBox = new VBox();
+        with(secondPanel){
             setStyle( "backgroundColor", 0x000000 );    //0x88ff88
             setStyle( "borderStyle", "solid" )
             setStyle( "borderColor", 0x00ff00 );  //0x009900
@@ -229,12 +225,14 @@ public class ControlPanel extends Canvas {
 
         //layout controls
         this.addChild( background );
-        this.background.addChild( new SpriteUIComponent( pauseButton, true ) );
-        this.background.addChild( new SpriteUIComponent( stopButton, true ) );
+        background.addChild( firstPanel );
+        firstPanel.addChild( new SpriteUIComponent( pauseButton, true ) );
+        firstPanel.addChild( new SpriteUIComponent( stopButton, true ) );
+        firstPanel.addChild( radioGroupVBox );
         //this.background.addChild( new SpriteUIComponent( resetButton, true ) );
 
         //this.background.addChild( myComboBox );
-        this.background.addChild( radioGroupVBox );
+        this.firstPanel.addChild( radioGroupVBox );
         this.radioGroupVBox.addChild( manualWithFricton_rb );
         this.radioGroupVBox.addChild( manualNoFricton_rb );
         this.radioGroupVBox.addChild( linear_rb );
@@ -242,7 +240,7 @@ public class ControlPanel extends Canvas {
         this.radioGroupVBox.addChild( circular_rb );
         this.radioGroupVBox.addChild( bump_rb );
 
-        background.addChild( selectedMotionControlsVBox );
+        firstPanel.addChild( selectedMotionControlsVBox );
         amplitudeSlider_UI = new SpriteUIComponent( amplitudeSlider, true );
         selectedMotionControlsVBox.addChild( amplitudeSlider_UI );
         frequencySlider_UI = new SpriteUIComponent( frequencySlider, true );
@@ -257,22 +255,22 @@ public class ControlPanel extends Canvas {
         selectedMotionControlsVBox.addChild( bumpButton_UI );
 
 
-        background.addChild( showVelocityVBox );
-        showVelocityVBox.addChild( showVelocityHBox );
+        background.addChild( secondPanel );
+        secondPanel.addChild( showVelocityHBox );
         showVelocityHBox.addChild( showVelocity_cb );
         showVelocityHBox.addChild( new SpriteUIComponent( showVelocityLabel, true ) );
         speedIndicatorContainer = myMainView.myVelocityArrowView.speedIndicatorContainer;
         speedIndicatorContainer_UI = new SpriteUIComponent( speedIndicatorContainer, true );
-        showVelocityVBox.addChild( speedIndicatorContainer_UI );
+        secondPanel.addChild( speedIndicatorContainer_UI );
         //speedOfLightArrow = myMainView.myVelocityArrowView.speedOfLightArrow;
         //speedOLightArrow_UI = new SpriteUIComponent( speedOfLightArrow );
-        //showVelocityVBox.addChild( speedOLightArrow_UI );
+        //secondPanel.addChild( speedOLightArrow_UI );
         myMainView.myVelocityArrowView.velocityArrow.visible = showVelocity_cb.selected;       //start with velocity arrow invisible
 
 
         setVisibilityOfControls();
 
-        this.addChild( new SpriteUIComponent( resetButton ) );
+        addChild( new SpriteUIComponent( resetButton ) );
         resetButton.x = 0.1 * myMainView.stageW;
         resetButton.y = 0.9 * myMainView.stageH;
         //this.checkRadioButtonBounds();
@@ -285,7 +283,7 @@ public class ControlPanel extends Canvas {
 
     private function initializeStrings():void{
         pause_str = FlexSimStrings.get( "pause", "Pause" );
-        unPause_str = FlexSimStrings.get( "unPause", "UnPause" );
+        play_str = FlexSimStrings.get( "play", "Play" );
         stop_str = FlexSimStrings.get( "stop", "Stop" );
         restart_str = FlexSimStrings.get( "restart", "Restart" );
         reset_str = FlexSimStrings.get("reset", "Reset");
@@ -324,7 +322,7 @@ public class ControlPanel extends Canvas {
             this.pauseButton.setLabel( pause_str );
         }else{
             this.myFieldModel.paused = true;
-            this.pauseButton.setLabel( unPause_str );
+            this.pauseButton.setLabel( play_str );
         }
     }//end pauseUnPause
 
