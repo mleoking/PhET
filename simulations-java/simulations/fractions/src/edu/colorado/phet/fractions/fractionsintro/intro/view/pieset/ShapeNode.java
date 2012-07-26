@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class ShapeNode extends PNode {
-    private static final Paint SHADOW_PAINT = new Color( 0, 0, 0, (int) ( 0.75 * 255 ) );
+    public static final Paint SHADOW_PAINT = new Color( 0, 0, 0, (int) ( 0.75 * 255 ) );
     public final PhetPPath path;
 
     public ShapeNode( Slice slice ) {
