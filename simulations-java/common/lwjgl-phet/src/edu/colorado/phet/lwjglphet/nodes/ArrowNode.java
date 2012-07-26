@@ -14,12 +14,10 @@ import static org.lwjgl.opengl.GL11.glPolygonOffset;
  * An arrow rendered in OpenGL
  */
 public class ArrowNode extends GLNode {
-    private final Arrow2F arrow;
     private ArrowBodyNode body;
     private ArrowOutlineNode outline;
 
     public ArrowNode( Arrow2F arrow ) {
-        this.arrow = arrow;
 
         body = new ArrowBodyNode( arrow ) {
             @Override public void renderSelf( GLOptions options ) {
