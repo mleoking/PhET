@@ -48,6 +48,7 @@ public class NumberLevel extends Level {
     public NumberLevel( boolean flashTargetCellOnMatch, final List<Integer> numbers, final List<NumberTarget> targets ) {
         //TODO: are we keeping this feature?  In mid-july 2012 we were directed to avoid flashing target matches, but weren't sure if we'd keep it that way
         //this.flashTargetCellOnMatch = flashTargetCellOnMatch;
+        super( targets.length() );
         this.numbers = numbers.sort( Ord.intOrd );
         this.targets = targets;
     }
