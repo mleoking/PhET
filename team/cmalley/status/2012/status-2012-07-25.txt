@@ -1,0 +1,36 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: July 19-25, 2012
+
+Line Graphing
+- game design meetings
+- added one challenge type to the Game tab
+- latest: http://www.colorado.edu/physics/phet/dev/line-graphing/0.00.22
+
+Plate Tectonics
+- started code review, #3386
+
+Administrative
+- status meeting
+- Physics/Math meeting
+- Developer meeting
+- reports
+
+WHAT'S NEXT:                                                                         '
+
+- Plate Tectonics: complete code review, #3386
+- Line Graphing: design & implement "Game" tab
+- Normal Modes: complete code review when preliminary issues have been addressed, #3362
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- July 30 (might be out of town)
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working reduced hours)
+
+--
