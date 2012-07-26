@@ -25,6 +25,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
+import static edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType.PIE;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.SimpleContainerNode.circleDiameter;
 import static java.awt.geom.AffineTransform.getTranslateInstance;
 
@@ -40,32 +41,30 @@ public class PieceNode extends Stackable {
     double pieceRotation = 0.0;
     private PhetPPath pieShadow;
     private PNode pieBackground;
+    private PhetPPath barShadow;
+    private ZeroOffsetNode barShadowNode;
 
-    public PieceNode( final Integer pieceSize, final PieceContext context, PhetPPath shape, final ShapeType shapeType ) {
+    public PieceNode( final Integer pieceSize, final PieceContext context, PhetPPath pathNode, final ShapeType shapeType ) {
         this.pieceSize = pieceSize;
-        pathNode = shape;
+        this.pathNode = pathNode;
         this.shapeType = shapeType;
-
-//        shadowNode = new PhetPPath( pathNode.getPathReference(), ShapeNode.SHADOW_PAINT );
-//        final ZeroOffsetNode shadow = new ZeroOffsetNode( shadowNode );
-//        shadow.translate( 6, 6 );
-//        shadow.setVisible( false );
 
         if ( shapeType == ShapeType.HORIZONTAL_BAR ) {
 
-//            addChild( shadow );
-
-            PNode piece = new ZeroOffsetNode( pathNode );
-            addChild( piece );
+            barShadow = new PhetPPath( this.pathNode.getPathReference(), ShapeNode.SHADOW_PAINT );
+            barShadowNode = new ZeroOffsetNode( barShadow ) {{
+                setOffset( getShadowOffset().getTranslateX(), getShadowOffset().getTranslateY() );
+            }};
+            addChild( new ZeroOffsetNode( this.pathNode ) );
         }
         else {
             pieBackground = new PNode() {{
                 addChild( new PhetPPath( SimpleContainerNode.createPieSlice( 1 ), BuildAFractionCanvas.TRANSPARENT ) );
             }};
             addChild( new ZeroOffsetNode( pieBackground ) );
-            pieShadow = new PhetPPath( getShadowOffset().createTransformedShape( pathNode.getPathReference() ),
+            pieShadow = new PhetPPath( getShadowOffset().createTransformedShape( this.pathNode.getPathReference() ),
                                        ShapeNode.SHADOW_PAINT );
-            pieBackground.addChild( pathNode );
+            pieBackground.addChild( this.pathNode );
         }
 
         addInputEventListener( new CursorHandler() );
@@ -73,14 +72,17 @@ public class PieceNode extends Stackable {
             @Override protected void startDrag( final PInputEvent event ) {
                 super.startDrag( event );
 
-                if ( shapeType == ShapeType.PIE ) {
+                if ( shapeType == PIE ) {
                     pieBackground.addChild( 0, pieShadow );
+                }
+                else {
+                    addChild( 0, barShadowNode );
                 }
                 PieceNode.this.moveToFront();
                 setPositionInStack( Option.<Integer>none() );
                 final AnimateToScale activity = new AnimateToScale( PieceNode.this, 200 );
                 addActivity( activity );
-                if ( shapeType == ShapeType.PIE ) {
+                if ( shapeType == PIE ) {
                     animateToAngle( context.getNextAngle( PieceNode.this ) );
                 }
             }
@@ -96,9 +98,14 @@ public class PieceNode extends Stackable {
                 context.endDrag( PieceNode.this, event );
 
                 //Protect against multiple copies accidentally being added
-                if ( shapeType == ShapeType.PIE ) {
+                if ( shapeType == PIE ) {
                     while ( pieBackground.getChildrenReference().contains( pieShadow ) ) {
                         pieBackground.removeChild( pieShadow );
+                    }
+                }
+                else {
+                    while ( getChildrenReference().contains( barShadowNode ) ) {
+                        removeChild( barShadowNode );
                     }
                 }
             }
@@ -121,7 +128,7 @@ public class PieceNode extends Stackable {
     };
 
     public void moveToTopOfStack() {
-        if ( shapeType == ShapeType.PIE ) {
+        if ( shapeType == PIE ) {
             animateToAngle( 0 );
         }
         stack.moveToTopOfStack( this );
