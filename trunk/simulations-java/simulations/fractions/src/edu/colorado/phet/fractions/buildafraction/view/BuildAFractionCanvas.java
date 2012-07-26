@@ -131,6 +131,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     public void reset() {
+        model.resetAll();
         crossFadeTo( new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled, model.selectedPage, model.gameProgress ) );
     }
 
@@ -157,11 +158,13 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
 
     public void resamplePictureLevel( final int levelIndex ) {
         model.resample();
+        model.getPictureLevel( levelIndex ).filledTargets.reset();
         crossFadeTo( new PictureSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) );
     }
 
     public void resampleNumberLevel( final int levelIndex ) {
         model.resample();
+        model.getNumberLevel( levelIndex ).filledTargets.reset();
         crossFadeTo( new NumberSceneNode( levelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled ) );
     }
 }
