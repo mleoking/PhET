@@ -1,3 +1,4 @@
+7/26/2012 Added a new sim that has 1.0 Ohm internal resistance batteries by default
 # 3.20.04 (65848) Jul 16, 2012
 7/16/12 dev version that reflects changes to sponsor feature
 7/16/12 #3380, add "-sponsor-off" arg to build.properties for production version of CCK DC
