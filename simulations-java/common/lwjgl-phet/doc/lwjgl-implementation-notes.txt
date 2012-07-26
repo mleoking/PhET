@@ -28,6 +28,9 @@ operates, but see GLNode's documentation for more.
 There is also a quite generic GLMaterial interface that allows you to handle the rendering of the shape in a GLNode and the appearance in a
 GLMaterial.
 
+//REVIEW say something about how LWJGLCanvas differs from PCanvas. You mentioned this a little bit above, but elaborate a bit
+// for the benefit of 2D-sim developers who are familiar with the architecture that has a PCanvas for each Module.
+
 
 *** Swing / Piccolo Inter-operation and Threading
 
@@ -52,6 +55,9 @@ for its rendering (and thus any changes to the wrapped Piccolo node need to be m
 in many actions. ThreadedPlanarPiccoloNode is an improvement for Piccolo that does NOT use Swing or a PCanvas to render the PNode into a texture,
 so that changes to the Piccolo node CAN be made in the LWJGL thread. This removes a whole frame (or more) of latency when updating the nodes.
 In the future, it should be possible to add input handling to it.
+
+//REVIEW This is a nice threading description. But it needs to be reiterated in important class/method doc, or at least insert
+// a note to the reader that they should consult this file.
 
 
 
