@@ -22,6 +22,8 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 import static org.lwjgl.opengl.GL11.*;
 
+//REVIEW Consider renaming this PlanarSwingNode, for consistency with PlanarPiccoloNode. The other alternative is to rename PlanarPiccoloNode to PlanarNodeNode, which is ugly.
+//REVIEW Class doc for OrthoComponentNode indicates "should only be rendered in an orthographic mode", is there a similar constraint here? Is there a way to verify via an assert?
 /**
  * Renders an arbitrary Swing component into a quad
  */
