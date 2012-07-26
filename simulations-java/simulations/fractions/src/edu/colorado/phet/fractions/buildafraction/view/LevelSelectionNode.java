@@ -32,8 +32,8 @@ import static fj.data.List.list;
 public class LevelSelectionNode extends AbstractLevelSelectionNode {
     public static Color[] colors = new Color[] { Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN, Colors.LIGHT_ORANGE, Color.magenta, Color.yellow };
 
-    public LevelSelectionNode( final String title, final BuildAFractionCanvas canvas2, BooleanProperty audioEnabled, IntegerProperty selectedPage ) {
-        super( title, list( new Page( page1() ), new Page( page2() ) ), canvas2, selectedPage );
+    public LevelSelectionNode( final String title, final BuildAFractionCanvas canvas, BooleanProperty audioEnabled, IntegerProperty selectedPage ) {
+        super( title, list( new Page( page1() ), new Page( page2() ) ), canvas, selectedPage );
 
         //Add the audio on/off panel
         addChild( new SettingsOnOffPanel( list( new Element( new PImage( SOUND_OFF_ICON ),

@@ -16,11 +16,10 @@ public class Level {
 
     public final int numTargets;
 
+    //For keeping score
     public final Property<Integer> filledTargets = new Property<Integer>( 0 );
 
-    public Level( final int numTargets ) {
-        this.numTargets = numTargets;
-    }
+    public Level( final int numTargets ) { this.numTargets = numTargets; }
 
     public void resetAll() {
         createdFractions.reset();
