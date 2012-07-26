@@ -390,7 +390,9 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         numberNode.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getCenterY() );
     }
 
-    public void fractionCardNodeDragEnded( final FractionCardNode fractionCardNode, final PInputEvent event ) {
+    public void fractionCardNodeDroppedInScoreBox( final FractionCardNode fractionCardNode, final PInputEvent event ) {
+        myLevel.incrementFilledTargets();
+
         //Add a new fraction skeleton when the previous one is completed
         if ( !allTargetsComplete() ) {
 
@@ -436,7 +438,8 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         } ).length();
     }
 
-    public void hideFace() {
+    public void numberScoreBoxSplit() {
+        myLevel.filledTargets.reset();
 
         //Only subtract from the score if the face dialog was showing.  Otherwise you can get a negative score by removing an item from the target container since this method is called
         //each time.

@@ -121,7 +121,7 @@ public class NumberScoreBoxNode extends PNode {
             cardNode.fractionNode.split();
             cardNode.fractionNode.sendFractionSkeletonToToolbox();
 
-            numberSceneNode.hideFace();
+            numberSceneNode.numberScoreBoxSplit();
             numberSceneNode.updateStacks();
         }
     }
