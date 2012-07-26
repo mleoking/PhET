@@ -6,6 +6,8 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -24,7 +26,6 @@ public class Carousel<T extends PositionableModelElement> {
     //-------------------------------------------------------------------------
 
     private final static double TRANSITION_DURATION = 0.5;
-    private final static double FLOATING_POINT_TOLERANCE = 1E-7; // For avoiding issues with inequality due to floating point errors.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -40,8 +41,13 @@ public class Carousel<T extends PositionableModelElement> {
     private final List<T> managedElements = new ArrayList<T>();
 
     // Target selected element.  Will be the same as the current selection
-    // except when animating to a new selection.
+    // except when animating to a new selection.  This property is the API for
+    // selecting elements in the carousel.
     public Property<Integer> targetIndex = new Property<Integer>( 0 );
+
+    // Indicator for when animations are in progress, meant to be monitored by
+    // clients that need to be aware of this.
+    private BooleanProperty animationInProgress = new BooleanProperty( false );
 
     private double elapsedTransitionTime = 0;
     private Vector2D currentCarouselOffset = new Vector2D( 0, 0 );
@@ -62,6 +68,7 @@ public class Carousel<T extends PositionableModelElement> {
                 assert targetIndexValue == 0 || targetIndexValue < managedElements.size(); // Bounds checking.
                 elapsedTransitionTime = 0;
                 carouselOffsetWhenTransitionStarted = currentCarouselOffset;
+                animationInProgress.set( true );
             }
         } );
     }
@@ -98,6 +105,10 @@ public class Carousel<T extends PositionableModelElement> {
         }
     }
 
+    public List<T> getElementList() {
+        return new ArrayList<T>( managedElements );
+    }
+
     public Vector2D getSelectedElementPosition() {
         return selectedElementPosition;
     }
@@ -116,6 +127,9 @@ public class Carousel<T extends PositionableModelElement> {
             if ( proportionOfTimeElapsed == 1 ) {
                 currentCarouselOffset = targetCarouselOffset;
             }
+            if ( currentCarouselOffset == targetCarouselOffset ) {
+                animationInProgress.set( false );
+            }
         }
     }
 
@@ -128,6 +142,10 @@ public class Carousel<T extends PositionableModelElement> {
     private boolean atTargetPosition() {
         Vector2D targetCarouselOffset = new Vector2D( offsetBetweenElements.times( -targetIndex.get() ) );
         return currentCarouselOffset.equals( targetCarouselOffset );
+    }
+
+    protected ObservableProperty<Boolean> getAnimationInProgressProperty() {
+        return animationInProgress;
     }
 
     /*
