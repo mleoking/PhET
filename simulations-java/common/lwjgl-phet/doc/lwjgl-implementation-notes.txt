@@ -59,7 +59,7 @@ In the future, it should be possible to add input handling to it.
 //REVIEW This is a nice threading description. But it needs to be reiterated in important class/method doc, or at least insert
 // a note to the reader that they should consult this file.
 
-//REVIEW might want to mention have polytri-core is used, I see it in dependencies
+//REVIEW might want to mention how polytri-core is used, I see it in dependencies
 
 
 
