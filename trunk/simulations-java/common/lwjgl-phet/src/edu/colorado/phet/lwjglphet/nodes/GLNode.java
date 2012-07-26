@@ -258,34 +258,43 @@ public class GLNode {
         }
     }
 
-    //REVIEW Dangerous because List is mutable. Rename to getChildrenReference ala Piccolo? Or return a new instance of the list?
     public List<GLNode> getChildren() {
-        return children;
+        return new ArrayList<GLNode>( children );
     }
 
-    //REVIEW:
-    // A GLNode can only have 1 parent, therefore it can only exist a one location in the scenegraph.
-    // That makes code like this problematic:
-    //     GLNode child = new GLNode(...)
-    //     GLNode parent1 = new GLNode(...)
-    //     parent1.addChild(child);
-    //     GLNode parent2 = new GLNode(...)
-    //     parent2.addChild(child); // Bug: child is still in parent1's children list, see below for fix
     public void addChild( GLNode node ) {
         // don't re-add children
-        if ( node.parent == this && children.contains( node ) ) {
+        if ( isChild( node ) ) {
             return;
         }
-        //REVIEW Fix: before setting node.parent, do if (node.parent != null) { node.parent.removeChild(node); }
+        if ( node.parent != null ) {
+            node.parent.removeChild( node );
+        }
         node.parent = this;
         children.add( node );
     }
 
-    //REVIEW Bug: If node wasn't previously added to this instance, then node.parent will be set to null, but node will still exist in some parent's children list.
     public void removeChild( GLNode node ) {
-        //REVIEW Fix: if ( node.parent == this ) { do the next 2 line }
-        node.parent = null;
-        children.remove( node );
+        boolean nodeIsAChild = isChild( node );
+        assert nodeIsAChild;
+
+        // sanity check, for situations where assertions are not enabled
+        if ( nodeIsAChild ) {
+            node.parent = null;
+            children.remove( node );
+        }
+    }
+
+    public void detach() {
+        if ( parent != null ) {
+            parent.removeChild( this );
+        }
+    }
+
+    public boolean isChild( GLNode potentialChild ) {
+        // if the node's parent is this instance, we should ALWAYS have it in our children list
+        assert ( potentialChild.parent == this ) == children.contains( potentialChild );
+        return potentialChild.parent == this;
     }
 
     public void translate( float x, float y, float z ) {
