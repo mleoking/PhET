@@ -56,7 +56,7 @@ public class MotionDeveloper extends JDialog {
     private final Property<Boolean> showLinearPrediction = new Property<Boolean>( true );
     private final Property<Boolean> showLeastSquaresTimeTarget = new Property<Boolean>( false );
     private final Property<Boolean> showLeastSquaresRotationTimeTarget = new Property<Boolean>( false );
-    private final Property<Boolean> updateGraph = new Property<Boolean>( true );
+    private final Property<Boolean> updateGraph = new Property<Boolean>( false );
     private final Property<Double> linearPredictionTime = new Property<Double>( 0.0 );
     private final Property<Double> leastSquaresTime = new Property<Double>( 0.0 );
     private final double linearPredictionTimeScale = 0.1;
