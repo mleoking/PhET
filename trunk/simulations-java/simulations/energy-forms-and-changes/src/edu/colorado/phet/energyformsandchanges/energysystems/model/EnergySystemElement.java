@@ -38,4 +38,12 @@ public abstract class EnergySystemElement extends PositionableModelElement {
     }
 
     public abstract IUserComponent getUserComponent();
+
+    public void activate() {
+        // Does nothing by default, override as needed in subclasses.
+    }
+
+    public void deactivate() {
+        // Does nothing by default, override as needed in subclasses.
+    }
 }
