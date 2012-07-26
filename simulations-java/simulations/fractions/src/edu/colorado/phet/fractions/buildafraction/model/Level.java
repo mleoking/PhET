@@ -14,5 +14,16 @@ public class Level {
     //Fractions the user has created in the play area, which may match a target
     public final Property<List<Fraction>> createdFractions = new Property<List<Fraction>>( List.<Fraction>nil() );
 
-    public void resetAll() { createdFractions.reset(); }
+    public final int numTargets;
+
+    public final Property<Integer> filledTargets = new Property<Integer>( 0 );
+
+    public Level( final int numTargets ) {
+        this.numTargets = numTargets;
+    }
+
+    public void resetAll() {
+        createdFractions.reset();
+        filledTargets.reset();
+    }
 }

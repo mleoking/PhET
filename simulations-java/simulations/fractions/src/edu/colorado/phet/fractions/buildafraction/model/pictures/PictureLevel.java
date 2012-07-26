@@ -41,6 +41,7 @@ public class PictureLevel extends Level {
     }
 
     public PictureLevel( final List<Integer> pieces, final List<PictureTarget> targets, Color color, ShapeType shapeType ) {
+        super( targets.length() );
         this.targets = targets;
         this.pieces = pieces.sort( Ord.intOrd );
         this.color = color;
