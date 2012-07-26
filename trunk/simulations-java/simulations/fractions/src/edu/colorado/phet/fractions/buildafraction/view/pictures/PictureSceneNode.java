@@ -172,9 +172,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 int cardIndex = pieceDenominatorWithIndex._2();
 
                 //Choose the shape for the level, pies or horizontal bars
-                final PhetPPath shape = level.shapeType == ShapeType.HORIZONTAL_BAR ? new PhetPPath( createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black )
-                                                                                    : new PhetPPath( createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black );
-                final PieceNode piece = new PieceNode( pieceDenominator, PictureSceneNode.this, shape, level.shapeType );
+                final PieceNode piece = level.shapeType == ShapeType.PIE ? new PiePieceNode( pieceDenominator, PictureSceneNode.this, new PhetPPath( createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) )
+                                                                         : new BarPieceNode( pieceDenominator, PictureSceneNode.this, new PhetPPath( createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) );
                 piece.setOffset( getLocation( stackIndex, cardIndex, piece ).toPoint2D() );
                 piece.setInitialScale( TINY_SCALE );
 
@@ -443,7 +442,9 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             PTransformActivity activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, 1, 0, 200 );
 
             //Should already be at correct angle, update again just in case
-            piece.setPieceRotation( dropLocation.angle );
+            if ( piece instanceof PiePieceNode ) {
+                ( (PiePieceNode) piece ).setPieceRotation( dropLocation.angle );
+            }
             piece.setPickable( false );
             piece.setChildrenPickable( false );
             activity.setDelegate( new PActivityDelegate() {
