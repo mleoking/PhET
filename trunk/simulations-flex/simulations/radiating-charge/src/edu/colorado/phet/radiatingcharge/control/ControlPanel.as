@@ -110,6 +110,9 @@ public class ControlPanel extends Canvas {
         this.initializeStrings();
         this.background = new VBox();
         this.firstPanel = new VBox();
+        with( background ){
+            setStyle( "verticalGap", 10 );
+        }
         with ( this.firstPanel ) {
             setStyle( "backgroundColor", 0x000000 );    //0x88ff88
             setStyle( "borderStyle", "solid" )
@@ -121,6 +124,21 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingRight", 5 );
             setStyle( "paddingLeft", 5 );
             setStyle( "verticalGap", 10 );
+            setStyle( "horizontalAlign", "center" );
+        }
+
+        var secondPanel: VBox = new VBox();
+        with(secondPanel){
+            setStyle( "backgroundColor", 0x000000 );    //0x88ff88
+            setStyle( "borderStyle", "solid" )
+            setStyle( "borderColor", 0x00ff00 );  //0x009900
+            setStyle( "cornerRadius", 7 );
+            setStyle( "borderThickness", 3 );
+            setStyle( "paddingTop", 2 );
+            setStyle( "paddingBottom", 2 );
+            setStyle( "paddingRight", 2 );
+            setStyle( "paddingLeft", 2 );
+            setStyle( "verticalGap", 0 );
             setStyle( "horizontalAlign", "center" );
         }
 
@@ -199,20 +217,7 @@ public class ControlPanel extends Canvas {
         durationSlider.setLabelText( duration_str );
         durationSlider.removeReadout();
 
-        var secondPanel: VBox = new VBox();
-        with(secondPanel){
-            setStyle( "backgroundColor", 0x000000 );    //0x88ff88
-            setStyle( "borderStyle", "solid" )
-            setStyle( "borderColor", 0x00ff00 );  //0x009900
-            setStyle( "cornerRadius", 5 );
-            setStyle( "borderThickness", 2 );
-            setStyle( "paddingTop", 2 );
-            setStyle( "paddingBottom", 2 );
-            setStyle( "paddingRight", 2 );
-            setStyle( "paddingLeft", 2 );
-            setStyle( "verticalGap", 0 );
-            setStyle( "horizontalAlign", "center" );
-        }
+
         var showVelocityHBox: HBox = new HBox();
         showVelocity_cb = new CheckBox();
 
