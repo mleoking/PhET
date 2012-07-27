@@ -11,13 +11,13 @@ import java.util.Random;
 import edu.colorado.phet.fractions.buildafraction.model.Distribution;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
-import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.choose;
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
 import static edu.colorado.phet.fractions.buildafraction.model.pictures.PictureLevel.pictureLevel;
 import static edu.colorado.phet.fractions.buildafraction.view.LevelSelectionNode.colors;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction._numerator;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.fraction;
-import static fj.data.List.list;
-import static fj.data.List.nil;
+import static fj.data.List.*;
 
 /**
  * @author Sam Reid
@@ -127,23 +127,18 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
     }
 
     /* Level 4:
-        Description: Random level with moderate difficulty and more opportunities to match/mismatch
-        Targets: Choose 3 unique fractions from {2/3, 3/4, 4/5, 3/5, 5/6} and one from {1/3, 1/4, 1/5, 1/6}
-        Containers: 3 each of {3/3, 4/4, 5/5, 6/6}
-        Pieces: 6 each of (1/3, 1/4, 1/5, 1/6}*/
-    private PictureLevel level4( final boolean b ) {
-        List<Fraction> largeList = list( fraction( 2, 3 ),
-                                         fraction( 3, 4 ),
-                                         fraction( 4, 5 ),
-                                         fraction( 5, 6 ) );
-        List<Fraction> smallList = list( fraction( 1, 3 ),
-                                         fraction( 1, 4 ),
-                                         fraction( 1, 5 ),
-                                         fraction( 1, 6 ) );
+    -- I like the idea of trying to build the same targets with constrained pieces.
+    -- let's make the 2 possible targets be {1/2, 1/1}.  For 1/2, I like the constraints you have chosen, but take away the "whole" piece. For 1/1,
+    again take away the "whole" piece, and constrain one of the targets so they must use two different sizes.  For instance, only enough halves and
+    quarters so they must do 1 half piece and 2 quarter pieces.  Or 2 third pieces and 2 sixth pieces.*/
+    private PictureLevel level4( final boolean pies ) { return random.nextBoolean() ? halfLevel4( pies ) : wholesLevel4( pies ); }
 
-        List<Fraction> selected = shuffle( choose( 3, largeList ).snoc( chooseOne( smallList ) ) );
-        return pictureLevel(
-                pad( list( 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, colors[3], ShapeType.PIE );
+    private PictureLevel wholesLevel4( final boolean pies ) {
+        return pictureLevel( list( 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6 ), replicate( 3, fraction( 1, 1 ) ), colors[3], booleanToShape( pies ) );
+    }
+
+    private PictureLevel halfLevel4( final boolean pies ) {
+        return pictureLevel( list( 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6 ), replicate( 3, fraction( 1, 2 ) ), colors[3], booleanToShape( pies ) );
     }
 
     /* Level 5:
