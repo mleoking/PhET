@@ -209,7 +209,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         for ( int i = 0; i < numInGroup; i++ ) {
             final double delta = toDelta( numInGroup, i );
             final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
-                setInitialState( layoutXOffset + INSET + 20 + delta + finalGroupIndex * spacing,
+                final int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
+                setInitialState( layoutXOffset + INSET + 20 + delta * sign + finalGroupIndex * spacing,
                                  STAGE_SIZE.height - INSET - toolboxHeight + 20 + delta, TINY_SCALE );
             }};
             addChild( containerNode );
