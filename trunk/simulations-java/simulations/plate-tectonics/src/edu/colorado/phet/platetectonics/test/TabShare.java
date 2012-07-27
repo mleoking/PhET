@@ -8,6 +8,7 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
+//REVIEW Looks like a test of Swing tabs. Still useful?...
 public class TabShare extends JFrame {
 
     public TabShare() {
