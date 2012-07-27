@@ -55,6 +55,7 @@ public class ContainerNode extends PNode {
     private final SpinnerButtonNode leftSpinner;
     private final SpinnerButtonNode rightSpinner;
     private final IncreaseDecreaseButton increaseDecreaseButton;
+    private final boolean showIncreaseButton;
 
     public ContainerNode( PictureSceneNode parent, final ContainerContext context, boolean showIncreaseButton, final ShapeType shapeType ) {
         this.parent = parent;
@@ -105,7 +106,8 @@ public class ContainerNode extends PNode {
         addChild( new VBox( containerLayer,
                             new HBox( leftSpinner, rightSpinner ) ) );
 
-        if ( showIncreaseButton ) {
+        this.showIncreaseButton = showIncreaseButton;
+        if ( this.showIncreaseButton ) {
             addChild( increaseDecreaseButton );
             increaseDecreaseButton.setOffset( containerLayer.getFullBounds().getMaxX() + INSET, containerLayer.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2 );
         }
@@ -252,8 +254,12 @@ public class ContainerNode extends PNode {
         while ( getChildrenReference().contains( increaseDecreaseButton ) ) {
             removeChild( increaseDecreaseButton );
         }
-        if ( !inTargetCell ) {
+        if ( !inTargetCell && showIncreaseButton ) {
             addChild( increaseDecreaseButton );
+        }
+
+        for ( SingleContainerNode node : getSingleContainerNodes() ) {
+            node.setInTargetCell( inTargetCell );
         }
     }
 

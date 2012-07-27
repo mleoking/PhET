@@ -178,4 +178,8 @@ public class SingleContainerNode extends PNode {
             return new DropLocation( new Vector2D( bounds.getX() + 1, bounds.getY() ), sumAngle );
         }
     }
+
+    public void setInTargetCell( final boolean inTargetCell ) {
+        dottedLineLayer.setVisible( !inTargetCell );
+    }
 }

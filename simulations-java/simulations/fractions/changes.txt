@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Make dotted lines disappear when going into toolbox
 Build a Fraction: Shapes: Make +/- buttons disappear when going into toolbox.
 Build a Fraction: Shapes: Fixed: fifths pie pieces don't fit square in toolbox container
 Build a Fraction: Shapes: When choosing target angle, don't match on container nodes that are in scoring cells
