@@ -66,12 +66,12 @@ public class PieceNode extends Stackable {
 
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
-                double originalAngle = context.getNextAngle( PieceNode.this );
+                Option<Double> originalAngle = context.getNextAngle( PieceNode.this );
                 final PDimension delta = event.getDeltaRelativeTo( event.getPickedNode().getParent() );
                 translate( delta.width, delta.height );
-                double newAngle = context.getNextAngle( PieceNode.this );
-                if ( originalAngle != newAngle ) {
-                    rotateTo( newAngle, event );
+                Option<Double> newAngle = context.getNextAngle( PieceNode.this );
+                if ( originalAngle.isSome() && newAngle.isSome() && !originalAngle.some().equals( newAngle.some() ) ) {
+                    rotateTo( newAngle.some(), event );
                 }
             }
 

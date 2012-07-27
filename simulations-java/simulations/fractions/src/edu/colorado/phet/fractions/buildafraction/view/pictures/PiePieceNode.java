@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.pictures;
 
+import fj.data.Option;
+
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
@@ -55,7 +57,10 @@ public class PiePieceNode extends PieceNode {
 
     @Override protected void dragStarted() {
         pieBackground.addChild( 0, pieShadow );
-        animateToAngle( context.getNextAngle( this ) );
+        final Option<Double> nextAngle = context.getNextAngle( this );
+        if ( nextAngle.isSome() ) {
+            animateToAngle( nextAngle.some() );
+        }
     }
 
     //If it moved closer to a different target site, update rotation.

@@ -415,8 +415,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     }
 
     //find closest container that has a site that could hold this piece, and get the angle it would take if it joined
-    public double getNextAngle( final PieceNode pieceNode ) {
-        SingleContainerNode closest = getContainerNodes().
+    public Option<Double> getNextAngle( final PieceNode pieceNode ) {
+        List<SingleContainerNode> closest = getContainerNodes().
                 bind( _getSingleContainerNodes ).
                 filter( new F<SingleContainerNode, Boolean>() {
                     @Override public Boolean f( final SingleContainerNode n ) {
@@ -432,10 +432,11 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                     @Override public Double f( final SingleContainerNode n ) {
                         return n.getGlobalFullBounds().getCenter2D().distance( pieceNode.getGlobalFullBounds().getCenter2D() );
                     }
-                } ) ).
-                head();
-        DropLocation dropLocation = closest.getDropLocation( pieceNode, level.shapeType );
-        return dropLocation.angle;
+                } ) );
+        if ( closest.isNotEmpty() ) {
+            return Option.some( closest.head().getDropLocation( pieceNode, level.shapeType ).angle );
+        }
+        else { return Option.none(); }
     }
 
     public @Data static class DropLocation {
