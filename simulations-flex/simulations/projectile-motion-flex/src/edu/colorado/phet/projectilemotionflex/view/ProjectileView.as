@@ -4,7 +4,7 @@
 
 /**
  * Created with IntelliJ IDEA.
- * User: Duso
+ * User: Dubson
  * Date: 6/17/12
  * Time: 9:10 AM
  * To change this template use File | Settings | File Templates.
@@ -12,6 +12,8 @@
 package edu.colorado.phet.projectilemotionflex.view {
 import edu.colorado.phet.projectilemotionflex.model.Projectile;
 import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
+
+import flash.display.DisplayObjectContainer;
 
 import flash.display.Graphics;
 
@@ -25,15 +27,17 @@ public class ProjectileView extends Sprite {
 //    private var stageH: Number;
     private var originXInPix: Number;
     private var originYInPix: Number;
+    private var projectileImage:DisplayObjectContainer   //could be Sprite or MovieClip
     private var projectileInFlight: Sprite;
     private var projectileOnGround: Sprite;
     private var pIndex: int;        //index of current projectile, which is trajectoryModel.projectiles[pIndex]
 
-    public function ProjectileView( mainView:MainView,  trajectoryModel: TrajectoryModel  ) {
+    public function ProjectileView( mainView:MainView,  trajectoryModel: TrajectoryModel, projectileImage:DisplayObjectContainer = null  ) {
         this.mainView = mainView;
         this.originXInPix = mainView.originXInPix;
         this.originYInPix = mainView.originYInPix;
         this.trajectoryModel = trajectoryModel;
+        this.projectileImage = projectileImage;
         this.projectileInFlight = new Sprite();
         this.projectileOnGround = new Sprite();
 //        this.stageW = mainView.stageW;
@@ -47,6 +51,10 @@ public class ProjectileView extends Sprite {
         pIndex = trajectoryModel.pIndex;
         drawProjectileInFlight();
         //drawProjectileOnGround();
+        if( projectileImage != null ){
+            this.addChild( projectileImage );
+        }
+
         this.addChild( projectileInFlight );
         this.addChild( projectileOnGround );
     }

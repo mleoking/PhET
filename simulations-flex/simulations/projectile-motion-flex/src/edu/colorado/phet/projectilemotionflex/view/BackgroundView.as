@@ -24,8 +24,11 @@ import flash.display.Graphics;
 import flash.display.Sprite;
 import flash.geom.Matrix;
 
-//backgroundView (= earth&sky ) contains readout fields for range, height, and time of projectile
-// contains a zoomable container for the cannon + trajectory + projectiles
+/**
+ * backgroundView (= earth&sky ) contains readout fields for range, height, and time of projectile during flight
+ * contains a zoomable container for the cannon + trajectory + projectiles
+ */
+
 public class BackgroundView extends Sprite {
     private var mainView: MainView;
     private var trajectoryModel: TrajectoryModel;
