@@ -61,6 +61,7 @@ public class TextLabelNode extends BaseLabelNode {
 
     @Override
     public void renderSelf( GLOptions options ) {
+        //REVIEW super.renderSelf is currently a no-op, but might be a good practice to call it. Ditto for other subclasses of BaseLabelNode.
         Vector3F labelLocation = modelViewTransform.transformPosition( PlateTectonicsModel.convertToRadial( textLabel.centerPosition.get() ) );
         labelNode.transform.set( ImmutableMatrix4F.translation( labelLocation.x, labelLocation.y, labelLocation.z ) );
         labelNode.transform.append( ImmutableMatrix4F.scaling( LABEL_SCALE * scale.get() ) );
