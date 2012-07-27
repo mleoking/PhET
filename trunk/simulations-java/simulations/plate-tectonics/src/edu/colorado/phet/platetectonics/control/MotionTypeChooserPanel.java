@@ -145,6 +145,7 @@ public class MotionTypeChooserPanel extends PNode {
                 setSelected( typeEquals( type, plateModel.motionTypeIfStarted.get() ) );
             }
 
+            //REVIEW General comment... Wondering why you didn't use GLActionListener in these situations (updating model in LWGL thread)? I see only 1 use of GLActionListener, in dev package.
             // update the model change in the LWJGL thread
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent actionEvent ) {

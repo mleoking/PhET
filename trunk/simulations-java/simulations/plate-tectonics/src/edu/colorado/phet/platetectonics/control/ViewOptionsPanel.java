@@ -24,7 +24,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.PANEL_TITLE_FONT;
 
 /**
- * Gives the user a list of view options
+ * Gives the user a list of "View" options
  */
 public class ViewOptionsPanel extends PNode {
     public ViewOptionsPanel( final PlateTectonicsTab tab, final Property<Boolean> showLabels, Property<ColorMode> colorMode ) {
@@ -44,6 +44,7 @@ public class ViewOptionsPanel extends PNode {
         final Property<Double> maxWidth = new Property<Double>( title.getFullBounds().getWidth() );
         final Property<Double> y = new Property<Double>( title.getFullBounds().getMaxY() );
 
+        // "Density" radio button
         final PSwing densityMode = new PSwing( new SimSharingJRadioButton( UserComponents.densityView, Strings.DENSITY_VIEW ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -71,6 +72,8 @@ public class ViewOptionsPanel extends PNode {
             maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
         }};
         addChild( densityMode );
+
+        // "Temperature" radio button
         final PSwing temperatureMode = new PSwing( new SimSharingJRadioButton( UserComponents.temperatureView, Strings.TEMPERATURE_VIEW ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -98,6 +101,8 @@ public class ViewOptionsPanel extends PNode {
             maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
         }};
         addChild( temperatureMode );
+
+        // "Both" radio button
         final PSwing combinedMode = new PSwing( new SimSharingJRadioButton( UserComponents.bothView, Strings.BOTH_VIEW ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -128,6 +133,7 @@ public class ViewOptionsPanel extends PNode {
 
         y.set( y.get() + 5 );
 
+        // "Show Labels" check box
         final PSwing showLabelCheckBox = new PSwing( new SimSharingJCheckBox( UserComponents.showLabels, Strings.SHOW_LABELS ) {{
             setSelected( showLabels.get() );
             addActionListener( new ActionListener() {
@@ -157,6 +163,7 @@ public class ViewOptionsPanel extends PNode {
         }};
         addChild( showLabelCheckBox );
 
+        // "Show Seawater" check box
         PSwing showWaterCheckBox = null;
         if ( containsWaterOption ) {
             showWaterCheckBox = new PSwing( new SimSharingJCheckBox( UserComponents.showWater, Strings.SHOW_SEAWATER ) {{
