@@ -86,7 +86,18 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         List<Fraction> selected = choose( 3, targets );
 
         //Use same number for each card type
-        return pictureLevel( createCardsSameNumberEachType( selected ), selected, colors[1], booleanToShape( pies ) );
+        return pictureLevel( minimalNumberCards( selected ), selected, colors[1], booleanToShape( pies ) );
+    }
+
+    //Just the exact cards necessary to fit the selected fractions
+    private List<Integer> minimalNumberCards( final List<Fraction> selected ) {
+        List<Integer> cards = nil();
+        for ( Fraction fraction : selected ) {
+            for ( int i = 0; i < fraction.numerator; i++ ) {
+                cards = cards.snoc( fraction.denominator );
+            }
+        }
+        return cards;
     }
 
     private List<Integer> createCardsSameNumberEachType( final List<Fraction> selected ) {
@@ -100,11 +111,9 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         return cards;
     }
 
-    /*Level 3:
-      Description: Different ways of making 1/2
-      Targets: 1/2, 1/2, 1/2
-      Containers: randomize order of: 1/2, 1/4, 1/6
-      Pieces: 3 each of 1/2, 1/4, 1/6 */
+    /* Level 3:
+--Like level 2, but now fractions ranging from 1/1 to 6/6, and with "whole" pieces available.
+--Number of pieces of each fraction allowing for multiple solutions*/
     private PictureLevel level3( final boolean pies ) {
         List<Fraction> targets = list( fraction( 1, 1 ), fraction( 1, 2 ), fraction( 1, 3 ), fraction( 1, 4 ), fraction( 1, 5 ), fraction( 1, 6 ),
                                        fraction( 2, 2 ), fraction( 2, 3 ), fraction( 2, 4 ), fraction( 2, 5 ), fraction( 2, 6 ),
