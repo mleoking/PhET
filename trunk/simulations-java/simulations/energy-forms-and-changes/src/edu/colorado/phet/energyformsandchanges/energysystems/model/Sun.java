@@ -19,6 +19,9 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  */
 public class Sun extends EnergySource {
 
+    // Energy production per square meter of the Earth's surface.
+    private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
+
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
         add( new ModelElementImage( TEMP_SUN, TEMP_SUN.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( -0.05, 0.1 ) ) );
     }};
@@ -27,9 +30,9 @@ public class Sun extends EnergySource {
         super( EnergyFormsAndChangesResources.Images.SUN_ICON, IMAGE_LIST );
     }
 
-    @Override public double stepInTime( double dt ) {
+    @Override public Energy stepInTime( double dt ) {
         // TODO: Implement.
-        return 0;
+        return new Energy( Energy.Type.SOLAR, ENERGY_PRODUCTION_RATE * dt );
     }
 
     @Override public IUserComponent getUserComponent() {
