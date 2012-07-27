@@ -28,6 +28,7 @@ mode. Each tab is then responsible itself for creating the overlays and controls
 
 Also of note are the various coordinate transformations that the model coordinates go through onto the screen:
 "Planar" model coordinates:
+//REVIEW When you save "what I called planar coordinates", are you saying that you've somehow bastardized the typical definition of planar coordinates?
     All model locations (Samples, etc) are in what I called "planar" coordinates. The Y coordinate is the elevation relative to sea-level.
     X and Z wrap around the globe left/right and front/back.
     Technically, these are a rescaled version of Spherical Coordinates (see http://en.wikipedia.org/wiki/Spherical_coordinate_system), where X/Z
@@ -35,6 +36,7 @@ Also of note are the various coordinate transformations that the model coordinat
     Thus (0,0,0) and (earth-circumference,0,0) map to the same physical point (the origin is the "top" of the earth, which is the frontmost center point)
     Using this warped system is extremely convenient for all of the elevation-dependent and up/down/left/right transformations needed by the model.
     PlateTectonicsModel.convertToRadial() converts to -->
+//REVIEW After reading the above... It sounds like +Y is up, +X is to the right, and +Z is... um, I'm not sure. Maybe spell this out explicitly.
 "Radial" model coordinates:
     These are the Euclidean coordinates for the 3D system, where the earth center is at (0,-earthRadius,0).
     (tab) modelView transform -->

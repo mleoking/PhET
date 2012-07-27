@@ -32,3 +32,7 @@
         10) Divergent motion's animation is simplified and does not include many of the surface features that would exist. The mid-oceanic ridge
             that appears has an elevation that is significantly higher than in real life (its height is exaggerated for visibility).
         11) Freshly created new crust in the divergent animations does not significantly change in temperature or density as it would as it ages.
+
+
+// REVIEW I suspect most developers (like me) will not be familiar with this domain.
+// If you can recommend any resources that you used to learn about plate tectonics, it would be nice to include them here.
