@@ -78,7 +78,6 @@ public class SwingImage extends TextureImage {
         } );
     }
 
-    // TODO: run this every frame
     public void update() {
         // make sure we acquire the swing thread before doing the repainting that needs to be done
         SwingUtilities.invokeLater( new Runnable() {
