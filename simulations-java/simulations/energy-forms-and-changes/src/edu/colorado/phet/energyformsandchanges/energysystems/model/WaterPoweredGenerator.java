@@ -66,7 +66,10 @@ public class WaterPoweredGenerator extends EnergyConverter {
 
     @Override public Energy stepInTime( double dt, Energy incomingEnergy ) {
         if ( active ) {
-            double torqueFromIncomingEnergy = incomingEnergy.amount * WHEEL_RADIUS * 30 * ( Math.sin( incomingEnergy.direction ) > 0 ? 1 : -1 );
+            double torqueFromIncomingEnergy = 0;
+            if ( incomingEnergy.type == Energy.Type.MECHANICAL ) {
+                torqueFromIncomingEnergy = incomingEnergy.amount * WHEEL_RADIUS * 30 * ( Math.sin( incomingEnergy.direction ) > 0 ? 1 : -1 );
+            }
             double torqueFromResistance = -wheelRotationalVelocity * RESISTANCE_CONSTANT;
             double angularAcceleration = ( torqueFromIncomingEnergy + torqueFromResistance ) / WHEEL_MOMENT_OF_INERTIA;
             wheelRotationalVelocity += angularAcceleration * dt;
