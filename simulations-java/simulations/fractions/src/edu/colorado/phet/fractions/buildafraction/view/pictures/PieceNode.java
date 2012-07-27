@@ -13,6 +13,8 @@ import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -42,11 +44,24 @@ public class PieceNode extends Stackable {
         addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void startDrag( final PInputEvent event ) {
                 super.startDrag( event );
+
                 dragStarted();
                 PieceNode.this.moveToFront();
                 setPositionInStack( Option.<Integer>none() );
                 final AnimateToScale activity = new AnimateToScale( PieceNode.this, 200 );
                 addActivity( activity );
+
+                activity.setDelegate( new PActivityDelegate() {
+                    public void activityStarted( final PActivity activity ) {
+                    }
+
+                    public void activityStepped( final PActivity activity ) {
+                        stepTowardMouse( event );
+                    }
+
+                    public void activityFinished( final PActivity activity ) {
+                    }
+                } );
             }
 
             @Override protected void drag( final PInputEvent event ) {
@@ -63,6 +78,9 @@ public class PieceNode extends Stackable {
                 dragEnded();
             }
         } );
+    }
+
+    protected void stepTowardMouse( final PInputEvent event ) {
     }
 
     protected void dragEnded() {
