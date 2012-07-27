@@ -164,7 +164,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         int numGroups = groups.length();
         layoutXOffset = ( 6 - numGroups ) * spacing / 4;
         stackList = new ArrayList<Stack>();
-        final int toolboxHeight = level.shapeType == ShapeType.HORIZONTAL_BAR ? 100 : 140;
+        final int toolboxHeight = level.shapeType == ShapeType.BAR ? 100 : 140;
         for ( P2<List<Integer>, Integer> groupWithIndex : groups.zipIndex() ) {
             int stackIndex = groupWithIndex._2();
             List<Integer> group = groupWithIndex._1();
@@ -281,7 +281,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     }
 
     private double toDelta( final int numInGroup, final int pieceIndex ) {
-        double dx = level.shapeType == ShapeType.HORIZONTAL_BAR ? -3.0 : -3.0;
+        double dx = level.shapeType == ShapeType.BAR ? -3.0 : -3.0;
         double totalHorizontalSpacing = dx * ( numInGroup - 1 );
         return getDelta( numInGroup, pieceIndex, totalHorizontalSpacing );
     }
@@ -400,7 +400,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     }
 
     private void animateToCenterScreen( final ContainerNode g ) {
-        Vector2D offset = level.shapeType == ShapeType.HORIZONTAL_BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
+        Vector2D offset = level.shapeType == ShapeType.BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
         g.animateToPositionScaleRotation( toolboxNode.getCenterX() - g.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, 1000 );
     }
 
@@ -552,6 +552,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         double delta = toDelta( groups.index( stackIndex ).length(), cardIndex );
-        return new Vector2D( layoutXOffset + INSET + 20 + delta * sign + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta + ( level.shapeType == ShapeType.HORIZONTAL_BAR ? 25 : 0 ) );
+        return new Vector2D( layoutXOffset + INSET + 20 + delta * sign + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta + ( level.shapeType == ShapeType.BAR ? 25 : 0 ) );
     }
 }

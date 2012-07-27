@@ -69,13 +69,17 @@ public class BuildAFractionModel {
 
     public PictureLevel getPictureLevel( final int level ) { return pictureLevels.get( level ); }
 
-    public void resample() {
-        int n = numberLevel.get();
-        int m = pictureLevel.get();
-        Scene scene = selectedScene.get();
+    public void resampleNumberLevel( final int levelIndex ) {
+        NumberLevel old = numberLevels.remove( levelIndex );
+        old.dispose();
+        NumberLevel newLevel = new NumberLevelList().get( levelIndex );
+        numberLevels.add( levelIndex, newLevel );
+    }
 
-        selectedScene.set( scene );
-        numberLevel.set( n );
-        pictureLevel.set( m );
+    public void resamplePictureLevel( final int levelIndex ) {
+        PictureLevel old = pictureLevels.remove( levelIndex );
+        old.dispose();
+        PictureLevel newLevel = new PictureLevelList().get( levelIndex );
+        pictureLevels.add( levelIndex, newLevel );
     }
 }

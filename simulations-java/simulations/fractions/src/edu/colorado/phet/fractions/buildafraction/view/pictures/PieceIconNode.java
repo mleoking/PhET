@@ -26,10 +26,10 @@ public class PieceIconNode extends PNode {
 
     public PieceIconNode( int divisions, ShapeType shapeType ) {
         for ( int i = 0; i < divisions; i++ ) {
-            addChild( new PhetPPath( shapeType == ShapeType.HORIZONTAL_BAR ? barShape( divisions, i ) : pieShape( divisions, i ), Color.white, new BasicStroke( 1 ), Color.black ) );
+            addChild( new PhetPPath( shapeType == ShapeType.BAR ? barShape( divisions, i ) : pieShape( divisions, i ), Color.white, new BasicStroke( 1 ), Color.black ) );
         }
         //Thicker outer stroke
-        addChild( new PhetPPath( shapeType == ShapeType.HORIZONTAL_BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight ) :
+        addChild( new PhetPPath( shapeType == ShapeType.BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight ) :
                                  new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), new BasicStroke( 2 ), Color.black ) );
 
         scale( TINY_SCALE );
