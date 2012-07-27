@@ -35,7 +35,7 @@ public class PerformanceFrame extends JFrame {
 
             addActionListener( new GLActionListener( new Runnable() {
                 public void run() {
-                    PlateTectonicsConstants.framesPerSecondLimit.set( frameRate );
+                    PlateTectonicsConstants.FRAMES_PER_SECOND_LIMIT.set( frameRate );
                 }
             } ) );
         }

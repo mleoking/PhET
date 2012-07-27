@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class PlateTectonicsConstants {
 
-    public static final Property<Integer> framesPerSecondLimit = new Property<Integer>( 60 );
+    public static final Property<Integer> FRAMES_PER_SECOND_LIMIT = new Property<Integer>( 60 );
 
     /* Not intended for instantiation. */
     private PlateTectonicsConstants() {
