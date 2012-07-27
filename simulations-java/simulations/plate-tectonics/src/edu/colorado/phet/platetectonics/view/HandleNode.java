@@ -38,9 +38,9 @@ public class HandleNode extends GLNode {
     private static int radialColumns = 30;
     private static int rows = 30;
     private Vector3F[] handlePositions;
-    private Vector3F[] ballPositions;
+    private Vector3F[] ballPositions; //REVIEW unused
     private GridMesh handleMesh;
-    private GridMesh ballMesh;
+    private GridMesh ballMesh; //REVIEW unused, uninitialized
     private final Property<Vector3F> offset;
     private final PlateMotionTab tab;
     private final boolean isRightHandle;
@@ -210,6 +210,7 @@ public class HandleNode extends GLNode {
         } );
     }
 
+    //REVIEW looks like these should be constants (private static final, uppercase)
     private float stickRadius = 4;
     private float stickHeight = 40;
     private float ballRadius = 8;
@@ -233,6 +234,7 @@ public class HandleNode extends GLNode {
         startRay = ray;
     }
 
+    //REVIEW this method could use more doc, generally and internally
     public void drag( Ray3F ray ) {
         if ( model.motionType.get() == null ) {
             Vector3F xyDelta = xyHit( ray ).minus( xyHit( startRay ) );
@@ -384,7 +386,7 @@ public class HandleNode extends GLNode {
         glFrontFace( GL_CCW );
         handleMesh.setMaterial( new ColorMaterial( 1, 1, 1, 0.4f ) );
 
-        super.renderSelf( options );
+        super.renderSelf( options ); //REVIEW there are other subclasses of GLNode that don't do this, they probably should. But shouldn't super be called at the beginning?...
     }
 
     private Vector3F getBallCenter() {

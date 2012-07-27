@@ -93,6 +93,7 @@ public class PlateTectonicsView extends GLNode {
             }
         } );
 
+        //REVIEW this test feel a kludgy, makes me think PlateTectonicsView should be a base class, with specialization for PlateMotionTab
         if ( tab instanceof PlateMotionTab ) {
             // add smoke handling in
             final SmokeNode smokeNode = new SmokeNode( tab, ( (PlateMotionTab) tab ).getPlateMotionModel().smokePuffs );
@@ -146,6 +147,7 @@ public class PlateTectonicsView extends GLNode {
         }
     }
 
+    //REVIEW doc
     public void addCrossSectionStrip( final CrossSectionStrip strip ) {
         addWrappedChild( strip, new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
 
