@@ -36,8 +36,7 @@ public class GridMesh extends GLNode {
      * @param positions Vertices. Should be rows*columns of them
      */
     public GridMesh( int rows, int columns, Vector3F[] positions ) {
-
-        assert ( rows * columns == positions.length ); //REVIEW I added this. Thanks for documenting above. But in general, I'd like to see assert used more often to validate assumptions.
+        assert ( rows * columns == positions.length );
 
         this.rows = rows;
         this.columns = columns;
