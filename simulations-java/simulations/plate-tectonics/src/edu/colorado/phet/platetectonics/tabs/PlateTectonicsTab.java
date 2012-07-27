@@ -60,7 +60,7 @@ import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector3F.X_UNIT;
-import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.framesPerSecondLimit;
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.FRAMES_PER_SECOND_LIMIT;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -465,7 +465,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     @Override
     public void loop() {
         // delay if we need to, limiting our FPS
-        Display.sync( framesPerSecondLimit.get() );
+        Display.sync( FRAMES_PER_SECOND_LIMIT.get() );
 
         // calculate FPS
         int framesToCount = 10;
@@ -479,7 +479,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         // calculate time elapsed
         long newTime = System.currentTimeMillis();
         timeElapsed = Math.min(
-                1000f / (float) framesPerSecondLimit.get(), // don't let our time elapsed go over the frame rate limit value
+                1000f / (float) FRAMES_PER_SECOND_LIMIT.get(), // don't let our time elapsed go over the frame rate limit value
                 (float) ( newTime - lastSeenTime ) / 1000f ); // take elapsed milliseconds => seconds
         lastSeenTime = newTime;
 
