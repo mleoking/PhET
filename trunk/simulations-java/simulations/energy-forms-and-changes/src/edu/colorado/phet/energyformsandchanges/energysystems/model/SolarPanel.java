@@ -29,7 +29,7 @@ public class SolarPanel extends EnergyConverter {
         super( EnergyFormsAndChangesResources.Images.SOLAR_PANEL_ICON, IMAGE_LIST );
     }
 
-    @Override public double stepInTime( double dt, double incomingEnergy ) {
+    @Override public double stepInTime( double dt, Energy incomingEnergy ) {
         // TODO: Implement.
         return 0;
     }

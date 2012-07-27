@@ -28,7 +28,7 @@ public class BeakerHeater extends EnergyUser {
         super( EnergyFormsAndChangesResources.Images.WATER_ICON, IMAGE_LIST );
     }
 
-    @Override public void stepInTime( double dt, double incomingEnergy ) {
+    @Override public void stepInTime( double dt, Energy incomingEnergy ) {
         // TODO: Implement.
     }
 

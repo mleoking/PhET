@@ -17,5 +17,5 @@ public abstract class EnergyConverter extends EnergySystemElement {
         super( iconImage, images );
     }
 
-    public abstract double stepInTime( double dt, double incomingEnergy );
+    public abstract Energy stepInTime( double dt, Energy incomingEnergy );
 }

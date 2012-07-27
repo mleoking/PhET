@@ -28,7 +28,7 @@ public class FluorescentLightBulb extends EnergyUser {
         super( EnergyFormsAndChangesResources.Images.FLUORESCENT_ICON, IMAGE_LIST );
     }
 
-    @Override public void stepInTime( double dt, double incomingEnergy ) {
+    @Override public void stepInTime( double dt, Energy incomingEnergy ) {
         // TODO: Implement.
     }
 

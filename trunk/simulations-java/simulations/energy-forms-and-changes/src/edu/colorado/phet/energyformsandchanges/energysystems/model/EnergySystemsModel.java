@@ -117,7 +117,9 @@ public class EnergySystemsModel {
              !energyUsersCarousel.getAnimationInProgressProperty().get() ) {
 
             // Step the active elements in time to produce, convert, and use energy.
-
+            Energy energyFromSource = energySourcesCarousel.getSelectedElement().stepInTime( dt );
+            Energy energyFromConverter = energyConvertersCarousel.getSelectedElement().stepInTime( dt, energyFromSource );
+            energyUsersCarousel.getSelectedElement().stepInTime( dt, energyFromConverter );
         }
     }
 
