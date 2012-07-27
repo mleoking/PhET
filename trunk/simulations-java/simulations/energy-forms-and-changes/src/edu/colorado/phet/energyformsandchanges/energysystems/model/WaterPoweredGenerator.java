@@ -32,7 +32,9 @@ public class WaterPoweredGenerator extends EnergyConverter {
                                                                                new Vector2D( 0, 0 ) );
     private static final double WHEEL_RADIUS = WHEEL_IMAGE.getWidth() / 2;
 
-    private static final double WHEEL_MOMENT_OF_INERTIA = 1; // In kg.
+    private static final double WHEEL_MOMENT_OF_INERTIA = 5; // In kg.
+
+    private static final double RESISTANCE_CONSTANT = 5; // Controls max speed and rate of slow down, empirically determined.
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
         add( BACKGROUND_IMAGE );
@@ -63,13 +65,12 @@ public class WaterPoweredGenerator extends EnergyConverter {
     //-------------------------------------------------------------------------
 
     @Override public Energy stepInTime( double dt, Energy incomingEnergy ) {
-        System.out.println( "incomingEnergy.amount = " + incomingEnergy.amount );
         if ( active ) {
-            double torque = incomingEnergy.amount * WHEEL_RADIUS * ( Math.sin( incomingEnergy.direction ) > 0 ? 1 : -1 );
-            double angularAcceleration = torque / WHEEL_MOMENT_OF_INERTIA;
+            double torqueFromIncomingEnergy = incomingEnergy.amount * WHEEL_RADIUS * 30 * ( Math.sin( incomingEnergy.direction ) > 0 ? 1 : -1 );
+            double torqueFromResistance = -wheelRotationalVelocity * RESISTANCE_CONSTANT;
+            double angularAcceleration = ( torqueFromIncomingEnergy + torqueFromResistance ) / WHEEL_MOMENT_OF_INERTIA;
             wheelRotationalVelocity += angularAcceleration * dt;
             wheelRotationalAngle.set( wheelRotationalAngle.get() + wheelRotationalVelocity * dt );
-            System.out.println( "wheelRotationalAngle = " + wheelRotationalAngle.get() );
         }
         return new Energy( Energy.Type.ELECTRICAL, incomingEnergy.amount * ENERGY_CONVERSION_EFFICIENCY );
     }
