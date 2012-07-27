@@ -1,0 +1,1 @@
+This library contains PhET-specific classes for integrating LWJGL (Lightweight Java Game Library) with PhET simulations.
