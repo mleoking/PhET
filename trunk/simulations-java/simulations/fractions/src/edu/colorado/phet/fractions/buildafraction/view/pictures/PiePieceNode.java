@@ -26,6 +26,8 @@ import static java.lang.Math.PI;
  * @author Sam Reid
  */
 public class PiePieceNode extends PieceNode {
+
+    //Shadow to be shown while dragging (and maybe animating).  Shown with add/remove child so it doesn't disrupt bounds/layout
     private PhetPPath pieShadow;
     private PNode pieBackground;
 
