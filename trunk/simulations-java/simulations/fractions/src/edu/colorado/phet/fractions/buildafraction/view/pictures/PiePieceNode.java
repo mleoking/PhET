@@ -59,11 +59,16 @@ public class PiePieceNode extends PieceNode {
     }
 
     @Override protected void dragStarted() {
-        pieBackground.addChild( 0, pieShadow );
+        showShadow();
         final Option<Double> nextAngle = context.getNextAngle( this );
         if ( nextAngle.isSome() ) {
             animateToAngle( nextAngle.some() );
         }
+    }
+
+    private void showShadow() {
+        hideShadow();
+        pieBackground.addChild( 0, pieShadow );
     }
 
     //If it moved closer to a different target site, update rotation.
@@ -83,6 +88,10 @@ public class PiePieceNode extends PieceNode {
     }
 
     @Override protected void dragEnded() {
+        hideShadow();
+    }
+
+    private void hideShadow() {
         while ( pieBackground.getChildrenReference().contains( pieShadow ) ) {
             pieBackground.removeChild( pieShadow );
         }
