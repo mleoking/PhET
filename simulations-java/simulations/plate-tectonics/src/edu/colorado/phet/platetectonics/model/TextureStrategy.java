@@ -3,6 +3,7 @@ package edu.colorado.phet.platetectonics.model;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 
+//REVIEW doc the semantics of "front" and "top"
 /**
  * Basically a coordinate transform for texture coordinates
  */
