@@ -8,13 +8,20 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.PixelFormat;
 
-//REVIEW  In the class doc, please say something about why this is a singleton,
-// how to support multiple "play areas" for a sim, and anything else that differs PCanvas.
-// This will be helpful for developers who are familiar with Piccolo and 2D PhET sim framework.
-
 /**
  * Main rendering area for an LWJGL-based simulation. Native code will take over painting of this
  * canvas with the OpenGL accelerated view.
+ * <p/>
+ * This class is a singleton because to use all of LWJGL's features, we can only effectively have
+ * one LWJGL display, and thus one LWJGL canvas. Exceptions would be thrown on creation of a
+ * second one, and LWJGL will only render to one canvas.
+ * <p/>
+ * For LWJGL simulations, LWJGLTab instances should be used for each tab instead of modules. This
+ * canvas only renders (and forwards events to) the active tab. This is easy to do by setting
+ * LWJGLTabs up in a TabbedModule.
+ * <p/>
+ * Every frame, the active tab's loop() method is called, and this method takes care of all of the
+ * rendering to the canvas, in addition to state changes and event handling if necessary.
  */
 public class LWJGLCanvas extends Canvas {
 
