@@ -38,6 +38,7 @@ import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
+import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -105,13 +106,17 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
 
         //Create the scoring cells with target patterns
         ArrayList<Target> pairList = new ArrayList<Target>();
-        for ( int i = 0; i < model.getPictureLevel( levelIndex ).targets.length(); i++ ) {
-            PictureTarget target = model.getPictureLevel( levelIndex ).getTarget( i );
+        for ( int i = 0; i < level.targets.length(); i++ ) {
+            PictureTarget target = level.getTarget( i );
 
             FractionNode f = new FractionNode( target.fraction, 0.33 );
             final PictureScoreBoxNode cell = new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator,
                                                                       level.createdFractions, this,
-                                                                      level.flashTargetCellOnMatch );
+                                                                      level.flashTargetCellOnMatch, level.targets.maximum( FJUtils.ord( new F<PictureTarget, Double>() {
+                @Override public Double f( final PictureTarget pictureTarget ) {
+                    return pictureTarget.getFraction().toDouble();
+                }
+            } ) ).getFraction() );
             pairList.add( new Target( cell, new ZeroOffsetNode( f ), target.fraction ) );
         }
         this.targetPairs = iterableList( pairList );

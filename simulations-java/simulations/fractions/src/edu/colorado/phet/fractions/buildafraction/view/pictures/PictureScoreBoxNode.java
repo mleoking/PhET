@@ -25,6 +25,7 @@ import edu.umd.cs.piccolo.util.PUtil;
 
 import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
+import static java.lang.Math.ceil;
 
 /**
  * Node that shows a target scoring cell, where a correct fraction can be collected.
@@ -40,10 +41,18 @@ public class PictureScoreBoxNode extends PNode {
     private ContainerNode containerNode;
     private final PictureSceneNode sceneNode;
 
-    public PictureScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PictureSceneNode sceneNode, final boolean flashTargetCellOnMatch ) {
+    public PictureScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PictureSceneNode sceneNode, final boolean flashTargetCellOnMatch, final Fraction maxFraction ) {
         this.sceneNode = sceneNode;
         if ( sceneNode == null ) { throw new RuntimeException( "Null scene" ); }
-        this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
+        double numberShapes = ceil( maxFraction.toDouble() );
+        this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0,
+
+                                                                //room for shape items
+                                                                120 * numberShapes +
+
+                                                                //spacing between them
+                                                                5 * ( numberShapes - 1 ),
+                                                                120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
             setStrokePaint( Color.darkGray );
             setStroke( controlPanelStroke );
@@ -52,9 +61,9 @@ public class PictureScoreBoxNode extends PNode {
 
                 //Light up if the user matched
                 public void apply( final List<Fraction> fractions ) {
-                    if ( fraction != null && fractions.find( new F<Fraction, Boolean>() {
+                    if ( PictureScoreBoxNode.this.fraction != null && fractions.find( new F<Fraction, Boolean>() {
                         @Override public Boolean f( final Fraction f ) {
-                            return f.approxEquals( fraction );
+                            return f.approxEquals( PictureScoreBoxNode.this.fraction );
                         }
                     } ).isSome() && !completed && flashTargetCellOnMatch ) {
                         setStrokePaint( Color.red );
