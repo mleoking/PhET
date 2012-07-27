@@ -1,3 +1,4 @@
-dirt.jpg jmonkeyengine Textures/Terrain/splat/
-grass.jpg jmonkeyengine Textures/Terrain/splat/
-road.jpg jmonkeyengine Textures/Terrain/splat/
+dirt.jpg source=jmonkeyengine notes=Textures/Terrain/splat/
+grass.jpg source=jmonkeyengine notes=Textures/Terrain/splat/
+noise.png source=? notes=?
+road.jpg source=jmonkeyengine notes=Textures/Terrain/splat/
