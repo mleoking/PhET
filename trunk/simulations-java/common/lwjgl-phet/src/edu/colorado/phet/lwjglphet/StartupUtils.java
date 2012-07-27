@@ -15,6 +15,8 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.Pbuffer;
 import org.lwjgl.opengl.PixelFormat;
 
+import edu.colorado.phet.lwjglphet.contrib.LWJGLStartupImplementation;
+
 /**
  * Responsible for extracting the native libraries into the correct place, if needed.
  */

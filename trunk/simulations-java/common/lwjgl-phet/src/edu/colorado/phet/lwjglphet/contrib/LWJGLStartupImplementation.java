@@ -30,7 +30,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-package edu.colorado.phet.lwjglphet;
+package edu.colorado.phet.lwjglphet.contrib;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,6 +40,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import edu.colorado.phet.lwjglphet.StartupUtils;
 
 /**
  * LWJGL (slightly modified) startup implementation, so we can be compatible with PhET's simulation startup through JNLP
