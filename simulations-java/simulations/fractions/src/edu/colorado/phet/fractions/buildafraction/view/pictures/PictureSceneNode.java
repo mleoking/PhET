@@ -38,7 +38,6 @@ import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
-import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -429,7 +428,12 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                         return !n.willOverflow( pieceNode );
                     }
                 } ).
-                sort( FJUtils.ord( new F<SingleContainerNode, Double>() {
+                filter( new F<SingleContainerNode, Boolean>() {
+                    @Override public Boolean f( final SingleContainerNode n ) {
+                        return !n.parent.isInTargetCell();
+                    }
+                } ).
+                sort( ord( new F<SingleContainerNode, Double>() {
                     @Override public Double f( final SingleContainerNode n ) {
                         return n.getGlobalFullBounds().getCenter2D().distance( pieceNode.getGlobalFullBounds().getCenter2D() );
                     }
