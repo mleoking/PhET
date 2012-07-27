@@ -28,12 +28,10 @@ import static org.lwjgl.opengl.GL11.*;
  * <p/>
  * NOTE: Any updates to the Swing component should be done exclusively within the Swing Event Dispatch Thread. See lwjgl-implementation-notes.txt
  */
-public class PlanarSwingNode extends GLNode {
-    public final ValueNotifier<PlanarSwingNode> onResize = new ValueNotifier<PlanarSwingNode>( this );
+public class PlanarSwingNode extends AbstractGraphicsNode {
 
     private final JComponent component;
 
-    private Dimension size = new Dimension(); // our current size
     private SwingImage componentImage;
 
     public PlanarSwingNode( final JComponent component ) {
@@ -166,19 +164,11 @@ public class PlanarSwingNode extends GLNode {
         } );
     }
 
-    public int getComponentWidth() {
-        return size.width;
-    }
-
-    public int getComponentHeight() {
-        return size.height;
-    }
-
-    public int getWidth() {
+    @Override public int getWidth() {
         return componentImage.getWidth();
     }
 
-    public int getHeight() {
+    @Override public int getHeight() {
         return componentImage.getHeight();
     }
 
