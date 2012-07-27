@@ -3,7 +3,6 @@ package edu.colorado.phet.fractions.buildafraction.view.pictures;
 
 import java.awt.Shape;
 
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType;
@@ -11,7 +10,6 @@ import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.CircularShapeFunction;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.ShapeNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.SimpleContainerNode.circleDiameter;
@@ -49,24 +47,6 @@ public class PiePieceNode extends PieceNode {
 
     public void animateToAngle( final double angle ) {
         addActivity( new AnimateToAngle( this, 200, angle ) );
-    }
-
-    public static class AnimateToAngle extends PInterpolatingActivity {
-        private final PiePieceNode node;
-        private final double finalAngle;
-        private double initialAngle;
-
-        public AnimateToAngle( final PiePieceNode node, long duration, double finalAngle ) {
-            super( duration );
-            this.node = node;
-            this.finalAngle = finalAngle;
-            this.initialAngle = node.pieceRotation;
-        }
-
-        @Override public void setRelativeTargetValue( final float zeroToOne ) {
-            LinearFunction linearFunction = new LinearFunction( 0, 1, initialAngle, finalAngle );
-            node.setPieceRotation( linearFunction.evaluate( zeroToOne ) );
-        }
     }
 
     public void setPieceRotation( final double angle ) {
