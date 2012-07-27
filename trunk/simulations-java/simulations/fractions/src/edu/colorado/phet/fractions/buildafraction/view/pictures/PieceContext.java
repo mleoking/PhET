@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.pictures;
 
+import fj.data.Option;
+
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -9,5 +11,5 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 public interface PieceContext {
     void endDrag( PieceNode piece, PInputEvent event );
 
-    double getNextAngle( final PieceNode pieceNode );
+    Option<Double> getNextAngle( final PieceNode pieceNode );
 }
