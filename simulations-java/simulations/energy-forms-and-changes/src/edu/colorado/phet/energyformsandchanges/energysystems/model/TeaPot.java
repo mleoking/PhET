@@ -19,6 +19,8 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  */
 public class TeaPot extends EnergySource {
 
+    private static final double ENERGY_PRODUCTION_RATE = 200; // In joules/second
+
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
         add( new ModelElementImage( TEAPOT, TEAPOT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0.02, -0.05 ) ) );
     }};
@@ -27,9 +29,8 @@ public class TeaPot extends EnergySource {
         super( EnergyFormsAndChangesResources.Images.TEAPOT_ICON, IMAGE_LIST );
     }
 
-    @Override public double stepInTime( double dt ) {
-        // TODO: Implement.
-        return 0;
+    @Override public Energy stepInTime( double dt ) {
+        return new Energy( Energy.Type.MECHANICAL, ENERGY_PRODUCTION_RATE * dt, Math.PI / 2 );
     }
 
     @Override public IUserComponent getUserComponent() {

@@ -20,6 +20,8 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  */
 public class SolarPanel extends EnergyConverter {
 
+    private static final double CONVERSION_EFFICIENCY = 0.2;
+
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
         add( new ModelElementImage( SOLAR_PANEL_BASE, SOLAR_PANEL_BASE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0, -0.04 ) ) );
         add( new ModelElementImage( SOLAR_PANEL, SOLAR_PANEL.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0, 0.04 ) ) );
@@ -29,9 +31,9 @@ public class SolarPanel extends EnergyConverter {
         super( EnergyFormsAndChangesResources.Images.SOLAR_PANEL_ICON, IMAGE_LIST );
     }
 
-    @Override public double stepInTime( double dt, Energy incomingEnergy ) {
+    @Override public Energy stepInTime( double dt, Energy incomingEnergy ) {
         // TODO: Implement.
-        return 0;
+        return new Energy( Energy.Type.ELECTRICAL, incomingEnergy.amount * CONVERSION_EFFICIENCY, 0 );
     }
 
     @Override public IUserComponent getUserComponent() {
