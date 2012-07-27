@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
@@ -35,10 +34,6 @@ public class FaucetAndWater extends EnergySource {
 
     protected FaucetAndWater() {
         super( EnergyFormsAndChangesResources.Images.FAUCET_ICON, IMAGE_LIST );
-        flowProportion.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double flowProportion ) {
-            }
-        } );
     }
 
     @Override public Energy stepInTime( double dt ) {
