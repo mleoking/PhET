@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
-import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -36,9 +35,8 @@ import static org.lwjgl.opengl.GL11.*;
  * <p/>
  * NOTE: Any updates to the Swing component should be done exclusively within the Swing Event Dispatch Thread. See lwjgl-implementation-notes.txt
  */
-public class OrthoSwingNode extends GLNode {
+public class OrthoSwingNode extends AbstractGraphicsNode {
 
-    public final ValueNotifier<OrthoSwingNode> onResize = new ValueNotifier<OrthoSwingNode>( this );
     public final Property<Vector2D> position;
 
     // whether mouse events will pass through
@@ -48,7 +46,6 @@ public class OrthoSwingNode extends GLNode {
     private final LWJGLTab tab;
     private final CanvasTransform canvasTransform;
 
-    private Dimension size = new Dimension(); // our current size
     private SwingImage componentImage;
 
     private int offsetX;
@@ -249,19 +246,11 @@ public class OrthoSwingNode extends GLNode {
         } );
     }
 
-    public int getComponentWidth() {
-        return size.width;
-    }
-
-    public int getComponentHeight() {
-        return size.height;
-    }
-
-    public int getWidth() {
+    @Override public int getWidth() {
         return componentImage.getWidth();
     }
 
-    public int getHeight() {
+    @Override public int getHeight() {
         return componentImage.getHeight();
     }
 

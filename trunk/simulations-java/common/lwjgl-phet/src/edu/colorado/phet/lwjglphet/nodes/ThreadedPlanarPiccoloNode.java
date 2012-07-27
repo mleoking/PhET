@@ -30,8 +30,7 @@ import static org.lwjgl.opengl.GL11.*;
  * Also, don't add any sort of PSwing under this node. I haven't tried it, but it seems like the
  * perfect way to create an evil threading heisenbug.
  */
-public class ThreadedPlanarPiccoloNode extends GLNode {
-    public final ValueNotifier<ThreadedPlanarPiccoloNode> onResize = new ValueNotifier<ThreadedPlanarPiccoloNode>( this );
+public class ThreadedPlanarPiccoloNode extends AbstractGraphicsNode {
 
     // the node that we are displaying
     private final PNode node;
@@ -40,7 +39,6 @@ public class ThreadedPlanarPiccoloNode extends GLNode {
     private final PNode wrappedNode;
 
     private Cursor cursor = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
-    private Dimension size = new Dimension(); // our current size
     private PiccoloImage piccoloImage;
 
     public ThreadedPlanarPiccoloNode( final PNode node ) {
@@ -151,19 +149,11 @@ public class ThreadedPlanarPiccoloNode extends GLNode {
         return getNode().fullPick( new PPickPath( new PCamera(), new PBounds( piccoloPosition.x, piccoloPosition.y, 0.1, 0.1 ) ) );
     }
 
-    public int getComponentWidth() {
-        return size.width;
-    }
-
-    public int getComponentHeight() {
-        return size.height;
-    }
-
-    public int getWidth() {
+    @Override public int getWidth() {
         return piccoloImage.getWidth();
     }
 
-    public int getHeight() {
+    @Override public int getHeight() {
         return piccoloImage.getHeight();
     }
 
