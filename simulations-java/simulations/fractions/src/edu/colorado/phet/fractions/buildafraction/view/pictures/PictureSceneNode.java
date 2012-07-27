@@ -414,13 +414,18 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         }
     }
 
+    //find closest container that has a site that could hold this piece, and get the angle it would take if it joined
     public double getNextAngle( final PieceNode pieceNode ) {
-        //find closest container
         SingleContainerNode closest = getContainerNodes().
                 bind( _getSingleContainerNodes ).
                 filter( new F<SingleContainerNode, Boolean>() {
                     @Override public Boolean f( final SingleContainerNode n ) {
                         return !n.isInToolbox();
+                    }
+                } ).
+                filter( new F<SingleContainerNode, Boolean>() {
+                    @Override public Boolean f( final SingleContainerNode n ) {
+                        return !n.willOverflow( pieceNode );
                     }
                 } ).
                 sort( FJUtils.ord( new F<SingleContainerNode, Double>() {

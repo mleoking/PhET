@@ -12,6 +12,8 @@ import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.CircularShapeFunction;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.ShapeNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
@@ -56,14 +58,32 @@ public class PiePieceNode extends PieceNode {
         animateToAngle( context.getNextAngle( this ) );
     }
 
+    //If it moved closer to a different target site, update rotation.
+    @Override protected void rotateTo( final double angle, final PInputEvent event ) {
+        PActivity activity = animateToAngle( angle );
+        activity.setDelegate( new PActivityDelegate() {
+            public void activityStarted( final PActivity activity ) {
+            }
+
+            public void activityStepped( final PActivity activity ) {
+                stepTowardMouse( event );
+            }
+
+            public void activityFinished( final PActivity activity ) {
+            }
+        } );
+    }
+
     @Override protected void dragEnded() {
         while ( pieBackground.getChildrenReference().contains( pieShadow ) ) {
             pieBackground.removeChild( pieShadow );
         }
     }
 
-    public void animateToAngle( final double angle ) {
-        addActivity( new AnimateToAngle( this, 200, angle ) );
+    public AnimateToAngle animateToAngle( final double angle ) {
+        final AnimateToAngle activity = new AnimateToAngle( this, 200, angle );
+        addActivity( activity );
+        return activity;
     }
 
     public void setPieceRotation( final double angle ) {
