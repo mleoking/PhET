@@ -33,6 +33,7 @@ public class ResetPanel extends PNode {
 
         PNode rewindNode = null;
         if ( showRewindButton ) {
+            //REVIEW Nit: PhetFont(14) and Color.ORANGE are used for both buttons in this panel, but duplicated.
             rewindNode = new TextButtonNode( Strings.REWIND, new PhetFont( 14 ), Color.ORANGE ) {{
                 setUserComponent( UserComponents.rewindButton );
                 setOffset( 0, y.get() + 15 );

@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Displays a ruler in the 3D play area space
+ * Displays a thermometer in the 3D play area space
  */
 public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements DraggableTool2D {
 
