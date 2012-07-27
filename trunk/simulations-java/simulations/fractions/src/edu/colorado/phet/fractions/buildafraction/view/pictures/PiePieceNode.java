@@ -20,6 +20,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.SimpleContainerNode.circleDiameter;
+import static java.lang.Math.PI;
 
 /**
  * @author Sam Reid
@@ -86,13 +87,22 @@ public class PiePieceNode extends PieceNode {
     }
 
     public AnimateToAngle animateToAngle( final double angle ) {
-        final AnimateToAngle activity = new AnimateToAngle( this, 200, angle );
+        final AnimateToAngle activity = new AnimateToAngle( this, 200, reduceWindingNumber( angle ) );
         addActivity( activity );
         return activity;
     }
 
+    //Make it so the piece won't rotate further than necessary
+    private double reduceWindingNumber( final double angle ) {
+        double originalAngle = pieceRotation;
+        double delta = angle - originalAngle;
+        while ( delta > PI ) { delta -= PI * 2; }
+        while ( delta < -PI ) { delta += PI * 2; }
+        return originalAngle + delta;
+    }
+
     public void setPieceRotation( final double angle ) {
-        final double extent = Math.PI * 2.0 / pieceSize;
+        final double extent = PI * 2.0 / pieceSize;
         Shape shape = new CircularShapeFunction( extent, circleDiameter / 2 ).createShape( ZERO, angle );
         pathNode.setPathTo( shape );
         pieShadow.setPathTo( getShadowOffset().createTransformedShape( shape ) );
