@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Fixed: Bar shapes not centered vertically in toolbox any more
 Build a Fraction: Shapes: Fixed: Pieces don't line up properly with the containers
 Build a Fraction: Shapes: If the user got the incorrect answer, send back to the play area
 # 1.00.10 (66281) Jul 26, 2012
