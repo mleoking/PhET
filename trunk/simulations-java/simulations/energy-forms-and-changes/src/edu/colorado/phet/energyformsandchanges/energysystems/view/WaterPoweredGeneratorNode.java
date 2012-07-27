@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class WaterPoweredGeneratorNode extends PNode {
 
-    public WaterPoweredGeneratorNode( WaterPoweredGenerator generator, final ModelViewTransform mvt ) {
+    public WaterPoweredGeneratorNode( final WaterPoweredGenerator generator, final ModelViewTransform mvt ) {
 
         // Create the background.
         PImage backgroundImageNode = new PImage( WaterPoweredGenerator.BACKGROUND_IMAGE.getImage() ) {{
@@ -37,10 +37,13 @@ public class WaterPoweredGeneratorNode extends PNode {
         }};
         addChild( wheelImageNode );
 
-        // Update the shape of the water based on the flow setting.
+        // Update the rotation of the wheel image based on model value.
+        final Point2D wheelRotationPoint = new Point2D.Double( wheelImageNode.getFullBoundsReference().getWidth() / 2,
+                                                               wheelImageNode.getFullBoundsReference().getHeight() / 2 );
         generator.getWheelRotationalAngle().addObserver( new VoidFunction1<Double>() {
             public void apply( Double angle ) {
-                wheelImageNode.setRotation( angle );
+                double delta = angle - wheelImageNode.getRotation();
+                wheelImageNode.rotateAboutPoint( delta, wheelRotationPoint );
             }
         } );
 
