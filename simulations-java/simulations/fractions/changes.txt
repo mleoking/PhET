@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Fixed: fifths pie pieces don't fit square in toolbox container
 Build a Fraction: Shapes: When choosing target angle, don't match on container nodes that are in scoring cells
 Build a Fraction: Shapes: Show shadows when pieces animating back to toolbox
 Build a Fraction: Shapes: Made it so the piece won't rotate further than necessary
