@@ -86,6 +86,10 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         List<Fraction> selected = choose( 3, targets );
 
         //Use same number for each card type
+        return pictureLevel( createCardsSameNumberEachType( selected ), selected, colors[1], booleanToShape( pies ) );
+    }
+
+    private List<Integer> createCardsSameNumberEachType( final List<Fraction> selected ) {
         Integer maxNumerator = selected.map( _numerator ).maximum( Ord.intOrd );
         List<Integer> cards = nil();
         for ( Fraction fraction : selected ) {
@@ -93,7 +97,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                 cards = cards.snoc( fraction.denominator );
             }
         }
-        return pictureLevel( cards, selected, colors[1], booleanToShape( pies ) );
+        return cards;
     }
 
     /*Level 3:
@@ -101,13 +105,16 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
       Targets: 1/2, 1/2, 1/2
       Containers: randomize order of: 1/2, 1/4, 1/6
       Pieces: 3 each of 1/2, 1/4, 1/6 */
-    private PictureLevel level3( final boolean level3Pies ) {
-        List<Fraction> targets = list( fraction( 1, 2 ),
-                                       fraction( 1, 2 ),
-                                       fraction( 1, 2 ) );
+    private PictureLevel level3( final boolean pies ) {
+        List<Fraction> targets = list( fraction( 1, 1 ), fraction( 1, 2 ), fraction( 1, 3 ), fraction( 1, 4 ), fraction( 1, 5 ), fraction( 1, 6 ),
+                                       fraction( 2, 2 ), fraction( 2, 3 ), fraction( 2, 4 ), fraction( 2, 5 ), fraction( 2, 6 ),
+                                       fraction( 3, 3 ), fraction( 3, 4 ), fraction( 3, 5 ), fraction( 3, 6 ),
+                                       fraction( 4, 4 ), fraction( 4, 5 ), fraction( 4, 6 ),
+                                       fraction( 5, 5 ), fraction( 5, 6 ),
+                                       fraction( 6, 6 ) );
 
         List<Fraction> selected = choose( 3, targets );
-        return pictureLevel( pad( list( 2, 4, 4, 6, 6, 6, 6 ) ), selected, colors[2], ShapeType.BAR );
+        return pictureLevel( createCardsSameNumberEachType( selected ), selected, colors[2], booleanToShape( pies ) );
     }
 
     /* Level 4:
