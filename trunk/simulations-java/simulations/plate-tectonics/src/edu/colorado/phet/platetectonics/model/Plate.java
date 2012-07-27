@@ -16,6 +16,7 @@ import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.unique;
 import static edu.colorado.phet.platetectonics.util.Side.RIGHT;
 
+//REVIEW needs doc (class, methods, fields)
 public class Plate {
 
     private Region crust;
