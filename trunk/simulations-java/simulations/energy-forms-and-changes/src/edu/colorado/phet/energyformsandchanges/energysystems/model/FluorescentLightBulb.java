@@ -46,7 +46,6 @@ public class FluorescentLightBulb extends EnergyUser {
     @Override public void stepInTime( double dt, Energy incomingEnergy ) {
         if ( incomingEnergy.type == Energy.Type.ELECTRICAL ) {
             litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / ENERGY_TO_FULLY_LIGHT, 1 ) );
-            System.out.println( "litProportion = " + litProportion.get() );
         }
         else {
             litProportion.set( 0.0 );

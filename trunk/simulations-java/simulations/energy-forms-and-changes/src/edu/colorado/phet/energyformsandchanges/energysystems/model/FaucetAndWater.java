@@ -37,7 +37,6 @@ public class FaucetAndWater extends EnergySource {
         super( EnergyFormsAndChangesResources.Images.FAUCET_ICON, IMAGE_LIST );
         flowProportion.addObserver( new VoidFunction1<Double>() {
             public void apply( Double flowProportion ) {
-                System.out.println( "flowProportion = " + flowProportion );
             }
         } );
     }
