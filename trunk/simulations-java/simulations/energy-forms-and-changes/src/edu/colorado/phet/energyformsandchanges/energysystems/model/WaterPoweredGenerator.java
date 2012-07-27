@@ -30,6 +30,9 @@ public class WaterPoweredGenerator extends EnergyConverter {
     public static final ModelElementImage WHEEL_IMAGE = new ModelElementImage( EnergyFormsAndChangesResources.Images.GENERATOR_WHEEL,
                                                                                EnergyFormsAndChangesResources.Images.GENERATOR_WHEEL.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
                                                                                new Vector2D( 0, 0 ) );
+    private static final double WHEEL_RADIUS = WHEEL_IMAGE.getWidth() / 2;
+
+    private static final double WHEEL_MOMENT_OF_INERTIA = 1; // In kg.
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
         add( BACKGROUND_IMAGE );
@@ -44,7 +47,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
 
     private boolean active = false;
     private Property<Double> wheelRotationalAngle = new Property<Double>( 0.0 ); // In radians.
-    private double wheelRotationalVelocity = Math.PI / 2; // In radians/s.
+    private double wheelRotationalVelocity = 0; // In radians/s.
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -52,6 +55,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
 
     public WaterPoweredGenerator() {
         super( EnergyFormsAndChangesResources.Images.GENERATOR_ICON, IMAGE_LIST );
+
     }
 
     //-------------------------------------------------------------------------
@@ -59,7 +63,11 @@ public class WaterPoweredGenerator extends EnergyConverter {
     //-------------------------------------------------------------------------
 
     @Override public Energy stepInTime( double dt, Energy incomingEnergy ) {
+        System.out.println( "incomingEnergy.amount = " + incomingEnergy.amount );
         if ( active ) {
+            double torque = incomingEnergy.amount * WHEEL_RADIUS * ( Math.sin( incomingEnergy.direction ) > 0 ? 1 : -1 );
+            double angularAcceleration = torque / WHEEL_MOMENT_OF_INERTIA;
+            wheelRotationalVelocity += angularAcceleration * dt;
             wheelRotationalAngle.set( wheelRotationalAngle.get() + wheelRotationalVelocity * dt );
             System.out.println( "wheelRotationalAngle = " + wheelRotationalAngle.get() );
         }
