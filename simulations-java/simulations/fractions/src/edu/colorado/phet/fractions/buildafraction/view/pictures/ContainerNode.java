@@ -17,7 +17,6 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType;
-import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
@@ -34,7 +33,6 @@ import static edu.colorado.phet.fractions.buildafraction.view.pictures.SingleCon
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.sum;
-import static fj.Ord.doubleOrd;
 
 /**
  * Container that can be subdivided into different divisions
@@ -53,7 +51,7 @@ public class ContainerNode extends PNode {
     private double initialX;
     private double initialY;
     private double initialScale = 1;
-    private ArrayList<VoidFunction0> listeners = new ArrayList<VoidFunction0>();
+    private final ArrayList<VoidFunction0> listeners = new ArrayList<VoidFunction0>();
     private final SpinnerButtonNode leftSpinner;
     private final SpinnerButtonNode rightSpinner;
     private final IncreaseDecreaseButton increaseDecreaseButton;
@@ -273,13 +271,5 @@ public class ContainerNode extends PNode {
             dynamicCursorHandler.setCursor( Cursor.HAND_CURSOR );
         }
         notifyListeners();
-    }
-
-    public double getPiecesHeight() {
-        return getSingleContainerNodes().map( FNode.<SingleContainerNode>_fullHeight() ).maximum( doubleOrd );
-    }
-
-    public double getPiecesWidth() {
-        return getSingleContainerNodes().map( FNode.<SingleContainerNode>_fullWidth() ).maximum( doubleOrd );
     }
 }
