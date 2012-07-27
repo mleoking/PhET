@@ -2,19 +2,22 @@
 package edu.colorado.phet.fractions.buildafraction.model.pictures;
 
 import fj.Equal;
+import fj.Ord;
 import fj.data.List;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.fractions.buildafraction.model.Distribution;
-import edu.colorado.phet.fractions.buildafraction.view.LevelSelectionNode;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
 import static edu.colorado.phet.fractions.buildafraction.model.pictures.PictureLevel.pictureLevel;
+import static edu.colorado.phet.fractions.buildafraction.view.LevelSelectionNode.colors;
+import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction._numerator;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.fraction;
 import static fj.data.List.list;
+import static fj.data.List.nil;
 
 /**
  * @author Sam Reid
@@ -58,22 +61,39 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         return new PictureLevel( list( 1, 1, 2, 2, 3, 3 ),
                                  shuffle( list( new PictureTarget( a ),
                                                 new PictureTarget( b ),
-                                                new PictureTarget( c ) ) ), LevelSelectionNode.colors[0], pies ? ShapeType.PIE : ShapeType.BAR );
+                                                new PictureTarget( c ) ) ), colors[0], booleanToShape( pies ) );
     }
 
+    private ShapeType booleanToShape( final boolean pies ) {return pies ? ShapeType.PIE : ShapeType.BAR;}
+
     /* Level 2:
-    Description: Two pieces in each container
-    Targets: choose 3 uniquely from: 2/2, 2/3, 2/4, 2/5
-    Containers: exact matches for targets
-    Pieces: exact matches for targets (2 each of 1/2, 1/3, 1/4, 1/5) */
-    private PictureLevel level2( final boolean b ) {
-        List<Fraction> targets = list( fraction( 2, 2 ),
+   --Here I would begin choosing from a distribution of fractions ranging from 1/2 to 4/5.
+   As in the numerator could be 1, 2, 3, or 4 and the denominator could be 2, 3, 4, or 5 with the stipulation that the fraction is always less than 1.
+   So I would remove the "wholes" from the shapes pile.
+    */
+    private PictureLevel level2( final boolean pies ) {
+        List<Fraction> targets = list( fraction( 1, 2 ),
+                                       fraction( 1, 3 ),
+                                       fraction( 1, 4 ),
+                                       fraction( 1, 5 ),
                                        fraction( 2, 3 ),
                                        fraction( 2, 4 ),
-                                       fraction( 2, 5 ) );
+                                       fraction( 2, 5 ),
+                                       fraction( 3, 4 ),
+                                       fraction( 3, 5 ),
+                                       fraction( 4, 5 ) );
 
         List<Fraction> selected = choose( 3, targets );
-        return pictureLevel( list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ), selected, LevelSelectionNode.colors[1], ShapeType.PIE );
+
+        //Use same number for each card type
+        Integer maxNumerator = selected.map( _numerator ).maximum( Ord.intOrd );
+        List<Integer> cards = nil();
+        for ( Fraction fraction : selected ) {
+            for ( int i = 0; i < maxNumerator; i++ ) {
+                cards = cards.snoc( fraction.denominator );
+            }
+        }
+        return pictureLevel( cards, selected, colors[1], booleanToShape( pies ) );
     }
 
     /*Level 3:
@@ -87,7 +107,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                                        fraction( 1, 2 ) );
 
         List<Fraction> selected = choose( 3, targets );
-        return pictureLevel( pad( list( 2, 4, 4, 6, 6, 6, 6 ) ), selected, LevelSelectionNode.colors[2], ShapeType.BAR );
+        return pictureLevel( pad( list( 2, 4, 4, 6, 6, 6, 6 ) ), selected, colors[2], ShapeType.BAR );
     }
 
     /* Level 4:
@@ -107,7 +127,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
 
         List<Fraction> selected = shuffle( choose( 3, largeList ).snoc( chooseOne( smallList ) ) );
         return pictureLevel(
-                pad( list( 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, LevelSelectionNode.colors[3], ShapeType.PIE );
+                pad( list( 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, colors[3], ShapeType.PIE );
     }
 
     /* Level 5:
@@ -123,7 +143,7 @@ Pieces: 6 each of (1/3, 1/4, 1/5, 1/6}*/
 
         List<Fraction> selected = choose( 4, list );
         return pictureLevel(
-                pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, LevelSelectionNode.colors[4], ShapeType.PIE );
+                pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, colors[4], ShapeType.PIE );
     }
 
     private List<Integer> pad( List<Integer> list ) {
