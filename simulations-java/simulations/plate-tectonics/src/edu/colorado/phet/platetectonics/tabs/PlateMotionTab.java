@@ -110,6 +110,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D(
+                //REVIEW significant of these constants? units?
                 Bounds3D.fromMinMax( -700000, 700000,
                                      -300000, 15000,
                                      -1000000, 0 ),
@@ -123,6 +124,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         sceneLayer.addChild( new PlateTectonicsView( getModel(), this, showWater ) );
 
         // add in the handles for manual mode
+        //REVIEW Significance of Vector3F args? units?
         leftHandle = new HandleNode( new Property<Vector3F>( new Vector3F( -120, 0, -125 / 2 ) ), this, false ) {{
             motionVectorRight.addObserver( new SimpleObserver() {
                 public void update() {
@@ -473,8 +475,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
         } );
     }
 
+    //REVIEW doc
     private void manualHandleDragTimeChange( float timeChange ) {
-        if ( !Float.isNaN( timeChange ) ) {
+        if ( !Float.isNaN( timeChange ) ) { //REVIEW why might this evaluate to false?
             SimSharingManager.sendUserMessage( UserComponents.handle, UserComponentTypes.sprite, edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.drag,
                                                new ParameterSet( new Parameter[]{
                                                        new Parameter( ParameterKeys.timeChangeMillionsOfYears, timeChange ),
@@ -484,6 +487,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }
     }
 
+    //REVIEW doc, why 2.5f?
     private float mapDragMagnitude( float mag ) {
         return mag * mag * 2.5f;
     }
@@ -510,6 +514,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         return (PlateMotionModel) getModel();
     }
 
+    //REVIEW doc
     @Override
     public void droppedCrustPiece( OrthoPiccoloNode crustPieceNode ) {
         PlateMotionModel model = getPlateMotionModel();
@@ -586,6 +591,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     public ImmutableMatrix4F getSceneModelViewMatrix() {
         ImmutableMatrix4F regularView = super.getSceneModelViewMatrix();
 
+        //REVIEW how would I reproduce this calculation if I needed to change it in the future? is there some debug output that needs to be enabled?
         // calculated this as a debug matrix by camera manipulation, then dumping and inputting here
         return ImmutableMatrix4F.rowMajor(
                 0.99994993f, -3.9991664E-4f, -0.009994832f, 0.0f,

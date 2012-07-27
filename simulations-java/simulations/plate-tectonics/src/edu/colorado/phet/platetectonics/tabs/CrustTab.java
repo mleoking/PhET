@@ -65,6 +65,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D(
+                //REVIEW significant of these constants? units?
                 Bounds3D.fromMinMax( -1500000, 1500000,
                                      -150000, 15000,
                                      -2000000, 0 ),
@@ -101,6 +102,7 @@ public class CrustTab extends PlateTectonicsTab {
         layerLabels.addChild( new RangeLabelNode( new Property<Vector3F>( new Vector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                 public void update() {
+                    //REVIEW Vector3F x arg is a constant in all cases below. Significance of values? units?
                     set( flatModelToView.apply( new Vector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
                 }
             }, true );
