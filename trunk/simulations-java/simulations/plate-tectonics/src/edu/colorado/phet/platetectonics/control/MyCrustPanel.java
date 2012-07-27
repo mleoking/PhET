@@ -94,7 +94,7 @@ public class MyCrustPanel extends PNode {
                 public void stateChanged( ChangeEvent e ) {
                     final double value = getValue();
 
-                    // invoke the model change in the JME thread
+                    // invoke the model change in the LWJGL thread
                     LWJGLUtils.invoke( new Runnable() {
                         public void run() {
                             property.set( value );
