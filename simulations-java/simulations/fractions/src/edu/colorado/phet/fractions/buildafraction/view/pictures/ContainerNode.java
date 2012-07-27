@@ -248,6 +248,13 @@ public class ContainerNode extends PNode {
         this.inTargetCell = inTargetCell;
         leftSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
         rightSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
+
+        while ( getChildrenReference().contains( increaseDecreaseButton ) ) {
+            removeChild( increaseDecreaseButton );
+        }
+        if ( !inTargetCell ) {
+            addChild( increaseDecreaseButton );
+        }
     }
 
     public void setInitialState( final double x, final double y, final double scale ) {
