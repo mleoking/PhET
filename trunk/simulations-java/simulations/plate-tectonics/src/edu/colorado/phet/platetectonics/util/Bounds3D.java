@@ -3,6 +3,7 @@ package edu.colorado.phet.platetectonics.util;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 
+//REVIEW migrate to phetcommon?
 /**
  * Bounds, generalized to a 3D bounding box (cuboid)
  */

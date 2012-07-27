@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.util;
 import java.util.Collection;
 import java.util.List;
 
+//REVIEW This implementation (particularly isToSideOf) also assumes that coordinates increase from left to right.
 /**
  * Makes handling of mirror cases and directionality much easier.
  * <p/>
@@ -56,7 +57,8 @@ public enum Side {
         return list.get( getIndex( list ) - index * getSign() ); // inverse sign, so our index is correct
     }
 
-    // returns true of A is to the <side> side of B
+    // returns true if A is to the <side> side of B
+    //REVIEW are a & b coordinates?
     public boolean isToSideOf( float a, float b ) {
         switch( this ) {
             case LEFT:

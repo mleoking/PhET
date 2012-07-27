@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.util;
 
+//REVIEW lots of unused stuff in here, looks like only getBounds is used. Do you think other stuff will be useful in the future?
 /**
  * 3D grid sampling handling for bounds and precomputation of samples
  */

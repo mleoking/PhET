@@ -8,6 +8,7 @@ import edu.colorado.phet.lwjglphet.GLMaterial;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 
+//REVIEW migrate to lwjgl-phet?
 /**
  * Simple material, useful for LWJGL-related issues
  * NOTE: remember to put "setQueueBucket( Bucket.Transparent );" on geometry that uses this material! Otherwise transparency won't work
