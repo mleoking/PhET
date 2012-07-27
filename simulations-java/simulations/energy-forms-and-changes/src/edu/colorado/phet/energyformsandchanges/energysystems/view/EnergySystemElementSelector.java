@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
+import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemElement;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemElementCarousel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -23,7 +24,7 @@ public class EnergySystemElementSelector extends PNode {
 
     private static final double BUTTON_IMAGE_HEIGHT_OR_WIDTH = 50; // In screen coordinates, which is close to pixels.
 
-    public EnergySystemElementSelector( final EnergySystemElementCarousel carousel ) {
+    public EnergySystemElementSelector( final EnergySystemElementCarousel<EnergySystemElement> carousel ) {
         List<RadioButtonStripControlPanelNode.Element<Integer>> buttonElementList = new ArrayList<RadioButtonStripControlPanelNode.Element<Integer>>() {{
             for ( int i = 0; i < carousel.getNumElements(); i++ ) {
                 final Image buttonImage = carousel.getElement( i ).getIconImage();
