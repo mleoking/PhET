@@ -9,6 +9,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
+//REVIEW Is this still a valid test? It throws "Exception in thread "Thread-3" java.lang.UnsatisfiedLinkError: no lwjgl in java.library.path" on Mac OS 10.7.4 + Java 1.6.0_33
+//REVIEW If this is a valid test, doc.
 public class CanvasExample {
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Canvas Testing" );
