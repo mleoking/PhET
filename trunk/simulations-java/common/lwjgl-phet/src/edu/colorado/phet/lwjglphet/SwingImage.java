@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.lwjglphet;
 
 import java.awt.*;
@@ -13,8 +13,6 @@ import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-
-//REVIEW Rename to SwingImage, for consistency with PiccoloImage?
 
 /**
  * An image backed by a Swing component that can be rendered as a texture in OpenGL
