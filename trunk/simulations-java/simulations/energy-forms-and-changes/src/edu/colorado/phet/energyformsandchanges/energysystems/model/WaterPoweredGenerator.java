@@ -41,7 +41,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
         add( WHEEL_IMAGE );
     }};
 
-    private static final double ENERGY_CONVERSION_EFFICIENCY = 0.5;
+    private static final double ENERGY_OUTPUT_RATE = 10; // In joules / (radians / sec)
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -75,7 +75,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
             wheelRotationalVelocity += angularAcceleration * dt;
             wheelRotationalAngle.set( wheelRotationalAngle.get() + wheelRotationalVelocity * dt );
         }
-        return new Energy( Energy.Type.ELECTRICAL, incomingEnergy.amount * ENERGY_CONVERSION_EFFICIENCY );
+        return new Energy( Energy.Type.ELECTRICAL, Math.abs( wheelRotationalVelocity * ENERGY_OUTPUT_RATE ) );
     }
 
     @Override public void activate() {

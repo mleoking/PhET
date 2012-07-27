@@ -20,7 +20,7 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  */
 public class SolarPanel extends EnergyConverter {
 
-    private static final double CONVERSION_EFFICIENCY = 0.2;
+    private static final double CONVERSION_EFFICIENCY = 0.3;
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
         add( new ModelElementImage( SOLAR_PANEL_BASE, SOLAR_PANEL_BASE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0, -0.04 ) ) );
