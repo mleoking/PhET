@@ -114,11 +114,10 @@ public class OrthoSwingNode extends GLNode {
                 }, false );
     }
 
-    //REVIEW why are method parameters unused? Is this a bug, or can they be deleted?
-    // NOTE: run from Swing EDT
+    // NOTE: run from Swing EDT since this traverses the Swing component hierarchy
     public Component getComponentAt( int mouseX, int mouseY ) {
         if ( componentImage != null ) {
-            Vector2F localCoordinates = screenToLocalCoordinates( new Vector2F( Mouse.getEventX(), Mouse.getEventY() ) );
+            Vector2F localCoordinates = screenToLocalCoordinates( new Vector2F( mouseX, mouseY ) );
             Vector2F componentCoordinates = componentImage.localToComponentCoordinates( new Vector2F( localCoordinates.x, localCoordinates.y ) );
             return componentImage.componentAt( (int) componentCoordinates.x, (int) componentCoordinates.y );
         }
@@ -188,8 +187,7 @@ public class OrthoSwingNode extends GLNode {
         glDisable( GL_TEXTURE_2D );
     }
 
-    //REVIEW Define HUD, I'm guessing it's "Heads Up Display"
-    // if necessary, creates a new HUD node of a different size to display our component
+    // if necessary, creates a new SwingImage of a different size to display our component
     public synchronized void rebuildComponentImage() {
         /*
          * Here, we basically take our integral component coordinates and find out where (after our projection
