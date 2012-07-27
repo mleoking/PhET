@@ -6,6 +6,8 @@ of the code.
 
 *** High Level Overview
 
+//REVIEW After looking through the code and seeing some constant values, I noticed that units (mainly distance) are not documented here or in the code.
+
 Since we can have only one LWJGL display canvas at one time, this simulation technically has only one module (a TabbedModule), which has multiple tabs
 (LWJGLTab instances). lwjgl-phet handles the boilerplate that lets us use the same canvas by multiple tabs, and handles event and state conversions
 when tabs are switched. End result: we have CrustTab and PlateMotionTab instead of modules (PlateTectonicsTab contains shared tab code).
