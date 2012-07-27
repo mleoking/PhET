@@ -4,7 +4,7 @@
 
 /**
  * Created with IntelliJ IDEA.
- * User: Duso
+ * User: Dubson
  * Date: 6/17/12
  * Time: 9:10 AM
  * To change this template use File | Settings | File Templates.
@@ -127,6 +127,8 @@ public class ControlPanel extends Canvas {
         choiceList_arr = new Array();
         choiceList_arr = [ userChoice_str, tankshell_str, golfball_str, baseball_str, bowlingball_str, football_str, pumpkin_str, adultHuman_str, piano_str, buick_str ];
         projectileComboBox.dataProvider = choiceList_arr;
+        //
+        // projectileComboBox.addEventListener( )
 
         angleReadout = new NiceTextField( setAngle, angle_str, -90, 180 );
         speedReadout = new NiceTextField( setSpeed, speed_str, 0, 10000 );

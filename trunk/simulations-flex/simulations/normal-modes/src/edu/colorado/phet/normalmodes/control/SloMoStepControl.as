@@ -190,7 +190,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         }
     }//end initializeControls
 
-    //Sets the current model, Model1D or Model2D.  No update() function so no need to register with model
+    //Sets the current model, Model1D or Model2D.  No update() function, so no need to register with model
     public function setModel( currentModel: Object ): void {
         //this.myModel.unregisterView( this );
         this.myModel = currentModel;
