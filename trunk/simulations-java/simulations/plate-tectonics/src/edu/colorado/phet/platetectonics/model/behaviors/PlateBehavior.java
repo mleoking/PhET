@@ -25,7 +25,7 @@ public abstract class PlateBehavior {
     public final PlateMotionPlate plate;
     public final PlateMotionPlate otherPlate;
 
-    public static final float PLATE_X_LIMIT = 700000;
+    public static final float PLATE_X_LIMIT = 700000;  //REVIEW why this specific value, how was it chosen? units?
 
     // all magma blobs
     protected final List<MagmaRegion> magmaBlobs = new ArrayList<MagmaRegion>();
@@ -123,6 +123,7 @@ public abstract class PlateBehavior {
         redistributeMantle();
     }
 
+    //REVIEW unused?
     protected void glueMantleTopToLithosphere( float verticalPadding ) {
         int xIndex = 0;
         final Boundary lithosphereBottomBoundary = getPlate().getLithosphere().getBottomBoundary();
@@ -239,6 +240,7 @@ public abstract class PlateBehavior {
         }
     }
 
+    //REVIEW If you say so :-) I think you should doc the args here.
     // allows us to somewhat fake timestep independence down to a certain precision by applying a non-analytical operation more
     // times at less of an amplitude when our timestep is large
     public static void recursiveSplitCall( VoidFunction1<Float> callback, float amount, float cutoff ) {
