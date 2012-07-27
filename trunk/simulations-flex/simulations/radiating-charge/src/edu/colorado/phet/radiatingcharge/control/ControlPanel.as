@@ -143,7 +143,7 @@ public class ControlPanel extends Canvas {
         }
 
         this.pauseButton = new NiceButton2( 80, 25, pause_str, pauseUnPause, 0xffff00, 0x000000 );
-        this.stopButton = new NiceButton2( 100, 25, stop_str, stopCharge, 0xff0000, 0xffffff )
+        this.stopButton = new NiceButton2( 80, 25, stop_str, stopCharge, 0xff0000, 0xffffff )
         this.restartButton = new NiceButton2( 80, 25, restart_str, restart, 0x00ff00, 0x000000 );
         this.bumpButton = new NiceButton2( 80, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
         this.resetAllButton = new NiceButton2( 80, 25, reset_str, resetAll, 0xffa500, 0x000000 )
