@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
-import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.PiccoloImage;
@@ -128,7 +127,7 @@ public class ThreadedPlanarPiccoloNode extends AbstractGraphicsNode {
     }
 
     // if necessary, creates a new HUD node of a different size to display our component
-    private synchronized void rebuildComponentImage() {
+    @Override protected synchronized void rebuildComponentImage() {
         // how large our HUD node needs to be as a raster to render all of our content
         final int hudWidth = LWJGLUtils.toPowerOf2( size.width );
         final int hudHeight = LWJGLUtils.toPowerOf2( size.height );

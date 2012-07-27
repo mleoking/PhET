@@ -2,8 +2,6 @@
 package edu.colorado.phet.lwjglphet.nodes;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
@@ -13,7 +11,6 @@ import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
-import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -28,70 +25,38 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 import static org.lwjgl.opengl.GL11.*;
 
-//REVIEW OrthoSwingNode, PlanarSwingNode and ThreadedPlanarPiccoloNode contain some duplication/overlap, extract a base class and/or interface?
-
 /**
  * Allows overlaying a Swing GUI onto LWJGL. This should only be rendered in an orthographic mode.
  * <p/>
  * NOTE: Any updates to the Swing component should be done exclusively within the Swing Event Dispatch Thread. See lwjgl-implementation-notes.txt
  */
-public class OrthoSwingNode extends AbstractGraphicsNode {
+public class OrthoSwingNode extends AbstractSwingGraphicsNode {
 
     public final Property<Vector2D> position;
 
     // whether mouse events will pass through
     private boolean mouseEnabled = true;
 
-    private final JComponent component;
     private final LWJGLTab tab;
     private final CanvasTransform canvasTransform;
-
-    private SwingImage componentImage;
 
     private int offsetX;
     private int offsetY;
 
     public OrthoSwingNode( final JComponent component, final LWJGLTab tab, CanvasTransform canvasTransform, Property<Vector2D> position, final VoidNotifier mouseEventNotifier ) {
-        this.component = component;
+        super( component );
         this.tab = tab;
         this.canvasTransform = canvasTransform;
         this.position = position;
 
-        size = component.getPreferredSize();
-
-        // ensure that we have it at its preferred size before sizing and painting
-        component.setSize( component.getPreferredSize() );
-
-        component.setDoubleBuffered( false ); // avoids having the RepaintManager attempt to get the containing window (and throw a NPE)
-
-        // by default, the components should usually be transparent
-        component.setOpaque( false );
-
-        // when our component resizes, we need to handle it!
-        component.addComponentListener( new ComponentAdapter() {
-            @Override public void componentResized( ComponentEvent e ) {
-                final Dimension componentSize = component.getPreferredSize();
-                if ( !componentSize.equals( size ) ) {
-                    // update the size if it changed
-                    size = componentSize;
-
-                    rebuildComponentImage();
-
-                    // run notifications in the LWJGL thread
-                    LWJGLUtils.invoke( new Runnable() {
-                        public void run() {
-                            // notify that we resized
-                            onResize.updateListeners();
-                        }
-                    } );
-                }
-            }
-        } );
+        // don't fire rebuilding here, will do so below
         position.addObserver( new SimpleObserver() {
             public void update() {
                 rebuildComponentImage();
             }
         }, false );
+
+        // fires rebuilding here once
         canvasTransform.transform.addObserver( new SimpleObserver() {
             public void update() {
                 rebuildComponentImage();
@@ -131,32 +96,6 @@ public class OrthoSwingNode extends AbstractGraphicsNode {
         return componentImage.localToComponentCoordinates( screenToLocalCoordinates( screenCoordinates ) );
     }
 
-    public boolean isReady() {
-        return componentImage != null;
-    }
-
-    public <T> void updateOnEvent( Notifier<T> notifier ) {
-        notifier.addUpdateListener( new UpdateListener() {
-            public void update() {
-                OrthoSwingNode.this.update();
-            }
-        }, false );
-    }
-
-    // should be called every frame
-    public void update() {
-        if ( componentImage != null ) {
-            componentImage.update();
-        }
-    }
-
-    // force repainting of the image
-    public void repaint() {
-        if ( componentImage != null ) {
-            componentImage.repaint();
-        }
-    }
-
     @Override public void renderSelf( GLOptions options ) {
         if ( componentImage == null ) {
             return;
@@ -185,7 +124,7 @@ public class OrthoSwingNode extends AbstractGraphicsNode {
     }
 
     // if necessary, creates a new SwingImage of a different size to display our component
-    public synchronized void rebuildComponentImage() {
+    @Override protected synchronized void rebuildComponentImage() {
         /*
          * Here, we basically take our integral component coordinates and find out where (after our projection
          * transformation) we should actually place the component. Usually it ends up with fractional coordinates.
@@ -244,18 +183,6 @@ public class OrthoSwingNode extends AbstractGraphicsNode {
                 componentImage = newComponentImage;
             }
         } );
-    }
-
-    @Override public int getWidth() {
-        return componentImage.getWidth();
-    }
-
-    @Override public int getHeight() {
-        return componentImage.getHeight();
-    }
-
-    public JComponent getComponent() {
-        return component;
     }
 
     public boolean isMouseEnabled() {

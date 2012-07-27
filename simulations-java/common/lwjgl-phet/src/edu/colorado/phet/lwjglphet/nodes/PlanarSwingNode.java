@@ -1,9 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.lwjglphet.nodes;
 
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 
 import javax.swing.*;
@@ -11,14 +8,10 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.math.PlaneF;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.common.phetcommon.model.event.Notifier;
-import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
-import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.SwingImage;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
-import edu.umd.cs.piccolo.util.PBounds;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -28,79 +21,18 @@ import static org.lwjgl.opengl.GL11.*;
  * <p/>
  * NOTE: Any updates to the Swing component should be done exclusively within the Swing Event Dispatch Thread. See lwjgl-implementation-notes.txt
  */
-public class PlanarSwingNode extends AbstractGraphicsNode {
-
-    private final JComponent component;
-
-    private SwingImage componentImage;
+public class PlanarSwingNode extends AbstractSwingGraphicsNode {
 
     public PlanarSwingNode( final JComponent component ) {
-        this.component = component;
-
-        size = component.getPreferredSize();
-
-        // ensure that we have it at its preferred size before sizing and painting
-        component.setSize( component.getPreferredSize() );
-
-        component.setDoubleBuffered( false ); // avoids having the RepaintManager attempt to get the containing window (and throw a NPE)
-
-        // by default, the components should usually be transparent
-        component.setOpaque( false );
-
-        // when our component resizes, we need to handle it!
-        component.addComponentListener( new ComponentAdapter() {
-            @Override public void componentResized( ComponentEvent e ) {
-                final Dimension componentSize = component.getPreferredSize();
-                if ( !componentSize.equals( size ) ) {
-                    // update the size if it changed
-                    size = componentSize;
-
-                    rebuildComponentImage();
-
-                    // run notifications in the LWJGL thread
-                    LWJGLUtils.invoke( new Runnable() {
-                        public void run() {
-                            // notify that we resized
-                            onResize.updateListeners();
-                        }
-                    } );
-                }
-            }
-        } );
+        super( component );
 
         // initialize this correctly
         rebuildComponentImage();
     }
 
-    // should be called every frame
-    public void update() {
-        if ( componentImage != null ) {
-            componentImage.update();
-        }
-    }
-
-    // force repainting of the image
-    public void repaint() {
-        if ( componentImage != null ) {
-            componentImage.repaint();
-        }
-    }
-
-    public <T> void updateOnEvent( Notifier<T> notifier ) {
-        notifier.addUpdateListener( new UpdateListener() {
-            public void update() {
-                PlanarSwingNode.this.update();
-            }
-        }, false );
-    }
-
     public boolean doesLocalRayHit( Ray3F ray ) {
         Vector3F planeHitPoint = PlaneF.XY.intersectWithRay( ray );
         return get2DBounds().contains( planeHitPoint.x, planeHitPoint.y );
-    }
-
-    public PBounds get2DBounds() {
-        return new PBounds( 0, 0, size.width, size.height );
     }
 
     @Override public void renderSelf( GLOptions options ) {
@@ -146,7 +78,7 @@ public class PlanarSwingNode extends AbstractGraphicsNode {
     }
 
     // if necessary, creates a new HUD node of a different size to display our component
-    public synchronized void rebuildComponentImage() {
+    @Override protected synchronized void rebuildComponentImage() {
         // how large our HUD node needs to be as a raster to render all of our content
         final int hudWidth = LWJGLUtils.toPowerOf2( size.width );
         final int hudHeight = LWJGLUtils.toPowerOf2( size.height );
@@ -162,18 +94,6 @@ public class PlanarSwingNode extends AbstractGraphicsNode {
                 // TODO: why is this separated in the *ComponentNode classes?
             }
         } );
-    }
-
-    @Override public int getWidth() {
-        return componentImage.getWidth();
-    }
-
-    @Override public int getHeight() {
-        return componentImage.getHeight();
-    }
-
-    public JComponent getComponent() {
-        return component;
     }
 
 }
