@@ -337,8 +337,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             if ( intersects && matchesValue && !occupied ) {
                 final double scale = 0.5;
                 containerNode.removeSplitButton();
-                containerNode.animateToPositionScaleRotation( pair.cell.getFullBounds().getCenterX() - containerNode.getPiecesWidth() / 2 * scale,
-                                                              pair.cell.getFullBounds().getCenterY() - containerNode.getPiecesHeight() / 2 * scale, scale, 0, 200 );
+                containerNode.animateToPositionScaleRotation( pair.cell.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
+                                                              pair.cell.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, 200 );
                 pair.cell.setCompletedFraction( containerNode );
                 containerNode.setAllPickable( false );
                 containerNode.setInTargetCell( true );
