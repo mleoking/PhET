@@ -28,4 +28,6 @@ public class Level {
     }
 
     public void incrementFilledTargets() { filledTargets.increment(); }
+
+    public void dispose() { createdFractions.removeAllObservers(); }
 }

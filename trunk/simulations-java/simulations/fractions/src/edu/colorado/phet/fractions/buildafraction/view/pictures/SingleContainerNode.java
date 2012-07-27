@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
-import static edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType.HORIZONTAL_BAR;
+import static edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType.BAR;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.PieceNode._toFraction;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.SimpleContainerNode.circleDiameter;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
@@ -49,7 +49,7 @@ public class SingleContainerNode extends PNode {
                 public void apply( final Integer number ) {
                     removeAllChildren();
 
-                    if ( shapeType == HORIZONTAL_BAR ) {
+                    if ( shapeType == BAR ) {
                         final double pieceWidth = SimpleContainerNode.rectangleWidth / number;
                         double x = pieceWidth;
                         for ( int i = 0; i < number - 1; i++ ) {
@@ -72,8 +72,8 @@ public class SingleContainerNode extends PNode {
         }};
         shapeLayer = new SimpleContainerNode( number.get(), Color.white, shapeType ) {{
             //Thicker outer stroke
-            addChild( new PhetPPath( shapeType == HORIZONTAL_BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight )
-                                                                 : new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), Color.white, new BasicStroke( 2 ), Color.black ) );
+            addChild( new PhetPPath( shapeType == BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight )
+                                                      : new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), Color.white, new BasicStroke( 2 ), Color.black ) );
 
             addInputEventListener( new SimSharingDragHandler( null, true ) {
                 @Override protected void startDrag( final PInputEvent event ) {
@@ -157,7 +157,7 @@ public class SingleContainerNode extends PNode {
 
     //TODO: Refactor to subclasses
     public DropLocation getDropLocation( final PieceNode piece, final ShapeType shapeType ) {
-        if ( shapeType == ShapeType.HORIZONTAL_BAR ) {
+        if ( shapeType == ShapeType.BAR ) {
             Vector2D strokeInsets = v( 1, 1 );
             return new DropLocation( v( getPiecesWidth(), 0 ).minus( strokeInsets ), 0 );
         }

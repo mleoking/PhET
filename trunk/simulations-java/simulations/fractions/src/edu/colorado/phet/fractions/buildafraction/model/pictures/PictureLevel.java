@@ -7,7 +7,6 @@ import fj.data.List;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fractions.buildafraction.model.Level;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
@@ -17,9 +16,6 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
  * @author Sam Reid
  */
 public class PictureLevel extends Level {
-
-    //Fractions the user has created in the play area, which may match a target
-    public final Property<List<Fraction>> createdFractions = new Property<List<Fraction>>( List.<Fraction>nil() );
 
     public final List<PictureTarget> targets;
     public final List<Integer> pieces;

@@ -29,13 +29,13 @@ public class SimpleContainerNode extends PNode {
     public SimpleContainerNode( final int number, final Color fill, final ShapeType shapeType ) {
         final PNode content = new PNode() {{
             for ( int i = 0; i < number; i++ ) {
-                if ( shapeType == ShapeType.HORIZONTAL_BAR ) {
+                if ( shapeType == ShapeType.BAR ) {
                     final double pieceWidth = rectangleWidth / number;
                     addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, rectangleHeight ), fill, new BasicStroke( 1 ), Color.black ) );
                 }
             }
             //Thicker outer stroke
-            addChild( new PhetPPath( shapeType == ShapeType.HORIZONTAL_BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight ) :
+            addChild( new PhetPPath( shapeType == ShapeType.BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight ) :
                                      new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), new BasicStroke( 2 ), Color.black ) );
         }};
 

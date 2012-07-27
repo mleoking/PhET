@@ -37,6 +37,12 @@ public class Distribution<T> {
         throw new RuntimeException( "No element found, r = " + r );
     }
 
+    public T drawAndRemove() {
+        T value = draw();
+        map.remove( value );
+        return value;
+    }
+
     public Distribution<T> normalize() {
         final double sum = getSum();
         final Distribution<T> distribution = new Distribution<T>();
