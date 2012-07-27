@@ -66,8 +66,13 @@ public class PieceNode extends Stackable {
 
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
+                double originalAngle = context.getNextAngle( PieceNode.this );
                 final PDimension delta = event.getDeltaRelativeTo( event.getPickedNode().getParent() );
                 translate( delta.width, delta.height );
+                double newAngle = context.getNextAngle( PieceNode.this );
+                if ( originalAngle != newAngle ) {
+                    rotateTo( newAngle, event );
+                }
             }
 
             @Override protected void endDrag( final PInputEvent event ) {
@@ -79,6 +84,8 @@ public class PieceNode extends Stackable {
             }
         } );
     }
+
+    protected void rotateTo( final double angle, final PInputEvent event ) {}
 
     protected void stepTowardMouse( final PInputEvent event ) { }
 
