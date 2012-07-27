@@ -24,7 +24,7 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
 public class FaucetAndWater extends EnergySource {
 
     public static final Vector2D OFFSET_FROM_CENTER_TO_WATER_ORIGIN = new Vector2D( 0.05, 0.05 );
-    private static final double ENERGY_PRODUCTION_RATE = 200; // In joules/second.
+    private static final double MAX_ENERGY_PRODUCTION_RATE = 200; // In joules/second.
 
     public final Property<Double> flowProportion = new Property<Double>( 0.0 );
     public final BooleanProperty enabled = new BooleanProperty( true );
@@ -43,7 +43,7 @@ public class FaucetAndWater extends EnergySource {
     }
 
     @Override public Energy stepInTime( double dt ) {
-        return new Energy( Energy.Type.MECHANICAL, ENERGY_PRODUCTION_RATE * dt, -Math.PI / 2 );
+        return new Energy( Energy.Type.MECHANICAL, MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() * dt, -Math.PI / 2 );
     }
 
     @Override public void activate() {
