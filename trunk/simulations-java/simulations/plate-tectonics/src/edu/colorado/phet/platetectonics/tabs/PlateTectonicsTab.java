@@ -887,6 +887,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         }};
     }
 
+    //REVIEW think I'd probably make this abstract, and move this implementation to CrustTab
     public boolean isWaterVisible() {
         return true;
     }

@@ -60,7 +60,7 @@ public class MagmaRegion extends Region {
     // came up with this approximate shape in Mathematica: ParametricPlot[{Cos[t] + Max[0, Cos[t]], Sin[t]*(1 - Max[0, Cos[t]]^2)}, {t, 0, 2*\[Pi]}]
     // it's basically the equation for a circle, but stretched in a certain way
     private static Vector2F computeTeardropShape( float theta ) {
-        // in the future, just scale this amout if you want the tip pointier or less pointy
+        // in the future, just scale this amount if you want the tip pointier or less pointy
         final double tipScale = 1;
 
         final double tipAmount = tipScale * Math.max( 0, Math.cos( theta ) );
