@@ -35,6 +35,7 @@ import static org.lwjgl.opengl.GL11.glVertexPointer;
  */
 public class SmokeNode extends GLNode {
 
+    //REVIEW Looks like you could replace this field with the tab's LWJGLTransform, that's the only part of the tab that you're using.
     // TODO: try to reduce tab dependency
     private final PlateTectonicsTab tab;
 
@@ -110,7 +111,7 @@ public class SmokeNode extends GLNode {
         }
 
         @Override public void renderSelf( GLOptions options ) {
-            super.renderSelf( options );
+            super.renderSelf( options ); //REVIEW HandleNode.renderSelf called this at the end of the method. Is one approach wrong, or is there a reason for the difference?
 
             glColor4f( 0, 0, 0, puff.alpha.get() );
             glDepthMask( false );

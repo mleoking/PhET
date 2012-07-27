@@ -24,6 +24,7 @@ public enum ColorMode {
     private final String minString;
     private final String maxString;
 
+    //REVIEW doc minString and maxString
     private ColorMode( EarthMaterial material, String minString, String maxString ) {
         this.material = material;
         this.minString = minString;
