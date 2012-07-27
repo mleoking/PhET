@@ -203,6 +203,11 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
 
             child.setOffset( level.shapeType == ShapeType.PIE ? new Point2D.Double( firstPiece.getFullBounds().getMaxX() - child.getFullBounds().getWidth(), firstPiece.getYOffset() )
                                                               : pieces.get( 0 ).getOffset() );
+
+            //It is unknown why the above computation doesn't work for fifths pie slices, but it is off horizontally by several units
+            if ( level.shapeType == ShapeType.PIE && firstPiece.pieceSize == 5 ) {
+                child.translate( 4, 0 );
+            }
             addChild( child );
             child.moveToBack();
         }
