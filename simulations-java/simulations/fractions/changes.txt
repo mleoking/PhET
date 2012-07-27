@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Show shadows when pieces animating back to toolbox
 Build a Fraction: Shapes: Made it so the piece won't rotate further than necessary
 Build a Fraction: Shapes: Fixed: Containers are always moving home even if not dropped on toolbox or scoring cells
 Build a Fraction: Shapes: Pie shapes: stack up and to the right for containers (as we do for shapes)

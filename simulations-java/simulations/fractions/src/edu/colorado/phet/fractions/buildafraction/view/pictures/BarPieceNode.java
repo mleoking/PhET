@@ -26,12 +26,21 @@ public class BarPieceNode extends PieceNode {
     }
 
     @Override protected void dragStarted() {
+        showShadow();
+    }
+
+    @Override protected void hideShadow() {
+        while ( getChildrenReference().contains( barShadowNode ) ) {
+            removeChild( barShadowNode );
+        }
+    }
+
+    @Override protected void showShadow() {
+        hideShadow();
         addChild( 0, barShadowNode );
     }
 
     @Override protected void dragEnded() {
-        while ( getChildrenReference().contains( barShadowNode ) ) {
-            removeChild( barShadowNode );
-        }
+        hideShadow();
     }
 }

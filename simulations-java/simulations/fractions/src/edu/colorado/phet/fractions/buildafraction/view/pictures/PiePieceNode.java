@@ -66,7 +66,7 @@ public class PiePieceNode extends PieceNode {
         }
     }
 
-    private void showShadow() {
+    public void showShadow() {
         hideShadow();
         pieBackground.addChild( 0, pieShadow );
     }
@@ -91,7 +91,7 @@ public class PiePieceNode extends PieceNode {
         hideShadow();
     }
 
-    private void hideShadow() {
+    public void hideShadow() {
         while ( pieBackground.getChildrenReference().contains( pieShadow ) ) {
             pieBackground.removeChild( pieShadow );
         }
