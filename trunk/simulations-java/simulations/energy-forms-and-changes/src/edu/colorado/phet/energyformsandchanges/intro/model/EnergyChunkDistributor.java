@@ -360,6 +360,7 @@ public class EnergyChunkDistributor {
                 // gets stronger as the velocity gets bigger.
                 double maxVelocity = Math.min( containerShape.getBounds2D().getWidth(), containerShape.getBounds2D().getHeight() ) / 20 / dt;
                 velocity.setMagnitude( maxVelocity * velocity.magnitude() / ( velocity.magnitude() + maxVelocity ) );
+                velocity.setMagnitude( velocity.magnitude() * 0.75 ); // Drag.
 
                 // Check that the velocity won't move the point outside of the container.
                 if ( containerShape.contains( position.toPoint2D() ) && !containerShape.contains( position.plus( velocity.times( dt ) ).toPoint2D() ) ) {
