@@ -24,7 +24,7 @@ public class EnergySystemElementSelector extends PNode {
 
     private static final double BUTTON_IMAGE_HEIGHT_OR_WIDTH = 50; // In screen coordinates, which is close to pixels.
 
-    public EnergySystemElementSelector( final EnergySystemElementCarousel<EnergySystemElement> carousel ) {
+    public EnergySystemElementSelector( final EnergySystemElementCarousel<? extends EnergySystemElement> carousel ) {
         List<RadioButtonStripControlPanelNode.Element<Integer>> buttonElementList = new ArrayList<RadioButtonStripControlPanelNode.Element<Integer>>() {{
             for ( int i = 0; i < carousel.getNumElements(); i++ ) {
                 final Image buttonImage = carousel.getElement( i ).getIconImage();
