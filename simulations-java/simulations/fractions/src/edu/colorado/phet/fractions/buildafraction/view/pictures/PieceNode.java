@@ -30,7 +30,6 @@ public abstract class PieceNode extends Stackable {
     protected double initialScale = Double.NaN;
     protected final PieceContext context;
     protected PhetPPath pathNode;
-    private final ShapeType shapeType;
     public static final BasicStroke stroke = new BasicStroke( 2 );
     double pieceRotation = 0.0;
 
@@ -38,7 +37,6 @@ public abstract class PieceNode extends Stackable {
         this.pieceSize = pieceSize;
         this.context = context;
         this.pathNode = pathNode;
-        this.shapeType = shapeType;
     }
 
     protected void installInputListeners() {
