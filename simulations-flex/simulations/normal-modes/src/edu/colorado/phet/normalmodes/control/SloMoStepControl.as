@@ -3,7 +3,7 @@
  */
 
 /**
- * Created by ${PRODUCT_NAME}.
+ * Created by intelliJ.
  * User: Dubson
  * Date: 12/12/10
  * Time: 12:48 PM
@@ -24,14 +24,18 @@ import flash.text.TextFormat;
 import mx.controls.HSlider;
 import mx.core.UIComponent;
 
+/**
+ * A play/pause/step-forward control with horizontal slider controlling frame rate.
+ * Part of Controller, so has instance of the Model and the ControlPanel.
+ */
 public class SloMoStepControl extends UIComponent {          //cannot extend Sprite, since contains an HSlider
     private var myControlPanel: ControlPanel;
-    private var myModel: Object; //Model1D or Model1D, can change with setModel();
+    private var myModel: Object;            //Model1D or Model1D, can change with setModel();
     private var timeRateSlider: HSlider;
     private var stepButton: Sprite;
-    private var playIcon: Sprite;                //overlayed on playPauseButton
-    private var pauseIcon: Sprite;              //overlayed on playPauseButton
-    private var currentTime_txt: TextField;
+    private var playIcon: Sprite;           //overlayed on playPauseButton
+    private var pauseIcon: Sprite;          //overlayed on playPauseButton
+    private var currentTime_txt: TextField; //for display of current time, currently unused
     private var simSpeed_txt: TextField;
     private var slow_txt: TextField;
     private var normal_txt: TextField;
@@ -47,8 +51,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
     public var singleStep_str: String;
 
 
-    public function SloMoStepControl( myControlPanel: ControlPanel, myModel: Object ) {  //( myMainView: MainView, myModel: Object ) {
-
+    public function SloMoStepControl( myControlPanel: ControlPanel, myModel: Object ) {  
         this.initializeStrings();
         this.myControlPanel = myControlPanel;
         this.myModel = myModel;
@@ -94,6 +97,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         var g4: Graphics = this.stepButton.graphics;
         var bH: Number = 25;    //width of button
         var bW: Number = 25;    //height of button
+        //Draw pause icon: 2 vertical bars
         g2.clear();
         g2.lineStyle( 1, 0x000000, 1, true, LineScaleMode.NONE )
         g2.beginFill( 0x666666 );
@@ -102,7 +106,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         g2.drawRect( -1.4 * barW, -0.5 * barH, barW, barH );
         g2.drawRect( 0.4 * barW, -0.5 * barH, barW, barH );
         g2.endFill();
-        //play icon
+        //Draw play icon, triangle pointing right
         g3.clear();
         g3.lineStyle( 1, 0x000000, 1, true, LineScaleMode.NONE )
         g3.beginFill( 0x666666 );
@@ -112,13 +116,13 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         g3.lineTo( -f * bW, -f * bH );
         g3.lineTo( f * bW, 0 );
         g3.endFill();
-        //singleStep button body
+        //draw singleStep button body
         g4.clear();
         g4.lineStyle( 2.5, 0x777777, 1, true, LineScaleMode.NONE );
         g4.beginFill( 0xdddddd );
         g4.drawRoundRect( -bW / 2, -bH / 2, bW, bH, bH / 2 )
         g4.endFill();
-        //draw singleStep icon on button
+        //draw singleStep icon on singleStep button
         g4.lineStyle( 1, 0x000000, 1, true, LineScaleMode.NONE )
         g4.beginFill( 0x666666 );
         barH = 0.5 * bH;
@@ -143,16 +147,17 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         var thisObject: SloMoStepControl = this;
         this.timeRateSlider.addEventListener( Event.CHANGE, onChangeTimeRate );
         this.stepButton.addEventListener( MouseEvent.MOUSE_DOWN, singleStep );
-        this.stepButton.addEventListener( MouseEvent.MOUSE_OVER, buttonBehave );
-        this.stepButton.addEventListener( MouseEvent.MOUSE_OUT, buttonBehave );
+        this.stepButton.addEventListener( MouseEvent.MOUSE_OVER, hoverBehave );
+        this.stepButton.addEventListener( MouseEvent.MOUSE_OUT, hoverBehave );
 
         function onChangeTimeRate( evt: Event ): void {
             var rate: Number = evt.target.value;
             thisObject.myModel.setTRate( rate );
         }
 
+        //Unused function: toggles pause on and off
         function onMouseClick( evt: MouseEvent ): void {
-            if ( thisObject.paused ) {   //unpause sim
+            if ( thisObject.paused ) {   //if sim paused, then unpause sim
                 thisObject.paused = false;
                 thisObject.myModel.unPauseSim();
             }
@@ -164,7 +169,8 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
             }
         }
 
-        function buttonBehave( evt: MouseEvent ): void {
+        //When mouse hovers over button, label is bolded
+        function hoverBehave( evt: MouseEvent ): void {
             if ( evt.type == "mouseOver" ) {
                 thisObject.tFormat1.bold = true;
             }
@@ -172,7 +178,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
                 thisObject.tFormat1.bold = false;
             }
             thisObject.singleStep_txt.setTextFormat( thisObject.tFormat1 )
-        }//end of buttonBehave
+        }
 
         function singleStep( evt: MouseEvent ): void {
             if ( !thisObject.myModel.paused ) {
@@ -184,10 +190,11 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         }
     }//end initializeControls
 
+    //Sets the current model, Model1D or Model2D.  No update() function so no need to register with model
     public function setModel( currentModel: Object ): void {
-        this.myModel.unregisterView( this );
+        //this.myModel.unregisterView( this );
         this.myModel = currentModel;
-        this.myModel.registerView( this );
+        //this.myModel.registerView( this );
     }
 
     public function unPauseExternally(): void {
@@ -243,7 +250,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         with ( tField ) {
             selectable = false;
             autoSize = TextFieldAutoSize.CENTER;
-            //for testing
+            //For testing only:
             //border = true;
             //borderColor = 0x000000;
         }
@@ -286,9 +293,10 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         this.explicitWidth = this.singleStep_txt.x + this.singleStep_txt.width;
     } //end position fields
 
-    public function update(): void {
-        //do nothing in this sim
-    }
+    //Update() does nothing; update() function only required if this view is registered with model
+//    public function update(): void {
+//        //do nothing in this sim
+//    }
 
 } //end of class
 } //end of package

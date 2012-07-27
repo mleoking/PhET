@@ -9,6 +9,10 @@ import flash.geom.Rectangle;
 import flash.text.*;
 
 //button with registration point at center of button
+/**
+ * Flash sprite Button with label and user-supplied function.
+ * Button width resizes if label is too long.
+ */
 public class NiceButton2 extends Sprite {
     private var buttonBody: Sprite;
     private var bodyColor:Number;
@@ -17,12 +21,11 @@ public class NiceButton2 extends Sprite {
     private var myButtonWidth: Number;
     private var myButtonHeight: Number;
     private var pushedIn:Boolean;           //true if button pushedIn with mouseDown
-    private var nineSliceGrid:Rectangle;
+    private var nineSliceGrid:Rectangle;    //need for resizing without distorting rounded corners
     private var tFormat: TextFormat;
     private var buttonFunction: Function;
 
     public function NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 , fontColor:Number = 0x000000) {
-        //this.buttonBody = buttonBody;
         this.buttonBody = new Sprite();
         this.label_txt = new TextField();
         this.label_txt.text = labelText;
@@ -38,7 +41,6 @@ public class NiceButton2 extends Sprite {
         this.fontColor = fontColor;  //default font color is black
         this.tFormat = new TextFormat();
         this.setTFormat();
-
         this.drawButtonBody();
         this.buttonBody.addChild( this.label_txt );
         this.activateButton();
@@ -49,7 +51,7 @@ public class NiceButton2 extends Sprite {
         trace( "NiceButton2.testFunction called." );
     }
 
-    //resizes enclosing button when string is too long
+    //Setting the label resizes the enclosing button body if string is too long
     public function setLabel( label: String ): void {
         this.label_txt.text = label;
         this.setTFormat();  //must reformat when text is altered
@@ -57,7 +59,6 @@ public class NiceButton2 extends Sprite {
         this.myButtonWidth =   this.label_txt.textWidth + 30;
         //trace("label = "+label+"   ControlPanel.setLabel buttonWidth = "+this.myButtonWidth );
         this.drawButtonBody();
-        //TextFieldUtils.resizeText( this.buttonBody.label_txt, TextFieldAutoSize.CENTER);
     }
 
     public function setBodyColor( color:Number ):void{
@@ -70,9 +71,6 @@ public class NiceButton2 extends Sprite {
         this.setTFormat();
     }
 
-//        public function changeLabel(label:String):void{
-//            buttonBody.label_txt.text = label;
-//        }
 
     public function getLabel(): String {
         return this.label_txt.text;
@@ -90,6 +88,10 @@ public class NiceButton2 extends Sprite {
     private function drawButtonBody(): void {
         var gradMatrix = new Matrix();   //for creating shading on border
         var g: Graphics = this.buttonBody.graphics;
+        //If label is too long, increase button width to accomodate
+        if( myButtonWidth < label_txt.textWidth + 30 ){
+            myButtonWidth = label_txt.textWidth + 30;
+        }
         var bW: Number = this.myButtonWidth;
         var bH: Number = this.myButtonHeight;
         gradMatrix.createGradientBox( 1.0 * bW, 1.0 * bH, Math.atan2(bH,bW)-Math.PI/2, -bW/2, -bH/2 );  //-Math.atan2(bH, bW)
@@ -107,11 +109,12 @@ public class NiceButton2 extends Sprite {
         this.label_txt.height = 0.8 * bH;
     }//end drawButtonBody()
 
+    /**
+     * Button label is bolded when mouse hovers over button.
+     * Button function is called with button is pressed down.
+     * Button moves right and down when pressed, and back to original position when released.
+     */
     private function activateButton(): void {
-        //trace("this.buttonBody = " , this.buttonBody);
-        //this.buttonBody.background.width = this.myButtonWidth;
-        //this.buttonBody.background.height = 30;
-        //this.buttonBody.label_txt.mouseEnabled = false;
         this.buttonBody.buttonMode = true;
         this.buttonBody.mouseChildren = false;
         this.buttonBody.addEventListener( MouseEvent.MOUSE_DOWN, buttonBehave );
