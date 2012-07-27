@@ -46,10 +46,9 @@ public abstract class TextureImage {
         paintableImage = new BufferedImage( width, height, hasAlpha ? BufferedImage.TYPE_4BYTE_ABGR : BufferedImage.TYPE_3BYTE_BGR );
     }
 
-    //REVIEW reiterate why it's necessary to call from the EDT thread.
-
     /**
-     * Call from the EDT thread
+     * Call from the EDT thread, because we need mutual exclusion to guarantee that two threads aren't calling Swing methods at the same time
+     * (this code produces calls into Swing's graphics system). Otherwise, undefined behavior and exceptions can occur.
      */
     public void refreshImage() {
         // paint within the EDT thread

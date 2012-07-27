@@ -45,8 +45,8 @@ public class LWJGLTransform {
         inverse = matrix.inverted();
 
         // store both into buffers so they can be sent to OpenGL with less overhead
-        matrix.store( transformBuffer );
-        inverse.store( inverseTransformBuffer );
+        matrix.writeToBuffer( transformBuffer );
+        inverse.writeToBuffer( inverseTransformBuffer );
 
         changed.updateListeners( this );
     }

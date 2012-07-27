@@ -101,7 +101,7 @@ public class ImmutableMatrix4F {
     }
 
     /**
-     * Returns a matrix rotation aroudn the given axis at the specified angle
+     * Returns a matrix rotation around the given axis at the specified angle
      *
      * @param angle the angle, in radians.
      * @param axis  The vector representing the rotation axis. Must be normalized.
@@ -429,24 +429,14 @@ public class ImmutableMatrix4F {
      *
      * @param buf The buffer to store this matrix in
      */
-    public void store( FloatBuffer buf ) {
+    public void writeToBuffer( FloatBuffer buf ) {
         buf.rewind();
-        buf.put( m00 );
-        buf.put( m01 );
-        buf.put( m02 );
-        buf.put( m03 );
-        buf.put( m10 );
-        buf.put( m11 );
-        buf.put( m12 );
-        buf.put( m13 );
-        buf.put( m20 );
-        buf.put( m21 );
-        buf.put( m22 );
-        buf.put( m23 );
-        buf.put( m30 );
-        buf.put( m31 );
-        buf.put( m32 );
-        buf.put( m33 );
+        buf.put( new float[]{
+                m00, m01, m02, m03,
+                m10, m11, m12, m13,
+                m20, m21, m22, m23,
+                m30, m31, m32, m33
+        } );
     }
 
     /**
@@ -455,24 +445,14 @@ public class ImmutableMatrix4F {
      *
      * @param buf The buffer to store this matrix in
      */
-    public void storeTranspose( FloatBuffer buf ) {
+    public void writeTransposeToBuffer( FloatBuffer buf ) {
         buf.rewind();
-        buf.put( m00 );
-        buf.put( m10 );
-        buf.put( m20 );
-        buf.put( m30 );
-        buf.put( m01 );
-        buf.put( m11 );
-        buf.put( m21 );
-        buf.put( m31 );
-        buf.put( m02 );
-        buf.put( m12 );
-        buf.put( m22 );
-        buf.put( m32 );
-        buf.put( m03 );
-        buf.put( m13 );
-        buf.put( m23 );
-        buf.put( m33 );
+        buf.put( new float[]{
+                m00, m10, m20, m30,
+                m01, m11, m21, m31,
+                m02, m12, m22, m32,
+                m03, m13, m23, m33
+        } );
     }
 
     public String toString() {
