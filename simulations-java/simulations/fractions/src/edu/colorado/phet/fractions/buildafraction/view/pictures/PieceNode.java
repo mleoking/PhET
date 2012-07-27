@@ -80,14 +80,11 @@ public class PieceNode extends Stackable {
         } );
     }
 
-    protected void stepTowardMouse( final PInputEvent event ) {
-    }
+    protected void stepTowardMouse( final PInputEvent event ) { }
 
-    protected void dragEnded() {
-    }
+    protected void dragEnded() { }
 
-    protected void dragStarted() {
-    }
+    protected void dragStarted() { }
 
     protected double getAnimateToScale() { return this.initialScale; }
 

@@ -107,7 +107,7 @@ Pieces: 6 each of (1/3, 1/4, 1/5, 1/6}*/
 
         List<Fraction> selected = choose( 4, list );
         return pictureLevel(
-                pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, LevelSelectionNode.colors[4], ShapeType.HORIZONTAL_BAR );
+                pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, LevelSelectionNode.colors[4], ShapeType.PIE );
     }
 
     private List<Integer> pad( List<Integer> list ) {
