@@ -56,7 +56,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
     // Methods
     //-------------------------------------------------------------------------
 
-    @Override public double stepInTime( double dt, double incomingEnergy ) {
+    @Override public double stepInTime( double dt, Energy incomingEnergy ) {
         if ( active ) {
             wheelRotationalAngle.set( wheelRotationalAngle.get() + wheelRotationalVelocity * dt );
             System.out.println( "wheelRotationalAngle = " + wheelRotationalAngle.get() );

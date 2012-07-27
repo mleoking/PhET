@@ -17,5 +17,5 @@ public abstract class EnergyUser extends EnergySystemElement {
         super( iconImage, images );
     }
 
-    public abstract void stepInTime( double dt, double incomingEnergy );
+    public abstract void stepInTime( double dt, Energy incomingEnergy );
 }

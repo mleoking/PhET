@@ -23,5 +23,5 @@ public abstract class EnergySource extends EnergySystemElement {
      * @param dt Time step in seconds.
      * @return Amount of energy produced.
      */
-    public abstract double stepInTime( double dt );
+    public abstract Energy stepInTime( double dt );
 }
