@@ -341,7 +341,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 hit = true;
                 break;
             }
-            else {
+            else if ( intersects ) {
                 animateToCenterScreen( containerNode );
             }
         }
