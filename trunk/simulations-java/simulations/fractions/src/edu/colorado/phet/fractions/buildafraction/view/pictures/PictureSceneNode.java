@@ -528,6 +528,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         double delta = toDelta( groups.index( stackIndex ).length(), cardIndex );
-        return new Vector2D( layoutXOffset + INSET + 20 + delta * sign + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta );
+        return new Vector2D( layoutXOffset + INSET + 20 + delta * sign + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta + ( level.shapeType == ShapeType.HORIZONTAL_BAR ? 25 : 0 ) );
     }
 }
