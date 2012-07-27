@@ -18,7 +18,7 @@ public class CombinedMaterial implements EarthMaterial {
         float densityValue = DensityMaterial.densityMap( density ).x;
 
         // HSV
-        float hue = 0;
+        float hue = 0; //REVIEW unused, but mentioned in class doc
         float sat = tempValue;
         float value = densityValue / 2 + 0.5f;
 

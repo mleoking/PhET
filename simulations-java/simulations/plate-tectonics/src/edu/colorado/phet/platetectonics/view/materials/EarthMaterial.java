@@ -12,6 +12,7 @@ public interface EarthMaterial {
     // main color based on density, temperature, etc.
     public Color getColor( float density, float temperature, Vector2F position, float alpha );
 
+    //REVIEW define semantics of min and max colors in the base class context (I see what it means for specific subclasses, but only after investigating)
     // min/max colors used for the legend
     public Color getMinColor();
 
