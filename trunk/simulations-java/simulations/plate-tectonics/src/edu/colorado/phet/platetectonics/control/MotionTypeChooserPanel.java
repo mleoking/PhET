@@ -144,6 +144,8 @@ public class MotionTypeChooserPanel extends PNode {
             else {
                 setSelected( typeEquals( type, plateModel.motionTypeIfStarted.get() ) );
             }
+
+            // update the model change in the LWJGL thread
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent actionEvent ) {
                     LWJGLUtils.invoke( new Runnable() {
@@ -154,6 +156,8 @@ public class MotionTypeChooserPanel extends PNode {
                     setSelected( true );
                 }
             } );
+
+            // update this control in the Swing thread
             plateModel.motionTypeIfStarted.addObserver( new ChangeObserver<MotionType>() {
                 public void update( final MotionType newValue, MotionType oldValue ) {
                     SwingUtilities.invokeLater( new Runnable() {
