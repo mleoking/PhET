@@ -8,6 +8,7 @@ import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PTransformActivity;
 
 /**
  * @author Sam Reid
@@ -29,8 +30,8 @@ public abstract class Stackable<T extends Stackable> extends PNode {
         this.positionInStack = positionInStack;
     }
 
-    public void animateTo( Vector2D v ) {
-        animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, 1000 );
+    public PTransformActivity animateTo( Vector2D v ) {
+        return animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, 1000 );
     }
 
     protected double getAnimateToScale() {

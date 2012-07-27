@@ -7,6 +7,7 @@ import fj.data.Option;
 import java.awt.BasicStroke;
 import java.awt.geom.AffineTransform;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
@@ -15,6 +16,7 @@ import edu.colorado.phet.fractions.buildafraction.view.Stackable;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
+import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -23,7 +25,7 @@ import static java.awt.geom.AffineTransform.getTranslateInstance;
 /**
  * @author Sam Reid
  */
-public class PieceNode extends Stackable {
+public abstract class PieceNode extends Stackable {
     public final Integer pieceSize;
     protected double initialScale = Double.NaN;
     protected final PieceContext context;
@@ -113,4 +115,26 @@ public class PieceNode extends Stackable {
     public void moveToTopOfStack() {
         stack.moveToTopOfStack( this );
     }
+
+    //Show drop shadow when moving back to toolbox
+    public PTransformActivity animateTo( Vector2D v ) {
+        PTransformActivity a = super.animateTo( v );
+        a.setDelegate( new PActivityDelegate() {
+            public void activityStarted( final PActivity activity ) {
+                showShadow();
+            }
+
+            public void activityStepped( final PActivity activity ) {
+            }
+
+            public void activityFinished( final PActivity activity ) {
+                hideShadow();
+            }
+        } );
+        return a;
+    }
+
+    protected abstract void hideShadow();
+
+    protected abstract void showShadow();
 }
