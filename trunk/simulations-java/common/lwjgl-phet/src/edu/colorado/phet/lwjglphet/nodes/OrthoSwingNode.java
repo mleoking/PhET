@@ -128,10 +128,10 @@ public class OrthoSwingNode extends AbstractSwingGraphicsNode {
         /*
          * Here, we basically take our integral component coordinates and find out where (after our projection
          * transformation) we should actually place the component. Usually it ends up with fractional coordinates.
-         * Since we want to keep the HUD node's offset as an integral number so that the HUD pixels map exactly to
+         * Since we want to keep the SwingImage's offset as an integral number so that the SwingImage pixels map exactly to
          * the screen pixels, we need to essentially compute the rectangle with integral coordinates that contains
-         * all of our non-integral transformed component (IE, offsetX, offsetY, hudWidth, hudHeight). We then
-         * position the HUD at those coordinates, and pass in the scale and slight offset so that our Graphics2D
+         * all of our non-integral transformed component (IE, offsetX, offsetY, imageWidth, imageHeight). We then
+         * position the SwingImage at those coordinates, and pass in the scale and slight offset so that our Graphics2D
          * calls paint it at the precise sub-pixel location.
          */
 
@@ -153,9 +153,9 @@ public class OrthoSwingNode extends AbstractSwingGraphicsNode {
         final double imageOffsetX = transformedBounds.getMinX() - offsetX;
         final double imageOffsetY = Math.ceil( transformedBounds.getMaxY() ) - transformedBounds.getMaxY(); // reversed Y handling
 
-        // how large our HUD node needs to be as a raster to render all of our content
-        final int hudWidth = LWJGLUtils.toPowerOf2( ( (int) Math.ceil( transformedBounds.getMaxX() ) ) - offsetX );
-        final int hudHeight = LWJGLUtils.toPowerOf2( ( (int) Math.ceil( transformedBounds.getMaxY() ) ) - offsetY );
+        // how large our SwingImage needs to be as a raster to render all of our content
+        final int imageWidth = LWJGLUtils.toPowerOf2( ( (int) Math.ceil( transformedBounds.getMaxX() ) ) - offsetX );
+        final int imageHeight = LWJGLUtils.toPowerOf2( ( (int) Math.ceil( transformedBounds.getMaxY() ) ) - offsetY );
 
         // debugging for the translation image-offset issues
 //        System.out.println( "----" );
@@ -166,11 +166,11 @@ public class OrthoSwingNode extends AbstractSwingGraphicsNode {
 //        System.out.println( "scales: " + scaleX + ", " + scaleY );
 //        System.out.println( "offsets: " + offsetX + ", " + offsetY );
 //        System.out.println( "image offsets: " + imageOffsetX + ", " + imageOffsetY );
-//        System.out.println( "hud dimension: " + hudWidth + ", " + hudHeight );
+//        System.out.println( "image dimension: " + imageWidth + ", " + imageHeight );
 //        System.out.println( "----" );
 
         // create the new image within the EDT
-        final SwingImage newComponentImage = new SwingImage( hudWidth, hudHeight, true, GL_NEAREST, GL_NEAREST, new AffineTransform() {{
+        final SwingImage newComponentImage = new SwingImage( imageWidth, imageHeight, true, GL_NEAREST, GL_NEAREST, new AffineTransform() {{
             // TODO: note that these image offset values are being ignored in TextureImage due to unexplained "jittery" behavior when slight offsets are encountered
             translate( imageOffsetX, -imageOffsetY );
             scale( scaleX, scaleY );
@@ -179,7 +179,7 @@ public class OrthoSwingNode extends AbstractSwingGraphicsNode {
         // do the rest of the work in the JME thread
         LWJGLCanvas.addTask( new Runnable() {
             public void run() {
-                // hook up new HUD node.
+                // hook up new SwingImage.
                 componentImage = newComponentImage;
             }
         } );

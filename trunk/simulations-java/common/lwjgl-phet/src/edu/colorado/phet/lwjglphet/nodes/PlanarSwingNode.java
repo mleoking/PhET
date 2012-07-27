@@ -77,19 +77,19 @@ public class PlanarSwingNode extends AbstractSwingGraphicsNode {
         glDisable( GL_TEXTURE_2D );
     }
 
-    // if necessary, creates a new HUD node of a different size to display our component
+    // if necessary, creates a new SwingImage of a different size to display our component
     @Override protected synchronized void rebuildComponentImage() {
-        // how large our HUD node needs to be as a raster to render all of our content
-        final int hudWidth = LWJGLUtils.toPowerOf2( size.width );
-        final int hudHeight = LWJGLUtils.toPowerOf2( size.height );
+        // how large our SwingImage needs to be as a raster to render all of our content
+        final int imageWidth = LWJGLUtils.toPowerOf2( size.width );
+        final int imageHeight = LWJGLUtils.toPowerOf2( size.height );
 
         // create the new image within the EDT
-        final SwingImage newComponentImage = new SwingImage( hudWidth, hudHeight, true, GL_LINEAR, GL_LINEAR, new AffineTransform(), component );
+        final SwingImage newComponentImage = new SwingImage( imageWidth, imageHeight, true, GL_LINEAR, GL_LINEAR, new AffineTransform(), component );
 
         // do the rest of the work in the LWJGL thread
         LWJGLCanvas.addTask( new Runnable() {
             public void run() {
-                // hook up new HUD node.
+                // hook up new SwingImage.
                 componentImage = newComponentImage;
                 // TODO: why is this separated in the *ComponentNode classes?
             }
