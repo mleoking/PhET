@@ -209,7 +209,12 @@ a 1/2 and a 1/3.
             selectedShapes = selectedShapes.append( replicate( c.m, cardSizes.index( 1 ) ) );
         }
 
-        return pictureLevel( selectedShapes, selectedTargets, colors[5], ShapeType.PIE );
+        ShapeType x = random.nextBoolean() ? ShapeType.PIE : ShapeType.BAR;
+        return pictureLevel( selectedShapes, selectedTargets, colors[5], selectedTargets.exists( new F<Fraction, Boolean>() {
+            @Override public Boolean f( final Fraction fraction ) {
+                return fraction.denominator >= 7;
+            }
+        } ) ? x : ShapeType.BAR );
     }
 
     private List<Integer> pad( List<Integer> list ) {
