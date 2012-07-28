@@ -404,7 +404,6 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    2(quarters) + (1/3)
     */
     public PictureLevel level10() {
-        new Exception().printStackTrace();
         List<Fraction> available = list( new Fraction( 3, 2 ),
                                          new Fraction( 4, 3 ), new Fraction( 5, 3 ),
                                          new Fraction( 5, 4 ), new Fraction( 7, 4 ),
