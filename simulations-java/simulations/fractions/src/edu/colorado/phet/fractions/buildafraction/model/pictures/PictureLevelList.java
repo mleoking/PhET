@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.fractions.buildafraction.model.Distribution;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
@@ -334,14 +333,6 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
             }
         }
         return result;
-    }
-
-    public static void main( String[] args ) {
-        java.util.List<Permutation> x = Permutation.permutations( 3 );
-        System.out.println( "x = " + x );
-
-        new PictureLevelList();
-//        System.out.println( "seven = " + seven );
     }
 
     private List<Integer> pad( List<Integer> list ) {
