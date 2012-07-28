@@ -42,7 +42,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         add( level5() );
         add( level6() );
         add( level7() );
-        add( level6() );
+        add( level8() );
         add( level6() );
         add( level6() );
     }
@@ -212,12 +212,8 @@ a 1/2 and a 1/3.
             selectedShapes = selectedShapes.append( replicate( c.m, cardSizes.index( 1 ) ) );
         }
 
-        ShapeType x = random.nextBoolean() ? ShapeType.PIE : ShapeType.BAR;
-        return pictureLevel( selectedShapes, selectedTargets, colors[5], selectedTargets.exists( new F<Fraction, Boolean>() {
-            @Override public Boolean f( final Fraction fraction ) {
-                return fraction.denominator >= 7;
-            }
-        } ) ? x : ShapeType.BAR );
+
+        return pictureLevel( selectedShapes, selectedTargets, colors[5], choosePiesOrBars( selectedTargets ) );
     }
 
     /*Level 7:
@@ -366,5 +362,28 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     //Make sure at least one of each number 1-6
     private List<Integer> pad( final List<Integer> list, int value ) {
         return list.elementIndex( Equal.intEqual, value ).isNone() ? list.snoc( value ) : list;
+    }
+
+    /*
+   Level 8 :
+   -- Introduce numbers larger than 1 at this level
+   -- On this level lets have at least 2 numbers larger than 1 as targets
+   -- Enough pieces available to match targets in "obvious ways"...so if 5/4 is a target a whole piece is available and a 1/4 piece available
+    */
+    public PictureLevel level8() {
+        List<Fraction> targets = choose( 2, list( new Fraction( 4, 3 ), new Fraction( 3, 2 ), new Fraction( 5, 4 ),
+                                                  new Fraction( 5, 3 ), new Fraction( 7, 4 ) ) ).
+                append( choose( 2, list( new Fraction( 2, 3 ), new Fraction( 3, 4 ), new Fraction( 2, 5 ), new Fraction( 3, 5 ), new Fraction( 4, 5 ) ) ) );
+        return pictureLevel( straightforwardCards( targets ), shuffle( targets ), colors[7], choosePiesOrBars( targets ) );
+    }
+
+    //if denominator large, use pies otherwise random between pies and bars
+    private ShapeType choosePiesOrBars( final List<Fraction> targets ) {
+        ShapeType x = random.nextBoolean() ? ShapeType.PIE : ShapeType.BAR;
+        return targets.exists( new F<Fraction, Boolean>() {
+            @Override public Boolean f( final Fraction fraction ) {
+                return fraction.denominator >= 7;
+            }
+        } ) ? ShapeType.BAR : x;
     }
 }
