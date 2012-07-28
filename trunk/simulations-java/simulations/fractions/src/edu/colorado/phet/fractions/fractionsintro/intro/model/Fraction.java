@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.fractionsintro.intro.model;
 import fj.F;
 import fj.F2;
 import fj.data.List;
+import fj.function.Integers;
 import lombok.Data;
 
 /**
@@ -15,9 +16,9 @@ public @Data class Fraction {
     public final int numerator;
     public final int denominator;
 
-    public double toDouble() {
-        return (double) numerator / denominator;
-    }
+    public double toDouble() { return ( (double) numerator ) / denominator; }
+
+    public String toString() { return numerator + "/" + denominator; }
 
     //Returns true of the fractions have the same numeric value (i.e. are reducible to the same value)
     public boolean approxEquals( final Fraction fractionValue ) { return Math.abs( toDouble() - fractionValue.toDouble() ) < 1E-6; }
@@ -68,11 +69,7 @@ public @Data class Fraction {
             }
         } );
 
-        Integer sum = numerators.foldLeft( new F2<Integer, Integer, Integer>() {
-            @Override public Integer f( final Integer integer, final Integer integer1 ) {
-                return integer + integer1;
-            }
-        }, 0 );
+        Integer sum = numerators.foldLeft( Integers.add, 0 );
         return fraction( sum, denominator ).reduce();
     }
 
@@ -80,7 +77,7 @@ public @Data class Fraction {
         System.out.println( "sum = " + sum( List.list( fraction( 1, 2 ), fraction( 2, 3 ), fraction( 1, 6 ) ) ) );
     }
 
-    public Fraction plus( final Fraction fraction ) {
-        return sum( List.list( this, fraction ) );
-    }
+    public Fraction plus( final int numerator, final int denominator ) { return plus( new Fraction( numerator, denominator ) ); }
+
+    public Fraction plus( final Fraction fraction ) { return sum( List.list( this, fraction ) ); }
 }
