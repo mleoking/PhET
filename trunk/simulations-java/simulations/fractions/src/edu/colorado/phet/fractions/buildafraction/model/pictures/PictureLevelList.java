@@ -5,6 +5,7 @@ import fj.Equal;
 import fj.F;
 import fj.Ord;
 import fj.data.List;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -28,21 +29,19 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
     public PictureLevelList() {
         boolean level1Pies = random.nextBoolean();
         boolean level3Pies = random.nextBoolean();
-        boolean level5Pies = random.nextBoolean();
-        boolean level7Pies = random.nextBoolean();
+        boolean level6Pies = random.nextBoolean();
+        boolean level8Pies = random.nextBoolean();
         boolean level9Pies = random.nextBoolean();
         add( level1( level1Pies ) );
         add( level2( !level1Pies ) );
         add( level3( level3Pies ) );
         add( level4( !level3Pies ) );
         add( level5() );
-
-        //Copy level 5 for now until we have declarations 6-10
-        add( level5() );
-        add( level5() );
-        add( level5() );
-        add( level5() );
-        add( level5() );
+        add( level6() );
+        add( level6() );
+        add( level6() );
+        add( level6() );
+        add( level6() );
     }
 
     /* Level 1:
@@ -156,6 +155,61 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
             }
         } );
         return pictureLevel( straightforwardCards( selected ), selected, colors[4], ShapeType.PIE );
+    }
+
+    public static final @Data class ShapesAndTargets {
+        public final List<Integer> cards;
+        public final List<Fraction> targets;
+    }
+
+    public static @Data class Coefficients {
+        public final int n;
+        public final int m;
+    }
+
+    /*Level 6:
+--Lets try a challenge for this level where all targets are made from only 2 stacks of the same size pieces
+--So for instance we give a stack of thirds and a stack of halves, and {2/3, 2/4, 5/6, 1/1} are the target fractions, but we constrain the
+pieces so that some fractions must be made in "interesting" ways.  2/3 could just be made with 2 third pieces, but 5/6 would need to be made of
+a 1/2 and a 1/3.
+-- It seems the sets that would work well for pieces would be, {1/2, 1/3}, {1/2, 1/4}, {1/3, 1/4}, {1/2, 1/6}, {1/3, 1/6}, {1/4, 1/8}, {1/2, 1/8}
+--the constraint should be such that only enough pieces exist to complete the targets.
+
+    But keep the values less than 1 by trial and error.*/
+    private PictureLevel level6() {
+        PictureLevel level = sampleLevel6();
+        if ( !level.hasValuesGreaterThanOne() ) {
+            return level;
+        }
+        else {
+            return level6();
+        }
+    }
+
+    private PictureLevel sampleLevel6() {//let's implement this my making each solution as na + mb, where a and b are the fractions from pairs above
+        final List<Integer> cardSizes = chooseOne( list( list( 2, 3 ), list( 2, 4 ), list( 3, 4 ), list( 2, 6 ), list( 3, 6 ), list( 4, 8 ), list( 2, 8 ) ) );
+
+        List<Coefficients> nmPairs = list( new Coefficients( 0, 1 ), new Coefficients( 1, 0 ),
+                                           new Coefficients( 1, 1 ), new Coefficients( 1, 2 ), new Coefficients( 2, 1 ), new Coefficients( 2, 2 ),
+                                           new Coefficients( 3, 1 ), new Coefficients( 1, 3 ) );
+
+        List<Coefficients> selectedCoefficients = choose( 4, nmPairs );
+
+        List<Fraction> selectedTargets = selectedCoefficients.map( new F<Coefficients, Fraction>() {
+            @Override public Fraction f( final Coefficients c ) {
+                Fraction a = new Fraction( c.n, cardSizes.index( 0 ) );
+                Fraction b = new Fraction( c.m, cardSizes.index( 1 ) );
+                return a.plus( b ).reduce();
+            }
+        } );
+
+        List<Integer> selectedShapes = nil();
+        for ( Coefficients c : selectedCoefficients ) {
+            selectedShapes = selectedShapes.append( replicate( c.n, cardSizes.index( 0 ) ) );
+            selectedShapes = selectedShapes.append( replicate( c.m, cardSizes.index( 1 ) ) );
+        }
+
+        return pictureLevel( selectedShapes, selectedTargets, colors[5], ShapeType.PIE );
     }
 
     private List<Integer> pad( List<Integer> list ) {
