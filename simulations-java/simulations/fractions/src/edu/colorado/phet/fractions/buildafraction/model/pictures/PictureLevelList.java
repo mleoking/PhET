@@ -389,6 +389,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     */
     public PictureLevel level9() {
         List<Fraction> targets = level8Targets();
+        //TODO: make cards be non-straightforward.  Possibly by consolidating into pieces as large as possible, then doing random subdivisions.
         return pictureLevel( straightforwardCards( targets ), shuffle( targets ), colors[8], choosePiesOrBars( targets ) );
     }
 
