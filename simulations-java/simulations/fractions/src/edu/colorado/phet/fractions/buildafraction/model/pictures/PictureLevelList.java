@@ -382,6 +382,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     }
 
     /*
+   Level 9
    --Same as level 8 but now some targets only allow "non-obvious" matches with pieces.  For instance, if the target is greater than one, no
    "wholes" should be available.  So if 5/4 is a target it would need to be built from something like 2 half pieces and a quarter piece
     */
