@@ -285,6 +285,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
 
     //Brute force search for solutions.
     //note: only works for fractions < 1
+    //To apply to fractions > 1, we could call it repeatedly
     private ArrayList<List<Integer>> getCoefficientSets( final Fraction fraction ) {
 
         List<Integer> a1 = range( 0, 2 );
