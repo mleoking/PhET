@@ -376,9 +376,10 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     }
 
     private List<Fraction> level8Targets() {
-        return choose( 2, list( new Fraction( 4, 3 ), new Fraction( 3, 2 ), new Fraction( 5, 4 ),
-                                new Fraction( 5, 3 ), new Fraction( 7, 4 ) ) ).
-                append( choose( 2, list( new Fraction( 2, 3 ), new Fraction( 3, 4 ), new Fraction( 2, 5 ), new Fraction( 3, 5 ), new Fraction( 4, 5 ) ) ) );
+        final List<Fraction> large = choose( 2, list( new Fraction( 4, 3 ), new Fraction( 3, 2 ), new Fraction( 5, 4 ),
+                                                      new Fraction( 5, 3 ), new Fraction( 7, 4 ) ) );
+        final List<Fraction> small = choose( 2, list( new Fraction( 2, 3 ), new Fraction( 3, 4 ), new Fraction( 2, 5 ), new Fraction( 3, 5 ), new Fraction( 4, 5 ) ) );
+        return large.append( small );
     }
 
     /*
