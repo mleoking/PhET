@@ -17,9 +17,7 @@ public class BuildAFractionApplication extends PiccoloPhetApplication {
         super( config );
 
         addModule( new BuildAFractionModule( new BuildAFractionModel(), config.isDev() ) );
-
-        //TODO: add back this module for the standalone version.  Removed for now to increase speed of computation for level 10 and other expensive levels
-//        addModule( new BuildAMixedFractionModule( new BuildAFractionModel(), config.isDev() ) );
+        addModule( new BuildAMixedFractionModule( new BuildAFractionModel(), config.isDev() ) );
     }
 
     public static void main( String[] args ) {
