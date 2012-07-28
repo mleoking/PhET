@@ -30,6 +30,9 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
     private final Random random = new Random();
 
     public PictureLevelList() {
+
+        //For levels 1-4, either tiles or pies will work
+        //SR: Let's make level 1 = pies/tiles then level 2 opposite of level 1, then same for 3-4
         boolean level1Pies = random.nextBoolean();
         boolean level3Pies = random.nextBoolean();
         add( level1( level1Pies ) );
