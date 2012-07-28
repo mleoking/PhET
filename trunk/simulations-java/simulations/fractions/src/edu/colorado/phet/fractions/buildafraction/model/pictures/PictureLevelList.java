@@ -234,21 +234,40 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         P2<Fraction, Fraction> selected = chooseTwo( available );
         List<Fraction> targets = list( selected._1(), selected._1(), selected._2(), selected._2() );
 
-        //Could find all solutions to an underconstrained system.
-        //But we just need any solution that is different from previous.
+        ArrayList<List<Integer>> coefficientsTop = lookupCoefficientSets( selected._1() );
+        List<List<Integer>> chosenTop = choose( 2, iterableList( coefficientsTop ) );
 
-        //Use JAMA to solve matrix system?
-        Fraction result = selected._1();
+        ArrayList<List<Integer>> coefficientsBottom = lookupCoefficientSets( selected._2() );
+        List<List<Integer>> chosenBottom = choose( 2, iterableList( coefficientsBottom ) );
 
-        //result = a/1 + b/2 + c/3 + d/4 + e/5 + f/6 + g/7 + h/8
-        //constrain variables to be integer, and several of them to be zero.
-
-        //also a = {0 or 1} b= {0,1,2} c = {0,1,2,3}
-        getCoefficientSets( result );
-        for ( Fraction a : available ) {
-            System.out.println( a + " => " + getCoefficientSets( a ) );
+        List<Integer> shapes = nil();
+        for ( List<Integer> coefficients : chosenTop.append( chosenBottom ) ) {
+            for ( int i = 0; i < coefficients.length(); i++ ) {
+                int size = i + 1;
+                int numberToGet = coefficients.index( i );
+                for ( int k = 0; k < numberToGet; k++ ) {
+                    shapes = shapes.snoc( size );
+                }
+            }
         }
-        return null;
+
+        return pictureLevel( shapes, targets, colors[6], ShapeType.PIE );
+//
+//        //Could find all solutions to an underconstrained system.
+//        //But we just need any solution that is different from previous.
+//
+//        //Use JAMA to solve matrix system?
+//        Fraction result = selected._1();
+//
+//        //result = a/1 + b/2 + c/3 + d/4 + e/5 + f/6 + g/7 + h/8
+//        //constrain variables to be integer, and several of them to be zero.
+//
+//        //also a = {0 or 1} b= {0,1,2} c = {0,1,2,3}
+//        getCoefficientSets( result );
+//        for ( Fraction a : available ) {
+//            System.out.println( a + " => " + getCoefficientSets( a ) );
+//        }
+//        return null;
     }
 
     private ArrayList<List<Integer>> lookupCoefficientSets( final Fraction fraction ) {
@@ -322,7 +341,9 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
                 int number = Integer.parseInt( st2.nextToken() );
                 values = values.snoc( number );
             }
-            result.add( values );
+            if ( values.length() > 0 ) {
+                result.add( values );
+            }
         }
         return result;
     }
