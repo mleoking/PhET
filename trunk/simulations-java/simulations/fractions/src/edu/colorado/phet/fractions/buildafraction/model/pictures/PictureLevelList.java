@@ -10,6 +10,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.fractions.buildafraction.model.Distribution;
@@ -250,9 +251,21 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         return null;
     }
 
+    private ArrayList<List<Integer>> lookupCoefficientSets( final Fraction fraction ) {
+        if ( fraction.reduce().equals( new Fraction( 1, 2 ) ) ) { return parse( "[<0,0,0,0,0,0,0,4>, <0,0,0,0,0,3,0,0>, <0,0,0,1,0,0,0,2>, <0,0,0,2,0,0,0,0>, <0,0,1,0,0,1,0,0>, <0,1,0,0,0,0,0,0>]" ); }
+        if ( fraction.reduce().equals( new Fraction( 1, 3 ) ) ) { return parse( "[<0,0,0,0,0,2,0,0>, <0,0,1,0,0,0,0,0>]" ); }
+        if ( fraction.reduce().equals( new Fraction( 2, 3 ) ) ) { return parse( "[<0,0,0,0,0,1,0,4>, <0,0,0,0,0,4,0,0>, <0,0,0,1,0,1,0,2>, <0,0,0,2,0,1,0,0>, <0,0,1,0,0,2,0,0>, <0,0,2,0,0,0,0,0>, <0,1,0,0,0,1,0,0>]" ); }
+        if ( fraction.reduce().equals( new Fraction( 1, 4 ) ) ) { return parse( "[<0,0,0,0,0,0,0,2>, <0,0,0,1,0,0,0,0>]" ); }
+        if ( fraction.reduce().equals( new Fraction( 3, 4 ) ) ) { return parse( "[<0,0,0,0,0,0,0,6>, <0,0,0,0,0,3,0,2>, <0,0,0,1,0,0,0,4>, <0,0,0,1,0,3,0,0>, <0,0,0,2,0,0,0,2>, <0,0,0,3,0,0,0,0>, <0,0,1,0,0,1,0,2>, <0,0,1,1,0,1,0,0>, <0,1,0,0,0,0,0,2>, <0,1,0,1,0,0,0,0>]" ); }
+        if ( fraction.reduce().equals( new Fraction( 5, 6 ) ) ) { return parse( "[<0,0,0,0,0,2,0,4>, <0,0,0,0,0,5,0,0>, <0,0,0,1,0,2,0,2>, <0,0,0,2,0,2,0,0>, <0,0,1,0,0,0,0,4>, <0,0,1,0,0,3,0,0>, <0,0,1,1,0,0,0,2>, <0,0,1,2,0,0,0,0>, <0,0,2,0,0,1,0,0>, <0,1,0,0,0,2,0,0>, <0,1,1,0,0,0,0,0>]" ); }
+        if ( fraction.reduce().equals( new Fraction( 3, 8 ) ) ) { return parse( "[<0,0,0,0,0,0,0,3>, <0,0,0,1,0,0,0,1>]" ); }
+        if ( fraction.reduce().equals( new Fraction( 5, 8 ) ) ) { return parse( "[<0,0,0,0,0,0,0,5>, <0,0,0,0,0,3,0,1>, <0,0,0,1,0,0,0,3>, <0,0,0,2,0,0,0,1>, <0,0,1,0,0,1,0,1>, <0,1,0,0,0,0,0,1>]" ); }
+        throw new RuntimeException( "not in table: " + fraction );
+    }
+
     //Brute force search for solutions.
     //note: only works for fractions < 1
-    private ArrayList<List<Integer>> getCoefficientSets( final Fraction f ) {
+    private ArrayList<List<Integer>> getCoefficientSets( final Fraction fraction ) {
 
         List<Integer> a1 = range( 0, 2 );
         List<Integer> a2 = range( 0, 3 );
@@ -284,7 +297,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
                                                                            cc, dd,
                                                                            ee, ff,
                                                                            gg, hh ) );
-                                        if ( sum.equals( f ) ) {
+                                        if ( sum.equals( fraction ) ) {
                                             coefficients.add( list( a, b, c, d, e, f, g, h ) );
                                         }
                                     }
@@ -296,6 +309,22 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
             }
         }
         return coefficients;
+    }
+
+    private ArrayList<List<Integer>> parse( final String s ) {
+        ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
+        StringTokenizer st = new StringTokenizer( s, ">" );
+        while ( st.hasMoreTokens() ) {
+            String list = st.nextToken();
+            StringTokenizer st2 = new StringTokenizer( list, "[]<>, " );
+            List<Integer> values = nil();
+            while ( st2.hasMoreTokens() ) {
+                int number = Integer.parseInt( st2.nextToken() );
+                values = values.snoc( number );
+            }
+            result.add( values );
+        }
+        return result;
     }
 
     public static void main( String[] args ) {
