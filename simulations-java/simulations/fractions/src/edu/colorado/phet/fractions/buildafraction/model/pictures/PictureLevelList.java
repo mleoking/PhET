@@ -43,7 +43,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         add( level6() );
         add( level7() );
         add( level8() );
-        add( level6() );
+        add( level9() );
         add( level6() );
     }
 
@@ -371,10 +371,23 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    -- Enough pieces available to match targets in "obvious ways"...so if 5/4 is a target a whole piece is available and a 1/4 piece available
     */
     public PictureLevel level8() {
-        List<Fraction> targets = choose( 2, list( new Fraction( 4, 3 ), new Fraction( 3, 2 ), new Fraction( 5, 4 ),
-                                                  new Fraction( 5, 3 ), new Fraction( 7, 4 ) ) ).
-                append( choose( 2, list( new Fraction( 2, 3 ), new Fraction( 3, 4 ), new Fraction( 2, 5 ), new Fraction( 3, 5 ), new Fraction( 4, 5 ) ) ) );
+        List<Fraction> targets = level8Targets();
         return pictureLevel( straightforwardCards( targets ), shuffle( targets ), colors[7], choosePiesOrBars( targets ) );
+    }
+
+    private List<Fraction> level8Targets() {
+        return choose( 2, list( new Fraction( 4, 3 ), new Fraction( 3, 2 ), new Fraction( 5, 4 ),
+                                new Fraction( 5, 3 ), new Fraction( 7, 4 ) ) ).
+                append( choose( 2, list( new Fraction( 2, 3 ), new Fraction( 3, 4 ), new Fraction( 2, 5 ), new Fraction( 3, 5 ), new Fraction( 4, 5 ) ) ) );
+    }
+
+    /*
+   --Same as level 8 but now some targets only allow "non-obvious" matches with pieces.  For instance, if the target is greater than one, no
+   "wholes" should be available.  So if 5/4 is a target it would need to be built from something like 2 half pieces and a quarter piece
+    */
+    public PictureLevel level9() {
+        List<Fraction> targets = level8Targets();
+        return pictureLevel( straightforwardCards( targets ), shuffle( targets ), colors[8], choosePiesOrBars( targets ) );
     }
 
     //if denominator large, use pies otherwise random between pies and bars
