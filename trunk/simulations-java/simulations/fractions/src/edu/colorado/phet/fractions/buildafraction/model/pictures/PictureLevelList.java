@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.buildafraction.model.pictures;
 
 import fj.Equal;
+import fj.F;
 import fj.Ord;
 import fj.data.List;
 
@@ -11,8 +12,7 @@ import java.util.Random;
 import edu.colorado.phet.fractions.buildafraction.model.Distribution;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
-import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.choose;
-import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
 import static edu.colorado.phet.fractions.buildafraction.model.pictures.PictureLevel.pictureLevel;
 import static edu.colorado.phet.fractions.buildafraction.view.LevelSelectionNode.colors;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction._numerator;
@@ -35,14 +35,14 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         add( level2( !level1Pies ) );
         add( level3( level3Pies ) );
         add( level4( !level3Pies ) );
-        add( level5( level5Pies ) );
+        add( level5() );
 
         //Copy level 5 for now until we have declarations 6-10
-        add( level5( !level5Pies ) );
-        add( level5( level7Pies ) );
-        add( level5( !level7Pies ) );
-        add( level5( level9Pies ) );
-        add( level5( !level9Pies ) );
+        add( level5() );
+        add( level5() );
+        add( level5() );
+        add( level5() );
+        add( level5() );
     }
 
     /* Level 1:
@@ -86,11 +86,11 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         List<Fraction> selected = choose( 3, targets );
 
         //Use same number for each card type
-        return pictureLevel( minimalNumberCards( selected ), selected, colors[1], booleanToShape( pies ) );
+        return pictureLevel( straightforwardCards( selected ), selected, colors[1], booleanToShape( pies ) );
     }
 
     //Just the exact cards necessary to fit the selected fractions
-    private List<Integer> minimalNumberCards( final List<Fraction> selected ) {
+    private List<Integer> straightforwardCards( final List<Fraction> selected ) {
         List<Integer> cards = nil();
         for ( Fraction fraction : selected ) {
             for ( int i = 0; i < fraction.numerator; i++ ) {
@@ -141,20 +141,21 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         return pictureLevel( list( 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6 ), replicate( 3, fraction( 1, 2 ) ), colors[3], booleanToShape( pies ) );
     }
 
-    /* Level 5:
-Description: Numbers larger than 1
-Targets: Choose 3 unique fractions from {2/3, 3/4, 4/5, 3/5, 5/6} and one from {1/3, 1/4, 1/5, 1/6}
-Containers: 3 each of {3/3, 4/4, 5/5, 6/6}
-Pieces: 6 each of (1/3, 1/4, 1/5, 1/6}*/
-    private PictureLevel level5( final boolean level5Pies ) {
-        List<Fraction> list = list( fraction( 3, 2 ),
-                                    fraction( 4, 3 ),
-                                    fraction( 5, 4 ),
-                                    fraction( 5, 3 ) );
-
-        List<Fraction> selected = choose( 4, list );
-        return pictureLevel(
-                pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, colors[4], ShapeType.PIE );
+    /*Level 5:
+    --At this point I think we should switch to 4 bins for all future levels
+    -SR: Let's make this one have 3 challenges so it can fit on the page with 3 stars per level
+    -- Let's use pie shapes for this level
+    - numerator able to range from 1-8, and denominator able to range from 1-8, with the number less than or equal to 1
+    - all pieces available to fulfill targets in the most straightforward way (so for instance if 3/8 appears there will 3 1/8 pieces)*/
+    private PictureLevel level5() {
+        List<Integer> values = range( 1, 9 );
+        List<Integer> denominators = choose( 3, values );
+        List<Fraction> selected = denominators.map( new F<Integer, Fraction>() {
+            @Override public Fraction f( final Integer denominator ) {
+                return new Fraction( chooseOne( range( 1, denominator + 1 ) ), denominator );
+            }
+        } );
+        return pictureLevel( straightforwardCards( selected ), selected, colors[4], ShapeType.PIE );
     }
 
     private List<Integer> pad( List<Integer> list ) {
