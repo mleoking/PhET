@@ -299,40 +299,31 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
 
         //Try all combinations of coefficients, but bail if it gets too large to make it efficient to run in realtime.
         ArrayList<List<Integer>> coefficients = new ArrayList<List<Integer>>();
-        for ( int a : a1 ) {
-            final Fraction f1 = new Fraction( a, 1 );
-            Fraction sum1 = f1;
+        for ( int i1 : a1 ) {
+            Fraction sum1 = new Fraction( i1, 1 );
             if ( sum1.leq( target ) ) {
-                for ( int b : a2 ) {
-                    final Fraction f2 = new Fraction( b, 2 );
-                    Fraction sum2 = sum1.plus( f2 );
+                for ( int i2 : a2 ) {
+                    Fraction sum2 = sum1.plus( new Fraction( i2, 2 ) );
                     if ( sum2.leq( target ) ) {
-                        for ( int c : a3 ) {
-                            final Fraction f3 = new Fraction( c, 3 );
-                            Fraction sum3 = sum2.plus( f3 );
+                        for ( int i3 : a3 ) {
+                            Fraction sum3 = sum2.plus( new Fraction( i3, 3 ) );
                             if ( sum3.leq( target ) ) {
-                                for ( int d : a4 ) {
-                                    final Fraction f4 = new Fraction( d, 4 );
-                                    Fraction sum4 = sum3.plus( f4 );
+                                for ( int i4 : a4 ) {
+                                    Fraction sum4 = sum3.plus( new Fraction( i4, 4 ) );
                                     if ( sum4.leq( target ) ) {
-                                        for ( int e : a5 ) {
-                                            final Fraction f5 = new Fraction( e, 5 );
-                                            Fraction sum5 = sum4.plus( f5 );
+                                        for ( int i5 : a5 ) {
+                                            Fraction sum5 = sum4.plus( new Fraction( i5, 5 ) );
                                             if ( sum5.leq( target ) ) {
-                                                for ( int f : a6 ) {
-                                                    final Fraction f6 = new Fraction( f, 6 );
-                                                    Fraction sum6 = sum5.plus( f6 );
+                                                for ( int i6 : a6 ) {
+                                                    Fraction sum6 = sum5.plus( new Fraction( i6, 6 ) );
                                                     if ( sum6.leq( target ) ) {
-                                                        for ( int g : a7 ) {
-                                                            final Fraction f7 = new Fraction( g, 7 );
-                                                            Fraction sum7 = sum6.plus( f7 );
+                                                        for ( int i7 : a7 ) {
+                                                            Fraction sum7 = sum6.plus( new Fraction( i7, 7 ) );
                                                             if ( sum6.leq( target ) ) {
-                                                                for ( int h : a8 ) {
-                                                                    final Fraction f8 = new Fraction( h, 8 );
-                                                                    Fraction sum8 = sum7.plus( f8 );
-                                                                    Fraction sum = sum8;
+                                                                for ( int i8 : a8 ) {
+                                                                    Fraction sum = sum7.plus( new Fraction( i8, 8 ) );
                                                                     if ( sum.equals( target ) ) {
-                                                                        coefficients.add( list( a, b, c, d, e, f, g, h ) );
+                                                                        coefficients.add( list( i1, i2, i3, i4, i5, i6, i7, i8 ) );
                                                                     }
                                                                 }
                                                             }
