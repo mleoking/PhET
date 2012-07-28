@@ -239,22 +239,6 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         List<Integer> shapes = coefficientsToShapes( chosenTop.append( chosenBottom ) );
 
         return pictureLevel( shapes, targets, colors[6], ShapeType.PIE );
-//
-//        //Could find all solutions to an underconstrained system.
-//        //But we just need any solution that is different from previous.
-//
-//        //Use JAMA to solve matrix system?
-//        Fraction result = selected._1();
-//
-//        //result = a/1 + b/2 + c/3 + d/4 + e/5 + f/6 + g/7 + h/8
-//        //constrain variables to be integer, and several of them to be zero.
-//
-//        //also a = {0 or 1} b= {0,1,2} c = {0,1,2,3}
-//        getCoefficientSets( result );
-//        for ( Fraction a : available ) {
-//            System.out.println( a + " => " + getCoefficientSets( a ) );
-//        }
-//        return null;
     }
 
     private List<Integer> coefficientsToShapes( final List<List<Integer>> allCoefficients ) {
@@ -283,44 +267,35 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         throw new RuntimeException( "not in table: " + fraction );
     }
 
-    //Brute force search for solutions.
-    //note: only works for fractions < 1
-    //To apply to fractions > 1, we could call it repeatedly
+    //Brute force search for coefficients that make n*1/1 + m * 1/2 + o * 1/3 + ... solve the given fraction.
     private ArrayList<List<Integer>> getCoefficientSets( final Fraction target ) {
 
-        List<Integer> a1 = range( 0, 2 );
-        List<Integer> a2 = range( 0, 3 );
-        List<Integer> a3 = range( 0, 4 );
-        List<Integer> a4 = range( 0, 5 );
-        List<Integer> a5 = range( 0, 6 );
-        List<Integer> a6 = range( 0, 7 );
-        List<Integer> a7 = range( 0, 8 );
-        List<Integer> a8 = range( 0, 9 );
+        List<Integer> range = range( 0, 9 );
 
         //Try all combinations of coefficients, but bail if it gets too large to make it efficient to run in realtime.
         ArrayList<List<Integer>> coefficients = new ArrayList<List<Integer>>();
-        for ( int i1 : a1 ) {
+        for ( int i1 : range ) {
             Fraction sum1 = new Fraction( i1, 1 );
             if ( sum1.leq( target ) ) {
-                for ( int i2 : a2 ) {
+                for ( int i2 : range ) {
                     Fraction sum2 = sum1.plus( new Fraction( i2, 2 ) );
                     if ( sum2.leq( target ) ) {
-                        for ( int i3 : a3 ) {
+                        for ( int i3 : range ) {
                             Fraction sum3 = sum2.plus( new Fraction( i3, 3 ) );
                             if ( sum3.leq( target ) ) {
-                                for ( int i4 : a4 ) {
+                                for ( int i4 : range ) {
                                     Fraction sum4 = sum3.plus( new Fraction( i4, 4 ) );
                                     if ( sum4.leq( target ) ) {
-                                        for ( int i5 : a5 ) {
+                                        for ( int i5 : range ) {
                                             Fraction sum5 = sum4.plus( new Fraction( i5, 5 ) );
                                             if ( sum5.leq( target ) ) {
-                                                for ( int i6 : a6 ) {
+                                                for ( int i6 : range ) {
                                                     Fraction sum6 = sum5.plus( new Fraction( i6, 6 ) );
                                                     if ( sum6.leq( target ) ) {
-                                                        for ( int i7 : a7 ) {
+                                                        for ( int i7 : range ) {
                                                             Fraction sum7 = sum6.plus( new Fraction( i7, 7 ) );
                                                             if ( sum6.leq( target ) ) {
-                                                                for ( int i8 : a8 ) {
+                                                                for ( int i8 : range ) {
                                                                     Fraction sum = sum7.plus( new Fraction( i8, 8 ) );
                                                                     if ( sum.equals( target ) ) {
                                                                         coefficients.add( list( i1, i2, i3, i4, i5, i6, i7, i8 ) );
