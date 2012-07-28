@@ -544,14 +544,14 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         return new Vector2D( layoutXOffset + INSET + 20 + delta * sign + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta + ( level.shapeType == ShapeType.BAR ? 25 : 0 ) );
     }
 
-    private double toDelta( final int numInGroup, final int pieceIndex ) {
+    private double toDelta( final int numInGroup, final int cardIndex ) {
         double dx = level.shapeType == ShapeType.BAR ? -3.0 : -3.0;
         double totalHorizontalSpacing = dx * ( numInGroup - 1 );
-        return getDelta( numInGroup, pieceIndex, totalHorizontalSpacing );
+        return getDelta( numInGroup, cardIndex, totalHorizontalSpacing );
     }
 
-    private double getDelta( final int numInGroup, final int pieceIndex, final double totalHorizontalSpacing ) {
+    private double getDelta( final int numInGroup, final int cardIndex, final double totalHorizontalSpacing ) {
         LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
-        return numInGroup == 1 ? 0 : offset.evaluate( pieceIndex );
+        return numInGroup == 1 ? 0 : offset.evaluate( cardIndex );
     }
 }
