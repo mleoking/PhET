@@ -286,7 +286,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     //Brute force search for solutions.
     //note: only works for fractions < 1
     //To apply to fractions > 1, we could call it repeatedly
-    private ArrayList<List<Integer>> getCoefficientSets( final Fraction fraction ) {
+    private ArrayList<List<Integer>> getCoefficientSets( final Fraction target ) {
 
         List<Integer> a1 = range( 0, 2 );
         List<Integer> a2 = range( 0, 3 );
@@ -297,29 +297,49 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         List<Integer> a7 = range( 0, 8 );
         List<Integer> a8 = range( 0, 9 );
 
+        //Try all combinations of coefficients, but bail if it gets too large to make it efficient to run in realtime.
         ArrayList<List<Integer>> coefficients = new ArrayList<List<Integer>>();
         for ( int a : a1 ) {
-            final Fraction aa = new Fraction( a, 1 );
-            for ( int b : a2 ) {
-                final Fraction bb = new Fraction( b, 2 );
-                for ( int c : a3 ) {
-                    final Fraction cc = new Fraction( c, 3 );
-                    for ( int d : a4 ) {
-                        final Fraction dd = new Fraction( d, 4 );
-                        for ( int e : a5 ) {
-                            final Fraction ee = new Fraction( e, 5 );
-                            for ( int f : a6 ) {
-                                final Fraction ff = new Fraction( f, 6 );
-                                for ( int g : a7 ) {
-                                    final Fraction gg = new Fraction( g, 7 );
-                                    for ( int h : a8 ) {
-                                        final Fraction hh = new Fraction( h, 8 );
-                                        Fraction sum = Fraction.sum( list( aa, bb,
-                                                                           cc, dd,
-                                                                           ee, ff,
-                                                                           gg, hh ) );
-                                        if ( sum.equals( fraction ) ) {
-                                            coefficients.add( list( a, b, c, d, e, f, g, h ) );
+            final Fraction f1 = new Fraction( a, 1 );
+            Fraction sum1 = f1;
+            if ( sum1.leq( target ) ) {
+                for ( int b : a2 ) {
+                    final Fraction f2 = new Fraction( b, 2 );
+                    Fraction sum2 = sum1.plus( f2 );
+                    if ( sum2.leq( target ) ) {
+                        for ( int c : a3 ) {
+                            final Fraction f3 = new Fraction( c, 3 );
+                            Fraction sum3 = sum2.plus( f3 );
+                            if ( sum3.leq( target ) ) {
+                                for ( int d : a4 ) {
+                                    final Fraction f4 = new Fraction( d, 4 );
+                                    Fraction sum4 = sum3.plus( f4 );
+                                    if ( sum4.leq( target ) ) {
+                                        for ( int e : a5 ) {
+                                            final Fraction f5 = new Fraction( e, 5 );
+                                            Fraction sum5 = sum4.plus( f5 );
+                                            if ( sum5.leq( target ) ) {
+                                                for ( int f : a6 ) {
+                                                    final Fraction f6 = new Fraction( f, 6 );
+                                                    Fraction sum6 = sum5.plus( f6 );
+                                                    if ( sum6.leq( target ) ) {
+                                                        for ( int g : a7 ) {
+                                                            final Fraction f7 = new Fraction( g, 7 );
+                                                            Fraction sum7 = sum6.plus( f7 );
+                                                            if ( sum6.leq( target ) ) {
+                                                                for ( int h : a8 ) {
+                                                                    final Fraction f8 = new Fraction( h, 8 );
+                                                                    Fraction sum8 = sum7.plus( f8 );
+                                                                    Fraction sum = sum8;
+                                                                    if ( sum.equals( target ) ) {
+                                                                        coefficients.add( list( a, b, c, d, e, f, g, h ) );
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }

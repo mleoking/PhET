@@ -80,4 +80,8 @@ public @Data class Fraction {
     public Fraction plus( final int numerator, final int denominator ) { return plus( new Fraction( numerator, denominator ) ); }
 
     public Fraction plus( final Fraction fraction ) { return sum( List.list( this, fraction ) ); }
+
+    public boolean leq( final Fraction target ) {
+        return this.toDouble() <= target.toDouble();
+    }
 }
