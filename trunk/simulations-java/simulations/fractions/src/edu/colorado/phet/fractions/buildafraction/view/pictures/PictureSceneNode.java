@@ -280,17 +280,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         }} );
     }
 
-    private double toDelta( final int numInGroup, final int pieceIndex ) {
-        double dx = level.shapeType == ShapeType.BAR ? -3.0 : -3.0;
-        double totalHorizontalSpacing = dx * ( numInGroup - 1 );
-        return getDelta( numInGroup, pieceIndex, totalHorizontalSpacing );
-    }
-
-    private double getDelta( final int numInGroup, final int pieceIndex, final double totalHorizontalSpacing ) {
-        LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
-        return numInGroup == 1 ? 0 : offset.evaluate( pieceIndex );
-    }
-
     //clear cards and target values, then get some new ones
     public VoidFunction0 _resampleLevel = new VoidFunction0() {
         public void apply() {
@@ -553,5 +542,16 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         double delta = toDelta( groups.index( stackIndex ).length(), cardIndex );
         return new Vector2D( layoutXOffset + INSET + 20 + delta * sign + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta + ( level.shapeType == ShapeType.BAR ? 25 : 0 ) );
+    }
+
+    private double toDelta( final int numInGroup, final int pieceIndex ) {
+        double dx = level.shapeType == ShapeType.BAR ? -3.0 : -3.0;
+        double totalHorizontalSpacing = dx * ( numInGroup - 1 );
+        return getDelta( numInGroup, pieceIndex, totalHorizontalSpacing );
+    }
+
+    private double getDelta( final int numInGroup, final int pieceIndex, final double totalHorizontalSpacing ) {
+        LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
+        return numInGroup == 1 ? 0 : offset.evaluate( pieceIndex );
     }
 }
