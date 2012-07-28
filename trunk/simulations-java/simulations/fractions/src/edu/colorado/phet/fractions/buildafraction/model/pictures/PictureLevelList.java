@@ -233,12 +233,6 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         P2<Fraction, Fraction> selected = chooseTwo( available );
         List<Fraction> targets = list( selected._1(), selected._1(), selected._2(), selected._2() );
 
-        List<List<Integer>> shapesForEachTarget = targets.map( new F<Fraction, List<Integer>>() {
-            @Override public List<Integer> f( final Fraction fraction ) {
-                return null;
-            }
-        } );
-
         //Could find all solutions to an underconstrained system.
         //But we just need any solution that is different from previous.
 
@@ -258,7 +252,8 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
 
     //Brute force search for solutions.
     //note: only works for fractions < 1
-    private ArrayList<List<Integer>> getCoefficientSets( final Fraction result ) {
+    private ArrayList<List<Integer>> getCoefficientSets( final Fraction f ) {
+
         List<Integer> a1 = range( 0, 2 );
         List<Integer> a2 = range( 0, 3 );
         List<Integer> a3 = range( 0, 4 );
@@ -289,7 +284,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
                                                                            cc, dd,
                                                                            ee, ff,
                                                                            gg, hh ) );
-                                        if ( sum.equals( result ) ) {
+                                        if ( sum.equals( f ) ) {
                                             coefficients.add( list( a, b, c, d, e, f, g, h ) );
                                         }
                                     }
