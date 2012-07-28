@@ -32,9 +32,6 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
     public PictureLevelList() {
         boolean level1Pies = random.nextBoolean();
         boolean level3Pies = random.nextBoolean();
-        boolean level6Pies = random.nextBoolean();
-        boolean level8Pies = random.nextBoolean();
-        boolean level9Pies = random.nextBoolean();
         add( level1( level1Pies ) );
         add( level2( !level1Pies ) );
         add( level3( level3Pies ) );
@@ -44,7 +41,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         add( level7() );
         add( level8() );
         add( level9() );
-        add( level6() );
+        add( level10() );
     }
 
     /* Level 1:
@@ -92,9 +89,9 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
     }
 
     //Just the exact cards necessary to fit the selected fractions
-    private List<Integer> straightforwardCards( final List<Fraction> selected ) {
+    private List<Integer> straightforwardCards( final List<Fraction> targets ) {
         List<Integer> cards = nil();
-        for ( Fraction fraction : selected ) {
+        for ( Fraction fraction : targets ) {
             for ( int i = 0; i < fraction.numerator; i++ ) {
                 cards = cards.snoc( fraction.denominator );
             }
@@ -236,16 +233,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         ArrayList<List<Integer>> coefficientsBottom = lookupCoefficientSets( selected._2() );
         List<List<Integer>> chosenBottom = choose( 2, iterableList( coefficientsBottom ) );
 
-        List<Integer> shapes = nil();
-        for ( List<Integer> coefficients : chosenTop.append( chosenBottom ) ) {
-            for ( int i = 0; i < coefficients.length(); i++ ) {
-                int size = i + 1;
-                int numberToGet = coefficients.index( i );
-                for ( int k = 0; k < numberToGet; k++ ) {
-                    shapes = shapes.snoc( size );
-                }
-            }
-        }
+        List<Integer> shapes = coefficientsToShapes( chosenTop.append( chosenBottom ) );
 
         return pictureLevel( shapes, targets, colors[6], ShapeType.PIE );
 //
@@ -264,6 +252,20 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
 //            System.out.println( a + " => " + getCoefficientSets( a ) );
 //        }
 //        return null;
+    }
+
+    private List<Integer> coefficientsToShapes( final List<List<Integer>> allCoefficients ) {
+        List<Integer> shapes = nil();
+        for ( List<Integer> coefficients : allCoefficients ) {
+            for ( int i = 0; i < coefficients.length(); i++ ) {
+                int size = i + 1;
+                int numberToGet = coefficients.index( i );
+                for ( int k = 0; k < numberToGet; k++ ) {
+                    shapes = shapes.snoc( size );
+                }
+            }
+        }
+        return shapes;
     }
 
     private ArrayList<List<Integer>> lookupCoefficientSets( final Fraction fraction ) {
@@ -391,6 +393,54 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         List<Fraction> targets = level8Targets();
         //TODO: make cards be non-straightforward.  Possibly by consolidating into pieces as large as possible, then doing random subdivisions.
         return pictureLevel( straightforwardCards( targets ), shuffle( targets ), colors[8], choosePiesOrBars( targets ) );
+    }
+
+    /*
+   Level 10
+   --Same as level 7 but now all targets are greater than one.
+   --Still top two targets same, and bottom two targets the same
+   --No whole pieces available, and targets must be built in interesting ways.  We could say something like the target must be built from 3 or
+   more pieces as a way to constrain the pieces given. So for instance something like 4/3 would have to be built by something like 1(half) +
+   2(quarters) + (1/3)
+    */
+    public PictureLevel level10() {
+        new Exception().printStackTrace();
+        List<Fraction> available = list( new Fraction( 3, 2 ),
+                                         new Fraction( 4, 3 ), new Fraction( 5, 3 ),
+                                         new Fraction( 5, 4 ), new Fraction( 7, 4 ),
+                                         new Fraction( 6, 5 ), new Fraction( 7, 5 ), new Fraction( 8, 5 ), new Fraction( 9, 5 ),
+                                         new Fraction( 7, 6 ) );
+
+        P2<Fraction, Fraction> two = chooseTwo( available );
+        List<Fraction> targets = list( two._1(), two._1(), two._2(), two._2() );
+        List<Integer> shapes1 = interestingShapes( targets.index( 0 ) );
+        List<Integer> shapes2 = interestingShapes( targets.index( 1 ) );
+        List<Integer> shapes3 = interestingShapes( targets.index( 2 ) );
+        List<Integer> shapes4 = interestingShapes( targets.index( 3 ) );
+
+        return pictureLevel( shapes1.append( shapes2 ).append( shapes3 ).append( shapes4 ), targets, colors[9], choosePiesOrBars( targets ) );
+    }
+
+    //Get some interesting(non straightforward) shapes for making the fraction.
+    private List<Integer> interestingShapes( final Fraction fraction ) {
+        List<List<Integer>> coefficients = iterableList( getCoefficientSets( fraction ) );
+        List<List<Integer>> filtered = coefficients.filter( new F<List<Integer>, Boolean>() {
+            @Override public Boolean f( final List<Integer> integers ) {
+                return numberOfNonzeroElements( integers ) > 1;
+            }
+        } );
+
+        System.out.println( "fraction: " + fraction + ", coefficients = " + coefficients + ", filtered = " + filtered );
+        final List<Integer> chosenCoefficients = chooseOne( filtered.length() == 0 ? coefficients : filtered );
+        return coefficientsToShapes( single( chosenCoefficients ) );
+    }
+
+    private int numberOfNonzeroElements( final List<Integer> integers ) {
+        return integers.filter( new F<Integer, Boolean>() {
+            @Override public Boolean f( final Integer integer ) {
+                return integer != 0;
+            }
+        } ).length();
     }
 
     //if denominator large, use pies otherwise random between pies and bars
