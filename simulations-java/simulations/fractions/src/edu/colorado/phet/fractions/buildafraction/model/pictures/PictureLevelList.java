@@ -4,12 +4,14 @@ package edu.colorado.phet.fractions.buildafraction.model.pictures;
 import fj.Equal;
 import fj.F;
 import fj.Ord;
+import fj.P2;
 import fj.data.List;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.fractions.buildafraction.model.Distribution;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
@@ -38,7 +40,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         add( level4( !level3Pies ) );
         add( level5() );
         add( level6() );
-        add( level6() );
+        add( level7() );
         add( level6() );
         add( level6() );
         add( level6() );
@@ -215,6 +217,98 @@ a 1/2 and a 1/3.
                 return fraction.denominator >= 7;
             }
         } ) ? x : ShapeType.BAR );
+    }
+
+    /*Level 7:
+--Top two targets, and bottom 2 targets are equivalent but still numbers less than 1
+-- A built in check to draw a different fraction for the top 2 and the bottom 2
+-- Possible fractions sets from which to draw 2 each {1/2, 1/3, 2/3, 1/4, 3/4, 5/6, 3/8, 5/8}
+-- Shape pieces constrained so that for instance if 1/2 and 1/2 appears for the top targets, a 1/2 piece might be available but the other one
+will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
+-- If 3/8 or 5/8 are drawn circles should be used, if not circles or tiles will work fine*/
+    public PictureLevel level7() {
+        List<Fraction> available = list( new Fraction( 1, 2 ), new Fraction( 1, 3 ), new Fraction( 2, 3 ), new Fraction( 1, 4 ),
+                                         new Fraction( 3, 4 ), new Fraction( 5, 6 ), new Fraction( 3, 8 ), new Fraction( 5, 8 ) );
+
+        P2<Fraction, Fraction> selected = chooseTwo( available );
+        List<Fraction> targets = list( selected._1(), selected._1(), selected._2(), selected._2() );
+
+        List<List<Integer>> shapesForEachTarget = targets.map( new F<Fraction, List<Integer>>() {
+            @Override public List<Integer> f( final Fraction fraction ) {
+                return null;
+            }
+        } );
+
+        //Could find all solutions to an underconstrained system.
+        //But we just need any solution that is different from previous.
+
+        //Use JAMA to solve matrix system?
+        Fraction result = selected._1();
+
+        //result = a/1 + b/2 + c/3 + d/4 + e/5 + f/6 + g/7 + h/8
+        //constrain variables to be integer, and several of them to be zero.
+
+        //also a = {0 or 1} b= {0,1,2} c = {0,1,2,3}
+        getCoefficientSets( result );
+        for ( Fraction a : available ) {
+            System.out.println( a + " => " + getCoefficientSets( a ) );
+        }
+        return null;
+    }
+
+    //Brute force search for solutions.
+    //note: only works for fractions < 1
+    private ArrayList<List<Integer>> getCoefficientSets( final Fraction result ) {
+        List<Integer> a1 = range( 0, 2 );
+        List<Integer> a2 = range( 0, 3 );
+        List<Integer> a3 = range( 0, 4 );
+        List<Integer> a4 = range( 0, 5 );
+        List<Integer> a5 = range( 0, 6 );
+        List<Integer> a6 = range( 0, 7 );
+        List<Integer> a7 = range( 0, 8 );
+        List<Integer> a8 = range( 0, 9 );
+
+        ArrayList<List<Integer>> coefficients = new ArrayList<List<Integer>>();
+        for ( int a : a1 ) {
+            final Fraction aa = new Fraction( a, 1 );
+            for ( int b : a2 ) {
+                final Fraction bb = new Fraction( b, 2 );
+                for ( int c : a3 ) {
+                    final Fraction cc = new Fraction( c, 3 );
+                    for ( int d : a4 ) {
+                        final Fraction dd = new Fraction( d, 4 );
+                        for ( int e : a5 ) {
+                            final Fraction ee = new Fraction( e, 5 );
+                            for ( int f : a6 ) {
+                                final Fraction ff = new Fraction( f, 6 );
+                                for ( int g : a7 ) {
+                                    final Fraction gg = new Fraction( g, 7 );
+                                    for ( int h : a8 ) {
+                                        final Fraction hh = new Fraction( h, 8 );
+                                        Fraction sum = Fraction.sum( list( aa, bb,
+                                                                           cc, dd,
+                                                                           ee, ff,
+                                                                           gg, hh ) );
+                                        if ( sum.equals( result ) ) {
+                                            coefficients.add( list( a, b, c, d, e, f, g, h ) );
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return coefficients;
+    }
+
+    public static void main( String[] args ) {
+        java.util.List<Permutation> x = Permutation.permutations( 3 );
+        System.out.println( "x = " + x );
+
+        new PictureLevelList();
+//        System.out.println( "seven = " + seven );
     }
 
     private List<Integer> pad( List<Integer> list ) {
