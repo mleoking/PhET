@@ -49,7 +49,28 @@ import static java.awt.Color.lightGray;
  * @author Sam Reid
  */
 public class GameNode extends PNode {
+
+    private final int FADE_DURATION = 400;
+
     public GameNode( final boolean dev, final MatchingGameModel model, final PNode emptyBarGraphNode, final PNode rootNode ) {
+
+        //Fade in and out on refresh
+        model.addRefreshListener( new VoidFunction0() {
+            public void apply() {
+                animateToTransparency( 0, FADE_DURATION ).setDelegate( new PActivityDelegate() {
+                    public void activityStarted( final PActivity activity ) {
+                    }
+
+                    public void activityStepped( final PActivity activity ) {
+                    }
+
+                    public void activityFinished( final PActivity activity ) {
+                        model.finishRefresh();
+                        animateToTransparency( 1, FADE_DURATION );
+                    }
+                } );
+            }
+        } );
 
         //Animation when selected
         final CompositeBooleanProperty notChoosingSettings = new CompositeBooleanProperty( new Function0<Boolean>() {

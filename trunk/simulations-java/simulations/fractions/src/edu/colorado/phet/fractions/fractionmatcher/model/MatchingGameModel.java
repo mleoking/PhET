@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.fractionmatcher.model;
 import fj.F;
 import fj.data.List;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.SwingUtilities;
@@ -23,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Compos
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ModelComponents;
 
@@ -89,6 +91,7 @@ public class MatchingGameModel {
 
     //Saved games from when the user left a level with the back button
     private HashMap<Integer, MatchingGameState> savedGames = new HashMap<Integer, MatchingGameState>();
+    private ArrayList<VoidFunction0> refreshListeners = new ArrayList<VoidFunction0>();
 
     private ObservableProperty<Double> doubleProperty( final F<MatchingGameState, Double> f ) {
         return new CompositeDoubleProperty( new Function0<Double>() {
@@ -235,8 +238,16 @@ public class MatchingGameModel {
         } );
     }
 
-    //Load a new level from the same distribution.  TODO: Fade out/fade in for transition, as in build a fraction.
-    public void refresh() { startNewGame( level.get(), gameAudioPlayer.isEnabled(), timerVisible.get() ); }
+    //Load a new level from the same distribution.  Fade out/fade in for transition, as in build a fraction.
+    public void refresh() {
+        for ( VoidFunction0 listener : refreshListeners ) {
+            listener.apply();
+        }
+    }
+
+    public void finishRefresh() {
+        startNewGame( level.get(), gameAudioPlayer.isEnabled(), timerVisible.get() );
+    }
 
     private void startNewGame( final int level, final boolean soundEnabled, final boolean timerEnabled ) {
         final MatchingGameState m = newLevel( level, state.get().gameResults, levelFactory ).
@@ -261,5 +272,9 @@ public class MatchingGameModel {
         else {
             startNewGame( level, soundEnabled, timerEnabled );
         }
+    }
+
+    public void addRefreshListener( final VoidFunction0 listener ) {
+        refreshListeners.add( listener );
     }
 }
