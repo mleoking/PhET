@@ -54,6 +54,9 @@ public class GameNode extends PNode {
 
     public GameNode( final boolean dev, final MatchingGameModel model, final PNode emptyBarGraphNode, final PNode rootNode ) {
 
+        //Show the reward node behind the main node so it won't interfere with the results the user collected.
+        addChild( new RewardNode( model ) );
+
         //Fade in and out on refresh
         model.addRefreshListener( new VoidFunction0() {
             public void apply() {
@@ -254,5 +257,9 @@ public class GameNode extends PNode {
             addChild( new HBox( buttonFactory.f( new ButtonArgs( null, "Resample", Color.red, new Vector2D( 100, 6 ), new Resample( model.levelFactory ) ) ),
                                 buttonFactory.f( new ButtonArgs( null, "Test game over", Color.green, new Vector2D( 100, 6 ), new GameOver() ) ) ) );
         }
+
+        //Show the game over dialog, if the game has ended.  Also, it has a stateful piccolo button so must not be cleared when the model changes, so it is stored in a field
+        //and only regenerated when new games end.
+        addChild( GameOverDialog.createGameOverDialog( model ) );
     }
 }

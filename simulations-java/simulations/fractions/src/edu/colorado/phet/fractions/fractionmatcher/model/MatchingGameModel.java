@@ -92,6 +92,7 @@ public class MatchingGameModel {
     //Saved games from when the user left a level with the back button
     private HashMap<Integer, MatchingGameState> savedGames = new HashMap<Integer, MatchingGameState>();
     private ArrayList<VoidFunction0> refreshListeners = new ArrayList<VoidFunction0>();
+    private ArrayList<VoidFunction1<Integer>> levelStartedListeners = new ArrayList<VoidFunction1<Integer>>();
 
     private ObservableProperty<Double> doubleProperty( final F<MatchingGameState, Double> f ) {
         return new CompositeDoubleProperty( new Function0<Double>() {
@@ -260,10 +261,11 @@ public class MatchingGameModel {
     //When pressing a level button, start a new game or resume a previous game if already started.
     //State was saved when going to the level selection screen.
     public void resumeOrStartGame( final int level, final boolean soundEnabled, final boolean timerEnabled ) {
+        for ( VoidFunction1<Integer> levelStartedListener : levelStartedListeners ) {
+            levelStartedListener.apply( level );
+        }
         if ( savedGames.containsKey( level ) ) {
             MatchingGameState m = savedGames.get( level ).
-                    withInfo( state.get().info ).
-                    withMode( Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).
                     withAudio( soundEnabled ).
                     withTimerVisible( timerEnabled ).
                     withGameResults( state.get().gameResults );//Restore any state that needs to be updated since we just want to load the level
@@ -276,5 +278,9 @@ public class MatchingGameModel {
 
     public void addRefreshListener( final VoidFunction0 listener ) {
         refreshListeners.add( listener );
+    }
+
+    public void addLevelStartedListener( final VoidFunction1<Integer> listener ) {
+        levelStartedListeners.add( listener );
     }
 }
