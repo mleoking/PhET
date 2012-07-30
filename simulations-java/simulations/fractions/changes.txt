@@ -1,3 +1,4 @@
+Fraction Matcher: Save progress when pushing the "back" button
 # 1.00.11 (66407) Jul 28, 2012
 Build a Fraction: Shapes: Make dotted lines disappear when going into toolbox
 Build a Fraction: Shapes: Make +/- buttons disappear when going into toolbox.

@@ -4,6 +4,8 @@ package edu.colorado.phet.fractions.fractionmatcher.model;
 import fj.F;
 import fj.data.List;
 
+import java.util.HashMap;
+
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
@@ -85,6 +87,9 @@ public class MatchingGameModel {
     //True if the user is choosing settings
     public final CompositeBooleanProperty choosingSettings;
 
+    //Saved games from when the user left a level with the back button
+    private HashMap<Integer, MatchingGameState> savedGames = new HashMap<Integer, MatchingGameState>();
+
     private ObservableProperty<Double> doubleProperty( final F<MatchingGameState, Double> f ) {
         return new CompositeDoubleProperty( new Function0<Double>() {
             public Double apply() {
@@ -119,6 +124,13 @@ public class MatchingGameModel {
                     }
                     if ( newValue.info.audio && oldValue.info.mode == Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES && newValue.info.mode == Mode.SHOWING_WHY_ANSWER_WRONG ) {
                         gameAudioPlayer.wrongAnswer();
+                    }
+                }
+            } );
+            addObserver( new ChangeObserver<MatchingGameState>() {
+                public void update( final MatchingGameState newValue, final MatchingGameState oldValue ) {
+                    if ( oldValue.getMode() != Mode.CHOOSING_SETTINGS && newValue.getMode() == Mode.CHOOSING_SETTINGS ) {
+                        savedGames.put( newValue.info.getLevel(), oldValue );
                     }
                 }
             } );
@@ -223,16 +235,31 @@ public class MatchingGameModel {
         } );
     }
 
-    //Load a new level from the same distribution.  Fade out/fade in for transition, as in build a fraction.
-    public void refresh() {
-        startNewGame( level.get(), gameAudioPlayer.isEnabled(), timerVisible.get() );
-    }
+    //Load a new level from the same distribution.  TODO: Fade out/fade in for transition, as in build a fraction.
+    public void refresh() { startNewGame( level.get(), gameAudioPlayer.isEnabled(), timerVisible.get() ); }
 
-    public void startNewGame( final int level, final boolean soundEnabled, final boolean timerEnabled ) {
+    private void startNewGame( final int level, final boolean soundEnabled, final boolean timerEnabled ) {
         final MatchingGameState m = newLevel( level, state.get().gameResults, levelFactory ).
                 withMode( Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).
                 withAudio( soundEnabled ).
                 withTimerVisible( timerEnabled );
         state.set( m );
+    }
+
+    //When pressing a level button, start a new game or resume a previous game if already started.
+    //State was saved when going to the level selection screen.
+    public void resumeOrStartGame( final int level, final boolean soundEnabled, final boolean timerEnabled ) {
+        if ( savedGames.containsKey( level ) ) {
+            MatchingGameState m = savedGames.get( level ).
+                    withInfo( state.get().info ).
+                    withMode( Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).
+                    withAudio( soundEnabled ).
+                    withTimerVisible( timerEnabled ).
+                    withGameResults( state.get().gameResults );//Restore any state that needs to be updated since we just want to load the level
+            state.set( m );
+        }
+        else {
+            startNewGame( level, soundEnabled, timerEnabled );
+        }
     }
 }

@@ -75,7 +75,7 @@ public class StartScreen extends PNode {
             public void apply() {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        model.startNewGame( gameSettings.level.get(), gameSettings.soundEnabled.get(), gameSettings.timerEnabled.get() );
+                        model.resumeOrStartGame( gameSettings.level.get(), gameSettings.soundEnabled.get(), gameSettings.timerEnabled.get() );
                     }
                 } );
             }
