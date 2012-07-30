@@ -1,4 +1,4 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions;
 
 import java.awt.image.BufferedImage;
@@ -37,7 +37,9 @@ public class FractionsResources {
     public static class Images {
         public static final BufferedImage LEFT_BUTTON_GRAY = RESOURCES.getImage( "left_button_gray.png" );
         public static final BufferedImage LEFT_BUTTON_PRESSED = RESOURCES.getImage( "left_button_pressed.png" );
+        public static final BufferedImage LEFT_BUTTON_PRESSED_GREEN = RESOURCES.getImage( "left_button_pressed_green.png" );
         public static final BufferedImage LEFT_BUTTON_UP = RESOURCES.getImage( "left_button_up.png" );
+        public static final BufferedImage LEFT_BUTTON_UP_GREEN = RESOURCES.getImage( "left_button_up_green.png" );
         public static final BufferedImage MINUS_BUTTON = RESOURCES.getImage( "minus_button.png" );
         public static final BufferedImage MINUS_BUTTON_GRAY = RESOURCES.getImage( "minus_button_gray.png" );
         public static final BufferedImage MINUS_BUTTON_PRESSED = RESOURCES.getImage( "minus_button_pressed.png" );
@@ -46,7 +48,9 @@ public class FractionsResources {
         public static final BufferedImage PLUS_BUTTON_PRESSED = RESOURCES.getImage( "plus_button_pressed.png" );
         public static final BufferedImage RIGHT_BUTTON_GRAY = RESOURCES.getImage( "right_button_gray.png" );
         public static final BufferedImage RIGHT_BUTTON_PRESSED = RESOURCES.getImage( "right_button_pressed.png" );
+        public static final BufferedImage RIGHT_BUTTON_PRESSED_GREEN = RESOURCES.getImage( "right_button_pressed_green.png" );
         public static final BufferedImage RIGHT_BUTTON_UP = RESOURCES.getImage( "right_button_up.png" );
+        public static final BufferedImage RIGHT_BUTTON_UP_GREEN = RESOURCES.getImage( "right_button_up_green.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN = RESOURCES.getImage( "round_button_down.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN_GRAY = RESOURCES.getImage( "round_button_down_gray.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN_PRESSED = RESOURCES.getImage( "round_button_down_pressed.png" );
