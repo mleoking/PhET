@@ -225,10 +225,10 @@ public class MatchingGameModel {
 
     //Load a new level from the same distribution.  Fade out/fade in for transition, as in build a fraction.
     public void refresh() {
-        startGame( level.get(), gameAudioPlayer.isEnabled(), timerVisible.get() );
+        startNewGame( level.get(), gameAudioPlayer.isEnabled(), timerVisible.get() );
     }
 
-    public void startGame( final int level, final boolean soundEnabled, final boolean timerEnabled ) {
+    public void startNewGame( final int level, final boolean soundEnabled, final boolean timerEnabled ) {
         final MatchingGameState m = newLevel( level, state.get().gameResults, levelFactory ).
                 withMode( Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).
                 withAudio( soundEnabled ).
