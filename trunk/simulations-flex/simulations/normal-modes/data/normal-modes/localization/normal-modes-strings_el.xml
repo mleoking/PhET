@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_el.xml created Tue Jul 17 10:49:51 EEST 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) Δεκ 8, 2011--><SimStrings>
+<string key="modeSpectrumDisplay" value="Εμφάνιση λειτουργίας φάσματος"/>
+<string key="phase:" value="Στάδιο:"/>
+<string key="minusPi" value="-π"/>
+<string key="zeroPositions" value="Μηδενισμός"/>
+<string key="start" value="Έναρξη"/>
+<string key="modeNumbersXY" value="Αριθμοί λειτουργίας  x, y."/>
+<string key="polarization:" value="Έλεγχος&lt;br&gt;Πόλωσης:"/>
+<string key="amplitude:" value="Εύρος"/>
+<string key="plusPi" value="+π"/>
+<string key="modeSpectrum" value="Κανονική λειτουργία φάσματος"/>
+<string key="frequency:" value="Συχνότητα:"/>
+<string key="omega" value="ω"/>
+<string key="showPhases" value="Εμφάνιση σταδίων"/>
+<string key="normal-modes.simTitle" value="Κανονικές καταστάσεις"/>
+<string key="stop" value="Διακοπή"/>
+<string key="showSprings" value="Εμφάνιση ελατηρίων"/>
+<string key="resetPositions" value="Αρχικές καταστάσεις"/>
+<string key="normalMode:" value="Κανονική κατάσταση:"/>
+<string key="translation.credits" value="Γιάννης Κασκαμανίδης"/>
+<string key="paused" value="ΣΕ ΠΑΥΣΗ"/>
+</SimStrings>
