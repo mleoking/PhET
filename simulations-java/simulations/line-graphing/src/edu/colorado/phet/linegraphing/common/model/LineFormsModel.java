@@ -50,10 +50,8 @@ public class LineFormsModel implements Resettable {
         {
             interactiveLine.addObserver( new ChangeObserver<StraightLine>() {
                 public void update( StraightLine newLine, StraightLine oldLine ) {
+                    allLines.remove( oldLine ); // remove first, because on observer registration oldLine == newLine
                     allLines.add( newLine ); // add interactive line to end, so we find it last
-                    if ( oldLine != null ) {
-                        allLines.remove( oldLine );
-                    }
                 }
             } );
             final VoidFunction1<StraightLine> elementAddedObserver = new VoidFunction1<StraightLine>() {
