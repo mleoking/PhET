@@ -147,7 +147,7 @@ public class TrajectoryView extends Sprite {
 
         currentX = trajectoryModel.xP;         //P for projectile
         currentY = trajectoryModel.yP;
-        trace("TrajectoryView.update. currentY = "  + currentY );
+        //trace("TrajectoryView.update. currentY = "  + currentY );
         if( currentT != trajectoryModel.t ){
             currentIndex += 1;
         }
