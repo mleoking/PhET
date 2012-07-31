@@ -1,3 +1,5 @@
+# 1.01.00 (66456) Jul 31, 2012
+7/31/12 Added About button, fixed scrollBar issue.
 # 1.00.00 (64159) May 14, 2012
 5/14/12 >Initial Deployment
 # 0.00.49 (64150) May 14, 2012
