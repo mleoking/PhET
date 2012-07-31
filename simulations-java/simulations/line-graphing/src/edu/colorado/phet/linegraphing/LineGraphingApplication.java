@@ -29,14 +29,6 @@ public class LineGraphingApplication extends PiccoloPhetApplication {
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
         developerMenu.add( new DevTestGameRewardMenuItem() );
-
-        // Dev: Start with the module number specified on the command line.
-        if ( isDeveloperControlsEnabled() ) {
-            String startModuleNumber = config.getOptionArg( "-startModule" );
-            if ( startModuleNumber != null ) {
-                setStartModule( getModule( Integer.valueOf( startModuleNumber ) ) );
-            }
-        }
     }
 
     public static void main( final String[] args ) {

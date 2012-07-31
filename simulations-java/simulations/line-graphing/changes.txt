@@ -1,3 +1,4 @@
+7/31/12 #3395, move -startModule program arg to PhetApplication.startApplication
 # 0.00.22 (66238) Jul 25, 2012
 7/25/12 dev version to demo progress on first challenge type: graph a line in slope-intercept form
 7/25/12 setPickable(false) for game challenge nodes that aren't interactive
