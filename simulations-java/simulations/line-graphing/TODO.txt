@@ -17,7 +17,8 @@ MEDIUM
 
 LOW
 
-SIM-SHARING
+DATA COLLECTION
+- instrument Game
 
 MIGRATE TO COMMON
 - GameTimer, copied from BCE and RPAL
