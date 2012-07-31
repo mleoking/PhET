@@ -20,6 +20,7 @@ import edu.colorado.phet.projectilemotionflex.tools.TapeMeasure;
 import flash.display.GradientType;
 
 import flash.display.Graphics;
+import flash.display.MovieClip;
 
 import flash.display.Sprite;
 import flash.geom.Matrix;
@@ -45,6 +46,10 @@ public class BackgroundView extends Sprite {
     public var cannonView: CannonView;
     public var trajectoryView: TrajectoryView;
     public var projectileView: ProjectileView;
+    //projectile images
+    private var adultHumanClip: MovieClip;
+    [Embed(source='projectile-motion-flex-graphics.swf',symbol='adultHuman')]
+    public static var AdultHumanClip: Class;
     public var tapeMeasure: TapeMeasure;
     //private var pixPerMeter: Number;   //in mainView
     private var magFactor: Number;      //magnification/demagnification linear scale factor = root-of-2
@@ -103,6 +108,7 @@ public class BackgroundView extends Sprite {
         this.tapeMeasure.y = 0.8*stageH;
         this.cannonView.x = this._originXInPix;
         this.cannonView.y = this._originYInPix;
+        this.adultHumanClip = new AdultHumanClip();
     }
 
     private function initializeStrings():void{
