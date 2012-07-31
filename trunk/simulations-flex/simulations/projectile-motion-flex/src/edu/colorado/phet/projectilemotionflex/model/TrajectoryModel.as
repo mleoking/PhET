@@ -11,6 +11,7 @@
  */
 package edu.colorado.phet.projectilemotionflex.model {
 import edu.colorado.phet.flexcommon.AboutDialog;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.projectilemotionflex.view.MainView;
 
 import flash.events.TimerEvent;
@@ -62,6 +63,17 @@ public class TrajectoryModel {
     private var diameter0: Number;
     private var dragCoefficient0: Number;
 
+    private var userChoice_str: String;
+    private var tankshell_str: String;
+    private var golfball_str: String;
+    private var baseball_str: String;
+    private var bowlingball_str: String;
+    private var football_str: String;
+    private var pumpkin_str: String;
+    private var adultHuman_str: String;
+    private var piano_str: String;
+    private var buick_str: String;
+
     private var _t: Number;             //time in seconds, projectile fired at t = 0
     public var startTime: Number;       //real time in seconds that the projectile was fired, from flash.utils.getTimer() 
     public var previousTime: Number;    //previous real time in seconds that getTimer() was called.
@@ -93,6 +105,7 @@ public class TrajectoryModel {
         dragCoefficient0 = 1;
         this._pIndex = 0;
         this._projectiles = new Array(10);  //10 different projectiles
+        this.initializeProjectileStrings();
         this.initializeProjectiles();
         this.g = 9.8;            //acceleration of gravity in m/s^2; all units in SI
         this._xP = 0;            //origin is near (but not at) lower left corner of stage
@@ -123,17 +136,30 @@ public class TrajectoryModel {
         this.updateViews();
     }
 
+    private function initializeProjectileStrings():void{
+        userChoice_str = FlexSimStrings.get( "userChoice", "user choice" );
+        tankshell_str = FlexSimStrings.get( "tankshell", "tankshell" );
+        golfball_str = FlexSimStrings.get( "golfball", "golfball" );
+        baseball_str = FlexSimStrings.get( "baseball", "baseball" );
+        bowlingball_str = FlexSimStrings.get( "bowlingball", "bowlingball" );
+        football_str = FlexSimStrings.get( "football", "football" );
+        pumpkin_str = FlexSimStrings.get( "pumpkin", "pumpkin" );
+        adultHuman_str = FlexSimStrings.get( "adultHuman", "adult human" );
+        piano_str = FlexSimStrings.get( "piano", "piano" );
+        buick_str = FlexSimStrings.get( "Buick", "Buick" );
+    }
+
     private function initializeProjectiles():void{
-        _projectiles[0] = new Projectile( mainView, this, mass0, diameter0, dragCoefficient0 );  //user-choice
-        _projectiles[1] = new Projectile( mainView, this, 150, 0.15, 0.05 );        //tankshell
-        _projectiles[2] = new Projectile( mainView, this, 0.046, 0.043, 0.24 );     //golfball
-        _projectiles[3] = new Projectile( mainView, this, 0.145, 0.074, 0.4 );      //baseball
-        _projectiles[4] = new Projectile( mainView, this, 7.3, 0.25, 0.46 );        //bowlingball
-        _projectiles[5] = new Projectile( mainView, this, 0.41, 0.17, 0.15 );       //football
-        _projectiles[6] = new Projectile( mainView, this, 5, 0.37, 0.6 );           //pumpkin
-        _projectiles[7] = new Projectile( mainView, this, 70, 0.5, 1.3 );           //adult human
-        _projectiles[8] = new Projectile( mainView, this, 400, 2, 1.2 );            //piano
-        _projectiles[9] = new Projectile( mainView, this, 1000, 2.5, 1.3 );         //Buick
+        _projectiles[0] = new Projectile( mainView, this, userChoice_str, mass0, diameter0, dragCoefficient0 );
+        _projectiles[1] = new Projectile( mainView, this, tankshell_str, 150, 0.15, 0.05 );
+        _projectiles[2] = new Projectile( mainView, this, golfball_str, 0.046, 0.043, 0.24 );
+        _projectiles[3] = new Projectile( mainView, this, baseball_str, 0.145, 0.074, 0.4 );
+        _projectiles[4] = new Projectile( mainView, this, bowlingball_str, 7.3, 0.25, 0.46 );
+        _projectiles[5] = new Projectile( mainView, this, football_str, 0.41, 0.17, 0.15 );
+        _projectiles[6] = new Projectile( mainView, this, pumpkin_str, 5, 0.37, 0.6 );
+        _projectiles[7] = new Projectile( mainView, this, adultHuman_str, 70, 0.5, 1.3 );
+        _projectiles[8] = new Projectile( mainView, this, piano_str, 400, 2, 1.2 );
+        _projectiles[9] = new Projectile( mainView, this, buick_str, 1000, 2.5, 1.3 );
     }
 
     /*Set drag factor of current projectile*/
@@ -342,6 +368,11 @@ public class TrajectoryModel {
         _v0 = value;
         _vX0 = v0*Math.cos( angleInDeg*Math.PI/180 );
         _vY0 = v0*Math.sin( angleInDeg*Math.PI/180 );
+    }
+
+    public function setProjectileType( index: int ):void{
+        this._pIndex = index;
+        this.setDragFactor();
     }
 
     public function setMass( mass:Number ):void{

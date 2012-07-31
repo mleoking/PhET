@@ -75,16 +75,16 @@ public class ControlPanel extends Canvas {
     private var fire_str: String;
     private var erase_str: String;
     //projectile strings
-    private var userChoice_str: String;
-    private var tankshell_str: String;
-    private var golfball_str: String;
-    private var baseball_str: String;
-    private var bowlingball_str: String;
-    private var football_str: String;
-    private var pumpkin_str: String;
-    private var adultHuman_str: String;
-    private var piano_str: String;
-    private var buick_str: String;
+//    private var userChoice_str: String;
+//    private var tankshell_str: String;
+//    private var golfball_str: String;
+//    private var baseball_str: String;
+//    private var bowlingball_str: String;
+//    private var football_str: String;
+//    private var pumpkin_str: String;
+//    private var adultHuman_str: String;
+//    private var piano_str: String;
+//    private var buick_str: String;
     //input box strings
     private var angle_str: String;
     private var speed_str: String;
@@ -125,10 +125,19 @@ public class ControlPanel extends Canvas {
 
         projectileComboBox = new ComboBox();
         choiceList_arr = new Array();
-        choiceList_arr = [ userChoice_str, tankshell_str, golfball_str, baseball_str, bowlingball_str, football_str, pumpkin_str, adultHuman_str, piano_str, buick_str ];
+        var numberOfProjectileTypes: int = this.trajectoryModel.projectiles.length;
+        for(var i: int = 0; i < numberOfProjectileTypes; i++ ){
+            var projectileName: String = trajectoryModel.projectiles[i].name;
+            var projectileIndex: int = i;
+            //var projectileData:Array = new Array();
+            choiceList_arr[i] = { label: projectileName, indexOfProjectile: projectileIndex }
+            //choiceList_arr[i].label = trajectoryModel.projectiles[i].name;
+            //choiceList_arr[i].index = i;
+        }
+        //choiceList_arr = [ userChoice_str, tankshell_str, golfball_str, baseball_str, bowlingball_str, football_str, pumpkin_str, adultHuman_str, piano_str, buick_str ];
         projectileComboBox.dataProvider = choiceList_arr;
         //
-        // projectileComboBox.addEventListener( )
+        projectileComboBox.addEventListener( Event.CHANGE, selectProjectile  )
 
         angleReadout = new NiceTextField( setAngle, angle_str, -90, 180 );
         speedReadout = new NiceTextField( setSpeed, speed_str, 0, 10000 );
@@ -152,7 +161,7 @@ public class ControlPanel extends Canvas {
         fireButton = new NiceButton2( 60, 25, fire_str, fireProjectile, 0x00ff00, 0x000000 );
         eraseButton = new NiceButton2( 60, 25, erase_str, eraseTrajectories, 0xff0000, 0xffffff );
 
-        //layout of compoenents
+        //layout of components
         addChild( background );
         background.addChild( projectileComboBox );
         background.addChild( new SpriteUIComponent( angleReadout ) );
@@ -195,16 +204,16 @@ public class ControlPanel extends Canvas {
     private function initializeStrings():void{
         this.fire_str = FlexSimStrings.get( "fire", "Fire" );
         this.erase_str = FlexSimStrings.get( "erase", "Erase" );
-        userChoice_str = FlexSimStrings.get( "userChoice", "user choice" );
-        tankshell_str = FlexSimStrings.get( "tankshell", "tankshell" );
-        golfball_str = FlexSimStrings.get( "golfball", "golfball" );
-        baseball_str = FlexSimStrings.get( "baseball", "baseball" );
-        bowlingball_str = FlexSimStrings.get( "bowlingball", "bowlingball" );
-        football_str = FlexSimStrings.get( "football", "football" );
-        pumpkin_str = FlexSimStrings.get( "pumpkin", "pumpkin" );
-        adultHuman_str = FlexSimStrings.get( "adultHuman", "adult human" );
-        piano_str = FlexSimStrings.get( "piano", "piano" );
-        buick_str = FlexSimStrings.get( "buick", "buick" );
+//        userChoice_str = FlexSimStrings.get( "userChoice", "user choice" );
+//        tankshell_str = FlexSimStrings.get( "tankshell", "tankshell" );
+//        golfball_str = FlexSimStrings.get( "golfball", "golfball" );
+//        baseball_str = FlexSimStrings.get( "baseball", "baseball" );
+//        bowlingball_str = FlexSimStrings.get( "bowlingball", "bowlingball" );
+//        football_str = FlexSimStrings.get( "football", "football" );
+//        pumpkin_str = FlexSimStrings.get( "pumpkin", "pumpkin" );
+//        adultHuman_str = FlexSimStrings.get( "adultHuman", "adult human" );
+//        piano_str = FlexSimStrings.get( "piano", "piano" );
+//        buick_str = FlexSimStrings.get( "buick", "buick" );
         angle_str = FlexSimStrings.get( "angle", "angle(degrees)" );
         speed_str = FlexSimStrings.get( "speed", "initial speed(m/s)" );
         mass_str = FlexSimStrings.get( "mass", "mass(kg)" );
@@ -239,6 +248,14 @@ public class ControlPanel extends Canvas {
             lineTo( +w,  0);
             endFill();
         }
+    }
+
+    private function selectProjectile(evt:Event):void{
+        //trace( "ControlPanel.selectProjectile() called. target = " + projectileComboBox.selectedItem.indexOfProjectile );
+        var index: int =  projectileComboBox.selectedItem.indexOfProjectile;
+        trajectoryModel.setProjectileType( index );
+        //var projectileType:Object = projectileComboBox.selectedItem;
+        //trace( "selectedItem has index "+ projectileComboBox.dataProvider.indexOfProjectile );
     }
 
     private function zoomIn():void{
