@@ -51,7 +51,8 @@ public class LineGameModel {
         TRY_AGAIN,
         SECOND_CHECK,
         SHOW_ANSWER,
-        NEXT
+        NEXT,
+        NONE // use this value when game is not in the "play" phase
     }
 
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
@@ -110,7 +111,7 @@ public class LineGameModel {
             @Override public void set( GamePhase phase ) {
                 LOGGER.info( "game phase = " + phase );
                 if ( phase == GamePhase.SETTINGS ) {
-                    // do nothing
+                    state.set( PlayState.NONE );
                 }
                 else if ( phase == GamePhase.PLAY ) {
                     initChallenges();
@@ -118,6 +119,7 @@ public class LineGameModel {
                     timer.start();
                 }
                 else if ( phase == GamePhase.RESULTS ) {
+                    state.set( PlayState.NONE );
                     timer.stop();
                     updateBestTime();
                 }
@@ -130,7 +132,7 @@ public class LineGameModel {
 
         initChallenges();
 
-        state = new Property<PlayState>( PlayState.TRY_AGAIN ) {{  // initialized to anything except FIRST_CHECK, to force a state change
+        state = new Property<PlayState>( PlayState.NONE ) {{
             addObserver( new VoidFunction1<PlayState>() {
                 public void apply( PlayState state ) {
                     LOGGER.info( "play state = " + state );
