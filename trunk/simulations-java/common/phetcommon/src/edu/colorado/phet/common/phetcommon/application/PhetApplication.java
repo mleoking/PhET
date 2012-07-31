@@ -147,6 +147,14 @@ public class PhetApplication
                 }
             } );
 
+            // #3395: dev feature, start with the module number specified on the command line.
+            if ( isDeveloperControlsEnabled() ) {
+                String startModuleNumber = phetApplicationConfig.getOptionArg( "-startModule" );
+                if ( startModuleNumber != null ) {
+                    setStartModule( getModule( Integer.valueOf( startModuleNumber ) ) );
+                }
+            }
+
             moduleManager.setActiveModule( getStartModule() );
             phetFrame.setVisible( true );
 
