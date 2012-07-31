@@ -14,7 +14,6 @@ HIGH
 - too many lists of lines; Graph model element should have a list of lines that it is displaying, PointTool should get list from Graph
 
 MEDIUM
-- bug: when starting a new game in the middle of a current game, doesn't start with first challenge
 - bug: after dragging slope manipulator around a lot, point tool will highlight "red" (interactive line) in places where the line is not
 
 LOW
