@@ -21,6 +21,7 @@ import flash.display.Sprite;
 import flash.events.Event;
 
 import mx.containers.Canvas;
+import mx.core.ScrollPolicy;
 import mx.core.UIComponent;
 
 public class NormalModesCanvas extends Canvas {
@@ -37,8 +38,14 @@ public class NormalModesCanvas extends Canvas {
         percentWidth = 100;
         percentHeight = 100;
 
+        verticalScrollPolicy = ScrollPolicy.OFF;
+        horizontalScrollPolicy = ScrollPolicy.OFF;
+
         const myMainView: MainView = new MainView( RENDER_WIDTH, RENDER_HEIGHT )
         this.addChild( myMainView );
+
+        myMainView.verticalScrollPolicy = ScrollPolicy.OFF;
+        myMainView.horizontalScrollPolicy = ScrollPolicy.OFF;
 
         const resizeListener: Function = function ( event: Event ): void {
             const sx: Number = stage.stageWidth / RENDER_WIDTH;
