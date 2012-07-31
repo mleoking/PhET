@@ -57,7 +57,7 @@ public class LineFormsModel implements Resettable {
             } );
             final VoidFunction1<StraightLine> elementAddedObserver = new VoidFunction1<StraightLine>() {
                 public void apply( StraightLine line ) {
-                    allLines.add( 0, line ); // add saved and standard lines to from, so we find them first
+                    allLines.add( 0, line ); // add saved and standard lines to front, so we find them first
                 }
             };
             final VoidFunction1<StraightLine> elementRemovedObserver = new VoidFunction1<StraightLine>() {
