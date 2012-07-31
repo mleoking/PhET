@@ -97,8 +97,8 @@ public class ProjectileView extends Sprite {
     public function update():void{
         var xInMeters: Number = trajectoryModel.xP;         //P for projectile
         var yInMeters: Number = trajectoryModel.yP;
-        var xInPix: Number = this.originXInPix + xInMeters*mainView.pixPerMeter;
-        var yInPix: Number = this.originYInPix - yInMeters*mainView.pixPerMeter;
+        var xInPix: Number = this.originXInPix + xInMeters*mainView.pixPerMeterUnZoomed;
+        var yInPix: Number = this.originYInPix - yInMeters*mainView.pixPerMeterUnZoomed;
         this.projectileInFlight.x = xInPix;
         this.projectileInFlight.y = yInPix;
     }
