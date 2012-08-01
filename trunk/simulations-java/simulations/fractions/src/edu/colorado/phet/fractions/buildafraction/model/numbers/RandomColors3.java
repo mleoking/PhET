@@ -9,6 +9,8 @@ import static edu.colorado.phet.fractions.fractionsintro.common.view.Colors.*;
 import static fj.data.List.list;
 
 /**
+ * * Provides support for choosing 3 random colors that are different for making levels.
+ *
  * @author Sam Reid
  */
 public class RandomColors3 {
