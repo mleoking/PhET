@@ -51,7 +51,7 @@ public class AbstractLevelSelectionNode extends PNode {
     }
 
     //Rows + Columns
-    public AbstractLevelSelectionNode( final String title, final List<Page> pages, final MainContext context, final IntegerProperty selectedPage ) {
+    public AbstractLevelSelectionNode( final String title, final List<Page> pages, final LevelSelectionContext context, final IntegerProperty selectedPage ) {
 
         //Title text, only shown when the user is choosing a level
         PNode titleText = new PNode() {{
@@ -135,7 +135,7 @@ public class AbstractLevelSelectionNode extends PNode {
         addChild( resetAllButton );
     }
 
-    private VBox toButtonSetNode( final List<List<LevelInfo>> page1Levels, final MainContext context ) {
+    private VBox toButtonSetNode( final List<List<LevelInfo>> page1Levels, final LevelSelectionContext context ) {
         ArrayList<HBox> boxes = new ArrayList<HBox>();
         for ( List<LevelInfo> list : page1Levels ) {
             List<PNode> icons = list.map( new F<LevelInfo, PNode>() {
@@ -150,7 +150,7 @@ public class AbstractLevelSelectionNode extends PNode {
         }};
     }
 
-    private static PNode toLevelIcon( final AbstractLevelSelectionNode parent, final LevelInfo info, final List<List<LevelInfo>> allLevels, final MainContext context ) {
+    private static PNode toLevelIcon( final AbstractLevelSelectionNode parent, final LevelInfo info, final List<List<LevelInfo>> allLevels, final LevelSelectionContext context ) {
         final List<PNode> nodes = allLevels.bind( new F<List<LevelInfo>, List<PNode>>() {
             @Override public List<PNode> f( final List<LevelInfo> list ) {
                 return list.map( LevelInfo._icon );
@@ -189,7 +189,7 @@ public class AbstractLevelSelectionNode extends PNode {
     //Button icon for a single level, shows the level name, a shape and the progress stars
     public static class LevelIconNode extends PNode {
         public LevelIconNode( final String text, PNode icon, int numStars, int maxStars ) {
-            addChild( new VBox( new PhetPText( text, new PhetFont( 18, true ) ), icon, new StarSetNode2( numStars, maxStars ) ) );
+            addChild( new VBox( new PhetPText( text, new PhetFont( 18, true ) ), icon, new StarSetNode( numStars, maxStars ) ) );
         }
     }
 }

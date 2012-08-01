@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
  *
  * @author Sam Reid
  */
-public class BuildAFractionCanvas extends AbstractFractionsCanvas implements MainContext, SceneContext {
+public class BuildAFractionCanvas extends AbstractFractionsCanvas implements LevelSelectionContext, SceneContext {
 
     private static final int rgb = 240;
     public static final Color CONTROL_PANEL_BACKGROUND = new Color( rgb, rgb, rgb );

@@ -7,6 +7,8 @@ import lombok.Data;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Information for showing a button in the level selection screen.
+ *
  * @author Sam Reid
  */
 public @Data class LevelInfo {

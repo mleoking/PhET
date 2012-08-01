@@ -4,6 +4,8 @@ package edu.colorado.phet.fractions.buildafraction.view;
 import lombok.Data;
 
 /**
+ * Uniquely identifies a level, with the index and type.
+ *
  * @author Sam Reid
  */
 public @Data class LevelIdentifier {

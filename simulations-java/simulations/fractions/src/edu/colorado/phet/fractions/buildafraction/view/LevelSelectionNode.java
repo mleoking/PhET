@@ -30,6 +30,8 @@ import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFra
 import static fj.data.List.list;
 
 /**
+ * Screen that shows buttons for each level and stars indicating progress.
+ *
  * @author Sam Reid
  */
 public class LevelSelectionNode extends AbstractLevelSelectionNode {

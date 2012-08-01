@@ -11,6 +11,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 
 /**
+ * Base class for something that is stackable (such as number cards or shape pieces).
+ *
  * @author Sam Reid
  */
 public abstract class Stackable<T extends Stackable> extends PNode {

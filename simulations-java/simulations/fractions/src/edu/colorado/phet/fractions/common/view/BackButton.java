@@ -15,14 +15,14 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
  */
 public class BackButton extends PNode {
     public BackButton( final VoidFunction0 pressed ) {
-        addChild( new SpinnerButtonNode( scale( Images.LEFT_BUTTON_UP ), scale( Images.LEFT_BUTTON_PRESSED ), scale( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
+        addChild( new SpinnerButtonNode( rescale( Images.LEFT_BUTTON_UP ), rescale( Images.LEFT_BUTTON_PRESSED ), rescale( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
             public void apply( final Boolean spinning ) {
                 pressed.apply();
             }
         } ) );
     }
 
-    public static BufferedImage scale( final BufferedImage image ) {
+    public static BufferedImage rescale( final BufferedImage image ) {
         return multiScaleToWidth( image, 50 );
     }
 }
