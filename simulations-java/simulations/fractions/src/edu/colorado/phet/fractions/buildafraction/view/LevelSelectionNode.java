@@ -78,13 +78,13 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
     }
 
     private static LevelInfo shapeLevel( final int level, Pattern pattern, final F<LevelIdentifier, LevelProgress> gameProgress ) {
-        final LevelProgress f = gameProgress.f( new LevelIdentifier( level - 1, SHAPES ) );
-        return new LevelInfo( new LevelIdentifier( level - 1, SHAPES ), "Level " + level, new PatternNode( sequentialFill( pattern, level ), colors[( level - 1 ) % colors.length] ), f );
+        return new LevelInfo( new LevelIdentifier( level - 1, SHAPES ), "Level " + level, new PatternNode( sequentialFill( pattern, level ), colors[( level - 1 ) % colors.length] ),
+                              gameProgress.f( new LevelIdentifier( level - 1, SHAPES ) ) );
     }
 
     private static LevelInfo numberLevel( int level, final F<LevelIdentifier, LevelProgress> gameProgress ) {
-        final LevelProgress f = gameProgress.f( new LevelIdentifier( level - 1, NUMBERS ) );
-        return new LevelInfo( new LevelIdentifier( level - 1, NUMBERS ), "Level " + level, createLevelIcon( level ), f );
+        return new LevelInfo( new LevelIdentifier( level - 1, NUMBERS ), "Level " + level, createLevelIcon( level ),
+                              gameProgress.f( new LevelIdentifier( level - 1, NUMBERS ) ) );
     }
 
     private static PNode createLevelIcon( final int level ) {
