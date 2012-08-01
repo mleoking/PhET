@@ -32,7 +32,7 @@ public class FunctionsApplication extends PiccoloPhetApplication {
                 return new PhetApplication( c ) {{addModule( module );}};
             }
         };
-        new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", constructor );
+        new PhetApplicationLauncher().launchSim( args, "functions", "functions", constructor );
     }
 
     public static void main( String[] args ) {

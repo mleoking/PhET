@@ -28,7 +28,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="games" />
-    <orderEntry type="module" module-name="fractions" />
   </component>
 </module>
 
