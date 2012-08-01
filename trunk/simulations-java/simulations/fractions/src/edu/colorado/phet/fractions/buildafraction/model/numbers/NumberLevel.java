@@ -34,9 +34,10 @@ public class NumberLevel extends Level {
         this( targets.map( _fraction ).map( _numerator ).append( targets.map( _fraction ).map( _denominator ) ), targets );
     }
 
+    //Create a Number Level from the reduced fractions
     public static NumberLevel numberLevelReduced( final List<NumberTarget> targets ) {
         List<Fraction> reduced = targets.map( _fraction ).map( _reduce );
-        List<Integer> cards = reduced.map( _numerator ).append( reduced.map( Fraction._denominator ) );
+        List<Integer> cards = reduced.map( _numerator ).append( reduced.map( _denominator ) );
         return new NumberLevel( cards, targets );
     }
 }
