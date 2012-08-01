@@ -15,6 +15,16 @@ import lombok.Data;
 public @Data class Fraction {
     public final int numerator;
     public final int denominator;
+    public static F<Fraction, Double> _toDouble = new F<Fraction, Double>() {
+        @Override public Double f( final Fraction fraction ) {
+            return fraction.toDouble();
+        }
+    };
+    public static F<Fraction, Boolean> _greaterThanOne = new F<Fraction, Boolean>() {
+        @Override public Boolean f( final Fraction f ) {
+            return f.numerator > f.denominator;
+        }
+    };
 
     public double toDouble() { return ( (double) numerator ) / denominator; }
 
