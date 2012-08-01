@@ -144,6 +144,7 @@ public class FractionCardNode extends RichPNode {
         fractionNode.moveToFront();
     }
 
+    //Split it apart so the FractionNode is no longer shown on this card.
     public void split() {
         Point2D location = fractionNode.getGlobalTranslation();
         location = fractionNodeParent.globalToLocal( location );

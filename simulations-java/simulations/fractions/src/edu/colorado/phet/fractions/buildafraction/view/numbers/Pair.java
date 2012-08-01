@@ -6,6 +6,8 @@ import lombok.Data;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * A pair of a score box node and the pattern next to it.
+ *
  * @author Sam Reid
  */
 public @Data class Pair {

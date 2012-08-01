@@ -4,6 +4,8 @@ package edu.colorado.phet.fractions.buildafraction.view.numbers;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
+ * Context for dragging NumberCardNodes.
+ *
  * @author Sam Reid
  */
 public interface NumberDragContext {

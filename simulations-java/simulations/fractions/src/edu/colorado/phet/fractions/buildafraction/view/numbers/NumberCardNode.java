@@ -18,6 +18,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Card that shows a single number (could be multiple digits).
+ *
  * @author Sam Reid
  */
 public class NumberCardNode extends Stackable {
