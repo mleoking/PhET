@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Base class for a Scene (such as the picture or number game scene).
+ *
  * @author Sam Reid
  */
 public class SceneNode extends PNode {
