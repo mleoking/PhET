@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.pictures;
 
-import fj.Equal;
 import fj.F;
 import fj.Ord;
 import fj.P2;
@@ -10,7 +9,6 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.StringTokenizer;
 
 import edu.colorado.phet.fractions.buildafraction.model.Distribution;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
@@ -65,8 +63,6 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                                                 new PictureTarget( b ),
                                                 new PictureTarget( c ) ) ), colors[0], booleanToShape( pies ) );
     }
-
-    private ShapeType booleanToShape( final boolean pies ) {return pies ? ShapeType.PIE : ShapeType.BAR;}
 
     /* Level 2:
    --Here I would begin choosing from a distribution of fractions ranging from 1/2 to 4/5.
@@ -160,11 +156,6 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         return pictureLevel( straightforwardCards( selected ), selected, colors[4], ShapeType.PIE );
     }
 
-    public static final @Data class ShapesAndTargets {
-        public final List<Integer> cards;
-        public final List<Fraction> targets;
-    }
-
     public static @Data class Coefficients {
         public final int n;
         public final int m;
@@ -230,10 +221,10 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         P2<Fraction, Fraction> selected = chooseTwo( available );
         List<Fraction> targets = list( selected._1(), selected._1(), selected._2(), selected._2() );
 
-        ArrayList<List<Integer>> coefficientsTop = lookupCoefficientSets( selected._1() );
+        ArrayList<List<Integer>> coefficientsTop = getCoefficientSets( selected._1() );
         List<List<Integer>> chosenTop = choose( 2, iterableList( coefficientsTop ) );
 
-        ArrayList<List<Integer>> coefficientsBottom = lookupCoefficientSets( selected._2() );
+        ArrayList<List<Integer>> coefficientsBottom = getCoefficientSets( selected._2() );
         List<List<Integer>> chosenBottom = choose( 2, iterableList( coefficientsBottom ) );
 
         List<Integer> shapes = coefficientsToShapes( chosenTop.append( chosenBottom ) );
@@ -253,18 +244,6 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
             }
         }
         return shapes;
-    }
-
-    private ArrayList<List<Integer>> lookupCoefficientSets( final Fraction fraction ) {
-        if ( fraction.reduce().equals( new Fraction( 1, 2 ) ) ) { return parse( "[<0,0,0,0,0,0,0,4>, <0,0,0,0,0,3,0,0>, <0,0,0,1,0,0,0,2>, <0,0,0,2,0,0,0,0>, <0,0,1,0,0,1,0,0>, <0,1,0,0,0,0,0,0>]" ); }
-        if ( fraction.reduce().equals( new Fraction( 1, 3 ) ) ) { return parse( "[<0,0,0,0,0,2,0,0>, <0,0,1,0,0,0,0,0>]" ); }
-        if ( fraction.reduce().equals( new Fraction( 2, 3 ) ) ) { return parse( "[<0,0,0,0,0,1,0,4>, <0,0,0,0,0,4,0,0>, <0,0,0,1,0,1,0,2>, <0,0,0,2,0,1,0,0>, <0,0,1,0,0,2,0,0>, <0,0,2,0,0,0,0,0>, <0,1,0,0,0,1,0,0>]" ); }
-        if ( fraction.reduce().equals( new Fraction( 1, 4 ) ) ) { return parse( "[<0,0,0,0,0,0,0,2>, <0,0,0,1,0,0,0,0>]" ); }
-        if ( fraction.reduce().equals( new Fraction( 3, 4 ) ) ) { return parse( "[<0,0,0,0,0,0,0,6>, <0,0,0,0,0,3,0,2>, <0,0,0,1,0,0,0,4>, <0,0,0,1,0,3,0,0>, <0,0,0,2,0,0,0,2>, <0,0,0,3,0,0,0,0>, <0,0,1,0,0,1,0,2>, <0,0,1,1,0,1,0,0>, <0,1,0,0,0,0,0,2>, <0,1,0,1,0,0,0,0>]" ); }
-        if ( fraction.reduce().equals( new Fraction( 5, 6 ) ) ) { return parse( "[<0,0,0,0,0,2,0,4>, <0,0,0,0,0,5,0,0>, <0,0,0,1,0,2,0,2>, <0,0,0,2,0,2,0,0>, <0,0,1,0,0,0,0,4>, <0,0,1,0,0,3,0,0>, <0,0,1,1,0,0,0,2>, <0,0,1,2,0,0,0,0>, <0,0,2,0,0,1,0,0>, <0,1,0,0,0,2,0,0>, <0,1,1,0,0,0,0,0>]" ); }
-        if ( fraction.reduce().equals( new Fraction( 3, 8 ) ) ) { return parse( "[<0,0,0,0,0,0,0,3>, <0,0,0,1,0,0,0,1>]" ); }
-        if ( fraction.reduce().equals( new Fraction( 5, 8 ) ) ) { return parse( "[<0,0,0,0,0,0,0,5>, <0,0,0,0,0,3,0,1>, <0,0,0,1,0,0,0,3>, <0,0,0,2,0,0,0,1>, <0,0,1,0,0,1,0,1>, <0,1,0,0,0,0,0,1>]" ); }
-        throw new RuntimeException( "not in table: " + fraction );
     }
 
     //Brute force search for coefficients that make n*1/1 + m * 1/2 + o * 1/3 + ... solve the given fraction.
@@ -316,36 +295,6 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
             }
         }
         return coefficients;
-    }
-
-    private ArrayList<List<Integer>> parse( final String s ) {
-        ArrayList<List<Integer>> result = new ArrayList<List<Integer>>();
-        StringTokenizer st = new StringTokenizer( s, ">" );
-        while ( st.hasMoreTokens() ) {
-            String list = st.nextToken();
-            StringTokenizer st2 = new StringTokenizer( list, "[]<>, " );
-            List<Integer> values = nil();
-            while ( st2.hasMoreTokens() ) {
-                int number = Integer.parseInt( st2.nextToken() );
-                values = values.snoc( number );
-            }
-            if ( values.length() > 0 ) {
-                result.add( values );
-            }
-        }
-        return result;
-    }
-
-    private List<Integer> pad( List<Integer> list ) {
-        for ( int i = 1; i <= 6; i++ ) {
-            list = pad( list, i );
-        }
-        return list;
-    }
-
-    //Make sure at least one of each number 1-6
-    private List<Integer> pad( final List<Integer> list, int value ) {
-        return list.elementIndex( Equal.intEqual, value ).isNone() ? list.snoc( value ) : list;
     }
 
     /*
@@ -433,4 +382,6 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
             }
         } ) ? ShapeType.BAR : x;
     }
+
+    private ShapeType booleanToShape( final boolean pies ) {return pies ? ShapeType.PIE : ShapeType.BAR;}
 }
