@@ -360,7 +360,6 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
             }
         } );
 
-        System.out.println( "fraction: " + fraction + ", coefficients = " + coefficients + ", filtered = " + filtered );
         final List<Integer> chosenCoefficients = chooseOne( filtered.length() == 0 ? coefficients : filtered );
         return coefficientsToShapes( single( chosenCoefficients ) );
     }
