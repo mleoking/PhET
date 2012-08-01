@@ -19,7 +19,7 @@ import flash.display.Sprite;
 public class Projectile {
 
     private var mainView: MainView;
-    private var trajectoryModel: TrajectoryModel;
+    private var trajectoryModel: MainModel;
     private var _t: Number;                    //time in seconds, projectile is fired at t = 0
     private var _name: String;                 //name of projectile, in English: "tankshell", "golfball", etc
     private var _mass: Number;
@@ -29,7 +29,7 @@ public class Projectile {
     //private var onGroundGraphic: Sprite;       //graphic of projectile after it has hit the ground
 
 
-    public function Projectile( mainView:MainView, trajectoryModel:TrajectoryModel, name:String, mass:Number,  diameter:Number,  dragCoefficient:Number ) {
+    public function Projectile( mainView:MainView, trajectoryModel:MainModel, name:String, mass:Number,  diameter:Number,  dragCoefficient:Number ) {
         this.mainView = mainView;
         this.trajectoryModel = trajectoryModel
         _name = name;

@@ -15,7 +15,7 @@ import edu.colorado.phet.flashcommon.view.PhetIcon;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.projectilemotionflex.control.ControlPanel;
 import edu.colorado.phet.projectilemotionflex.control.SloMoStepControl;
-import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
+import edu.colorado.phet.projectilemotionflex.model.MainModel;
 
 import flash.display.Sprite;
 
@@ -27,7 +27,7 @@ public class MainView extends Canvas {
     private var phetLogo: Sprite;
     public var stageH: Number;
     public var stageW: Number;
-    public var trajectoryModel: TrajectoryModel;
+    public var trajectoryModel: MainModel;
     public var backgroundView: BackgroundView;
     public var controlPanel: ControlPanel;
     public var sloMoStepControl: SloMoStepControl;
@@ -49,7 +49,7 @@ public class MainView extends Canvas {
         this._originXInPix = 0.2*stageW;
         this._originYInPix = 0.8*stageH;
 
-        this.trajectoryModel = new TrajectoryModel( this );
+        this.trajectoryModel = new MainModel( this );
         this.backgroundView = new BackgroundView( this, trajectoryModel );
         this.controlPanel = new ControlPanel( this, trajectoryModel );
         this.sloMoStepControl = new SloMoStepControl( this, trajectoryModel );
