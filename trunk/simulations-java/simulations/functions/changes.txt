@@ -1,3 +1,4 @@
+# 0.00.01 (66490) Aug 1, 2012
 Added new prototype for build a function
 Finished prototype for function creation
 Added stub project for generating templates and mockups
