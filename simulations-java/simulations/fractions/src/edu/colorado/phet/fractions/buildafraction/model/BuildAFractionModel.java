@@ -70,16 +70,12 @@ public class BuildAFractionModel {
     public ShapeLevel getShapeLevel( final int level ) { return shapeLevels.get( level ); }
 
     public void resampleNumberLevel( final int levelIndex ) {
-        NumberLevel old = numberLevels.remove( levelIndex );
-        old.dispose();
-        NumberLevel newLevel = new NumberLevelList().get( levelIndex );
-        numberLevels.add( levelIndex, newLevel );
+        numberLevels.remove( levelIndex ).dispose();
+        numberLevels.add( levelIndex, new NumberLevelList().get( levelIndex ) );
     }
 
     public void resampleShapeLevel( final int levelIndex ) {
-        ShapeLevel old = shapeLevels.remove( levelIndex );
-        old.dispose();
-        ShapeLevel newLevel = new ShapeLevelList().get( levelIndex );
-        shapeLevels.add( levelIndex, newLevel );
+        shapeLevels.remove( levelIndex ).dispose();
+        shapeLevels.add( levelIndex, new ShapeLevelList().get( levelIndex ) );
     }
 }
