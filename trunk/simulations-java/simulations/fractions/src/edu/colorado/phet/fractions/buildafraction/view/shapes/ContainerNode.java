@@ -246,7 +246,7 @@ public class ContainerNode extends PNode {
 
     public Boolean isInTargetCell() {return inTargetCell;}
 
-    public void setInTargetCell( final boolean inTargetCell ) {
+    public void setInTargetCell( final boolean inTargetCell, int targetDenominator ) {
         this.inTargetCell = inTargetCell;
         leftSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
         rightSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
@@ -260,6 +260,9 @@ public class ContainerNode extends PNode {
 
         for ( SingleContainerNode node : getSingleContainerNodes() ) {
             node.setInTargetCell( inTargetCell );
+        }
+        if ( inTargetCell && targetDenominator > 0 ) {
+            selectedPieceSize.set( targetDenominator );
         }
     }
 

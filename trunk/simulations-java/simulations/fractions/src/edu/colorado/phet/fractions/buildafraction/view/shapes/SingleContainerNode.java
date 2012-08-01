@@ -182,6 +182,6 @@ public class SingleContainerNode extends PNode {
     }
 
     public void setInTargetCell( final boolean inTargetCell ) {
-        dottedLineLayer.setVisible( !inTargetCell );
+        dottedLineLayer.setVisible( true );
     }
 }

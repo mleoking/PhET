@@ -82,7 +82,7 @@ public class ShapeScoreBoxNode extends PNode {
             containerNode.setScale( 1.0 );
             containerNode.addBackSplitButton();
             containerNode.setAllPickable( true );
-            containerNode.setInTargetCell( false );
+            containerNode.setInTargetCell( false, 0 );
 
             //Send the pieces home
             containerNode.splitAll();
