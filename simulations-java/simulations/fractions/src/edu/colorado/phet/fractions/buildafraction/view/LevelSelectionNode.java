@@ -74,7 +74,17 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
     }
 
     private static LevelInfo shapeLevel( final int level, final F<LevelIdentifier, LevelProgress> gameProgress ) {
-        return shapeLevel( level, Pattern.polygon( 80, level ), gameProgress );
+        return shapeLevel( level, getPattern( level ), gameProgress );
+    }
+
+    private static Pattern getPattern( final int level ) {
+        return level <= 5 ? Pattern.polygon( 80, level ) :
+               level == 6 ? Pattern.sixFlower() :
+               level == 7 ? Pattern.ringOfHexagons() :
+               level == 8 ? Pattern.ninjaStar() :
+               level == 9 ? Pattern.grid( 3 ) :
+               level == 10 ? Pattern.letterLShapedDiagonal( 10, 5 ) :
+               null;
     }
 
     private static LevelInfo shapeLevel( final int level, Pattern pattern, final F<LevelIdentifier, LevelProgress> gameProgress ) {
