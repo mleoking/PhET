@@ -15,9 +15,10 @@ import java.util.StringTokenizer;
 import edu.colorado.phet.fractions.buildafraction.model.Distribution;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
-import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
 import static edu.colorado.phet.fractions.buildafraction.model.pictures.PictureLevel.pictureLevel;
 import static edu.colorado.phet.fractions.buildafraction.view.LevelSelectionNode.colors;
+import static edu.colorado.phet.fractions.common.util.Sampling.*;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction._numerator;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.fraction;
 import static fj.data.List.*;
