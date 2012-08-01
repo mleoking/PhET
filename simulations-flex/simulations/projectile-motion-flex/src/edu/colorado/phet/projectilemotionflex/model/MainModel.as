@@ -21,9 +21,11 @@ import flash.utils.getTimer;
 
 /**
  * model of projectile motion, including air resistance
+ *
+ *
  */
 
-public class TrajectoryModel {
+public class MainModel {
 
     public var views_arr: Array;     //views associated with this model
     public var mainView: MainView;   //communications hub
@@ -91,7 +93,7 @@ public class TrajectoryModel {
 
 
 
-    public function TrajectoryModel( mainView: MainView ) {
+    public function MainModel( mainView: MainView ) {
         this.mainView = mainView;
         this.views_arr = new Array();
         this.stageW = this.mainView.stageW;

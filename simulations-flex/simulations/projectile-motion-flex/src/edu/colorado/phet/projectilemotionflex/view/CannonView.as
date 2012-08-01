@@ -10,7 +10,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.projectilemotionflex.view {
-import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
+import edu.colorado.phet.projectilemotionflex.model.MainModel;
 
 import flash.display.Graphics;
 import flash.display.MovieClip;
@@ -21,7 +21,7 @@ import flash.geom.Point;
 
 public class CannonView extends Sprite {
     private var mainView: MainView;
-    private var trajectoryModel: TrajectoryModel;
+    private var trajectoryModel: MainModel;
     private var background: BackgroundView;
     //public var trajectoryView: TrajectoryView;
     private var stageW: Number;
@@ -42,7 +42,7 @@ public class CannonView extends Sprite {
     public static var Carriage: Class;
 
 
-    public function CannonView( mainView:MainView,  trajectoryModel: TrajectoryModel, background:BackgroundView ) {
+    public function CannonView( mainView:MainView,  trajectoryModel: MainModel, background:BackgroundView ) {
         this.mainView = mainView;
         this.trajectoryModel = trajectoryModel;
         this.background = background;

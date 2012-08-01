@@ -12,7 +12,7 @@
 package edu.colorado.phet.projectilemotionflex.control {
 
 import edu.colorado.phet.flexcommon.FlexSimStrings;
-import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
+import edu.colorado.phet.projectilemotionflex.model.MainModel;
 import edu.colorado.phet.projectilemotionflex.view.MainView;
 
 import flash.display.Graphics;
@@ -30,7 +30,7 @@ import mx.core.UIComponent;
 public class SloMoStepControl extends UIComponent {          //cannot extend Sprite, since contains an HSlider
     //private var canvas:Sprite;
     private var myMainView: MainView;
-    private var myModel: TrajectoryModel;
+    private var myModel: MainModel;
     private var timeRateSlider:HSlider;
     private var playPauseButton: Sprite;
     private var stepButton: Sprite;
@@ -60,7 +60,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
     public var singleStep_str: String;
 
 
-    public function SloMoStepControl( myMainView: MainView, myModel: TrajectoryModel ) {
+    public function SloMoStepControl( myMainView: MainView, myModel: MainModel ) {
 
         this.initializeStrings();
 

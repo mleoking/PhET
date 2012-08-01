@@ -14,7 +14,7 @@ import edu.colorado.phet.flashcommon.controls.NiceTextField;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.projectilemotionflex.control.SloMoStepControl;
-import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
+import edu.colorado.phet.projectilemotionflex.model.MainModel;
 import edu.colorado.phet.projectilemotionflex.tools.TapeMeasure;
 
 import flash.display.GradientType;
@@ -32,7 +32,7 @@ import flash.geom.Matrix;
 
 public class BackgroundView extends Sprite {
     private var mainView: MainView;
-    private var trajectoryModel: TrajectoryModel;
+    private var trajectoryModel: MainModel;
     private var stageW: Number;
     private var stageH: Number;
     private var rangeReadout: NiceTextField;
@@ -59,7 +59,7 @@ public class BackgroundView extends Sprite {
     private var _originYInPix: Number;
 
 
-    public function BackgroundView( mainView:MainView,  trajectoryModel: TrajectoryModel ) {
+    public function BackgroundView( mainView:MainView,  trajectoryModel: MainModel ) {
         this.mainView = mainView;
         this.trajectoryModel = trajectoryModel;
         this.stageW = mainView.stageW;

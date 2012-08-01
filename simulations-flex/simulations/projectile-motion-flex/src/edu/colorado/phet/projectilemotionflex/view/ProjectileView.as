@@ -11,7 +11,7 @@
  */
 package edu.colorado.phet.projectilemotionflex.view {
 import edu.colorado.phet.projectilemotionflex.model.Projectile;
-import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
+import edu.colorado.phet.projectilemotionflex.model.MainModel;
 
 import flash.display.DisplayObjectContainer;
 
@@ -22,7 +22,7 @@ import flash.display.Sprite;
 // a single view for all 10 projectiles, view properties change when projectile changes
 public class ProjectileView extends Sprite {
     private var mainView: MainView;
-    private var trajectoryModel: TrajectoryModel;
+    private var trajectoryModel: MainModel;
 //    private var stageW: Number;
 //    private var stageH: Number;
     private var originXInPix: Number;
@@ -32,7 +32,7 @@ public class ProjectileView extends Sprite {
     private var projectileOnGround: Sprite;
     private var pIndex: int;        //index of current projectile, which is trajectoryModel.projectiles[pIndex]
 
-    public function ProjectileView( mainView:MainView,  trajectoryModel: TrajectoryModel, projectileImage:DisplayObjectContainer = null  ) {
+    public function ProjectileView( mainView:MainView,  trajectoryModel: MainModel, projectileImage:DisplayObjectContainer = null  ) {
         this.mainView = mainView;
         this.originXInPix = mainView.originXInPix;
         this.originYInPix = mainView.originYInPix;

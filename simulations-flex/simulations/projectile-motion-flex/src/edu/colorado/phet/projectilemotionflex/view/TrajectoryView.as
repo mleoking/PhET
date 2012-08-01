@@ -10,7 +10,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.projectilemotionflex.view {
-import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
+import edu.colorado.phet.projectilemotionflex.model.MainModel;
 
 import flash.display.Graphics;
 
@@ -20,7 +20,7 @@ import flash.utils.getTimer;
 
 public class TrajectoryView extends Sprite {
     private var mainView: MainView;
-    private var trajectoryModel: TrajectoryModel;
+    private var trajectoryModel: MainModel;
     private var stageW: Number;
     private var stageH: Number;
     private var originXInPix: Number;
@@ -41,7 +41,7 @@ public class TrajectoryView extends Sprite {
     private var ticIndex: int;          //index for 1-s tic marks on trajectory
     
 
-    public function TrajectoryView( mainView:MainView,  trajectoryModel: TrajectoryModel ) {
+    public function TrajectoryView( mainView:MainView,  trajectoryModel: MainModel ) {
         this.mainView = mainView;
         this.trajectoryModel = trajectoryModel;
         this.stageW = mainView.stageW;

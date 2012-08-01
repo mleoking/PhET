@@ -16,7 +16,7 @@ import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.flashcommon.controls.NiceTextField;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
-import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
+import edu.colorado.phet.projectilemotionflex.model.MainModel;
 import edu.colorado.phet.projectilemotionflex.view.MainView;
 
 import flash.display.Graphics;
@@ -43,7 +43,7 @@ import mx.core.FlexSimpleButton;
 
 public class ControlPanel extends Canvas {
     private var mainView: MainView;
-    private var trajectoryModel: TrajectoryModel;
+    private var trajectoryModel: MainModel;
     private var stageW: Number;
     private var stageH: Number;
 
@@ -93,7 +93,7 @@ public class ControlPanel extends Canvas {
     //check box string
     private var airResistance_str: String;
 
-    public function ControlPanel( mainView:MainView,  trajectoryModel: TrajectoryModel ) {
+    public function ControlPanel( mainView:MainView,  trajectoryModel: MainModel ) {
         this.mainView = mainView;
         this.trajectoryModel = trajectoryModel;
         trajectoryModel.registerView( this );
