@@ -22,6 +22,12 @@ public @Data class NumberTarget {
     public final Color color;
     public final List<FilledPattern> filledPattern;
 
+    public static F<NumberTarget, Fraction> _fraction = new F<NumberTarget, Fraction>() {
+        @Override public Fraction f( final NumberTarget numberTarget ) {
+            return numberTarget.fraction;
+        }
+    };
+
     //Convenience for single pattern
     public static NumberTarget target( int numerator, int denominator, Color color, F<Fraction, FilledPattern> pattern ) {
         return new NumberTarget( new Fraction( numerator, denominator ), color, composite( pattern ).f( new Fraction( numerator, denominator ) ) );

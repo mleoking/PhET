@@ -45,6 +45,12 @@ public @Data class Fraction {
         }
     };
 
+    public static final F<Fraction, Fraction> _reduce = new F<Fraction, Fraction>() {
+        @Override public Fraction f( final Fraction fraction ) {
+            return fraction.reduce();
+        }
+    };
+
     public Fraction times( final int scale ) { return new Fraction( numerator * scale, denominator * scale ); }
 
     public static final F2<Fraction, Integer, Fraction> _times = new F2<Fraction, Integer, Fraction>() {
