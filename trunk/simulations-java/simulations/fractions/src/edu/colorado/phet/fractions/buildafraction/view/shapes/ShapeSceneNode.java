@@ -534,8 +534,9 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
         List<List<Integer>> groups = level.pieces.group( intEqual );
         double delta = toDelta( groups.index( stackIndex ).length(), cardIndex );
+        final int yOffset = level.shapeType == ShapeType.BAR ? 25 : 0;
         return new Vector2D( layoutXOffset + 30 + delta * sign + stackIndex * spacing,
-                             STAGE_SIZE.height - 117 + delta + ( level.shapeType == ShapeType.BAR ? 25 : 0 ) );
+                             STAGE_SIZE.height - 117 + delta + yOffset );
     }
 
     private double toDelta( final int numInGroup, final int cardIndex ) {
