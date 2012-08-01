@@ -11,7 +11,7 @@ public class BuildAFunctionPrototype2 extends PiccoloModule {
     private boolean showColorDialog = false;
 
     public BuildAFunctionPrototype2() {
-        super( "Build a Function", new ConstantDtClock( 30 ) );
+        super( "Build a Function I", new ConstantDtClock( 30 ) );
         setSimulationPanel( new BuildAFunctionPrototype2Canvas() );
         setClockControlPanel( null );
         setLogoPanelVisible( false );

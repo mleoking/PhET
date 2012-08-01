@@ -9,7 +9,7 @@ import edu.colorado.phet.functions.FunctionsApplication;
  */
 public class BuildAFunctionModule extends PiccoloModule {
     public BuildAFunctionModule() {
-        super( "Build a Function", new ConstantDtClock( 30 ) );
+        super( "Build a Function II", new ConstantDtClock( 30 ) );
         setSimulationPanel( new BuildAFunctionCanvas() );
         setClockControlPanel( null );
         setLogoPanelVisible( false );
