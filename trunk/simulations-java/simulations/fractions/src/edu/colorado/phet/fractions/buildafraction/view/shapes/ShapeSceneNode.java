@@ -32,13 +32,11 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
-import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeTarget;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
-import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -62,6 +60,7 @@ import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
+import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction._toDouble;
 import static fj.Ord.doubleOrd;
 import static fj.data.List.iterableList;
 import static fj.function.Booleans.not;
@@ -107,17 +106,13 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         //Create the scoring cells with target patterns
         ArrayList<Target> pairList = new ArrayList<Target>();
         for ( int i = 0; i < level.targets.length(); i++ ) {
-            ShapeTarget target = level.getTarget( i );
+            Fraction target = level.getTarget( i );
 
-            FractionNode f = new FractionNode( target.fraction, 0.33 );
-            final ShapeScoreBoxNode cell = new ShapeScoreBoxNode( target.fraction.numerator, target.fraction.denominator,
+            FractionNode f = new FractionNode( target, 0.33 );
+            final ShapeScoreBoxNode cell = new ShapeScoreBoxNode( target.numerator, target.denominator,
                                                                   level.createdFractions, this,
-                                                                  level.flashTargetCellOnMatch, level.targets.maximum( FJUtils.ord( new F<ShapeTarget, Double>() {
-                @Override public Double f( final ShapeTarget shapeTarget ) {
-                    return shapeTarget.getFraction().toDouble();
-                }
-            } ) ).getFraction() );
-            pairList.add( new Target( cell, new ZeroOffsetNode( f ), target.fraction ) );
+                                                                  level.flashTargetCellOnMatch, level.targets.maximum( ord( _toDouble ) ) );
+            pairList.add( new Target( cell, new ZeroOffsetNode( f ), target ) );
         }
         this.targetPairs = iterableList( pairList );
 

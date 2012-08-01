@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.shapes;
 
-import fj.F;
 import fj.Ord;
 import fj.data.List;
 
@@ -10,6 +9,8 @@ import java.awt.Color;
 import edu.colorado.phet.fractions.buildafraction.model.Level;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
+import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction._greaterThanOne;
+
 /**
  * Level for the build a fraction game.
  *
@@ -17,7 +18,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
  */
 public class ShapeLevel extends Level {
 
-    public final List<ShapeTarget> targets;
+    public final List<Fraction> targets;
     public final List<Integer> pieces;
 
     public final Color color;
@@ -29,14 +30,10 @@ public class ShapeLevel extends Level {
 
     //Cannot be a constructor because has same erasure
     public static ShapeLevel shapeLevel( final List<Integer> pieces, final List<Fraction> targets, Color color, ShapeType shapeType ) {
-        return new ShapeLevel( pieces, targets.map( new F<Fraction, ShapeTarget>() {
-            @Override public ShapeTarget f( final Fraction fraction ) {
-                return new ShapeTarget( fraction );
-            }
-        } ), color, shapeType );
+        return new ShapeLevel( pieces, targets, color, shapeType );
     }
 
-    public ShapeLevel( final List<Integer> pieces, final List<ShapeTarget> targets, Color color, ShapeType shapeType ) {
+    public ShapeLevel( final List<Integer> pieces, final List<Fraction> targets, Color color, ShapeType shapeType ) {
         super( targets.length() );
         this.targets = targets;
         this.pieces = pieces.sort( Ord.intOrd );
@@ -44,13 +41,7 @@ public class ShapeLevel extends Level {
         this.shapeType = shapeType;
     }
 
-    public ShapeTarget getTarget( final int i ) { return targets.index( i ); }
+    public Fraction getTarget( final int i ) { return targets.index( i ); }
 
-    public boolean hasValuesGreaterThanOne() {
-        return targets.exists( new F<ShapeTarget, Boolean>() {
-            @Override public Boolean f( final ShapeTarget shapeTarget ) {
-                return shapeTarget.fraction.numerator > shapeTarget.fraction.denominator;
-            }
-        } );
-    }
+    public boolean hasValuesGreaterThanOne() { return targets.exists( _greaterThanOne ); }
 }
