@@ -15,6 +15,8 @@ import static fj.data.List.iterableList;
 import static fj.data.List.range;
 
 /**
+ * Methods that allow sampling with uniform probability without replacement from different lists.
+ *
  * @author Sam Reid
  */
 public class Sampling {

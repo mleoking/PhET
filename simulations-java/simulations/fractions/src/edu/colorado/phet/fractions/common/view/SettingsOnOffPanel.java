@@ -27,7 +27,7 @@ import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.
 import static edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element.nodes;
 
 /**
- * Shows nodes in a grid.
+ * Shows nodes in a grid, for on/off for timer/sound.
  *
  * @author Sam Reid
  */

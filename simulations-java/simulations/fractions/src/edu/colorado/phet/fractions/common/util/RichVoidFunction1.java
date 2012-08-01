@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
+ * VoidFunction1 implementation that support chaining with the method "andThen".
+ *
  * @author Sam Reid
  */
 public abstract class RichVoidFunction1<T> implements VoidFunction1<T> {

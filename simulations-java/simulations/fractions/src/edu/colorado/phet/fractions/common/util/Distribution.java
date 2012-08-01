@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
+ * A distribution which maps T=>Probability (as double) and can be used to sample from the distribution accordly
+ *
  * @author Sam Reid
  */
 public class Distribution<T> {
