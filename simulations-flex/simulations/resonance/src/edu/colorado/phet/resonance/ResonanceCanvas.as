@@ -6,6 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.resonance {
+import edu.colorado.phet.flashcommon.CommonButtons;
+import edu.colorado.phet.flexcommon.FlexCommon;
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
+
+import flash.display.Sprite;
 import flash.events.Event;
 import flash.ui.ContextMenu;
 
@@ -18,6 +23,8 @@ public class ResonanceCanvas extends Canvas {
 
     private var RENDER_WIDTH: int = 1024;
     private var RENDER_HEIGHT: int = 768;
+
+    private var buttonHolder: Sprite = new Sprite();
 
     public function init( app: * ): void {
         setStyle( "backgroundColor", 0xffff99 );//same color as build an atom
@@ -50,6 +57,29 @@ public class ResonanceCanvas extends Canvas {
 //
 //        var application: Application = app as Application;
 //        application.setStyle( "backgroundColor", 0xffff99 );
+
+        //Create About button
+        var common: FlexCommon = FlexCommon.getInstance();
+
+        res.addChild( new SpriteUIComponent( buttonHolder ) );
+
+        common.addLoadListener( positionButtons );
+        stage.addEventListener( Event.RESIZE, function( evt: Event ): void {
+            positionButtons();
+        } );
+
+        common.initialize( buttonHolder );
+    }
+
+    private function positionButtons(): void {
+        var buttons: CommonButtons = FlexCommon.getInstance().commonButtons;
+        if ( buttons != null ) {
+            if( buttons.getParent() == null ) {
+                buttonHolder.addChild( buttons );
+            }
+            var logoWidth: Number = new PhetIcon().width;
+            buttons.setLocationXY( RENDER_WIDTH - buttons.getPreferredWidth() - 10, 0 );
+        }
     }
 }
 }
