@@ -11,6 +11,8 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 
 /**
+ * Button that allows the user to navigate back.
+ *
  * @author Sam Reid
  */
 public class BackButton extends PNode {
