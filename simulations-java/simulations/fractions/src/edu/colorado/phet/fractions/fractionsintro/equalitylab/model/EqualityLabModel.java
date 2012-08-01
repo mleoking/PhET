@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Times;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.fractions.common.util.immutable.Dimension2D;
+import edu.colorado.phet.fractions.common.util.Dimension2D;
 import edu.colorado.phet.fractions.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.IntroState;
