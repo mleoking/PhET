@@ -1,0 +1,16 @@
+// Copyright 2002-2012, University of Colorado
+package edu.colorado.phet.fractions.buildafraction.view.shapes;
+
+import lombok.Data;
+
+import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
+import edu.umd.cs.piccolo.PNode;
+
+/**
+ * @author Sam Reid
+ */
+public @Data class Target {
+    public final ShapeScoreBoxNode cell;
+    public final PNode node;
+    public final Fraction value;
+}

@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractions.buildafraction.view.pictures;
+package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -13,8 +13,8 @@ public class BarPieceNode extends PieceNode {
     private PhetPPath barShadow;
     private ZeroOffsetNode barShadowNode;
 
-    public BarPieceNode( final int pieceDenominator, final PictureSceneNode pictureSceneNode, final PhetPPath shape ) {
-        super( pieceDenominator, pictureSceneNode, shape, ShapeType.BAR );
+    public BarPieceNode( final int pieceDenominator, final ShapeSceneNode shapeSceneNode, final PhetPPath shape ) {
+        super( pieceDenominator, shapeSceneNode, shape, ShapeType.BAR );
 
         barShadow = new PhetPPath( this.pathNode.getPathReference(), ShapeNode.SHADOW_PAINT );
         barShadowNode = new ZeroOffsetNode( barShadow ) {{

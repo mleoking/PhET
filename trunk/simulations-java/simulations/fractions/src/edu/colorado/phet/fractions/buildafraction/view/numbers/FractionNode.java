@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
-import edu.colorado.phet.fractions.buildafraction.view.pictures.AnimateToScale;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.AnimateToScale;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

@@ -14,7 +14,7 @@ import edu.colorado.phet.fractions.buildafraction.model.Distribution;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
-import static edu.colorado.phet.fractions.buildafraction.model.shapes.PictureLevel.pictureLevel;
+import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel.shapeLevel;
 import static edu.colorado.phet.fractions.buildafraction.view.LevelSelectionNode.colors;
 import static edu.colorado.phet.fractions.common.util.Sampling.*;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction._numerator;
@@ -24,10 +24,10 @@ import static fj.data.List.*;
 /**
  * @author Sam Reid
  */
-public class PictureLevelList extends ArrayList<PictureLevel> {
+public class ShapeLevelList extends ArrayList<ShapeLevel> {
     private final Random random = new Random();
 
-    public PictureLevelList() {
+    public ShapeLevelList() {
 
         //For levels 1-4, either tiles or pies will work
         //SR: Let's make level 1 = pies/tiles then level 2 opposite of level 1, then same for 3-4
@@ -48,7 +48,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
     /* Level 1:
     --I like the idea of starting with this simple set of fractions
     - Can we make two draws, one target should be from the set  {1/1, 2/2, 3/3} and the second draw for the next two targets from the set {1/2, 1/3, 2/3} */
-    private PictureLevel level1( final boolean pies ) {
+    private ShapeLevel level1( final boolean pies ) {
         Distribution<Fraction> set1 = new Distribution<Fraction>( list( fraction( 1, 1 ),
                                                                         fraction( 2, 2 ),
                                                                         fraction( 3, 3 ) ) );
@@ -58,10 +58,10 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         Fraction a = set1.draw();
         Fraction b = set2.drawAndRemove();
         Fraction c = set2.draw();
-        return new PictureLevel( list( 1, 1, 2, 2, 3, 3 ),
-                                 shuffle( list( new PictureTarget( a ),
-                                                new PictureTarget( b ),
-                                                new PictureTarget( c ) ) ), colors[0], booleanToShape( pies ) );
+        return new ShapeLevel( list( 1, 1, 2, 2, 3, 3 ),
+                               shuffle( list( new ShapeTarget( a ),
+                                              new ShapeTarget( b ),
+                                              new ShapeTarget( c ) ) ), colors[0], booleanToShape( pies ) );
     }
 
     /* Level 2:
@@ -69,7 +69,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
    As in the numerator could be 1, 2, 3, or 4 and the denominator could be 2, 3, 4, or 5 with the stipulation that the fraction is always less than 1.
    So I would remove the "wholes" from the shapes pile.
     */
-    private PictureLevel level2( final boolean pies ) {
+    private ShapeLevel level2( final boolean pies ) {
         List<Fraction> targets = list( fraction( 1, 2 ),
                                        fraction( 1, 3 ),
                                        fraction( 1, 4 ),
@@ -84,7 +84,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         List<Fraction> selected = choose( 3, targets );
 
         //Use same number for each card type
-        return pictureLevel( straightforwardCards( selected ), selected, colors[1], booleanToShape( pies ) );
+        return shapeLevel( straightforwardCards( selected ), selected, colors[1], booleanToShape( pies ) );
     }
 
     //Just the exact cards necessary to fit the selected fractions
@@ -112,7 +112,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
     /* Level 3:
 --Like level 2, but now fractions ranging from 1/1 to 6/6, and with "whole" pieces available.
 --Number of pieces of each fraction allowing for multiple solutions*/
-    private PictureLevel level3( final boolean pies ) {
+    private ShapeLevel level3( final boolean pies ) {
         List<Fraction> targets = list( fraction( 1, 1 ), fraction( 1, 2 ), fraction( 1, 3 ), fraction( 1, 4 ), fraction( 1, 5 ), fraction( 1, 6 ),
                                        fraction( 2, 2 ), fraction( 2, 3 ), fraction( 2, 4 ), fraction( 2, 5 ), fraction( 2, 6 ),
                                        fraction( 3, 3 ), fraction( 3, 4 ), fraction( 3, 5 ), fraction( 3, 6 ),
@@ -121,7 +121,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                                        fraction( 6, 6 ) );
 
         List<Fraction> selected = choose( 3, targets );
-        return pictureLevel( createCardsSameNumberEachType( selected ), selected, colors[2], booleanToShape( pies ) );
+        return shapeLevel( createCardsSameNumberEachType( selected ), selected, colors[2], booleanToShape( pies ) );
     }
 
     /* Level 4:
@@ -129,14 +129,14 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
     -- let's make the 2 possible targets be {1/2, 1/1}.  For 1/2, I like the constraints you have chosen, but take away the "whole" piece. For 1/1,
     again take away the "whole" piece, and constrain one of the targets so they must use two different sizes.  For instance, only enough halves and
     quarters so they must do 1 half piece and 2 quarter pieces.  Or 2 third pieces and 2 sixth pieces.*/
-    private PictureLevel level4( final boolean pies ) { return random.nextBoolean() ? halfLevel4( pies ) : wholesLevel4( pies ); }
+    private ShapeLevel level4( final boolean pies ) { return random.nextBoolean() ? halfLevel4( pies ) : wholesLevel4( pies ); }
 
-    private PictureLevel wholesLevel4( final boolean pies ) {
-        return pictureLevel( list( 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6 ), replicate( 3, fraction( 1, 1 ) ), colors[3], booleanToShape( pies ) );
+    private ShapeLevel wholesLevel4( final boolean pies ) {
+        return shapeLevel( list( 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6 ), replicate( 3, fraction( 1, 1 ) ), colors[3], booleanToShape( pies ) );
     }
 
-    private PictureLevel halfLevel4( final boolean pies ) {
-        return pictureLevel( list( 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6 ), replicate( 3, fraction( 1, 2 ) ), colors[3], booleanToShape( pies ) );
+    private ShapeLevel halfLevel4( final boolean pies ) {
+        return shapeLevel( list( 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6 ), replicate( 3, fraction( 1, 2 ) ), colors[3], booleanToShape( pies ) );
     }
 
     /*Level 5:
@@ -145,7 +145,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
     -- Let's use pie shapes for this level
     - numerator able to range from 1-8, and denominator able to range from 1-8, with the number less than or equal to 1
     - all pieces available to fulfill targets in the most straightforward way (so for instance if 3/8 appears there will 3 1/8 pieces)*/
-    private PictureLevel level5() {
+    private ShapeLevel level5() {
         List<Integer> values = range( 1, 9 );
         List<Integer> denominators = choose( 3, values );
         List<Fraction> selected = denominators.map( new F<Integer, Fraction>() {
@@ -153,7 +153,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                 return new Fraction( chooseOne( range( 1, denominator + 1 ) ), denominator );
             }
         } );
-        return pictureLevel( straightforwardCards( selected ), selected, colors[4], ShapeType.PIE );
+        return shapeLevel( straightforwardCards( selected ), selected, colors[4], ShapeType.PIE );
     }
 
     public static @Data class Coefficients {
@@ -170,8 +170,8 @@ a 1/2 and a 1/3.
 --the constraint should be such that only enough pieces exist to complete the targets.
 
     But keep the values less than 1 by trial and error.*/
-    private PictureLevel level6() {
-        PictureLevel level = sampleLevel6();
+    private ShapeLevel level6() {
+        ShapeLevel level = sampleLevel6();
         if ( !level.hasValuesGreaterThanOne() ) {
             return level;
         }
@@ -180,7 +180,7 @@ a 1/2 and a 1/3.
         }
     }
 
-    private PictureLevel sampleLevel6() {//let's implement this my making each solution as na + mb, where a and b are the fractions from pairs above
+    private ShapeLevel sampleLevel6() {//let's implement this my making each solution as na + mb, where a and b are the fractions from pairs above
         final List<Integer> cardSizes = chooseOne( list( list( 2, 3 ), list( 2, 4 ), list( 3, 4 ), list( 2, 6 ), list( 3, 6 ), list( 4, 8 ), list( 2, 8 ) ) );
 
         List<Coefficients> nmPairs = list( new Coefficients( 0, 1 ), new Coefficients( 1, 0 ),
@@ -204,7 +204,7 @@ a 1/2 and a 1/3.
         }
 
 
-        return pictureLevel( selectedShapes, selectedTargets, colors[5], choosePiesOrBars( selectedTargets ) );
+        return shapeLevel( selectedShapes, selectedTargets, colors[5], choosePiesOrBars( selectedTargets ) );
     }
 
     /*Level 7:
@@ -214,7 +214,7 @@ a 1/2 and a 1/3.
 -- Shape pieces constrained so that for instance if 1/2 and 1/2 appears for the top targets, a 1/2 piece might be available but the other one
 will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
 -- If 3/8 or 5/8 are drawn circles should be used, if not circles or tiles will work fine*/
-    public PictureLevel level7() {
+    public ShapeLevel level7() {
         List<Fraction> available = list( new Fraction( 1, 2 ), new Fraction( 1, 3 ), new Fraction( 2, 3 ), new Fraction( 1, 4 ),
                                          new Fraction( 3, 4 ), new Fraction( 5, 6 ), new Fraction( 3, 8 ), new Fraction( 5, 8 ) );
 
@@ -229,7 +229,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
 
         List<Integer> shapes = coefficientsToShapes( chosenTop.append( chosenBottom ) );
 
-        return pictureLevel( shapes, targets, colors[6], ShapeType.PIE );
+        return shapeLevel( shapes, targets, colors[6], ShapeType.PIE );
     }
 
     private List<Integer> coefficientsToShapes( final List<List<Integer>> allCoefficients ) {
@@ -303,9 +303,9 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    -- On this level lets have at least 2 numbers larger than 1 as targets
    -- Enough pieces available to match targets in "obvious ways"...so if 5/4 is a target a whole piece is available and a 1/4 piece available
     */
-    public PictureLevel level8() {
+    public ShapeLevel level8() {
         List<Fraction> targets = level8Targets();
-        return pictureLevel( straightforwardCards( targets ), shuffle( targets ), colors[7], choosePiesOrBars( targets ) );
+        return shapeLevel( straightforwardCards( targets ), shuffle( targets ), colors[7], choosePiesOrBars( targets ) );
     }
 
     private List<Fraction> level8Targets() {
@@ -320,10 +320,10 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    --Same as level 8 but now some targets only allow "non-obvious" matches with pieces.  For instance, if the target is greater than one, no
    "wholes" should be available.  So if 5/4 is a target it would need to be built from something like 2 half pieces and a quarter piece
     */
-    public PictureLevel level9() {
+    public ShapeLevel level9() {
         List<Fraction> targets = level8Targets();
         //TODO: make cards be non-straightforward.  Possibly by consolidating into pieces as large as possible, then doing random subdivisions.
-        return pictureLevel( straightforwardCards( targets ), shuffle( targets ), colors[8], choosePiesOrBars( targets ) );
+        return shapeLevel( straightforwardCards( targets ), shuffle( targets ), colors[8], choosePiesOrBars( targets ) );
     }
 
     /*
@@ -334,7 +334,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    more pieces as a way to constrain the pieces given. So for instance something like 4/3 would have to be built by something like 1(half) +
    2(quarters) + (1/3)
     */
-    public PictureLevel level10() {
+    public ShapeLevel level10() {
         List<Fraction> available = list( new Fraction( 3, 2 ),
                                          new Fraction( 4, 3 ), new Fraction( 5, 3 ),
                                          new Fraction( 5, 4 ), new Fraction( 7, 4 ),
@@ -348,7 +348,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         List<Integer> shapes3 = interestingShapes( targets.index( 2 ) );
         List<Integer> shapes4 = interestingShapes( targets.index( 3 ) );
 
-        return pictureLevel( shapes1.append( shapes2 ).append( shapes3 ).append( shapes4 ), targets, colors[9], choosePiesOrBars( targets ) );
+        return shapeLevel( shapes1.append( shapes2 ).append( shapes3 ).append( shapes4 ), targets, colors[9], choosePiesOrBars( targets ) );
     }
 
     //Get some interesting(non straightforward) shapes for making the fraction.
