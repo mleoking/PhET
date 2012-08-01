@@ -21,6 +21,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys.autoSpin;
 
 /**
+ * Sim sharing components for the Fractions intro sim.
+ *
  * @author Sam Reid
  */
 public class FractionsIntroSimSharing {
