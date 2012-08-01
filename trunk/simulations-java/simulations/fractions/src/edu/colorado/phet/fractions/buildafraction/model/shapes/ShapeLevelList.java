@@ -10,7 +10,7 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.fractions.buildafraction.model.Distribution;
+import edu.colorado.phet.fractions.common.util.Distribution;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
