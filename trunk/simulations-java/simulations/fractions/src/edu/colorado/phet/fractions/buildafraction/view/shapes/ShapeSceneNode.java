@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
-import fj.Equal;
 import fj.F;
 import fj.P2;
 import fj.data.List;
@@ -62,6 +61,7 @@ import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.ST
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.common.view.RefreshButtonNode.BUTTON_COLOR;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction._toDouble;
+import static fj.Equal.intEqual;
 import static fj.Ord.doubleOrd;
 import static fj.data.List.iterableList;
 import static fj.function.Booleans.not;
@@ -153,7 +153,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         addChild( firstContainerNode );
 
         //Pieces in the toolbar that the user can drag
-        List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
+        List<List<Integer>> groups = level.pieces.group( intEqual );
         int numGroups = groups.length();
         layoutXOffset = ( 6 - numGroups ) * spacing / 4;
         final ArrayList<Stack> stackList = new ArrayList<Stack>();
@@ -532,7 +532,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
 
     public Vector2D getLocation( final int stackIndex, final int cardIndex, final PieceNode card ) {
         int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
-        List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
+        List<List<Integer>> groups = level.pieces.group( intEqual );
         double delta = toDelta( groups.index( stackIndex ).length(), cardIndex );
         return new Vector2D( layoutXOffset + INSET + 20 + delta * sign + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta + ( level.shapeType == ShapeType.BAR ? 25 : 0 ) );
     }
