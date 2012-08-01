@@ -15,22 +15,23 @@ import java.util.Random;
 import edu.colorado.phet.fractions.buildafraction.model.Distribution;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
-import edu.colorado.phet.fractions.fractionsintro.common.util.DefaultP2;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
+import static edu.colorado.phet.fractions.common.util.Sampling.*;
 import static edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern.randomFill;
 import static edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern.sequentialFill;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.Colors.*;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.*;
-import static fj.Equal.intEqual;
 import static fj.data.List.*;
 import static java.awt.Color.orange;
 
 /**
+ * List of levels for the number games (where the user creates fractions with numbers to match given shapes).
+ *
  * @author Sam Reid
  */
 public class NumberLevelList extends ArrayList<NumberLevel> {
-    static final Random random = new Random();
+    private static final Random random = new Random();
 
     public static abstract class PatternMaker extends F<Fraction, Pattern> {
         public F<Fraction, FilledPattern> sequential() {
@@ -50,6 +51,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         }
     }
 
+    //Create the pattern makers for all the different shape types. The following reads better with closure folding.
     public static PatternMaker pie = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.pie( fraction.denominator );
@@ -110,6 +112,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     public static final List<PatternMaker> universalTypes = list( pie, horizontalBar, verticalBar );
     public static final List<PatternMaker> all = list( pie, horizontalBar, verticalBar, pyramid1, pyramid4, pyramid9, grid1, grid4, grid9, flower, polygon );
 
+    //Create all of the levels
     public NumberLevelList() {
         add( level0() );
         add( level1() );
@@ -122,63 +125,6 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         add( level8() );
         add( level9() );
         add( level10() );
-    }
-
-    /*Level 8:
-    -- Representations both less than 1 and greater than 1
-    -- All representations possible
-    -- No card constraints (as in straightforward matching of number and picture possible)*/
-    private NumberLevel level8() {
-        //Choose 4 different patterns
-        List<RepresentationType> types = choose( 4, RepresentationType.all );
-
-        RandomColors4 colors = new RandomColors4();
-        return new NumberLevel( list( targetLessThanOrEqualTo2( colors, types.index( 0 ), random.nextBoolean() ),
-                                      targetLessThanOrEqualTo2( colors, types.index( 1 ), random.nextBoolean() ),
-                                      targetLessThanOrEqualTo2( colors, types.index( 2 ), random.nextBoolean() ),
-                                      targetLessThanOrEqualTo2( colors, types.index( 3 ), random.nextBoolean() ) ) );
-    }
-
-    /*Level 9:
--- Representations both less than 1 and greater than 1
--- All representations possible
--- No card constraints (as in straightforward matching of number and picture possible)*/
-    private NumberLevel level9() {
-        //Choose 4 different patterns
-        List<RepresentationType> types = choose( 4, RepresentationType.all );
-
-        RandomColors4 colors = new RandomColors4();
-        final List<NumberTarget> targets = list( targetLessThanOrEqualTo1( colors, types.index( 0 ), random.nextBoolean() ),
-                                                 targetLessThanOrEqualTo1( colors, types.index( 1 ), random.nextBoolean() ),
-                                                 targetLessThanOrEqualTo2( colors, types.index( 2 ), random.nextBoolean() ),
-                                                 targetLessThanOrEqualTo2( colors, types.index( 3 ), random.nextBoolean() ) );
-        List<Fraction> targetFractions = targets.map( new F<NumberTarget, Fraction>() {
-            @Override public Fraction f( final NumberTarget numberTarget ) {
-                return numberTarget.fraction;
-            }
-        } );
-        List<Fraction> scaled = targetFractions.zipWith( shuffle( list( 1, 1, 2, 3 ) ), _times );
-        return new NumberLevel( scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
-    }
-
-    /*Level 10
-    --Same as level 9 but with tougher card constraints and larger prime number scale factors*/
-    private NumberLevel level10() {
-        //Choose 4 different patterns
-        List<RepresentationType> types = choose( 4, RepresentationType.all );
-
-        RandomColors4 colors = new RandomColors4();
-        final List<NumberTarget> targets = list( targetLessThanOrEqualTo2( colors, types.index( 0 ), random.nextBoolean() ),
-                                                 targetLessThanOrEqualTo2( colors, types.index( 1 ), random.nextBoolean() ),
-                                                 targetLessThanOrEqualTo2( colors, types.index( 2 ), true ),
-                                                 targetLessThanOrEqualTo2( colors, types.index( 3 ), true ) );
-        List<Fraction> targetFractions = targets.map( new F<NumberTarget, Fraction>() {
-            @Override public Fraction f( final NumberTarget numberTarget ) {
-                return numberTarget.fraction;
-            }
-        } );
-        List<Fraction> scaled = targetFractions.zipWith( shuffle( list( 2, 3, 5, 7 ) ), _times );
-        return new NumberLevel( scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
     }
 
     //Choose a representation, pies or bars, but use the same representation for all things
@@ -349,8 +295,8 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         Color bottomColor = colors.next();
 
         P2<PatternMaker, PatternMaker> selected = chooseTwo( universalTypes );
-        Fraction topPrototype = moreReduced( top._1(), top._2() );
-        Fraction bottomPrototype = moreReduced( bottom._1(), bottom._2() );
+        Fraction topPrototype = smallerNumerator( top._1(), top._2() );
+        Fraction bottomPrototype = smallerNumerator( bottom._1(), bottom._2() );
 
         List<Fraction> selectedFractions = list( top._1(), top._2(), bottom._1(), bottom._2() );
         final List<NumberTarget> targets = list( NumberTarget.target( topPrototype, topColor, selected._1().sequential() ),
@@ -398,7 +344,65 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         return new NumberLevel( targets );
     }
 
-    private Fraction moreReduced( final Fraction a, final Fraction b ) { return b.numerator < a.numerator ? b : a; }
+
+    /*Level 8:
+-- Representations both less than 1 and greater than 1
+-- All representations possible
+-- No card constraints (as in straightforward matching of number and picture possible)*/
+    private NumberLevel level8() {
+        //Choose 4 different patterns
+        List<RepresentationType> types = choose( 4, RepresentationType.all );
+
+        RandomColors4 colors = new RandomColors4();
+        return new NumberLevel( list( targetLessThanOrEqualTo2( colors, types.index( 0 ), random.nextBoolean() ),
+                                      targetLessThanOrEqualTo2( colors, types.index( 1 ), random.nextBoolean() ),
+                                      targetLessThanOrEqualTo2( colors, types.index( 2 ), random.nextBoolean() ),
+                                      targetLessThanOrEqualTo2( colors, types.index( 3 ), random.nextBoolean() ) ) );
+    }
+
+    /*Level 9:
+-- Representations both less than 1 and greater than 1
+-- All representations possible
+-- No card constraints (as in straightforward matching of number and picture possible)*/
+    private NumberLevel level9() {
+        //Choose 4 different patterns
+        List<RepresentationType> types = choose( 4, RepresentationType.all );
+
+        RandomColors4 colors = new RandomColors4();
+        final List<NumberTarget> targets = list( targetLessThanOrEqualTo1( colors, types.index( 0 ), random.nextBoolean() ),
+                                                 targetLessThanOrEqualTo1( colors, types.index( 1 ), random.nextBoolean() ),
+                                                 targetLessThanOrEqualTo2( colors, types.index( 2 ), random.nextBoolean() ),
+                                                 targetLessThanOrEqualTo2( colors, types.index( 3 ), random.nextBoolean() ) );
+        List<Fraction> targetFractions = targets.map( new F<NumberTarget, Fraction>() {
+            @Override public Fraction f( final NumberTarget numberTarget ) {
+                return numberTarget.fraction;
+            }
+        } );
+        List<Fraction> scaled = targetFractions.zipWith( shuffle( list( 1, 1, 2, 3 ) ), _times );
+        return new NumberLevel( scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
+    }
+
+    /*Level 10
+    --Same as level 9 but with tougher card constraints and larger prime number scale factors*/
+    private NumberLevel level10() {
+        //Choose 4 different patterns
+        List<RepresentationType> types = choose( 4, RepresentationType.all );
+
+        RandomColors4 colors = new RandomColors4();
+        final List<NumberTarget> targets = list( targetLessThanOrEqualTo2( colors, types.index( 0 ), random.nextBoolean() ),
+                                                 targetLessThanOrEqualTo2( colors, types.index( 1 ), random.nextBoolean() ),
+                                                 targetLessThanOrEqualTo2( colors, types.index( 2 ), true ),
+                                                 targetLessThanOrEqualTo2( colors, types.index( 3 ), true ) );
+        List<Fraction> targetFractions = targets.map( new F<NumberTarget, Fraction>() {
+            @Override public Fraction f( final NumberTarget numberTarget ) {
+                return numberTarget.fraction;
+            }
+        } );
+        List<Fraction> scaled = targetFractions.zipWith( shuffle( list( 2, 3, 5, 7 ) ), _times );
+        return new NumberLevel( scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
+    }
+
+    private Fraction smallerNumerator( final Fraction a, final Fraction b ) { return b.numerator < a.numerator ? b : a; }
 
     private NumberTarget targetLessThanOrEqualTo1( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {
         int denominator = chooseOne( representationType.denominators );
@@ -438,25 +442,5 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
             }
         }
         throw new RuntimeException( "Couldn't find a match" );
-    }
-
-    public static <T> T chooseOne( final List<T> list ) { return list.index( random.nextInt( list.length() ) ); }
-
-    //Chooses 2 different values (i.e. without replacement)
-    public static <T> P2<T, T> chooseTwo( final List<T> list ) {
-        final List<Integer> indices = range( 0, list.length() );
-        int firstIndexToChoose = chooseOne( indices );
-        int secondIndexToChoose = chooseOne( indices.delete( firstIndexToChoose, intEqual ) );
-        return new DefaultP2<T, T>( list.index( firstIndexToChoose ), list.index( secondIndexToChoose ) );
-    }
-
-    //Select the specified number without replacement
-    public static <T> List<T> choose( int num, final List<T> list ) {
-        ArrayList<T> mutableList = new ArrayList<T>( list.toCollection() );
-        Collections.shuffle( mutableList );
-        while ( mutableList.size() > num ) {
-            mutableList.remove( 0 );
-        }
-        return iterableList( mutableList );
     }
 }
