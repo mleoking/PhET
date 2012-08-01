@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 
 /**
+ * Piccolo animation that rotates a piece to the specified angle.
+ *
  * @author Sam Reid
  */
 public class AnimateToAngle extends PInterpolatingActivity {
@@ -20,7 +22,6 @@ public class AnimateToAngle extends PInterpolatingActivity {
     }
 
     @Override public void setRelativeTargetValue( final float zeroToOne ) {
-        LinearFunction linearFunction = new LinearFunction( 0, 1, initialAngle, finalAngle );
-        node.setPieceRotation( linearFunction.evaluate( zeroToOne ) );
+        node.setPieceRotation( new LinearFunction( 0, 1, initialAngle, finalAngle ).evaluate( zeroToOne ) );
     }
 }

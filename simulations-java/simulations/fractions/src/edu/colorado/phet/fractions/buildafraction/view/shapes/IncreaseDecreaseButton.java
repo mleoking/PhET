@@ -10,6 +10,8 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
 import static edu.colorado.phet.fractions.FractionsResources.Images.*;
 
 /**
+ * Button that can be used to add or remove additional containers.
+ *
  * @author Sam Reid
  */
 public class IncreaseDecreaseButton extends PNode {

@@ -23,6 +23,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static java.awt.geom.AffineTransform.getTranslateInstance;
 
 /**
+ * Node for a single piece that can be dragged from the toolbox and dropped in a shape container.
+ *
  * @author Sam Reid
  */
 public abstract class PieceNode extends Stackable {

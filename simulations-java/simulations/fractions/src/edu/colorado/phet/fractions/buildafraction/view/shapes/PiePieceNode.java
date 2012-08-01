@@ -23,6 +23,8 @@ import static edu.colorado.phet.fractions.buildafraction.view.shapes.SimpleConta
 import static java.lang.Math.PI;
 
 /**
+ * PieceNode for drawing a circular pie piece, which rotates as it is dragged.
+ *
  * @author Sam Reid
  */
 public class PiePieceNode extends PieceNode {

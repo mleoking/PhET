@@ -7,6 +7,8 @@ import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.ShapeNode;
 
 /**
+ * Piccolo node for a horizontal bar piece.
+ *
  * @author Sam Reid
  */
 public class BarPieceNode extends PieceNode {

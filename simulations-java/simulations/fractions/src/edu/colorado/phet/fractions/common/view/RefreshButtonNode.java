@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractions.buildafraction.view.shapes;
+package edu.colorado.phet.fractions.common.view;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -14,6 +14,8 @@ import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Button that allows the user to "refresh" or reload the level.
+ *
  * @author Sam Reid
  */
 public class RefreshButtonNode extends PNode {
