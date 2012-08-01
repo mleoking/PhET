@@ -11,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList;
-import edu.colorado.phet.fractions.buildafraction.model.shapes.PictureLevel;
-import edu.colorado.phet.fractions.buildafraction.model.shapes.PictureLevelList;
+import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
+import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevelList;
 import edu.colorado.phet.fractions.buildafraction.view.LevelIdentifier;
 import edu.colorado.phet.fractions.buildafraction.view.LevelProgress;
 import edu.colorado.phet.fractions.buildafraction.view.LevelType;
@@ -27,11 +27,11 @@ public class BuildAFractionModel {
     public final IntegerProperty numberLevel = new IntegerProperty( 0 );
     public final ArrayList<NumberLevel> numberLevels = new NumberLevelList();
 
-    public final IntegerProperty pictureLevel = new IntegerProperty( 0 );
-    public final ArrayList<PictureLevel> pictureLevels = new PictureLevelList();
+    public final IntegerProperty shapeLevel = new IntegerProperty( 0 );
+    public final ArrayList<ShapeLevel> shapeLevels = new ShapeLevelList();
 
     public final ConstantDtClock clock = new ConstantDtClock();
-    public final Property<Scene> selectedScene = new Property<Scene>( Scene.pictures );
+    public final Property<Scene> selectedScene = new Property<Scene>( Scene.SHAPES );
 
     public final BooleanProperty audioEnabled = new BooleanProperty( true );
     public final IntegerProperty selectedPage = new IntegerProperty( 0 );
@@ -42,7 +42,7 @@ public class BuildAFractionModel {
         }
     };
 
-    private Level getLevel( final LevelIdentifier levelIdentifier ) {return levelIdentifier.levelType == LevelType.SHAPES ? getPictureLevel( levelIdentifier.levelIndex ) : getNumberLevel( levelIdentifier.levelIndex );}
+    private Level getLevel( final LevelIdentifier levelIdentifier ) {return levelIdentifier.levelType == LevelType.SHAPES ? getShapeLevel( levelIdentifier.levelIndex ) : getNumberLevel( levelIdentifier.levelIndex );}
 
     public void resetAll() {
         selectedScene.reset();
@@ -55,19 +55,19 @@ public class BuildAFractionModel {
         numberLevels.clear();
         numberLevels.addAll( new NumberLevelList() );
 
-        pictureLevel.reset();
-        for ( PictureLevel level : pictureLevels ) {
+        shapeLevel.reset();
+        for ( ShapeLevel level : shapeLevels ) {
             level.resetAll();
         }
-        pictureLevels.clear();
-        pictureLevels.addAll( new PictureLevelList() );
+        shapeLevels.clear();
+        shapeLevels.addAll( new ShapeLevelList() );
 
         audioEnabled.reset();
     }
 
     public NumberLevel getNumberLevel( final int level ) { return numberLevels.get( level ); }
 
-    public PictureLevel getPictureLevel( final int level ) { return pictureLevels.get( level ); }
+    public ShapeLevel getShapeLevel( final int level ) { return shapeLevels.get( level ); }
 
     public void resampleNumberLevel( final int levelIndex ) {
         NumberLevel old = numberLevels.remove( levelIndex );
@@ -76,10 +76,10 @@ public class BuildAFractionModel {
         numberLevels.add( levelIndex, newLevel );
     }
 
-    public void resamplePictureLevel( final int levelIndex ) {
-        PictureLevel old = pictureLevels.remove( levelIndex );
+    public void resampleShapeLevel( final int levelIndex ) {
+        ShapeLevel old = shapeLevels.remove( levelIndex );
         old.dispose();
-        PictureLevel newLevel = new PictureLevelList().get( levelIndex );
-        pictureLevels.add( levelIndex, newLevel );
+        ShapeLevel newLevel = new ShapeLevelList().get( levelIndex );
+        shapeLevels.add( levelIndex, newLevel );
     }
 }

@@ -11,6 +11,6 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
  *
  * @author Sam Reid
  */
-public @Data class PictureTarget {
+public @Data class ShapeTarget {
     public final Fraction fraction;
 }

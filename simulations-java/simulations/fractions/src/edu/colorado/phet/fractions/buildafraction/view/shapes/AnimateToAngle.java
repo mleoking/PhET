@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractions.buildafraction.view.pictures;
+package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;

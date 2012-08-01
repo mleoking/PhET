@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractions.buildafraction.view.pictures;
+package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
 import fj.data.Option;
 
@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
-import static edu.colorado.phet.fractions.buildafraction.view.pictures.SimpleContainerNode.circleDiameter;
+import static edu.colorado.phet.fractions.buildafraction.view.shapes.SimpleContainerNode.circleDiameter;
 import static java.lang.Math.PI;
 
 /**
@@ -31,8 +31,8 @@ public class PiePieceNode extends PieceNode {
     private PhetPPath pieShadow;
     private PNode pieBackground;
 
-    public PiePieceNode( final int pieceDenominator, final PictureSceneNode pictureSceneNode, final PhetPPath shape ) {
-        super( pieceDenominator, pictureSceneNode, shape, ShapeType.PIE );
+    public PiePieceNode( final int pieceDenominator, final ShapeSceneNode shapeSceneNode, final PhetPPath shape ) {
+        super( pieceDenominator, shapeSceneNode, shape, ShapeType.PIE );
         pieBackground = new PNode() {{
             addChild( new PhetPPath( SimpleContainerNode.createPieSlice( 1 ), BuildAFractionCanvas.TRANSPARENT ) );
         }};

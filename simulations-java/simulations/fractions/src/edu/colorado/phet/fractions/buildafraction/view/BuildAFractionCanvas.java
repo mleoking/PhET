@@ -11,8 +11,8 @@ import java.util.HashMap;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
-import edu.colorado.phet.fractions.buildafraction.view.pictures.PictureSceneNode;
-import edu.colorado.phet.fractions.buildafraction.view.pictures.SceneContext;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.SceneContext;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -140,12 +140,12 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     private PNode createLevelNode( final int levelIndex, final LevelType levelType ) {
-        return levelType == LevelType.SHAPES ? new PictureSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) :
+        return levelType == LevelType.SHAPES ? new ShapeSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) :
                new NumberSceneNode( levelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled );
     }
 
-    public void goToNextPictureLevel( final int newLevelIndex ) {
-        animateTo( new PictureSceneNode( newLevelIndex, model, STAGE_SIZE, this, model.audioEnabled ), Direction.RIGHT );
+    public void goToNextShapeLevel( final int newLevelIndex ) {
+        animateTo( new ShapeSceneNode( newLevelIndex, model, STAGE_SIZE, this, model.audioEnabled ), Direction.RIGHT );
     }
 
     public void goToNextNumberLevel( final int newLevelIndex ) {
@@ -156,9 +156,9 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
         animateTo( new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled, model.selectedPage, model.gameProgress ), Direction.LEFT );
     }
 
-    public void resamplePictureLevel( final int levelIndex ) {
-        model.resamplePictureLevel( levelIndex );
-        crossFadeTo( new PictureSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) );
+    public void resampleShapeLevel( final int levelIndex ) {
+        model.resampleShapeLevel( levelIndex );
+        crossFadeTo( new ShapeSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) );
     }
 
     public void resampleNumberLevel( final int levelIndex ) {

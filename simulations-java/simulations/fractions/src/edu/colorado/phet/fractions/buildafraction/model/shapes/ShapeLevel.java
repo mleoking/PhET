@@ -15,9 +15,9 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
  *
  * @author Sam Reid
  */
-public class PictureLevel extends Level {
+public class ShapeLevel extends Level {
 
-    public final List<PictureTarget> targets;
+    public final List<ShapeTarget> targets;
     public final List<Integer> pieces;
 
     public final Color color;
@@ -28,15 +28,15 @@ public class PictureLevel extends Level {
     public final boolean flashTargetCellOnMatch = false;
 
     //Cannot be a constructor because has same erasure
-    public static PictureLevel pictureLevel( final List<Integer> pieces, final List<Fraction> targets, Color color, ShapeType shapeType ) {
-        return new PictureLevel( pieces, targets.map( new F<Fraction, PictureTarget>() {
-            @Override public PictureTarget f( final Fraction fraction ) {
-                return new PictureTarget( fraction );
+    public static ShapeLevel shapeLevel( final List<Integer> pieces, final List<Fraction> targets, Color color, ShapeType shapeType ) {
+        return new ShapeLevel( pieces, targets.map( new F<Fraction, ShapeTarget>() {
+            @Override public ShapeTarget f( final Fraction fraction ) {
+                return new ShapeTarget( fraction );
             }
         } ), color, shapeType );
     }
 
-    public PictureLevel( final List<Integer> pieces, final List<PictureTarget> targets, Color color, ShapeType shapeType ) {
+    public ShapeLevel( final List<Integer> pieces, final List<ShapeTarget> targets, Color color, ShapeType shapeType ) {
         super( targets.length() );
         this.targets = targets;
         this.pieces = pieces.sort( Ord.intOrd );
@@ -44,12 +44,12 @@ public class PictureLevel extends Level {
         this.shapeType = shapeType;
     }
 
-    public PictureTarget getTarget( final int i ) { return targets.index( i ); }
+    public ShapeTarget getTarget( final int i ) { return targets.index( i ); }
 
     public boolean hasValuesGreaterThanOne() {
-        return targets.exists( new F<PictureTarget, Boolean>() {
-            @Override public Boolean f( final PictureTarget pictureTarget ) {
-                return pictureTarget.fraction.numerator > pictureTarget.fraction.denominator;
+        return targets.exists( new F<ShapeTarget, Boolean>() {
+            @Override public Boolean f( final ShapeTarget shapeTarget ) {
+                return shapeTarget.fraction.numerator > shapeTarget.fraction.denominator;
             }
         } );
     }
