@@ -35,6 +35,8 @@ import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.sum;
 
 /**
+ * One circle or bar for adding shapes to. If the fraction can become larger than 1, then more of these are used.
+ *
  * @author Sam Reid
  */
 public class SingleContainerNode extends PNode {

@@ -39,6 +39,7 @@ import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
 import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.FNode;
+import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.FractionNode;
@@ -53,11 +54,11 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerNode._getSingleContainerNodes;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerNode._isAtStartingLocation;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceIconNode.TINY_SCALE;
-import static edu.colorado.phet.fractions.buildafraction.view.shapes.RefreshButtonNode.BUTTON_COLOR;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.SimpleContainerNode.createPieSlice;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.SimpleContainerNode.createRect;
 import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
+import static edu.colorado.phet.fractions.common.view.RefreshButtonNode.BUTTON_COLOR;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction._toDouble;
@@ -71,7 +72,6 @@ import static fj.function.Booleans.not;
  * @author Sam Reid
  */
 public class ShapeSceneNode extends SceneNode implements ContainerContext, PieceContext, StackContext<PieceNode> {
-    private final BuildAFractionModel model;
     private final List<Target> targetPairs;
     private final RichPNode toolboxNode;
     private final VBox faceNodeDialog;
@@ -81,7 +81,6 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     //Declare type-specific wrappers for declaration site variance to make map call site more readable
     private final F<PieceIconNode, Double> _minX = FNode._minX();
     private final F<ContainerNode, Double> _maxX = FNode._maxX();
-    private ArrayList<Stack> stackList;
 
     final int spacing = 140;
     private final int layoutXOffset;
@@ -90,7 +89,6 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
         this.level = model.getShapeLevel( levelIndex );
-        this.model = model;
         this.levelIndex = levelIndex;
         this.context = context;
 
@@ -158,7 +156,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         int numGroups = groups.length();
         layoutXOffset = ( 6 - numGroups ) * spacing / 4;
-        stackList = new ArrayList<Stack>();
+        final ArrayList<Stack> stackList = new ArrayList<Stack>();
         final int toolboxHeight = level.shapeType == ShapeType.BAR ? 100 : 140;
         for ( P2<List<Integer>, Integer> groupWithIndex : groups.zipIndex() ) {
             int stackIndex = groupWithIndex._2();

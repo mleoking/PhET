@@ -6,6 +6,8 @@ import fj.data.Option;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
+ * Context in which PieceNodes can be dragged/dropped.
+ *
  * @author Sam Reid
  */
 public interface PieceContext {

@@ -6,6 +6,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 
 /**
+ * Piccolo animation that updates the scale.
+ *
  * @author Sam Reid
  */
 public class AnimateToScale extends PInterpolatingActivity {

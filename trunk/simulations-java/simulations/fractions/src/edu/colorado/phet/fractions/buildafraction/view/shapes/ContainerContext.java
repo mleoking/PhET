@@ -4,6 +4,8 @@ package edu.colorado.phet.fractions.buildafraction.view.shapes;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
+ * Context in which a ContainerNode can be dragged/dropped.
+ *
  * @author Sam Reid
  */
 public interface ContainerContext {

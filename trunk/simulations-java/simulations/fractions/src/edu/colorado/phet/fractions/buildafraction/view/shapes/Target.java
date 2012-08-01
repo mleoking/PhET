@@ -7,6 +7,8 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Data structure for the scoring region.
+ *
  * @author Sam Reid
  */
 public @Data class Target {

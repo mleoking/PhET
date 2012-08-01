@@ -11,6 +11,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
+ * Button designed for use with the spinner button images for consistent look within the sim.
+ *
  * @author Sam Reid
  */
 public class SingleButton extends PNode {
