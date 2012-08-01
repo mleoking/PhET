@@ -195,7 +195,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
             final PieceNode firstPiece = pieces.get( 0 );
 
             child.setOffset( level.shapeType == ShapeType.PIE ? new Point2D.Double( firstPiece.getFullBounds().getMaxX() - child.getFullBounds().getWidth(), firstPiece.getYOffset() )
-                                                              : pieces.get( 0 ).getOffset() );
+                                                              : new Point2D.Double( pieces.get( 0 ).getOffset().getX() + 0.5, pieces.get( 0 ).getOffset().getY() + 0.5 ) );
 
             //It is unknown why the above computation doesn't work for fifths pie slices, but it is off horizontally by several units
             if ( level.shapeType == ShapeType.PIE && firstPiece.pieceSize == 5 ) {
@@ -530,18 +530,20 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         faceNodeDialog.setChildrenPickable( false );
     }
 
+    public static double CARD_SPACING_DX = 3;
+    public static double CARD_SPACING_DY = CARD_SPACING_DX;
+
     public Vector2D getLocation( final int stackIndex, final int cardIndex, final PieceNode card ) {
         int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
         List<List<Integer>> groups = level.pieces.group( intEqual );
         double delta = getCardOffsetWithinStack( groups.index( stackIndex ).length(), cardIndex );
         final int yOffset = level.shapeType == ShapeType.BAR ? 25 : 0;
         return new Vector2D( layoutXOffset + 30 + delta * sign + stackIndex * spacing,
-                             STAGE_SIZE.height - 117 + delta + yOffset );
+                             STAGE_SIZE.height - 117 - CARD_SPACING_DY * cardIndex + yOffset );
     }
 
     private double getCardOffsetWithinStack( final int numInGroup, final int cardIndex ) {
-        double dx = -3;
-        double totalSpacing = dx * ( numInGroup - 1 );
+        double totalSpacing = -CARD_SPACING_DX * ( numInGroup - 1 );
         return getCardOffsetWithinStack( numInGroup, cardIndex, totalSpacing );
     }
 
