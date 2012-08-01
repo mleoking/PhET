@@ -60,7 +60,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     private final BuildAFractionModel model;
     public final PDimension STAGE_SIZE;
     public final SceneContext context;
-    public final List<Pair> pairList;
+    public final List<ScoreBoxPair> pairList;
     public RichPNode toolboxNode;
     public final int levelIndex;
     private final VBox faceNodeDialog;
@@ -102,7 +102,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         addChild( backButton );
 
         //Create the scoring cells with target patterns
-        ArrayList<Pair> pairs = new ArrayList<Pair>();
+        ArrayList<ScoreBoxPair> pairs = new ArrayList<ScoreBoxPair>();
         for ( int i = 0; i < model.getNumberLevel( levelIndex ).targets.length(); i++ ) {
             NumberTarget target = model.getNumberLevel( levelIndex ).targets.index( i );
 
@@ -119,13 +119,13 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
                 }} );
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
-            pairs.add( new Pair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator, level.createdFractions,
-                                                         rootNode, model, this ), new ZeroOffsetNode( patternNode ) ) );
+            pairs.add( new ScoreBoxPair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator, level.createdFractions,
+                                                                 rootNode, model, this ), new ZeroOffsetNode( patternNode ) ) );
         }
         pairList = List.iterableList( pairs );
 
-        List<PNode> patterns = pairList.map( new F<Pair, PNode>() {
-            @Override public PNode f( final Pair pair ) {
+        List<PNode> patterns = pairList.map( new F<ScoreBoxPair, PNode>() {
+            @Override public PNode f( final ScoreBoxPair pair ) {
                 return pair.patternNode;
             }
         } );
@@ -149,7 +149,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         double offsetY = INSET;
         double insetY = 10;
 //        addChild( title );
-        for ( Pair pair : pairs ) {
+        for ( ScoreBoxPair pair : pairs ) {
 
             pair.targetCell.setOffset( offsetX, offsetY );
             pair.patternNode.setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
@@ -264,8 +264,8 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
         addChild( faceNodeDialog );
 
-        double minScoreCellX = List.iterableList( pairList ).map( new F<Pair, Double>() {
-            @Override public Double f( final Pair target ) {
+        double minScoreCellX = List.iterableList( pairList ).map( new F<ScoreBoxPair, Double>() {
+            @Override public Double f( final ScoreBoxPair target ) {
                 return target.patternNode.getFullBounds().getMinX();
             }
         } ).minimum( Ord.doubleOrd );
@@ -315,7 +315,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     }
 
     private void reset() {
-        for ( Pair pair : pairList ) {
+        for ( ScoreBoxPair pair : pairList ) {
             pair.targetCell.split();
         }
         for ( FractionNode fractionGraphic : fractionGraphics ) {
@@ -427,8 +427,8 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     private boolean allTargetsComplete() { return numCompletedTargets() == pairList.length(); }
 
     private int numCompletedTargets() {
-        return pairList.map( new F<Pair, Boolean>() {
-            @Override public Boolean f( final Pair pair ) {
+        return pairList.map( new F<ScoreBoxPair, Boolean>() {
+            @Override public Boolean f( final ScoreBoxPair pair ) {
                 return pair.targetCell.isCompleted();
             }
         } ).filter( new F<Boolean, Boolean>() {
