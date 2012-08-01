@@ -3,7 +3,7 @@ package edu.colorado.phet.fractions.buildafraction.view.pictures;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType;
+import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.ShapeNode;
 
 /**
