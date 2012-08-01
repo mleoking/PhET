@@ -209,7 +209,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         final int finalGroupIndex = groups.length();
         final int numInGroup = level.targets.length() - 1;
         for ( int i = 0; i < numInGroup; i++ ) {
-            final double delta = toDelta( numInGroup, i );
+            final double delta = getCardOffsetWithinStack( numInGroup, i );
             final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
                 final int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
                 setInitialState( layoutXOffset + INSET + 20 + delta * sign + finalGroupIndex * spacing,
@@ -533,20 +533,20 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     public Vector2D getLocation( final int stackIndex, final int cardIndex, final PieceNode card ) {
         int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
         List<List<Integer>> groups = level.pieces.group( intEqual );
-        double delta = toDelta( groups.index( stackIndex ).length(), cardIndex );
+        double delta = getCardOffsetWithinStack( groups.index( stackIndex ).length(), cardIndex );
         final int yOffset = level.shapeType == ShapeType.BAR ? 25 : 0;
         return new Vector2D( layoutXOffset + 30 + delta * sign + stackIndex * spacing,
                              STAGE_SIZE.height - 117 + delta + yOffset );
     }
 
-    private double toDelta( final int numInGroup, final int cardIndex ) {
-        double dx = level.shapeType == ShapeType.BAR ? -3.0 : -3.0;
-        double totalHorizontalSpacing = dx * ( numInGroup - 1 );
-        return getDelta( numInGroup, cardIndex, totalHorizontalSpacing );
+    private double getCardOffsetWithinStack( final int numInGroup, final int cardIndex ) {
+        double dx = -3;
+        double totalSpacing = dx * ( numInGroup - 1 );
+        return getCardOffsetWithinStack( numInGroup, cardIndex, totalSpacing );
     }
 
-    private double getDelta( final int numInGroup, final int cardIndex, final double totalHorizontalSpacing ) {
-        LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
-        return numInGroup == 1 ? 0 : offset.evaluate( cardIndex );
+    private double getCardOffsetWithinStack( final int numInGroup, final int cardIndex, final double totalSpacing ) {
+        return numInGroup == 1 ? 0 :
+               new LinearFunction( 0, numInGroup - 1, -totalSpacing / 2, +totalSpacing / 2 ).evaluate( cardIndex );
     }
 }
