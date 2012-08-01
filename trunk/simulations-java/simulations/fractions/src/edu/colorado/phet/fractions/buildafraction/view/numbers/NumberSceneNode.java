@@ -104,7 +104,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
         for ( int i = 0; i < model.getNumberLevel( levelIndex ).targets.length(); i++ ) {
-            NumberTarget target = model.getNumberLevel( levelIndex ).getTarget( i );
+            NumberTarget target = model.getNumberLevel( levelIndex ).targets.index( i );
 
             ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
             for ( int k = 0; k < target.filledPattern.length(); k++ ) {
@@ -120,7 +120,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
             pairs.add( new Pair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator, level.createdFractions,
-                                                         rootNode, model, this, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ), new ZeroOffsetNode( patternNode ) ) );
+                                                         rootNode, model, this ), new ZeroOffsetNode( patternNode ) ) );
         }
         pairList = List.iterableList( pairs );
 
