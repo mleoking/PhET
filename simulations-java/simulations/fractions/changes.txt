@@ -1,3 +1,4 @@
+Build a Fraction: Removed unused code for making target containers flash when matched
 Build a Fraction: Shapes: Use green images for left/right buttons that change number of divisions in container
 Fraction Matcher: Fade in and out on refresh
 Fraction Matcher: Save progress when pushing the "back" button

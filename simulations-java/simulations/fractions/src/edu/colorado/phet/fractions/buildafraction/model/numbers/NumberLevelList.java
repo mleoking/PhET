@@ -133,10 +133,10 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         List<RepresentationType> types = choose( 4, RepresentationType.all );
 
         RandomColors4 colors = new RandomColors4();
-        return new NumberLevel( true, list( targetLessThanOrEqualTo2( colors, types.index( 0 ), random.nextBoolean() ),
-                                            targetLessThanOrEqualTo2( colors, types.index( 1 ), random.nextBoolean() ),
-                                            targetLessThanOrEqualTo2( colors, types.index( 2 ), random.nextBoolean() ),
-                                            targetLessThanOrEqualTo2( colors, types.index( 3 ), random.nextBoolean() ) ) );
+        return new NumberLevel( list( targetLessThanOrEqualTo2( colors, types.index( 0 ), random.nextBoolean() ),
+                                      targetLessThanOrEqualTo2( colors, types.index( 1 ), random.nextBoolean() ),
+                                      targetLessThanOrEqualTo2( colors, types.index( 2 ), random.nextBoolean() ),
+                                      targetLessThanOrEqualTo2( colors, types.index( 3 ), random.nextBoolean() ) ) );
     }
 
     /*Level 9:
@@ -158,7 +158,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
             }
         } );
         List<Fraction> scaled = targetFractions.zipWith( shuffle( list( 1, 1, 2, 3 ) ), _times );
-        return new NumberLevel( true, scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
+        return new NumberLevel( scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
     }
 
     /*Level 10
@@ -178,15 +178,15 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
             }
         } );
         List<Fraction> scaled = targetFractions.zipWith( shuffle( list( 2, 3, 5, 7 ) ), _times );
-        return new NumberLevel( true, scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
+        return new NumberLevel( scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
     }
 
     //Choose a representation, pies or bars, but use the same representation for all things
     private NumberLevel level0() {
         RandomColors3 colors = new RandomColors3();
-        return new NumberLevel( true, list( 1, 1, 2, 2, 3, 3 ), shuffle( list( NumberTarget.target( 1, 2, colors.next(), pie.sequential() ),
-                                                                               NumberTarget.target( 1, 3, colors.next(), pie.sequential() ),
-                                                                               NumberTarget.target( 2, 3, colors.next(), pie.sequential() ) ) ) );
+        return new NumberLevel( list( 1, 1, 2, 2, 3, 3 ), shuffle( list( NumberTarget.target( 1, 2, colors.next(), pie.sequential() ),
+                                                                         NumberTarget.target( 1, 3, colors.next(), pie.sequential() ),
+                                                                         NumberTarget.target( 2, 3, colors.next(), pie.sequential() ) ) ) );
     }
 
     /*
@@ -212,7 +212,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         }
         final List<Fraction> selectedList = iterableList( selected );
         final ArrayList<Color> colors = new ArrayList<Color>( shuffledColors().toCollection() );
-        return new NumberLevel( true, shuffle( selectedList.map( new F<Fraction, NumberTarget>() {
+        return new NumberLevel( shuffle( selectedList.map( new F<Fraction, NumberTarget>() {
             @Override public NumberTarget f( final Fraction fraction ) {
                 return NumberTarget.target( fraction, colors.remove( 0 ), representation );
             }
@@ -225,16 +225,16 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
         //TODO: guarantee this level is solvable, possibly by generating cards to make it so
         RandomColors3 colors = new RandomColors3();
-        return new NumberLevel( true, list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9 ), shuffle( list( NumberTarget.target( numerators.get( 0 ), 6, colors.next(), flower.sequential() ),
-                                                                                                                                           NumberTarget.target( numerators.get( 1 ), 6, colors.next(), flower.sequential() ),
-                                                                                                                                           NumberTarget.target( numerators.get( 2 ), 6, colors.next(), flower.sequential() ) ) ) );
+        return new NumberLevel( list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9 ), shuffle( list( NumberTarget.target( numerators.get( 0 ), 6, colors.next(), flower.sequential() ),
+                                                                                                                                     NumberTarget.target( numerators.get( 1 ), 6, colors.next(), flower.sequential() ),
+                                                                                                                                     NumberTarget.target( numerators.get( 2 ), 6, colors.next(), flower.sequential() ) ) ) );
     }
 
     private NumberLevel level3() {
         RandomColors3 colors = new RandomColors3();
-        return new NumberLevel( true, list( NumberTarget.target( chooseOne( rangeInclusive( 1, 1 ) ), 1, colors.next(), pyramid1.sequential() ),
-                                            NumberTarget.target( chooseOne( rangeInclusive( 1, 4 ) ), 4, colors.next(), pyramid4.sequential() ),
-                                            NumberTarget.target( chooseOne( rangeInclusive( 1, 9 ) ), 9, colors.next(), pyramid9.sequential() ) ) );
+        return new NumberLevel( list( NumberTarget.target( chooseOne( rangeInclusive( 1, 1 ) ), 1, colors.next(), pyramid1.sequential() ),
+                                      NumberTarget.target( chooseOne( rangeInclusive( 1, 4 ) ), 4, colors.next(), pyramid4.sequential() ),
+                                      NumberTarget.target( chooseOne( rangeInclusive( 1, 9 ) ), 9, colors.next(), pyramid9.sequential() ) ) );
     }
 
 
@@ -295,10 +295,10 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     private NumberLevel level4() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
-        return new NumberLevel( true, list( targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
-                                            targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
-                                            targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
-                                            targetLessThanOrEqualTo1( colors, chooseOne( types ), true ) ) );
+        return new NumberLevel( list( targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
+                                      targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
+                                      targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
+                                      targetLessThanOrEqualTo1( colors, chooseOne( types ), true ) ) );
     }
 
     /* Level 5:
@@ -309,10 +309,10 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     private NumberLevel level5() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
-        return NumberLevel.numberLevelReduced( true, list( targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ),
-                                                           targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ),
-                                                           targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ),
-                                                           targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ) ) );
+        return NumberLevel.numberLevelReduced( list( targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ),
+                                                     targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ),
+                                                     targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ),
+                                                     targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ) ) );
     }
 
     /* Level 6:
@@ -360,7 +360,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
         //But choose numbers from the original fractions
         final List<Integer> cards = selectedFractions.map( _numerator ).append( selectedFractions.map( _denominator ) );
-        return new NumberLevel( true, cards, targets );
+        return new NumberLevel( cards, targets );
     }
 
     /*Level 7:
@@ -395,7 +395,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                                  NumberTarget.target( selected.index( 1 ), colors.next(), chooseOne( universalTypes ).sequential() ),
                                                  NumberTarget.target( selected.index( 2 ), colors.next(), chooseOne( universalTypes ).sequential() ),
                                                  NumberTarget.target( selected.index( 3 ), colors.next(), chooseOne( universalTypes ).sequential() ) );
-        return new NumberLevel( true, targets );
+        return new NumberLevel( targets );
     }
 
     private Fraction moreReduced( final Fraction a, final Fraction b ) { return b.numerator < a.numerator ? b : a; }
