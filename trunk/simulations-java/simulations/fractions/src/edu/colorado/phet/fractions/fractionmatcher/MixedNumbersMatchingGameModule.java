@@ -9,8 +9,8 @@ import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameModel;
 import edu.colorado.phet.fractions.fractionmatcher.model.MixedFractionLevelFactory;
 import edu.colorado.phet.fractions.fractionmatcher.view.LevelSelectionNode;
 import edu.colorado.phet.fractions.fractionmatcher.view.MatchingGameCanvas;
+import edu.colorado.phet.fractions.fractionsintro.AbstractFractionsModule;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.colorado.phet.fractions.fractionsintro.common.AbstractFractionsModule;
 
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroApplication.runModule;
 

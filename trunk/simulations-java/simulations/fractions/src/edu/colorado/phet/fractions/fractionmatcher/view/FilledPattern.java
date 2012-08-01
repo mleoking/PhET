@@ -13,7 +13,7 @@ import java.util.Random;
 
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
 
-import static edu.colorado.phet.fractions.fractionsintro.common.util.DefaultP2.p2;
+import static edu.colorado.phet.fractions.common.util.DefaultP2.p2;
 
 /**
  * Pattern with an indication of which shapes should be filled in.

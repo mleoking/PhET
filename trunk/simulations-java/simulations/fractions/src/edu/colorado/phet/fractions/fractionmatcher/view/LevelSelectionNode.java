@@ -23,9 +23,9 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
+import edu.colorado.phet.fractions.common.view.Colors;
 import edu.colorado.phet.fractions.fractionmatcher.model.GameResult;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.colorado.phet.fractions.fractionsintro.common.view.Colors;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractions.common.view.FNode._fullHeight;

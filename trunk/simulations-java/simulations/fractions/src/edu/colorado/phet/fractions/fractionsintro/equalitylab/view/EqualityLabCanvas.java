@@ -21,10 +21,10 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode.Element;
+import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractions.common.view.Colors;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
-import edu.colorado.phet.fractions.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.model.EqualityLabModel;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.DynamicNumberLineNode;
@@ -42,9 +42,9 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.representationcontr
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
+import static edu.colorado.phet.fractions.common.view.Colors.HORIZONTAL_SLICE_COLOR;
+import static edu.colorado.phet.fractions.common.view.Colors.LIGHT_BLUE;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.horizontalBarRadioButton;
-import static edu.colorado.phet.fractions.fractionsintro.common.view.Colors.HORIZONTAL_SLICE_COLOR;
-import static edu.colorado.phet.fractions.fractionsintro.common.view.Colors.LIGHT_BLUE;
 import static edu.colorado.phet.fractions.fractionsintro.equalitylab.model.EqualityLabModel.scaledFactorySet;
 import static edu.colorado.phet.fractions.fractionsintro.intro.view.Representation.*;
 import static edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.PieSetNode.CreateEmptyCellsNode;

@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
-import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
+import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static java.lang.Math.ceil;
 
 /**

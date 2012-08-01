@@ -6,8 +6,8 @@ import fj.data.List;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameModel;
-import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**

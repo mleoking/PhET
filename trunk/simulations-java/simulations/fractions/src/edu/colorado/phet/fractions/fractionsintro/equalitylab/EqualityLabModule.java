@@ -1,8 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.fractionsintro.equalitylab;
 
+import edu.colorado.phet.fractions.fractionsintro.AbstractFractionsModule;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.colorado.phet.fractions.fractionsintro.common.AbstractFractionsModule;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.model.EqualityLabModel;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.view.EqualityLabCanvas;
 

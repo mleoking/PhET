@@ -30,8 +30,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.fractions.FractionsResources.Images.*;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.SingleContainerNode._splitAll;
+import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
-import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.sum;
 
 /**

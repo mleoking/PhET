@@ -11,7 +11,7 @@ import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState;
 import edu.colorado.phet.fractions.fractionmatcher.model.Mode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
+import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 
 /**
  * @author Sam Reid

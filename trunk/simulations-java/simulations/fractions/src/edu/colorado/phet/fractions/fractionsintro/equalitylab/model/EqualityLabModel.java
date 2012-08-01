@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Times;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.common.util.Dimension2D;
-import edu.colorado.phet.fractions.fractionsintro.common.view.Colors;
+import edu.colorado.phet.fractions.common.view.Colors;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.IntroState;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.PieSet;
@@ -27,7 +27,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.S
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.VerticalSliceFactory;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
 
-import static edu.colorado.phet.fractions.fractionsintro.common.view.Colors.LIGHT_BLUE;
+import static edu.colorado.phet.fractions.common.view.Colors.LIGHT_BLUE;
 
 /**
  * Model for the Equality Lab tab.  Reuses lots of code from the Intro tab by composition for displaying and allowing interaction with the representations.

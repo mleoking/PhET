@@ -9,10 +9,10 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameModel;
 import edu.colorado.phet.fractions.fractionmatcher.model.Mode;
 import edu.colorado.phet.fractions.fractionmatcher.model.MovableFraction;
-import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
