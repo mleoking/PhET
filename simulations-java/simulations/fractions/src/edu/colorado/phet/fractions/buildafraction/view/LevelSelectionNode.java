@@ -11,11 +11,11 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberCardNode;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberDragContext;
+import edu.colorado.phet.fractions.common.view.Colors;
 import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel;
 import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
-import edu.colorado.phet.fractions.fractionsintro.common.view.Colors;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -24,9 +24,9 @@ import static edu.colorado.phet.common.games.GameConstants.SOUND_ICON;
 import static edu.colorado.phet.common.games.GameConstants.SOUND_OFF_ICON;
 import static edu.colorado.phet.fractions.buildafraction.view.LevelType.NUMBERS;
 import static edu.colorado.phet.fractions.buildafraction.view.LevelType.SHAPES;
+import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
+import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 import static edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern.sequentialFill;
-import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
-import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 import static fj.data.List.list;
 
 /**

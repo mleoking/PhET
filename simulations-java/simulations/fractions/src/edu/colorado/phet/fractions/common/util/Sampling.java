@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import edu.colorado.phet.fractions.fractionsintro.common.util.DefaultP2;
-
 import static fj.Equal.intEqual;
 import static fj.data.List.iterableList;
 import static fj.data.List.range;

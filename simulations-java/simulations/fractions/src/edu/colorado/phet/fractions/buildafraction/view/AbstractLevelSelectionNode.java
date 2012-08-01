@@ -35,7 +35,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 
-import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.*;
+import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.*;
 
 /**
  * Node that shows the levels and lets the user choose the level and settings

@@ -5,7 +5,7 @@ import fj.data.List;
 
 import java.awt.Color;
 
-import static edu.colorado.phet.fractions.fractionsintro.common.view.Colors.*;
+import static edu.colorado.phet.fractions.common.view.Colors.*;
 import static fj.data.List.list;
 
 /**

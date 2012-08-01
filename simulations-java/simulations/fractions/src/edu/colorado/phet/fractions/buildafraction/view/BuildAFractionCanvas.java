@@ -13,7 +13,7 @@ import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.SceneContext;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
-import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
