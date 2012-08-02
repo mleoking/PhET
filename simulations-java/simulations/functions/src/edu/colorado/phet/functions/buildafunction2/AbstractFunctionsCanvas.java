@@ -39,6 +39,10 @@ public class AbstractFunctionsCanvas extends PhetPCanvas {
         rootNode.addChild( node );
     }
 
+    protected void removeChild( PNode node ) {
+        rootNode.removeChild( node );
+    }
+
     protected void addChildren( PNode... nodes ) {
         for ( PNode node : nodes ) {
             addChild( node );
