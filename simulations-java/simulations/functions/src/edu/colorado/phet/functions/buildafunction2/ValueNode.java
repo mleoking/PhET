@@ -18,25 +18,27 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author Sam Reid
  */
-public class NumberValueNode extends PNode {
-    public NumberValueNode( final int number, Stroke stroke, Color paint, Color strokePaint, final Color textPaint ) {
+public class ValueNode extends PNode {
+    public ValueNode( final int number, Stroke stroke, Color paint, Color strokePaint, final Color textPaint ) {
+        this( new PhetPText( number + "", new PhetFont( 42, true ) ), stroke, paint, strokePaint, textPaint );
+    }
+
+    public ValueNode( PNode node, Stroke stroke, Color paint, Color strokePaint, final Color textPaint ) {
         final Area a = new Area( new Rectangle2D.Double( 0, 0, 50, Constants.ellipseWidth ) );
         double ellipseWidth = 50;
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMaxX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMinX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         addChild( new PhetPPath( a, paint, stroke, strokePaint ) );
-        addChild( new PhetPText( number + "", new PhetFont( 42, true ) ) {{
-            setTextPaint( textPaint );
-            setOffset( a.getBounds2D().getCenterX() - getFullBounds().getWidth() / 2, a.getBounds2D().getCenterY() - getFullBounds().getHeight() / 2 );
-        }} );
+        node.setOffset( a.getBounds2D().getCenterX() - node.getFullBounds().getWidth() / 2, a.getBounds2D().getCenterY() - node.getFullBounds().getHeight() / 2 );
+        addChild( node );
 
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
-                NumberValueNode.this.moveToFront();
+                ValueNode.this.moveToFront();
             }
 
             @Override public void mouseDragged( final PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( NumberValueNode.this.getParent() );
+                PDimension delta = event.getDeltaRelativeTo( ValueNode.this.getParent() );
                 translate( delta.width, delta.height );
                 System.out.println( getOffset() );
             }
