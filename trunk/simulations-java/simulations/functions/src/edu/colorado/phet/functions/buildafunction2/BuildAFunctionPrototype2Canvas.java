@@ -15,14 +15,14 @@ public class BuildAFunctionPrototype2Canvas extends AbstractFunctionsCanvas {
         //Set a really light blue because there is a lot of white everywhere
         setBackground( BACKGROUND_COLOR );
 
-        addChild( new UnaryNumberFunctionNode( "*2", false ) );
-        addChild( new UnaryNumberFunctionNode( "+1", false ) );
-        addChild( new UnaryNumberFunctionNode( "-1", false ) );
-        addChild( new UnaryNumberFunctionNode( "^2", false ) );
-
         addChild( new BinaryNumberFunctionNode( "+" ) );
         addChild( new BinaryNumberFunctionNode( "-" ) );
         addChild( new CopyNumberFunctionNode( "copy" ) );
+
+        addChild( new UnaryNumberFunctionNode( "*2", true ) );
+        addChild( new UnaryNumberFunctionNode( "+1", true ) );
+        addChild( new UnaryNumberFunctionNode( "-1", true ) );
+        addChild( new UnaryNumberFunctionNode( "^2", true ) );
 
         addChild( new ValueNode( 3, new BasicStroke(), Color.white, Color.black, Color.black ) );
     }
