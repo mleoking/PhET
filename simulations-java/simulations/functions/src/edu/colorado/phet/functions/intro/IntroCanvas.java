@@ -4,8 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import javax.swing.GrayFilter;
-
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.functions.FunctionsResources;
 import edu.colorado.phet.functions.FunctionsResources.Images;
@@ -14,6 +12,8 @@ import edu.colorado.phet.functions.buildafunction2.UnaryNumberFunctionNode;
 import edu.colorado.phet.functions.buildafunction2.ValueNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+
+import static javax.swing.GrayFilter.createDisabledImage;
 
 /**
  * @author Sam Reid
@@ -33,7 +33,7 @@ public class IntroCanvas extends AbstractFunctionsCanvas {
     private class Scene1 extends PNode {
         private Scene1() {
             final BufferedImage key = BufferedImageUtils.multiScaleToWidth( Images.KEY, 45 );
-            addChild( new ValueNode( new PImage( GrayFilter.createDisabledImage( GrayFilter.createDisabledImage( key ) ) ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray ) {{
+            addChild( new ValueNode( new PImage( createDisabledImage( createDisabledImage( key ) ) ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray ) {{
                 setOffset( 903.9881831610056, 318.4047267355978 );
             }} );
 
