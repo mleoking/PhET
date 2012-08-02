@@ -96,7 +96,7 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
                 valueNodeImage.setImage( BufferedImageUtils.getRotatedImage( BufferedImageUtils.toBufferedImage( valueNodeImage.getImage() ), Math.PI / 2 ) );
                 valueNode.centerContent();
             }
-            System.out.println( "LB = " + leftBefore + ", leftAfter = " + leftAfter );
+//            System.out.println( "LB = " + leftBefore + ", leftAfter = " + leftAfter );
         }
     }
 
