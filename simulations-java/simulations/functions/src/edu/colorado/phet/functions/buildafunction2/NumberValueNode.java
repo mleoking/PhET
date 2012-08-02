@@ -25,7 +25,7 @@ public class NumberValueNode extends PNode {
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMaxX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMinX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         addChild( new PhetPPath( a, Color.white, new BasicStroke( 1 ), Color.black ) );
-        addChild( new PhetPText( number + "", new PhetFont( 24, true ) ) {{
+        addChild( new PhetPText( number + "", new PhetFont( 42, true ) ) {{
             setOffset( a.getBounds2D().getCenterX() - getFullBounds().getWidth() / 2, a.getBounds2D().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
