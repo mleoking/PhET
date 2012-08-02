@@ -1,3 +1,4 @@
+New fix for #3373.  Set the size of the text field before wrapping it in a pswing
 # 1.04.01 (66517) Aug 2, 2012
 > Fix for #3373, crashes on startup for some languages
 # 1.04.00 (58699) Nov 17, 2011

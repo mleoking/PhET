@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.eatingandexercise.control.valuenode;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -138,27 +137,10 @@ public class LinearValueControlNode extends PNode {
                 } );
             }
         } );
+        //Workaround for #3373.  Set the size of the text field before wrapping it in a pswing
+        formattedTextField.setPreferredSize( formattedTextField.getPreferredSize() );
 
-        //Workaround for #3373
-        readoutNode = new PSwing( formattedTextField ) {
-            boolean callingGetPrefSize = false;
-
-            @Override public void updateBounds() {
-                if ( callingGetPrefSize ) {
-                    return;
-                }
-                callingGetPrefSize = true;
-                try {
-                    final Dimension x = formattedTextField.getPreferredSize();
-                    callingGetPrefSize = false;
-                    getComponent().setBounds( 0, 0, (int) x.getWidth(), (int) x.getHeight() );
-                    setBounds( 0, 0, (int) x.getWidth(), (int) x.getHeight() );
-                }
-                catch ( IllegalArgumentException iae ) {
-                    //Sometimes this exception occurs when running under locale = "ar"
-                }
-            }
-        };
+        readoutNode = new PSwing( formattedTextField );
         addChild( readoutNode );
 
         unitsNode = new PText( units );
