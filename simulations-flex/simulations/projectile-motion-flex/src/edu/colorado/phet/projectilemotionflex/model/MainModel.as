@@ -87,8 +87,8 @@ public class MainModel {
     private var _tRate:Number;          //Normal time rate: tRate = 1;
     private var dt: Number;             //time step for trajectory algorithm, all times in seconds
 
-    private var timers_arr:Array;       //array of timers, one time for each projectile in motion
-    private var currentTimerIndex: int; //index of most recent timer started: timers_arr[currentTimerIndex] = current timer
+    private var timers_arr:Array;       //array of timers, one timer for each projectile in motion
+    private var currentTimerIndex: int; //index of most recent timer started: timers_arr[currentTimerIndex] = current timer .
     private var trajectoryTimer: Timer;	//master millisecond timer
 
 
