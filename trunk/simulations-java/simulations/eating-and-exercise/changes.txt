@@ -1,3 +1,4 @@
+# 1.04.01 (66517) Aug 2, 2012
 > Fix for #3373, crashes on startup for some languages
 # 1.04.00 (58699) Nov 17, 2011
 # 1.03.04 (58644) Nov 16, 2011
