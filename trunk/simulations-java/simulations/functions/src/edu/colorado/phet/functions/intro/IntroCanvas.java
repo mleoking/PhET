@@ -32,17 +32,17 @@ public class IntroCanvas extends AbstractFunctionsCanvas {
 
     private class Scene1 extends PNode {
         private Scene1() {
-            addChild( new UnaryNumberFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( FunctionsResources.Images.ROTATE_RIGHT, 50 ) ), false ) {{
-                setOffset( 390.72378138847836, 294.298375184638 );
+            final BufferedImage key = BufferedImageUtils.multiScaleToWidth( Images.KEY, 45 );
+            addChild( new ValueNode( new PImage( GrayFilter.createDisabledImage( GrayFilter.createDisabledImage( key ) ) ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray ) {{
+                setOffset( 903.9881831610056, 318.4047267355978 );
             }} );
 
-            final BufferedImage key = BufferedImageUtils.multiScaleToWidth( Images.KEY, 45 );
-            addChild( new ValueNode( new PImage( BufferedImageUtils.getRotatedImage( key, -Math.PI / 2 ) ), new BasicStroke( 1 ), Color.white, Color.black, Color.black ) {{
+            addChild( new ValueNode( new PImage( BufferedImageUtils.getRotatedImage( key, -Math.PI / 2 ) ), new BasicStroke( 1 ), Color.white, Color.black ) {{
                 setOffset( 84.37223042836038, 315.3914327917278 );
             }} );
 
-            addChild( new ValueNode( new PImage( GrayFilter.createDisabledImage( GrayFilter.createDisabledImage( key ) ) ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray, Color.gray ) {{
-                setOffset( 903.9881831610056, 318.4047267355978 );
+            addChild( new UnaryNumberFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( FunctionsResources.Images.ROTATE_RIGHT, 50 ) ), false ) {{
+                setOffset( 390.72378138847836, 294.298375184638 );
             }} );
         }
     }
