@@ -20,10 +20,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ValueNode extends PNode {
     public ValueNode( final int number, Stroke stroke, Color paint, Color strokePaint, final Color textPaint ) {
-        this( new PhetPText( number + "", new PhetFont( 42, true ) ), stroke, paint, strokePaint, textPaint );
+        this( new PhetPText( number + "", new PhetFont( 42, true ) ) {{setTextPaint( textPaint );}}, stroke, paint, strokePaint );
     }
 
-    public ValueNode( PNode node, Stroke stroke, Color paint, Color strokePaint, final Color textPaint ) {
+    public ValueNode( PNode node, Stroke stroke, Color paint, Color strokePaint ) {
         final Area a = new Area( new Rectangle2D.Double( 0, 0, 50, Constants.ellipseWidth ) );
         double ellipseWidth = 50;
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMaxX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
@@ -34,7 +34,7 @@ public class ValueNode extends PNode {
 
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
-                ValueNode.this.moveToFront();
+//                ValueNode.this.moveToFront();
             }
 
             @Override public void mouseDragged( final PInputEvent event ) {
