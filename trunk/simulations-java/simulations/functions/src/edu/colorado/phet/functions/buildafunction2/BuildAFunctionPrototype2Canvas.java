@@ -11,7 +11,7 @@ public class BuildAFunctionPrototype2Canvas extends AbstractFunctionsCanvas {
         //Set a really light blue because there is a lot of white everywhere
         setBackground( new Color( 236, 251, 251 ) );
 
-        addChild( new UnaryNumberFunctionNode( "2x" ) );
+        addChild( new UnaryNumberFunctionNode( "*2" ) );
         addChild( new UnaryNumberFunctionNode( "+1" ) );
         addChild( new UnaryNumberFunctionNode( "-1" ) );
         addChild( new UnaryNumberFunctionNode( "^2" ) );
