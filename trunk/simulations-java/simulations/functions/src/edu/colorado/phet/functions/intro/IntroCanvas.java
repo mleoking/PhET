@@ -39,17 +39,23 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
         scene.mouseDragged( valueNode, delta );
     }
 
+    @Override public void mouseReleased( final ValueNode valueNode ) {
+        scene.mouseReleased( valueNode );
+    }
+
     private class Scene1 extends PNode {
 
         private final UnaryNumberFunctionNode functionNode;
         private final ValueNode valueNode;
         private final PImage valueNodeImage;
+        private final ValueNode targetNode;
 
         private Scene1() {
             final BufferedImage key = BufferedImageUtils.multiScaleToWidth( Images.KEY, 45 );
-            addChild( new ValueNode( IntroCanvas.this, new PImage( createDisabledImage( createDisabledImage( key ) ) ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray ) {{
+            targetNode = new ValueNode( IntroCanvas.this, new PImage( createDisabledImage( createDisabledImage( key ) ) ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray ) {{
                 setOffset( 903.9881831610056, 318.4047267355978 );
-            }} );
+            }};
+            addChild( targetNode );
 
             valueNodeImage = new PImage( BufferedImageUtils.getRotatedImage( key, -Math.PI / 2 ) );
             valueNode = new ValueNode( IntroCanvas.this, valueNodeImage, new BasicStroke( 1 ), Color.white, Color.black ) {{
@@ -86,17 +92,26 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
                 else {
                     valueNode.translate( delta.width, delta.height );
                 }
+                boolean leftAfter = valueNode.getGlobalFullBounds().getCenterX() < functionNode.getGlobalFullBounds().getCenterX();
+                if ( leftBefore == true && leftAfter == false ) {
+                    valueNodeImage.setImage( BufferedImageUtils.getRotatedImage( BufferedImageUtils.toBufferedImage( valueNodeImage.getImage() ), Math.PI / 2 ) );
+                    valueNode.centerContent();
+                    valueNode.rotateRight();
+                }
             }
 
             else {
                 valueNode.translate( delta.width, delta.height );
             }
-            boolean leftAfter = valueNode.getGlobalFullBounds().getCenterX() < functionNode.getGlobalFullBounds().getCenterX();
-            if ( leftBefore == true && leftAfter == false ) {
-                valueNodeImage.setImage( BufferedImageUtils.getRotatedImage( BufferedImageUtils.toBufferedImage( valueNodeImage.getImage() ), Math.PI / 2 ) );
-                valueNode.centerContent();
-            }
+
 //            System.out.println( "LB = " + leftBefore + ", leftAfter = " + leftAfter );
+        }
+
+        public void mouseReleased( final ValueNode valueNode ) {
+            if ( valueNode.getGlobalFullBounds().intersects( targetNode.getGlobalFullBounds() ) && valueNode.getNumberRotations() % 4 == 1 ) {
+                valueNode.setStrokePaint( Color.red );
+                valueNode.centerFullBoundsOnPoint( targetNode.getFullBounds().getCenterX(), targetNode.getFullBounds().getCenterY() );
+            }
         }
     }
 

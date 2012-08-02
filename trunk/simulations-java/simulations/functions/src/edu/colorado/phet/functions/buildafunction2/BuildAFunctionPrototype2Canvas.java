@@ -30,6 +30,9 @@ public class BuildAFunctionPrototype2Canvas extends AbstractFunctionsCanvas {
             @Override public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
                 valueNode.translate( delta.width, delta.height );
             }
+
+            @Override public void mouseReleased( final ValueNode valueNode ) {
+            }
         }, 3, new BasicStroke(), Color.white, Color.black, Color.black ) );
     }
 }

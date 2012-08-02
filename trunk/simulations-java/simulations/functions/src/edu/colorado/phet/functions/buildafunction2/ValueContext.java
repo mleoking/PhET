@@ -7,4 +7,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public interface ValueContext {
     void mouseDragged( final ValueNode valueNode, PDimension delta );
+
+    void mouseReleased( final ValueNode valueNode );
 }
