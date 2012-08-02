@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.functions.buildafunction2.BuildAFunctionPrototype2;
+import edu.colorado.phet.functions.intro.IntroModule;
 
 /**
  * "Functions" PhET Application
@@ -20,11 +21,9 @@ public class FunctionsApplication extends PiccoloPhetApplication {
 
     public FunctionsApplication( PhetApplicationConfig config ) {
         super( config );
-//        addModule( new BuildAFunctionModule() );
-        addModule( new FunctionModule( "Intro" ) );
+        addModule( new IntroModule() );
         addModule( new FunctionModule( "Two Inputs" ) );
         addModule( new BuildAFunctionPrototype2() );
-//        addModule( new FunctionModule( "Build a Function" ) );
         addModule( new FunctionModule( "Game Maker" ) );
     }
 

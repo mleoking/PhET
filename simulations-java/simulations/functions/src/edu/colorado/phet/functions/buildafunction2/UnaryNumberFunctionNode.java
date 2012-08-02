@@ -23,8 +23,9 @@ import static edu.colorado.phet.functions.buildafunction2.Constants.functionColo
  */
 public class UnaryNumberFunctionNode extends PNode {
     public static final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, Constants.bodyDimension.width, Constants.bodyDimension.height, 20, 20 );
+    private static boolean dragForLayout = false;
 
-    public UnaryNumberFunctionNode( String text ) {
+    public UnaryNumberFunctionNode( String text, boolean draggable ) {
         //use CAG for prototype, may need to speed up later on
         Area a = new Area( bodyRect );
         double ellipseWidth = 50;
@@ -41,16 +42,27 @@ public class UnaryNumberFunctionNode extends PNode {
             setOffset( bodyRect.getCenterX() - getFullBounds().getWidth() / 2, 2 );
         }} );
 
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mousePressed( final PInputEvent event ) {
-                UnaryNumberFunctionNode.this.moveToFront();
-            }
+        if ( draggable ) {
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( final PInputEvent event ) {
+                    UnaryNumberFunctionNode.this.moveToFront();
+                }
 
-            @Override public void mouseDragged( final PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( UnaryNumberFunctionNode.this.getParent() );
-                translate( delta.width, delta.height );
-            }
-        } );
-        addInputEventListener( new CursorHandler() );
+                @Override public void mouseDragged( final PInputEvent event ) {
+                    PDimension delta = event.getDeltaRelativeTo( UnaryNumberFunctionNode.this.getParent() );
+                    translate( delta.width, delta.height );
+                }
+            } );
+            addInputEventListener( new CursorHandler() );
+        }
+        else if ( dragForLayout ) {
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mouseDragged( final PInputEvent event ) {
+                    super.mouseDragged( event );
+                    translate( event.getDeltaRelativeTo( getParent() ).width, event.getDeltaRelativeTo( getParent() ).height );
+                    System.out.println( "getOffset() = " + getOffset() );
+                }
+            } );
+        }
     }
 }
