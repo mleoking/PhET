@@ -1,30 +1,26 @@
-// Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.functions;
+package edu.colorado.phet.functions.intro;
 
 import java.awt.Color;
-
-import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.colorado.phet.functions.buildafunction2.BuildAFunctionPrototype2Canvas;
+
+import static edu.colorado.phet.functions.FunctionModule.radioButton;
 
 /**
  * @author Sam Reid
  */
-public class FunctionModule extends PiccoloModule {
+public class IntroModule extends PiccoloModule {
+    public IntroModule() {
+        super( "Intro", new ConstantDtClock() );
 
-    public static final int INSET = 10;
-
-    public FunctionModule( final String name ) {
-        super( name, new ConstantDtClock() );
-        setSimulationPanel( new PhetPCanvas() {{
+        setSimulationPanel( new IntroCanvas() {{
+            setBackground( BuildAFunctionPrototype2Canvas.BACKGROUND_COLOR );
             addScreenChild( new HBox( radioButton( "Shapes", false ), radioButton( "Text", true ), radioButton( "Numbers", false ) ) {{
                 setOffset( INSET, INSET );
             }} );
@@ -36,12 +32,5 @@ public class FunctionModule extends PiccoloModule {
             }} );
         }} );
         setClockControlPanel( null );
-    }
-
-    public static PNode radioButton( final String shapes, boolean selected ) {
-        return new PSwing( new JRadioButton( shapes, selected ) {{
-            setFont( new PhetFont( 18, true ) );
-            setOpaque( false );
-        }} );
     }
 }

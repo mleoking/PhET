@@ -1,7 +1,7 @@
 package edu.colorado.phet.functions.buildafunction2;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
@@ -19,13 +19,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class NumberValueNode extends PNode {
-    public NumberValueNode( final int number ) {
+    public NumberValueNode( final int number, Stroke stroke, Color paint, Color strokePaint, final Color textPaint ) {
         final Area a = new Area( new Rectangle2D.Double( 0, 0, 50, Constants.ellipseWidth ) );
         double ellipseWidth = 50;
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMaxX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMinX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
-        addChild( new PhetPPath( a, Color.white, new BasicStroke( 1 ), Color.black ) );
+        addChild( new PhetPPath( a, paint, stroke, strokePaint ) );
         addChild( new PhetPText( number + "", new PhetFont( 42, true ) ) {{
+            setTextPaint( textPaint );
             setOffset( a.getBounds2D().getCenterX() - getFullBounds().getWidth() / 2, a.getBounds2D().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
@@ -37,6 +38,7 @@ public class NumberValueNode extends PNode {
             @Override public void mouseDragged( final PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( NumberValueNode.this.getParent() );
                 translate( delta.width, delta.height );
+                System.out.println( getOffset() );
             }
         } );
         addInputEventListener( new CursorHandler() );
