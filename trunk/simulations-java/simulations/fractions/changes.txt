@@ -1,3 +1,4 @@
+# 1.00.12 (66526) Aug 2, 2012
 Build a Fraction: Shapes: Show more complicated patterns for levels 6-10 on the level selection screen icons
 Build a Fraction: Shapes: Fixed: When card stacks have different sizes, the parent toolbox containers don't line up
 Build a Fraction: Show divisions when going into the collection box
