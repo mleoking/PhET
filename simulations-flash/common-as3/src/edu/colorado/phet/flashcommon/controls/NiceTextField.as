@@ -73,8 +73,13 @@ public class NiceTextField extends Sprite {
         //this.units_txt = new TextField();   //units displayed next to readout field
         this.readout_txt.selectable = this.editable;
         //this.units_txt.selectable = false;
-        this.readout_txt.type = TextFieldType.INPUT;    //user-editable
-        //this.units_txt.type =  TextFieldType.DYNAMIC;   //user cannot edit
+        if( editable ){
+           this.readout_txt.type = TextFieldType.INPUT;
+        }else{
+            this.readout_txt.type = TextFieldType.DYNAMIC;
+        }
+            //user-editable
+        //this.units_txt.type =  TextFieldType.DYNAMIC;    //user cannot edit
         this.readout_txt.border = true;
         this.readout_txt.background = true;
         this.readout_txt.backgroundColor = 0xffffff;     //white background

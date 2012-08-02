@@ -1,3 +1,4 @@
+
 /*
  * Copyright 2002-2012, University of Colorado
  */
@@ -31,12 +32,12 @@ public class TapeMeasure extends Sprite {
     private var angleInDeg: Number;             //rotated angle of tape measure
     private var tapeMeasureHolder: Sprite;      //container for parts of tapeMeasure
     private var tapeMeasureBody: Sprite;        //graphic of tape measure body
-    private var tapeEnd: Sprite;                //graphic of grabbable end of tape
+    private var tapeEnd: Sprite;                //end of tape
     private var tape: Sprite;                   //tape stretching from body to end of tape
 
     public function TapeMeasure( mainView:MainView ) {
         this.mainView = mainView;
-        this.outputField = new NiceTextField( null,"", 0, 100000 );
+        this.outputField = new NiceTextField( null,"", 0, 100000, "left", 50, false );
         this.outputField.setTextFieldToAutoSize();
         this.outputField.units_str = FlexSimStrings.get( "m", " m" );
 
@@ -48,6 +49,7 @@ public class TapeMeasure extends Sprite {
         this.tapeMeasureBody = new Sprite();
         this.tapeEnd = new Sprite();
         this.tape = new Sprite();
+
         this.addChild( tapeMeasureHolder );
         this.addChild( outputField );
         outputField.y = 25;
@@ -55,6 +57,7 @@ public class TapeMeasure extends Sprite {
         tapeMeasureHolder.addChild( this.tape );
         tapeMeasureHolder.addChild( tapeMeasureBody );
         tapeMeasureHolder.addChild( this.tapeEnd );
+
         drawTapeMeasureParts();
         makeBodyGrabbable();
         makeEndGrabbable();
@@ -67,11 +70,16 @@ public class TapeMeasure extends Sprite {
     private function drawTapeMeasureParts():void{
         var gMB: Graphics = this.tapeMeasureBody.graphics;
         var gTE: Graphics = this.tapeEnd.graphics;
+        //var gGTE: Graphics = this.grabbableTapeEnd.graphics;
         var gT:Graphics = this.tape.graphics;
         var w: Number = 30;  //width of body in pixels
         var r: Number = 8;  //radius of registration plus in pixels
         with(gMB){
             clear();
+            lineStyle( 2, 0xffffff, 0);   //large invisible grabbable area
+            beginFill( 0xffffff, 0 );
+            drawRect( -2*w,  -2*w, 3*w, 3*w  );
+            endFill();
             lineStyle( 2, 0x000000 );
             beginFill( 0xbbbbbb );      //gray body
             drawRoundRect( -w,  -w,  w,  w,  w/4, w/4 );
@@ -94,7 +102,15 @@ public class TapeMeasure extends Sprite {
         }
         with( gTE ){
             clear();
-            var r: Number = 8;  //radius of registration plus in pixels
+            lineStyle( 1, 0xffffff, 0 );    //large invisible grab area
+            beginFill( 0x00ff00, 0 );
+            var r:Number = 40;
+            moveTo( -r,  -2*r );
+            lineTo( r,  -2*r );
+            lineTo( r,  2*r );
+            lineTo( -r,  2*r );
+            lineTo( -r,  -2*r );
+            r = 8;    //radius of registration plus in pixels
             lineStyle( 1, 0x000000, 1, false, "normal", "square" );
             beginFill( 0x000000 );
             drawCircle( 0, 0, r-3 );
@@ -125,6 +141,7 @@ public class TapeMeasure extends Sprite {
 
     private function makeEndGrabbable():void{
         var thisObject: TapeMeasure = this;
+        var clickOffset: Point;
         var thisStage: DisplayObjectContainer;
         var delXInPix: Number;
         var delYInPix: Number;
@@ -134,26 +151,33 @@ public class TapeMeasure extends Sprite {
         this.tapeEnd.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
         function startTargetDrag( evt: MouseEvent ): void {
             thisStage = thisObject.parent;
-            //clickOffset = new Point( evt.localX, evt.localY );
+            //thisEnd.startDrag();
+            //Must rotate offset point according to angle so that user's finger always remains below target point
+            var cos:Number = Math.cos( angleInDeg* Math.PI/180);
+            var sin:Number = Math.sin( angleInDeg* Math.PI/180);
+            clickOffset = new Point( cos*evt.localX - sin*evt.localY, cos*evt.localY + sin*evt.localX );
+            //trace( "TapeMeasure.makeEndGrabbable  x = " + clickOffset.x + "   y = " + clickOffset.y );
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
-            delXInPix = thisStage.mouseX - thisObject.x;    //screen coordinates
-            delYInPix = thisStage.mouseY - thisObject.y;    //screen coordinates
+            var cos:Number = Math.cos( angleInDeg* Math.PI/180);
+            delXInPix = thisStage.mouseX - clickOffset.x - thisObject.x;    //screen coordinates
+            delYInPix = thisStage.mouseY - clickOffset.y - thisObject.y;    //screen coordinates
             lengthInPix = Math.sqrt( delXInPix*delXInPix + delYInPix*delYInPix );
             angleInDeg = Math.atan2( delYInPix, delXInPix )*180/Math.PI;
             thisObject.setTapeConfigurationAndReadout();
+            //thisEnd.stopDrag();
             evt.updateAfterEvent();
-            //clickOffset = null;
+            clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
         }
 
         function dragTarget( evt: MouseEvent ): void {
-            delXInPix = thisStage.mouseX - thisObject.x;    //screen coordinates
-            delYInPix = thisStage.mouseY - thisObject.y;    //screen coordinates
+            delXInPix = thisStage.mouseX - clickOffset.x - thisObject.x;    //screen coordinates
+            delYInPix = thisStage.mouseY - clickOffset.y  - thisObject.y    //screen coordinates
             lengthInPix = Math.sqrt( delXInPix*delXInPix + delYInPix*delYInPix );
             angleInDeg = Math.atan2( delYInPix, delXInPix )*180/Math.PI;
 
