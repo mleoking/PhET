@@ -24,6 +24,6 @@ public class BuildAFunctionPrototype2Canvas extends AbstractFunctionsCanvas {
         addChild( new BinaryNumberFunctionNode( "-" ) );
         addChild( new CopyNumberFunctionNode( "copy" ) );
 
-        addChild( new NumberValueNode( 3, new BasicStroke(), Color.white, Color.black, Color.black ) );
+        addChild( new ValueNode( 3, new BasicStroke(), Color.white, Color.black, Color.black ) );
     }
 }
