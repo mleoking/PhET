@@ -12,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.functions.buildafunction2.BuildAFunctionPrototype2Canvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -20,14 +21,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class FunctionModule extends PiccoloModule {
 
-    //    private static final Color CREAM = new Color( 247, 243, 183 );
-    private static final Color CREAM = new Color( 255, 252, 209 );//a little brighter
     public static final int INSET = 10;
 
     public FunctionModule( final String name ) {
         super( name, new ConstantDtClock() );
         setSimulationPanel( new PhetPCanvas() {{
-            setBackground( CREAM );
+            setBackground( BuildAFunctionPrototype2Canvas.BACKGROUND_COLOR );
             addScreenChild( new HBox( radioButton( "Shapes", false ), radioButton( "Text", true ), radioButton( "Numbers", false ) ) {{
                 setOffset( INSET, INSET );
             }} );
