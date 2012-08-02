@@ -3,6 +3,8 @@ package edu.colorado.phet.functions.buildafunction2;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
+import edu.umd.cs.piccolo.util.PDimension;
+
 /**
  * @author Sam Reid
  */
@@ -24,6 +26,10 @@ public class BuildAFunctionPrototype2Canvas extends AbstractFunctionsCanvas {
         addChild( new UnaryNumberFunctionNode( "-1", true ) );
         addChild( new UnaryNumberFunctionNode( "^2", true ) );
 
-        addChild( new ValueNode( 3, new BasicStroke(), Color.white, Color.black, Color.black ) );
+        addChild( new ValueNode( new ValueContext() {
+            @Override public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
+                valueNode.translate( delta.width, delta.height );
+            }
+        }, 3, new BasicStroke(), Color.white, Color.black, Color.black ) );
     }
 }

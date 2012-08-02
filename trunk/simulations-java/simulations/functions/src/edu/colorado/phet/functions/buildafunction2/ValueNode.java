@@ -19,17 +19,22 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class ValueNode extends PNode {
-    public ValueNode( final int number, Stroke stroke, Color paint, Color strokePaint, final Color textPaint ) {
-        this( new PhetPText( number + "", new PhetFont( 42, true ) ) {{setTextPaint( textPaint );}}, stroke, paint, strokePaint );
+
+    private PNode node;
+    private Area a;
+
+    public ValueNode( ValueContext valueContext, final int number, Stroke stroke, Color paint, Color strokePaint, final Color textPaint ) {
+        this( valueContext, new PhetPText( number + "", new PhetFont( 42, true ) ) {{setTextPaint( textPaint );}}, stroke, paint, strokePaint );
     }
 
-    public ValueNode( PNode node, Stroke stroke, Color paint, Color strokePaint ) {
-        final Area a = new Area( new Rectangle2D.Double( 0, 0, 50, Constants.ellipseWidth ) );
+    public ValueNode( final ValueContext valueContext, PNode node, Stroke stroke, Color paint, Color strokePaint ) {
+        a = new Area( new Rectangle2D.Double( 0, 0, 50, Constants.ellipseWidth ) );
         double ellipseWidth = 50;
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMaxX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMinX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         addChild( new PhetPPath( a, paint, stroke, strokePaint ) );
-        node.setOffset( a.getBounds2D().getCenterX() - node.getFullBounds().getWidth() / 2, a.getBounds2D().getCenterY() - node.getFullBounds().getHeight() / 2 );
+        this.node = node;
+        centerContent();
         addChild( node );
 
         addInputEventListener( new PBasicInputEventHandler() {
@@ -39,10 +44,13 @@ public class ValueNode extends PNode {
 
             @Override public void mouseDragged( final PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( ValueNode.this.getParent() );
-                translate( delta.width, delta.height );
-                System.out.println( getOffset() );
+                valueContext.mouseDragged( ValueNode.this, delta );
             }
         } );
         addInputEventListener( new CursorHandler() );
+    }
+
+    public void centerContent() {
+        this.node.setOffset( a.getBounds2D().getCenterX() - node.getFullBounds().getWidth() / 2, a.getBounds2D().getCenterY() - node.getFullBounds().getHeight() / 2 );
     }
 }
