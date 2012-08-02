@@ -22,6 +22,8 @@ public class ValueNode extends PNode {
 
     private PNode node;
     private Area a;
+    private PhetPPath boundNode;
+    private int numRotations = 0;
 
     public ValueNode( ValueContext valueContext, final int number, Stroke stroke, Color paint, Color strokePaint, final Color textPaint ) {
         this( valueContext, new PhetPText( number + "", new PhetFont( 42, true ) ) {{setTextPaint( textPaint );}}, stroke, paint, strokePaint );
@@ -32,7 +34,8 @@ public class ValueNode extends PNode {
         double ellipseWidth = 50;
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMaxX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMinX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
-        addChild( new PhetPPath( a, paint, stroke, strokePaint ) );
+        boundNode = new PhetPPath( a, paint, stroke, strokePaint );
+        addChild( boundNode );
         this.node = node;
         centerContent();
         addChild( node );
@@ -46,11 +49,27 @@ public class ValueNode extends PNode {
                 PDimension delta = event.getDeltaRelativeTo( ValueNode.this.getParent() );
                 valueContext.mouseDragged( ValueNode.this, delta );
             }
+
+            @Override public void mouseReleased( final PInputEvent event ) {
+                valueContext.mouseReleased( ValueNode.this );
+            }
         } );
         addInputEventListener( new CursorHandler() );
     }
 
     public void centerContent() {
         this.node.setOffset( a.getBounds2D().getCenterX() - node.getFullBounds().getWidth() / 2, a.getBounds2D().getCenterY() - node.getFullBounds().getHeight() / 2 );
+    }
+
+    public void setStrokePaint( final Color color ) {
+        boundNode.setStrokePaint( color );
+    }
+
+    public void rotateRight() {
+        numRotations++;
+    }
+
+    public int getNumberRotations() {
+        return numRotations;
     }
 }
