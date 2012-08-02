@@ -31,7 +31,6 @@ import static javax.swing.GrayFilter.createDisabledImage;
  */
 public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext {
 
-    public static final Color BACKGROUND_COLOR = new Color( 236, 251, 251 );
     private Scene scene;
     private final ResetAllButtonNode resetAllButtonNode;
 
@@ -155,6 +154,10 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
         private Scene2() {
             addChild( new UnaryNumberFunctionNode( "*2", false ) {{
                 setOffset( 390.72378138847836, 294.298375184638 );
+            }} );
+
+            addChild( new UnaryNumberFunctionNode( "+1", false ) {{
+                setOffset( 390.72378138847836, 444.298375184638 );
             }} );
 
             addChild( new ValueNode( IntroCanvas.this, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black ) {{
