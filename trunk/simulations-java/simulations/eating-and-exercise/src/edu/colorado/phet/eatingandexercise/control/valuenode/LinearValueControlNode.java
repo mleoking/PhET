@@ -1,13 +1,24 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.eatingandexercise.control.valuenode;
 
-import java.awt.event.*;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultFormatterFactory;
@@ -127,7 +138,27 @@ public class LinearValueControlNode extends PNode {
                 } );
             }
         } );
-        readoutNode = new PSwing( formattedTextField );
+
+        //Workaround for #3373
+        readoutNode = new PSwing( formattedTextField ) {
+            boolean callingGetPrefSize = false;
+
+            @Override public void updateBounds() {
+                if ( callingGetPrefSize ) {
+                    return;
+                }
+                callingGetPrefSize = true;
+                try {
+                    final Dimension x = formattedTextField.getPreferredSize();
+                    callingGetPrefSize = false;
+                    getComponent().setBounds( 0, 0, (int) x.getWidth(), (int) x.getHeight() );
+                    setBounds( 0, 0, (int) x.getWidth(), (int) x.getHeight() );
+                }
+                catch ( IllegalArgumentException iae ) {
+                    //Sometimes this exception occurs when running under locale = "ar"
+                }
+            }
+        };
         addChild( readoutNode );
 
         unitsNode = new PText( units );
