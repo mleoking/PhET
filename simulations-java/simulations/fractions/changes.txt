@@ -1,3 +1,4 @@
+Build a Fraction: Fixed: The smiling face is too big and covers up other buttons
 Build a Fraction: Made it so you can divide the pie into 8 slices instead of just 6
 Fraction Matcher: Fixed: Refresh button turns the sound on for the level you refreshed
 Fraction Matcher: When pressing "New game" in the game over dialog, refresh the level so the next time the user comes back they can play it again instead of seeing the "game over" dialog, see #3402
