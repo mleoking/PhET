@@ -1,4 +1,4 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions;
 
 import java.awt.image.BufferedImage;
@@ -17,8 +17,10 @@ public class FractionsResources {
     public static class Strings {
         public static final String BUILD_A_FRACTION = RESOURCES.getLocalizedString( "buildAFraction" );
         public static final String CHECK_ANSWER = RESOURCES.getLocalizedString( "checkAnswer" );
+        public static final String EQUALITY_LAB = RESOURCES.getLocalizedString( "equalityLab" );
         public static final String FRACTION_MATCHER = RESOURCES.getLocalizedString( "fractionMatcher" );
         public static final String FRACTION_MATCHER_MIXED_NUMBERS = RESOURCES.getLocalizedString( "fractionMatcherMixedNumbers" );
+        public static final String INTRO = RESOURCES.getLocalizedString( "intro" );
         public static final String LEVEL__PATTERN = RESOURCES.getLocalizedString( "level.pattern" );
         public static final String MATCHING_GAME = RESOURCES.getLocalizedString( "matchingGame" );
         public static final String MAX = RESOURCES.getLocalizedString( "max" );
@@ -30,13 +32,11 @@ public class FractionsResources {
         public static final String NUMBERS = RESOURCES.getLocalizedString( "numbers" );
         public static final String OK = RESOURCES.getLocalizedString( "ok" );
         public static final String PICTURES = RESOURCES.getLocalizedString( "pictures" );
+        public static final String RESET = RESOURCES.getLocalizedString( "reset" );
         public static final String SCORE__PATTERN = RESOURCES.getLocalizedString( "score.pattern" );
         public static final String SHOW_ANSWER = RESOURCES.getLocalizedString( "showAnswer" );
         public static final String TIME__PATTERN = RESOURCES.getLocalizedString( "time.pattern" );
         public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "tryAgain" );
-        public static final String INTRO = RESOURCES.getLocalizedString( "intro" );
-        public static final String EQUALITY_LAB = RESOURCES.getLocalizedString( "equalityLab" );
-        public static final String RESET = RESOURCES.getLocalizedString( "reset" );
     }
 
     //Images
