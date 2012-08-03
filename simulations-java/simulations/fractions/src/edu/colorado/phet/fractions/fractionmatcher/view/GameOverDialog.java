@@ -31,7 +31,11 @@ public class GameOverDialog {
                                 centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 );
                                 addGameOverListener( new GameOverListener() {
                                     public void newGamePressed() {
-                                        model.state.set( model.state.get().newGame( state.info.level, state.info.score ) );
+
+                                        //Refresh the level so the next time the user comes back they can play it again instead of seeing the "game over" dialog
+                                        model.finishRefresh();
+                                        final MatchingGameState value = model.state.get().newGame( state.info.level, state.info.score );
+                                        model.state.set( value );
                                     }
                                 } );
                             }} );
