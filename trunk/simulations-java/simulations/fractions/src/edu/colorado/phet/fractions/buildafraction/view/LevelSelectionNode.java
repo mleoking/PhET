@@ -5,10 +5,12 @@ import fj.F;
 import fj.data.List;
 
 import java.awt.Color;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberCardNode;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberDragContext;
 import edu.colorado.phet.fractions.common.view.Colors;
@@ -88,12 +90,12 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
     }
 
     private static LevelInfo shapeLevel( final int level, Pattern pattern, final F<LevelIdentifier, LevelProgress> gameProgress ) {
-        return new LevelInfo( new LevelIdentifier( level - 1, SHAPES ), "Level " + level, new PatternNode( sequentialFill( pattern, level ), colors[( level - 1 ) % colors.length] ),
+        return new LevelInfo( new LevelIdentifier( level - 1, SHAPES ), MessageFormat.format( Strings.LEVEL__PATTERN, level ), new PatternNode( sequentialFill( pattern, level ), colors[( level - 1 ) % colors.length] ),
                               gameProgress.f( new LevelIdentifier( level - 1, SHAPES ) ) );
     }
 
     private static LevelInfo numberLevel( int level, final F<LevelIdentifier, LevelProgress> gameProgress ) {
-        return new LevelInfo( new LevelIdentifier( level - 1, NUMBERS ), "Level " + level, createLevelIcon( level ),
+        return new LevelInfo( new LevelIdentifier( level - 1, NUMBERS ), MessageFormat.format( Strings.LEVEL__PATTERN, level ), createLevelIcon( level ),
                               gameProgress.f( new LevelIdentifier( level - 1, NUMBERS ) ) );
     }
 

@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
@@ -29,6 +30,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
@@ -232,7 +234,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         addChild( toolboxNode );
         toolboxNode.moveToBack();
 
-        faceNodeDialog = new VBox( new FaceNode( 200 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), BUTTON_COLOR ) {{
+        faceNodeDialog = new VBox( new FaceNode( 200 ), new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     context.goToNextShapeLevel( levelIndex + 1 );
@@ -254,11 +256,11 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
                 return target.cell.getFullBounds().getMinX();
             }
         } ).minimum( doubleOrd );
-        final PhetPText levelReadoutTitle = new PhetPText( "Level " + ( levelIndex + 1 ), new PhetFont( 32, true ) );
+        final PhetPText levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
         levelReadoutTitle.setOffset( ( minScoreCellX - INSET ) / 2 - levelReadoutTitle.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
         addChild( levelReadoutTitle );
 
-        final TextButtonNode resetButton = new TextButtonNode( "Reset", AbstractFractionsCanvas.CONTROL_FONT, BUTTON_COLOR ) {{
+        final TextButtonNode resetButton = new TextButtonNode( Strings.RESET, AbstractFractionsCanvas.CONTROL_FONT, BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     reset();

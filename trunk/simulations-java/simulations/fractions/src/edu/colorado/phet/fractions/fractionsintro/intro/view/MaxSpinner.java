@@ -10,6 +10,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.common.view.SpinnerButtonPanelVBox;
 
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.maxSpinnerDownButton;
@@ -26,10 +27,10 @@ public class MaxSpinner extends RichPNode {
     public MaxSpinner( final IntegerProperty value ) {
         final PhetFont maxTextFont = new PhetFont( 32 );
         final PhetFont maxNumberFont = new PhetFont( 36 );
-        addChild( new VBox( 0, new PhetPText( "Max", maxTextFont, Color.black ),
+        addChild( new VBox( 0, new PhetPText( Strings.MAX, maxTextFont, Color.black ),
                             new HBox( new PhetPText( maxNumberFont ) {{
                                 value.addObserver( new VoidFunction1<Integer>() {
-                                    @Override public void apply( Integer m ) {
+                                    public void apply( Integer m ) {
                                         setText( m + "" );
                                     }
                                 } );

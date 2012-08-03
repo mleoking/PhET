@@ -1,3 +1,4 @@
+Added internationalization
 Build a Fraction: Shapes: Fixed: Reset all does not clear level 1 contents
 Build a Fraction: Shapes: Fixed: Reset all does not reset the divisions on each container
 # 1.00.13 (66537) Aug 3, 2012
