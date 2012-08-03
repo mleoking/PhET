@@ -290,6 +290,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         for ( ContainerNode containerNode : getContainerNodes() ) {
             containerNode.splitAll();
             containerNode.animateHome();
+            containerNode.selectedPieceSize.reset();
         }
         for ( PieceNode piece : getPieceNodes() ) {
             piece.moveToTopOfStack();
