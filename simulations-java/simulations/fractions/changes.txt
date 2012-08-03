@@ -1,3 +1,4 @@
+# 1.00.13 (66537) Aug 3, 2012
 Build a Fraction: Animate cards back to stacks faster so it is less likely to click on it while it is moving (which causes problems)
 Build a Fraction: Numbers: Fixed: When pressing reset, the fraction container doesn't move to the play area
 Build a Fraction: Fixed: The smiling face is too big and covers up other buttons
