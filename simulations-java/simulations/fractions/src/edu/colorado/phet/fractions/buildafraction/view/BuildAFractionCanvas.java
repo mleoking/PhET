@@ -132,6 +132,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
     public void reset() {
         model.resetAll();
+        map.clear();
         crossFadeTo( new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled, model.selectedPage, model.gameProgress ) );
     }
 
