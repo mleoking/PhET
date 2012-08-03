@@ -54,7 +54,7 @@ public class NumberCardNode extends Stackable {
     }
 
     public PTransformActivity animateTo( Vector2D v ) {
-        return animateToPositionScaleRotation( v.x, v.y, 1, 0, 1000 );
+        return animateToPositionScaleRotation( v.x, v.y, 1, 0, 400 );
     }
 
     public void setCardShapeVisible( boolean visible ) { cardShape.setVisible( visible ); }
