@@ -315,16 +315,11 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     }
 
     private void reset() {
+        boolean first = false;
         for ( ScoreBoxPair pair : pairList ) {
-            pair.targetCell.split();
+            pair.targetCell.split( first );
+            first = true;
         }
-        for ( FractionNode fractionGraphic : fractionGraphics ) {
-            fractionGraphic.split();
-            if ( fractionGraphic != fractionGraphics.get( 0 ) ) {
-                fractionGraphic.sendFractionSkeletonToToolbox();
-            }
-        }
-        fractionGraphics.get( 0 ).sendFractionSkeletonToCenterOfScreen( toolboxNode.getCenterX(), 300 );
     }
 
     public void endDrag( final FractionNode fractionGraphic, final PInputEvent event ) {

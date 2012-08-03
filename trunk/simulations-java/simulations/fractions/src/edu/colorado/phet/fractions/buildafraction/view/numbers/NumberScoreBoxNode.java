@@ -56,14 +56,14 @@ public class NumberScoreBoxNode extends PNode {
         splitButton.addInputEventListener( new CursorHandler() );
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( final PInputEvent event ) {
-                split();
+                split( true );
             }
         } );
         splitButton.setVisible( false );
         addChild( splitButton );
     }
 
-    public void split() {
+    public void split( boolean sendToToolbox ) {
         if ( completed ) {
             completed = false;
             path.setStrokePaint( Color.darkGray );
@@ -80,7 +80,12 @@ public class NumberScoreBoxNode extends PNode {
             fractionGraphic = null;
 
             cardNode.fractionNode.split();
-            cardNode.fractionNode.sendFractionSkeletonToToolbox();
+            if ( sendToToolbox ) {
+                cardNode.fractionNode.sendFractionSkeletonToToolbox();
+            }
+            else {
+                cardNode.fractionNode.sendFractionSkeletonToCenterOfScreen( 428, 300 );
+            }
 
             numberSceneNode.numberScoreBoxSplit();
             numberSceneNode.updateStacks();
