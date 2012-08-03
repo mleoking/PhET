@@ -59,10 +59,10 @@ public class EqualityLabModel {
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
             return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, Colors.CIRCLE_COLOR ),
                                    new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), littleBucket, Colors.HORIZONTAL_SLICE_COLOR, 125 + 114, horizontalSliceY, false ),
-                                   new VerticalSliceFactory( -120, 125 * verticalSliceScale, 225 * verticalSliceScale, false, bucketPosition, littleBucket, Colors.VERTICAL_SLICE_COLOR, distanceBetweenBars ),
+                                   new VerticalSliceFactory( -120, 125 * verticalSliceScale, 225 * verticalSliceScale, false, bucketPosition, littleBucket, Colors.VERTICAL_SLICE_COLOR, distanceBetweenBars, false ),
 
                                    //Align the right side of the water glasses with the right edge of the representation control panel
-                                   new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, littleBucket, Colors.CUP_COLOR, distanceBetweenGlasses ),
+                                   new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, littleBucket, Colors.CUP_COLOR, distanceBetweenGlasses, true ),
                                    new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
 
         }
@@ -93,10 +93,10 @@ public class EqualityLabModel {
 
             return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, LIGHT_BLUE ),
                                    new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, LIGHT_BLUE, 125 + 445, horizontalSliceY, true ),
-                                   new VerticalSliceFactory( 400, 125 * verticalSliceScale, 225 * verticalSliceScale, false, bucketPosition, littleBucket, LIGHT_BLUE, distanceBetweenBars ),
+                                   new VerticalSliceFactory( 400, 125 * verticalSliceScale, 225 * verticalSliceScale, false, bucketPosition, littleBucket, LIGHT_BLUE, distanceBetweenBars, false ),
 
                                    //Align the left side of the water glasses with the left edge of the right representation control panel
-                                   new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, littleBucket, LIGHT_BLUE, distanceBetweenGlasses ),
+                                   new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, littleBucket, LIGHT_BLUE, distanceBetweenGlasses, true ),
                                    new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
 
         }

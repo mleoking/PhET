@@ -109,8 +109,8 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
         Dimension2D bucketSize = new Dimension2D( 350, 135 );
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, bucketSize, pieDiameter, pieX, pieY, siteMap, Colors.CIRCLE_COLOR ),
                                new HorizontalSliceFactory( bucketPosition, bucketSize, Colors.HORIZONTAL_SLICE_COLOR ),
-                               new VerticalSliceFactory( -35.5, 125, 200, false, bucketPosition, bucketSize, Colors.VERTICAL_SLICE_COLOR, distanceBetweenBars ),
-                               new VerticalSliceFactory( 60, 100, 200, true, bucketPosition, bucketSize, Colors.CUP_COLOR, distanceBetweenBars ),
+                               new VerticalSliceFactory( -35.5, 125, 200, false, bucketPosition, bucketSize, Colors.VERTICAL_SLICE_COLOR, distanceBetweenBars, false ),
+                               new VerticalSliceFactory( 60, 100, 200, true, bucketPosition, bucketSize, Colors.CUP_COLOR, distanceBetweenBars, true ),
                                new CakeSliceFactory( bucketPosition, bucketSize ) );
     }
 
