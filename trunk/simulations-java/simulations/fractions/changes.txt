@@ -1,3 +1,4 @@
+Fraction Matcher: Fixed: Refresh button turns the sound on for the level you refreshed
 Fraction Matcher: When pressing "New game" in the game over dialog, refresh the level so the next time the user comes back they can play it again instead of seeing the "game over" dialog, see #3402
 Intro: Fixed a bug in dragging and dropping water glasses, see #3401
 # 1.00.12 (66526) Aug 2, 2012
