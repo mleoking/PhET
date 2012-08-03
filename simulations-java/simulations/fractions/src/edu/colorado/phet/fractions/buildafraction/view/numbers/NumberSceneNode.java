@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -28,6 +29,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
@@ -247,7 +249,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         fractionNode.setOffset( toolboxNode.getCenterX() - fractionNode.getFullBounds().getWidth() / 2, 300 );
         fractionNode.moveInFrontOf( toolboxNode );
 
-        faceNodeDialog = new VBox( new FaceNode( 200 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
+        faceNodeDialog = new VBox( new FaceNode( 200 ), new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), Color.orange ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     context.goToNextNumberLevel( levelIndex + 1 );
@@ -269,11 +271,11 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
                 return target.patternNode.getFullBounds().getMinX();
             }
         } ).minimum( Ord.doubleOrd );
-        final PhetPText levelReadoutTitle = new PhetPText( "Level " + ( levelIndex + 1 ), new PhetFont( 32, true ) );
+        final PhetPText levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
         levelReadoutTitle.setOffset( ( minScoreCellX - AbstractFractionsCanvas.INSET ) / 2 - levelReadoutTitle.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
         addChild( levelReadoutTitle );
 
-        final TextButtonNode resetButton = new TextButtonNode( "Reset", AbstractFractionsCanvas.CONTROL_FONT, RefreshButtonNode.BUTTON_COLOR ) {{
+        final TextButtonNode resetButton = new TextButtonNode( Strings.RESET, AbstractFractionsCanvas.CONTROL_FONT, RefreshButtonNode.BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     reset();

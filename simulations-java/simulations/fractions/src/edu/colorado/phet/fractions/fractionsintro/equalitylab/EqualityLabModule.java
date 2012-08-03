@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.fractionsintro.equalitylab;
 
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.fractionsintro.AbstractFractionsModule;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.model.EqualityLabModel;
@@ -19,7 +20,7 @@ public class EqualityLabModule extends AbstractFractionsModule {
     }
 
     public EqualityLabModule( EqualityLabModel model ) {
-        super( Components.equalityLabTab, "Equality Lab", model.clock );
+        super( Components.equalityLabTab, Strings.EQUALITY_LAB, model.clock );
         setSimulationPanel( new EqualityLabCanvas( model ) );
     }
 

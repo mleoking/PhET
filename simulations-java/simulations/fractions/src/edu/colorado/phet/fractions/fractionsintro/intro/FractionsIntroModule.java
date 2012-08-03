@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.fractionsintro.intro;
 
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.fractionsintro.AbstractFractionsModule;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.FractionsIntroModel;
@@ -21,7 +22,7 @@ public class FractionsIntroModule extends AbstractFractionsModule {
     }
 
     private FractionsIntroModule( FractionsIntroModel model ) {
-        super( Components.introTab, "Intro", model.getClock() );
+        super( Components.introTab, Strings.INTRO, model.getClock() );
         setSimulationPanel( new FractionsIntroCanvas( model ) );
     }
 
