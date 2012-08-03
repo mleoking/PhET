@@ -247,7 +247,7 @@ public class MatchingGameModel {
     }
 
     public void finishRefresh() {
-        startNewGame( level.get(), gameAudioPlayer.isEnabled(), timerVisible.get() );
+        startNewGame( level.get(), state.get().getInfo().audio, state.get().getInfo().timerVisible );
     }
 
     private void startNewGame( final int level, final boolean soundEnabled, final boolean timerEnabled ) {
