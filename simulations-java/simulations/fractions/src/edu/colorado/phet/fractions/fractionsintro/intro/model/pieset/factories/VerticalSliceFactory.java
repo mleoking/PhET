@@ -2,16 +2,21 @@
 package edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories;
 
 import fj.F;
+import fj.data.List;
 import lombok.Data;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.fractions.common.util.Dimension2D;
+import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
+
+import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 
 /**
  * Factory pattern for creating circular pies and PieSets.
@@ -29,14 +34,17 @@ public @Data class VerticalSliceFactory extends SliceFactory {
     private final double distanceBetweenBars;
     private double x;
 
+    public final boolean isWaterGlasses;
+
     //Private, require users to use singleton
-    public VerticalSliceFactory( double x, double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor, final double distanceBetweenBars ) {
+    public VerticalSliceFactory( double x, double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor, final double distanceBetweenBars, final boolean waterGlasses ) {
         super( 15.0, bucketPosition, bucketSize, sliceColor );
         this.barWidth = barWidth;
         this.barHeight = barHeight;
         this.fullBars = fullBars;
         this.distanceBetweenBars = distanceBetweenBars;
         this.x = x;
+        this.isWaterGlasses = waterGlasses;
     }
 
     //Returns the shape for the slice
@@ -69,5 +77,50 @@ public @Data class VerticalSliceFactory extends SliceFactory {
         //Account for offset, determined empirically: den=1 => offset = 0, den = 2 => offset = -cellHeight/2
         LinearFunction linearFunction = new LinearFunction( 1, 2, -barHeight, -barHeight + cellHeight / 2 );
         return new Slice( new Vector2D( x + barX + offset, 282 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ), sliceColor );
+    }
+
+    @Override public Slice getDropTarget( final PieSet pieSet, final Slice s ) {
+        return isWaterGlasses ? getWaterGlassesDropTarget( pieSet, s ) : super.getDropTarget( pieSet, s );
+    }
+
+    private Slice getWaterGlassesDropTarget( final PieSet pieSet, final Slice s ) {
+        if ( pieSet.getEmptyCells().length() == 0 ) { return null; }
+        final Slice closestCell = getClosestEmptyCell( pieSet, s.getCenter() );
+        return closestCell != null && waterGlassShapeOverlaps( s, closestCell ) ? closestCell : null;
+    }
+
+    //For water glasses, have to fill from the bottom, even though the problem is already solved a different way in the view
+    //It was creating problems for the model.
+    public Slice getClosestEmptyCell( PieSet pieSet, final Vector2D point ) {
+        final List<Slice> sorted = pieSet.getEmptyCells().sort( ord( new F<Slice, Double>() {
+            @Override public Double f( final Slice slice ) {
+                return Math.abs( slice.getCenter().x - point.x );
+            }
+        } ) );
+        if ( sorted.length() == 0 ) { return null; }
+        final Slice closestPrototype = sorted.head();
+
+        //find the cells that are closest horizontally
+        List<Slice> closestSlicesHorizontally = pieSet.getEmptyCells().filter( new F<Slice, Boolean>() {
+            @Override public Boolean f( final Slice slice ) {
+                return Math.abs( slice.position.x - closestPrototype.position.x ) < 1E-4;//allow tolerance for some floating point error in layout
+            }
+        } );
+
+        //Find the lowest piece (i.e. y value is max)
+        return closestSlicesHorizontally.maximum( ord( new F<Slice, Double>() {
+            @Override public Double f( final Slice slice ) {
+                return slice.getCenter().y;
+            }
+        } ) );
+    }
+
+    public boolean waterGlassShapeOverlaps( final Slice dropped, final Slice target ) {
+
+        final Rectangle2D targetShape = target.getShape().getBounds2D();
+        final Rectangle2D droppedShape = new Rectangle2D.Double( dropped.getShape().getBounds2D().getX(), targetShape.getY(), dropped.getShape().getBounds2D().getWidth(), targetShape.getHeight() );
+        boolean overlapsHorizontally = droppedShape.intersects( targetShape );
+        double y = dropped.getShape().getBounds2D().getY();
+        return overlapsHorizontally && y < 365;//Determined empirically with a System.out.println statement of y above
     }
 }

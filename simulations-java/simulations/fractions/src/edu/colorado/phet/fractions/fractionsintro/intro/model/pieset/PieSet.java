@@ -8,7 +8,6 @@ import fj.data.List;
 import fj.data.Option;
 import lombok.Data;
 
-import java.awt.geom.Area;
 import java.util.Random;
 
 import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.CellPointer;
@@ -139,15 +138,7 @@ import static fj.data.List.range;
 
     //Find which cell a slice should get dropped into 
     public Slice getDropTarget( final Slice s ) {
-        if ( getEmptyCells().length() == 0 ) { return null; }
-        final Slice closestCell = getEmptyCells().minimum( ord( new F<Slice, Double>() {
-            @Override public Double f( final Slice slice ) {
-                return slice.getCenter().distance( s.getCenter() );
-            }
-        } ) );
-
-        //Only allow it if the shapes actually overlapped
-        return closestCell != null && !( new Area( closestCell.getShape() ) {{intersect( new Area( s.getShape() ) );}}.isEmpty() ) ? closestCell : null;
+        return sliceFactory.getDropTarget( this, s );
     }
 
     public ContainerSet toContainerSet() {

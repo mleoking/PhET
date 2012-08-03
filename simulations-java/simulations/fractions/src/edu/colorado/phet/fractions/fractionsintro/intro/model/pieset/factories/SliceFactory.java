@@ -1,10 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories;
 
+import fj.F;
 import fj.data.List;
 import lombok.Data;
 
 import java.awt.Color;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.fractions.common.util.Dimension2D;
+import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.Container;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Pie;
@@ -95,5 +98,17 @@ public @Data abstract class SliceFactory {
         final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
         final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
         return new Vector2D( x, y );
+    }
+
+    public Slice getDropTarget( final PieSet pieSet, final Slice s ) {
+        if ( pieSet.getEmptyCells().length() == 0 ) { return null; }
+        final Slice closestCell = pieSet.getEmptyCells().minimum( FJUtils.ord( new F<Slice, Double>() {
+            @Override public Double f( final Slice slice ) {
+                return slice.getCenter().distance( s.getCenter() );
+            }
+        } ) );
+
+        //Only allow it if the shapes actually overlapped
+        return closestCell != null && !( new Area( closestCell.getShape() ) {{intersect( new Area( s.getShape() ) );}}.isEmpty() ) ? closestCell : null;
     }
 }
