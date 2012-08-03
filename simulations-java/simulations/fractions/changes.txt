@@ -1,4 +1,4 @@
-Fraction Matcher: When pressing "New game" in the game over dialog, refresh the level so the next time the user comes back they can play it again instead of seeing the "game over" dialog
+Fraction Matcher: When pressing "New game" in the game over dialog, refresh the level so the next time the user comes back they can play it again instead of seeing the "game over" dialog, see #3402
 Intro: Fixed a bug in dragging and dropping water glasses, see #3401
 # 1.00.12 (66526) Aug 2, 2012
 Build a Fraction: Shapes: Show more complicated patterns for levels 6-10 on the level selection screen icons
