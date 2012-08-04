@@ -52,9 +52,6 @@ import static edu.colorado.phet.fractions.fractionmatcher.model.Motions.WAIT;
     //User component for sim sharing
     public final IUserComponent userComponent;
 
-    //Static instance count for creating unique references, see "id" above
-    private static int count;
-
     //Color shown for this fraction
     public final Color color;
 

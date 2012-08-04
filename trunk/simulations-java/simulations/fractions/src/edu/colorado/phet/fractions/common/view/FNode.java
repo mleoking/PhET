@@ -43,22 +43,6 @@ public class FNode extends RichPNode {
         }
     };
 
-    public static <A extends PNode> F<A, Double> _fullHeight() {
-        return new F<A, Double>() {
-            @Override public Double f( final A a ) {
-                return a.getFullBounds().getHeight();
-            }
-        };
-    }
-
-    public static <A extends PNode> F<A, Double> _fullWidth() {
-        return new F<A, Double>() {
-            @Override public Double f( final A a ) {
-                return a.getFullBounds().getWidth();
-            }
-        };
-    }
-
     public static final F<PNode, Double> _fullHeight = new F<PNode, Double>() {
         @Override public Double f( final PNode pnode ) {
             return pnode.getFullBounds().getHeight();
