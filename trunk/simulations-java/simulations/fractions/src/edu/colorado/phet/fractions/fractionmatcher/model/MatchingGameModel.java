@@ -90,9 +90,9 @@ public class MatchingGameModel {
     public final CompositeBooleanProperty choosingSettings;
 
     //Saved games from when the user left a level with the back button
-    private HashMap<Integer, MatchingGameState> savedGames = new HashMap<Integer, MatchingGameState>();
-    private ArrayList<VoidFunction0> refreshListeners = new ArrayList<VoidFunction0>();
-    private ArrayList<VoidFunction1<Integer>> levelStartedListeners = new ArrayList<VoidFunction1<Integer>>();
+    private final HashMap<Integer, MatchingGameState> savedGames = new HashMap<Integer, MatchingGameState>();
+    private final ArrayList<VoidFunction0> refreshListeners = new ArrayList<VoidFunction0>();
+    private final ArrayList<VoidFunction1<Integer>> levelStartedListeners = new ArrayList<VoidFunction1<Integer>>();
 
     private ObservableProperty<Double> doubleProperty( final F<MatchingGameState, Double> f ) {
         return new CompositeDoubleProperty( new Function0<Double>() {

@@ -216,7 +216,7 @@ a 1/2 and a 1/3.
 -- Shape pieces constrained so that for instance if 1/2 and 1/2 appears for the top targets, a 1/2 piece might be available but the other one
 will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
 -- If 3/8 or 5/8 are drawn circles should be used, if not circles or tiles will work fine*/
-    public ShapeLevel level7() {
+    ShapeLevel level7() {
         List<Fraction> available = list( new Fraction( 1, 2 ), new Fraction( 1, 3 ), new Fraction( 2, 3 ), new Fraction( 1, 4 ),
                                          new Fraction( 3, 4 ), new Fraction( 5, 6 ), new Fraction( 3, 8 ), new Fraction( 5, 8 ) );
 
@@ -253,7 +253,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
 
         List<Integer> range = range( 0, 9 );
 
-        //Try all combinations of coefficients, but bail if it gets too large to make it efficient to run in realtime.
+        //Try all combinations of coefficients, but bail if it gets too large to make it efficient to run in real-time.
         ArrayList<List<Integer>> coefficients = new ArrayList<List<Integer>>();
         for ( int i1 : range ) {
             Fraction sum1 = new Fraction( i1, 1 );
@@ -305,7 +305,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    -- On this level lets have at least 2 numbers larger than 1 as targets
    -- Enough pieces available to match targets in "obvious ways"...so if 5/4 is a target a whole piece is available and a 1/4 piece available
     */
-    public ShapeLevel level8() {
+    ShapeLevel level8() {
         List<Fraction> targets = level8Targets();
         return shapeLevel( straightforwardCards( targets ), shuffle( targets ), colors[7], choosePiesOrBars( targets ) );
     }
@@ -322,7 +322,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    --Same as level 8 but now some targets only allow "non-obvious" matches with pieces.  For instance, if the target is greater than one, no
    "wholes" should be available.  So if 5/4 is a target it would need to be built from something like 2 half pieces and a quarter piece
     */
-    public ShapeLevel level9() {
+    ShapeLevel level9() {
         List<Fraction> targets = level8Targets();
         //TODO: make cards be non-straightforward.  Possibly by consolidating into pieces as large as possible, then doing random subdivisions.
         return shapeLevel( straightforwardCards( targets ), shuffle( targets ), colors[8], choosePiesOrBars( targets ) );
@@ -336,7 +336,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    more pieces as a way to constrain the pieces given. So for instance something like 4/3 would have to be built by something like 1(half) +
    2(quarters) + (1/3)
     */
-    public ShapeLevel level10() {
+    ShapeLevel level10() {
         List<Fraction> available = list( new Fraction( 3, 2 ),
                                          new Fraction( 4, 3 ), new Fraction( 5, 3 ),
                                          new Fraction( 5, 4 ), new Fraction( 7, 4 ),

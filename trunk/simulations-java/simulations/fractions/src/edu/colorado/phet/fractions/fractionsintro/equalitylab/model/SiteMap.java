@@ -13,7 +13,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Site;
  *
  * @author Sam Reid
  */
-public @Data class SiteMap extends F<Site, Site> {
+@Data class SiteMap extends F<Site, Site> {
     @Override public Site f( final Site s ) {
         return s.eq( 0, 0 ) ? new Site( 1, 2 ) :
                s.eq( 0, 1 ) ? new Site( 0, 2 ) :

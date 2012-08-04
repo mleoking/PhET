@@ -35,7 +35,7 @@ public final @Data class Container {
         return filledCells.toString();
     }
 
-    public Container( int numCells, final Collection<Integer> filledCells ) {
+    private Container( int numCells, final Collection<Integer> filledCells ) {
         this( numCells, List.iterableList( new HashSet<Integer>() {{
             for ( Integer filledCell : filledCells ) {
                 add( filledCell );

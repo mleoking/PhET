@@ -23,7 +23,7 @@ public class Level {
     //For keeping score
     public final IntegerProperty filledTargets = new IntegerProperty( 0 );
 
-    public Level( final int numTargets ) { this.numTargets = numTargets; }
+    protected Level( final int numTargets ) { this.numTargets = numTargets; }
 
     public void resetAll() {
         createdFractions.reset();

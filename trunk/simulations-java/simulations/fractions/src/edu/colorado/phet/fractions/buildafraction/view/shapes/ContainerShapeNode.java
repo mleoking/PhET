@@ -18,9 +18,9 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class ContainerShapeNode extends PNode {
+class ContainerShapeNode extends PNode {
 
-    static final double scale = 1.7;
+    private static final double scale = 1.7;
     public static final double rectangleWidth = 130 * scale;
     public static final double rectangleHeight = 55 * scale;
 

@@ -19,7 +19,7 @@ public class EqualityLabModule extends AbstractFractionsModule {
         this( new EqualityLabModel() );
     }
 
-    public EqualityLabModule( EqualityLabModel model ) {
+    private EqualityLabModule( EqualityLabModel model ) {
         super( Components.equalityLabTab, Strings.EQUALITY_LAB, model.clock );
         setSimulationPanel( new EqualityLabCanvas( model ) );
     }

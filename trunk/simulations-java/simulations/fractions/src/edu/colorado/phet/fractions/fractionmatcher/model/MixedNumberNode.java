@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class MixedNumberNode extends PNode {
+class MixedNumberNode extends PNode {
     public MixedNumberNode( final Fraction fraction, final int scaleFactor, final double fractionSizeScale, final double mixedNumberWholeScale ) {
         final Property<Integer> one = new Property<Integer>( 1 );
         final Fraction scaledFraction = new Fraction( ( fraction.numerator - fraction.denominator ) * scaleFactor, fraction.denominator * scaleFactor );

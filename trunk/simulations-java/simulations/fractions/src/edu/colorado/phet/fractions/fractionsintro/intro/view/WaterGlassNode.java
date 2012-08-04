@@ -62,7 +62,7 @@ public class WaterGlassNode extends RichPNode {
         double sy = height / FractionsResources.Images.WATER_GLASS_FRONT.getHeight();
 
         final BeakerNode waterBeakerNode = new BeakerNode( 1, sx, sy, null, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT, 1.0 / denominator, 2, FractionsResources.Images.WATER_GLASS_FRONT );
-        waterBeakerNode.setLabelVisible( false );
+        waterBeakerNode.setLabelVisible();
         final PDimension cylinderSize = waterBeakerNode.getCylinderSize();
 
         Solute solute = new Solute( "solute", "?", CONCENTRATION_RANGE.getMax(), new Color( 0xE0FFFF ), 5, 200 ); // hypothetical solute with unknown formula
@@ -75,7 +75,7 @@ public class WaterGlassNode extends RichPNode {
         };
 
         BeakerNode waterBeakerBackgroundNode = new BeakerNode( 1, sx, sy, null, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT, 1.0 / denominator, 2, FractionsResources.Images.WATER_GLASS_BACK );
-        waterBeakerBackgroundNode.setLabelVisible( false );
+        waterBeakerBackgroundNode.setLabelVisible();
 
         //Show a background layer so that the water appears between the layers (for showing the surface of the water)
         addChild( waterBeakerBackgroundNode );

@@ -19,7 +19,7 @@ import static java.awt.Color.yellow;
  *
  * @author Sam Reid
  */
-public class SignNode extends PNode {
+class SignNode extends PNode {
     public SignNode( final MatchingGameState state, final PNode scales ) {
         class TextSign extends PNode {
             TextSign( String text ) {

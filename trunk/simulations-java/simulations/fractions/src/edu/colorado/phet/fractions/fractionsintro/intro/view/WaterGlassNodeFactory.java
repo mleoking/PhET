@@ -20,9 +20,9 @@ import static edu.colorado.phet.fractions.fractionsintro.intro.view.WaterGlassNo
  *
  * @author Sam Reid
  */
-public class WaterGlassNodeFactory extends F<SliceNodeArgs, PNode> {
+class WaterGlassNodeFactory extends F<SliceNodeArgs, PNode> {
 
-    public static final boolean debugDragRegion = false;
+    private static final boolean debugDragRegion = false;
 
     //Create images for the full-sized draggable water glasses
     @Override public PNode f( final SliceNodeArgs args ) {

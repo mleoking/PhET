@@ -109,20 +109,20 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
         final B output;
     }
 
-    public static int count = 0;
+    private static int count = 0;
 
     //XMLEncoder failed with Caused by: java.lang.RuntimeException: failed to evaluate: <unbound>=Class.new();
-    public void writeObject( Entry e ) {
+    void writeObject( Entry e ) {
         writeXStream( e );
         count++;
     }
 
     //    public static final XStream xstream = new XStream();
-    public static final IXStream xstream = new IXStream();
+    private static final IXStream xstream = new IXStream();
 
     private void writeXStream( final Entry e ) {// XML encode directly to the file.
         File file = new File( "C:\\Users\\Sam\\Desktop\\tests\\save_" + count + ".xml" );
-        String xml = xstream.toXML( e );
+        String xml = xstream.toXML();
         try {
             FileUtils.writeString( file, xml );
         }
@@ -150,8 +150,8 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
         }
     }
 
-    public static Entry loadXStream( File xmlFile ) throws FileNotFoundException {
-        return (Entry) xstream.fromXML( xmlFile );
+    private static Entry loadXStream( File xmlFile ) throws FileNotFoundException {
+        return (Entry) xstream.fromXML();
     }
 
     public static void main( String[] args ) {
@@ -186,11 +186,11 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
 
     //Dummy wrapper so we can compile without xstream
     private static class IXStream {
-        public String toXML( final Entry e ) {
+        public String toXML() {
             return null;
         }
 
-        public Object fromXML( final File xmlFile ) {
+        public Object fromXML() {
             return null;
         }
     }

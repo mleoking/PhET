@@ -20,11 +20,11 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class RefreshButtonNode extends PNode {
 
-    //Color more like NP's yellow toggle buttons used elsewhere in the sim
+    //Color more like Noah P's yellow toggle buttons used elsewhere in the sim
     public static final Color BUTTON_COLOR = new Color( 253, 239, 8 );
 
     //Reshape so the button will have similar dimension to the other text buttons.
-    public static BufferedImage copyWithPadding( BufferedImage image, int dw ) {
+    private static BufferedImage copyWithPadding( BufferedImage image, int dw ) {
         BufferedImage copy = new BufferedImage( image.getWidth() + dw * 2, image.getHeight(), image.getType() );
         Graphics2D graphics2D = copy.createGraphics();
         graphics2D.drawImage( image, dw, 0, null );

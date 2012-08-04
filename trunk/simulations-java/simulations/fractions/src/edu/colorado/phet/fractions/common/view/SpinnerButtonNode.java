@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * Button with nice up or down images provided by NP.  This library uses phetcommon's function library instead of
+ * Button with nice up or down images provided by NP.  This library uses the phetcommon function library instead of
  * functionaljava in case we don't have to put functionaljava as a required dependency for phetcommon.
  *
  * @author Sam Reid
@@ -34,7 +34,7 @@ public class SpinnerButtonNode extends PNode {
     private boolean autoSpinning = false;
 
     //If holding down the button, then automatically spin
-    private Timer timer = new Timer( 200, new ActionListener() {
+    private final Timer timer = new Timer( 200, new ActionListener() {
         public void actionPerformed( ActionEvent e ) {
             if ( enabled.get() ) {
                 autoSpinning = true;
@@ -80,7 +80,7 @@ public class SpinnerButtonNode extends PNode {
                 timer.stop();
                 if ( enabled.get() && entered.get() && pressed.get() ) {
 
-                    //Only fire the release event if the user didn't hold it down long enough to start autospin
+                    //Only fire the release event if the user didn't hold it down long enough to start auto-spin
                     if ( !autoSpinning ) {
                         callback.apply( autoSpinning );
                     }

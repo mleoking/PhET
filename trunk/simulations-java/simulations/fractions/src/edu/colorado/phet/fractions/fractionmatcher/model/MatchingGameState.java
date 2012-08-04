@@ -151,7 +151,7 @@ public @Data class MatchingGameState {
     //After the user created a correct match, it should be animated to the top of the screen so it will be visible as an equality for the rest of the sim run.
     public MatchingGameState animateMatchToScoreCell() {
 
-        //Create the list of fractions which has the matched values moving toward the appropriate locations in the cells at the top of the screenl
+        //Create the list of fractions which has the matched values moving toward the appropriate locations in the cells at the top of the screen
         final List<MovableFraction> newFractionList = fractions.map( new F<MovableFraction, MovableFraction>() {
             @Override public MovableFraction f( MovableFraction m ) {
 

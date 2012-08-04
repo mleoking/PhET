@@ -25,7 +25,7 @@ import static fj.data.List.nil;
  *
  * @author Sam Reid
  */
-public class StarSetNode extends PNode {
+class StarSetNode extends PNode {
     public StarSetNode( int numStars, int maxStars ) {
         final int size = maxStars <= 3 ? 30 : 25;
         final BufferedImage empty = multiScaleToWidth( STAR_0, size );

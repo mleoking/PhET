@@ -44,10 +44,9 @@ public class FractionNode extends RichPNode {
     public final PImage splitButton;
     private NumberCardNode topCard;
     private NumberCardNode bottomCard;
-    private ArrayList<VoidFunction1<Option<Fraction>>> splitListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
-    public double toolboxPositionX;
-    public double toolboxPositionY;
-    private final RichPNode dragRegion;
+    private final ArrayList<VoidFunction1<Option<Fraction>>> splitListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
+    private double toolboxPositionX;
+    private double toolboxPositionY;
     private PNode topCardParent;
     private PNode bottomCardParent;
     private NumberNode topNumberNode;
@@ -55,7 +54,7 @@ public class FractionNode extends RichPNode {
     private FractionCardNode cardNode;
     private final FractionDraggingContext context;
 
-    final double SCALE_IN_TOOLBOX = 0.7;
+    private final double SCALE_IN_TOOLBOX = 0.7;
 
     public FractionNode( final FractionDraggingContext context ) {
         this.context = context;
@@ -71,7 +70,7 @@ public class FractionNode extends RichPNode {
 
         //Show a background behind it to make the entire shape draggable
         final Color transparent = new Color( 0, 0, 0, 0 );
-        dragRegion = new RichPNode( new PhetPPath( RectangleUtils.expand( box.getFullBounds(), 5, 5 ), transparent ), box );
+        final RichPNode dragRegion = new RichPNode( new PhetPPath( RectangleUtils.expand( box.getFullBounds(), 5, 5 ), transparent ), box );
         addChild( dragRegion );
 
         Rectangle2D bounds = divisorLine.getFullBounds();
@@ -173,7 +172,7 @@ public class FractionNode extends RichPNode {
         if ( box == topBox ) {
             topCard = numberCardNode;
 
-            //Store the parent so it can be reparented on split
+            //Store the parent so it can be re-parented on split
             topCardParent = numberCardNode.getParent();
             topNumberNode = numberCardNode.numberNode;
         }

@@ -14,7 +14,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  *
  * @author Sam Reid
  */
-public class NumeratorWithSpinner extends FractionNumberNode {
+class NumeratorWithSpinner extends FractionNumberNode {
     //Allow numerator to go to 0
     private static final int MIN_VALUE = 0;
 

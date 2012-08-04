@@ -38,7 +38,7 @@ public @Data abstract class SliceFactory {
     //Slice color, only used for some shapes (not for pre-rendered 3d cakes)
     public final Color sliceColor;
 
-    protected SliceFactory( double yRange, Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor ) {
+    SliceFactory( double yRange, Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor ) {
         this.yRange = yRange;
         this.sliceColor = sliceColor;
         this.bucket = new Bucket( bucketPosition.x + 50, bucketPosition.y, bucketSize.toDimension2DDouble(), bucketColor, "" );

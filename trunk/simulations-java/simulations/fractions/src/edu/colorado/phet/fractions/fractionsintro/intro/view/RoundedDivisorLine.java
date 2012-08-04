@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
  *
  * @author Sam Reid
  */
-public class RoundedDivisorLine extends RichPNode {
+class RoundedDivisorLine extends RichPNode {
     public RoundedDivisorLine() {
         final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), Color.black );
         addChild( line );

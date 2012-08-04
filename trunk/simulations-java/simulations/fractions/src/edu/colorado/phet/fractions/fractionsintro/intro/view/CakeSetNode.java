@@ -28,7 +28,7 @@ import static edu.colorado.phet.fractions.FractionsResources.RESOURCES;
  *
  * @author Sam Reid
  */
-public class CakeSetNode extends PieSetNode {
+class CakeSetNode extends PieSetNode {
 
     public static @Data class Arg {
         final int cell;
@@ -36,7 +36,7 @@ public class CakeSetNode extends PieSetNode {
     }
 
     //Cache for performance, to avoid cropping each time
-    static final Cache<Arg, BufferedImage> cakeImages = new Cache<Arg, BufferedImage>( new F<Arg, BufferedImage>() {
+    private static final Cache<Arg, BufferedImage> cakeImages = new Cache<Arg, BufferedImage>( new F<Arg, BufferedImage>() {
         @Override public BufferedImage f( Arg a ) {
             return cropAndTrim( RESOURCES.getImage( "cake/cake_" + a.denominator + "_" + ( a.cell + 1 ) + ".png" ) );
         }
@@ -51,13 +51,13 @@ public class CakeSetNode extends PieSetNode {
         );
     }
 
-    public static F<SliceNodeArgs, PNode> createSliceNode = new F<SliceNodeArgs, PNode>() {
+    private static final F<SliceNodeArgs, PNode> createSliceNode = new F<SliceNodeArgs, PNode>() {
         @Override public PNode f( final SliceNodeArgs a ) {
             return new SliceImage( a.slice.cell( a.denominator ), a );
         }
     };
 
-    public static final F<PieSet, PNode> CreateEmptyCellsNode = new F<PieSet, PNode>() {
+    private static final F<PieSet, PNode> CreateEmptyCellsNode = new F<PieSet, PNode>() {
         @Override public PNode f( final PieSet state ) {
             return new FNode( state.cells.map( new F<Slice, Vector2D>() {
                 @Override public Vector2D f( final Slice s ) {

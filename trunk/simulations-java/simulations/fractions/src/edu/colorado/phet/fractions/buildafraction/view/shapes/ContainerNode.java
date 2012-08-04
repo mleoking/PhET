@@ -6,7 +6,6 @@ import fj.data.List;
 
 import java.awt.Cursor;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -40,18 +39,17 @@ import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.su
  * @author Sam Reid
  */
 public class ContainerNode extends PNode {
-    public PImage splitButton;
+    private final PImage splitButton;
     final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
-    public final DynamicCursorHandler dynamicCursorHandler;
+    private final DynamicCursorHandler dynamicCursorHandler;
     public final ShapeSceneNode parent;
     public final ContainerContext context;
     private final ShapeType shapeType;
     private boolean inTargetCell = false;
-    public final PNode containerLayer;
+    private final PNode containerLayer;
     private double initialX;
     private double initialY;
     private double initialScale = 1;
-    private final ArrayList<VoidFunction0> listeners = new ArrayList<VoidFunction0>();
     private final SpinnerButtonNode leftSpinner;
     private final SpinnerButtonNode rightSpinner;
     private final IncreaseDecreaseButton increaseDecreaseButton;
@@ -113,7 +111,7 @@ public class ContainerNode extends PNode {
         }
     }
 
-    public List<SingleContainerNode> getSingleContainerNodes() {return getSingleContainers(); }
+    List<SingleContainerNode> getSingleContainerNodes() {return getSingleContainers(); }
 
     public static final F<ContainerNode, List<SingleContainerNode>> _getSingleContainerNodes = new F<ContainerNode, List<SingleContainerNode>>() {
         @Override public List<SingleContainerNode> f( final ContainerNode c ) {
@@ -168,15 +166,15 @@ public class ContainerNode extends PNode {
         increaseDecreaseButton.showIncreaseButton();
     }
 
-    public static BufferedImage spinnerImage( final BufferedImage image ) { return multiScaleToWidth( image, 50 ); }
+    private static BufferedImage spinnerImage( final BufferedImage image ) { return multiScaleToWidth( image, 50 ); }
 
-    public static F<ContainerNode, Boolean> _isInTargetCell = new F<ContainerNode, Boolean>() {
+    public static final F<ContainerNode, Boolean> _isInTargetCell = new F<ContainerNode, Boolean>() {
         @Override public Boolean f( final ContainerNode containerNode ) {
             return containerNode.isInTargetCell();
         }
     };
 
-    public static F<ContainerNode, Fraction> _getFractionValue = new F<ContainerNode, Fraction>() {
+    public static final F<ContainerNode, Fraction> _getFractionValue = new F<ContainerNode, Fraction>() {
         @Override public Fraction f( final ContainerNode containerNode ) {
             return containerNode.getFractionValue();
         }
@@ -199,7 +197,6 @@ public class ContainerNode extends PNode {
             }
         } );
         context.syncModelFractions();
-        notifyListeners();
     }
 
     public void setAllPickable( final boolean b ) {
@@ -219,12 +216,6 @@ public class ContainerNode extends PNode {
         rightSpinner.animateToTransparency( 1, 200 );
     }
 
-    void notifyListeners() {
-        for ( VoidFunction0 listener : listeners ) {
-            listener.apply();
-        }
-    }
-
     public Fraction getFractionValue() {
         return sum( getSingleContainers().map( SingleContainerNode._getFractionValue ) );
     }
@@ -238,7 +229,7 @@ public class ContainerNode extends PNode {
 
     public boolean isAtStartingLocation() { return getXOffset() == initialX && getYOffset() == initialY; }
 
-    public static F<ContainerNode, Boolean> _isAtStartingLocation = new F<ContainerNode, Boolean>() {
+    public static final F<ContainerNode, Boolean> _isAtStartingLocation = new F<ContainerNode, Boolean>() {
         @Override public Boolean f( final ContainerNode containerNode ) {
             return containerNode.isAtStartingLocation();
         }
@@ -259,7 +250,7 @@ public class ContainerNode extends PNode {
         }
 
         for ( SingleContainerNode node : getSingleContainerNodes() ) {
-            node.setInTargetCell( inTargetCell );
+            node.setInTargetCell();
         }
         if ( inTargetCell && targetDenominator > 0 ) {
             selectedPieceSize.set( targetDenominator );
@@ -278,7 +269,7 @@ public class ContainerNode extends PNode {
         return isAtStartingLocation() && initialY > 500;
     }
 
-    public void pieceAdded( final PieceNode piece ) {
+    public void pieceAdded() {
         if ( !splitButton.getVisible() ) {
             splitButton.setVisible( true );
             splitButton.setPickable( true );
@@ -286,6 +277,5 @@ public class ContainerNode extends PNode {
             splitButton.animateToTransparency( 1, 200 );
             dynamicCursorHandler.setCursor( Cursor.HAND_CURSOR );
         }
-        notifyListeners();
     }
 }

@@ -36,7 +36,7 @@ public class BeakerNode extends PNode {
     private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
 
     private final BeakerImageNode beakerImageNode;
-    public final LabelNode labelNode;
+    private final LabelNode labelNode;
 
     public BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont, double MINOR_TICK_SPACING, int MINOR_TICKS_PER_MAJOR_TICK, final BufferedImage image ) {
 
@@ -99,7 +99,7 @@ public class BeakerNode extends PNode {
         return beakerImageNode.getCylinderEndHeight();
     }
 
-    public void setLabelVisible( boolean b ) {
+    public void setLabelVisible() {
         labelNode.setVisible( false );
     }
 

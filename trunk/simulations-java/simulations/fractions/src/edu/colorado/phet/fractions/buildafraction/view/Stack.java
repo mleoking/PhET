@@ -12,7 +12,7 @@ import edu.colorado.phet.fractions.common.util.FJUtils;
 /**
  * Keep track of a stack or pile of cards for purposes of making sure only the top one is grabbable, and if a middle card is taken out, then the top card will fall down one slot.
  * <p/>
- * Notes: Weird restacking order when pieces or cards go back to the control panel.
+ * Notes: Weird re-stacking order when pieces or cards go back to the control panel.
  * Need to remember and restore the z-ordering somehow.
  * But pieces should also "fall" to the locations closer to the container icon--this should be accounted for at the same time.
  * Maybe make it so you can only grab the topmost one.
@@ -35,7 +35,7 @@ public @Data class Stack<T extends Stackable> {
         updatePickable();
     }
 
-    //find the frontmost card in the stack, and make it grabbable
+    //find the front-most card in the stack, and make it grabbable
     private void updatePickable() {
         for ( T card : cards ) {
             card.setAllPickable( false );

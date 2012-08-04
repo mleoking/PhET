@@ -38,7 +38,7 @@ import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.ST
  *
  * @author Sam Reid
  */
-public class StartScreen extends PNode {
+class StartScreen extends PNode {
     public StartScreen( final MatchingGameModel model, final String title, final List<PNode> patterns ) {
 
         //Animation when shown

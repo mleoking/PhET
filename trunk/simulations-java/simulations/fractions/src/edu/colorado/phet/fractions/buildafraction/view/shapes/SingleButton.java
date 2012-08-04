@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Sam Reid
  */
-public class SingleButton extends PNode {
+class SingleButton extends PNode {
     public SingleButton( final BufferedImage buttonImage, final BufferedImage pressedButtonImage, final VoidFunction0 effect ) {
         final PImage node = new PImage( buttonImage );
         addInputEventListener( new CursorHandler() );

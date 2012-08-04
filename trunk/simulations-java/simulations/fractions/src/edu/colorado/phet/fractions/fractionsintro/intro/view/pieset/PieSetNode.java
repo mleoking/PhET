@@ -33,11 +33,11 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
  */
 public class PieSetNode extends FNode {
 
-    public final BucketView bucketView;
+    private final BucketView bucketView;
 
     //Flag for showing the center of a shape.  This can help debug pie piece rotation.
     private static final boolean debugCenter = false;
-    public static F<SliceNodeArgs, PNode> NodeToShape = new F<SliceNodeArgs, PNode>() {
+    public static final F<SliceNodeArgs, PNode> NodeToShape = new F<SliceNodeArgs, PNode>() {
         @Override public PNode f( final SliceNodeArgs s ) {
             return new ShapeNode( s.slice );
         }
@@ -52,7 +52,7 @@ public class PieSetNode extends FNode {
     }
 
     //Create a PieSetNode, have to pass in the root node since the scene graph tree is reconstructed each time and you cannot use getDeltaRelativeTo(getParent) since the node may no longer be in the tree
-    public PieSetNode( final SettableProperty<PieSet> model, final PNode rootNode, final F<SliceNodeArgs, PNode> createSliceNode, final F<PieSet, PNode> createEmptyCellsNode, final F<PieSet, PNode> createBucketIcon, final boolean iconTextOnTheRight ) {
+    protected PieSetNode( final SettableProperty<PieSet> model, final PNode rootNode, final F<SliceNodeArgs, PNode> createSliceNode, final F<PieSet, PNode> createEmptyCellsNode, final F<PieSet, PNode> createBucketIcon, final boolean iconTextOnTheRight ) {
         bucketView = new BucketView( model.get().sliceFactory.bucket, createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 ) );
 
         final SimpleObserver observer = new SimpleObserver() {
@@ -76,7 +76,7 @@ public class PieSetNode extends FNode {
     //Construct the exterior to show the pie cells border with a bigger stroke than the individual cells
     //Cache to save on performance, otherwise drops frame rate to < 5 fps
     //Still reduced performance a bit due to runtime rendering, could be rewritten if necessary to add explicit getBorderShape function for each pie
-    public static final Cache<List<Slice>, Area> cache = new Cache<List<Slice>, Area>( new F<List<Slice>, Area>() {
+    private static final Cache<List<Slice>, Area> cache = new Cache<List<Slice>, Area>( new F<List<Slice>, Area>() {
         @Override public Area f( final List<Slice> cells ) {
             return new Area() {{
                 for ( Slice cell : cells ) {
@@ -119,7 +119,7 @@ public class PieSetNode extends FNode {
     };
 
     //Create the icon for the bucket
-    public static PNode createBucketIcon( final PieSet state, final F<SliceNodeArgs, PNode> createSliceNode ) {
+    protected static PNode createBucketIcon( final PieSet state, final F<SliceNodeArgs, PNode> createSliceNode ) {
         return new PNode() {{
             final int denominator = state.denominator;
             for ( int i = 0; i < denominator; i++ ) {

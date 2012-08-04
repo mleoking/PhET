@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author Sam Reid
  */
-public class ClientProperty<T> extends SettableProperty<T> {
+class ClientProperty<T> extends SettableProperty<T> {
     private final Property<IntroState> state;
     private final F<IntroState, T> get;
     private final F<T, F<IntroState, IntroState>> change;
@@ -45,7 +45,7 @@ public class ClientProperty<T> extends SettableProperty<T> {
     }
 
     //Wire up to Property to use its richer interface like add, greaterThan, etc.
-    public Property<T> toProperty() {
+    Property<T> toProperty() {
         final Property<T> p = createProperty();
         addObserver( new VoidFunction1<T>() {
             public void apply( T t ) {
@@ -60,5 +60,5 @@ public class ClientProperty<T> extends SettableProperty<T> {
         return p;
     }
 
-    protected Property<T> createProperty() {return new Property<T>( get() );}
+    Property<T> createProperty() {return new Property<T>( get() );}
 }

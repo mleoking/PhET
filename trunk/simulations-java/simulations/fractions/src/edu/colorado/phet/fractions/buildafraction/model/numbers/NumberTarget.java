@@ -22,7 +22,7 @@ public @Data class NumberTarget {
     public final Color color;
     public final List<FilledPattern> filledPattern;
 
-    public static F<NumberTarget, Fraction> _fraction = new F<NumberTarget, Fraction>() {
+    public static final F<NumberTarget, Fraction> _fraction = new F<NumberTarget, Fraction>() {
         @Override public Fraction f( final NumberTarget numberTarget ) {
             return numberTarget.fraction;
         }
@@ -38,7 +38,7 @@ public @Data class NumberTarget {
     }
 
     //Create a list of filled patterns from a single pattern type
-    public static F<Fraction, List<FilledPattern>> composite( final F<Fraction, FilledPattern> element ) {
+    private static F<Fraction, List<FilledPattern>> composite( final F<Fraction, FilledPattern> element ) {
         return new F<Fraction, List<FilledPattern>>() {
             @Override public List<FilledPattern> f( final Fraction fraction ) {
                 List<FilledPattern> result = nil();

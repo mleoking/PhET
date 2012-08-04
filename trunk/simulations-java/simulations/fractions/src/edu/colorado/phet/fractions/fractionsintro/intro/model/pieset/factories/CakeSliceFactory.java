@@ -34,7 +34,7 @@ public @Data class CakeSliceFactory extends SliceFactory {
     public CakeSliceFactory( Vector2D bucketPosition, Dimension2D bucketSize ) {super( 0.0, bucketPosition, bucketSize, null ); }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
-    public final F<Slice, Shape> getShapeFunction( final double extent ) {
+    final F<Slice, Shape> getShapeFunction( final double extent ) {
         return new CakeSliceFunction( extent, radius, spacing );
     }
 
@@ -57,7 +57,7 @@ public @Data class CakeSliceFactory extends SliceFactory {
     }
 
     //Find which should appear before/after others in z-ordering.  Must be back to front.
-    public static final HashMap<Integer, int[]> _renderOrder = new HashMap<Integer, int[]>() {{
+    private static final HashMap<Integer, int[]> _renderOrder = new HashMap<Integer, int[]>() {{
         put( 1, new int[] { 1 } );
         put( 2, new int[] { 2, 1 } );
         put( 3, new int[] { 1, 2, 3 } );

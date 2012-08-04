@@ -73,7 +73,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
 
     public IntroState cakeSet( PieSet cakeSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet );}
 
-    public IntroState randomSeed( long randomSeed ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet );}
+    IntroState randomSeed( long randomSeed ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet );}
 
     //Apply an update rule to all of the pie sets, and updates the container set to match
     public IntroState updatePieSets( F<PieSet, PieSet> f ) {

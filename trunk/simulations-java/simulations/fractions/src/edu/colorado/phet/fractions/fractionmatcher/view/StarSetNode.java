@@ -27,7 +27,7 @@ import static fj.data.List.list;
  *
  * @author Sam Reid
  */
-public class StarSetNode extends PNode {
+class StarSetNode extends PNode {
 
     private static final int PIECES_PER_STAR = 4;
     private static final int STAR_WIDTH = 30;

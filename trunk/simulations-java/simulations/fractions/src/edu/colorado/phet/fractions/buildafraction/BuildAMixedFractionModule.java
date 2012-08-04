@@ -11,9 +11,9 @@ import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Compo
  *
  * @author Sam Reid
  */
-public class BuildAMixedFractionModule extends AbstractFractionsModule {
+class BuildAMixedFractionModule extends AbstractFractionsModule {
     public BuildAMixedFractionModule( BuildAFractionModel model, boolean dev ) {
         super( Components.buildAFractionTab, "Mixed Fractions", model.clock );
-        setSimulationPanel( new BuildAFractionCanvas( model, dev ) );
+        setSimulationPanel( new BuildAFractionCanvas( model ) );
     }
 }

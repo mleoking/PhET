@@ -41,7 +41,7 @@ public @Data class CircularSliceFactory extends SliceFactory {
     }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
-    public final F<Slice, Shape> getShapeFunction( final double extent ) {
+    final F<Slice, Shape> getShapeFunction( final double extent ) {
         return new CircularShapeFunction( extent, radius );
     }
 

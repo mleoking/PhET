@@ -16,7 +16,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  *
  * @author Sam Reid
  */
-public class DenominatorWithSpinner extends FractionNumberNode {
+class DenominatorWithSpinner extends FractionNumberNode {
 
     public static final int OFFSET = 5;
 

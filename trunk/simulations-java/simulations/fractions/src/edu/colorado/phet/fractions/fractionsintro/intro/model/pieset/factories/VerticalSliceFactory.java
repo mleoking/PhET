@@ -48,7 +48,7 @@ public @Data class VerticalSliceFactory extends SliceFactory {
     }
 
     //Returns the shape for the slice
-    public final F<Slice, Shape> createToShape( final double height ) {
+    final F<Slice, Shape> createToShape( final double height ) {
         return new VerticalShape( height, barWidth );
     }
 
@@ -91,7 +91,7 @@ public @Data class VerticalSliceFactory extends SliceFactory {
 
     //For water glasses, have to fill from the bottom, even though the problem is already solved a different way in the view
     //It was creating problems for the model.
-    public Slice getClosestEmptyCell( PieSet pieSet, final Vector2D point ) {
+    Slice getClosestEmptyCell( PieSet pieSet, final Vector2D point ) {
         final List<Slice> sorted = pieSet.getEmptyCells().sort( ord( new F<Slice, Double>() {
             @Override public Double f( final Slice slice ) {
                 return Math.abs( slice.getCenter().x - point.x );
@@ -115,7 +115,7 @@ public @Data class VerticalSliceFactory extends SliceFactory {
         } ) );
     }
 
-    public boolean waterGlassShapeOverlaps( final Slice dropped, final Slice target ) {
+    boolean waterGlassShapeOverlaps( final Slice dropped, final Slice target ) {
 
         final Rectangle2D targetShape = target.getShape().getBounds2D();
         final Rectangle2D droppedShape = new Rectangle2D.Double( dropped.getShape().getBounds2D().getX(), targetShape.getY(), dropped.getShape().getBounds2D().getWidth(), targetShape.getHeight() );

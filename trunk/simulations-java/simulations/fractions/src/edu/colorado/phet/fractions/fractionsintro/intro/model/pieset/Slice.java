@@ -33,11 +33,11 @@ import static edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Anim
     //Copy methods:
     public Slice withDragging( boolean dragging ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
 
-    public Slice withAngle( double angle ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
+    Slice withAngle( double angle ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
 
     public Slice withPosition( Vector2D position ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
 
-    public Slice withAnimationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
+    Slice withAnimationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
 
     //Update methods
 

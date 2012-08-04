@@ -17,7 +17,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroApplicati
 public class BuildAFractionModule extends AbstractFractionsModule {
     public BuildAFractionModule( BuildAFractionModel model, boolean dev ) {
         super( Components.buildAFractionTab, Strings.BUILD_A_FRACTION, model.clock );
-        setSimulationPanel( new BuildAFractionCanvas( model, dev ) );
+        setSimulationPanel( new BuildAFractionCanvas( model ) );
     }
 
     //Test main for launching this module in an application by itself for testing

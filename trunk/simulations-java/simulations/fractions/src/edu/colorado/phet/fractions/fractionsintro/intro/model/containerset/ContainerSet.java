@@ -26,7 +26,7 @@ public @Data class ContainerSet {
     public final int denominator;
     public final int numerator;
 
-    public static <T> Equal<T> refEqual() {
+    private static <T> Equal<T> refEqual() {
         return Equal.equal( curry( new F2<T, T, Boolean>() {
             public Boolean f( final T a1, final T a2 ) {
                 return a1 == a2;
@@ -42,7 +42,7 @@ public @Data class ContainerSet {
         this( denominator, containers.toCollection() );
     }
 
-    public ContainerSet( int denominator, Collection<Container> containers ) {
+    private ContainerSet( int denominator, Collection<Container> containers ) {
         this.containers = List.iterableList( containers );
         this.denominator = denominator;
         int count = 0;
@@ -66,7 +66,7 @@ public @Data class ContainerSet {
     }
 
     //Remove any trailing containers that are completely empty
-    public ContainerSet trim() {
+    ContainerSet trim() {
         final List<Container> reversed = containers.reverse();
         final boolean[] foundNonEmpty = { false };
 
@@ -88,7 +88,7 @@ public @Data class ContainerSet {
         return new ContainerSet( denominator, all );
     }
 
-    public ContainerSet addEmptyContainer() {
+    ContainerSet addEmptyContainer() {
         return new ContainerSet( denominator, new ArrayList<Container>( containers.toCollection() ) {{
             add( new Container( denominator, new int[0] ) );
         }} );
@@ -116,7 +116,7 @@ public @Data class ContainerSet {
         } ).some();
     }
 
-    public List<CellPointer> getAllCellPointers() {
+    List<CellPointer> getAllCellPointers() {
         return List.iterableList( new ArrayList<CellPointer>() {{
             for ( int i = 0; i < containers.length(); i++ ) {
                 for ( int k = 0; k < containers.index( i ).numCells; k++ ) {
@@ -134,11 +134,11 @@ public @Data class ContainerSet {
         } ).some();
     }
 
-    public Boolean isEmpty( CellPointer cellPointer ) {
+    Boolean isEmpty( CellPointer cellPointer ) {
         return containers.index( cellPointer.container ).isEmpty( cellPointer.cell );
     }
 
-    public boolean isFilled( CellPointer cp ) {
+    boolean isFilled( CellPointer cp ) {
         return !isEmpty( cp );
     }
 
@@ -147,7 +147,7 @@ public @Data class ContainerSet {
     }
 
     //When converting denominator, try to keep pieces close to where they were.  This requires computing the closest unoccupied space
-    public CellPointer getClosestUnoccupiedLocation( final CellPointer cellPointer ) {
+    CellPointer getClosestUnoccupiedLocation( final CellPointer cellPointer ) {
         List<CellPointer> emptyCells = getEmptyCells();
         if ( emptyCells.isEmpty() ) {
             return null;
@@ -159,7 +159,7 @@ public @Data class ContainerSet {
         } ) );
     }
 
-    public List<CellPointer> getFilledCells() {
+    List<CellPointer> getFilledCells() {
         return getAllCellPointers().filter( new F<CellPointer, Boolean>() {
             @Override public Boolean f( CellPointer c ) {
                 return isFilled( c );
@@ -167,7 +167,7 @@ public @Data class ContainerSet {
         } );
     }
 
-    public List<CellPointer> getEmptyCells() {
+    List<CellPointer> getEmptyCells() {
         return getAllCellPointers().filter( new F<CellPointer, Boolean>() {
             @Override public Boolean f( CellPointer c ) {
                 return !isFilled( c );
