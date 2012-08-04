@@ -24,17 +24,17 @@ import edu.colorado.phet.fractions.buildafraction.view.LevelType;
  */
 public class BuildAFractionModel {
 
+    public final ConstantDtClock clock = new ConstantDtClock();
+    public final Property<Scene> selectedScene = new Property<Scene>( Scene.SHAPES );
+    public final BooleanProperty audioEnabled = new BooleanProperty( true );
+    public final IntegerProperty selectedPage = new IntegerProperty( 0 );
+
     public final IntegerProperty numberLevel = new IntegerProperty( 0 );
     public final ArrayList<NumberLevel> numberLevels = new NumberLevelList();
 
     public final IntegerProperty shapeLevel = new IntegerProperty( 0 );
     public final ArrayList<ShapeLevel> shapeLevels = new ShapeLevelList();
 
-    public final ConstantDtClock clock = new ConstantDtClock();
-    public final Property<Scene> selectedScene = new Property<Scene>( Scene.SHAPES );
-
-    public final BooleanProperty audioEnabled = new BooleanProperty( true );
-    public final IntegerProperty selectedPage = new IntegerProperty( 0 );
     public F<LevelIdentifier, LevelProgress> gameProgress = new F<LevelIdentifier, LevelProgress>() {
         @Override public LevelProgress f( final LevelIdentifier i ) {
             final Level level = getLevel( i );
@@ -43,6 +43,20 @@ public class BuildAFractionModel {
     };
 
     private Level getLevel( final LevelIdentifier levelIdentifier ) {return levelIdentifier.levelType == LevelType.SHAPES ? getShapeLevel( levelIdentifier.levelIndex ) : getNumberLevel( levelIdentifier.levelIndex );}
+
+    public NumberLevel getNumberLevel( final int level ) { return numberLevels.get( level ); }
+
+    public ShapeLevel getShapeLevel( final int level ) { return shapeLevels.get( level ); }
+
+    public void resampleNumberLevel( final int levelIndex ) {
+        numberLevels.remove( levelIndex ).dispose();
+        numberLevels.add( levelIndex, new NumberLevelList().get( levelIndex ) );
+    }
+
+    public void resampleShapeLevel( final int levelIndex ) {
+        shapeLevels.remove( levelIndex ).dispose();
+        shapeLevels.add( levelIndex, new ShapeLevelList().get( levelIndex ) );
+    }
 
     public void resetAll() {
         selectedScene.reset();
@@ -63,19 +77,5 @@ public class BuildAFractionModel {
         shapeLevels.addAll( new ShapeLevelList() );
 
         audioEnabled.reset();
-    }
-
-    public NumberLevel getNumberLevel( final int level ) { return numberLevels.get( level ); }
-
-    public ShapeLevel getShapeLevel( final int level ) { return shapeLevels.get( level ); }
-
-    public void resampleNumberLevel( final int levelIndex ) {
-        numberLevels.remove( levelIndex ).dispose();
-        numberLevels.add( levelIndex, new NumberLevelList().get( levelIndex ) );
-    }
-
-    public void resampleShapeLevel( final int levelIndex ) {
-        shapeLevels.remove( levelIndex ).dispose();
-        shapeLevels.add( levelIndex, new ShapeLevelList().get( levelIndex ) );
     }
 }

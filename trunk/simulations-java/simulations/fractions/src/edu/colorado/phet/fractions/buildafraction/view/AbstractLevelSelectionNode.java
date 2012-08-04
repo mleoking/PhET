@@ -169,8 +169,6 @@ public class AbstractLevelSelectionNode extends PNode {
                 //Show it pressed in for a minute before starting up.
                 new Timer( 100, new ActionListener() {
                     public void actionPerformed( final ActionEvent e ) {
-
-                        //TODO: Start game with this level.
                         context.levelButtonPressed( parent, info );
 
                         //prep for next time

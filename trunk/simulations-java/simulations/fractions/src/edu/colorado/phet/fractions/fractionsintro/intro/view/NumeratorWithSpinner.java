@@ -21,10 +21,9 @@ public class NumeratorWithSpinner extends FractionNumberNode {
     public NumeratorWithSpinner( final IntegerProperty numerator, IntegerProperty denominator, IntegerProperty max ) {
         super( numerator );
 
-//        Max amount of things will be MAX
-//        Max numerator will be a function of the denominator
-//        n / d <= MAX , so n<=MAX * d
-
+        //Max amount of things will be MAX
+        //Max numerator will be a function of the denominator
+        //n / d <= MAX , so n<=MAX * d
         //Limit the numerator based on the denominator so that the entire number is less than or equal to 6
         addChild( new SpinnerButtonPanelVBox( sendMessageAndApply( numeratorSpinnerUpButton, ParameterKeys.numerator, numerator, +1 ), numerator.lessThan( denominator.times( max ) ),
                                               sendMessageAndApply( numeratorSpinnerDownButton, ParameterKeys.numerator, numerator, -1 ), numerator.greaterThanOrEqualTo( MIN_VALUE + 1 )
