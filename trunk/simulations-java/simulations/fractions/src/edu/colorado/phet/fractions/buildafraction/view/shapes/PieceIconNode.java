@@ -13,7 +13,7 @@ import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.CircularShapeFunction;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fractions.buildafraction.view.shapes.SimpleContainerNode.*;
+import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.*;
 
 /**
  * Shows an icon in the toolbox with empty pieces.  The draggable pieces are stacked on top.

@@ -22,6 +22,8 @@ import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.fr
 import static fj.data.List.*;
 
 /**
+ * List of levels for "Build a Fraction: Shapes".  These levels are created on init or during refresh of individual levels.
+ *
  * @author Sam Reid
  */
 public class ShapeLevelList extends ArrayList<ShapeLevel> {

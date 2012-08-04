@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
-import static edu.colorado.phet.fractions.buildafraction.view.shapes.SimpleContainerNode.circleDiameter;
+import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.circleDiameter;
 import static java.lang.Math.PI;
 
 /**
@@ -36,7 +36,7 @@ public class PiePieceNode extends PieceNode {
     public PiePieceNode( final int pieceDenominator, final ShapeSceneNode shapeSceneNode, final PhetPPath shape ) {
         super( pieceDenominator, shapeSceneNode, shape, ShapeType.PIE );
         pieBackground = new PNode() {{
-            addChild( new PhetPPath( SimpleContainerNode.createPieSlice( 1 ), BuildAFractionCanvas.TRANSPARENT ) );
+            addChild( new PhetPPath( ContainerShapeNode.createPieSlice( 1 ), BuildAFractionCanvas.TRANSPARENT ) );
         }};
         addChild( new ZeroOffsetNode( pieBackground ) );
         pieShadow = new PhetPPath( getShadowOffset().createTransformedShape( this.pathNode.getPathReference() ),

@@ -21,7 +21,7 @@ import static fj.Function.curry;
  *
  * @author Sam Reid
  */
-@Data public class ContainerSet {
+public @Data class ContainerSet {
     public final List<Container> containers;
     public final int denominator;
     public final int numerator;
