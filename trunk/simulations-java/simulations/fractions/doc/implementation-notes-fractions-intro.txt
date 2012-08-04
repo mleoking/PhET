@@ -1,5 +1,4 @@
 The Fractions sim uses functional programming in many parts.
-Models for all tabs are immutable classes with public final immutable attributes, and Lombok-generate equality tests, constructors, etc.
 
 To support the functional paradigm, this sim used FunctionalJava, http://functionaljava.org/ and Lombok http://projectlombok.org/
 For a nice book on functional programming in Java, please see http://www.amazon.com/Functional-Programming-Java-Developers-Concurrency/dp/1449311032
@@ -37,3 +36,13 @@ This sim uses single-line methods elsewhere ("simple methods in one line" in Int
 
 The animation is implemented in the model instead of piccolo because it is (a) conceptually natural (that the location of objects is in the model and not just how they look),
 (b) so that if we port it to another platform (such as Android), the model will still work properly and (c) it led to easy and uniform code
+
+[===================Intro tab===================]
+
+[===================Build a Fraction tab===================]
+see implementation-notes-build-a-fraction.txt
+
+[===================Equality Lab tab===================]
+
+[===================Fraction Matcher tab===================]
+see implementation-notes-fraction-matcher.txt
