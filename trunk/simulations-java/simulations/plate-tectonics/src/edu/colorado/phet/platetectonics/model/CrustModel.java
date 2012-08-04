@@ -630,6 +630,20 @@ public class CrustModel extends PlateTectonicsModel {
         }
     }
 
+//    @Override public double getTemperature( double x, double y ) {
+//        Vector3F point = new Vector3F( (float) x, (float) y, 0 );
+//        HitResult hitResult = firstStripIntersection( point );
+//        if ( hitResult != null ) {
+//            return hitResult.temperature;
+//        }
+//        else if ( y < 0 ) {
+//            return PlateTectonicsModel.getWaterTemperature( y );
+//        }
+//        else {
+//            return PlateTectonicsModel.getAirTemperature( y );
+//        }
+//    }
+
     private static PiecewiseLinearFunction2D simplifiedContinentalDifference = new PiecewiseLinearFunction2D(
             new Vector2D( 0, 0 ),
             new Vector2D( 40000, 500 ),
@@ -659,4 +673,7 @@ public class CrustModel extends PlateTectonicsModel {
         return surfaceTemperature + simplifiedOceanicDifference.apply( depth );
     }
 
+    @Override public List<CrossSectionStrip> getStripsInOrder() {
+        return getCrossSectionStrips();
+    }
 }

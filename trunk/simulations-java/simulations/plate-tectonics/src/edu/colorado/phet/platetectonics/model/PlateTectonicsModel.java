@@ -332,4 +332,68 @@ public abstract class PlateTectonicsModel {
     public List<Region> getRegions() {
         return regions;
     }
+
+    public abstract List<CrossSectionStrip> getStripsInOrder();
+
+    protected static class HitResult {
+        public final float density;
+        public final float temperature;
+
+        private HitResult( float density, float temperature ) {
+            this.density = density;
+            this.temperature = temperature;
+        }
+    }
+
+    // (x,y) raytracing (ignores z coordinate) to see what part of the cross-section is at the specific (x,y) coordinates
+    protected HitResult firstStripIntersection( Vector3F point ) {
+        final List<CrossSectionStrip> strips = getStripsInOrder();
+        for ( CrossSectionStrip strip : strips ) {
+            for ( int i = 0; i < strip.getLength() - 1; i++ ) {
+                HitResult hitTopLeft = triangleXYIntersection(
+                        strip.topPoints.get( i ),
+                        strip.bottomPoints.get( i ),
+                        strip.topPoints.get( i + 1 ),
+                        point
+                );
+                if ( hitTopLeft != null ) {
+                    return hitTopLeft;
+                }
+                HitResult hitBottomRight = triangleXYIntersection(
+                        strip.bottomPoints.get( i ),
+                        strip.topPoints.get( i + 1 ),
+                        strip.bottomPoints.get( i + 1 ),
+                        point
+                );
+                if ( hitBottomRight != null ) {
+                    return hitBottomRight;
+                }
+            }
+        }
+        return null;
+    }
+
+    // not the most numerically accurate way, but that doesn't matter in this scenario
+    private static HitResult triangleXYIntersection( Sample a, Sample b, Sample c, Vector3F point ) {
+        float areaA = triangleXYArea( point, b.getPosition(), c.getPosition() );
+        float areaB = triangleXYArea( point, c.getPosition(), a.getPosition() );
+        float areaC = triangleXYArea( point, a.getPosition(), b.getPosition() );
+        float insideArea = triangleXYArea( a.getPosition(), b.getPosition(), c.getPosition() );
+
+        // some area must be "outside" the main triangle (just needs to be close)
+        if ( areaA + areaB + areaC > insideArea * 1.02 ) {
+            return null;
+        }
+        else {
+            // results based on relative triangle areas
+            return new HitResult(
+                    ( areaA / insideArea ) * a.getDensity() + ( areaB / insideArea ) * b.getDensity() + ( areaC / insideArea ) * c.getDensity(),
+                    ( areaA / insideArea ) * a.getTemperature() + ( areaB / insideArea ) * b.getTemperature() + ( areaC / insideArea ) * c.getTemperature()
+            );
+        }
+    }
+
+    private static float triangleXYArea( Vector3F a, Vector3F b, Vector3F c ) {
+        return Math.abs( ( ( a.x - c.x ) * ( b.y - c.y ) - ( b.x - c.x ) * ( a.y - c.y ) ) / 2.0f );
+    }
 }
