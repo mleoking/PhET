@@ -92,7 +92,7 @@ class SingleContainerNode extends PNode {
 
                 @Override protected void endDrag( final PInputEvent event ) {
                     super.endDrag( event );
-                    parent.context.endDrag( parent, event );
+                    parent.context.endDrag( parent );
                 }
             } );
             addInputEventListener( new CursorHandler() );

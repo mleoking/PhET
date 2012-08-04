@@ -10,13 +10,8 @@ import java.awt.Color;
  */
 public class Solute {
 
-    private final String name;
-    private final String formula;
     public final double saturatedConcentration; // M
     public final Color solutionColor; // the solute's color in a fully-saturated solution
-    private final Color precipitateColor; // the solute's color as a precipitate
-    private final double precipitateSize; // size of the precipitate particles in view coordinates
-    private final int precipitateParticlesPerMole; // number of precipitate particles to show per mol of saturation
 
     // For most solutes, the color of the precipitate is the same as the color in solution.
     public Solute( String name, String formula, double maxConcentration, Color solutionColor, double precipitateSize, int precipitateParticlesPerMole ) {
@@ -24,12 +19,7 @@ public class Solute {
     }
 
     private Solute( String name, String formula, double saturatedConcentration, Color solutionColor, Color precipitateColor, double precipitateSize, int precipitateParticlesPerMole ) {
-        this.name = name;
-        this.formula = formula;
         this.saturatedConcentration = saturatedConcentration;
         this.solutionColor = solutionColor;
-        this.precipitateColor = precipitateColor;
-        this.precipitateSize = precipitateSize;
-        this.precipitateParticlesPerMole = precipitateParticlesPerMole;
     }
 }

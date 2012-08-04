@@ -19,7 +19,6 @@ import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.games.GameConstants.SOUND_ICON;
@@ -103,7 +102,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
         return new PNode() {{
             for ( int i = 0; i < level; i++ ) {
                 NumberCardNode card = new NumberCardNode( new Dimension2DDouble( level < 10 ? 60 : 70, 75 ), level, new NumberDragContext() {
-                    public void endDrag( final NumberCardNode draggableNumberNode, final PInputEvent event ) {
+                    public void endDrag( final NumberCardNode draggableNumberNode ) {
                     }
                 } );
                 addChild( card );

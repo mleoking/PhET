@@ -48,7 +48,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -266,19 +265,17 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
             } );
         }};
 
+        final VoidFunction0 _resampleLevel = new VoidFunction0() {
+            public void apply() {
+                context.resampleShapeLevel( levelIndex );
+            }
+        };
         final RefreshButtonNode refreshButton = new RefreshButtonNode( _resampleLevel );
 
         addChild( new HBox( resetButton, refreshButton ) {{
             setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, levelReadoutTitle.getMaxY() + INSET );
         }} );
     }
-
-    //clear cards and target values, then get some new ones
-    private final VoidFunction0 _resampleLevel = new VoidFunction0() {
-        public void apply() {
-            context.resampleShapeLevel( levelIndex );
-        }
-    };
 
     private void reset() {
         //Eject everything from target containers
@@ -308,7 +305,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         return iterableList( children );
     }
 
-    public void endDrag( final ContainerNode containerNode, final PInputEvent event ) {
+    public void endDrag( final ContainerNode containerNode ) {
         //See if it hits any matches
         List<Target> pairs = targetPairs.sort( ord( new F<Target, Double>() {
             @Override public Double f( final Target t ) {
@@ -387,7 +384,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         g.animateToPositionScaleRotation( toolboxNode.getCenterX() - g.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, 1000 );
     }
 
-    public void endDrag( final PieceNode piece, final PInputEvent event ) {
+    public void endDrag( final PieceNode piece ) {
         boolean droppedInto = false;
         List<SingleContainerNode> targets = getContainerNodes().bind( _getSingleContainerNodes );
         List<SingleContainerNode> containerNodes = targets.sort( ord( new F<SingleContainerNode, Double>() {

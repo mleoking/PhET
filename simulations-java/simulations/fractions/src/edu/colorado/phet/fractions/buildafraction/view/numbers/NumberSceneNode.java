@@ -43,7 +43,6 @@ import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -59,20 +58,16 @@ import static java.awt.Color.darkGray;
 public class NumberSceneNode extends SceneNode implements NumberDragContext, FractionDraggingContext, StackContext<NumberCardNode> {
     private final ArrayList<FractionNode> fractionGraphics = new ArrayList<FractionNode>();
     private final PNode rootNode;
-    private final BuildAFractionModel model;
-    private final PDimension STAGE_SIZE;
-    private final SceneContext context;
     public final List<ScoreBoxPair> pairList;
     private final RichPNode toolboxNode;
-    private final int levelIndex;
     private final VBox faceNodeDialog;
 
     //When sending cards back to the toolbox, make sure they have the right location and z-order.
     private final ArrayList<Stack> stackList;
 
-    private final double spacingBetweenNumbers = 20;
-    private final double leftRightInset = 20;
-    private final double spacingBetweenNumbersAndFractionSkeleton = 50;
+    private static final double spacingBetweenNumbers = 20;
+    private static final double leftRightInset = 20;
+    private static final double spacingBetweenNumbersAndFractionSkeleton = 50;
     public final NumberLevel level;
     private final Dimension2DDouble singleDigitCardSize;
     private final Dimension2DDouble doubleDigitCardSize;
@@ -82,10 +77,6 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         super( soundEnabled );
         level = model.getNumberLevel( levelIndex );
         this.rootNode = rootNode;
-        this.levelIndex = levelIndex;
-        this.model = model;
-        this.STAGE_SIZE = STAGE_SIZE;
-        this.context = context;
 
         final BackButton backButton = new BackButton( new VoidFunction0() {
             public void apply() {
@@ -322,7 +313,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         }
     }
 
-    public void endDrag( final FractionNode fractionGraphic, final PInputEvent event ) {
+    public void endDrag( final FractionNode fractionGraphic ) {
 
         //if fraction graphic overlaps the toolbox when dropped, animate back to the toolbox position.
         if ( toolboxNode.getGlobalFullBounds().intersects( fractionGraphic.getGlobalFullBounds() ) ) {
@@ -330,7 +321,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         }
     }
 
-    public void endDrag( final NumberCardNode numberCardNode, final PInputEvent event ) {
+    public void endDrag( final NumberCardNode numberCardNode ) {
         boolean hitFraction = false;
         for ( FractionNode fractionGraphic : fractionGraphics ) {
             final PhetPPath topBox = fractionGraphic.topBox;

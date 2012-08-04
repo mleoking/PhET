@@ -103,7 +103,7 @@ public class FractionNode extends RichPNode {
 
             @Override protected void endDrag( final PInputEvent event ) {
                 super.endDrag( event );
-                context.endDrag( FractionNode.this, event );
+                context.endDrag( FractionNode.this );
             }
         } );
     }
