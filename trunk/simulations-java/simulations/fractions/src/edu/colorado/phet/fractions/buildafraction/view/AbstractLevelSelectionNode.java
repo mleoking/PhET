@@ -169,7 +169,7 @@ class AbstractLevelSelectionNode extends PNode {
                 //Show it pressed in for a minute before starting up.
                 new Timer( 100, new ActionListener() {
                     public void actionPerformed( final ActionEvent e ) {
-                        context.levelButtonPressed( parent, info );
+                        context.levelButtonPressed( info );
 
                         //prep for next time
                         selected.set( false );

@@ -117,7 +117,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
     private final HashMap<LevelIdentifier, PNode> map = new HashMap<LevelIdentifier, PNode>();
 
-    public void levelButtonPressed( final AbstractLevelSelectionNode parent, final LevelInfo info ) {
+    public void levelButtonPressed( final LevelInfo info ) {
 
         //if level was in progress, go back to it.  Otherwise create a new one and cache it.
         animateTo( levelNode( info.levelIdentifier ), Direction.RIGHT );

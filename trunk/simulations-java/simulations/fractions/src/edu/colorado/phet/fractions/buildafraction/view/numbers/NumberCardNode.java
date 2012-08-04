@@ -47,7 +47,7 @@ public class NumberCardNode extends Stackable {
 
             @Override protected void endDrag( final PInputEvent event ) {
                 super.endDrag( event );
-                context.endDrag( NumberCardNode.this, event );
+                context.endDrag( NumberCardNode.this );
             }
         } );
         addInputEventListener( new CursorHandler() );

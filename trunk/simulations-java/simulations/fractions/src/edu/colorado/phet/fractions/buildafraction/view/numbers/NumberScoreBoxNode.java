@@ -30,12 +30,10 @@ public class NumberScoreBoxNode extends PNode {
     private final PImage splitButton;
     private FractionNode fractionGraphic;
     private final PNode rootNode;
-    private final BuildAFractionModel model;
     private final NumberSceneNode numberSceneNode;
 
     public NumberScoreBoxNode( final int numerator, final int denominator, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
         this.rootNode = rootNode;
-        this.model = model;
         this.numberSceneNode = numberSceneNode;
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 

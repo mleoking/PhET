@@ -78,7 +78,7 @@ public abstract class PieceNode extends Stackable {
 
             @Override protected void endDrag( final PInputEvent event ) {
                 super.endDrag( event );
-                context.endDrag( PieceNode.this, event );
+                context.endDrag( PieceNode.this );
 
                 //Protect against multiple copies accidentally being added
                 dragEnded();

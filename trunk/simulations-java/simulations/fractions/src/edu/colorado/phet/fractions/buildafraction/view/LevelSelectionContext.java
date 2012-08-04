@@ -9,7 +9,7 @@ import java.awt.Component;
  * @author Sam Reid
  */
 public interface LevelSelectionContext {
-    void levelButtonPressed( AbstractLevelSelectionNode parent, LevelInfo info );
+    void levelButtonPressed( LevelInfo info );
 
     void reset();
 
