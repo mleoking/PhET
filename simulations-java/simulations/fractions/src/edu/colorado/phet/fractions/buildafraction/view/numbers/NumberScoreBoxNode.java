@@ -14,7 +14,6 @@ import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -31,7 +30,6 @@ public class NumberScoreBoxNode extends PNode {
     public final Fraction fraction;
     public final PhetPPath path;
     private boolean completed;
-    private PInterpolatingActivity activity;
     private final PImage splitButton;
     private FractionNode fractionGraphic;
     private final PNode rootNode;

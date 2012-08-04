@@ -44,10 +44,4 @@ public class Cache<T, U> extends F<T, U> {
             return map.get( t );
         }
     }
-
-    //Utility method to avoid providing type arguments in client instantiation
-    public static <T, U> Cache<T, U> cache( int cacheSize, F<T, U> f ) { return new Cache<T, U>( cacheSize, f, false ); }
-
-    //Utility method that can be used at maintenance/debugging time in order to identify cache hits/misses
-    public static <T, U> Cache<T, U> cache( int cacheSize, F<T, U> f, boolean debug ) { return new Cache<T, U>( cacheSize, f, debug ); }
 }

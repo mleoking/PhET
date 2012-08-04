@@ -82,17 +82,6 @@ public class NumberLineNode extends PNode {
         }
     }
 
-    public static class Vertical extends Orientation {
-        @Override public Vector2D get( final double x, final double y ) { return new Vector2D( y, -x ); }
-
-        @Override public Vector2D fromUserSpace( final double x, final double y ) { return new Vector2D( -y, x ); }
-
-        //Put the text to the right of the tick mark
-        @Override public Point2D getPositionForPText( final PNode path, final PNode node ) {
-            return new Point2D.Double( path.getFullBounds().getMaxX(), path.getFullBounds().getCenterY() - node.getFullBounds().getHeight() / 2 );
-        }
-    }
-
     public NumberLineNode( final ObservableProperty<Integer> numerator, final SettableProperty<Integer> settableNumerator, final ObservableProperty<Integer> denominator, ValueEquals<Representation> showing, final IntegerProperty max, final Orientation orientation, final double distanceBetweenTicks, Color color, final boolean arrowPathVisible ) {
         this.settableNumerator = settableNumerator;
         this.denominator = denominator;
