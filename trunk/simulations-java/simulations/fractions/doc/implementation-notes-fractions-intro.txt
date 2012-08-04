@@ -26,12 +26,6 @@ The Intro model has one representation for each view type, and another one calle
 To summarize, the class ClientProperty provides a way to view when a certain value in the model changes, and describes what to do when
 the value is changed from outside of the model.
 
-Package structure:
-The package structure was designed to be similiar to a structure in which sim had its own project.  That means:
-edu/colorado/phet/fractions: Common code, name of the project (may also have a sim later if we name a sim "fractions").
-I will consider renaming this fractions-common, but that would require updating the resource generator
-edu/colorado/phet/fractionsintro: "Fractions Intro" sim
-
 Closures:
 This sim was designed with many closures, and is intended to be read in an IDE with "closure-folding" feature enabled.
 Also, closure variables are abbreviated to improve readability, for example, using:
