@@ -7,6 +7,8 @@ import edu.colorado.phet.fractions.fractionsintro.AbstractFractionsModule;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 
 /**
+ * Main module for "build a fraction with mixed numbers" tab, which is only visible in the standalone "Build a Fraction" sim.
+ *
  * @author Sam Reid
  */
 public class BuildAMixedFractionModule extends AbstractFractionsModule {

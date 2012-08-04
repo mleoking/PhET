@@ -9,6 +9,8 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.F
 import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
 
 /**
+ * Function called when the user changes from one representation to another using the toolbar at the top.
+ *
  * @author Sam Reid
  */
 public @Data class ChangeRepresentation extends F2<IntroState, Representation, IntroState> {

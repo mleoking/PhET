@@ -9,7 +9,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Canvas for "Fractions Intro" sim, used in each of the tabs.
+ * Canvas for "Fractions Intro" sim, used in each of the tabs.  Handles resizing of the play area.
  *
  * @author Sam Reid
  */

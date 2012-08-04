@@ -15,7 +15,7 @@ import java.util.HashSet;
  *
  * @author Sam Reid
  */
-@Data public final class Container {
+public final @Data class Container {
     public final int numCells;
     public final List<Integer> filledCells;
 

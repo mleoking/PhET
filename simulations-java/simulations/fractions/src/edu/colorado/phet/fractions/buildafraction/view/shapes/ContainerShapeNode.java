@@ -14,11 +14,11 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.C
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Some copied from NumberNode, may need to be remerged.
+ * Shows the shape for individual SingleContainerNodes.
  *
  * @author Sam Reid
  */
-public class SimpleContainerNode extends PNode {
+public class ContainerShapeNode extends PNode {
 
     static final double scale = 1.7;
     public static final double rectangleWidth = 130 * scale;
@@ -26,7 +26,7 @@ public class SimpleContainerNode extends PNode {
 
     public static final double circleDiameter = 100 * scale;
 
-    public SimpleContainerNode( final int number, final Color fill, final ShapeType shapeType ) {
+    public ContainerShapeNode( final int number, final Color fill, final ShapeType shapeType ) {
         final PNode content = new PNode() {{
             for ( int i = 0; i < number; i++ ) {
                 if ( shapeType == ShapeType.BAR ) {

@@ -8,7 +8,7 @@ import lombok.Data;
  *
  * @author Sam Reid
  */
-@Data public class CellPointer {
+public @Data class CellPointer {
     public final int container;
     public final int cell;
 
