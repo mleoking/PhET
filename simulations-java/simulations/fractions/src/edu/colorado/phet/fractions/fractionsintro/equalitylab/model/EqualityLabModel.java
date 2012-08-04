@@ -36,11 +36,11 @@ import static edu.colorado.phet.fractions.common.view.Colors.LIGHT_BLUE;
  */
 public class EqualityLabModel {
 
-    public static final double pieY = 225 - 12.5;
+    public static final double pieY = 212.5;
     public static final double pieDiameter = 135;
     public static final double distanceBetweenGlasses = 5;
     public static final double distanceBetweenBars = 12;
-    public static final double horizontalSliceY = 25 - 41.5 - 15 + 30;
+    public static final double horizontalSliceY = -1.5;
 
     public static final double verticalSliceScale = 0.75;
 
@@ -51,7 +51,7 @@ public class EqualityLabModel {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
             int numPerRow = 3;
 
-            double pieX = 70 - 36 - 146;
+            double pieX = -112;
 
             final F<Site, Site> siteMap = new SiteMap();
 

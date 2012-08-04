@@ -17,6 +17,7 @@ public class RandomColors4 {
     private final List<Color> colors = NumberLevelList.shuffle( list( LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE, Color.orange ) );
     private int index = 0;
 
+    //Get the next color in an enumeration style
     public Color next() {
         final Color color = colors.index( index );
         index++;

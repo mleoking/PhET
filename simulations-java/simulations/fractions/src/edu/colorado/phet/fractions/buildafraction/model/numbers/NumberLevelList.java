@@ -4,7 +4,6 @@ package edu.colorado.phet.fractions.buildafraction.model.numbers;
 import fj.F;
 import fj.P2;
 import fj.data.List;
-import lombok.Data;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -183,55 +182,6 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                       NumberTarget.target( chooseOne( rangeInclusive( 1, 9 ) ), 9, colors.next(), pyramid9.sequential() ) ) );
     }
 
-
-    //pie, grid, horizontalBars, verticalBars, flower, polygon
-    static @Data abstract class RepresentationType {
-        public final List<Integer> denominators;
-
-        public static final RepresentationType pies = new RepresentationType( rangeInclusive( 1, 9 ) ) {
-            @Override public PatternMaker toPattern( final Fraction fraction ) {
-                return NumberLevelList.pie;
-            }
-        };
-        public static final RepresentationType horizontalBars = new RepresentationType( rangeInclusive( 1, 9 ) ) {
-            @Override public PatternMaker toPattern( final Fraction fraction ) {
-                return horizontalBar;
-            }
-        };
-        public static final RepresentationType verticalBars = new RepresentationType( rangeInclusive( 1, 9 ) ) {
-            @Override public PatternMaker toPattern( final Fraction fraction ) {
-                return verticalBar;
-            }
-        };
-        public static final RepresentationType grid = new RepresentationType( list( 1, 4, 9 ) ) {
-            @Override public PatternMaker toPattern( final Fraction fraction ) {
-                return fraction.denominator == 1 ? grid1 :
-                       fraction.denominator == 4 ? grid4 :
-                       grid9;
-            }
-        };
-        public static final RepresentationType pyramid = new RepresentationType( list( 1, 4, 9 ) ) {
-            @Override public PatternMaker toPattern( final Fraction fraction ) {
-                return fraction.denominator == 1 ? pyramid1 :
-                       fraction.denominator == 4 ? pyramid4 :
-                       pyramid9;
-            }
-        };
-        public static final RepresentationType flower = new RepresentationType( list( 6 ) ) {
-            @Override public PatternMaker toPattern( final Fraction fraction ) {
-                return NumberLevelList.flower;
-            }
-        };
-        public static final RepresentationType polygon = new RepresentationType( rangeInclusive( 3, 9 ) ) {
-            @Override public PatternMaker toPattern( final Fraction fraction ) {
-                return NumberLevelList.polygon;
-            }
-        };
-
-        public static List<RepresentationType> all = list( pies, horizontalBars, verticalBars, grid, pyramid, flower, polygon );
-
-        public abstract PatternMaker toPattern( final Fraction fraction );
-    }
 
     /*Level 4:
 --At his point I think we should switch to 4 bins for all future levels
@@ -432,7 +382,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         return iterableList( collection );
     }
 
-    private static List<Integer> rangeInclusive( final int a, final int b ) { return range( a, b + 1 ); }
+    public static List<Integer> rangeInclusive( final int a, final int b ) { return range( a, b + 1 ); }
 
     private Fraction chooseFraction( final List<Integer> allowedNumerators, final List<Integer> allowedDenominators, F<Fraction, Boolean> accept ) {
         for ( int i = 0; i < 1000; i++ ) {

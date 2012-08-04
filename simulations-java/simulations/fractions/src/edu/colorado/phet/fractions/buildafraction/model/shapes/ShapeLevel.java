@@ -20,9 +20,7 @@ public class ShapeLevel extends Level {
 
     public final List<Fraction> targets;
     public final List<Integer> pieces;
-
     public final Color color;
-
     public final ShapeType shapeType;
 
     //True if the scoring target cell should blink when the user creates a match.  Disabled on higher levels to make it more difficult.
