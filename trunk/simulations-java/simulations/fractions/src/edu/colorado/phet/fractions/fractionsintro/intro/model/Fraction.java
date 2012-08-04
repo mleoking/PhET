@@ -93,8 +93,6 @@ public @Data class Fraction {
         System.out.println( "sum = " + sum( List.list( fraction( 1, 2 ), fraction( 2, 3 ), fraction( 1, 6 ) ) ) );
     }
 
-    public Fraction plus( final int numerator, final int denominator ) { return plus( new Fraction( numerator, denominator ) ); }
-
     public Fraction plus( final Fraction fraction ) { return sum( List.list( this, fraction ) ); }
 
     public boolean leq( final Fraction target ) {
