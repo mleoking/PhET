@@ -1,4 +1,5 @@
-The Fractions sim uses functional programming in many parts.
+The Fractions sim uses functional programming in many parts (more than typically done in PhET Sims).  There is an accompanying document "phet-functional-programming.pdf"
+which discusses some of the issues.
 
 To support the functional paradigm, this sim used FunctionalJava, http://functionaljava.org/ and Lombok http://projectlombok.org/
 For a nice book on functional programming in Java, please see http://www.amazon.com/Functional-Programming-Java-Developers-Concurrency/dp/1449311032
@@ -38,12 +39,11 @@ The Intro model has one representation for each view type, and another one calle
 To summarize, the class ClientProperty provides a way to view when a certain value in the model changes, and describes what to do when
 the value is changed from outside of the model.
 
-
 [===================Build a Fraction tab===================]
-see implementation-notes-build-a-fraction.txt
+This tab is also a standalone sim, for implementation notes, see implementation-notes-build-a-fraction.txt.
 
 [===================Equality Lab tab===================]
 This tab is a minor variation on the Intro tab, reusing the entire model and making two copies of the view (one with a different scale factor).
 
 [===================Fraction Matcher tab===================]
-see implementation-notes-fraction-matcher.txt
+This tab is also a standalone sim, see implementation-notes-fraction-matcher.txt
