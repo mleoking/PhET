@@ -18,13 +18,6 @@ public State withX(double x){ return new State(name,x,y);}
 To change multiple values, multiple copy calls would be made, such as:
 State newState = state.withName("new name").withX(123);
 
-The Intro module uses a novel technique for supporting multiple representations with Property<T> while avoiding looping, please see this ticket for details:
-https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3259
-The Intro model has one representation for each view type, and another one called "ContainerSet" to represent a more abstract view of which cells are filled and unfilled.
-
-To summarize, the class ClientProperty provides a way to view when a certain value in the model changes, and describes what to do when
-the value is changed from outside of the model.
-
 Closures:
 This sim was designed with many closures, and is intended to be read in an IDE with "closure-folding" feature enabled.
 Also, closure variables are abbreviated to improve readability, for example, using:
@@ -38,11 +31,19 @@ The animation is implemented in the model instead of piccolo because it is (a) c
 (b) so that if we port it to another platform (such as Android), the model will still work properly and (c) it led to easy and uniform code
 
 [===================Intro tab===================]
+The Intro module uses a novel technique for supporting multiple representations with Property<T> while avoiding looping, please see this ticket for details:
+https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3259
+The Intro model has one representation for each view type, and another one called "ContainerSet" to represent a more abstract view of which cells are filled and unfilled.
+
+To summarize, the class ClientProperty provides a way to view when a certain value in the model changes, and describes what to do when
+the value is changed from outside of the model.
+
 
 [===================Build a Fraction tab===================]
 see implementation-notes-build-a-fraction.txt
 
 [===================Equality Lab tab===================]
+This tab is a minor variation on the Intro tab, reusing the entire model and making two copies of the view (one with a different scale factor).
 
 [===================Fraction Matcher tab===================]
 see implementation-notes-fraction-matcher.txt
