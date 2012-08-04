@@ -27,7 +27,7 @@ import static java.lang.Math.ceil;
  * @author Sam Reid
  */
 public class ShapeScoreBoxNode extends PNode {
-    public final Fraction fraction;
+    //    public final Fraction fraction;
     public final PhetPPath path;
     private boolean completed;
     private final PImage splitButton;
@@ -50,7 +50,6 @@ public class ShapeScoreBoxNode extends PNode {
             setStrokePaint( Color.darkGray );
             setStroke( controlPanelStroke );
         }};
-        this.fraction = new Fraction( numerator, denominator );
         addChild( this.path );
 
         splitButton = new PImage( Images.SPLIT_BLUE ) {{
