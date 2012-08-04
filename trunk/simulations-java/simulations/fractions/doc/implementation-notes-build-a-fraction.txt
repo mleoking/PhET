@@ -1,3 +1,7 @@
+Build a Fraction uses Piccolo-oriented programming instead of functional programming (which is used the rest of the fractions sim)
+Nodes are re-used instead of created, which facilitates animation.
+
+Development Notes:
 Build a Fraction:
 ID's are used to identify objects over time, they were introduced to facilitate integration with piccolo.  One separate ClassID class is created for each model type that needs ID.
 Not sure if there is a way around this or a better way to do this.  This is a significant drawback, and a good argument in favor of doing imperative instead of functional programming.
