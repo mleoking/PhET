@@ -14,7 +14,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.*;
  *
  * @author Sam Reid
  */
-public class IncreaseDecreaseButton extends PNode {
+class IncreaseDecreaseButton extends PNode {
 
     private final SingleButton subtractButton;
     private final SingleButton addButton;

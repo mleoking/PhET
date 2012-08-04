@@ -20,7 +20,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroApplicati
  * @author Sam Reid
  */
 public class MixedNumbersMatchingGameModule extends AbstractFractionsModule {
-    public MixedNumbersMatchingGameModule( boolean dev, boolean standaloneSim ) {
+    public MixedNumbersMatchingGameModule( boolean dev ) {
         this( dev, new MatchingGameModel( new MixedFractionLevelFactory() ) );
     }
 

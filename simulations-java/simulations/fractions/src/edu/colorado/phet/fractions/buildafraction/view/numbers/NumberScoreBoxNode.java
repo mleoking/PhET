@@ -1,12 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
-import fj.data.List;
-
 import java.awt.Color;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources.Images;
@@ -28,7 +25,7 @@ import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.IN
  */
 public class NumberScoreBoxNode extends PNode {
     public final Fraction fraction;
-    public final PhetPPath path;
+    private final PhetPPath path;
     private boolean completed;
     private final PImage splitButton;
     private FractionNode fractionGraphic;
@@ -36,7 +33,7 @@ public class NumberScoreBoxNode extends PNode {
     private final BuildAFractionModel model;
     private final NumberSceneNode numberSceneNode;
 
-    public NumberScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
+    public NumberScoreBoxNode( final int numerator, final int denominator, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
         this.rootNode = rootNode;
         this.model = model;
         this.numberSceneNode = numberSceneNode;
@@ -72,7 +69,7 @@ public class NumberScoreBoxNode extends PNode {
 
             fractionGraphic.setScale( 1.0 );
             fractionGraphic.splitButton.setVisible( true );
-            FractionCardNode cardNode = new FractionCardNode( fractionGraphic, rootNode, numberSceneNode.pairList, model, numberSceneNode );
+            FractionCardNode cardNode = new FractionCardNode( fractionGraphic, rootNode, numberSceneNode.pairList, numberSceneNode );
             numberSceneNode.addChild( cardNode );
 
             fractionGraphic = null;

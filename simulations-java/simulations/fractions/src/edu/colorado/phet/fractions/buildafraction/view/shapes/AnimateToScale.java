@@ -18,7 +18,7 @@ public class AnimateToScale extends PInterpolatingActivity {
         this( node, new LinearFunction( 0, 1, node.getScale(), 1.00 ), duration );
     }
 
-    public AnimateToScale( final PNode node, final LinearFunction linearFunction, long duration ) {
+    private AnimateToScale( final PNode node, final LinearFunction linearFunction, long duration ) {
         super( duration );
         this.node = node;
         this.linearFunction = linearFunction;

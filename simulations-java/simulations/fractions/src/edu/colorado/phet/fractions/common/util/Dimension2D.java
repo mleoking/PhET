@@ -6,7 +6,7 @@ import lombok.Data;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 
 /**
- * Immutable class for a dimension (width and height).  Uses Lombok to generate equals, hashcode.
+ * Immutable class for a dimension (width and height).  Uses Lombok to generate equals, hash code.
  *
  * @author Sam Reid
  */

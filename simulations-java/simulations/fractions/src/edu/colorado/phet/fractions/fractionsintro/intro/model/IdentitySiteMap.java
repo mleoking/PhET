@@ -11,7 +11,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Site;
  *
  * @author Sam Reid
  */
-public @Data class IdentitySiteMap extends F<Site, Site> {
+@Data class IdentitySiteMap extends F<Site, Site> {
     @Override public Site f( final Site site ) {
         return site;
     }

@@ -95,7 +95,7 @@ public class FractionsIntroSimSharing {
         soundEnabled, timerEnabled, isCorrect, points
     }
 
-    public static RichVoidFunction1<Boolean> sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action, final Function1<Boolean, ParameterSet> parameters ) {
+    private static RichVoidFunction1<Boolean> sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action, final Function1<Boolean, ParameterSet> parameters ) {
         return new RichVoidFunction1<Boolean>() {
             public void apply( final Boolean autoSpin ) {
                 sendUserMessage( component, type, action, parameters.apply( autoSpin ) );
@@ -107,7 +107,7 @@ public class FractionsIntroSimSharing {
         return sendMessage( component, button, pressed, newValue( key, value, delta ) ).andThen( value.add_( delta ) );
     }
 
-    public static Function1<Boolean, ParameterSet> newValue( final ParameterKeys key, final IntegerProperty value, final int delta ) {
+    private static Function1<Boolean, ParameterSet> newValue( final ParameterKeys key, final IntegerProperty value, final int delta ) {
         return new Function1<Boolean, ParameterSet>() {
             public ParameterSet apply( Boolean doAutoSpin ) {
                 return parameterSet( key, value.get() + delta ).with( autoSpin, doAutoSpin );

@@ -21,10 +21,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class ShapeIcon extends PNode implements RepresentationIcon {
     //characteristic length
-    public static double DIM = 20;
-    public final Representation representation;
+    static final double DIM = 20;
+    private final Representation representation;
 
-    public ShapeIcon( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final Shape outline, final SettableProperty<Representation> chosenRepresentation, final Representation representation, Color color ) {
+    ShapeIcon( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final Shape outline, final SettableProperty<Representation> chosenRepresentation, final Representation representation, Color color ) {
         this.representation = representation;
         for ( Shape shape : unfilled ) {
             addChild( new PhetPPath( shape, Color.white, new BasicStroke( 1 ), Color.gray ) );

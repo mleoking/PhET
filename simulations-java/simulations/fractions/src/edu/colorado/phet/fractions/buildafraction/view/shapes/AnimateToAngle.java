@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 public class AnimateToAngle extends PInterpolatingActivity {
     private final PiePieceNode node;
     private final double finalAngle;
-    private double initialAngle;
+    private final double initialAngle;
 
     public AnimateToAngle( final PiePieceNode node, long duration, double finalAngle ) {
         super( duration );

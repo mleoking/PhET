@@ -77,14 +77,14 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     private final List<Target> targetPairs;
     private final RichPNode toolboxNode;
     private final VBox faceNodeDialog;
-    public final int levelIndex;
+    private final int levelIndex;
     private final SceneContext context;
 
     //Declare type-specific wrappers for declaration site variance to make map call site more readable
     private final F<PieceIconNode, Double> _minX = FNode._minX();
     private final F<ContainerNode, Double> _maxX = FNode._maxX();
 
-    final int spacing = 140;
+    private final int spacing = 140;
     private final int layoutXOffset;
     private final ShapeLevel level;
 
@@ -109,9 +109,9 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
             Fraction target = level.getTarget( i );
 
             FractionNode f = new FractionNode( target, 0.33 );
-            final ShapeScoreBoxNode cell = new ShapeScoreBoxNode( target.numerator, target.denominator,
-                                                                  level.createdFractions, this,
-                                                                  level.flashTargetCellOnMatch, level.targets.maximum( ord( _toDouble ) ) );
+            final ShapeScoreBoxNode cell = new ShapeScoreBoxNode(
+                    this,
+                    level.targets.maximum( ord( _toDouble ) ) );
             pairList.add( new Target( cell, new ZeroOffsetNode( f ), target ) );
         }
         this.targetPairs = iterableList( pairList );
@@ -158,7 +158,6 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         List<List<Integer>> groups = level.pieces.group( intEqual );
         int numGroups = groups.length();
         layoutXOffset = ( 6 - numGroups ) * spacing / 4;
-        final ArrayList<Stack> stackList = new ArrayList<Stack>();
         final int toolboxHeight = level.shapeType == ShapeType.BAR ? 100 : 140;
         for ( P2<List<Integer>, Integer> groupWithIndex : groups.zipIndex() ) {
             int stackIndex = groupWithIndex._2();
@@ -191,7 +190,6 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
                 piece.setPositionInStack( Option.some( index ) );
             }
             stack.update();
-            stackList.add( stack );
 
             final PieceIconNode child = new PieceIconNode( group.head(), level.shapeType );
             final PieceNode firstPiece = pieces.get( 0 );
@@ -276,7 +274,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     }
 
     //clear cards and target values, then get some new ones
-    public VoidFunction0 _resampleLevel = new VoidFunction0() {
+    private final VoidFunction0 _resampleLevel = new VoidFunction0() {
         public void apply() {
             context.resampleShapeLevel( levelIndex );
         }
@@ -533,8 +531,8 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         faceNodeDialog.setChildrenPickable( false );
     }
 
-    public static double CARD_SPACING_DX = 3;
-    public static double CARD_SPACING_DY = CARD_SPACING_DX;
+    private static final double CARD_SPACING_DX = 3;
+    private static final double CARD_SPACING_DY = CARD_SPACING_DX;
 
     public Vector2D getLocation( final int stackIndex, final int cardIndex, final PieceNode card ) {
         int sign = level.shapeType == ShapeType.PIE ? -1 : +1;

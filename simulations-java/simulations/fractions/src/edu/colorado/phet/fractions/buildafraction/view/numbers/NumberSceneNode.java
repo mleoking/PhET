@@ -57,29 +57,22 @@ import static java.awt.Color.darkGray;
  * @author Sam Reid
  */
 public class NumberSceneNode extends SceneNode implements NumberDragContext, FractionDraggingContext, StackContext<NumberCardNode> {
-    public final ArrayList<FractionNode> fractionGraphics = new ArrayList<FractionNode>();
-    public final PNode rootNode;
+    private final ArrayList<FractionNode> fractionGraphics = new ArrayList<FractionNode>();
+    private final PNode rootNode;
     private final BuildAFractionModel model;
-    public final PDimension STAGE_SIZE;
-    public final SceneContext context;
+    private final PDimension STAGE_SIZE;
+    private final SceneContext context;
     public final List<ScoreBoxPair> pairList;
-    public RichPNode toolboxNode;
-    public final int levelIndex;
+    private final RichPNode toolboxNode;
+    private final int levelIndex;
     private final VBox faceNodeDialog;
-    private VoidFunction0 _resampleLevel = new VoidFunction0() {
-        public void apply() {
-            context.resampleNumberLevel( levelIndex );
-        }
-    };
 
     //When sending cards back to the toolbox, make sure they have the right location and z-order.
     private final ArrayList<Stack> stackList;
 
-    private final double cardDeltaX = 4;
-    private final double cardDeltaY = 4;
-    double spacingBetweenNumbers = 20;
-    double leftRightInset = 20;
-    double spacingBetweenNumbersAndFractionSkeleton = 50;
+    private final double spacingBetweenNumbers = 20;
+    private final double leftRightInset = 20;
+    private final double spacingBetweenNumbersAndFractionSkeleton = 50;
     public final NumberLevel level;
     private final Dimension2DDouble singleDigitCardSize;
     private final Dimension2DDouble doubleDigitCardSize;
@@ -121,7 +114,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
                 }} );
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
-            pairs.add( new ScoreBoxPair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator, level.createdFractions,
+            pairs.add( new ScoreBoxPair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator,
                                                                  rootNode, model, this ), new ZeroOffsetNode( patternNode ) ) );
         }
         pairList = List.iterableList( pairs );
@@ -283,6 +276,11 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             } );
         }};
 
+        final VoidFunction0 _resampleLevel = new VoidFunction0() {
+            public void apply() {
+                context.resampleNumberLevel( levelIndex );
+            }
+        };
         final RefreshButtonNode refreshButton = new RefreshButtonNode( _resampleLevel );
         addChild( new HBox( resetButton, refreshButton ) {{
             setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, levelReadoutTitle.getMaxY() + INSET );
@@ -365,14 +363,14 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         if ( fractionGraphic.isComplete() ) {
             level.createdFractions.set( level.createdFractions.get().snoc( fractionGraphic.getValue() ) );
 
-            FractionCardNode fractionCard = new FractionCardNode( fractionGraphic, rootNode, pairList, model, this );
+            FractionCardNode fractionCard = new FractionCardNode( fractionGraphic, rootNode, pairList, this );
             addChild( fractionCard );
             fractionCard.moveInBackOf( fractionGraphic );
         }
     }
 
     //TODO: this should account for partially complete fractions too
-    public boolean allIncompleteFractionsInToolbox() {
+    boolean allIncompleteFractionsInToolbox() {
         for ( FractionNode fractionGraphic : fractionGraphics ) {
             if ( !fractionGraphic.isComplete() && !fractionGraphic.isInToolboxPosition() ) {
                 return false;
@@ -387,7 +385,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         numberNode.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getCenterY() );
     }
 
-    public void fractionCardNodeDroppedInScoreBox( final FractionCardNode fractionCardNode, final PInputEvent event ) {
+    public void fractionCardNodeDroppedInScoreBox( final FractionCardNode fractionCardNode ) {
         level.incrementFilledTargets();
 
         //Add a new fraction skeleton when the previous one is completed
@@ -454,7 +452,9 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
     public Vector2D getLocation( final int stackIndex, final int cardIndex, NumberCardNode cardNode ) {
 
+        final double cardDeltaX = 4;
         final double cardOffset = cardIndex * cardDeltaX;
+        final double cardDeltaY = 4;
         return new Vector2D( toolboxNode.getMinX() + leftRightInset + getStackOffset( stackIndex ) + cardOffset,
                              toolboxNode.getCenterY() - cardNode.getFullBounds().getHeight() / 2 + cardIndex * cardDeltaY );
     }

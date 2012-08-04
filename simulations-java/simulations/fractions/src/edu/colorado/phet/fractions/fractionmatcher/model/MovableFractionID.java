@@ -5,7 +5,7 @@ import lombok.Data;
 
 /**
  * Unique ID field for MovableFractions so that nodes can follow the same model elements (even though the instances may change in each time step).
- * Lombok used for equality test and hashcode generation.
+ * Lombok used for equality test and hash code generation.
  *
  * @author Sam Reid
  */

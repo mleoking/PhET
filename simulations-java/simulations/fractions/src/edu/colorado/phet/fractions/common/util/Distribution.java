@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * A distribution which maps T=>Probability (as double) and can be used to sample from the distribution accordly
+ * A distribution which maps T=>Probability (as double) and can be used to sample from the distribution accordingly
  *
  * @author Sam Reid
  */
@@ -45,7 +45,7 @@ public class Distribution<T> {
         return value;
     }
 
-    public Distribution<T> normalize() {
+    Distribution<T> normalize() {
         final double sum = getSum();
         final Distribution<T> distribution = new Distribution<T>();
         for ( T t : map.keySet() ) {

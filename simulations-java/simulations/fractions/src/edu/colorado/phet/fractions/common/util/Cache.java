@@ -17,13 +17,13 @@ public class Cache<T, U> extends F<T, U> {
     private final HashMap<T, U> map = new HashMap<T, U>();
 
     //Max size of the cache, or -1 if unlimited
-    private int cacheSize;
+    private final int cacheSize;
 
     public Cache( F<T, U> f ) { this( -1, f, false ); }
 
     public Cache( int cacheSize, F<T, U> f ) { this( cacheSize, f, false ); }
 
-    public Cache( int cacheSize, F<T, U> f, boolean debug ) {
+    private Cache( int cacheSize, F<T, U> f, boolean debug ) {
         this.cacheSize = cacheSize;
         this.f = f;
         this.debug = debug;

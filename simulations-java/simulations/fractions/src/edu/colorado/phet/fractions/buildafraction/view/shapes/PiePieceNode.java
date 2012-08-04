@@ -9,7 +9,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.CircularShapeFunction;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.ShapeNode;
@@ -30,11 +29,11 @@ import static java.lang.Math.PI;
 public class PiePieceNode extends PieceNode {
 
     //Shadow to be shown while dragging (and maybe animating).  Shown with add/remove child so it doesn't disrupt bounds/layout
-    private PhetPPath pieShadow;
-    private PNode pieBackground;
+    private final PhetPPath pieShadow;
+    private final PNode pieBackground;
 
     public PiePieceNode( final int pieceDenominator, final ShapeSceneNode shapeSceneNode, final PhetPPath shape ) {
-        super( pieceDenominator, shapeSceneNode, shape, ShapeType.PIE );
+        super( pieceDenominator, shapeSceneNode, shape );
         pieBackground = new PNode() {{
             addChild( new PhetPPath( ContainerShapeNode.createPieSlice( 1 ), BuildAFractionCanvas.TRANSPARENT ) );
         }};
@@ -51,7 +50,7 @@ public class PiePieceNode extends PieceNode {
     @Override protected void stepTowardMouse( final PInputEvent event ) {
         super.stepTowardMouse( event );
 
-        //We want pathnode to move toward the mouse center.
+        //We want path node to move toward the mouse center.
         Point2D pt = event.getPositionRelativeTo( this );
         Point2D center = pathNode.getGlobalFullBounds().getCenter2D();
         center = globalToLocal( center );
@@ -68,7 +67,7 @@ public class PiePieceNode extends PieceNode {
         }
     }
 
-    public void showShadow() {
+    protected void showShadow() {
         hideShadow();
         pieBackground.addChild( 0, pieShadow );
     }
@@ -93,13 +92,13 @@ public class PiePieceNode extends PieceNode {
         hideShadow();
     }
 
-    public void hideShadow() {
+    protected void hideShadow() {
         while ( pieBackground.getChildrenReference().contains( pieShadow ) ) {
             pieBackground.removeChild( pieShadow );
         }
     }
 
-    public AnimateToAngle animateToAngle( final double angle ) {
+    AnimateToAngle animateToAngle( final double angle ) {
         final AnimateToAngle activity = new AnimateToAngle( this, 200, reduceWindingNumber( angle ) );
         addActivity( activity );
         return activity;

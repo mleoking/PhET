@@ -36,13 +36,13 @@ import static edu.colorado.phet.fractions.common.view.Colors.LIGHT_BLUE;
  */
 public class EqualityLabModel {
 
-    public static final double pieY = 212.5;
-    public static final double pieDiameter = 135;
-    public static final double distanceBetweenGlasses = 5;
-    public static final double distanceBetweenBars = 12;
-    public static final double horizontalSliceY = -1.5;
+    private static final double pieY = 212.5;
+    private static final double pieDiameter = 135;
+    private static final double distanceBetweenGlasses = 5;
+    private static final double distanceBetweenBars = 12;
+    private static final double horizontalSliceY = -1.5;
 
-    public static final double verticalSliceScale = 0.75;
+    private static final double verticalSliceScale = 0.75;
 
     //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, then it goes up
     //so that the left and right representations match up at the center of the screen for as long as possible (until the value increases too high)
@@ -68,7 +68,7 @@ public class EqualityLabModel {
         }
     }.f( Unit.unit() );
 
-    public static FactorySet scaledFactorySet = new F<Unit, FactorySet>() {
+    public static final FactorySet scaledFactorySet = new F<Unit, FactorySet>() {
         @Override public FactorySet f( final Unit unit ) {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
             int numPerRow = 3;

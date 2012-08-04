@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
 /**
- * Context for a scene, which provides an interface for navigation and resampling.
+ * Context for a scene, which provides an interface for navigation and re-sampling.
  *
  * @author Sam Reid
  */

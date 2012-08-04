@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class NumberCardNode extends Stackable {
     public final int number;
-    public final PhetPPath cardShape;
+    private final PhetPPath cardShape;
     public final NumberNode numberNode;
 
     public NumberCardNode( final Dimension2DDouble size, final Integer number, final NumberDragContext context ) {

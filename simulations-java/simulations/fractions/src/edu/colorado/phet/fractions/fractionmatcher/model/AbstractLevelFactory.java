@@ -36,10 +36,10 @@ import static fj.data.List.list;
  */
 public abstract class AbstractLevelFactory {
 
-    protected final Random RANDOM = new Random();
+    private final Random RANDOM = new Random();
 
     //Choose only the representations that match a fraction.
-    protected ArrayList<GraphicalRepresentation> filter( final ArrayList<GraphicalRepresentation> representations, final Fraction fraction ) {
+    ArrayList<GraphicalRepresentation> filter( final ArrayList<GraphicalRepresentation> representations, final Fraction fraction ) {
         ArrayList<GraphicalRepresentation> filtered = new ArrayList<GraphicalRepresentation>();
         for ( GraphicalRepresentation representation : representations ) {
             if ( matches( representation.shapeType, fraction ) ) { filtered.add( representation ); }
@@ -48,7 +48,7 @@ public abstract class AbstractLevelFactory {
     }
 
     //See if the specified shape can render the given fraction.
-    protected boolean matches( final ShapeType s, final Fraction fraction ) {
+    boolean matches( final ShapeType s, final Fraction fraction ) {
         final int d = fraction.denominator;
         return s == PIES ? true :
                s == HORIZONTAL_BARS ? d < 9 :
@@ -67,7 +67,7 @@ public abstract class AbstractLevelFactory {
     }
 
     //Generate all possible combinations of color, shape, fill.
-    protected List<GraphicalRepresentation> generateAll( final List<ShapeType> shapes, final List<FillType> fills ) {
+    List<GraphicalRepresentation> generateAll( final List<ShapeType> shapes, final List<FillType> fills ) {
         ArrayList<GraphicalRepresentation> all = new ArrayList<GraphicalRepresentation>();
         for ( ShapeType shape : shapes ) {
             for ( Color color : list( LIGHT_BLUE, LIGHT_GREEN, LIGHT_RED ) ) {
@@ -80,7 +80,7 @@ public abstract class AbstractLevelFactory {
     }
 
     //Create the graphic for one fraction.
-    protected PNode createGraphic( Fraction f, final GraphicalRepresentation r ) {
+    PNode createGraphic( Fraction f, final GraphicalRepresentation r ) {
         if ( f.numerator <= f.denominator ) {
             final PatternNode single = createSingle( f, r.shapeType, r.fillType == FillType.RANDOM, r.color );
             HBox box = new HBox( single );
@@ -126,7 +126,7 @@ public abstract class AbstractLevelFactory {
     }
 
     //Combine two patterns horizontally
-    protected PNode addToBox( final PatternNode first, final PatternNode second ) {
+    PNode addToBox( final PatternNode first, final PatternNode second ) {
 
         //AP: If I resample at the highest levels (definitely 7 and 8) a few double shapes appear that have a very small amount of negative space between them.  We should probably widen the negative space or scale those shapes slightly differently.
         //SR: Therefore spacing should be dependent on width
@@ -139,9 +139,8 @@ public abstract class AbstractLevelFactory {
     }
 
     //Scale the node so it will be a good fit for the starting cells and score cells and still have the right stroke.
-    protected void scaleBoxNode( final HBox box, double newWidth ) {
+    void scaleBoxNode( final HBox box, double newWidth ) {
         //but if upside-down L shapes, then size by height instead of width
-        double aspectRatio = box.getFullHeight() / box.getFullWidth();
 
         double size = box.getFullBounds().getWidth();
         final double scale1 = newWidth / size;
@@ -173,7 +172,7 @@ public abstract class AbstractLevelFactory {
     }
 
     //Create the node for a single (<=1) fraction.
-    protected PatternNode createSingle( final Fraction fraction, ShapeType s, boolean random, Color color ) {
+    PatternNode createSingle( final Fraction fraction, ShapeType s, boolean random, Color color ) {
         final boolean ok = fraction.numerator <= fraction.denominator && fraction.numerator >= 0 && fraction.denominator > 0;
         if ( !ok ) {
             throw new RuntimeException( "Failed assertion, fraction = " + fraction );
@@ -204,8 +203,8 @@ public abstract class AbstractLevelFactory {
                                 sequentialFill( container, fraction.numerator ), color );
     }
 
-    protected List<MovableFraction> generateLevel( final int level, final List<Cell> cells, final List<Integer> numericScaleFactors, final List<Fraction> selectedFractions,
-                                                   boolean mixedNumbers ) {
+    List<MovableFraction> generateLevel( final int level, final List<Cell> cells, final List<Integer> numericScaleFactors, final List<Fraction> selectedFractions,
+                                         boolean mixedNumbers ) {
         ArrayList<Cell> remainingCells = new ArrayList<Cell>( shuffle( cells ).toCollection() );
 
         final List<ShapeType> easy = list( PIES, HORIZONTAL_BARS, VERTICAL_BARS );

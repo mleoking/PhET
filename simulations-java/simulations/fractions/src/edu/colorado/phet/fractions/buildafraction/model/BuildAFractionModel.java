@@ -25,17 +25,17 @@ import edu.colorado.phet.fractions.buildafraction.view.LevelType;
 public class BuildAFractionModel {
 
     public final ConstantDtClock clock = new ConstantDtClock();
-    public final Property<Scene> selectedScene = new Property<Scene>( Scene.SHAPES );
+    private final Property<Scene> selectedScene = new Property<Scene>( Scene.SHAPES );
     public final BooleanProperty audioEnabled = new BooleanProperty( true );
     public final IntegerProperty selectedPage = new IntegerProperty( 0 );
 
-    public final IntegerProperty numberLevel = new IntegerProperty( 0 );
-    public final ArrayList<NumberLevel> numberLevels = new NumberLevelList();
+    private final IntegerProperty numberLevel = new IntegerProperty( 0 );
+    private final ArrayList<NumberLevel> numberLevels = new NumberLevelList();
 
-    public final IntegerProperty shapeLevel = new IntegerProperty( 0 );
-    public final ArrayList<ShapeLevel> shapeLevels = new ShapeLevelList();
+    private final IntegerProperty shapeLevel = new IntegerProperty( 0 );
+    private final ArrayList<ShapeLevel> shapeLevels = new ShapeLevelList();
 
-    public F<LevelIdentifier, LevelProgress> gameProgress = new F<LevelIdentifier, LevelProgress>() {
+    public final F<LevelIdentifier, LevelProgress> gameProgress = new F<LevelIdentifier, LevelProgress>() {
         @Override public LevelProgress f( final LevelIdentifier i ) {
             final Level level = getLevel( i );
             return new LevelProgress( level.filledTargets.get(), level.numTargets );

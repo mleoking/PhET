@@ -18,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
-import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
@@ -31,11 +30,11 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Sam Reid
  */
-public class FractionCardNode extends RichPNode {
+class FractionCardNode extends RichPNode {
     public final FractionNode fractionNode;
     private final PNode fractionNodeParent;
 
-    public FractionCardNode( final FractionNode fractionNode, final PNode rootNode, final List<ScoreBoxPair> pairList, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
+    public FractionCardNode( final FractionNode fractionNode, final PNode rootNode, final List<ScoreBoxPair> pairList, final NumberSceneNode numberSceneNode ) {
         this.fractionNode = fractionNode;
         this.fractionNode.setCardNode( this );
         this.fractionNodeParent = fractionNode.getParent();
@@ -47,9 +46,8 @@ public class FractionCardNode extends RichPNode {
         PBounds topBounds = fractionNode.getTopNumberNode().getGlobalFullBounds();
         PBounds bottomBounds = fractionNode.getBottomNumberNode().getGlobalFullBounds();
         Rectangle2D divisorBounds = fractionNode.divisorLine.getGlobalFullBounds();
-        Rectangle2D union = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
 
-        Rectangle2D borderShape = union;
+        Rectangle2D borderShape = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
         borderShape = globalToLocal( borderShape );
         borderShape = RectangleUtils.expand( borderShape, 10, 2 );
 
@@ -109,7 +107,7 @@ public class FractionCardNode extends RichPNode {
                         scoreCell.setCompletedFraction( fractionNode );
                         locked = true;
 
-                        numberSceneNode.fractionCardNodeDroppedInScoreBox( FractionCardNode.this, event );
+                        numberSceneNode.fractionCardNodeDroppedInScoreBox( FractionCardNode.this );
                         break;
                     }
                 }

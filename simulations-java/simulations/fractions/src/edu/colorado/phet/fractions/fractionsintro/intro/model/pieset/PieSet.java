@@ -128,7 +128,7 @@ import static fj.data.List.range;
     }
 
     //True if a piece is in the cell
-    public boolean cellCurrentlyFilled( final Slice cell ) {
+    boolean cellCurrentlyFilled( final Slice cell ) {
         return slices.exists( new F<Slice, Boolean>() {
             public Boolean f( Slice m ) {
                 return m.positionAndAngleEquals( cell ) && !m.dragging;

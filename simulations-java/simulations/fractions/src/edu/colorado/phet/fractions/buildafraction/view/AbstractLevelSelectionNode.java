@@ -42,16 +42,16 @@ import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.*;
  *
  * @author Sam Reid
  */
-public class AbstractLevelSelectionNode extends PNode {
+class AbstractLevelSelectionNode extends PNode {
 
-    protected final ResetAllButtonNode resetAllButton;
+    final ResetAllButtonNode resetAllButton;
 
     public static @Data class Page {
-        public final List<List<LevelInfo>> infos;
+        public final List<List<LevelInfo>> info;
     }
 
     //Rows + Columns
-    public AbstractLevelSelectionNode( final String title, final List<Page> pages, final LevelSelectionContext context, final IntegerProperty selectedPage ) {
+    AbstractLevelSelectionNode( final String title, final List<Page> pages, final LevelSelectionContext context, final IntegerProperty selectedPage ) {
 
         //Title text, only shown when the user is choosing a level
         PNode titleText = new PNode() {{
@@ -66,7 +66,7 @@ public class AbstractLevelSelectionNode extends PNode {
         for ( P2<Page, Integer> page : pages.zipIndex() ) {
 
             final int index = page._2();
-            final VBox box = toButtonSetNode( page._1().infos, context );
+            final VBox box = toButtonSetNode( page._1().info, context );
 
             final PNode pageNode = new PNode();
             pageNode.addChild( box );

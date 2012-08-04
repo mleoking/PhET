@@ -48,7 +48,7 @@ import static java.awt.Color.lightGray;
  *
  * @author Sam Reid
  */
-public class GameNode extends PNode {
+class GameNode extends PNode {
 
     private final int FADE_DURATION = 400;
 

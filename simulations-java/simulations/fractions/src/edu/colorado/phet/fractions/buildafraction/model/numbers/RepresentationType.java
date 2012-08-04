@@ -18,47 +18,47 @@ import static fj.data.List.list;
 public @Data abstract class RepresentationType {
     public final List<Integer> denominators;
 
-    public static final RepresentationType pies = new RepresentationType( rangeInclusive( 1, 9 ) ) {
+    private static final RepresentationType pies = new RepresentationType( rangeInclusive( 1, 9 ) ) {
         @Override public PatternMaker toPattern( final Fraction fraction ) {
             return NumberLevelList.pie;
         }
     };
-    public static final RepresentationType horizontalBars = new RepresentationType( rangeInclusive( 1, 9 ) ) {
+    private static final RepresentationType horizontalBars = new RepresentationType( rangeInclusive( 1, 9 ) ) {
         @Override public PatternMaker toPattern( final Fraction fraction ) {
             return NumberLevelList.horizontalBar;
         }
     };
-    public static final RepresentationType verticalBars = new RepresentationType( rangeInclusive( 1, 9 ) ) {
+    private static final RepresentationType verticalBars = new RepresentationType( rangeInclusive( 1, 9 ) ) {
         @Override public PatternMaker toPattern( final Fraction fraction ) {
             return NumberLevelList.verticalBar;
         }
     };
-    public static final RepresentationType grid = new RepresentationType( list( 1, 4, 9 ) ) {
+    private static final RepresentationType grid = new RepresentationType( list( 1, 4, 9 ) ) {
         @Override public PatternMaker toPattern( final Fraction fraction ) {
             return fraction.denominator == 1 ? NumberLevelList.grid1 :
                    fraction.denominator == 4 ? NumberLevelList.grid4 :
                    NumberLevelList.grid9;
         }
     };
-    public static final RepresentationType pyramid = new RepresentationType( list( 1, 4, 9 ) ) {
+    private static final RepresentationType pyramid = new RepresentationType( list( 1, 4, 9 ) ) {
         @Override public PatternMaker toPattern( final Fraction fraction ) {
             return fraction.denominator == 1 ? NumberLevelList.pyramid1 :
                    fraction.denominator == 4 ? NumberLevelList.pyramid4 :
                    NumberLevelList.pyramid9;
         }
     };
-    public static final RepresentationType flower = new RepresentationType( list( 6 ) ) {
+    private static final RepresentationType flower = new RepresentationType( list( 6 ) ) {
         @Override public PatternMaker toPattern( final Fraction fraction ) {
             return NumberLevelList.flower;
         }
     };
-    public static final RepresentationType polygon = new RepresentationType( rangeInclusive( 3, 9 ) ) {
+    private static final RepresentationType polygon = new RepresentationType( rangeInclusive( 3, 9 ) ) {
         @Override public PatternMaker toPattern( final Fraction fraction ) {
             return NumberLevelList.polygon;
         }
     };
 
-    public static List<RepresentationType> all = list( pies, horizontalBars, verticalBars, grid, pyramid, flower, polygon );
+    public static final List<RepresentationType> all = list( pies, horizontalBars, verticalBars, grid, pyramid, flower, polygon );
 
     public abstract PatternMaker toPattern( final Fraction fraction );
 }

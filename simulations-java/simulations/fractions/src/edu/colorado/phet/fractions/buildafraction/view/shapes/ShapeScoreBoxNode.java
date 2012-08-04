@@ -1,12 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
-import fj.data.List;
-
 import java.awt.Color;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources.Images;
@@ -27,14 +24,13 @@ import static java.lang.Math.ceil;
  * @author Sam Reid
  */
 public class ShapeScoreBoxNode extends PNode {
-    //    public final Fraction fraction;
-    public final PhetPPath path;
+    private final PhetPPath path;
     private boolean completed;
     private final PImage splitButton;
     private ContainerNode containerNode;
     private final ShapeSceneNode sceneNode;
 
-    public ShapeScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final ShapeSceneNode sceneNode, final boolean flashTargetCellOnMatch, final Fraction maxFraction ) {
+    public ShapeScoreBoxNode( final ShapeSceneNode sceneNode, final Fraction maxFraction ) {
         this.sceneNode = sceneNode;
         if ( sceneNode == null ) { throw new RuntimeException( "Null scene" ); }
         double numberShapes = ceil( maxFraction.toDouble() );
@@ -66,7 +62,7 @@ public class ShapeScoreBoxNode extends PNode {
     }
 
     public void splitIt() {
-        if ( completed == true ) {
+        if ( completed ) {
             completed = false;
             path.setStrokePaint( Color.darkGray );
             path.setStroke( controlPanelStroke );

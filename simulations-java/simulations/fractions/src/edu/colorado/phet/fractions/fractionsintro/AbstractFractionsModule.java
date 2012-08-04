@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
  * @author Sam Reid
  */
 public class AbstractFractionsModule extends SimSharingPiccoloModule {
-    public AbstractFractionsModule( IUserComponent tabUserComponent, String name, Clock clock ) {
+    protected AbstractFractionsModule( IUserComponent tabUserComponent, String name, Clock clock ) {
         super( tabUserComponent, name, clock );
         getModulePanel().setLogoPanel( null );
         setClockControlPanel( null );

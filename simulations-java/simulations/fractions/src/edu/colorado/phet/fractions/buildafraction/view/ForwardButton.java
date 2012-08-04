@@ -14,7 +14,7 @@ import static edu.colorado.phet.fractions.common.view.BackButton.rescale;
  *
  * @author Sam Reid
  */
-public class ForwardButton extends PNode {
+class ForwardButton extends PNode {
     public ForwardButton( final VoidFunction0 pressed ) {
         addChild( new SpinnerButtonNode( rescale( RIGHT_BUTTON_UP ), rescale( RIGHT_BUTTON_PRESSED ), rescale( RIGHT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
             public void apply( final Boolean spinning ) {

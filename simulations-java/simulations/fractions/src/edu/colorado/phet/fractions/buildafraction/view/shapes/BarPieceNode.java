@@ -3,7 +3,6 @@ package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.ShapeNode;
 
 /**
@@ -12,13 +11,12 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.ShapeNode;
  * @author Sam Reid
  */
 public class BarPieceNode extends PieceNode {
-    private PhetPPath barShadow;
-    private ZeroOffsetNode barShadowNode;
+    private final ZeroOffsetNode barShadowNode;
 
     public BarPieceNode( final int pieceDenominator, final ShapeSceneNode shapeSceneNode, final PhetPPath shape ) {
-        super( pieceDenominator, shapeSceneNode, shape, ShapeType.BAR );
+        super( pieceDenominator, shapeSceneNode, shape );
 
-        barShadow = new PhetPPath( this.pathNode.getPathReference(), ShapeNode.SHADOW_PAINT );
+        final PhetPPath barShadow = new PhetPPath( this.pathNode.getPathReference(), ShapeNode.SHADOW_PAINT );
         barShadowNode = new ZeroOffsetNode( barShadow ) {{
             setOffset( getShadowOffset().getTranslateX(), getShadowOffset().getTranslateY() );
         }};

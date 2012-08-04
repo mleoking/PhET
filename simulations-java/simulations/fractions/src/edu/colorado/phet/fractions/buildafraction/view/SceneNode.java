@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class SceneNode extends PNode {
-    public SceneNode( BooleanProperty audioEnabled ) {
+    protected SceneNode( BooleanProperty audioEnabled ) {
         gameAudioPlayer = new GameAudioPlayer( audioEnabled.get() );
         audioEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean enabled ) {
@@ -23,7 +23,7 @@ public class SceneNode extends PNode {
 
     private final GameAudioPlayer gameAudioPlayer;
 
-    public void playSoundForOneComplete() { gameAudioPlayer.correctAnswer(); }
+    protected void playSoundForOneComplete() { gameAudioPlayer.correctAnswer(); }
 
-    public void playSoundForAllComplete() { gameAudioPlayer.gameOverPerfectScore(); }
+    protected void playSoundForAllComplete() { gameAudioPlayer.gameOverPerfectScore(); }
 }

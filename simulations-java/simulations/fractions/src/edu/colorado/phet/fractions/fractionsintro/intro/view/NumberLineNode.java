@@ -262,7 +262,7 @@ public class NumberLineNode extends PNode {
         return new Arrow( tickA.plus( -5, 0 ).toPoint2D(), tickA.toPoint2D(), headWidth, headWidth, headWidth / 2.0 ).getShape();
     }
 
-    protected void handleMousePress( PInputEvent event ) {
+    void handleMousePress( PInputEvent event ) {
         final Point2D d = event.getPositionRelativeTo( event.getPickedNode().getParent() );
         final Vector2D pt = orientation.fromUserSpace( d.getX(), d.getY() );
 

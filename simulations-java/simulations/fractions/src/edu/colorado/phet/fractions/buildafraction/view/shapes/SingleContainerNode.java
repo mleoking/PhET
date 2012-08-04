@@ -39,7 +39,7 @@ import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.su
  *
  * @author Sam Reid
  */
-public class SingleContainerNode extends PNode {
+class SingleContainerNode extends PNode {
     public final ContainerNode parent;
     private final PNode dottedLineLayer;
     private final ContainerShapeNode shapeLayer;
@@ -82,20 +82,17 @@ public class SingleContainerNode extends PNode {
                     super.startDrag( event );
                     parent.moveToFront();
                     addActivity( new AnimateToScale( parent, 200 ) );
-                    parent.notifyListeners();
                 }
 
                 @Override protected void drag( final PInputEvent event ) {
                     super.drag( event );
                     final PDimension delta = event.getDeltaRelativeTo( getParent() );
                     parent.translate( delta.width, delta.height );
-                    parent.notifyListeners();
                 }
 
                 @Override protected void endDrag( final PInputEvent event ) {
                     super.endDrag( event );
                     parent.context.endDrag( parent, event );
-                    parent.notifyListeners();
                 }
             } );
             addInputEventListener( new CursorHandler() );
@@ -114,9 +111,9 @@ public class SingleContainerNode extends PNode {
         return sum.numerator > sum.denominator;
     }
 
-    public Fraction getFractionValue() { return sum( getPieces().map( _toFraction ) ); }
+    Fraction getFractionValue() { return sum( getPieces().map( _toFraction ) ); }
 
-    public static F<SingleContainerNode, Fraction> _getFractionValue = new F<SingleContainerNode, Fraction>() {
+    public static final F<SingleContainerNode, Fraction> _getFractionValue = new F<SingleContainerNode, Fraction>() {
         @Override public Fraction f( final SingleContainerNode singleContainerNode ) {
             return singleContainerNode.getFractionValue();
         }
@@ -125,7 +122,7 @@ public class SingleContainerNode extends PNode {
     private List<PieceNode> getPieces() {return getChildren( this, PieceNode.class );}
 
     //How far over should a new piece be added in?
-    public double getPiecesWidth() {
+    double getPiecesWidth() {
         List<PieceNode> children = getPieces();
         return children.length() == 0 ? 0 :
                fj.data.List.iterableList( children ).maximum( FJUtils.ord( new F<PieceNode, Double>() {
@@ -140,12 +137,12 @@ public class SingleContainerNode extends PNode {
         Point2D offset = piece.getGlobalTranslation();
         addChild( piece );
         piece.setGlobalTranslation( offset );
-        parent.pieceAdded( piece );
+        parent.pieceAdded();
         dottedLineLayer.moveToFront();
         piece.setAllPickable( false );
     }
 
-    public void splitAll() {
+    void splitAll() {
         for ( PieceNode child : getPieces() ) {
             parent.parent.splitPieceFromContainer( child );
         }
@@ -181,7 +178,7 @@ public class SingleContainerNode extends PNode {
         }
     }
 
-    public void setInTargetCell( final boolean inTargetCell ) {
+    public void setInTargetCell() {
         dottedLineLayer.setVisible( true );
     }
 }

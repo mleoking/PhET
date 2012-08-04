@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NamedPoints extends HashMap<String, Point2D> {
+class NamedPoints extends HashMap<String, Point2D> {
 
     private final PNode node;
 

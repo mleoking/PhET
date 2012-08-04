@@ -20,7 +20,7 @@ import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerSh
  *
  * @author Sam Reid
  */
-public class PieceIconNode extends PNode {
+class PieceIconNode extends PNode {
 
     public static final double TINY_SCALE = 0.43;
 

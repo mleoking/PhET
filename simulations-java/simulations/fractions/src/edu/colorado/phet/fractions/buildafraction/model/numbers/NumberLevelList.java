@@ -51,64 +51,64 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     }
 
     //Create the pattern makers for all the different shape types. The following reads better with closure folding.
-    public static PatternMaker pie = new PatternMaker() {
+    public static final PatternMaker pie = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.pie( fraction.denominator );
         }
     };
-    public static PatternMaker horizontalBar = new PatternMaker() {
+    public static final PatternMaker horizontalBar = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.horizontalBars( fraction.denominator );
         }
     };
-    public static PatternMaker verticalBar = new PatternMaker() {
+    public static final PatternMaker verticalBar = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.verticalBars( fraction.denominator );
         }
     };
-    public static PatternMaker pyramid1 = new PatternMaker() {
+    public static final PatternMaker pyramid1 = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.pyramidSingle();
         }
     };
-    public static PatternMaker pyramid4 = new PatternMaker() {
+    public static final PatternMaker pyramid4 = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.pyramidFour();
         }
     };
-    public static PatternMaker pyramid9 = new PatternMaker() {
+    public static final PatternMaker pyramid9 = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.pyramidNine();
         }
     };
-    public static PatternMaker grid1 = new PatternMaker() {
+    public static final PatternMaker grid1 = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.grid( 1 );
         }
     };
-    public static PatternMaker grid4 = new PatternMaker() {
+    public static final PatternMaker grid4 = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.grid( 2 );
         }
     };
-    public static PatternMaker grid9 = new PatternMaker() {
+    public static final PatternMaker grid9 = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.grid( 3 );
         }
     };
-    public static PatternMaker flower = new PatternMaker() {
+    public static final PatternMaker flower = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.sixFlower();
         }
     };
-    public static PatternMaker polygon = new PatternMaker() {
+    public static final PatternMaker polygon = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
             return Pattern.polygon( 60, fraction.denominator );
         }
     };
 
     //Only choose from the universal patterns (that accept all denominators)
-    public static final List<PatternMaker> universalTypes = list( pie, horizontalBar, verticalBar );
+    private static final List<PatternMaker> universalTypes = list( pie, horizontalBar, verticalBar );
 
     //Create all of the levels
     public NumberLevelList() {
@@ -199,7 +199,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     /* Level 5:
     --Same as level 4, but now random fill is possible (maybe with 50 percent probability of being used)
     --could begin to introduce some card constraints at this point, for instance making sure that one of the representations
-    only has cards available to match it with a "nonobvious fraction".
+    only has cards available to match it with a "non-obvious fraction".
     For instance if 3/9 appears, and 5/9 appears, we have 1(5) and 1(9), but not 2(9), so that 1/3 would need to be used to match. */
     private NumberLevel level5() {
         List<RepresentationType> types = RepresentationType.all;

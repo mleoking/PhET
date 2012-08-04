@@ -24,7 +24,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.t
  *
  * @author Sam Reid
  */
-public class RewardNode extends PNode {
+class RewardNode extends PNode {
     public RewardNode( final MatchingGameModel model ) {
 
         //Updates when the model mode changes

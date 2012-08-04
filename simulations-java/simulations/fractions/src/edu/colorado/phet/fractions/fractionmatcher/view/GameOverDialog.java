@@ -16,7 +16,7 @@ import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.ST
 /**
  * @author Sam Reid
  */
-public class GameOverDialog {
+class GameOverDialog {
     //Create the game over dialog, which is only shown when the game is over.
     public static UpdateNode createGameOverDialog( final MatchingGameModel model ) {
         return new UpdateNode(

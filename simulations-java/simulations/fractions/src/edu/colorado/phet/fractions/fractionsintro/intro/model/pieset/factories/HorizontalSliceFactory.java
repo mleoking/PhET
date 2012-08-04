@@ -25,7 +25,7 @@ public @Data class HorizontalSliceFactory extends SliceFactory {
     }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
-    public final F<Slice, Shape> createToShape( final double width ) {
+    final F<Slice, Shape> createToShape( final double width ) {
         return new HorizontalShapeFunction( width, barHeight );
     }
 
