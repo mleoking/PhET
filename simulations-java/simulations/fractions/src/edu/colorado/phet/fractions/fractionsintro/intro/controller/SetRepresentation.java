@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractions.fractionsintro.intro.controller;
 
 import fj.F;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import edu.colorado.phet.fractions.fractionsintro.intro.model.IntroState;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
@@ -12,8 +12,10 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
  *
  * @author Sam Reid
  */
-public @Data class SetRepresentation extends F<IntroState, IntroState> {
+public @EqualsAndHashCode(callSuper = false) class SetRepresentation extends F<IntroState, IntroState> {
     public final Representation representation;
+
+    public SetRepresentation( final Representation representation ) {this.representation = representation;}
 
     public IntroState f( IntroState s ) {
         //Workaround for a bug: when dragging number line quickly, pie set gets out of sync.  So update it when representations change
