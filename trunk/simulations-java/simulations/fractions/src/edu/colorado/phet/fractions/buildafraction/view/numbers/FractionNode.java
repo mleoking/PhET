@@ -16,7 +16,8 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.AnimateToScale;
@@ -25,7 +26,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_MITER;
@@ -86,23 +86,21 @@ public class FractionNode extends RichPNode {
         addChild( splitButton );
 
         dragRegion.addInputEventListener( new CursorHandler() );
-        dragRegion.addInputEventListener( new SimSharingDragHandler( null, true ) {
-            @Override protected void startDrag( final PInputEvent event ) {
-                super.startDrag( event );
+        dragRegion.addInputEventListener( new CanvasBoundedDragHandler( FractionNode.this ) {
+            @Override public void mousePressed( final PInputEvent event ) {
+                super.mousePressed( event );
 
                 //Grow as it moves out of the toolbox
                 addActivity( new AnimateToScale( FractionNode.this, 200 ) );
             }
 
-            @Override protected void drag( final PInputEvent event ) {
-                super.drag( event );
+            @Override protected void dragNode( final DragEvent event ) {
                 moveToFront();
-                final PDimension delta = event.getDeltaRelativeTo( event.getPickedNode().getParent() );
-                translate( delta.getWidth(), delta.getHeight() );
+                translate( event.delta.width, event.delta.height );
             }
 
-            @Override protected void endDrag( final PInputEvent event ) {
-                super.endDrag( event );
+            @Override public void mouseReleased( final PInputEvent event ) {
+                super.mouseReleased( event );
                 context.endDrag( FractionNode.this );
             }
         } );
