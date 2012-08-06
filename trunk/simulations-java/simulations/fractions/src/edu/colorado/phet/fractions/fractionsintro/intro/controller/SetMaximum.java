@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractions.fractionsintro.intro.controller;
 
 import fj.F;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import edu.colorado.phet.fractions.fractionsintro.intro.model.IntroState;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.CellPointer;
@@ -15,8 +15,10 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.F
  *
  * @author Sam Reid
  */
-public @Data class SetMaximum extends F<IntroState, IntroState> {
+public @EqualsAndHashCode(callSuper = false) class SetMaximum extends F<IntroState, IntroState> {
     private final Integer maximum;
+
+    public SetMaximum( final Integer maximum ) {this.maximum = maximum;}
 
     @Override public IntroState f( final IntroState s ) {
         final ContainerSet c = s.containerSet.maximum( maximum );

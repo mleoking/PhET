@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractions.fractionsintro.intro.controller;
 
 import fj.F;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import edu.colorado.phet.fractions.fractionsintro.intro.model.IntroState;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.CellPointer;
@@ -13,8 +13,10 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.PieSet;
  *
  * @author Sam Reid
  */
-public @Data class SetNumerator extends F<IntroState, IntroState> {
+public @EqualsAndHashCode(callSuper = false) class SetNumerator extends F<IntroState, IntroState> {
     public final int numerator;
+
+    public SetNumerator( final int numerator ) {this.numerator = numerator;}
 
     @Override public IntroState f( IntroState s ) {
         int oldValue = s.numerator;

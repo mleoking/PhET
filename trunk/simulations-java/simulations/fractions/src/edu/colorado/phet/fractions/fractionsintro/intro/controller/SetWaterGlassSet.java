@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractions.fractionsintro.intro.controller;
 
 import fj.F;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import edu.colorado.phet.fractions.fractionsintro.intro.model.IntroState;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.ContainerSet;
@@ -14,8 +14,10 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.F
  *
  * @author Sam Reid
  */
-public @Data class SetWaterGlassSet extends F<IntroState, IntroState> {
+public @EqualsAndHashCode(callSuper = false) class SetWaterGlassSet extends F<IntroState, IntroState> {
     private final PieSet pieSet;
+
+    public SetWaterGlassSet( final PieSet pieSet ) {this.pieSet = pieSet;}
 
     @Override public IntroState f( final IntroState introState ) {
         final ContainerSet cs = pieSet.toContainerSet();

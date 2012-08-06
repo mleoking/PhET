@@ -6,7 +6,7 @@ import fj.F;
 import java.util.HashMap;
 
 /**
- * Map that also provides a function for creating and caching items that are not yet in the map.
+ * Function that can cache its results so that subsequent calls can be faster.
  * In the Fractions Intro sim, this is used to store images that are expensive to create to improve performance.
  *
  * @author Sam Reid
