@@ -1,4 +1,1 @@
-dirt.jpg source=jmonkeyengine notes=Textures/Terrain/splat/
-grass.jpg source=jmonkeyengine notes=Textures/Terrain/splat/
-noise.png source=? notes=?
-road.jpg source=jmonkeyengine notes=Textures/Terrain/splat/
+noise.png source=PhET notes=Made by JO
