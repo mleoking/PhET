@@ -43,9 +43,12 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage GENERATOR = RESOURCES.getImage( "generator.png" );
         public static final BufferedImage GENERATOR_ICON = RESOURCES.getImage( "generator_icon.png" );
         public static final BufferedImage GENERATOR_WHEEL = RESOURCES.getImage( "generator_wheel.png" );
+        public static final BufferedImage GENERATOR_WHEEL_LONG = RESOURCES.getImage( "generator_wheel_long.png" );
         public static final BufferedImage HEATER_ELEMENT = RESOURCES.getImage( "heater_element.png" );
+        public static final BufferedImage HEATER_ELEMENT_OFF = RESOURCES.getImage( "heater_element_off.png" );
         public static final BufferedImage INCANDESCENT = RESOURCES.getImage( "incandescent.png" );
         public static final BufferedImage INCANDESCENT_ICON = RESOURCES.getImage( "incandescent_icon.png" );
+        public static final BufferedImage INCANDESCENT_ON = RESOURCES.getImage( "incandescent_on.png" );
         public static final BufferedImage SHELF_LONG = RESOURCES.getImage( "shelf_long.png" );
         public static final BufferedImage SOLAR_PANEL = RESOURCES.getImage( "solar_panel.png" );
         public static final BufferedImage SOLAR_PANEL_BASE = RESOURCES.getImage( "solar_panel_base.png" );
