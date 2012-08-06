@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
+ * Taken from the Dilutions sim
  * Visual representation of a beaker.
  * 3D perspective is provided by an image (see BeakerImageNode).
  * Other elements (ticks, label, ...) are added programmatically.

@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
+ * Taken from the Dilutions sim
  * Simple model of a solution
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

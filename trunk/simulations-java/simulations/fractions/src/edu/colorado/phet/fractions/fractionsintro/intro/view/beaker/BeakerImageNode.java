@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Taken from the Dilutions sim
  * This class encapsulates knowledge about points in the beaker image.
  * The image was built around the shape of a cylinder, and we can programmatically fill that cylinder with solution.
  * Rather than hard code details of the cylinder (offsets and sizes), this class allows us to name points in the image,
