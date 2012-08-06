@@ -20,6 +20,8 @@ case class Log(file: File, machineID: String, sessionID: String, serverTime: Lon
   def id = entries(0).args.find(_.key == "id").map(_.value).getOrElse("")
 }
 
+object MoleculePolarityAnalysisAugust2012 {}
+
 object NewParser {
   def readText(f: File) = {
     val source = Source.fromFile(f)
