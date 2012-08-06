@@ -22,8 +22,8 @@ import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandl
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode.DropLocation;
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.FJUtils;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -31,8 +31,8 @@ import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType.BAR;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.circleDiameter;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceNode._toFraction;
+import static edu.colorado.phet.fractions.common.math.Fraction.sum;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
-import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.sum;
 
 /**
  * One circle or bar for adding shapes to. If the fraction can become larger than 1, then more of these are used.

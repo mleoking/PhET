@@ -7,9 +7,9 @@ import fj.data.List;
 import java.awt.Color;
 
 import edu.colorado.phet.fractions.buildafraction.model.Level;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractions.common.math.Fraction;
 
-import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction._greaterThanOne;
+import static edu.colorado.phet.fractions.common.math.Fraction._greaterThanOne;
 
 /**
  * Level for the build a fraction game.

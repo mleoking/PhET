@@ -3,7 +3,7 @@ package edu.colorado.phet.fractions.fractionmatcher.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.FractionNumberNode;
 import edu.umd.cs.piccolo.PNode;

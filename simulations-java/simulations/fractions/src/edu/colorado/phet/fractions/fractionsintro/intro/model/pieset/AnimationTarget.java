@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
  *
  * @author Sam Reid
  */
-@Data public class AnimationTarget {
+public @Data class AnimationTarget {
     public final Vector2D position;
     public final double angle;
 

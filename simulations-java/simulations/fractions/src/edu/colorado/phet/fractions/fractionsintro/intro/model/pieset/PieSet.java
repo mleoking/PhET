@@ -23,7 +23,7 @@ import static fj.data.List.range;
  *
  * @author Sam Reid
  */
-@Data public class PieSet {
+public @Data class PieSet {
 
     //The denominator for this model
     public final int denominator;

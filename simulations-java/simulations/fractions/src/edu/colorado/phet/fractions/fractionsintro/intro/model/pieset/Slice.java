@@ -16,7 +16,7 @@ import static edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Anim
  *
  * @author Sam Reid
  */
-@Data public class Slice {
+public @Data class Slice {
 
     //Position of the slice.  Center for circles or squares.  For pie slices, it is the tip.  For a half-circle, it is the center of the line edge.
     public final Vector2D position;

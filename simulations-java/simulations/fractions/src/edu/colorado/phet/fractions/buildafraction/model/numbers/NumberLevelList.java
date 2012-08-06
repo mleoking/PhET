@@ -11,16 +11,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.Distribution;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
+import static edu.colorado.phet.fractions.common.math.Fraction.*;
 import static edu.colorado.phet.fractions.common.util.Sampling.*;
 import static edu.colorado.phet.fractions.common.view.Colors.*;
 import static edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern.randomFill;
 import static edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern.sequentialFill;
-import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.*;
 import static fj.data.List.*;
 import static java.awt.Color.orange;
 
