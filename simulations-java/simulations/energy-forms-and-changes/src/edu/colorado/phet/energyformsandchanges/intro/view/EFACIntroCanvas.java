@@ -2,8 +2,6 @@
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
@@ -24,17 +22,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
-import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
-import edu.colorado.phet.energyformsandchanges.intro.model.ConfigurableHeatCapacityBlock;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
 import edu.umd.cs.piccolo.PNode;
@@ -237,26 +230,29 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         }
 
         // Add the control for setting the specific heat of the configurable block.
-        PNode heatCapacityControlPanel;
-        {
-            HSliderNode heatCapacitySlider = new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,
-                                                              ConfigurableHeatCapacityBlock.MIN_SPECIFIC_HEAT,
-                                                              ConfigurableHeatCapacityBlock.MAX_SPECIFIC_HEAT,
-                                                              model.getConfigurableBlock().specificHeat );
-            heatCapacitySlider.setTrackFillPaint( new GradientPaint( new Point2D.Double( 0, 0 ),
-                                                                     ConfigurableHeatCapacityBlock.HIGH_SPECIFIC_HEAT_COLOR,
-                                                                     new Point2D.Double( 0, VSliderNode.DEFAULT_TRACK_LENGTH ),
-                                                                     ConfigurableHeatCapacityBlock.LOW_SPECIFIC_HEAT_COLOR ) );
-            Font sliderLabelFont = new PhetFont( 16 );
-            heatCapacitySlider.addLabel( ConfigurableHeatCapacityBlock.MIN_SPECIFIC_HEAT, new PhetPText( "low", sliderLabelFont ) );
-            heatCapacitySlider.addLabel( ConfigurableHeatCapacityBlock.MAX_SPECIFIC_HEAT, new PhetPText( "high", sliderLabelFont ) );
-            heatCapacityControlPanel = new ControlPanelNode( new VBox( new HBox( new BlockIconNode( model.getConfigurableBlock().color ),
-                                                                                 new PhetPText( "Heat Capacity", new PhetFont( 18 ) ) ),
-                                                                       heatCapacitySlider ),
-                                                             EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
-            heatCapacityControlPanel.setOffset( thermometerToolBox.getFullBoundsReference().getMaxX() + EDGE_INSET, EDGE_INSET );
-            backLayer.addChild( heatCapacityControlPanel );
-        }
+        // TODO: This was for heat capacity lab prototype, and has been removed
+        // as of 8/6/2012.  Remove permanently in roughly a month if we are
+        // reasonably sure that it is no longer needed.
+//        PNode heatCapacityControlPanel;
+//        {
+//            HSliderNode heatCapacitySlider = new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,
+//                                                              ConfigurableHeatCapacityBlock.MIN_SPECIFIC_HEAT,
+//                                                              ConfigurableHeatCapacityBlock.MAX_SPECIFIC_HEAT,
+//                                                              model.getConfigurableBlock().specificHeat );
+//            heatCapacitySlider.setTrackFillPaint( new GradientPaint( new Point2D.Double( 0, 0 ),
+//                                                                     ConfigurableHeatCapacityBlock.HIGH_SPECIFIC_HEAT_COLOR,
+//                                                                     new Point2D.Double( 0, VSliderNode.DEFAULT_TRACK_LENGTH ),
+//                                                                     ConfigurableHeatCapacityBlock.LOW_SPECIFIC_HEAT_COLOR ) );
+//            Font sliderLabelFont = new PhetFont( 16 );
+//            heatCapacitySlider.addLabel( ConfigurableHeatCapacityBlock.MIN_SPECIFIC_HEAT, new PhetPText( "low", sliderLabelFont ) );
+//            heatCapacitySlider.addLabel( ConfigurableHeatCapacityBlock.MAX_SPECIFIC_HEAT, new PhetPText( "high", sliderLabelFont ) );
+//            heatCapacityControlPanel = new ControlPanelNode( new VBox( new HBox( new BlockIconNode( model.getConfigurableBlock().color ),
+//                                                                                 new PhetPText( "Heat Capacity", new PhetFont( 18 ) ) ),
+//                                                                       heatCapacitySlider ),
+//                                                             EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
+//            heatCapacityControlPanel.setOffset( thermometerToolBox.getFullBoundsReference().getMaxX() + EDGE_INSET, EDGE_INSET );
+//            backLayer.addChild( heatCapacityControlPanel );
+//        }
 
         // Create an observer that updates the Z-order of the blocks when the
         // user controlled state changes.
