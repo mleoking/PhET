@@ -23,12 +23,17 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class FaucetAndWaterNode extends PNode {
 
-    private static final double WATER_NODE_LENGTH = 700; // In screen coords, which are close to pixels.
+    private static final double FAUCET_NODE_HORIZONTAL_LENGTH = 700; // In screen coords, which are close to pixels.
+    private static final double WATER_NODE_VERTICAL_LENGTH = 700; // In screen coords, which are close to pixels.
 
     public FaucetAndWaterNode( FaucetAndWater faucet, final ModelViewTransform mvt ) {
 
         // Create the faucet.
-        final FaucetNode faucetNode = new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet, faucet.flowProportion, faucet.enabled, 200, false );
+        final FaucetNode faucetNode = new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet,
+                                                      faucet.flowProportion,
+                                                      faucet.enabled,
+                                                      FAUCET_NODE_HORIZONTAL_LENGTH,
+                                                      false );
         faucetNode.setOffset( -faucetNode.getGlobalOutputCenter().getX() + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
                               -faucetNode.getGlobalOutputCenter().getY() + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
         // Create the water.
@@ -40,7 +45,7 @@ public class FaucetAndWaterNode extends PNode {
         faucet.flowProportion.addObserver( new VoidFunction1<Double>() {
             public void apply( Double flowProportion ) {
                 double waterWidth = faucetNode.getGlobalOutputSize().getWidth() * 0.75 * flowProportion;
-                waterNode.setPathTo( new Rectangle2D.Double( -waterWidth / 2, 0, waterWidth, WATER_NODE_LENGTH ) );
+                waterNode.setPathTo( new Rectangle2D.Double( -waterWidth / 2, 0, waterWidth, WATER_NODE_VERTICAL_LENGTH ) );
                 waterNode.setVisible( waterWidth > 0 );
             }
         } );

@@ -1,37 +1,28 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
-import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.ELEMENT_BASE;
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.INCANDESCENT;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.selectIncandescentLightBulbButton;
 
 /**
  * @author John Blanco
  */
-public class IncandescentLightBulb extends EnergyUser {
+public class IncandescentLightBulb extends LightBulb {
 
-    private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( ELEMENT_BASE, ELEMENT_BASE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0, -0.022 ) ) );
-        add( new ModelElementImage( INCANDESCENT, INCANDESCENT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0, 0.03 ) ) );
-    }};
+    public static final ModelElementImage NON_ENERGIZED_BULB = new ModelElementImage( INCANDESCENT,
+                                                                                      INCANDESCENT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                                                                      new Vector2D( 0, 0.02 ) );
+
+    public static final ModelElementImage ENERGIZED_BULB = new ModelElementImage( INCANDESCENT_ON,
+                                                                                  INCANDESCENT_ON.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                                                                  new Vector2D( 0, 0.02 ) );
+
+    private static final double ENERGY_TO_FULLY_LIGHT = 100; // In joules/sec, a.k.a. watts.
 
     protected IncandescentLightBulb() {
-        super( EnergyFormsAndChangesResources.Images.INCANDESCENT_ICON, IMAGE_LIST );
-    }
-
-    @Override public void stepInTime( double dt, Energy incomingEnergy ) {
-        // TODO: Implement.
-    }
-
-    @Override public IUserComponent getUserComponent() {
-        return EnergyFormsAndChangesSimSharing.UserComponents.selectIncandescentLightBulbButton;
+        super( selectIncandescentLightBulbButton, INCANDESCENT_ICON, NON_ENERGIZED_BULB, ENERGIZED_BULB, ENERGY_TO_FULLY_LIGHT );
     }
 }
