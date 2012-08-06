@@ -4,7 +4,10 @@ import java.io.File
 import io.Source
 
 /**
- * @author Sam Reid
+ * Emily said:
+ * I’m back to working on the Molecule Polarity sim data (from the Utah study last November). I’d like to do two types of analysis:
+ * 1)   What % of clickable/moveable options did each group interact with during the “play only” time? (this would include clicking on any tool/tab, and moving a moveable object.)
+ * 2)   A histogram (representing all student groups) showing the amount of new moveable objects/tools clicked on over the “play only” time.
  */
 case class Arg(key: String, value: String)
 
