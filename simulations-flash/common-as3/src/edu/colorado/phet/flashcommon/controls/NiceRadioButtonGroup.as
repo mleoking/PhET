@@ -12,20 +12,31 @@ import flash.display.Sprite;
  * Replaces Flex framework RadioButtonGroup.
  * Needed because the flex component RadioButton cannot handle font size changes gracefully.
  */
-public class NiceRadioButtonGroup extends Sprite {
+public class NiceRadioButtonGroup {
     private var radioButtons_arr: Array;   //array of NiceRadioButtons in this radioButtonGroup
-    private var numberOfButtons: int;
+    private var _numberOfButtons: int;
     private var action: Function;          //function run when radio button is selected
 
     public function NiceRadioButtonGroup(){
-        numberOfButtons = 0;
+        _numberOfButtons = 0;
         radioButtons_arr = new Array();
     }
 
     public function addNiceRadioButton( niceRadioButton: NiceRadioButton ):void{
-        numberOfButtons += 1;
-        radioButtons_arr[ numberOfButtons - 1 ] = niceRadioButton;
+        _numberOfButtons += 1;
+        radioButtons_arr[ _numberOfButtons - 1 ] = niceRadioButton;
 
+    }
+
+    public function selectButton( selectedButton: NiceRadioButton ):void{
+        for( var i:int; i < numberOfButtons; i++ ){
+            radioButtons_arr[i].selected = false;
+        }
+        selectedButton.selected = true;
+    }
+
+    public function get numberOfButtons():int {
+        return _numberOfButtons;
     }
 }
 }
