@@ -121,7 +121,7 @@ public class CrossSectionStripNode extends GLNode {
     }
 
     @Override public void renderSelf( GLOptions options ) {
-        super.renderSelf( options ); //REVIEW recommend doing this in other GLNode subclasses in this package
+        super.renderSelf( options );
 
         // texture coordinates
         if ( options.shouldSendTexture() ) {

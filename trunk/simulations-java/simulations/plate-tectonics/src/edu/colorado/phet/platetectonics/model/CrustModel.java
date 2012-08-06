@@ -13,8 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
-import edu.colorado.phet.platetectonics.util.Bounds3D;
-import edu.colorado.phet.platetectonics.util.Grid3D;
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction2D;
 
 import static edu.colorado.phet.platetectonics.util.Side.LEFT;
@@ -115,9 +114,8 @@ public class CrustModel extends PlateTectonicsModel {
     private SimpleObserver middleUpdateObserver;
     private CrossSectionStrip middleMantleStrip;
 
-    public CrustModel( final Grid3D grid ) {
-        super( grid.getBounds(), new TextureStrategy( 0.00002f ) );
-        final Bounds3D bounds = grid.getBounds();
+    public CrustModel( final Bounds3F bounds ) {
+        super( bounds, new TextureStrategy( 0.00002f ) );
 
         /*---------------------------------------------------------------------------*
         * terrains

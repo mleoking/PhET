@@ -14,7 +14,7 @@ import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.model.regions.Region;
-import edu.colorado.phet.platetectonics.util.Bounds3D;
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 
 /**
  * Base class for plate tectonics models. All units in SI unless otherwise noted
@@ -40,7 +40,7 @@ public abstract class PlateTectonicsModel {
     public final Notifier<Region> regionRemoved = new Notifier<Region>();
 
     // full bounds of the simulated model
-    public final Bounds3D bounds;
+    public final Bounds3F bounds;
 
     // at what scale should our textures be applied
     private final TextureStrategy textureStrategy;
@@ -65,7 +65,7 @@ public abstract class PlateTectonicsModel {
 
     public final Notifier<Vector3F> debugPing = new Notifier<Vector3F>();
 
-    protected PlateTectonicsModel( final Bounds3D bounds, TextureStrategy textureStrategy ) {
+    protected PlateTectonicsModel( final Bounds3F bounds, TextureStrategy textureStrategy ) {
         this.bounds = bounds;
         this.textureStrategy = textureStrategy;
     }
@@ -100,7 +100,7 @@ public abstract class PlateTectonicsModel {
         return 0;
     }
 
-    public Bounds3D getBounds() {
+    public Bounds3F getBounds() {
         return bounds;
     }
 

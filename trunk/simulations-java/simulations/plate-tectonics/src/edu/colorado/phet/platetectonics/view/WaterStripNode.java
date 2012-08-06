@@ -16,7 +16,7 @@ import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
-import edu.colorado.phet.platetectonics.util.ColorMaterial;
+import edu.colorado.phet.lwjglphet.materials.ColorMaterial;
 
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;

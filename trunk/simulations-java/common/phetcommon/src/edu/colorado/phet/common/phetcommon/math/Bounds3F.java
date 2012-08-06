@@ -1,13 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.platetectonics.util;
+package edu.colorado.phet.common.phetcommon.math;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 
-//REVIEW migrate to phetcommon?
 /**
- * Bounds, generalized to a 3D bounding box (cuboid)
+ * A bounding box, generalized to a 3D bounding box (cuboid), using floats
  */
-public class Bounds3D {
+public class Bounds3F {
     private final float x;
     private final float y;
     private final float z;
@@ -15,7 +14,7 @@ public class Bounds3D {
     private final float height;
     private final float depth;
 
-    public Bounds3D( float x, float y, float z, float width, float height, float depth ) {
+    public Bounds3F( float x, float y, float z, float width, float height, float depth ) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -24,8 +23,8 @@ public class Bounds3D {
         this.depth = depth;
     }
 
-    public static Bounds3D fromMinMax( float minX, float maxX, float minY, float maxY, float minZ, float maxZ ) {
-        return new Bounds3D( minX, minY, minZ, maxX - minX, maxY - minY, maxZ - minZ );
+    public static Bounds3F fromMinMax( float minX, float maxX, float minY, float maxY, float minZ, float maxZ ) {
+        return new Bounds3F( minX, minY, minZ, maxX - minX, maxY - minY, maxZ - minZ );
     }
 
     public float getDepth() {
@@ -94,5 +93,9 @@ public class Bounds3D {
 
     public float getCenterY() {
         return getCenter().y;
+    }
+
+    public float getCenterZ() {
+        return getCenter().z;
     }
 }

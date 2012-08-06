@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.lwjgl.input.Mouse;
 
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
@@ -25,11 +26,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
-import edu.colorado.phet.lwjglphet.nodes.OrthoSwingNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
+import edu.colorado.phet.lwjglphet.nodes.OrthoSwingNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ParameterKeys;
@@ -42,18 +42,16 @@ import edu.colorado.phet.platetectonics.control.PlayModePanel;
 import edu.colorado.phet.platetectonics.control.ResetPanel;
 import edu.colorado.phet.platetectonics.control.TectonicsTimeControl;
 import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
-import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.labels.TextLabel;
-import edu.colorado.phet.platetectonics.util.Bounds3D;
-import edu.colorado.phet.platetectonics.util.Grid3D;
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
 import edu.colorado.phet.platetectonics.view.PlateMotionView;
-import edu.colorado.phet.platetectonics.view.PlateTectonicsView;
 import edu.colorado.phet.platetectonics.view.labels.RangeLabelNode;
 import edu.colorado.phet.platetectonics.view.labels.TextLabelNode;
 
@@ -110,16 +108,13 @@ public class PlateMotionTab extends PlateTectonicsTab {
         rootNode.addChild( crustPieceLayer );
 
         // grid centered X, with front Z at 0
-        Grid3D grid = new Grid3D(
-                //REVIEW significant of these constants? units?
-                Bounds3D.fromMinMax( -700000, 700000,
-                                     -300000, 15000,
-                                     -1000000, 0 ),
-                256, 256, 32 );
+        Bounds3F bounds = Bounds3F.fromMinMax( -700000, 700000,
+                                               -300000, 15000,
+                                               -1000000, 0 );
 
         // create the model and terrain
 //        model = new AnimatedPlateModel( grid );
-        setModel( new PlateMotionModel( getClock(), grid.getBounds() ) );
+        setModel( new PlateMotionModel( getClock(), bounds ) );
 
         // add the main view
         sceneLayer.addChild( new PlateMotionView( getPlateMotionModel(), this, showWater ) );
@@ -372,8 +367,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         *----------------------------------------------------------------------------*/
         tectonicsTimeControl = new TectonicsTimeControl( getClock(), isAutoMode );
         final OrthoSwingNode timeControlPanelNode = new OrthoSwingNode( tectonicsTimeControl,
-                                                                                this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ),
-                                                                                mouseEventNotifier ) {{
+                                                                        this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ),
+                                                                        mouseEventNotifier ) {{
             onResize.addUpdateListener( new UpdateListener() {
                 public void update() {
                     position.set( new Vector2D( getStageSize().width - getComponentWidth(),

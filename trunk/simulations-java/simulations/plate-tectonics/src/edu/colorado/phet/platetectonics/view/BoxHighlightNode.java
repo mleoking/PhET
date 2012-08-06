@@ -9,7 +9,7 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
-import edu.colorado.phet.platetectonics.util.Bounds3D;
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.color4f;
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.vertex3f;
@@ -21,11 +21,11 @@ import static org.lwjgl.opengl.GL11.*;
  * This actually uses a decent chunk of vertices, because the actual on-screen shape is curved.
  */
 public class BoxHighlightNode extends GLNode {
-    public final Bounds3D bounds;
+    public final Bounds3F bounds;
     private LWJGLTransform modelViewTransform;
     private Property<Color> color;
 
-    public BoxHighlightNode( Bounds3D bounds, LWJGLTransform modelViewTransform, Property<Color> color ) {
+    public BoxHighlightNode( Bounds3F bounds, LWJGLTransform modelViewTransform, Property<Color> color ) {
         this.bounds = bounds;
         this.modelViewTransform = modelViewTransform;
         this.color = color;
@@ -70,6 +70,8 @@ public class BoxHighlightNode extends GLNode {
     }
 
     @Override public void renderSelf( GLOptions options ) {
+        super.renderSelf( options );
+
         Vector3F leftBottomBack = new Vector3F( bounds.getMinX(), bounds.getMinY(), bounds.getMinZ() );
         Vector3F leftBottomFront = new Vector3F( bounds.getMinX(), bounds.getMinY(), bounds.getMaxZ() );
         Vector3F leftTopBack = new Vector3F( bounds.getMinX(), bounds.getMaxY(), bounds.getMinZ() );

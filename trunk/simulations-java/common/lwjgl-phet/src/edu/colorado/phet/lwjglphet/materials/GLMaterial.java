@@ -1,5 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lwjglphet;
+package edu.colorado.phet.lwjglphet.materials;
+
+import edu.colorado.phet.lwjglphet.GLOptions;
 
 /**
  * The ability to handle general materials in a scene-graph manner

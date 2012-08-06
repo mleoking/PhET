@@ -233,6 +233,8 @@ public abstract class GridStripNode extends GLNode {
     }
 
     @Override public void renderSelf( GLOptions options ) {
+        super.renderSelf( options );
+
         // renders in a series of triangle strips. quad strips rejected since we can't guarantee they will be planar
         glDrawElements( GL_TRIANGLE_STRIP, indexBuffer );
     }

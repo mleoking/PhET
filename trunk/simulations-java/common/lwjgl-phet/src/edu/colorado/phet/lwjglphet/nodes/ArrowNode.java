@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet.nodes;
 
-import edu.colorado.phet.lwjglphet.GLMaterial;
+import edu.colorado.phet.lwjglphet.materials.GLMaterial;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.Arrow2F;
 
