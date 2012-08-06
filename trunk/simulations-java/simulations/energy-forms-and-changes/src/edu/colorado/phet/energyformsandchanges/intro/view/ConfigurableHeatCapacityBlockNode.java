@@ -38,6 +38,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Piccolo node that represents a block in the view.  The blocks in the model
  * are 2D, and this class gives them some perspective in order to make them
  * appear to be 3D.
+ * ----------------------------
+ * TODO: This was created for heat capacity lab prototype, and has been removed
+ * as of 8/6/2012.  Remove permanently in roughly a month if we are reasonably
+ * sure that it is no longer needed.
  *
  * @author John Blanco
  */

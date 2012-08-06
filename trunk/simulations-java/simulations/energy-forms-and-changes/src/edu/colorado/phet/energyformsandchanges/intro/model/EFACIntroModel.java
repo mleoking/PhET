@@ -55,7 +55,7 @@ public class EFACIntroModel {
     private final Burner rightBurner;
 
     // Movable thermal model objects.
-    private final ConfigurableHeatCapacityBlock configurableBlock;
+    private final Brick brick;
     private final IronBlock ironBlock;
     private final Beaker beaker;
 
@@ -91,13 +91,13 @@ public class EFACIntroModel {
         leftBurner = new Burner( clock, new Vector2D( 0.08, 0 ), energyChunksVisible );
 
         // Add and position the blocks
-        configurableBlock = new ConfigurableHeatCapacityBlock( clock, new Vector2D( -0.1, 0 ), energyChunksVisible );
+        brick = new Brick( clock, new Vector2D( -0.1, 0 ), energyChunksVisible );
         ironBlock = new IronBlock( clock, new Vector2D( -0.175, 0 ), energyChunksVisible );
 
         // Add and position the beaker.
         {
             List<RectangularThermalMovableModelElement> listOfThingsThatCanGoInBeaker = new ArrayList<RectangularThermalMovableModelElement>() {{
-                add( configurableBlock );
+                add( brick );
                 add( ironBlock );
             }};
             beaker = new Beaker( clock, new Vector2D( -0.015, 0 ), listOfThingsThatCanGoInBeaker, energyChunksVisible );
@@ -105,11 +105,11 @@ public class EFACIntroModel {
 
         // Put all the thermal containers on a list for easy iteration.
         List<ThermalEnergyContainer> thermalEnergyContainers = new ArrayList<ThermalEnergyContainer>();
-        thermalEnergyContainers.add( configurableBlock );
+        thermalEnergyContainers.add( brick );
         thermalEnergyContainers.add( ironBlock );
         thermalEnergyContainers.add( beaker );
         thermalEnergyContainers.add( air );
-        movableThermalEnergyContainers.add( configurableBlock );
+        movableThermalEnergyContainers.add( brick );
         movableThermalEnergyContainers.add( ironBlock );
         movableThermalEnergyContainers.add( beaker );
 
@@ -132,7 +132,7 @@ public class EFACIntroModel {
         leftBurner.reset();
         rightBurner.reset();
         ironBlock.reset();
-        configurableBlock.reset();
+        brick.reset();
         beaker.reset();
         thermometer1.reset();
         thermometer2.reset();
@@ -148,7 +148,7 @@ public class EFACIntroModel {
         // Cause any user-movable model elements that are not supported by a
         // surface to fall (or, in some cases, jump up) towards the nearest
         // supporting surface.
-        for ( UserMovableModelElement movableModelElement : Arrays.asList( ironBlock, configurableBlock, beaker ) ) {
+        for ( UserMovableModelElement movableModelElement : Arrays.asList( ironBlock, brick, beaker ) ) {
             if ( !movableModelElement.userControlled.get() && movableModelElement.getSupportingSurface() == null && movableModelElement.position.get().getY() != 0 ) {
                 double minYPos = 0;
 
@@ -185,11 +185,11 @@ public class EFACIntroModel {
 
         // Update the fluid level in the beaker, which could be displaced by
         // one or more of the blocks.
-        beaker.updateFluidLevel( Arrays.asList( configurableBlock.getRect(), ironBlock.getRect() ) );
+        beaker.updateFluidLevel( Arrays.asList( brick.getRect(), ironBlock.getRect() ) );
 
         // Update heat/cool limits on the burners.
-        leftBurner.updateHeatCoolLimits( dt, ironBlock, configurableBlock, beaker );
-        rightBurner.updateHeatCoolLimits( dt, ironBlock, configurableBlock, beaker );
+        leftBurner.updateHeatCoolLimits( dt, ironBlock, brick, beaker );
+        rightBurner.updateHeatCoolLimits( dt, ironBlock, brick, beaker );
 
         //=====================================================================
         // Energy and Energy Chunk Exchange
@@ -206,7 +206,7 @@ public class EFACIntroModel {
         // Exchange thermal energy between the burners and the various movable
         // thermal energy containers.
         for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
-            if ( burner.areAnyOnTop( ironBlock, configurableBlock, beaker ) ) {
+            if ( burner.areAnyOnTop( ironBlock, brick, beaker ) ) {
                 for ( ThermalEnergyContainer movableThermalEnergyContainer : movableThermalEnergyContainers ) {
                     burner.addOrRemoveEnergy( movableThermalEnergyContainer, dt );
                 }
@@ -218,7 +218,7 @@ public class EFACIntroModel {
         }
 
         // Exchange energy chunks between burners and non-air energy containers.
-        for ( RectangularThermalMovableModelElement thermalModelElement : Arrays.asList( ironBlock, configurableBlock, beaker ) ) {
+        for ( RectangularThermalMovableModelElement thermalModelElement : Arrays.asList( ironBlock, brick, beaker ) ) {
             for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
                 if ( thermalModelElement.getSystemEnergyChunkBalance() < 0 && burner.inContactWith( thermalModelElement ) && burner.canSupplyEnergyChunk() ) {
                     thermalModelElement.addEnergyChunk( burner.extractClosestEnergyChunk( thermalModelElement.getCenterPoint() ) );
@@ -349,7 +349,7 @@ public class EFACIntroModel {
         }
 
         // Now check the model element's motion against each of the blocks.
-        for ( Block block : Arrays.asList( ironBlock, configurableBlock ) ) {
+        for ( Block block : Arrays.asList( ironBlock, brick ) ) {
             if ( modelElement == block ) {
                 // Don't test against self.
                 continue;
@@ -374,7 +374,7 @@ public class EFACIntroModel {
     }
 
     public void dumpEnergies() {
-        for ( ThermalEnergyContainer thermalEnergyContainer : Arrays.asList( ironBlock, configurableBlock, beaker, air ) ) {
+        for ( ThermalEnergyContainer thermalEnergyContainer : Arrays.asList( ironBlock, brick, beaker, air ) ) {
             System.out.println( thermalEnergyContainer.getClass().getName() + " - energy = " + thermalEnergyContainer.getEnergy() );
         }
     }
@@ -473,8 +473,8 @@ public class EFACIntroModel {
         return clock;
     }
 
-    public ConfigurableHeatCapacityBlock getConfigurableBlock() {
-        return configurableBlock;
+    public Brick getBrick() {
+        return brick;
     }
 
     public IronBlock getIronBlock() {
@@ -502,7 +502,7 @@ public class EFACIntroModel {
 
         // Check each of the possible supporting elements in the model to see
         // if this element can go on top of it.
-        for ( ModelElement potentialSupportingElement : Arrays.asList( leftBurner, rightBurner, configurableBlock, ironBlock, beaker ) ) {
+        for ( ModelElement potentialSupportingElement : Arrays.asList( leftBurner, rightBurner, brick, ironBlock, beaker ) ) {
             if ( potentialSupportingElement == element || potentialSupportingElement.isStackedUpon( element ) ) {
                 // The potential supporting element is either the same as the
                 // test element or is sitting on top of the test element.  In
@@ -543,7 +543,7 @@ public class EFACIntroModel {
     }
 
     public List<Block> getBlockList() {
-        return Arrays.asList( configurableBlock, ironBlock );
+        return Arrays.asList( brick, ironBlock );
     }
 
     // Get the amount of overlap in the x direction between two horizontal surfaces.
