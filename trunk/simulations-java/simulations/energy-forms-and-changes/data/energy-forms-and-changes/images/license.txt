@@ -19,9 +19,12 @@ fluorescent_on.png source=PhET author=Noah P
 generator.png source=PhET author=Noah P
 generator_icon.png source=PhET author=Noah P
 generator_wheel.png source=PhET author=Noah P
+generator_wheel_long.png source=PhET author=Noah P
 heater_element.png source=PhET author=Noah P
+heater_element_off.png source=PhET author=Noah P
 incandescent.png source=PhET author=Noah P
 incandescent_icon.png source=PhET author=Noah P
+incandescent_on.png source=PhET author=Noah P
 solar_panel.png source=PhET author=Noah P
 solar_panel_icon.png source=PhET author=Noah P
 solar_panel_base.png source=PhET author=Noah P
@@ -32,3 +35,4 @@ teapot.png source=PhET author=Noah P
 teapot_icon.png source=PhET author=Noah P
 water_icon.png source=PhET author=Noah P
 wire_black.png source=PhET author=Noah P
+
