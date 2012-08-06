@@ -58,6 +58,9 @@ public class BalanceGameModel {
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( BalanceAndTorqueSharedConstants.FRAME_RATE );
 
+    // Wall time at which current game was started.
+    private long gameStartTime = 0;
+
     // Game settings information.
     public final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, MAX_LEVELS, 1 ), true, true );
 
@@ -115,7 +118,7 @@ public class BalanceGameModel {
     public BalanceGameModel() {
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
-                stepInTime( clock.getDt() );
+                stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
 
@@ -172,12 +175,14 @@ public class BalanceGameModel {
         return gameSettings.timerEnabled.get();
     }
 
-    public boolean isSoundEnabled() {
-        return gameSettings.soundEnabled.get();
-    }
-
-    public double getTime() {
-        return clock.getSimulationTime();
+    /**
+     * Get the amount of time that has elapsed since the start of this round of
+     * the game.
+     *
+     * @return Elapsed time in seconds.
+     */
+    public double getElapsedTime() {
+        return (double) ( clock.getWallTime() - gameStartTime ) / 1000;
     }
 
     /**
@@ -193,7 +198,7 @@ public class BalanceGameModel {
     }
 
     public boolean isNewBestTime() {
-        return getTime() == getBestTime( getLevel() ) && isTimerEnabled();
+        return getElapsedTime() == getBestTime( getLevel() ) && isTimerEnabled();
     }
 
     /**
@@ -220,8 +225,7 @@ public class BalanceGameModel {
         scoreProperty.set( 0 );
         challengeCount = 0;
         incorrectGuessesOnCurrentChallenge = 0;
-        clock.resetSimulationTime();
-        clock.start();
+        gameStartTime = clock.getWallTime();
 
         // Set up the challenges.
         challengeList = BalanceGameChallengeFactory.generateChallengeSet( getLevel() );
@@ -352,7 +356,7 @@ public class BalanceGameModel {
             // See if this is a new best time and, if so, record it.
             if ( scoreProperty.get() == MAX_SCORE_PER_GAME ) {
                 // Perfect game.  See if new best time.
-                double timeForChallenge = clock.getSimulationTime();
+                double timeForChallenge = getElapsedTime();
                 if ( timeForChallenge < getBestTime( getLevel() ) ) {
                     // New best.
                     mapLevelToBestTime.put( getLevel(), timeForChallenge );

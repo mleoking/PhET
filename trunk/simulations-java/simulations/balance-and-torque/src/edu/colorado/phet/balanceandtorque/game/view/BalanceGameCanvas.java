@@ -239,10 +239,10 @@ public class BalanceGameCanvas extends PhetPCanvas {
                 @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
                     if ( model.isTimerEnabled() && model.isBestTimeRecorded( model.getLevel() ) ) {
-                        setTime( convertSecondsToMilliseconds( model.getTime() ), convertSecondsToMilliseconds( model.getBestTime( model.getLevel() ) ) );
+                        setTime( convertSecondsToMilliseconds( model.getElapsedTime() ), convertSecondsToMilliseconds( model.getBestTime( model.getLevel() ) ) );
                     }
                     else {
-                        setTime( convertSecondsToMilliseconds( model.getTime() ) );
+                        setTime( convertSecondsToMilliseconds( model.getElapsedTime() ) );
                     }
                 }
             } );
@@ -596,7 +596,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Create the "game over" node based on the results.
         gameOverNode = new GameOverNode( model.getLevel(), model.getScoreProperty().get(), model.getMaximumPossibleScore(), new DecimalFormat( "##" ),
-                                         convertSecondsToMilliseconds( model.getTime() ), convertSecondsToMilliseconds( model.getBestTime( model.getLevel() ) ),
+                                         convertSecondsToMilliseconds( model.getElapsedTime() ), convertSecondsToMilliseconds( model.getBestTime( model.getLevel() ) ),
                                          model.isNewBestTime(), model.gameSettings.timerEnabled.get() ) {{
             scale( 1.5 );
             setOffset( DEFAULT_STAGE_SIZE.getWidth() / 2 - getFullBoundsReference().width / 2,
