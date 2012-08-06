@@ -22,20 +22,20 @@ public class NiceRadioButton extends Sprite {
     //graphics
     private var icon:Sprite;
     private var label: NiceLabel;
-    private var hitArea: Sprite;
+    private var buttonHitArea: Sprite;
 
 
-    public function NiceRadioButton( label: String, selected = false ) {
-        this.label_str = label;
+    public function NiceRadioButton( label_str: String, selected:Boolean = false ) {
+        this.label_str = label_str;
         this._selected = selected;
         this.icon = new Sprite();
         this.label = new NiceLabel( 15, label_str );
-        this.hitArea = new Sprite();
+        this.buttonHitArea = new Sprite();
         this.drawDeselectedIcon();
         this.drawHitArea();
         this.addChild( icon );
         this.addChild( label );
-        this.addChild( hitArea );
+        this.addChild( buttonHitArea );
         this.activateButton();
     }
 
