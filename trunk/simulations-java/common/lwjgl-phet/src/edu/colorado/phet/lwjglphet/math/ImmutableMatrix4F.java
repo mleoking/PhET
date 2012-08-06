@@ -6,10 +6,22 @@ import java.nio.FloatBuffer;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector4F;
 
-//REVIEW Why was LWJGL's Matrix4f insufficient, what does this implementation add?
-//REVIEW "some code is copied"? Impossible to tell which code. Consider putting copied code in a separate class and delegating to it.
-
 // some code is copied from LWJGL's Matrix4f, so their license in the file follows
+
+/**
+ * JO:
+ ImmutableMatrix4F is pretty much my code, except for the following things borrowed from LWJGL's Matrix4f:
+
+ * field names for matrix elements
+ * toString()
+ * determinant and inverse code
+
+ I just rewrote store() and storeTranspose() (to much more efficient versions), and renamed them to writeToBuffer() and writeTransposeToBuffer().
+
+ I'm more than willing at this point to rewrite those few functions (and possibly rename fields?) if that means we can ditch the license info and put this in phetcommon.
+
+ TODO: rewrite above code and move to phetcommon
+ */
 
 /*
  * Copyright (c) 2002-2008 LWJGL Project
