@@ -11,11 +11,11 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Card that shows a single number (could be multiple digits).
@@ -36,20 +36,19 @@ public class NumberCardNode extends Stackable {
         }};
         addChild( numberNode );
 
-        addInputEventListener( new SimSharingDragHandler( null, true ) {
-            @Override protected void drag( final PInputEvent event ) {
-                super.drag( event );
+        addInputEventListener( new CanvasBoundedDragHandler( NumberCardNode.this ) {
+            @Override protected void dragNode( final DragEvent event ) {
                 moveToFront();
                 setPositionInStack( Option.<Integer>none() );
-                final PDimension delta = event.getDeltaRelativeTo( getParent() );
-                translate( delta.width, delta.height );
+                translate( event.delta.width, event.delta.height );
             }
 
-            @Override protected void endDrag( final PInputEvent event ) {
-                super.endDrag( event );
+            @Override public void mouseReleased( final PInputEvent event ) {
+                super.mouseReleased( event );
                 context.endDrag( NumberCardNode.this );
             }
         } );
+
         addInputEventListener( new CursorHandler() );
     }
 

@@ -18,14 +18,14 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode.DropLocation;
 import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType.BAR;
@@ -77,21 +77,19 @@ class SingleContainerNode extends PNode {
             addChild( new PhetPPath( shapeType == BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight )
                                                       : new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), Color.white, new BasicStroke( 2 ), Color.black ) );
 
-            addInputEventListener( new SimSharingDragHandler( null, true ) {
-                @Override protected void startDrag( final PInputEvent event ) {
-                    super.startDrag( event );
+            addInputEventListener( new CanvasBoundedDragHandler( SingleContainerNode.this ) {
+                @Override public void mousePressed( final PInputEvent event ) {
+                    super.mousePressed( event );
                     parent.moveToFront();
                     addActivity( new AnimateToScale( parent, 200 ) );
                 }
 
-                @Override protected void drag( final PInputEvent event ) {
-                    super.drag( event );
-                    final PDimension delta = event.getDeltaRelativeTo( getParent() );
-                    parent.translate( delta.width, delta.height );
+                @Override protected void dragNode( final DragEvent event ) {
+                    parent.translate( event.delta.width, event.delta.height );
                 }
 
-                @Override protected void endDrag( final PInputEvent event ) {
-                    super.endDrag( event );
+                @Override public void mouseReleased( final PInputEvent event ) {
+                    super.mouseReleased( event );
                     parent.context.endDrag( parent );
                 }
             } );

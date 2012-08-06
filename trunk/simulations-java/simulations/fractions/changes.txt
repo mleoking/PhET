@@ -1,3 +1,4 @@
+Build a Fraction: Prevent objects from being dragged off of the canvas by converting from SimSharingDragHandler to CanvasBoundedDragHandler
 # 1.00.14 (66543) Aug 3, 2012
 Added internationalization
 Build a Fraction: Shapes: Fixed: Reset all does not clear level 1 contents

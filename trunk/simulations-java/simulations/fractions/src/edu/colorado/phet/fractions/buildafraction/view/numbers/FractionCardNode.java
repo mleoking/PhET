@@ -17,13 +17,13 @@ import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Shows a FractionNode on a card and makes it draggable.
@@ -55,16 +55,14 @@ class FractionCardNode extends RichPNode {
                                                        Color.white, new BasicStroke( 1 ), Color.black );
         cardShapeNode.addInputEventListener( new CursorHandler() );
 
-        cardShapeNode.addInputEventListener( new SimSharingDragHandler( null, true ) {
-            @Override protected void drag( final PInputEvent event ) {
-                super.drag( event );
+        cardShapeNode.addInputEventListener( new CanvasBoundedDragHandler( FractionCardNode.this ) {
+            @Override protected void dragNode( final DragEvent event ) {
                 moveToFront();
-                final PDimension delta = event.getDeltaRelativeTo( rootNode );
-                translate( delta.width, delta.height );
+                translate( event.delta.width, event.delta.height );
             }
 
-            @Override protected void endDrag( final PInputEvent event ) {
-                super.endDrag( event );
+            @Override public void mouseReleased( final PInputEvent event ) {
+                super.mouseReleased( event );
 
                 //Snap to a scoring cell or go back to the play area.
                 //If dropped in a non-matching cell, send back to play area
@@ -126,8 +124,10 @@ class FractionCardNode extends RichPNode {
                         animateToPositionScaleRotation( 0, 0, 1, 0, 1000 );
                     }
                 }
+
             }
         } );
+
         fractionNode.setDragRegionPickable( false );
         fractionNode.addSplitListener( new VoidFunction1<Option<Fraction>>() {
             public void apply( final Option<Fraction> fractions ) {
