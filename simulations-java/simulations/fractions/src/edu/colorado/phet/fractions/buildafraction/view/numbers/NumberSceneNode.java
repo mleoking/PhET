@@ -56,7 +56,7 @@ import static java.awt.Color.darkGray;
  * @author Sam Reid
  */
 public class NumberSceneNode extends SceneNode implements NumberDragContext, FractionDraggingContext, StackContext<NumberCardNode> {
-    private final ArrayList<FractionNode> fractionGraphics = new ArrayList<FractionNode>();
+    private final ArrayList<FractionNode> fractionNodes = new ArrayList<FractionNode>();
     private final PNode rootNode;
     public final List<ScoreBoxPair> pairList;
     private final RichPNode toolboxNode;
@@ -207,7 +207,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         }
 
         addChild( fractionNode );
-        fractionGraphics.add( fractionNode );
+        fractionNodes.add( fractionNode );
 
         //Add remaining fraction graphics into the toolbox
         int numRemainingFractionSkeletons = level.targets.length() - 1;
@@ -224,7 +224,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
             toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
             addChild( toolboxFractionGraphic );
-            fractionGraphics.add( toolboxFractionGraphic );
+            fractionNodes.add( toolboxFractionGraphic );
 
             toolboxFractionGraphic.moveInFrontOf( toolboxNode );
         }
@@ -306,10 +306,29 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     }
 
     private void reset() {
-        boolean first = false;
+        resetFractions();
+        resetScoreBoxes();
+    }
+
+    private void resetFractions() {
+        boolean first = true;
+        for ( FractionNode fractionNode : fractionNodes ) {
+            fractionNode.split();
+            if ( first ) {
+                fractionNode.sendFractionSkeletonToCenterOfScreen( 428, 300 );
+            }
+            else {
+                fractionNode.sendFractionSkeletonToToolbox();
+            }
+            first = false;
+        }
+    }
+
+    private void resetScoreBoxes() {
+        boolean secondOrLater = false;
         for ( ScoreBoxPair pair : pairList ) {
-            pair.targetCell.split( first );
-            first = true;
+            pair.targetCell.split( secondOrLater );
+            secondOrLater = true;
         }
     }
 
@@ -323,7 +342,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
     public void endDrag( final NumberCardNode numberCardNode ) {
         boolean hitFraction = false;
-        for ( FractionNode fractionGraphic : fractionGraphics ) {
+        for ( FractionNode fractionGraphic : fractionNodes ) {
             final PhetPPath topBox = fractionGraphic.topBox;
             final PhetPPath bottomBox = fractionGraphic.bottomBox;
             if ( numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() && !fractionGraphic.isInToolboxPosition() ) {
@@ -362,7 +381,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
     //TODO: this should account for partially complete fractions too
     boolean allIncompleteFractionsInToolbox() {
-        for ( FractionNode fractionGraphic : fractionGraphics ) {
+        for ( FractionNode fractionGraphic : fractionNodes ) {
             if ( !fractionGraphic.isComplete() && !fractionGraphic.isInToolboxPosition() ) {
                 return false;
             }
@@ -387,7 +406,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             //If no fraction skeleton in play area, move one there
             if ( allIncompleteFractionsInToolbox() ) {
                 FractionNode g = null;
-                for ( FractionNode graphic : fractionGraphics ) {
+                for ( FractionNode graphic : fractionNodes ) {
                     if ( graphic.isInToolboxPosition() ) {
                         g = graphic;
                     }
