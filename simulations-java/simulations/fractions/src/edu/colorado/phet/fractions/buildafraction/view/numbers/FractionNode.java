@@ -135,6 +135,7 @@ public class FractionNode extends RichPNode {
 
             topCard.moveToTopOfStack();
             topCard = null;
+            topNumberNode = null;
         }
         if ( bottomCard != null ) {
             bottomCard.setCardShapeVisible( true );
@@ -153,6 +154,7 @@ public class FractionNode extends RichPNode {
 
             bottomCard.moveToTopOfStack();
             bottomCard = null;
+            bottomNumberNode = null;
         }
         splitButton.setVisible( false );
         for ( VoidFunction1<Option<Fraction>> splitListener : splitListeners ) {
@@ -248,4 +250,7 @@ public class FractionNode extends RichPNode {
     public void sendFractionSkeletonToCenterOfScreen( double x, double y ) {
         animateToPositionScaleRotation( x - getFullBounds().getWidth() / 2, y, 1.0, 0, 1000 );
     }
+
+    //Return true if nothing is in top and nothing is in bottom
+    public boolean isEmpty() { return topCard == null && bottomCard == null; }
 }
