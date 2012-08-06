@@ -205,7 +205,6 @@ a 1/2 and a 1/3.
             pieces = pieces.append( replicate( c.m, cardSizes.index( 1 ) ) );
         }
 
-
         return shapeLevel( pieces, targets, colors[5], choosePiesOrBars( targets ) );
     }
 
