@@ -15,14 +15,9 @@ import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
-import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
-import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
-import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
 import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
-import edu.colorado.phet.platetectonics.util.Side;
-import edu.colorado.phet.platetectonics.view.labels.BoundaryLabelNode;
 
 /**
  * A view (node) that displays everything physical related to a plate model, within the bounds
@@ -32,7 +27,7 @@ import edu.colorado.phet.platetectonics.view.labels.BoundaryLabelNode;
 public class PlateTectonicsView extends GLNode {
 
     // keep track of which object corresponds to which node, so we can remove them later
-    private final Map<Object, GLNode> nodeMap = new HashMap<Object, GLNode>();
+    protected final Map<Object, GLNode> nodeMap = new HashMap<Object, GLNode>();
     private final PlateTectonicsModel model;
     private final PlateTectonicsTab tab;
     private final Property<Boolean> showWater;
@@ -92,62 +87,9 @@ public class PlateTectonicsView extends GLNode {
                 }} );
             }
         } );
-
-        //REVIEW this test feel a kludgy, makes me think PlateTectonicsView should be a base class, with specialization for PlateMotionTab
-        if ( tab instanceof PlateMotionTab ) {
-            // add smoke handling in
-            final SmokeNode smokeNode = new SmokeNode( tab, ( (PlateMotionTab) tab ).getPlateMotionModel().smokePuffs );
-            addChild( smokeNode );
-
-            // hack way to keep this in front for now
-            model.modelChanged.addListener( new VoidFunction1<Void>() {
-                public void apply( Void aVoid ) {
-                    removeChild( smokeNode );
-                    addChild( smokeNode );
-                }
-            } );
-
-            /*---------------------------------------------------------------------------*
-            * boundary labels
-            *----------------------------------------------------------------------------*/
-            PlateMotionModel plateMotionModel = (PlateMotionModel) model;
-            plateMotionModel.boundaryLabels.addElementAddedObserver( new VoidFunction1<BoundaryLabel>() {
-                public void apply( BoundaryLabel boundaryLabel ) {
-                    final BoundaryLabelNode boundaryLabelNode = new BoundaryLabelNode( boundaryLabel, tab.getModelViewTransform(), tab.colorMode ) {{
-                        ( (PlateMotionTab) tab ).showLabels.addObserver( new SimpleObserver() {
-                            public void update() {
-                                setVisible( ( (PlateMotionTab) tab ).showLabels.get() );
-                            }
-                        } );
-                    }};
-                    addChild( boundaryLabelNode );
-                    nodeMap.put( boundaryLabel, boundaryLabelNode );
-                }
-            } );
-
-            plateMotionModel.boundaryLabels.addElementRemovedObserver( new VoidFunction1<BoundaryLabel>() {
-                public void apply( BoundaryLabel boundaryLabel ) {
-                    removeChild( nodeMap.get( boundaryLabel ) );
-                    nodeMap.remove( boundaryLabel );
-                }
-            } );
-
-            // respond to events that tell the view to put a certain side in front
-            plateMotionModel.frontBoundarySideNotifier.addListener( new VoidFunction1<Side>() {
-                public void apply( Side side ) {
-                    // move all boundary nodes on top of this afterwards
-                    for ( GLNode boundaryNode : new ArrayList<GLNode>( getChildren() ) ) {
-                        if ( boundaryNode instanceof BoundaryLabelNode && ( (BoundaryLabelNode) boundaryNode ).getBoundaryLabel().side == side ) {
-                            removeChild( boundaryNode );
-                            addChild( boundaryNode );
-                        }
-                    }
-                }
-            } );
-        }
     }
 
-    //REVIEW doc
+    // adds a cross-section strip
     public void addCrossSectionStrip( final CrossSectionStrip strip ) {
         addWrappedChild( strip, new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
 

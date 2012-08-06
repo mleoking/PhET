@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
+import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.SmokePuff;
@@ -35,15 +36,12 @@ import static org.lwjgl.opengl.GL11.glVertexPointer;
  */
 public class SmokeNode extends GLNode {
 
-    //REVIEW Looks like you could replace this field with the tab's LWJGLTransform, that's the only part of the tab that you're using.
-    // TODO: try to reduce tab dependency
-    private final PlateTectonicsTab tab;
-
     // record what model puff corresponds to what node, so we can remove them later
     private final Map<SmokePuff, SmokePuffNode> map = new HashMap<SmokePuff, SmokePuffNode>();
+    private final LWJGLTransform modelViewTransform;
 
-    public SmokeNode( final PlateTectonicsTab tab, final ObservableList<SmokePuff> smokePuffs ) {
-        this.tab = tab;
+    public SmokeNode( final LWJGLTransform modelViewTransform, final ObservableList<SmokePuff> smokePuffs ) {
+        this.modelViewTransform = modelViewTransform;
 
         smokePuffs.addElementAddedObserver( new VoidFunction1<SmokePuff>() {
             public void apply( SmokePuff smokePuff ) {
@@ -60,7 +58,7 @@ public class SmokeNode extends GLNode {
     }
 
     private void addPuff( final SmokePuff puff ) {
-        SmokePuffNode node = new SmokePuffNode( tab, puff );
+        SmokePuffNode node = new SmokePuffNode( modelViewTransform, puff );
         addChild( node );
         map.put( puff, node );
     }
@@ -91,14 +89,14 @@ public class SmokeNode extends GLNode {
             }
         }
 
-        public SmokePuffNode( final PlateTectonicsTab tab, final SmokePuff puff ) {
+        public SmokePuffNode( final LWJGLTransform modelViewTransform, final SmokePuff puff ) {
             this.puff = puff;
             requireEnabled( GL_BLEND );
 
             // positions and scales the smoke
             final SimpleObserver updateObserver = new SimpleObserver() {
                 public void update() {
-                    Vector3F viewCoordinates = tab.getModelViewTransform().transformPosition(
+                    Vector3F viewCoordinates = modelViewTransform.transformPosition(
                             PlateTectonicsModel.convertToRadial( puff.position.get() ) );
                     transform.set( ImmutableMatrix4F.translation( viewCoordinates.x, viewCoordinates.y, viewCoordinates.z ).times(
                             ImmutableMatrix4F.scaling( puff.scale.get() ) ) );
@@ -111,7 +109,7 @@ public class SmokeNode extends GLNode {
         }
 
         @Override public void renderSelf( GLOptions options ) {
-            super.renderSelf( options ); //REVIEW HandleNode.renderSelf called this at the end of the method. Is one approach wrong, or is there a reason for the difference?
+            super.renderSelf( options );
 
             glColor4f( 0, 0, 0, puff.alpha.get() );
             glDepthMask( false );
