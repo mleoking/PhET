@@ -1,0 +1,41 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: July 26 - August 5, 2012
+
+Line Graphing
+- We had a design meeting and agreed on a set of challenges (and variations) to proceed with.
+- Started refactoring some code to support game.
+- Have not yet identified a Game framework that I'm happy with, still mulling this over.
+
+Plate Tectonics
+- completed code review, waiting for JO to follow up (#3386)
+
+Normal Modes
+- completed code review, waiting for MD to follow up (#3362)
+
+Tablets
+- Participated in discussion of how to proceed with tablet development (#3398).
+  My opinion is that parallel iOS and Andriod development will be the highest
+  quality and (in the long run) least-cost option. And the emphasis should be
+  on creating a next generation of sims, not on porting exiting sims.
+
+Administrative
+- status meeting
+- Physics/Math meeting
+- reports
+
+WHAT'S NEXT:                                                                         '
+
+- Line Graphing: design & implement "Game" tab
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working reduced hours)
+
+--
