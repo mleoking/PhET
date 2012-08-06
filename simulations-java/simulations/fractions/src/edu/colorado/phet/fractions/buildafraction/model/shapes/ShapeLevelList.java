@@ -158,7 +158,7 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
         return shapeLevel( straightforwardCards( selected ), selected, colors[4], ShapeType.PIE );
     }
 
-    public static @Data class Coefficients {
+    public static @Data class CoefficientPair {
         public final int n;
         public final int m;
     }
@@ -185,14 +185,14 @@ a 1/2 and a 1/3.
     private ShapeLevel sampleLevel6() {//let's implement this my making each solution as na + mb, where a and b are the fractions from pairs above
         final List<Integer> cardSizes = chooseOne( list( list( 2, 3 ), list( 2, 4 ), list( 3, 4 ), list( 2, 6 ), list( 3, 6 ), list( 4, 8 ), list( 2, 8 ) ) );
 
-        List<Coefficients> nmPairs = list( new Coefficients( 0, 1 ), new Coefficients( 1, 0 ),
-                                           new Coefficients( 1, 1 ), new Coefficients( 1, 2 ), new Coefficients( 2, 1 ), new Coefficients( 2, 2 ),
-                                           new Coefficients( 3, 1 ), new Coefficients( 1, 3 ) );
+        List<CoefficientPair> nmPairs = list( new CoefficientPair( 0, 1 ), new CoefficientPair( 1, 0 ),
+                                              new CoefficientPair( 1, 1 ), new CoefficientPair( 1, 2 ), new CoefficientPair( 2, 1 ), new CoefficientPair( 2, 2 ),
+                                              new CoefficientPair( 3, 1 ), new CoefficientPair( 1, 3 ) );
 
-        List<Coefficients> selectedCoefficients = choose( 4, nmPairs );
+        List<CoefficientPair> selectedCoefficients = choose( 4, nmPairs );
 
-        List<Fraction> targets = selectedCoefficients.map( new F<Coefficients, Fraction>() {
-            @Override public Fraction f( final Coefficients c ) {
+        List<Fraction> targets = selectedCoefficients.map( new F<CoefficientPair, Fraction>() {
+            @Override public Fraction f( final CoefficientPair c ) {
                 Fraction a = new Fraction( c.n, cardSizes.index( 0 ) );
                 Fraction b = new Fraction( c.m, cardSizes.index( 1 ) );
                 return a.plus( b ).reduce();
@@ -200,7 +200,7 @@ a 1/2 and a 1/3.
         } );
 
         List<Integer> pieces = nil();
-        for ( Coefficients c : selectedCoefficients ) {
+        for ( CoefficientPair c : selectedCoefficients ) {
             pieces = pieces.append( replicate( c.n, cardSizes.index( 0 ) ) );
             pieces = pieces.append( replicate( c.m, cardSizes.index( 1 ) ) );
         }
