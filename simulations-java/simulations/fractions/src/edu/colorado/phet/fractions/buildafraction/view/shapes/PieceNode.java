@@ -10,14 +10,14 @@ import java.awt.geom.AffineTransform;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import static java.awt.geom.AffineTransform.getTranslateInstance;
 
@@ -42,9 +42,10 @@ public abstract class PieceNode extends Stackable {
 
     void installInputListeners() {
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new SimSharingDragHandler( null, true ) {
-            @Override protected void startDrag( final PInputEvent event ) {
-                super.startDrag( event );
+
+        addInputEventListener( new CanvasBoundedDragHandler( PieceNode.this ) {
+            @Override public void mousePressed( final PInputEvent event ) {
+                super.mousePressed( event );
 
                 dragStarted();
                 PieceNode.this.moveToFront();
@@ -63,21 +64,20 @@ public abstract class PieceNode extends Stackable {
                     public void activityFinished( final PActivity activity ) {
                     }
                 } );
+
             }
 
-            @Override protected void drag( final PInputEvent event ) {
-                super.drag( event );
+            @Override protected void dragNode( final DragEvent event ) {
                 Option<Double> originalAngle = context.getNextAngle( PieceNode.this );
-                final PDimension delta = event.getDeltaRelativeTo( event.getPickedNode().getParent() );
-                translate( delta.width, delta.height );
+                translate( event.delta.width, event.delta.height );
                 Option<Double> newAngle = context.getNextAngle( PieceNode.this );
                 if ( originalAngle.isSome() && newAngle.isSome() && !originalAngle.some().equals( newAngle.some() ) ) {
-                    rotateTo( newAngle.some(), event );
+                    rotateTo( newAngle.some(), event.event );
                 }
             }
 
-            @Override protected void endDrag( final PInputEvent event ) {
-                super.endDrag( event );
+            @Override public void mouseReleased( final PInputEvent event ) {
+                super.mouseReleased( event );
                 context.endDrag( PieceNode.this );
 
                 //Protect against multiple copies accidentally being added
