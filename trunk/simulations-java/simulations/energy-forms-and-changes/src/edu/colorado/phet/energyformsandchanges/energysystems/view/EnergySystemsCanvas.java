@@ -112,14 +112,14 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode energyUsersCarouselController = new EnergySystemElementSelector( model.energyUsersCarousel );
 
         // Add the various energy system elements.
-        FaucetAndWaterNode faucetAndWaterNode = new FaucetAndWaterNode( model.faucet, mvt );
-        EnergySystemElementNode sunNode = new EnergySystemElementNode( model.sun, mvt );
-        EnergySystemElementNode teaPotNode = new EnergySystemElementNode( model.teaPot, mvt );
-        WaterPoweredGeneratorNode waterPoweredGeneratorNode = new WaterPoweredGeneratorNode( model.waterPoweredGenerator, mvt );
-        EnergySystemElementNode incandescentLightBulbNode = new EnergySystemElementNode( model.incandescentLightBulb, mvt );
-        FluorescentLightBulbNode fluorescentLightBulbNode = new FluorescentLightBulbNode( model.fluorescentLightBulb, mvt );
-        EnergySystemElementNode solarPanelNode = new EnergySystemElementNode( model.solarPanel, mvt );
-        EnergySystemElementNode beakerHeaterNode = new EnergySystemElementNode( model.beakerHeater, mvt );
+        PNode faucetAndWaterNode = new FaucetAndWaterNode( model.faucet, mvt );
+        PNode sunNode = new EnergySystemElementNode( model.sun, mvt );
+        PNode teaPotNode = new EnergySystemElementNode( model.teaPot, mvt );
+        PNode waterPoweredGeneratorNode = new WaterPoweredGeneratorNode( model.waterPoweredGenerator, mvt );
+        PNode incandescentLightBulbNode = new LightBulbNode( model.incandescentLightBulb, mvt );
+        PNode fluorescentLightBulbNode = new LightBulbNode( model.fluorescentLightBulb, mvt );
+        PNode solarPanelNode = new EnergySystemElementNode( model.solarPanel, mvt );
+        PNode beakerHeaterNode = new EnergySystemElementNode( model.beakerHeater, mvt );
 
         // Add the nodes that exist in the carousels.
         List<ShapeNode> shapeNodes = new ArrayList<ShapeNode>();
