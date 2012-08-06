@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.fractionsintro.intro.view.beaker;
 import java.awt.Color;
 
 /**
+ * Taken from the Dilutions sim
  * Model of a solute, an immutable data structure.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

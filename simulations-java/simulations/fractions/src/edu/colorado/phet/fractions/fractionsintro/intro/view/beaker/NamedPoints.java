@@ -7,6 +7,7 @@ import java.util.HashMap;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Taken from the Dilutions sim
  * A map used to identify "points of interest" in a node.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
