@@ -1,3 +1,4 @@
+Build a Fraction: Fixed: If I place a card in the play area in the fraction skeleton, "reset" has no effect.
 # 1.00.15 (66576) Aug 6, 2012
 Build a Fraction: Only allow a fraction skeleton to go back to toolbox position if numerator and denominator are empty
 Build a Fraction: Prevent objects from being dragged off of the canvas by converting from SimSharingDragHandler to CanvasBoundedDragHandler
