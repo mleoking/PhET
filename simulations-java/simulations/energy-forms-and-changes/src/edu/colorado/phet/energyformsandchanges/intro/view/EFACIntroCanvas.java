@@ -180,7 +180,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         airLayer.addChild( new AirNode( model.getAir(), mvt ) );
 
         // Add the movable objects.
-        final ConfigurableHeatCapacityBlockNode brickNode = new ConfigurableHeatCapacityBlockNode( model, model.getConfigurableBlock(), mvt );
+        final BlockNode brickNode = new BlockNode( model, model.getBrick(), mvt );
         brickNode.setApproachingEnergyChunkParentNode( airLayer );
         blockLayer.addChild( brickNode );
         final BlockNode ironBlockNode = new BlockNode( model, model.getIronBlock(), mvt );
@@ -258,18 +258,18 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         // user controlled state changes.
         SimpleObserver blockChangeObserver = new SimpleObserver() {
             public void update() {
-                if ( model.getIronBlock().isStackedUpon( model.getConfigurableBlock() ) ) {
+                if ( model.getIronBlock().isStackedUpon( model.getBrick() ) ) {
                     brickNode.moveToBack();
                 }
-                else if ( model.getConfigurableBlock().isStackedUpon( model.getIronBlock() ) ) {
+                else if ( model.getBrick().isStackedUpon( model.getIronBlock() ) ) {
                     ironBlockNode.moveToBack();
                 }
-                else if ( model.getIronBlock().getRect().getMinX() >= model.getConfigurableBlock().getRect().getMaxX() ||
-                          model.getIronBlock().getRect().getMinY() >= model.getConfigurableBlock().getRect().getMaxY() ) {
+                else if ( model.getIronBlock().getRect().getMinX() >= model.getBrick().getRect().getMaxX() ||
+                          model.getIronBlock().getRect().getMinY() >= model.getBrick().getRect().getMaxY() ) {
                     ironBlockNode.moveToFront();
                 }
-                else if ( model.getConfigurableBlock().getRect().getMinX() >= model.getIronBlock().getRect().getMaxX() ||
-                          model.getConfigurableBlock().getRect().getMinY() >= model.getIronBlock().getRect().getMaxY() ) {
+                else if ( model.getBrick().getRect().getMinX() >= model.getIronBlock().getRect().getMaxX() ||
+                          model.getBrick().getRect().getMinY() >= model.getIronBlock().getRect().getMaxY() ) {
                     brickNode.moveToFront();
                 }
             }
@@ -277,7 +277,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
         // Update the Z-order of the blocks whenever the "userControlled" state
         // of either changes.
-        model.getConfigurableBlock().position.addObserver( blockChangeObserver );
+        model.getBrick().position.addObserver( blockChangeObserver );
         model.getIronBlock().position.addObserver( blockChangeObserver );
     }
 

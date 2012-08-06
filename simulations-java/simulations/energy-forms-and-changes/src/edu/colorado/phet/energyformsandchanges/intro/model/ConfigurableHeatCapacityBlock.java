@@ -15,6 +15,10 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 
 /**
  * Class that represents a block whose specific heat can be changed.
+ * <p/>
+ * TODO: This was created for heat capacity lab prototype, and has been removed
+ * as of 8/6/2012.  Remove permanently in roughly a month if we are reasonably
+ * sure that it is no longer needed.
  *
  * @author John Blanco
  */
