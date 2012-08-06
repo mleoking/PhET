@@ -52,6 +52,7 @@ import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
+import edu.colorado.phet.platetectonics.view.PlateMotionView;
 import edu.colorado.phet.platetectonics.view.PlateTectonicsView;
 import edu.colorado.phet.platetectonics.view.labels.RangeLabelNode;
 import edu.colorado.phet.platetectonics.view.labels.TextLabelNode;
@@ -121,7 +122,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         setModel( new PlateMotionModel( getClock(), grid.getBounds() ) );
 
         // add the main view
-        sceneLayer.addChild( new PlateTectonicsView( getModel(), this, showWater ) );
+        sceneLayer.addChild( new PlateMotionView( getPlateMotionModel(), this, showWater ) );
 
         // add in the handles for manual mode
         //REVIEW Significance of Vector3F args? units?

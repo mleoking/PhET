@@ -4,6 +4,8 @@ package edu.colorado.phet.platetectonics.view;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 
+import edu.colorado.phet.common.phetcommon.math.PlaneF;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -12,15 +14,13 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.Arrow2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.common.phetcommon.math.PlaneF;
-import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.ArrowNode;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
-import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
+import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
@@ -38,14 +38,16 @@ public class HandleNode extends GLNode {
     private static int radialColumns = 30;
     private static int rows = 30;
     private Vector3F[] handlePositions;
-    private Vector3F[] ballPositions; //REVIEW unused
     private GridMesh handleMesh;
-    private GridMesh ballMesh; //REVIEW unused, uninitialized
     private final Property<Vector3F> offset;
     private final PlateMotionTab tab;
     private final boolean isRightHandle;
     private final LWJGLTransform transform = new LWJGLTransform();  // for rotation of the handle
     private PlateMotionModel model;
+
+    private static final float STICK_RADIUS = 4;
+    private static final float STICK_HEIGHT = 40;
+    private static final float BALL_RADIUS = 8;
 
     public HandleNode( final Property<Vector3F> offset, final PlateMotionTab tab, final boolean isRightHandle ) {
         this.offset = offset;
@@ -80,7 +82,6 @@ public class HandleNode extends GLNode {
         tab.isAutoMode.addObserver( visibilityObserver );
 
         handlePositions = new Vector3F[radialColumns * 2];
-        ballPositions = new Vector3F[radialColumns * rows];
 
         updateLocations();
 
@@ -210,11 +211,6 @@ public class HandleNode extends GLNode {
         } );
     }
 
-    //REVIEW looks like these should be constants (private static final, uppercase)
-    private float stickRadius = 4;
-    private float stickHeight = 40;
-    private float ballRadius = 8;
-
     public void updateTransform( float xRotation, float zRotation ) {
         transform.set( ImmutableMatrix4F.rotationZ( -xRotation ).times( ImmutableMatrix4F.rotationX( zRotation ) ) );
         updateLocations();
@@ -234,10 +230,19 @@ public class HandleNode extends GLNode {
         startRay = ray;
     }
 
-    //REVIEW this method could use more doc, generally and internally
+    /**
+     * Called whenever this handle is dragged by the mouse. The associated ray is a 3D ray from the camera location towards wherever the mouse is
+     * currently positioned
+     *
+     * @param ray 3D ray from camera towards mouse
+     */
     public void drag( Ray3F ray ) {
+
+        // if the motion type is not currently initialized, we need to pick a direction of motion (motion type) based on how they are dragging the handle
         if ( model.motionType.get() == null ) {
             Vector3F xyDelta = xyHit( ray ).minus( xyHit( startRay ) );
+
+            // if they haven't dragged it far enough, bail out. should prevent accidentally moving it in a wrong direction
             if ( xyDelta.magnitude() > 5 ) {
                 float rightStrength = xyDelta.dot( Vector3F.X_UNIT );
                 float verticalStrength = Math.abs( xyDelta.dot( Y_UNIT ) );
@@ -263,6 +268,8 @@ public class HandleNode extends GLNode {
                 return;
             }
         }
+
+        // should now have a motion type
         assert model.motionType.get() != null;
 
         boolean horizontal = model.motionType.get() != MotionType.TRANSFORM;
@@ -299,8 +306,6 @@ public class HandleNode extends GLNode {
             }
 
             tab.motionVectorRight.set( new Vector2F( isRightHandle ? angle : -angle, 0 ) );
-
-//            updateTransform( angle, 0 );
         }
         else {
             Vector3F hit = yzHit( ray );
@@ -314,7 +319,6 @@ public class HandleNode extends GLNode {
             if ( hitDir.z < startDir.z ) {
                 angle = 0;
             }
-//            updateTransform( 0, angle );
             tab.motionVectorRight.set( new Vector2F( 0, isRightHandle ? angle : -angle ) );
         }
     }
@@ -325,7 +329,7 @@ public class HandleNode extends GLNode {
 
     public boolean intersectRay( Ray3F ray ) {
         // transform it to intersect with a unit sphere at the origin
-        Ray3F localRay = new Ray3F( ray.pos.minus( getBallCenter() ).times( 1 / ballRadius ), ray.dir );
+        Ray3F localRay = new Ray3F( ray.pos.minus( getBallCenter() ).times( 1 / BALL_RADIUS ), ray.dir );
 
         Vector3F centerToRay = localRay.pos;
         float tmp = localRay.dir.dot( centerToRay );
@@ -340,8 +344,8 @@ public class HandleNode extends GLNode {
             float sin = (float) ( Math.sin( 2 * Math.PI * radialRatio ) );
             float cos = (float) ( Math.cos( 2 * Math.PI * radialRatio ) );
 
-            handlePositions[col] = convertToRadial( transform.transformPosition( new Vector3F( sin * stickRadius, stickHeight, cos * stickRadius ) ).plus( offset.get() ) );
-            handlePositions[radialColumns + col] = convertToRadial( transform.transformPosition( new Vector3F( sin * stickRadius, 0, cos * stickRadius ) ).plus( offset.get() ) );
+            handlePositions[col] = convertToRadial( transform.transformPosition( new Vector3F( sin * STICK_RADIUS, STICK_HEIGHT, cos * STICK_RADIUS ) ).plus( offset.get() ) );
+            handlePositions[radialColumns + col] = convertToRadial( transform.transformPosition( new Vector3F( sin * STICK_RADIUS, 0, cos * STICK_RADIUS ) ).plus( offset.get() ) );
         }
 
         if ( handleMesh != null ) {
@@ -358,6 +362,8 @@ public class HandleNode extends GLNode {
 
     // TODO: we are using the rendering order very particularly. find a better way
     @Override public void renderSelf( GLOptions options ) {
+        super.renderSelf( options );
+
         // red sphere TODO cleanup
         GL11.glPushMatrix();
         Vector3F center = getBallCenter();
@@ -367,11 +373,11 @@ public class HandleNode extends GLNode {
         glEnable( GL_CULL_FACE );
         glEnable( GL_LIGHTING );
         GL11.glColor4f( 0.6f, 0, 0, 1 );
-        new Sphere().draw( ballRadius, 25, 25 );
+        new Sphere().draw( BALL_RADIUS, 25, 25 );
         glDisable( GL_LIGHTING );
         glDisable( GL_DEPTH_TEST );
         GL11.glColor4f( 1, 0, 0, 0.4f );
-        new Sphere().draw( ballRadius, 25, 25 );
+        new Sphere().draw( BALL_RADIUS, 25, 25 );
         glEnable( GL_DEPTH_TEST );
         glDisable( GL_COLOR_MATERIAL );
         glDisable( GL_CULL_FACE );
@@ -385,12 +391,10 @@ public class HandleNode extends GLNode {
         // then switch back to normal
         glFrontFace( GL_CCW );
         handleMesh.setMaterial( new ColorMaterial( 1, 1, 1, 0.4f ) );
-
-        super.renderSelf( options ); //REVIEW there are other subclasses of GLNode that don't do this, they probably should. But shouldn't super be called at the beginning?...
     }
 
     private Vector3F getBallCenter() {
-        return convertToRadial( transform.transformPosition( new Vector3F( 0, stickHeight, 0 ) ).plus( offset.get() ) );
+        return convertToRadial( transform.transformPosition( new Vector3F( 0, STICK_HEIGHT, 0 ) ).plus( offset.get() ) );
     }
 
     private Vector3F getBase() {

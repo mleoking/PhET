@@ -154,6 +154,8 @@ public class RangeLabelNode extends BaseLabelNode {
 
     @Override
     public void renderSelf( GLOptions options ) {
+        super.renderSelf( options );
+
         Vector3F topToBottom = bottom.get().minus( top.get() ).normalized();
         Vector3F crossed = topToBottom.cross( NORMAL ).normalized();
         Vector3F perpendicular = crossed.times( scale.get() * BAR_WIDTH / 2 );

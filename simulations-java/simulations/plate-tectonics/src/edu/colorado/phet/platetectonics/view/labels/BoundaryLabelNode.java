@@ -38,6 +38,8 @@ public class BoundaryLabelNode extends BaseLabelNode {
 
     @Override
     public void renderSelf( GLOptions options ) {
+        super.renderSelf( options );
+
         List<Sample> samples = boundaryLabel.boundary.samples;
 
         // if we are on the left side, reverse the samples, so the line drawing works nicely
