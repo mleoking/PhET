@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories;
 
 import fj.F;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.awt.Color;
 import java.awt.Shape;
@@ -17,7 +17,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
  *
  * @author Sam Reid
  */
-public @Data class StackedHorizontalSliceFactory extends SliceFactory {
+public @EqualsAndHashCode(callSuper = false) class StackedHorizontalSliceFactory extends SliceFactory {
 
     private final double x;
     private final double y;

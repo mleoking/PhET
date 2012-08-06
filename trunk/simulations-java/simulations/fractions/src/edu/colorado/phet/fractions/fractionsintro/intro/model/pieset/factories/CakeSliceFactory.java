@@ -3,7 +3,7 @@ package edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories;
 
 import fj.F;
 import fj.Ordering;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.awt.Shape;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import static fj.Ord.ord;
  *
  * @author Sam Reid
  */
-public @Data class CakeSliceFactory extends SliceFactory {
+public @EqualsAndHashCode(callSuper = false) class CakeSliceFactory extends SliceFactory {
 
     public static final double CAKE_SIZE_SCALE = 0.93;
     public final double diameter = 155 * CAKE_SIZE_SCALE;

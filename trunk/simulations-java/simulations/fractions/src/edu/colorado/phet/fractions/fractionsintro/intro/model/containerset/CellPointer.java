@@ -4,7 +4,7 @@ package edu.colorado.phet.fractions.fractionsintro.intro.model.containerset;
 import lombok.Data;
 
 /**
- * Points to a cell within a container state, used for toggling a specific cell.
+ * Unique identifier, which refers to a cell within a container state, used for toggling a specific cell.
  *
  * @author Sam Reid
  */

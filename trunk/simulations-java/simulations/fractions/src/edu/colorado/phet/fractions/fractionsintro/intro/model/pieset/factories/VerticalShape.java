@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories;
 
 import fj.F;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
@@ -14,7 +14,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
  *
  * @author Sam Reid
  */
-public @Data class VerticalShape extends F<Slice, Shape> {
+public @EqualsAndHashCode(callSuper = false) class VerticalShape extends F<Slice, Shape> {
     private final double height;
     private final double barWidth;
 
