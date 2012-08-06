@@ -6,8 +6,6 @@ of the code.
 
 *** High Level Overview
 
-//REVIEW After looking through the code and seeing some constant values, I noticed that units (mainly distance) are not documented here or in the code.
-
 Since we can have only one LWJGL display canvas at one time, this simulation technically has only one module (a TabbedModule), which has multiple tabs
 (LWJGLTab instances). lwjgl-phet handles the boilerplate that lets us use the same canvas by multiple tabs, and handles event and state conversions
 when tabs are switched. End result: we have CrustTab and PlateMotionTab instead of modules (PlateTectonicsTab contains shared tab code).
@@ -29,16 +27,14 @@ Each tab creates a PlateTectonicsView that is responsible for displaying the Ear
 mode. Each tab is then responsible itself for creating the overlays and controls necessary.
 
 Also of note are the various coordinate transformations that the model coordinates go through onto the screen:
-"Planar" model coordinates:
-//REVIEW When you save "what I called planar coordinates", are you saying that you've somehow bastardized the typical definition of planar coordinates?
+"Planar" model coordinates (i.e. think of the surface of the earth as a plane, with an added elevation coordinate):
     All model locations (Samples, etc) are in what I called "planar" coordinates. The Y coordinate is the elevation relative to sea-level.
-    X and Z wrap around the globe left/right and front/back.
+    X and Z wrap around the globe left/right and front/back. (+X is to the right, +Y is up, +Z is towards the camera)
     Technically, these are a rescaled version of Spherical Coordinates (see http://en.wikipedia.org/wiki/Spherical_coordinate_system), where X/Z
     are effectively re-scaled angles such that at sea-level, the X/Z coordinates move you along the circumference of the earth by that distance.
     Thus (0,0,0) and (earth-circumference,0,0) map to the same physical point (the origin is the "top" of the earth, which is the frontmost center point)
     Using this warped system is extremely convenient for all of the elevation-dependent and up/down/left/right transformations needed by the model.
     PlateTectonicsModel.convertToRadial() converts to -->
-//REVIEW After reading the above... It sounds like +Y is up, +X is to the right, and +Z is... um, I'm not sure. Maybe spell this out explicitly.
 "Radial" model coordinates:
     These are the Euclidean coordinates for the 3D system, where the earth center is at (0,-earthRadius,0).
     (tab) modelView transform -->
@@ -48,6 +44,9 @@ View coordinates:
 Eye coordinates:
     OpenGL PROJECTION transform -->
 (Other viewport transformations, etc. that are set up by LWJGL)
+
+Units for dimension, density or other physical units are exclusively SI (m, kg, etc.) The main units for time (including the units for the clock) are
+in millions of years.
 
 *** "Plate Motion" Tab-specific Information
 

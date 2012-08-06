@@ -16,13 +16,17 @@ import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.unique;
 import static edu.colorado.phet.platetectonics.util.Side.RIGHT;
 
-//REVIEW needs doc (class, methods, fields)
+/**
+ * Contains references to the relevant terrain and crust / lithosphere regions for a plate, for easy access.
+ */
 public class Plate {
 
+    // relevant regions for each plate
     private Region crust;
     private Region lithosphere;
     private Region mantle;
 
+    // the surface terrain above
     private Terrain terrain;
 
     public final ObservableList<Region> regions = new ObservableList<Region>();
@@ -65,6 +69,7 @@ public class Plate {
         }};
     }
 
+    // shifts the entire plate by a Z offset
     public void shiftZ( float zOffset ) {
         for ( Sample sample : getSamples() ) {
             sample.setPosition( sample.getPosition().plus( new Vector3F( 0, 0, zOffset ) ) );

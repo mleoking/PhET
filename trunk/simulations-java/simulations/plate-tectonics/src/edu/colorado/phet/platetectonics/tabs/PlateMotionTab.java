@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.lwjgl.input.Mouse;
 
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
@@ -47,7 +48,6 @@ import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.labels.TextLabel;
-import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
@@ -120,7 +120,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         sceneLayer.addChild( new PlateMotionView( getPlateMotionModel(), this, showWater ) );
 
         // add in the handles for manual mode
-        //REVIEW Significance of Vector3F args? units?
+        // coordinates are manually picked and tested for handle locations
         leftHandle = new HandleNode( new Property<Vector3F>( new Vector3F( -120, 0, -125 / 2 ) ), this, false ) {{
             motionVectorRight.addObserver( new SimpleObserver() {
                 public void update() {
@@ -471,9 +471,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
         } );
     }
 
-    //REVIEW doc
+    // isolated code for handling drag changes, so we can have sim sharing messages in one place
     private void manualHandleDragTimeChange( float timeChange ) {
-        if ( !Float.isNaN( timeChange ) ) { //REVIEW why might this evaluate to false?
+        // sanity check
+        if ( !Float.isNaN( timeChange ) ) {
             SimSharingManager.sendUserMessage( UserComponents.handle, UserComponentTypes.sprite, edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.drag,
                                                new ParameterSet( new Parameter[]{
                                                        new Parameter( ParameterKeys.timeChangeMillionsOfYears, timeChange ),
@@ -483,9 +484,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }
     }
 
-    //REVIEW doc, why 2.5f?
     private float mapDragMagnitude( float mag ) {
-        return mag * mag * 2.5f;
+        return mag * mag * 2.5f; // magic constants tested to get right "simulation speed" vs "how far the handle was dragged"
     }
 
     private Vector2F getCrustOffset( Vector2F pieceOffset ) {
@@ -510,9 +510,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         return (PlateMotionModel) getModel();
     }
 
-    //REVIEW doc
-    @Override
-    public void droppedCrustPiece( OrthoPiccoloNode crustPieceNode ) {
+    // called when a piece of crust is dropped into either the left or right side. we are passed the actual crust node
+    @Override public void droppedCrustPiece( OrthoPiccoloNode crustPieceNode ) {
         PlateMotionModel model = getPlateMotionModel();
         CrustPieceNode piece = (CrustPieceNode) crustPieceNode.getNode();
 
@@ -587,8 +586,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
     public ImmutableMatrix4F getSceneModelViewMatrix() {
         ImmutableMatrix4F regularView = super.getSceneModelViewMatrix();
 
-        //REVIEW how would I reproduce this calculation if I needed to change it in the future? is there some debug output that needs to be enabled?
-        // calculated this as a debug matrix by camera manipulation, then dumping and inputting here
+        // calculated this as a debug matrix by camera manipulation, then dumping and inputting here.
+        // to recalculate a nice position, move the camera in debug mode and it should trace out matrices to the console. copy that data in here
         return ImmutableMatrix4F.rowMajor(
                 0.99994993f, -3.9991664E-4f, -0.009994832f, 0.0f,
                 1.9998333E-4f, 0.9998f, -0.019996665f, 0.0f,

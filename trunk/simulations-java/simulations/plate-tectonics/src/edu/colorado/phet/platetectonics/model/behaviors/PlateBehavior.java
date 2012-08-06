@@ -25,7 +25,8 @@ public abstract class PlateBehavior {
     public final PlateMotionPlate plate;
     public final PlateMotionPlate otherPlate;
 
-    public static final float PLATE_X_LIMIT = 700000;  //REVIEW why this specific value, how was it chosen? units?
+    // location just outside of view for the Plate Motion tab, so that we can create or remove crust from this location and the discrete changes are not visible
+    public static final float PLATE_X_LIMIT = 700000;
 
     // all magma blobs
     protected final List<MagmaRegion> magmaBlobs = new ArrayList<MagmaRegion>();
@@ -123,7 +124,7 @@ public abstract class PlateBehavior {
         redistributeMantle();
     }
 
-    //REVIEW unused?
+    // currently kept because this is critically needed for mantle motion (which I hope is brought back to the sim)
     protected void glueMantleTopToLithosphere( float verticalPadding ) {
         int xIndex = 0;
         final Boundary lithosphereBottomBoundary = getPlate().getLithosphere().getBottomBoundary();
@@ -240,9 +241,14 @@ public abstract class PlateBehavior {
         }
     }
 
-    //REVIEW If you say so :-) I think you should doc the args here.
-    // allows us to somewhat fake timestep independence down to a certain precision by applying a non-analytical operation more
-    // times at less of an amplitude when our timestep is large
+    /**
+     * Allows us to somewhat fake timestep independence down to a certain precision by applying a non-analytical operation more
+     * times at less of an amplitude when our timestep is large.
+     *
+     * @param callback The operation to call, with an sub-amount that is less than the cutoff value (but where the total sub-amounts sum to the total amount)
+     * @param amount   Total amount passed to the operations. This is split into separate class
+     * @param cutoff   Each operation will be called with a sub-amount less than this cutoff
+     */
     public static void recursiveSplitCall( VoidFunction1<Float> callback, float amount, float cutoff ) {
         if ( amount > cutoff ) {
             recursiveSplitCall( callback, amount / 2, cutoff );

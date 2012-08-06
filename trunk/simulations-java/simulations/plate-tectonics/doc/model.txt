@@ -34,5 +34,30 @@
         11) Freshly created new crust in the divergent animations does not significantly change in temperature or density as it would as it ages.
 
 
-// REVIEW I suspect most developers (like me) will not be familiar with this domain.
-// If you can recommend any resources that you used to learn about plate tectonics, it would be nice to include them here.
+*** Resources (mainly animations and documents) that are helpful for understanding what is happening:
+
+General overview by the USGS: http://pubs.usgs.gov/gip/dynamic/understanding.html
+
+Useful animations:
+    (multiple) http://emvc.geol.ucsb.edu/1_DownloadPage/Download_Page.html
+    (multiple) http://www.sepuplhs.org/middle/iaes/students/simulations/SEPUP_Plate_simulation.swf
+    (divergent and oceanic/continental) http://www.classzone.com/books/earth_science/terc/content/visualizations/es0804/es0804page01.cfm
+    (growth of continent)  http://www.classzone.com/books/earth_science/terc/content/visualizations/es0808/es0808page01.cfm?chapter_no=visualization
+    (subduction zone) http://www.classzone.com/books/earth_science/terc/content/visualizations/es0902/es0902page01.cfm?chapter_no=visualization
+    (rift zone) http://www.classzone.com/books/earth_science/terc/content/visualizations/es0903/es0903page01.cfm?chapter_no=visualization
+    (hawaii example) http://www.classzone.com/books/earth_science/terc/content/visualizations/es0904/es0904page01.cfm?chapter_no=visualization
+    (crustal deformation) http://www4.uwsp.edu/geo/faculty/ritter/geog101/textbook/tectonics_landforms/deformation.html
+    (rift valley) http://whs.moodledo.co.uk/file.php/1365/EarthSystems/Earth%20Systems/Rift%20Valleys%20to%20Oceans.swf
+    (collision) http://whs.moodledo.co.uk/file.php/1365/EarthSystems/Earth%20Systems/Foliation%20of%20Metamorphic%20Rocks%20at%20a%20Collision%20Zone.swf
+
+    http://www.youtube.com/watch?v=ngV66m00UvU
+
+Useful documents:
+    Forces for plate motion: http://www.umich.edu/~gs265/tecpaper.htm
+    How to build a model: http://pubs.usgs.gov/of/1999/ofr-99-0132/
+    Convergence description: http://www-personal.umich.edu/~vdpluijm/book16.htm
+    General topics: http://earthguide.ucsd.edu/eoc/teachers/t_tectonics/t_tectonics.html
+    Subduction: http://earthguide.ucsd.edu/eoc/teachers/t_tectonics/p_subduction.html
+    Seafloor spreading: http://earthguide.ucsd.edu/eoc/teachers/t_tectonics/p_seafloorspreading.html
+    Temperature: http://earthguide.ucsd.edu/eoc/teachers/t_tectonics/p_geotherm.html
+    Assorted other references for a class: http://whs.moodledo.co.uk/mod/resource/view.php?id=972

@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
 import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
@@ -33,8 +34,7 @@ public class ResetPanel extends PNode {
 
         PNode rewindNode = null;
         if ( showRewindButton ) {
-            //REVIEW Nit: PhetFont(14) and Color.ORANGE are used for both buttons in this panel, but duplicated.
-            rewindNode = new TextButtonNode( Strings.REWIND, new PhetFont( 14 ), Color.ORANGE ) {{
+            rewindNode = new TextButtonNode( Strings.REWIND, PlateTectonicsConstants.BUTTON_FONT, PlateTectonicsConstants.BUTTON_COLOR ) {{
                 setUserComponent( UserComponents.rewindButton );
                 setOffset( 0, y.get() + 15 );
                 y.set( getFullBounds().getMaxY() );
@@ -58,7 +58,7 @@ public class ResetPanel extends PNode {
             addChild( rewindNode );
         }
 
-        PNode resetAllNode = new TextButtonNode( Strings.RESET_ALL, new PhetFont( 14 ), Color.ORANGE ) {{
+        PNode resetAllNode = new TextButtonNode( Strings.RESET_ALL, PlateTectonicsConstants.BUTTON_FONT, PlateTectonicsConstants.BUTTON_COLOR ) {{
             setUserComponent( UserComponents.resetAllButton );
             setOffset( 0, y.get() + 15 );
             y.set( getFullBounds().getMaxY() );
