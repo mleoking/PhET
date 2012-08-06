@@ -4,10 +4,10 @@ package edu.colorado.phet.fractions.buildafraction.model.numbers;
 import fj.data.List;
 
 import edu.colorado.phet.fractions.buildafraction.model.Level;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractions.common.math.Fraction;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget._fraction;
-import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.*;
+import static edu.colorado.phet.fractions.common.math.Fraction.*;
 import static fj.Ord.intOrd;
 
 /**

@@ -10,15 +10,15 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.Distribution;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel.shapeLevel;
 import static edu.colorado.phet.fractions.buildafraction.view.LevelSelectionNode.colors;
+import static edu.colorado.phet.fractions.common.math.Fraction._numerator;
+import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 import static edu.colorado.phet.fractions.common.util.Sampling.*;
-import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction._numerator;
-import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.fraction;
 import static fj.data.List.*;
 
 /**

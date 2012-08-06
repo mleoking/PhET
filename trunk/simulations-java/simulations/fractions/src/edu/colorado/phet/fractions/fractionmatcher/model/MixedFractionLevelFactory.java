@@ -5,10 +5,10 @@ import fj.data.List;
 
 import java.util.HashSet;
 
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractions.common.math.Fraction;
 
+import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 import static edu.colorado.phet.fractions.common.util.FJUtils.shuffle;
-import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.fraction;
 import static fj.data.List.*;
 
 /**

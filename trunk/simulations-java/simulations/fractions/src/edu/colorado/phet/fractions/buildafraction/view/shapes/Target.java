@@ -3,7 +3,7 @@ package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
 import lombok.Data;
 
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
 /**

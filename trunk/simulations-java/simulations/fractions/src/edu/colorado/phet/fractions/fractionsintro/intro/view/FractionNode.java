@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
 /**

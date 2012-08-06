@@ -11,6 +11,6 @@ import lombok.Data;
  *
  * @author Sam Reid
  */
-@Data public class Pie {
+public @Data class Pie {
     public final List<Slice> cells;
 }

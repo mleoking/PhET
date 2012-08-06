@@ -5,7 +5,7 @@ import fj.data.List;
 import lombok.Data;
 
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.PatternMaker;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractions.common.math.Fraction;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.rangeInclusive;
 import static fj.data.List.list;

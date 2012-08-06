@@ -7,8 +7,8 @@ import lombok.Data;
 
 import java.awt.Color;
 
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
 import static fj.data.List.nil;
 
