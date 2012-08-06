@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories;
 
 import fj.F;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.awt.Color;
 import java.awt.Shape;
@@ -19,7 +19,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
  *
  * @author Sam Reid
  */
-public @Data class CircularSliceFactory extends SliceFactory {
+public @EqualsAndHashCode(callSuper = false) class CircularSliceFactory extends SliceFactory {
 
     public final double diameter;
     private final double x;

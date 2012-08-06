@@ -3,7 +3,7 @@ package edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories;
 
 import fj.F;
 import fj.data.List;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.awt.Color;
 import java.awt.Shape;
@@ -23,7 +23,7 @@ import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
  *
  * @author Sam Reid
  */
-public @Data class VerticalSliceFactory extends SliceFactory {
+public @EqualsAndHashCode(callSuper = false) class VerticalSliceFactory extends SliceFactory {
 
     public final double barWidth;
     public final double barHeight;

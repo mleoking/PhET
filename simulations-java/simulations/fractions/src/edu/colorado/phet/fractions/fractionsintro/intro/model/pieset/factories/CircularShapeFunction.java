@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories;
 
 import fj.F;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,9 +23,14 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
  *
  * @author Sam Reid
  */
-public @Data class CircularShapeFunction extends F<Slice, Shape> {
+public @EqualsAndHashCode(callSuper = false) class CircularShapeFunction extends F<Slice, Shape> {
     public final double extent;
     public final double radius;
+
+    public CircularShapeFunction( final double extent, final double radius ) {
+        this.extent = extent;
+        this.radius = radius;
+    }
 
     @Override public Shape f( final Slice slice ) { return createShape( slice.position, slice.angle ); }
 

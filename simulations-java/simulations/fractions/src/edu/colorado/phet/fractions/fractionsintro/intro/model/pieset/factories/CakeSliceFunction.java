@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories;
 
 import fj.F;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
@@ -16,10 +16,16 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
  *
  * @author Sam Reid
  */
-public @Data class CakeSliceFunction extends F<Slice, Shape> {
+public @EqualsAndHashCode(callSuper = false) class CakeSliceFunction extends F<Slice, Shape> {
     private final double extent;
     private final double radius;
     private final double spacing;
+
+    public CakeSliceFunction( final double extent, final double radius, final double spacing ) {
+        this.extent = extent;
+        this.radius = radius;
+        this.spacing = spacing;
+    }
 
     @Override public Shape f( final Slice slice ) {
         double epsilon = 1E-6;
