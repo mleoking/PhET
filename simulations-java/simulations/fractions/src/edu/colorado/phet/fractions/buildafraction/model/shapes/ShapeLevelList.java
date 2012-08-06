@@ -257,25 +257,25 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         ArrayList<List<Integer>> coefficients = new ArrayList<List<Integer>>();
         for ( int i1 : range ) {
             Fraction sum1 = new Fraction( i1, 1 );
-            if ( sum1.leq( target ) ) {
+            if ( sum1.lessThanOrEqualTo( target ) ) {
                 for ( int i2 : range ) {
                     Fraction sum2 = sum1.plus( new Fraction( i2, 2 ) );
-                    if ( sum2.leq( target ) ) {
+                    if ( sum2.lessThanOrEqualTo( target ) ) {
                         for ( int i3 : range ) {
                             Fraction sum3 = sum2.plus( new Fraction( i3, 3 ) );
-                            if ( sum3.leq( target ) ) {
+                            if ( sum3.lessThanOrEqualTo( target ) ) {
                                 for ( int i4 : range ) {
                                     Fraction sum4 = sum3.plus( new Fraction( i4, 4 ) );
-                                    if ( sum4.leq( target ) ) {
+                                    if ( sum4.lessThanOrEqualTo( target ) ) {
                                         for ( int i5 : range ) {
                                             Fraction sum5 = sum4.plus( new Fraction( i5, 5 ) );
-                                            if ( sum5.leq( target ) ) {
+                                            if ( sum5.lessThanOrEqualTo( target ) ) {
                                                 for ( int i6 : range ) {
                                                     Fraction sum6 = sum5.plus( new Fraction( i6, 6 ) );
-                                                    if ( sum6.leq( target ) ) {
+                                                    if ( sum6.lessThanOrEqualTo( target ) ) {
                                                         for ( int i7 : range ) {
                                                             Fraction sum7 = sum6.plus( new Fraction( i7, 7 ) );
-                                                            if ( sum6.leq( target ) ) {
+                                                            if ( sum6.lessThanOrEqualTo( target ) ) {
                                                                 for ( int i8 : range ) {
                                                                     Fraction sum = sum7.plus( new Fraction( i8, 8 ) );
                                                                     if ( sum.equals( target ) ) {
