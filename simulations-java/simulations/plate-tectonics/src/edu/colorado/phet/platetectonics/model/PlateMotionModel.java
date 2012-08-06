@@ -30,7 +30,7 @@ import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.labels.TextLabel;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
-import edu.colorado.phet.platetectonics.util.Bounds3D;
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.platetectonics.util.Side;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
@@ -131,7 +131,7 @@ public class PlateMotionModel extends PlateTectonicsModel {
     }};
 
     // TODO: change bounds to possibly a Z range, or just bake it in
-    public PlateMotionModel( final TectonicsClock clock, final Bounds3D bounds ) {
+    public PlateMotionModel( final TectonicsClock clock, final Bounds3F bounds ) {
         super( bounds, new TextureStrategy( 0.000006f ) );
         this.clock = clock;
 
@@ -489,14 +489,14 @@ public class PlateMotionModel extends PlateTectonicsModel {
         return 273.15 + ( 0.0175 - 3.04425e-9 * depth ) * depth; // based on T0 + (q00/k)*y - (rho*H/(2*k))*y^2 from model doc
     }
 
-    public Bounds3D getLeftDropAreaBounds() {
-        return Bounds3D.fromMinMax( bounds.getMinX(), bounds.getCenterX(),
+    public Bounds3F getLeftDropAreaBounds() {
+        return Bounds3F.fromMinMax( bounds.getMinX(), bounds.getCenterX(),
                                     SIMPLE_MANTLE_TOP_Y, 15000,
                                     bounds.getMinZ(), bounds.getMaxZ() );
     }
 
-    public Bounds3D getRightDropAreaBounds() {
-        return Bounds3D.fromMinMax( bounds.getCenterX(), bounds.getMaxX(),
+    public Bounds3F getRightDropAreaBounds() {
+        return Bounds3F.fromMinMax( bounds.getCenterX(), bounds.getMaxX(),
                                     SIMPLE_MANTLE_TOP_Y, 15000,
                                     bounds.getMinZ(), bounds.getMaxZ() );
     }

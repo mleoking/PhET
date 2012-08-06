@@ -26,8 +26,7 @@ import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
 import edu.colorado.phet.platetectonics.control.ZoomPanel;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
-import edu.colorado.phet.platetectonics.util.Bounds3D;
-import edu.colorado.phet.platetectonics.util.Grid3D;
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.colorado.phet.platetectonics.view.PlateTectonicsView;
 import edu.colorado.phet.platetectonics.view.labels.RangeLabelNode;
@@ -64,15 +63,12 @@ public class CrustTab extends PlateTectonicsTab {
         getClock().start();
 
         // grid centered X, with front Z at 0
-        Grid3D grid = new Grid3D(
-                //REVIEW significant of these constants? units?
-                Bounds3D.fromMinMax( -1500000, 1500000,
-                                     -150000, 15000,
-                                     -2000000, 0 ),
-                512, 512, 64 );
+        Bounds3F bounds = Bounds3F.fromMinMax( -1500000, 1500000,
+                                               -150000, 15000,
+                                               -2000000, 0 );
 
         // create the model and terrain
-        setModel( new CrustModel( grid ) );
+        setModel( new CrustModel( bounds ) );
 
         sceneLayer.addChild( new PlateTectonicsView( getModel(), this ) );
 

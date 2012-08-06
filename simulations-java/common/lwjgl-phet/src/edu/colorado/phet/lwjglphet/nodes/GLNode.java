@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.lwjglphet.GLMaterial;
+import edu.colorado.phet.lwjglphet.materials.GLMaterial;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;

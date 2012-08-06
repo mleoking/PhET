@@ -4,11 +4,10 @@ package edu.colorado.phet.platetectonics.util;
 import java.util.Collection;
 import java.util.List;
 
-//REVIEW This implementation (particularly isToSideOf) also assumes that coordinates increase from left to right.
 /**
  * Makes handling of mirror cases and directionality much easier.
  * <p/>
- * Generally assumes the left-to-right ordering of arrays with indices 0 to size-1
+ * Generally assumes the left-to-right ordering of arrays with indices 0 to size-1, and that coordinates increase from left to right
  */
 public enum Side {
     LEFT,
@@ -57,8 +56,13 @@ public enum Side {
         return list.get( getIndex( list ) - index * getSign() ); // inverse sign, so our index is correct
     }
 
-    // returns true if A is to the <side> side of B
-    //REVIEW are a & b coordinates?
+    /**
+     * returns true if A is to the <side> side of B
+     *
+     * @param a Horizontal coordinate A
+     * @param b Horizontal coordinate B
+     * @return Whether A is to the <side> of B
+     */
     public boolean isToSideOf( float a, float b ) {
         switch( this ) {
             case LEFT:

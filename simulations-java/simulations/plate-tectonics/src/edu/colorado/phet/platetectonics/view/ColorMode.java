@@ -24,7 +24,11 @@ public enum ColorMode {
     private final String minString;
     private final String maxString;
 
-    //REVIEW doc minString and maxString
+    /**
+     * @param material  The material to be used in the graphics engine
+     * @param minString The label for the "low" temperature / density, used for the legend
+     * @param maxString The label for the "high" temperature / density, used for the legend
+     */
     private ColorMode( EarthMaterial material, String minString, String maxString ) {
         this.material = material;
         this.minString = minString;

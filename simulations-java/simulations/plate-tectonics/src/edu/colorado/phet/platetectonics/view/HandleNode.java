@@ -23,7 +23,7 @@ import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
-import edu.colorado.phet.platetectonics.util.ColorMaterial;
+import edu.colorado.phet.lwjglphet.materials.ColorMaterial;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector3F.Y_UNIT;
 import static org.lwjgl.opengl.GL11.*;
