@@ -16,7 +16,7 @@ object PlotClickData {
 
   //The data is from Nov 2011 and I do not know if the current parser is accurate with respect to its data style.
   def main(args: Array[String]) {
-    val utah0 = new File("C:\\Users\\Sam\\Desktop\\utahdata\\utah_0")
+    val utah0 = new File("C:\\Users\\Sam\\Desktop\\molecule-polarity")
     val logs = phet.load(utah0, f => new Parser2011().parse(f))
     println("loaded " + logs.length + " logs")
     println("first one = " + logs(0).file)
