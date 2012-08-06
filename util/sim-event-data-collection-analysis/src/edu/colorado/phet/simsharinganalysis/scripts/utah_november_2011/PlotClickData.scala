@@ -22,6 +22,10 @@ object PlotClickData {
     println("first one = " + logs(0).file)
     println("first few lines: " + logs(0).entries.slice(0, 5).mkString("\n"))
 
+    println("Headers")
+    for ( log <- logs ) {
+      println(log.entries.head)
+    }
     //    println("log 0 = \n"+logs(0).entries.map(_.toString).mkString("\n"))
     //    println("start message = "+logs(0).startMessage)
     //    println("log 0 name = "+logs(0).simName)
