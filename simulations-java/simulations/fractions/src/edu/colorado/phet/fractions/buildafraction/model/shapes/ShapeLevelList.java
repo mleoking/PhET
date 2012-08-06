@@ -191,7 +191,7 @@ a 1/2 and a 1/3.
 
         List<Coefficients> selectedCoefficients = choose( 4, nmPairs );
 
-        List<Fraction> selectedTargets = selectedCoefficients.map( new F<Coefficients, Fraction>() {
+        List<Fraction> targets = selectedCoefficients.map( new F<Coefficients, Fraction>() {
             @Override public Fraction f( final Coefficients c ) {
                 Fraction a = new Fraction( c.n, cardSizes.index( 0 ) );
                 Fraction b = new Fraction( c.m, cardSizes.index( 1 ) );
@@ -199,14 +199,14 @@ a 1/2 and a 1/3.
             }
         } );
 
-        List<Integer> selectedShapes = nil();
+        List<Integer> pieces = nil();
         for ( Coefficients c : selectedCoefficients ) {
-            selectedShapes = selectedShapes.append( replicate( c.n, cardSizes.index( 0 ) ) );
-            selectedShapes = selectedShapes.append( replicate( c.m, cardSizes.index( 1 ) ) );
+            pieces = pieces.append( replicate( c.n, cardSizes.index( 0 ) ) );
+            pieces = pieces.append( replicate( c.m, cardSizes.index( 1 ) ) );
         }
 
 
-        return shapeLevel( selectedShapes, selectedTargets, colors[5], choosePiesOrBars( selectedTargets ) );
+        return shapeLevel( pieces, targets, colors[5], choosePiesOrBars( targets ) );
     }
 
     /*Level 7:
