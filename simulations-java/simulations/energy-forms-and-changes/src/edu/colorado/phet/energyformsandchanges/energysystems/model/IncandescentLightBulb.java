@@ -20,7 +20,7 @@ public class IncandescentLightBulb extends LightBulb {
                                                                                   INCANDESCENT_ON.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
                                                                                   new Vector2D( 0, 0.02 ) );
 
-    private static final double ENERGY_TO_FULLY_LIGHT = 100; // In joules/sec, a.k.a. watts.
+    private static final double ENERGY_TO_FULLY_LIGHT = 30; // In joules/sec, a.k.a. watts.
 
     protected IncandescentLightBulb() {
         super( selectIncandescentLightBulbButton, INCANDESCENT_ICON, NON_ENERGIZED_BULB, ENERGIZED_BULB, ENERGY_TO_FULLY_LIGHT );
