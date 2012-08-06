@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_in.xml created Mon Aug 06 10:47:05 ICT 2012 using: projectile-motion 2.03.00 (52266), translation-utility 2.13.00 (59150) Des 8, 2011--><SimStrings>
+<string key="dragLabel" value="Koefisien Geser"/>
+<string key="userChoice" value="Pilihan Pengguna"/>
+<string key="altitudeLabel" value="Ketinggian (m)"/>
+<string key="football" value="Bola Sepak"/>
+<string key="golfball" value="Bola Golf"/>
+<string key="simTitle" value="Gerak Peluru (Gerak Parabola)"/>
+<string key="collision" value="Tumbukan"/>
+<string key="adultHuman" value="Manusia Dewasa"/>
+<string key="time" value="Waktu (s)"/>
+<string key="buick" value="Mobil"/>
+<string key="diameter" value="Diameter (m)"/>
+<string key="initSpeed" value="Kelajuan Awal (m/s)"/>
+<string key="bowlingball" value="Bola Bowling"/>
+<string key="piano" value="Piano"/>
+<string key="sound" value="Suara"/>
+<string key="range" value="Jangkauan (m)"/>
+<string key="height" value="Tinggi (m)"/>
+<string key="mass" value="Massa (kg)"/>
+<string key="pumpkin" value="Labu"/>
+<string key="score" value="NIlai!"/>
+<string key="translation.credits" value="Anne Sirait&#10;STKIP Surya&#10;annesirait@gmail.com / annesirait@stkipsurya.ac.id"/>
+<string key="angle" value="Sudut (derajat)"/>
+<string key="baseball" value="Bola Kasti"/>
+<string key="airResistance" value="Hambatan Udara"/>
+<string key="fire" value="Tembak"/>
+<string key="erase" value="Hapus"/>
+<string key="tankshell" value="Peluru Tank"/>
+</SimStrings>
