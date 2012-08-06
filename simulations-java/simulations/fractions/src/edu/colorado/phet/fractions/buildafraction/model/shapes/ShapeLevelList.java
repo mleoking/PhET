@@ -182,7 +182,8 @@ a 1/2 and a 1/3.
         }
     }
 
-    private ShapeLevel sampleLevel6() {//let's implement this my making each solution as na + mb, where a and b are the fractions from pairs above
+    private ShapeLevel sampleLevel6() {
+        //let's implement this my making each solution as na + mb, where a and b are the fractions from pairs above
         final List<Integer> cardSizes = chooseOne( list( list( 2, 3 ), list( 2, 4 ), list( 3, 4 ), list( 2, 6 ), list( 3, 6 ), list( 4, 8 ), list( 2, 8 ) ) );
 
         List<CoefficientPair> nmPairs = list( new CoefficientPair( 0, 1 ), new CoefficientPair( 1, 0 ),
