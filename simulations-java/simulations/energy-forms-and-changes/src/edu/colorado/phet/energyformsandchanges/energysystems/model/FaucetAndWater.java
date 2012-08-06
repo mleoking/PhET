@@ -22,7 +22,7 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  */
 public class FaucetAndWater extends EnergySource {
 
-    public static final Vector2D OFFSET_FROM_CENTER_TO_WATER_ORIGIN = new Vector2D( 0.06, 0.06 );
+    public static final Vector2D OFFSET_FROM_CENTER_TO_WATER_ORIGIN = new Vector2D( 0.05, 0.06 );
     private static final double MAX_ENERGY_PRODUCTION_RATE = 200; // In joules/second.
 
     public final Property<Double> flowProportion = new Property<Double>( 0.0 );
