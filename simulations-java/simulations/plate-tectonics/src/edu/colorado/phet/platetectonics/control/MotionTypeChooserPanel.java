@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
+import edu.colorado.phet.lwjglphet.utils.GLActionListener;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
@@ -145,8 +146,8 @@ public class MotionTypeChooserPanel extends PNode {
                 setSelected( typeEquals( type, plateModel.motionTypeIfStarted.get() ) );
             }
 
-            //REVIEW General comment... Wondering why you didn't use GLActionListener in these situations (updating model in LWGL thread)? I see only 1 use of GLActionListener, in dev package.
             // update the model change in the LWJGL thread
+            // not using GLActionListener here because we also need to make a call in the Swing EDT
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent actionEvent ) {
                     LWJGLUtils.invoke( new Runnable() {

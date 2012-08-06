@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.tabs;
 import java.awt.*;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
@@ -26,7 +27,6 @@ import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
 import edu.colorado.phet.platetectonics.control.ZoomPanel;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
-import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.colorado.phet.platetectonics.view.PlateTectonicsView;
 import edu.colorado.phet.platetectonics.view.labels.RangeLabelNode;
@@ -95,17 +95,17 @@ public class CrustTab extends PlateTectonicsTab {
         *----------------------------------------------------------------------------*/
 
         // crust label
+        final int crustLabelX = -10000;
         layerLabels.addChild( new RangeLabelNode( new Property<Vector3F>( new Vector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                 public void update() {
-                    //REVIEW Vector3F x arg is a constant in all cases below. Significance of values? units?
-                    set( flatModelToView.apply( new Vector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
+                    set( flatModelToView.apply( new Vector3F( crustLabelX, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
                 }
             }, true );
         }}, new Property<Vector3F>( new Vector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                 public void update() {
-                    set( flatModelToView.apply( new Vector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
+                    set( flatModelToView.apply( new Vector3F( crustLabelX, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
                 }
             }, true );
         }}, Strings.CRUST, scaleProperty, colorMode, true
@@ -129,8 +129,9 @@ public class CrustTab extends PlateTectonicsTab {
                 getLabelPosition( upperMantleTop, upperMantleBottom, scaleProperty )
         ) );
 
-        Property<Vector3F> lowerMantleTop = new Property<Vector3F>( flatModelToView.apply( new Vector3F( 150000, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
-        Property<Vector3F> lowerMantleBottom = new Property<Vector3F>( flatModelToView.apply( new Vector3F( 150000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
+        final int lowerMantleLabelX = 150000;
+        Property<Vector3F> lowerMantleTop = new Property<Vector3F>( flatModelToView.apply( new Vector3F( lowerMantleLabelX, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
+        Property<Vector3F> lowerMantleBottom = new Property<Vector3F>( flatModelToView.apply( new Vector3F( lowerMantleLabelX, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
 
         // lower mantle
         layerLabels.addChild( new RangeLabelNode(
@@ -141,8 +142,9 @@ public class CrustTab extends PlateTectonicsTab {
                 getLabelPosition( lowerMantleTop, lowerMantleBottom, scaleProperty )
         ) );
 
-        Property<Vector3F> outerCoreTop = new Property<Vector3F>( flatModelToView.apply( new Vector3F( -250000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
-        Property<Vector3F> outerCoreBottom = new Property<Vector3F>( flatModelToView.apply( new Vector3F( -250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
+        final int outerCoreLabelX = -250000;
+        Property<Vector3F> outerCoreTop = new Property<Vector3F>( flatModelToView.apply( new Vector3F( outerCoreLabelX, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
+        Property<Vector3F> outerCoreBottom = new Property<Vector3F>( flatModelToView.apply( new Vector3F( outerCoreLabelX, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
 
         // outer core
         layerLabels.addChild( new RangeLabelNode(
@@ -289,6 +291,11 @@ public class CrustTab extends PlateTectonicsTab {
         super.resetAll();
 
         showLabels.reset();
+    }
+
+    @Override public boolean isWaterVisible() {
+        // always show water on this tab
+        return true;
     }
 
     public CrustModel getCrustModel() {

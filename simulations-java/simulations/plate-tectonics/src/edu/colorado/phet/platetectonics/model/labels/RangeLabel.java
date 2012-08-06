@@ -27,7 +27,6 @@ public class RangeLabel {
         return limitToScreen;
     }
 
-    //REVIEW unused?
     public void setLimitToScreen( boolean limitToScreen ) {
         this.limitToScreen = limitToScreen;
     }

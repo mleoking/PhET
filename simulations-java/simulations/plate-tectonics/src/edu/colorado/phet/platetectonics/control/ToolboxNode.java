@@ -18,9 +18,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.PANEL_TITLE_FONT;
 
-//REVIEW composition meter is mentioned in class doc, is it vestigial?
 /**
- * Displays a toolbox that contains meters (ruler, thermometer, density meter, composition meter), and display options
+ * Displays a toolbox that contains meters (ruler, thermometer, density meter), and display options
  */
 public class ToolboxNode extends OrthoPiccoloNode {
     private static final double INSET = 5;

@@ -35,6 +35,8 @@ public class PlateTectonicsConstants {
 
     public static final Property<Color> DIAL_HIGHLIGHT_COLOR = new Property<Color>( new Color( 255, 200, 80 ) );
 
+    public static final Color BUTTON_COLOR = Color.ORANGE;
+
     /*---------------------------------------------------------------------------*
     * fonts
     *----------------------------------------------------------------------------*/
@@ -42,4 +44,6 @@ public class PlateTectonicsConstants {
     public static final PhetFont PANEL_TITLE_FONT = new PhetFont( 13, true );
 
     public static final PhetFont LABEL_FONT = new PhetFont( 18 );
+
+    public static final PhetFont BUTTON_FONT = new PhetFont( 14 );
 }
