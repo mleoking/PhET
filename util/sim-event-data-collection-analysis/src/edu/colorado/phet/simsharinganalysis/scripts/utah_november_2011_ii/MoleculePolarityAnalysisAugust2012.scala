@@ -148,15 +148,14 @@ object NewParser {
 
     println("Total items possible: " + componentSet.size)
     val formatter = new DecimalFormat("0.00")
+    println("group\tcomponents used during\"play only\" time")
     for ( log <- logs.sortBy(_.id) ) {
       val elements = getStates(log)
       val entriesUsedInPlayTime = getUsedComponents(elements, e => e.serverTime >= startPlayTime && e.serverTime <= endPlayTime)
       val entriesUsedAnyTime = getUsedComponents(elements, e => true)
       //      println("log: " + log.id + ", used=" + entriesUsedInPlayTime.length + "/" + entriesUsedAnyTime.length + "/" + componentSet.size)
       //      println("log: " + log.id + ", used=" + entriesUsedInPlayTime.length + "/" + entriesUsedAnyTime.length + "/" + componentSet.size)
-      println("group: " + log.id + ", played with " + formatter.format(entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0) + "% of items during play time")
+      println(log.id + "\t" + formatter.format(entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0) + "%")
     }
-
-    //TODO: clicking on bond "A" different than bond "B", and see if other events should be separate
   }
 }
