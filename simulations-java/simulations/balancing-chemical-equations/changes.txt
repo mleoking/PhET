@@ -1,3 +1,4 @@
+# 1.00.09 (66628) Aug 7, 2012
 1/11/12 replace CoefficientNodeSpinner with UserComponentId, add componentType=spinner
 1/11/12 subclass SimSharingPiccoloModule and add userComponents for tabs
 1/3/12 #3202, sim-sharing changes related to Swing controls
