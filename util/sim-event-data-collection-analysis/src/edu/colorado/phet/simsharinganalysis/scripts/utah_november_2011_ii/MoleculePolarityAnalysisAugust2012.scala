@@ -95,10 +95,17 @@ object NewParser {
         case e: Entry if e.component == "buttonNode" => e("actionCommand")
         case e: Entry if e.component == "comboBoxItem" => e("item")
         case e: Entry if e.component == "mouse" && e("atom") != "" && e.action == "startDrag" => "electronegativity-slider-dragged:" + e("atom")
+        case e: Entry if e.component == "mouse" && e("atom") != "" && e.action == "endDrag" => "electronegativity-slider-dragged:" + e("atom")
+        case e: Entry if e.component == "bondAngleDrag" || e.component == "molecule rotation drag" => "draggedBondOrMolecule"
         case _ => ""
       }
 
-      UniqueComponent(element.start.tab, element.entry.component, text)
+      //For the count of rotating molecules, can you make any interaction that is 'moving molecule' just count once…like 'dragged A' counts once, but later 'dragged B' or 'dragged C' doesn't count.
+      val revisedComponent = element.entry.component match {
+        case s: String if s == "bondAngleDrag" || s == "molecule rotation drag" => "playAreaAtom"
+        case s: String => s
+      }
+      UniqueComponent(element.start.tab, revisedComponent, text)
     }).toSet.toList
 
     textComponents.filter(p => p.component != "tab" &&
@@ -108,8 +115,6 @@ object NewParser {
                                p.toString != "Three Atoms: checkBox: Molecular Dipole" &&
                                p.toString != "Real Molecules: checkBox: Atom Labels" &&
                                p.toString != "Real Molecules: radioButton: none" &&
-                               p.component != "bondAngleDrag" &&
-                               p.component != "molecule rotation drag" &&
                                p.component != "bond" &&
                                !p.toString.contains("jmolViewerNode") &&
                                p.toString != "Two Atoms: checkBox: Bond Dipole" &&
@@ -184,5 +189,12 @@ object NewParser {
       //      println("log: " + log.id + ", used=" + entriesUsedInPlayTime.length + "/" + entriesUsedAnyTime.length + "/" + componentSet.size)
       println(log.id + "\t" + formatter.format(entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0) + "%")
     }
+
+    //Print line plots.  How many controls each team used as a function of time
+    //    for ( log <- logs ) {
+    //      for ( seconds <- 0 until 9 * 60 + 30 by 1 ) {
+    //        println()
+    //      }
+    //    }
   }
 }
