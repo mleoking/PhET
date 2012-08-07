@@ -81,6 +81,9 @@ public class GenerateSlideshow {
         InputStream stream = url.openStream();
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( stream ) );
         String line = bufferedReader.readLine();
+        //REVIEW: IntelliJ recommended StringBuilder instead, and a quick
+        // on-line search says StringBuilder is preferred in 1.5+ for better
+        // performance if synchronization is not needed.
         StringBuffer total = new StringBuffer( line );
         while ( line != null ) {
             System.out.println( line );
