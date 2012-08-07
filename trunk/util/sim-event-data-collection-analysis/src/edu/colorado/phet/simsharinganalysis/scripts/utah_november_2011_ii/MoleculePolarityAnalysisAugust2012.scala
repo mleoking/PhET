@@ -68,8 +68,8 @@ object NewParser {
 
   def minutesToMilliseconds(minutes: Double) = ( minutes * 60000.0 ).toLong
 
-  def getUsedComponents(entries: Seq[Entry]) = {
-    val textComponents = entries.map(entry => TextComponent("?", entry.component, entry.text)).toSet.toList
+  def getUsedComponents(entries: Seq[Entry], filter: Entry => Boolean) = {
+    val textComponents = entries.filter(filter).map(entry => TextComponent("?", entry.component, entry.text)).toSet.toList
     textComponents.map(_.toString).sorted
   }
 
@@ -78,23 +78,26 @@ object NewParser {
     val logs = file.listFiles.map(file => (file, readText(file))).map(tuple => parseFile(tuple._1, tuple._2))
     logs.foreach(println)
     logs.map(_.id).foreach(println)
-    logs.filter(_.id == "2").foreach(elm => println(elm.file))
+
+    val group2 = logs.filter(_.id == "2")
+    assert(group2.length == 1)
+    //For the recording that is linked with audio #2, the play time was from (min:sec) 0:00-9:30 from the start.
+    val startPlayTime = group2.apply(0).serverTime
 
     //Time on the server
-    val startPlayTime: Long = 1320867727969L
     val elapsedPlayTime: Long = minutesToMilliseconds(9.5)
     val endPlayTime: Long = startPlayTime + elapsedPlayTime
 
-    val allComponents = getUsedComponents(logs.flatMap(_.entries))
+    val allComponents = getUsedComponents(logs.flatMap(_.entries), e => true)
     allComponents.foreach(println)
 
     for ( log <- logs ) {
-      val entries = getUsedComponents(log.entries)
-      val used = entries.length
-      println("log: " + log.id + ", used=" + used + "/" + allComponents.length)
-      if ( log.sessionID == "52m2urrpk0p2j0s6b84fcs3pbu" ) {
-        log.entries.foreach(println)
-      }
+      val entriesUsedInPlayTime = getUsedComponents(log.entries, e => e.serverTime >= startPlayTime && e.serverTime <= endPlayTime)
+      val entriesUsedAnyTime = getUsedComponents(log.entries, e => true)
+      println("log: " + log.id + ", used=" + entriesUsedInPlayTime.length + "/" + entriesUsedAnyTime.length + "/" + allComponents.length)
+      //      if ( log.sessionID == "52m2urrpk0p2j0s6b84fcs3pbu" ) {
+      //        log.entries.foreach(println)
+      //      }
     }
   }
 }
