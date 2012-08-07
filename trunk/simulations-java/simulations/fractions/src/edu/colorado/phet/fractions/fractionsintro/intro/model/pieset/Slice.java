@@ -31,31 +31,51 @@ public @Data class Slice {
     public final Color color;
 
     //Copy methods:
-    public Slice withDragging( boolean dragging ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
+    public Slice withDragging( boolean dragging ) {
+        return new Slice( position, angle, dragging, animationTarget, toShape, color );
+    }
 
-    Slice withAngle( double angle ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
+    Slice withAngle( double angle ) {
+        return new Slice( position, angle, dragging, animationTarget, toShape, color );
+    }
 
-    public Slice withPosition( Vector2D position ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
+    public Slice withPosition( Vector2D position ) {
+        return new Slice( position, angle, dragging, animationTarget, toShape, color );
+    }
 
-    Slice withAnimationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
+    Slice withAnimationTarget( AnimationTarget animationTarget ) {
+        return new Slice( position, angle, dragging, animationTarget, toShape, color );
+    }
 
     //Update methods
 
-    public Slice translate( Vector2D delta ) { return translate( delta.x, delta.y ); }
+    public Slice translate( Vector2D delta ) {
+        return translate( delta.x, delta.y );
+    }
 
-    public Slice translate( double dx, double dy ) { return new Slice( position.plus( dx, dy ), angle, dragging, animationTarget, toShape, color ); }
+    public Slice translate( double dx, double dy ) {
+        return new Slice( position.plus( dx, dy ), angle, dragging, animationTarget, toShape, color );
+    }
 
-    public Slice animationTarget( Slice target ) { return withAnimationTarget( animateToSlice( target ) );}
+    public Slice animationTarget( Slice target ) {
+        return withAnimationTarget( animateToSlice( target ) );
+    }
 
-    public Vector2D getCenter() {return new Vector2D( getShape().getBounds2D().getCenterX(), getShape().getBounds2D().getCenterY() );}
+    public Vector2D getCenter() {
+        return new Vector2D( getShape().getBounds2D().getCenterX(), getShape().getBounds2D().getCenterY() );
+    }
 
     public Slice stepAnimation() { return stepTranslation().stepRotation(); }
 
     public Shape getShape() { return toShape.f( this ); }
 
-    private Slice stepTranslation() { return animationTarget == null ? this : translate( getVelocity() ).checkFinishAnimation();}
+    private Slice stepTranslation() {
+        return animationTarget == null ? this : translate( getVelocity() ).checkFinishAnimation();
+    }
 
-    private Slice stepRotation() { return animationTarget == null ? this : rotateTowardTarget( animationTarget.angle );}
+    private Slice stepRotation() {
+        return animationTarget == null ? this : rotateTowardTarget( animationTarget.angle );
+    }
 
     //Account for winding number and use the Zeno paradox to slow down
     public Slice rotateTowardTarget( double targetAngle ) {
@@ -71,20 +91,28 @@ public @Data class Slice {
         return withAngle( newAngle );
     }
 
-    private Vector2D getVelocity() {return animationTarget.position.minus( position ).getInstanceOfMagnitude( 30 );}
+    private Vector2D getVelocity() {
+        return animationTarget.position.minus( position ).getInstanceOfMagnitude( 30 );
+    }
 
     private Slice checkFinishAnimation() {
         if ( position.distance( animationTarget.position ) < getVelocity().magnitude() ) {
-            return withPosition( animationTarget.position ).withAnimationTarget( (AnimationTarget) null ).withAngle( animationTarget.angle );
+            return withPosition( animationTarget.position ).withAnimationTarget( null ).withAngle( animationTarget.angle );
         }
         return this;
     }
 
-    public boolean movingToward( Slice cell ) { return animationTarget != null && animationTarget.position.equals( cell.position ) && animationTarget.angle == cell.angle; }
+    public boolean movingToward( Slice cell ) {
+        return animationTarget != null && animationTarget.position.equals( cell.position ) && animationTarget.angle == cell.angle;
+    }
 
-    public boolean positionAndAngleEquals( Slice cell ) { return cell.position.equals( position ) && cell.angle == angle; }
+    public boolean positionAndAngleEquals( Slice cell ) {
+        return cell.position.equals( position ) && cell.angle == angle;
+    }
 
-    public Slice moveTo( Slice target ) { return withDragging( false ).withAngle( target.angle ).withPosition( target.position );}
+    public Slice moveTo( Slice target ) {
+        return withDragging( false ).withAngle( target.angle ).withPosition( target.position );
+    }
 
     //Determine which cell would be occupied based on the angle, used to rotate the cake slice images
     public int cell( int denominator ) {
