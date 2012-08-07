@@ -1,3 +1,5 @@
+# 1.00.20 (66669) Aug 7, 2012
+8/7/12 Using NiceRadioButtons.
 # 1.00.19 (66364) Jul 27, 2012
 7/27/12 Minor updates.
 # 1.00.18 (66216) Jul 25, 2012
