@@ -11,7 +11,7 @@ import io.Source
  */
 case class Arg(key: String, value: String)
 
-case class TextComponent(tab: String, component: String, name: Option[String]) {
+case class UniqueComponent(tab: String, component: String, name: Option[String]) {
   override def toString = component + ( if ( name.isDefined ) ": " else "" ) + name.getOrElse("")
 }
 
@@ -69,7 +69,7 @@ object NewParser {
   def minutesToMilliseconds(minutes: Double) = ( minutes * 60000.0 ).toLong
 
   def getUsedComponents(entries: Seq[Entry], filter: Entry => Boolean) = {
-    val textComponents = entries.filter(filter).map(entry => TextComponent("?", entry.component, entry.text)).toSet.toList
+    val textComponents = entries.filter(filter).map(entry => UniqueComponent("?", entry.component, entry.text)).toSet.toList
     textComponents.map(_.toString).sorted
   }
 
