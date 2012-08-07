@@ -1,4 +1,5 @@
 # 1.09.01 (66637) Aug 7, 2012
+> Fixed a problem that prevented audio from playing under Java 7
 # 1.09.00 (51724) May 9, 2011
 5/9/11 > added new translation credits features
 # 1.08.01 (51568) May 5, 2011
