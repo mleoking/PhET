@@ -1,3 +1,5 @@
+# 2.04.00 (66667) Aug 7, 2012
+8/7/12 Deployment to production server
 # 2.03.02 (66640) Aug 7, 2012
 # 2.03.01 (66632) Aug 7, 2012
 > Fixed a problem that prevented audio from playing under Java 7
