@@ -19,6 +19,16 @@ case class UniqueComponent(tab: String, component: String, name: String) {
 
 case class Entry(localTime: Long, serverTime: Long, component: String, action: String, args: List[Arg]) {
   def text = args.find(_.key == "text").map(_.value)
+
+  def apply(key: String) = {
+    val matched = args.filter(_.key == key)
+    if ( matched.length == 1 ) {
+      matched(0).value
+    } else {
+      ""
+      //      throw new RuntimeException("No match found or maybe multiple matches found: matched="+matched)
+    }
+  }
 }
 
 case class Log(file: File, machineID: String, sessionID: String, serverTime: Long, entries: List[Entry]) {
@@ -76,7 +86,16 @@ object NewParser {
 
   def getUsedComponents(elements: Seq[Element], filter: Entry => Boolean) = {
     val allowedElements = elements.filter(element => filter(element.entry))
-    val textComponents = allowedElements.map(element => UniqueComponent(element.start.tab, element.entry.component, element.entry.text.getOrElse(""))).toSet.toList
+    val textComponents = allowedElements.map(element => {
+      val text = element.entry match {
+        case e: Entry if e.text.isDefined => e.text.get
+        case e: Entry if e.component == "mouse" && e("component") == "jmolViewerNode" => e("component") + ":" + e("currentMolecule")
+        case e: Entry if e.component == "mouse" && e.action == "startDrag" => "startDrag:" + e("atom")
+        case _ => ""
+      }
+
+      UniqueComponent(element.start.tab, element.entry.component, text)
+    }).toSet.toList
     textComponents // .map(_.toString).sorted
   }
 
