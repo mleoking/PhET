@@ -33,6 +33,8 @@ case class Entry(localTime: Long, serverTime: Long, component: String, action: S
 
 case class Log(file: File, machineID: String, sessionID: String, serverTime: Long, entries: List[Entry]) {
   def id = entries(0).args.find(_.key == "id").map(_.value).getOrElse("")
+
+  def project = entries(0).args.find(_.key == "project").map(_.value).getOrElse("")
 }
 
 object MoleculePolarityAnalysisAugust2012 {}
@@ -97,7 +99,44 @@ object NewParser {
 
       UniqueComponent(element.start.tab, element.entry.component, text)
     }).toSet.toList
-    textComponents // .map(_.toString).sorted
+
+    //exclude the list provided by emily
+    //    val excludeList = "Real Molecules: checkBox: Atom Labels" ::
+    //                      "Three Atoms: checkBox: Molecular Dipole" ::
+    //                      "Three Atoms: molecule rotation drag" ::
+    //                      "Three Atoms: mouse: startDrag:A" ::
+    //                      "Three Atoms: mouse: startDrag:B" ::
+    //                      "Three Atoms: mouse: startDrag:C" ::
+    //                      "Three Atoms: radioButton: off" ::
+    //                      "Two Atoms: radioButton: off" ::
+    //                      "Two Atoms: radioButton: none" ::
+    //                      Nil
+    //
+    //    val excludeWithText = ": menu: " ::
+    //                          ": menuItem: " ::
+    //                          ": tab: " ::
+    //                          ": system" :: Nil
+
+    textComponents.filter(p => p.component != "tab" &&
+                               p.component != "system" &&
+                               p.component != "menu" &&
+                               p.component != "menuItem" &&
+                               p.toString != "Real Molecules: checkBox: Atom Labels" &&
+                               p.toString != "Real Molecules: radioButton: none" &&
+                               p.component != "bondAngleDrag" &&
+                               p.component != "molecule rotation drag" &&
+                               p.component != "mouse" && //may need to be added back in
+                               p.component != "bond" &&
+                               p.toString != "Two Atoms: checkBox: Bond Dipole" &&
+                               p.component != "draggingState" &&
+                               p.component != "Two Atoms: radioButton: none" &&
+                               p.component != "Two Atoms: radioButton: off" &&
+                               p.component != "window"
+
+
+    )
+
+    //    textComponents // .map(_.toString).sorted
   }
 
   val tabNames = "Two Atoms" :: "Three Atoms" :: "Real Molecules" :: Nil
@@ -122,7 +161,7 @@ object NewParser {
 
   def main(args: Array[String]) {
     val file = new File("C:\\Users\\Sam\\Desktop\\molecule-polarity")
-    val logs = file.listFiles.map(file => (file, readText(file))).map(tuple => parseFile(tuple._1, tuple._2))
+    val logs = file.listFiles.map(file => (file, readText(file))).map(tuple => parseFile(tuple._1, tuple._2)).filter(_.project == "molecule-polarity")
     logs.foreach(println)
     logs.map(_.id).foreach(println)
     logs.map(_.entries(0)).foreach(println)
