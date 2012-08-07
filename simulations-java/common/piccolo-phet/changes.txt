@@ -1,3 +1,4 @@
+8/7/12 Fixed: PhetPPath causes exception if constructor called with null shape
 7/16/12 add PhetPCanvas.getWorldBounds
 6/25/12 Reduced ToggleButtonNode stroke to make buttons look crisper.  Usages only appear in Fractions intro application
 5/14/12 #3330, fix HSlider/VSlider so that drag handler considers whether the slider is enabled
