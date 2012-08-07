@@ -76,7 +76,9 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     private final List<Target> targetPairs;
     private final RichPNode toolboxNode;
     private final VBox faceNodeDialog;
+    //REVIEW: Unused member var.
     private final int levelIndex;
+    //REVIEW: Unused member var.
     private final SceneContext context;
 
     //Declare type-specific wrappers for declaration site variance to make map call site more readable
@@ -493,10 +495,14 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         }
     }
 
-    public void syncModelFractions() { level.createdFractions.set( getUserCreatedFractions() ); }
+    public void syncModelFractions() {
+        level.createdFractions.set( getUserCreatedFractions() );
+    }
 
     //TODO: when we have multiple containers, this will have to be modified
-    private List<Fraction> getUserCreatedFractions() { return getContainerNodes().filter( not( ContainerNode._isInTargetCell ) ).map( ContainerNode._getFractionValue ); }
+    private List<Fraction> getUserCreatedFractions() {
+        return getContainerNodes().filter( not( ContainerNode._isInTargetCell ) ).map( ContainerNode._getFractionValue );
+    }
 
     public void splitPieceFromContainer( final PieceNode piece ) {
         Point2D offset = piece.getGlobalTranslation();
@@ -507,7 +513,9 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         piece.moveToTopOfStack();
     }
 
-    private List<ContainerNode> getContainerNodes() { return getChildren( this, ContainerNode.class ); }
+    private List<ContainerNode> getContainerNodes() {
+        return getChildren( this, ContainerNode.class );
+    }
 
     private boolean allTargetsComplete() {
         return targetPairs.map( new F<Target, Boolean>() {
