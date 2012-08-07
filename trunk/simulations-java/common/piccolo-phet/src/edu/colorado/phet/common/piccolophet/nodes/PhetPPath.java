@@ -79,7 +79,9 @@ public class PhetPPath extends PPath {
 
         //Set the stroke before setting the path so that it doesn't waste time computing the layout twice (once for the default stroke and once for the specified stroke)
         setStroke( stroke );
-        setPathTo( shape );
+        if ( shape != null ) {
+            setPathTo( shape );
+        }
         setStrokePaint( strokePaint );
     }
 
@@ -96,7 +98,9 @@ public class PhetPPath extends PPath {
         //Set the stroke before setting the path so that it doesn't waste time computing the layout twice (once for the default stroke and once for the specified stroke)
         setPaint( fill );
         setStroke( stroke );
-        setPathTo( shape );
+        if ( shape != null ) {
+            setPathTo( shape );
+        }
         setStrokePaint( strokePaint );
     }
 
