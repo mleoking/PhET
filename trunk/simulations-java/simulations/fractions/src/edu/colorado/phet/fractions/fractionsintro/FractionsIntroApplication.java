@@ -41,6 +41,7 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
 
         //Add developer menu items for debugging performance, see #3314
 
+        //REVIEW: Commented out code no longer needed, since now in dev controls.  True?
 //        PDebug.debugRegionManagement = true;
 //        PDebug.debugBounds = true;
         getPhetFrame().getDeveloperMenu().add( new JCheckBoxMenuItem( "PDebug.regionManagement", PDebug.debugRegionManagement ) {{
