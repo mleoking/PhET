@@ -29,6 +29,7 @@ public class NumberScoreBoxNode extends PNode {
     private boolean completed;
     private final PImage splitButton;
     private FractionNode fractionGraphic;
+    //REVIEW: Unused var.
     private final PNode rootNode;
     private final NumberSceneNode numberSceneNode;
 
