@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -306,29 +307,31 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     }
 
     private void reset() {
-        resetFractions();
-        resetScoreBoxes();
+        Property<Boolean> sentOneToPlayArea = new Property<Boolean>( false );
+        //Order is important, have to reset score boxes first or the fractions in the score box will be split and cause exceptions
+        resetScoreBoxes( sentOneToPlayArea );
+        resetFractions( sentOneToPlayArea );
     }
 
-    private void resetFractions() {
-        boolean first = true;
+    private void resetFractions( final Property<Boolean> sentOneToPlayArea ) {
         for ( FractionNode fractionNode : fractionNodes ) {
             fractionNode.split();
-            if ( first ) {
-                fractionNode.sendFractionSkeletonToCenterOfScreen( 428, 300 );
+            if ( !sentOneToPlayArea.get() ) {
+                fractionNode.sendFractionSkeletonToCenterOfScreen();
+                sentOneToPlayArea.set( true );
             }
             else {
                 fractionNode.sendFractionSkeletonToToolbox();
             }
-            first = false;
         }
     }
 
-    private void resetScoreBoxes() {
-        boolean secondOrLater = false;
+    private void resetScoreBoxes( final Property<Boolean> sentOneToPlayArea ) {
         for ( ScoreBoxPair pair : pairList ) {
-            pair.targetCell.split( secondOrLater );
-            secondOrLater = true;
+            if ( pair.targetCell.isCompleted() ) {
+                pair.targetCell.split( sentOneToPlayArea.get() );
+                sentOneToPlayArea.set( true );
+            }
         }
     }
 
@@ -373,7 +376,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         if ( fractionGraphic.isComplete() ) {
             level.createdFractions.set( level.createdFractions.get().snoc( fractionGraphic.getValue() ) );
 
-            FractionCardNode fractionCard = new FractionCardNode( fractionGraphic, rootNode, pairList, this );
+            FractionCardNode fractionCard = new FractionCardNode( fractionGraphic, pairList, this );
             addChild( fractionCard );
             fractionCard.moveInBackOf( fractionGraphic );
         }

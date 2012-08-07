@@ -67,7 +67,7 @@ public class NumberScoreBoxNode extends PNode {
 
             fractionGraphic.setScale( 1.0 );
             fractionGraphic.splitButton.setVisible( true );
-            FractionCardNode cardNode = new FractionCardNode( fractionGraphic, rootNode, numberSceneNode.pairList, numberSceneNode );
+            FractionCardNode cardNode = new FractionCardNode( fractionGraphic, numberSceneNode.pairList, numberSceneNode );
             numberSceneNode.addChild( cardNode );
 
             fractionGraphic = null;
@@ -77,7 +77,7 @@ public class NumberScoreBoxNode extends PNode {
                 cardNode.fractionNode.sendFractionSkeletonToToolbox();
             }
             else {
-                cardNode.fractionNode.sendFractionSkeletonToCenterOfScreen( 428, 300 );
+                cardNode.fractionNode.sendFractionSkeletonToCenterOfScreen();
             }
 
             numberSceneNode.numberScoreBoxSplit();

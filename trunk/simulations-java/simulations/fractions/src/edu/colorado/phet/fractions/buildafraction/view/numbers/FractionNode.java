@@ -213,13 +213,9 @@ public class FractionNode extends RichPNode {
 
     public Fraction getValue() { return new Fraction( topCard.number, bottomCard.number ); }
 
-    public NumberNode getTopNumberNode() {
-        return topNumberNode;
-    }
+    public NumberNode getTopNumberNode() { return topNumberNode; }
 
-    public NumberNode getBottomNumberNode() {
-        return bottomNumberNode;
-    }
+    public NumberNode getBottomNumberNode() { return bottomNumberNode; }
 
     //Ignore click events on everything except the "split" button, which appears over the card
     public void setDragRegionPickable( final boolean b ) {
@@ -247,7 +243,9 @@ public class FractionNode extends RichPNode {
         animateToPositionScaleRotation( toolboxPositionX, toolboxPositionY, SCALE_IN_TOOLBOX, 0, 1000 );
     }
 
-    public void sendFractionSkeletonToCenterOfScreen( double x, double y ) {
+    public void sendFractionSkeletonToCenterOfScreen() {
+        double x = 428;
+        double y = 300;
         animateToPositionScaleRotation( x - getFullBounds().getWidth() / 2, y, 1.0, 0, 1000 );
     }
 

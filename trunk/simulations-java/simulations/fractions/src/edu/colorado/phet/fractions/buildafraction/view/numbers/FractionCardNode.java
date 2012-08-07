@@ -34,7 +34,7 @@ class FractionCardNode extends RichPNode {
     public final FractionNode fractionNode;
     private final PNode fractionNodeParent;
 
-    public FractionCardNode( final FractionNode fractionNode, final PNode rootNode, final List<ScoreBoxPair> pairList, final NumberSceneNode numberSceneNode ) {
+    public FractionCardNode( final FractionNode fractionNode, final List<ScoreBoxPair> pairList, final NumberSceneNode numberSceneNode ) {
         this.fractionNode = fractionNode;
         this.fractionNode.setCardNode( this );
         this.fractionNodeParent = fractionNode.getParent();
