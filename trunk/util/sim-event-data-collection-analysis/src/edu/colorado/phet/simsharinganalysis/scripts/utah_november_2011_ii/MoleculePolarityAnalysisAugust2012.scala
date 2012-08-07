@@ -96,13 +96,14 @@ object NewParser {
         case e: Entry if e.component == "comboBoxItem" => e("item")
         case e: Entry if e.component == "mouse" && e("atom") != "" && e.action == "startDrag" => "electronegativity-slider-dragged:" + e("atom")
         case e: Entry if e.component == "mouse" && e("atom") != "" && e.action == "endDrag" => "electronegativity-slider-dragged:" + e("atom")
-        case e: Entry if e.component == "bondAngleDrag" || e.component == "molecule rotation drag" => "draggedBondOrMolecule"
+        //        case e: Entry if e.component == "bondAngleDrag" => "bondAngleDrag"
+        //        case e: Entry if e.component == "molecule rotation drag" => "moleculeRotationDrag"
         case _ => ""
       }
 
       //For the count of rotating molecules, can you make any interaction that is 'moving molecule' just count once…like 'dragged A' counts once, but later 'dragged B' or 'dragged C' doesn't count.
       val revisedComponent = element.entry.component match {
-        case s: String if s == "bondAngleDrag" || s == "molecule rotation drag" => "playAreaAtom"
+        //        case s: String if s == "bondAngleDrag" || s == "molecule rotation drag" => "bondAngleDrag"
         case s: String => s
       }
       UniqueComponent(element.start.tab, revisedComponent, text)
