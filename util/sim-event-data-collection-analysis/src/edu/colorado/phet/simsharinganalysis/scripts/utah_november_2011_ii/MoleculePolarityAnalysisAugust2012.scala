@@ -123,7 +123,8 @@ object NewParser {
                                p.toString != "Two Atoms: radioButton: off" &&
                                p.component != "window" &&
                                p.toString != "Three Atoms: mouse" &&
-                               p.toString != "Two Atoms: mouse"
+                               p.toString != "Two Atoms: mouse" &&
+                               p.toString != "Three Atoms: radioButton: off"
 
 
     )
