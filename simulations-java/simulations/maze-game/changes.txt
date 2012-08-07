@@ -1,3 +1,4 @@
+# 1.07.01 (66631) Aug 7, 2012
 # 1.07.00 (52638) Jun 4, 2011
 6/4/11 > added new translation credits features 
 # 1.06.02 (52618) Jun 2, 2011
