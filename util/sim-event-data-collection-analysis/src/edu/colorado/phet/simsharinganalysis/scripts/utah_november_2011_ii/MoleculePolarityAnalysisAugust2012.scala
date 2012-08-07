@@ -15,7 +15,7 @@ case class TextComponent(tab: String, component: String, name: Option[String]) {
   override def toString = component + ( if ( name.isDefined ) ": " else "" ) + name.getOrElse("")
 }
 
-case class Entry(time: Long, component: String, action: String, args: List[Arg]) {
+case class Entry(localTime: Long, serverTime: Long, component: String, action: String, args: List[Arg]) {
   def text = args.find(_.key == "text").map(_.value)
 }
 
@@ -37,7 +37,12 @@ object NewParser {
 
   def parseFile(file: File, text: String) = {
     val lines = text.split('\n').map(_.trim)
-    Log(file, afterEquals(lines(0)), afterEquals(lines(1)), afterEquals(lines(2)).toLong, lines.slice(3, lines.length).map(toEntry).toList)
+    val serverStartTime = afterEquals(lines(2)).toLong
+    val localStartTime = ( lines(3).substring(lines(3).indexOf('=') + 1).trim.split('\t') )(0).trim.toLong
+    if ( file.getName.contains("urrpk0p2") ) {
+      println("sst = " + serverStartTime + ", localstarttime=" + localStartTime)
+    }
+    Log(file, afterEquals(lines(0)), afterEquals(lines(1)), serverStartTime, lines.slice(3, lines.length).map(s => toEntry(s, serverStartTime, localStartTime)).toList)
   }
 
   def parseElement(s: String) = {
@@ -48,13 +53,20 @@ object NewParser {
       Arg(parsed(0), "")
   }
 
-  def toEntry(s: String) = {
+  def toEntry(s: String, serverStartTime: Long, localStartTime: Long) = {
     val elements = s.split('\t').map(_.trim)
     val remainingElements = elements.slice(3, elements.length)
-    Entry(elements(0).toLong, elements(1), elements(2), remainingElements.map(parseElement).toList)
+    val localTime = elements(0).toLong
+    val serverTime = serverStartTime - localStartTime + localTime
+    Entry(localTime, serverTime, elements(1), elements(2), remainingElements.map(parseElement).toList)
   }
 
   def minutesToMilliseconds(minutes: Double) = ( minutes * 60000.0 ).toLong
+
+  def getUsedComponents(entries: Seq[Entry]) = {
+    val textComponents = entries.map(entry => TextComponent("?", entry.component, entry.text)).toSet.toList
+    textComponents.map(_.toString).sorted
+  }
 
   def main(args: Array[String]) {
     val file = new File("C:\\Users\\Sam\\Desktop\\molecule-polarity")
@@ -75,11 +87,9 @@ object NewParser {
       val entries = getUsedComponents(log.entries)
       val used = entries.length
       println("log: " + log.id + ", used=" + used + "/" + allComponents.length)
+      if ( log.sessionID == "52m2urrpk0p2j0s6b84fcs3pbu" ) {
+        log.entries.foreach(println)
+      }
     }
-  }
-
-  def getUsedComponents(entries: Seq[Entry]) = {
-    val textComponents = entries.map(entry => TextComponent("?", entry.component, entry.text)).toSet.toList
-    textComponents.map(_.toString).sorted
   }
 }
