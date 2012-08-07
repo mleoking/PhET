@@ -91,6 +91,7 @@ object NewParser {
         case e: Entry if e.text.isDefined => e.text.get
         case e: Entry if e.component == "mouse" && e("component") == "jmolViewerNode" => e("component") + ":" + e("currentMolecule")
         case e: Entry if e.component == "mouse" && e.action == "startDrag" => "startDrag:" + e("atom")
+        case e: Entry if e.component == "buttonNode" => e("actionCommand")
         case _ => ""
       }
 
