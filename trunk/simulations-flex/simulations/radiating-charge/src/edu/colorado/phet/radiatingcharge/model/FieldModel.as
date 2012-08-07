@@ -51,7 +51,7 @@ public class FieldModel {
 
     //types of motion
     private var _motionType: int;
-    private const STOPPING: int = -1;
+    private const _STOPPING: int = -1;
     private const STARTING: int = -2;    //currently unused
     //types of motion called from radio button group in control panel
     private const _MANUAL_WITH_FRICTION: int = 0;
@@ -243,12 +243,13 @@ public class FieldModel {
     }
 
     public function stopCharge():void{
-        this.myMainView.myControlPanel.presetMotion_rgb.selectedValue = 0;
+        //this.myMainView.myControlPanel.presetMotion_nrbg.selectedIndex = 0;
         //this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;         //is there a more elegant way?
-        this._motionType = STOPPING;
+        this._motionType = _STOPPING;
         this.delTPhoton = delTPhotonDefault;
         this.vXInit = this._vX;
         this.vYInit = this._vY;
+        //this.updateViews()
     }
 
     private function setTEqualZero():void{
@@ -270,7 +271,7 @@ public class FieldModel {
         this._vY = 0;
         this._v = 0;
         this.beta = this._v/this.c;
-        this.myMainView.myControlPanel.presetMotion_rgb.selectedValue = 0;
+        //this.myMainView.myControlPanel.presetMotion_rgb.selectedValue = 0;
         //this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;
         this.initializeFieldLines();
     }
@@ -400,7 +401,7 @@ public class FieldModel {
             this.bumpStep();
         }else if( _motionType == RANDOM ){
             this.randomWalkStep();
-        }else if( _motionType == STOPPING ){
+        }else if( _motionType == _STOPPING ){
             this.stoppingStep();
         }else if ( _motionType == STARTING ){
             this.startingStep();
@@ -699,7 +700,11 @@ public class FieldModel {
 //    public function set motionType_str( value:String ):void {
 //        motionType = value;
 //    }
-//
+
+    public function get STOPPING():int {
+        return _STOPPING;
+    }
+
     public function get MANUAL_NO_FRICTION():int {
         return _MANUAL_NO_FRICTION;
     }

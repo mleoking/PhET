@@ -1,3 +1,7 @@
+/*
+ * Copyright 2002-2012, University of Colorado
+ */
+
 /**
  * Created with IntelliJ IDEA.
  * User: Dubson
@@ -15,9 +19,11 @@ import flash.display.Sprite;
 public class NiceRadioButtonGroup {
     private var radioButtons_arr: Array;   //array of NiceRadioButtons in this radioButtonGroup
     private var _numberOfButtons: int;
+    private var _selectedIndex: int;
     private var action: Function;          //function run when radio button is selected
+    private var controlPanel: Object;
 
-    public function NiceRadioButtonGroup(){
+    public function NiceRadioButtonGroup( ){
         _numberOfButtons = 0;
         radioButtons_arr = new Array();
     }
@@ -28,15 +34,35 @@ public class NiceRadioButtonGroup {
 
     }
 
+    public function setListener( controlPanel: Object ):void{
+        this.controlPanel = controlPanel;
+    }
+
     public function selectButton( selectedButton: NiceRadioButton ):void{
         for( var i:int; i < numberOfButtons; i++ ){
             radioButtons_arr[i].selected = false;
         }
         selectedButton.selected = true;
+        _selectedIndex = selectedButton.indexOfButton;
+        this.controlPanel.niceRadioGroupListener( _selectedIndex );
+        //trace( "NiceRadioButtonGroup.selectButton  selectedIndex is " + _selectedIndex ) ;
+    }
+
+    public function selectButtonWithoutAction( selectedButton: NiceRadioButton ):void{
+        for( var i:int; i < numberOfButtons; i++ ){
+            radioButtons_arr[i].selected = false;
+        }
+        selectedButton.selected = true;
+        _selectedIndex = selectedButton.indexOfButton;
+        //trace( "NiceRadioButtonGroup.selectButton  selectedIndex is " + _selectedIndex ) ;
     }
 
     public function get numberOfButtons():int {
         return _numberOfButtons;
     }
-}
-}
+
+    public function get selectedIndex(): int {
+        return _selectedIndex;
+    }
+} //end class
+} //end package

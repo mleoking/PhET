@@ -158,8 +158,8 @@ public class NiceTextField extends Sprite {
             var readoutString: String = this.readoutValue.toString();
             var zeroString: String = "";
             if( readoutValue%1 == 0 ){
-                if( decimalPlaces = 1 ){
-                    var zeroString:String = ".0";
+                if( decimalPlaces == 1 ){
+                    zeroString = ".0";
                 }
             }
             this.readout_txt.text = readoutString + zeroString + _units_str;

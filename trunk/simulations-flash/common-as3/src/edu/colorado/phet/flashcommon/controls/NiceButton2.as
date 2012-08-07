@@ -86,7 +86,7 @@ public class NiceButton2 extends Sprite {
     }
 
     private function drawButtonBody(): void {
-        var gradMatrix = new Matrix();   //for creating shading on border
+        var gradMatrix: Matrix = new Matrix();   //for creating shading on border
         var g: Graphics = this.buttonBody.graphics;
         //If label is too long, increase button width to accomodate
         if( myButtonWidth < label_txt.textWidth + 30 ){
