@@ -3,6 +3,7 @@ package edu.colorado.phet.simsharinganalysis.scripts.utah_november_2011_ii
 import java.io.File
 import io.Source
 import collection.mutable.ArrayBuffer
+import java.text.DecimalFormat
 
 /**
  * Emily said:
@@ -126,11 +127,17 @@ object NewParser {
     val componentSet = allComponents.toSet
     componentSet.map(_.toString).toList.sorted.foreach(println)
 
+    println("Total items possible: " + componentSet.size)
+    val formatter = new DecimalFormat("0.00")
     for ( log <- logs.sortBy(_.id) ) {
       val elements = getStates(log)
       val entriesUsedInPlayTime = getUsedComponents(elements, e => e.serverTime >= startPlayTime && e.serverTime <= endPlayTime)
       val entriesUsedAnyTime = getUsedComponents(elements, e => true)
-      println("log: " + log.id + ", used=" + entriesUsedInPlayTime.length + "/" + entriesUsedAnyTime.length + "/" + componentSet.size)
+      //      println("log: " + log.id + ", used=" + entriesUsedInPlayTime.length + "/" + entriesUsedAnyTime.length + "/" + componentSet.size)
+      //      println("log: " + log.id + ", used=" + entriesUsedInPlayTime.length + "/" + entriesUsedAnyTime.length + "/" + componentSet.size)
+      println("group: " + log.id + ", played with " + formatter.format(entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0) + "% of items during play time")
     }
+
+    //TODO: clicking on bond "A" different than bond "B", and see if other events should be separate
   }
 }
