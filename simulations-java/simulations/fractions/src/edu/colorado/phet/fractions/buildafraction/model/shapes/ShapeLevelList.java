@@ -307,7 +307,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     */
     ShapeLevel level8() {
         List<Fraction> targets = level8Targets();
-        return shapeLevel( straightforwardCards( targets ), shuffle( targets ), colors[7], choosePiesOrBars( targets ) );
+        return shapeLevel( interestingShapes( targets ), shuffle( targets ), colors[7], choosePiesOrBars( targets ) );
     }
 
     private List<Fraction> level8Targets() {
@@ -324,8 +324,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     */
     ShapeLevel level9() {
         List<Fraction> targets = level8Targets();
-        //TODO: make cards be non-straightforward.  Possibly by consolidating into pieces as large as possible, then doing random subdivisions.
-        return shapeLevel( straightforwardCards( targets ), shuffle( targets ), colors[8], choosePiesOrBars( targets ) );
+        return shapeLevel( interestingShapes( targets ), shuffle( targets ), colors[8], choosePiesOrBars( targets ) );
     }
 
     /*
@@ -345,16 +344,20 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
 
         P2<Fraction, Fraction> two = chooseTwo( available );
         List<Fraction> targets = list( two._1(), two._1(), two._2(), two._2() );
-        List<Integer> shapes1 = interestingShapes( targets.index( 0 ) );
-        List<Integer> shapes2 = interestingShapes( targets.index( 1 ) );
-        List<Integer> shapes3 = interestingShapes( targets.index( 2 ) );
-        List<Integer> shapes4 = interestingShapes( targets.index( 3 ) );
 
-        return shapeLevel( shapes1.append( shapes2 ).append( shapes3 ).append( shapes4 ), targets, colors[9], choosePiesOrBars( targets ) );
+        return shapeLevel( interestingShapes( targets ), targets, colors[9], choosePiesOrBars( targets ) );
+    }
+
+    private List<Integer> interestingShapes( final List<Fraction> fractions ) {
+        List<Integer> list = nil();
+        for ( Fraction fraction : fractions ) {
+            list = list.append( interestingShapesForOne( fraction ) );
+        }
+        return list;
     }
 
     //Get some interesting(non straightforward) shapes for making the fraction.
-    private List<Integer> interestingShapes( final Fraction fraction ) {
+    private List<Integer> interestingShapesForOne( final Fraction fraction ) {
         List<List<Integer>> coefficients = iterableList( getCoefficientSets( fraction ) );
         List<List<Integer>> filtered = coefficients.filter( new F<List<Integer>, Boolean>() {
             @Override public Boolean f( final List<Integer> integers ) {
