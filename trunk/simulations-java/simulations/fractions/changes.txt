@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Converted from "straightforward" to "interesting" shapes for levels 8-9
 Build a Fraction: Numbers: Fixed: Reset doesn't work properly for completed objects
 # 1.00.16 (66596) Aug 6, 2012
 Build a Fraction: Fixed: If I place a card in the play area in the fraction skeleton, "reset" has no effect.
