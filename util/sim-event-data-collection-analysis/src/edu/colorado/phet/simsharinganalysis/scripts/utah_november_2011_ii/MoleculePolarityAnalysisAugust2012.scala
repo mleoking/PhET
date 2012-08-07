@@ -2,6 +2,7 @@ package edu.colorado.phet.simsharinganalysis.scripts.utah_november_2011_ii
 
 import java.io.File
 import io.Source
+import collection.mutable.ArrayBuffer
 
 /**
  * Emily said:
@@ -11,8 +12,8 @@ import io.Source
  */
 case class Arg(key: String, value: String)
 
-case class UniqueComponent(tab: String, component: String, name: Option[String]) {
-  override def toString = component + ( if ( name.isDefined ) ": " else "" ) + name.getOrElse("")
+case class UniqueComponent(tab: String, component: String, name: String) {
+  override def toString = tab + ": " + component + ( if ( name == "" ) "" else ": " + name )
 }
 
 case class Entry(localTime: Long, serverTime: Long, component: String, action: String, args: List[Arg]) {
@@ -24,6 +25,10 @@ case class Log(file: File, machineID: String, sessionID: String, serverTime: Lon
 }
 
 object MoleculePolarityAnalysisAugust2012 {}
+
+case class State(tab: String)
+
+case class Element(start: State, entry: Entry, end: State)
 
 object NewParser {
   def readText(f: File) = {
@@ -68,9 +73,30 @@ object NewParser {
 
   def minutesToMilliseconds(minutes: Double) = ( minutes * 60000.0 ).toLong
 
-  def getUsedComponents(entries: Seq[Entry], filter: Entry => Boolean) = {
-    val textComponents = entries.filter(filter).map(entry => UniqueComponent("?", entry.component, entry.text)).toSet.toList
-    textComponents.map(_.toString).sorted
+  def getUsedComponents(elements: Seq[Element], filter: Entry => Boolean) = {
+    val allowedElements = elements.filter(element => filter(element.entry))
+    val textComponents = allowedElements.map(element => UniqueComponent(element.start.tab, element.entry.component, element.entry.text.getOrElse(""))).toSet.toList
+    textComponents // .map(_.toString).sorted
+  }
+
+  val tabNames = "Two Atoms" :: "Three Atoms" :: "Real Molecules" :: Nil
+
+  def process(state: State, entry: Entry) = {
+    if ( entry.component == "tab" && entry.action == "pressed" )
+      State(entry.text.get)
+    else
+      state
+  }
+
+  def getStates(log: Log) = {
+    val states = new ArrayBuffer[Element]
+    var startState = State(tabNames(0))
+    for ( e <- log.entries ) {
+      val newState = process(startState, e)
+      states += Element(startState, e, newState)
+      startState = newState
+    }
+    states.toList
   }
 
   def main(args: Array[String]) {
@@ -78,6 +104,7 @@ object NewParser {
     val logs = file.listFiles.map(file => (file, readText(file))).map(tuple => parseFile(tuple._1, tuple._2))
     logs.foreach(println)
     logs.map(_.id).foreach(println)
+    logs.map(_.entries(0)).foreach(println)
 
     val group2 = logs.filter(_.id == "2")
     assert(group2.length == 1)
@@ -88,16 +115,22 @@ object NewParser {
     val elapsedPlayTime: Long = minutesToMilliseconds(9.5)
     val endPlayTime: Long = startPlayTime + elapsedPlayTime
 
-    val allComponents = getUsedComponents(logs.flatMap(_.entries), e => true)
-    allComponents.foreach(println)
-
+    //Todo could flat map this probably
+    val allComponents = new ArrayBuffer[UniqueComponent]
     for ( log <- logs ) {
-      val entriesUsedInPlayTime = getUsedComponents(log.entries, e => e.serverTime >= startPlayTime && e.serverTime <= endPlayTime)
-      val entriesUsedAnyTime = getUsedComponents(log.entries, e => true)
-      println("log: " + log.id + ", used=" + entriesUsedInPlayTime.length + "/" + entriesUsedAnyTime.length + "/" + allComponents.length)
-      //      if ( log.sessionID == "52m2urrpk0p2j0s6b84fcs3pbu" ) {
-      //        log.entries.foreach(println)
-      //      }
+      val used = getUsedComponents(getStates(log), e => true)
+      allComponents ++= used
+    }
+
+    println("All")
+    val componentSet = allComponents.toSet
+    componentSet.map(_.toString).toList.sorted.foreach(println)
+
+    for ( log <- logs.sortBy(_.id) ) {
+      val elements = getStates(log)
+      val entriesUsedInPlayTime = getUsedComponents(elements, e => e.serverTime >= startPlayTime && e.serverTime <= endPlayTime)
+      val entriesUsedAnyTime = getUsedComponents(elements, e => true)
+      println("log: " + log.id + ", used=" + entriesUsedInPlayTime.length + "/" + entriesUsedAnyTime.length + "/" + componentSet.size)
     }
   }
 }
