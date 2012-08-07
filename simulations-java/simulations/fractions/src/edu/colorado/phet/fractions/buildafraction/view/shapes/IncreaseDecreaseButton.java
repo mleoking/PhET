@@ -27,6 +27,9 @@ class IncreaseDecreaseButton extends PNode {
         subtractButton.setAllPickable( false );
     }
 
+    //REVIEW: IntelliJ flagged the following three methods as returning values
+    //that are never used.  Suggest either converting to void or documenting
+    //why they should return the activity.
     public PInterpolatingActivity hideIncreaseButton() {
         addButton.setAllPickable( false );
         return addButton.animateToTransparency( 0, 200 );
