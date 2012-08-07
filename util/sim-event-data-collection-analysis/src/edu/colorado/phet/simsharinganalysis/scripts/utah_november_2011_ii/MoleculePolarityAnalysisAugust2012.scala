@@ -38,7 +38,7 @@ object NewParser {
   def parseFile(file: File, text: String) = {
     val lines = text.split('\n').map(_.trim)
     val serverStartTime = afterEquals(lines(2)).toLong
-    val localStartTime = ( lines(3).substring(lines(3).indexOf('=') + 1).trim.split('\t') )(0).trim.toLong
+    val localStartTime = lines(3).split('\t').apply(0).trim.toLong
     if ( file.getName.contains("urrpk0p2") ) {
       println("sst = " + serverStartTime + ", localstarttime=" + localStartTime)
     }
@@ -57,6 +57,11 @@ object NewParser {
     val elements = s.split('\t').map(_.trim)
     val remainingElements = elements.slice(3, elements.length)
     val localTime = elements(0).toLong
+
+    //    to get the time for any event in any log
+    //    server time on line N = original server time on line 3 - local time on line 4 + local time on line N
+    //    correct because line 4 happens exactly when server time is reported
+
     val serverTime = serverStartTime - localStartTime + localTime
     Entry(localTime, serverTime, elements(1), elements(2), remainingElements.map(parseElement).toList)
   }
