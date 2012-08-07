@@ -9,6 +9,8 @@ package edu.colorado.phet.radiatingcharge.control {
 import edu.colorado.phet.flashcommon.controls.HorizontalSlider;
 import edu.colorado.phet.flashcommon.controls.NiceButton2;
 import edu.colorado.phet.flashcommon.controls.NiceLabel;
+import edu.colorado.phet.flashcommon.controls.NiceRadioButton;
+import edu.colorado.phet.flashcommon.controls.NiceRadioButtonGroup;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.radiatingcharge.model.FieldModel;
@@ -44,13 +46,21 @@ public class ControlPanel extends Canvas {
     private var bumpButton_UI:SpriteUIComponent;
 
     private var radioGroupVBox: VBox;        //inside main control panel
-    public var presetMotion_rgb: RadioButtonGroup;
-    private var manualNoFricton_rb: RadioButton;
-    private var manualWithFricton_rb: RadioButton;
-    private var linear_rb: RadioButton;
-    private var sinusoidal_rb: RadioButton;
-    private var circular_rb : RadioButton;
-    private var bump_rb: RadioButton;
+//    public var presetMotion_rgb: RadioButtonGroup;
+//    private var manualNoFricton_rb: RadioButton;
+//    private var manualWithFricton_rb: RadioButton;
+//    private var linear_rb: RadioButton;
+//    private var sinusoidal_rb: RadioButton;
+//    private var circular_rb : RadioButton;
+//    private var bump_rb: RadioButton;
+
+    private var presetMotion_nrbg: NiceRadioButtonGroup;
+    private var manualNoFricton_nrb: NiceRadioButton;
+    private var manualWithFricton_nrb: NiceRadioButton;
+    private var linear_nrb: NiceRadioButton;
+    private var sinusoidal_nrb: NiceRadioButton;
+    private var circular_nrb : NiceRadioButton;
+    private var bump_nrb: NiceRadioButton;
 
     private var selectedMotionControlsVBox: VBox;   //inside main control panel
     private var amplitudeSlider:HorizontalSlider;   //amplitude of both oscillatory and bumb motions
@@ -85,8 +95,8 @@ public class ControlPanel extends Canvas {
     private var duration_str:String;
 
     //radio button choices
-    private var manualNoFricton_str:String;
     private var manualWithFricton_str:String;
+    private var manualNoFricton_str:String;
     private var linear_str:String;
     private var sinusoid_str:String;
     private var circular_str:String;
@@ -103,6 +113,7 @@ public class ControlPanel extends Canvas {
         super();
         this.myMainView = mainView;
         this.myFieldModel = model;
+        //this.myFieldModel.registerView( this );
         this.init();
     }
 
@@ -151,21 +162,35 @@ public class ControlPanel extends Canvas {
         radioGroupVBox = new VBox();
         radioGroupVBox.setStyle( "align", "left" );
         radioGroupVBox.setStyle( "verticalPadding", 0 );
-        presetMotion_rgb = new RadioButtonGroup();
-        manualNoFricton_rb = new RadioButton();
-        manualWithFricton_rb = new RadioButton();
-        linear_rb = new RadioButton();
-        sinusoidal_rb = new RadioButton();
-        circular_rb = new RadioButton();
-        bump_rb = new RadioButton();
+//        presetMotion_rgb = new RadioButtonGroup();
+//        manualNoFricton_rb = new RadioButton();
+//        manualWithFricton_rb = new RadioButton();
+//        linear_rb = new RadioButton();
+//        sinusoidal_rb = new RadioButton();
+//        circular_rb = new RadioButton();
+//        bump_rb = new RadioButton();
 
-        initializeRadioButton( manualWithFricton_rb, manualWithFricton_str, 0, true );
-        initializeRadioButton( manualNoFricton_rb, manualNoFricton_str, 1, false );
-        initializeRadioButton( linear_rb, linear_str, 2, false );
-        initializeRadioButton( sinusoidal_rb, sinusoid_str, 3, false );
-        initializeRadioButton( circular_rb, circular_str, 4, false );
-        initializeRadioButton( bump_rb, bump_str, 5, false );
+        presetMotion_nrbg = new NiceRadioButtonGroup();
+        manualWithFricton_nrb = new NiceRadioButton( manualWithFricton_str, true );
+        manualNoFricton_nrb = new NiceRadioButton( manualNoFricton_str, false );
+        linear_nrb = new NiceRadioButton( linear_str, false );
+        sinusoidal_nrb = new NiceRadioButton( sinusoid_str, false );
+        circular_nrb = new NiceRadioButton( circular_str, false );
+        bump_nrb = new NiceRadioButton( bump_str, false );
 
+//        initializeRadioButton( manualWithFricton_rb, manualWithFricton_str, 0, true );
+//        initializeRadioButton( manualNoFricton_rb, manualNoFricton_str, 1, false );
+//        initializeRadioButton( linear_rb, linear_str, 2, false );
+//        initializeRadioButton( sinusoidal_rb, sinusoid_str, 3, false );
+//        initializeRadioButton( circular_rb, circular_str, 4, false );
+//        initializeRadioButton( bump_rb, bump_str, 5, false );
+
+        initializeNiceRadioButton( manualWithFricton_nrb );
+        initializeNiceRadioButton( manualNoFricton_nrb );
+        initializeNiceRadioButton( linear_nrb );
+        initializeNiceRadioButton( sinusoidal_nrb );
+        initializeNiceRadioButton( circular_nrb );
+        initializeNiceRadioButton( bump_nrb );
 
         /**
          * NOTE: Despite what flex documentation says, the itemClick event is only dispatched when an clicking on a *new* item.
@@ -173,7 +198,8 @@ public class ControlPanel extends Canvas {
          * I know of no way to get that desired behavior.
          */
 
-        presetMotion_rgb.addEventListener( ItemClickEvent.ITEM_CLICK, radioGroupListener );   //works same as Event.CHANGE
+//        presetMotion_rgb.addEventListener( ItemClickEvent.ITEM_CLICK, radioGroupListener );   //works same as Event.CHANGE
+        presetMotion_nrbg.setListener( this );
 
         selectedMotionControlsVBox = new VBox();
         with(selectedMotionControlsVBox){
@@ -234,12 +260,21 @@ public class ControlPanel extends Canvas {
         firstPanel.addChild( radioGroupVBox );
         //radio buttons
         this.firstPanel.addChild( radioGroupVBox );
-        this.radioGroupVBox.addChild( manualWithFricton_rb );
-        this.radioGroupVBox.addChild( manualNoFricton_rb );
-        this.radioGroupVBox.addChild( linear_rb );
-        this.radioGroupVBox.addChild( sinusoidal_rb );
-        this.radioGroupVBox.addChild( circular_rb );
-        this.radioGroupVBox.addChild( bump_rb );
+//        this.radioGroupVBox.addChild( manualWithFricton_rb );
+//        this.radioGroupVBox.addChild( manualNoFricton_rb );
+//        this.radioGroupVBox.addChild( linear_rb );
+//        this.radioGroupVBox.addChild( sinusoidal_rb );
+//        this.radioGroupVBox.addChild( circular_rb );
+//        this.radioGroupVBox.addChild( bump_rb );
+
+        //nice radio buttons
+        this.radioGroupVBox.addChild( new SpriteUIComponent( manualWithFricton_nrb ) );
+        this.radioGroupVBox.addChild( new SpriteUIComponent( manualNoFricton_nrb ) );
+        this.radioGroupVBox.addChild( new SpriteUIComponent( linear_nrb ) );
+        this.radioGroupVBox.addChild( new SpriteUIComponent( sinusoidal_nrb ) );
+        this.radioGroupVBox.addChild( new SpriteUIComponent( circular_nrb ) );
+        this.radioGroupVBox.addChild( new SpriteUIComponent( bump_nrb ) );
+
         //subcontrols for specific radio button choices
         firstPanel.addChild( selectedMotionControlsVBox );
         amplitudeSlider_UI = new SpriteUIComponent( amplitudeSlider, true );
@@ -299,18 +334,23 @@ public class ControlPanel extends Canvas {
         showVelocity_str = FlexSimStrings.get ("showVelocity", "Show velocity  " );
     }
 
-    private function initializeRadioButton( rb:RadioButton, lbl:String,  value: int, selected: Boolean ):void{
-        rb.group = presetMotion_rgb;
-        rb.labelPlacement = "right";
-        rb.label = lbl;// + "   ";
-        rb.value = value;
-        rb.selected = selected;
-        rb.setStyle( "color", 0xffffff );
-        rb.setStyle( "textRollOverColor", 0xffff00 );
-        rb.setStyle( "textSelectedColor", 0xffff00 );
-        rb.setStyle( "iconColor", 0xffffff );
-        rb.setStyle( "fontSize", 16 );
-        //rb.setStyle( "disabledIconColor", 0x000000 );   //doesn't work
+//    private function initializeRadioButton( rb:RadioButton, lbl:String,  value: int, selected: Boolean ):void{
+//        rb.group = presetMotion_rgb;
+//        rb.labelPlacement = "right";
+//        rb.label = lbl;// + "   ";
+//        rb.value = value;
+//        rb.selected = selected;
+//        rb.setStyle( "color", 0xffffff );
+//        rb.setStyle( "textRollOverColor", 0xffff00 );
+//        rb.setStyle( "textSelectedColor", 0xffff00 );
+//        rb.setStyle( "iconColor", 0xffffff );
+//        rb.setStyle( "fontSize", 16 );
+//        //rb.setStyle( "disabledIconColor", 0x000000 );   //doesn't work
+//    }
+
+    private function initializeNiceRadioButton( nrb: NiceRadioButton ):void{
+        nrb.group = presetMotion_nrbg;
+        nrb.label.setFontColor( 0xffffff );
     }
 
     private function pauseUnPause():void{
@@ -325,6 +365,7 @@ public class ControlPanel extends Canvas {
 
 
     private function stopCharge():void{
+        this.setDefaultRadioButton();
         this.myFieldModel.stopCharge();
         this.setVisibilityOfControls();
     }
@@ -336,6 +377,7 @@ public class ControlPanel extends Canvas {
         this.myFieldModel.initializeAmplitudeAndFrequency();
         this.closeShowVelocityPanel();
         this.setVisibilityOfControls();
+        this.setDefaultRadioButton();
     }
 
     //restart() used in linear motion mode
@@ -347,14 +389,73 @@ public class ControlPanel extends Canvas {
         this.myFieldModel.bumpCharge( durationSlider.getVal() );
     }
 
-    private function radioGroupListener( evt: ItemClickEvent ):void{
+    private function setDefaultRadioButton():void{
+        presetMotion_nrbg.selectButtonWithoutAction( manualWithFricton_nrb );
+    }
+
+//    private function radioGroupListener( evt: ItemClickEvent ):void{
+//        this.myFieldModel.paused = false;
+//        this.pauseButton.setLabel( pause_str );
+//        var choice:Object = presetMotion_rgb.selectedValue;
+//        //trace("ControlPanel.radioGroupListener  event = " + evt );
+//        //trace("ControlPanel.radioGroupListener  selectedValue = " + presetMotion_rgb.selectedValue );
+//        //this.myFieldModel.setTypeOfMotion( int( choice ) );
+//        if( choice == 0 ){
+//        }else if( choice == 1 ){
+//        }else if( choice == 2 ){
+//            if( isNaN(this.speedSlider.getVal()) ){
+//                //this.myFieldModel.setBeta( 0.5 );
+//                this.speedSlider.setSliderWithoutAction( 0.5 );
+//            }
+//        }else if( choice == 3 ){
+//            this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
+//            this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
+//        }else if( choice == 4 ){
+//            this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
+//            this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
+//        }else if( choice == 5 ){
+////            if( isNaN(this.durationSlider.getVal()) ){
+////                this.myFieldModel.bumpDuration = 0.5;
+////                this.durationSlider.setSliderWithoutAction( 0.5 );
+////            }
+//            this.amplitudeSlider.minVal = this.minAmplitudeBump;
+//            this.amplitudeSlider.maxVal = this.maxAmplitudeBump;
+//        }else if( choice == 6 ){ this.myFieldModel.setTypeOfMotion( 6 );
+//        }else {
+//            trace( "ERROR: ControlPanel.comboBoxListener() received invalid choice.") ;
+//        }
+//        this.myFieldModel.setTypeOfMotion( int( choice ) );
+//        this.setVisibilityOfControls();
+////        switch( choice ){
+////            case 2:
+////                if( isNaN(this.speedSlider.getVal()) ){
+////                    this.speedSlider.setSliderWithoutAction( 0.5 );
+////                }
+////                break;
+////            case 3:
+////                this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
+////                this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
+////                break;
+////            case 4:
+////                this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
+////                this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
+////                break;
+////            case 5:
+////                this.amplitudeSlider.minVal = this.minAmplitudeBump;
+////                this.amplitudeSlider.maxVal = this.maxAmplitudeBump;
+////                break;
+////        }//end switch( choice )
+//    }//end radioGroupListener
+
+    public function niceRadioGroupListener( selectedButtonIndex: int ):void{
         this.myFieldModel.paused = false;
         this.pauseButton.setLabel( pause_str );
-        var choice:Object = presetMotion_rgb.selectedValue;
+        var choice:int = selectedButtonIndex;
         //trace("ControlPanel.radioGroupListener  event = " + evt );
         //trace("ControlPanel.radioGroupListener  selectedValue = " + presetMotion_rgb.selectedValue );
         //this.myFieldModel.setTypeOfMotion( int( choice ) );
         if( choice == 0 ){
+            //do nothing
         }else if( choice == 1 ){
         }else if( choice == 2 ){
             if( isNaN(this.speedSlider.getVal()) ){
@@ -380,27 +481,7 @@ public class ControlPanel extends Canvas {
         }
         this.myFieldModel.setTypeOfMotion( int( choice ) );
         this.setVisibilityOfControls();
-//        switch( choice ){
-//            case 2:
-//                if( isNaN(this.speedSlider.getVal()) ){
-//                    this.speedSlider.setSliderWithoutAction( 0.5 );
-//                }
-//                break;
-//            case 3:
-//                this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
-//                this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-//                break;
-//            case 4:
-//                this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
-//                this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-//                break;
-//            case 5:
-//                this.amplitudeSlider.minVal = this.minAmplitudeBump;
-//                this.amplitudeSlider.maxVal = this.maxAmplitudeBump;
-//                break;
-//        }//end switch( choice )
-    }//end radioGroupListener
-
+    }//end NiceRadioGroupListener
 
     private function showVelocityListener( evt: Event ):void{
         var selected:Boolean = evt.target.selected;
@@ -430,7 +511,7 @@ public class ControlPanel extends Canvas {
 //    }
 
     private function setVisibilityOfControls():void{
-        //Begin with controls invisible and then make selected controls visible
+        //Begin with all controls invisible and then make selected controls visible
         selectedMotionControlsVBox.visible = false;
         amplitudeSlider_UI.visible = false;
         frequencySlider_UI.visible = false;
@@ -450,7 +531,8 @@ public class ControlPanel extends Canvas {
         speedIndicatorContainer_UI.includeInLayout = false;
         //speedOLightArrow_UI.includeInLayout = false;
         //var choice:int = myComboBox.selectedIndex;
-        var choice: Object = presetMotion_rgb.selectedValue;
+        //var choice: Object = presetMotion_rgb.selectedValue;
+        var choice: int = presetMotion_nrbg.selectedIndex;
         if( choice == 0 || choice == 1){      //user-controlled
             //do nothing
         }else if( choice == 2 ){  //linear
@@ -514,5 +596,14 @@ public class ControlPanel extends Canvas {
     private function setDuration():void{  //duration of bump
         myFieldModel.bumpDuration = durationSlider.getVal();
     }
+
+//    public function update():void{
+//        if(myFieldModel.motionType == myFieldModel.STOPPING ){
+//            if( presetMotion_nrbg.selectedIndex != 0 ) {
+//                this.setDefaultRadioButton();
+//            }
+//            //trace("ControlPanel.update() called.");
+//        }
+//    }
 } //end class
 } //end package
