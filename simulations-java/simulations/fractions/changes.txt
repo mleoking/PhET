@@ -1,3 +1,4 @@
+Added sim sharing for radio buttons
 # 1.00.17 (66622) Aug 7, 2012
 Build a Fraction: Shapes: Converted from "straightforward" to "interesting" shapes for levels 8-9
 Build a Fraction: Numbers: Fixed: Reset doesn't work properly for completed objects

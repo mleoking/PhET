@@ -32,6 +32,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.STAGE_SIZE;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.soundRadioButton;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.timerRadioButton;
 
 /**
  * Shows all the parts of the start screen, including title, level selection buttons, audio+timer buttons
@@ -102,8 +104,8 @@ class StartScreen extends PNode {
         final BufferedImage soundIcon = multiScaleToWidth( GameConstants.SOUND_ICON, iconWidth );
         final BufferedImage soundOffIcon = multiScaleToWidth( GameConstants.SOUND_OFF_ICON, iconWidth );
 
-        addChild( new SettingsOnOffPanel( List.list( new Element( new PImage( stopwatchOffIcon ), new PImage( stopwatchIcon ), gameSettings.timerEnabled ),
-                                                     new Element( new PImage( soundOffIcon ), new PImage( soundIcon ), gameSettings.soundEnabled ) ) ) {{
+        addChild( new SettingsOnOffPanel( List.list( new Element( new PImage( stopwatchOffIcon ), new PImage( stopwatchIcon ), gameSettings.timerEnabled, timerRadioButton ),
+                                                     new Element( new PImage( soundOffIcon ), new PImage( soundIcon ), gameSettings.soundEnabled, soundRadioButton ) ) ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, STAGE_SIZE.height - getFullBounds().getHeight() - INSET );
         }} );
     }

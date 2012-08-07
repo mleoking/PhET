@@ -59,7 +59,13 @@ public class FractionsIntroSimSharing {
         levelButton,
         soundButton, stopwatchButton,
         backButton, mixedNumbersTab,
+
+        soundRadioButton,
+        timerRadioButton,
     }
+
+    public static final String on = "on";
+    public static final String off = "off";
 
     //For chaining with component types
     public static final String blue = "blue";

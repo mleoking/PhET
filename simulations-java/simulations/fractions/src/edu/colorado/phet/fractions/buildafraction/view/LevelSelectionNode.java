@@ -18,6 +18,7 @@ import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel;
 import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -43,7 +44,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
 
         //Add the audio on/off panel
         addChild( new SettingsOnOffPanel( list( new Element( new PImage( SOUND_OFF_ICON ),
-                                                             new PImage( SOUND_ICON ), audioEnabled ) ) ) {{
+                                                             new PImage( SOUND_ICON ), audioEnabled, Components.soundRadioButton ) ) ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, resetAllButton.getFullBounds().getMinY() - getFullBounds().getHeight() - INSET );
         }} );
     }

@@ -9,6 +9,7 @@ import lombok.Data;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -24,7 +25,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getString;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element.nodes;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.off;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.on;
 
 /**
  * Shows nodes in a grid, for on/off for timer/sound.
@@ -36,6 +40,7 @@ public class SettingsOnOffPanel extends PNode {
         public final PNode off;
         public final PNode on;
         public final BooleanProperty onProperty;
+        public final IUserComponent component;
         public static final F<Element, List<PNode>> nodes = new F<Element, List<PNode>>() {
             @Override public List<PNode> f( final Element element ) {
                 return List.list( element.on, element.off );
@@ -48,7 +53,7 @@ public class SettingsOnOffPanel extends PNode {
         List<Element> padded = icons.map( new F<Element, Element>() {
             @Override public Element f( final Element element ) {
                 return new Element( new PaddedIcon( PaddedIcon.getMaxSize( all ), element.off ),
-                                    new PaddedIcon( PaddedIcon.getMaxSize( all ), element.on ), element.onProperty );
+                                    new PaddedIcon( PaddedIcon.getMaxSize( all ), element.on ), element.onProperty, element.component );
             }
         } );
         VBox box = new VBox( 4 );
@@ -63,11 +68,11 @@ public class SettingsOnOffPanel extends PNode {
             element.on.addInputEventListener( new CursorHandler() );
             element.off.addInputEventListener( toggle );
             element.off.addInputEventListener( new CursorHandler() );
-            PNode offButton = new PSwing( new PropertyRadioButton<Boolean>( null, getString( "Games.radioButton.off" ), element.onProperty, false ) {{
+            PNode offButton = new PSwing( new PropertyRadioButton<Boolean>( chain( element.component, off ), getString( "Games.radioButton.off" ), element.onProperty, false ) {{
                 setFont( new PhetFont( 20, true ) );
                 setOpaque( false );
             }} );
-            PNode onButton = new PSwing( new PropertyRadioButton<Boolean>( null, getString( "Games.radioButton.on" ), element.onProperty, true ) {{
+            PNode onButton = new PSwing( new PropertyRadioButton<Boolean>( chain( element.component, on ), getString( "Games.radioButton.on" ), element.onProperty, true ) {{
                 setFont( new PhetFont( 20, true ) );
                 setOpaque( false );
             }} );
