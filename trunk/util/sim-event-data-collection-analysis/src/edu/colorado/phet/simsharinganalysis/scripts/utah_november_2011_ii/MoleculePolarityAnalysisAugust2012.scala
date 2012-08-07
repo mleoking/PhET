@@ -92,46 +92,33 @@ object NewParser {
       val text = element.entry match {
         case e: Entry if e.text.isDefined => e.text.get
         case e: Entry if e.component == "mouse" && e("component") == "jmolViewerNode" => e("component") + ":" + e("currentMolecule")
-        case e: Entry if e.component == "mouse" && e.action == "startDrag" => "startDrag:" + e("atom")
         case e: Entry if e.component == "buttonNode" => e("actionCommand")
+        case e: Entry if e.component == "comboBoxItem" => e("item")
+        case e: Entry if e.component == "mouse" && e("atom") != "" && e.action == "startDrag" => "electronegativity-slider-dragged:" + e("atom")
         case _ => ""
       }
 
       UniqueComponent(element.start.tab, element.entry.component, text)
     }).toSet.toList
 
-    //exclude the list provided by emily
-    //    val excludeList = "Real Molecules: checkBox: Atom Labels" ::
-    //                      "Three Atoms: checkBox: Molecular Dipole" ::
-    //                      "Three Atoms: molecule rotation drag" ::
-    //                      "Three Atoms: mouse: startDrag:A" ::
-    //                      "Three Atoms: mouse: startDrag:B" ::
-    //                      "Three Atoms: mouse: startDrag:C" ::
-    //                      "Three Atoms: radioButton: off" ::
-    //                      "Two Atoms: radioButton: off" ::
-    //                      "Two Atoms: radioButton: none" ::
-    //                      Nil
-    //
-    //    val excludeWithText = ": menu: " ::
-    //                          ": menuItem: " ::
-    //                          ": tab: " ::
-    //                          ": system" :: Nil
-
     textComponents.filter(p => p.component != "tab" &&
                                p.component != "system" &&
                                p.component != "menu" &&
                                p.component != "menuItem" &&
+                               p.toString != "Three Atoms: checkBox: Molecular Dipole" &&
                                p.toString != "Real Molecules: checkBox: Atom Labels" &&
                                p.toString != "Real Molecules: radioButton: none" &&
                                p.component != "bondAngleDrag" &&
                                p.component != "molecule rotation drag" &&
-                               p.component != "mouse" && //may need to be added back in
                                p.component != "bond" &&
+                               !p.toString.contains("jmolViewerNode") &&
                                p.toString != "Two Atoms: checkBox: Bond Dipole" &&
                                p.component != "draggingState" &&
-                               p.component != "Two Atoms: radioButton: none" &&
-                               p.component != "Two Atoms: radioButton: off" &&
-                               p.component != "window"
+                               p.toString != "Two Atoms: radioButton: none" &&
+                               p.toString != "Two Atoms: radioButton: off" &&
+                               p.component != "window" &&
+                               p.toString != "Three Atoms: mouse" &&
+                               p.toString != "Two Atoms: mouse"
 
 
     )
