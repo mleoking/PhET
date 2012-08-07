@@ -71,39 +71,53 @@ public class ChargeView extends Sprite {
         this.addChild( this.springGraphic );
         this.addChild( this.chargeGraphic );
         this.chargeGraphic.addChild( myMainView.myVelocityArrowView.velocityArrow );
-
+        this.drawGrabArea();
         //this.chargeGraphic.addChild( this.springGraphic );
         this.chargeGraphic.addChild( this.grabArea );
         //this.drawChargeGraphic();
+
         this.makeChargeGrabbable();
         this.springTimer.addEventListener( TimerEvent.TIMER, updateSpring );
         this.update();
 
     } //end of initialize
 
-    private function drawChargeGraphic():void{
-        var g:Graphics = this.chargeGraphic.graphics;
-        var radius:Number = 10
-        g.clear();
-        g.lineStyle( 2, 0xff0000, 0 );
-        g.beginFill( 0xff0000, 1 );
-        g.drawCircle( 0, 0, radius );
-        g.endFill();
-        //Draw specular highlight
-//        g.beginFill( 0xff8888, 1 );
-//        g.drawCircle(0.35*radius, -0.35*radius,  0.5*radius );
+//    private function drawChargeGraphic():void{
+//        var g:Graphics = this.chargeGraphic.graphics;
+//        var radius:Number = 10
+//        g.clear();
+//        g.lineStyle( 2, 0xff0000, 0 );
+//        g.beginFill( 0xff0000, 1 );
+//        g.drawCircle( 0, 0, radius );
 //        g.endFill();
-//        g.beginFill( 0xffffff, 1 );
-//        g.drawCircle(0.5*radius, -0.5*radius,  0.2*radius );
-//        g.endFill();
-        //Draw plus sign
-        g.lineStyle( 2, 0xffffff, 1, false,"normal", CapsStyle.NONE );
-        var r:Number = radius/2;
-        g.moveTo( -r, 0 );
-        g.lineTo( r,  0 );
-        g.moveTo( 0, -r );
-        g.lineTo( 0, r );
-        //Draw grab area
+//        //Draw specular highlight
+////        g.beginFill( 0xff8888, 1 );
+////        g.drawCircle(0.35*radius, -0.35*radius,  0.5*radius );
+////        g.endFill();
+////        g.beginFill( 0xffffff, 1 );
+////        g.drawCircle(0.5*radius, -0.5*radius,  0.2*radius );
+////        g.endFill();
+//        //Draw plus sign
+//        g.lineStyle( 2, 0xffffff, 1, false,"normal", CapsStyle.NONE );
+//        var r:Number = radius/2;
+//        g.moveTo( -r, 0 );
+//        g.lineTo( r,  0 );
+//        g.moveTo( 0, -r );
+//        g.lineTo( 0, r );
+//        //Draw grab area
+//        var gGrab: Graphics = this.grabArea.graphics;
+//        var radius: Number = 100;
+//        with( gGrab ){
+//            clear();
+//            lineStyle( 1, 0xffffff, 0.5 );
+//            beginFill( 0x00ff00, 0.5 );
+//            drawCircle( 0, 0, radius );
+//            endFill();
+//
+//        }
+//    }//end drawChargeGraphic
+
+    private function drawGrabArea():void{
         var gGrab: Graphics = this.grabArea.graphics;
         var radius: Number = 100;
         with( gGrab ){
@@ -112,9 +126,8 @@ public class ChargeView extends Sprite {
             beginFill( 0x00ff00, 0 );
             drawCircle( 0, 0, radius );
             endFill();
-
         }
-    }//end drawChargeGraphic
+    }
 
     private function setSpring( ):void{
         var g:Graphics = this.springGraphic.graphics;

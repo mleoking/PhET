@@ -26,6 +26,7 @@ public class NiceRadioButton extends Sprite {
     private var _group: NiceRadioButtonGroup;
     //graphics
     private var icon:Sprite;
+    private var overIcon: Sprite;
     public var label: NiceLabel;
     private var buttonHitArea: Sprite;
 
@@ -34,18 +35,22 @@ public class NiceRadioButton extends Sprite {
         this.label_str = label_str;
         this._selected = selected;
         this.icon = new Sprite();
+        this.overIcon = new Sprite();
         this.label = new NiceLabel( 15, this.label_str );
         this.buttonHitArea = new Sprite();
         if( selected ){
-            this.drawDeselectedIcon();
-        }else{
             this.drawSelectedIcon();
+        }else{
+            this.drawDeselectedIcon();
         }
-
+        this.drawOverIcon();
+        this.overIcon.visible = false;
         this.drawHitArea();
         this.addChild( icon );
+        this.addChild( overIcon );
         this.addChild( label );
         label.x = icon.width;
+        label.y -= 3;
         this.addChild( buttonHitArea );
         this.activateButton();
     }
@@ -63,8 +68,8 @@ public class NiceRadioButton extends Sprite {
         var r: Number = 7;  //radius of circle
         with( gIcon ){
             clear();
-            lineStyle( 3, 0x666666 );
-            beginFill( 0x666666 );
+            lineStyle( 3, 0x888888 );
+            beginFill( 0x555555 );
             drawCircle( r, r, r );
             endFill();
         }
@@ -77,6 +82,18 @@ public class NiceRadioButton extends Sprite {
             clear();
             lineStyle( 3, 0x666666 );
             beginFill( 0xffffff );
+            drawCircle( r, r, r );
+            endFill();
+        }
+    }
+
+    private function drawOverIcon():void{
+        var gOverIcon: Graphics = overIcon.graphics;
+        var r: Number = 7;  //radius of circle
+        with(gOverIcon){
+            clear();
+            lineStyle( 3, 0xaaaa00 );
+            beginFill( 0xffff00 );
             drawCircle( r, r, r );
             endFill();
         }
@@ -108,10 +125,12 @@ public class NiceRadioButton extends Sprite {
 
             if ( evt.type == "mouseDown" ) {
                 localRef._group.selectButton( localRef );
+                localRef.overIcon.visible = false;
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseOver" ) {
-                localRef.label.setFontColor( 0x00ffff );
-
+                localRef.label.setFontColor( 0xffff00 );
+                localRef.label.setBold(true)
+                localRef.overIcon.visible = true;
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseUp" ) {
                 //trace("evt.name:"+evt.type);
@@ -119,6 +138,10 @@ public class NiceRadioButton extends Sprite {
 
             } else if ( evt.type == "mouseOut" ) {
                 localRef.label.setFontColor( 0xffffff );
+                localRef.overIcon.visible = false;
+                if( !localRef._selected ) {
+                    localRef.label.setBold( false );
+                }
             }
     }
     }
@@ -128,8 +151,10 @@ public class NiceRadioButton extends Sprite {
         this._selected = tOrF;
         if( _selected == true ){
             drawSelectedIcon();
+            label.setBold( true );
         }else{
             drawDeselectedIcon();
+            label.setBold( false );
         }
     }
 
