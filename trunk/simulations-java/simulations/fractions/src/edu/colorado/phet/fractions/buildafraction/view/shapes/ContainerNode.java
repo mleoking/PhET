@@ -278,4 +278,10 @@ public class ContainerNode extends PNode {
             dynamicCursorHandler.setCursor( Cursor.HAND_CURSOR );
         }
     }
+
+    public void resetNumberOfContainers() {
+        for ( int i = 1; i < getSingleContainerNodes().length(); i++ ) {
+            removeContainer();
+        }
+    }
 }
