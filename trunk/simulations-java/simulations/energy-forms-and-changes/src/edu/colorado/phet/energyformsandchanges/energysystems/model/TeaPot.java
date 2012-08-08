@@ -30,7 +30,8 @@ public class TeaPot extends EnergySource {
     }
 
     @Override public Energy stepInTime( double dt ) {
-        return new Energy( Energy.Type.MECHANICAL, ENERGY_PRODUCTION_RATE * dt, Math.PI / 2 );
+        double producedEnergy = active ? ENERGY_PRODUCTION_RATE * dt : 0;
+        return new Energy( Energy.Type.MECHANICAL, producedEnergy, Math.PI / 2 );
     }
 
     @Override public IUserComponent getUserComponent() {

@@ -41,6 +41,7 @@ public class LightBulb extends EnergyUser {
     }
 
     @Override public void deactivate() {
+        super.deactivate();
         litProportion.set( 0.0 );
     }
 
