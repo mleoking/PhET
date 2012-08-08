@@ -1,3 +1,4 @@
+2nd tab: Added basic interaction between the energy producers, consumers, and users.
 Backed out the changes that were made for the fast prototype of Heat Capacity Lab.
 # 0.00.16 (66383) Jul 27, 2012
 7/27/12 Publishing dev version for testing.
