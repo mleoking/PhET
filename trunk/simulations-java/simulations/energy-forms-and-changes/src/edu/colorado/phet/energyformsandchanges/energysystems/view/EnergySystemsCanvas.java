@@ -7,8 +7,6 @@ import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -22,7 +20,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemsModel;
-import edu.colorado.phet.energyformsandchanges.energysystems.model.ShapeModelElement;
 import edu.colorado.phet.energyformsandchanges.intro.view.NormalAndFastForwardTimeControlPanel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -121,20 +118,11 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode solarPanelNode = new EnergySystemElementNode( model.solarPanel, mvt );
         PNode beakerHeaterNode = new EnergySystemElementNode( model.beakerHeater, mvt );
 
-        // Add the nodes that exist in the carousels.
-        List<ShapeNode> shapeNodes = new ArrayList<ShapeNode>();
-        for ( ShapeModelElement shapeModelElement : model.shapeModelElementList ) {
-            shapeNodes.add( new ShapeNode( shapeModelElement, mvt ) );
-        }
-
         //------- Node Layering -----------------------------------------------
 
         PNode rootNode = new PNode();
         addWorldChild( rootNode );
 
-        for ( PNode shapeNode : shapeNodes ) {
-            rootNode.addChild( shapeNode );
-        }
         rootNode.addChild( faucetAndWaterNode );
         rootNode.addChild( sunNode );
         rootNode.addChild( teaPotNode );
