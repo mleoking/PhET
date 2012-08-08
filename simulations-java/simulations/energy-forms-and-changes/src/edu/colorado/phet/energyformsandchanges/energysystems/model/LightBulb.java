@@ -47,9 +47,9 @@ public class LightBulb extends EnergyUser {
 
     static private List<ModelElementImage> assembleImageList( final ModelElementImage offImage, final ModelElementImage onImage ) {
         return new ArrayList<ModelElementImage>() {{
-            add( new ModelElementImage( WIRE_BLACK_MIDDLE,
-                                        WIRE_BLACK_MIDDLE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                        new Vector2D( -0.0375, -0.04 ) ) );
+            add( new ModelElementImage( WIRE_BLACK_MIDDLE_62,
+                                        WIRE_BLACK_MIDDLE_62.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                        new Vector2D( -0.037, -0.04 ) ) );
             add( new ModelElementImage( WIRE_BLACK_RIGHT,
                                         WIRE_BLACK_RIGHT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
                                         new Vector2D( -0.009, -0.016 ) ) );
