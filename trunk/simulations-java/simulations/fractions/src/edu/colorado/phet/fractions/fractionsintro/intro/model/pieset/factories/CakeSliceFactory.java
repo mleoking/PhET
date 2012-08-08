@@ -43,7 +43,10 @@ public @EqualsAndHashCode(callSuper = false) class CakeSliceFactory extends Slic
     public Slice createBucketSlice( int denominator, long randomSeed ) {
         Random random = new Random( randomSeed );
         final double anglePerSlice = 2 * Math.PI / denominator;
-        final Vector2D location = new Vector2D( getBucketCenter().x + ( random.nextDouble() * 2 - 1 ) * radius, getBucketCenter().y + radius / 4 );
+        final Vector2D location = new Vector2D( getBucketCenter().x + ( random.nextDouble() * 2 - 1 ) * radius,
+
+                                                //stagger in Z solely for fixing z-ordering, see below
+                                                getBucketCenter().y + radius / 4 + random.nextDouble() / 100 );
         return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ), null );
     }
 
@@ -85,8 +88,8 @@ public @EqualsAndHashCode(callSuper = false) class CakeSliceFactory extends Slic
                         return cellA > cellB ? Ordering.GT :
                                cellA < cellB ? Ordering.LT :
                                //Use any rule that differentiates the slices so the bucket slices don't jump around because of all being equal
-                               a.hashCode() > b.hashCode() ? Ordering.GT :
-                               a.hashCode() < b.hashCode() ? Ordering.LT :
+                               a.position.y > b.position.y ? Ordering.LT :
+                               a.position.y < b.position.y ? Ordering.GT :
                                Ordering.EQ;
                     }
                 };
