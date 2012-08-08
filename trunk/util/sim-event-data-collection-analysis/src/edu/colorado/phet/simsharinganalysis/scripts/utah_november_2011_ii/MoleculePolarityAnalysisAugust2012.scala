@@ -6,13 +6,14 @@ import collection.mutable.ArrayBuffer
 import java.text.DecimalFormat
 
 /**
- * Emily said:
- * I’m back to working on the Molecule Polarity sim data (from the Utah study last November). I’d like to do two types of analysis:
- * 1)   What % of clickable/moveable options did each group interact with during the “play only” time? (this would include clicking on any tool/tab, and moving a moveable object.)
- * 2)   A histogram (representing all student groups) showing the amount of new moveable objects/tools clicked on over the “play only” time.
+ * Goal of this analysis:
+ * For the Molecule Polarity sim data (from the Utah study last November). I’d like to do two types of analysis:
+ * 1)  What % of clickable/moveable options did each group interact with during the “play only” time? (this would include clicking on any tool/tab, and moving a moveable object.)
+ * 2)  A histogram (representing all student groups) showing the amount of new moveable objects/tools clicked on over the “play only” time.
  */
 case class Arg(key: String, value: String)
 
+//A unique component or user action for counting them
 case class UniqueComponent(tab: String, component: String, name: String) {
   override def toString = tab + ": " + component + ( if ( name == "" ) "" else ": " + name )
 }
@@ -96,17 +97,11 @@ object NewParser {
         case e: Entry if e.component == "comboBoxItem" => e("item")
         case e: Entry if e.component == "mouse" && e("atom") != "" && e.action == "startDrag" => "electronegativity-slider-dragged:" + e("atom")
         case e: Entry if e.component == "mouse" && e("atom") != "" && e.action == "endDrag" => "electronegativity-slider-dragged:" + e("atom")
-        //        case e: Entry if e.component == "bondAngleDrag" => "bondAngleDrag"
-        //        case e: Entry if e.component == "molecule rotation drag" => "moleculeRotationDrag"
         case _ => ""
       }
 
       //For the count of rotating molecules, can you make any interaction that is 'moving molecule' just count once…like 'dragged A' counts once, but later 'dragged B' or 'dragged C' doesn't count.
-      val revisedComponent = element.entry.component match {
-        //        case s: String if s == "bondAngleDrag" || s == "molecule rotation drag" => "bondAngleDrag"
-        case s: String => s
-      }
-      UniqueComponent(element.start.tab, revisedComponent, text)
+      UniqueComponent(element.start.tab, element.entry.component, text)
     }).toSet.toList
 
     textComponents.filter(p => p.component != "tab" &&
@@ -126,11 +121,7 @@ object NewParser {
                                p.toString != "Three Atoms: mouse" &&
                                p.toString != "Two Atoms: mouse" &&
                                p.toString != "Three Atoms: radioButton: off"
-
-
     )
-
-    //    textComponents // .map(_.toString).sorted
   }
 
   val tabNames = "Two Atoms" :: "Three Atoms" :: "Real Molecules" :: Nil
@@ -163,11 +154,21 @@ object NewParser {
     val group2 = logs.filter(_.id == "2")
     assert(group2.length == 1)
     //For the recording that is linked with audio #2, the play time was from (min:sec) 0:00-9:30 from the start.
-    val startPlayTime = group2.apply(0).serverTime
+    //    val startPlayTime = group2.apply(0).serverTime
+    //    println("file for for group 2 = "+group2.apply(0).file)
+    //    println(startPlayTime)
+
+    //5 seconds before activity from group 10
+    val startPlayTime = 1320867917969L
 
     //Time on the server
-    val elapsedPlayTime: Long = minutesToMilliseconds(9.5)
-    val endPlayTime: Long = startPlayTime + elapsedPlayTime
+    //    val elapsedPlayTime: Long = minutesToMilliseconds(9.5)
+    //    val endPlayTime: Long = startPlayTime + elapsedPlayTime
+
+    //right before everyone starts changing to tab 1 for the activity
+    val endPlayTime: Long = 1320867957969L + 609600L
+
+    println(endPlayTime)
 
     //Todo could flat map this probably
     val allComponents = new ArrayBuffer[UniqueComponent]
@@ -182,32 +183,38 @@ object NewParser {
 
     println("Total items possible: " + componentSet.size)
     val formatter = new DecimalFormat("0.00")
+
     println("group\tcomponents used during\"play only\" time")
     for ( log <- logs.sortBy(_.id) ) {
       val elements = getStates(log)
       val entriesUsedInPlayTime = getUsedComponents(elements, e => e.serverTime >= startPlayTime && e.serverTime <= endPlayTime)
       val entriesUsedAnyTime = getUsedComponents(elements, e => true)
-      //      println("log: " + log.id + ", used=" + entriesUsedInPlayTime.length + "/" + entriesUsedAnyTime.length + "/" + componentSet.size)
-      //      println("log: " + log.id + ", used=" + entriesUsedInPlayTime.length + "/" + entriesUsedAnyTime.length + "/" + componentSet.size)
       println(log.id + "\t" + formatter.format(entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0) + "%")
     }
 
     //Print line plots.  How many controls each team used as a function of time
-    val columns = 0 until 9 * 60 + 30 by 1
-    print("time(sec)\t" + columns.mkString("\t") + "\n")
+    val columns = startPlayTime to endPlayTime by 5000
+
+    println("start time = " + startPlayTime)
+    println("end time = " + endPlayTime)
+    println("first few columns = " + columns.take(3))
+
+    def timeToServerTime(seconds: Long) = {
+      //      new Date(seconds*1000 + startPlayTime)
+      seconds * 1000L + startPlayTime
+    }
+
+    print("time(millis)\t" + columns.mkString("\t") + "\n")
     for ( log <- logs.sortBy(_.id) ) {
 
-      print(log.id + "\t" + columns.map(seconds => {
+      print(log.id + "\t" + columns.map(endTimeForHistogram => {
         val elements = getStates(log)
-        val entriesUsedInPlayTime = getUsedComponents(elements, e => e.serverTime >= startPlayTime && e.serverTime <= startPlayTime + seconds * 1000)
+        val entriesUsedInPlayTime = getUsedComponents(elements, e =>
+          e.serverTime >= startPlayTime &&
+          e.serverTime <= endTimeForHistogram)
         entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0
       }).mkString("\t"))
       println()
     }
-    //    for ( log <- logs ) {
-    //      for ( seconds <- 0 until 9 * 60 + 30 by 1 ) {
-    //        println()
-    //      }
-    //    }
   }
 }
