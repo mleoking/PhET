@@ -12,6 +12,7 @@ import java.util.Random;
 
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.Distribution;
+import edu.colorado.phet.fractions.common.util.FJUtils;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel.shapeLevel;
@@ -365,8 +366,31 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
             }
         } );
 
-        final List<Integer> chosenCoefficients = chooseOne( filtered.length() == 0 ? coefficients : filtered );
+        //favor solutions that have a smaller number of cards
+        final List<List<Integer>> listToUse = selectSolutionsWithSmallNumberOfCards( filtered.length() == 0 ? coefficients : filtered );
+        final List<Integer> chosenCoefficients = chooseOne( listToUse );
         return coefficientsToShapes( single( chosenCoefficients ) );
+    }
+
+    //In order to remove the tedium but still require creation of interesting shapes, sort by the number of pieces required to create the fraction
+    //and choose one of the solutions with a small number of cards.
+    private List<List<Integer>> selectSolutionsWithSmallNumberOfCards( final List<List<Integer>> lists ) {
+
+        List<List<Integer>> sorted = lists.sort( FJUtils.ord( new F<List<Integer>, Double>() {
+            @Override public Double f( final List<Integer> list ) {
+                return coefficientsToShapes( single( list ) ).length() + 0.0;
+            }
+        } ) );
+
+        //For debugging
+//        System.out.println( "Start>>>>>>>>>>>>>>>>>" );
+//        for ( List<Integer> integers : sorted ) {
+//            int count = coefficientsToShapes( single( integers ) ).length();
+//            System.out.println( count );
+//        }
+//        System.out.println( "END<<<<<<<<<<<<<<<<<<<<" );
+
+        return sorted.take( 5 );
     }
 
     private int numberOfNonzeroElements( final List<Integer> integers ) {
