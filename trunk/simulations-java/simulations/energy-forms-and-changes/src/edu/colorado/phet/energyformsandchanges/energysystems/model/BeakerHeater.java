@@ -48,6 +48,7 @@ public class BeakerHeater extends EnergyUser {
     }
 
     @Override public void deactivate() {
+        super.deactivate();
         heatProportion.set( 0.0 );
     }
 

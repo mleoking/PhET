@@ -20,6 +20,9 @@ public abstract class EnergySystemElement extends PositionableModelElement {
     // Image that is used as an icon in the view to represent this element.
     private final Image iconImage;
 
+    // State variable that tracks whether this element is currently active.
+    protected boolean active = false;
+
     protected EnergySystemElement( Image iconImage ) {
         this( iconImage, new ArrayList<ModelElementImage>() );
     }
@@ -40,10 +43,10 @@ public abstract class EnergySystemElement extends PositionableModelElement {
     public abstract IUserComponent getUserComponent();
 
     public void activate() {
-        // Does nothing by default, override as needed in subclasses.
+        active = true;
     }
 
     public void deactivate() {
-        // Does nothing by default, override as needed in subclasses.
+        active = false;
     }
 }
