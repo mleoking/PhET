@@ -76,10 +76,6 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     private final List<Target> targetPairs;
     private final RichPNode toolboxNode;
     private final VBox faceNodeDialog;
-    //REVIEW: Unused member var.
-    private final int levelIndex;
-    //REVIEW: Unused member var.
-    private final SceneContext context;
 
     //Declare type-specific wrappers for declaration site variance to make map call site more readable
     private final F<PieceIconNode, Double> _minX = FNode._minX();
@@ -92,8 +88,6 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
         this.level = model.getShapeLevel( levelIndex );
-        this.levelIndex = levelIndex;
-        this.context = context;
 
         final BackButton backButton = new BackButton( new VoidFunction0() {
             public void apply() {

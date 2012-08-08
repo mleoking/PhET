@@ -27,24 +27,25 @@ class IncreaseDecreaseButton extends PNode {
         subtractButton.setAllPickable( false );
     }
 
-    //REVIEW: IntelliJ flagged the following three methods as returning values
-    //that are never used.  Suggest either converting to void or documenting
-    //why they should return the activity.
+    //Hide the increase button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion
     public PInterpolatingActivity hideIncreaseButton() {
         addButton.setAllPickable( false );
         return addButton.animateToTransparency( 0, 200 );
     }
 
+    //Hide the decrease button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion
     public PInterpolatingActivity hideDecreaseButton() {
         subtractButton.setAllPickable( false );
         return subtractButton.animateToTransparency( 0, 200 );
     }
 
+    //Show the increase button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion
     public PInterpolatingActivity showIncreaseButton() {
         addButton.setAllPickable( true );
         return addButton.animateToTransparency( 1, 200 );
     }
 
+    //Show the decrease button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion
     public PInterpolatingActivity showDecreaseButton() {
         subtractButton.setAllPickable( true );
         return subtractButton.animateToTransparency( 1, 200 );
