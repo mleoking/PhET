@@ -32,12 +32,16 @@ public class LightBulb extends EnergyUser {
     }
 
     @Override public void stepInTime( double dt, Energy incomingEnergy ) {
-        if ( incomingEnergy.type == Energy.Type.ELECTRICAL ) {
+        if ( active && incomingEnergy.type == Energy.Type.ELECTRICAL ) {
             litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / energyToFullyLight, 1 ) );
         }
         else {
             litProportion.set( 0.0 );
         }
+    }
+
+    @Override public void deactivate() {
+        litProportion.set( 0.0 );
     }
 
     static private List<ModelElementImage> assembleImageList( final ModelElementImage offImage, final ModelElementImage onImage ) {
