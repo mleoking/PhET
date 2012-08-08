@@ -5,21 +5,62 @@
   </component>
   <component name="FlexBuildConfigurationManager" active="radiating-charge">
     <configurations>
-      <configuration name="radiating-charge" main-class="edu.colorado.phet.radiatingcharge.RadiatingChargeApplication" output-file="radiating-charge.swf" output-folder="$MODULE_DIR$/../../out">
-        <dependencies target-player="9">
+      <configuration name="radiating-charge" target-platform="Mobile" main-class="edu.colorado.phet.radiatingcharge.RadiatingChargeApplication" output-file="radiating-charge.swf" output-folder="$MODULE_DIR$/../../out">
+        <dependencies>
           <entries>
             <entry module-name="flexcommon" build-configuration-name="flexcommon">
               <dependency linkage="Merged" />
             </entry>
+            <entry library-id="31a5bf5b-51b2-44b5-aae8-b6fe8b93d73d">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="9a5a88dc-58b2-47e1-a368-fc01013b320b">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="d0684a4d-a58b-4de2-bd2d-479dae97262c">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="31893ca6-66a0-4c79-ae82-64eaa659e483">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="5c035e7a-d35d-463e-a415-02fa3a40b27c">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="8801c6a6-8a30-4fde-bef4-7ab3e76587cc">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="0e34611b-8fda-4052-8a3c-dfb853e79d9f">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="ce084044-37e8-402f-84b2-f4553e0e0125">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="ab26f4c0-69ef-44fe-97d1-664c9472c155">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="d0be0251-9795-4844-b23c-66aac0b8ed80">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="1f7ceb87-19c5-48da-b385-595896b641eb">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="2661b2c9-20fc-46f5-9f4c-744d99be6a6c">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="1daa9d94-7364-4e2f-9c6e-5e03ed81c9e3">
+              <dependency linkage="Merged" />
+            </entry>
           </entries>
-          <sdk name="flex_sdk_3.4.1.10084A" />
+          <sdk name="flex_sdk_4.6" />
         </dependencies>
         <compiler-options>
           <option name="additionalOptions" value="-use-network" />
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android />
-        <packaging-ios />
+        <packaging-android package-file-name="radiating-charge" />
+        <packaging-ios enabled="true" package-file-name="radiating-charge">
+          <AirSigningOptions keystore-path="$MODULE_DIR$/../../../../Apple/phet-ipad-cert.p12" provisioning-profile-path="$MODULE_DIR$/../../../../Apple/PhET_Prototype_I_Provisioning_Profile.mobileprovision" />
+        </packaging-ios>
       </configuration>
     </configurations>
     <compiler-options />
@@ -29,9 +70,139 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084A" jdkType="Flex SDK Type (new)" />
+    <orderEntry type="jdk" jdkName="flex_sdk_4.6" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="flexcommon" />
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="31a5bf5b-51b2-44b5-aae8-b6fe8b93d73d" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/advancedgrids.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="9a5a88dc-58b2-47e1-a368-fc01013b320b" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/authoringsupport.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="d0684a4d-a58b-4de2-bd2d-479dae97262c" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/charts.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="31893ca6-66a0-4c79-ae82-64eaa659e483" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/core.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="5c035e7a-d35d-463e-a415-02fa3a40b27c" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/flash-integration.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="8801c6a6-8a30-4fde-bef4-7ab3e76587cc" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/framework.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="0e34611b-8fda-4052-8a3c-dfb853e79d9f" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/osmf.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="ce084044-37e8-402f-84b2-f4553e0e0125" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/rpc.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="ab26f4c0-69ef-44fe-97d1-664c9472c155" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/spark.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="d0be0251-9795-4844-b23c-66aac0b8ed80" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/spark_dmv.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="1f7ceb87-19c5-48da-b385-595896b641eb" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/sparkskins.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="2661b2c9-20fc-46f5-9f4c-744d99be6a6c" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/textLayout.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="1daa9d94-7364-4e2f-9c6e-5e03ed81c9e3" />
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../flex_sdk_4.6/frameworks/libs/mx/mx.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

@@ -35,6 +35,7 @@ public class RadiatingChargeCanvas extends Canvas {
         }
         stage.addEventListener( Event.RESIZE, listener );
         listener( null );
+
     }//end init()
 
     //Not currently used.
