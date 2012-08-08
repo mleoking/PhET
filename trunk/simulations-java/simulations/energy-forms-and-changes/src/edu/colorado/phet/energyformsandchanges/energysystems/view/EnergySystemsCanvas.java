@@ -116,7 +116,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode incandescentLightBulbNode = new LightBulbNode( model.incandescentLightBulb, mvt );
         PNode fluorescentLightBulbNode = new LightBulbNode( model.fluorescentLightBulb, mvt );
         PNode solarPanelNode = new EnergySystemElementNode( model.solarPanel, mvt );
-        PNode beakerHeaterNode = new EnergySystemElementNode( model.beakerHeater, mvt );
+        PNode beakerHeaterNode = new BeakerHeaterNode( model.beakerHeater, mvt );
 
         //------- Node Layering -----------------------------------------------
 
