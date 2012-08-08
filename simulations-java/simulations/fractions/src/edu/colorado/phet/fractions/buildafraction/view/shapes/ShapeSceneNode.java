@@ -228,13 +228,14 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         addChild( toolboxNode );
         toolboxNode.moveToBack();
 
-        faceNodeDialog = new VBox( new FaceNode( 200 ), new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), BUTTON_COLOR ) {{
+        final HTMLImageButtonNode nextButton = new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     context.goToNextShapeLevel( levelIndex + 1 );
                 }
             } );
-        }} ) {{
+        }};
+        faceNodeDialog = new VBox( new FaceNode( 200 ), model.isLastLevel( levelIndex ) ? new PNode() : nextButton ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
         }};
 
