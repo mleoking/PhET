@@ -1,3 +1,5 @@
+# 2.13.01 (66720) Aug 8, 2012
+8/8/12 Publishing version with custom sponsor screen behavior to dev
 7/19/12 deleted interviews flavor from build.properties, this will reduce future deploy times
 # 2.13.00 (66019) Jul 19, 2012
 > minor change to sponsor information
@@ -184,7 +186,7 @@ basics: Made splines go in front of the control panel in "Track Playground" tab
 11/29/11 basics: add ticks to Track Friction slider
 11/29/11 basics: remove code that was constructing strings keys dynamically for the energy legend
 11/29/11 basics: inline i18n of strings
-11/29/11 basics: make “Bar Chart” a checkbox instead of a button, set its state when dialog is closed from window dressing
+11/29/11 basics: make “Bar Chart�? a checkbox instead of a button, set its state when dialog is closed from window dressing
 11/29/11 basics: extract constant TITLE_FONT for the title of controls, use it for "Energy Graphs", "Track Friction", "Stick to Track"
 11/29/11 basics: remove horizontal separator line between "Track Friction" and "Stick to Track" controls
 11/29/11 basics: move "Bar Chart" control above "Pie Chart" control
