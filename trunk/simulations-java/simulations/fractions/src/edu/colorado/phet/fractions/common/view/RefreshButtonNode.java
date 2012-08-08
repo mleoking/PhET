@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.fractions.FractionsResources.Images;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -35,6 +36,7 @@ public class RefreshButtonNode extends PNode {
     public RefreshButtonNode( final VoidFunction0 effect ) {
         final BufferedImage pad = copyWithPadding( BufferedImageUtils.multiScaleToWidth( Images.VIEW_REFRESH, 25 ), 12 );
         addChild( new HTMLImageButtonNode( pad ) {{
+            setUserComponent( Components.refreshButton );
             setBackground( BUTTON_COLOR );
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
