@@ -1,3 +1,4 @@
+# 1.07.00 (66672) Aug 7, 2012
 # 1.06.02 (66671) Aug 7, 2012
 # 1.06.01 (66645) Aug 7, 2012
 > Fixed a problem that prevented audio from playing under Java 7
