@@ -8,3 +8,5 @@ In order to retain flexibility, only a small amount of code is shared between th
 
 The levels are declared in ShapesLevelList and NumbersLevelList.  Some levels choose the targets first then come up with cards that can be used to solve the challenges.
 Other levels to use the cards first then come up with challenges that can be obtained with those cards.
+For the shapes mode in order to come up with good challenges we find all possible solutions then sort by number of cards in the solution and choose from one of the smaller solutions,
+so there aren't too many shape cards to move around.
