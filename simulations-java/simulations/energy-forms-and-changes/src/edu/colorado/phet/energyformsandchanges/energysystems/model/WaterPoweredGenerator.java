@@ -12,6 +12,8 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
+
 /**
  * This class represents an electrical generator that is powered by flowing
  * water or steam.
@@ -24,12 +26,15 @@ public class WaterPoweredGenerator extends EnergyConverter {
     // Class Data
     //-------------------------------------------------------------------------
 
-    public static final ModelElementImage BACKGROUND_IMAGE = new ModelElementImage( EnergyFormsAndChangesResources.Images.GENERATOR,
-                                                                                    EnergyFormsAndChangesResources.Images.GENERATOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+    public static final ModelElementImage BACKGROUND_IMAGE = new ModelElementImage( GENERATOR,
+                                                                                    GENERATOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
                                                                                     new Vector2D( 0, 0 ) );
-    public static final ModelElementImage WHEEL_IMAGE = new ModelElementImage( EnergyFormsAndChangesResources.Images.GENERATOR_WHEEL_LONG,
-                                                                               EnergyFormsAndChangesResources.Images.GENERATOR_WHEEL_LONG.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+    public static final ModelElementImage WHEEL_IMAGE = new ModelElementImage( GENERATOR_WHEEL_LONG,
+                                                                               GENERATOR_WHEEL_LONG.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
                                                                                new Vector2D( 0, 0 ) );
+    public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR,
+                                                                                   CONNECTOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                                                                   new Vector2D( 0.058, -0.04 ) ); // Offset empirically determined for optimal look.
     private static final double WHEEL_RADIUS = WHEEL_IMAGE.getWidth() / 2;
 
     private static final double WHEEL_MOMENT_OF_INERTIA = 5; // In kg.
@@ -38,6 +43,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
         add( BACKGROUND_IMAGE );
+        add( CONNECTOR_IMAGE );
         add( WHEEL_IMAGE );
     }};
 
