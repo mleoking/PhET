@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.ELEMENT_BASE;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.WIRE_BLACK_RIGHT;
 
 /**
  * Base class for light bulbs in the model.
@@ -19,10 +20,6 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  * @author John Blanco
  */
 public class LightBulb extends EnergyUser {
-
-    public static final ModelElementImage BULB_BASE = new ModelElementImage( ELEMENT_BASE,
-                                                                             ELEMENT_BASE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                             new Vector2D( 0, -0.022 ) );
 
     private final double energyToFullyLight; // In joules/sec, a.k.a. watts.
     private final IUserComponent userComponent;
@@ -46,7 +43,12 @@ public class LightBulb extends EnergyUser {
 
     static private List<ModelElementImage> assembleImageList( final ModelElementImage offImage, final ModelElementImage onImage ) {
         return new ArrayList<ModelElementImage>() {{
-            add( BULB_BASE );
+            add( new ModelElementImage( WIRE_BLACK_RIGHT,
+                                        WIRE_BLACK_RIGHT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                        new Vector2D( -0.01, -0.04 ) ) );
+            add( new ModelElementImage( ELEMENT_BASE,
+                                        ELEMENT_BASE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                        new Vector2D( 0, -0.022 ) ) );
             add( offImage );
             add( onImage );
         }};

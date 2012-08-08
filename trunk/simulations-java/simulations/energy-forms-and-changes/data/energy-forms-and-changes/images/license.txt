@@ -35,4 +35,7 @@ teapot.png source=PhET author=Noah P
 teapot_icon.png source=PhET author=Noah P
 water_icon.png source=PhET author=Noah P
 wire_black.png source=PhET author=Noah P
+wire_black_left.png source=PhET author=Noah P
+wire_black_middle.png source=PhET author=Noah P
+wire_black_right.png source=PhET author=Noah P
 
