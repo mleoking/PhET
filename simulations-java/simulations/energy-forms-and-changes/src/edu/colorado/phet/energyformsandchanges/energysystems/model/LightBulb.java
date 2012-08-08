@@ -11,8 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.ELEMENT_BASE;
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.WIRE_BLACK_RIGHT;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
 
 /**
  * Base class for light bulbs in the model.
@@ -43,12 +42,15 @@ public class LightBulb extends EnergyUser {
 
     static private List<ModelElementImage> assembleImageList( final ModelElementImage offImage, final ModelElementImage onImage ) {
         return new ArrayList<ModelElementImage>() {{
+            add( new ModelElementImage( WIRE_BLACK_MIDDLE,
+                                        WIRE_BLACK_MIDDLE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                        new Vector2D( -0.0375, -0.04 ) ) );
             add( new ModelElementImage( WIRE_BLACK_RIGHT,
                                         WIRE_BLACK_RIGHT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                        new Vector2D( -0.01, -0.04 ) ) );
+                                        new Vector2D( -0.009, -0.016 ) ) );
             add( new ModelElementImage( ELEMENT_BASE,
                                         ELEMENT_BASE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                        new Vector2D( 0, -0.022 ) ) );
+                                        new Vector2D( 0, 0.0 ) ) );
             add( offImage );
             add( onImage );
         }};
