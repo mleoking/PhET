@@ -1,3 +1,4 @@
+Intro: Fixed: Extra flying pieces created when reducing the max
 # 1.00.18 (66679) Aug 7, 2012
 Addressed review issues by adding documentation
 Use solutions with a smaller number of cards
