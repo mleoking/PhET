@@ -1,3 +1,5 @@
+# 2.13.02 (66723) Aug 8, 2012
+8/8/12 Adjusted date for custom sponsor behavior.
 # 2.13.01 (66720) Aug 8, 2012
 8/8/12 Publishing version with custom sponsor screen behavior to dev
 7/19/12 deleted interviews flavor from build.properties, this will reduce future deploy times
