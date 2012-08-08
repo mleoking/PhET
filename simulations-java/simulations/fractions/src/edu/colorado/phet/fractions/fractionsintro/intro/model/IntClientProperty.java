@@ -19,12 +19,7 @@ public class IntClientProperty extends ClientProperty<Integer> {
         super( state, get, change );
     }
 
-    protected Property<Integer> createProperty() {
-        return new IntegerProperty( get() );
-    }
+    protected Property<Integer> createProperty() { return new IntegerProperty( get() ); }
 
-    //TODO: get rid of cast, could do so with generics gymnastics or by duplicating code.  To the reviewer--should we take care of this?
-    public IntegerProperty toIntegerProperty() {
-        return (IntegerProperty) toProperty();
-    }
+    public IntegerProperty toIntegerProperty() { return (IntegerProperty) toProperty(); }
 }

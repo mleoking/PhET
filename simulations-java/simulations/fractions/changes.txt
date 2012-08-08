@@ -1,3 +1,4 @@
+Addressed review issues by adding documentation
 Use solutions with a smaller number of cards
 Added sim sharing for radio buttons
 # 1.00.17 (66622) Aug 7, 2012
