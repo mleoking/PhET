@@ -1,10 +1,10 @@
-Build a Fraction uses Piccolo-oriented programming instead of functional programming (which is used the rest of the fractions sim)
-Nodes are re-used instead of created, which facilitates animation.
+Build a Fraction uses Piccolo-oriented programming instead of functional programming (which is used the rest of the fractions sim).
+More details are available in phet-functional-programming.pdf
 
-While functional programming worked well for the other tabs in Fractions Introduction, it is proving more problematic for the "build a fraction" tab for the following reasons:
-1. Graph-like structures (instead of tree-like) have led to creating a family of EntityID classes, which seems like a bad tradeoff
-2. Creating/moving/changing lots of different data types is leading to tricky handling with piccolo code, in particular, when an object looks similar but behaves differently,
-   should a different PNode be created?
-3. It wasn't clear how to efficiently convert model changes into view observer events--my current implementation observes for state changes and checks to see what
-   changed--a more efficient and straightforward implementation may be to just fire those on the change methods themselves.
-4. Piccolo already provides great animation features that would have to be duplicated in a functional re-implementation.
+Nodes are re-used instead of created, which facilitates animation.  Global to local transforms are used to keep nodes in the same place as they move from 1 subtree to another.
+
+There are 2 types of levels: one in which you build using number cards, and 1 in which you build using pictures of shape pieces.
+In order to retain flexibility, only a small amount of code is shared between these game types.
+
+The levels are declared in ShapesLevelList and NumbersLevelList.  Some levels choose the targets first then come up with cards that can be used to solve the challenges.
+Other levels to use the cards first then come up with challenges that can be obtained with those cards.
