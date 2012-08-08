@@ -93,7 +93,7 @@ public class SponsorDialog extends JDialog {
         boolean isFeatureEnabled = config.isSponsorFeatureEnabled();
         boolean isWellFormed = new SponsorProperties( config ).isWellFormed();
         // TODO: Temporary customization to disable sponsor screen until a certain date.
-        boolean isDuringLockoutTime = System.currentTimeMillis() < 1373155200000L; // Date is July 1 2013.
+        boolean isDuringLockoutTime = System.currentTimeMillis() < 1372658400000L; // Date is July 1 2013 Mountain Daylight Time.
         return isFeatureEnabled && isWellFormed && !isDuringLockoutTime;
     }
 }
