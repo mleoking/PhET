@@ -1,3 +1,4 @@
+Build a Fraction: Made it so that containers max out at 2 instead of 3
 # 1.00.19 (66728) Aug 8, 2012
 Intro: Fixed flickering z-ordering for cake slices
 Intro: Fixed: Extra flying pieces created when reducing the max
