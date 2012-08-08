@@ -125,7 +125,7 @@ public class ContainerNode extends PNode {
         child.setTransparency( 0 );
         containerLayer.addChild( child );
         increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, 200 );
-        if ( getSingleContainerNodes().length() >= 3 ) {
+        if ( getSingleContainerNodes().length() >= 2 ) {
             increaseDecreaseButton.hideIncreaseButton();
         }
         PInterpolatingActivity activity = increaseDecreaseButton.showDecreaseButton();
