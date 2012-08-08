@@ -78,4 +78,6 @@ public class BuildAFractionModel {
 
         audioEnabled.reset();
     }
+
+    public boolean isLastLevel( final int levelIndex ) { return levelIndex == numberLevels.size() - 1; }
 }

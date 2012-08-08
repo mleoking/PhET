@@ -7,7 +7,6 @@ import fj.Ord;
 import fj.P2;
 import fj.data.List;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
@@ -49,6 +48,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
+import static edu.colorado.phet.fractions.common.view.RefreshButtonNode.BUTTON_COLOR;
 import static fj.data.Option.some;
 import static java.awt.Color.darkGray;
 
@@ -235,13 +235,14 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         fractionNode.setOffset( toolboxNode.getCenterX() - fractionNode.getFullBounds().getWidth() / 2, 300 );
         fractionNode.moveInFrontOf( toolboxNode );
 
-        faceNodeDialog = new VBox( new FaceNode( 200 ), new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), Color.orange ) {{
+        final HTMLImageButtonNode nextButton = new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
-                    context.goToNextNumberLevel( levelIndex + 1 );
+                    context.goToNextShapeLevel( levelIndex + 1 );
                 }
             } );
-        }} ) {{
+        }};
+        faceNodeDialog = new VBox( new FaceNode( 200 ), model.isLastLevel( levelIndex ) ? new PNode() : nextButton ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
         }};
 

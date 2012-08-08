@@ -122,7 +122,6 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         add( level7() );
         add( level8() );
         add( level9() );
-        add( level10() );
     }
 
     //Choose a representation, pies or bars, but use the same representation for all things
@@ -333,6 +332,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     /*Level 10
     --Same as level 9 but with tougher card constraints and larger prime number scale factors*/
+    //TODO: this is inaccessible from level selection screens, should it be deleted?
     private NumberLevel level10() {
         //Choose 4 different patterns
         List<RepresentationType> types = choose( 4, RepresentationType.all );
