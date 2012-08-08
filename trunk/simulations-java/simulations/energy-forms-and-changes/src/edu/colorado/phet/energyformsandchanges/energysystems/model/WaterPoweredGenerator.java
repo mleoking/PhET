@@ -26,15 +26,21 @@ public class WaterPoweredGenerator extends EnergyConverter {
     // Class Data
     //-------------------------------------------------------------------------
 
-    public static final ModelElementImage BACKGROUND_IMAGE = new ModelElementImage( GENERATOR,
-                                                                                    GENERATOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                    new Vector2D( 0, 0 ) );
+    public static final ModelElementImage HOUSING_IMAGE = new ModelElementImage( GENERATOR,
+                                                                                 GENERATOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                                                                 new Vector2D( 0, 0 ) );
     public static final ModelElementImage WHEEL_IMAGE = new ModelElementImage( GENERATOR_WHEEL_LONG,
                                                                                GENERATOR_WHEEL_LONG.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                               new Vector2D( 0, 0 ) );
+                                                                               new Vector2D( 0, 0.03 ) );
     public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR,
                                                                                    CONNECTOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
                                                                                    new Vector2D( 0.058, -0.04 ) ); // Offset empirically determined for optimal look.
+    public static final ModelElementImage WIRE_CURVED_IMAGE = new ModelElementImage( WIRE_BLACK_LEFT,
+                                                                                     WIRE_BLACK_LEFT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                                                                     new Vector2D( 0.0185, -0.015 ) ); // Offset empirically determined for optimal look.
+    public static final ModelElementImage WIRE_STRAIGHT_IMAGE = new ModelElementImage( WIRE_BLACK_MIDDLE,
+                                                                                       WIRE_BLACK_MIDDLE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                                                                       new Vector2D( 0.075, -0.04 ) ); // Offset empirically determined for optimal look.
     private static final double WHEEL_RADIUS = WHEEL_IMAGE.getWidth() / 2;
 
     private static final double WHEEL_MOMENT_OF_INERTIA = 5; // In kg.
@@ -42,7 +48,9 @@ public class WaterPoweredGenerator extends EnergyConverter {
     private static final double RESISTANCE_CONSTANT = 5; // Controls max speed and rate of slow down, empirically determined.
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( BACKGROUND_IMAGE );
+        add( WIRE_CURVED_IMAGE );
+        add( WIRE_STRAIGHT_IMAGE );
+        add( HOUSING_IMAGE );
         add( CONNECTOR_IMAGE );
         add( WHEEL_IMAGE );
     }};

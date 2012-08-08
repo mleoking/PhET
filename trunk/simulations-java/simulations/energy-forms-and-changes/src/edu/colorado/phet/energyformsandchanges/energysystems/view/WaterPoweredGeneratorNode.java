@@ -19,7 +19,9 @@ public class WaterPoweredGeneratorNode extends PNode {
     public WaterPoweredGeneratorNode( final WaterPoweredGenerator generator, final ModelViewTransform mvt ) {
 
         // Create and add the various image nodes.
-        addChild( new ModelElementImageNode( WaterPoweredGenerator.BACKGROUND_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( WaterPoweredGenerator.WIRE_CURVED_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( WaterPoweredGenerator.WIRE_STRAIGHT_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( WaterPoweredGenerator.HOUSING_IMAGE, mvt ) );
         addChild( new ModelElementImageNode( WaterPoweredGenerator.CONNECTOR_IMAGE, mvt ) );
         final PNode wheelImageNode = new ModelElementImageNode( WaterPoweredGenerator.WHEEL_IMAGE, mvt );
         addChild( wheelImageNode );
