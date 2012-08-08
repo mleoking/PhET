@@ -117,9 +117,4 @@ public class EnergySystemsModel {
         Energy energyFromConverter = energyConvertersCarousel.getSelectedElement().stepInTime( dt, energyFromSource );
         energyUsersCarousel.getSelectedElement().stepInTime( dt, energyFromConverter );
     }
-
-    //-------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //-------------------------------------------------------------------------
-
 }
