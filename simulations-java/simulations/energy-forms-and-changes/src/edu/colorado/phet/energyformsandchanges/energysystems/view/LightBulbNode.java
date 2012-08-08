@@ -16,11 +16,11 @@ public class LightBulbNode extends ImageBasedEnergySystemElementNode {
     public LightBulbNode( final LightBulb lightBulb, final ModelViewTransform mvt ) {
         super( lightBulb, mvt );
 
-        // Add the images.  Assumes three images with fully lit bulb last.
-        assert lightBulb.getImageList().size() == 3; // Parameter checking.
-        addImageNode( lightBulb.getImageList().get( 0 ) );
-        addImageNode( lightBulb.getImageList().get( 1 ) );
-        final PNode energizedBulb = addImageNode( lightBulb.getImageList().get( 2 ) );
+        // Add the images.  Assumes that the last image is the energized bulb.
+        for ( int i = 0; i < lightBulb.getImageList().size() - 1; i++ ) {
+            addImageNode( lightBulb.getImageList().get( i ) );
+        }
+        final PNode energizedBulb = addImageNode( lightBulb.getImageList().get( lightBulb.getImageList().size() - 1 ) );
 
         // Update the transparency of the lit bulb based on model element.
         lightBulb.litProportion.addObserver( new VoidFunction1<Double>() {
