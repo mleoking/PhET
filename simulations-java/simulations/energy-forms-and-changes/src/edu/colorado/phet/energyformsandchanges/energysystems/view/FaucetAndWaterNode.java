@@ -34,6 +34,7 @@ public class FaucetAndWaterNode extends PNode {
                                                       faucet.enabled,
                                                       FAUCET_NODE_HORIZONTAL_LENGTH,
                                                       false );
+        faucetNode.setScale( 0.9 ); // Make it a little smaller than default.  Looks better in this sim.
         faucetNode.setOffset( -faucetNode.getGlobalOutputCenter().getX() + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
                               -faucetNode.getGlobalOutputCenter().getY() + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
         // Create the water.

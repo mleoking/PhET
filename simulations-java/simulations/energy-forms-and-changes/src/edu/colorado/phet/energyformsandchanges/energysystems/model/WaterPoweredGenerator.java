@@ -29,8 +29,8 @@ public class WaterPoweredGenerator extends EnergyConverter {
     public static final ModelElementImage HOUSING_IMAGE = new ModelElementImage( GENERATOR,
                                                                                  GENERATOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
                                                                                  new Vector2D( 0, 0 ) );
-    public static final ModelElementImage WHEEL_IMAGE = new ModelElementImage( GENERATOR_WHEEL_LONG,
-                                                                               GENERATOR_WHEEL_LONG.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+    public static final ModelElementImage WHEEL_IMAGE = new ModelElementImage( GENERATOR_WHEEL,
+                                                                               GENERATOR_WHEEL.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
                                                                                new Vector2D( 0, 0.03 ) );
     public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR,
                                                                                    CONNECTOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
