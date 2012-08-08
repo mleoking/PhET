@@ -193,6 +193,17 @@ object NewParser {
     }
 
     //Print line plots.  How many controls each team used as a function of time
+    val columns = 0 until 9 * 60 + 30 by 1
+    print("time(sec)\t" + columns.mkString("\t") + "\n")
+    for ( log <- logs.sortBy(_.id) ) {
+
+      print(log.id + "\t" + columns.map(seconds => {
+        val elements = getStates(log)
+        val entriesUsedInPlayTime = getUsedComponents(elements, e => e.serverTime >= startPlayTime && e.serverTime <= startPlayTime + seconds * 1000)
+        entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0
+      }).mkString("\t"))
+      println()
+    }
     //    for ( log <- logs ) {
     //      for ( seconds <- 0 until 9 * 60 + 30 by 1 ) {
     //        println()
