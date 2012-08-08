@@ -92,6 +92,8 @@ public class SponsorDialog extends JDialog {
     public static boolean shouldShow( PhetApplicationConfig config ) {
         boolean isFeatureEnabled = config.isSponsorFeatureEnabled();
         boolean isWellFormed = new SponsorProperties( config ).isWellFormed();
-        return isFeatureEnabled && isWellFormed;
+        // TODO: Temporary customization to disable sponsor screen until a certain date.
+        boolean isDuringLockoutTime = System.currentTimeMillis() < 1373155200000L; // Date is July 1 2013.
+        return isFeatureEnabled && isWellFormed && !isDuringLockoutTime;
     }
 }
