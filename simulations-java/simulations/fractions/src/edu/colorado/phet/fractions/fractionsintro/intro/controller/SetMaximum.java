@@ -33,11 +33,14 @@ public @EqualsAndHashCode(callSuper = false) class SetMaximum extends F<IntroSta
         int delta = maximum - lastMax;
 
         //Eject any pieces in the pie that will be dropped
-        int numPiecesToEject = s.containerSet.getContainer( s.containerSet.getContainers().length() - 1 ).getFilledCells().length();
+        int piecesInLastPieBefore = s.containerSet.numerator;
+        int piecesInLastPieAfter = newState.containerSet.numerator;
+        int numPiecesToEject = piecesInLastPieBefore - piecesInLastPieAfter;
 
         //Animate pie pieces leaving from pies that are dropped when max decreases
         //Do this by creating a new slice in the location of the deleted slice, and animating it to the bucket.
         //This is necessary since the location of pies changed when max changed.
+        //Only eject pieces if the max will be exceeded
         if ( delta < 0 && numPiecesToEject > 0 ) {
             ContainerSet csx = s.containerSet;
             for ( int i = 0; i < numPiecesToEject; i++ ) {
