@@ -62,6 +62,8 @@ public class FractionsIntroSimSharing {
 
         soundRadioButton,
         timerRadioButton,
+        resetButton,
+        refreshButton
     }
 
     public static final String on = "on";
