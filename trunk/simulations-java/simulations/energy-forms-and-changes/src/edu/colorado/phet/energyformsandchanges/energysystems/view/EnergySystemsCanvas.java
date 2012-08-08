@@ -80,7 +80,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         }
 
         // Create the back drop for the clock controls.
-        PNode clockControlBackground = new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth() * 2, clockControl.getFullBoundsReference().getHeight() ),
+        PNode clockControlBackground = new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth() * 2, clockControl.getFullBoundsReference().getHeight() * 20 ), // Tall enough so that users are unlikely to see bottom.
                                                       Color.LIGHT_GRAY,
                                                       new BasicStroke( 1 ),
                                                       Color.BLACK );
@@ -144,7 +144,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
 
         // Clock controls
         clockControlBackground.setOffset( STAGE_SIZE.getWidth() / 2 - clockControlBackground.getFullBoundsReference().getWidth() / 2,
-                                          STAGE_SIZE.getHeight() - clockControlBackground.getFullBoundsReference().getHeight() );
+                                          STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().getHeight() );
         clockControl.setOffset( STAGE_SIZE.getWidth() / 2 - clockControl.getFullBoundsReference().getWidth() / 2,
                                 STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().height );
 
