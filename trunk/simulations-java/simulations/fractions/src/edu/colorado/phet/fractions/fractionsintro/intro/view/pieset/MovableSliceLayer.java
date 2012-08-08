@@ -24,16 +24,13 @@ import edu.umd.cs.piccolox.nodes.PClip;
 public class MovableSliceLayer extends PNode {
     public MovableSliceLayer( final PieSet state, final F<SliceNodeArgs, PNode> createSliceNode, final SettableProperty<PieSet> model, final PNode rootNode, final BucketView bucketView ) {
 
-        List<MovableSliceNode> nodes = state.slices.map( new F<Slice, MovableSliceNode>() {
+        final F<Slice, MovableSliceNode> map = new F<Slice, MovableSliceNode>() {
             @Override public MovableSliceNode f( Slice slice ) {
                 return new MovableSliceNode( createSliceNode.f( new SliceNodeArgs( slice, model.get().denominator, state.isInContainer( slice ) ) ), rootNode, model, slice );
             }
-        } );
-        final FNode childNodes = new FNode( nodes.map( new F<MovableSliceNode, PNode>() {
-            @Override public PNode f( final MovableSliceNode movableSliceNode ) {
-                return movableSliceNode;
-            }
-        } ) );
+        };
+        List<MovableSliceNode> nodes = state.slices.map( map );
+        final FNode childNodes = new FNode( nodes );
 
         //Show graphics for the movable cells.  Put in a clip so that long bars will look like they sink through a "bottomless" bucket since they are too big at full size
         PNode movablePiecesLayer = new PClip() {
