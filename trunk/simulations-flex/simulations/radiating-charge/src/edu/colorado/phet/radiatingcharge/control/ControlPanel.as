@@ -209,10 +209,10 @@ public class ControlPanel extends Canvas {
             setStyle( "cornerRadius", 5 );
             setStyle( "borderThickness", 2 );
             setStyle( "paddingTop", 3 );
-            setStyle( "paddingBottom", 3 );
+            setStyle( "paddingBottom", 5 );
             setStyle( "paddingRight", 3 );
             setStyle( "paddingLeft", 3 );
-            setStyle( "verticalGap", 10 );
+            setStyle( "verticalGap", 0 );
             setStyle( "horizontalAlign", "center" );
         }
         var sliderWidth: Number = 100;
@@ -220,16 +220,21 @@ public class ControlPanel extends Canvas {
         maxAmplitudeOscillatory = 10;
         minAmplitudeBump = 1;
         maxAmplitudeBump = 10;
+
         amplitudeSlider = new HorizontalSlider( setAmplitude, sliderWidth, minAmplitudeOscillatory, maxAmplitudeOscillatory );
         frequencySlider = new HorizontalSlider( setFrequency, sliderWidth, 0, 3 );
         durationSlider = new HorizontalSlider( setDuration, sliderWidth, 0.01, 1 );
+        speedSlider = new HorizontalSlider( setSpeed, sliderWidth, 0.1, 0.95 );
+
         amplitudeSlider.setTextColor( 0xffffff );       //white text against black panel firstPanel
         frequencySlider.setTextColor( 0xffffff );
         durationSlider.setTextColor( 0xffffff );
         amplitudeSlider.drawKnob( 0x00ff00, 0x009900 );  //lighter color than default
+        amplitudeSlider.drawLargeInvisibleHitArea();
         frequencySlider.drawKnob( 0x00ff00, 0x009900 );
+        frequencySlider.drawLargeInvisibleHitArea();
         durationSlider.drawKnob( 0x00ff00, 0x009900 );
-        speedSlider = new HorizontalSlider( setSpeed, sliderWidth, 0.1, 0.95 );
+        durationSlider.drawLargeInvisibleHitArea();
 
         amplitudeSlider.setLabelText( amplitude_str );
         amplitudeSlider.removeReadout();
@@ -240,6 +245,7 @@ public class ControlPanel extends Canvas {
         speedSlider.setReadoutPrecision( 2 );
         speedSlider.setTextColor( 0xffffff );
         speedSlider.drawKnob( 0x00ff00, 0x009900 );
+        speedSlider.drawLargeInvisibleHitArea();
         durationSlider.setLabelText( duration_str );
         durationSlider.removeReadout();
 
@@ -536,6 +542,7 @@ public class ControlPanel extends Canvas {
         if( choice == 0 || choice == 1){      //user-controlled
             //do nothing
         }else if( choice == 2 ){  //linear
+            selectedMotionControlsVBox.setStyle( "verticalGap" , 8 );
             selectedMotionControlsVBox.visible = true;
             speedSlider_UI.visible = true;
             restartButton_UI.visible = true;
@@ -544,6 +551,7 @@ public class ControlPanel extends Canvas {
             restartButton_UI.includeInLayout = true;
             speedSlider.setSliderWithoutAction( myFieldModel.getBeta() );
         } else if( choice == 3 || choice == 4 ){   //sinusoidal or circular or sawtooth
+            selectedMotionControlsVBox.setStyle( "verticalGap" , 0 );
             selectedMotionControlsVBox.visible = true;
             amplitudeSlider_UI.visible = true;
             frequencySlider_UI.visible = true;
@@ -553,6 +561,7 @@ public class ControlPanel extends Canvas {
             amplitudeSlider.setSliderWithoutAction( myFieldModel.amplitude );
             frequencySlider.setSliderWithoutAction( myFieldModel.frequency );
         } else if( choice == 5 ){ //bump
+            selectedMotionControlsVBox.setStyle( "verticalGap" , 0 );
             selectedMotionControlsVBox.visible = true;
             amplitudeSlider_UI.visible = true;
             durationSlider_UI.visible = true;
