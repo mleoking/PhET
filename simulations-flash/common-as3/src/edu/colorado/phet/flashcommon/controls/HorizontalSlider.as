@@ -21,6 +21,7 @@ public class HorizontalSlider extends Sprite {
     private var readoutShown:Boolean;  //false if readout not shown
     private var rail: Sprite;		//rail along which knob slides
     private var knob: Sprite;		//grabbable knob on slider
+    private var largeHitAreaKnob: Sprite;   //large invisible hit areas on top of know for easy grabbing on iPad
     private var outputValue: Number;    //readout = scale * outputValue; scale is often 1.0, but you might want outputVal in meters and readoutVal in cm
     private var label_txt: TextField;	//static label
     private var readout_txt: TextField; //dynamic readout
@@ -46,12 +47,13 @@ public class HorizontalSlider extends Sprite {
         this.readoutShown = readoutShown;
         this.rail = new Sprite();
         this.knob = new Sprite();
+        this.largeHitAreaKnob = new Sprite();
         this.drawSlider();
+        this.createLabel();
+        this.createReadoutFields()
         this.addChild( this.rail );
         this.addChild( this.knob );
         this.knob.x = this.knob.width;
-        this.createLabel();
-        this.createReadoutFields()
         this.makeKnobGrabbable();
         //this.switchLabelAndReadoutPositions();
         //this.drawBorder();  //for testing only
@@ -196,6 +198,20 @@ public class HorizontalSlider extends Sprite {
             endFill();
         }
     } //end drawKnob()
+
+    public function drawLargeInvisibleHitArea():void{
+        var gHA: Graphics = this.largeHitAreaKnob.graphics;
+        gHA.clear();
+        var kW: Number = 40; //hit area width
+        var kH: Number = 40; //hit area height
+        with( gHA ){
+            lineStyle( 2, 0xffffff, 0  );
+            beginFill( 0xffffff, 0 );
+            drawRect(-0.5*kW, -0.6*kH, kW, kH );
+            endFill();
+        }
+        knob.addChild( largeHitAreaKnob );
+    }
 
     private function createLabel(): void {
         this.label_txt = new TextField();	//static label
