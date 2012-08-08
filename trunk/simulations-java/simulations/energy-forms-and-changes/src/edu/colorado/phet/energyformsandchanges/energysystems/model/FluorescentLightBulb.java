@@ -14,13 +14,15 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSh
  */
 public class FluorescentLightBulb extends LightBulb {
 
+    private static final Vector2D IMAGE_OFFSET = new Vector2D( 0, 0.04 );
+
     public static final ModelElementImage NON_ENERGIZED_BULB = new ModelElementImage( FLUORESCENT,
                                                                                       FLUORESCENT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                      new Vector2D( 0, 0.02 ) );
+                                                                                      IMAGE_OFFSET );
 
     public static final ModelElementImage ENERGIZED_BULB = new ModelElementImage( FLUORESCENT_ON,
                                                                                   FLUORESCENT_ON.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                  new Vector2D( 0, 0.02 ) );
+                                                                                  IMAGE_OFFSET );
 
     private static final double ENERGY_TO_FULLY_LIGHT = 20; // In joules/sec, a.k.a. watts.
 
