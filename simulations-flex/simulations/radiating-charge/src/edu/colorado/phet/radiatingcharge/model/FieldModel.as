@@ -31,7 +31,8 @@ public class FieldModel {
     private var vXInit:Number;      //x-comp of velocity when starting to brake stopping charge
     private var vYInit:Number;      //y-comp of velocity when starting to brake stopping charge
     private var _v:Number;          //speed of charge
-    private var _a:Number;          //classical acceleration of charge = delta-v/delta-t
+    private var _v0:Number;         //speed of charge at previous time step (needed to compute acceleration)
+    private var _aC:Number;          //classical acceleration of charge = delta-v/delta-t
     private var gamma:Number;       //gamma factor
     private var fX:Number;          //x-component of force on charge
     private var fY:Number;          //y-component of force on charge
@@ -125,6 +126,7 @@ public class FieldModel {
         this._vX = 0;
         this._vY = 0;
         this._v = Math.sqrt( _vX*_vX + _vY*_vY );
+        this._v0 = 0;
         this.beta = v/c;
         this.gamma = 1/Math.sqrt( 1 - beta*beta );
 //        this._amplitude = 5;
@@ -267,9 +269,11 @@ public class FieldModel {
         this._xC = 0;
         this._yC = 0;
         _motionType = _MANUAL_WITH_FRICTION;
+        this.delTPhoton = delTPhotonDefault;
         this._vX = 0;
         this._vY = 0;
         this._v = 0;
+        this._v0 = 0;
         this.beta = this._v/this.c;
         //this.myMainView.myControlPanel.presetMotion_rgb.selectedValue = 0;
         //this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;
@@ -415,11 +419,16 @@ public class FieldModel {
         _v = Math.sqrt( _vX*_vX + _vY*_vY );
         var aX:Number = fX/( g3*m ); //- b*_v*vX;  //x-component of acceleration, no drag
         var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
+
+        //trace("FieldModel.manualNoFrictionStep  a = "+_a);
         _xC += _vX*dt + 0.5*aX*dt*dt;
         _yC += _vY*dt + 0.5*aY*dt*dt;
         _vX += aX*dt;
         _vY += aY*dt;
         _v = Math.sqrt( _vX*_vX + _vY*_vY );
+        _aC = Math.abs( _v - _v0)/dt;
+        _v0 = _v;
+        delTPhoton = Math.max(delTPhotonDefault, 0.1/( 1 + _aC ));
         this.beta = this._v/this.c;
         if( _v > c ){
             while( _v >= c ){
@@ -449,6 +458,9 @@ public class FieldModel {
         _vX += aX*dt;
         _vY += aY*dt;
         _v = Math.sqrt( _vX*_vX + _vY*_vY );
+        _aC = Math.abs( _v - _v0 )/dt;
+        _v0 = _v;
+        delTPhoton = Math.max(delTPhotonDefault, 0.1/( 1 + _aC ));
         this.beta = this._v/this.c;
         if( _v > c ){
             while( _v >= c ){
@@ -544,6 +556,7 @@ public class FieldModel {
         this.beta = this._v/this.c;
     }//end randomWalkStep()
 
+    //Currently unused
     private function startingStep():void{
         var startingTime:Number = 0.1;  //time to accelerate from stop to final velocity, in seconds
         var div:Number = startingTime/this.dt;   //number of time steps to accelerate from stop to full velocity
@@ -595,6 +608,7 @@ public class FieldModel {
             aX = 0;
             aY = 0;
             _motionType = _MANUAL_WITH_FRICTION;
+            delTPhoton = delTPhotonDefault;
         }
         _xC += _vX*dt + (0.5)*aX*dt*dt;
         _yC += _vY*dt + (0.5)*aY*dt*dt;
