@@ -16,6 +16,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.swingObserver;
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.PANEL_TITLE_FONT;
 
 /**
@@ -29,7 +30,7 @@ public class ToolboxNode extends OrthoPiccoloNode {
             final float kmToViewUnit = 0.75f;
             final ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( kmToViewUnit, tab ) {{
                 // make the ruler visible when it is in the toolbox
-                toolboxState.rulerInToolbox.addObserver( LWJGLUtils.swingObserver( new Runnable() {
+                toolboxState.rulerInToolbox.addObserver( swingObserver( new Runnable() {
                     public void run() {
                         setVisible( toolboxState.rulerInToolbox.get() );
                     }
@@ -57,7 +58,7 @@ public class ToolboxNode extends OrthoPiccoloNode {
                 setOffset( rulerNode2D.getFullBounds().getWidth() + INSET, rulerNode2D.getFullBounds().getMaxY() - getFullBounds().getHeight() );
 
                 // make it visible when it is in the toolbox
-                toolboxState.thermometerInToolbox.addObserver( LWJGLUtils.swingObserver( new Runnable() {
+                toolboxState.thermometerInToolbox.addObserver( swingObserver( new Runnable() {
                     public void run() {
                         setVisible( toolboxState.thermometerInToolbox.get() );
                     }
@@ -80,7 +81,7 @@ public class ToolboxNode extends OrthoPiccoloNode {
                 setOffset( thermometer.getFullBounds().getMaxX() + INSET, rulerNode2D.getFullBounds().getMaxY() - getFullBounds().getHeight() );
 
                 // make it visible when it is in the toolbox
-                toolboxState.densitySensorInToolbox.addObserver( LWJGLUtils.swingObserver( new Runnable() {
+                toolboxState.densitySensorInToolbox.addObserver( swingObserver( new Runnable() {
                     public void run() {
                         setVisible( toolboxState.densitySensorInToolbox.get() );
                     }

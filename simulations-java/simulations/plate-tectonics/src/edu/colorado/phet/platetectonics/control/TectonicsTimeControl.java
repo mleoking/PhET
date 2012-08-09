@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.Piccolo3DCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.lwjglphet.utils.GLSwingForwardingClock;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.TectonicsClock;
@@ -21,10 +23,11 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class TectonicsTimeControl extends PiccoloClockControlPanel {
 
+    // this property is handled in the Swing EDT
     private Property<Double> speedProperty = new Property<Double>( 1.0 );
 
     public TectonicsTimeControl( final TectonicsClock clock, final Property<Boolean> isAutoMode ) {
-        super( clock );
+        super( new GLSwingForwardingClock( clock ) );
 
         setRewindButtonVisible( false );
         setTimeDisplayVisible( true );
@@ -40,9 +43,15 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
                                                                                  speedProperty, new Property<Boolean>( true ) ) {{
             addLabel( min, new PText( Strings.TIME_SLOW ) );
             addLabel( max, new PText( Strings.TIME_FAST ) );
+
             speedProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    clock.setTimeMultiplier( speedProperty.get() );
+                    // our clock is running in the LWJGL thread, so we need to wrap it
+                    LWJGLUtils.invoke( new Runnable() {
+                        public void run() {
+                            clock.setTimeMultiplier( speedProperty.get() );
+                        }
+                    } );
                 }
             } );
 
@@ -72,6 +81,11 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
     }
 
     public void resetAll() {
-        speedProperty.reset();
+        // speed property is accessed in the Swing EDT, and our resetAll() runs in the LWJGL thread
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                speedProperty.reset();
+            }
+        } );
     }
 }

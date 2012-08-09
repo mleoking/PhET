@@ -92,6 +92,7 @@ public class MyCrustPanel extends PNode {
             // listen to model changes
             slider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
+                    // access the value in the Swing EDT
                     final double value = getValue();
 
                     // invoke the model change in the LWJGL thread

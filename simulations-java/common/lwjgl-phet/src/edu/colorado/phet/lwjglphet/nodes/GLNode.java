@@ -264,6 +264,7 @@ public class GLNode {
 
     public void addChild( GLNode node ) {
         // don't re-add children
+        assert node != null;
         if ( isChild( node ) ) {
             return;
         }

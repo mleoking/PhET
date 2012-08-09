@@ -210,7 +210,7 @@ public class CrustTab extends PlateTectonicsTab {
          * options panel
          *----------------------------------------------------------------------------*/
         optionsPiccoloNode = new OrthoPiccoloNode(
-                new ControlPanelNode( new ViewOptionsPanel( this, showLabels, colorMode ) ),
+                new ControlPanelNode( new ViewOptionsPanel( showLabels, colorMode ) ),
                 CrustTab.this, getCanvasTransform(),
                 new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             canvasSize.addObserver( new SimpleObserver() {

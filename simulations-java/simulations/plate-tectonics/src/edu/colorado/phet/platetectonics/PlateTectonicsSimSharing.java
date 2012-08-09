@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
  * Sim-sharing enums that are specific to this sim.
+ *
  * @author Sam Reid
  */
 public class PlateTectonicsSimSharing {

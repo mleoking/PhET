@@ -1,17 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.lwjglphet.utils.GLActionListener;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
@@ -45,15 +40,13 @@ public class ResetPanel extends PNode {
                         repaint();
                     }
                 } );
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        LWJGLUtils.invoke( new Runnable() {
-                            public void run() {
-                                ( (PlateMotionTab) tab ).rewind();
-                            }
-                        } );
+
+                // run the rewind in the LWJGL thread
+                addActionListener( new GLActionListener( new Runnable() {
+                    public void run() {
+                        ( (PlateMotionTab) tab ).rewind();
                     }
-                } );
+                } ) );
             }};
             addChild( rewindNode );
         }
@@ -63,11 +56,9 @@ public class ResetPanel extends PNode {
             setOffset( 0, y.get() + 15 );
             y.set( getFullBounds().getMaxY() );
             maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent actionEvent ) {
-                    LWJGLUtils.invoke( resetAll );
-                }
-            } );
+
+            // run the reset in the LWJGL thread
+            addActionListener( new GLActionListener( resetAll ) );
         }};
         addChild( resetAllNode );
 

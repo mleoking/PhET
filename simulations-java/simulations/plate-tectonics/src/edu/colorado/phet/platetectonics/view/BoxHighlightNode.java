@@ -3,13 +3,13 @@ package edu.colorado.phet.platetectonics.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
-import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.color4f;
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.vertex3f;
