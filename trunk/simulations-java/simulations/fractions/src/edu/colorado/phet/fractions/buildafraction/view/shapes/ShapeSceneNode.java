@@ -229,6 +229,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         toolboxNode.moveToBack();
 
         final HTMLImageButtonNode nextButton = new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), BUTTON_COLOR ) {{
+            setUserComponent( Components.nextButton );
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     context.goToNextShapeLevel( levelIndex + 1 );

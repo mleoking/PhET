@@ -4,11 +4,14 @@ package edu.colorado.phet.fractions.buildafraction.view.shapes;
 import java.awt.Color;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.common.math.Fraction;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -54,6 +57,7 @@ public class ShapeScoreBoxNode extends PNode {
         splitButton.addInputEventListener( new CursorHandler() );
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( final PInputEvent event ) {
+                SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.shapesCollectionBoxSplitButton, containerNode.hashCode() ) );
                 splitIt();
             }
         } );
