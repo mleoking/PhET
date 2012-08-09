@@ -1,3 +1,5 @@
+# 0.00.52 (66753) Aug 9, 2012
+Allowing software fallback + debug flag
 # 0.00.51 (66752) Aug 9, 2012
 Back to normal graphics settings
 # 0.00.50 (66751) Aug 9, 2012
