@@ -5,8 +5,8 @@
   </component>
   <component name="FlexBuildConfigurationManager" active="radiating-charge">
     <configurations>
-      <configuration name="radiating-charge" target-platform="Mobile" main-class="edu.colorado.phet.radiatingcharge.RadiatingChargeApplication" output-file="radiating-charge.swf" output-folder="$MODULE_DIR$/../../out">
-        <dependencies>
+      <configuration name="radiating-charge" main-class="edu.colorado.phet.radiatingcharge.RadiatingChargeApplication" output-file="radiating-charge.swf" output-folder="$MODULE_DIR$/../../out">
+        <dependencies target-player="11.1">
           <entries>
             <entry module-name="flexcommon" build-configuration-name="flexcommon">
               <dependency linkage="Merged" />
@@ -57,10 +57,8 @@
           <option name="additionalOptions" value="-use-network" />
         </compiler-options>
         <packaging-air-desktop />
-        <packaging-android package-file-name="radiating-charge" />
-        <packaging-ios enabled="true" package-file-name="radiating-charge">
-          <AirSigningOptions keystore-path="$MODULE_DIR$/../../../../Apple/phet-ipad-cert.p12" provisioning-profile-path="$MODULE_DIR$/../../../../Apple/PhET_Prototype_I_Provisioning_Profile.mobileprovision" />
-        </packaging-ios>
+        <packaging-android />
+        <packaging-ios />
       </configuration>
     </configurations>
     <compiler-options />

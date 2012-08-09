@@ -219,7 +219,6 @@ public class ChargeView extends Sprite {
             evt.updateAfterEvent();
         }
 
-
         function startTargetDrag( evt: MouseEvent ): void {
             var motion: int = myFieldModel.motionType;
             var manual: int = myFieldModel.MANUAL_WITH_FRICTION;
