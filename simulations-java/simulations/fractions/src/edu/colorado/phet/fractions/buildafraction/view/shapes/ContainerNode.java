@@ -8,7 +8,6 @@ import java.awt.Cursor;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
@@ -18,6 +17,7 @@ import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
@@ -26,12 +26,15 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendButtonPressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.fractions.FractionsResources.Images.*;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.SingleContainerNode._splitAll;
 import static edu.colorado.phet.fractions.common.math.Fraction.sum;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.*;
 
 /**
  * Container that can be subdivided into different divisions
@@ -67,10 +70,12 @@ public class ContainerNode extends PNode {
 
         increaseDecreaseButton = new IncreaseDecreaseButton( new VoidFunction0() {
             public void apply() {
+                sendButtonPressed( chain( increaseContainersButton, ContainerNode.this.hashCode() + "" ) );
                 addContainer();
             }
         }, new VoidFunction0() {
             public void apply() {
+                sendButtonPressed( chain( decreaseContainersButton, ContainerNode.this.hashCode() + "" ) );
                 removeContainer();
             }
         }
@@ -81,18 +86,20 @@ public class ContainerNode extends PNode {
         splitButton.addInputEventListener( dynamicCursorHandler );
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( final PInputEvent event ) {
-                SimSharingManager.sendButtonPressed( null );
+                sendButtonPressed( chain( Components.numberSplitButton, ContainerNode.this.hashCode() ) );
                 splitAll();
                 dynamicCursorHandler.setCursor( Cursor.DEFAULT_CURSOR );
             }
         } );
         final VoidFunction1<Boolean> increment = new VoidFunction1<Boolean>() {
             public void apply( final Boolean autoSpinning ) {
+                sendButtonPressed( chain( incrementDivisionsButton, ContainerNode.this.hashCode() + "" ) );
                 selectedPieceSize.increment();
             }
         };
         final VoidFunction1<Boolean> decrement = new VoidFunction1<Boolean>() {
             public void apply( final Boolean autoSpinning ) {
+                sendButtonPressed( chain( decrementDivisionsButton, ContainerNode.this.hashCode() + "" ) );
                 selectedPieceSize.decrement();
             }
         };
