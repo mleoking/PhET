@@ -31,11 +31,16 @@ class WaterGlassNodeFactory extends F<SliceNodeArgs, PNode> {
 
         BufferedImage image = cachedWaterGlassNode( 1, args.denominator, args.slice.color, bounds.getWidth(), bounds.getHeight() );
         int c = debugDragRegion ? 100 : 0;
-        final Point2D offset = new Point2D.Double( bounds.getCenterX() - image.getWidth() / 2, bounds.getCenterY() - image.getHeight() / 2 );
-        PNode node = args.inContainer || debugDragRegion ? new PhetPPath( new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() ), new Color( c, c, c, c ) )
-                                                         : new PImage( image );
 
-        node.setOffset( offset );
+        //Location for the image.  Pop it to the left so it doesn't directly overlap the cup.
+        final Point2D offset = new Point2D.Double( bounds.getCenterX() - image.getWidth() / 2 - 10, bounds.getCenterY() - image.getHeight() / 2 );
+
+        //The bounds for the grabbable area when the beaker fluid is in the container.  Values were hard coded using empirical testing.
+        final Rectangle2D.Double inContainerBounds = new Rectangle2D.Double( offset.getX(), image.getHeight() * 0.9, image.getWidth(), image.getHeight() );
+        PNode node = args.inContainer ? new PhetPPath( inContainerBounds, new Color( c, c, c, c ) )
+                                      : new PImage( image ) {{
+            setOffset( offset );
+        }};
         return node;
     }
 }
