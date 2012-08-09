@@ -139,7 +139,7 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     }
 
     private ShapeLevel halfLevel4( final boolean pies ) {
-        return shapeLevel( list( 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6 ), replicate( 3, fraction( 1, 2 ) ), colors[3], booleanToShape( pies ) );
+        return shapeLevel( list( 2, 3, 3, 3, 4, 4, 4, 6, 6, 6 ), replicate( 3, fraction( 1, 2 ) ), colors[3], booleanToShape( pies ) );
     }
 
     /*Level 5:
