@@ -11,6 +11,7 @@ import edu.colorado.phet.flashcommon.controls.NiceButton2;
 import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.flashcommon.controls.NiceRadioButton;
 import edu.colorado.phet.flashcommon.controls.NiceRadioButtonGroup;
+import edu.colorado.phet.flashcommon.controls.PlayPauseButton;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.radiatingcharge.model.FieldModel;
@@ -37,7 +38,8 @@ public class ControlPanel extends Canvas {
     private var background:VBox;
     private var firstPanel: VBox;            //main control panel, contains radio buttons for motion type
     private var secondPanel: VBox;
-    private var pauseButton:NiceButton2;
+    private var playPauseButton: PlayPauseButton;
+//    private var pauseButton:NiceButton2;
     private var stopButton:NiceButton2;
     private var resetAllButton:NiceButton2;
     private var restartButton:NiceButton2;
@@ -146,7 +148,8 @@ public class ControlPanel extends Canvas {
             setStyle( "horizontalAlign", "center" );
         }
 
-        this.pauseButton = new NiceButton2( 80, 25, pause_str, pauseUnPause, 0xffff00, 0x000000 );
+//        this.pauseButton = new NiceButton2( 80, 25, pause_str, pauseUnPause, 0xffff00, 0x000000 );
+        this.playPauseButton = new PlayPauseButton( pauseUnPause );
         this.stopButton = new NiceButton2( 80, 25, stop_str, stopCharge, 0xff0000, 0xffffff )
         this.restartButton = new NiceButton2( 80, 25, restart_str, restart, 0x00ff00, 0x000000 );
         this.bumpButton = new NiceButton2( 80, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
@@ -233,7 +236,8 @@ public class ControlPanel extends Canvas {
         //layout controls
         this.addChild( background );
         background.addChild( firstPanel );
-        firstPanel.addChild( new SpriteUIComponent( pauseButton, true ) );
+        firstPanel.addChild( new SpriteUIComponent( playPauseButton, true ) );
+//        firstPanel.addChild( new SpriteUIComponent( pauseButton, true ) );
         firstPanel.addChild( new SpriteUIComponent( stopButton, true ) );
         firstPanel.addChild( radioGroupVBox );
         //radio buttons
@@ -311,10 +315,12 @@ public class ControlPanel extends Canvas {
     private function pauseUnPause():void{
         if( myFieldModel.paused ){
             this.myFieldModel.paused = false;
-            this.pauseButton.setLabel( pause_str );
+            playPauseButton.paused = false;
+//            this.pauseButton.setLabel( pause_str );
         }else{
             this.myFieldModel.paused = true;
-            this.pauseButton.setLabel( play_str );
+            playPauseButton.paused = true;
+//            this.pauseButton.setLabel( play_str );
         }
     }//end pauseUnPause
 
@@ -327,7 +333,8 @@ public class ControlPanel extends Canvas {
 
     public function resetAll():void{
         this.myFieldModel.paused = false;
-        this.pauseButton.setLabel( pause_str );
+        this.playPauseButton.paused = false;
+//        this.pauseButton.setLabel( pause_str );
         this.myFieldModel.centerCharge();
         this.myFieldModel.initializeAmplitudeAndFrequency();
         this.closeShowVelocityPanel();
@@ -351,7 +358,8 @@ public class ControlPanel extends Canvas {
 
     public function niceRadioGroupListener( selectedButtonIndex: int ):void{
         this.myFieldModel.paused = false;
-        this.pauseButton.setLabel( pause_str );
+        this.playPauseButton.paused = false;
+//        this.pauseButton.setLabel( pause_str );
         var choice:int = selectedButtonIndex;
         //trace("ControlPanel.radioGroupListener  event = " + evt );
         //trace("ControlPanel.radioGroupListener  selectedValue = " + presetMotion_rgb.selectedValue );

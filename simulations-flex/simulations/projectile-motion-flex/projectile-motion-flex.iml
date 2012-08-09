@@ -53,9 +53,7 @@
         <compiler-options />
         <packaging-air-desktop />
         <packaging-android package-file-name="projectile-motion-flex" />
-        <packaging-ios enabled="true" use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/ProjectileMotionFlexApplication-app.xml" package-file-name="projectile-motion-flex">
-          <AirSigningOptions keystore-path="$MODULE_DIR$/../../../../Apple/phet-ipad-cert.p12" provisioning-profile-path="$MODULE_DIR$/../../../../Apple/PhET_Prototype_I_Provisioning_Profile.mobileprovision" />
-        </packaging-ios>
+        <packaging-ios package-file-name="projectile-motion-flex" />
       </configuration>
     </configurations>
     <compiler-options />
