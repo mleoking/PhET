@@ -71,7 +71,9 @@ public class FractionsIntroSimSharing {
         numberSplitButton,
         shapeSplitButton,
         piece,
-        container
+        container,
+        nextButton, shapesCollectionBoxSplitButton,
+        fraction
     }
 
     public static final String on = "on";
