@@ -96,7 +96,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         // crust label
         final int crustLabelX = -10000;
-        layerLabels.addChild( new RangeLabelNode( new Property<Vector3F>( new Vector3F() ) {{
+        layerLabels.addChild( new RangeLabelNode( null, new Property<Vector3F>( new Vector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                 public void update() {
                     set( flatModelToView.apply( new Vector3F( crustLabelX, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
@@ -122,6 +122,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         // mantle
         layerLabels.addChild( new RangeLabelNode(
+                null,
                 upperMantleTop,
                 upperMantleBottom,
                 Strings.MANTLE, scaleProperty,
@@ -135,6 +136,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         // lower mantle
         layerLabels.addChild( new RangeLabelNode(
+                null,
                 lowerMantleTop,
                 lowerMantleBottom,
                 Strings.LOWER_MANTLE, scaleProperty,
@@ -148,6 +150,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         // outer core
         layerLabels.addChild( new RangeLabelNode(
+                null,
                 outerCoreTop,
                 outerCoreBottom,
                 Strings.OUTER_CORE, scaleProperty,
@@ -160,6 +163,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         // inner core
         layerLabels.addChild( new RangeLabelNode(
+                null,
                 innerCoreTop,
                 innerCoreBottom,
                 Strings.INNER_CORE, scaleProperty,

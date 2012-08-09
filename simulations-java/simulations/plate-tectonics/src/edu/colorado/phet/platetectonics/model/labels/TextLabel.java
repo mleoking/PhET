@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 /**
  * A simple text label model, with position
  */
-public class TextLabel {
+public class TextLabel extends PlateTectonicsLabel {
     public final Property<Vector3F> centerPosition;
     public final String label;
 

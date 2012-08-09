@@ -7,10 +7,10 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
+import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
@@ -22,6 +22,7 @@ import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
 import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.util.MortalSimpleObserver;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
@@ -31,6 +32,9 @@ import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.rangeIncl
  * Displays a ruler in the 3D play area space
  */
 public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableTool2D {
+
+    // fired when the sensor is permanently removed from the model, so we can detach the necessary listeners
+    public final ValueNotifier<RulerNode3D> disposed = new ValueNotifier<RulerNode3D>( this );
 
     // how much we subsample the piccolo ruler in texture construction
     private static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 4;
@@ -50,7 +54,7 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
         this.modelViewTransform = modelViewTransform;
         this.tab = tab;
 
-        tab.zoomRatio.addObserver( new SimpleObserver() {
+        tab.zoomRatio.addObserver( new MortalSimpleObserver( tab.zoomRatio, disposed ) {
             public void update() {
                 int newZoomMultiplier = getScale();
                 if ( newZoomMultiplier != zoomMultiplier ) {
@@ -134,7 +138,9 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
     }
 
     public void recycle() {
+        super.recycle();
         getParent().removeChild( this );
+        disposed.updateListeners();
     }
 
     public static class RulerNode2D extends RulerNode {

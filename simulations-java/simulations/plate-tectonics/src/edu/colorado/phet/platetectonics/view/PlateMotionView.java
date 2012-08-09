@@ -4,12 +4,12 @@ package edu.colorado.phet.platetectonics.view;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
+import edu.colorado.phet.platetectonics.util.MortalSimpleObserver;
 import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.labels.BoundaryLabelNode;
 
@@ -37,11 +37,12 @@ public class PlateMotionView extends PlateTectonicsView {
         *----------------------------------------------------------------------------*/
         PlateMotionModel plateMotionModel = (PlateMotionModel) model;
         plateMotionModel.boundaryLabels.addElementAddedObserver( new VoidFunction1<BoundaryLabel>() {
-            public void apply( BoundaryLabel boundaryLabel ) {
+            public void apply( final BoundaryLabel boundaryLabel ) {
                 final BoundaryLabelNode boundaryLabelNode = new BoundaryLabelNode( boundaryLabel, tab.getModelViewTransform(), tab.colorMode ) {{
-                    ( (PlateMotionTab) tab ).showLabels.addObserver( new SimpleObserver() {
+                    final PlateMotionTab plateMotionTab = (PlateMotionTab) tab;
+                    plateMotionTab.showLabels.addObserver( new MortalSimpleObserver( plateMotionTab.showLabels, boundaryLabel.disposed ) {
                         public void update() {
-                            setVisible( ( (PlateMotionTab) tab ).showLabels.get() );
+                            setVisible( plateMotionTab.showLabels.get() );
                         }
                     } );
                 }};

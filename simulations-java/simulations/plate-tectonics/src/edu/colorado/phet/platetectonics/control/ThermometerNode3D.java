@@ -7,14 +7,13 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -27,6 +26,8 @@ import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
 import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.util.MortalSimpleObserver;
+import edu.colorado.phet.platetectonics.util.MortalUpdateListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -34,6 +35,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  * Displays a thermometer in the 3D play area space
  */
 public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements DraggableTool2D {
+
+    // fired when the sensor is permanently removed from the model, so we can detach the necessary listeners
+    public final ValueNotifier<ThermometerNode3D> disposed = new ValueNotifier<ThermometerNode3D>( this );
 
     // how much we subsample the piccolo ruler in texture construction
     public static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
@@ -58,7 +62,7 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
 
     public Vector2F draggedPosition = new Vector2F();
 
-    public ThermometerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateTectonicsModel model ) {
+    public ThermometerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, final PlateTectonicsModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
         super( new ThermometerNode2D( modelViewTransform.transformDeltaX( (float) 1000 ) ) {{
@@ -72,7 +76,7 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
 
         // scale the node to handle the subsampling
 //        scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
-        tab.zoomRatio.addObserver( new SimpleObserver() {
+        tab.zoomRatio.addObserver( new MortalSimpleObserver( tab.zoomRatio, disposed ) {
             public void update() {
                 final ImmutableMatrix4F scaling = ImmutableMatrix4F.scaling( getScale() );
                 final ImmutableMatrix4F translation = ImmutableMatrix4F.translation( draggedPosition.x,
@@ -87,14 +91,14 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
         setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
-        model.modelChanged.addUpdateListener( new UpdateListener() {
+        model.modelChanged.addUpdateListener( new MortalUpdateListener( model.modelChanged, disposed ) {
             public void update() {
                 final double temp = getTemperatureValue();
                 updateLiquidHeight( temp );
             }
         }, true );
 
-        repaintOnEvent( tab.beforeFrameRender );
+        addRepaintNotifier( tab.beforeFrameRender );
     }
 
     private float getTemperatureScale() {
@@ -164,7 +168,9 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
     }
 
     public void recycle() {
+        super.recycle();
         getParent().removeChild( this );
+        disposed.updateListeners();
     }
 
     private static int scaleMultiplier( PlateTectonicsTab tab ) {

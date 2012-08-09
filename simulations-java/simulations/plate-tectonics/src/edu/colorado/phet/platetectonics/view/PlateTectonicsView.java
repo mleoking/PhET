@@ -8,7 +8,6 @@ import java.util.Map;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
@@ -18,6 +17,7 @@ import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.util.MortalSimpleObserver;
 
 /**
  * A view (node) that displays everything physical related to a plate model, within the bounds
@@ -28,6 +28,7 @@ public class PlateTectonicsView extends GLNode {
 
     // keep track of which object corresponds to which node, so we can remove them later
     protected final Map<Object, GLNode> nodeMap = new HashMap<Object, GLNode>();
+    protected final Map<CrossSectionStrip, UpdateListener> sortListenerMap = new HashMap<CrossSectionStrip, UpdateListener>();
     private final PlateTectonicsModel model;
     private final PlateTectonicsTab tab;
     private final Property<Boolean> showWater;
@@ -51,10 +52,15 @@ public class PlateTectonicsView extends GLNode {
             addCrossSectionStrip( strip );
         }
 
-        // handle additions
+        // handle changes to the model
         model.crossSectionStripAdded.addListener( new VoidFunction1<CrossSectionStrip>() {
             public void apply( CrossSectionStrip strip ) {
                 addCrossSectionStrip( strip );
+            }
+        } );
+        model.crossSectionStripRemoved.addListener( new VoidFunction1<CrossSectionStrip>() {
+            public void apply( CrossSectionStrip strip ) {
+                removeCrossSectionStrip( strip );
             }
         } );
         model.terrainAdded.addListener( new VoidFunction1<Terrain>() {
@@ -62,18 +68,9 @@ public class PlateTectonicsView extends GLNode {
                 addTerrain( terrain );
             }
         } );
-
-        // handle removals
-        model.crossSectionStripRemoved.addListener( new VoidFunction1<CrossSectionStrip>() {
-            public void apply( CrossSectionStrip strip ) {
-                removeChild( nodeMap.get( strip ) );
-                nodeMap.remove( strip );
-            }
-        } );
         model.terrainRemoved.addListener( new VoidFunction1<Terrain>() {
             public void apply( Terrain terrain ) {
-                removeChild( nodeMap.get( terrain ) );
-                nodeMap.remove( terrain );
+                removeTerrain( terrain );
             }
         } );
 
@@ -89,12 +86,11 @@ public class PlateTectonicsView extends GLNode {
         } );
     }
 
-    // adds a cross-section strip
-    public void addCrossSectionStrip( final CrossSectionStrip strip ) {
+    private void addCrossSectionStrip( final CrossSectionStrip strip ) {
         addWrappedChild( strip, new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
 
         // if this fires, add the node to the front of the list
-        strip.moveToFrontNotifier.addUpdateListener( new UpdateListener() {
+        UpdateListener sortOrderListener = new UpdateListener() {
             public void update() {
                 GLNode node = nodeMap.get( strip );
                 if ( node != null && node.getParent() != null ) {
@@ -102,17 +98,29 @@ public class PlateTectonicsView extends GLNode {
                     addChild( node );
                 }
             }
-        }, false );
+        };
+        strip.moveToFrontNotifier.addUpdateListener( sortOrderListener, false );
+
+        // store this listener for future reference, so we can remove it when the node is removed
+        sortListenerMap.put( strip, sortOrderListener );
     }
 
-    public void addTerrain( final Terrain terrain ) {
+    private void removeCrossSectionStrip( CrossSectionStrip strip ) {
+        removeChild( nodeMap.get( strip ) );
+        nodeMap.remove( strip );
+
+        // remove the listener
+        strip.moveToFrontNotifier.removeListener( sortListenerMap.get( strip ) );
+    }
+
+    private void addTerrain( final Terrain terrain ) {
         addWrappedChild( terrain, new GLNode() {{
             final TerrainNode terrainNode = new TerrainNode( terrain, tab.getModelViewTransform() );
             addChild( terrainNode );
 
             if ( terrain.hasWater() ) {
                 final WaterStripNode waterNode = new WaterStripNode( terrain, model, tab );
-                showWater.addObserver( new SimpleObserver() {
+                showWater.addObserver( new MortalSimpleObserver( showWater, terrain.disposed ) {
                     public void update() {
                         if ( showWater.get() ) {
                             addChild( waterNode );
@@ -126,6 +134,11 @@ public class PlateTectonicsView extends GLNode {
                 } );
             }
         }} );
+    }
+
+    private void removeTerrain( Terrain terrain ) {
+        removeChild( nodeMap.get( terrain ) );
+        nodeMap.remove( terrain );
     }
 
     // record the added children in the node map so we can remove them later

@@ -9,15 +9,15 @@ import org.lwjgl.BufferUtils;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
+import edu.colorado.phet.platetectonics.util.MortalSimpleObserver;
+import edu.colorado.phet.platetectonics.util.MortalUpdateListener;
 import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -41,13 +41,13 @@ public class CrossSectionStripNode extends GLNode {
     private boolean transparencyInitialized = false;
 
     // remember CCW order
-    public CrossSectionStripNode( LWJGLTransform modelViewTransform, Property<ColorMode> colorMode, final CrossSectionStrip strip ) {
+    public CrossSectionStripNode( LWJGLTransform modelViewTransform, final Property<ColorMode> colorMode, final CrossSectionStrip strip ) {
         this.modelViewTransform = modelViewTransform;
         this.colorMode = colorMode;
         this.strip = strip;
 
         // enable alpha blending if necessary
-        strip.alpha.addObserver( new SimpleObserver() {
+        strip.alpha.addObserver( new MortalSimpleObserver( strip.alpha, strip.disposed ) {
             public void update() {
                 if ( !transparencyInitialized && strip.alpha.get() != 1 ) {
                     transparencyInitialized = true;
@@ -57,14 +57,14 @@ public class CrossSectionStripNode extends GLNode {
         } );
 
         // update our buffers when the model strip changes
-        strip.changed.addUpdateListener( new UpdateListener() {
+        strip.changed.addUpdateListener( new MortalUpdateListener( strip.changed, strip.disposed ) {
             public void update() {
                 updatePosition();
             }
         }, true );
 
         // because our buffers involve coloring the terrain with the relevant EarthMaterial, we need to update buffers on color mode changes
-        colorMode.addObserver( new SimpleObserver() {
+        colorMode.addObserver( new MortalSimpleObserver( colorMode, strip.disposed ) {
             public void update() {
                 updatePosition();
             }
@@ -72,7 +72,7 @@ public class CrossSectionStripNode extends GLNode {
 
         // if we are moved to the front, ignore the depth test so we will draw OVER whatever is there
         // this allows us to not have to manually cull out the mantle behind subducting strips, etc.
-        strip.moveToFrontNotifier.addUpdateListener( new UpdateListener() {
+        strip.moveToFrontNotifier.addUpdateListener( new MortalUpdateListener( strip.moveToFrontNotifier, strip.disposed ) {
             public void update() {
                 checkDepth = false;
             }

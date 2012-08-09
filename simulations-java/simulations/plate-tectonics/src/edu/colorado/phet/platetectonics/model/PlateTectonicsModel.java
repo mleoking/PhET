@@ -128,6 +128,7 @@ public abstract class PlateTectonicsModel {
         plate.regions.removeElementAddedObserver( regionOnPlateAddedListener );
         plate.regions.removeElementRemovedObserver( regionOnPlateRemovedListener );
         plateRemoved.updateListeners( plate );
+        plate.disposed.updateListeners();
         for ( Region region : plate.regions ) {
             removeRegion( region );
         }
@@ -146,6 +147,7 @@ public abstract class PlateTectonicsModel {
         assert regions.contains( region );
         regions.remove( region );
         regionRemoved.updateListeners( region );
+        region.disposed.updateListeners();
         for ( CrossSectionStrip strip : region.getStrips() ) {
             removeStrip( strip );
         }
@@ -167,12 +169,14 @@ public abstract class PlateTectonicsModel {
         assert crossSectionStrips.contains( strip );
         crossSectionStrips.remove( strip );
         crossSectionStripRemoved.updateListeners( strip );
+        strip.disposed.updateListeners();
     }
 
     public void removeTerrain( Terrain terrain ) {
         assert terrains.contains( terrain );
         terrains.remove( terrain );
         terrainRemoved.updateListeners( terrain );
+        terrain.disposed.updateListeners();
     }
 
     public List<CrossSectionStrip> getCrossSectionStrips() {
