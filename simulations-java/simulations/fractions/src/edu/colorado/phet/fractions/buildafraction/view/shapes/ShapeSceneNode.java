@@ -345,7 +345,10 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
 
         //Put the piece back in its starting location, but only if it is empty
         if ( !hit && containerNode.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() ) && containerNode.getFractionValue().numerator == 0 ) {
-            if ( containerNode.belongsInToolbox() ) { containerNode.resetNumberOfContainers(); }
+            if ( containerNode.belongsInToolbox() ) {
+                containerNode.resetNumberOfContainers();
+                containerNode.selectedPieceSize.reset();
+            }
             containerNode.animateHome();
         }
 
