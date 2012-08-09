@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.DampedMassSpringSystem;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
@@ -22,7 +22,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
@@ -40,6 +39,8 @@ import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
 import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.util.MortalSimpleObserver;
+import edu.colorado.phet.platetectonics.util.MortalUpdateListener;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -48,6 +49,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * Displays a speedometer-style draggable readout.
  */
 public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements DraggableTool2D {
+
+    // fired when the sensor is permanently removed from the model, so we can detach the necessary listeners
+    public final ValueNotifier<DensitySensorNode3D> disposed = new ValueNotifier<DensitySensorNode3D>( this );
 
     // how much we subsample the piccolo ruler in texture construction
     public static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
@@ -72,7 +76,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
         // scale the node to handle the subsampling
         // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
-        tab.zoomRatio.addObserver( new SimpleObserver() {
+        tab.zoomRatio.addObserver( new MortalSimpleObserver( tab.zoomRatio, disposed ) {
             public void update() {
                 final ImmutableMatrix4F scaling = ImmutableMatrix4F.scaling( getScale() );
                 final ImmutableMatrix4F translation = ImmutableMatrix4F.translation( draggedPosition.x - getSensorXOffset(),
@@ -86,16 +90,16 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
         // this should guarantee running each time
-        tab.beforeFrameRender.addUpdateListener( new UpdateListener() {
+        tab.beforeFrameRender.addUpdateListener( new MortalUpdateListener( tab.beforeFrameRender, disposed ) {
             public void update() {
                 updateReadout();
             }
         }, true );
 
-        repaintOnEvent( tab.beforeFrameRender );
+        addRepaintNotifier( tab.beforeFrameRender );
 
         // when the dial color changes, update
-        PlateTectonicsConstants.DIAL_HIGHLIGHT_COLOR.addObserver( new SimpleObserver() {
+        PlateTectonicsConstants.DIAL_HIGHLIGHT_COLOR.addObserver( new MortalSimpleObserver( PlateTectonicsConstants.DIAL_HIGHLIGHT_COLOR, disposed ) {
             public void update() {
                 LWJGLUtils.invoke( new Runnable() {
                     public void run() {
@@ -187,7 +191,9 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
     }
 
     public void recycle() {
+        super.recycle();
         getParent().removeChild( this );
+        disposed.updateListeners();
     }
 
     private static int scaleMultiplier( PlateTectonicsTab tab ) {

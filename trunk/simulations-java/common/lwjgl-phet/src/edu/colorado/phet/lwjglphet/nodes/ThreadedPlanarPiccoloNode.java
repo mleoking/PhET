@@ -3,6 +3,8 @@ package edu.colorado.phet.lwjglphet.nodes;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.PlaneF;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
@@ -40,6 +42,13 @@ public class ThreadedPlanarPiccoloNode extends AbstractGraphicsNode {
     private Cursor cursor = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     private PiccoloImage piccoloImage;
 
+    private List<Notifier<?>> repaintNotifiers = new ArrayList<Notifier<?>>(  );
+    private UpdateListener repaintListener = new UpdateListener() {
+        public void update() {
+            repaint();
+        }
+    };
+
     public ThreadedPlanarPiccoloNode( final PNode node ) {
         this.node = node;
         wrappedNode = new ZeroOffsetNode( node );
@@ -64,12 +73,21 @@ public class ThreadedPlanarPiccoloNode extends AbstractGraphicsNode {
         return new Dimension( (int) Math.ceil( bounds.getWidth() ), (int) Math.ceil( bounds.getHeight() ) );
     }
 
-    public <T> void repaintOnEvent( Notifier<T> notifier ) {
-        notifier.addUpdateListener( new UpdateListener() {
+    public <T> void addRepaintNotifier( Notifier<T> notifier ) {
+        repaintListener = new UpdateListener() {
             public void update() {
                 repaint();
             }
-        }, false );
+        };
+        notifier.addUpdateListener( repaintListener, false );
+        repaintNotifiers.add( notifier );
+    }
+
+    public void recycle() {
+        for ( Notifier<?> repaintNotifier : repaintNotifiers ) {
+            repaintNotifier.removeListener( repaintListener );
+        }
+        repaintNotifiers.clear();
     }
 
     public boolean doesLocalRayHit( Ray3F ray ) {

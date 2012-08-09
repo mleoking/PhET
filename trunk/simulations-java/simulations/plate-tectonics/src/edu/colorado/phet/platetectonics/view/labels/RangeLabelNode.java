@@ -4,6 +4,8 @@ package edu.colorado.phet.platetectonics.view.labels;
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
+import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
+import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -13,6 +15,8 @@ import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
+import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
+import edu.colorado.phet.platetectonics.util.MortalSimpleObserver;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -58,6 +62,10 @@ public class RangeLabelNode extends BaseLabelNode {
     // whether the label itself should be rotated to be orthogonal to the top-bottom line
     private boolean shouldRotate = true;
 
+    // may be uninitialized if not hooked to a range label instance
+    // TODO: only attach these to range label instances?
+    private final RangeLabel rangeLabel;
+
     /**
      * @param top       Top of the range (3d point)
      * @param bottom    Bottom of the range (3d point)
@@ -66,9 +74,9 @@ public class RangeLabelNode extends BaseLabelNode {
      * @param colorMode What is the current color mode
      * @param isDark    Whether we are dark for the Density color mode, or the opposite
      */
-    public RangeLabelNode( final Property<Vector3F> top, final Property<Vector3F> bottom, String label, Property<Float> scale, Property<ColorMode> colorMode, boolean isDark ) {
+    public RangeLabelNode( final RangeLabel rangeLabel, final Property<Vector3F> top, final Property<Vector3F> bottom, String label, Property<Float> scale, Property<ColorMode> colorMode, boolean isDark ) {
         // label is centered between the top and bottom
-        this( top, bottom, label, scale, colorMode, isDark, new Property<Vector3F>( top.get().plus( bottom.get() ).times( 0.5f ) ) {{
+        this( rangeLabel, top, bottom, label, scale, colorMode, isDark, new Property<Vector3F>( top.get().plus( bottom.get() ).times( 0.5f ) ) {{
             // by default, place the label perfectly between the top and bottom
             SimpleObserver recenterLabelPosition = new SimpleObserver() {
                 public void update() {
@@ -89,18 +97,21 @@ public class RangeLabelNode extends BaseLabelNode {
      * @param isDark        Whether we are dark for the Density color mode, or the opposite
      * @param labelLocation The position of the label (3d point). This can update over time, and is used so we can change the position from the center
      */
-    public RangeLabelNode( final Property<Vector3F> top, final Property<Vector3F> bottom, String label, final Property<Float> scale, final Property<ColorMode> colorMode, final boolean isDark, final Property<Vector3F> labelLocation ) {
+    public RangeLabelNode( final RangeLabel rangeLabel, final Property<Vector3F> top, final Property<Vector3F> bottom, String label, final Property<Float> scale, final Property<ColorMode> colorMode, final boolean isDark, final Property<Vector3F> labelLocation ) {
         super( colorMode, isDark );
         this.top = top;
         this.bottom = bottom;
         this.label = label;
         this.labelLocation = labelLocation;
         this.scale = scale;
+        this.rangeLabel = rangeLabel;
+
+        final ValueNotifier<?> killNotifier = rangeLabel == null ? new VoidNotifier() : rangeLabel.disposed;
 
         labelPNode = new PText( label ) {{
             setFont( PlateTectonicsConstants.LABEL_FONT );
             scale( PIXEL_SCALE );
-            colorMode.addObserver( new SimpleObserver() {
+            colorMode.addObserver( new MortalSimpleObserver( colorMode, killNotifier ) {
                 public void update() {
                     setTextPaint( getColor() );
                     repaint();
@@ -128,7 +139,7 @@ public class RangeLabelNode extends BaseLabelNode {
             bottom.addObserver( updateRotation );
         }} ) {{
             final ThreadedPlanarPiccoloNode me = this;
-            colorMode.addObserver( new SimpleObserver() {
+            colorMode.addObserver( new MortalSimpleObserver( colorMode, killNotifier ) {
                 public void update() {
                     me.repaint();
                 }

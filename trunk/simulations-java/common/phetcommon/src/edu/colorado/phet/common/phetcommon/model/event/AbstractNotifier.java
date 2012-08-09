@@ -29,4 +29,8 @@ public class AbstractNotifier<T> {//T is the listener type
             callback.apply( listener );
         }
     }
+
+    public LinkedList<T> getListeners() {
+        return new LinkedList<T>( listeners );
+    }
 }

@@ -24,6 +24,9 @@ public class CrossSectionStrip {
     // fires when this strip should be moved to the front
     public final ValueNotifier<CrossSectionStrip> moveToFrontNotifier = new ValueNotifier<CrossSectionStrip>( this );
 
+    // fired when the strip is permanently removed from the model, so we can detach the necessary listeners
+    public final ValueNotifier<CrossSectionStrip> disposed = new ValueNotifier<CrossSectionStrip>( this );
+
     public final Property<Float> alpha = new Property<Float>( 1f );
 
     public CrossSectionStrip() {

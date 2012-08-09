@@ -17,6 +17,7 @@ import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.util.MortalUpdateListener;
 
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;
@@ -209,7 +210,7 @@ public class WaterStripNode extends GLNode {
             };
             setPositions.run();
 
-            model.modelChanged.addUpdateListener( new UpdateListener() {
+            model.modelChanged.addUpdateListener( new MortalUpdateListener( model.modelChanged, terrain.disposed ) {
                 public void update() {
                     setPositions.run();
                 }

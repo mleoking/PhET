@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.event;
 
+import java.util.List;
+
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -42,5 +44,9 @@ public class Notifier<T> implements INotifier<T> {
 
     public void removeListener( VoidFunction1<? super T> listener ) {
         notifier.removeListener( listener );
+    }
+
+    public List<VoidFunction1<? super T>> getListeners() {
+        return notifier.getListeners();
     }
 }

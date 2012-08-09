@@ -6,7 +6,6 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
@@ -17,6 +16,7 @@ import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
+import edu.colorado.phet.platetectonics.util.MortalUpdateListener;
 import edu.colorado.phet.platetectonics.util.Side;
 
 import static edu.colorado.phet.platetectonics.model.PlateMotionModel.*;
@@ -295,7 +295,7 @@ public class PlateMotionPlate extends Plate {
 
             // update heights whenever the model changes in this mode
             model.modelChanged.addUpdateListener(
-                    new UpdateListener() {
+                    new MortalUpdateListener( model.modelChanged, disposed ) {
                         public void update() {
                             final Function2<Integer, Integer, Sample> factory = createMiddleCrustSampleFactory( otherPlate );
                             for ( int yIndex = 0; yIndex < getBoundaries().size(); yIndex++ ) {
@@ -430,7 +430,7 @@ public class PlateMotionPlate extends Plate {
             final float initialX = sample.getPosition().x;
 
             model.modelChanged.addUpdateListener(
-                    new UpdateListener() {
+                    new MortalUpdateListener( model.modelChanged, disposed ) {
                         public void update() {
                             if ( behavior instanceof RiftingBehavior || behavior instanceof TransformBehavior ) {
                                 set( sample.getPosition() );

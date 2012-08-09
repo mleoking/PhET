@@ -35,6 +35,9 @@ public class Terrain {
     // the x or z values could have changed, so assume the worst (everything changed)
     public final ValueNotifier<Terrain> columnsModified = new ValueNotifier<Terrain>( this );
 
+    // fired when the terrain is permanently removed from the model, so we can detach the necessary listeners
+    public final ValueNotifier<Terrain> disposed = new ValueNotifier<Terrain>( this );
+
     // number of samples in the Z direction
     private final int zSamples;
 

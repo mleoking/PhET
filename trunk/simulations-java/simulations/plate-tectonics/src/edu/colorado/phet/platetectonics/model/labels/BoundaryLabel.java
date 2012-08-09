@@ -7,7 +7,7 @@ import edu.colorado.phet.platetectonics.util.Side;
 /**
  * Represents a labeled boundary that will be displayed as a dotted line
  */
-public class BoundaryLabel {
+public class BoundaryLabel extends PlateTectonicsLabel {
     public final Boundary boundary;
     public final Side side;
 

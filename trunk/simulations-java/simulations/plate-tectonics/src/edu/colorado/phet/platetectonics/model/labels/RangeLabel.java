@@ -8,7 +8,7 @@ import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 /**
  * Represents a labeled area that has a top and bottom.
  */
-public class RangeLabel {
+public class RangeLabel extends PlateTectonicsLabel {
     public final Property<Vector3F> top;
     public final Property<Vector3F> bottom;
     public final String label;
@@ -25,9 +25,5 @@ public class RangeLabel {
 
     public boolean isLimitToScreen() {
         return limitToScreen;
-    }
-
-    public void setLimitToScreen( boolean limitToScreen ) {
-        this.limitToScreen = limitToScreen;
     }
 }

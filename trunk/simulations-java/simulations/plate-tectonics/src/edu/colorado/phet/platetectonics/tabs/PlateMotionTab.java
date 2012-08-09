@@ -48,6 +48,7 @@ import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.labels.TextLabel;
+import edu.colorado.phet.platetectonics.util.MortalUpdateListener;
 import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
@@ -156,28 +157,22 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
                 // mapped locations
                 final Property<Vector3F> topProperty = new Property<Vector3F>( new Vector3F() ) {{
-                    beforeFrameRender.addUpdateListener( new UpdateListener() {
+                    beforeFrameRender.addUpdateListener( new MortalUpdateListener( beforeFrameRender, rangeLabel.disposed ) {
                         public void update() {
                             set( convertRadial( rangeLabel.top.get() ) );
                         }
                     }, true );
                 }};
                 final Property<Vector3F> bottomProperty = new Property<Vector3F>( new Vector3F() ) {{
-                    beforeFrameRender.addUpdateListener( new UpdateListener() {
+                    beforeFrameRender.addUpdateListener( new MortalUpdateListener( beforeFrameRender, rangeLabel.disposed ) {
                         public void update() {
                             set( convertRadial( rangeLabel.bottom.get() ) );
                         }
                     }, true );
                 }};
 
-                final RangeLabelNode node = rangeLabel.isLimitToScreen() ? new RangeLabelNode(
-                        topProperty,
-                        bottomProperty,
-                        rangeLabel.label,
-                        new Property<Float>( 1f ),
-                        colorMode, true,
-                        getLabelPosition( topProperty, bottomProperty, new Property<Float>( 1f ) )
-                ) : new RangeLabelNode(
+                final RangeLabelNode node = new RangeLabelNode(
+                        rangeLabel,
                         topProperty,
                         bottomProperty,
                         rangeLabel.label,

@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
+import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.platetectonics.model.Sample;
@@ -22,6 +23,10 @@ import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
  * of boundaries.
  */
 public class Region {
+
+    // fired when the terrain is permanently removed from the model, so we can detach the necessary listeners
+    public final ValueNotifier<Region> disposed = new ValueNotifier<Region>( this );
+
     // boundaries from top to bottom
     private List<Boundary> boundaries = new ArrayList<Boundary>();
 

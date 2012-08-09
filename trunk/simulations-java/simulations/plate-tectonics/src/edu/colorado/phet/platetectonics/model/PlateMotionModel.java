@@ -8,7 +8,6 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
-import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
@@ -31,6 +30,7 @@ import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.labels.TextLabel;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
+import edu.colorado.phet.platetectonics.util.MortalUpdateListener;
 import edu.colorado.phet.platetectonics.util.Side;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
@@ -141,6 +141,23 @@ public class PlateMotionModel extends PlateTectonicsModel {
         updateTerrain();
         updateStrips();
 
+
+        rangeLabels.addElementRemovedObserver( new VoidFunction1<RangeLabel>() {
+            public void apply( RangeLabel rangeLabel ) {
+                rangeLabel.disposed.updateListeners();
+            }
+        } );
+        textLabels.addElementRemovedObserver( new VoidFunction1<TextLabel>() {
+            public void apply( TextLabel textLabel ) {
+                textLabel.disposed.updateListeners();
+            }
+        } );
+        boundaryLabels.addElementRemovedObserver( new VoidFunction1<BoundaryLabel>() {
+            public void apply( BoundaryLabel boundaryLabel ) {
+                boundaryLabel.disposed.updateListeners();
+            }
+        } );
+
         // once plates have been chosen and animation has started, set up our plate behaviors so we can animate correctly
         animationStarted.addObserver( new SimpleObserver() {
             public void update() {
@@ -175,20 +192,21 @@ public class PlateMotionModel extends PlateTectonicsModel {
     private void addMantleLabel() {
         if ( hasBothPlates.get() ) {
             final float mantleLabelHeight = -180000;
-            textLabels.add( new TextLabel( new Property<Vector3F>( new Vector3F( 0, mantleLabelHeight, 0 ) ) {{
+            final Property<Vector3F> positionProperty = new Property<Vector3F>( new Vector3F( 0, mantleLabelHeight, 0 ) );
+            final TextLabel textLabel = new TextLabel( positionProperty, Strings.MANTLE );
+            textLabels.add( textLabel );
 
-                // if we have a colliding behavior, we must push the mantle label down as the lithosphere sinks
-                if ( leftPlate.getBehavior() != null && leftPlate.getBehavior() instanceof CollidingBehavior ) {
-                    final Sample trackedSample = leftPlate.getLithosphere().getBottomBoundary().getEdgeSample( Side.RIGHT );
-                    float initialContinentalBottom = trackedSample.getPosition().y;
-                    final float depthFromBottom = mantleLabelHeight - initialContinentalBottom;
-                    modelChanged.addUpdateListener( new UpdateListener() {
-                        public void update() {
-                            set( new Vector3F( 0, depthFromBottom + trackedSample.getPosition().y, 0 ) );
-                        }
-                    }, false );
-                }
-            }}, Strings.MANTLE ) );
+            // if we have a colliding behavior, we must push the mantle label down as the lithosphere sinks
+            if ( leftPlate.getBehavior() != null && leftPlate.getBehavior() instanceof CollidingBehavior ) {
+                final Sample trackedSample = leftPlate.getLithosphere().getBottomBoundary().getEdgeSample( Side.RIGHT );
+                float initialContinentalBottom = trackedSample.getPosition().y;
+                final float depthFromBottom = mantleLabelHeight - initialContinentalBottom;
+                modelChanged.addUpdateListener( new MortalUpdateListener( modelChanged, textLabel.disposed ) {
+                    public void update() {
+                        positionProperty.set( new Vector3F( 0, depthFromBottom + trackedSample.getPosition().y, 0 ) );
+                    }
+                }, false );
+            }
         }
     }
 

@@ -7,7 +7,6 @@ import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -20,6 +19,7 @@ import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 import edu.colorado.phet.platetectonics.model.regions.Region;
+import edu.colorado.phet.platetectonics.util.MortalUpdateListener;
 import edu.colorado.phet.platetectonics.util.Side;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
@@ -30,6 +30,8 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 public class RiftingBehavior extends PlateBehavior {
 
     private float timeElapsed = 0;
+
+    private boolean addedLabels = false;
 
     // how deep the top of the mid-oceanic ridge should be. (not realistic, should be deeper, but Berkeley team said this looked the best)
     public static final float RIDGE_TOP_Y = -500;
@@ -111,17 +113,18 @@ public class RiftingBehavior extends PlateBehavior {
         float oceanYAfter = getCrust().getBottomBoundary().getApproximateYFromX( oceanLabelX );
 
         // watch for when to add labels to the oceanic crust that is new (12km threshold)
-        if ( ( oceanYBefore < -13000 ) != ( oceanYAfter < -13000 ) ) {
+        if ( !addedLabels && ( oceanYBefore < -13000 ) != ( oceanYAfter < -13000 ) ) {
+            addedLabels = true;
             plate.getModel().rangeLabels.add( new RangeLabel(
                     new Property<Vector3F>( new Vector3F() ) {{
-                        plate.getModel().modelChanged.addUpdateListener( new UpdateListener() {
+                        plate.getModel().modelChanged.addUpdateListener( new MortalUpdateListener( plate.getModel().modelChanged, plate.disposed ) {
                             public void update() {
                                 set( new Vector3F( oceanLabelX, getCrust().getTopBoundary().getApproximateYFromX( oceanLabelX ), 0 ) );
                             }
                         }, true );
                     }},
                     new Property<Vector3F>( new Vector3F() ) {{
-                        plate.getModel().modelChanged.addUpdateListener( new UpdateListener() {
+                        plate.getModel().modelChanged.addUpdateListener( new MortalUpdateListener( plate.getModel().modelChanged, plate.disposed ) {
                             public void update() {
                                 set( new Vector3F( oceanLabelX, getCrust().getBottomBoundary().getApproximateYFromX( oceanLabelX ), 0 ) );
                             }
