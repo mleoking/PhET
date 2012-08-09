@@ -1,3 +1,4 @@
+# 1.00.21 (66768) Aug 9, 2012
 Intro: Improved performance, particularly for equality lab and beakers
 # 1.00.20 (66762) Aug 9, 2012
 Intro: Fixed location of fluid beakers when dragging out of the play area containers
