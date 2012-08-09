@@ -52,6 +52,8 @@ class SingleContainerNode extends PNode {
     public SingleContainerNode( final ShapeType shapeType, final ContainerNode parent, final ObservableProperty<Integer> number ) {
         this.parent = parent;
         dottedLineLayer = new PNode() {{
+            setPickable( false );
+            setChildrenPickable( false );
             number.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer number ) {
                     removeAllChildren();
