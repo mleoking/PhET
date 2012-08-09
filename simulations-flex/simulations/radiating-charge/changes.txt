@@ -1,3 +1,5 @@
+# 1.00.21 (66744) Aug 9, 2012
+8/9/12 Offscreen bug fixed.
 # 1.00.20 (66669) Aug 7, 2012
 8/7/12 Using NiceRadioButtons.
 # 1.00.19 (66364) Jul 27, 2012

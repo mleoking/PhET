@@ -1,25 +1,27 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
+        <!--Following is for iPad version-->
+<!--<?xml version="1.0"?>-->
+
 <!--
   - Copyright 2002-2012, University of Colorado
   -->
-
-<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
-                xmlns:mx="library://ns.adobe.com/flex/mx"
-                xmlns:view="edu.colorado.phet.radiatingcharge.*"
-                layout="absolute" width="100%" height="100%"
-                frameRate="50"
-                horizontalScrollPolicy="off" verticalScrollPolicy="off"
-                applicationComplete="canvas.init()">
-    <view:RadiatingChargeCanvas id="canvas"/>
-</mx:Application>
-
- <!--Following is version for Phet build gui-->
-        <!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"-->
+ <!--iPad version-->
+<!--<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009"-->
+                <!--xmlns:mx="library://ns.adobe.com/flex/mx"-->
                 <!--xmlns:view="edu.colorado.phet.radiatingcharge.*"-->
                 <!--layout="absolute" width="100%" height="100%"-->
                 <!--frameRate="50"-->
                 <!--horizontalScrollPolicy="off" verticalScrollPolicy="off"-->
                 <!--applicationComplete="canvas.init()">-->
-<!--<view:RadiatingChargeCanvas id="canvas"/>-->
+    <!--<view:RadiatingChargeCanvas id="canvas"/>-->
 <!--</mx:Application>-->
+ <!--Following is version for Phet build gui-->
+
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+                xmlns:view="edu.colorado.phet.radiatingcharge.*"
+                layout="absolute" width="100%" height="100%"
+                frameRate="50"
+                horizontalScrollPolicy="off" verticalScrollPolicy="off"
+                applicationComplete="canvas.init()">
+<view:RadiatingChargeCanvas id="canvas"/>
+</mx:Application>
