@@ -16,6 +16,7 @@ import edu.colorado.phet.fractions.common.util.Dimension2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
 
+import static fj.Ord.intOrd;
 import static fj.Ord.ord;
 
 /**
@@ -47,7 +48,7 @@ public @EqualsAndHashCode(callSuper = false) class CakeSliceFactory extends Slic
 
                                                 //stagger in Z solely for fixing z-ordering, see below
                                                 getBucketCenter().y + radius / 4 + random.nextDouble() / 100 );
-        return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ), null );
+        return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ), null, Slice.nextID() );
     }
 
     public Slice createPieCell( int maxPies, int pie, int cell, int denominator ) {
@@ -56,7 +57,7 @@ public @EqualsAndHashCode(callSuper = false) class CakeSliceFactory extends Slic
 
         final double anglePerSlice = 2 * Math.PI / denominator;
         final Vector2D location = new Vector2D( diameter * ( pie + 1 ) + spacing * ( pie + 1 ) - 80 + offset, 300 );
-        return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ), null );
+        return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ), null, Slice.nextID() );
     }
 
     //Find which should appear before/after others in z-ordering.  Must be back to front.
@@ -79,6 +80,12 @@ public @EqualsAndHashCode(callSuper = false) class CakeSliceFactory extends Slic
                 add( e );
             }
         }};
+        System.out.println( p.slices.map( new F<Slice, Integer>() {
+            @Override public Integer f( final Slice slice ) {
+                return slice.id;
+            }
+        } ).sort( intOrd )
+        );
         return p.withSlices( p.slices.sort( ord( new F<Slice, F<Slice, Ordering>>() {
             @Override public F<Slice, Ordering> f( final Slice a ) {
                 return new F<Slice, Ordering>() {
@@ -88,9 +95,9 @@ public @EqualsAndHashCode(callSuper = false) class CakeSliceFactory extends Slic
                         return cellA > cellB ? Ordering.GT :
                                cellA < cellB ? Ordering.LT :
                                //Use any rule that differentiates the slices so the bucket slices don't jump around because of all being equal
-                               a.position.y > b.position.y ? Ordering.LT :
-                               a.position.y < b.position.y ? Ordering.GT :
-                               Ordering.EQ;
+                               a.id < b.id ? Ordering.LT :
+                               a.id > b.id ? Ordering.GT :
+                               Ordering.GT;
                     }
                 };
             }

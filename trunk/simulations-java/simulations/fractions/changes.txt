@@ -1,3 +1,4 @@
+Intro: Fixed z-ordering for cake slices so there is no z-order swap when dragging one cake vertically past another
 Build a Fraction: Don't show "Next" button if it was the last level
 Build a Fraction: Fixed: Reset doesn't work for expanded containers
 Build a Fraction: Made it so that containers max out at 2 instead of 3

@@ -67,6 +67,6 @@ public @EqualsAndHashCode(callSuper = false) class HorizontalSliceFactory extend
         final double distanceInBar = cellWidth * cell;
         final double cellCenterX = barX + distanceInBar + cellWidth / 2;
 
-        return new Slice( new Vector2D( cellCenterX + offset, center.getY() ), Math.PI, false, null, createToShape( oneBarWidth / denominator ), sliceColor );
+        return new Slice( new Vector2D( cellCenterX + offset, center.getY() ), Math.PI, false, null, createToShape( oneBarWidth / denominator ), sliceColor, Slice.nextID() );
     }
 }

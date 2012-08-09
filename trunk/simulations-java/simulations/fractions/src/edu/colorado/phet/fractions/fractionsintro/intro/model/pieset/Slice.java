@@ -30,21 +30,27 @@ public @Data class Slice {
     public final F<Slice, Shape> toShape;
     public final Color color;
 
+    public final int id;
+
     //Copy methods:
     public Slice withDragging( boolean dragging ) {
-        return new Slice( position, angle, dragging, animationTarget, toShape, color );
+        return new Slice( position, angle, dragging, animationTarget, toShape, color, id );
+    }
+
+    public Slice withID( int id ) {
+        return new Slice( position, angle, dragging, animationTarget, toShape, color, id );
     }
 
     Slice withAngle( double angle ) {
-        return new Slice( position, angle, dragging, animationTarget, toShape, color );
+        return new Slice( position, angle, dragging, animationTarget, toShape, color, id );
     }
 
     public Slice withPosition( Vector2D position ) {
-        return new Slice( position, angle, dragging, animationTarget, toShape, color );
+        return new Slice( position, angle, dragging, animationTarget, toShape, color, id );
     }
 
     Slice withAnimationTarget( AnimationTarget animationTarget ) {
-        return new Slice( position, angle, dragging, animationTarget, toShape, color );
+        return new Slice( position, angle, dragging, animationTarget, toShape, color, id );
     }
 
     //Update methods
@@ -54,7 +60,7 @@ public @Data class Slice {
     }
 
     public Slice translate( double dx, double dy ) {
-        return new Slice( position.plus( dx, dy ), angle, dragging, animationTarget, toShape, color );
+        return new Slice( position.plus( dx, dy ), angle, dragging, animationTarget, toShape, color, id );
     }
 
     public Slice animationTarget( Slice target ) {
@@ -133,5 +139,13 @@ public @Data class Slice {
         while ( angle < 0 ) { angle += Math.PI * 2; }
         while ( angle > Math.PI * 2 ) {angle -= Math.PI * 2;}
         return angle;
+    }
+
+    private static int count = 0;
+
+    public static int nextID() {
+        int result = count;
+        count++;
+        return result;
     }
 }

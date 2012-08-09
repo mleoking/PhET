@@ -52,7 +52,7 @@ public @EqualsAndHashCode(callSuper = false) class CircularSliceFactory extends 
 
         final double anglePerSlice = 2 * Math.PI / denominator;
         final Vector2D location = new Vector2D( getBucketCenter().getX() + ( random.nextDouble() * 2 - 1 ) * radius, getBucketCenter().getY() - radius / 2 );
-        return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ), sliceColor );
+        return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ), sliceColor, Slice.nextID() );
     }
 
     public Slice createPieCell( int maxPies, int pie, int cell, int denominator ) {
@@ -66,6 +66,6 @@ public @EqualsAndHashCode(callSuper = false) class CircularSliceFactory extends 
 
         final double anglePerSlice = 2 * Math.PI / denominator;
         final Vector2D location = new Vector2D( x + diameter * ( site.column + 1 ) + spacing * ( site.column + 1 ) - 80 + offset, y + radius * 2 * site.row + spaceBetweenRows * site.row );
-        return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ), sliceColor );
+        return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ), sliceColor, Slice.nextID() );
     }
 }

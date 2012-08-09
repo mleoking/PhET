@@ -70,6 +70,6 @@ public @EqualsAndHashCode(callSuper = false) class StackedHorizontalSliceFactory
         final double distanceInBar = oneBarWidth - cellWidth * cell;
         final double cellCenterX = barX + distanceInBar + cellWidth / 2;// + new LinearFunction( 1, 0, 6, -oneBarWidth ).evaluate( denominator );
 
-        return new Slice( new Vector2D( cellCenterX - cellWidth + x, barCenter.y + y ), Math.PI, false, null, createToShape( oneBarWidth / denominator ), sliceColor );
+        return new Slice( new Vector2D( cellCenterX - cellWidth + x, barCenter.y + y ), Math.PI, false, null, createToShape( oneBarWidth / denominator ), sliceColor, Slice.nextID() );
     }
 }
