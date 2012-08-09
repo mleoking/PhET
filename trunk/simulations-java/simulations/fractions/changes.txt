@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Made it so the dotted lines don't get in the way of mouse events
 # 1.00.22 (66770) Aug 9, 2012
 Intro: Improved beaker offsets when dragging out of play area containers
 # 1.00.21 (66768) Aug 9, 2012
