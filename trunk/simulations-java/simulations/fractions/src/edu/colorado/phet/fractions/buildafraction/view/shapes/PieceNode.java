@@ -19,6 +19,13 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.sprite;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.piece;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys.denominator;
 import static java.awt.geom.AffineTransform.getTranslateInstance;
 
 /**
@@ -45,6 +52,7 @@ public abstract class PieceNode extends Stackable {
 
         addInputEventListener( new CanvasBoundedDragHandler( PieceNode.this ) {
             @Override public void mousePressed( final PInputEvent event ) {
+                sendUserMessage( chain( piece, PieceNode.this.hashCode() ), sprite, pressed, parameterSet( denominator, pieceSize ) );
                 super.mousePressed( event );
 
                 dragStarted();
@@ -68,6 +76,7 @@ public abstract class PieceNode extends Stackable {
             }
 
             @Override protected void dragNode( final DragEvent event ) {
+                sendUserMessage( chain( piece, PieceNode.this.hashCode() ), sprite, drag, parameterSet( denominator, pieceSize ) );
                 Option<Double> originalAngle = context.getNextAngle( PieceNode.this );
                 translate( event.delta.width, event.delta.height );
                 Option<Double> newAngle = context.getNextAngle( PieceNode.this );
@@ -77,6 +86,7 @@ public abstract class PieceNode extends Stackable {
             }
 
             @Override public void mouseReleased( final PInputEvent event ) {
+                sendUserMessage( chain( piece, PieceNode.this.hashCode() ), sprite, released, parameterSet( denominator, pieceSize ) );
                 super.mouseReleased( event );
                 context.endDrag( PieceNode.this );
 

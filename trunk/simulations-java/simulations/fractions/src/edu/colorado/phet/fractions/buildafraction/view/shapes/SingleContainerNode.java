@@ -28,11 +28,16 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.sprite;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType.BAR;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.circleDiameter;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceNode._toFraction;
 import static edu.colorado.phet.fractions.common.math.Fraction.sum;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.container;
 
 /**
  * One circle or bar for adding shapes to. If the fraction can become larger than 1, then more of these are used.
@@ -79,16 +84,19 @@ class SingleContainerNode extends PNode {
 
             addInputEventListener( new CanvasBoundedDragHandler( SingleContainerNode.this ) {
                 @Override public void mousePressed( final PInputEvent event ) {
+                    sendUserMessage( chain( container, parent.hashCode() ), sprite, pressed );
                     super.mousePressed( event );
                     parent.moveToFront();
                     addActivity( new AnimateToScale( parent, 200 ) );
                 }
 
                 @Override protected void dragNode( final DragEvent event ) {
+                    sendUserMessage( chain( container, parent.hashCode() ), sprite, drag );
                     parent.translate( event.delta.width, event.delta.height );
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
+                    sendUserMessage( chain( container, parent.hashCode() ), sprite, released );
                     super.mouseReleased( event );
                     parent.context.endDrag( parent );
                 }

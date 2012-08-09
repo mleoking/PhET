@@ -63,7 +63,15 @@ public class FractionsIntroSimSharing {
         soundRadioButton,
         timerRadioButton,
         resetButton,
-        refreshButton
+        refreshButton,
+        increaseContainersButton,
+        decreaseContainersButton,
+        incrementDivisionsButton,
+        decrementDivisionsButton,
+        numberSplitButton,
+        shapeSplitButton,
+        piece,
+        container
     }
 
     public static final String on = "on";
