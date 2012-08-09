@@ -40,10 +40,10 @@ To summarize, the class ClientProperty provides a way to view when a certain val
 the value is changed from outside of the model.
 
 [===================Build a Fraction tab===================]
-This tab is also a standalone sim, for implementation notes, see implementation-notes-build-a-fraction.txt.
+This tab is also a standalone sim, for implementation notes, see implementation-notes-build-a-fraction.txt.  It appears as a "top level" package (in the fractions sim) because it is a standalone sim.
 
 [===================Equality Lab tab===================]
-This tab is a minor variation on the Intro tab, reusing the entire model and making two copies of the view (one with a different scale factor).
+This tab is a minor variation on the Intro tab, reusing the entire model and making two copies of the view (one with a different scale factor).  It appears in a package under fractionsintro because it only appears as a tab in that sim.
 
 [===================Fraction Matcher tab===================]
-This tab is also a standalone sim, see implementation-notes-fraction-matcher.txt
+This tab is also a standalone sim, see implementation-notes-fraction-matcher.txt.  It appears as a "top level" package (in the fractions sim) because it is a standalone sim.
