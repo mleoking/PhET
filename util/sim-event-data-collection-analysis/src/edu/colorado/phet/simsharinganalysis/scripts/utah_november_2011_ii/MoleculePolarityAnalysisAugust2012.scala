@@ -94,7 +94,7 @@ object NewParser {
         case e: Entry if e.text.isDefined => e.text.get
         case e: Entry if e.component == "mouse" && e("component") == "jmolViewerNode" => e("component") + ":" + e("currentMolecule")
         case e: Entry if e.component == "buttonNode" => e("actionCommand")
-        case e: Entry if e.component == "comboBoxItem" => e("item")
+        case e: Entry if e.component == "comboBoxItem" => "someComboItem"
         case e: Entry if e.component == "mouse" && e("atom") != "" && e.action == "startDrag" => "electronegativity-slider-dragged:" + e("atom")
         case e: Entry if e.component == "mouse" && e("atom") != "" && e.action == "endDrag" => "electronegativity-slider-dragged:" + e("atom")
         case _ => ""
@@ -120,8 +120,8 @@ object NewParser {
                                p.component != "window" &&
                                p.toString != "Three Atoms: mouse" &&
                                p.toString != "Two Atoms: mouse" &&
-                               p.toString != "Three Atoms: radioButton: off"
-    )
+                               p.toString != "Three Atoms: radioButton: off" &&
+                               p.toString.startsWith(tabNames(2)))
   }
 
   val tabNames = "Two Atoms" :: "Three Atoms" :: "Real Molecules" :: Nil
