@@ -1,3 +1,4 @@
+# 0.00.54 (66778) Aug 9, 2012
 # 0.00.53 (66755) Aug 9, 2012
 Allowing software fallback (no debug flag)
 # 0.00.52 (66753) Aug 9, 2012
