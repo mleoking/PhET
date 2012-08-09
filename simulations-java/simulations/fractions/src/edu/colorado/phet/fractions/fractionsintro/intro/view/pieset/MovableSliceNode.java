@@ -45,7 +45,7 @@ public class MovableSliceNode extends PNode {
 
                     //If dragging from the bucket, do not delete the old piece (since bucket should always look like it has an infinite supply)
                     if ( state.isInBucket( slice ) ) {
-                        model.set( state.withSlices( state.slices.snoc( slice.withDragging( true ) ) ) );
+                        model.set( state.withSlices( state.slices.snoc( slice.withDragging( true ).withID( Slice.nextID() ) ) ) );
                     }
                     else {
                         model.set( state.withSlices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.withDragging( true ) ) ) );

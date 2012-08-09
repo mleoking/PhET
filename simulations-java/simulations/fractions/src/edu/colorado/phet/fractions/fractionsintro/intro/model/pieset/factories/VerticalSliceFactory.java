@@ -76,7 +76,7 @@ public @EqualsAndHashCode(callSuper = false) class VerticalSliceFactory extends 
 
         //Account for offset, determined empirically: den=1 => offset = 0, den = 2 => offset = -cellHeight/2
         LinearFunction linearFunction = new LinearFunction( 1, 2, -barHeight, -barHeight + cellHeight / 2 );
-        return new Slice( new Vector2D( x + barX + offset, 282 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ), sliceColor );
+        return new Slice( new Vector2D( x + barX + offset, 282 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ), sliceColor, Slice.nextID() );
     }
 
     @Override public Slice getDropTarget( final PieSet pieSet, final Slice s ) {
