@@ -449,6 +449,7 @@ public class DnaMolecule {
         }
 
         // Sort the collection so that the best match is first.
+        // REVIEW: if this happens often, scanning for the one with the largest affinity factor would be much faster than a full sort unless there are very few attachment sites
         Collections.sort( potentialAttachmentSites, new AttachmentSiteComparator<AttachmentSite>( transcriptionFactor.getPosition() ) );
 
         // Return the first attachment site on the list.
@@ -461,6 +462,8 @@ public class DnaMolecule {
      * @param rnaPolymerase
      * @return
      */
+    // REVIEW: code seems to be shared between considerProposalFrom( TranscriptionFactor transcriptionFactor ) and this function. consider refactoring to remove shared code?
+    // seems like considerProposalWith( potentialAttachmentSites, <distance function for thisDistance/thatDistance> ) may even do the trick?
     public AttachmentSite considerProposalFrom( RnaPolymerase rnaPolymerase ) {
         List<AttachmentSite> potentialAttachmentSites = new ArrayList<AttachmentSite>();
         for ( int i = 0; i < basePairs.size(); i++ ) {
@@ -561,6 +564,8 @@ public class DnaMolecule {
      *                                 biomolecule could attach.
      */
     private void eliminateOutOfBoundsAttachmentSites( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
+        // REVIEW: would recommend something like a functional "filter" function here. For example, FunctionalUtils.filter or Functional Java's filter
+        // Would simplify the code to effectively return filter( potentialAttachmentSites, <predicate function> )
         for ( AttachmentSite potentialAttachmentSite : new ArrayList<AttachmentSite>( potentialAttachmentSites ) ) {
             Vector2D translationVector = new Vector2D( biomolecule.getPosition(), potentialAttachmentSite.locationProperty.get() );
             AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
@@ -624,6 +629,7 @@ public class DnaMolecule {
             }
         }
 
+        // REVIEW: these checks are almost always done together it seems, consider making an eliminateInvalidAttachmentSites?
         // Eliminate any attachment site where attaching would cause the
         // biomolecule to go out of bounds.
         eliminateOutOfBoundsAttachmentSites( transcriptionFactor, attachmentSites );

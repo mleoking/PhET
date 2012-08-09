@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
-import java.awt.Color;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -44,6 +43,9 @@ public class ProteinA extends Protein {
         return createShape( 0 );
     }
 
+    // REVIEW: Shape instances should be immutable, so I have a slight preference to have a private
+    // static final Shape instance instead of a function creating a shape.
+    // Same for the other proteins
     private static Shape createShape( double growthFactor ) {
         final double currentWidth = MathUtil.clamp( 0.01, growthFactor, 1 ) * FULL_GROWN_WIDTH;
         DoubleGeneralPath path = new DoubleGeneralPath( 0, 0 ) {{

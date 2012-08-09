@@ -54,6 +54,9 @@ public class PolymeraseAffinityControlPanel extends PNode {
         }};
 
         // Create the affinity control node.
+        // REVIEW: why do we need to pass a MVT into biomolecule nodes in general? I've found it simpler to apply the transformation to the PNode
+        // itself, and then place mouse-interaction code at a location like this in a double-brace block if it needs to know the transform information.
+        // This way, not every node has to be passed a transform. Are there specific exceptions in this case that prevent that from being useful?
         PNode polymeraseNode = new MobileBiomoleculeNode( POLYMERASE_MVT, new RnaPolymerase() );
         PNode dnaFragmentNode = new DnaMoleculeNode( new DnaMolecule( DnaMolecule.BASE_PAIRS_PER_TWIST * 2 + 1, 0.0, true ), DNA_AND_TF_MVT, 2, false );
         PNode transcriptionFactorNode = new MobileBiomoleculeNode( DNA_AND_TF_MVT, new TranscriptionFactor( tfConfig ) );
@@ -109,6 +112,7 @@ public class PolymeraseAffinityControlPanel extends PNode {
         }
 
         public SpacerNode( double width, double height ) {
+            // REVIEW: just use Color.BLACK?
             spacer = new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new Color( 0, 0, 0, 255 ) );
             addChild( spacer );
         }

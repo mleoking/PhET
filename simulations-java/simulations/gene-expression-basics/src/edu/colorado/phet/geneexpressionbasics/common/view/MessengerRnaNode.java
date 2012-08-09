@@ -51,6 +51,7 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
         addChild( new PlacementHintNode( mvt, messengerRna.mRnaDestroyerPlacementHint ) );
 
         // Add the label. This fades in during synthesis, then fades out.
+        // REVIEW: internationalization of this string?
         final FadeLabel label = new FadeLabel( "mRNA", false, messengerRna.existenceStrength );
         addChild( label );
         messengerRna.beingSynthesized.addObserver( new VoidFunction1<Boolean>() {

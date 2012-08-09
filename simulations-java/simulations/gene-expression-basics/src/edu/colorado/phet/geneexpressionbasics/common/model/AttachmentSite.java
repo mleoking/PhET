@@ -44,6 +44,7 @@ public class AttachmentSite {
         return affinityProperty.get();
     }
 
+    // REVIEW: not needed? maybe the range check should be put on the property itself, since the property is public?
     public void setAffinity( double affinity ) {
         assert affinity >= 0 && affinity <= 1; // Bounds checking.
         affinityProperty.set( affinity );
@@ -67,6 +68,7 @@ public class AttachmentSite {
 
         AttachmentSite otherAttachmentSite = (AttachmentSite) obj;
 
+        // REVIEW: Point2D's equals() should work, don't need the getX() and getY() checks separately (just compare the location properties)
         return this.affinityProperty.get().equals( otherAttachmentSite.affinityProperty.get() ) &&
                this.locationProperty.get().getX() == otherAttachmentSite.locationProperty.get().getX() &&
                this.locationProperty.get().getY() == otherAttachmentSite.locationProperty.get().getY();

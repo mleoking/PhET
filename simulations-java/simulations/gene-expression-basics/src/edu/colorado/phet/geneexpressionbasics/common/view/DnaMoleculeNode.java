@@ -33,6 +33,7 @@ public class DnaMoleculeNode extends PNode {
 
     /**
      * Constructor.
+     * REVIEW: I would tend to remove these JavaDoc comments if they don't add any documentation
      *
      * @param dnaMolecule
      * @param mvt

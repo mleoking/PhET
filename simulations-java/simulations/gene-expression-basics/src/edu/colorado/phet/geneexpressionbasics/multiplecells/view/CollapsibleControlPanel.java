@@ -30,6 +30,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * Control panel that can be closed up to hide the controls it contains.
  *
+ * REVIEW: consider moving to phetcommon?
+ *
  * @author John Blanco
  */
 public class CollapsibleControlPanel extends PNode {

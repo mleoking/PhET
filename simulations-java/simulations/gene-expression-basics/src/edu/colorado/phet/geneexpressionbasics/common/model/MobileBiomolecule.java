@@ -129,7 +129,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     protected void handleReleasedByUser() {
         // The user has released this node after moving it.  This should cause
         // any existing or pending attachments to be severed.
-        MobileBiomolecule.this.attachmentStateMachine.forceImmediateUnattachedAndAvailable();
+        attachmentStateMachine.forceImmediateUnattachedAndAvailable();
     }
 
     public void stepInTime( double dt ) {
@@ -243,6 +243,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      *                     change from the nominal configuration.
      */
     public void changeConformation( double changeFactor ) {
+        // REVIEW: assert or preferably throw an exception here, in case this was ever not implemented (or make abstract and have empty implementations in some classes)
         System.out.println( getClass().getName() + "Warning: Unimplemented method called in base class." );
     }
 

@@ -35,7 +35,6 @@ public class BasePair {
     }
 
     public Point2D getCenterLocation() {
-//        return new Point2D.Double( shape.getBounds2D().getCenterX(), shape.getBounds2D().getCenterY() );
         return new Point2D.Double( shape.getBounds2D().getCenterX(), shape.getBounds2D().getCenterY() );
     }
 }

@@ -488,11 +488,14 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
      * make it easier to get next and previous items and to insert items before
      * and after existing items.
      *
+     * REVIEW: can we consider adding these methods to ObservableList? they may be useful in other simulations
+     *
      * @param <T>
      */
     public static class EnhancedObservableList<T> extends ObservableList<T> {
         public T getNextItem( T item ) {
             int index = indexOf( item );
+            // REVIEW: maybe have an exception here, since if assertions are not enabled it will return the first element in the list
             assert index != -1; // This function shouldn't be used for segments not on the list.
             if ( index == size() - 1 ) {
                 // The given segment is the last element on the list, so null is returned.
@@ -505,6 +508,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
 
         public T getPreviousItem( T item ) {
             int index = indexOf( item );
+            // REVIEW: also recommend an exception here
             assert index != -1; // This function shouldn't be used for segments not on the list.
             if ( index == 0 ) {
                 // The given segment is the first element on the list, so null is returned.
@@ -516,11 +520,13 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
         }
 
         public void insertAfter( T existingItem, T itemToInsert ) {
+            // REVIEW: also recommend an exception here
             assert contains( existingItem );
             add( indexOf( existingItem ) + 1, itemToInsert );
         }
 
         public void insertBefore( T existingItem, T itemToInsert ) {
+            // REVIEW: also recommend an exception here
             assert contains( existingItem );
             add( indexOf( existingItem ), itemToInsert );
         }

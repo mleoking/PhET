@@ -38,6 +38,7 @@ public class MobileBiomoleculeNode extends PPath {
 
     /**
      * Constructor.
+     * REVIEW: JavaDoc not needed here?
      *
      * @param mvt
      * @param mobileBiomolecule
