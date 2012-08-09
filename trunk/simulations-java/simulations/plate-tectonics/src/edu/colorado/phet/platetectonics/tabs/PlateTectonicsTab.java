@@ -14,6 +14,8 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import edu.colorado.phet.common.phetcommon.math.PlaneF;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
@@ -35,12 +37,10 @@ import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.common.phetcommon.math.PlaneF;
-import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
-import edu.colorado.phet.lwjglphet.nodes.OrthoSwingNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
+import edu.colorado.phet.lwjglphet.nodes.OrthoSwingNode;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsApplication;
@@ -705,9 +705,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             }} );
         }};
         return new OrthoSwingNode( fpsPanel, this, canvasTransform,
-                                       new Property<Vector2D>(
-                                               new Vector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth() - 200,
-                                                             10 ) ), mouseEventNotifier ) {{
+                                   new Property<Vector2D>(
+                                           new Vector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth() - 200,
+                                                         10 ) ), mouseEventNotifier ) {{
             PlateTectonicsApplication.showFPSMeter.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( PlateTectonicsApplication.showFPSMeter.get() );

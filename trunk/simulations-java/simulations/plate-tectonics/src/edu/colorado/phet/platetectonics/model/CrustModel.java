@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
@@ -13,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
-import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction2D;
 
 import static edu.colorado.phet.platetectonics.util.Side.LEFT;

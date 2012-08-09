@@ -318,7 +318,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         * view panel, reset and rewind
         *----------------------------------------------------------------------------*/
         final OrthoPiccoloNode viewPanelNode = new OrthoPiccoloNode(
-                new ControlPanelNode( new ViewOptionsPanel( PlateMotionTab.this, showLabels, true, showWater, getPlateMotionModel().hasBothPlates, colorMode ) ),
+                new ControlPanelNode( new ViewOptionsPanel( showLabels, true, showWater, getPlateMotionModel().hasBothPlates, colorMode ) ),
                 this, getCanvasTransform(),
                 new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             // NOTE: positioning code for this is below

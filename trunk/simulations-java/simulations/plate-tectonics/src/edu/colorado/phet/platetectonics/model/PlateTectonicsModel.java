@@ -4,17 +4,17 @@ package edu.colorado.phet.platetectonics.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.model.regions.Region;
-import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 
 /**
  * Base class for plate tectonics models. All units in SI unless otherwise noted

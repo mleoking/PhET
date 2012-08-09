@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
-import edu.colorado.phet.lwjglphet.utils.GLActionListener;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
@@ -162,9 +161,13 @@ public class MotionTypeChooserPanel extends PNode {
             // update this control in the Swing thread
             plateModel.motionTypeIfStarted.addObserver( new ChangeObserver<MotionType>() {
                 public void update( final MotionType newValue, MotionType oldValue ) {
+                    // compute the value in the LWJGL thread
+                    final boolean set = typeEquals( type, newValue );
+
+                    // and change the component view in the Swing EDT
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            setSelected( typeEquals( type, newValue ) );
+                            setSelected( set );
                         }
                     } );
                 }

@@ -19,7 +19,6 @@ import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.SmokePuff;
-import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
 
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;

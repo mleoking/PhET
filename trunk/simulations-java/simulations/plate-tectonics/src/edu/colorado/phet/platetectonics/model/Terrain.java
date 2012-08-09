@@ -4,13 +4,13 @@ package edu.colorado.phet.platetectonics.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.platetectonics.util.Side;
 
 /**
