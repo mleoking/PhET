@@ -272,9 +272,9 @@ public class ContainerNode extends PNode {
         setScale( scale );
     }
 
-    public boolean isInToolbox() {
-        return isAtStartingLocation() && initialY > 500;
-    }
+    public boolean isInToolbox() { return isAtStartingLocation() && belongsInToolbox(); }
+
+    public boolean belongsInToolbox() {return initialY > 500;}
 
     public void pieceAdded() {
         if ( !splitButton.getVisible() ) {
