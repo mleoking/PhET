@@ -1,3 +1,4 @@
+# 1.00.20 (66762) Aug 9, 2012
 Intro: Fixed location of fluid beakers when dragging out of the play area containers
 Intro: Fixed grab region for draggable fluid cups when in the play area containers
 Intro: Fixed z-ordering for cake slices so there is no z-order swap when dragging one cake vertically past another
