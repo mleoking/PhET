@@ -16,7 +16,6 @@ import edu.colorado.phet.fractions.common.util.Dimension2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
 
-import static fj.Ord.intOrd;
 import static fj.Ord.ord;
 
 /**
@@ -80,12 +79,7 @@ public @EqualsAndHashCode(callSuper = false) class CakeSliceFactory extends Slic
                 add( e );
             }
         }};
-        System.out.println( p.slices.map( new F<Slice, Integer>() {
-            @Override public Integer f( final Slice slice ) {
-                return slice.id;
-            }
-        } ).sort( intOrd )
-        );
+
         return p.withSlices( p.slices.sort( ord( new F<Slice, F<Slice, Ordering>>() {
             @Override public F<Slice, Ordering> f( final Slice a ) {
                 return new F<Slice, Ordering>() {

@@ -20,7 +20,6 @@
     <orderEntry type="module" module-name="piccolo-phet" />
     <orderEntry type="module" module-name="functionaljava" />
     <orderEntry type="module" module-name="games" />
-    <orderEntry type="module" module-name="lombok" />
   </component>
 </module>
 
