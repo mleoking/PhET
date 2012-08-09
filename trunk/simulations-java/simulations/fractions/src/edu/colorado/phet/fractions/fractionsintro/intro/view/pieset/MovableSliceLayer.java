@@ -26,7 +26,8 @@ public class MovableSliceLayer extends PNode {
 
         final F<Slice, MovableSliceNode> map = new F<Slice, MovableSliceNode>() {
             @Override public MovableSliceNode f( Slice slice ) {
-                return new MovableSliceNode( createSliceNode.f( new SliceNodeArgs( slice, model.get().denominator, state.isInContainer( slice ) ) ), rootNode, model, slice );
+                final SliceNodeArgs args = new SliceNodeArgs( slice, model.get().denominator, state.isInContainer( slice ) );
+                return new MovableSliceNode( createSliceNode.f( args ), rootNode, model, slice, args.denominator );
             }
         };
         List<MovableSliceNode> nodes = state.slices.map( map );
