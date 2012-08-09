@@ -163,7 +163,7 @@ class AbstractLevelSelectionNode extends PNode {
         LevelIconNode node = new LevelIconNode( info.name, centerIcon, info.levelProgress.stars, info.levelProgress.maxStars );
         ToggleButtonNode button = new ToggleButtonNode( node, selected, new VoidFunction0() {
             public void apply() {
-                SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.levelButton, info.name ) );
+                SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.levelButton, info.levelIdentifier.getLevelType() + ": " + info.name ) );
                 selected.set( true );
 
                 //Show it pressed in for a minute before starting up.
