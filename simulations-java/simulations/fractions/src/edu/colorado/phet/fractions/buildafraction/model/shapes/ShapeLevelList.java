@@ -276,7 +276,6 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
                                                     if ( sum6.lessThanOrEqualTo( target ) ) {
                                                         for ( int i7 : range ) {
                                                             Fraction sum7 = sum6.plus( new Fraction( i7, 7 ) );
-                                                            //bug
                                                             if ( sum7.lessThanOrEqualTo( target ) ) {
                                                                 for ( int i8 : range ) {
                                                                     Fraction sum = sum7.plus( new Fraction( i8, 8 ) );
