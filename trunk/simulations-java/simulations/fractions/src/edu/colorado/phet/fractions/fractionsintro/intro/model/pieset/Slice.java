@@ -30,7 +30,9 @@ public @Data class Slice {
     public final F<Slice, Shape> toShape;
     public final Color color;
 
-    public final int id;
+    //For equality tests, such as in a Cache in EqualityLabCanvas, ignore the ID to avoid cache misses.
+    //A better way of doing this would be a novel equality test for the cache test, but that would take quite some time.
+    public transient final int id;
 
     //Copy methods:
     public Slice withDragging( boolean dragging ) {
