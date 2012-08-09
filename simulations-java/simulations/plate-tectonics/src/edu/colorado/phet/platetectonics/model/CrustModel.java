@@ -371,7 +371,7 @@ public class CrustModel extends PlateTectonicsModel {
         // outer core
         addStrip( rectangularConstantStrip( mantleBottom, innerOuterCoreBoundary,
                                             CORE_BOUNDARY_DENSITY, INNER_OUTER_CORE_BOUNDARY_DENSITY,
-                                            ZERO_CELSIUS + 4400f, ZERO_CELSIUS + 6100 ) );
+                                            ZERO_CELSIUS + 4400f, ZERO_CELSIUS + 5778 ) );
 
         // inner core
         addStrip( rectangularConstantStrip( innerOuterCoreBoundary, centerOfTheEarth,
@@ -595,52 +595,52 @@ public class CrustModel extends PlateTectonicsModel {
         }
     }
 
-    @Override public double getTemperature( double x, double y ) {
-        double elevation = getElevation( x, 0 );
-        double surfaceTemperature = getSurfaceTemperature( elevation );
-
-        if ( elevation >= y ) {
-            // our point is under surface level
-            double depth = elevation - y;
-            double continental = getSimplifiedContinentalTemperature( depth, surfaceTemperature );
-            double oceanic = getSimplifiedOceanicTemperature( depth, surfaceTemperature );
-            if ( x < LEFT_BOUNDARY ) {
-                return oceanic;
-            }
-            else if ( x > RIGHT_BOUNDARY ) {
-                return continental;
-            }
-            else {
-                // blend the two based on our "ratio"
-                return continental + temperatureRatio.get() * ( oceanic - continental );
-            }
-        }
-        else {
-            // our point is above surface level
-            if ( y > 0 ) {
-                // above water level, so return air temp
-                return getAirTemperature( y );
-            }
-            else {
-                // return water temperature (simplified model)
-                return getWaterTemperature( y );
-            }
-        }
-    }
-
 //    @Override public double getTemperature( double x, double y ) {
-//        Vector3F point = new Vector3F( (float) x, (float) y, 0 );
-//        HitResult hitResult = firstStripIntersection( point );
-//        if ( hitResult != null ) {
-//            return hitResult.temperature;
-//        }
-//        else if ( y < 0 ) {
-//            return PlateTectonicsModel.getWaterTemperature( y );
+//        double elevation = getElevation( x, 0 );
+//        double surfaceTemperature = getSurfaceTemperature( elevation );
+//
+//        if ( elevation >= y ) {
+//            // our point is under surface level
+//            double depth = elevation - y;
+//            double continental = getSimplifiedContinentalTemperature( depth, surfaceTemperature );
+//            double oceanic = getSimplifiedOceanicTemperature( depth, surfaceTemperature );
+//            if ( x < LEFT_BOUNDARY ) {
+//                return oceanic;
+//            }
+//            else if ( x > RIGHT_BOUNDARY ) {
+//                return continental;
+//            }
+//            else {
+//                // blend the two based on our "ratio"
+//                return continental + temperatureRatio.get() * ( oceanic - continental );
+//            }
 //        }
 //        else {
-//            return PlateTectonicsModel.getAirTemperature( y );
+//            // our point is above surface level
+//            if ( y > 0 ) {
+//                // above water level, so return air temp
+//                return getAirTemperature( y );
+//            }
+//            else {
+//                // return water temperature (simplified model)
+//                return getWaterTemperature( y );
+//            }
 //        }
 //    }
+
+    @Override public double getTemperature( double x, double y ) {
+        Vector3F point = new Vector3F( (float) x, (float) y, 0 );
+        HitResult hitResult = firstStripIntersection( point );
+        if ( hitResult != null ) {
+            return hitResult.temperature;
+        }
+        else if ( y < 0 ) {
+            return PlateTectonicsModel.getWaterTemperature( y );
+        }
+        else {
+            return PlateTectonicsModel.getAirTemperature( y );
+        }
+    }
 
     private static PiecewiseLinearFunction2D simplifiedContinentalDifference = new PiecewiseLinearFunction2D(
             new Vector2D( 0, 0 ),
