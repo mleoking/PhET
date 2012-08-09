@@ -1,0 +1,70 @@
+PhET Progress Report, J. Blanco, 8-9-2012
+
+PhET Weekly Progress Report
+John Blanco
+August 9th, 2012
+
+Time period covered: July 26th through August 8th.  This is a two-week period due to vacation.
+
+Energy Forms and Changes - 12.0 hrs
+
+o	Reviewed and discussed during physics meeting.
+o	Got the energy systems to produce, consume, and exchange energy.
+o	Implemented rotation of the wheel for the water-powered generator.
+o	Made the bulbs light up when provided with energy.
+o	Published a version for testing while I was away.
+o	Backed out changes that were done for the Heat Capacity Lab fast prototype.
+o	Integrated wires and connectors into the generator, solar panel, light bulbs, and beaker heater.
+o	Improved layout of energy systems so that they would appear to connect better.
+o	Fixed issue with resizing behavior of clock panels.
+o	Improved the way the energy systems are activated and deactivated as they move in and out of the active position.
+
+Fractions Intro - 3.0 hrs
+
+o	Started code review, logged several notes about somewhat quirky behavior.
+
+Balancing Act - 1.0 hrs
+
+o	Fixed an issue where the game clock could get off by 1 second per minute, see #3396.
+
+Heat Capacity Lab - 1.0 hrs
+
+o	Discussed prototype in chem meeting.
+o	Various discussions with Julia C.
+
+Line Graphing - 0.5 hrs
+
+o	Reviewed during physics meeting.  Also discussed inequality sim.
+
+Radiating Charge - 0.5 hrs
+
+o	Reviewed during physics meeting.
+
+Common Code - 0.5 hrs
+
+o	Redeployed Moving Man to production server in order to fix problem with sound under Java 7, see #3375.
+
+Customer Support - 5.0 hrs
+
+o	Worked with Pearson to diagnose and resolve problems that they were having with running our Java-based simulations under Java 7, see #3404.
+o	Created a custom version of Energy Skate Park that entirely disables the sponsor screen until July 2013.
+
+Tablet Investigation - 0.5 hrs
+
+o	Wrote up and sent out some thoughts on HTML5 for development of sims that will work on tablets.
+
+Environment - 1.0 hrs
+
+o	Reviewed video about PhET simulation development.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Logged work hours for July and August.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays -  40 hrs
+
+o	Took 5 vacation days, July 30th through August 3rd.
