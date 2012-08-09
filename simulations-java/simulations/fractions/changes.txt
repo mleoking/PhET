@@ -1,3 +1,4 @@
+Intro: Improved beaker offsets when dragging out of play area containers
 # 1.00.21 (66768) Aug 9, 2012
 Intro: Improved performance, particularly for equality lab and beakers
 # 1.00.20 (66762) Aug 9, 2012

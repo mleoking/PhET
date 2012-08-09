@@ -102,6 +102,12 @@ public class MovableSliceNode extends PNode {
     private Vector2D getNewPieceLocation( final boolean inContainer, final int denominator, final PNode child, final Slice slice ) {
         int delta = denominator == 1 ? 0 :
                     denominator == 2 ? -50 :
+                    denominator == 3 ? -75 :
+                    denominator == 4 ? -75 :
+                    denominator == 5 ? 0 :
+                    denominator == 6 ? -75 :
+                    denominator == 7 ? -75 :
+                    denominator == 8 ? -75 :
                     -100;
         return inContainer && child.getClass().equals( PhetPPath.class ) ? Vector2D.v( slice.position.x - 20, 300 + delta ) : slice.position;
     }
