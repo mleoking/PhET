@@ -42,6 +42,12 @@ public class BuildAFractionModel {
         }
     };
 
+    public BuildAFractionModel() {
+        checkLevelSizes();
+    }
+
+    private void checkLevelSizes() {assert numberLevels.size() == shapeLevels.size();}
+
     private Level getLevel( final LevelIdentifier levelIdentifier ) {return levelIdentifier.levelType == LevelType.SHAPES ? getShapeLevel( levelIdentifier.levelIndex ) : getNumberLevel( levelIdentifier.levelIndex );}
 
     public NumberLevel getNumberLevel( final int level ) { return numberLevels.get( level ); }
@@ -79,5 +85,8 @@ public class BuildAFractionModel {
         audioEnabled.reset();
     }
 
-    public boolean isLastLevel( final int levelIndex ) { return levelIndex == numberLevels.size() - 1; }
+    public boolean isLastLevel( final int levelIndex ) {
+        checkLevelSizes();
+        return levelIndex == numberLevels.size() - 1;
+    }
 }
