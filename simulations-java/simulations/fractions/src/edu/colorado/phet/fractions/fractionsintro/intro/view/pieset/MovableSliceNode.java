@@ -7,8 +7,10 @@ import fj.data.List;
 
 import java.awt.geom.Dimension2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
@@ -26,7 +28,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  */
 public class MovableSliceNode extends PNode {
 
-    public MovableSliceNode( PNode child, final PNode rootNode, final SettableProperty<PieSet> model, final Slice slice ) {
+    public MovableSliceNode( final PNode child, final PNode rootNode, final SettableProperty<PieSet> model, final Slice slice, final int denominator ) {
 
         addChild( child );
 
@@ -38,6 +40,11 @@ public class MovableSliceNode extends PNode {
             @Override protected void startDrag( final PInputEvent event ) {
                 super.startDrag( event );
 
+                final boolean inContainer = model.get().isInContainer( slice );
+                System.out.println( "slice dragged, incontainer = " + inContainer + ", type = " + child.getClass() );
+
+                Vector2D newPosition = getNewPieceLocation( inContainer, denominator, child, slice );
+
                 PieSet state = model.get();
 
                 //Do not allow the user to grab a piece that is animating to a target, it causes the representations to get out of sync
@@ -48,7 +55,7 @@ public class MovableSliceNode extends PNode {
                         model.set( state.withSlices( state.slices.snoc( slice.withDragging( true ).withID( Slice.nextID() ) ) ) );
                     }
                     else {
-                        model.set( state.withSlices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.withDragging( true ) ) ) );
+                        model.set( state.withSlices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.withDragging( true ).withPosition( newPosition ) ) ) );
                     }
                 }
             }
@@ -88,5 +95,14 @@ public class MovableSliceNode extends PNode {
                 model.set( newState );
             }
         } );
+    }
+
+    //For water glasses, move the piece to a standard location instead of based on the location of the piece
+    //NOTE: this uses PhetPPath.class as the check to see if it is water glasses
+    private Vector2D getNewPieceLocation( final boolean inContainer, final int denominator, final PNode child, final Slice slice ) {
+        int delta = denominator == 1 ? 0 :
+                    denominator == 2 ? -50 :
+                    -100;
+        return inContainer && child.getClass().equals( PhetPPath.class ) ? Vector2D.v( slice.position.x - 20, 300 + delta ) : slice.position;
     }
 }
