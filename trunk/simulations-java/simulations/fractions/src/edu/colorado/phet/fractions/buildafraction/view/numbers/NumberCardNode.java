@@ -17,6 +17,14 @@ import edu.colorado.phet.fractions.buildafraction.view.Stackable;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.value;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.sprite;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.numberCard;
+
 /**
  * Card that shows a single number (could be multiple digits).
  *
@@ -37,13 +45,20 @@ public class NumberCardNode extends Stackable {
         addChild( numberNode );
 
         addInputEventListener( new CanvasBoundedDragHandler( NumberCardNode.this ) {
+            @Override public void mousePressed( final PInputEvent event ) {
+                sendUserMessage( chain( numberCard, NumberCardNode.this.hashCode() ), sprite, pressed, parameterSet( value, number ) );
+                super.mousePressed( event );
+            }
+
             @Override protected void dragNode( final DragEvent event ) {
+                sendUserMessage( chain( numberCard, NumberCardNode.this.hashCode() ), sprite, drag, parameterSet( value, number ) );
                 moveToFront();
                 setPositionInStack( Option.<Integer>none() );
                 translate( event.delta.width, event.delta.height );
             }
 
             @Override public void mouseReleased( final PInputEvent event ) {
+                sendUserMessage( chain( numberCard, NumberCardNode.this.hashCode() ), sprite, released, parameterSet( value, number ) );
                 super.mouseReleased( event );
                 context.endDrag( NumberCardNode.this );
             }

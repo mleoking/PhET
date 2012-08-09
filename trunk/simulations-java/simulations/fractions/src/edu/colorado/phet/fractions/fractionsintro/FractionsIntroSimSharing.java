@@ -73,7 +73,7 @@ public class FractionsIntroSimSharing {
         piece,
         container,
         nextButton, shapesCollectionBoxSplitButton,
-        fraction
+        fraction, numberCard, fractionCard
     }
 
     public static final String on = "on";
