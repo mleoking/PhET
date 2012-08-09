@@ -51,6 +51,9 @@ public class LWJGLCanvas extends Canvas {
         setFocusable( true );
         requestFocus();
         setIgnoreRepaint( true );
+
+        System.setProperty( "org.lwjgl.opengl.Display.allowSoftwareOpenGL", "true" );
+//        System.setProperty( "org.lwjgl.util.Debug", "true" );
     }
 
     @Override public void addNotify() {
