@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -73,6 +73,10 @@ public class Cell extends ShapeChangingModelElement {
         // Populate the list of vertices for the enclosing shape.
         AffineTransform rotateTransform = AffineTransform.getRotateInstance( rotationAngle );
         AffineTransform translateTransform = AffineTransform.getTranslateInstance( initialPosition.getX(), initialPosition.getY() );
+        // REVIEW: can concatenate these transformations. for example, this should be the single transform that you would need to apply:
+        // AffineTransform transform = AffineTransform.getTranslateInstance( initialPosition.getX(), initialPosition.getY() );
+        // transform.concatenate( AffineTransform.getRotateInstance( rotationAngle ) ); // apply the rotation, then the translation
+        // then you would have enclosingRectVertices.add( transform.transform( ..., null ) );
 
         enclosingRectVertices.add( translateTransform.transform( rotateTransform.transform( new Point2D.Double( size.getWidth() / 2, size.getHeight() / 2 ), null ), null ) );
         enclosingRectVertices.add( translateTransform.transform( rotateTransform.transform( new Point2D.Double( size.getWidth() / 2, -size.getHeight() / 2 ), null ), null ) );

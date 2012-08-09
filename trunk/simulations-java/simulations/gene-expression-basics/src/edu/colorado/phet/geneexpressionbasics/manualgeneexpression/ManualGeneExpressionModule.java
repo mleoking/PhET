@@ -7,6 +7,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualG
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.ManualGeneExpressionCanvas;
 
 /**
+ * REVIEW: since the tab name is now "Cell Gene Expression", is the ManualGeneExpression prefix justified, or should it be renamed?
  * @author John Blanco
  */
 public class ManualGeneExpressionModule extends Module {

@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  * <p/>
  * Simulated using the algorithm from Gillespie, 1977
  *
+ * REVIEW: is a license needed since this is not a PhET author? also there may be a simpler way to model a Markov process, but probably not worth touching this if we didn't write it.
+ *
  * @Author George A. Emanuel
  */
 

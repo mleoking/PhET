@@ -34,6 +34,7 @@ public class BioShapeUtils {
     private BioShapeUtils() {
     }
 
+    // REVIEW: this type of code comes up a lot. can we move it to somewhere in phetcommon?
     private static Shape createShapeFromPoints( List<Point2D> points ) {
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( points.get( 0 ) );

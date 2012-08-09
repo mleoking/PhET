@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * new randomly generated location within a set of possible "destination
  * zones" (hench the "teleport" portion of the name). This was created to use
  * when a polymerase molecule needs to return to the beginning of the
- * transcribed area of a gene when it complete transcription. It may, at some
+ * transcribed area of a gene when it completes transcription. It may, at some
  * point, have other applications as well.
  *
  * @author John Blanco

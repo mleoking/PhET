@@ -183,6 +183,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             asm.attachmentSite = null;
             asm.setState( unattachedButUnavailableState );
             biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( biomolecule.getDetachDirection(), biomolecule.motionBoundsProperty ) );
+            // REVIEW: is it better to use a Property so we can easily reset this?
             detachFromDnaThreshold = 1; // Reset this threshold.
             asm.biomolecule.attachedToDna.set( false ); // Update externally visible state indication.
         }
@@ -292,6 +293,8 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                                                                                             TRANSCRIPTION_VELOCITY ) );
             // Create the mRNA that will be grown as a result of this
             // transcription.
+            // REVIEW: is there a reason why Point2D.Double is used here, instead of Vector2D? It could be much more concise if the code is ported to use it
+            // example: biomolecule.getPosition().plus( RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET )
             messengerRna = new MessengerRna( biomolecule.getModel(),
                                              geneToTranscribe.getProteinPrototype(),
                                              new Point2D.Double( biomolecule.getPosition().getX() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getX(),

@@ -67,6 +67,7 @@ public abstract class Protein extends MobileBiomolecule {
      */
     public void setFullSizeProportion( double fullSizeProportion ) {
         if ( fullSizeProportion < 0 || fullSizeProportion > 1 ) {
+            // REVIEW: maybe throw an illegal argument exception? seems like this shouldn't happen in general
             System.out.println( "Issue!" );
         }
         assert fullSizeProportion >= 0 && fullSizeProportion <= 1;

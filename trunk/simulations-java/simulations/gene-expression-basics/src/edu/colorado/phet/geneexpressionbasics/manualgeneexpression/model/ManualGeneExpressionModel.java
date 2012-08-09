@@ -34,6 +34,7 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  * <p/>
  * Dimensions in this model (and all sub-elements of the model) are in nano-
  * meters, i.e. 10E-9 meters.
+ * REVIEW: it seems most of the dimensions in the model are in picometers? are there parts still in nanometers?
  * <p/>
  * The point (0,0) in model space is at the leftmost edge of the DNA strand, and
  * at the vertical center of the strand.

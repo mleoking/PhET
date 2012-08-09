@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -264,6 +264,24 @@ public class MultipleCellsModel implements Resettable {
      * @return
      */
     public Rectangle2D getVisibleCellCollectionBounds() {
+        /*
+         * REVIEW: since this is symmetric around 0, could we get away with the following?
+         *
+         * double xBound = 0; // in range [-xBound, xBound]
+         * double yBound = 0; // in range [-yBound, yBound]
+         *
+         * for ( Cell cell : visibleCellList ) {
+         *     Rectangle2D bounds = cell.getShape().getBounds2D();
+         *
+         *     // these COULD be shortened to 2 lines, but I find it more readable this way
+         *     xBound = Math.min( xBound, Math.abs( bounds.getMinX() ) )
+         *     xBound = Math.min( xBound, Math.abs( bounds.getMaxX() ) )
+         *     yBound = Math.min( yBound, Math.abs( bounds.getMinY() ) )
+         *     yBound = Math.min( yBound, Math.abs( bounds.getMaxY() ) )
+         * }
+         *
+         * return new Rectangle2D.Double( -xBound, -yBound, 2 * xBound, 2 * yBound );
+         */
         double minX = 0;
         double minY = 0;
         double maxX = 0;

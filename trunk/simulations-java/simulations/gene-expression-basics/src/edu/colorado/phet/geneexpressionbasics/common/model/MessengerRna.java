@@ -142,6 +142,7 @@ public class MessengerRna extends WindingBiomolecule {
 
         // Error checking.
         if ( segmentToAdvance == null ) {
+            // REVIEW: maybe this should be an assert statement?
             System.out.println( getClass().getName() + " - Warning: Attempt to advance translation by a ribosome that isn't attached." );
             return true;
         }
@@ -351,6 +352,7 @@ public class MessengerRna extends WindingBiomolecule {
      */
     public double getProportionOfRnaTranslated( Ribosome ribosome ) {
         if ( !mapRibosomeToShapeSegment.containsKey( ribosome ) ) {
+            // REVIEW: assert here instead?
             System.out.println( getClass().getName() + " - Warning: Attempt to obtain amount of mRNA translated by a ribosome that isn't attached." );
             return 0;
         }
@@ -399,6 +401,18 @@ public class MessengerRna extends WindingBiomolecule {
     }
 
     public AttachmentSite considerProposalFrom( MessengerRnaDestroyer messengerRnaDestroyer ) {
+        // REVIEW: I was able to get a crash on this by adding a mRNA destroyer to mRNA as it was being created.
+        // reproducible by: add positive transcription factor, pull out mRNA destroyer, put polymerase on the DNA attachment site, and once mRNA appears put the destroyer on the placement hint
+        /*
+            at edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna.considerProposalFrom(MessengerRna.java:403)
+            at edu.colorado.phet.geneexpressionbasics.common.model.MessengerRnaDestroyer.proposeAttachments(MessengerRnaDestroyer.java:57)
+            at edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentState$GenericUnattachedAndAvailableState.stepInTime(AttachmentState.java:39)
+            at edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine.stepInTime(AttachmentStateMachine.java:55)
+            at edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule.stepInTime(MobileBiomolecule.java:149)
+            at edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel.stepInTime(ManualGeneExpressionModel.java:319)
+            at edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel.access$000(ManualGeneExpressionModel.java:43)
+            at edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel$2.clockTicked(ManualGeneExpressionModel.java:116)
+         */
         assert this.messengerRnaDestroyer != messengerRnaDestroyer; // Shouldn't get redundant proposals from same destroyer.
         AttachmentSite returnValue = null;
 

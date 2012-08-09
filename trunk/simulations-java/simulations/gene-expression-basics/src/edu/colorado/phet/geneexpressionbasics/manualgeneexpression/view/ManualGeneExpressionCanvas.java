@@ -320,6 +320,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 // Perform an animation that will put the selected gene in
                 // the center of the view port.
                 backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, GENE_TO_GENE_ANIMATION_TIME );
+
+                // REVIEW: it is a bit awkward using this when the user clicks on "next gene" twice in a row, as there is a discrete jump
                 final PTransformActivity animateToActiveGene =
                         modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, GENE_TO_GENE_ANIMATION_TIME );
                 animateToActiveGene.setDelegate( new PActivityDelegateAdapter() {
@@ -366,6 +368,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             } );
         }};
         frontControlsLayer.addChild( zoomInButton );
+
+        // REVIEW: is this finalized?
         // TODO: 7/10/2012 - The design team requested that the zoom out button
         // be removed and the functionality moved to a teacher control.  If
         // and when this change is finalized, the code for zoom out button -
@@ -389,6 +393,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             public void propertyChange( PropertyChangeEvent evt ) {
                 if ( evt.getPropertyName().equals( "transform" ) ) {
                     double scaleFactor = ( (AffineTransform) evt.getNewValue() ).getScaleX();
+                    // REVIEW: why not use isZoomedOut() and isZoomedIn() here?
                     boolean zoomedOut = scaleFactor < MIN_ZOOM + SCALE_COMPARISON_FACTOR;
                     boolean zoomedIn = scaleFactor > MAX_ZOOM - SCALE_COMPARISON_FACTOR;
 
@@ -515,6 +520,10 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         return contained;
     }
 
+    // REVIEW: checks for isZoomedOut() and isZoomedIn() seem fragile. maybe have a value that goes from 1 (zoomed in) to 0 (zoomed out) during
+    // the zooming, so these can be simple checks?
+    // REVIEW: also, if backgroundCellLayer and modelRootNode's scale is never different (is it?), could they be placed under a single
+    // PNode that is scaled?
     private boolean isZoomedOut() {
         return backgroundCellLayer.getScale() <= MIN_ZOOM + SCALE_COMPARISON_FACTOR &&
                backgroundCellLayer.getScale() >= MIN_ZOOM - SCALE_COMPARISON_FACTOR &&

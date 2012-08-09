@@ -17,6 +17,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  * Convenience class for a horizontal slider that has labels at each end
  * rather than having tick marks with labels below them.
  *
+ * REVIEW: useful enough to be moved to phetcommon?
+ *
  * @author John Blanco
  */
 class HorizontalSliderWithLabelsAtEnds extends PNode {
@@ -24,7 +26,7 @@ class HorizontalSliderWithLabelsAtEnds extends PNode {
     private static final Font LABEL_FONT = new PhetFont( 12 );
     private static final double INTER_ELEMENT_SPACING = 5;
 
-    HorizontalSliderWithLabelsAtEnds( UserComponent userComponent, Property<Double> doubleProperty, double min, double max, String leftLabel, String rightLabel ) {
+    public HorizontalSliderWithLabelsAtEnds( UserComponent userComponent, Property<Double> doubleProperty, double min, double max, String leftLabel, String rightLabel ) {
         PText leftLabelNode = new PhetPText( leftLabel, LABEL_FONT );
         PText rightLabelNode = new PhetPText( rightLabel, LABEL_FONT );
         double sliderWidth = OVERALL_WIDTH - leftLabelNode.getFullBoundsReference().width -
