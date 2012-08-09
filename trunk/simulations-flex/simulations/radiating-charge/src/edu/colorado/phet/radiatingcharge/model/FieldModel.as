@@ -586,10 +586,11 @@ public class FieldModel {
     }
 
     private function stoppingStep():void{
-        var stoppingTime:Number = 0.1;  //time to stop in seconds
+        //delTPhoton = delTPhotonDefault;
+        var stoppingTime:Number = 10*delTPhoton;  //time to stop in seconds
         var div:Number = stoppingTime/this.dt;   //number of time steps to brake to a stop
         this.gamma = 1/Math.sqrt( 1 - beta*beta );
-        var g3:Number = Math.pow( gamma, 3 );
+        var g3:Number = Math.pow( gamma, 2 );      //power should be 3, but fudged to 2 for better appearance on screen
         var aX:Number = -vXInit/(g3*m*div*dt);
         var aY:Number = -vYInit/(g3*m*div*dt);
         _vX += aX*dt;
