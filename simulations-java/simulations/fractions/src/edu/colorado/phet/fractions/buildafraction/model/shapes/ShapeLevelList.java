@@ -276,7 +276,8 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
                                                     if ( sum6.lessThanOrEqualTo( target ) ) {
                                                         for ( int i7 : range ) {
                                                             Fraction sum7 = sum6.plus( new Fraction( i7, 7 ) );
-                                                            if ( sum6.lessThanOrEqualTo( target ) ) {
+                                                            //bug
+                                                            if ( sum7.lessThanOrEqualTo( target ) ) {
                                                                 for ( int i8 : range ) {
                                                                     Fraction sum = sum7.plus( new Fraction( i8, 8 ) );
                                                                     if ( sum.equals( target ) ) {
@@ -412,4 +413,11 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     }
 
     private ShapeType booleanToShape( final boolean pies ) {return pies ? ShapeType.PIE : ShapeType.BAR;}
+
+    public static void main( String[] args ) {
+        for ( int i = 0; i < 1000; i++ ) {
+            ShapeLevelList list = new ShapeLevelList();
+            System.out.println( "checked: " + i );
+        }
+    }
 }
