@@ -31,8 +31,8 @@ public class Sun extends EnergySource {
     }
 
     @Override public Energy stepInTime( double dt ) {
-        // TODO: Implement.
-        return new Energy( Energy.Type.SOLAR, ENERGY_PRODUCTION_RATE * dt );
+        double energyProduced = active ? ENERGY_PRODUCTION_RATE * dt : 0;
+        return new Energy( Energy.Type.SOLAR, energyProduced );
     }
 
     @Override public IUserComponent getUserComponent() {
