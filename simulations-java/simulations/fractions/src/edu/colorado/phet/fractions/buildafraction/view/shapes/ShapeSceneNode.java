@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
@@ -233,7 +234,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
                 //Order dependence: set in target cell first so that layout code will work better afterwards
                 containerNode.setInTargetCell( true, pair.value.denominator );
                 containerNode.animateToPositionScaleRotation( pair.targetCell.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
-                                                              pair.targetCell.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, 200 );
+                                                              pair.targetCell.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode ) );
                 pair.targetCell.setCompletedFraction( containerNode );
                 containerNode.setAllPickable( false );
 
@@ -281,7 +282,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
             playSoundForAllComplete();
 
             faceNodeDialog.setVisible( true );
-            faceNodeDialog.animateToTransparency( 1f, 200 );
+            faceNodeDialog.animateToTransparency( 1f, BuildAFractionModule.ANIMATION_TIME );
             faceNodeDialog.setPickable( true );
             faceNodeDialog.setChildrenPickable( true );
             faceNodeDialog.moveToFront();
@@ -295,7 +296,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
 
     private void animateToCenterScreen( final ContainerNode containerNode ) {
         Vector2D offset = level.shapeType == ShapeType.BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
-        containerNode.animateToPositionScaleRotation( toolboxNode.getCenterX() - containerNode.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, 200 ).setDelegate( new DisablePickingWhileAnimating( containerNode ) );
+        containerNode.animateToPositionScaleRotation( toolboxNode.getCenterX() - containerNode.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode ) );
     }
 
     public void endDrag( final PieceNode piece ) {
@@ -366,7 +367,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
         PActivity activity;
         if ( level.shapeType == ShapeType.PIE ) {
             DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
-            activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, 1, 0, 200 );
+            activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, 1, 0, BuildAFractionModule.ANIMATION_TIME );
 
             //Should already be at correct angle, update again just in case
             if ( piece instanceof PiePieceNode ) {
@@ -379,7 +380,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
             piece.localToParent( translation );
             DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
             final Vector2D a = dropLocation.position.plus( translation );
-            activity = piece.animateToPositionScaleRotation( a.x, a.y, 1, dropLocation.angle, 200 );
+            activity = piece.animateToPositionScaleRotation( a.x, a.y, 1, dropLocation.angle, BuildAFractionModule.ANIMATION_TIME );
         }
         piece.setPickable( false );
         piece.setChildrenPickable( false );
@@ -416,7 +417,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
         double overlap = rightSide - edge;
         if ( overlap > 0 ) {
             double amountToMoveLeft = 20 + overlap;
-            containerNode.animateToPositionScaleRotation( containerNode.getXOffset() - amountToMoveLeft, containerNode.getYOffset(), containerNode.getScale(), containerNode.getRotation(), 200 ).
+            containerNode.animateToPositionScaleRotation( containerNode.getXOffset() - amountToMoveLeft, containerNode.getYOffset(), containerNode.getScale(), containerNode.getRotation(), BuildAFractionModule.ANIMATION_TIME ).
                     setDelegate( new DisablePickingWhileAnimating( containerNode ) );
         }
     }
@@ -453,7 +454,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
 
     public void scoreBoxSplit() {
         level.filledTargets.decrement();
-        faceNodeDialog.animateToTransparency( 0.0f, 200 );
+        faceNodeDialog.animateToTransparency( 0.0f, BuildAFractionModule.ANIMATION_TIME );
         faceNodeDialog.setPickable( false );
         faceNodeDialog.setChildrenPickable( false );
     }

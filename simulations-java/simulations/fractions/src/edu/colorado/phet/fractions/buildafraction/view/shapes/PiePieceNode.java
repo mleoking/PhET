@@ -9,6 +9,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.CircularShapeFunction;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.ShapeNode;
@@ -99,7 +100,7 @@ public class PiePieceNode extends PieceNode {
     }
 
     AnimateToAngle animateToAngle( final double angle ) {
-        final AnimateToAngle activity = new AnimateToAngle( this, 200, reduceWindingNumber( angle ) );
+        final AnimateToAngle activity = new AnimateToAngle( this, BuildAFractionModule.ANIMATION_TIME, reduceWindingNumber( angle ) );
         addActivity( activity );
         return activity;
     }

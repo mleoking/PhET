@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.common.math.Fraction;
@@ -132,7 +133,7 @@ public class ContainerNode extends PNode {
         child.setOffset( containerLayer.getFullBounds().getMaxX() + INSET, containerLayer.getFullBounds().getY() );
         child.setTransparency( 0 );
         containerLayer.addChild( child );
-        increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, 200 ).setDelegate( new DisablePickingWhileAnimating( increaseDecreaseButton ) );
+        increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( increaseDecreaseButton ) );
         if ( getSingleContainerNodes().length() >= 2 ) {
             increaseDecreaseButton.hideIncreaseButton();
         }
@@ -145,7 +146,7 @@ public class ContainerNode extends PNode {
             }
 
             public void activityFinished( final PActivity activity ) {
-                child.animateToTransparency( 1, 200 );
+                child.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
                 context.containerAdded( ContainerNode.this );
             }
         }, new DisablePickingWhileAnimating( child ) ) );
@@ -160,7 +161,7 @@ public class ContainerNode extends PNode {
         //if any pieces were in the container, send them back to the toolbox.
         last.splitAll();
 
-        PActivity activity = last.animateToTransparency( 0, 200 );
+        PActivity activity = last.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
         activity.setDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
             }
@@ -171,7 +172,7 @@ public class ContainerNode extends PNode {
             public void activityFinished( final PActivity activity ) {
                 containerLayer.removeChild( last );
                 final SingleContainerNode child = getSingleContainerNodes().last();
-                increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, 200 );
+                increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( increaseDecreaseButton ) );
 
                 if ( getSingleContainerNodes().length() <= 1 ) {
                     increaseDecreaseButton.hideDecreaseButton();
@@ -198,7 +199,7 @@ public class ContainerNode extends PNode {
 
     public void splitAll() {
         getSingleContainers().foreach( _splitAll );
-        PInterpolatingActivity activity = splitButton.animateToTransparency( 0, 200 );
+        PInterpolatingActivity activity = splitButton.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
         activity.setDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
             }
@@ -227,9 +228,9 @@ public class ContainerNode extends PNode {
     }
 
     public void animateHome() {
-        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 ).setDelegate( new DisablePickingWhileAnimating( this ) );
-        leftSpinner.animateToTransparency( 1, 200 );
-        rightSpinner.animateToTransparency( 1, 200 );
+        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( this ) );
+        leftSpinner.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
+        rightSpinner.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
     }
 
     public Fraction getFractionValue() {
@@ -255,8 +256,8 @@ public class ContainerNode extends PNode {
 
     public void setInTargetCell( final boolean inTargetCell, int targetDenominator ) {
         this.inTargetCell = inTargetCell;
-        leftSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
-        rightSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
+        leftSpinner.animateToTransparency( inTargetCell ? 0 : 1, BuildAFractionModule.ANIMATION_TIME );
+        rightSpinner.animateToTransparency( inTargetCell ? 0 : 1, BuildAFractionModule.ANIMATION_TIME );
 
         while ( getChildrenReference().contains( increaseDecreaseButton ) ) {
             removeChild( increaseDecreaseButton );
@@ -290,7 +291,7 @@ public class ContainerNode extends PNode {
             splitButton.setVisible( true );
             splitButton.setPickable( true );
             splitButton.setTransparency( 0 );
-            splitButton.animateToTransparency( 1, 200 );
+            splitButton.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
             dynamicCursorHandler.setCursor( Cursor.HAND_CURSOR );
         }
     }

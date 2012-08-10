@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
@@ -335,7 +336,7 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
         //but if all filled up, then add a "next" button
         else {
             faceNodeDialog.setVisible( true );
-            faceNodeDialog.animateToTransparency( 1f, 200 );
+            faceNodeDialog.animateToTransparency( 1f, BuildAFractionModule.ANIMATION_TIME );
             faceNodeDialog.setPickable( true );
             faceNodeDialog.setChildrenPickable( true );
             faceNodeDialog.moveToFront();
@@ -363,7 +364,7 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
 
         //Only subtract from the score if the face dialog was showing.  Otherwise you can get a negative score by removing an item from the target container since this method is called
         //each time.
-        faceNodeDialog.animateToTransparency( 0.0f, 200 );
+        faceNodeDialog.animateToTransparency( 0.0f, BuildAFractionModule.ANIMATION_TIME );
         faceNodeDialog.setPickable( false );
         faceNodeDialog.setChildrenPickable( false );
     }

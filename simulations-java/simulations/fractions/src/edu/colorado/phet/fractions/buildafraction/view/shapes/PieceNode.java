@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -58,7 +59,7 @@ public abstract class PieceNode extends Stackable {
                 dragStarted();
                 PieceNode.this.moveToFront();
                 setPositionInStack( Option.<Integer>none() );
-                final AnimateToScale activity = new AnimateToScale( PieceNode.this, 200 );
+                final AnimateToScale activity = new AnimateToScale( PieceNode.this, BuildAFractionModule.ANIMATION_TIME );
                 addActivity( activity );
 
                 activity.setDelegate( new PActivityDelegate() {
