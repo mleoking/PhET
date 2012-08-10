@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * @author Sam Reid
  */
-public class CarouselDotComponent extends PNode {
+class CarouselDotComponent extends PNode {
     public CarouselDotComponent( final IntegerProperty selectedPage ) {
         final int circleDiameter = 16;
         addChild( new HBox( new VBox( new PhetPText( "1-5", new PhetFont( 15 ) ) {{

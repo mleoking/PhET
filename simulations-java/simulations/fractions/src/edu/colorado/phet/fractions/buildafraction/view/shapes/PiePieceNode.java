@@ -47,7 +47,7 @@ public class PiePieceNode extends PieceNode {
 
     //As the object gets bigger, it should move so that it is centered on the mouse.  To compute how to move it, we must rotate it and scale it immediately
     //and invisibly to the user, then set back its settings and animate them.
-    @Override protected void stepTowardMouse( final PInputEvent event ) {
+    @Override void stepTowardMouse( final PInputEvent event ) {
         super.stepTowardMouse( event );
 
         //We want path node to move toward the mouse center.
