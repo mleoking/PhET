@@ -408,7 +408,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
             @Override public Boolean f( final Fraction fraction ) {
                 return fraction.denominator >= 7;
             }
-        } ) ? ShapeType.BAR : x;
+        } ) ? ShapeType.PIE : x;
     }
 
     private ShapeType booleanToShape( final boolean pies ) {return pies ? ShapeType.PIE : ShapeType.BAR;}
