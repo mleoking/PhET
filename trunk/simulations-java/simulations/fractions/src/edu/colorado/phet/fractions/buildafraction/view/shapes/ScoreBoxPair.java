@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public @Data class ScoreBoxPair {
+public @Data class ScoreBoxPair implements IScoreBoxPair {
     public final ShapeScoreBoxNode targetCell;
     public final PNode node;
     public final Fraction value;

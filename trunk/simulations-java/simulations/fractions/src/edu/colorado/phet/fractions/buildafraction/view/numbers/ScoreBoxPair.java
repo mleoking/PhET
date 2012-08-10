@@ -3,6 +3,7 @@ package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
 import lombok.Data;
 
+import edu.colorado.phet.fractions.buildafraction.view.shapes.IScoreBoxPair;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -10,7 +11,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public @Data class ScoreBoxPair {
+public @Data class ScoreBoxPair implements IScoreBoxPair {
     public final NumberScoreBoxNode targetCell;
     public final PNode node;
 }
