@@ -213,7 +213,7 @@ public class FractionsIntroModel implements Serializable {
         } );
     }
 
-    private F<IntroState, IntroState> evaluate( final F<IntroState, IntroState> f ) { return recordRegressionData ? RegressionTestRecorder.record( f ) : f; }
+    @SuppressWarnings("unchecked") private F<IntroState, IntroState> evaluate( final F<IntroState, IntroState> f ) { return recordRegressionData ? RegressionTestRecorder.record( f ) : f; }
 
     public void resetAll() { state.set( initialState ); }
 

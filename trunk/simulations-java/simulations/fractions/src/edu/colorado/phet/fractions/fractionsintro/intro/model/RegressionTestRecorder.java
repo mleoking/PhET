@@ -129,11 +129,11 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
         }
 
         if ( checkSavedFile ) {
-            checkSavedFile( e, file );
+            checkSavedFile( e );
         }
     }
 
-    private void checkSavedFile( final Entry e, final File file ) {
+    private void checkSavedFile( final Entry e ) {
         Entry loaded = loadXStream();
         boolean equals = loaded.output.equals( e.output );
         System.out.println( "compared xstream, equals = " + equals );
@@ -147,7 +147,7 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
         return (Entry) xstream.fromXML();
     }
 
-    public static void main( String[] args ) {
+    @SuppressWarnings("unchecked") public static void main( String[] args ) {
         File testDir = new File( "C:\\Users\\Sam\\Desktop\\tests" );
         File[] children = testDir.listFiles( new FilenameFilter() {
             public boolean accept( final File dir, final String name ) {

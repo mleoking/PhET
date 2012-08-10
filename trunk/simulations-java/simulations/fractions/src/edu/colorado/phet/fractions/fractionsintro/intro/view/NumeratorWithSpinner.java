@@ -18,7 +18,7 @@ class NumeratorWithSpinner extends FractionNumberNode {
     //Allow numerator to go to 0
     private static final int MIN_VALUE = 0;
 
-    public NumeratorWithSpinner( final IntegerProperty numerator, IntegerProperty denominator, IntegerProperty max ) {
+    @SuppressWarnings("unchecked") public NumeratorWithSpinner( final IntegerProperty numerator, IntegerProperty denominator, IntegerProperty max ) {
         super( numerator );
 
         //Max amount of things will be MAX

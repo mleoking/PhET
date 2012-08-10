@@ -228,7 +228,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, Colors.CUP_COLOR, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
     }
 
-    private List<Element<Representation>> getIcons( SettableProperty<Representation> representation, String type ) {
+    @SuppressWarnings("unchecked") private List<Element<Representation>> getIcons( SettableProperty<Representation> representation, String type ) {
         final PNode verticalBarIcon = new VerticalBarIcon( scaledFactorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ).getNode();
         verticalBarIcon.scale( 0.8 );
         return Arrays.asList( new Element<Representation>( new PieIcon( representation, Colors.CIRCLE_COLOR ), PIE, chain( Components.pieRadioButton, type ) ),

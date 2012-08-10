@@ -142,10 +142,6 @@ public @Data class ContainerSet {
         return !isEmpty( cp );
     }
 
-    public Container getContainer( int container ) {
-        return containers.index( container );
-    }
-
     //When converting denominator, try to keep pieces close to where they were.  This requires computing the closest unoccupied space
     CellPointer getClosestUnoccupiedLocation( final CellPointer cellPointer ) {
         List<CellPointer> emptyCells = getEmptyCells();

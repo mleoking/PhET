@@ -20,7 +20,7 @@ class DenominatorWithSpinner extends FractionNumberNode {
 
     public static final int OFFSET = 5;
 
-    public DenominatorWithSpinner( final IntegerProperty numerator, final IntegerProperty denominator, int maxDenominator, final IntegerProperty maxValue ) {
+    @SuppressWarnings("unchecked") public DenominatorWithSpinner( final IntegerProperty numerator, final IntegerProperty denominator, int maxDenominator, final IntegerProperty maxValue ) {
         super( denominator );
 
         //n / d <= 6 , so n<=6d
