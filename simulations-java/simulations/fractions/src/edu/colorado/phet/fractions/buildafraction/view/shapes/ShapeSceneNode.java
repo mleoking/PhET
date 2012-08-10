@@ -155,7 +155,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         List<List<Integer>> groups = level.pieces.group( intEqual );
         int numGroups = groups.length();
         layoutXOffset = ( 6 - numGroups ) * spacing / 4 + ( level.shapeType == ShapeType.BAR ? 0 : 45 );
-        final int toolboxHeight = level.shapeType == ShapeType.BAR ? 100 : 140;
+        final int toolboxHeight = ( level.shapeType == ShapeType.BAR ? 100 : 140 ) + 5;
         for ( P2<List<Integer>, Integer> groupWithIndex : groups.zipIndex() ) {
             int stackIndex = groupWithIndex._2();
             List<Integer> group = groupWithIndex._1();
