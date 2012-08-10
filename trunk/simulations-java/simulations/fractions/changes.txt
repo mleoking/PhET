@@ -1,3 +1,4 @@
+# 1.00.29 (66843) Aug 10, 2012
 # 1.00.28 (66841) Aug 10, 2012
 Build a Fraction: Shapes: Makes it so a node cannot be picked while animating, that causes glitchy looking problems and makes nodes end up in the wrong place
 Build a Fraction: Shapes: Fixed: When a level first opens, if you double click the container in the play area, another one flies out.
