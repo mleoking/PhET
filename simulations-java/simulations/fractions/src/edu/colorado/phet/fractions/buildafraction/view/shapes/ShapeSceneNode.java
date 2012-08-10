@@ -40,7 +40,6 @@ import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
-import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
@@ -85,18 +84,9 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     private final ShapeLevel level;
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
-        super( soundEnabled );
+        super( soundEnabled, context );
         this.level = model.getShapeLevel( levelIndex );
         spacing = level.shapeType == ShapeType.BAR ? 140 : 120;
-
-        final BackButton backButton = new BackButton( new VoidFunction0() {
-            public void apply() {
-                context.goToLevelSelectionScreen();
-            }
-        } ) {{
-            setOffset( INSET, INSET );
-        }};
-        addChild( backButton );
 
         //Create the scoring cells with target patterns
         ArrayList<Target> pairList = new ArrayList<Target>();
