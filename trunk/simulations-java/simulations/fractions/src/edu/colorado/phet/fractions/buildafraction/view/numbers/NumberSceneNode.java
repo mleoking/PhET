@@ -25,6 +25,7 @@ import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
@@ -319,14 +320,14 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
 
             //If no fraction skeleton in play area, move one there
             if ( allIncompleteFractionsInToolbox() ) {
-                FractionNode g = null;
+                FractionNode node = null;
                 for ( FractionNode graphic : fractionNodes ) {
                     if ( graphic.isInToolboxPosition() ) {
-                        g = graphic;
+                        node = graphic;
                     }
                 }
-                if ( g != null ) {
-                    g.animateToPositionScaleRotation( toolboxNode.getCenterX() - fractionCardNode.fractionNode.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 );
+                if ( node != null ) {
+                    node.animateToPositionScaleRotation( toolboxNode.getCenterX() - fractionCardNode.fractionNode.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 ).setDelegate( new DisablePickingWhileAnimating( node ) );
                 }
             }
         }

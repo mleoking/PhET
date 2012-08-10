@@ -15,6 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
+import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
@@ -131,12 +132,12 @@ public class ContainerNode extends PNode {
         child.setOffset( containerLayer.getFullBounds().getMaxX() + INSET, containerLayer.getFullBounds().getY() );
         child.setTransparency( 0 );
         containerLayer.addChild( child );
-        increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, 200 );
+        increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, 200 ).setDelegate( new DisablePickingWhileAnimating( increaseDecreaseButton ) );
         if ( getSingleContainerNodes().length() >= 2 ) {
             increaseDecreaseButton.hideIncreaseButton();
         }
         PInterpolatingActivity activity = increaseDecreaseButton.showDecreaseButton();
-        activity.setDelegate( new PActivityDelegate() {
+        activity.setDelegate( new CompositeDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
             }
 
@@ -147,7 +148,7 @@ public class ContainerNode extends PNode {
                 child.animateToTransparency( 1, 200 );
                 context.containerAdded( ContainerNode.this );
             }
-        } );
+        }, new DisablePickingWhileAnimating( child ) ) );
     }
 
     //When the user presses a "-" button to remove a container from a group, any pieces in the container should go back to the toolbox
@@ -226,7 +227,7 @@ public class ContainerNode extends PNode {
     }
 
     public void animateHome() {
-        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 );
+        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 ).setDelegate( new DisablePickingWhileAnimating( this ) );
         leftSpinner.animateToTransparency( 1, 200 );
         rightSpinner.animateToTransparency( 1, 200 );
     }
