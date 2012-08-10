@@ -28,7 +28,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  */
 public class MovableSliceNode extends PNode {
 
-    public MovableSliceNode( final PNode child, final PNode rootNode, final SettableProperty<PieSet> model, final Slice slice, final int denominator ) {
+    public MovableSliceNode( final PNode child, final PNode rootNode, final SettableProperty<PieSet> model, final Slice slice ) {
 
         addChild( child );
 

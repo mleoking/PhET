@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractions.fractionsintro.intro.model;
 
 import fj.F;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Site;
 
@@ -11,7 +11,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Site;
  *
  * @author Sam Reid
  */
-@Data class IdentitySiteMap extends F<Site, Site> {
+@EqualsAndHashCode(callSuper = false) class IdentitySiteMap extends F<Site, Site> {
     @Override public Site f( final Site site ) {
         return site;
     }

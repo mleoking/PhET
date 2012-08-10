@@ -83,12 +83,6 @@ public class FractionsIntroSimSharing {
     public static final String blue = "blue";
     public static final String green = "green";
 
-    public enum ComponentTypes implements IUserComponentType {
-
-        //Looks like a sprite but behaves like a check box
-        spriteCheckBox
-    }
-
     public enum ModelComponents implements IModelComponent {
         containerSetComponent, leftScaleValue,
         rightScaleValue, answer, game

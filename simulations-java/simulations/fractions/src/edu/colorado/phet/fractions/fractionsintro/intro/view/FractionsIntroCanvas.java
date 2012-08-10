@@ -35,7 +35,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
     //Flag to enable debugging water glasses and cake representations
     private static final boolean debugRepresentations = false;
 
-    public FractionsIntroCanvas( final FractionsIntroModel model ) {
+    @SuppressWarnings("unchecked") public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
         final RadioButtonStripControlPanelNode<Representation> representationControlPanel =
                 new RadioButtonStripControlPanelNode<Representation>( model.representation, asList(

@@ -2,14 +2,14 @@
 package edu.colorado.phet.fractions.common.util;
 
 import fj.P2;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * Default concrete implementation of abstract P2 class.
  *
  * @author Sam Reid
  */
-public @Data class DefaultP2<A, B> extends P2<A, B> {
+public @EqualsAndHashCode(callSuper = false) class DefaultP2<A, B> extends P2<A, B> {
     public final A _1;
     public final B _2;
 
@@ -24,4 +24,8 @@ public @Data class DefaultP2<A, B> extends P2<A, B> {
     @Override public B _2() { return _2; }
 
     public static <A, B> DefaultP2<A, B> p2( A a, B b ) { return new DefaultP2<A, B>( a, b ); }
+
+    @Override public String toString() {
+        return "(" + _1() + "," + _2() + ")";
+    }
 }

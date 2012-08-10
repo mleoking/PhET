@@ -67,7 +67,7 @@ public class FNode extends RichPNode {
     }
 
     //Get all immediate (i.e. non-recursively) children that are instances of the specified type
-    public static <T> List<T> getChildren( final PNode node, final Class<T> type ) {
+    @SuppressWarnings("unchecked") public static <T> List<T> getChildren( final PNode node, final Class<T> type ) {
         List<T> list = List.nil();
         for ( Object child : node.getChildrenReference() ) {
             if ( type.isInstance( child ) ) {

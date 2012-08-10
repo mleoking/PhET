@@ -65,7 +65,7 @@ public class WaterGlassNode extends RichPNode {
         waterBeakerNode.setLabelVisible();
         final PDimension cylinderSize = waterBeakerNode.getCylinderSize();
 
-        Solute solute = new Solute( "solute", "?", CONCENTRATION_RANGE.getMax(), new Color( 0xE0FFFF ), 5, 200 ); // hypothetical solute with unknown formula
+        Solute solute = new Solute( CONCENTRATION_RANGE.getMax(), new Color( 0xE0FFFF ) ); // hypothetical solute with unknown formula
         Solution solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), numerator / (double) denominator );
         // Water beaker, with water inside of it
         SolutionNode waterNode = new SolutionNode( cylinderSize, waterBeakerNode.getCylinderEndHeight(), solution, new DoubleRange( 0, 1 ) ) {

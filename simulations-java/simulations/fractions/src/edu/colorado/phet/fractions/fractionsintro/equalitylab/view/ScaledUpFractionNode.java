@@ -26,7 +26,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  *
  * @author Sam Reid
  */
-class ScaledUpFractionNode extends RichPNode {
+@SuppressWarnings("unchecked") class ScaledUpFractionNode extends RichPNode {
     public ScaledUpFractionNode( final IntegerProperty numerator, final IntegerProperty denominator, final IntegerProperty scale ) {
         final Times scaledNumerator = scale.times( numerator );
         final Times scaledDenominator = scale.times( denominator );

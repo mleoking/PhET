@@ -3,7 +3,7 @@ package edu.colorado.phet.fractions.fractionmatcher.view;
 
 import fj.F;
 import fj.data.Option;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -30,12 +30,12 @@ import static edu.colorado.phet.fractions.fractionmatcher.model.Mode.*;
 class Controller {
 
     //Function that checks whether an answer is correct and updates the model based on whether it was.
-    public static @Data class TryAgain extends F<MatchingGameState, MatchingGameState> {
+    public static @EqualsAndHashCode(callSuper = false) class TryAgain extends F<MatchingGameState, MatchingGameState> {
         @Override public MatchingGameState f( final MatchingGameState s ) { return s.withMode( WAITING_FOR_USER_TO_CHANGE_ANSWER ); }
     }
 
     //Function that checks whether an answer is correct and updates the model based on whether it was.
-    public static @Data class ShowAnswer extends F<MatchingGameState, MatchingGameState> {
+    public static @EqualsAndHashCode(callSuper = false) class ShowAnswer extends F<MatchingGameState, MatchingGameState> {
         @Override public MatchingGameState f( final MatchingGameState state ) {
             assert state.getLeftScaleValue() != state.getRightScaleValue();
             return state.withMode( Mode.SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ).animateToCorrectAnswer();
@@ -43,7 +43,7 @@ class Controller {
     }
 
     //Moves to the next match.
-    public static @Data class Next extends F<MatchingGameState, MatchingGameState> {
+    public static @EqualsAndHashCode(callSuper = false) class Next extends F<MatchingGameState, MatchingGameState> {
         @Override public MatchingGameState f( final MatchingGameState s ) {
             final MatchingGameState updated = s.animateMatchToScoreCell().withMode( USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).withChecks( 0 ).withLastWrongAnswer( Option.<Answer>none() );
             return updated.allStartCellsFree() ?
@@ -52,7 +52,7 @@ class Controller {
         }
     }
 
-    public static @Data class CheckAnswer extends F<MatchingGameState, MatchingGameState> {
+    public static @EqualsAndHashCode(callSuper = false) class CheckAnswer extends F<MatchingGameState, MatchingGameState> {
         @Override public MatchingGameState f( final MatchingGameState state ) {
             int points = state.getChecks() == 0 ? 2 : 1;
             final boolean correct = state.getLeftScaleValue() == state.getRightScaleValue();
@@ -69,15 +69,17 @@ class Controller {
         }
     }
 
-    public static @Data class Resample extends fj.F<MatchingGameState, MatchingGameState> {
+    public static @EqualsAndHashCode(callSuper = false) class Resample extends fj.F<MatchingGameState, MatchingGameState> {
         public final AbstractLevelFactory levelFactory;
+
+        public Resample( final AbstractLevelFactory levelFactory ) {this.levelFactory = levelFactory;}
 
         @Override public MatchingGameState f( final MatchingGameState matchingGameState ) {
             return MatchingGameState.newLevel( matchingGameState.info.level, matchingGameState.gameResults, levelFactory ).withMode( USER_IS_MOVING_OBJECTS_TO_THE_SCALES );
         }
     }
 
-    public static @Data class GameOver extends fj.F<MatchingGameState, MatchingGameState> {
+    public static @EqualsAndHashCode(callSuper = false) class GameOver extends fj.F<MatchingGameState, MatchingGameState> {
         @Override public MatchingGameState f( final MatchingGameState matchingGameState ) {
             return matchingGameState.withScore( 12 ).withMode( SHOWING_GAME_OVER_SCREEN );
         }

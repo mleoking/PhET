@@ -24,7 +24,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  * @author Sam Reid
  */
 class MaxSpinner extends RichPNode {
-    public MaxSpinner( final IntegerProperty value ) {
+    @SuppressWarnings("unchecked") public MaxSpinner( final IntegerProperty value ) {
         final PhetFont maxTextFont = new PhetFont( 32 );
         final PhetFont maxNumberFont = new PhetFont( 36 );
         addChild( new VBox( 0, new PhetPText( Strings.MAX, maxTextFont, Color.black ),
