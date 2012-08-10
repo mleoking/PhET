@@ -63,24 +63,15 @@ class AbstractLevelSelectionNode extends PNode {
 
         final PNode allPages = new PNode();
 
+        final ArrayList<PNode> pageNodes = new ArrayList<PNode>();
         for ( P2<Page, Integer> page : pages.zipIndex() ) {
 
             final int index = page._2();
             final VBox box = toButtonSetNode( page._1().info, context );
 
             final PNode pageNode = new PNode();
+            pageNodes.add( pageNode );
             pageNode.addChild( box );
-
-            if ( index < pages.length() - 1 ) {
-                pageNode.addChild( new ForwardButton( selectedPage._increment() ) {{
-                    setOffset( box.getMaxX() + INSET, box.getCenterY() - getFullBounds().getHeight() / 2 );
-                }} );
-            }
-            if ( index > 0 ) {
-                pageNode.addChild( new BackButton( selectedPage._decrement() ) {{
-                    setOffset( box.getMinX() - INSET - getFullBounds().getWidth(), box.getCenterY() - getFullBounds().getHeight() / 2 );
-                }} );
-            }
 
             allPages.addChild( pageNode );
             pageNode.setOffset( STAGE_SIZE.width * index, 0 );
@@ -133,6 +124,10 @@ class AbstractLevelSelectionNode extends PNode {
         }};
 
         addChild( resetAllButton );
+
+        addChild( new HBox( 30, new BackButton( selectedPage._decrement(), selectedPage.greaterThan( 0 ) ), new CarouselDotComponent( selectedPage ), new ForwardButton( selectedPage._increment(), selectedPage.lessThan( 1 ) ) ) {{
+            setOffset( pageNodes.get( 0 ).getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, pageNodes.get( pageNodes.size() - 1 ).getFullBounds().getMaxY() + 20 );
+        }} );
     }
 
     private VBox toButtonSetNode( final List<List<LevelInfo>> page1Levels, final LevelSelectionContext context ) {
