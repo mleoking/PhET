@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.shapes;
 
+import fj.Equal;
 import fj.F;
 import fj.Ord;
 import fj.data.List;
@@ -51,4 +52,10 @@ public class ShapeLevel extends Level {
     public Fraction getTarget( final int i ) { return targets.index( i ); }
 
     public boolean hasValuesGreaterThanOne() { return targets.exists( _greaterThanOne ); }
+
+    public int getNumberOfStacks() { return getStacks().length(); }
+
+    private List<List<Integer>> getStacks() {return pieces.group( Equal.intEqual );}
+
+    public int getNumberOfCardsInHighestStack() { return getStacks().map( List.<Integer>length_() ).maximum( Ord.intOrd ); }
 }
