@@ -15,7 +15,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroApplicati
  * @author Sam Reid
  */
 public class BuildAFractionModule extends AbstractFractionsModule {
-    public static final int ANIMATION_TIME = 2000;
+    public static final int ANIMATION_TIME = 200;
 
     public BuildAFractionModule( BuildAFractionModel model ) {
         super( Components.buildAFractionTab, Strings.BUILD_A_FRACTION, model.clock );
