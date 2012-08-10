@@ -48,7 +48,6 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.FractionNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
-import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -450,53 +449,45 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
 
     //Piece dropped into container
     private void dropInto( final PieceNode piece, final SingleContainerNode container ) {
+
+        //Make container non-draggable while piece is animating into it, otherwise the piece will end up in the wrong location.
+        container.setPickable( false );
+        container.setChildrenPickable( false );
+
+        PActivity activity = null;
         if ( level.shapeType == ShapeType.PIE ) {
             DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
-            PTransformActivity activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, 1, 0, 200 );
+            activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, 1, 0, 200 );
 
             //Should already be at correct angle, update again just in case
             if ( piece instanceof PiePieceNode ) {
                 ( (PiePieceNode) piece ).setPieceRotation( dropLocation.angle );
             }
-            piece.setPickable( false );
-            piece.setChildrenPickable( false );
-            activity.setDelegate( new PActivityDelegate() {
-                public void activityStarted( final PActivity activity ) {
-                }
-
-                public void activityStepped( final PActivity activity ) {
-                }
-
-                public void activityFinished( final PActivity activity ) {
-                    container.addPiece( piece );
-                    syncModelFractions();
-                }
-            } );
         }
-
-        //TODO: Factor out duplicated code
         else {
             Point2D translation = container.getGlobalTranslation();
             piece.globalToLocal( translation );
             piece.localToParent( translation );
             DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
             final Vector2D a = dropLocation.position.plus( translation );
-            PTransformActivity activity = piece.animateToPositionScaleRotation( a.x, a.y, 1, dropLocation.angle, 200 );
-            piece.setPickable( false );
-            piece.setChildrenPickable( false );
-            activity.setDelegate( new PActivityDelegate() {
-                public void activityStarted( final PActivity activity ) {
-                }
-
-                public void activityStepped( final PActivity activity ) {
-                }
-
-                public void activityFinished( final PActivity activity ) {
-                    container.addPiece( piece );
-                    syncModelFractions();
-                }
-            } );
+            activity = piece.animateToPositionScaleRotation( a.x, a.y, 1, dropLocation.angle, 200 );
         }
+        piece.setPickable( false );
+        piece.setChildrenPickable( false );
+        activity.setDelegate( new PActivityDelegate() {
+            public void activityStarted( final PActivity activity ) {
+            }
+
+            public void activityStepped( final PActivity activity ) {
+            }
+
+            public void activityFinished( final PActivity activity ) {
+                container.setPickable( true );
+                container.setChildrenPickable( true );
+                container.addPiece( piece );
+                syncModelFractions();
+            }
+        } );
     }
 
     public void syncModelFractions() {
