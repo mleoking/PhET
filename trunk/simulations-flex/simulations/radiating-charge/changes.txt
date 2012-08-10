@@ -1,3 +1,5 @@
+# 1.00.23 (66826) Aug 10, 2012
+8/10/12 Linear motion speed control has finite acceleration.
 # 1.00.22 (66766) Aug 9, 2012
 8/9/12 PlayPause button now an icon.
 # 1.00.21 (66744) Aug 9, 2012
