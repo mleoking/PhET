@@ -40,7 +40,7 @@ public class EnergyChunkLegend extends PNode {
             constraints.anchor = GridBagConstraints.LINE_START;
             constraints.insets.top = 10;
             constraints.insets.left = 0;
-            addChild( new PImage( EnergyFormsAndChangesResources.Images.E_MECH_OUTLINE ), constraints );
+            addChild( new PImage( EnergyFormsAndChangesResources.Images.E_MECH_OUTLINE_BLACK ), constraints );
             constraints.gridx++;
             constraints.insets.left = 5;
             addChild( new PhetPText( "Mechanical", LEGEND_ENTRY_FONT ), constraints );
@@ -49,7 +49,7 @@ public class EnergyChunkLegend extends PNode {
             constraints.gridx = 0;
             constraints.insets.top = 5;
             constraints.insets.left = 0;
-            addChild( new PImage( EnergyFormsAndChangesResources.Images.E_ELECTRIC_OUTLINE ), constraints );
+            addChild( new PImage( EnergyFormsAndChangesResources.Images.E_ELECTRIC_OUTLINE_BLACK ), constraints );
             constraints.gridx++;
             constraints.insets.left = 5;
             addChild( new PhetPText( "Electrical", LEGEND_ENTRY_FONT ), constraints );
@@ -57,10 +57,19 @@ public class EnergyChunkLegend extends PNode {
             constraints.gridy++;
             constraints.gridx = 0;
             constraints.insets.left = 0;
-            addChild( new PImage( EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE ), constraints );
+            addChild( new PImage( EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE_BLACK ), constraints );
             constraints.gridx++;
             constraints.insets.left = 5;
             addChild( new PhetPText( "Thermal", LEGEND_ENTRY_FONT ), constraints );
+
+            constraints.gridy++;
+            constraints.gridx = 0;
+            constraints.insets.left = 0;
+            addChild( new PImage( EnergyFormsAndChangesResources.Images.E_LIGHT_OUTLINE_BLACK ), constraints );
+            constraints.gridx++;
+            constraints.insets.left = 5;
+            addChild( new PhetPText( "Light", LEGEND_ENTRY_FONT ), constraints );
+
         }};
 
         // Create the control panel.

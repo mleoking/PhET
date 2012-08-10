@@ -32,6 +32,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage ENERGY_CHUNKS_WHITE = RESOURCES.getImage( "energy-chunks-white.png" );
         public static final BufferedImage E_ELECTRIC_OUTLINE = RESOURCES.getImage( "E_electric_outline.png" );
         public static final BufferedImage E_ELECTRIC_OUTLINE_BLACK = RESOURCES.getImage( "E_electric_outline_black.png" );
+        public static final BufferedImage E_LIGHT_OUTLINE_BLACK = RESOURCES.getImage( "E_light_outline_black.png" );
         public static final BufferedImage E_MECH_OUTLINE = RESOURCES.getImage( "E_mech_outline.png" );
         public static final BufferedImage E_MECH_OUTLINE_BLACK = RESOURCES.getImage( "E_mech_outline_black.png" );
         public static final BufferedImage E_THERM_OUTLINE = RESOURCES.getImage( "E_therm_outline.png" );
