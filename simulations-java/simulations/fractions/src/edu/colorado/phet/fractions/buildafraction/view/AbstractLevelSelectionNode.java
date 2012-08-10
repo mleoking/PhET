@@ -135,7 +135,7 @@ class AbstractLevelSelectionNode extends PNode {
         for ( List<LevelInfo> list : page1Levels ) {
             List<PNode> icons = list.map( new F<LevelInfo, PNode>() {
                 @Override public PNode f( final LevelInfo levelInfo ) {
-                    return toLevelIcon( AbstractLevelSelectionNode.this, levelInfo, page1Levels, context );
+                    return toLevelIcon( levelInfo, page1Levels, context );
                 }
             } );
             boxes.add( new HBox( 25, icons.array( PNode[].class ) ) );
@@ -145,7 +145,7 @@ class AbstractLevelSelectionNode extends PNode {
         }};
     }
 
-    private static PNode toLevelIcon( final AbstractLevelSelectionNode parent, final LevelInfo info, final List<List<LevelInfo>> allLevels, final LevelSelectionContext context ) {
+    private static PNode toLevelIcon( final LevelInfo info, final List<List<LevelInfo>> allLevels, final LevelSelectionContext context ) {
         final List<PNode> nodes = allLevels.bind( new F<List<LevelInfo>, List<PNode>>() {
             @Override public List<PNode> f( final List<LevelInfo> list ) {
                 return list.map( LevelInfo._icon );

@@ -121,9 +121,7 @@ public abstract class PieceNode extends Stackable {
         }
     };
 
-    public void moveToTopOfStack() {
-        stack.moveToTopOfStack( this );
-    }
+    @SuppressWarnings("unchecked") public void moveToTopOfStack() { stack.moveToTopOfStack( this ); }
 
     //Show drop shadow when moving back to toolbox
     public PTransformActivity animateTo( Vector2D v ) {

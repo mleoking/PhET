@@ -57,7 +57,7 @@ public @Data class Stack<T extends Stackable> {
         }
     }
 
-    private Option<T> getFrontCardInStack() {
+    @SuppressWarnings("unchecked") private Option<T> getFrontCardInStack() {
         List<T> sorted = cards.sort( FJUtils.ord( new F<T, Double>() {
             @Override public Double f( final T n ) {
                 final Option<Integer> positionInStack = n.getPositionInStack();

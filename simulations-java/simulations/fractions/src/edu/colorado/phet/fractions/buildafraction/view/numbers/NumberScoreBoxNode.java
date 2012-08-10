@@ -7,7 +7,6 @@ import java.awt.geom.RoundRectangle2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources.Images;
-import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.umd.cs.piccolo.PNode;
@@ -31,7 +30,7 @@ public class NumberScoreBoxNode extends PNode {
     private FractionNode fractionGraphic;
     private final NumberSceneNode numberSceneNode;
 
-    public NumberScoreBoxNode( final int numerator, final int denominator, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
+    public NumberScoreBoxNode( final int numerator, final int denominator, final NumberSceneNode numberSceneNode ) {
         this.numberSceneNode = numberSceneNode;
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
