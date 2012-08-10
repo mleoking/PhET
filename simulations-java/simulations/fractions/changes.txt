@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Keep resampling levels until they match our constraints, such as not having too many stacks or too many cards.
 Build a Fraction: Shapes: Fixed: When the user presses a "-" button to remove a container from a group, any pieces in the container should go back to the toolbox
 Build a Fraction: Shapes: When a container is added to a container node, animate it to the left if it overlaps the scoring boxes.
 # 1.00.24 (66784) Aug 9, 2012

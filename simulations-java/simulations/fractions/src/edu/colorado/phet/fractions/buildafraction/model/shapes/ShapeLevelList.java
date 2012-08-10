@@ -10,6 +10,7 @@ import lombok.Data;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.Distribution;
 import edu.colorado.phet.fractions.common.util.FJUtils;
@@ -34,18 +35,73 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
 
         //For levels 1-4, either tiles or pies will work
         //SR: Let's make level 1 = pies/tiles then level 2 opposite of level 1, then same for 3-4
-        boolean level1Pies = random.nextBoolean();
-        boolean level3Pies = random.nextBoolean();
-        add( level1( level1Pies ) );
-        add( level2( !level1Pies ) );
-        add( level3( level3Pies ) );
-        add( level4( !level3Pies ) );
-        add( level5() );
-        add( level6() );
-        add( level7() );
-        add( level8() );
-        add( level9() );
-        add( level10() );
+        final boolean level1Pies = random.nextBoolean();
+        final boolean level3Pies = random.nextBoolean();
+
+        //Please read this with closure folding.
+        addWithPostprocessing( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level1( level1Pies );
+            }
+        } );
+        addWithPostprocessing( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level2( !level1Pies );
+            }
+        } );
+        addWithPostprocessing( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level3( level3Pies );
+            }
+        } );
+        addWithPostprocessing( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level4( !level3Pies );
+            }
+        } );
+        addWithPostprocessing( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level5();
+            }
+        } );
+        addWithPostprocessing( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level6();
+            }
+        } );
+        addWithPostprocessing( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level7();
+            }
+        } );
+        addWithPostprocessing( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level8();
+            }
+        } );
+        addWithPostprocessing( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level9();
+            }
+        } );
+        addWithPostprocessing( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level10();
+            }
+        } );
+    }
+
+    //Keep resampling levels until they match our constraints, such as not having too many stacks or too many cards.
+    private void addWithPostprocessing( final Function0<ShapeLevel> levelMaker ) {
+        for ( int i = 0; i < 100; i++ ) {
+            ShapeLevel level = levelMaker.apply();
+            if ( level.getNumberOfStacks() < 6 && level.getNumberOfCardsInHighestStack() < 8 ) {
+                add( level );
+                return;
+            }
+        }
+        System.out.println( "Could not create a level satisfying the constraints." );
+        add( levelMaker.apply() );
     }
 
     /* Level 1:
