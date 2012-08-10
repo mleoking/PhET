@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions;
 
 import java.awt.image.BufferedImage;
@@ -25,13 +25,9 @@ public class FractionsResources {
         public static final String MATCHING_GAME = RESOURCES.getLocalizedString( "matchingGame" );
         public static final String MAX = RESOURCES.getLocalizedString( "max" );
         public static final String MIXED_NUMBERS = RESOURCES.getLocalizedString( "mixedNumbers" );
-        public static final String MY_FRACTIONS = RESOURCES.getLocalizedString( "myFractions" );
         public static final String MY_MATCHES = RESOURCES.getLocalizedString( "myMatches" );
-        public static final String NEW_GAME = RESOURCES.getLocalizedString( "newGame" );
         public static final String NEXT = RESOURCES.getLocalizedString( "next" );
-        public static final String NUMBERS = RESOURCES.getLocalizedString( "numbers" );
         public static final String OK = RESOURCES.getLocalizedString( "ok" );
-        public static final String PICTURES = RESOURCES.getLocalizedString( "pictures" );
         public static final String RESET = RESOURCES.getLocalizedString( "reset" );
         public static final String SCORE__PATTERN = RESOURCES.getLocalizedString( "score.pattern" );
         public static final String SHOW_ANSWER = RESOURCES.getLocalizedString( "showAnswer" );
