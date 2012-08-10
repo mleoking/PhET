@@ -58,7 +58,8 @@ public class FractionsIntroSimSharing {
 
         levelButton,
         soundButton, stopwatchButton,
-        backButton, mixedNumbersTab,
+        backButton, forwardButton,
+        mixedNumbersTab,
 
         soundRadioButton,
         timerRadioButton,
