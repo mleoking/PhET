@@ -216,54 +216,6 @@ public class BioShapeUtils {
         return y.plus( xy.times( 0.25 ).plus( yz.times( 0.25 ) ) );
     }
 
-    public static void main( String[] args ) {
-        System.out.println( "Shape testing..." );
-        List<Point2D> vLikePointList = new ArrayList<Point2D>() {{
-            // V-like shape.
-            add( new Point2D.Double( 0, 0 ) );
-            add( new Point2D.Double( 20, -10 ) );
-            add( new Point2D.Double( 0, 40 ) );
-            add( new Point2D.Double( -20, -10 ) );
-        }};
-
-        /*
-        List<Point2D> squarePointList = new ArrayList<Point2D>() {{
-            add( new Point2D.Double( 0, 0 ) );
-            add( new Point2D.Double( 20, 0 ) );
-            add( new Point2D.Double( 20, -20 ) );
-            add( new Point2D.Double( 0, -20 ) );
-            // Unit square - useful for debug in some cases.
-//            add( new Point2D.Double( 0, 0 ) );
-//            add( new Point2D.Double( 1, 0 ) );
-//            add( new Point2D.Double( 1, -1 ) );
-//            add( new Point2D.Double( 0, -1 ) );
-        }};
-        */
-
-        // Add the shapes.  Many are translated somewhat to avoid overlap.
-        PCanvas canvas = new PCanvas();
-        Shape shape = BioShapeUtils.createShapeFromPoints( vLikePointList );
-        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 50 ).createTransformedShape( shape ), Color.PINK ) );
-        shape = BioShapeUtils.createRoundedShapeFromPoints( vLikePointList );
-        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 100, 50 ).createTransformedShape( shape ), Color.GREEN ) );
-        shape = BioShapeUtils.createRandomShapeFromPoints( vLikePointList, 101 );
-        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 100 ).createTransformedShape( shape ), Color.ORANGE ) );
-        shape = BioShapeUtils.createRandomShape( new PDimension( 40, 40 ), 100 );
-        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 100, 100 ).createTransformedShape( shape ), Color.BLUE ) );
-        shape = BioShapeUtils.createRandomShape( new PDimension( 80, 40 ), 123 );
-        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 200 ).createTransformedShape( shape ), Color.MAGENTA ) );
-
-        shape = BioShapeUtils.createCurvyEnclosedShape( new Rectangle2D.Double( -100, -50, 200, 100 ), 1, 0 );
-        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 200, 200 ).createTransformedShape( shape ), Color.BLACK ) );
-
-        // Boiler plate app stuff.
-        JFrame frame = new JFrame( "Shape Util Testing" );
-        frame.setContentPane( canvas );
-        frame.setSize( 500, 500 );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setVisible( true );
-    }
-
     /**
      * Create a curvy shape that is pretty much within the provided bounds.
      * Full enclosure within the bounds is not guaranteed.  This was initially
@@ -379,5 +331,54 @@ public class BioShapeUtils {
         Shape finalShape = AffineTransform.getTranslateInstance( center.getX(), center.getY() ).createTransformedShape( untranslatedShape );
 
         return finalShape;
+    }
+
+    // Test harness.
+    public static void main( String[] args ) {
+        System.out.println( "Shape testing..." );
+        List<Point2D> vLikePointList = new ArrayList<Point2D>() {{
+            // V-like shape.
+            add( new Point2D.Double( 0, 0 ) );
+            add( new Point2D.Double( 20, -10 ) );
+            add( new Point2D.Double( 0, 40 ) );
+            add( new Point2D.Double( -20, -10 ) );
+        }};
+
+        /*
+        List<Point2D> squarePointList = new ArrayList<Point2D>() {{
+            add( new Point2D.Double( 0, 0 ) );
+            add( new Point2D.Double( 20, 0 ) );
+            add( new Point2D.Double( 20, -20 ) );
+            add( new Point2D.Double( 0, -20 ) );
+            // Unit square - useful for debug in some cases.
+//            add( new Point2D.Double( 0, 0 ) );
+//            add( new Point2D.Double( 1, 0 ) );
+//            add( new Point2D.Double( 1, -1 ) );
+//            add( new Point2D.Double( 0, -1 ) );
+        }};
+        */
+
+        // Add the shapes.  Many are translated somewhat to avoid overlap.
+        PCanvas canvas = new PCanvas();
+        Shape shape = BioShapeUtils.createShapeFromPoints( vLikePointList );
+        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 50 ).createTransformedShape( shape ), Color.PINK ) );
+        shape = BioShapeUtils.createRoundedShapeFromPoints( vLikePointList );
+        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 100, 50 ).createTransformedShape( shape ), Color.GREEN ) );
+        shape = BioShapeUtils.createRandomShapeFromPoints( vLikePointList, 101 );
+        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 100 ).createTransformedShape( shape ), Color.ORANGE ) );
+        shape = BioShapeUtils.createRandomShape( new PDimension( 40, 40 ), 100 );
+        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 100, 100 ).createTransformedShape( shape ), Color.BLUE ) );
+        shape = BioShapeUtils.createRandomShape( new PDimension( 80, 40 ), 123 );
+        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 200 ).createTransformedShape( shape ), Color.MAGENTA ) );
+
+        shape = BioShapeUtils.createCurvyEnclosedShape( new Rectangle2D.Double( -100, -50, 200, 100 ), 1, 0 );
+        canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 200, 200 ).createTransformedShape( shape ), Color.BLACK ) );
+
+        // Boiler plate app stuff.
+        JFrame frame = new JFrame( "Shape Util Testing" );
+        frame.setContentPane( canvas );
+        frame.setSize( 500, 500 );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }
