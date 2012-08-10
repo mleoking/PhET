@@ -52,7 +52,6 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerNode._getSingleContainerNodes;
-import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerNode._isAtStartingLocation;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.createPieSlice;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.createRect;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceIconNode.TINY_SCALE;
@@ -358,13 +357,16 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
             //If no fraction skeleton in play area, move one there
             final List<ContainerNode> inPlayArea = getContainerNodes().filter( new F<ContainerNode, Boolean>() {
                 @Override public Boolean f( final ContainerNode containerNode ) {
-                    return !containerNode.isInTargetCell() && !containerNode.isAtStartingLocation();
+                    return containerNode.isInPlayArea();
                 }
             } );
-            final List<ContainerNode> inToolbox = getContainerNodes().filter( _isAtStartingLocation );
+            final List<ContainerNode> inToolbox = getContainerNodes().filter( new F<ContainerNode, Boolean>() {
+                @Override public Boolean f( final ContainerNode containerNode ) {
+                    return containerNode.isInToolbox();
+                }
+            } );
             if ( inPlayArea.length() == 0 && inToolbox.length() > 0 ) {
-                ContainerNode g = inToolbox.head();
-                animateToCenterScreen( g );
+                animateToCenterScreen( inToolbox.head() );
             }
         }
 
@@ -386,7 +388,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
 
     private void animateToCenterScreen( final ContainerNode g ) {
         Vector2D offset = level.shapeType == ShapeType.BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
-        g.animateToPositionScaleRotation( toolboxNode.getCenterX() - g.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, 1000 );
+        g.animateToPositionScaleRotation( toolboxNode.getCenterX() - g.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, 200 );
     }
 
     public void endDrag( final PieceNode piece ) {

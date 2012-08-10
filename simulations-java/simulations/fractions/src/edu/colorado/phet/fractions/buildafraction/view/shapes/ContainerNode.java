@@ -299,4 +299,8 @@ public class ContainerNode extends PNode {
             removeContainer();
         }
     }
+
+    public Boolean isInPlayArea() {
+        return !isInTargetCell() && !isInToolbox();
+    }
 }
