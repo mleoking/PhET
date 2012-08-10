@@ -15,6 +15,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -24,6 +25,7 @@ import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode.DropLocation;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.FJUtils;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -82,6 +84,10 @@ class SingleContainerNode extends PNode {
                                                       : new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), Color.white, new BasicStroke( 2 ), Color.black ) );
 
             addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( container, parent.hashCode() ), SingleContainerNode.this ) {
+                @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
+                    return super.getParametersForAllEvents( event ).with( ParameterKeys.shapeType, shapeType.name() ).with( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.value, getFractionValue().toDouble() );
+                }
+
                 @Override public void mousePressed( final PInputEvent event ) {
                     super.mousePressed( event );
                     parent.moveToFront();
