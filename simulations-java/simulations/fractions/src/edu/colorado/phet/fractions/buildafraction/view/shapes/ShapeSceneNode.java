@@ -26,6 +26,7 @@ import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
@@ -292,9 +293,9 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
         syncModelFractions();
     }
 
-    private void animateToCenterScreen( final ContainerNode g ) {
+    private void animateToCenterScreen( final ContainerNode containerNode ) {
         Vector2D offset = level.shapeType == ShapeType.BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
-        g.animateToPositionScaleRotation( toolboxNode.getCenterX() - g.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, 200 );
+        containerNode.animateToPositionScaleRotation( toolboxNode.getCenterX() - containerNode.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, 200 ).setDelegate( new DisablePickingWhileAnimating( containerNode ) );
     }
 
     public void endDrag( final PieceNode piece ) {
@@ -382,7 +383,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
         }
         piece.setPickable( false );
         piece.setChildrenPickable( false );
-        activity.setDelegate( new PActivityDelegate() {
+        activity.setDelegate( new CompositeDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
             }
 
@@ -395,7 +396,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
                 container.addPiece( piece );
                 syncModelFractions();
             }
-        } );
+        }, new DisablePickingWhileAnimating( piece ) ) );
     }
 
     public void syncModelFractions() {
@@ -415,7 +416,8 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
         double overlap = rightSide - edge;
         if ( overlap > 0 ) {
             double amountToMoveLeft = 20 + overlap;
-            containerNode.animateToPositionScaleRotation( containerNode.getXOffset() - amountToMoveLeft, containerNode.getYOffset(), containerNode.getScale(), containerNode.getRotation(), 200 );
+            containerNode.animateToPositionScaleRotation( containerNode.getXOffset() - amountToMoveLeft, containerNode.getYOffset(), containerNode.getScale(), containerNode.getRotation(), 200 ).
+                    setDelegate( new DisablePickingWhileAnimating( containerNode ) );
         }
     }
 

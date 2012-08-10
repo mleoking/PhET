@@ -11,6 +11,7 @@ import java.util.HashMap;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.CompositeDelegate;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.SceneContext;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
@@ -88,7 +89,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
                                  Vector2D.ZERO;
 
         PActivity activity = currentScene.animateToPositionScaleRotation( oldNodeOffset.x, oldNodeOffset.y, 1, 0, 400 );
-        activity.setDelegate( new PActivityDelegate() {
+        activity.setDelegate( new CompositeDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
             }
 
@@ -110,7 +111,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
                     }
                 } );
             }
-        } );
+        }, new DisablePickingWhileAnimating( currentScene ) ) );
         node.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
         currentScene = node;
     }

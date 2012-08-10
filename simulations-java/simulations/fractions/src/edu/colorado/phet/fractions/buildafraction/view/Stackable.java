@@ -33,7 +33,9 @@ public abstract class Stackable<T extends Stackable> extends PNode {
     }
 
     public PTransformActivity animateTo( Vector2D v ) {
-        return animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, 400 );
+        final PTransformActivity activity = animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, 400 );
+        activity.setDelegate( new DisablePickingWhileAnimating( this ) );
+        return activity;
     }
 
     protected double getAnimateToScale() {

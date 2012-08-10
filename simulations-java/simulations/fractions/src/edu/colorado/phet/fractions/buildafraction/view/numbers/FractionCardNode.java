@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
+import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -131,7 +132,7 @@ class FractionCardNode extends RichPNode {
                     if ( hitWrongOne ) {
 
                         //This has the effect of sending it back to where it originally became a CardNode
-                        animateToPositionScaleRotation( 0, 0, 1, 0, 1000 );
+                        animateToPositionScaleRotation( 0, 0, 1, 0, 200 ).setDelegate( new DisablePickingWhileAnimating( FractionCardNode.this ) );
                     }
                 }
 

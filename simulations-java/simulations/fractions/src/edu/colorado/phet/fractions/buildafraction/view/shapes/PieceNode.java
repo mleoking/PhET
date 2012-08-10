@@ -124,7 +124,7 @@ public abstract class PieceNode extends Stackable {
     //Show drop shadow when moving back to toolbox
     public PTransformActivity animateTo( Vector2D v ) {
         PTransformActivity a = super.animateTo( v );
-        a.setDelegate( new PActivityDelegate() {
+        a.setDelegate( new CompositeDelegate( a.getDelegate(), new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
                 showShadow();
             }
@@ -135,7 +135,7 @@ public abstract class PieceNode extends Stackable {
             public void activityFinished( final PActivity activity ) {
                 hideShadow();
             }
-        } );
+        } ) );
         return a;
     }
 
