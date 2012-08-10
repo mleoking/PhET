@@ -36,6 +36,9 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  * @author Sam Reid
  */
 public class SettingsOnOffPanel extends PNode {
+
+    public static final PhetFont font = new PhetFont( 20, true );
+
     public static final @Data class Element {
         public final PNode off;
         public final PNode on;
@@ -69,11 +72,11 @@ public class SettingsOnOffPanel extends PNode {
             element.off.addInputEventListener( toggle );
             element.off.addInputEventListener( new CursorHandler() );
             PNode offButton = new PSwing( new PropertyRadioButton<Boolean>( chain( element.component, off ), getString( "Games.radioButton.off" ), element.onProperty, false ) {{
-                setFont( new PhetFont( 20, true ) );
+                setFont( font );
                 setOpaque( false );
             }} );
             PNode onButton = new PSwing( new PropertyRadioButton<Boolean>( chain( element.component, on ), getString( "Games.radioButton.on" ), element.onProperty, true ) {{
-                setFont( new PhetFont( 20, true ) );
+                setFont( font );
                 setOpaque( false );
             }} );
             box.addChild( new HBox( 4, new PNode() {{

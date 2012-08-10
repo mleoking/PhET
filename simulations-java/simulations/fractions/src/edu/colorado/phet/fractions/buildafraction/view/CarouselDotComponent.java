@@ -7,11 +7,11 @@ import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -23,7 +23,7 @@ class CarouselDotComponent extends PNode {
     public CarouselDotComponent( final IntegerProperty selectedPage ) {
         final int circleDiameter = 16;
 
-        addChild( new HBox( new VBox( text( "1-5", selectedPage, 0 ), circle( selectedPage, circleDiameter, 0 ) ),
+        addChild( new HBox( 23, new VBox( text( "1-5", selectedPage, 0 ), circle( selectedPage, circleDiameter, 0 ) ),
                             new VBox( text( "6-10", selectedPage, 1 ), circle( selectedPage, circleDiameter, 1 ) ) ) );
     }
 
@@ -38,7 +38,7 @@ class CarouselDotComponent extends PNode {
     }
 
     private PhetPText text( final String s, final IntegerProperty selectedPage, final int index ) {
-        return new PhetPText( s, new PhetFont( 15 ) ) {{
+        return new PhetPText( s, SettingsOnOffPanel.font ) {{
             selectedPage.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer integer ) {
                     setTextPaint( integer == index ? Color.black : Color.gray );
