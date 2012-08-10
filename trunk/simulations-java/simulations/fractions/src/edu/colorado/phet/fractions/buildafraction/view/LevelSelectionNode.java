@@ -49,7 +49,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
         }} );
     }
 
-    private static List<List<LevelInfo>> page1( final F<LevelIdentifier, LevelProgress> gameProgress ) {
+    @SuppressWarnings("unchecked") private static List<List<LevelInfo>> page1( final F<LevelIdentifier, LevelProgress> gameProgress ) {
         return list( list( shapeLevel( 1, Pattern.pie( 1 ), gameProgress ),
                            shapeLevel( 2, Pattern.verticalBars( 2 ), gameProgress ),
                            shapeLevel( 3, gameProgress ),
@@ -62,7 +62,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
                            numberLevel( 5, gameProgress ) ) );
     }
 
-    private static List<List<LevelInfo>> page2( final F<LevelIdentifier, LevelProgress> gameProgress ) {
+    @SuppressWarnings("unchecked") private static List<List<LevelInfo>> page2( final F<LevelIdentifier, LevelProgress> gameProgress ) {
         return list( list( shapeLevel( 6, gameProgress ),
                            shapeLevel( 7, gameProgress ),
                            shapeLevel( 8, gameProgress ),

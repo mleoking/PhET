@@ -215,7 +215,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     -- Possible fractions sets from which to draw 2 each {1/2, 2/4, 3/6} , {1/3, 2/6, 3/9}, {2/3, 4/6, 3/9}, {1/4, 2/8}, {3/4, 6/8}
     -- I think the representations should both be equal, for instance, 2 pies divided the same, and two bars divided the same, so that the learning goal is focused on the same exact picture can be represented by 2 different fractions. Probably always displaying the reduced fraction as the picture.
     -- Cards constrained, so for instance if {1/2, 3/6} is drawn for the top pair and {3/4, 6/8} drawn for the bottom, we would have 1(1), 1(2), 2(3), 1(4), 2(6), 1(8) */
-    private NumberLevel level6() {
+    @SuppressWarnings("unchecked") private NumberLevel level6() {
         List<List<Fraction>> fractionSets = list( list( fraction( 1, 2 ),
                                                         fraction( 2, 4 ),
                                                         fraction( 3, 6 ) ),
@@ -261,7 +261,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     -- Introduce double representations at this level (numbers greater than 1)
     -- I really like your idea of having 8 cards, 4 each of 2 numbers
     -- Lets randomly choose from  {2/3, 3/2, 2/2, 3/3}, {2/4, 4/2, 2/2, 4/4}, {3/4,4/3, 3/3, 4/4}, {3/5, 5/3, 3/3, 5/5}, {3/6, 6/3, 3/3, 6/6}*/
-    private NumberLevel level7() {
+    @SuppressWarnings("unchecked") private NumberLevel level7() {
         List<List<Fraction>> sets = list( list( fraction( 2, 3 ),
                                                 fraction( 3, 2 ),
                                                 fraction( 2, 2 ),

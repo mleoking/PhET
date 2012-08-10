@@ -239,7 +239,7 @@ a 1/2 and a 1/3.
         }
     }
 
-    private ShapeLevel sampleLevel6() {
+    @SuppressWarnings("unchecked") private ShapeLevel sampleLevel6() {
         //let's implement this my making each solution as na + mb, where a and b are the fractions from pairs above
         final List<Integer> cardSizes = chooseOne( list( list( 2, 3 ), list( 2, 4 ), list( 3, 4 ), list( 2, 6 ), list( 3, 6 ), list( 4, 8 ), list( 2, 8 ) ) );
 
@@ -263,7 +263,7 @@ a 1/2 and a 1/3.
             pieces = pieces.append( replicate( c.m, cardSizes.index( 1 ) ) );
         }
 
-        return shapeLevel( pieces, targets, colors[5], choosePiesOrBars( targets ) );
+        return shapeLevel( pieces, targets, colors[5], choosePiesOrBars() );
     }
 
     /*Level 7:
@@ -364,7 +364,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     */
     ShapeLevel level8() {
         List<Fraction> targets = level8Targets();
-        return shapeLevel( interestingShapes( targets ), shuffle( targets ), colors[7], choosePiesOrBars( targets ) );
+        return shapeLevel( interestingShapes( targets ), shuffle( targets ), colors[7], choosePiesOrBars() );
     }
 
     private List<Fraction> level8Targets() {
@@ -381,7 +381,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     */
     ShapeLevel level9() {
         List<Fraction> targets = level8Targets();
-        return shapeLevel( interestingShapes( targets ), shuffle( targets ), colors[8], choosePiesOrBars( targets ) );
+        return shapeLevel( interestingShapes( targets ), shuffle( targets ), colors[8], choosePiesOrBars() );
     }
 
     /*
@@ -402,7 +402,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         P2<Fraction, Fraction> two = chooseTwo( available );
         List<Fraction> targets = list( two._1(), two._1(), two._2(), two._2() );
 
-        return shapeLevel( interestingShapes( targets ), targets, colors[9], choosePiesOrBars( targets ) );
+        return shapeLevel( interestingShapes( targets ), targets, colors[9], choosePiesOrBars() );
     }
 
     private List<Integer> interestingShapes( final List<Fraction> fractions ) {
@@ -457,16 +457,15 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         } ).length();
     }
 
-    //if denominator large, use pies otherwise random between pies and bars
-    private ShapeType choosePiesOrBars( final List<Fraction> targets ) {
-        return random.nextBoolean() ? ShapeType.PIE : ShapeType.BAR;
-    }
+    //Choose randomly whether a level should be pies or bars
+    private ShapeType choosePiesOrBars() { return booleanToShape( random.nextBoolean() );}
 
     private ShapeType booleanToShape( final boolean pies ) {return pies ? ShapeType.PIE : ShapeType.BAR;}
 
     public static void main( String[] args ) {
         for ( int i = 0; i < 1000; i++ ) {
             ShapeLevelList list = new ShapeLevelList();
+            list.toString();//Just a method that makes it so list appears used.
             System.out.println( "checked: " + i );
         }
     }

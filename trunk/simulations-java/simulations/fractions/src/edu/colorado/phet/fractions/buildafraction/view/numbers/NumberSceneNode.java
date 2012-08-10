@@ -75,7 +75,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     private final Dimension2DDouble doubleDigitCardSize;
     private final List<List<Integer>> stacks;
 
-    public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
+    @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
         level = model.getNumberLevel( levelIndex );
         this.rootNode = rootNode;
@@ -108,7 +108,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
             pairs.add( new ScoreBoxPair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator,
-                                                                 rootNode, model, this ), new ZeroOffsetNode( patternNode ) ) );
+                                                                 this ), new ZeroOffsetNode( patternNode ) ) );
         }
         pairList = List.iterableList( pairs );
 

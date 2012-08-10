@@ -85,7 +85,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     private final int layoutXOffset;
     private final ShapeLevel level;
 
-    public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
+    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
         this.level = model.getShapeLevel( levelIndex );
         spacing = level.shapeType == ShapeType.BAR ? 140 : 120;
@@ -454,7 +454,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         container.setPickable( false );
         container.setChildrenPickable( false );
 
-        PActivity activity = null;
+        PActivity activity;
         if ( level.shapeType == ShapeType.PIE ) {
             DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
             activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, 1, 0, 200 );
