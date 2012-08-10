@@ -400,7 +400,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         } ) );
 
         for ( SingleContainerNode target : containerNodes ) {
-            if ( target.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) && !target.isInToolbox() && !target.willOverflow( piece ) ) {
+            if ( target.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) && !target.isInToolbox() && !target.willOverflow( piece ) && !target.parent.isInTargetCell() ) {
                 dropInto( piece, target );
                 droppedInto = true;
                 break;
