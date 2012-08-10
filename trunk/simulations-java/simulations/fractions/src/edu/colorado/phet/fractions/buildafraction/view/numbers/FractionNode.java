@@ -10,14 +10,15 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.AnimateToScale;
@@ -29,11 +30,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendButtonPressed;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.sprite;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.fraction;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys.denominator;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys.numerator;
@@ -97,11 +94,13 @@ public class FractionNode extends RichPNode {
         addChild( splitButton );
 
         dragRegion.addInputEventListener( new CursorHandler() );
-        dragRegion.addInputEventListener( new CanvasBoundedDragHandler( FractionNode.this ) {
+        dragRegion.addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( fraction, FractionNode.this.hashCode() ), FractionNode.this ) {
+            @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
+                return super.getParametersForAllEvents( event ).with( numerator, topNumberNode != null ? topNumberNode.number + "" : "empty" ).
+                        with( denominator, bottomNumberNode != null ? bottomNumberNode.number + "" : "empty" );
+            }
+
             @Override public void mousePressed( final PInputEvent event ) {
-                sendUserMessage( chain( fraction, FractionNode.this.hashCode() ), sprite, pressed,
-                                 parameterSet( numerator, topNumberNode != null ? topNumberNode.number + "" : "empty" ).
-                                         with( denominator, bottomNumberNode != null ? bottomNumberNode.number + "" : "empty" ) );
                 super.mousePressed( event );
 
                 //Grow as it moves out of the toolbox
@@ -109,17 +108,11 @@ public class FractionNode extends RichPNode {
             }
 
             @Override protected void dragNode( final DragEvent event ) {
-                sendUserMessage( chain( fraction, FractionNode.this.hashCode() ), sprite, drag,
-                                 parameterSet( numerator, topNumberNode != null ? topNumberNode.number + "" : "empty" ).
-                                         with( denominator, bottomNumberNode != null ? bottomNumberNode.number + "" : "empty" ) );
                 moveToFront();
                 translate( event.delta.width, event.delta.height );
             }
 
             @Override public void mouseReleased( final PInputEvent event ) {
-                sendUserMessage( chain( fraction, FractionNode.this.hashCode() ), sprite, released,
-                                 parameterSet( numerator, topNumberNode != null ? topNumberNode.number + "" : "empty" ).
-                                         with( denominator, bottomNumberNode != null ? bottomNumberNode.number + "" : "empty" ) );
                 super.mouseReleased( event );
                 context.endDrag( FractionNode.this );
             }
