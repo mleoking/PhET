@@ -82,13 +82,14 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     private final F<PieceIconNode, Double> _minX = FNode._minX();
     private final F<ContainerNode, Double> _maxX = FNode._maxX();
 
-    private final int spacing = 140;
+    private final int spacing;
     private final int layoutXOffset;
     private final ShapeLevel level;
 
     public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
         this.level = model.getShapeLevel( levelIndex );
+        spacing = level.shapeType == ShapeType.BAR ? 140 : 120;
 
         final BackButton backButton = new BackButton( new VoidFunction0() {
             public void apply() {
