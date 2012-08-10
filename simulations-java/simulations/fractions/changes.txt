@@ -1,3 +1,4 @@
+Intro: Improved beaker offsets when dragging out of play area containers (again)
 Build a Fraction: Shapes: Randomly use pies or bars instead of preferring one for large denominators
 Build a Fraction: Shapes: Removed extra 1/2 pieces from level 4 when building halves
 Build a Fraction: Shapes: Made internal divisions (dotted lines) go back to 1 when going into toolbox

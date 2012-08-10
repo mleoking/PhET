@@ -26,19 +26,19 @@ class WaterGlassNodeFactory extends F<SliceNodeArgs, PNode> {
 
     //Create images for the full-sized draggable water glasses
     @Override public PNode f( final SliceNodeArgs args ) {
-        final Rectangle2D a = args.slice.getShape().getBounds2D();
-        final Rectangle2D bounds = new Rectangle2D.Double( a.getX(), a.getY(), 100, 200 );
+
+        final Rectangle2D bounds = new Rectangle2D.Double( args.slice.position.x - 50, args.slice.position.y - 100, 100, 200 );
 
         BufferedImage image = cachedWaterGlassNode( 1, args.denominator, args.slice.color, bounds.getWidth(), bounds.getHeight() );
         int c = debugDragRegion ? 100 : 0;
 
-        //Location for the image.
+        //The bounds for the grabbable area when the beaker fluid is in the container.  Values were hard coded using empirical testing.
         final Point2D offset = new Point2D.Double( bounds.getCenterX() - image.getWidth() / 2, bounds.getCenterY() - image.getHeight() / 2 );
 
         //The bounds for the grabbable area when the beaker fluid is in the container.  Values were hard coded using empirical testing.
         final Rectangle2D.Double inContainerBounds = new Rectangle2D.Double( offset.getX(), image.getHeight() * 0.9, image.getWidth(), image.getHeight() );
 
-        //See MovableSliceNode for a reason this must return PhetPPath when in container.
+        //Hack alert! See MovableSliceNode for a reason this must return PhetPPath when in container.
         return args.inContainer ? new PhetPPath( inContainerBounds, new Color( c, c, c, c ) )
                                 : new PImage( image ) {{
             setOffset( offset );

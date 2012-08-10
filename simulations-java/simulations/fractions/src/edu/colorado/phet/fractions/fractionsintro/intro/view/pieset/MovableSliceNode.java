@@ -41,10 +41,7 @@ public class MovableSliceNode extends PNode {
                 super.startDrag( event );
 
                 final boolean inContainer = model.get().isInContainer( slice );
-                System.out.println( "slice dragged, incontainer = " + inContainer + ", type = " + child.getClass() );
-
-                Vector2D newPosition = getNewPieceLocation( inContainer, denominator, child, slice );
-
+                Vector2D newPosition = getNewPieceLocation( inContainer, child, slice );
                 PieSet state = model.get();
 
                 //Do not allow the user to grab a piece that is animating to a target, it causes the representations to get out of sync
@@ -98,17 +95,8 @@ public class MovableSliceNode extends PNode {
     }
 
     //For water glasses, move the piece to a standard location instead of based on the location of the piece
-    //NOTE: this uses PhetPPath.class as the check to see if it is water glasses
-    private Vector2D getNewPieceLocation( final boolean inContainer, final int denominator, final PNode child, final Slice slice ) {
-        int delta = denominator == 1 ? 0 :
-                    denominator == 2 ? -50 :
-                    denominator == 3 ? -75 :
-                    denominator == 4 ? -75 :
-                    denominator == 5 ? 0 :
-                    denominator == 6 ? -75 :
-                    denominator == 7 ? -75 :
-                    denominator == 8 ? -75 :
-                    -100;
-        return inContainer && child.getClass().equals( PhetPPath.class ) ? Vector2D.v( slice.position.x - 20, 300 + delta ) : slice.position;
+    //Hack alert: this uses PhetPPath.class as the check to see if it is water glasses, see WaterGlassNodeFactory
+    private Vector2D getNewPieceLocation( final boolean inContainer, final PNode child, final Slice slice ) {
+        return inContainer && child.getClass().equals( PhetPPath.class ) ? Vector2D.v( slice.position.x - 20, 300 ) : slice.position;
     }
 }
