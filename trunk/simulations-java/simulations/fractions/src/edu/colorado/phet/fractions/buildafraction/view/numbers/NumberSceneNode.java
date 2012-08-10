@@ -39,7 +39,6 @@ import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.SceneContext;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
-import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
@@ -76,18 +75,9 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     private final List<List<Integer>> stacks;
 
     @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
-        super( soundEnabled );
+        super( soundEnabled, context );
         level = model.getNumberLevel( levelIndex );
         this.rootNode = rootNode;
-
-        final BackButton backButton = new BackButton( new VoidFunction0() {
-            public void apply() {
-                context.goToLevelSelectionScreen();
-            }
-        } ) {{
-            setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
-        }};
-        addChild( backButton );
 
         //Create the scoring cells with target patterns
         ArrayList<ScoreBoxPair> pairs = new ArrayList<ScoreBoxPair>();
