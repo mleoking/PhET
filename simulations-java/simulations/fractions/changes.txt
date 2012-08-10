@@ -1,3 +1,4 @@
+# 1.00.23 (66782) Aug 9, 2012
 Intro: Improved beaker offsets when dragging out of play area containers (again)
 Build a Fraction: Shapes: Randomly use pies or bars instead of preferring one for large denominators
 Build a Fraction: Shapes: Removed extra 1/2 pieces from level 4 when building halves
