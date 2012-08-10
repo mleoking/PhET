@@ -125,7 +125,10 @@ class AbstractLevelSelectionNode extends PNode {
 
         addChild( resetAllButton );
 
-        addChild( new HBox( 30, new BackButton( selectedPage._decrement(), selectedPage.greaterThan( 0 ) ), new CarouselDotComponent( selectedPage ), new ForwardButton( selectedPage._increment(), selectedPage.lessThan( 1 ) ) ) {{
+        addChild( new HBox( 30,
+                            new BackButton( selectedPage._decrement(), selectedPage.greaterThan( 0 ) ),
+                            new CarouselDotComponent( selectedPage ),
+                            new ForwardButton( selectedPage._increment(), selectedPage.lessThan( 1 ) ) ) {{
             setOffset( pageNodes.get( 0 ).getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, pageNodes.get( pageNodes.size() - 1 ).getFullBounds().getMaxY() + 20 );
         }} );
     }
