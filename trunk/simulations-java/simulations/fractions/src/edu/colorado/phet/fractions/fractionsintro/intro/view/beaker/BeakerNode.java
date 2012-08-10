@@ -39,7 +39,7 @@ public class BeakerNode extends PNode {
     private final BeakerImageNode beakerImageNode;
     private final LabelNode labelNode;
 
-    public BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont, double MINOR_TICK_SPACING, int MINOR_TICKS_PER_MAJOR_TICK, final BufferedImage image ) {
+    public BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont, double minorTickSpacing, int minorTicksPerMajorTick, final BufferedImage image ) {
 
         // the glass beaker
         beakerImageNode = new BeakerImageNode( image ) {{
@@ -63,12 +63,12 @@ public class BeakerNode extends PNode {
         // tick marks, arcs that wrap around the edge of the beaker's cylinder
         PComposite ticksNode = new PComposite();
         addChild( ticksNode );
-        int numberOfTicks = (int) Math.round( maxVolume / MINOR_TICK_SPACING );
+        int numberOfTicks = (int) Math.round( maxVolume / minorTickSpacing );
         final double bottomY = cylinderSize.getHeight(); // don't use bounds or position will be off because of stroke width
         double deltaY = cylinderSize.getHeight() / numberOfTicks;
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY ) - ( cylinderEndHeight / 2 );
-            if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
+            if ( i % minorTicksPerMajorTick == 0 ) {
                 // major tick, no label
                 PPath tickNode = new PPath( new Arc2D.Double( 0, y, cylinderSize.getWidth(), cylinderEndHeight, 195, 30, Arc2D.OPEN ) ) {{
                     setStroke( MAJOR_TICK_STROKE );

@@ -75,7 +75,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     private final Dimension2DDouble doubleDigitCardSize;
     private final List<List<Integer>> stacks;
 
-    @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
+    @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
         level = model.getNumberLevel( levelIndex );
         this.rootNode = rootNode;
@@ -244,7 +244,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             } );
         }};
         faceNodeDialog = new VBox( new FaceNode( 200 ), model.isLastLevel( levelIndex ) ? new PNode() : nextButton ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
+            setOffset( stageSize.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
         }};
 
         faceNodeDialog.setTransparency( 0 );

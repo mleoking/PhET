@@ -85,7 +85,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
     private final int layoutXOffset;
     private final ShapeLevel level;
 
-    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
+    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
         this.level = model.getShapeLevel( levelIndex );
         spacing = level.shapeType == ShapeType.BAR ? 140 : 120;
@@ -209,7 +209,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
             final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
                 final int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
                 setInitialState( layoutXOffset + INSET + 20 + delta * sign + finalGroupIndex * spacing,
-                                 STAGE_SIZE.height - INSET - toolboxHeight + 20 + delta, TINY_SCALE );
+                                 stageSize.height - INSET - toolboxHeight + 20 + delta, TINY_SCALE );
             }};
             addChild( containerNode );
         }
@@ -237,7 +237,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
             } );
         }};
         faceNodeDialog = new VBox( new FaceNode( 200 ), model.isLastLevel( levelIndex ) ? new PNode() : nextButton ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
+            setOffset( stageSize.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
         }};
 
         faceNodeDialog.setTransparency( 0 );
