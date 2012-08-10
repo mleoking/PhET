@@ -64,7 +64,7 @@ public class NumberScoreBoxNode extends PNode {
 
             fractionGraphic.setScale( 1.0 );
             fractionGraphic.splitButton.setVisible( true );
-            FractionCardNode cardNode = new FractionCardNode( fractionGraphic, numberSceneNode.pairList, numberSceneNode );
+            FractionCardNode cardNode = new FractionCardNode( fractionGraphic, numberSceneNode.pairs, numberSceneNode );
             numberSceneNode.addChild( cardNode );
 
             fractionGraphic = null;

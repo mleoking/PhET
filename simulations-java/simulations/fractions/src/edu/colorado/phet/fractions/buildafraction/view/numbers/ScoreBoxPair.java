@@ -12,5 +12,5 @@ import edu.umd.cs.piccolo.PNode;
  */
 public @Data class ScoreBoxPair {
     public final NumberScoreBoxNode targetCell;
-    public final PNode patternNode;
+    public final PNode node;
 }
