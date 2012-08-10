@@ -90,6 +90,4 @@ public class WaterGlassNode extends RichPNode {
         waterBeakerBackgroundNode.setPickable( true );
         waterBeakerBackgroundNode.setChildrenPickable( true );
     }
-
-
 }
