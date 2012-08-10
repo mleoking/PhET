@@ -1,3 +1,4 @@
+Build a Fraction: Moved left/right level selection page buttons to the bottom and added dots for indicator of current page
 # 1.00.25 (66789) Aug 9, 2012
 Build a Fraction: Shapes: Prevent pieces from being dropped into a container in a collection box
 Build a Fraction: Shapes: Keep resampling levels until they match our constraints, such as not having too many stacks or too many cards.

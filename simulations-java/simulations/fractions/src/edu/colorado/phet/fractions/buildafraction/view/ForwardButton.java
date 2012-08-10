@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
@@ -16,10 +18,14 @@ import static edu.colorado.phet.fractions.common.view.BackButton.rescale;
  */
 class ForwardButton extends PNode {
     public ForwardButton( final VoidFunction0 pressed ) {
+        this( pressed, new Property<Boolean>( true ) );
+    }
+
+    public ForwardButton( final VoidFunction0 pressed, ObservableProperty<Boolean> enabled ) {
         addChild( new SpinnerButtonNode( rescale( RIGHT_BUTTON_UP ), rescale( RIGHT_BUTTON_PRESSED ), rescale( RIGHT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
             public void apply( final Boolean spinning ) {
                 pressed.apply();
             }
-        } ) );
+        }, enabled ) );
     }
 }
