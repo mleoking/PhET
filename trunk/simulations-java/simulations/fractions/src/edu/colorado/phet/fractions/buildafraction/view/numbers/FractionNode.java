@@ -146,7 +146,7 @@ public class FractionNode extends RichPNode {
             topCard.setPickable( true );
             topCard.setChildrenPickable( true );
 
-            topCard.moveToTopOfStack();
+            topCard.animateToTopOfStack();
             topCard = null;
             topNumberNode = null;
         }
@@ -165,7 +165,7 @@ public class FractionNode extends RichPNode {
             bottomCard.setPickable( true );
             bottomCard.setChildrenPickable( true );
 
-            bottomCard.moveToTopOfStack();
+            bottomCard.animateToTopOfStack();
             bottomCard = null;
             bottomNumberNode = null;
         }

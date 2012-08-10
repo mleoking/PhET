@@ -273,7 +273,7 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
 
         //If it didn't hit a fraction, send back to its starting place--the user is not allowed to have free floating numbers in the play area
         if ( !hitFraction ) {
-            numberCardNode.moveToTopOfStack();
+            numberCardNode.animateToTopOfStack();
         }
     }
 

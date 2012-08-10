@@ -196,7 +196,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
             containerNode.resetNumberOfContainers();
         }
         for ( PieceNode piece : getPieceNodes() ) {
-            piece.moveToTopOfStack();
+            piece.animateToTopOfStack();
         }
         level.filledTargets.reset();
     }
@@ -316,7 +316,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
 
         //If didn't intersect a container, see if it should go back to the toolbox
         if ( !droppedInto ) {
-            piece.moveToTopOfStack();
+            piece.animateToTopOfStack();
         }
     }
 
@@ -430,7 +430,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
         piece.setGlobalTranslation( offset );
         piece.setPickable( true );
         piece.setChildrenPickable( true );
-        piece.moveToTopOfStack();
+        piece.animateToTopOfStack();
     }
 
     private List<ContainerNode> getContainerNodes() {
