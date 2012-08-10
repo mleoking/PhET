@@ -42,13 +42,11 @@ import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.RefreshButtonNode.BUTTON_COLOR;
 import static fj.Ord.doubleOrd;
-import static fj.data.List.iterableList;
 import static fj.data.Option.some;
 import static java.awt.Color.darkGray;
 
@@ -57,10 +55,9 @@ import static java.awt.Color.darkGray;
  *
  * @author Sam Reid
  */
-public class NumberSceneNode extends SceneNode implements NumberDragContext, FractionDraggingContext, StackContext<NumberCardNode> {
+public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDragContext, FractionDraggingContext, StackContext<NumberCardNode> {
     private final ArrayList<FractionNode> fractionNodes = new ArrayList<FractionNode>();
     private final PNode rootNode;
-    public final List<ScoreBoxPair> pairs;
     private final RichPNode toolboxNode;
     private final VBox faceNodeDialog;
 
@@ -112,39 +109,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             _pairs.add( new ScoreBoxPair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator,
                                                                   this ), new ZeroOffsetNode( patternNode ) ) );
         }
-        this.pairs = iterableList( _pairs );
-
-        List<PNode> patterns = this.pairs.map( new F<ScoreBoxPair, PNode>() {
-            @Override public PNode f( final ScoreBoxPair pair ) {
-                return pair.node;
-            }
-        } );
-        double maxWidth = patterns.map( new F<PNode, Double>() {
-            @Override public Double f( final PNode pNode ) {
-                return pNode.getFullBounds().getWidth();
-            }
-        } ).maximum( doubleOrd );
-        double maxHeight = patterns.map( new F<PNode, Double>() {
-            @Override public Double f( final PNode pNode ) {
-                return pNode.getFullBounds().getHeight();
-            }
-        } ).maximum( doubleOrd );
-
-        //Layout for the scoring cells and target patterns
-        double separation = 5;
-        double rightInset = 10;
-        final PBounds targetCellBounds = pairs.head().getTargetCell().getFullBounds();
-        double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
-        double offsetY = INSET;
-        for ( ScoreBoxPair pair : pairs ) {
-
-            pair.targetCell.setOffset( offsetX, offsetY );
-            pair.node.setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
-            addChild( pair.targetCell );
-            addChild( pair.node );
-
-            offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
-        }
+        init( insetY, _pairs );
 
         //Add a piece container toolbox the user can use to get containers
         //Put numbers on cards so you can see how many there are in a stack

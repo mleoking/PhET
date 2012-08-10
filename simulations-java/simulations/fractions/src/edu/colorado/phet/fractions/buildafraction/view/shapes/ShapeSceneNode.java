@@ -47,7 +47,6 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.FractionNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerNode._getSingleContainerNodes;
@@ -70,8 +69,7 @@ import static fj.function.Booleans.not;
  *
  * @author Sam Reid
  */
-public class ShapeSceneNode extends SceneNode implements ContainerContext, PieceContext, StackContext<PieceNode> {
-    private final List<ScoreBoxPair> pairs;
+public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements ContainerContext, PieceContext, StackContext<PieceNode> {
     private final RichPNode toolboxNode;
     private final VBox faceNodeDialog;
 
@@ -110,39 +108,7 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
                     level.targets.maximum( ord( _toDouble ) ) );
             _pairs.add( new ScoreBoxPair( cell, new ZeroOffsetNode( f ), target ) );
         }
-        this.pairs = iterableList( _pairs );
-
-        List<PNode> patterns = this.pairs.map( new F<ScoreBoxPair, PNode>() {
-            @Override public PNode f( final ScoreBoxPair pair ) {
-                return pair.node;
-            }
-        } );
-        double maxWidth = patterns.map( new F<PNode, Double>() {
-            @Override public Double f( final PNode pNode ) {
-                return pNode.getFullBounds().getWidth();
-            }
-        } ).maximum( doubleOrd );
-        double maxHeight = patterns.map( new F<PNode, Double>() {
-            @Override public Double f( final PNode pNode ) {
-                return pNode.getFullBounds().getHeight();
-            }
-        } ).maximum( doubleOrd );
-
-        //Layout for the scoring cells and target patterns
-        double separation = 5;
-        double rightInset = 10;
-        final PBounds targetCellBounds = pairs.head().getTargetCell().getFullBounds();
-        double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
-        double offsetY = INSET;
-        for ( ScoreBoxPair pair : pairs ) {
-
-            pair.targetCell.setOffset( offsetX, offsetY );
-            pair.node.setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
-            addChild( pair.targetCell );
-            addChild( pair.node );
-
-            offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
-        }
+        init( insetY, _pairs );
 
         ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
             setInitialPosition( 285, 200 );
