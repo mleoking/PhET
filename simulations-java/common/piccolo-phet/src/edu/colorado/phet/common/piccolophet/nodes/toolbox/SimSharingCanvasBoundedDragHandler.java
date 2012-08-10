@@ -5,32 +5,44 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Used by draggable instances so that when they are dragged about the play area they are constrained to remain within the region of the canvas.
+ * This is a copy of CanvasBoundedDragHandler that extends SimSharingDragHandler.
  *
  * @author Sam Reid
- * @deprecated Use SimSharingCanvasBoundedDragHandler instead
  */
-public abstract class CanvasBoundedDragHandler extends PBasicInputEventHandler {
+public abstract class SimSharingCanvasBoundedDragHandler extends SimSharingDragHandler {
     private Point2D lastLocation;
     private PNode node;
 
-    public CanvasBoundedDragHandler( PNode node ) {
+    public SimSharingCanvasBoundedDragHandler( IUserComponent userComponent, PNode node ) {
+        this( userComponent, node, true );
+    }
+
+    public SimSharingCanvasBoundedDragHandler( IUserComponent userComponent, PNode node, boolean sendMessages ) {
+        super( userComponent, sendMessages );
         this.node = node;
     }
 
-    //Create a handler and start a drag sequence (useful when dragging from a toolbox)
-    public CanvasBoundedDragHandler( PNode node, PInputEvent event ) {
-        this( node );
-        mousePressed( event );
+    public SimSharingCanvasBoundedDragHandler( IUserComponent userComponent, IUserComponentType componentType, PNode node ) {
+        super( userComponent, componentType );
+        this.node = node;
+    }
+
+    public SimSharingCanvasBoundedDragHandler( IUserComponent userComponent, IUserComponentType componentType, PNode node, final boolean sendDragMessages ) {
+        super( userComponent, componentType, sendDragMessages );
+        this.node = node;
     }
 
     public void mousePressed( PInputEvent event ) {
+        super.mousePressed( event );
         //Compute the initial state so that the node can be moved to locations through deltas only (since that is its interface)
         Point2D viewStartingPoint = event.getPositionRelativeTo( node.getParent().getParent() );//Not sure why getParent.getParent is the best coordinate frame, but it works and is consistent (just using node causes failures from node not being on pickpath)
         viewStartingPoint = node.getParent().getParent().localToGlobal( viewStartingPoint );
@@ -39,6 +51,7 @@ public abstract class CanvasBoundedDragHandler extends PBasicInputEventHandler {
 
     //Drag the node to the constrained location
     public void mouseDragged( final PInputEvent event ) {
+        super.mouseDragged( event );
         //Some clients such as the LaserNode only pass messages through the mouseDragged function,
         //so check first and see if we need to get the initial location
         if ( lastLocation == null ) {
@@ -70,6 +83,7 @@ public abstract class CanvasBoundedDragHandler extends PBasicInputEventHandler {
 
     //Forget the relative drag location for the next drag sequence
     public void mouseReleased( PInputEvent event ) {
+        super.mouseReleased( event );
         lastLocation = null;
     }
 }
