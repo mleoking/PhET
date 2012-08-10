@@ -72,6 +72,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }
 
         //For water glasses
+        //REVIEW: Doc - why is this construction different from the others?
         final Rectangle2D b = model.factorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().getShape().getBounds2D();
         addChild( new RepresentationNode( model.representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, Colors.CUP_COLOR, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
 
