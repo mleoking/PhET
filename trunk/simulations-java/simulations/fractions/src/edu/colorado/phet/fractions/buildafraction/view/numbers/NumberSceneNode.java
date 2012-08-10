@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -18,17 +17,10 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
-import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
@@ -38,14 +30,11 @@ import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.SceneContext;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
-import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
-import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
-import static edu.colorado.phet.fractions.common.view.RefreshButtonNode.BUTTON_COLOR;
 import static fj.Ord.doubleOrd;
 import static fj.data.Option.some;
 import static java.awt.Color.darkGray;
@@ -59,7 +48,6 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
     private final ArrayList<FractionNode> fractionNodes = new ArrayList<FractionNode>();
     private final PNode rootNode;
     private final RichPNode toolboxNode;
-    private final VBox faceNodeDialog;
 
     //When sending cards back to the toolbox, make sure they have the right location and z-order.
     private final ArrayList<Stack> stackList;
@@ -199,43 +187,7 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
         fractionNode.setOffset( toolboxNode.getCenterX() - fractionNode.getFullBounds().getWidth() / 2, 300 );
         fractionNode.moveInFrontOf( toolboxNode );
 
-        final HTMLImageButtonNode nextButton = new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), BUTTON_COLOR ) {{
-            setUserComponent( Components.nextButton );
-            addActionListener( goToNextLevel );
-        }};
-        faceNodeDialog = new VBox( new FaceNode( 200 ), model.isLastLevel( levelIndex ) ? new PNode() : nextButton ) {{
-            setOffset( stageSize.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
-        }};
-
-        faceNodeDialog.setTransparency( 0 );
-        faceNodeDialog.setVisible( false );
-        faceNodeDialog.setPickable( false );
-        faceNodeDialog.setChildrenPickable( false );
-
-        addChild( faceNodeDialog );
-
-        double minScoreCellX = pairs.map( new F<ScoreBoxPair, Double>() {
-            @Override public Double f( final ScoreBoxPair target ) {
-                return target.targetCell.getFullBounds().getMinX();
-            }
-        } ).minimum( doubleOrd );
-        final PhetPText levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
-        levelReadoutTitle.setOffset( ( minScoreCellX - INSET ) / 2 - levelReadoutTitle.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
-        addChild( levelReadoutTitle );
-
-        final TextButtonNode resetButton = new TextButtonNode( Strings.RESET, AbstractFractionsCanvas.CONTROL_FONT, BUTTON_COLOR ) {{
-            setUserComponent( Components.resetButton );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( final ActionEvent e ) {
-                    reset();
-                }
-            } );
-        }};
-        final RefreshButtonNode refreshButton = new RefreshButtonNode( _resampleLevel );
-
-        addChild( new HBox( resetButton, refreshButton ) {{
-            setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, levelReadoutTitle.getMaxY() + INSET );
-        }} );
+        finishInit( levelIndex, model, stageSize, goToNextLevel, _resampleLevel );
     }
 
     //Find the max size of each number node, so we can create a consistent card size
@@ -265,7 +217,7 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
         return new Dimension2DDouble( maxNumberNodeWidth + 22, maxNumberNodeHeight );
     }
 
-    private void reset() {
+    protected void reset() {
         Property<Boolean> sentOneToPlayArea = new Property<Boolean>( false );
         //Order is important, have to reset score boxes first or the fractions in the score box will be split and cause exceptions
         resetScoreBoxes( sentOneToPlayArea );
