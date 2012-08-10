@@ -112,7 +112,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
                     }
                 } );
             }
-        }, new DisablePickingWhileAnimating( currentScene ) ) );
+        }, new DisablePickingWhileAnimating( currentScene, true ) ) );
         node.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
         currentScene = node;
     }

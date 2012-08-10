@@ -6,19 +6,17 @@ import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 
 /**
- * Makes it so a node cannot be disabled while picking.
+ * Makes it so a node cannot be picked while animating, that causes glitchy looking problems and makes nodes end up in the wrong place.
  *
  * @author Sam Reid
  */
 public class DisablePickingWhileAnimating implements PActivityDelegate {
     private final PNode node;
-    private boolean pickable;
-    private boolean childrenPickable;
+    private final boolean pickableAfterActivityFinished;
 
-    public DisablePickingWhileAnimating( final PNode node ) {
+    public DisablePickingWhileAnimating( final PNode node, final boolean pickableAfterActivityFinished ) {
         this.node = node;
-        pickable = node.getPickable();
-        childrenPickable = node.getChildrenPickable();
+        this.pickableAfterActivityFinished = pickableAfterActivityFinished;
     }
 
     @Override public void activityStarted( final PActivity activity ) {
@@ -27,10 +25,12 @@ public class DisablePickingWhileAnimating implements PActivityDelegate {
     }
 
     @Override public void activityStepped( final PActivity activity ) {
+        node.setPickable( false );
+        node.setChildrenPickable( false );
     }
 
     @Override public void activityFinished( final PActivity activity ) {
-        node.setPickable( pickable );
-        node.setChildrenPickable( childrenPickable );
+        node.setPickable( pickableAfterActivityFinished );
+        node.setChildrenPickable( pickableAfterActivityFinished );
     }
 }

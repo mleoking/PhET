@@ -328,7 +328,7 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
                     }
                 }
                 if ( node != null ) {
-                    node.animateToPositionScaleRotation( toolboxNode.getCenterX() - fractionCardNode.fractionNode.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 ).setDelegate( new DisablePickingWhileAnimating( node ) );
+                    node.animateToPositionScaleRotation( toolboxNode.getCenterX() - fractionCardNode.fractionNode.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 ).setDelegate( new DisablePickingWhileAnimating( node, true ) );
                 }
             }
         }
