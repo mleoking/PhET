@@ -12,24 +12,21 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.sprite;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.fractionCard;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys.denominator;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys.numerator;
@@ -64,23 +61,17 @@ class FractionCardNode extends RichPNode {
                                                        Color.white, new BasicStroke( 1 ), Color.black );
         cardShapeNode.addInputEventListener( new CursorHandler() );
 
-        cardShapeNode.addInputEventListener( new CanvasBoundedDragHandler( FractionCardNode.this ) {
-            @Override public void mousePressed( final PInputEvent event ) {
-                sendUserMessage( chain( fractionCard, FractionCardNode.this.hashCode() ), sprite, pressed, parameterSet( numerator, fractionNode.getTopNumberNode().number ).
-                        with( denominator, fractionNode.getBottomNumberNode().number ) );
-                super.mousePressed( event );
+        cardShapeNode.addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( fractionCard, FractionCardNode.this.hashCode() ), FractionCardNode.this ) {
+            @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
+                return super.getParametersForAllEvents( event ).with( numerator, fractionNode.getTopNumberNode().number ).with( denominator, fractionNode.getBottomNumberNode().number );
             }
 
             @Override protected void dragNode( final DragEvent event ) {
-                sendUserMessage( chain( fractionCard, FractionCardNode.this.hashCode() ), sprite, drag, parameterSet( numerator, fractionNode.getTopNumberNode().number ).
-                        with( denominator, fractionNode.getBottomNumberNode().number ) );
                 moveToFront();
                 translate( event.delta.width, event.delta.height );
             }
 
             @Override public void mouseReleased( final PInputEvent event ) {
-                sendUserMessage( chain( fractionCard, FractionCardNode.this.hashCode() ), sprite, released, parameterSet( numerator, fractionNode.getTopNumberNode().number ).
-                        with( denominator, fractionNode.getBottomNumberNode().number ) );
                 super.mouseReleased( event );
 
                 //Snap to a scoring cell or go back to the play area.

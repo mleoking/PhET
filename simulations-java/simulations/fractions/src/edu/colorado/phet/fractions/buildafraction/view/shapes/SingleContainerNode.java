@@ -18,8 +18,8 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode.DropLocation;
 import edu.colorado.phet.fractions.common.math.Fraction;
@@ -28,10 +28,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.sprite;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType.BAR;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.circleDiameter;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceNode._toFraction;
@@ -84,21 +81,18 @@ class SingleContainerNode extends PNode {
             addChild( new PhetPPath( shapeType == BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight )
                                                       : new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), Color.white, new BasicStroke( 2 ), Color.black ) );
 
-            addInputEventListener( new CanvasBoundedDragHandler( SingleContainerNode.this ) {
+            addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( container, parent.hashCode() ), SingleContainerNode.this ) {
                 @Override public void mousePressed( final PInputEvent event ) {
-                    sendUserMessage( chain( container, parent.hashCode() ), sprite, pressed );
                     super.mousePressed( event );
                     parent.moveToFront();
                     addActivity( new AnimateToScale( parent, 200 ) );
                 }
 
                 @Override protected void dragNode( final DragEvent event ) {
-                    sendUserMessage( chain( container, parent.hashCode() ), sprite, drag );
                     parent.translate( event.delta.width, event.delta.height );
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
-                    sendUserMessage( chain( container, parent.hashCode() ), sprite, released );
                     super.mouseReleased( event );
                     parent.context.endDrag( parent );
                 }
