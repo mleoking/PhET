@@ -141,11 +141,7 @@ public class MessengerRna extends WindingBiomolecule {
         ShapeSegment segmentToAdvance = mapRibosomeToShapeSegment.get( ribosome );
 
         // Error checking.
-        if ( segmentToAdvance == null ) {
-            // REVIEW: maybe this should be an assert statement?
-            System.out.println( getClass().getName() + " - Warning: Attempt to advance translation by a ribosome that isn't attached." );
-            return true;
-        }
+        assert segmentToAdvance != null; // Should never happen, since it means that the ribosome isn't attached.
 
         // Advance the translation by advancing the position of the mRNA in the
         // segment that corresponds to the translation channel of the ribosome.
@@ -351,11 +347,7 @@ public class MessengerRna extends WindingBiomolecule {
      * @return
      */
     public double getProportionOfRnaTranslated( Ribosome ribosome ) {
-        if ( !mapRibosomeToShapeSegment.containsKey( ribosome ) ) {
-            // REVIEW: assert here instead?
-            System.out.println( getClass().getName() + " - Warning: Attempt to obtain amount of mRNA translated by a ribosome that isn't attached." );
-            return 0;
-        }
+        assert mapRibosomeToShapeSegment.containsKey( ribosome ); // Makes no sense if ribosome isn't attached.
 
         double translatedLength = 0;
 
