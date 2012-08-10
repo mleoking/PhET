@@ -1,3 +1,4 @@
+Build a Fraction: Go back to page with levels 1-5 on "reset all"
 Build a Fraction: Fixed: "Next" button in a numbers level goes to a shapes level
 # 1.00.26 (66795) Aug 10, 2012
 Build a Fraction: Shapes: Make container non-draggable while piece is animating into it, otherwise the piece will end up in the wrong location.
