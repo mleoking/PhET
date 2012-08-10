@@ -1,3 +1,4 @@
+8/10/12 Added SimSharingCanvasBoundedDragHandler and deprecated CanvasBoundedDragHandler
 8/7/12 Fixed: PhetPPath causes exception if constructor called with null shape
 7/16/12 add PhetPCanvas.getWorldBounds
 6/25/12 Reduced ToggleButtonNode stroke to make buttons look crisper.  Usages only appear in Fractions intro application
