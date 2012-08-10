@@ -14,11 +14,12 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
+import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
+import edu.colorado.phet.fractions.buildafraction.view.UpdateAnimatingFlag;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
-import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
@@ -123,21 +124,23 @@ public abstract class PieceNode extends Stackable {
     @SuppressWarnings("unchecked") public void animateToTopOfStack() { stack.animateToTopOfStack( this ); }
 
     //Show drop shadow when moving back to toolbox
-    public PTransformActivity animateTo( Vector2D v ) {
-        PTransformActivity a = super.animateTo( v );
-        a.setDelegate( new CompositeDelegate( a.getDelegate(), new PActivityDelegate() {
-            public void activityStarted( final PActivity activity ) {
-                showShadow();
-            }
+    public void animateToStackLocation( Vector2D v ) {
+        animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, BuildAFractionModule.ANIMATION_TIME ).
+                setDelegate(
+                        new CompositeDelegate( new DisablePickingWhileAnimating( this, true ),
+                                               new PActivityDelegate() {
+                                                   public void activityStarted( final PActivity activity ) {
+                                                       showShadow();
+                                                   }
 
-            public void activityStepped( final PActivity activity ) {
-            }
+                                                   public void activityStepped( final PActivity activity ) {
+                                                   }
 
-            public void activityFinished( final PActivity activity ) {
-                hideShadow();
-            }
-        } ) );
-        return a;
+                                                   public void activityFinished( final PActivity activity ) {
+                                                       hideShadow();
+                                                   }
+                                               },
+                                               new UpdateAnimatingFlag( animating ) ) );
     }
 
     protected abstract void hideShadow();

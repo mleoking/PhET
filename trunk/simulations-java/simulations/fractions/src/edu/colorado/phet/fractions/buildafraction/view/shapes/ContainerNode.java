@@ -133,7 +133,7 @@ public class ContainerNode extends PNode {
         child.setOffset( containerLayer.getFullBounds().getMaxX() + INSET, containerLayer.getFullBounds().getY() );
         child.setTransparency( 0 );
         containerLayer.addChild( child );
-        increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( increaseDecreaseButton ) );
+        increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( increaseDecreaseButton, true ) );
         if ( getSingleContainerNodes().length() >= 2 ) {
             increaseDecreaseButton.hideIncreaseButton();
         }
@@ -149,7 +149,7 @@ public class ContainerNode extends PNode {
                 child.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
                 context.containerAdded( ContainerNode.this );
             }
-        }, new DisablePickingWhileAnimating( child ) ) );
+        }, new DisablePickingWhileAnimating( child, true ) ) );
     }
 
     //When the user presses a "-" button to remove a container from a group, any pieces in the container should go back to the toolbox
@@ -172,7 +172,7 @@ public class ContainerNode extends PNode {
             public void activityFinished( final PActivity activity ) {
                 containerLayer.removeChild( last );
                 final SingleContainerNode child = getSingleContainerNodes().last();
-                increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( increaseDecreaseButton ) );
+                increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( increaseDecreaseButton, true ) );
 
                 if ( getSingleContainerNodes().length() <= 1 ) {
                     increaseDecreaseButton.hideDecreaseButton();
@@ -228,7 +228,7 @@ public class ContainerNode extends PNode {
     }
 
     public void animateHome() {
-        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( this ) );
+        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( this, true ) );
         leftSpinner.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
         rightSpinner.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
     }

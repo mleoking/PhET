@@ -14,8 +14,8 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
+import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
-import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.value;
@@ -61,8 +61,8 @@ public class NumberCardNode extends Stackable {
         addInputEventListener( new CursorHandler() );
     }
 
-    public PTransformActivity animateTo( Vector2D v ) {
-        return animateToPositionScaleRotation( v.x, v.y, 1, 0, 400 );
+    public void animateToStackLocation( Vector2D v ) {
+        animateToPositionScaleRotation( v.x, v.y, 1, 0, 400 ).setDelegate( new DisablePickingWhileAnimating( this, true ) );
     }
 
     public void setCardShapeVisible( boolean visible ) { cardShape.setVisible( visible ); }

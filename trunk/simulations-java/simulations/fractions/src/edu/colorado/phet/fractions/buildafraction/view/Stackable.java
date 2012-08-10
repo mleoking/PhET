@@ -7,8 +7,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.activities.PTransformActivity;
 
 /**
  * Base class for something that is stackable (such as number cards or shape pieces).
@@ -18,10 +18,17 @@ import edu.umd.cs.piccolo.activities.PTransformActivity;
 public abstract class Stackable<T extends Stackable> extends PNode {
     private Option<Integer> positionInStack = Option.none();
     protected Stack<T> stack;
+    public final BooleanProperty animating = new BooleanProperty( false );
 
     public void setAllPickable( boolean pickable ) {
-        setPickable( pickable );
-        setChildrenPickable( pickable );
+
+        //Don't make something animating pickable, see DisablePickingWhileAnimating
+        if ( pickable && animating.get() ) {
+        }
+        else {
+            setPickable( pickable );
+            setChildrenPickable( pickable );
+        }
     }
 
     public Option<Integer> getPositionInStack() {
@@ -32,11 +39,7 @@ public abstract class Stackable<T extends Stackable> extends PNode {
         this.positionInStack = positionInStack;
     }
 
-    public PTransformActivity animateTo( Vector2D v ) {
-        final PTransformActivity activity = animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, 400 );
-        activity.setDelegate( new DisablePickingWhileAnimating( this ) );
-        return activity;
-    }
+    public abstract void animateToStackLocation( Vector2D v );
 
     protected double getAnimateToScale() {
         return 1.0;

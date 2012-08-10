@@ -234,7 +234,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
                 //Order dependence: set in target cell first so that layout code will work better afterwards
                 containerNode.setInTargetCell( true, pair.value.denominator );
                 containerNode.animateToPositionScaleRotation( pair.targetCell.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
-                                                              pair.targetCell.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode ) );
+                                                              pair.targetCell.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, false ) );
                 pair.targetCell.setCompletedFraction( containerNode );
                 containerNode.setAllPickable( false );
 
@@ -296,7 +296,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
 
     private void animateToCenterScreen( final ContainerNode containerNode ) {
         Vector2D offset = level.shapeType == ShapeType.BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
-        containerNode.animateToPositionScaleRotation( toolboxNode.getCenterX() - containerNode.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode ) );
+        containerNode.animateToPositionScaleRotation( toolboxNode.getCenterX() - containerNode.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
     }
 
     public void endDrag( final PieceNode piece ) {
@@ -397,7 +397,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
                 container.addPiece( piece );
                 syncModelFractions();
             }
-        }, new DisablePickingWhileAnimating( piece ) ) );
+        }, new DisablePickingWhileAnimating( piece, false ) ) );
     }
 
     public void syncModelFractions() {
@@ -418,7 +418,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
         if ( overlap > 0 ) {
             double amountToMoveLeft = 20 + overlap;
             containerNode.animateToPositionScaleRotation( containerNode.getXOffset() - amountToMoveLeft, containerNode.getYOffset(), containerNode.getScale(), containerNode.getRotation(), BuildAFractionModule.ANIMATION_TIME ).
-                    setDelegate( new DisablePickingWhileAnimating( containerNode ) );
+                    setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
         }
     }
 

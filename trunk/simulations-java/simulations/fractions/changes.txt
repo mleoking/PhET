@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Makes it so a node cannot be picked while animating, that causes glitchy looking problems and makes nodes end up in the wrong place
 Build a Fraction: Shapes: Fixed: When a level first opens, if you double click the container in the play area, another one flies out.
 Build a Fraction: Increased font on carousel dot labels, and increased spacing between dots
 # 1.00.27 (66819) Aug 10, 2012

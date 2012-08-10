@@ -86,7 +86,7 @@ public @Data class Stack<T extends Stackable> {
         for ( Integer site : sites ) {
             if ( !hasCardAtSite( site ) ) {
                 cardNode.setPositionInStack( Option.some( site ) );
-                cardNode.animateTo( getLocation( site, cardNode ) );
+                cardNode.animateToStackLocation( getLocation( site, cardNode ) );
                 cardNode.moveToFront();
                 break;
             }
