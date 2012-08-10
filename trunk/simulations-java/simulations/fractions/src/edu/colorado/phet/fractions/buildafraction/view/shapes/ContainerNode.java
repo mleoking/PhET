@@ -150,8 +150,15 @@ public class ContainerNode extends PNode {
         } );
     }
 
+    //When the user presses a "-" button to remove a container from a group, any pieces in the container should go back to the toolbox
     private void removeContainer() {
+
+        //Container to be removed
         final SingleContainerNode last = getSingleContainerNodes().last();
+
+        //if any pieces were in the container, send them back to the toolbox.
+        last.splitAll();
+
         PActivity activity = last.animateToTransparency( 0, 200 );
         activity.setDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
