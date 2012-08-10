@@ -72,5 +72,5 @@ public class NumberCardNode extends Stackable {
         numberNode.setOffset( cardShape.getCenterX() - numberNode.getFullWidth() / 2, cardShape.getCenterY() - numberNode.getFullHeight() / 2 );
     }
 
-    @SuppressWarnings("unchecked") public void moveToTopOfStack() { stack.moveToTopOfStack( this ); }
+    @SuppressWarnings("unchecked") public void animateToTopOfStack() { stack.animateToTopOfStack( this ); }
 }

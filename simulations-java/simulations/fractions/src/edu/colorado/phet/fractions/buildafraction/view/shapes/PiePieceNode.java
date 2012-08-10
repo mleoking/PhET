@@ -121,8 +121,8 @@ public class PiePieceNode extends PieceNode {
         this.pieceRotation = angle;
     }
 
-    @Override public void moveToTopOfStack() {
+    @Override public void animateToTopOfStack() {
         animateToAngle( 0 );
-        super.moveToTopOfStack();
+        super.animateToTopOfStack();
     }
 }
