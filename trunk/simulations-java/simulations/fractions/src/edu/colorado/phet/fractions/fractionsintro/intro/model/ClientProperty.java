@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Generic property of the model, this provides an Property interface to observing and interacting with the model.
+ * Generic property of the model, this provides a Property interface to observing and interacting with the model.
  *
  * @author Sam Reid
  */
