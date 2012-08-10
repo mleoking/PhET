@@ -22,9 +22,7 @@ public class Sampling {
     private static final Random random = new Random();
 
     public static <T> T chooseOne( final List<T> list ) {
-        System.out.println( "calling choose one for a list with " + list.length() + " members." );
-        final int index = random.nextInt( list.length() );
-        return list.index( index );
+        return list.index( random.nextInt( list.length() ) );
     }
 
     //Chooses 2 different values (i.e. without replacement)
