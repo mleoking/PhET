@@ -82,6 +82,7 @@ public class FractionsIntroModel implements Serializable {
                         }
                     } );
 
+                    //REVIEW: Seems odd to have this here.  Can't it be a part of stepInTime for the cake set?
                     //Fix the z-ordering for cake slices
                     state.set( newState.cakeSet( CakeSliceFactory.sort( newState.cakeSet ) ) );
                 }
@@ -213,7 +214,9 @@ public class FractionsIntroModel implements Serializable {
         } );
     }
 
-    @SuppressWarnings("unchecked") private F<IntroState, IntroState> evaluate( final F<IntroState, IntroState> f ) { return recordRegressionData ? RegressionTestRecorder.record( f ) : f; }
+    @SuppressWarnings("unchecked") private F<IntroState, IntroState> evaluate( final F<IntroState, IntroState> f ) {
+        return recordRegressionData ? RegressionTestRecorder.record( f ) : f;
+    }
 
     public void resetAll() { state.set( initialState ); }
 
