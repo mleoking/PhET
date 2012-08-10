@@ -38,7 +38,7 @@ class CarouselDotComponent extends PNode {
     }
 
     private PhetPText text( final String s, final IntegerProperty selectedPage, final int index ) {
-        return new PhetPText( s, SettingsOnOffPanel.font ) {{
+        return new PhetPText( s, SettingsOnOffPanel.FONT ) {{
             selectedPage.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer integer ) {
                     setTextPaint( integer == index ? Color.black : Color.gray );
