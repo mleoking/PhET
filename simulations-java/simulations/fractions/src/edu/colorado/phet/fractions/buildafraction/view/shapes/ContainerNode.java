@@ -145,6 +145,7 @@ public class ContainerNode extends PNode {
 
             public void activityFinished( final PActivity activity ) {
                 child.animateToTransparency( 1, 200 );
+                context.containerAdded( ContainerNode.this );
             }
         } );
     }
