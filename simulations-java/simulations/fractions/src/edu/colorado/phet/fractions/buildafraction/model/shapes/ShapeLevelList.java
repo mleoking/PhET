@@ -129,21 +129,20 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
    So I would remove the "wholes" from the shapes pile.
     */
     private ShapeLevel level2( final boolean pies ) {
-        List<Fraction> targets = list( fraction( 1, 2 ),
-                                       fraction( 1, 3 ),
-                                       fraction( 1, 4 ),
-                                       fraction( 1, 5 ),
-                                       fraction( 2, 3 ),
-                                       fraction( 2, 4 ),
-                                       fraction( 2, 5 ),
-                                       fraction( 3, 4 ),
-                                       fraction( 3, 5 ),
-                                       fraction( 4, 5 ) );
-
-        List<Fraction> selected = choose( 3, targets );
+        List<Fraction> targets = choose( 3, list( fraction( 1, 2 ),
+                                                  fraction( 1, 3 ),
+                                                  fraction( 1, 4 ),
+                                                  fraction( 1, 5 ),
+                                                  fraction( 2, 3 ),
+                                                  fraction( 2, 4 ),
+                                                  fraction( 2, 5 ),
+                                                  fraction( 3, 4 ),
+                                                  fraction( 3, 5 ),
+                                                  fraction( 4, 5 ) ) );
 
         //Use same number for each card type
-        return shapeLevel( straightforwardCards( selected ), selected, colors[1], booleanToShape( pies ) );
+        //Lets add a few extra pieces so that at least one of the targets has the option of being completed differently.
+        return shapeLevel( straightforwardCards( targets ).append( interestingShapesForOne( chooseOne( targets ) ) ), targets, colors[1], booleanToShape( pies ) );
     }
 
     //Just the exact cards necessary to fit the selected fractions
@@ -212,7 +211,7 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
                 return new Fraction( chooseOne( range( 1, denominator + 1 ) ), denominator );
             }
         } );
-        return shapeLevel( straightforwardCards( selected ), selected, colors[4], ShapeType.PIE );
+        return shapeLevel( straightforwardCards( selected ).append( interestingShapesForOne( chooseOne( selected ) ) ), selected, colors[4], ShapeType.PIE );
     }
 
     public static @Data class CoefficientPair {
@@ -291,7 +290,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         return shapeLevel( shapes, targets, colors[6], ShapeType.PIE );
     }
 
-    private List<Integer> coefficientsToShapes( final List<List<Integer>> allCoefficients ) {
+    private static List<Integer> coefficientsToShapes( final List<List<Integer>> allCoefficients ) {
         List<Integer> shapes = nil();
         for ( List<Integer> coefficients : allCoefficients ) {
             for ( int i = 0; i < coefficients.length(); i++ ) {
@@ -306,7 +305,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     }
 
     //Brute force search for coefficients that make n*1/1 + m * 1/2 + o * 1/3 + ... solve the given fraction.
-    private ArrayList<List<Integer>> getCoefficientSets( final Fraction target ) {
+    private static ArrayList<List<Integer>> getCoefficientSets( final Fraction target ) {
 
         List<Integer> range = range( 0, 9 );
 
@@ -335,7 +334,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
                                                             if ( sum7.lessThanOrEqualTo( target ) ) {
                                                                 for ( int i8 : range ) {
                                                                     Fraction sum = sum7.plus( new Fraction( i8, 8 ) );
-                                                                    if ( sum.equals( target ) ) {
+                                                                    if ( sum.valueEquals( target ) ) {
                                                                         coefficients.add( list( i1, i2, i3, i4, i5, i6, i7, i8 ) );
                                                                     }
                                                                 }
@@ -414,13 +413,14 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     }
 
     //Get some interesting(non straightforward) shapes for making the fraction.
-    private List<Integer> interestingShapesForOne( final Fraction fraction ) {
+    private static List<Integer> interestingShapesForOne( final Fraction fraction ) {
         List<List<Integer>> coefficients = iterableList( getCoefficientSets( fraction ) );
         List<List<Integer>> filtered = coefficients.filter( new F<List<Integer>, Boolean>() {
             @Override public Boolean f( final List<Integer> integers ) {
                 return numberOfNonzeroElements( integers ) > 1;
             }
         } );
+        System.out.println( "fraction = " + fraction + ", coefficients = " + coefficients.length() + ", filtered = " + filtered.length() );
 
         //favor solutions that have a smaller number of cards
         final List<List<Integer>> listToUse = selectSolutionsWithSmallNumberOfCards( filtered.length() == 0 ? coefficients : filtered );
@@ -430,7 +430,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
 
     //In order to remove the tedium but still require creation of interesting shapes, sort by the number of pieces required to create the fraction
     //and choose one of the solutions with a small number of cards.
-    private List<List<Integer>> selectSolutionsWithSmallNumberOfCards( final List<List<Integer>> lists ) {
+    private static List<List<Integer>> selectSolutionsWithSmallNumberOfCards( final List<List<Integer>> lists ) {
 
         List<List<Integer>> sorted = lists.sort( FJUtils.ord( new F<List<Integer>, Double>() {
             @Override public Double f( final List<Integer> list ) {
@@ -449,7 +449,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         return sorted.take( 5 );
     }
 
-    private int numberOfNonzeroElements( final List<Integer> integers ) {
+    private static int numberOfNonzeroElements( final List<Integer> integers ) {
         return integers.filter( new F<Integer, Boolean>() {
             @Override public Boolean f( final Integer integer ) {
                 return integer != 0;
@@ -463,10 +463,19 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     private ShapeType booleanToShape( final boolean pies ) {return pies ? ShapeType.PIE : ShapeType.BAR;}
 
     public static void main( String[] args ) {
-        for ( int i = 0; i < 1000; i++ ) {
-            ShapeLevelList list = new ShapeLevelList();
-            list.toString();//Just a method that makes it so list appears used.
-            System.out.println( "checked: " + i );
+
+//        interestingShapesForOne( new Fraction( 2, 2 ) );
+
+        for ( int denominator = 1; denominator <= 8; denominator++ ) {
+            for ( int numerator = 1; numerator <= denominator * 2; numerator++ ) {
+                interestingShapesForOne( new Fraction( numerator, denominator ) );
+            }
         }
+
+//        for ( int i = 0; i < 1000; i++ ) {
+//            ShapeLevelList list = new ShapeLevelList();
+//            list.toString();//Just a method that makes it so list appears used.
+//            System.out.println( "checked: " + i );
+//        }
     }
 }
