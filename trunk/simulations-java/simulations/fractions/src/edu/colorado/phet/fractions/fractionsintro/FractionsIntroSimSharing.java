@@ -74,7 +74,8 @@ public class FractionsIntroSimSharing {
         piece,
         container,
         nextButton, shapesCollectionBoxSplitButton,
-        fraction, numberCard, fractionCard
+        fraction, numberCard, fractionCard,
+
     }
 
     public static final String on = "on";
@@ -105,7 +106,7 @@ public class FractionsIntroSimSharing {
         containerSetKey,
         scale,
         autoSpin,
-        soundEnabled, timerEnabled, isCorrect, points
+        soundEnabled, timerEnabled, isCorrect, points, shapeType
     }
 
     private static RichVoidFunction1<Boolean> sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action, final Function1<Boolean, ParameterSet> parameters ) {
