@@ -493,7 +493,7 @@ public class ControlPanel extends Canvas {
 
     private function setSpeed():void{
         var beta:Number = speedSlider.getVal();
-        myFieldModel.setBeta( beta );
+        myFieldModel.setTargetBeta( beta );
     }
 
     private function setDuration():void{  //duration of bump

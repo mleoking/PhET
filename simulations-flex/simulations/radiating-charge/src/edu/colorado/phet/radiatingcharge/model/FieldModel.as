@@ -32,6 +32,7 @@ public class FieldModel {
     private var vYInit:Number;      //y-comp of velocity when starting to brake stopping charge
     private var _v:Number;          //speed of charge
     private var _v0:Number;         //speed of charge at previous time step (needed to compute acceleration)
+    private var _vTarget:Number;    //set speed for linear motion
     private var _aC:Number;          //classical acceleration of charge = delta-v/delta-t
     private var gamma:Number;       //gamma factor
     private var fX:Number;          //x-component of force on charge
@@ -49,6 +50,7 @@ public class FieldModel {
     private var theta_arr:Array;    //angles of rest frame rays (in rads)
     private var sin_arr:Array;      //sines of angles of the rays,
     private var _fieldLine_arr:Array;  //array of field lines
+    private var flag:Boolean;       //for testing only
 
     //types of motion
     private var _motionType: int;
@@ -145,6 +147,7 @@ public class FieldModel {
         this.delTPhoton = delTPhotonDefault;
         this.tRate = 1;         //not currently used
         this.stepsPerFrame = 4;
+        this.flag = false;
         this.msTimer = new Timer( stepsPerFrame*dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, reDrawScreen );
         this.updateViews();
@@ -225,10 +228,16 @@ public class FieldModel {
     }
 
 
-    public function setBeta( beta:Number ):void{
-        this.beta = beta;
-        this._v = beta*this.c;
-        this._vX = _v;
+    public function setTargetBeta( beta:Number ):void{
+
+        this._v0 = this._v;
+        this._vX = _v0;
+        flag = true;
+        this._vTarget = beta*this.c;
+        //this.beta = beta;
+        //this._v = beta*this.c;
+//        this._vX = _v;
+
         this._vY = 0;
     }
 
@@ -373,6 +382,7 @@ public class FieldModel {
         this._vX = this.beta*this.c;
         this._vY = 0;
         this._v = beta*this.c;
+        this._vTarget = _v;
         this._xC = -stageW/2;
         this._yC = 0;
         this.delTPhoton = 0.1;
@@ -395,8 +405,9 @@ public class FieldModel {
         }else if (_motionType == _MANUAL_WITH_FRICTION){
             this.manualWithFrictionStep();
         } else if( _motionType == LINEAR ){
-            _xC += _vX*dt;
-            _yC += _vY*dt;
+//            _xC += _vX*dt;
+//            _yC += _vY*dt;
+            this.linearMotionStep();
         }else if( _motionType == SINUSOIDAL ) {
             this.sinusiodalStep();
         }else if( _motionType == CIRCULAR ) {
@@ -472,6 +483,31 @@ public class FieldModel {
             }
         }
     }//end manualWithFriction()
+
+    private function linearMotionStep():void{
+
+//        if(flag ){
+//            flag = false;
+//            trace("FieldModel.linearMotionStep  _vTarget = " + _vTarget/c + "    _v0 = " + _v0/c );
+//        }
+        var betaDiff: Number = Math.abs( _vTarget - _vX )/c ;
+        if( betaDiff < 0.005 ){
+            _vX = _vTarget;
+            _v = _vTarget;
+            this.beta = _v/c;
+            delTPhoton = 0.1;
+            _xC += _vX*dt;
+            _yC += _vY*dt;
+        } else {
+            //trace("FieldModel.linearMotionStep:  Catching up") ;
+            delTPhoton = delTPhotonDefault;
+            aX = (_vTarget - _vX )/(5*dt) ;     //5 time steps to accelerate to final
+            _xC += _vX*dt + 0.5*aX*dt*dt;
+            _vX += aX*dt;
+            _v = _vX;
+            beta = _v/c;
+        }
+    }
 
     private function sinusiodalStep():void{
         var A:Number = this._amplitude;  //_amplitude of sinusoidal motion
