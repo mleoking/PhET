@@ -3,6 +3,7 @@ package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 
@@ -30,25 +31,25 @@ class IncreaseDecreaseButton extends PNode {
     //Hide the increase button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion
     public PInterpolatingActivity hideIncreaseButton() {
         addButton.setAllPickable( false );
-        return addButton.animateToTransparency( 0, 200 );
+        return addButton.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
     }
 
     //Hide the decrease button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion
     public PInterpolatingActivity hideDecreaseButton() {
         subtractButton.setAllPickable( false );
-        return subtractButton.animateToTransparency( 0, 200 );
+        return subtractButton.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
     }
 
     //Show the increase button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion
     public PInterpolatingActivity showIncreaseButton() {
         addButton.setAllPickable( true );
-        return addButton.animateToTransparency( 1, 200 );
+        return addButton.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
     }
 
     //Show the decrease button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion
     public PInterpolatingActivity showDecreaseButton() {
         subtractButton.setAllPickable( true );
-        return subtractButton.animateToTransparency( 1, 200 );
+        return subtractButton.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
     }
 
 }

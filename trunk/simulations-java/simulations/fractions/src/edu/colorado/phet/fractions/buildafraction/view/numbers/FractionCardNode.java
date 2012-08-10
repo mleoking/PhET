@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.FJUtils;
@@ -105,7 +106,7 @@ class FractionCardNode extends RichPNode {
                         fractionNode.setGlobalTranslation( x );
                         fractionNode.animateToPositionScaleRotation( targetCenter.getX() - fractionNode.getFullBounds().getWidth() / 2 * scaleFactor + 15,
                                                                      targetCenter.getY() - fractionNode.getFullBounds().getHeight() / 2 * scaleFactor + 10,
-                                                                     scaleFactor, 0, 200 );
+                                                                     scaleFactor, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( fractionNode ) );
 
                         fractionNode.splitButton.setVisible( false );
                         fractionNode.setDragRegionPickable( false );
@@ -132,7 +133,7 @@ class FractionCardNode extends RichPNode {
                     if ( hitWrongOne ) {
 
                         //This has the effect of sending it back to where it originally became a CardNode
-                        animateToPositionScaleRotation( 0, 0, 1, 0, 200 ).setDelegate( new DisablePickingWhileAnimating( FractionCardNode.this ) );
+                        animateToPositionScaleRotation( 0, 0, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( FractionCardNode.this ) );
                     }
                 }
 

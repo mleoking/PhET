@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.CompositeDelegate;
@@ -98,7 +99,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
             public void activityFinished( final PActivity activity ) {
 
-                PInterpolatingActivity fade = oldNode.animateToTransparency( 0, 200 );
+                PInterpolatingActivity fade = oldNode.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
                 fade.setDelegate( new PActivityDelegate() {
                     public void activityStarted( final PActivity activity ) {
                     }

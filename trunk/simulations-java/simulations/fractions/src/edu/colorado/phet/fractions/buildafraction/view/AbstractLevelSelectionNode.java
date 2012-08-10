@@ -27,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionmatcher.view.PaddedIcon;
@@ -84,7 +85,7 @@ class AbstractLevelSelectionNode extends PNode {
                     else {
 
                         //Wait then fade
-                        PActivity activity = pageNode.animateToTransparency( pageNode.getTransparency(), 200 );
+                        PActivity activity = pageNode.animateToTransparency( pageNode.getTransparency(), BuildAFractionModule.ANIMATION_TIME );
                         activity.setDelegate( new PActivityDelegate() {
                             public void activityStarted( final PActivity activity ) {
                             }
@@ -93,7 +94,7 @@ class AbstractLevelSelectionNode extends PNode {
                             }
 
                             public void activityFinished( final PActivity activity ) {
-                                pageNode.animateToTransparency( index == selectedPage ? 1 : 0, 200 );
+                                pageNode.animateToTransparency( index == selectedPage ? 1 : 0, BuildAFractionModule.ANIMATION_TIME );
                             }
                         } );
                     }
@@ -105,7 +106,7 @@ class AbstractLevelSelectionNode extends PNode {
 
         selectedPage.addObserver( new VoidFunction1<Integer>() {
             public void apply( final Integer selectedPage ) {
-                allPages.animateToPositionScaleRotation( -STAGE_SIZE.width * selectedPage, 0, 1, 0, 200 );
+                allPages.animateToPositionScaleRotation( -STAGE_SIZE.width * selectedPage, 0, 1, 0, BuildAFractionModule.ANIMATION_TIME );
             }
         } );
 

@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode.DropLocation;
 import edu.colorado.phet.fractions.common.math.Fraction;
@@ -91,7 +92,7 @@ class SingleContainerNode extends PNode {
                 @Override public void mousePressed( final PInputEvent event ) {
                     super.mousePressed( event );
                     parent.moveToFront();
-                    addActivity( new AnimateToScale( parent, 200 ) );
+                    addActivity( new AnimateToScale( parent, BuildAFractionModule.ANIMATION_TIME ) );
                 }
 
                 @Override protected void dragNode( final DragEvent event ) {

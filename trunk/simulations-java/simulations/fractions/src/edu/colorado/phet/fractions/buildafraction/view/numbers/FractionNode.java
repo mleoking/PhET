@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
 import edu.colorado.phet.fractions.FractionsResources.Images;
+import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.AnimateToScale;
 import edu.colorado.phet.fractions.common.math.Fraction;
@@ -104,7 +105,7 @@ public class FractionNode extends RichPNode {
                 super.mousePressed( event );
 
                 //Grow as it moves out of the toolbox
-                addActivity( new AnimateToScale( FractionNode.this, 200 ) );
+                addActivity( new AnimateToScale( FractionNode.this, BuildAFractionModule.ANIMATION_TIME ) );
             }
 
             @Override protected void dragNode( final DragEvent event ) {
