@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Make container non-draggable while piece is animating into it, otherwise the piece will end up in the wrong location.
 Build a Fraction: Shapes: Made the toolbox a bit higher vertically to accommodate large stacks
 Build a Fraction: Shapes: Centered the toolbox horizontally in the play area when using circle slices
 Build a Fraction: Shapes: Removed gray as a color and improved colors for higher levels
