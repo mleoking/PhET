@@ -71,7 +71,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled, context );
-        double insetY = 5;
+        double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
                 context.goToNextShapeLevel( levelIndex + 1 );
@@ -91,9 +91,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
             Fraction target = level.getTarget( i );
 
             FractionNode f = new FractionNode( target, 0.33 );
-            final ShapeScoreBoxNode cell = new ShapeScoreBoxNode(
-                    this,
-                    level.targets.maximum( ord( _toDouble ) ) );
+            final ShapeScoreBoxNode cell = new ShapeScoreBoxNode( this, level.targets.maximum( ord( _toDouble ) ) );
             _pairs.add( new ScoreBoxPair( cell, new ZeroOffsetNode( f ), target ) );
         }
         init( insetY, _pairs );

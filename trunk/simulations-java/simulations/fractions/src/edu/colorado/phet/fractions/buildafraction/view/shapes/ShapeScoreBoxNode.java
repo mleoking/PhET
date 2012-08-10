@@ -44,7 +44,7 @@ public class ShapeScoreBoxNode extends PNode {
 
                                                                 //spacing between them
                                                                 5 * ( numberShapes - 1 ),
-                                                                120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
+                                                                114, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
             setStrokePaint( Color.darkGray );
             setStroke( controlPanelStroke );

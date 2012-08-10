@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Decreased vertical height of collection boxes by 5% and spaced them out further
 # 1.00.30 (66845) Aug 10, 2012
 Build a Fraction: Shapes: Added extra shapes for creating one of the pieces in levels 2 and 5
 Build a Fraction: Shapes: Fixed equality test for creating interesting fraction shape sets
