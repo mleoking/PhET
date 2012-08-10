@@ -330,27 +330,6 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         return new NumberLevel( scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
     }
 
-    /*Level 10
-    --Same as level 9 but with tougher card constraints and larger prime number scale factors*/
-    //TODO: this is inaccessible from level selection screens, should it be deleted?
-    private NumberLevel level10() {
-        //Choose 4 different patterns
-        List<RepresentationType> types = choose( 4, RepresentationType.all );
-
-        RandomColors4 colors = new RandomColors4();
-        final List<NumberTarget> targets = list( targetLessThanOrEqualTo2( colors, types.index( 0 ), random.nextBoolean() ),
-                                                 targetLessThanOrEqualTo2( colors, types.index( 1 ), random.nextBoolean() ),
-                                                 targetLessThanOrEqualTo2( colors, types.index( 2 ), true ),
-                                                 targetLessThanOrEqualTo2( colors, types.index( 3 ), true ) );
-        List<Fraction> targetFractions = targets.map( new F<NumberTarget, Fraction>() {
-            @Override public Fraction f( final NumberTarget numberTarget ) {
-                return numberTarget.fraction;
-            }
-        } );
-        List<Fraction> scaled = targetFractions.zipWith( shuffle( list( 2, 3, 5, 7 ) ), _times );
-        return new NumberLevel( scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
-    }
-
     private Fraction smallerNumerator( final Fraction a, final Fraction b ) { return b.numerator < a.numerator ? b : a; }
 
     private NumberTarget targetLessThanOrEqualTo1( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {
