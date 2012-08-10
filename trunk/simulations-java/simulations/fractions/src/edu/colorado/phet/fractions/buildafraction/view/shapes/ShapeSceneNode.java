@@ -503,6 +503,23 @@ public class ShapeSceneNode extends SceneNode implements ContainerContext, Piece
         level.createdFractions.set( getUserCreatedFractions() );
     }
 
+    //When a container is added to a container node, move it to the left if it overlaps the scoring boxes.
+    public void containerAdded( final ContainerNode containerNode ) {
+
+        //if its right edge is past the left edge of any target cell, move it left
+        double rightSide = containerNode.getGlobalFullBounds().getMaxX();
+        double edge = targetPairs.map( new F<Target, Double>() {
+            @Override public Double f( final Target target ) {
+                return target.getCell().getGlobalFullBounds().getMinX();
+            }
+        } ).minimum( doubleOrd );
+        double overlap = rightSide - edge;
+        if ( overlap > 0 ) {
+            double amountToMoveLeft = 20 + overlap;
+            containerNode.animateToPositionScaleRotation( containerNode.getXOffset() - amountToMoveLeft, containerNode.getYOffset(), containerNode.getScale(), containerNode.getRotation(), 200 );
+        }
+    }
+
     //TODO: when we have multiple containers, this will have to be modified
     private List<Fraction> getUserCreatedFractions() {
         return getContainerNodes().filter( not( ContainerNode._isInTargetCell ) ).map( ContainerNode._getFractionValue );

@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: When a container is added to a container node, animate it to the left if it overlaps the scoring boxes.
 # 1.00.24 (66784) Aug 9, 2012
 Build a Fraction: Shapes: Decreased spacing between pies in the toolbox
 # 1.00.23 (66782) Aug 9, 2012
