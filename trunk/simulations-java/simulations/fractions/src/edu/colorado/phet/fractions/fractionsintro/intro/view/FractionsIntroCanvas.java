@@ -53,8 +53,8 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         //Show the fraction text icon on the right to keep it far away from the spinner fraction (which is to the left)
         //REVIEW: I looked through the code trying to find a place where the
         //icon text is NOT on the right.  I didn't find one, thought it's
-        //possible that some are around.  If not, is this necessary in the
-        //representation node?
+        //possible that some are around.  If not, is this flag really necessary
+        // in the representation node?
         boolean iconTextOnTheRight = true;
 
         //Show the pie set node when pies are selected

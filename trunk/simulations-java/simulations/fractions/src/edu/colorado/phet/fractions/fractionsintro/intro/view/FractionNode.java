@@ -13,6 +13,7 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * Node that shows a fraction (numerator and denominator and dividing line) along with controls to change the values.
  * Layout is not normalized (top left is not 0,0)
+ * //REVIEW: Would be better to say what layout is rather than just stating what it's not.
  *
  * @author Sam Reid
  */
