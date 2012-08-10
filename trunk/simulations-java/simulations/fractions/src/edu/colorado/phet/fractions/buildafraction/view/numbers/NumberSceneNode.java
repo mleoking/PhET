@@ -83,6 +83,11 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
                 context.goToNextNumberLevel( levelIndex + 1 );
             }
         };
+        final VoidFunction0 _resampleLevel = new VoidFunction0() {
+            public void apply() {
+                context.resampleNumberLevel( levelIndex );
+            }
+        };
         level = model.getNumberLevel( levelIndex );
         this.rootNode = rootNode;
 
@@ -244,16 +249,16 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
         addChild( faceNodeDialog );
 
-        double minScoreCellX = iterableList( pairs ).map( new F<ScoreBoxPair, Double>() {
+        double minScoreCellX = pairs.map( new F<ScoreBoxPair, Double>() {
             @Override public Double f( final ScoreBoxPair target ) {
-                return target.node.getFullBounds().getMinX();
+                return target.targetCell.getFullBounds().getMinX();
             }
         } ).minimum( doubleOrd );
         final PhetPText levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
-        levelReadoutTitle.setOffset( ( minScoreCellX - AbstractFractionsCanvas.INSET ) / 2 - levelReadoutTitle.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
+        levelReadoutTitle.setOffset( ( minScoreCellX - INSET ) / 2 - levelReadoutTitle.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
         addChild( levelReadoutTitle );
 
-        final TextButtonNode resetButton = new TextButtonNode( Strings.RESET, AbstractFractionsCanvas.CONTROL_FONT, RefreshButtonNode.BUTTON_COLOR ) {{
+        final TextButtonNode resetButton = new TextButtonNode( Strings.RESET, AbstractFractionsCanvas.CONTROL_FONT, BUTTON_COLOR ) {{
             setUserComponent( Components.resetButton );
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
@@ -261,13 +266,8 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
                 }
             } );
         }};
-
-        final VoidFunction0 _resampleLevel = new VoidFunction0() {
-            public void apply() {
-                context.resampleNumberLevel( levelIndex );
-            }
-        };
         final RefreshButtonNode refreshButton = new RefreshButtonNode( _resampleLevel );
+
         addChild( new HBox( resetButton, refreshButton ) {{
             setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, levelReadoutTitle.getMaxY() + INSET );
         }} );
