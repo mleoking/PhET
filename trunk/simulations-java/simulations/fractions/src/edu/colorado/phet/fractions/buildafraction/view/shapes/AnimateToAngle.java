@@ -9,7 +9,7 @@ import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
  *
  * @author Sam Reid
  */
-public class AnimateToAngle extends PInterpolatingActivity {
+class AnimateToAngle extends PInterpolatingActivity {
     private final PiePieceNode node;
     private final double finalAngle;
     private final double initialAngle;

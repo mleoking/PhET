@@ -239,7 +239,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             setUserComponent( Components.nextButton );
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
-                    context.goToNextShapeLevel( levelIndex + 1 );
+                    context.goToNextNumberLevel( levelIndex + 1 );
                 }
             } );
         }};
