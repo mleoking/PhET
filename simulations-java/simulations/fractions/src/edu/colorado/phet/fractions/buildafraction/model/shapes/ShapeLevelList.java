@@ -403,12 +403,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
 
     //if denominator large, use pies otherwise random between pies and bars
     private ShapeType choosePiesOrBars( final List<Fraction> targets ) {
-        ShapeType x = random.nextBoolean() ? ShapeType.PIE : ShapeType.BAR;
-        return targets.exists( new F<Fraction, Boolean>() {
-            @Override public Boolean f( final Fraction fraction ) {
-                return fraction.denominator >= 7;
-            }
-        } ) ? ShapeType.PIE : x;
+        return random.nextBoolean() ? ShapeType.PIE : ShapeType.BAR;
     }
 
     private ShapeType booleanToShape( final boolean pies ) {return pies ? ShapeType.PIE : ShapeType.BAR;}
