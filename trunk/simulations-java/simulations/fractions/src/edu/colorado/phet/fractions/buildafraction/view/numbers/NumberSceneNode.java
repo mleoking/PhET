@@ -3,7 +3,6 @@ package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
 import fj.Equal;
 import fj.F;
-import fj.Ord;
 import fj.P2;
 import fj.data.List;
 
@@ -48,6 +47,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.RefreshButtonNode.BUTTON_COLOR;
+import static fj.Ord.doubleOrd;
+import static fj.data.List.iterableList;
 import static fj.data.Option.some;
 import static java.awt.Color.darkGray;
 
@@ -59,7 +60,7 @@ import static java.awt.Color.darkGray;
 public class NumberSceneNode extends SceneNode implements NumberDragContext, FractionDraggingContext, StackContext<NumberCardNode> {
     private final ArrayList<FractionNode> fractionNodes = new ArrayList<FractionNode>();
     private final PNode rootNode;
-    public final List<ScoreBoxPair> pairList;
+    public final List<ScoreBoxPair> pairs;
     private final RichPNode toolboxNode;
     private final VBox faceNodeDialog;
 
@@ -76,11 +77,17 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
     @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled, context );
+        double insetY = 10;
+        final ActionListener goToNextLevel = new ActionListener() {
+            public void actionPerformed( final ActionEvent e ) {
+                context.goToNextNumberLevel( levelIndex + 1 );
+            }
+        };
         level = model.getNumberLevel( levelIndex );
         this.rootNode = rootNode;
 
         //Create the scoring cells with target patterns
-        ArrayList<ScoreBoxPair> pairs = new ArrayList<ScoreBoxPair>();
+        ArrayList<ScoreBoxPair> _pairs = new ArrayList<ScoreBoxPair>();
         for ( int i = 0; i < model.getNumberLevel( levelIndex ).targets.length(); i++ ) {
             NumberTarget target = model.getNumberLevel( levelIndex ).targets.index( i );
 
@@ -97,42 +104,39 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
                 }} );
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
-            pairs.add( new ScoreBoxPair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator,
-                                                                 this ), new ZeroOffsetNode( patternNode ) ) );
+            _pairs.add( new ScoreBoxPair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator,
+                                                                  this ), new ZeroOffsetNode( patternNode ) ) );
         }
-        pairList = List.iterableList( pairs );
+        this.pairs = iterableList( _pairs );
 
-        List<PNode> patterns = pairList.map( new F<ScoreBoxPair, PNode>() {
+        List<PNode> patterns = this.pairs.map( new F<ScoreBoxPair, PNode>() {
             @Override public PNode f( final ScoreBoxPair pair ) {
-                return pair.patternNode;
+                return pair.node;
             }
         } );
         double maxWidth = patterns.map( new F<PNode, Double>() {
             @Override public Double f( final PNode pNode ) {
                 return pNode.getFullBounds().getWidth();
             }
-        } ).maximum( Ord.doubleOrd );
+        } ).maximum( doubleOrd );
         double maxHeight = patterns.map( new F<PNode, Double>() {
             @Override public Double f( final PNode pNode ) {
                 return pNode.getFullBounds().getHeight();
             }
-        } ).maximum( Ord.doubleOrd );
+        } ).maximum( doubleOrd );
 
         //Layout for the scoring cells and target patterns
         double separation = 5;
         double rightInset = 10;
-        final PBounds targetCellBounds = pairs.get( 0 ).getTargetCell().getFullBounds();
+        final PBounds targetCellBounds = pairs.head().getTargetCell().getFullBounds();
         double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
-//        double offsetY = title.getFullHeight() + 5;
         double offsetY = INSET;
-        double insetY = 10;
-//        addChild( title );
         for ( ScoreBoxPair pair : pairs ) {
 
             pair.targetCell.setOffset( offsetX, offsetY );
-            pair.patternNode.setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
+            pair.node.setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
             addChild( pair.targetCell );
-            addChild( pair.patternNode );
+            addChild( pair.node );
 
             offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
         }
@@ -227,11 +231,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
         final HTMLImageButtonNode nextButton = new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), BUTTON_COLOR ) {{
             setUserComponent( Components.nextButton );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( final ActionEvent e ) {
-                    context.goToNextNumberLevel( levelIndex + 1 );
-                }
-            } );
+            addActionListener( goToNextLevel );
         }};
         faceNodeDialog = new VBox( new FaceNode( 200 ), model.isLastLevel( levelIndex ) ? new PNode() : nextButton ) {{
             setOffset( stageSize.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
@@ -244,11 +244,11 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
         addChild( faceNodeDialog );
 
-        double minScoreCellX = List.iterableList( pairList ).map( new F<ScoreBoxPair, Double>() {
+        double minScoreCellX = iterableList( pairs ).map( new F<ScoreBoxPair, Double>() {
             @Override public Double f( final ScoreBoxPair target ) {
-                return target.patternNode.getFullBounds().getMinX();
+                return target.node.getFullBounds().getMinX();
             }
-        } ).minimum( Ord.doubleOrd );
+        } ).minimum( doubleOrd );
         final PhetPText levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
         levelReadoutTitle.setOffset( ( minScoreCellX - AbstractFractionsCanvas.INSET ) / 2 - levelReadoutTitle.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
         addChild( levelReadoutTitle );
@@ -290,12 +290,12 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             @Override public Double f( final NumberNode numberNode ) {
                 return numberNode.getFullBounds().getWidth();
             }
-        } ).maximum( Ord.doubleOrd );
+        } ).maximum( doubleOrd );
         double maxNumberNodeHeight = filtered.map( new F<NumberNode, Double>() {
             @Override public Double f( final NumberNode numberNode ) {
                 return numberNode.getFullBounds().getHeight();
             }
-        } ).maximum( Ord.doubleOrd );
+        } ).maximum( doubleOrd );
 
         return new Dimension2DDouble( maxNumberNodeWidth + 22, maxNumberNodeHeight );
     }
@@ -321,7 +321,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     }
 
     private void resetScoreBoxes( final Property<Boolean> sentOneToPlayArea ) {
-        for ( ScoreBoxPair pair : pairList ) {
+        for ( ScoreBoxPair pair : pairs ) {
             if ( pair.targetCell.isCompleted() ) {
                 pair.targetCell.split( sentOneToPlayArea.get() );
                 sentOneToPlayArea.set( true );
@@ -370,7 +370,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         if ( fractionGraphic.isComplete() ) {
             level.createdFractions.set( level.createdFractions.get().snoc( fractionGraphic.getValue() ) );
 
-            FractionCardNode fractionCard = new FractionCardNode( fractionGraphic, pairList, this );
+            FractionCardNode fractionCard = new FractionCardNode( fractionGraphic, pairs, this );
             addChild( fractionCard );
             fractionCard.moveInBackOf( fractionGraphic );
         }
@@ -426,10 +426,10 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         }
     }
 
-    private boolean allTargetsComplete() { return numCompletedTargets() == pairList.length(); }
+    private boolean allTargetsComplete() { return numCompletedTargets() == pairs.length(); }
 
     private int numCompletedTargets() {
-        return pairList.map( new F<ScoreBoxPair, Boolean>() {
+        return pairs.map( new F<ScoreBoxPair, Boolean>() {
             @Override public Boolean f( final ScoreBoxPair pair ) {
                 return pair.targetCell.isCompleted();
             }
