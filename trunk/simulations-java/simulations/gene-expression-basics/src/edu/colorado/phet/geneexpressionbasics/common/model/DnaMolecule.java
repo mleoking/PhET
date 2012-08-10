@@ -449,7 +449,6 @@ public class DnaMolecule {
         }
 
         // Sort the collection so that the best match is first.
-        // REVIEW: if this happens often, scanning for the one with the largest affinity factor would be much faster than a full sort unless there are very few attachment sites
         Collections.sort( potentialAttachmentSites, new AttachmentSiteComparator<AttachmentSite>( transcriptionFactor.getPosition() ) );
 
         // Return the first attachment site on the list.
