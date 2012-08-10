@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_in.xml created Fri Aug 10 15:19:14 ICT 2012 using: my-solar-system 2.03.00 (52285), translation-utility 2.13.00 (59150) Des 8, 2011--><SimStrings>
+<string key="slingshot" value="Ketapel"/>
+<string key="binaryStarPlanet" value="Bintang binari, planet"/>
+<string key="sunAndPlanet" value="Matahari dan planet"/>
+<string key="body4" value="benda 4"/>
+<string key="numberOfBodies" value="jumlah\n benda"/>
+<string key="body3" value="benda 3"/>
+<string key="body2" value="benda 2"/>
+<string key="body1" value="benda 1"/>
+<string key="velocity" value="kecepatan"/>
+<string key="doubleDouble" value="Pasangan ganda"/>
+<string key="xVel" value="x "/>
+<string key="translation.credits" value="&lt;html&gt;&#10;Marliana&lt;br&gt;&#10;STKIP Surya&lt;br&gt;&#10;marliana.lutan@stkipsurya.ac.id&#10;&lt;/html&gt;"/>
+<string key="massEquals" value="massa ="/>
+<string key="yEquals" value="y ="/>
+<string key="hyperbolics" value="Hiperbolik"/>
+<string key="xEquals" value="x ="/>
+<string key="help9" value="Hak cipta Proyek PhET dan Universitas Coloradi di Boulder"/>
+<string key="help8" value="Tidak seperti Runge-Kutta, algoritma Verlet mengekalkan energi dalam sistem osilasi, menghasilkan orbit stabil. Sebagaimana dengan algoritma waktu tetap, Verlet menghasilkan nilai tidak fisis ketika benda terlalu dekat dan menghasilkan percepatan terlalu besar. Untuk mencegah ini, benda yang terlalu dekat digabungkan dalam tumbukkan momentum konsevatif."/>
+<string key="help6" value="Simulasi ini menggunakan algoritma kevepatan waktu yang tetap menuju lintasan yang digabungkan"/>
+<string key="stop" value="Berhenti"/>
+<string key="help5" value="Ketika Sistem Terpusat di cek, gerakan sistem pusat massa dihilangkan."/>
+<string key="help4" value="Untuk posisi dan kecepatan sekarang, tekan Berhenti dan mouse melewati benda tsb. "/>
+<string key="help3" value="Jaga massa kurang dari beberapa ribu atau hasilnya akan aneh."/>
+<string key="help2" value="Jarak, massa, dan waktu merupakan satuan yang berubah. Temukan satuan kamu sendiri!"/>
+<string key="help1" value="Buat sistem surya sendiri dengan menarik benda dan simbol V (untuk kecepatan)\ atau dengan mengetik ke tabel setingan awal"/>
+<string key="help0" value="Simulasi orbit sistem surya kita"/>
+<string key="doubleSlingshot" value="Ketapel ganda"/>
+<string key="vYEquals" value="v y ="/>
+<string key="systemCentered" value="Sistem terpusat"/>
+<string key="vXEquals" value="v x ="/>
+<string key="start" value="Mulai"/>
+<string key="showTraces" value="Lihat Lintasan"/>
+<string key="back" value="kembali"/>
+<string key="xPos" value="x"/>
+<string key="help" value="Bantuan"/>
+<string key="accurate" value="akurat"/>
+<string key="tapeMeasure" value="Pita pengukur"/>
+<string key="showGrid" value="Lihat Kisi"/>
+<string key="selectPreset" value="Pilih preset"/>
+<string key="yVel" value="y "/>
+<string key="timeEquals" value="waktu ="/>
+<string key="ellipses" value="Elips"/>
+<string key="trojanAsteroids" value="Asteroid Trojan"/>
+<string key="fourStarBallet" value="Empat bintang balet"/>
+<string key="position" value="Posisi"/>
+<string key="reset" value="Set Ulang"/>
+<string key="mass" value="massa"/>
+<string key="fast" value="cepat"/>
+<string key="simTitle" value="Sistem Tata Surya Saya"/>
+<string key="sunPlanetMoon" value="Matahari, planet, bulan"/>
+<string key="initialSettings" value="Setingan Awal:"/>
+<string key="yPos" value="y"/>
+<string key="sunPlanetComet" value="Matahari, planet, komet"/>
+</SimStrings>
