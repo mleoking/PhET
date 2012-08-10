@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Removed gray as a color and improved colors for higher levels
 Build a Fraction: Moved left/right level selection page buttons to the bottom and added dots for indicator of current page
 # 1.00.25 (66789) Aug 9, 2012
 Build a Fraction: Shapes: Prevent pieces from being dropped into a container in a collection box
