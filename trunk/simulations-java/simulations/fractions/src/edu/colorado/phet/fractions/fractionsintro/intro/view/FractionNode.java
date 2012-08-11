@@ -25,7 +25,7 @@ public class FractionNode extends PNode {
 
     //Convenience constructor for a constant FractionNode
     private FractionNode( int numerator, int denominator ) {
-        this( FractionNumberNode.NUMBER_FONT, Property.property( numerator ), Property.property( denominator ) );
+        this( FractionNumberNode.DEFAULT_NUMBER_FONT, Property.property( numerator ), Property.property( denominator ) );
     }
 
     public FractionNode( Font font, final Property<Integer> numerator, final Property<Integer> denominator ) {

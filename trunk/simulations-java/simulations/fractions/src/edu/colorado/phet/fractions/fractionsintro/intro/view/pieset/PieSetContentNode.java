@@ -40,7 +40,7 @@ class PieSetContentNode extends PNode {
         //Show an icon label on the bucket so the user knows what is in the bucket
         PNode icon = createBucketIcon.f( model.get() );
 
-        PNode text = new FractionNode( FractionNumberNode.NUMBER_FONT, new Property<Integer>( 1 ), new Property<Integer>( model.get().denominator ) ) {{
+        PNode text = new FractionNode( FractionNumberNode.DEFAULT_NUMBER_FONT, new Property<Integer>( 1 ), new Property<Integer>( model.get().denominator ) ) {{
             scale( 0.2 );
         }};
         PNode iconAndText = iconTextOnTheRight ? new HBox( 20, icon, text ) : new HBox( 20, text, icon );

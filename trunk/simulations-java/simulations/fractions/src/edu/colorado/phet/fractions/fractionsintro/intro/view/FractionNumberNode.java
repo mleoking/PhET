@@ -16,11 +16,11 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class FractionNumberNode extends PNode {
 
-    public static final Font NUMBER_FONT = new PhetFont( 120 ); //REVIEW: How about DEFAULT_NUMBER_FONT, since it can be changed.
-    final PhetPText biggestNumber = new PhetPText( "12", NUMBER_FONT );
+    public static final Font DEFAULT_NUMBER_FONT = new PhetFont( 120 );
+    final PhetPText biggestNumber = new PhetPText( "12", DEFAULT_NUMBER_FONT );
 
     public FractionNumberNode( final ObservableProperty<Integer> value ) {
-        this( NUMBER_FONT, value );
+        this( DEFAULT_NUMBER_FONT, value );
     }
 
     public FractionNumberNode( Font font, final ObservableProperty<Integer> value ) {
