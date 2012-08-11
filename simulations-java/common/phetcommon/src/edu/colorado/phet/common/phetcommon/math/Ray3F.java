@@ -71,10 +71,6 @@ public class Ray3F {
 
         boolean hit = ( u >= 0 ) && ( v >= 0 ) && ( u + v <= 1 );
 
-        if ( hit ) {
-            System.out.println( "hit: " + planePoint + " on " + a + ", " + b + ", " + c );
-        }
-
         return hit ? new Some<Vector3F>( planePoint ) : new None<Vector3F>();
     }
 
