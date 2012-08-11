@@ -1,3 +1,4 @@
+# 1.00.32 (66858) Aug 10, 2012
 Build a Fraction: Shapes: Possible solution for bugs such as pie slices flying to the wrong location, and exceptions
 # 1.00.31 (66849) Aug 10, 2012
 Build a Fraction: Shapes: Decreased vertical height of collection boxes by 5% and spaced them out further
