@@ -30,7 +30,6 @@ import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
-import edu.colorado.phet.lwjglphet.nodes.OrthoSwingNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ParameterKeys;
@@ -361,13 +360,12 @@ public class PlateMotionTab extends PlateTectonicsTab {
         * time control
         *----------------------------------------------------------------------------*/
         tectonicsTimeControl = new TectonicsTimeControl( getClock(), isAutoMode );
-        final OrthoSwingNode timeControlPanelNode = new OrthoSwingNode( tectonicsTimeControl,
-                                                                        this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ),
-                                                                        mouseEventNotifier ) {{
+        final OrthoPiccoloNode timeControlPanelNode = new OrthoPiccoloNode( new ControlPanelNode( tectonicsTimeControl ), this, getCanvasTransform(),
+                                                                            new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             onResize.addUpdateListener( new UpdateListener() {
                 public void update() {
-                    position.set( new Vector2D( getStageSize().width - getComponentWidth(),
-                                                0 ) );
+                    position.set( new Vector2D( getStageSize().width - getComponentWidth() - 10,
+                                                10 ) );
                 }
             }, true );
 
@@ -431,7 +429,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
                     public void update() {
                         if ( draggingPlate ) {
                             Ray3F ray = getCameraRay( Mouse.getX(), Mouse.getY() );
-                            draggedHandle.drag( ray );
+                            draggedHandle.dragHandle( ray );
 
                             if ( getPlateMotionModel().motionType.get() != null ) {
                                 switch( getPlateMotionModel().motionType.get() ) {

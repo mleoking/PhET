@@ -48,6 +48,7 @@ public class PlateTectonicsResources {
         public static final String THICK = RESOURCES.getLocalizedString( "thick" );
         public static final String THICKNESS = RESOURCES.getLocalizedString( "thickness" );
         public static final String THIN = RESOURCES.getLocalizedString( "thin" );
+        public static final String TIME_ELAPSED = RESOURCES.getLocalizedString( "timeElapsed" );
         public static final String TIME_FAST = RESOURCES.getLocalizedString( "timeFast" );
         public static final String TIME_SLOW = RESOURCES.getLocalizedString( "timeSlow" );
         public static final String TOOLBOX = RESOURCES.getLocalizedString( "toolbox" );

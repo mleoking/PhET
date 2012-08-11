@@ -236,7 +236,7 @@ public class HandleNode extends GLNode {
      *
      * @param ray 3D ray from camera towards mouse
      */
-    public void drag( Ray3F ray ) {
+    public void dragHandle( Ray3F ray ) {
 
         // if the motion type is not currently initialized, we need to pick a direction of motion (motion type) based on how they are dragging the handle
         if ( model.motionType.get() == null ) {
