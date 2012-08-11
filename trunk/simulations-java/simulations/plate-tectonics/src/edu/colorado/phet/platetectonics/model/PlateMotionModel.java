@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +34,9 @@ import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.util.MortalUpdateListener;
 import edu.colorado.phet.platetectonics.util.Side;
 
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.ARROW_CONVERGENT_FILL;
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.ARROW_DIVERGENT_FILL;
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.ARROW_TRANSFORM_FILL;
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 
 /**
@@ -70,9 +74,15 @@ public class PlateMotionModel extends PlateTectonicsModel {
     public final Notifier<Side> frontBoundarySideNotifier = new Notifier<Side>();
 
     public static enum MotionType {
-        CONVERGENT,
-        DIVERGENT,
-        TRANSFORM
+        CONVERGENT( ARROW_CONVERGENT_FILL ),
+        DIVERGENT( ARROW_DIVERGENT_FILL ),
+        TRANSFORM( ARROW_TRANSFORM_FILL );
+
+        public final Color color;
+
+        MotionType( Color color ) {
+            this.color = color;
+        }
     }
 
     // the strip of terrain connecting the left and right terran (perfectly vertical at the start), it's basically just glue

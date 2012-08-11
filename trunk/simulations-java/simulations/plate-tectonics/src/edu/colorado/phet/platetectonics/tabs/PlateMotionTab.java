@@ -648,11 +648,11 @@ public class PlateMotionTab extends PlateTectonicsTab {
     }
 
     private boolean isOverLeftHandle( Ray3F ray ) {
-        return leftHandle.isVisible() && leftHandle.intersectRay( ray );
+        return leftHandle.isVisible() && leftHandle.rayIntersectsHandle( ray );
     }
 
     private boolean isOverRightHandle( Ray3F ray ) {
-        return rightHandle.isVisible() && rightHandle.intersectRay( ray );
+        return rightHandle.isVisible() && rightHandle.rayIntersectsHandle( ray );
     }
 
     @Override

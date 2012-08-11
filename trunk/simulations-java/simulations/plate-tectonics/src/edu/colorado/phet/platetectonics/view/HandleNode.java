@@ -18,7 +18,6 @@ import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ArrowNode;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
-import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
@@ -26,6 +25,7 @@ import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector3F.Y_UNIT;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector3F.Z_UNIT;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -48,6 +48,10 @@ public class HandleNode extends GLNode {
     private static final float STICK_RADIUS = 4;
     private static final float STICK_HEIGHT = 40;
     private static final float BALL_RADIUS = 8;
+    private final ArrowNode backArrow;
+    private final ArrowNode rightArrow;
+    private final ArrowNode leftArrow;
+    private final ArrowNode frontArrow;
 
     public HandleNode( final Property<Vector3F> offset, final PlateMotionTab tab, final boolean isRightHandle ) {
         this.offset = offset;
@@ -100,109 +104,55 @@ public class HandleNode extends GLNode {
         };
         addChild( handleMesh );
 
-        final ColorMaterial arrowConvergentFill = new ColorMaterial( PlateTectonicsConstants.ARROW_CONVERGENT_FILL );
-        final ColorMaterial arrowDivergentFill = new ColorMaterial( PlateTectonicsConstants.ARROW_DIVERGENT_FILL );
-        final ColorMaterial arrowTransformFill = new ColorMaterial( PlateTectonicsConstants.ARROW_TRANSFORM_FILL );
-        final ColorMaterial arrowStroke = new ColorMaterial( 0, 0, 0, 1 );
-
-        float arrowOffset = 5;
-        float arrowExtent = 50;
-        float arrowHeadHeight = 14;
-        float arrowHeadWidth = 14;
-        float arrowTailWidth = 8;
-
-        final float arrowPaddingAbove = 60;
-
         final Property<MotionType> motionType = tab.getPlateMotionModel().motionType;
 
         // back arrow
-        addChild( new ArrowNode( new Arrow2F( new Vector2F( arrowOffset, 0 ),
-                                              new Vector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
-            setFillMaterial( arrowTransformFill );
-            setStrokeMaterial( arrowStroke );
-            Vector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
-            Vector3F viewPosition = convertToRadial( position );
-            translate( viewPosition.x, viewPosition.y, viewPosition.z );
-            rotate( Y_UNIT, (float) ( Math.PI / 2 ) );
-
-            SimpleObserver visibilityObserver = new SimpleObserver() {
-                public void update() {
-//                    setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsTransformMotion() ) || ( motionType.get() == MotionType.TRANSFORM && isRightHandle == model.isTransformMotionCCW() ) );
-                    setVisible( motionType.get() == MotionType.TRANSFORM && isRightHandle == model.isTransformMotionCCW() );
-                }
-            };
-            tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
-            tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
-        }} );
+        backArrow = new HandleArrowNode( MotionType.TRANSFORM, Math.PI / 2 ) {
+            @Override protected boolean shouldBeVisible() {
+                return motionType.get() == MotionType.TRANSFORM && isRightHandle == model.isTransformMotionCCW();
+            }
+        };
+        addChild( backArrow );
 
         // right arrow
-        addChild( new ArrowNode( new Arrow2F( new Vector2F( arrowOffset, 0 ),
-                                              new Vector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
-            final boolean isConvergent = !isRightHandle;
-            setFillMaterial( isConvergent ? arrowConvergentFill : arrowDivergentFill );
-            setStrokeMaterial( arrowStroke );
-            Vector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
-            Vector3F viewPosition = convertToRadial( position );
-            translate( viewPosition.x, viewPosition.y, viewPosition.z );
-
-            SimpleObserver visibilityObserver = new SimpleObserver() {
-                public void update() {
-                    if ( isConvergent ) {
-                        setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsConvergentMotion() ) || motionType.get() == MotionType.CONVERGENT );
-                    }
-                    else {
-                        setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsDivergentMotion() )
-                                    || motionType.get() == MotionType.DIVERGENT );
-                    }
+        rightArrow = new HandleArrowNode( isRightHandle ? MotionType.DIVERGENT : MotionType.CONVERGENT, 0 ) {
+            @Override protected boolean shouldBeVisible() {
+                if ( getArrowMotionType() == MotionType.DIVERGENT ) {
+                    // divergent handling
+                    return ( motionType.get() == null && tab.getPlateMotionModel().allowsDivergentMotion() )
+                           || motionType.get() == MotionType.DIVERGENT;
                 }
-            };
-            tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
-            tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
-        }} );
+                else {
+                    // convergent handling
+                    return ( motionType.get() == null && tab.getPlateMotionModel().allowsConvergentMotion() ) || motionType.get() == MotionType.CONVERGENT;
+                }
+            }
+        };
+        addChild( rightArrow );
 
         // left arrow
-        addChild( new ArrowNode( new Arrow2F( new Vector2F( -arrowOffset, 0 ),
-                                              new Vector2F( -arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
-            final boolean isConvergent = isRightHandle;
-            setFillMaterial( isConvergent ? arrowConvergentFill : arrowDivergentFill );
-            setStrokeMaterial( arrowStroke );
-            Vector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
-            Vector3F viewPosition = convertToRadial( position );
-            translate( viewPosition.x, viewPosition.y, viewPosition.z );
-
-            SimpleObserver visibilityObserver = new SimpleObserver() {
-                public void update() {
-                    if ( isConvergent ) {
-                        setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsConvergentMotion() ) || motionType.get() == MotionType.CONVERGENT );
-                    }
-                    else {
-                        setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsDivergentMotion() )
-                                    || motionType.get() == MotionType.DIVERGENT );
-                    }
+        leftArrow = new HandleArrowNode( isRightHandle ? MotionType.CONVERGENT : MotionType.DIVERGENT, Math.PI ) {
+            @Override protected boolean shouldBeVisible() {
+                if ( getArrowMotionType() == MotionType.DIVERGENT ) {
+                    // divergent handling
+                    return ( motionType.get() == null && tab.getPlateMotionModel().allowsDivergentMotion() ) || motionType.get() == MotionType.DIVERGENT;
                 }
-            };
-            tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
-            tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
-        }} );
+                else {
+                    // convergent handling
+                    return ( motionType.get() == null && tab.getPlateMotionModel().allowsConvergentMotion() ) || motionType.get() == MotionType.CONVERGENT;
+                }
+            }
+        };
+        addChild( leftArrow );
 
         // front arrow
-        addChild( new ArrowNode( new Arrow2F( new Vector2F( arrowOffset, 0 ),
-                                              new Vector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
-            setFillMaterial( arrowTransformFill );
-            setStrokeMaterial( arrowStroke );
-            Vector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
-            Vector3F viewPosition = convertToRadial( position );
-            translate( viewPosition.x, viewPosition.y, viewPosition.z );
-            rotate( Y_UNIT, (float) ( -Math.PI / 2 ) );
-
-            SimpleObserver visibilityObserver = new SimpleObserver() {
-                public void update() {
-                    setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsTransformMotion() ) || ( motionType.get() == MotionType.TRANSFORM && isRightHandle != model.isTransformMotionCCW() ) );
-                }
-            };
-            tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
-            tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
-        }} );
+        frontArrow = new HandleArrowNode( MotionType.TRANSFORM, -Math.PI / 2 ) {
+            @Override protected boolean shouldBeVisible() {
+                return ( motionType.get() == null && tab.getPlateMotionModel().allowsTransformMotion() )
+                       || ( motionType.get() == MotionType.TRANSFORM && isRightHandle != model.isTransformMotionCCW() );
+            }
+        };
+        addChild( frontArrow );
 
         offset.addObserver( new SimpleObserver() {
             public void update() {
@@ -327,7 +277,7 @@ public class HandleNode extends GLNode {
         tab.motionVectorRight.set( new Vector2F() );
     }
 
-    public boolean intersectRay( Ray3F ray ) {
+    public boolean rayIntersectsHandle( Ray3F ray ) {
         // transform it to intersect with a unit sphere at the origin
         Ray3F localRay = new Ray3F( ray.pos.minus( getBallCenter() ).times( 1 / BALL_RADIUS ), ray.dir );
 
@@ -399,5 +349,61 @@ public class HandleNode extends GLNode {
 
     private Vector3F getBase() {
         return convertToRadial( offset.get() );
+    }
+
+    private abstract class HandleArrowNode extends ArrowNode {
+
+        private final MotionType motionType;
+
+        // subclasses handle their visibility
+        protected abstract boolean shouldBeVisible();
+
+        private static final float OFFSET = 5;
+        private static final float EXTENT = 50;
+        private static final float HEAD_HEIGHT = 14;
+        private static final float HEAD_WIDTH = 14;
+        private static final float TAIL_WIDTH = 8;
+        private static final float PADDING_ABOVE = 57;
+
+        public HandleArrowNode( MotionType motionType, double rotation ) {
+            super( new Arrow2F( new Vector2F( OFFSET, 0 ),
+                                new Vector2F( EXTENT, 0 ), HEAD_HEIGHT, HEAD_WIDTH, TAIL_WIDTH ) );
+            this.motionType = motionType;
+
+            // color it based on the motion type
+            setFillMaterial( new ColorMaterial( motionType.color ) );
+
+            // black outline
+            setStrokeMaterial( new ColorMaterial( 0, 0, 0, 1 ) );
+
+            // move the tail above the handle
+            Vector3F tailPlanarPosition = offset.get().plus( Y_UNIT.times( PADDING_ABOVE ) );
+            Vector3F tailRadialPosition = convertToRadial( tailPlanarPosition );
+            translate( tailRadialPosition.x, tailRadialPosition.y, tailRadialPosition.z );
+
+            // and rotate it so it is pointing in the correct direction
+            rotate( Y_UNIT, (float) ( rotation ) );
+
+            // tweak the vertical angle of the arrow so that it matches the local curvature of the earth
+            Vector3F tipPlanarPosition = tailPlanarPosition.plus(
+                    ImmutableMatrix4F.rotation( Y_UNIT, (float) rotation ).times( new Vector3F( EXTENT - OFFSET, 0, 0 ) ) );
+            Vector3F tipRadialPosition = convertToRadial( tipPlanarPosition );
+            Vector3F delta = tipRadialPosition.minus( tailRadialPosition ).normalized();
+            float angleChange = (float) Math.atan2( delta.getY(), Math.sqrt( delta.x * delta.x + delta.z * delta.z ) );
+            rotate( Z_UNIT, angleChange );
+
+            // update visibility when necessary
+            SimpleObserver visibilityObserver = new SimpleObserver() {
+                public void update() {
+                    setVisible( shouldBeVisible() );
+                }
+            };
+            tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
+            tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
+        }
+
+        public MotionType getArrowMotionType() {
+            return motionType;
+        }
     }
 }
