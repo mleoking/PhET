@@ -346,8 +346,6 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
             return new PhetPPath( new Area( new Ellipse2D.Double( ringOffset, ringOffset, 100 - ringOffset * 2, 100 - ringOffset * 2 ) ) {{
                 subtract( new Area( new Ellipse2D.Double( ringInnerOffset, ringInnerOffset, 100 - ringInnerOffset * 2, 100 - ringInnerOffset * 2 ) ) );
                 double angleDifference = ( angle - minAngle ) % ( Math.PI * 2 );
-//                System.out.println( "minAngle = " + minAngle );
-//                System.out.println( "angleDifference = " + angleDifference );
                 intersect( new Area( new Arc2D.Double( 0, 0, 100, 100, 180 * minAngle / Math.PI, 180 * angleDifference / Math.PI, Arc2D.PIE ) ) );
             }}, colorWithAlpha, null, null );
         }
