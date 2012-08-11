@@ -38,17 +38,17 @@ public class PieSetNode extends FNode {
     //Flag for showing the center of a shape.  This can help debug pie piece rotation.
     private static final boolean debugCenter = false;
 
-    //REVIEW: Why is this called NodeToShape?  Shouldn't it be sliceToNode or something like that?
-    public static final F<SliceNodeArgs, PNode> NodeToShape = new F<SliceNodeArgs, PNode>() {
+    //Create a ShapeNode from the Slice
+    public static final F<SliceNodeArgs, PNode> CreateNode = new F<SliceNodeArgs, PNode>() {
         @Override public PNode f( final SliceNodeArgs s ) {
             return new ShapeNode( s.slice );
         }
     };
 
     public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode, boolean iconTextOnTheRight ) {
-        this( model, rootNode, NodeToShape, CreateEmptyCellsNode, new F<PieSet, PNode>() {
+        this( model, rootNode, CreateNode, CreateEmptyCellsNode, new F<PieSet, PNode>() {
             @Override public PNode f( final PieSet pieSet ) {
-                return createBucketIcon( pieSet, NodeToShape );
+                return createBucketIcon( pieSet, CreateNode );
             }
         }, iconTextOnTheRight );
     }
