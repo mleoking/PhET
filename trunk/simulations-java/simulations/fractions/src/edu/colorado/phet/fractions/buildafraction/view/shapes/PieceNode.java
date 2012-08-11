@@ -6,6 +6,7 @@ import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -40,6 +41,9 @@ public abstract class PieceNode extends Stackable {
     public static final BasicStroke stroke = new BasicStroke( 2 );
     double pieceRotation = 0.0;
 
+    //Keep track of the container so we know whether to handle mouse events
+    private SingleContainerNode container;
+
     PieceNode( final Integer pieceSize, final PieceContext context, PhetPPath pathNode ) {
         this.pieceSize = pieceSize;
         this.context = context;
@@ -55,6 +59,8 @@ public abstract class PieceNode extends Stackable {
             }
 
             @Override public void mousePressed( final PInputEvent event ) {
+                //This node gets reparented, so only send mouse events if it is traveling freely (i.e. not in a container)
+                if ( container != null ) { return; }
                 super.mousePressed( event );
 
                 dragStarted();
@@ -74,10 +80,17 @@ public abstract class PieceNode extends Stackable {
                     public void activityFinished( final PActivity activity ) {
                     }
                 } );
+            }
 
+            @Override public void mouseDragged( final PInputEvent event ) {
+                //This node gets reparented, so only send mouse events if it is traveling freely (i.e. not in a container)
+                if ( container != null ) { return; }
+                super.mouseDragged( event );
             }
 
             @Override protected void dragNode( final DragEvent event ) {
+                //This node gets reparented, so only send mouse events if it is traveling freely (i.e. not in a container)
+                if ( container != null ) { return; }
                 Option<Double> originalAngle = context.getNextAngle( PieceNode.this );
                 translate( event.delta.width, event.delta.height );
                 Option<Double> newAngle = context.getNextAngle( PieceNode.this );
@@ -87,6 +100,8 @@ public abstract class PieceNode extends Stackable {
             }
 
             @Override public void mouseReleased( final PInputEvent event ) {
+                //This node gets reparented, so only send mouse events if it is traveling freely (i.e. not in a container)
+                if ( container != null ) { return; }
                 super.mouseReleased( event );
                 context.endDrag( PieceNode.this );
 
@@ -125,6 +140,7 @@ public abstract class PieceNode extends Stackable {
 
     //Show drop shadow when moving back to toolbox
     public void animateToStackLocation( Vector2D v ) {
+        container = null;
         animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, BuildAFractionModule.ANIMATION_TIME ).
                 setDelegate(
                         new CompositeDelegate( new DisablePickingWhileAnimating( this, true ),
@@ -146,4 +162,28 @@ public abstract class PieceNode extends Stackable {
     protected abstract void hideShadow();
 
     protected abstract void showShadow();
+
+    public void setInContainer( final SingleContainerNode singleContainerNode ) {
+        this.container = singleContainerNode;
+    }
+
+    //When joining a container, all other animations must be stopped or it can result in very buggy behavior (such as the piece ending up in the wrong location)
+    public void terminateActivities() {
+        for ( PActivity activity : new ArrayList<PActivity>( activities ) ) {
+            activities.remove( activity );
+            double xbefore = getFullBounds().getX();
+            activity.terminate( PActivity.TERMINATE_WITHOUT_FINISHING );
+            double xafter = getFullBounds().getX();
+//            System.out.println( "xbefore = " + xbefore + ", xafter = " + xafter + ", activity = " + activity );
+        }
+        activities.clear();
+    }
+
+    //List of activities that have been scheduled.  See terminateActivities
+    ArrayList<PActivity> activities = new ArrayList<PActivity>();
+
+    @Override public boolean addActivity( final PActivity activity ) {
+        activities.add( activity );
+        return super.addActivity( activity );
+    }
 }
