@@ -81,6 +81,7 @@ public abstract class PlateTectonicsModel {
             Option<Vector3F> hitOption = terrain.intersectWithRay( ray, modelViewTransform );
             if ( hitOption.isSome() ) {
                 Vector3F modelPosition = PlateTectonicsModel.convertToPlanar( modelViewTransform.inversePosition( hitOption.get() ) );
+                System.out.println( "modelPosition = " + modelPosition );
                 if ( modelPosition.y < 0 ) {
                     if ( useWaterDensity ) {
                         // underwater, return water density at the surface
