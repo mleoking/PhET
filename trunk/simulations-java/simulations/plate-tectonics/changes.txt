@@ -1,3 +1,4 @@
+Refined the time control panel
 Fixed crash behavior with the Density Meter
 # 0.00.54 (66778) Aug 9, 2012
 # 0.00.53 (66755) Aug 9, 2012
