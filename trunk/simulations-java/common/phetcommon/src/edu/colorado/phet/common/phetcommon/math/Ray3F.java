@@ -48,11 +48,32 @@ public class Ray3F {
             return new None<Vector3F>();
         }
 
-        // find where our ray
+        // find where our ray will intersect with this plane
         Vector3F planePoint = plane.intersectWithRay( this );
 
-        // TODO: better way of handling intersection? this intersects triangles if the normal is reversed, but is approximate (will intersect a slightly larger area)
-        boolean hit = approximateCoplanarPointInTriangle( a, b, c, planePoint );
+        // compute barycentric coordinates
+        Vector3F v0 = c.minus( a );
+        Vector3F v1 = b.minus( a );
+        Vector3F v2 = planePoint.minus( a );
+
+        float dot00 = v0.dot( v0 );
+        float dot01 = v0.dot( v1 );
+        float dot02 = v0.dot( v2 );
+
+        float dot11 = v1.dot( v1 );
+        float dot12 = v1.dot( v2 );
+
+        float p = 1 / ( dot00 * dot11 - dot01 * dot01 );
+
+        // these are the barycentric coordinates
+        float u = ( dot11 * dot02 - dot01 * dot12 ) * p;
+        float v = ( dot00 * dot12 - dot01 * dot02 ) * p;
+
+        boolean hit = ( u >= 0 ) && ( v >= 0 ) && ( u + v <= 1 );
+
+        if ( hit ) {
+            System.out.println( "hit: " + planePoint + " on " + a + ", " + b + ", " + c );
+        }
 
         return hit ? new Some<Vector3F>( planePoint ) : new None<Vector3F>();
     }
