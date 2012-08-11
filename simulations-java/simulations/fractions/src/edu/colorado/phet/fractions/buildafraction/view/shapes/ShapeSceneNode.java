@@ -363,10 +363,21 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
         container.setChildrenPickable( false );
 
         PActivity activity;
+        //Function that finalizes the piece in the container
+        VoidFunction0 postprocess;
         if ( level.shapeType == ShapeType.PIE ) {
-            DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
+            final DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
             activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, 1, 0, BuildAFractionModule.ANIMATION_TIME );
 
+            postprocess = new VoidFunction0() {
+                @Override public void apply() {
+                    piece.setPickable( false );
+                    piece.setChildrenPickable( false );
+                    piece.setOffset( dropLocation.position.x, dropLocation.position.y );
+                    piece.setScale( 1.0 );
+                    piece.setRotation( 0.0 );
+                }
+            };
             //Should already be at correct angle, update again just in case
             if ( piece instanceof PiePieceNode ) {
                 ( (PiePieceNode) piece ).setPieceRotation( dropLocation.angle );
@@ -376,12 +387,23 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
             Point2D translation = container.getGlobalTranslation();
             piece.globalToLocal( translation );
             piece.localToParent( translation );
-            DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
+            final DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
             final Vector2D a = dropLocation.position.plus( translation );
             activity = piece.animateToPositionScaleRotation( a.x, a.y, 1, dropLocation.angle, BuildAFractionModule.ANIMATION_TIME );
+
+            postprocess = new VoidFunction0() {
+                @Override public void apply() {
+                    piece.setPickable( false );
+                    piece.setChildrenPickable( false );
+                    piece.setOffset( a.x, a.y );
+                    piece.setScale( 1.0 );
+                    piece.setRotation( dropLocation.angle );
+                }
+            };
         }
         piece.setPickable( false );
         piece.setChildrenPickable( false );
+        final VoidFunction0 finalPostProcess = postprocess;
         activity.setDelegate( new CompositeDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
             }
@@ -392,6 +414,8 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
             public void activityFinished( final PActivity activity ) {
                 container.setPickable( true );
                 container.setChildrenPickable( true );
+                piece.terminateActivities();
+                finalPostProcess.apply();
                 container.addPiece( piece );
                 syncModelFractions();
             }

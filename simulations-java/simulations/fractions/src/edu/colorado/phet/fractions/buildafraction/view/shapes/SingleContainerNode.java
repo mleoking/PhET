@@ -149,6 +149,7 @@ class SingleContainerNode extends PNode {
         parent.pieceAdded();
         dottedLineLayer.moveToFront();
         piece.setAllPickable( false );
+        piece.setInContainer( this );
     }
 
     void splitAll() {
