@@ -45,6 +45,8 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+import static java.lang.Double.isNaN;
+
 /**
  * Displays a speedometer-style draggable readout.
  */
@@ -144,7 +146,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         // TODO: improve model/view and listening for sensor location
         final Double density = getDensityValue();
         final DensitySensorNode2D node = (DensitySensorNode2D) getNode();
-        node.setDensity( density, tab.getClock().getSimulationTimeChange() );
+        node.setDensity( density, tab.getTimeElapsed() );
         repaint();
     }
 
@@ -252,7 +254,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         }
 
         // support multiple different density meter styles
-        public void setDensity( double density, double simulationTimeChange ) {
+        public void setDensity( double density, double timeElapsed ) {
             extraHolderNode.removeAllChildren();
 
             // calculate using the speedometer what the angles are at 0 and max
@@ -267,14 +269,21 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
             // use a damped oscillator system here to smoothly move the dial into the correct position
             DampedMassSpringSystem system = new DampedMassSpringSystem( mass, k, c, p - density, d );
-            p = system.evaluatePosition( simulationTimeChange ) + density;
-            d = system.evaluateVelocity( simulationTimeChange );
+            p = system.evaluatePosition( timeElapsed ) + density;
+            d = system.evaluateVelocity( timeElapsed );
 
             // reference into the speedometer to change it
             double wrappedDensity = p % wrapAroundDensityAmount;
             pointSensor.value.set( new Some<Double>( wrappedDensity ) );
 
             int overflowQuantity = (int) Math.floor( p / wrapAroundDensityAmount );
+
+            // if p goes negative, the overflowQuantity will wrap below 0. since we assume in the for-loop below that this is not the case,
+            // it was causing a complete freeze
+            if ( overflowQuantity < 0 ) {
+                overflowQuantity = 0;
+                pointSensor.value.set( new Some<Double>( 0.0 ) );
+            }
 
             bodyNode.underTicksLayer.removeAllChildren();
             PhetPPath ringNode = createRingNode( -bodyNode.speedToAngle( wrappedDensity ) );
@@ -337,6 +346,8 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
             return new PhetPPath( new Area( new Ellipse2D.Double( ringOffset, ringOffset, 100 - ringOffset * 2, 100 - ringOffset * 2 ) ) {{
                 subtract( new Area( new Ellipse2D.Double( ringInnerOffset, ringInnerOffset, 100 - ringInnerOffset * 2, 100 - ringInnerOffset * 2 ) ) );
                 double angleDifference = ( angle - minAngle ) % ( Math.PI * 2 );
+//                System.out.println( "minAngle = " + minAngle );
+//                System.out.println( "angleDifference = " + angleDifference );
                 intersect( new Area( new Arc2D.Double( 0, 0, 100, 100, 180 * minAngle / Math.PI, 180 * angleDifference / Math.PI, Arc2D.PIE ) ) );
             }}, colorWithAlpha, null, null );
         }
