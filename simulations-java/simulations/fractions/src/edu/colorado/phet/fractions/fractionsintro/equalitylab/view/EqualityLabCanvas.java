@@ -48,7 +48,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
 import static edu.colorado.phet.fractions.fractionsintro.equalitylab.model.EqualityLabModel.scaledFactorySet;
 import static edu.colorado.phet.fractions.fractionsintro.intro.view.Representation.*;
 import static edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.PieSetNode.CreateEmptyCellsNode;
-import static edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.PieSetNode.NodeToShape;
+import static edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.PieSetNode.CreateNode;
 import static java.awt.Color.black;
 import static java.awt.Color.orange;
 
@@ -137,7 +137,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 public void update() {
                     removeAllChildren();
                     addChild( CreateEmptyCellsNode.f( model.scaledPieSet.get() ) );
-                    addChild( new MovableSliceLayer( model.scaledPieSet.get(), NodeToShape, model.scaledPieSet, rootNode, null ) );
+                    addChild( new MovableSliceLayer( model.scaledPieSet.get(), CreateNode, model.scaledPieSet, rootNode, null ) );
                 }
             } );
             setChildrenPickable( false );
@@ -149,7 +149,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 public void update() {
                     removeAllChildren();
                     addChild( CreateEmptyCellsNode.f( model.rightHorizontalBars.get() ) );
-                    addChild( new MovableSliceLayer( model.rightHorizontalBars.get(), NodeToShape, model.rightHorizontalBars, rootNode, null ) );
+                    addChild( new MovableSliceLayer( model.rightHorizontalBars.get(), CreateNode, model.rightHorizontalBars, rootNode, null ) );
                 }
             } );
             setChildrenPickable( false );
@@ -161,7 +161,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 public void update() {
                     removeAllChildren();
                     addChild( CreateEmptyCellsNode.f( model.rightVerticalBars.get() ) );
-                    addChild( new MovableSliceLayer( model.rightVerticalBars.get(), NodeToShape, model.rightVerticalBars, rootNode, null ) );
+                    addChild( new MovableSliceLayer( model.rightVerticalBars.get(), CreateNode, model.rightVerticalBars, rootNode, null ) );
                 }
             } );
             setChildrenPickable( false );
