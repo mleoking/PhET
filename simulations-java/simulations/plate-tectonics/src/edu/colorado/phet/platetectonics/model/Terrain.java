@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
+import edu.colorado.phet.common.phetcommon.math.Triangle3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
@@ -186,14 +187,14 @@ public class Terrain {
                 Vector3F rightNext = nextRow[i];
 
                 // check two "triangles" for each quad
-                Option<Vector3F> hit = ray.intersectWithTriangle( leftNext, rightNext, rightLast );
+                Option<Triangle3F.TriangleIntersectionResult> hit = new Triangle3F( leftNext, rightNext, rightLast ).intersectWith( ray );
                 if ( hit.isSome() ) {
-                    return hit;
+                    return new Option.Some<Vector3F>( hit.get().point );
                 }
 
-                hit = ray.intersectWithTriangle( rightLast, leftLast, leftNext );
+                hit = new Triangle3F( rightLast, leftLast, leftNext ).intersectWith( ray );
                 if ( hit.isSome() ) {
-                    return hit;
+                    return new Option.Some<Vector3F>( hit.get().point );
                 }
             }
         }

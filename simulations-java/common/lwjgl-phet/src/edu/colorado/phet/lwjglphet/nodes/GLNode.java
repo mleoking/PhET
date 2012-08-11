@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.lwjglphet.materials.GLMaterial;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
+import edu.colorado.phet.lwjglphet.materials.GLMaterial;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 
@@ -340,5 +340,41 @@ public class GLNode {
 
     public void setRenderPass( RenderPass renderPass ) {
         this.renderPass = renderPass;
+    }
+
+    /**
+     * @param ancestor Ancestor (parent of parent of ... parent, etc.) that we want the transform relative to, or null if the transform relative to the root is desired
+     * @return The combined transform from the ancestor to this GLNode, INCLUDING the transform of this node and the ancestor
+     */
+    public LWJGLTransform getTransformRelativeTo( GLNode ancestor ) {
+        ImmutableMatrix4F matrix = transform.getMatrix();
+
+        // walk up the tree
+        GLNode node = this;
+        while ( node != ancestor ) {
+            // if this ever causes an infinite loop, it's because there are circular references between nodes
+            GLNode parent = node.getParent();
+
+            boolean hasParent = parent != null;
+
+            if ( ancestor != null ) {
+                // if parent is null, the ancestor node wasn't an ancestor
+                assert hasParent;
+            }
+
+            if ( hasParent ) {
+                // combine the parent's transform
+                matrix = parent.transform.getMatrix().times( matrix );
+            }
+
+            // and step down a level
+            node = parent;
+        }
+
+        return new LWJGLTransform( matrix );
+    }
+
+    public LWJGLTransform getGlobalTransform() {
+        return getTransformRelativeTo( null );
     }
 }

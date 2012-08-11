@@ -28,7 +28,7 @@ public class BaseLabelNode extends GLNode {
     }
 
     private boolean hasDarkColor() {
-        return dark == ( colorMode.get() == ColorMode.DENSITY );
+        return dark == ( colorMode.get() == ColorMode.DENSITY || colorMode.get() == ColorMode.COMBINED );
     }
 
     public Color getColor() {

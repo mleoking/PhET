@@ -21,6 +21,13 @@ public @EqualsAndHashCode(callSuper = false) @ToString class Vector3F extends Ab
 
     public Vector3F() { this( 0, 0, 0 ); }
 
+    // initialize from a 2D vector, setting z=0
+    public Vector3F( Vector2F v ) {
+        x = v.x;
+        y = v.y;
+        z = 0;
+    }
+
     public Vector3F( float x, float y, float z ) {
         this.x = x;
         this.y = y;

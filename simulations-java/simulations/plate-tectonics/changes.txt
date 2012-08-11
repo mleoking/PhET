@@ -1,4 +1,7 @@
-Refined the time control panel
+Handle arrows' vertical angles match the local earth curvature
+Handle arrows moved closer to the handle itself
+Flipped label light/dark for the "Both" coloring mode
+Refined the time control panel (will now disable controls once the time limit is reached)
 Fixed crash behavior with the Density Meter
 # 0.00.54 (66778) Aug 9, 2012
 # 0.00.53 (66755) Aug 9, 2012
