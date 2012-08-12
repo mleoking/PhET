@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Center the initial fraction skeleton and floating panel under the "Level #" heading
 Build a Fraction: Shapes: Center the initial container and floating panel under the "Level #" heading
 Build a Fraction: Fixed: Dragging on back button in a level makes buggy looking effects
 Build a Fraction: Shapes: Clear divisions from a container when ejected from a collection box
