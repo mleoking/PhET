@@ -46,7 +46,7 @@ import static java.awt.Color.darkGray;
  *
  * @author Sam Reid
  */
-public class NumberSceneNode extends SceneNode<CollectionBoxPair> implements NumberDragContext, FractionDraggingContext, StackContext<NumberCardNode> {
+public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> implements NumberDragContext, FractionDraggingContext, StackContext<NumberCardNode> {
     private final ArrayList<FractionNode> fractionNodes = new ArrayList<FractionNode>();
     private final PNode rootNode;
     private final RichPNode toolboxNode;
@@ -79,7 +79,7 @@ public class NumberSceneNode extends SceneNode<CollectionBoxPair> implements Num
         this.rootNode = rootNode;
 
         //Create the scoring cells with target patterns
-        ArrayList<CollectionBoxPair> _pairs = new ArrayList<CollectionBoxPair>();
+        ArrayList<NumberSceneCollectionBoxPair> _pairs = new ArrayList<NumberSceneCollectionBoxPair>();
         for ( int i = 0; i < model.getNumberLevel( levelIndex ).targets.length(); i++ ) {
             NumberTarget target = model.getNumberLevel( levelIndex ).targets.index( i );
 
@@ -96,8 +96,8 @@ public class NumberSceneNode extends SceneNode<CollectionBoxPair> implements Num
                 }} );
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
-            _pairs.add( new CollectionBoxPair( new NumberCollectionBoxNode( target.fraction.numerator, target.fraction.denominator,
-                                                                            this ), new ZeroOffsetNode( patternNode ) ) );
+            _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.fraction.numerator, target.fraction.denominator,
+                                                                                       this ), new ZeroOffsetNode( patternNode ) ) );
         }
         init( insetY, _pairs );
 
@@ -240,7 +240,7 @@ public class NumberSceneNode extends SceneNode<CollectionBoxPair> implements Num
     }
 
     private void resetCollectionBoxes( final Property<Boolean> sentOneToPlayArea ) {
-        for ( CollectionBoxPair pair : pairs ) {
+        for ( NumberSceneCollectionBoxPair pair : pairs ) {
             if ( pair.targetCell.isCompleted() ) {
                 pair.targetCell.split( sentOneToPlayArea.get() );
                 sentOneToPlayArea.set( true );
@@ -348,8 +348,8 @@ public class NumberSceneNode extends SceneNode<CollectionBoxPair> implements Num
     private boolean allTargetsComplete() { return numCompletedTargets() == pairs.length(); }
 
     private int numCompletedTargets() {
-        return pairs.map( new F<CollectionBoxPair, Boolean>() {
-            @Override public Boolean f( final CollectionBoxPair pair ) {
+        return pairs.map( new F<NumberSceneCollectionBoxPair, Boolean>() {
+            @Override public Boolean f( final NumberSceneCollectionBoxPair pair ) {
                 return pair.targetCell.isCompleted();
             }
         } ).filter( new F<Boolean, Boolean>() {

@@ -42,7 +42,7 @@ class FractionCardNode extends RichPNode {
     public final FractionNode fractionNode;
     private final PNode fractionNodeParent;
 
-    public FractionCardNode( final FractionNode fractionNode, final List<CollectionBoxPair> pairList, final NumberSceneNode numberSceneNode ) {
+    public FractionCardNode( final FractionNode fractionNode, final List<NumberSceneCollectionBoxPair> pairList, final NumberSceneNode numberSceneNode ) {
         this.fractionNode = fractionNode;
         this.fractionNode.setCardNode( this );
         this.fractionNodeParent = fractionNode.getParent();
@@ -78,8 +78,8 @@ class FractionCardNode extends RichPNode {
 
                 //Snap to a scoring cell or go back to the play area.
                 //If dropped in a non-matching cell, send back to play area
-                List<NumberCollectionBoxNode> scoreCells = pairList.map( new F<CollectionBoxPair, NumberCollectionBoxNode>() {
-                    @Override public NumberCollectionBoxNode f( final CollectionBoxPair pair ) {
+                List<NumberCollectionBoxNode> scoreCells = pairList.map( new F<NumberSceneCollectionBoxPair, NumberCollectionBoxNode>() {
+                    @Override public NumberCollectionBoxNode f( final NumberSceneCollectionBoxPair pair ) {
                         return pair.targetCell;
                     }
                 } );

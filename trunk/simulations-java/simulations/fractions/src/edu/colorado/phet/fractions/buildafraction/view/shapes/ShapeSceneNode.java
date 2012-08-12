@@ -58,7 +58,7 @@ import static fj.function.Booleans.not;
  *
  * @author Sam Reid
  */
-public class ShapeSceneNode extends SceneNode<CollectionBoxPair> implements ContainerContext, PieceContext, StackContext<PieceNode> {
+public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> implements ContainerContext, PieceContext, StackContext<PieceNode> {
     private final RichPNode toolboxNode;
 
     //Declare type-specific wrappers for declaration site variance to make map call site more readable
@@ -86,13 +86,13 @@ public class ShapeSceneNode extends SceneNode<CollectionBoxPair> implements Cont
         spacing = level.shapeType == ShapeType.BAR ? 140 : 120;
 
         //Create the scoring cells with target patterns
-        ArrayList<CollectionBoxPair> _pairs = new ArrayList<CollectionBoxPair>();
+        ArrayList<ShapeSceneCollectionBoxPair> _pairs = new ArrayList<ShapeSceneCollectionBoxPair>();
         for ( int i = 0; i < level.targets.length(); i++ ) {
             Fraction target = level.getTarget( i );
 
             FractionNode f = new FractionNode( target, 0.33 );
             final ShapeCollectionBoxNode cell = new ShapeCollectionBoxNode( this, level.targets.maximum( ord( _toDouble ) ) );
-            _pairs.add( new CollectionBoxPair( cell, new ZeroOffsetNode( f ), target ) );
+            _pairs.add( new ShapeSceneCollectionBoxPair( cell, new ZeroOffsetNode( f ), target ) );
         }
         init( insetY, _pairs );
 
@@ -186,7 +186,7 @@ public class ShapeSceneNode extends SceneNode<CollectionBoxPair> implements Cont
         //Eject everything from target containers
         //Split everything
         //Return everything home
-        for ( CollectionBoxPair targetPair : pairs ) {
+        for ( ShapeSceneCollectionBoxPair targetPair : pairs ) {
             targetPair.targetCell.splitIt();
         }
         for ( ContainerNode containerNode : getContainerNodes() ) {
@@ -213,15 +213,15 @@ public class ShapeSceneNode extends SceneNode<CollectionBoxPair> implements Cont
 
     public void endDrag( final ContainerNode containerNode ) {
         //See if it hits any matches
-        List<CollectionBoxPair> pairs = this.pairs.sort( ord( new F<CollectionBoxPair, Double>() {
-            @Override public Double f( final CollectionBoxPair t ) {
+        List<ShapeSceneCollectionBoxPair> pairs = this.pairs.sort( ord( new F<ShapeSceneCollectionBoxPair, Double>() {
+            @Override public Double f( final ShapeSceneCollectionBoxPair t ) {
                 return t.targetCell.getGlobalFullBounds().getCenter2D().distance( containerNode.getGlobalFullBounds().getCenter2D() );
             }
         } ) );
         boolean hit = false;
 
         //Only consider the closest box, otherwise students can overlap many boxes instead of thinking of the correct answer
-        for ( CollectionBoxPair pair : pairs.take( 1 ) ) {
+        for ( ShapeSceneCollectionBoxPair pair : pairs.take( 1 ) ) {
             final boolean intersects = pair.targetCell.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
             final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value );
             final boolean occupied = pair.getTargetCell().isCompleted();
@@ -431,8 +431,8 @@ public class ShapeSceneNode extends SceneNode<CollectionBoxPair> implements Cont
 
         //if its right edge is past the left edge of any target cell, move it left
         double rightSide = containerNode.getGlobalFullBounds().getMaxX();
-        double edge = pairs.map( new F<CollectionBoxPair, Double>() {
-            @Override public Double f( final CollectionBoxPair target ) {
+        double edge = pairs.map( new F<ShapeSceneCollectionBoxPair, Double>() {
+            @Override public Double f( final ShapeSceneCollectionBoxPair target ) {
                 return target.getTargetCell().getGlobalFullBounds().getMinX();
             }
         } ).minimum( doubleOrd );
@@ -458,8 +458,8 @@ public class ShapeSceneNode extends SceneNode<CollectionBoxPair> implements Cont
     private List<ContainerNode> getContainerNodes() { return getChildren( this, ContainerNode.class ); }
 
     private boolean allTargetsComplete() {
-        return pairs.map( new F<CollectionBoxPair, Boolean>() {
-            @Override public Boolean f( final CollectionBoxPair pair ) {
+        return pairs.map( new F<ShapeSceneCollectionBoxPair, Boolean>() {
+            @Override public Boolean f( final ShapeSceneCollectionBoxPair pair ) {
                 return pair.targetCell.isCompleted();
             }
         } ).filter( new F<Boolean, Boolean>() {
