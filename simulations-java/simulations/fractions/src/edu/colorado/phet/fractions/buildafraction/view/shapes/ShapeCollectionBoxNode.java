@@ -83,6 +83,10 @@ public class ShapeCollectionBoxNode extends PNode {
 
             //Send the pieces home
             containerNode.splitAll();
+
+            //The blue "break apart" control once a container has been put into the collection box, it will fly back to the floating panel and retain its divisions.  So we just need to have it reset to no divisions when it goes back to the panel.
+            containerNode.selectedPieceSize.set( 0 );
+
             containerNode.animateHome();
             containerNode = null;
 
