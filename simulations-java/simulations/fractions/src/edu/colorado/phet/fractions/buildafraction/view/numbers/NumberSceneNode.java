@@ -99,7 +99,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.fraction.numerator, target.fraction.denominator,
                                                                                        this ), new ZeroOffsetNode( patternNode ) ) );
         }
-        init( insetY, _pairs );
+        initCollectionBoxes( insetY, _pairs );
 
         //Add a piece container toolbox the user can use to get containers
         //Put numbers on cards so you can see how many there are in a stack
@@ -189,7 +189,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         fractionNode.setOffset( toolboxNode.getCenterX() - fractionNode.getFullBounds().getWidth() / 2, 300 );
         fractionNode.moveInFrontOf( toolboxNode );
 
-        finishInit( levelIndex, model, stageSize, goToNextLevel, _resampleLevel );
+        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel );
     }
 
     //Find the max size of each number node, so we can create a consistent card size
