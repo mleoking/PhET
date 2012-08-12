@@ -26,8 +26,10 @@ class ForwardButton extends PNode {
     public ForwardButton( final VoidFunction0 pressed, ObservableProperty<Boolean> enabled ) {
         addChild( new SpinnerButtonNode( rescale( RIGHT_BUTTON_UP ), rescale( RIGHT_BUTTON_PRESSED ), rescale( RIGHT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
             public void apply( final Boolean spinning ) {
-                SimSharingManager.sendButtonPressed( forwardButton );
-                pressed.apply();
+                if ( !spinning ) {
+                    SimSharingManager.sendButtonPressed( forwardButton );
+                    pressed.apply();
+                }
             }
         }, enabled ) );
     }

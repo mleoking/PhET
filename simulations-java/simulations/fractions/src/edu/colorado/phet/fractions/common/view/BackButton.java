@@ -27,8 +27,10 @@ public class BackButton extends PNode {
     public BackButton( final VoidFunction0 pressed, ObservableProperty<Boolean> enabled ) {
         addChild( new SpinnerButtonNode( rescale( Images.LEFT_BUTTON_UP ), rescale( Images.LEFT_BUTTON_PRESSED ), rescale( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
             public void apply( final Boolean spinning ) {
-                SimSharingManager.sendButtonPressed( Components.backButton );
-                pressed.apply();
+                if ( !spinning ) {
+                    SimSharingManager.sendButtonPressed( Components.backButton );
+                    pressed.apply();
+                }
             }
         }, enabled ) );
     }
