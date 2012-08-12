@@ -1,3 +1,4 @@
+Build a Fraction: Fixed: Dragging on back button in a level makes buggy looking effects
 Build a Fraction: Shapes: Clear divisions from a container when ejected from a collection box
 # 1.00.32 (66858) Aug 10, 2012
 Build a Fraction: Shapes: Possible solution for bugs such as pie slices flying to the wrong location, and exceptions
