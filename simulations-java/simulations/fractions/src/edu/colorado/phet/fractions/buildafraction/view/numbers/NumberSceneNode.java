@@ -139,7 +139,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         toolboxNode = new RichPNode() {{
             final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, extentX, 130, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, darkGray );
             addChild( border );
-            final double offsetX = Math.max( ( AbstractFractionsCanvas.STAGE_SIZE.width - 150 ) / 2 - this.getFullWidth() / 2, INSET );
+            final double offsetX = Math.max( ( AbstractFractionsCanvas.STAGE_SIZE.width - 150 ) / 2 - this.getFullWidth() / 2 - 29
+                                             - ( level.hasValuesGreaterThanOne() ? 48 : 0 ), INSET );
 
             setOffset( offsetX, AbstractFractionsCanvas.STAGE_SIZE.height - AbstractFractionsCanvas.INSET - this.getFullHeight() );
         }};
@@ -186,7 +187,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
 
         fractionNode.setToolboxPosition( toolboxPositionX, toolboxPositionY );
-        fractionNode.setOffset( toolboxNode.getCenterX() - fractionNode.getFullBounds().getWidth() / 2, 300 );
+        fractionNode.setOffset( toolboxNode.getCenterX() - fractionNode.getFullBounds().getWidth() / 2 - 20 + 29, 300 );
         fractionNode.moveInFrontOf( toolboxNode );
 
         finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel );

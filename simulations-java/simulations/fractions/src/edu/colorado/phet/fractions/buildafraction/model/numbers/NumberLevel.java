@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.numbers;
 
+import fj.F;
 import fj.data.List;
 
 import edu.colorado.phet.fractions.buildafraction.model.Level;
@@ -39,5 +40,13 @@ public class NumberLevel extends Level {
         List<Fraction> reduced = targets.map( _fraction ).map( _reduce );
         List<Integer> cards = reduced.map( _numerator ).append( reduced.map( _denominator ) );
         return new NumberLevel( cards, targets );
+    }
+
+    public boolean hasValuesGreaterThanOne() {
+        return targets.exists( new F<NumberTarget, Boolean>() {
+            @Override public Boolean f( final NumberTarget numberTarget ) {
+                return Fraction._greaterThanOne.f( numberTarget.fraction );
+            }
+        } );
     }
 }
