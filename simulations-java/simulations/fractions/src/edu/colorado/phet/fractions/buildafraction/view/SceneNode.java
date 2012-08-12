@@ -46,6 +46,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     public List<T> pairs;
     protected final BackButton backButton;
     protected VBox faceNodeDialog;
+    protected PhetPText levelReadoutTitle;
 
     protected SceneNode( BooleanProperty audioEnabled, final SceneContext context ) {
         gameAudioPlayer = new GameAudioPlayer( audioEnabled.get() );
@@ -128,7 +129,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
                 return target.getTargetCell().getFullBounds().getMinX();
             }
         } ).minimum( doubleOrd );
-        final PhetPText levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
+        levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
         levelReadoutTitle.setOffset( minScoreCellX / 2 - levelReadoutTitle.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
         addChild( levelReadoutTitle );
 

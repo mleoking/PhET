@@ -66,10 +66,34 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private final F<ContainerNode, Double> _maxX = FNode._maxX();
 
     private final int spacing;
-    private final int layoutXOffset;
+    private final double layoutXOffset;
     private final ShapeLevel level;
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
+        this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled ) ) );
+    }
+
+    //Create and throw away a new ShapeSceneNode in order to get the layout of the toolbar perfectly centered under the title.
+    //Hack alert!  I have concerns that this could lead to difficult to understand code, especially during debugging because 2 ShapeSceneNodes are created for each one displayed.
+    //This code was written because everything is in the same layer because nodes must move freely between toolbox, play area and collection boxes.
+    private static double getToolbarOffset( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, final BooleanProperty soundEnabled ) {
+        ShapeSceneNode node = new ShapeSceneNode( levelIndex, model, stageSize, context, soundEnabled, Option.<Double>none() );
+
+        //Re-layout the toolbox based on the location of the title
+        double desiredToolboxCenter = node.levelReadoutTitle.getFullBounds().getCenterX();
+        double originalToolboxCenter = node.toolboxNode.getFullBounds().getCenterX();
+        double delta = desiredToolboxCenter - originalToolboxCenter;
+
+        //make sure it doesn't go off the screen to the left
+        double originalToolboxX = node.toolboxNode.getFullBounds().getX();
+        final double newToolboxX = originalToolboxX + delta;
+        if ( newToolboxX < INSET ) {
+            delta = INSET - originalToolboxX;
+        }
+        return delta;
+    }
+
+    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset ) {
         super( soundEnabled, context );
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
@@ -96,15 +120,19 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
         initCollectionBoxes( insetY, _pairs );
 
+        //Center the first container node in the play area.
+        //Layout values sampled manually at runtime
         ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
-            setInitialPosition( 285, 200 );
+            double x = 298 + ( level.shapeType == ShapeType.PIE ? 26 : 0 );
+            if ( level.hasValuesGreaterThanOne() ) { x = x - 61; }
+            setInitialPosition( x, level.shapeType == ShapeType.PIE ? 200 : 250 );
         }};
         addChild( firstContainerNode );
 
         //Pieces in the toolbar that the user can drag
         List<List<Integer>> groups = level.pieces.group( intEqual );
         int numGroups = groups.length();
-        layoutXOffset = ( 6 - numGroups ) * spacing / 4 + ( level.shapeType == ShapeType.BAR ? 0 : 45 );
+        layoutXOffset = ( 6 - numGroups ) * spacing / 4 + ( level.shapeType == ShapeType.BAR ? 0 : 45 ) + ( toolboxOffset.isSome() ? toolboxOffset.some() : 0.0 );
         final int toolboxHeight = ( level.shapeType == ShapeType.BAR ? 100 : 140 ) + 5;
         for ( P2<List<Integer>, Integer> groupWithIndex : groups.zipIndex() ) {
             int stackIndex = groupWithIndex._2();
