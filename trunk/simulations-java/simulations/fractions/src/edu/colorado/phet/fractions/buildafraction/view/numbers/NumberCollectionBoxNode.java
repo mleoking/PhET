@@ -22,7 +22,7 @@ import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.IN
  *
  * @author Sam Reid
  */
-public class NumberScoreBoxNode extends PNode {
+public class NumberCollectionBoxNode extends PNode {
     public final Fraction fraction;
     private final PhetPPath path;
     private boolean completed;
@@ -30,7 +30,7 @@ public class NumberScoreBoxNode extends PNode {
     private FractionNode fractionGraphic;
     private final NumberSceneNode numberSceneNode;
 
-    public NumberScoreBoxNode( final int numerator, final int denominator, final NumberSceneNode numberSceneNode ) {
+    public NumberCollectionBoxNode( final int numerator, final int denominator, final NumberSceneNode numberSceneNode ) {
         this.numberSceneNode = numberSceneNode;
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
@@ -77,7 +77,7 @@ public class NumberScoreBoxNode extends PNode {
                 cardNode.fractionNode.sendFractionSkeletonToCenterOfScreen();
             }
 
-            numberSceneNode.numberScoreBoxSplit();
+            numberSceneNode.numberCollectionBoxSplit();
             numberSceneNode.updateStacks();
         }
     }

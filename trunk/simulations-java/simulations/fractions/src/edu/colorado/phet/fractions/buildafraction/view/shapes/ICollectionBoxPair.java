@@ -6,7 +6,7 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * @author Sam Reid
  */
-public interface IScoreBoxPair {
+public interface ICollectionBoxPair {
     PNode getNode();
 
     PNode getTargetCell();
