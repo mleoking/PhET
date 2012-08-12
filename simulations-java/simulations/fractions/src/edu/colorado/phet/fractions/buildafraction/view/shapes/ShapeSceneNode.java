@@ -39,7 +39,7 @@ import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerNode._getSingleContainerNodes;
+import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerNode.*;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.createPieSlice;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.createRect;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceIconNode.TINY_SCALE;
@@ -444,10 +444,7 @@ public class ShapeSceneNode extends SceneNode<CollectionBoxPair> implements Cont
         }
     }
 
-    //TODO: when we have multiple containers, this will have to be modified
-    private List<Fraction> getUserCreatedFractions() {
-        return getContainerNodes().filter( not( ContainerNode._isInTargetCell ) ).map( ContainerNode._getFractionValue );
-    }
+    private List<Fraction> getUserCreatedFractions() { return getContainerNodes().filter( not( _isInTargetCell ) ).map( _getFractionValue ); }
 
     public void splitPieceFromContainer( final PieceNode piece ) {
         Point2D offset = piece.getGlobalTranslation();
@@ -458,9 +455,7 @@ public class ShapeSceneNode extends SceneNode<CollectionBoxPair> implements Cont
         piece.animateToTopOfStack();
     }
 
-    private List<ContainerNode> getContainerNodes() {
-        return getChildren( this, ContainerNode.class );
-    }
+    private List<ContainerNode> getContainerNodes() { return getChildren( this, ContainerNode.class ); }
 
     private boolean allTargetsComplete() {
         return pairs.map( new F<CollectionBoxPair, Boolean>() {
