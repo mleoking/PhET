@@ -42,7 +42,7 @@ class FractionCardNode extends RichPNode {
     public final FractionNode fractionNode;
     private final PNode fractionNodeParent;
 
-    public FractionCardNode( final FractionNode fractionNode, final List<ScoreBoxPair> pairList, final NumberSceneNode numberSceneNode ) {
+    public FractionCardNode( final FractionNode fractionNode, final List<CollectionBoxPair> pairList, final NumberSceneNode numberSceneNode ) {
         this.fractionNode = fractionNode;
         this.fractionNode.setCardNode( this );
         this.fractionNodeParent = fractionNode.getParent();
@@ -78,22 +78,22 @@ class FractionCardNode extends RichPNode {
 
                 //Snap to a scoring cell or go back to the play area.
                 //If dropped in a non-matching cell, send back to play area
-                List<NumberScoreBoxNode> scoreCells = pairList.map( new F<ScoreBoxPair, NumberScoreBoxNode>() {
-                    @Override public NumberScoreBoxNode f( final ScoreBoxPair pair ) {
+                List<NumberCollectionBoxNode> scoreCells = pairList.map( new F<CollectionBoxPair, NumberCollectionBoxNode>() {
+                    @Override public NumberCollectionBoxNode f( final CollectionBoxPair pair ) {
                         return pair.targetCell;
                     }
                 } );
                 boolean locked = false;
 
                 //Sort by distance to choose the closest one
-                final List<NumberScoreBoxNode> sortedCells = scoreCells.sort( FJUtils.ord( new F<NumberScoreBoxNode, Double>() {
-                    @Override public Double f( final NumberScoreBoxNode scoreBoxNode ) {
-                        return scoreBoxNode.getGlobalFullBounds().getCenter2D().distance( FractionCardNode.this.getGlobalFullBounds().getCenter2D() );
+                final List<NumberCollectionBoxNode> sortedCells = scoreCells.sort( FJUtils.ord( new F<NumberCollectionBoxNode, Double>() {
+                    @Override public Double f( final NumberCollectionBoxNode collectionBoxNode ) {
+                        return collectionBoxNode.getGlobalFullBounds().getCenter2D().distance( FractionCardNode.this.getGlobalFullBounds().getCenter2D() );
                     }
                 } ) );
 
                 //Only consider the closest box, otherwise students can overlap many boxes instead of thinking of the correct answer
-                for ( NumberScoreBoxNode scoreCell : sortedCells.take( 1 ) ) {
+                for ( NumberCollectionBoxNode scoreCell : sortedCells.take( 1 ) ) {
                     if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) &&
                          scoreCell.fraction.approxEquals( fractionNode.getValue() ) &&
                          !scoreCell.isCompleted() ) {
@@ -117,7 +117,7 @@ class FractionCardNode extends RichPNode {
                         scoreCell.setCompletedFraction( fractionNode );
                         locked = true;
 
-                        numberSceneNode.fractionCardNodeDroppedInScoreBox( FractionCardNode.this );
+                        numberSceneNode.fractionCardNodeDroppedInCollectionBox( FractionCardNode.this );
                         break;
                     }
                 }
@@ -125,7 +125,7 @@ class FractionCardNode extends RichPNode {
                 //If no match, and is overlapping a score cell, send back to play area
                 if ( !locked ) {
                     boolean hitWrongOne = false;
-                    for ( NumberScoreBoxNode scoreCell : scoreCells ) {
+                    for ( NumberCollectionBoxNode scoreCell : scoreCells ) {
                         if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) ) {
                             hitWrongOne = true;
                         }

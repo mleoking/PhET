@@ -26,14 +26,14 @@ import static java.lang.Math.ceil;
  *
  * @author Sam Reid
  */
-public class ShapeScoreBoxNode extends PNode {
+public class ShapeCollectionBoxNode extends PNode {
     private final PhetPPath path;
     private boolean completed;
     private final PImage splitButton;
     private ContainerNode containerNode;
     private final ShapeSceneNode sceneNode;
 
-    public ShapeScoreBoxNode( final ShapeSceneNode sceneNode, final Fraction maxFraction ) {
+    public ShapeCollectionBoxNode( final ShapeSceneNode sceneNode, final Fraction maxFraction ) {
         this.sceneNode = sceneNode;
         if ( sceneNode == null ) { throw new RuntimeException( "Null scene" ); }
         double numberShapes = ceil( maxFraction.toDouble() );
@@ -86,7 +86,7 @@ public class ShapeScoreBoxNode extends PNode {
             containerNode.animateHome();
             containerNode = null;
 
-            sceneNode.scoreBoxSplit();
+            sceneNode.collectionBoxSplit();
             sceneNode.syncModelFractions();
         }
     }

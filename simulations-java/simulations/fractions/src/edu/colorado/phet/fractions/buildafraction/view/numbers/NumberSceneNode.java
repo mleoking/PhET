@@ -46,7 +46,7 @@ import static java.awt.Color.darkGray;
  *
  * @author Sam Reid
  */
-public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDragContext, FractionDraggingContext, StackContext<NumberCardNode> {
+public class NumberSceneNode extends SceneNode<CollectionBoxPair> implements NumberDragContext, FractionDraggingContext, StackContext<NumberCardNode> {
     private final ArrayList<FractionNode> fractionNodes = new ArrayList<FractionNode>();
     private final PNode rootNode;
     private final RichPNode toolboxNode;
@@ -79,7 +79,7 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
         this.rootNode = rootNode;
 
         //Create the scoring cells with target patterns
-        ArrayList<ScoreBoxPair> _pairs = new ArrayList<ScoreBoxPair>();
+        ArrayList<CollectionBoxPair> _pairs = new ArrayList<CollectionBoxPair>();
         for ( int i = 0; i < model.getNumberLevel( levelIndex ).targets.length(); i++ ) {
             NumberTarget target = model.getNumberLevel( levelIndex ).targets.index( i );
 
@@ -96,8 +96,8 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
                 }} );
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
-            _pairs.add( new ScoreBoxPair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator,
-                                                                  this ), new ZeroOffsetNode( patternNode ) ) );
+            _pairs.add( new CollectionBoxPair( new NumberCollectionBoxNode( target.fraction.numerator, target.fraction.denominator,
+                                                                            this ), new ZeroOffsetNode( patternNode ) ) );
         }
         init( insetY, _pairs );
 
@@ -222,7 +222,7 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
     protected void reset() {
         Property<Boolean> sentOneToPlayArea = new Property<Boolean>( false );
         //Order is important, have to reset score boxes first or the fractions in the score box will be split and cause exceptions
-        resetScoreBoxes( sentOneToPlayArea );
+        resetCollectionBoxes( sentOneToPlayArea );
         resetFractions( sentOneToPlayArea );
     }
 
@@ -239,8 +239,8 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
         }
     }
 
-    private void resetScoreBoxes( final Property<Boolean> sentOneToPlayArea ) {
-        for ( ScoreBoxPair pair : pairs ) {
+    private void resetCollectionBoxes( final Property<Boolean> sentOneToPlayArea ) {
+        for ( CollectionBoxPair pair : pairs ) {
             if ( pair.targetCell.isCompleted() ) {
                 pair.targetCell.split( sentOneToPlayArea.get() );
                 sentOneToPlayArea.set( true );
@@ -311,7 +311,7 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
         numberNode.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getCenterY() );
     }
 
-    public void fractionCardNodeDroppedInScoreBox( final FractionCardNode fractionCardNode ) {
+    public void fractionCardNodeDroppedInCollectionBox( final FractionCardNode fractionCardNode ) {
         level.incrementFilledTargets();
 
         //Add a new fraction skeleton when the previous one is completed
@@ -348,8 +348,8 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
     private boolean allTargetsComplete() { return numCompletedTargets() == pairs.length(); }
 
     private int numCompletedTargets() {
-        return pairs.map( new F<ScoreBoxPair, Boolean>() {
-            @Override public Boolean f( final ScoreBoxPair pair ) {
+        return pairs.map( new F<CollectionBoxPair, Boolean>() {
+            @Override public Boolean f( final CollectionBoxPair pair ) {
                 return pair.targetCell.isCompleted();
             }
         } ).filter( new F<Boolean, Boolean>() {
@@ -359,7 +359,7 @@ public class NumberSceneNode extends SceneNode<ScoreBoxPair> implements NumberDr
         } ).length();
     }
 
-    public void numberScoreBoxSplit() {
+    public void numberCollectionBoxSplit() {
         level.filledTargets.reset();
 
         //Only subtract from the score if the face dialog was showing.  Otherwise you can get a negative score by removing an item from the target container since this method is called

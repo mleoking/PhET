@@ -58,7 +58,7 @@ import static fj.function.Booleans.not;
  *
  * @author Sam Reid
  */
-public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements ContainerContext, PieceContext, StackContext<PieceNode> {
+public class ShapeSceneNode extends SceneNode<CollectionBoxPair> implements ContainerContext, PieceContext, StackContext<PieceNode> {
     private final RichPNode toolboxNode;
 
     //Declare type-specific wrappers for declaration site variance to make map call site more readable
@@ -86,13 +86,13 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
         spacing = level.shapeType == ShapeType.BAR ? 140 : 120;
 
         //Create the scoring cells with target patterns
-        ArrayList<ScoreBoxPair> _pairs = new ArrayList<ScoreBoxPair>();
+        ArrayList<CollectionBoxPair> _pairs = new ArrayList<CollectionBoxPair>();
         for ( int i = 0; i < level.targets.length(); i++ ) {
             Fraction target = level.getTarget( i );
 
             FractionNode f = new FractionNode( target, 0.33 );
-            final ShapeScoreBoxNode cell = new ShapeScoreBoxNode( this, level.targets.maximum( ord( _toDouble ) ) );
-            _pairs.add( new ScoreBoxPair( cell, new ZeroOffsetNode( f ), target ) );
+            final ShapeCollectionBoxNode cell = new ShapeCollectionBoxNode( this, level.targets.maximum( ord( _toDouble ) ) );
+            _pairs.add( new CollectionBoxPair( cell, new ZeroOffsetNode( f ), target ) );
         }
         init( insetY, _pairs );
 
@@ -186,7 +186,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
         //Eject everything from target containers
         //Split everything
         //Return everything home
-        for ( ScoreBoxPair targetPair : pairs ) {
+        for ( CollectionBoxPair targetPair : pairs ) {
             targetPair.targetCell.splitIt();
         }
         for ( ContainerNode containerNode : getContainerNodes() ) {
@@ -213,15 +213,15 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
 
     public void endDrag( final ContainerNode containerNode ) {
         //See if it hits any matches
-        List<ScoreBoxPair> pairs = this.pairs.sort( ord( new F<ScoreBoxPair, Double>() {
-            @Override public Double f( final ScoreBoxPair t ) {
+        List<CollectionBoxPair> pairs = this.pairs.sort( ord( new F<CollectionBoxPair, Double>() {
+            @Override public Double f( final CollectionBoxPair t ) {
                 return t.targetCell.getGlobalFullBounds().getCenter2D().distance( containerNode.getGlobalFullBounds().getCenter2D() );
             }
         } ) );
         boolean hit = false;
 
         //Only consider the closest box, otherwise students can overlap many boxes instead of thinking of the correct answer
-        for ( ScoreBoxPair pair : pairs.take( 1 ) ) {
+        for ( CollectionBoxPair pair : pairs.take( 1 ) ) {
             final boolean intersects = pair.targetCell.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
             final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value );
             final boolean occupied = pair.getTargetCell().isCompleted();
@@ -431,8 +431,8 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
 
         //if its right edge is past the left edge of any target cell, move it left
         double rightSide = containerNode.getGlobalFullBounds().getMaxX();
-        double edge = pairs.map( new F<ScoreBoxPair, Double>() {
-            @Override public Double f( final ScoreBoxPair target ) {
+        double edge = pairs.map( new F<CollectionBoxPair, Double>() {
+            @Override public Double f( final CollectionBoxPair target ) {
                 return target.getTargetCell().getGlobalFullBounds().getMinX();
             }
         } ).minimum( doubleOrd );
@@ -463,8 +463,8 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
     }
 
     private boolean allTargetsComplete() {
-        return pairs.map( new F<ScoreBoxPair, Boolean>() {
-            @Override public Boolean f( final ScoreBoxPair pair ) {
+        return pairs.map( new F<CollectionBoxPair, Boolean>() {
+            @Override public Boolean f( final CollectionBoxPair pair ) {
                 return pair.targetCell.isCompleted();
             }
         } ).filter( new F<Boolean, Boolean>() {
@@ -474,7 +474,7 @@ public class ShapeSceneNode extends SceneNode<ScoreBoxPair> implements Container
         } ).length() == pairs.length();
     }
 
-    public void scoreBoxSplit() {
+    public void collectionBoxSplit() {
         level.filledTargets.decrement();
         faceNodeDialog.animateToTransparency( 0.0f, BuildAFractionModule.ANIMATION_TIME );
         faceNodeDialog.setPickable( false );

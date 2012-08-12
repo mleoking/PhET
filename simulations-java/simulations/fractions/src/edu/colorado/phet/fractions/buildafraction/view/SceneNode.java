@@ -22,7 +22,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
-import edu.colorado.phet.fractions.buildafraction.view.shapes.IScoreBoxPair;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.ICollectionBoxPair;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.SceneContext;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.common.view.BackButton;
@@ -42,7 +42,7 @@ import static fj.data.List.iterableList;
  *
  * @author Sam Reid
  */
-public abstract class SceneNode<T extends IScoreBoxPair> extends PNode {
+public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     public List<T> pairs;
     protected final BackButton backButton;
     protected VBox faceNodeDialog;
@@ -96,7 +96,7 @@ public abstract class SceneNode<T extends IScoreBoxPair> extends PNode {
         final PBounds targetCellBounds = pairs.head().getTargetCell().getFullBounds();
         double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
         double offsetY = INSET;
-        for ( IScoreBoxPair pair : pairs ) {
+        for ( ICollectionBoxPair pair : pairs ) {
 
             pair.getTargetCell().setOffset( offsetX, offsetY );
             pair.getNode().setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
