@@ -71,7 +71,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
 
     protected void playSoundForAllComplete() { gameAudioPlayer.gameOverPerfectScore(); }
 
-    protected void init( final double insetY, final ArrayList<T> _pairs ) {
+    protected void initCollectionBoxes( final double insetY, final ArrayList<T> _pairs ) {
         this.pairs = iterableList( _pairs );
 
         List<PNode> patterns = pairs.map( new F<T, PNode>() {
@@ -107,7 +107,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         }
     }
 
-    protected void finishInit( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final ActionListener goToNextLevel, final VoidFunction0 _resampleLevel ) {
+    protected void finishCreatingUI( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final ActionListener goToNextLevel, final VoidFunction0 _resampleLevel ) {
         final HTMLImageButtonNode nextButton = new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), BUTTON_COLOR ) {{
             setUserComponent( Components.nextButton );
             addActionListener( goToNextLevel );

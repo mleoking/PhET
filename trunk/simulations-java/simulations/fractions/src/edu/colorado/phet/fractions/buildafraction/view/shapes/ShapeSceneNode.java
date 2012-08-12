@@ -94,7 +94,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             final ShapeCollectionBoxNode cell = new ShapeCollectionBoxNode( this, level.targets.maximum( ord( _toDouble ) ) );
             _pairs.add( new ShapeSceneCollectionBoxPair( cell, new ZeroOffsetNode( f ), target ) );
         }
-        init( insetY, _pairs );
+        initCollectionBoxes( insetY, _pairs );
 
         ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
             setInitialPosition( 285, 200 );
@@ -179,7 +179,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         addChild( toolboxNode );
         toolboxNode.moveToBack();
 
-        finishInit( levelIndex, model, stageSize, goToNextLevel, _resampleLevel );
+        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel );
     }
 
     protected void reset() {
