@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public @Data class CollectionBoxPair implements ICollectionBoxPair {
+public @Data class NumberSceneCollectionBoxPair implements ICollectionBoxPair {
     public final NumberCollectionBoxNode targetCell;
     public final PNode node;
 }
