@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -34,40 +35,6 @@ public class BioShapeUtils {
     private BioShapeUtils() {
     }
 
-    // REVIEW: this type of code comes up a lot. can we move it to somewhere in phetcommon?
-    private static Shape createShapeFromPoints( List<Point2D> points ) {
-        DoubleGeneralPath path = new DoubleGeneralPath();
-        path.moveTo( points.get( 0 ) );
-        for ( Point2D point : points ) {
-            path.lineTo( point );
-        }
-        path.closePath();
-        return path.getGeneralPath();
-    }
-
-    /**
-     * Create a shape from a set of points.  The points must be in an order
-     * that, if connected by straight lines, would form a closed shape.  If not,
-     * the shape will look quite odd.
-     *
-     * @param points
-     * @return
-     */
-    public static Shape createRoundedShapeFromPoints( List<Point2D> points ) {
-        DoubleGeneralPath path = new DoubleGeneralPath();
-        path.moveTo( points.get( 0 ) );
-        for ( int i = 0; i < points.size(); i++ ) {
-            Vector2D segmentStartPoint = new Vector2D( points.get( i ) );
-            Vector2D segmentEndPoint = new Vector2D( points.get( ( i + 1 ) % points.size() ) );
-            Vector2D previousPoint = new Vector2D( points.get( i - 1 >= 0 ? i - 1 : points.size() - 1 ) );
-            Vector2D nextPoint = new Vector2D( points.get( ( i + 2 ) % points.size() ) );
-            Vector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
-            Vector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
-            path.curveTo( controlPoint1.getX(), controlPoint1.getY(), controlPoint2.getX(), controlPoint2.getY(), segmentEndPoint.getX(), segmentEndPoint.getY() );
-        }
-        return path.getGeneralPath();
-    }
-
     /**
      * Create a distorted shape from a list of points.  This is useful when
      * trying to animate some sort of deviation from a basic shape.
@@ -82,7 +49,7 @@ public class BioShapeUtils {
      */
     public static Shape createdDistortedRoundedShapeFromPoints( List<Point2D> points, double distortionFactor, long randomNumberSeed ) {
         // Determine the center location of the undistorted shape.
-        Shape undistortedShape = createRoundedShapeFromPoints( points );
+        Shape undistortedShape = ShapeUtils.createRoundedShapeFromPoints( points );
         Point2D undistortedShapeCenter = new Point2D.Double( undistortedShape.getBounds2D().getCenterX(), undistortedShape.getBounds2D().getCenterY() );
         // Alter the positions of the points that define the shape in order to
         // define a distorted version of the shape.
@@ -94,7 +61,7 @@ public class BioShapeUtils {
             alteredPoints.add( pointAsVector.toPoint2D() );
         }
         // Create the basis for the new shape.
-        Shape distortedShape = createRoundedShapeFromPoints( alteredPoints );
+        Shape distortedShape = ShapeUtils.createRoundedShapeFromPoints( alteredPoints );
         // Determine the center of the new shape.
         Point2D distortedShapeCenter = new Point2D.Double( distortedShape.getBounds2D().getCenterX(), distortedShape.getBounds2D().getCenterY() );
         // Shift the new shape so that the center is in the same place as the old one.
@@ -123,8 +90,8 @@ public class BioShapeUtils {
             Vector2D segmentEndPoint = new Vector2D( points.get( ( i + 1 ) % points.size() ) );
             Vector2D previousPoint = new Vector2D( points.get( i - 1 >= 0 ? i - 1 : points.size() - 1 ) );
             Vector2D nextPoint = new Vector2D( points.get( ( i + 2 ) % points.size() ) );
-            Vector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
-            Vector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
+            Vector2D controlPoint1 = ShapeUtils.extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
+            Vector2D controlPoint2 = ShapeUtils.extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
             if ( rand.nextBoolean() ) {
                 // Curved segment.
                 path.curveTo( controlPoint1.getX(), controlPoint1.getY(), controlPoint2.getX(), controlPoint2.getY(), segmentEndPoint.getX(), segmentEndPoint.getY() );
@@ -175,9 +142,9 @@ public class BioShapeUtils {
             return path.getGeneralPath();
         }
         // Create the first curved segment.
-        cp1 = extrapolateControlPoint( new Vector2D( points.get( 2 ) ),
-                                       new Vector2D( points.get( 1 ) ),
-                                       new Vector2D( points.get( 0 ) ) );
+        cp1 = ShapeUtils.extrapolateControlPoint( new Vector2D( points.get( 2 ) ),
+                                                  new Vector2D( points.get( 1 ) ),
+                                                  new Vector2D( points.get( 0 ) ) );
         path.quadTo( cp1.getX(), cp1.getY(), points.get( 1 ).getX(), points.get( 1 ).getY() );
         // Create the middle segments.
         for ( int i = 1; i < points.size() - 2; i++ ) {
@@ -185,14 +152,14 @@ public class BioShapeUtils {
             Vector2D segmentEndPoint = new Vector2D( points.get( ( i + 1 ) ) );
             Vector2D previousPoint = new Vector2D( points.get( i - 1 ) );
             Vector2D nextPoint = new Vector2D( points.get( ( i + 2 ) ) );
-            Vector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
-            Vector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
+            Vector2D controlPoint1 = ShapeUtils.extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
+            Vector2D controlPoint2 = ShapeUtils.extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
             path.curveTo( controlPoint1.getX(), controlPoint1.getY(), controlPoint2.getX(), controlPoint2.getY(), segmentEndPoint.getX(), segmentEndPoint.getY() );
         }
         // Create the final curved segment.
-        cp1 = extrapolateControlPoint( new Vector2D( points.get( points.size() - 3 ) ),
-                                       new Vector2D( points.get( points.size() - 2 ) ),
-                                       new Vector2D( points.get( points.size() - 1 ) ) );
+        cp1 = ShapeUtils.extrapolateControlPoint( new Vector2D( points.get( points.size() - 3 ) ),
+                                                  new Vector2D( points.get( points.size() - 2 ) ),
+                                                  new Vector2D( points.get( points.size() - 1 ) ) );
         path.quadTo( cp1.getX(), cp1.getY(), points.get( points.size() - 1 ).getX(), points.get( points.size() - 1 ).getY() );
         return path.getGeneralPath();
     }
@@ -205,15 +172,6 @@ public class BioShapeUtils {
             path.lineTo( point );
         }
         return path.getGeneralPath();
-    }
-
-    // Extrapolate a control point for a curve based on three points.  This
-    // is used to "go around the corner" at y, starting from x, and heading
-    // towards z.  The control point is for the y-to-z segment.
-    private static Vector2D extrapolateControlPoint( Vector2D x, Vector2D y, Vector2D z ) {
-        Vector2D xy = y.minus( x );
-        Vector2D yz = z.minus( y );
-        return y.plus( xy.times( 0.25 ).plus( yz.times( 0.25 ) ) );
     }
 
     /**
@@ -249,7 +207,7 @@ public class BioShapeUtils {
             pointList.add( centerOfEllipse.plus( vectorToEdge ).toPoint2D() );
         }
 
-        return createRoundedShapeFromPoints( pointList );
+        return ShapeUtils.createRoundedShapeFromPoints( pointList );
     }
 
     /**
@@ -324,7 +282,7 @@ public class BioShapeUtils {
         }
 
         // Create the unrotated and untranslated shape.
-        Shape untranslatedAndUnrotatedShape = createRoundedShapeFromPoints( pointList );
+        Shape untranslatedAndUnrotatedShape = ShapeUtils.createRoundedShapeFromPoints( pointList );
 
         // Rotate and translate.
         Shape untranslatedShape = AffineTransform.getRotateInstance( rotationAngle ).createTransformedShape( untranslatedAndUnrotatedShape );
@@ -360,9 +318,9 @@ public class BioShapeUtils {
 
         // Add the shapes.  Many are translated somewhat to avoid overlap.
         PCanvas canvas = new PCanvas();
-        Shape shape = BioShapeUtils.createShapeFromPoints( vLikePointList );
+        Shape shape = ShapeUtils.createShapeFromPoints( vLikePointList );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 50 ).createTransformedShape( shape ), Color.PINK ) );
-        shape = BioShapeUtils.createRoundedShapeFromPoints( vLikePointList );
+        shape = ShapeUtils.createRoundedShapeFromPoints( vLikePointList );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 100, 50 ).createTransformedShape( shape ), Color.GREEN ) );
         shape = BioShapeUtils.createRandomShapeFromPoints( vLikePointList, 101 );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 100 ).createTransformedShape( shape ), Color.ORANGE ) );

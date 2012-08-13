@@ -4,11 +4,16 @@ package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.awt.Shape;
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * Utilities related to Shapes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author John Blanco
  */
 public class ShapeUtils {
 
@@ -71,5 +76,61 @@ public class ShapeUtils {
             area.subtract( new Area( s ) );
         }
         return area;
+    }
+
+    /**
+     * Creates a shape from a set of points.  The points must be in an order
+     * that, when connected by straight lines, would form a closed shape.
+     * Otherwise strange and undefined output may result.
+     *
+     * @param points Set of points to connect.
+     * @return Shape that the provided points define.
+     */
+    public static Shape createShapeFromPoints( List<Point2D> points ) {
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        path.moveTo( points.get( 0 ) );
+        for ( Point2D point : points ) {
+            path.lineTo( point );
+        }
+        path.closePath();
+        return path.getGeneralPath();
+    }
+
+    /**
+     * Creates a rounded shape from a set of points.  The points must be in an
+     * order that, if connected by straight lines, would form a closed shape.
+     *
+     * @param points Set of points to connect.
+     * @return Shape that the provided points define.
+     */
+    public static Shape createRoundedShapeFromPoints( List<Point2D> points ) {
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        path.moveTo( points.get( 0 ) );
+        for ( int i = 0; i < points.size(); i++ ) {
+            Vector2D segmentStartPoint = new Vector2D( points.get( i ) );
+            Vector2D segmentEndPoint = new Vector2D( points.get( ( i + 1 ) % points.size() ) );
+            Vector2D previousPoint = new Vector2D( points.get( i - 1 >= 0 ? i - 1 : points.size() - 1 ) );
+            Vector2D nextPoint = new Vector2D( points.get( ( i + 2 ) % points.size() ) );
+            Vector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
+            Vector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
+            path.curveTo( controlPoint1.getX(), controlPoint1.getY(), controlPoint2.getX(), controlPoint2.getY(), segmentEndPoint.getX(), segmentEndPoint.getY() );
+        }
+        return path.getGeneralPath();
+    }
+
+    /**
+     * Extrapolates a control point given three input points.  The resulting
+     * control point is for the segment from point y to point z, and the
+     * resulting curve would reasonably connect to point x.
+     *
+     * @param x Location where the line is "coming from".
+     * @param y Beginning of line segment.
+     * @param z End of line segment.
+     * @return Control point for segment from y to z.
+     */
+    public static Vector2D extrapolateControlPoint( Vector2D x, Vector2D y, Vector2D z ) {
+        Vector2D xy = y.minus( x );
+        Vector2D yz = z.minus( y );
+        return y.plus( xy.times( 0.25 ).plus( yz.times( 0.25 ) ) );
     }
 }
