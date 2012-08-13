@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractions.buildafraction.view.shapes;
+package edu.colorado.phet.fractions.buildafraction.view;
 
 /**
  * Context for a scene, which provides an interface for navigation and re-sampling.
