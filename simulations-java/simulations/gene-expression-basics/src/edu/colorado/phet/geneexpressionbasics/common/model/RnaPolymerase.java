@@ -12,6 +12,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.RnaPolymeraseAttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
@@ -118,6 +119,6 @@ public class RnaPolymerase extends MobileBiomolecule {
     private static Shape createShape() {
         // Shape is meant to look like illustrations in "The Machinery of
         // Life" by David Goodsell.
-        return BioShapeUtils.createRoundedShapeFromPoints( shapePoints );
+        return ShapeUtils.createRoundedShapeFromPoints( shapePoints );
     }
 }
