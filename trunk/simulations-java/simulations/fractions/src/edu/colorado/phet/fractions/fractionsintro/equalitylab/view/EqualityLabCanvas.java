@@ -91,7 +91,9 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                         icons.add( new Element<Boolean>( new PieIcon( new Property<Representation>( PIE ), Colors.LIGHT_BLUE ), true, chain( Components.pieRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
                     else if ( representation == HORIZONTAL_BAR ) {
-                        icons.add( new Element<Boolean>( new HorizontalBarIcon( new Property<Representation>( HORIZONTAL_BAR ), LIGHT_BLUE ) {{scale( 0.8 );}}, true, chain( horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        icons.add( new Element<Boolean>( new HorizontalBarIcon( new Property<Representation>( HORIZONTAL_BAR ), LIGHT_BLUE ) {{
+                            scale( 0.8 );
+                        }}, true, chain( horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
                     else if ( representation == VERTICAL_BAR ) {
                         final VerticalBarIcon verticalBarIcon = new VerticalBarIcon( scaledFactorySet.verticalSliceFactory, HORIZONTAL_SLICE_COLOR );
@@ -100,14 +102,18 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                         icons.add( new Element<Boolean>( node, true, chain( horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
                     else if ( representation == WATER_GLASSES ) {
-                        icons.add( new Element<Boolean>( new WaterGlassIcon( new Property<Representation>( WATER_GLASSES ), Colors.LIGHT_BLUE ) {{scale( 0.8 );}}, true, chain( Components.waterGlassesRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        icons.add( new Element<Boolean>( new WaterGlassIcon( new Property<Representation>( WATER_GLASSES ), Colors.LIGHT_BLUE ) {{
+                            scale( 0.8 );
+                        }}, true, chain( Components.waterGlassesRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
                     else if ( representation == NUMBER_LINE ) {
                         icons.add( new Element<Boolean>( new NumberLineIcon( new Property<Representation>( NUMBER_LINE ) ), true, chain( Components.numberLineRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
 
                     icons.add( new Element<Boolean>( new NumberLineIcon( new Property<Representation>( NUMBER_LINE ) ), false, chain( Components.numberLineRadioButton, FractionsIntroSimSharing.green ) ) );
-                    addChild( new RadioButtonStripControlPanelNode<Boolean>( model.sameAsLeft, icons, padding ) {{ scale( representationControlPanelScale ); }} );
+                    addChild( new RadioButtonStripControlPanelNode<Boolean>( model.sameAsLeft, icons, padding ) {{
+                        scale( representationControlPanelScale );
+                    }} );
                 }
             } );
         }} ) {{
@@ -172,6 +178,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             model.rightWaterGlasses.addObserver( new SimpleObserver() {
                 public void update() {
                     removeAllChildren();
+                    //REVIEW: Can commented out code be removed?
 //                    System.out.println("Right water glasses changed");
                     final Shape shape = scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1, model.getRandomSeed() ).head().getShape();
                     addChild( WaterGlassSetNode.createEmptyCellsNode( Colors.LIGHT_BLUE, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
@@ -185,7 +192,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                                              model.maximum, 15,
                                              new Color( Colors.LIGHT_BLUE.getRed(), Colors.LIGHT_BLUE.getGreen(), Colors.LIGHT_BLUE.getBlue(), 200 ), true,
                                              model.denominator ) {{
-            setOffset( 385 + 200, 445 );
+            setOffset( 385 + 200, 445 ); //REVIEW: Explain numbers.
 
             //Can't interact with right-side representations
             setPickable( false );
@@ -205,7 +212,9 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }};
         addChild( equalsSign );
 
-        addChild( new ZeroOffsetNode( new ScaledUpFractionNode( model.numerator, model.denominator, model.scale ) {{setScale( 0.75 );}} ) {{
+        addChild( new ZeroOffsetNode( new ScaledUpFractionNode( model.numerator, model.denominator, model.scale ) {{
+            setScale( 0.75 );
+        }} ) {{
             setOffset( equalsSign.getMaxX() + 10, equalsSign.getCenterY() - getFullHeight() / 2 );
         }} );
     }
@@ -224,6 +233,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode, iconTextOnTheRight ) ) );
 
         //For water glasses
+        //REVIEW: This is the only access to primaryFactorySet out of the
+        //model, and it's a bit of an odd usage.  Suggest calculating this
+        //value in the model and making that public instead and keeping
+        //primaryFactorySet private.
         final Rectangle2D b = model.primaryFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().getShape().getBounds2D();
         addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, Colors.CUP_COLOR, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
     }
@@ -232,9 +245,13 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         final PNode verticalBarIcon = new VerticalBarIcon( scaledFactorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ).getNode();
         verticalBarIcon.scale( 0.8 );
         return Arrays.asList( new Element<Representation>( new PieIcon( representation, Colors.CIRCLE_COLOR ), PIE, chain( Components.pieRadioButton, type ) ),
-                              new Element<Representation>( new HorizontalBarIcon( representation, HORIZONTAL_SLICE_COLOR ) {{scale( 0.8 );}}, HORIZONTAL_BAR, chain( horizontalBarRadioButton, type ) ),
+                              new Element<Representation>( new HorizontalBarIcon( representation, HORIZONTAL_SLICE_COLOR ) {{
+                                  scale( 0.8 );
+                              }}, HORIZONTAL_BAR, chain( horizontalBarRadioButton, type ) ),
                               new Element<Representation>( verticalBarIcon, VERTICAL_BAR, chain( horizontalBarRadioButton, type ) ),
-                              new Element<Representation>( new WaterGlassIcon( representation, Colors.CUP_COLOR ) {{scale( 0.8 );}}, WATER_GLASSES, chain( Components.waterGlassesRadioButton, type ) )
+                              new Element<Representation>( new WaterGlassIcon( representation, Colors.CUP_COLOR ) {{
+                                  scale( 0.8 );
+                              }}, WATER_GLASSES, chain( Components.waterGlassesRadioButton, type ) )
         );
     }
 }
