@@ -5,6 +5,8 @@ import fj.F;
 import fj.data.List;
 
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
@@ -13,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
@@ -26,7 +27,6 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendButtonPressed;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
@@ -44,7 +44,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  * @author Sam Reid
  */
 public class ContainerNode extends PNode {
-    private final PImage splitButton;
+    private final UndoButton splitButton;
     final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
     private final DynamicCursorHandler dynamicCursorHandler;
     public final ShapeSceneNode parent;
@@ -65,7 +65,7 @@ public class ContainerNode extends PNode {
         this.context = context;
         this.shapeType = shapeType;
 
-        splitButton = new PImage( Images.SPLIT_BLUE );
+        splitButton = new UndoButton( chain( Components.numberSplitButton, ContainerNode.this.hashCode() ) );
         addChild( splitButton );
         splitButton.setVisible( false );
         splitButton.setPickable( false );
@@ -85,11 +85,15 @@ public class ContainerNode extends PNode {
         splitButton.translate( -splitButton.getFullBounds().getWidth(),
                                -splitButton.getFullBounds().getHeight() );
         dynamicCursorHandler = new DynamicCursorHandler( Cursor.HAND_CURSOR );
-        splitButton.addInputEventListener( dynamicCursorHandler );
+        splitButton.addActionListener( new ActionListener() {
+            @Override public void actionPerformed( final ActionEvent e ) {
+                splitAll();
+            }
+        } );
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( final PInputEvent event ) {
                 sendButtonPressed( chain( Components.numberSplitButton, ContainerNode.this.hashCode() ) );
-                splitAll();
+
                 dynamicCursorHandler.setCursor( Cursor.DEFAULT_CURSOR );
             }
         } );

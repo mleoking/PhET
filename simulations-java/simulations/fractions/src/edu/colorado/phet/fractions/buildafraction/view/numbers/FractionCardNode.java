@@ -104,7 +104,7 @@ class FractionCardNode extends RichPNode {
                         Point2D x = fractionNode.getGlobalTranslation();
                         numberSceneNode.addChild( fractionNode );
                         fractionNode.setGlobalTranslation( x );
-                        fractionNode.animateToPositionScaleRotation( targetCenter.getX() - fractionNode.getFullBounds().getWidth() / 2 * scaleFactor + 15,
+                        fractionNode.animateToPositionScaleRotation( targetCenter.getX() - fractionNode.getFullBounds().getWidth() / 2 * scaleFactor + 25,
                                                                      targetCenter.getY() - fractionNode.getFullBounds().getHeight() / 2 * scaleFactor + 10,
                                                                      scaleFactor, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( fractionNode, false ) );
 

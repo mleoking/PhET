@@ -5,6 +5,8 @@ import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -19,18 +21,15 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
-import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.AnimateToScale;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.UndoButton;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendButtonPressed;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.fraction;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys.denominator;
@@ -49,7 +48,7 @@ public class FractionNode extends RichPNode {
     public final PhetPPath topBox;
     public final PhetPPath bottomBox;
     public final PhetPPath divisorLine;
-    public final PImage splitButton;
+    public final UndoButton splitButton;
     private NumberCardNode topCard;
     private NumberCardNode bottomCard;
     private final ArrayList<VoidFunction1<Option<Fraction>>> splitListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
@@ -73,7 +72,13 @@ public class FractionNode extends RichPNode {
         setScale( SCALE_IN_TOOLBOX );
         divisorLine = new PhetPPath( new Line2D.Double( 0, 0, 50, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black );
 
-        splitButton = new PImage( Images.SPLIT_BLUE );
+        splitButton = new UndoButton( chain( Components.numberSplitButton, FractionNode.this.hashCode() ) );
+        splitButton.addActionListener( new ActionListener() {
+            @Override public void actionPerformed( final ActionEvent e ) {
+                split();
+            }
+        } );
+
         final VBox box = new VBox( topBox, divisorLine, bottomBox );
 
         //Show a background behind it to make the entire shape draggable
@@ -85,12 +90,6 @@ public class FractionNode extends RichPNode {
         bounds = box.localToParent( bounds );
         splitButton.setOffset( bounds.getMinX() - 2 - splitButton.getFullBounds().getWidth(), bounds.getCenterY() - splitButton.getFullBounds().getHeight() / 2 );
         splitButton.addInputEventListener( new CursorHandler() );
-        splitButton.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mousePressed( final PInputEvent event ) {
-                sendButtonPressed( chain( Components.numberSplitButton, FractionNode.this.hashCode() ) );
-                split();
-            }
-        } );
         splitButton.setVisible( false );
         addChild( splitButton );
 

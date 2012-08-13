@@ -2,20 +2,19 @@
 package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.UndoButton;
 import edu.colorado.phet.fractions.common.math.Fraction;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
-import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 
 /**
  * Node that shows a target scoring cell, where a correct fraction can be collected.
@@ -26,7 +25,7 @@ public class NumberCollectionBoxNode extends PNode {
     public final Fraction fraction;
     private final PhetPPath path;
     private boolean completed;
-    private final PImage splitButton;
+    private final UndoButton splitButton;
     private FractionNode fractionGraphic;
     private final NumberSceneNode numberSceneNode;
 
@@ -40,15 +39,16 @@ public class NumberCollectionBoxNode extends PNode {
         this.fraction = new Fraction( numerator, denominator );
         addChild( this.path );
 
-        splitButton = new PImage( Images.SPLIT_BLUE ) {{
-            setOffset( INSET, INSET );
+        splitButton = new UndoButton( Components.shapesCollectionBoxSplitButton ) {{
+            scale( 0.8 );
+            setOffset( -1, -1 );
+            addActionListener( new ActionListener() {
+                @Override public void actionPerformed( final ActionEvent e ) {
+                    split( true );
+                }
+            } );
         }};
         splitButton.addInputEventListener( new CursorHandler() );
-        splitButton.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseReleased( final PInputEvent event ) {
-                split( true );
-            }
-        } );
         splitButton.setVisible( false );
         addChild( splitButton );
     }
