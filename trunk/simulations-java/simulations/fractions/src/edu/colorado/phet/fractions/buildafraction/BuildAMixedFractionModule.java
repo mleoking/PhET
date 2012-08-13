@@ -8,6 +8,7 @@ import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Compo
 
 /**
  * Main module for "build a fraction with mixed numbers" tab, which is only visible in the standalone "Build a Fraction" sim.
+ * TODO: This tab is not done yet--it is scheduled for work after Fractions Intro is published.
  *
  * @author Sam Reid
  */

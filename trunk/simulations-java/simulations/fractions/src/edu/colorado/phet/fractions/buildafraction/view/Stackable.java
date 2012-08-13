@@ -41,9 +41,7 @@ public abstract class Stackable<T extends Stackable> extends PNode {
 
     public abstract void animateToStackLocation( Vector2D v );
 
-    protected double getAnimateToScale() {
-        return 1.0;
-    }
+    protected double getAnimateToScale() { return 1.0; }
 
     public boolean isAtStackIndex( Integer site ) {
         return positionInStack.isSome() && positionInStack.some().equals( site );
