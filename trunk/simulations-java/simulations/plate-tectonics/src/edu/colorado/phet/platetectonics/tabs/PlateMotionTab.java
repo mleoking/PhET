@@ -42,6 +42,7 @@ import edu.colorado.phet.platetectonics.control.PlayModePanel;
 import edu.colorado.phet.platetectonics.control.ResetPanel;
 import edu.colorado.phet.platetectonics.control.TectonicsTimeControl;
 import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
+import edu.colorado.phet.platetectonics.model.Handle;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
@@ -82,9 +83,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private OrthoPiccoloNode motionTypeChooserPanel = null;
 
     // dragging state for the manual mode
-    private boolean draggingPlate = false;
-    private HandleNode draggedHandle = null;
+    private boolean draggingHandle = false;
+    private HandleNode activeHandle = null;
     private Vector2F draggingPlateStartMousePosition = null;
+    private boolean pressingArrow = false;
 
     // now this actually contains angles!!!!
     public final Property<Vector2F> motionVectorRight = new Property<Vector2F>( new Vector2F() );
@@ -121,21 +123,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
         // add in the handles for manual mode
         // coordinates are manually picked and tested for handle locations
-        leftHandle = new HandleNode( new Property<Vector3F>( new Vector3F( -120, 0, -125 / 2 ) ), this, false ) {{
-            motionVectorRight.addObserver( new SimpleObserver() {
-                public void update() {
-                    updateTransform( -motionVectorRight.get().getX(), -motionVectorRight.get().getY() );
-                }
-            } );
-        }};
+        leftHandle = new HandleNode( new Handle( motionVectorRight, false, this ), new Property<Vector3F>( new Vector3F( -120, 0, -125 / 2 ) ), this );
         sceneLayer.addChild( leftHandle );
-        rightHandle = new HandleNode( new Property<Vector3F>( new Vector3F( 120, 0, -125 / 2 ) ), this, true ) {{
-            motionVectorRight.addObserver( new SimpleObserver() {
-                public void update() {
-                    updateTransform( motionVectorRight.get().getX(), motionVectorRight.get().getY() );
-                }
-            } );
-        }};
+        rightHandle = new HandleNode( new Handle( motionVectorRight, true, this ), new Property<Vector3F>( new Vector3F( 120, 0, -125 / 2 ) ), this );
         sceneLayer.addChild( rightHandle );
 
         final GLNode layerLabels = new GLNode() {{
@@ -427,10 +417,12 @@ public class PlateMotionTab extends PlateTectonicsTab {
         timeChangeNotifier.addUpdateListener(
                 new UpdateListener() {
                     public void update() {
-                        if ( draggingPlate ) {
+                        if ( draggingHandle ) {
                             Ray3F ray = getCameraRay( Mouse.getX(), Mouse.getY() );
-                            draggedHandle.dragHandle( ray );
+                            activeHandle.dragHandle( ray );
 
+                        }
+                        if ( draggingHandle || pressingArrow ) {
                             if ( getPlateMotionModel().motionType.get() != null ) {
                                 switch( getPlateMotionModel().motionType.get() ) {
                                     case CONVERGENT:
@@ -641,9 +633,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
     protected void uncaughtCursor() {
         // TODO: use a closed-hand grab cursor instead if possible?
         final Ray3F ray = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
-        final boolean hitsRightHandle = isOverRightHandle( ray );
-        final boolean hitsLeftHandle = isOverLeftHandle( ray );
-        final Boolean showHand = ( getPlateMotionModel().hasBothPlates.get() && ( hitsRightHandle || hitsLeftHandle ) ) || draggingPlate;
+        final boolean hitsRightHandle = isOverRightHandle( ray ) || isOverRightHandleArrow( ray );
+        final boolean hitsLeftHandle = isOverLeftHandle( ray ) || isOverLeftHandleArrow( ray );
+        final Boolean showHand = ( getPlateMotionModel().hasBothPlates.get() && ( hitsRightHandle || hitsLeftHandle ) ) || draggingHandle;
         getCanvas().setCursor( Cursor.getPredefinedCursor( showHand ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR ) );
     }
 
@@ -655,31 +647,59 @@ public class PlateMotionTab extends PlateTectonicsTab {
         return rightHandle.isVisible() && rightHandle.rayIntersectsHandle( ray );
     }
 
+    private boolean isOverLeftHandleArrow( Ray3F ray ) {
+        return leftHandle.isVisible() && leftHandle.rayIntersectsArrow( ray ).isSome();
+    }
+
+    private boolean isOverRightHandleArrow( Ray3F ray ) {
+        return rightHandle.isVisible() && rightHandle.rayIntersectsArrow( ray ).isSome();
+    }
+
     @Override
     protected void uncaughtMouseButton() {
         if ( !isAutoMode.get() ) {
             final Ray3F ray = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
             final boolean overLeft = isOverLeftHandle( ray );
             final boolean overRight = isOverRightHandle( ray );
+            final boolean overLeftArrow = isOverLeftHandleArrow( ray );
+            final boolean overRightArrow = isOverRightHandleArrow( ray );
             if ( Mouse.getEventButtonState() && ( overLeft || overRight ) ) {
-                // mouse down
-                draggingPlate = true;
+                // mouse down on a handle
+                draggingHandle = true;
                 draggingPlateStartMousePosition = getMouseViewPositionOnZPlane();
                 if ( overLeft ) {
-                    leftHandle.startDrag( ray );
-                    draggedHandle = leftHandle;
+                    leftHandle.startHandleDrag( ray );
+                    activeHandle = leftHandle;
                 }
                 else {
-                    rightHandle.startDrag( ray );
-                    draggedHandle = rightHandle;
+                    rightHandle.startHandleDrag( ray );
+                    activeHandle = rightHandle;
+                }
+            }
+            else if ( Mouse.getEventButtonState() && ( overLeftArrow || overRightArrow ) ) {
+                // mouse down on an arrow
+                pressingArrow = true;
+                if ( overLeftArrow ) {
+                    leftHandle.startArrowPress( ray );
+                    activeHandle = leftHandle;
+                }
+                else {
+                    rightHandle.startArrowPress( ray );
+                    activeHandle = rightHandle;
                 }
             }
             else {
-                if ( draggedHandle != null ) {
-                    draggedHandle.endDrag();
-                    draggedHandle = null;
+                if ( activeHandle != null ) {
+                    if ( draggingHandle ) {
+                        activeHandle.endHandleDrag();
+                    }
+                    else if ( pressingArrow ) {
+                        activeHandle.endArrowPress();
+                    }
+                    activeHandle = null;
                 }
-                draggingPlate = false;
+                draggingHandle = false;
+                pressingArrow = false;
                 motionVectorRight.reset();
             }
         }

@@ -56,7 +56,7 @@ public @EqualsAndHashCode(callSuper = false) @ToString class Vector2F extends Ab
         return new Vector2F( (float) Math.cos( angle ), (float) Math.sin( angle ) ).times( radius );
     }
 
-    public Vector2F negate() { return times( -1 ); }
+    public Vector2F negated() { return times( -1 ); }
 
     //Convenience creation method for when extreme terseness is desired
     public static Vector2F v( float x, float y ) {return new Vector2F( x, y );}
