@@ -25,11 +25,13 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
+import edu.colorado.phet.platetectonics.PlateTectonicsApplication;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ParameterKeys;
@@ -46,6 +48,7 @@ import edu.colorado.phet.platetectonics.model.Handle;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
+import edu.colorado.phet.platetectonics.model.TectonicsClock;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.labels.TextLabel;
 import edu.colorado.phet.platetectonics.util.MortalUpdateListener;
@@ -350,14 +353,28 @@ public class PlateMotionTab extends PlateTectonicsTab {
         * time control
         *----------------------------------------------------------------------------*/
         tectonicsTimeControl = new TectonicsTimeControl( getClock(), isAutoMode );
-        final OrthoPiccoloNode timeControlPanelNode = new OrthoPiccoloNode( new ControlPanelNode( tectonicsTimeControl ), this, getCanvasTransform(),
+        final double timeControlWidth = new ControlPanelNode( new TectonicsTimeControl( new TectonicsClock( 1 ), new Property<Boolean>( true ) ) ).getFullBounds().getWidth();
+        final OrthoPiccoloNode timeControlPanelNode = new OrthoPiccoloNode( new ZeroOffsetNode( new ControlPanelNode( tectonicsTimeControl ) ), this, getCanvasTransform(),
                                                                             new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
-            onResize.addUpdateListener( new UpdateListener() {
-                public void update() {
-                    position.set( new Vector2D( getStageSize().width - getComponentWidth() - 10,
+            final Runnable resizeMe = new Runnable() {
+                public void run() {
+                    double widthToUse = PlateTectonicsApplication.moveTimeControl.get() ? getComponentWidth() : timeControlWidth;
+                    position.set( new Vector2D( getStageSize().width - widthToUse - 10,
                                                 10 ) );
                 }
+            };
+            onResize.addUpdateListener( new UpdateListener() {
+                public void update() {
+                    resizeMe.run();
+                }
             }, true );
+            PlateTectonicsApplication.moveTimeControl.addObserver( new SimpleObserver() {
+                public void update() {
+                    resizeMe.run();
+                }
+            }, false );
+            position.set( new Vector2D( getStageSize().width - timeControlWidth - 10,
+                                        10 ) );
 
             updateOnEvent( beforeFrameRender );
 
@@ -388,7 +405,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                                                    PlateMotionTab.this, getCanvasTransform(),
                                                                    new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
                         double left = modeSwitchPanel.position.get().getX() + modeSwitchPanel.getComponentWidth();
-                        double right = timeControlPanelNode.position.get().getX();
+//                        double right = timeControlPanelNode.position.get().getX();
+                        double right = getStageSize().width - timeControlWidth - 10;
                         position.set( new Vector2D( ( ( left + right ) - getComponentWidth() ) * 0.5,
                                                     10 ) );
                         updateOnEvent( beforeFrameRender );
