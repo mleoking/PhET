@@ -70,7 +70,7 @@ public class RiftingBehavior extends PlateBehavior {
         final float spread = 0.5f;
         final float maxDistance = 100000;
         float angle = (float) ( Math.PI / 2 + ( Math.random() - 0.5 ) * spread );
-        Vector2F directionFromEnd = new Vector2F( Math.cos( angle ), Math.sin( angle ) ).negate();
+        Vector2F directionFromEnd = new Vector2F( Math.cos( angle ), Math.sin( angle ) ).negated();
         Vector2F position = new Vector2F( 0, RIDGE_TOP_Y ).plus( directionFromEnd.times(
                 onlyAtBottom ? maxDistance - additionalMagnitude : (float) ( Math.random() * maxDistance ) ) );
         addMagma( position );

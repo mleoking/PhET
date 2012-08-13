@@ -1,8 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet.nodes;
 
-import edu.colorado.phet.lwjglphet.materials.GLMaterial;
+import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.math.Triangle3F;
 import edu.colorado.phet.lwjglphet.GLOptions;
+import edu.colorado.phet.lwjglphet.materials.GLMaterial;
 import edu.colorado.phet.lwjglphet.math.Arrow2F;
 
 import static org.lwjgl.opengl.GL11.GL_POLYGON_OFFSET_FILL;
@@ -31,6 +34,10 @@ public class ArrowNode extends GLNode {
         addChild( body );
         outline = new ArrowOutlineNode( arrow );
         addChild( outline );
+    }
+
+    public List<Triangle3F> getTriangles() {
+        return body.getTriangles();
     }
 
     public void setFillMaterial( GLMaterial material ) {

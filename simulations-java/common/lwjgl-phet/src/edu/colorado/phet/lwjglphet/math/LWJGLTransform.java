@@ -122,7 +122,7 @@ public class LWJGLTransform {
     }
 
     public Ray3F transformRay( Ray3F ray ) {
-        return new Ray3F( transformPosition( ray.pos ), transformDelta( ray.dir ) );
+        return new Ray3F( transformPosition( ray.pos ), transformPosition( ray.pos.plus( ray.dir ) ).minus( transformPosition( ray.pos ) ) );
     }
 
     /*---------------------------------------------------------------------------*
@@ -136,7 +136,7 @@ public class LWJGLTransform {
 
     // inverse transform a vector (excludes translation, so positional offsets are maintained). use this for transform(B-A)
     public Vector3F inverseDelta( Vector3F vector ) {
-        return inverse.timesVector( vector );
+        return inversePosition( vector ).minus( inversePosition( new Vector3F() ) );
     }
 
     // inverse transform a normal vector (different from the others)
@@ -157,6 +157,6 @@ public class LWJGLTransform {
     }
 
     public Ray3F inverseRay( Ray3F ray ) {
-        return new Ray3F( inversePosition( ray.pos ), inverseDelta( ray.dir ) );
+        return new Ray3F( inversePosition( ray.pos ), inversePosition( ray.pos.plus( ray.dir ) ).minus( inversePosition( ray.pos ) ) );
     }
 }

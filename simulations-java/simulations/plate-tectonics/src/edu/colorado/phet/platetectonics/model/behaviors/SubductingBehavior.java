@@ -405,7 +405,7 @@ public class SubductingBehavior extends PlateBehavior {
     }
 
     private static Vector2F bottomFromTangent( Vector2F v ) {
-        return topFromTangent( v ).negate();
+        return topFromTangent( v ).negated();
     }
 
     private static Vector2F vectorFromAngle( float angle ) {
