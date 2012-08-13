@@ -29,7 +29,7 @@ import static fj.data.List.*;
  * @author Sam Reid
  */
 public class ShapeLevelList extends ArrayList<ShapeLevel> {
-    private final Random random = new Random();
+    private static final Random random = new Random();
 
     public ShapeLevelList() {
 
@@ -391,7 +391,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    more pieces as a way to constrain the pieces given. So for instance something like 4/3 would have to be built by something like 1(half) +
    2(quarters) + (1/3)
     */
-    ShapeLevel level10() {
+    public static ShapeLevel level10() {
         List<Fraction> available = list( new Fraction( 3, 2 ),
                                          new Fraction( 4, 3 ), new Fraction( 5, 3 ),
                                          new Fraction( 5, 4 ), new Fraction( 7, 4 ),
@@ -404,7 +404,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         return shapeLevel( interestingShapes( targets ), targets, colors[9], choosePiesOrBars() );
     }
 
-    private List<Integer> interestingShapes( final List<Fraction> fractions ) {
+    private static List<Integer> interestingShapes( final List<Fraction> fractions ) {
         List<Integer> list = nil();
         for ( Fraction fraction : fractions ) {
             list = list.append( interestingShapesForOne( fraction ) );
@@ -457,9 +457,9 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     }
 
     //Choose randomly whether a level should be pies or bars
-    private ShapeType choosePiesOrBars() { return booleanToShape( random.nextBoolean() );}
+    private static ShapeType choosePiesOrBars() { return booleanToShape( random.nextBoolean() );}
 
-    private ShapeType booleanToShape( final boolean pies ) {return pies ? ShapeType.PIE : ShapeType.BAR;}
+    private static ShapeType booleanToShape( final boolean pies ) {return pies ? ShapeType.PIE : ShapeType.BAR;}
 
     public static void main( String[] args ) {
 

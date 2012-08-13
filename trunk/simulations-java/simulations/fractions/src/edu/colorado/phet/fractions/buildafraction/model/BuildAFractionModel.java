@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.buildafraction.model;
 
 import fj.F;
+import fj.Unit;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,8 @@ import edu.colorado.phet.fractions.buildafraction.view.LevelIdentifier;
 import edu.colorado.phet.fractions.buildafraction.view.LevelProgress;
 import edu.colorado.phet.fractions.buildafraction.view.LevelType;
 
+import static fj.Unit.unit;
+
 /**
  * Model for the Build a Fraction tab.
  *
@@ -30,10 +33,10 @@ public class BuildAFractionModel {
     public final IntegerProperty selectedPage = new IntegerProperty( 0 );
 
     private final IntegerProperty numberLevel = new IntegerProperty( 0 );
-    private final ArrayList<NumberLevel> numberLevels = new NumberLevelList();
+    private final ArrayList<NumberLevel> numberLevels;
 
     private final IntegerProperty shapeLevel = new IntegerProperty( 0 );
-    private final ArrayList<ShapeLevel> shapeLevels = new ShapeLevelList();
+    private final ArrayList<ShapeLevel> shapeLevels;
 
     public final F<LevelIdentifier, LevelProgress> gameProgress = new F<LevelIdentifier, LevelProgress>() {
         @Override public LevelProgress f( final LevelIdentifier i ) {
@@ -41,9 +44,29 @@ public class BuildAFractionModel {
             return new LevelProgress( level.filledTargets.get(), level.numTargets );
         }
     };
+    private final F<Unit, ArrayList<NumberLevel>> numberLevelFactory;
+    private final F<Unit, ArrayList<ShapeLevel>> shapeLevelFactory;
 
     public BuildAFractionModel() {
+        this( new F<Unit, ArrayList<ShapeLevel>>() {
+                  @Override public ArrayList<ShapeLevel> f( final Unit unit ) {
+                      return new ShapeLevelList();
+                  }
+              }, new F<Unit, ArrayList<NumberLevel>>() {
+                  @Override public ArrayList<NumberLevel> f( final Unit unit ) {
+                      return new NumberLevelList();
+                  }
+              }
+        );
+    }
+
+    public BuildAFractionModel( F<Unit, ArrayList<ShapeLevel>> shapeLevelFactory, F<Unit, ArrayList<NumberLevel>> numberLevelFactory ) {
         checkLevelSizes();
+        numberLevels = numberLevelFactory.f( unit() );
+        shapeLevels = shapeLevelFactory.f( unit() );
+
+        this.numberLevelFactory = numberLevelFactory;
+        this.shapeLevelFactory = shapeLevelFactory;
     }
 
     private void checkLevelSizes() {assert numberLevels.size() == shapeLevels.size();}
@@ -56,12 +79,12 @@ public class BuildAFractionModel {
 
     public void resampleNumberLevel( final int levelIndex ) {
         numberLevels.remove( levelIndex ).dispose();
-        numberLevels.add( levelIndex, new NumberLevelList().get( levelIndex ) );
+        numberLevels.add( levelIndex, numberLevelFactory.f( unit() ).get( levelIndex ) );
     }
 
     public void resampleShapeLevel( final int levelIndex ) {
         shapeLevels.remove( levelIndex ).dispose();
-        shapeLevels.add( levelIndex, new ShapeLevelList().get( levelIndex ) );
+        shapeLevels.add( levelIndex, shapeLevelFactory.f( unit() ).get( levelIndex ) );
     }
 
     public void resetAll() {
@@ -74,14 +97,14 @@ public class BuildAFractionModel {
             level.resetAll();
         }
         numberLevels.clear();
-        numberLevels.addAll( new NumberLevelList() );
+        numberLevels.addAll( numberLevelFactory.f( unit() ) );
 
         shapeLevel.reset();
         for ( ShapeLevel level : shapeLevels ) {
             level.resetAll();
         }
         shapeLevels.clear();
-        shapeLevels.addAll( new ShapeLevelList() );
+        shapeLevels.addAll( shapeLevelFactory.f( unit() ) );
 
         audioEnabled.reset();
     }
