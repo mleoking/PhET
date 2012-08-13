@@ -242,8 +242,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     private void resetCollectionBoxes( final Property<Boolean> sentOneToPlayArea ) {
         for ( NumberSceneCollectionBoxPair pair : pairs ) {
-            if ( pair.targetCell.isCompleted() ) {
-                pair.targetCell.split( sentOneToPlayArea.get() );
+            if ( pair.collectionBoxNode.isCompleted() ) {
+                pair.collectionBoxNode.split( sentOneToPlayArea.get() );
                 sentOneToPlayArea.set( true );
             }
         }
@@ -351,7 +351,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private int numCompletedTargets() {
         return pairs.map( new F<NumberSceneCollectionBoxPair, Boolean>() {
             @Override public Boolean f( final NumberSceneCollectionBoxPair pair ) {
-                return pair.targetCell.isCompleted();
+                return pair.collectionBoxNode.isCompleted();
             }
         } ).filter( new F<Boolean, Boolean>() {
             @Override public Boolean f( final Boolean b ) {

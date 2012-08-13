@@ -223,7 +223,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         //Split everything
         //Return everything home
         for ( ShapeSceneCollectionBoxPair targetPair : pairs ) {
-            targetPair.targetCell.split();
+            targetPair.collectionBoxNode.split();
         }
         for ( ContainerNode containerNode : getContainerNodes() ) {
             containerNode.splitAll();
@@ -251,14 +251,14 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         //See if it hits any matches
         List<ShapeSceneCollectionBoxPair> pairs = this.pairs.sort( ord( new F<ShapeSceneCollectionBoxPair, Double>() {
             @Override public Double f( final ShapeSceneCollectionBoxPair t ) {
-                return t.targetCell.getGlobalFullBounds().getCenter2D().distance( containerNode.getGlobalFullBounds().getCenter2D() );
+                return t.collectionBoxNode.getGlobalFullBounds().getCenter2D().distance( containerNode.getGlobalFullBounds().getCenter2D() );
             }
         } ) );
         boolean hit = false;
 
         //Only consider the closest box, otherwise students can overlap many boxes instead of thinking of the correct answer
         for ( ShapeSceneCollectionBoxPair pair : pairs.take( 1 ) ) {
-            final boolean intersects = pair.targetCell.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
+            final boolean intersects = pair.collectionBoxNode.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
             final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value );
             final boolean occupied = pair.getCollectionBoxNode().isCompleted();
             if ( intersects && matchesValue && !occupied ) {
@@ -267,9 +267,9 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
                 //Order dependence: set in target cell first so that layout code will work better afterwards
                 containerNode.setInTargetCell( true, pair.value.denominator );
-                containerNode.animateToPositionScaleRotation( pair.targetCell.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
-                                                              pair.targetCell.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, false ) );
-                pair.targetCell.setCompletedFraction( containerNode );
+                containerNode.animateToPositionScaleRotation( pair.collectionBoxNode.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
+                                                              pair.collectionBoxNode.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, false ) );
+                pair.collectionBoxNode.setCompletedFraction( containerNode );
                 containerNode.setAllPickable( false );
 
                 hit = true;
@@ -498,7 +498,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private boolean allTargetsComplete() {
         return pairs.map( new F<ShapeSceneCollectionBoxPair, Boolean>() {
             @Override public Boolean f( final ShapeSceneCollectionBoxPair pair ) {
-                return pair.targetCell.isCompleted();
+                return pair.collectionBoxNode.isCompleted();
             }
         } ).filter( new F<Boolean, Boolean>() {
             @Override public Boolean f( final Boolean b ) {

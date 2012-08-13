@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public @Data class ShapeSceneCollectionBoxPair implements ICollectionBoxPair {
-    public final ShapeCollectionBoxNode targetCell;
-    public final PNode node;
+    public final ShapeCollectionBoxNode collectionBoxNode;
+    public final PNode targetNode;
     public final Fraction value;
 }
