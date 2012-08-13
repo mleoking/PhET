@@ -312,7 +312,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 -- Representations both less than 1 and greater than 1
 -- All representations possible
 -- No card constraints (as in straightforward matching of number and picture possible)*/
-    private NumberLevel level9() {
+    public static NumberLevel level9() {
         //Choose 4 different patterns
         List<RepresentationType> types = choose( 4, RepresentationType.all );
 
@@ -332,7 +332,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     private Fraction smallerNumerator( final Fraction a, final Fraction b ) { return b.numerator < a.numerator ? b : a; }
 
-    private NumberTarget targetLessThanOrEqualTo1( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {
+    private static NumberTarget targetLessThanOrEqualTo1( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {
         int denominator = chooseOne( representationType.denominators );
         int numerator = chooseOne( rangeInclusive( 1, denominator ) );
         Fraction fraction = new Fraction( numerator, denominator );
@@ -340,7 +340,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         return NumberTarget.target( fraction, colors.next(), sequential ? patternMaker.sequential() : patternMaker.random() );
     }
 
-    private NumberTarget targetLessThanOrEqualTo2( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {
+    private static NumberTarget targetLessThanOrEqualTo2( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {
         int denominator = chooseOne( representationType.denominators );
         int numerator = chooseOne( rangeInclusive( 1, denominator * 2 ).filter( new F<Integer, Boolean>() {
             @Override public Boolean f( final Integer integer ) {
