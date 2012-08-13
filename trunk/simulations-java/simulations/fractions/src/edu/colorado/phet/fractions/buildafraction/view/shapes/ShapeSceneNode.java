@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
@@ -35,7 +36,7 @@ import edu.colorado.phet.fractions.buildafraction.view.StackContext;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.common.view.FNode;
-import edu.colorado.phet.fractions.fractionsintro.intro.view.FractionNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -44,7 +45,6 @@ import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerNo
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.createPieSlice;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.createRect;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceIconNode.TINY_SCALE;
-import static edu.colorado.phet.fractions.common.math.Fraction._toDouble;
 import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.STAGE_SIZE;
@@ -113,10 +113,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         //Create the scoring cells with target patterns
         ArrayList<ShapeSceneCollectionBoxPair> _pairs = new ArrayList<ShapeSceneCollectionBoxPair>();
         for ( int i = 0; i < level.targets.length(); i++ ) {
-            Fraction target = level.getTarget( i );
+            MixedFraction target = level.getTarget( i );
 
-            FractionNode f = new FractionNode( target, 0.33 );
-            final ShapeCollectionBoxNode cell = new ShapeCollectionBoxNode( this, level.targets.maximum( ord( _toDouble ) ) );
+            PNode f = MixedFractionNodeFactory.toNode( target );
+            final ShapeCollectionBoxNode cell = new ShapeCollectionBoxNode( this, level.targets.maximum( ord( MixedFraction._toDouble ) ) );
             _pairs.add( new ShapeSceneCollectionBoxPair( cell, new ZeroOffsetNode( f ), target ) );
         }
         initCollectionBoxes( insetY, _pairs );
@@ -259,14 +259,14 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         //Only consider the closest box, otherwise students can overlap many boxes instead of thinking of the correct answer
         for ( ShapeSceneCollectionBoxPair pair : pairs.take( 1 ) ) {
             final boolean intersects = pair.collectionBoxNode.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
-            final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value );
+            final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value.toFraction() );
             final boolean occupied = pair.getCollectionBoxNode().isCompleted();
             if ( intersects && matchesValue && !occupied ) {
                 final double scale = 0.5;
                 containerNode.removeSplitButton();
 
                 //Order dependence: set in target cell first so that layout code will work better afterwards
-                containerNode.setInTargetCell( true, pair.value.denominator );
+                containerNode.setInTargetCell( true, pair.value.fraction.denominator );
                 containerNode.animateToPositionScaleRotation( pair.collectionBoxNode.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
                                                               pair.collectionBoxNode.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, false ) );
                 pair.collectionBoxNode.setCompletedFraction( containerNode );

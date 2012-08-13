@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.fractions.buildafraction.model.BuildAMixedFractionModel;
 
 /**
  * "Fractions Intro" PhET Application
@@ -17,7 +18,7 @@ public class BuildAFractionApplication extends PiccoloPhetApplication {
         super( config );
 
         addModule( new BuildAFractionModule( new BuildAFractionModel() ) );
-        addModule( new BuildAMixedFractionModule( new BuildAFractionModel() ) );
+        addModule( new BuildAMixedFractionModule( new BuildAMixedFractionModel() ) );
     }
 
     public static void main( String[] args ) {
