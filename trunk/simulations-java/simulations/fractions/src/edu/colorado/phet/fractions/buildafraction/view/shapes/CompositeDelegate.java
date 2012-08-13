@@ -5,6 +5,9 @@ import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 
 /**
+ * Allows combining multiple PActivityDelegates through the composite pattern.
+ * This class seems necessary because I couldn't find anything equivalent provided by piccolo, which only provides a setter for a single delegate.
+ *
  * @author Sam Reid
  */
 public class CompositeDelegate implements PActivityDelegate {

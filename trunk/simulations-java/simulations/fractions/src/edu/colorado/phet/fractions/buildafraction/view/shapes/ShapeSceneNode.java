@@ -259,7 +259,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         for ( ShapeSceneCollectionBoxPair pair : pairs.take( 1 ) ) {
             final boolean intersects = pair.targetCell.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
             final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value );
-            final boolean occupied = pair.getTargetCell().isCompleted();
+            final boolean occupied = pair.getCollectionBoxNode().isCompleted();
             if ( intersects && matchesValue && !occupied ) {
                 final double scale = 0.5;
                 containerNode.removeSplitButton();
@@ -470,7 +470,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         double rightSide = containerNode.getGlobalFullBounds().getMaxX();
         double edge = pairs.map( new F<ShapeSceneCollectionBoxPair, Double>() {
             @Override public Double f( final ShapeSceneCollectionBoxPair target ) {
-                return target.getTargetCell().getGlobalFullBounds().getMinX();
+                return target.getCollectionBoxNode().getGlobalFullBounds().getMinX();
             }
         } ).minimum( doubleOrd );
         double overlap = rightSide - edge;
