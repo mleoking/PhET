@@ -123,9 +123,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         //Center the first container node in the play area.
         //Layout values sampled manually at runtime
         ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
-            double x = 298 + ( level.shapeType == ShapeType.PIE ? 26 : 0 );
-            if ( level.hasValuesGreaterThanOne() ) { x = x - 61; }
-            setInitialPosition( x, level.shapeType == ShapeType.PIE ? 200 : 250 );
+            Vector2D position = getContainerPosition( level );
+            setInitialPosition( position.x, position.y );
         }};
         addChild( firstContainerNode );
 
@@ -208,6 +207,14 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         toolboxNode.moveToBack();
 
         finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel );
+    }
+
+    //Location for a container to move to in the center of the play area
+    private static Vector2D getContainerPosition( ShapeLevel level ) {
+        double x = 298 + ( level.shapeType == ShapeType.PIE ? 26 : 0 );
+        if ( level.hasValuesGreaterThanOne() ) { x = x - 61; }
+        final int y = level.shapeType == ShapeType.PIE ? 200 : 250;
+        return new Vector2D( x, y );
     }
 
     protected void reset() {
@@ -321,8 +328,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     }
 
     private void animateToCenterScreen( final ContainerNode containerNode ) {
-        Vector2D offset = level.shapeType == ShapeType.BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
-        containerNode.animateToPositionScaleRotation( toolboxNode.getCenterX() - containerNode.getFullBounds().getWidth() / 2 + offset.x, 200 + offset.y, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
+        Vector2D position = getContainerPosition( level );
+//        Vector2D offset = level.shapeType == ShapeType.BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
+        containerNode.animateToPositionScaleRotation( position.x, position.y,
+                                                      1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
     }
 
     public void endDrag( final PieceNode piece ) {
