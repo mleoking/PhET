@@ -49,30 +49,30 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
         }} );
     }
 
-    @SuppressWarnings("unchecked") private static List<List<LevelInfo>> page1( final F<LevelIdentifier, LevelProgress> gameProgress ) {
-        return list( list( shapeLevel( 1, Pattern.pie( 1 ), gameProgress ),
-                           shapeLevel( 2, Pattern.verticalBars( 2 ), gameProgress ),
-                           shapeLevel( 3, gameProgress ),
-                           shapeLevel( 4, gameProgress ),
-                           shapeLevel( 5, gameProgress ) ),
-                     list( numberLevel( 1, gameProgress ),
-                           numberLevel( 2, gameProgress ),
-                           numberLevel( 3, gameProgress ),
-                           numberLevel( 4, gameProgress ),
-                           numberLevel( 5, gameProgress ) ) );
+    @SuppressWarnings("unchecked") private static List<List<LevelInfo>> page1( final F<LevelIdentifier, LevelProgress> f ) {
+        return list( list( shapeLevel( 1, Pattern.pie( 1 ), f ),
+                           shapeLevel( 2, Pattern.verticalBars( 2 ), f ),
+                           shapeLevel( 3, f ),
+                           shapeLevel( 4, f ),
+                           shapeLevel( 5, f ) ),
+                     list( numberLevel( 1, f ),
+                           numberLevel( 2, f ),
+                           numberLevel( 3, f ),
+                           numberLevel( 4, f ),
+                           numberLevel( 5, f ) ) );
     }
 
-    @SuppressWarnings("unchecked") private static List<List<LevelInfo>> page2( final F<LevelIdentifier, LevelProgress> gameProgress ) {
-        return list( list( shapeLevel( 6, gameProgress ),
-                           shapeLevel( 7, gameProgress ),
-                           shapeLevel( 8, gameProgress ),
-                           shapeLevel( 9, gameProgress ),
-                           shapeLevel( 10, gameProgress ) ),
-                     list( numberLevel( 6, gameProgress ),
-                           numberLevel( 7, gameProgress ),
-                           numberLevel( 8, gameProgress ),
-                           numberLevel( 9, gameProgress ),
-                           numberLevel( 10, gameProgress ) ) );
+    @SuppressWarnings("unchecked") private static List<List<LevelInfo>> page2( final F<LevelIdentifier, LevelProgress> f ) {
+        return list( list( shapeLevel( 6, f ),
+                           shapeLevel( 7, f ),
+                           shapeLevel( 8, f ),
+                           shapeLevel( 9, f ),
+                           shapeLevel( 10, f ) ),
+                     list( numberLevel( 6, f ),
+                           numberLevel( 7, f ),
+                           numberLevel( 8, f ),
+                           numberLevel( 9, f ),
+                           numberLevel( 10, f ) ) );
     }
 
     private static LevelInfo shapeLevel( final int level, final F<LevelIdentifier, LevelProgress> gameProgress ) {
@@ -90,7 +90,8 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
     }
 
     private static LevelInfo shapeLevel( final int level, Pattern pattern, final F<LevelIdentifier, LevelProgress> gameProgress ) {
-        return new LevelInfo( new LevelIdentifier( level - 1, SHAPES ), MessageFormat.format( Strings.LEVEL__PATTERN, level ), new PatternNode( sequentialFill( pattern, level ), colors[( level - 1 ) % colors.length] ),
+        return new LevelInfo( new LevelIdentifier( level - 1, SHAPES ), MessageFormat.format( Strings.LEVEL__PATTERN, level ),
+                              new PatternNode( sequentialFill( pattern, level ), colors[( level - 1 ) % colors.length] ),
                               gameProgress.f( new LevelIdentifier( level - 1, SHAPES ) ) );
     }
 

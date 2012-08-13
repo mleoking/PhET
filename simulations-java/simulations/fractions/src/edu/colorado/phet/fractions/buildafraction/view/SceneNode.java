@@ -38,7 +38,7 @@ import static fj.Ord.doubleOrd;
 import static fj.data.List.iterableList;
 
 /**
- * Base class for a Scene (such as the picture or number game scene).
+ * Base class for a Scene (such as the picture or number game scene).  Factors out duplicate behavior and code that appears in both scene types.
  *
  * @author Sam Reid
  */

@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 
 /**
- * Canvas for the build a fraction tab.
+ * Canvas for the build a fraction tab.  Shows the level selection screen or a particular level.  Provides animation between different scenes.
  *
  * @author Sam Reid
  */
