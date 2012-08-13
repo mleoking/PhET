@@ -73,6 +73,9 @@ public class EqualityLabModel {
         }
     }.f( Unit.unit() );
 
+    //REVIEW: The naming of this factory set is confusing me.  I don't see much
+    //scaling going on.  Is this the factory set for the pie sets shown on the
+    //right?  Consider better doc or renaming.
     public static final FactorySet scaledFactorySet = new F<Unit, FactorySet>() {
         @Override public FactorySet f( final Unit unit ) {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
@@ -91,6 +94,10 @@ public class EqualityLabModel {
                 }
             };
 
+            //REVIEW: If I understand this correctly, the scaledFactorySet
+            //is used for the pie sets shown on the right side.  There is no
+            //bucket shown on the right side when I run the sim, so why does
+            // the bucket matter?  Could there be a "null" bucket used here?
             //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
             //Bucket positions irrelevant for scaled factory, though (since not shown)
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
