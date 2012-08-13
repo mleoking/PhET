@@ -17,6 +17,7 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
     }
 
     private ShapeLevel level1() {
-        return new ShapeLevel( List.list( 1, 2, 3, 4, 5, 6 ), List.list( MixedFraction.mixedFraction( 1, 2, 3 ) ), Color.blue, ShapeType.PIE );
+        return new ShapeLevel( List.list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6 ),
+                               List.replicate( 3, MixedFraction.mixedFraction( 1, 2, 3 ) ), Color.blue, ShapeType.PIE );
     }
 }
