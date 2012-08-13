@@ -3,7 +3,7 @@ package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
 import lombok.Data;
 
-import edu.colorado.phet.fractions.buildafraction.view.shapes.ICollectionBoxPair;
+import edu.colorado.phet.fractions.buildafraction.view.ICollectionBoxPair;
 import edu.umd.cs.piccolo.PNode;
 
 /**

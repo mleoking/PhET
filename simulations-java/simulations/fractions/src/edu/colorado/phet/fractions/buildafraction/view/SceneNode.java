@@ -22,7 +22,6 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
-import edu.colorado.phet.fractions.buildafraction.view.shapes.ICollectionBoxPair;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.SceneContext;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.common.view.BackButton;
@@ -77,7 +76,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
 
         List<PNode> patterns = pairs.map( new F<T, PNode>() {
             @Override public PNode f( final T pair ) {
-                return pair.getNode();
+                return pair.getTargetNode();
             }
         } );
         double maxWidth = patterns.map( new F<PNode, Double>() {
@@ -94,15 +93,15 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         //Layout for the scoring cells and target patterns
         double separation = 5;
         double rightInset = 10;
-        final PBounds targetCellBounds = pairs.head().getTargetCell().getFullBounds();
+        final PBounds targetCellBounds = pairs.head().getCollectionBoxNode().getFullBounds();
         double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
         double offsetY = INSET;
         for ( ICollectionBoxPair pair : pairs ) {
 
-            pair.getTargetCell().setOffset( offsetX, offsetY );
-            pair.getNode().setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
-            addChild( pair.getTargetCell() );
-            addChild( pair.getNode() );
+            pair.getCollectionBoxNode().setOffset( offsetX, offsetY );
+            pair.getTargetNode().setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
+            addChild( pair.getCollectionBoxNode() );
+            addChild( pair.getTargetNode() );
 
             offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
         }
@@ -126,7 +125,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
 
         double minScoreCellX = pairs.map( new F<T, Double>() {
             @Override public Double f( final T target ) {
-                return target.getTargetCell().getFullBounds().getMinX();
+                return target.getCollectionBoxNode().getFullBounds().getMinX();
             }
         } ).minimum( doubleOrd );
         levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
