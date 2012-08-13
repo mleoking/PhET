@@ -12,6 +12,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.TranscriptionFactorConfig;
@@ -493,13 +494,9 @@ public class DnaMolecule {
             }
         }
 
-        // Eliminate any attachment site where attaching would cause the
-        // biomolecule to go out of bounds.
-        eliminateOutOfBoundsAttachmentSites( biomolecule, potentialAttachmentSites );
-
-        // Eliminate any attachment site where attaching would cause overlap
-        // with other biomolecules that are already on the DNA strand.
-        eliminateOverlappedAttachmentSites( biomolecule, potentialAttachmentSites );
+        // Eliminate sites that would put the molecule out of bounds or
+        // would overlap with other attached biomolecules.
+        eliminateInvalidAttachmentSites( biomolecule, potentialAttachmentSites );
 
         if ( potentialAttachmentSites.size() == 0 ) {
             // No acceptable sites found.
@@ -511,6 +508,11 @@ public class DnaMolecule {
 
         // Return the optimal attachment site.
         return potentialAttachmentSites.get( 0 );
+    }
+
+    private void eliminateInvalidAttachmentSites( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
+        eliminateOutOfBoundsAttachmentSites( biomolecule, potentialAttachmentSites );
+        eliminateOverlappedAttachmentSites( biomolecule, potentialAttachmentSites );
     }
 
     /**
@@ -564,6 +566,14 @@ public class DnaMolecule {
         }
     }
 
+    private void eliminateOutOfBoundsAttachmentSitesNew( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
+        FunctionalUtils.filter( potentialAttachmentSites, new Function1<AttachmentSite, Boolean>() {
+            public Boolean apply( AttachmentSite attachmentSite ) {
+                return true;
+            }
+        } );
+    }
+
     private AttachmentSite getTranscriptionFactorAttachmentSiteForBasePairIndex( int i, TranscriptionFactorConfig tfConfig ) {
         // See if this base pair is inside a gene.
         Gene gene = getGeneContainingBasePair( i );
@@ -615,14 +625,9 @@ public class DnaMolecule {
             }
         }
 
-        // REVIEW: these checks are almost always done together it seems, consider making an eliminateInvalidAttachmentSites?
-        // Eliminate any attachment site where attaching would cause the
-        // biomolecule to go out of bounds.
-        eliminateOutOfBoundsAttachmentSites( transcriptionFactor, attachmentSites );
-
-        // Eliminate any sites that, if attached to, would cause overlapping
-        // biomolecules on the same strand.
-        eliminateOverlappedAttachmentSites( transcriptionFactor, attachmentSites );
+        // Eliminate sites that would put the molecule out of bounds or
+        // would overlap with other attached biomolecules.
+        eliminateInvalidAttachmentSites( transcriptionFactor, attachmentSites );
 
         return attachmentSites;
     }
@@ -652,13 +657,9 @@ public class DnaMolecule {
             }
         }
 
-        // Eliminate any attachment site where attaching would cause the
-        // biomolecule to go out of bounds.
-        eliminateOutOfBoundsAttachmentSites( rnaPolymerase, attachmentSites );
-
-        // Eliminate any sites that, if attached to, would cause overlapping
-        // biomolecules on the same strand.
-        eliminateOverlappedAttachmentSites( rnaPolymerase, attachmentSites );
+        // Eliminate sites that would put the molecule out of bounds or
+        // would overlap with other attached biomolecules.
+        eliminateInvalidAttachmentSites( rnaPolymerase, attachmentSites );
 
         return attachmentSites;
     }
