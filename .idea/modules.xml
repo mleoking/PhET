@@ -51,6 +51,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/forces-and-motion-basics/forces-and-motion-basics.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/forces-and-motion-basics/forces-and-motion-basics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/fourier/fourier.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/fourier/fourier.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/fractions/fractions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/fractions/fractions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/team/reids/functional-scene-graph/functional-scene-graph.iml" filepath="$PROJECT_DIR$/team/reids/functional-scene-graph/functional-scene-graph.iml" />
       <module fileurl="file://$PROJECT_DIR$/team/reids/functional-test/functional-test.iml" filepath="$PROJECT_DIR$/team/reids/functional-test/functional-test.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/functionaljava/functionaljava.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/functionaljava/functionaljava.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/functions/functions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/functions/functions.iml" />
