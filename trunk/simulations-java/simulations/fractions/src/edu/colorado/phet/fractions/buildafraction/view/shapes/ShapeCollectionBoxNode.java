@@ -58,14 +58,14 @@ public class ShapeCollectionBoxNode extends PNode {
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( final PInputEvent event ) {
                 SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.shapesCollectionBoxSplitButton, containerNode.hashCode() ) );
-                splitIt();
+                split();
             }
         } );
         splitButton.setVisible( false );
         addChild( splitButton );
     }
 
-    public void splitIt() {
+    public void split() {
         if ( completed ) {
             completed = false;
             path.setStrokePaint( Color.darkGray );

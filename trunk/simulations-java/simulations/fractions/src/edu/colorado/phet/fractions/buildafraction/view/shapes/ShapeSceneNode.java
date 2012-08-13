@@ -215,7 +215,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         //Split everything
         //Return everything home
         for ( ShapeSceneCollectionBoxPair targetPair : pairs ) {
-            targetPair.targetCell.splitIt();
+            targetPair.targetCell.split();
         }
         for ( ContainerNode containerNode : getContainerNodes() ) {
             containerNode.splitAll();
