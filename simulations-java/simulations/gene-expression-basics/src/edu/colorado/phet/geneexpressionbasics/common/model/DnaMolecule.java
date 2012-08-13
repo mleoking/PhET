@@ -13,6 +13,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.TranscriptionFactorConfig;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
 
@@ -393,66 +394,25 @@ public class DnaMolecule {
      * @param transcriptionFactor
      * @return
      */
-    public AttachmentSite considerProposalFrom( TranscriptionFactor transcriptionFactor ) {
-        List<AttachmentSite> potentialAttachmentSites = new ArrayList<AttachmentSite>();
-        for ( int i = 0; i < basePairs.size(); i++ ) {
-            // See if the base pair is within the max attachment distance.
-            if ( basePairs.get( i ).getCenterLocation().distance( transcriptionFactor.getPosition() ) <= TRANSCRIPTION_FACTOR_ATTACHMENT_DISTANCE ) {
-                // In range.  Add it to the list if it is available.
-                AttachmentSite potentialAttachmentSite = getTranscriptionFactorAttachmentSiteForBasePairIndex( i, transcriptionFactor.getConfig() );
-                if ( potentialAttachmentSite.attachedOrAttachingMolecule.get() == null ) {
-                    potentialAttachmentSites.add( potentialAttachmentSite );
-                }
-            }
-        }
-
-        // If there aren't any potential attachment sites in range, check for
-        // a particular set of conditions under which the DNA provides an
-        // attachment site anyways.
-        if ( potentialAttachmentSites.size() == 0 && pursueAttachments ) {
-            for ( Gene gene : genes ) {
-                AttachmentSite matchingSite = gene.getMatchingSite( transcriptionFactor.getConfig() );
-                if ( matchingSite != null ) {
-                    // Found a matching site on a gene.
-                    if ( matchingSite.attachedOrAttachingMolecule.get() == null ) {
-                        // The site is unoccupied, so add it to the list of
-                        // potential sites.
-                        potentialAttachmentSites.add( matchingSite );
-                    }
-                    else if ( !matchingSite.isMoleculeAttached() ) {
-                        double thisDistance = transcriptionFactor.getPosition().distance( matchingSite.locationProperty.get() );
-                        double thatDistance = matchingSite.attachedOrAttachingMolecule.get().getPosition().distance( matchingSite.locationProperty.get() );
-                        if ( thisDistance < thatDistance ) {
-                            // The other molecule is not yet attached, and this
-                            // one is closer, so force the other molecule to
-                            // abort its pending attachment.
-                            matchingSite.attachedOrAttachingMolecule.get().forceAbortPendingAttachment();
-                            // Add this site to the list of potential sites.
-                            potentialAttachmentSites.add( matchingSite );
-                        }
-                    }
-                }
-            }
-        }
-
-        // Eliminate sites where attaching would cause the biomolecule to move
-        // out of its motion bounds.
-        eliminateOutOfBoundsAttachmentSites( transcriptionFactor, potentialAttachmentSites );
-
-        // Eliminate any attachment site where attaching would cause overlap
-        // with other biomolecules that are already on the DNA strand.
-        eliminateOverlappedAttachmentSites( transcriptionFactor, potentialAttachmentSites );
-
-        if ( potentialAttachmentSites.size() == 0 ) {
-            // No acceptable sites found.
-            return null;
-        }
-
-        // Sort the collection so that the best match is first.
-        Collections.sort( potentialAttachmentSites, new AttachmentSiteComparator<AttachmentSite>( transcriptionFactor.getPosition() ) );
-
-        // Return the first attachment site on the list.
-        return potentialAttachmentSites.get( 0 );
+    public AttachmentSite considerProposalFrom( final TranscriptionFactor transcriptionFactor ) {
+        return considerProposalFromBiomolecule( transcriptionFactor,
+                                                TRANSCRIPTION_FACTOR_ATTACHMENT_DISTANCE,
+                                                new Function1<Integer, AttachmentSite>() {
+                                                    public AttachmentSite apply( Integer basePairIndex ) {
+                                                        return getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex, transcriptionFactor.getConfig() );
+                                                    }
+                                                },
+                                                new Function1<Gene, Boolean>() {
+                                                    public Boolean apply( Gene gene ) {
+                                                        return true; // TFs can always attach if a spot is available.
+                                                    }
+                                                },
+                                                new Function1<Gene, AttachmentSite>() {
+                                                    public AttachmentSite apply( Gene gene ) {
+                                                        return gene.getMatchingSite( transcriptionFactor.getConfig() );
+                                                    }
+                                                }
+        );
     }
 
     /**
@@ -461,16 +421,43 @@ public class DnaMolecule {
      * @param rnaPolymerase
      * @return
      */
-    // REVIEW: code seems to be shared between considerProposalFrom( TranscriptionFactor transcriptionFactor ) and this function. consider refactoring to remove shared code?
-    // seems like considerProposalWith( potentialAttachmentSites, <distance function for thisDistance/thatDistance> ) may even do the trick?
     public AttachmentSite considerProposalFrom( RnaPolymerase rnaPolymerase ) {
+        return considerProposalFromBiomolecule( rnaPolymerase,
+                                                RNA_POLYMERASE_ATTACHMENT_DISTANCE,
+                                                new Function1<Integer, AttachmentSite>() {
+                                                    public AttachmentSite apply( Integer basePairIndex ) {
+                                                        return getRnaPolymeraseAttachmentSiteForBasePairIndex( basePairIndex );
+                                                    }
+                                                },
+                                                new Function1<Gene, Boolean>() {
+                                                    public Boolean apply( Gene gene ) {
+                                                        return gene.transcriptionFactorsSupportTranscription();
+                                                    }
+                                                },
+                                                new Function1<Gene, AttachmentSite>() {
+                                                    public AttachmentSite apply( Gene gene ) {
+                                                        return gene.getPolymeraseAttachmentSite();
+                                                    }
+                                                }
+        );
+    }
+
+    /*
+     * Consider a proposal from a biomolecule.  This is the generic version
+     * that avoids duplicated code.
+     */
+    private AttachmentSite considerProposalFromBiomolecule( MobileBiomolecule biomolecule, double maxAttachDistance,
+                                                            Function1<Integer, AttachmentSite> getAttachSiteForBasePair,
+                                                            Function1<Gene, Boolean> isOkayToAttach,
+                                                            Function1<Gene, AttachmentSite> getAttachmentSite ) {
+
         List<AttachmentSite> potentialAttachmentSites = new ArrayList<AttachmentSite>();
         for ( int i = 0; i < basePairs.size(); i++ ) {
             // See if the base pair is within the max attachment distance.
-            Point2D attachmentSiteLocation = new java.awt.geom.Point2D.Double( basePairs.get( i ).getCenterLocation().getX(), Y_POS );
-            if ( attachmentSiteLocation.distance( rnaPolymerase.getPosition() ) <= RNA_POLYMERASE_ATTACHMENT_DISTANCE ) {
+            Point2D attachmentSiteLocation = new Point2D.Double( basePairs.get( i ).getCenterLocation().getX(), Y_POS );
+            if ( attachmentSiteLocation.distance( biomolecule.getPosition() ) <= maxAttachDistance ) {
                 // In range.  Add it to the list if it is available.
-                AttachmentSite potentialAttachmentSite = getRnaPolymeraseAttachmentSiteForBasePairIndex( i );
+                AttachmentSite potentialAttachmentSite = getAttachSiteForBasePair.apply( i );
                 if ( potentialAttachmentSite.attachedOrAttachingMolecule.get() == null ) {
                     potentialAttachmentSites.add( potentialAttachmentSite );
                 }
@@ -482,8 +469,8 @@ public class DnaMolecule {
         // attachment site anyways.
         if ( potentialAttachmentSites.size() == 0 && pursueAttachments ) {
             for ( Gene gene : genes ) {
-                if ( gene.transcriptionFactorsSupportTranscription() ) {
-                    AttachmentSite matchingSite = gene.getPolymeraseAttachmentSite();
+                if ( isOkayToAttach.apply( gene ) ) {
+                    AttachmentSite matchingSite = getAttachmentSite.apply( gene );
                     // Found a matching site on a gene.
                     if ( matchingSite.attachedOrAttachingMolecule.get() == null ) {
                         // The site is unoccupied, so add it to the list of
@@ -491,7 +478,7 @@ public class DnaMolecule {
                         potentialAttachmentSites.add( matchingSite );
                     }
                     else if ( !matchingSite.isMoleculeAttached() ) {
-                        double thisDistance = rnaPolymerase.getPosition().distance( matchingSite.locationProperty.get() );
+                        double thisDistance = biomolecule.getPosition().distance( matchingSite.locationProperty.get() );
                         double thatDistance = matchingSite.attachedOrAttachingMolecule.get().getPosition().distance( matchingSite.locationProperty.get() );
                         if ( thisDistance < thatDistance ) {
                             // The other molecule is not yet attached, and this
@@ -508,11 +495,11 @@ public class DnaMolecule {
 
         // Eliminate any attachment site where attaching would cause the
         // biomolecule to go out of bounds.
-        eliminateOutOfBoundsAttachmentSites( rnaPolymerase, potentialAttachmentSites );
+        eliminateOutOfBoundsAttachmentSites( biomolecule, potentialAttachmentSites );
 
         // Eliminate any attachment site where attaching would cause overlap
         // with other biomolecules that are already on the DNA strand.
-        eliminateOverlappedAttachmentSites( rnaPolymerase, potentialAttachmentSites );
+        eliminateOverlappedAttachmentSites( biomolecule, potentialAttachmentSites );
 
         if ( potentialAttachmentSites.size() == 0 ) {
             // No acceptable sites found.
@@ -520,7 +507,7 @@ public class DnaMolecule {
         }
 
         // Sort the collection so that the best site is at the top of the list.
-        Collections.sort( potentialAttachmentSites, new AttachmentSiteComparator<AttachmentSite>( rnaPolymerase.getPosition() ) );
+        Collections.sort( potentialAttachmentSites, new AttachmentSiteComparator<AttachmentSite>( biomolecule.getPosition() ) );
 
         // Return the optimal attachment site.
         return potentialAttachmentSites.get( 0 );
