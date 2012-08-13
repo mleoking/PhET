@@ -80,7 +80,7 @@ class FractionCardNode extends RichPNode {
                 //If dropped in a non-matching cell, send back to play area
                 List<NumberCollectionBoxNode> scoreCells = pairList.map( new F<NumberSceneCollectionBoxPair, NumberCollectionBoxNode>() {
                     @Override public NumberCollectionBoxNode f( final NumberSceneCollectionBoxPair pair ) {
-                        return pair.targetCell;
+                        return pair.collectionBoxNode;
                     }
                 } );
                 boolean locked = false;
