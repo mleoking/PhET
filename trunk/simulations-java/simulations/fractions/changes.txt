@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Fixed: Fraction skeleton cannot be dragged out of toolbox after being ejected from a collection box
 Build a Fraction: Switched from blue "split" button to yellow "undo" button
 Build a Fraction: Shapes: Fixed: When a new container comes out (after completing a target), it does not go to the same "centered" place as the original one
 # 1.00.33 (66874) Aug 12, 2012

@@ -239,6 +239,8 @@ public class FractionNode extends RichPNode {
                 node.setChildrenPickable( b );
             }
         }
+        setChildrenPickable( true );
+        setPickable( true );
     }
 
     public void addSplitListener( final VoidFunction1<Option<Fraction>> listener ) { splitListeners.add( listener ); }
