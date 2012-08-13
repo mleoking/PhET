@@ -33,6 +33,7 @@ public class PlateTectonicsApplication extends LWJGLPhetApplication {
 
     public static final Property<Boolean> showFPSMeter = new Property<Boolean>( false );
     public static final Property<Boolean> showDebuggingItems = new Property<Boolean>( false );
+    public static final Property<Boolean> moveTimeControl = new Property<Boolean>( false );
 
     /**
      * Sole constructor.
@@ -109,6 +110,20 @@ public class PlateTectonicsApplication extends LWJGLPhetApplication {
                     LWJGLUtils.invoke( new Runnable() {
                         public void run() {
                             showDebuggingItems.set( show );
+                        }
+                    } );
+                }
+            } );
+        }} );
+
+        developerMenu.add( new JCheckBoxMenuItem( "Re-align time control" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setSelected( moveTimeControl.get() );
+                    final boolean show = isSelected();
+                    LWJGLUtils.invoke( new Runnable() {
+                        public void run() {
+                            moveTimeControl.set( show );
                         }
                     } );
                 }

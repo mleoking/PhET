@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
@@ -39,6 +38,7 @@ public class TectonicsTimeControl extends PNode {
     private static final double SLIDER_MIN = 0.1;
     private static final double SLIDER_MAX = 10;
     private final TectonicsClock lwjglClock;
+    private final HBox container;
 
     public TectonicsTimeControl( final TectonicsClock lwjglClock, final Property<Boolean> isAutoMode ) {
         this.lwjglClock = lwjglClock;
@@ -46,7 +46,7 @@ public class TectonicsTimeControl extends PNode {
 
         final DecimalFormat timeFormat = new DecimalFormat( "0" );
 
-        PNode timeSlider = new TimeSlider( lwjglClock, isAutoMode );
+        final PNode timeSlider = new TimeSlider( lwjglClock, isAutoMode );
 
         // play/pause button.
         final PlayPauseButton playPauseButton = new PlayPauseButton( (int) ( 100 * 0.7 * 0.7 ) ) {{
@@ -136,43 +136,43 @@ public class TectonicsTimeControl extends PNode {
             } );
         }};
 
-        addChild( new HBox( 12, HBox.CENTER_ALIGNED,
-                            new VBox( VBox.CENTER_ALIGNED,
-                                      new PText( Strings.TIME_ELAPSED ) {{
-                                          setFont( PANEL_TITLE_FONT );
-                                      }},
-                                      new HBox( 12, HBox.CENTER_ALIGNED,
-                                                new PText( "0" ) {{
-                                                    // update the time readout whenever the clock changes
-                                                    lwjglClock.addClockListener( new ClockAdapter() {
-                                                        @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
-                                                            final double simulationTime = lwjglClock.getSimulationTime();
-                                                            SwingUtilities.invokeLater( new Runnable() {
-                                                                public void run() {
-                                                                    setText( timeFormat.format( simulationTime ) );
-                                                                    repaint();
-                                                                }
-                                                            } );
-                                                        }
-                                                    } );
-                                                }},
-                                                new PText( Strings.MILLION_YEARS ) {{
-                                                    setFont( new PhetFont( 12 ) );
-                                                }}
-                                      ) ),
-                            timeSlider,
-                            playPauseButton,
-                            stepButton ) );
+        container = new HBox( 12, HBox.CENTER_ALIGNED,
+                              new VBox( VBox.CENTER_ALIGNED,
+                                        new PText( Strings.TIME_ELAPSED ) {{
+                                            setFont( PANEL_TITLE_FONT );
+                                        }},
+                                        new HBox( 12, HBox.CENTER_ALIGNED,
+                                                  new PText( "0" ) {{
+                                                      // update the time readout whenever the clock changes
+                                                      lwjglClock.addClockListener( new ClockAdapter() {
+                                                          @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
+                                                              final double simulationTime = lwjglClock.getSimulationTime();
+                                                              SwingUtilities.invokeLater( new Runnable() {
+                                                                  public void run() {
+                                                                      setText( timeFormat.format( simulationTime ) );
+                                                                      repaint();
+                                                                  }
+                                                              } );
+                                                          }
+                                                      } );
+                                                  }},
+                                                  new PText( Strings.MILLION_YEARS ) {{
+                                                      setFont( new PhetFont( 12 ) );
+                                                  }}
+                                        ) ),
+                              timeSlider,
+                              playPauseButton,
+                              stepButton );
+        addChild( container );
 
         isAutoMode.addObserver( new SimpleObserver() {
             public void update() {
                 final boolean isAuto = isAutoMode.get();
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        playPauseButton.setTransparency( isAuto ? 1 : 0 );
-                        playPauseButton.setPickable( isAuto );
-                        stepButton.setTransparency( isAuto ? 1 : 0 );
-                        stepButton.setPickable( isAuto );
+                        setChild( timeSlider, isAuto );
+                        setChild( playPauseButton, isAuto );
+                        setChild( stepButton, isAuto );
                         repaint();
 
                         final double speed = speedProperty.get();
@@ -186,6 +186,18 @@ public class TectonicsTimeControl extends PNode {
                 } );
             }
         } );
+    }
+
+    private void setChild( PNode node, boolean visible ) {
+        if ( container == null ) {
+            return;
+        }
+        if ( visible && node.getParent() == null ) {
+            container.addChild( node );
+        }
+        if ( !visible && node.getParent() != null ) {
+            container.removeChild( node );
+        }
     }
 
     public void resetAll() {
@@ -217,12 +229,6 @@ public class TectonicsTimeControl extends PNode {
                             clock.setTimeMultiplier( speedProperty.get() );
                         }
                     } );
-                }
-            } );
-
-            isAutoMode.addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( isAutoMode.get() );
                 }
             } );
         }
