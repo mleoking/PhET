@@ -36,6 +36,8 @@ import static edu.colorado.phet.fractions.common.view.Colors.LIGHT_BLUE;
  */
 public class EqualityLabModel {
 
+    //REVIEW: Doc - What, in general, are these constants for?
+    //REVIEW: These don't seem to use the normal all caps naming convention for constants.  Any reason for this?
     private static final double pieY = 212.5;
     private static final double pieDiameter = 135;
     private static final double distanceBetweenGlasses = 5;
@@ -44,17 +46,20 @@ public class EqualityLabModel {
 
     private static final double verticalSliceScale = 0.75;
 
+    //REVIEW: In understand the following comment, but I don't get why it seems
+    //to be associated with primaryFactorySet.  Please clarify or move.
     //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, then it goes up
     //so that the left and right representations match up at the center of the screen for as long as possible (until the value increases too high)
-    public final FactorySet primaryFactorySet = new F<Unit, FactorySet>() {
+    public final FactorySet primaryFactorySet = new F<Unit, FactorySet>() { //REVIEW: Can this be static?  scaledFactorySet is.
         @Override public FactorySet f( final Unit unit ) {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
-            int numPerRow = 3;
+            int numPerRow = 3; //REVIEW: Can this be a constant?  The same value is used in the other factory set.
 
             double pieX = -112;
 
             final F<Site, Site> siteMap = new SiteMap();
 
+            //REVIEW: Is the following comment a cut-and-paste error?  I only see one size of bucket here.
             //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
             return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, Colors.CIRCLE_COLOR ),
@@ -72,7 +77,7 @@ public class EqualityLabModel {
         @Override public FactorySet f( final Unit unit ) {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
             int numPerRow = 3;
-            double pieX = 85 + 475 - 146;
+            double pieX = 85 + 475 - 146; //REVIEW: doc - explain why there are several numbers in an equation and not just one.
 
             final F<Site, Site> siteMap = new F<Site, Site>() {
                 @Override public Site f( final Site s ) {
@@ -104,6 +109,12 @@ public class EqualityLabModel {
 
     //The max number of filled containers in this tab is 4.
     private final FractionsIntroModel model = new FractionsIntroModel( IntroState.newState( 4, primaryFactorySet, System.currentTimeMillis() ), primaryFactorySet );
+
+    //REVIEW: doc - It looks like there are a bunch of things that are being
+    // set up to be pass through to the contained FractionsIntroModel.  Why
+    // not expose it?  My guess is either for code conciseness or because there
+    // are some differences in model behavior that need to be 'insulated', but
+    // it would be good to explain it.
     public final SettableProperty<PieSet> pieSet = model.pieSet;
     public final SettableProperty<PieSet> horizontalBarSet = model.horizontalBarSet;
     public final SettableProperty<PieSet> verticalBarSet = model.verticalBarSet;
@@ -117,7 +128,7 @@ public class EqualityLabModel {
     public final SettableProperty<PieSet> waterGlassSet = model.waterGlassSet;
     public final SettableProperty<Representation> leftRepresentation = model.representation;
 
-    //Flag indicating whether the right representation mirrors the left or not.  If not, then it is a number line.
+    //Flag indicating whether the right representation mirrors the left.  If not, then it is a number line.
     public final Property<Boolean> sameAsLeft = new Property<Boolean>( true );
 
     public final ObservableProperty<Representation> rightRepresentation = new Property<Representation>( leftRepresentation.get() ) {{
@@ -134,7 +145,7 @@ public class EqualityLabModel {
         } );
     }};
 
-    //Optionally scaled pies shown on the right
+    //Optionally scaled pies shown on the right when mirroring the left.
     public final SettableProperty<PieSet> scaledPieSet = new Property<PieSet>( pieSet.get() ) {{
         final SimpleObserver observer = new SimpleObserver() {
             public void update() {
