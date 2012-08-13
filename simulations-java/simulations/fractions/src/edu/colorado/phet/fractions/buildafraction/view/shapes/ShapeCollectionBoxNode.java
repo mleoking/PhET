@@ -9,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChai
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources.Images;
+import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
-import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -33,7 +33,7 @@ public class ShapeCollectionBoxNode extends PNode {
     private ContainerNode containerNode;
     private final ShapeSceneNode sceneNode;
 
-    public ShapeCollectionBoxNode( final ShapeSceneNode sceneNode, final Fraction maxFraction ) {
+    public ShapeCollectionBoxNode( final ShapeSceneNode sceneNode, final MixedFraction maxFraction ) {
         this.sceneNode = sceneNode;
         if ( sceneNode == null ) { throw new RuntimeException( "Null scene" ); }
         double numberShapes = ceil( maxFraction.toDouble() );

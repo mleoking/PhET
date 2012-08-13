@@ -3,8 +3,8 @@ package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
 import lombok.Data;
 
+import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.view.ICollectionBoxPair;
-import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -15,5 +15,5 @@ import edu.umd.cs.piccolo.PNode;
 public @Data class ShapeSceneCollectionBoxPair implements ICollectionBoxPair {
     public final ShapeCollectionBoxNode collectionBoxNode;
     public final PNode targetNode;
-    public final Fraction value;
+    public final MixedFraction value;
 }

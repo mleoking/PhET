@@ -117,10 +117,10 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
         Fraction a = set1.draw();
         Fraction b = set2.drawAndRemove();
         Fraction c = set2.draw();
-        return new ShapeLevel( list( 1, 1, 2, 2, 3, 3, 3 ),
-                               shuffle( list( a,
-                                              b,
-                                              c ) ), colors[0], booleanToShape( pies ) );
+        return shapeLevel( list( 1, 1, 2, 2, 3, 3, 3 ),
+                           shuffle( list( a,
+                                          b,
+                                          c ) ), colors[0], booleanToShape( pies ) );
     }
 
     /* Level 2:
