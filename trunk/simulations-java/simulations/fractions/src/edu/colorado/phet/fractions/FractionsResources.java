@@ -1,4 +1,4 @@
-// Copyright 2002-2012, University of Colorado
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions;
 
 import java.awt.image.BufferedImage;
@@ -66,6 +66,7 @@ public class FractionsResources {
         public static final BufferedImage STAR_2 = RESOURCES.getImage( "star-2.png" );
         public static final BufferedImage STAR_3 = RESOURCES.getImage( "star-3.png" );
         public static final BufferedImage STAR_4 = RESOURCES.getImage( "star-4.png" );
+        public static final BufferedImage UNDO = RESOURCES.getImage( "undo.png" );
         public static final BufferedImage VIEW_REFRESH = RESOURCES.getImage( "view-refresh.png" );
         public static final BufferedImage WATER_GLASS_BACK = RESOURCES.getImage( "water_glass_back.png" );
         public static final BufferedImage WATER_GLASS_FRONT = RESOURCES.getImage( "water_glass_front.png" );

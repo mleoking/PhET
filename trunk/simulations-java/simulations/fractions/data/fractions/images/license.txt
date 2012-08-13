@@ -33,5 +33,7 @@ star-1.png source=PhET notes=SR in Photoshop
 star-2.png source=PhET notes=SR in Photoshop
 star-3.png source=PhET notes=SR in Photoshop
 star-4.png source=PhET notes=SR in Photoshop
+undo.png source=tango license=public domain notes=edited by SR from edit-undo button from tango
+view-refresh.png source=tango view refresh from Open Clip art Library license=public domain
 water_glass_back.png source=PhET notes=NP
 water_glass_front.png source=PhET notes=NP

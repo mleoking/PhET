@@ -2,23 +2,18 @@
 package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
-import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static java.lang.Math.ceil;
 
 /**
@@ -29,7 +24,7 @@ import static java.lang.Math.ceil;
 public class ShapeCollectionBoxNode extends PNode {
     private final PhetPPath path;
     private boolean completed;
-    private final PImage splitButton;
+    private final UndoButton splitButton;
     private ContainerNode containerNode;
     private final ShapeSceneNode sceneNode;
 
@@ -51,16 +46,16 @@ public class ShapeCollectionBoxNode extends PNode {
         }};
         addChild( this.path );
 
-        splitButton = new PImage( Images.SPLIT_BLUE ) {{
-            setOffset( INSET, INSET );
+        splitButton = new UndoButton( Components.shapesCollectionBoxSplitButton ) {{
+            scale( 0.8 );
+            setOffset( -1, -1 );
+            addActionListener( new ActionListener() {
+                @Override public void actionPerformed( final ActionEvent e ) {
+                    split();
+                }
+            } );
         }};
         splitButton.addInputEventListener( new CursorHandler() );
-        splitButton.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseReleased( final PInputEvent event ) {
-                SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.shapesCollectionBoxSplitButton, containerNode.hashCode() ) );
-                split();
-            }
-        } );
         splitButton.setVisible( false );
         addChild( splitButton );
     }
