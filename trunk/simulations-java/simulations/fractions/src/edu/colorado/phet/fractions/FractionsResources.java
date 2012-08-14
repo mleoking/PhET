@@ -45,10 +45,8 @@ public class FractionsResources {
         public static final BufferedImage LEFT_BUTTON_UP = RESOURCES.getImage( "left_button_up.png" );
         public static final BufferedImage LEFT_BUTTON_UP_GREEN = RESOURCES.getImage( "left_button_up_green.png" );
         public static final BufferedImage MINUS_BUTTON = RESOURCES.getImage( "minus_button.png" );
-        public static final BufferedImage MINUS_BUTTON_GRAY = RESOURCES.getImage( "minus_button_gray.png" );
         public static final BufferedImage MINUS_BUTTON_PRESSED = RESOURCES.getImage( "minus_button_pressed.png" );
         public static final BufferedImage PLUS_BUTTON = RESOURCES.getImage( "plus_button.png" );
-        public static final BufferedImage PLUS_BUTTON_GRAY = RESOURCES.getImage( "plus_button_gray.png" );
         public static final BufferedImage PLUS_BUTTON_PRESSED = RESOURCES.getImage( "plus_button_pressed.png" );
         public static final BufferedImage RIGHT_BUTTON_GRAY = RESOURCES.getImage( "right_button_gray.png" );
         public static final BufferedImage RIGHT_BUTTON_PRESSED = RESOURCES.getImage( "right_button_pressed.png" );
@@ -62,7 +60,6 @@ public class FractionsResources {
         public static final BufferedImage ROUND_BUTTON_UP_GRAY = RESOURCES.getImage( "round_button_up_gray.png" );
         public static final BufferedImage ROUND_BUTTON_UP_PRESSED = RESOURCES.getImage( "round_button_up_pressed.png" );
         public static final BufferedImage SCALE = RESOURCES.getImage( "scale.png" );
-        public static final BufferedImage SPLIT_BLUE = RESOURCES.getImage( "split-blue.png" );
         public static final BufferedImage STAR_0 = RESOURCES.getImage( "star-0.png" );
         public static final BufferedImage STAR_1 = RESOURCES.getImage( "star-1.png" );
         public static final BufferedImage STAR_2 = RESOURCES.getImage( "star-2.png" );
