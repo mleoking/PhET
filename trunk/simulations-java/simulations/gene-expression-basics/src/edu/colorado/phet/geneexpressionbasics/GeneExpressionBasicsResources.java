@@ -30,6 +30,7 @@ public class GeneExpressionBasicsResources {
         public static final String IMAGE_CAPTION = RESOURCES.getLocalizedString( "imageCaption" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String LOW = RESOURCES.getLocalizedString( "low" );
+        public static final String M_RNA = RESOURCES.getLocalizedString( "mRna" );
         public static final String MANY = RESOURCES.getLocalizedString( "many" );
         public static final String MRNA_DESTROYER = RESOURCES.getLocalizedString( "mrnaDestroyer" );
         public static final String NEGATIVE_TRANSCRIPTION_FACTOR = RESOURCES.getLocalizedString( "negativeTranscriptionFactor" );

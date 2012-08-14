@@ -31,14 +31,6 @@ public class DnaMoleculeNode extends PNode {
     private final PNode dnaBackboneBackLayer = new PNode();
     private final PNode dnaBackboneFrontLayer = new PNode();
 
-    /**
-     * Constructor.
-     * REVIEW: I would tend to remove these JavaDoc comments if they don't add any documentation
-     *
-     * @param dnaMolecule
-     * @param mvt
-     * @param showGeneBracketLabels
-     */
     public DnaMoleculeNode( DnaMolecule dnaMolecule, ModelViewTransform mvt, float backboneStrokeWidth, boolean showGeneBracketLabels ) {
 
         // Add the layers onto which the various nodes that represent parts of

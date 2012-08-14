@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.common.model.ShapeSegment;
 import edu.umd.cs.piccolo.PNode;
@@ -51,8 +52,7 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
         addChild( new PlacementHintNode( mvt, messengerRna.mRnaDestroyerPlacementHint ) );
 
         // Add the label. This fades in during synthesis, then fades out.
-        // REVIEW: internationalization of this string?
-        final FadeLabel label = new FadeLabel( "mRNA", false, messengerRna.existenceStrength );
+        final FadeLabel label = new FadeLabel( GeneExpressionBasicsResources.Strings.M_RNA, false, messengerRna.existenceStrength );
         addChild( label );
         messengerRna.beingSynthesized.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean beingSynthesized ) {
