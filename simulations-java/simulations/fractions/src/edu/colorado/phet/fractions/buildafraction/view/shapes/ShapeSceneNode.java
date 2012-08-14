@@ -14,6 +14,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -70,6 +71,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private final double layoutXOffset;
     private final ShapeLevel level;
     private ArrayList<Vector2D> containerNodeToolboxLocations = new ArrayList<Vector2D>();
+    private static final Random random = new Random();
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled ) ) );
@@ -278,7 +280,19 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 break;
             }
             else if ( intersects ) {
-                animateToCenterScreen( containerNode, new MoveAwayFromCollectionBoxes( containerNode ) );
+                //move back to the center of the screen, but only if no other container node is already there.
+                if ( getContainerNodesInPlayArea().exists( new F<ContainerNode, Boolean>() {
+                    @Override public Boolean f( final ContainerNode containerNode ) {
+                        return containerNode.getOffset().distance( getContainerPosition( level ).toPoint2D() ) < 10;
+                    }
+                } ) ) {
+                    double angle = Math.PI * 2 * random.nextDouble();
+                    animateToPosition( containerNode, getContainerPosition( level ).plus( Vector2D.createPolar( 150, angle ) ), new MoveAwayFromCollectionBoxes( containerNode ) );
+                }
+                else {
+                    animateToPosition( containerNode, getContainerPosition( level ), new MoveAwayFromCollectionBoxes( containerNode ) );
+                }
+
             }
         }
 
