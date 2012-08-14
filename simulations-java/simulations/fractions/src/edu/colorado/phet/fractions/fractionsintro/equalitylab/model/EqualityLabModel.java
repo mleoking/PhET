@@ -77,8 +77,6 @@ public class EqualityLabModel {
         @Override public FactorySet f( final Unit unit ) {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
 
-            double pieX = 85 + 475 - 146; //REVIEW: doc - explain why there are several numbers in an equation and not just one.
-
             final F<Site, Site> siteMap = new F<Site, Site>() {
                 @Override public Site f( final Site s ) {
                     return s.eq( 0, 0 ) ? new Site( 1, 0 ) :
@@ -100,7 +98,7 @@ public class EqualityLabModel {
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
             Dimension2D bigBucket = new Dimension2D( 350, 100 );
 
-            return new FactorySet( new CircularSliceFactory( NUM_PER_ROW, bucketPosition, littleBucket, PIE_DIAMETER, pieX, PIE_Y, siteMap, LIGHT_PINK ),
+            return new FactorySet( new CircularSliceFactory( NUM_PER_ROW, bucketPosition, littleBucket, PIE_DIAMETER, 414, PIE_Y, siteMap, LIGHT_PINK ),
                                    new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, LIGHT_PINK, 125 + 445, HORIZONTAL_SLICE_Y, true ),
                                    new VerticalSliceFactory( 400, 125 * VERTICAL_SLICE_SCALE, 225 * VERTICAL_SLICE_SCALE, false, bucketPosition, littleBucket, LIGHT_PINK, DISTANCE_BETWEEN_BARS, false ),
 
