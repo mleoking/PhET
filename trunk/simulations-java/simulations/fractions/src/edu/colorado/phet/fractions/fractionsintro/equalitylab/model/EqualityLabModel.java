@@ -71,9 +71,7 @@ public class EqualityLabModel {
         }
     }.f( Unit.unit() );
 
-    //REVIEW: The naming of this factory set is confusing me.  I don't see much
-    //scaling going on.  Is this the factory set for the pie sets shown on the
-    //right?  Consider better doc or renaming.
+    //Factory set for the representation on the right, which is a "scaled up" version of the one on the left.  That is, right = a/a * left, where a is some small integer.
     public static final FactorySet scaledFactorySet = new F<Unit, FactorySet>() {
         @Override public FactorySet f( final Unit unit ) {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
