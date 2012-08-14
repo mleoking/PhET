@@ -193,12 +193,12 @@ class GameNode extends PNode {
             setOffset( AbstractFractionsCanvas.INSET, myMatchesText.getMaxY() + AbstractFractionsCanvas.INSET * 2 );
         }};
 
-        addChild( homeButton );
+//        addChild( homeButton );
 
         //Update the scoreboard when level, score, timerVisible, or time (in seconds) changes
         addChild( new UpdateNode( new Effect<PNode>() {
             @Override public void e( final PNode parent ) {
-                parent.addChild( new ScoreboardNode( model ) {{
+                parent.addChild( new ScoreboardNode( model, homeButton ) {{
 
                     //Update the location, but get it approximately right so it doesn't expand the dirty region
                     setOffset( AbstractFractionsCanvas.STAGE_SIZE.width - AbstractFractionsCanvas.INSET * 2, scoreCellsLayer.getMaxY() + AbstractFractionsCanvas.INSET );

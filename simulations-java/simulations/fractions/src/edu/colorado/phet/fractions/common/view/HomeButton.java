@@ -24,7 +24,7 @@ public class HomeButton extends PNode {
         PNode icon = new PNode() {{
             addChild( new VBox( 3, new RowNode(), new RowNode() ) );
         }};
-        addChild( new HTMLImageButtonNode( BufferedImageUtils.toBufferedImage( icon.toImage() ) ) {{
+        addChild( new HTMLImageButtonNode( RefreshButtonNode.copyWithPadding( BufferedImageUtils.toBufferedImage( icon.toImage() ), 12 ) ) {{
             setBackground( RefreshButtonNode.BUTTON_COLOR );
             addActionListener( new ActionListener() {
                 @Override public void actionPerformed( final ActionEvent e ) {
