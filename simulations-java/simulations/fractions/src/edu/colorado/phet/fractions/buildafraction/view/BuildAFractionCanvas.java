@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
@@ -41,7 +42,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         //Set a really light blue because there is a lot of white everywhere
         setBackground( new Color( 236, 251, 251 ) );
 
-        currentScene = new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled, model.selectedPage, model.gameProgress );
+        currentScene = new LevelSelectionNode( Strings.BUILD_A_FRACTION, this, model.audioEnabled, model.selectedPage, model.gameProgress );
         addChild( currentScene );
     }
 
@@ -134,7 +135,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     public void reset() {
         model.resetAll();
         map.clear();
-        crossFadeTo( new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled, model.selectedPage, model.gameProgress ) );
+        crossFadeTo( new LevelSelectionNode( Strings.BUILD_A_FRACTION, this, model.audioEnabled, model.selectedPage, model.gameProgress ) );
     }
 
     public Component getComponent() {
@@ -155,7 +156,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     }
 
     public void goToLevelSelectionScreen() {
-        animateTo( new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled, model.selectedPage, model.gameProgress ), Direction.LEFT );
+        animateTo( new LevelSelectionNode( Strings.BUILD_A_FRACTION, this, model.audioEnabled, model.selectedPage, model.gameProgress ), Direction.LEFT );
     }
 
     public void resampleShapeLevel( final int levelIndex ) {
