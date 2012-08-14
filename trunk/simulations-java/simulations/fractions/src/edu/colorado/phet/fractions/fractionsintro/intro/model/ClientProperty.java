@@ -8,13 +8,10 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
-//REVIEW: This is a pretty central class, and while it is described in the
-//project documentation, it would be good to have more of an explanation of
-//what it does and why it is valuable here.  It's hard, at least for me, to
-//just figure this out from the code.
-
 /**
  * Generic property of the model, this provides a Property interface to observing and interacting with the model.
+ * For instance, there is a ClientProperty for the fraction's numerator.  When the numerator is set (for example when the user presses the numerator spinner button),
+ * this method produces a new model state from the old model state.  When the numerator changes for any reason, it sends out notifications so that stateful piccolo can be used.
  *
  * @author Sam Reid
  */
