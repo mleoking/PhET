@@ -231,11 +231,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode, iconTextOnTheRight ) ) );
 
         //For water glasses
-        //REVIEW: This is the only access to primaryFactorySet out of the
-        //model, and it's a bit of an odd usage.  Suggest calculating this
-        //value in the model and making that public instead and keeping
-        //primaryFactorySet private.
-        final Rectangle2D b = model.primaryFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().getShape().getBounds2D();
+        final Rectangle2D b = model.getWaterGlassSetNodeBounds();
         addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, Colors.CUP_COLOR, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
     }
 

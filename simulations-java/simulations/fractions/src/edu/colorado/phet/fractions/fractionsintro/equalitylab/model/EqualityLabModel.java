@@ -4,6 +4,8 @@ package edu.colorado.phet.fractions.fractionsintro.equalitylab.model;
 import fj.F;
 import fj.Unit;
 
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -49,7 +51,7 @@ public class EqualityLabModel {
     //to be associated with primaryFactorySet.  Please clarify or move.
     //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, then it goes up
     //so that the left and right representations match up at the center of the screen for as long as possible (until the value increases too high)
-    public final FactorySet primaryFactorySet = new F<Unit, FactorySet>() { //REVIEW: Can this be static?  scaledFactorySet is.
+    private final FactorySet primaryFactorySet = new F<Unit, FactorySet>() { //REVIEW: Can this be static?  scaledFactorySet is.
         @Override public FactorySet f( final Unit unit ) {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
 
@@ -193,4 +195,7 @@ public class EqualityLabModel {
         scale.reset();
         sameAsLeft.reset();
     }
+
+    //Get the bounds of the water glass set for use in the canvas layout
+    public Rectangle2D getWaterGlassSetNodeBounds() { return primaryFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().getShape().getBounds2D(); }
 }
