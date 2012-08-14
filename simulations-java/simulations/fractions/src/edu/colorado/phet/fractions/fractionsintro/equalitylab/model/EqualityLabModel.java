@@ -27,7 +27,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.S
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.VerticalSliceFactory;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
 
-import static edu.colorado.phet.fractions.common.view.Colors.LIGHT_BLUE;
+import static edu.colorado.phet.fractions.common.view.Colors.LIGHT_PINK;
 
 /**
  * Model for the Equality Lab tab.  Reuses lots of code from the Intro tab by composition for displaying and allowing interaction with the representations.
@@ -103,12 +103,12 @@ public class EqualityLabModel {
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
             Dimension2D bigBucket = new Dimension2D( 350, 100 );
 
-            return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, LIGHT_BLUE ),
-                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, LIGHT_BLUE, 125 + 445, horizontalSliceY, true ),
-                                   new VerticalSliceFactory( 400, 125 * verticalSliceScale, 225 * verticalSliceScale, false, bucketPosition, littleBucket, LIGHT_BLUE, distanceBetweenBars, false ),
+            return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, LIGHT_PINK ),
+                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, LIGHT_PINK, 125 + 445, horizontalSliceY, true ),
+                                   new VerticalSliceFactory( 400, 125 * verticalSliceScale, 225 * verticalSliceScale, false, bucketPosition, littleBucket, LIGHT_PINK, distanceBetweenBars, false ),
 
                                    //Align the left side of the water glasses with the left edge of the right representation control panel
-                                   new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, littleBucket, LIGHT_BLUE, distanceBetweenGlasses, true ),
+                                   new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, littleBucket, LIGHT_PINK, distanceBetweenGlasses, true ),
                                    new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
 
         }

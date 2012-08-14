@@ -13,6 +13,7 @@ public class Colors {
     public static final Color LIGHT_BLUE = new Color( 87, 182, 221 );
     public static final Color LIGHT_RED = new Color( 233, 69, 69 );
     public static final Color LIGHT_ORANGE = Color.orange;
+    public static final Color LIGHT_PINK = new Color( 255, 112, 213 );
 
     public static final Color CIRCLE_COLOR = LIGHT_GREEN;
     public static final Color HORIZONTAL_SLICE_COLOR = LIGHT_RED;

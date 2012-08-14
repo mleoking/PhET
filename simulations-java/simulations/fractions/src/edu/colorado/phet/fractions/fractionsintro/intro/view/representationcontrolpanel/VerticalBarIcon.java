@@ -26,6 +26,8 @@ public class VerticalBarIcon implements RepresentationIcon {
             //Show the border a bit thicker to match the filled shapes
             path.setStroke( new BasicStroke( (float) ( 2 / scale ) ) );
             path.setStrokePaint( Color.black );
+
+            path.setPaint( color );
         }};
 
     }
