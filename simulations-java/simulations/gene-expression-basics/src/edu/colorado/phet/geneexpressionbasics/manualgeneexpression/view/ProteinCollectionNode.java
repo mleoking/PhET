@@ -95,22 +95,14 @@ class ProteinCollectionNode extends PNode {
 
         // Constructor.
         public CollectionCountIndicator( final ManualGeneExpressionModel model ) {
-            // REVIEW: less error-prone for the future to make one observer and pass it to all three?
-            model.proteinACollected.addObserver( new SimpleObserver() {
+            SimpleObserver countChangeUpdater = new SimpleObserver() {
                 public void update() {
                     updateCount( model );
                 }
-            } );
-            model.proteinBCollected.addObserver( new SimpleObserver() {
-                public void update() {
-                    updateCount( model );
-                }
-            } );
-            model.proteinCCollected.addObserver( new SimpleObserver() {
-                public void update() {
-                    updateCount( model );
-                }
-            } );
+            };
+            model.proteinACollected.addObserver( countChangeUpdater );
+            model.proteinBCollected.addObserver( countChangeUpdater );
+            model.proteinCCollected.addObserver( countChangeUpdater );
         }
 
         private void updateCount( ManualGeneExpressionModel model ) {
