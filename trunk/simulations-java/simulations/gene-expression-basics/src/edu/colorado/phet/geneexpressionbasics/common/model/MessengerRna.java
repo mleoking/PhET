@@ -243,25 +243,25 @@ public class MessengerRna extends WindingBiomolecule {
      * @param ribosome
      * @return
      */
-    public Point2D getRibosomeAttachmentLocation( Ribosome ribosome ) {
+    public Vector2D getRibosomeAttachmentLocation( Ribosome ribosome ) {
         if ( !mapRibosomeToShapeSegment.containsKey( ribosome ) ) {
             System.out.println( getClass().getName() + " Warning: Ignoring attempt to obtain attachment point for non-attached ribosome." );
             return null;
         }
-        Point2D attachmentPoint;
+        Vector2D attachmentPoint;
         ShapeSegment segment = mapRibosomeToShapeSegment.get( ribosome );
         if ( shapeSegments.getPreviousItem( segment ) == null ) {
             // There is no previous segment, which means that the segment to
             // which this ribosome is attached is the leader segment.  The
             // attachment point is thus the leader length from its rightmost
             // edge.
-            attachmentPoint = new Point2D.Double( segment.getLowerRightCornerPos().getX() - LEADER_LENGTH, segment.getLowerRightCornerPos().getY() );
+            attachmentPoint = new Vector2D( segment.getLowerRightCornerPos().getX() - LEADER_LENGTH, segment.getLowerRightCornerPos().getY() );
         }
         else {
             // The segment has filled up the channel, so calculate the
             // position based on its left edge.
-            attachmentPoint = new Point2D.Double( segment.getUpperLeftCornerPos().getX() + ribosome.getTranslationChannelLength(),
-                                                  segment.getUpperLeftCornerPos().getY() );
+            attachmentPoint = new Vector2D( segment.getUpperLeftCornerPos().getX() + ribosome.getTranslationChannelLength(),
+                                            segment.getUpperLeftCornerPos().getY() );
         }
         return attachmentPoint;
     }

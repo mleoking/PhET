@@ -56,7 +56,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
     // Threshold for the detachment algorithm, used in deciding whether or not
     // to detach completely from the DNA at a given time step.
-    private double detachFromDnaThreshold = 1;
+    private Property<Double> detachFromDnaThreshold = new Property<Double>( 1.0 );
 
     // A flag that tracks whether this state machine should use the "recycle
     // mode", which causes the polymerase to return to some new location once
@@ -119,14 +119,14 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                 // Begin transcription.
                 attachedState = attachedAndConformingState;
                 setState( attachedState );
-                detachFromDnaThreshold = 1; // Reset this threshold.
+                detachFromDnaThreshold.reset(); // Reset this threshold.
             }
             else if ( RAND.nextDouble() > ( 1 - calculateProbabilityOfDetachment( attachmentSite.getAffinity(), dt ) ) ) {
 
                 // The decision has been made to detach.  Next, decide whether
                 // to detach completely from the DNA strand or just jump to an
                 // adjacent base pair.
-                if ( RAND.nextDouble() > detachFromDnaThreshold ) {
+                if ( RAND.nextDouble() > detachFromDnaThreshold.get() ) {
                     // Detach completely from the DNA.
                     detachFromDnaMolecule( asm );
                 }
@@ -169,7 +169,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                         // Update the detachment threshold.  It gets lower over
                         // time to increase the probability of detachment.
                         // Tweak as needed.
-                        detachFromDnaThreshold = detachFromDnaThreshold * Math.pow( 0.5, DEFAULT_ATTACH_TIME );
+                        detachFromDnaThreshold.set( detachFromDnaThreshold.get() * Math.pow( 0.5, DEFAULT_ATTACH_TIME ) );
                     }
                 }
             }
@@ -183,8 +183,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             asm.attachmentSite = null;
             asm.setState( unattachedButUnavailableState );
             biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( biomolecule.getDetachDirection(), biomolecule.motionBoundsProperty ) );
-            // REVIEW: is it better to use a Property so we can easily reset this?
-            detachFromDnaThreshold = 1; // Reset this threshold.
+            detachFromDnaThreshold.reset(); // Reset this threshold.
             asm.biomolecule.attachedToDna.set( false ); // Update externally visible state indication.
         }
 
@@ -293,12 +292,9 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                                                                                             TRANSCRIPTION_VELOCITY ) );
             // Create the mRNA that will be grown as a result of this
             // transcription.
-            // REVIEW: is there a reason why Point2D.Double is used here, instead of Vector2D? It could be much more concise if the code is ported to use it
-            // example: biomolecule.getPosition().plus( RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET )
             messengerRna = new MessengerRna( biomolecule.getModel(),
                                              geneToTranscribe.getProteinPrototype(),
-                                             new Vector2D( biomolecule.getPosition().getX() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getX(),
-                                                           biomolecule.getPosition().getY() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getY() ) );
+                                             biomolecule.getPosition().plus( RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET ) );
             biomolecule.spawnMessengerRna( messengerRna );
 
             // Free up the initial attachment site by hooking up to a somewhat
