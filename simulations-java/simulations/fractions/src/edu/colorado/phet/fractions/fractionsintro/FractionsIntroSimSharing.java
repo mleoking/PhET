@@ -83,8 +83,8 @@ public class FractionsIntroSimSharing {
     public static final String off = "off";
 
     //For chaining with component types
-    public static final String pink = "blue";
-    public static final String green = "green";
+    public static final String rightSide = "rightSide";
+    public static final String leftSide = "leftSide";
 
     public enum ModelComponents implements IModelComponent {
         containerSetComponent, leftScaleValue,
