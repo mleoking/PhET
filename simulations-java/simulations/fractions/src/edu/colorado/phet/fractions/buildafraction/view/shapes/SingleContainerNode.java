@@ -152,15 +152,15 @@ class SingleContainerNode extends PNode {
         piece.setInContainer( this );
     }
 
-    void splitAll() {
+    void undoAll() {
         for ( PieceNode child : getPieces() ) {
-            parent.parent.splitPieceFromContainer( child );
+            parent.parent.undoPieceFromContainer( child );
         }
     }
 
-    public static final Effect<SingleContainerNode> _splitAll = new Effect<SingleContainerNode>() {
+    public static final Effect<SingleContainerNode> _undoAll = new Effect<SingleContainerNode>() {
         @Override public void e( final SingleContainerNode s ) {
-            s.splitAll();
+            s.undoAll();
         }
     };
 

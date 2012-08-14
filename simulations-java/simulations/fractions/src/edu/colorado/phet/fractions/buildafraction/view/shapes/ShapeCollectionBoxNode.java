@@ -24,7 +24,7 @@ import static java.lang.Math.ceil;
 public class ShapeCollectionBoxNode extends PNode {
     private final PhetPPath path;
     private boolean completed;
-    private final UndoButton splitButton;
+    private final UndoButton undoButton;
     private ContainerNode containerNode;
     private final ShapeSceneNode sceneNode;
 
@@ -46,33 +46,33 @@ public class ShapeCollectionBoxNode extends PNode {
         }};
         addChild( this.path );
 
-        splitButton = new UndoButton( Components.shapesCollectionBoxSplitButton ) {{
+        undoButton = new UndoButton( Components.collectionBoxUndoButton ) {{
             scale( 0.8 );
             setOffset( -1, -1 );
             addActionListener( new ActionListener() {
                 @Override public void actionPerformed( final ActionEvent e ) {
-                    split();
+                    undo();
                 }
             } );
         }};
-        splitButton.addInputEventListener( new CursorHandler() );
-        splitButton.setVisible( false );
-        addChild( splitButton );
+        undoButton.addInputEventListener( new CursorHandler() );
+        undoButton.setVisible( false );
+        addChild( undoButton );
     }
 
-    public void split() {
+    public void undo() {
         if ( completed ) {
             completed = false;
             path.setStrokePaint( Color.darkGray );
             path.setStroke( controlPanelStroke );
-            splitButton.setVisible( false );
-            splitButton.setPickable( false );
-            splitButton.setChildrenPickable( false );
+            undoButton.setVisible( false );
+            undoButton.setPickable( false );
+            undoButton.setChildrenPickable( false );
 
             sceneNode.addChild( containerNode );
 
             containerNode.setScale( 1.0 );
-            containerNode.addBackSplitButton();
+            containerNode.addBackUndoButton();
             containerNode.setAllPickable( true );
 
             //Have to start animating back before changing the "target cell" flag, because that flag is used to determine whether it is "inPlayArea" for purposes of choosing location.
@@ -80,7 +80,7 @@ public class ShapeCollectionBoxNode extends PNode {
             containerNode.setInTargetCell( false, 0 );
 
             //Send the pieces home
-            containerNode.splitAll();
+            containerNode.undoAll();
 
             //The blue "break apart" control once a container has been put into the collection box, it will fly back to the floating panel and retain its divisions.  So we just need to have it reset to no divisions when it goes back to the panel.
             containerNode.selectedPieceSize.set( 0 );
@@ -89,7 +89,7 @@ public class ShapeCollectionBoxNode extends PNode {
 
             containerNode = null;
 
-            sceneNode.collectionBoxSplit();
+            sceneNode.collectionBoxUndone();
             sceneNode.syncModelFractions();
         }
     }
@@ -98,9 +98,9 @@ public class ShapeCollectionBoxNode extends PNode {
         this.containerNode = containerNode;
         path.setStrokePaint( Color.darkGray );
         this.completed = true;
-        splitButton.setVisible( true );
-        splitButton.setPickable( true );
-        splitButton.setChildrenPickable( true );
+        undoButton.setVisible( true );
+        undoButton.setPickable( true );
+        undoButton.setChildrenPickable( true );
     }
 
     public boolean isCompleted() { return completed; }

@@ -32,7 +32,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.s
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.fractions.FractionsResources.Images.*;
-import static edu.colorado.phet.fractions.buildafraction.view.shapes.SingleContainerNode._splitAll;
+import static edu.colorado.phet.fractions.buildafraction.view.shapes.SingleContainerNode._undoAll;
 import static edu.colorado.phet.fractions.common.math.Fraction.sum;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
@@ -44,7 +44,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  * @author Sam Reid
  */
 public class ContainerNode extends PNode {
-    private final UndoButton splitButton;
+    private final UndoButton undoButton;
     final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
     private final DynamicCursorHandler dynamicCursorHandler;
     public final ShapeSceneNode parent;
@@ -65,10 +65,10 @@ public class ContainerNode extends PNode {
         this.context = context;
         this.shapeType = shapeType;
 
-        splitButton = new UndoButton( chain( Components.numberSplitButton, ContainerNode.this.hashCode() ) );
-        addChild( splitButton );
-        splitButton.setVisible( false );
-        splitButton.setPickable( false );
+        undoButton = new UndoButton( chain( Components.playAreaUndoButton, ContainerNode.this.hashCode() ) );
+        addChild( undoButton );
+        undoButton.setVisible( false );
+        undoButton.setPickable( false );
 
         increaseDecreaseButton = new IncreaseDecreaseButton( new VoidFunction0() {
             public void apply() {
@@ -83,22 +83,22 @@ public class ContainerNode extends PNode {
         }
         );
         if ( shapeType == ShapeType.BAR ) {
-            splitButton.translate( -splitButton.getFullBounds().getWidth(),
-                                   -splitButton.getFullBounds().getHeight() );
+            undoButton.translate( -undoButton.getFullBounds().getWidth(),
+                                  -undoButton.getFullBounds().getHeight() );
         }
         else {
-            splitButton.translate( -splitButton.getFullBounds().getWidth() / 2,
-                                   -splitButton.getFullBounds().getHeight() / 2 );
+            undoButton.translate( -undoButton.getFullBounds().getWidth() / 2,
+                                  -undoButton.getFullBounds().getHeight() / 2 );
         }
         dynamicCursorHandler = new DynamicCursorHandler( Cursor.HAND_CURSOR );
-        splitButton.addActionListener( new ActionListener() {
+        undoButton.addActionListener( new ActionListener() {
             @Override public void actionPerformed( final ActionEvent e ) {
-                splitAll();
+                undoAll();
             }
         } );
-        splitButton.addInputEventListener( new PBasicInputEventHandler() {
+        undoButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( final PInputEvent event ) {
-                sendButtonPressed( chain( Components.numberSplitButton, ContainerNode.this.hashCode() ) );
+                sendButtonPressed( chain( Components.playAreaUndoButton, ContainerNode.this.hashCode() ) );
 
                 dynamicCursorHandler.setCursor( Cursor.DEFAULT_CURSOR );
             }
@@ -169,7 +169,7 @@ public class ContainerNode extends PNode {
         final SingleContainerNode last = getSingleContainerNodes().last();
 
         //if any pieces were in the container, send them back to the toolbox.
-        last.splitAll();
+        last.undoAll();
 
         PActivity activity = last.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
         activity.setDelegate( new PActivityDelegate() {
@@ -207,9 +207,9 @@ public class ContainerNode extends PNode {
         }
     };
 
-    public void splitAll() {
-        getSingleContainers().foreach( _splitAll );
-        PInterpolatingActivity activity = splitButton.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
+    public void undoAll() {
+        getSingleContainers().foreach( _undoAll );
+        PInterpolatingActivity activity = undoButton.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
         activity.setDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
             }
@@ -218,8 +218,8 @@ public class ContainerNode extends PNode {
             }
 
             public void activityFinished( final PActivity activity ) {
-                splitButton.setVisible( false );
-                splitButton.setPickable( false );
+                undoButton.setVisible( false );
+                undoButton.setPickable( false );
                 dynamicCursorHandler.setCursor( Cursor.DEFAULT_CURSOR );
             }
         } );
@@ -254,9 +254,9 @@ public class ContainerNode extends PNode {
     private List<SingleContainerNode> getSingleContainers() {return getChildren( containerLayer, SingleContainerNode.class );}
 
     //Get rid of it because it disrupts the layout when dropping into the scoring cell.
-    public void removeSplitButton() { removeChild( splitButton ); }
+    public void removeUndoButton() { removeChild( undoButton ); }
 
-    public void addBackSplitButton() { addChild( splitButton ); }
+    public void addBackUndoButton() { addChild( undoButton ); }
 
     public boolean isAtStartingLocation() { return getXOffset() == initialX && getYOffset() == initialY; }
 
@@ -302,11 +302,11 @@ public class ContainerNode extends PNode {
     public boolean belongsInToolbox() {return initialY > 500;}
 
     public void pieceAdded() {
-        if ( !splitButton.getVisible() ) {
-            splitButton.setVisible( true );
-            splitButton.setPickable( true );
-            splitButton.setTransparency( 0 );
-            splitButton.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
+        if ( !undoButton.getVisible() ) {
+            undoButton.setVisible( true );
+            undoButton.setPickable( true );
+            undoButton.setTransparency( 0 );
+            undoButton.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
             dynamicCursorHandler.setCursor( Cursor.HAND_CURSOR );
         }
     }

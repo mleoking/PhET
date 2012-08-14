@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Min;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -29,14 +28,13 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.common.view.FNode;
-import edu.colorado.phet.fractions.common.view.HomeButton;
+import edu.colorado.phet.fractions.common.view.LevelSelectionScreenButton;
 import edu.colorado.phet.fractions.fractionmatcher.model.Cell;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameModel;
 import edu.colorado.phet.fractions.fractionmatcher.model.Mode;
 import edu.colorado.phet.fractions.fractionmatcher.model.MovableFraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.Controller.GameOver;
 import edu.colorado.phet.fractions.fractionmatcher.view.Controller.Resample;
-import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
@@ -184,21 +182,18 @@ class GameNode extends PNode {
             }
         }, model.fractionIDs, model.revealClues ) );
 
-        final HomeButton homeButton = new HomeButton( new VoidFunction0() {
+        final LevelSelectionScreenButton levelSelectionScreenButton = new LevelSelectionScreenButton( new VoidFunction0() {
             public void apply() {
-                SimSharingManager.sendButtonPressed( Components.backButton );
                 model.state.set( model.state.get().withMode( Mode.CHOOSING_SETTINGS ) );
             }
         }, 5, 4 ) {{
             setOffset( AbstractFractionsCanvas.INSET, myMatchesText.getMaxY() + AbstractFractionsCanvas.INSET * 2 );
         }};
 
-//        addChild( homeButton );
-
         //Update the scoreboard when level, score, timerVisible, or time (in seconds) changes
         addChild( new UpdateNode( new Effect<PNode>() {
             @Override public void e( final PNode parent ) {
-                parent.addChild( new ScoreboardNode( model, homeButton ) {{
+                parent.addChild( new ScoreboardNode( model, levelSelectionScreenButton ) {{
 
                     //Update the location, but get it approximately right so it doesn't expand the dirty region
                     setOffset( AbstractFractionsCanvas.STAGE_SIZE.width - AbstractFractionsCanvas.INSET * 2, scoreCellsLayer.getMaxY() + AbstractFractionsCanvas.INSET );
