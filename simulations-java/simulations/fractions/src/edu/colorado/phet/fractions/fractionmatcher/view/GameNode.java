@@ -28,8 +28,8 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
-import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.FNode;
+import edu.colorado.phet.fractions.common.view.HomeButton;
 import edu.colorado.phet.fractions.fractionmatcher.model.Cell;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameModel;
 import edu.colorado.phet.fractions.fractionmatcher.model.Mode;
@@ -184,7 +184,7 @@ class GameNode extends PNode {
             }
         }, model.fractionIDs, model.revealClues ) );
 
-        final BackButton backButton = new BackButton( new VoidFunction0() {
+        final HomeButton homeButton = new HomeButton( new VoidFunction0() {
             public void apply() {
                 SimSharingManager.sendButtonPressed( Components.backButton );
                 model.state.set( model.state.get().withMode( Mode.CHOOSING_SETTINGS ) );
@@ -193,7 +193,7 @@ class GameNode extends PNode {
             setOffset( AbstractFractionsCanvas.INSET, myMatchesText.getMaxY() + AbstractFractionsCanvas.INSET * 2 );
         }};
 
-        addChild( backButton );
+        addChild( homeButton );
 
         //Update the scoreboard when level, score, timerVisible, or time (in seconds) changes
         addChild( new UpdateNode( new Effect<PNode>() {

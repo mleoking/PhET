@@ -23,7 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
-import edu.colorado.phet.fractions.common.view.BackButton;
+import edu.colorado.phet.fractions.common.view.HomeButton;
 import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
@@ -42,7 +42,7 @@ import static fj.data.List.iterableList;
  */
 public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     public List<T> pairs;
-    protected final BackButton backButton;
+    protected final HomeButton homeButton;
     protected VBox faceNodeDialog;
     protected PhetPText levelReadoutTitle;
 
@@ -54,14 +54,14 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
             }
         } );
 
-        backButton = new BackButton( new VoidFunction0() {
+        homeButton = new HomeButton( new VoidFunction0() {
             public void apply() {
                 context.goToLevelSelectionScreen();
             }
         } ) {{
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
         }};
-        addChild( backButton );
+        addChild( homeButton );
     }
 
     private final GameAudioPlayer gameAudioPlayer;
@@ -128,7 +128,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
             }
         } ).minimum( doubleOrd );
         levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
-        levelReadoutTitle.setOffset( minScoreCellX / 2 - levelReadoutTitle.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
+        levelReadoutTitle.setOffset( minScoreCellX / 2 - levelReadoutTitle.getFullWidth() / 2, homeButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
         addChild( levelReadoutTitle );
 
         final TextButtonNode resetButton = new TextButtonNode( Strings.RESET, AbstractFractionsCanvas.CONTROL_FONT, BUTTON_COLOR ) {{
