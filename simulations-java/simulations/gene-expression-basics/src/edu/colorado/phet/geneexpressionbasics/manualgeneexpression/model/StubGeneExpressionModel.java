@@ -14,12 +14,6 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
  * where we want to create biomolecules without needing a full blown model, such
  * as on control panels.
  *
- * REVIEW: Generally I would prefer if the sub-components of the model had no
- * knowledge of the entire model (since then this class wouldn't be needed, and
- * the dependencies would be simpler), however here it seems so much is
- * interrelated this was probably more maintainable in the long run (it wouldn't
- * be nice to pass the model to every function call).
- *
  * @author John Blanco
  */
 public class StubGeneExpressionModel extends GeneExpressionModel {

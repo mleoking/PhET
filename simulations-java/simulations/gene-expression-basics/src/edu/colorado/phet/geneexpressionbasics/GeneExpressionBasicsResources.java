@@ -22,6 +22,7 @@ public class GeneExpressionBasicsResources {
         public static final String BIOMOLECULE_TOOLBOX = RESOURCES.getLocalizedString( "biomoleculeToolbox" );
         public static final String CELLS = RESOURCES.getLocalizedString( "cells" );
         public static final String CLOSE = RESOURCES.getLocalizedString( "close" );
+        public static final String COLLECTION_COMPLETE = RESOURCES.getLocalizedString( "collectionComplete" );
         public static final String CONCENTRATIONS = RESOURCES.getLocalizedString( "concentrations" );
         public static final String DEGRADATION = RESOURCES.getLocalizedString( "degradation" );
         public static final String FAST = RESOURCES.getLocalizedString( "fast" );

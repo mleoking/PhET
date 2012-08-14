@@ -1,7 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
@@ -81,8 +85,7 @@ class ProteinCollectionNode extends PNode {
      */
     private static class CollectionCountIndicator extends PNode {
 
-        // REVIEW: internationalization here?
-        final PNode collectionCompleteNode = new PText( "Collection Complete!" ) {{
+        final PNode collectionCompleteNode = new PText( GeneExpressionBasicsResources.Strings.COLLECTION_COMPLETE ) {{
             setFont( new PhetFont( 20 ) );
             if ( getFullBoundsReference().width > MAX_CONTENT_WIDTH ) {
                 // Scale to fit.
@@ -199,7 +202,7 @@ class ProteinCollectionNode extends PNode {
                     captureNodeBackgroundSize.setSize( Math.max( proteinShapeBounds.getWidth() * ProteinCaptureNode.SCALE_FOR_FLASH_NODE, captureNodeBackgroundSize.getWidth() ),
                                                        Math.max( proteinShapeBounds.getHeight() * ProteinCaptureNode.SCALE_FOR_FLASH_NODE, captureNodeBackgroundSize.getHeight() ) );
                 }
-                catch( Exception e ) {
+                catch ( Exception e ) {
                     // REVIEW: this will continue executing past this. maybe instead throw RuntimeException( <message>, e )?
                     System.out.println( "Exception thrown when instantiating protein, e = " + e );
                     e.printStackTrace();
@@ -240,10 +243,10 @@ class ProteinCollectionNode extends PNode {
                 proteinShape = transform.createTransformedShape( protein.getFullyGrownShape() );
                 fullBaseColor = protein.colorProperty.get();
             }
-            catch( InstantiationException e ) {
+            catch ( InstantiationException e ) {
                 e.printStackTrace();
             }
-            catch( IllegalAccessException e ) {
+            catch ( IllegalAccessException e ) {
                 e.printStackTrace();
             }
 
