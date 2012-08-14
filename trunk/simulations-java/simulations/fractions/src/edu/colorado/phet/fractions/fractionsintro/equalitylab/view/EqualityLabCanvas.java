@@ -43,7 +43,7 @@ import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.fractions.common.view.Colors.HORIZONTAL_SLICE_COLOR;
-import static edu.colorado.phet.fractions.common.view.Colors.LIGHT_BLUE;
+import static edu.colorado.phet.fractions.common.view.Colors.LIGHT_PINK;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.horizontalBarRadioButton;
 import static edu.colorado.phet.fractions.fractionsintro.equalitylab.model.EqualityLabModel.scaledFactorySet;
 import static edu.colorado.phet.fractions.fractionsintro.intro.view.Representation.*;
@@ -88,26 +88,26 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
                     final List<Element<Boolean>> icons = new ArrayList<Element<Boolean>>();
                     if ( representation == PIE ) {
-                        icons.add( new Element<Boolean>( new PieIcon( new Property<Representation>( PIE ), Colors.LIGHT_BLUE ), true, chain( Components.pieRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        icons.add( new Element<Boolean>( new PieIcon( new Property<Representation>( PIE ), LIGHT_PINK ), true, chain( Components.pieRadioButton, FractionsIntroSimSharing.pink ) ) );
                     }
                     else if ( representation == HORIZONTAL_BAR ) {
-                        icons.add( new Element<Boolean>( new HorizontalBarIcon( new Property<Representation>( HORIZONTAL_BAR ), LIGHT_BLUE ) {{
+                        icons.add( new Element<Boolean>( new HorizontalBarIcon( new Property<Representation>( HORIZONTAL_BAR ), LIGHT_PINK ) {{
                             scale( 0.8 );
-                        }}, true, chain( horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        }}, true, chain( horizontalBarRadioButton, FractionsIntroSimSharing.pink ) ) );
                     }
                     else if ( representation == VERTICAL_BAR ) {
-                        final VerticalBarIcon verticalBarIcon = new VerticalBarIcon( scaledFactorySet.verticalSliceFactory, HORIZONTAL_SLICE_COLOR );
+                        final VerticalBarIcon verticalBarIcon = new VerticalBarIcon( scaledFactorySet.verticalSliceFactory, LIGHT_PINK );
                         PNode node = verticalBarIcon.getNode();
                         node.scale( 0.8 );
-                        icons.add( new Element<Boolean>( node, true, chain( horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        icons.add( new Element<Boolean>( node, true, chain( horizontalBarRadioButton, FractionsIntroSimSharing.pink ) ) );
                     }
                     else if ( representation == WATER_GLASSES ) {
-                        icons.add( new Element<Boolean>( new WaterGlassIcon( new Property<Representation>( WATER_GLASSES ), Colors.LIGHT_BLUE ) {{
+                        icons.add( new Element<Boolean>( new WaterGlassIcon( new Property<Representation>( WATER_GLASSES ), LIGHT_PINK ) {{
                             scale( 0.8 );
-                        }}, true, chain( Components.waterGlassesRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        }}, true, chain( Components.waterGlassesRadioButton, FractionsIntroSimSharing.pink ) ) );
                     }
                     else if ( representation == NUMBER_LINE ) {
-                        icons.add( new Element<Boolean>( new NumberLineIcon( new Property<Representation>( NUMBER_LINE ) ), true, chain( Components.numberLineRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        icons.add( new Element<Boolean>( new NumberLineIcon( new Property<Representation>( NUMBER_LINE ) ), true, chain( Components.numberLineRadioButton, FractionsIntroSimSharing.pink ) ) );
                     }
 
                     icons.add( new Element<Boolean>( new NumberLineIcon( new Property<Representation>( NUMBER_LINE ) ), false, chain( Components.numberLineRadioButton, FractionsIntroSimSharing.green ) ) );
@@ -181,7 +181,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                     //REVIEW: Can commented out code be removed?
 //                    System.out.println("Right water glasses changed");
                     final Shape shape = scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1, model.getRandomSeed() ).head().getShape();
-                    addChild( WaterGlassSetNode.createEmptyCellsNode( Colors.LIGHT_BLUE, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
+                    addChild( WaterGlassSetNode.createEmptyCellsNode( LIGHT_PINK, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
                 }
             } );
             setChildrenPickable( false );
@@ -190,7 +190,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Number line
         addChild( new DynamicNumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ),
                                              model.maximum, 15,
-                                             new Color( Colors.LIGHT_BLUE.getRed(), Colors.LIGHT_BLUE.getGreen(), Colors.LIGHT_BLUE.getBlue(), 200 ), true,
+                                             new Color( Colors.LIGHT_PINK.getRed(), Colors.LIGHT_PINK.getGreen(), Colors.LIGHT_PINK.getBlue(), 200 ), true,
                                              model.denominator ) {{
             setOffset( 385 + 200, 445 ); //REVIEW: Explain numbers.
 

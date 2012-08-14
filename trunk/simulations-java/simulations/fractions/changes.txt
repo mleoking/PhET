@@ -1,3 +1,4 @@
+Equality Lab: Made right representation pink so it doesn't match any of the left representation colors
 # 1.00.36 (66924) Aug 13, 2012
 Customized level selection button icons for Fraction Matcher and Build a Fraction
 # 1.00.35 (66922) Aug 13, 2012
