@@ -1,3 +1,4 @@
+Fraction Matcher: Moved level selection button to the right, above the refresh button
 Build a Fraction: Shapes: When dropping a container in an incorrect collection box, do not move to exactly overlap a container that is already centered in the play area.
 Switched to use a "level selection screen" button instead of a back button for build a fraction and fraction matcher.
 Build a Fraction: Shapes: Fixed: If the "undo" button is pressed for a "double container" that is in the collection box, and it flies back to the floating panel it does not recollapse to single container.

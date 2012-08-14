@@ -25,7 +25,7 @@ public class RefreshButtonNode extends PNode {
     public static final Color BUTTON_COLOR = new Color( 253, 239, 8 );
 
     //Reshape so the button will have similar dimension to the other text buttons.
-    private static BufferedImage copyWithPadding( BufferedImage image, int dw ) {
+    public static BufferedImage copyWithPadding( BufferedImage image, int dw ) {
         BufferedImage copy = new BufferedImage( image.getWidth() + dw * 2, image.getHeight(), image.getType() );
         Graphics2D graphics2D = copy.createGraphics();
         graphics2D.drawImage( image, dw, 0, null );
