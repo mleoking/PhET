@@ -37,11 +37,12 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
     @SuppressWarnings("unchecked") public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
+        //Create the icons to show in the control panel.
+        //VerticalBarIcon is constructed differently by reusing pre-existing code for getting the shape and aspect ratio correct.
         final RadioButtonStripControlPanelNode<Representation> representationControlPanel =
                 new RadioButtonStripControlPanelNode<Representation>( model.representation, asList(
                         new Element<Representation>( new PieIcon( model.representation, Colors.CIRCLE_COLOR ), PIE, pieRadioButton ),
                         new Element<Representation>( new HorizontalBarIcon( model.representation, Colors.HORIZONTAL_SLICE_COLOR ), HORIZONTAL_BAR, horizontalBarRadioButton ),
-                        //REVIEW: Why is the one below - VerticalBarIcon - constructed differently?  Doesn't seem very different in the UI.  Suggest doc or make consistent.
                         new Element<Representation>( new VerticalBarIcon( model.factorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ).getNode(), VERTICAL_BAR, verticalBarRadioButton ),
                         new Element<Representation>( new WaterGlassIcon( model.representation, Colors.CUP_COLOR ), WATER_GLASSES, waterGlassesRadioButton ),
                         new Element<Representation>( new CakeIcon( model.representation ), CAKE, cakeRadioButton ),
