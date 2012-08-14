@@ -114,14 +114,18 @@ public class DnaMolecule {
     /**
      * Constructor.
      *
-     * @param model           - The gene expression model within which this DNA strand
-     *                        exists.  Needed for evaluation of biomolecule interaction.
-     * @param numBasePairs    - The number of base pairs on the DNA strand.  This
-     *                        defines the length of the strand.
-     * @param leftEdgeXOffset - Offset of the left edge of the DNA strand in
-     *                        model space.  This is needed to allow the DNA strand to be initially
-     *                        shifted such that a gene is visible to the user when the view is first
-     *                        shown.
+     * @param model             The gene expression model within which this DNA
+     *                          strand exists.  Needed for evaluation of
+     *                          biomolecule interaction.
+     * @param numBasePairs      The number of base pairs on the DNA strand.
+     *                          This defines the length of the strand.
+     * @param leftEdgeXOffset   Offset of the left edge of the DNA strand in
+     *                          model space.  This is needed to allow the DNA
+     *                          strand to be initially shifted such that a gene
+     *                          is visible to the user when the view is first
+     *                          shown.
+     * @param pursueAttachments Flag that controls whether the DNA strand
+     *                          should interact with other biomolecules.
      */
     public DnaMolecule( GeneExpressionModel model, int numBasePairs, double leftEdgeXOffset, boolean pursueAttachments ) {
         this.model = model;
@@ -182,7 +186,7 @@ public class DnaMolecule {
      * since in this sim, the base pairs don't actually encode anything, so
      * adding the gene essentially delineates where it is on the strand.
      *
-     * @param geneToAdd
+     * @param geneToAdd Gene to add to the DNA strand.
      */
     public void addGene( Gene geneToAdd ) {
         genes.add( geneToAdd );
@@ -496,7 +500,7 @@ public class DnaMolecule {
 
         // Eliminate sites that would put the molecule out of bounds or
         // would overlap with other attached biomolecules.
-        eliminateInvalidAttachmentSites( biomolecule, potentialAttachmentSites );
+        potentialAttachmentSites = eliminateInvalidAttachmentSites( biomolecule, potentialAttachmentSites );
 
         if ( potentialAttachmentSites.size() == 0 ) {
             // No acceptable sites found.
@@ -508,11 +512,6 @@ public class DnaMolecule {
 
         // Return the optimal attachment site.
         return potentialAttachmentSites.get( 0 );
-    }
-
-    private void eliminateInvalidAttachmentSites( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
-        eliminateOutOfBoundsAttachmentSites( biomolecule, potentialAttachmentSites );
-        eliminateOverlappedAttachmentSites( biomolecule, potentialAttachmentSites );
     }
 
     /**
@@ -566,13 +565,36 @@ public class DnaMolecule {
         }
     }
 
-    private void eliminateOutOfBoundsAttachmentSitesNew( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
-        FunctionalUtils.filter( potentialAttachmentSites, new Function1<AttachmentSite, Boolean>() {
+    private List<AttachmentSite> eliminateInvalidAttachmentSites( final MobileBiomolecule biomolecule, final List<AttachmentSite> potentialAttachmentSites ) {
+        return FunctionalUtils.filter( potentialAttachmentSites, new Function1<AttachmentSite, Boolean>() {
             public Boolean apply( AttachmentSite attachmentSite ) {
-                return true;
+                Vector2D translationVector = new Vector2D( biomolecule.getPosition(), attachmentSite.locationProperty.get() );
+                AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
+                Shape translatedShape = transform.createTransformedShape( biomolecule.getShape() );
+                boolean inBounds = biomolecule.motionBoundsProperty.get().inBounds( translatedShape );
+                boolean overlapsOtherMolecules = false;
+                for ( MobileBiomolecule mobileBiomolecule : model.getOverlappingBiomolecules( translatedShape ) ) {
+                    if ( mobileBiomolecule.attachedToDna.get() && mobileBiomolecule != biomolecule ) {
+                        overlapsOtherMolecules = true;
+                        break;
+                    }
+                }
+                return inBounds && !overlapsOtherMolecules;
             }
         } );
     }
+
+    private List<AttachmentSite> eliminateOverlappingAttachmentSitesNew( final MobileBiomolecule biomolecule, final List<AttachmentSite> potentialAttachmentSites ) {
+        return FunctionalUtils.filter( potentialAttachmentSites, new Function1<AttachmentSite, Boolean>() {
+            public Boolean apply( AttachmentSite attachmentSite ) {
+                Vector2D translationVector = new Vector2D( biomolecule.getPosition(), attachmentSite.locationProperty.get() );
+                AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
+                Shape translatedShape = transform.createTransformedShape( biomolecule.getShape() );
+                return biomolecule.motionBoundsProperty.get().inBounds( translatedShape );
+            }
+        } );
+    }
+
 
     private AttachmentSite getTranscriptionFactorAttachmentSiteForBasePairIndex( int i, TranscriptionFactorConfig tfConfig ) {
         // See if this base pair is inside a gene.
@@ -625,11 +647,7 @@ public class DnaMolecule {
             }
         }
 
-        // Eliminate sites that would put the molecule out of bounds or
-        // would overlap with other attached biomolecules.
-        eliminateInvalidAttachmentSites( transcriptionFactor, attachmentSites );
-
-        return attachmentSites;
+        return eliminateInvalidAttachmentSites( transcriptionFactor, attachmentSites );
     }
 
     /**
@@ -659,9 +677,7 @@ public class DnaMolecule {
 
         // Eliminate sites that would put the molecule out of bounds or
         // would overlap with other attached biomolecules.
-        eliminateInvalidAttachmentSites( rnaPolymerase, attachmentSites );
-
-        return attachmentSites;
+        return eliminateInvalidAttachmentSites( rnaPolymerase, attachmentSites );
     }
 
     private Gene getGeneContainingBasePair( int basePairIndex ) {
