@@ -58,16 +58,15 @@ public class EqualityLabModel {
             //so that the left and right representations match up at the center of the screen for as long as possible (until the value increases too high)
             final F<Site, Site> siteMap = new SiteMap();
 
-            //REVIEW: Is the following comment a cut-and-paste error?  I only see one size of bucket here.
-            //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
-            Dimension2D littleBucket = new Dimension2D( 250, 100 );
-            return new FactorySet( new CircularSliceFactory( NUM_PER_ROW, bucketPosition, littleBucket, PIE_DIAMETER, pieX, PIE_Y, siteMap, Colors.CIRCLE_COLOR ),
-                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), littleBucket, Colors.HORIZONTAL_SLICE_COLOR, 125 + 114, HORIZONTAL_SLICE_Y, false ),
-                                   new VerticalSliceFactory( -120, 125 * VERTICAL_SLICE_SCALE, 225 * VERTICAL_SLICE_SCALE, false, bucketPosition, littleBucket, Colors.VERTICAL_SLICE_COLOR, DISTANCE_BETWEEN_BARS, false ),
+            //Use smaller buckets than on the intro tab, because there is less room
+            Dimension2D bucketSize = new Dimension2D( 250, 100 );
+            return new FactorySet( new CircularSliceFactory( NUM_PER_ROW, bucketPosition, bucketSize, PIE_DIAMETER, pieX, PIE_Y, siteMap, Colors.CIRCLE_COLOR ),
+                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bucketSize, Colors.HORIZONTAL_SLICE_COLOR, 125 + 114, HORIZONTAL_SLICE_Y, false ),
+                                   new VerticalSliceFactory( -120, 125 * VERTICAL_SLICE_SCALE, 225 * VERTICAL_SLICE_SCALE, false, bucketPosition, bucketSize, Colors.VERTICAL_SLICE_COLOR, DISTANCE_BETWEEN_BARS, false ),
 
                                    //Align the right side of the water glasses with the right edge of the representation control panel
-                                   new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, littleBucket, Colors.CUP_COLOR, DISTANCE_BETWEEN_GLASSES, true ),
-                                   new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
+                                   new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, bucketSize, Colors.CUP_COLOR, DISTANCE_BETWEEN_GLASSES, true ),
+                                   new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), bucketSize ) );
 
         }
     }.f( Unit.unit() );
