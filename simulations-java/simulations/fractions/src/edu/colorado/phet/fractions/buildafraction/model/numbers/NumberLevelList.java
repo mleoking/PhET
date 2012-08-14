@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.numbers;
 
+import fj.Equal;
 import fj.F;
 import fj.P2;
 import fj.data.List;
@@ -201,6 +202,18 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     only has cards available to match it with a "non-obvious fraction".
     For instance if 3/9 appears, and 5/9 appears, we have 1(5) and 1(9), but not 2(9), so that 1/3 would need to be used to match. */
     private NumberLevel level6() {
+
+        //Use 1000 tries to come up with a level that has multiple stacks
+        for ( int i = 0; i < 1000; i++ ) {
+            NumberLevel level = level6Impl();
+            if ( level.numbers.group( Equal.intEqual ).length() > 1 ) {
+                return level;
+            }
+        }
+        return level6Impl();
+    }
+
+    private NumberLevel level6Impl() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
         return NumberLevel.numberLevelReduced( list( targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ),
@@ -370,5 +383,14 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
             }
         }
         throw new RuntimeException( "Couldn't find a match" );
+    }
+
+    public static void main( String[] args ) {
+        for ( int i = 0; i < 1000; i++ ) {
+            NumberLevel level6 = new NumberLevelList().level6();
+            List<List<Integer>> groups = level6.numbers.group( Equal.intEqual );
+            int numGroups = groups.length();
+            System.out.println( "groups: " + numGroups + ", level6.numbers = " + level6.numbers );
+        }
     }
 }
