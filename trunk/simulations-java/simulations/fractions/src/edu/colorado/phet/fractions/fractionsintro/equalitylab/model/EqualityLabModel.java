@@ -43,6 +43,7 @@ public class EqualityLabModel {
     private static final double DISTANCE_BETWEEN_BARS = 12;
     private static final double HORIZONTAL_SLICE_Y = -1.5;
     private static final double VERTICAL_SLICE_SCALE = 0.75;
+    private static final int NUM_PER_ROW = 3;
 
     //REVIEW: In understand the following comment, but I don't get why it seems
     //to be associated with primaryFactorySet.  Please clarify or move.
@@ -51,7 +52,6 @@ public class EqualityLabModel {
     public final FactorySet primaryFactorySet = new F<Unit, FactorySet>() { //REVIEW: Can this be static?  scaledFactorySet is.
         @Override public FactorySet f( final Unit unit ) {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
-            int numPerRow = 3; //REVIEW: Can this be a constant?  The same value is used in the other factory set.
 
             double pieX = -112;
 
@@ -60,7 +60,7 @@ public class EqualityLabModel {
             //REVIEW: Is the following comment a cut-and-paste error?  I only see one size of bucket here.
             //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
-            return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, PIE_DIAMETER, pieX, PIE_Y, siteMap, Colors.CIRCLE_COLOR ),
+            return new FactorySet( new CircularSliceFactory( NUM_PER_ROW, bucketPosition, littleBucket, PIE_DIAMETER, pieX, PIE_Y, siteMap, Colors.CIRCLE_COLOR ),
                                    new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), littleBucket, Colors.HORIZONTAL_SLICE_COLOR, 125 + 114, HORIZONTAL_SLICE_Y, false ),
                                    new VerticalSliceFactory( -120, 125 * VERTICAL_SLICE_SCALE, 225 * VERTICAL_SLICE_SCALE, false, bucketPosition, littleBucket, Colors.VERTICAL_SLICE_COLOR, DISTANCE_BETWEEN_BARS, false ),
 
@@ -77,7 +77,7 @@ public class EqualityLabModel {
     public static final FactorySet scaledFactorySet = new F<Unit, FactorySet>() {
         @Override public FactorySet f( final Unit unit ) {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
-            int numPerRow = 3;
+
             double pieX = 85 + 475 - 146; //REVIEW: doc - explain why there are several numbers in an equation and not just one.
 
             final F<Site, Site> siteMap = new F<Site, Site>() {
@@ -101,7 +101,7 @@ public class EqualityLabModel {
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
             Dimension2D bigBucket = new Dimension2D( 350, 100 );
 
-            return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, PIE_DIAMETER, pieX, PIE_Y, siteMap, LIGHT_PINK ),
+            return new FactorySet( new CircularSliceFactory( NUM_PER_ROW, bucketPosition, littleBucket, PIE_DIAMETER, pieX, PIE_Y, siteMap, LIGHT_PINK ),
                                    new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, LIGHT_PINK, 125 + 445, HORIZONTAL_SLICE_Y, true ),
                                    new VerticalSliceFactory( 400, 125 * VERTICAL_SLICE_SCALE, 225 * VERTICAL_SLICE_SCALE, false, bucketPosition, littleBucket, LIGHT_PINK, DISTANCE_BETWEEN_BARS, false ),
 
