@@ -78,12 +78,15 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
     //Apply an update rule to all of the pie sets, and updates the container set to match
     public IntroState updatePieSets( F<PieSet, PieSet> f ) {
         final PieSet newPieSet = f.f( pieSet );
-        return pieSet( newPieSet ).
+        final IntroState result = pieSet( newPieSet ).
                 horizontalBarSet( f.f( horizontalBarSet ) ).
                 verticalBarSet( f.f( verticalBarSet ) ).
                 waterGlassSet( f.f( waterGlassSet ) ).
                 cakeSet( f.f( cakeSet ) ).
                 containerSet( newPieSet.toContainerSet() );
+
+        //Sort the cake slices (in z-ordering).  I'm not sure why, but this has to be done after setting the container set.
+        return result.cakeSet( CakeSliceFactory.sort( result.cakeSet ) );
     }
 
     //Update all representations from the specified container set

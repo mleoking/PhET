@@ -26,7 +26,6 @@ import edu.colorado.phet.fractions.fractionsintro.intro.controller.SetVerticalBa
 import edu.colorado.phet.fractions.fractionsintro.intro.controller.SetWaterGlassSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.PieSet;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.CakeSliceFactory;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.FactorySet;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
 
@@ -75,16 +74,11 @@ public class FractionsIntroModel implements Serializable {
         clock = new ConstantDtClock() {{
             addClockListener( new ClockAdapter() {
                 @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
-                    final IntroState s = state.get();
-                    final IntroState newState = s.updatePieSets( new F<PieSet, PieSet>() {
+                    state.set( state.get().updatePieSets( new F<PieSet, PieSet>() {
                         @Override public PieSet f( PieSet p ) {
                             return p.stepInTime();
                         }
-                    } );
-
-                    //REVIEW: Seems odd to have this here.  Can't it be a part of stepInTime for the cake set?
-                    //Fix the z-ordering for cake slices
-                    state.set( newState.cakeSet( CakeSliceFactory.sort( newState.cakeSet ) ) );
+                    } ) );
                 }
             } );
         }};
