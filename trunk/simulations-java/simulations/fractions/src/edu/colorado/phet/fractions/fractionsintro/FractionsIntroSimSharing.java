@@ -6,6 +6,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ISystemAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ISystemComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
@@ -106,6 +108,15 @@ public class FractionsIntroSimSharing {
         scale,
         autoSpin,
         soundEnabled, timerEnabled, isCorrect, points, shapeType
+    }
+
+    public enum SystemComponents implements ISystemComponent {
+        buildAFraction
+    }
+
+    public enum SystemActions implements ISystemAction {
+        allChallengesComplete,
+        oneChallengeComplete
     }
 
     private static RichVoidFunction1<Boolean> sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action, final Function1<Boolean, ParameterSet> parameters ) {

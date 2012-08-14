@@ -324,7 +324,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
 
         if ( allTargetsComplete() ) {
-            playSoundForAllComplete();
+            notifyAllCompleted();
 
             faceNodeDialog.setVisible( true );
             faceNodeDialog.animateToTransparency( 1f, BuildAFractionModule.ANIMATION_TIME );
@@ -333,7 +333,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             faceNodeDialog.moveToFront();
         }
         if ( !allTargetsComplete() && hit ) {
-            playSoundForOneComplete();
+            notifyOneCompleted();
         }
 
         syncModelFractions();
