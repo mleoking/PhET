@@ -75,7 +75,7 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
             setOpaque( false );
             setEditable( false );
             setFont( ATTRIBUTION_FONT );
-            // REVIEW: do they (or the translators) want this to be translatable? We could have {0} fill in with "Dennis Kunkel Microscopy, Inc.".
+            // Don't allow translation of the image attribution.
             setText( "Image Copyright Dennis Kunkel Microscopy, Inc." );
         }};
 
