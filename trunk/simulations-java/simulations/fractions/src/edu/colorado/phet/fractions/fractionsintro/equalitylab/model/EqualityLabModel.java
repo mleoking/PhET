@@ -51,7 +51,7 @@ public class EqualityLabModel {
     //to be associated with primaryFactorySet.  Please clarify or move.
     //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, then it goes up
     //so that the left and right representations match up at the center of the screen for as long as possible (until the value increases too high)
-    private final FactorySet primaryFactorySet = new F<Unit, FactorySet>() { //REVIEW: Can this be static?  scaledFactorySet is.
+    private static final FactorySet primaryFactorySet = new F<Unit, FactorySet>() {
         @Override public FactorySet f( final Unit unit ) {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
 
