@@ -53,10 +53,10 @@ public class BuildAFractionModel {
                       return new ShapeLevelList();
                   }
               }, new F<Unit, ArrayList<NumberLevel>>() {
-            @Override public ArrayList<NumberLevel> f( final Unit unit ) {
-                return new NumberLevelList();
-            }
-        }
+                  @Override public ArrayList<NumberLevel> f( final Unit unit ) {
+                      return new NumberLevelList();
+                  }
+              }
         );
     }
 
@@ -69,21 +69,15 @@ public class BuildAFractionModel {
         this.shapeLevelFactory = shapeLevelFactory;
     }
 
-    private void checkLevelSizes() {
-        assert numberLevels.size() == shapeLevels.size();
-    }
+    private void checkLevelSizes() { assert numberLevels.size() == shapeLevels.size(); }
 
     private Level getLevel( final LevelIdentifier levelIdentifier ) {
         return levelIdentifier.levelType == LevelType.SHAPES ? getShapeLevel( levelIdentifier.levelIndex ) : getNumberLevel( levelIdentifier.levelIndex );
     }
 
-    public NumberLevel getNumberLevel( final int level ) {
-        return numberLevels.get( level );
-    }
+    public NumberLevel getNumberLevel( final int level ) { return numberLevels.get( level ); }
 
-    public ShapeLevel getShapeLevel( final int level ) {
-        return shapeLevels.get( level );
-    }
+    public ShapeLevel getShapeLevel( final int level ) { return shapeLevels.get( level ); }
 
     public void resampleNumberLevel( final int levelIndex ) {
         numberLevels.remove( levelIndex ).dispose();
