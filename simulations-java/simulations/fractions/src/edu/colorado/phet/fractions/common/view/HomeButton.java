@@ -20,11 +20,11 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class HomeButton extends PNode {
-    public HomeButton( final VoidFunction0 pressed ) {
+    public HomeButton( final VoidFunction0 pressed, int externalPadding, final int internalPadding ) {
         PNode icon = new PNode() {{
-            addChild( new VBox( 3, new RowNode(), new RowNode() ) );
+            addChild( new VBox( 3, new RowNode( internalPadding ), new RowNode( internalPadding ) ) );
         }};
-        addChild( new HTMLImageButtonNode( RefreshButtonNode.copyWithPadding( BufferedImageUtils.toBufferedImage( icon.toImage() ), 12 ) ) {{
+        addChild( new HTMLImageButtonNode( RefreshButtonNode.copyWithPadding( BufferedImageUtils.toBufferedImage( icon.toImage() ), externalPadding ) ) {{
             setBackground( RefreshButtonNode.BUTTON_COLOR );
             addActionListener( new ActionListener() {
                 @Override public void actionPerformed( final ActionEvent e ) {
@@ -35,8 +35,8 @@ public class HomeButton extends PNode {
     }
 
     private class RowNode extends HBox {
-        private RowNode() {
-            super( 3 );
+        private RowNode( int internalPadding ) {
+            super( 3 + internalPadding );
             for ( int i = 0; i < 3; i++ ) {
                 addChild( path() );
             }

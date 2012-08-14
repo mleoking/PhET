@@ -58,7 +58,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
             public void apply() {
                 context.goToLevelSelectionScreen();
             }
-        } ) {{
+        }, 0, 0 ) {{
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
         }};
         addChild( homeButton );

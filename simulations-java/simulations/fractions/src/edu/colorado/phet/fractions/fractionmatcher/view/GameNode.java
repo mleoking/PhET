@@ -189,7 +189,7 @@ class GameNode extends PNode {
                 SimSharingManager.sendButtonPressed( Components.backButton );
                 model.state.set( model.state.get().withMode( Mode.CHOOSING_SETTINGS ) );
             }
-        } ) {{
+        }, 5, 4 ) {{
             setOffset( AbstractFractionsCanvas.INSET, myMatchesText.getMaxY() + AbstractFractionsCanvas.INSET * 2 );
         }};
 
