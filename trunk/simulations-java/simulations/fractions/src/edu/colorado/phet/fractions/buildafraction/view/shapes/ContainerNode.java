@@ -82,8 +82,14 @@ public class ContainerNode extends PNode {
             }
         }
         );
-        splitButton.translate( -splitButton.getFullBounds().getWidth(),
-                               -splitButton.getFullBounds().getHeight() );
+        if ( shapeType == ShapeType.BAR ) {
+            splitButton.translate( -splitButton.getFullBounds().getWidth(),
+                                   -splitButton.getFullBounds().getHeight() );
+        }
+        else {
+            splitButton.translate( -splitButton.getFullBounds().getWidth() / 2,
+                                   -splitButton.getFullBounds().getHeight() / 2 );
+        }
         dynamicCursorHandler = new DynamicCursorHandler( Cursor.HAND_CURSOR );
         splitButton.addActionListener( new ActionListener() {
             @Override public void actionPerformed( final ActionEvent e ) {
