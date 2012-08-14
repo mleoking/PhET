@@ -318,7 +318,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         //Add a new fraction skeleton when the previous one is completed
         if ( !allTargetsComplete() ) {
 
-            playSoundForOneComplete();
+            notifyOneCompleted();
 
             //If no fraction skeleton in play area, move one there
             if ( allIncompleteFractionsInToolbox() ) {
@@ -342,7 +342,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             faceNodeDialog.setChildrenPickable( true );
             faceNodeDialog.moveToFront();
 
-            playSoundForAllComplete();
+            notifyAllCompleted();
         }
     }
 

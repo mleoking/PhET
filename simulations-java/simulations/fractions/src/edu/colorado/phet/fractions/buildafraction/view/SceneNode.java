@@ -30,8 +30,13 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendSystemMessage;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes.application;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.RefreshButtonNode.BUTTON_COLOR;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.SystemActions.allChallengesComplete;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.SystemActions.oneChallengeComplete;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.SystemComponents.buildAFraction;
 import static fj.Ord.doubleOrd;
 import static fj.data.List.iterableList;
 
@@ -66,9 +71,17 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
 
     private final GameAudioPlayer gameAudioPlayer;
 
-    protected void playSoundForOneComplete() { gameAudioPlayer.correctAnswer(); }
+    //Play audio and send simsharing message
+    protected void notifyOneCompleted() {
+        gameAudioPlayer.correctAnswer();
+        sendSystemMessage( buildAFraction, application, oneChallengeComplete );
+    }
 
-    protected void playSoundForAllComplete() { gameAudioPlayer.gameOverPerfectScore(); }
+    //Play audio and send simsharing message
+    protected void notifyAllCompleted() {
+        gameAudioPlayer.gameOverPerfectScore();
+        sendSystemMessage( buildAFraction, application, allChallengesComplete );
+    }
 
     protected void initCollectionBoxes( final double insetY, final ArrayList<T> _pairs ) {
         this.pairs = iterableList( _pairs );
