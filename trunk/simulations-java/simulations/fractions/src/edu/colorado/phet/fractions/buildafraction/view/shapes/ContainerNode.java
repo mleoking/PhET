@@ -296,7 +296,8 @@ public class ContainerNode extends PNode {
         setScale( scale );
     }
 
-    public boolean isInToolbox() { return isAtStartingLocation() && belongsInToolbox(); }
+    //Identify containers as being in the toolbox if they are shrunken
+    public boolean isInToolbox() { return Math.abs( getScale() - PieceIconNode.TINY_SCALE ) < 1E-6; }
 
     public boolean belongsInToolbox() {return initialY > 500;}
 
