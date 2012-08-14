@@ -30,15 +30,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.T
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 
 /**
- * REVIEW: this is for the mRNA tab, not the manual gene expression tab?
- * Primary model for the manual gene expression tab.
- * <p/>
- * REVIEW: again, dimensions seem to be in picometers mostly?
- * Dimensions in this model (and all sub-elements of the model) are in nano-
- * meters, i.e. 10E-9 meters.
- * <p/>
- * The point (0,0) in model space is at the leftmost edge of the DNA strand, and
- * at the vertical center of the strand.
+ * Primary model for the Messenger RNA Production tab.
  *
  * @author John Blanco
  */
