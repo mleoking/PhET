@@ -248,7 +248,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     }
 
     public void endDrag( final ContainerNode containerNode ) {
-        //See if it hits any matches
+        //See if it hits any matching collection boxes
         List<ShapeSceneCollectionBoxPair> pairs = this.pairs.sort( ord( new F<ShapeSceneCollectionBoxPair, Double>() {
             @Override public Double f( final ShapeSceneCollectionBoxPair t ) {
                 return t.collectionBoxNode.getGlobalFullBounds().getCenter2D().distance( containerNode.getGlobalFullBounds().getCenter2D() );
@@ -330,7 +330,6 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     private void animateToCenterScreen( final ContainerNode containerNode ) {
         Vector2D position = getContainerPosition( level );
-//        Vector2D offset = level.shapeType == ShapeType.BAR ? new Vector2D( -100, 50 ) : Vector2D.ZERO;
         containerNode.animateToPositionScaleRotation( position.x, position.y,
                                                       1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
     }
