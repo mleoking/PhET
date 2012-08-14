@@ -2,7 +2,6 @@
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -28,7 +27,7 @@ public abstract class ShapeSegment {
 
     // Attachment point where anything that attached to this segment would
     // attach.  Affinity is arbitrary in this case.
-    public final AttachmentSite attachmentSite = new AttachmentSite( new Point2D.Double(), 1 );
+    public final AttachmentSite attachmentSite = new AttachmentSite( new Vector2D(), 1 );
 
     // Max length of mRNA that this segment can contain.
     public double capacity = Double.POSITIVE_INFINITY;
@@ -41,11 +40,11 @@ public abstract class ShapeSegment {
         return capacity - getContainedLength();
     }
 
-    public Point2D getLowerRightCornerPos() {
-        return new Point2D.Double( bounds.get().getMaxX(), bounds.get().getMinY() );
+    public Vector2D getLowerRightCornerPos() {
+        return new Vector2D( bounds.get().getMaxX(), bounds.get().getMinY() );
     }
 
-    public void setLowerRightCornerPos( Point2D newLowerRightCornerPos ) {
+    public void setLowerRightCornerPos( Vector2D newLowerRightCornerPos ) {
         Vector2D currentLowerRightCornerPos = new Vector2D( getLowerRightCornerPos() );
         Vector2D delta = new Vector2D( newLowerRightCornerPos ).minus( currentLowerRightCornerPos );
         Rectangle2D newBounds = AffineTransform.getTranslateInstance( delta.getX(), delta.getY() ).createTransformedShape( bounds.get() ).getBounds2D();
@@ -53,11 +52,11 @@ public abstract class ShapeSegment {
         updateAttachmentSiteLocation();
     }
 
-    public Point2D getUpperLeftCornerPos() {
-        return new Point2D.Double( bounds.get().getMinX(), bounds.get().getMaxY() );
+    public Vector2D getUpperLeftCornerPos() {
+        return new Vector2D( bounds.get().getMinX(), bounds.get().getMaxY() );
     }
 
-    public void setUpperLeftCornerPosition( Point2D upperLeftCornerPosition ) {
+    public void setUpperLeftCornerPosition( Vector2D upperLeftCornerPosition ) {
         bounds.set( new Rectangle2D.Double( upperLeftCornerPosition.getX(),
                                             upperLeftCornerPosition.getY() - bounds.get().getHeight(),
                                             bounds.get().getWidth(),
@@ -143,7 +142,7 @@ public abstract class ShapeSegment {
      */
     public static class FlatSegment extends ShapeSegment {
 
-        public FlatSegment( Point2D origin ) {
+        public FlatSegment( Vector2D origin ) {
             bounds.set( new Rectangle2D.Double( origin.getX(), origin.getY(), 0, 0 ) );
             updateAttachmentSiteLocation();
         }
@@ -292,7 +291,7 @@ public abstract class ShapeSegment {
         // said length.  This helps to avoid floating point issues.
         private double containedLength = 0;
 
-        public SquareSegment( Point2D origin ) {
+        public SquareSegment( Vector2D origin ) {
             bounds.set( new Rectangle2D.Double( origin.getX(), origin.getY(), 0, 0 ) );
             updateAttachmentSiteLocation();
         }

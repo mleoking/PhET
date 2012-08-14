@@ -39,10 +39,10 @@ public class Ribosome extends MobileBiomolecule {
     private MessengerRna messengerRnaBeingTranslated;
 
     public Ribosome( GeneExpressionModel model ) {
-        this( model, new Point2D.Double( 0, 0 ) );
+        this( model, new Vector2D( 0, 0 ) );
     }
 
-    public Ribosome( final GeneExpressionModel model, Point2D position ) {
+    public Ribosome( final GeneExpressionModel model, Vector2D position ) {
         super( model, createShape(), new Color( 205, 155, 29 ) );
         setPosition( position );
     }

@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -49,7 +50,7 @@ class BiomoleculeCreatorNode extends PComposite {
     public BiomoleculeCreatorNode( PPath appearanceNode,
                                    ManualGeneExpressionCanvas canvas,
                                    final ModelViewTransform mvt,
-                                   final Function1<Point2D, MobileBiomolecule> moleculeCreator,
+                                   final Function1<Vector2D, MobileBiomolecule> moleculeCreator,
                                    final VoidFunction1<MobileBiomolecule> moleculeDestroyer,
                                    final PNode enclosingToolBoxNode ) {
         this.canvas = canvas;
@@ -69,7 +70,7 @@ class BiomoleculeCreatorNode extends PComposite {
                 setChildrenPickable( false );
 
                 // Create the corresponding biomolecule and add it to the model.
-                biomolecule = moleculeCreator.apply( getModelPosition( event.getCanvasPosition() ) );
+                biomolecule = moleculeCreator.apply( new Vector2D( getModelPosition( event.getCanvasPosition() ) ) );
                 biomolecule.userControlled.set( true );
                 // Add an observer to watch for this model element to be returned.
                 final MobileBiomolecule finalBiomolecule = biomolecule;
@@ -81,7 +82,7 @@ class BiomoleculeCreatorNode extends PComposite {
                             // generally the bounds of the tool box where this
                             // creator node resides),then the model element
                             // should be removed from the model.
-                            if ( enclosingToolBoxNode.getFullBoundsReference().contains( mvt.modelToView( finalBiomolecule.getPosition() ) ) ) {
+                            if ( enclosingToolBoxNode.getFullBoundsReference().contains( mvt.modelToView( finalBiomolecule.getPosition() ).toPoint2D() ) ) {
                                 moleculeDestroyer.apply( finalBiomolecule );
                                 finalBiomolecule.userControlled.removeObserver( this );
                                 BiomoleculeCreatorNode.this.appearanceNode.setTransparency( 1 );
@@ -96,7 +97,7 @@ class BiomoleculeCreatorNode extends PComposite {
 
             @Override
             public void mouseDragged( PInputEvent event ) {
-                biomolecule.setPosition( getModelPosition( event.getCanvasPosition() ) );
+                biomolecule.setPosition( new Vector2D( getModelPosition( event.getCanvasPosition() ) ) );
             }
 
             @Override

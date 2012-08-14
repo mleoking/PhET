@@ -4,7 +4,6 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -73,7 +72,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
      * @param config
      */
     public TranscriptionFactor( GeneExpressionModel model, TranscriptionFactorConfig config ) {
-        this( model, config, new Point2D.Double( 0, 0 ) );
+        this( model, config, new Vector2D( 0, 0 ) );
     }
 
     /**
@@ -83,7 +82,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
      * @param config
      * @param initialPosition
      */
-    public TranscriptionFactor( GeneExpressionModel model, TranscriptionFactorConfig config, Point2D initialPosition ) {
+    public TranscriptionFactor( GeneExpressionModel model, TranscriptionFactorConfig config, Vector2D initialPosition ) {
         super( model, config.shape, config.baseColor );
         this.config = config;
         setPosition( initialPosition );

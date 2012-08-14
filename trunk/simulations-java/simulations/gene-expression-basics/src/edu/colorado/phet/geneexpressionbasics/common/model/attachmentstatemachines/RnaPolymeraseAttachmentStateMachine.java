@@ -52,7 +52,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     // something to attach to when transcribing.  This is a bit hokey, but was
     // a lot easier than trying to move to each and every base pair in the DNA
     // strand.
-    private final AttachmentSite transcribingAttachmentSite = new AttachmentSite( new Point2D.Double( 0, 0 ), 1 );
+    private final AttachmentSite transcribingAttachmentSite = new AttachmentSite( new Vector2D( 0, 0 ), 1 );
 
     // Threshold for the detachment algorithm, used in deciding whether or not
     // to detach completely from the DNA at a given time step.
@@ -240,7 +240,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
     protected class AttachedAndTranscribingState extends AttachmentState {
         private static final double TRANSCRIPTION_VELOCITY = 1000; // In picometers per second.
-        private final Point2D endOfGene = new Point2D.Double();
+        private Vector2D endOfGene = null;
         private MessengerRna messengerRna;
 
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
@@ -286,8 +286,8 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             // Set up the motion strategy to move to the end of the transcribed
             // region of the gene.
-            endOfGene.setLocation( geneToTranscribe.getEndX(), DnaMolecule.Y_POS );
-            asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( new Property<Point2D>( endOfGene ),
+            endOfGene = new Vector2D( geneToTranscribe.getEndX(), DnaMolecule.Y_POS );
+            asm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( new Property<Vector2D>( new Vector2D( endOfGene ) ),
                                                                                             biomolecule.motionBoundsProperty,
                                                                                             new Vector2D( 0, 0 ),
                                                                                             TRANSCRIPTION_VELOCITY ) );
@@ -297,8 +297,8 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             // example: biomolecule.getPosition().plus( RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET )
             messengerRna = new MessengerRna( biomolecule.getModel(),
                                              geneToTranscribe.getProteinPrototype(),
-                                             new Point2D.Double( biomolecule.getPosition().getX() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getX(),
-                                                                 biomolecule.getPosition().getY() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getY() ) );
+                                             new Vector2D( biomolecule.getPosition().getX() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getX(),
+                                                           biomolecule.getPosition().getY() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getY() ) );
             biomolecule.spawnMessengerRna( messengerRna );
 
             // Free up the initial attachment site by hooking up to a somewhat
@@ -366,7 +366,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             // Verify that state is consistent.
             assert asm.attachmentSite == null;
 
-            if ( pointContainedInBoundsList( asm.biomolecule.getPosition(), RnaPolymeraseAttachmentStateMachine.this.recycleReturnZones ) ) {
+            if ( pointContainedInBoundsList( asm.biomolecule.getPosition().toPoint2D(), RnaPolymeraseAttachmentStateMachine.this.recycleReturnZones ) ) {
                 // The motion strategy has returned the biomolecule to the
                 // recycle return zone, so this state is complete.
                 asm.biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( biomolecule.motionBoundsProperty ) );

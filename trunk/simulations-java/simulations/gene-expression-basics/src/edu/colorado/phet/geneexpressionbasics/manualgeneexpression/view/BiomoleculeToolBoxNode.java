@@ -9,6 +9,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -176,8 +177,8 @@ public class BiomoleculeToolBoxNode extends PNode {
             super( new MobileBiomoleculeNode( SCALING_MVT, new RnaPolymerase() ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
-                   new Function1<Point2D, MobileBiomolecule>() {   // Molecule creator function.
-                       public MobileBiomolecule apply( Point2D pos ) {
+                   new Function1<Vector2D, MobileBiomolecule>() {   // Molecule creator function.
+                       public MobileBiomolecule apply( Vector2D pos ) {
                            RnaPolymerase rnaPolymerase = new RnaPolymerase( biomoleculeBoxNode.model, pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( rnaPolymerase );
                            return rnaPolymerase;
@@ -207,8 +208,8 @@ public class BiomoleculeToolBoxNode extends PNode {
             super( new MobileBiomoleculeNode( SCALING_MVT, new Ribosome( new StubGeneExpressionModel() ) ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
-                   new Function1<Point2D, MobileBiomolecule>() {   // Molecule creator function.
-                       public MobileBiomolecule apply( Point2D pos ) {
+                   new Function1<Vector2D, MobileBiomolecule>() {   // Molecule creator function.
+                       public MobileBiomolecule apply( Vector2D pos ) {
                            Ribosome srs = new Ribosome( biomoleculeBoxNode.model, pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( srs );
                            return srs;
@@ -233,11 +234,11 @@ public class BiomoleculeToolBoxNode extends PNode {
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
         private TranscriptionFactorCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode, final TranscriptionFactorConfig tfConfig ) {
-            super( new MobileBiomoleculeNode( SCALING_MVT, new TranscriptionFactor( new StubGeneExpressionModel(), tfConfig, new Point2D.Double( 0, 0 ) ) ),
+            super( new MobileBiomoleculeNode( SCALING_MVT, new TranscriptionFactor( new StubGeneExpressionModel(), tfConfig, new Vector2D( 0, 0 ) ) ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
-                   new Function1<Point2D, MobileBiomolecule>() {
-                       public MobileBiomolecule apply( Point2D pos ) {
+                   new Function1<Vector2D, MobileBiomolecule>() {
+                       public MobileBiomolecule apply( Vector2D pos ) {
                            TranscriptionFactor transcriptionFactor = new TranscriptionFactor( biomoleculeBoxNode.model, tfConfig, pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( transcriptionFactor );
                            return transcriptionFactor;
@@ -265,8 +266,8 @@ public class BiomoleculeToolBoxNode extends PNode {
             super( new MobileBiomoleculeNode( SCALING_MVT, new MessengerRnaDestroyer( new StubGeneExpressionModel() ) ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
-                   new Function1<Point2D, MobileBiomolecule>() {
-                       public MobileBiomolecule apply( Point2D pos ) {
+                   new Function1<Vector2D, MobileBiomolecule>() {
+                       public MobileBiomolecule apply( Vector2D pos ) {
                            MessengerRnaDestroyer mRnaDestroyer = new MessengerRnaDestroyer( biomoleculeBoxNode.model, pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( mRnaDestroyer );
                            return mRnaDestroyer;

@@ -1,9 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
@@ -23,7 +22,7 @@ public class AttachmentSite {
     // Location of this attachment site.  It is a property so that it can be
     // followed in the event that the biomolecule upon which it exists is
     // moving.
-    public final Property<Point2D> locationProperty = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
+    public final Property<Vector2D> locationProperty = new Property<Vector2D>( new Vector2D( 0, 0 ) );
 
     // Property that represents the affinity of the attachment site.
     public final BoundedDoubleProperty affinityProperty;
@@ -37,8 +36,8 @@ public class AttachmentSite {
      *
      * @param initialLocation
      */
-    public AttachmentSite( Point2D initialLocation, double initialAffinity ) {
-        this.locationProperty.set( new Point2D.Double( initialLocation.getX(), initialLocation.getY() ) );
+    public AttachmentSite( Vector2D initialLocation, double initialAffinity ) {
+        this.locationProperty.set( initialLocation );
         affinityProperty = new BoundedDoubleProperty( initialAffinity, 0.0, 1.0 );
     }
 

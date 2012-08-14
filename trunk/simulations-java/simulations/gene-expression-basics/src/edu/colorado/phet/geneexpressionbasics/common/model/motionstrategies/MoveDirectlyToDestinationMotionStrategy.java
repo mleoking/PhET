@@ -2,12 +2,11 @@
 package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.Shape;
-import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -25,7 +24,7 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
 
     // Destination to which this motion strategy moves.  Note that it is
     // potentially a moving target.
-    private final Property<Point2D> destinationProperty;
+    private final Property<Vector2D> destinationProperty;
 
     // Fixed offset from the destination location property used when computing
     // the actual target destination.  This is useful in cases where something
@@ -36,7 +35,7 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
     // Scalar velocity with which the controlled item travels.
     private final double scalarVelocity2D;
 
-    public MoveDirectlyToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, AbstractVector2D destinationOffset, double velocity ) {
+    public MoveDirectlyToDestinationMotionStrategy( Property<Vector2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, AbstractVector2D destinationOffset, double velocity ) {
         this.destinationProperty = destinationProperty;
         this.scalarVelocity2D = velocity;
         this.offsetFromDestinationProperty = destinationOffset;
@@ -47,9 +46,9 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
         } );
     }
 
-    @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
+    @Override public Vector2D getNextLocation( Vector2D currentLocation, Shape shape, double dt ) {
         Point3D nextLocation3D = getNextLocation3D( new Point3D.Double( currentLocation.getX(), currentLocation.getY(), 0 ), shape, dt );
-        return new Point2D.Double( nextLocation3D.getX(), nextLocation3D.getY() );
+        return new Vector2D( nextLocation3D.getX(), nextLocation3D.getY() );
     }
 
     @Override public Point3D getNextLocation3D( Point3D currentLocation3D, Shape shape, double dt ) {
@@ -58,11 +57,11 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
         Point3D currentDestination3D = new Point3D.Double( destinationProperty.get().getX() - offsetFromDestinationProperty.getX(),
                                                            destinationProperty.get().getY() - offsetFromDestinationProperty.getY(),
                                                            0 );
-        Point2D currentDestination2D = new Point2D.Double( destinationProperty.get().getX() - offsetFromDestinationProperty.getX(),
-                                                           destinationProperty.get().getY() - offsetFromDestinationProperty.getY() );
-        Point2D currentLocation2D = new Point2D.Double( currentLocation3D.getX(), currentLocation3D.getY() );
+        Vector2D currentDestination2D = new Vector2D( destinationProperty.get().getX() - offsetFromDestinationProperty.getX(),
+                                                      destinationProperty.get().getY() - offsetFromDestinationProperty.getY() );
+        Vector2D currentLocation2D = new Vector2D( currentLocation3D.getX(), currentLocation3D.getY() );
         updateVelocityVector2D( currentLocation2D,
-                                new Point2D.Double( currentDestination3D.getX(), currentDestination3D.getY() ),
+                                new Vector2D( currentDestination3D.getX(), currentDestination3D.getY() ),
                                 scalarVelocity2D );
 
         // Make the Z velocity such that the front (i.e. z = 0) will be reached
@@ -98,7 +97,7 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
                                    MathUtil.clamp( -1, currentLocation3D.getZ() + zVelocity * dt, 0 ) );
     }
 
-    private void updateVelocityVector2D( Point2D currentLocation, Point2D destination, double velocity ) {
+    private void updateVelocityVector2D( Vector2D currentLocation, Vector2D destination, double velocity ) {
         if ( currentLocation.distance( destination ) == 0 ) {
             velocityVector2D.setComponents( 0, 0 );
         }

@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
-import java.awt.geom.Point2D;
-
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.MessengerRnaFragmentAttachmentStateMachine;
@@ -22,7 +21,7 @@ public class MessengerRnaFragment extends WindingBiomolecule {
      *
      * @param position
      */
-    public MessengerRnaFragment( final GeneExpressionModel model, Point2D position ) {
+    public MessengerRnaFragment( final GeneExpressionModel model, Vector2D position ) {
         super( model, new DoubleGeneralPath( position ).getGeneralPath(), position );
 
         // Add the first, and in this case only, segment to the shape segment

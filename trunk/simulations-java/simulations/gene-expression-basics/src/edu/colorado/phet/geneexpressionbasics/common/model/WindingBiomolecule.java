@@ -56,7 +56,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
      *
      * @param initialShape
      */
-    protected WindingBiomolecule( GeneExpressionModel model, Shape initialShape, Point2D position ) {
+    protected WindingBiomolecule( GeneExpressionModel model, Shape initialShape, Vector2D position ) {
         super( model, initialShape, NOMINAL_COLOR );
 
         // Add first shape defining point to the point list.
@@ -318,7 +318,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
      * @param lastPoint
      * @param origin
      */
-    private void positionPointsInLine( PointMass firstPoint, PointMass lastPoint, Point2D origin ) {
+    private void positionPointsInLine( PointMass firstPoint, PointMass lastPoint, Vector2D origin ) {
         PointMass currentPoint = firstPoint;
         double xOffset = 0;
         while ( currentPoint != lastPoint && currentPoint != null ) {
@@ -398,7 +398,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
      * @param position
      * @param targetDistanceToPreviousPoint
      */
-    private void addPointToEnd( Point2D position, double targetDistanceToPreviousPoint ) {
+    private void addPointToEnd( Vector2D position, double targetDistanceToPreviousPoint ) {
         PointMass newPoint = new PointMass( position, targetDistanceToPreviousPoint );
         lastShapeDefiningPoint.setNextPointMass( newPoint );
         newPoint.setPreviousPointMass( lastShapeDefiningPoint );
@@ -410,7 +410,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
         ArrayList<Point2D> pointList = new ArrayList<Point2D>();
         PointMass thisPoint = firstShapeDefiningPoint;
         while ( thisPoint != null ) {
-            pointList.add( thisPoint.getPosition() );
+            pointList.add( thisPoint.getPosition().toPoint2D() );
             thisPoint = thisPoint.getNextPointMass();
         }
         return pointList;
@@ -438,13 +438,13 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
      *
      * @param p
      */
-    public void setLowerRightPosition( Point2D p ) {
+    public void setLowerRightPosition( Vector2D p ) {
         getLastShapeSegment().setLowerRightCornerPos( p );
         realignSegmentsFromEnd();
     }
 
     public void setLowerRightPosition( double x, double y ) {
-        setLowerRightPosition( new Point2D.Double( x, y ) );
+        setLowerRightPosition( new Vector2D( x, y ) );
     }
 
     /**
@@ -487,7 +487,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
      * Class that defines an observable list with some additional methods that
      * make it easier to get next and previous items and to insert items before
      * and after existing items.
-     *
+     * <p/>
      * REVIEW: can we consider adding these methods to ObservableList? they may be useful in other simulations
      *
      * @param <T>

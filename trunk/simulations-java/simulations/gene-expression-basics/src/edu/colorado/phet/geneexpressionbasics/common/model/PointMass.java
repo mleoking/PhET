@@ -21,7 +21,7 @@ public class PointMass {
 
     private double targetDistanceToPreviousPoint; // In picometers.
 
-    public PointMass( Point2D initialPosition, double targetDistanceToPreviousPoint ) {
+    public PointMass( Vector2D initialPosition, double targetDistanceToPreviousPoint ) {
         setPosition( initialPosition );
         this.targetDistanceToPreviousPoint = targetDistanceToPreviousPoint;
     }
@@ -34,12 +34,12 @@ public class PointMass {
         position.setLocation( x, y );
     }
 
-    public void setPosition( Point2D position ) {
+    public void setPosition( Vector2D position ) {
         setPosition( position.getX(), position.getY() );
     }
 
-    public Point2D getPosition() {
-        return new Point2D.Double( position.getX(), position.getY() );
+    public Vector2D getPosition() {
+        return new Vector2D( position.getX(), position.getY() );
     }
 
     public Vector2D getVelocity() {

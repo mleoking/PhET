@@ -459,7 +459,7 @@ public class DnaMolecule {
         List<AttachmentSite> potentialAttachmentSites = new ArrayList<AttachmentSite>();
         for ( int i = 0; i < basePairs.size(); i++ ) {
             // See if the base pair is within the max attachment distance.
-            Point2D attachmentSiteLocation = new Point2D.Double( basePairs.get( i ).getCenterLocation().getX(), Y_POS );
+            Vector2D attachmentSiteLocation = new Vector2D( basePairs.get( i ).getCenterLocation().getX(), Y_POS );
             if ( attachmentSiteLocation.distance( biomolecule.getPosition() ) <= maxAttachDistance ) {
                 // In range.  Add it to the list if it is available.
                 AttachmentSite potentialAttachmentSite = getAttachSiteForBasePair.apply( i );
@@ -658,11 +658,11 @@ public class DnaMolecule {
      * @return
      */
     public AttachmentSite createDefaultAffinityAttachmentSite( double xOffset ) {
-        return new AttachmentSite( new Point2D.Double( getNearestBasePairXOffset( xOffset ), Y_POS ), DEFAULT_AFFINITY );
+        return new AttachmentSite( new Vector2D( getNearestBasePairXOffset( xOffset ), Y_POS ), DEFAULT_AFFINITY );
     }
 
     public AttachmentSite createDefaultAffinityAttachmentSite( int basePairIndex ) {
-        return new AttachmentSite( new Point2D.Double( getBasePairXOffsetByIndex( basePairIndex ), Y_POS ), DEFAULT_AFFINITY );
+        return new AttachmentSite( new Vector2D( getBasePairXOffsetByIndex( basePairIndex ), Y_POS ), DEFAULT_AFFINITY );
     }
 
     /**
@@ -671,7 +671,7 @@ public class DnaMolecule {
      * @param location
      * @return Gene at the location, null if no gene exists.
      */
-    public Gene getGeneAtLocation( Point2D location ) {
+    public Gene getGeneAtLocation( Vector2D location ) {
         if ( !( location.getX() >= leftEdgeXOffset && location.getX() <= leftEdgeXOffset + moleculeLength &&
                 location.getY() >= Y_POS - DIAMETER / 2 && location.getY() <= Y_POS + DIAMETER / 2 ) ) {
             System.out.println( getClass().getName() + " - Warning: Location for gene test is not on DNA molecule." );
@@ -766,9 +766,9 @@ public class DnaMolecule {
 
     // Comparator class to use when comparing two attachment sites.
     private static class AttachmentSiteComparator<T extends AttachmentSite> implements Comparator<T> {
-        private final Point2D attachLocation;
+        private final Vector2D attachLocation;
 
-        private AttachmentSiteComparator( Point2D attachLocation ) {
+        private AttachmentSiteComparator( Vector2D attachLocation ) {
             this.attachLocation = attachLocation;
         }
 

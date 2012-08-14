@@ -65,7 +65,7 @@ public class MotionBounds {
      * @param proposedLocation - Proposed location of the shape's center.
      * @return - True is in bounds, false if not.
      */
-    public boolean testIfInMotionBounds( Shape shape, Point2D proposedLocation ) {
+    public boolean testIfInMotionBounds( Shape shape, Vector2D proposedLocation ) {
         Vector2D shapeCenter = new Vector2D( shape.getBounds2D().getCenterX(), shape.getBounds2D().getCenterY() );
         Vector2D translationVector = new Vector2D( proposedLocation ).minus( shapeCenter );
         Shape translatedBounds = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() ).createTransformedShape( shape );

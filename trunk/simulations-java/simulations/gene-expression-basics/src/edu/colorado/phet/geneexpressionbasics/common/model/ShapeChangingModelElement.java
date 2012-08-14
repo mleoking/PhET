@@ -3,7 +3,6 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -41,7 +40,7 @@ public abstract class ShapeChangingModelElement {
         shapeProperty.set( translationTransform.createTransformedShape( shapeProperty.get() ) );
     }
 
-    public void setPosition( Point2D newPos ) {
+    public void setPosition( Vector2D newPos ) {
         setPosition( newPos.getX(), newPos.getY() );
     }
 
@@ -55,9 +54,9 @@ public abstract class ShapeChangingModelElement {
         }
     }
 
-    public Point2D getPosition() {
+    public Vector2D getPosition() {
         // Assumes that the center of the shape is the position.  Override if
         // other behavior is needed.
-        return new Point2D.Double( shapeProperty.get().getBounds2D().getCenterX(), shapeProperty.get().getBounds2D().getCenterY() );
+        return new Vector2D( shapeProperty.get().getBounds2D().getCenterX(), shapeProperty.get().getBounds2D().getCenterY() );
     }
 }

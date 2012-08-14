@@ -4,6 +4,7 @@ package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRnaDestroyer;
 
@@ -20,8 +21,8 @@ public class DestroyerTrackingRnaMotionStrategy extends MotionStrategy {
         this.messengerRna = messengerRnaDestroyer.getMessengerRnaBeingDestroyed();
     }
 
-    @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
+    @Override public Vector2D getNextLocation( Vector2D currentLocation, Shape shape, double dt ) {
         Point2D attachmentLocation = messengerRna.getDestroyerAttachmentLocation();
-        return new Point2D.Double( attachmentLocation.getX(), attachmentLocation.getY() );
+        return new Vector2D( attachmentLocation.getX(), attachmentLocation.getY() );
     }
 }

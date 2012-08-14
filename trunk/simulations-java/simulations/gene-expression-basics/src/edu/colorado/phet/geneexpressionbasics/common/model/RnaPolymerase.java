@@ -73,10 +73,10 @@ public class RnaPolymerase extends MobileBiomolecule {
      * control panels.
      */
     public RnaPolymerase() {
-        this( new StubGeneExpressionModel(), new Point2D.Double( 0, 0 ) );
+        this( new StubGeneExpressionModel(), new Vector2D( 0, 0 ) );
     }
 
-    public RnaPolymerase( GeneExpressionModel model, Point2D position ) {
+    public RnaPolymerase( GeneExpressionModel model, Vector2D position ) {
         super( model, createShape(), NOMINAL_COLOR );
         rnaPolymeraseAttachmentStateMachine = (RnaPolymeraseAttachmentStateMachine) attachmentStateMachine;
         setPosition( position );
