@@ -10,8 +10,8 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
  * @author Sam Reid
  */
 class MoveAwayFromCollectionBoxes implements PActivityDelegate {
-    private ContainerNode containerNode;
-    private ShapeSceneNode shapeSceneNode;
+    private final ContainerNode containerNode;
+    private final ShapeSceneNode shapeSceneNode;
 
     MoveAwayFromCollectionBoxes( final ShapeSceneNode shapeSceneNode, final ContainerNode containerNode ) {
         this.shapeSceneNode = shapeSceneNode;

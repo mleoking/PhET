@@ -92,7 +92,7 @@ public class ContainerNode extends PNode {
         }
         dynamicCursorHandler = new DynamicCursorHandler( Cursor.HAND_CURSOR );
         undoButton.addActionListener( new ActionListener() {
-            @Override public void actionPerformed( final ActionEvent e ) {
+            public void actionPerformed( final ActionEvent e ) {
                 undoAll();
             }
         } );
@@ -258,13 +258,7 @@ public class ContainerNode extends PNode {
 
     public void addBackUndoButton() { addChild( undoButton ); }
 
-    public boolean isAtStartingLocation() { return getXOffset() == initialX && getYOffset() == initialY; }
-
-    public static final F<ContainerNode, Boolean> _isAtStartingLocation = new F<ContainerNode, Boolean>() {
-        @Override public Boolean f( final ContainerNode containerNode ) {
-            return containerNode.isAtStartingLocation();
-        }
-    };
+    boolean isAtStartingLocation() { return getXOffset() == initialX && getYOffset() == initialY; }
 
     public Boolean isInTargetCell() {return inTargetCell;}
 

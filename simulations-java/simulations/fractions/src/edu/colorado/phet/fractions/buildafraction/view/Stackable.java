@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
 public abstract class Stackable<T extends Stackable> extends PNode {
     private Option<Integer> positionInStack = Option.none();
     protected Stack<T> stack;
-    public final BooleanProperty animating = new BooleanProperty( false );
+    protected final BooleanProperty animating = new BooleanProperty( false );
 
     public void setAllPickable( boolean pickable ) {
 

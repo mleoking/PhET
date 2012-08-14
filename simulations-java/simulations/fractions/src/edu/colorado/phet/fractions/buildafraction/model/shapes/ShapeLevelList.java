@@ -399,7 +399,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    more pieces as a way to constrain the pieces given. So for instance something like 4/3 would have to be built by something like 1(half) +
    2(quarters) + (1/3)
     */
-    public static ShapeLevel level10() {
+    private static ShapeLevel level10() {
         List<Fraction> available = list( new Fraction( 3, 2 ),
                                          new Fraction( 4, 3 ), new Fraction( 5, 3 ),
                                          new Fraction( 5, 4 ), new Fraction( 7, 4 ),
