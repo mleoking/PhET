@@ -47,7 +47,7 @@ import static fj.data.List.iterableList;
  */
 public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     public List<T> pairs;
-    protected final LevelSelectionScreenButton levelSelectionScreenButton;
+    private final LevelSelectionScreenButton levelSelectionScreenButton;
     protected VBox faceNodeDialog;
     protected PhetPText levelReadoutTitle;
 

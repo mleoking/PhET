@@ -8,7 +8,7 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * @author Sam Reid
  */
-public class MixedFractionNodeFactory {
+class MixedFractionNodeFactory {
     public static PNode toNode( final MixedFraction target ) {
         if ( target.whole == 0 ) {
             return new FractionNode( target.toFraction(), 0.33 );

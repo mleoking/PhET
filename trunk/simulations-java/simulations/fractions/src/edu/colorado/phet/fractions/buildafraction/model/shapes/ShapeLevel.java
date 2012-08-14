@@ -25,7 +25,7 @@ public class ShapeLevel extends Level {
     public final Color color;
     public final ShapeType shapeType;
 
-    //Cannot be a constructor because has same erasure
+    //This will be used for Mixed numbers in the 2nd tab in the standalone Build a Fraction sim.  Cannot be a constructor because has same erasure
     public static ShapeLevel shapeLevelMixed( final List<Integer> pieces, final List<MixedFraction> targets, Color color, ShapeType shapeType ) {
         return new ShapeLevel( pieces, targets, color, shapeType );
     }

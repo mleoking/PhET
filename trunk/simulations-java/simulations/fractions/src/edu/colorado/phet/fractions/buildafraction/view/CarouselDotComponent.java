@@ -25,7 +25,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.carouselRadioButtonLabel;
 
 /**
- * Shows the different dots, one for each page and the labels above each dot.  Dot is filled in if that is where the user is.  Like on an ipad homescreen or on angry birds.
+ * Shows the different dots, one for each page and the labels above each dot.  Dot is filled in if that is where the user is.  Like on an ipad home screen or on angry birds.
  *
  * @author Sam Reid
  */

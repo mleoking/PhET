@@ -183,16 +183,13 @@ public abstract class PieceNode extends Stackable {
     public void terminateActivities() {
         for ( PActivity activity : new ArrayList<PActivity>( activities ) ) {
             activities.remove( activity );
-            double xbefore = getFullBounds().getX();
             activity.terminate( PActivity.TERMINATE_WITHOUT_FINISHING );
-            double xafter = getFullBounds().getX();
-//            System.out.println( "xbefore = " + xbefore + ", xafter = " + xafter + ", activity = " + activity );
         }
         activities.clear();
     }
 
     //List of activities that have been scheduled.  See terminateActivities
-    ArrayList<PActivity> activities = new ArrayList<PActivity>();
+    private final ArrayList<PActivity> activities = new ArrayList<PActivity>();
 
     @Override public boolean addActivity( final PActivity activity ) {
         activities.add( activity );

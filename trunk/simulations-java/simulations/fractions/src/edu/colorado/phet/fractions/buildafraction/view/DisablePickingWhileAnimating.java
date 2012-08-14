@@ -19,17 +19,17 @@ public class DisablePickingWhileAnimating implements PActivityDelegate {
         this.pickableAfterActivityFinished = pickableAfterActivityFinished;
     }
 
-    @Override public void activityStarted( final PActivity activity ) {
+    public void activityStarted( final PActivity activity ) {
         node.setPickable( false );
         node.setChildrenPickable( false );
     }
 
-    @Override public void activityStepped( final PActivity activity ) {
+    public void activityStepped( final PActivity activity ) {
         node.setPickable( false );
         node.setChildrenPickable( false );
     }
 
-    @Override public void activityFinished( final PActivity activity ) {
+    public void activityFinished( final PActivity activity ) {
         node.setPickable( pickableAfterActivityFinished );
         node.setChildrenPickable( pickableAfterActivityFinished );
     }

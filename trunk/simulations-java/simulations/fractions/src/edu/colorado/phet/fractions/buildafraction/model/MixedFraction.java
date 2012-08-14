@@ -14,17 +14,17 @@ import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 public @Data class MixedFraction {
     public final int whole;
     public final Fraction fraction;
-    public static F<MixedFraction, Double> _toDouble = new F<MixedFraction, Double>() {
+    public static final F<MixedFraction, Double> _toDouble = new F<MixedFraction, Double>() {
         @Override public Double f( final MixedFraction f ) {
             return f.toDouble();
         }
     };
-    public static F<MixedFraction, Boolean> _greaterThanOne = new F<MixedFraction, Boolean>() {
+    public static final F<MixedFraction, Boolean> _greaterThanOne = new F<MixedFraction, Boolean>() {
         @Override public Boolean f( final MixedFraction f ) {
             return Fraction._greaterThanOne.f( f.toFraction() );
         }
     };
-    public static F<Fraction, MixedFraction> _toMixedFraction = new F<Fraction, MixedFraction>() {
+    public static final F<Fraction, MixedFraction> _toMixedFraction = new F<Fraction, MixedFraction>() {
         @Override public MixedFraction f( final Fraction fraction ) {
             return new MixedFraction( 0, fraction );
         }

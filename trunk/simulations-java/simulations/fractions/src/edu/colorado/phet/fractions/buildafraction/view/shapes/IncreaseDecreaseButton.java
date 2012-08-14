@@ -28,22 +28,22 @@ class IncreaseDecreaseButton extends PNode {
         subtractButton.setAllPickable( false );
     }
 
-    //Hide the increase button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion
-    public PInterpolatingActivity hideIncreaseButton() {
+    //Hide the increase button.
+    public void hideIncreaseButton() {
         addButton.setAllPickable( false );
-        return addButton.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
+        addButton.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
     }
 
-    //Hide the decrease button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion
-    public PInterpolatingActivity hideDecreaseButton() {
+    //Hide the decrease button.
+    public void hideDecreaseButton() {
         subtractButton.setAllPickable( false );
-        return subtractButton.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
+        subtractButton.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
     }
 
-    //Show the increase button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion
-    public PInterpolatingActivity showIncreaseButton() {
+    //Show the increase button.
+    public void showIncreaseButton() {
         addButton.setAllPickable( true );
-        return addButton.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
+        addButton.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
     }
 
     //Show the decrease button.  Return the activity in case client needs to attach a delegate e.g., to listen for completion

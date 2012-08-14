@@ -70,7 +70,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private final int spacing;
     private final double layoutXOffset;
     private final ShapeLevel level;
-    private ArrayList<Vector2D> containerNodeToolboxLocations = new ArrayList<Vector2D>();
+    private final ArrayList<Vector2D> containerNodeToolboxLocations = new ArrayList<Vector2D>();
     private static final Random random = new Random();
 
     private static final double CARD_SPACING_DX = 3;
@@ -100,7 +100,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         return delta;
     }
 
-    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset ) {
+    @SuppressWarnings("unchecked") private ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset ) {
         super( soundEnabled, context );
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
@@ -466,7 +466,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, 1, 0, BuildAFractionModule.ANIMATION_TIME );
 
             postprocess = new VoidFunction0() {
-                @Override public void apply() {
+                public void apply() {
                     piece.setPickable( false );
                     piece.setChildrenPickable( false );
                     piece.setOffset( dropLocation.position.x, dropLocation.position.y );
@@ -488,7 +488,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             activity = piece.animateToPositionScaleRotation( a.x, a.y, 1, dropLocation.angle, BuildAFractionModule.ANIMATION_TIME );
 
             postprocess = new VoidFunction0() {
-                @Override public void apply() {
+                public void apply() {
                     piece.setPickable( false );
                     piece.setChildrenPickable( false );
                     piece.setOffset( a.x, a.y );
