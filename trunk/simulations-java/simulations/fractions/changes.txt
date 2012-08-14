@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Fixed: When a "double container" is dragged over the collection box with the incorrect answer and released, it pops back to where the "minus" sign interferes with the collection boxes
 Build a Fraction: Shapes: Made the container node go to the play area if it is empty, otherwise go to the toolbox
 # 1.00.34 (66906) Aug 13, 2012
 Build a Fraction: Numbers: Fixed: Fraction skeleton cannot be dragged out of toolbox after being ejected from a collection box

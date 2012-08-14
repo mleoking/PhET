@@ -278,7 +278,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 break;
             }
             else if ( intersects ) {
-                animateToCenterScreen( containerNode );
+                animateToCenterScreen( containerNode, new MoveAwayFromCollectionBoxes( containerNode ) );
             }
         }
 
@@ -301,7 +301,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             //If no fraction skeleton in play area, move one there
             final List<ContainerNode> inToolbox = getContainerNodesInToolbox();
             if ( getContainerNodesInPlayArea().length() == 0 && inToolbox.length() > 0 ) {
-                animateToCenterScreen( inToolbox.head() );
+                animateToCenterScreen( inToolbox.head(), new NullDelegate() );
             }
         }
 
@@ -324,7 +324,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     //Make the container node go to the play area if it is empty, otherwise go to the toolbox
     public void animateContainerNodeToAppropriateLocation( final ContainerNode containerNode ) {
         if ( getContainerNodesInPlayArea().length() == 0 ) {
-            animateToCenterScreen( containerNode );
+            animateToCenterScreen( containerNode, new NullDelegate() );
         }
         else {
             containerNode.animateToShowSpinners();
@@ -340,12 +340,12 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             } );
             //Fail safe!  Shouldn't happen but fail gracefully just in case
             if ( v.length() == 0 ) {
-                animateToPosition( containerNode, getContainerPosition( level ).plus( 100, 100 ) );
+                animateToPosition( containerNode, getContainerPosition( level ).plus( 100, 100 ), new NullDelegate() );
             }
             else {
                 containerNode.animateToPositionScaleRotation( v.head().x, v.head().y,
                                                               TINY_SCALE, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
-                animateToPosition( containerNode, v.head() );
+                animateToPosition( containerNode, v.head(), new NullDelegate() );
             }
         }
     }
@@ -366,11 +366,11 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         } );
     }
 
-    private void animateToCenterScreen( final ContainerNode containerNode ) { animateToPosition( containerNode, getContainerPosition( level ) ); }
+    private void animateToCenterScreen( final ContainerNode containerNode, PActivityDelegate delegate ) { animateToPosition( containerNode, getContainerPosition( level ), delegate ); }
 
-    private void animateToPosition( final ContainerNode containerNode, final Vector2D position ) {
+    private void animateToPosition( final ContainerNode containerNode, final Vector2D position, PActivityDelegate delegate ) {
         containerNode.animateToPositionScaleRotation( position.x, position.y,
-                                                      1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
+                                                      1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( containerNode, true ), delegate ) );
     }
 
     public void endDrag( final PieceNode piece ) {
@@ -503,9 +503,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     }
 
     //When a container is added to a container node, move it to the left if it overlaps the scoring boxes.
-    public void containerAdded( final ContainerNode containerNode ) {
+    public void containerAdded( final ContainerNode c ) { moveContainerNodeAwayFromCollectionBoxes( c ); }
 
-        //if its right edge is past the left edge of any target cell, move it left
+    //if its right edge is past the left edge of any collection box, move it left
+    public void moveContainerNodeAwayFromCollectionBoxes( final ContainerNode containerNode ) {
         double rightSide = containerNode.getGlobalFullBounds().getMaxX();
         double edge = pairs.map( new F<ShapeSceneCollectionBoxPair, Double>() {
             @Override public Double f( final ShapeSceneCollectionBoxPair target ) {
@@ -572,5 +573,17 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private double getCardOffsetWithinStack( final int numInGroup, final int cardIndex, final double totalSpacing ) {
         return numInGroup == 1 ? 0 :
                new LinearFunction( 0, numInGroup - 1, -totalSpacing / 2, +totalSpacing / 2 ).evaluate( cardIndex );
+    }
+
+    private class MoveAwayFromCollectionBoxes implements PActivityDelegate {
+        private ContainerNode containerNode;
+
+        private MoveAwayFromCollectionBoxes( final ContainerNode containerNode ) { this.containerNode = containerNode; }
+
+        @Override public void activityStarted( final PActivity activity ) { }
+
+        @Override public void activityStepped( final PActivity activity ) { }
+
+        @Override public void activityFinished( final PActivity activity ) { moveContainerNodeAwayFromCollectionBoxes( containerNode ); }
     }
 }
