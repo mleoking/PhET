@@ -164,7 +164,6 @@ class SingleContainerNode extends PNode {
         }
     };
 
-    //TODO: Refactor to subclasses
     public DropLocation getDropLocation( final PieceNode piece, final ShapeType shapeType ) {
         if ( shapeType == ShapeType.BAR ) {
             Vector2D strokeInsets = v( 1, 1 );
