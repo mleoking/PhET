@@ -133,7 +133,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( resetAllButtonNode );
 
         //Show the icon text on the left so that it will be far from the main fraction display in the play area
-        //Text is on the right for intro, on the left for equality lab
+        //Text is on the right for Intro tab, on the left for Equality Lab tab
         boolean iconTextOnTheRight = false;
 
         addPrimaryRepresentationNodes( model, leftRepresentation, model.pieSet, iconTextOnTheRight );
