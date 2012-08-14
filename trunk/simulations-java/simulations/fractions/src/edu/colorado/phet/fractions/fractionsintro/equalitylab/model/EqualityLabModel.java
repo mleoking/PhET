@@ -88,22 +88,16 @@ public class EqualityLabModel {
                 }
             };
 
-            //REVIEW: If I understand this correctly, the scaledFactorySet
-            //is used for the pie sets shown on the right side.  There is no
-            //bucket shown on the right side when I run the sim, so why does
-            // the bucket matter?  Could there be a "null" bucket used here?
-            //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
-            //Bucket positions irrelevant for scaled factory, though (since not shown)
-            Dimension2D littleBucket = new Dimension2D( 250, 100 );
-            Dimension2D bigBucket = new Dimension2D( 350, 100 );
+            //Bucket positions irrelevant for scaled factory, though (since not shown), so just use width=height=0
+            Dimension2D noBucket = new Dimension2D( 0, 0 );
 
-            return new FactorySet( new CircularSliceFactory( NUM_PER_ROW, bucketPosition, littleBucket, PIE_DIAMETER, 414, PIE_Y, siteMap, LIGHT_PINK ),
-                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, LIGHT_PINK, 125 + 445, HORIZONTAL_SLICE_Y, true ),
-                                   new VerticalSliceFactory( 400, 125 * VERTICAL_SLICE_SCALE, 225 * VERTICAL_SLICE_SCALE, false, bucketPosition, littleBucket, LIGHT_PINK, DISTANCE_BETWEEN_BARS, false ),
+            return new FactorySet( new CircularSliceFactory( NUM_PER_ROW, bucketPosition, noBucket, PIE_DIAMETER, 414, PIE_Y, siteMap, LIGHT_PINK ),
+                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), noBucket, LIGHT_PINK, 125 + 445, HORIZONTAL_SLICE_Y, true ),
+                                   new VerticalSliceFactory( 400, 125 * VERTICAL_SLICE_SCALE, 225 * VERTICAL_SLICE_SCALE, false, bucketPosition, noBucket, LIGHT_PINK, DISTANCE_BETWEEN_BARS, false ),
 
                                    //Align the left side of the water glasses with the left edge of the right representation control panel
-                                   new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, littleBucket, LIGHT_PINK, DISTANCE_BETWEEN_GLASSES, true ),
-                                   new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
+                                   new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, noBucket, LIGHT_PINK, DISTANCE_BETWEEN_GLASSES, true ),
+                                   new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), noBucket ) );
 
         }
     }.f( Unit.unit() );
