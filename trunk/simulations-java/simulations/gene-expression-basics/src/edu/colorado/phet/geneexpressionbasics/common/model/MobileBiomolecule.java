@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.awt.Color;
 import java.awt.Shape;
 
@@ -243,8 +245,8 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      *                     change from the nominal configuration.
      */
     public void changeConformation( double changeFactor ) {
-        // REVIEW: assert or preferably throw an exception here, in case this was ever not implemented (or make abstract and have empty implementations in some classes)
-        System.out.println( getClass().getName() + "Warning: Unimplemented method called in base class." );
+        // Should never be called if not implemented.
+        throw new NotImplementedException();
     }
 
     /**
