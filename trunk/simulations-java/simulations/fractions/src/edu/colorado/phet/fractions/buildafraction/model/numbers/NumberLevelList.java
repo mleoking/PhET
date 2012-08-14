@@ -112,7 +112,6 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     //Create all of the levels
     public NumberLevelList() {
-        add( level0() );
         add( level1() );
         add( level2() );
         add( level3() );
@@ -122,10 +121,11 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         add( level7() );
         add( level8() );
         add( level9() );
+        add( level10() );
     }
 
     //Choose a representation, pies or bars, but use the same representation for all things
-    private NumberLevel level0() {
+    private NumberLevel level1() {
         RandomColors3 colors = new RandomColors3();
         return new NumberLevel( list( 1, 1, 2, 2, 3, 3 ), shuffle( list( NumberTarget.target( 1, 2, colors.next(), pie.sequential() ),
                                                                          NumberTarget.target( 1, 3, colors.next(), pie.sequential() ),
@@ -138,7 +138,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     -- I might put the percentages for choosing the bar representations each at 30 percent
     -- I like how at these early levels it is all just a single representation
      */
-    private NumberLevel level1() {
+    private NumberLevel level2() {
         final F<Fraction, FilledPattern> representation = new Distribution<F<Fraction, FilledPattern>>() {{
             put( pie.sequential(), 40 );
             put( horizontalBar.sequential(), 30 );
@@ -162,7 +162,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         } ) ) );
     }
 
-    private NumberLevel level2() {
+    private NumberLevel level3() {
         ArrayList<Integer> numerators = new ArrayList<Integer>( Arrays.asList( 1, 2, 3, 4, 5 ) );
         Collections.shuffle( numerators );
 
@@ -173,7 +173,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                                                                                                                      NumberTarget.target( numerators.get( 2 ), 6, colors.next(), flower.sequential() ) ) ) );
     }
 
-    private NumberLevel level3() {
+    private NumberLevel level4() {
         RandomColors3 colors = new RandomColors3();
         return new NumberLevel( list( NumberTarget.target( chooseOne( rangeInclusive( 1, 1 ) ), 1, colors.next(), pyramid1.sequential() ),
                                       NumberTarget.target( chooseOne( rangeInclusive( 1, 4 ) ), 4, colors.next(), pyramid4.sequential() ),
@@ -186,7 +186,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 - numerator able to range from 1-9, and denominator able to range from 1-9, with the number less than 1
 - all representations possible (circle, "9 and 4 square", bars, pyramids, 6 flower, perhaps regular polygons), I don't think we need to get too funky in the representations like we did in the match game
 - all cards available to fulfill challenges in the most straightforward way, for instance a 4/5 representation has a 4 and a 5 available.*/
-    private NumberLevel level4() {
+    private NumberLevel level5() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
         return new NumberLevel( list( targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
@@ -200,7 +200,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     --could begin to introduce some card constraints at this point, for instance making sure that one of the representations
     only has cards available to match it with a "non-obvious fraction".
     For instance if 3/9 appears, and 5/9 appears, we have 1(5) and 1(9), but not 2(9), so that 1/3 would need to be used to match. */
-    private NumberLevel level5() {
+    private NumberLevel level6() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
         return NumberLevel.numberLevelReduced( list( targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ),
@@ -215,7 +215,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     -- Possible fractions sets from which to draw 2 each {1/2, 2/4, 3/6} , {1/3, 2/6, 3/9}, {2/3, 4/6, 3/9}, {1/4, 2/8}, {3/4, 6/8}
     -- I think the representations should both be equal, for instance, 2 pies divided the same, and two bars divided the same, so that the learning goal is focused on the same exact picture can be represented by 2 different fractions. Probably always displaying the reduced fraction as the picture.
     -- Cards constrained, so for instance if {1/2, 3/6} is drawn for the top pair and {3/4, 6/8} drawn for the bottom, we would have 1(1), 1(2), 2(3), 1(4), 2(6), 1(8) */
-    @SuppressWarnings("unchecked") private NumberLevel level6() {
+    @SuppressWarnings("unchecked") private NumberLevel level7() {
         List<List<Fraction>> fractionSets = list( list( fraction( 1, 2 ),
                                                         fraction( 2, 4 ),
                                                         fraction( 3, 6 ) ),
@@ -261,7 +261,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     -- Introduce double representations at this level (numbers greater than 1)
     -- I really like your idea of having 8 cards, 4 each of 2 numbers
     -- Lets randomly choose from  {2/3, 3/2, 2/2, 3/3}, {2/4, 4/2, 2/2, 4/4}, {3/4,4/3, 3/3, 4/4}, {3/5, 5/3, 3/3, 5/5}, {3/6, 6/3, 3/3, 6/6}*/
-    @SuppressWarnings("unchecked") private NumberLevel level7() {
+    @SuppressWarnings("unchecked") private NumberLevel level8() {
         List<List<Fraction>> sets = list( list( fraction( 2, 3 ),
                                                 fraction( 3, 2 ),
                                                 fraction( 2, 2 ),
@@ -297,7 +297,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 -- Representations both less than 1 and greater than 1
 -- All representations possible
 -- No card constraints (as in straightforward matching of number and picture possible)*/
-    private NumberLevel level8() {
+    private NumberLevel level9() {
         //Choose 4 different patterns
         List<RepresentationType> types = choose( 4, RepresentationType.all );
 
@@ -312,7 +312,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 -- Representations both less than 1 and greater than 1
 -- All representations possible
 -- No card constraints (as in straightforward matching of number and picture possible)*/
-    public static NumberLevel level9() {
+    public static NumberLevel level10() {
         //Choose 4 different patterns
         List<RepresentationType> types = choose( 4, RepresentationType.all );
 

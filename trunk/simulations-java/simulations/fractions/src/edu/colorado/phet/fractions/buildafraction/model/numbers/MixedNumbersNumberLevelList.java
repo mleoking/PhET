@@ -8,6 +8,6 @@ import java.util.ArrayList;
  */
 public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     public MixedNumbersNumberLevelList() {
-        for ( int i = 0; i < 10; i++ ) { add( NumberLevelList.level9() ); }
+        for ( int i = 0; i < 10; i++ ) { add( NumberLevelList.level10() ); }
     }
 }
