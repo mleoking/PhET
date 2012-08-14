@@ -47,16 +47,15 @@ public class EqualityLabModel {
     private static final double VERTICAL_SLICE_SCALE = 0.75;
     private static final int NUM_PER_ROW = 3;
 
-    //REVIEW: In understand the following comment, but I don't get why it seems
-    //to be associated with primaryFactorySet.  Please clarify or move.
-    //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, then it goes up
-    //so that the left and right representations match up at the center of the screen for as long as possible (until the value increases too high)
+    //Set of factories for creating the left hand side (or primary) representations.
     private static final FactorySet primaryFactorySet = new F<Unit, FactorySet>() {
         @Override public FactorySet f( final Unit unit ) {
             final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
 
             double pieX = -112;
 
+            //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, then it goes up
+            //so that the left and right representations match up at the center of the screen for as long as possible (until the value increases too high)
             final F<Site, Site> siteMap = new SiteMap();
 
             //REVIEW: Is the following comment a cut-and-paste error?  I only see one size of bucket here.
