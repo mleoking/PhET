@@ -317,7 +317,6 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             final List<ContainerNode> inToolbox = getContainerNodesInToolbox();
             final int playing = getContainerNodesInPlayArea().length();
             final int boxing = inToolbox.length();
-            System.out.println( "playing = " + playing + ", boxing = " + boxing );
             if ( playing == 0 && boxing > 0 ) {
                 animateToCenterScreen( inToolbox.head(), new NullDelegate() );
             }
