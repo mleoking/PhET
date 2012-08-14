@@ -227,10 +227,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         //Split everything
         //Return everything home
         for ( ShapeSceneCollectionBoxPair targetPair : pairs ) {
-            targetPair.collectionBoxNode.split();
+            targetPair.collectionBoxNode.undo();
         }
         for ( ContainerNode containerNode : getContainerNodes() ) {
-            containerNode.splitAll();
+            containerNode.undoAll();
             containerNode.animateHome();
             containerNode.selectedPieceSize.reset();
             containerNode.resetNumberOfContainers();
@@ -268,7 +268,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             final boolean occupied = pair.getCollectionBoxNode().isCompleted();
             if ( intersects && matchesValue && !occupied ) {
                 final double scale = 0.5;
-                containerNode.removeSplitButton();
+                containerNode.removeUndoButton();
 
                 //Order dependence: set in target cell first so that layout code will work better afterwards
                 containerNode.setInTargetCell( true, pair.value.fraction.denominator );
@@ -541,7 +541,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     private List<Fraction> getUserCreatedFractions() { return getContainerNodes().filter( not( _isInTargetCell ) ).map( _getFractionValue ); }
 
-    public void splitPieceFromContainer( final PieceNode piece ) {
+    public void undoPieceFromContainer( final PieceNode piece ) {
         Point2D offset = piece.getGlobalTranslation();
         addChild( piece );
         piece.setGlobalTranslation( offset );
@@ -564,7 +564,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         } ).length() == pairs.length();
     }
 
-    public void collectionBoxSplit() {
+    public void collectionBoxUndone() {
         level.filledTargets.decrement();
         faceNodeDialog.animateToTransparency( 0.0f, BuildAFractionModule.ANIMATION_TIME );
         faceNodeDialog.setPickable( false );

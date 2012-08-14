@@ -108,7 +108,7 @@ class FractionCardNode extends RichPNode {
                                                                      targetCenter.getY() - fractionNode.getFullBounds().getHeight() / 2 * scaleFactor + 10,
                                                                      scaleFactor, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( fractionNode, false ) );
 
-                        fractionNode.splitButton.setVisible( false );
+                        fractionNode.undoButton.setVisible( false );
                         fractionNode.setDragRegionPickable( false );
 
                         //Get rid of the card itself
@@ -141,7 +141,7 @@ class FractionCardNode extends RichPNode {
         } );
 
         fractionNode.setDragRegionPickable( false );
-        fractionNode.addSplitListener( new VoidFunction1<Option<Fraction>>() {
+        fractionNode.addUndoListener( new VoidFunction1<Option<Fraction>>() {
             public void apply( final Option<Fraction> fractions ) {
                 removeChild( cardShapeNode );
                 if ( fractions.isSome() ) {
@@ -155,7 +155,7 @@ class FractionCardNode extends RichPNode {
     }
 
     //Split it apart so the FractionNode is no longer shown on this card.
-    public void split() {
+    public void undo() {
         Point2D location = fractionNode.getGlobalTranslation();
         location = fractionNodeParent.globalToLocal( location );
         fractionNode.removeFromParent();

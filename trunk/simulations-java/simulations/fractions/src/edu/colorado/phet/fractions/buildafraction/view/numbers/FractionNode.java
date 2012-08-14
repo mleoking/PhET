@@ -48,10 +48,10 @@ public class FractionNode extends RichPNode {
     public final PhetPPath topBox;
     public final PhetPPath bottomBox;
     public final PhetPPath divisorLine;
-    public final UndoButton splitButton;
+    public final UndoButton undoButton;
     private NumberCardNode topCard;
     private NumberCardNode bottomCard;
-    private final ArrayList<VoidFunction1<Option<Fraction>>> splitListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
+    private final ArrayList<VoidFunction1<Option<Fraction>>> undoListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
     private double toolboxPositionX;
     private double toolboxPositionY;
     private PNode topCardParent;
@@ -72,10 +72,10 @@ public class FractionNode extends RichPNode {
         setScale( SCALE_IN_TOOLBOX );
         divisorLine = new PhetPPath( new Line2D.Double( 0, 0, 50, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black );
 
-        splitButton = new UndoButton( chain( Components.numberSplitButton, FractionNode.this.hashCode() ) );
-        splitButton.addActionListener( new ActionListener() {
+        undoButton = new UndoButton( chain( Components.playAreaUndoButton, FractionNode.this.hashCode() ) );
+        undoButton.addActionListener( new ActionListener() {
             @Override public void actionPerformed( final ActionEvent e ) {
-                split();
+                undo();
             }
         } );
 
@@ -88,10 +88,10 @@ public class FractionNode extends RichPNode {
 
         Rectangle2D bounds = divisorLine.getFullBounds();
         bounds = box.localToParent( bounds );
-        splitButton.setOffset( bounds.getMinX() - 2 - splitButton.getFullBounds().getWidth(), bounds.getCenterY() - splitButton.getFullBounds().getHeight() / 2 );
-        splitButton.addInputEventListener( new CursorHandler() );
-        splitButton.setVisible( false );
-        addChild( splitButton );
+        undoButton.setOffset( bounds.getMinX() - 2 - undoButton.getFullBounds().getWidth(), bounds.getCenterY() - undoButton.getFullBounds().getHeight() / 2 );
+        undoButton.addInputEventListener( new CursorHandler() );
+        undoButton.setVisible( false );
+        addChild( undoButton );
 
         dragRegion.addInputEventListener( new CursorHandler() );
         dragRegion.addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( fraction, FractionNode.this.hashCode() ), FractionNode.this ) {
@@ -119,7 +119,7 @@ public class FractionNode extends RichPNode {
         } );
     }
 
-    public void split() {
+    public void undo() {
         setDragRegionPickable( true );
         Option<Fraction> value = isComplete() ? Option.some( getValue() ) : Option.<Fraction>none();
 
@@ -127,7 +127,7 @@ public class FractionNode extends RichPNode {
         Point2D bottomCardLocation = bottomCard != null ? bottomCard.getGlobalTranslation() : null;
 
         if ( cardNode != null ) {
-            cardNode.split();
+            cardNode.undo();
             cardNode = null;
         }
         //TODO simsharing message
@@ -169,9 +169,9 @@ public class FractionNode extends RichPNode {
             bottomCard = null;
             bottomNumberNode = null;
         }
-        splitButton.setVisible( false );
-        for ( VoidFunction1<Option<Fraction>> splitListener : splitListeners ) {
-            splitListener.apply( value );
+        undoButton.setVisible( false );
+        for ( VoidFunction1<Option<Fraction>> undoListener : undoListeners ) {
+            undoListener.apply( value );
         }
 
         context.updateStacks();
@@ -185,7 +185,7 @@ public class FractionNode extends RichPNode {
         if ( box == topBox ) {
             topCard = numberCardNode;
 
-            //Store the parent so it can be re-parented on split
+            //Store the parent so it can be re-parented on undo
             topCardParent = numberCardNode.getParent();
             topNumberNode = numberCardNode.numberNode;
         }
@@ -230,11 +230,11 @@ public class FractionNode extends RichPNode {
 
     public NumberNode getBottomNumberNode() { return bottomNumberNode; }
 
-    //Ignore click events on everything except the "split" button, which appears over the card
+    //Ignore click events on everything except the "undo" button, which appears over the card
     public void setDragRegionPickable( final boolean b ) {
         for ( Object child : getChildrenReference() ) {
             PNode node = (PNode) child;
-            if ( node != splitButton ) {
+            if ( node != undoButton ) {
                 node.setPickable( b );
                 node.setChildrenPickable( b );
             }
@@ -243,7 +243,7 @@ public class FractionNode extends RichPNode {
         setPickable( true );
     }
 
-    public void addSplitListener( final VoidFunction1<Option<Fraction>> listener ) { splitListeners.add( listener ); }
+    public void addUndoListener( final VoidFunction1<Option<Fraction>> listener ) { undoListeners.add( listener ); }
 
     public boolean isInToolboxPosition() { return getXOffset() == toolboxPositionX && getYOffset() == toolboxPositionY; }
 

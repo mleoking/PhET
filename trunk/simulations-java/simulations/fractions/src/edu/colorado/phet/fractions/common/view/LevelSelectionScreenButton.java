@@ -12,20 +12,22 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Button that allows the user to navigate back.
+ * Button that allows the user to navigate back to the level selection screen.
  *
  * @author Sam Reid
  */
-public class HomeButton extends PNode {
-    public HomeButton( final VoidFunction0 pressed, int externalPadding, final int internalPadding ) {
+public class LevelSelectionScreenButton extends PNode {
+    public LevelSelectionScreenButton( final VoidFunction0 pressed, int externalPadding, final int internalPadding ) {
         PNode icon = new PNode() {{
             addChild( new VBox( 3, new RowNode( internalPadding ), new RowNode( internalPadding ) ) );
         }};
         addChild( new HTMLImageButtonNode( RefreshButtonNode.copyWithPadding( BufferedImageUtils.toBufferedImage( icon.toImage() ), externalPadding ) ) {{
             setBackground( RefreshButtonNode.BUTTON_COLOR );
+            setUserComponent( Components.levelSelectionScreenButton );
             addActionListener( new ActionListener() {
                 @Override public void actionPerformed( final ActionEvent e ) {
                     pressed.apply();

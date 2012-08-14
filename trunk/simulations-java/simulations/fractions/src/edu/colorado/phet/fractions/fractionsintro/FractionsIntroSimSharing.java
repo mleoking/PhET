@@ -69,12 +69,11 @@ public class FractionsIntroSimSharing {
         decreaseContainersButton,
         incrementDivisionsButton,
         decrementDivisionsButton,
-        numberSplitButton,
-        shapeSplitButton,
+        playAreaUndoButton,
         piece,
         container,
-        nextButton, shapesCollectionBoxSplitButton,
-        fraction, numberCard, fractionCard, carouselRadioButton, carouselRadioButtonLabel,
+        nextButton, collectionBoxUndoButton,
+        fraction, numberCard, fractionCard, carouselRadioButton, carouselRadioButtonLabel, levelSelectionScreenButton,
 
     }
 

@@ -229,7 +229,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     private void resetFractions( final Property<Boolean> sentOneToPlayArea ) {
         for ( FractionNode fractionNode : fractionNodes ) {
-            fractionNode.split();
+            fractionNode.undo();
             if ( !sentOneToPlayArea.get() ) {
                 fractionNode.sendFractionSkeletonToCenterOfScreen();
                 sentOneToPlayArea.set( true );
@@ -243,7 +243,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private void resetCollectionBoxes( final Property<Boolean> sentOneToPlayArea ) {
         for ( NumberSceneCollectionBoxPair pair : pairs ) {
             if ( pair.collectionBoxNode.isCompleted() ) {
-                pair.collectionBoxNode.split( sentOneToPlayArea.get() );
+                pair.collectionBoxNode.undo( sentOneToPlayArea.get() );
                 sentOneToPlayArea.set( true );
             }
         }
@@ -285,7 +285,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         box.setVisible( false );
         numberCardNode.setPickable( false );
         numberCardNode.setChildrenPickable( false );
-        fractionGraphic.splitButton.setVisible( true );
+        fractionGraphic.undoButton.setVisible( true );
         fractionGraphic.attachNumber( box, numberCardNode );
         if ( fractionGraphic.isComplete() ) {
             level.createdFractions.set( level.createdFractions.get().snoc( fractionGraphic.getValue() ) );
@@ -360,7 +360,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         } ).length();
     }
 
-    public void numberCollectionBoxSplit() {
+    public void numberCollectionBoxUndone() {
         level.filledTargets.reset();
 
         //Only subtract from the score if the face dialog was showing.  Otherwise you can get a negative score by removing an item from the target container since this method is called

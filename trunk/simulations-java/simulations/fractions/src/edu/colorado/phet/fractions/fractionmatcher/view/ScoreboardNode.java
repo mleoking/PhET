@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
-import edu.colorado.phet.fractions.common.view.HomeButton;
+import edu.colorado.phet.fractions.common.view.LevelSelectionScreenButton;
 import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameModel;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState;
@@ -25,7 +25,7 @@ class ScoreboardNode extends PNode {
     //Have to reuse buttons since they are animated outside of our model, and if they got reconstructed on each step, they would never animate nor press
     private static final PhetFont font = new PhetFont( 18, true );
 
-    public ScoreboardNode( final MatchingGameModel matchingGameModel, HomeButton homeButton ) {
+    public ScoreboardNode( final MatchingGameModel matchingGameModel, LevelSelectionScreenButton levelSelectionScreenButton ) {
         Property<MatchingGameState> model = matchingGameModel.state;
 
         final PNode level = text( MessageFormat.format( Strings.LEVEL__PATTERN, model.get().info.level ) );
@@ -37,7 +37,7 @@ class ScoreboardNode extends PNode {
                 matchingGameModel.refresh();
             }
         } );
-        addChild( new VBox( 20, new VBox( VBox.RIGHT_ALIGNED, level, score, optionalTimerValue ), homeButton, refreshButton ) );
+        addChild( new VBox( 20, new VBox( VBox.RIGHT_ALIGNED, level, score, optionalTimerValue ), levelSelectionScreenButton, refreshButton ) );
     }
 
     private static PhetPText text( String text ) { return new PhetPText( text, font ); }

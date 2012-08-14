@@ -25,7 +25,7 @@ public class NumberCollectionBoxNode extends PNode {
     public final Fraction fraction;
     private final PhetPPath path;
     private boolean completed;
-    private final UndoButton splitButton;
+    private final UndoButton undoButton;
     private FractionNode fractionGraphic;
     private final NumberSceneNode numberSceneNode;
 
@@ -39,37 +39,37 @@ public class NumberCollectionBoxNode extends PNode {
         this.fraction = new Fraction( numerator, denominator );
         addChild( this.path );
 
-        splitButton = new UndoButton( Components.shapesCollectionBoxSplitButton ) {{
+        undoButton = new UndoButton( Components.collectionBoxUndoButton ) {{
             scale( 0.8 );
             setOffset( -1, -1 );
             addActionListener( new ActionListener() {
                 @Override public void actionPerformed( final ActionEvent e ) {
-                    split( true );
+                    undo( true );
                 }
             } );
         }};
-        splitButton.addInputEventListener( new CursorHandler() );
-        splitButton.setVisible( false );
-        addChild( splitButton );
+        undoButton.addInputEventListener( new CursorHandler() );
+        undoButton.setVisible( false );
+        addChild( undoButton );
     }
 
-    public void split( boolean sendToToolbox ) {
+    public void undo( boolean sendToToolbox ) {
         if ( completed ) {
             completed = false;
             path.setStrokePaint( Color.darkGray );
             path.setStroke( controlPanelStroke );
-            splitButton.setVisible( false );
-            splitButton.setPickable( false );
-            splitButton.setChildrenPickable( false );
+            undoButton.setVisible( false );
+            undoButton.setPickable( false );
+            undoButton.setChildrenPickable( false );
 
             fractionGraphic.setScale( 1.0 );
-            fractionGraphic.splitButton.setVisible( true );
+            fractionGraphic.undoButton.setVisible( true );
             FractionCardNode cardNode = new FractionCardNode( fractionGraphic, numberSceneNode.pairs, numberSceneNode );
             numberSceneNode.addChild( cardNode );
 
             fractionGraphic = null;
 
-            cardNode.fractionNode.split();
+            cardNode.fractionNode.undo();
             if ( sendToToolbox ) {
                 cardNode.fractionNode.sendFractionSkeletonToToolbox();
             }
@@ -77,7 +77,7 @@ public class NumberCollectionBoxNode extends PNode {
                 cardNode.fractionNode.sendFractionSkeletonToCenterOfScreen();
             }
 
-            numberSceneNode.numberCollectionBoxSplit();
+            numberSceneNode.numberCollectionBoxUndone();
             numberSceneNode.updateStacks();
         }
     }
@@ -86,9 +86,9 @@ public class NumberCollectionBoxNode extends PNode {
         this.fractionGraphic = fractionGraphic;
         path.setStrokePaint( Color.darkGray );
         this.completed = true;
-        splitButton.setVisible( true );
-        splitButton.setPickable( true );
-        splitButton.setChildrenPickable( true );
+        undoButton.setVisible( true );
+        undoButton.setPickable( true );
+        undoButton.setChildrenPickable( true );
     }
 
     public boolean isCompleted() { return completed; }
