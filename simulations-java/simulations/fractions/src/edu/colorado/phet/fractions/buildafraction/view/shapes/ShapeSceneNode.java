@@ -73,6 +73,9 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private ArrayList<Vector2D> containerNodeToolboxLocations = new ArrayList<Vector2D>();
     private static final Random random = new Random();
 
+    private static final double CARD_SPACING_DX = 3;
+    private static final double CARD_SPACING_DY = CARD_SPACING_DX;
+
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled ) ) );
     }
@@ -570,9 +573,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         faceNodeDialog.setChildrenPickable( false );
     }
 
-    private static final double CARD_SPACING_DX = 3;
-    private static final double CARD_SPACING_DY = CARD_SPACING_DX;
-
+    //Determine the location of a card within a stack.  This code is complicated because it takes into account the number of stacks and the card types
     public Vector2D getLocation( final int stackIndex, final int cardIndex, final PieceNode card ) {
         int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
         List<List<Integer>> groups = level.pieces.group( intEqual );
