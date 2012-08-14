@@ -36,7 +36,7 @@ import static edu.colorado.phet.fractions.common.view.Colors.LIGHT_PINK;
  */
 public class EqualityLabModel {
 
-    //REVIEW: Doc - What, in general, are these constants for?
+    //Layout, location and metrics for the different types of objects in the equality lab model
     private static final double PIE_Y = 212.5;
     private static final double PIE_DIAMETER = 135;
     private static final double DISTANCE_BETWEEN_GLASSES = 5;
