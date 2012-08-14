@@ -4,9 +4,7 @@ package edu.colorado.phet.fractions.buildafraction.view.shapes;
 import fj.data.Option;
 
 import java.awt.Shape;
-import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
@@ -43,20 +41,6 @@ public class PiePieceNode extends PieceNode {
         pieBackground.addChild( this.pathNode );
 
         installInputListeners();
-    }
-
-    //As the object gets bigger, it should move so that it is centered on the mouse.  To compute how to move it, we must rotate it and scale it immediately
-    //and invisibly to the user, then set back its settings and animate them.
-    @Override void stepTowardMouse( final PInputEvent event ) {
-        super.stepTowardMouse( event );
-
-        //We want path node to move toward the mouse center.
-        Point2D pt = event.getPositionRelativeTo( this );
-        Point2D center = pathNode.getGlobalFullBounds().getCenter2D();
-        center = globalToLocal( center );
-
-        Vector2D delta = new Vector2D( center, pt ).times( 0.75 );
-        translate( delta.x, delta.y );
     }
 
     @Override protected void dragStarted() {

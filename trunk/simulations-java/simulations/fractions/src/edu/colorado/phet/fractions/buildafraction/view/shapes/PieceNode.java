@@ -6,6 +6,7 @@ import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -113,7 +114,18 @@ public abstract class PieceNode extends Stackable {
 
     void rotateTo( final double angle, final PInputEvent event ) {}
 
-    void stepTowardMouse( final PInputEvent event ) { }
+    //As the object gets bigger, it should move so that it is centered on the mouse.  To compute how to move it, we must rotate it and scale it immediately
+    //and invisibly to the user, then set back its settings and animate them.
+    void stepTowardMouse( final PInputEvent event ) {
+
+        //We want path node to move toward the mouse center.
+        Point2D pt = event.getPositionRelativeTo( this );
+        Point2D center = pathNode.getGlobalFullBounds().getCenter2D();
+        center = globalToLocal( center );
+
+        Vector2D delta = new Vector2D( center, pt ).times( 0.75 );
+        translate( delta.x, delta.y );
+    }
 
     void dragEnded() { }
 
