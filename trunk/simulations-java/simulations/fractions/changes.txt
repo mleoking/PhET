@@ -1,3 +1,4 @@
+Switched to use a "level selection screen" button instead of a back button for build a fraction and fraction matcher.
 Build a Fraction: Shapes: Fixed: If the "undo" button is pressed for a "double container" that is in the collection box, and it flies back to the floating panel it does not recollapse to single container.
 Build a Fraction: Shapes: Fixed: When a "double container" is dragged over the collection box with the incorrect answer and released, it pops back to where the "minus" sign interferes with the collection boxes
 Build a Fraction: Shapes: Made the container node go to the play area if it is empty, otherwise go to the toolbox
