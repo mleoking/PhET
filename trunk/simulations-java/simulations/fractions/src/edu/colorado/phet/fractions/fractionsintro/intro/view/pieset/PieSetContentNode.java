@@ -25,6 +25,8 @@ class PieSetContentNode extends PNode {
                               final PNode rootNode,
                               final F<PieSet, PNode> createEmptyCellsNode,
                               final F<PieSet, PNode> createBucketIcon,
+
+                              //Text is on the right for intro, on the left for equality lab
                               boolean iconTextOnTheRight ) {
 
         final PNode bucketHoleNode = bucketView.getHoleNode();
