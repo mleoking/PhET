@@ -69,6 +69,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private final int spacing;
     private final double layoutXOffset;
     private final ShapeLevel level;
+    private ArrayList<Vector2D> containerNodeToolboxLocations = new ArrayList<Vector2D>();
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled ) ) );
@@ -191,6 +192,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                                  stageSize.height - INSET - toolboxHeight + 20 + delta, TINY_SCALE );
             }};
             addChild( containerNode );
+            containerNodeToolboxLocations.add( new Vector2D( containerNode.getOffset() ) );
         }
 
         //Add a piece container toolbox the user can use to get containers
@@ -297,17 +299,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         if ( !allTargetsComplete() ) {
 
             //If no fraction skeleton in play area, move one there
-            final List<ContainerNode> inPlayArea = getContainerNodes().filter( new F<ContainerNode, Boolean>() {
-                @Override public Boolean f( final ContainerNode containerNode ) {
-                    return containerNode.isInPlayArea();
-                }
-            } );
-            final List<ContainerNode> inToolbox = getContainerNodes().filter( new F<ContainerNode, Boolean>() {
-                @Override public Boolean f( final ContainerNode containerNode ) {
-                    return containerNode.isInToolbox();
-                }
-            } );
-            if ( inPlayArea.length() == 0 && inToolbox.length() > 0 ) {
+            final List<ContainerNode> inToolbox = getContainerNodesInToolbox();
+            if ( getContainerNodesInPlayArea().length() == 0 && inToolbox.length() > 0 ) {
                 animateToCenterScreen( inToolbox.head() );
             }
         }
@@ -328,8 +321,54 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         syncModelFractions();
     }
 
-    private void animateToCenterScreen( final ContainerNode containerNode ) {
-        Vector2D position = getContainerPosition( level );
+    //Make the container node go to the play area if it is empty, otherwise go to the toolbox
+    public void animateContainerNodeToAppropriateLocation( final ContainerNode containerNode ) {
+        if ( getContainerNodesInPlayArea().length() == 0 ) {
+            animateToCenterScreen( containerNode );
+        }
+        else {
+            containerNode.animateToShowSpinners();
+            //find a free location in the toolbox
+            List<Vector2D> v = iterableList( containerNodeToolboxLocations ).filter( new F<Vector2D, Boolean>() {
+                @Override public Boolean f( final Vector2D vector2D ) {
+                    return !getContainerNodes().exists( new F<ContainerNode, Boolean>() {
+                        @Override public Boolean f( final ContainerNode containerNode ) {
+                            return new Vector2D( containerNode.getOffset() ).equals( vector2D );
+                        }
+                    } );
+                }
+            } );
+            //Fail safe!  Shouldn't happen but fail gracefully just in case
+            if ( v.length() == 0 ) {
+                animateToPosition( containerNode, getContainerPosition( level ).plus( 100, 100 ) );
+            }
+            else {
+                containerNode.animateToPositionScaleRotation( v.head().x, v.head().y,
+                                                              TINY_SCALE, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
+                animateToPosition( containerNode, v.head() );
+            }
+        }
+    }
+
+    private List<ContainerNode> getContainerNodesInToolbox() {
+        return getContainerNodes().filter( new F<ContainerNode, Boolean>() {
+            @Override public Boolean f( final ContainerNode containerNode ) {
+                return containerNode.isInToolbox();
+            }
+        } );
+    }
+
+    private List<ContainerNode> getContainerNodesInPlayArea() {
+        return getContainerNodes().filter( new F<ContainerNode, Boolean>() {
+            @Override public Boolean f( final ContainerNode containerNode ) {
+                return containerNode.isInPlayArea();
+            }
+        } );
+    }
+
+    private void animateToCenterScreen( final ContainerNode containerNode ) { animateToPosition( containerNode, getContainerPosition( level ) ); }
+
+    private void animateToPosition( final ContainerNode containerNode, final Vector2D position ) {
         containerNode.animateToPositionScaleRotation( position.x, position.y,
                                                       1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
     }
