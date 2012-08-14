@@ -2,12 +2,21 @@
 
 package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
@@ -56,9 +65,6 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
             setPreferredSize( new Dimension( picture.getWidth(), getFontMetrics( CAPTION_FONT ).getHeight() * 3 + getFontMetrics( CAPTION_FONT ).getDescent() ) );
             setFont( CAPTION_FONT );
             setText( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION );
-            // REVIEW: remove System.out's for production?
-            System.out.println( "getHeight() = " + getHeight() );
-            System.out.println( "getPreferredScrollableViewportSize() = " + getPreferredScrollableViewportSize() );
         }};
 
         // Attribution
