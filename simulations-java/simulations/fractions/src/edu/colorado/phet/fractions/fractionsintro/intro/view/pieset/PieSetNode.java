@@ -45,7 +45,10 @@ public class PieSetNode extends FNode {
         }
     };
 
-    public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode, boolean iconTextOnTheRight ) {
+    public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode,
+
+                       //Text is on the right for intro, on the left for equality lab
+                       boolean iconTextOnTheRight ) {
         this( model, rootNode, CreateNode, CreateEmptyCellsNode, new F<PieSet, PNode>() {
             @Override public PNode f( final PieSet pieSet ) {
                 return createBucketIcon( pieSet, CreateNode );
@@ -54,7 +57,10 @@ public class PieSetNode extends FNode {
     }
 
     //Create a PieSetNode, have to pass in the root node since the scene graph tree is reconstructed each time and you cannot use getDeltaRelativeTo(getParent) since the node may no longer be in the tree
-    protected PieSetNode( final SettableProperty<PieSet> model, final PNode rootNode, final F<SliceNodeArgs, PNode> createSliceNode, final F<PieSet, PNode> createEmptyCellsNode, final F<PieSet, PNode> createBucketIcon, final boolean iconTextOnTheRight ) {
+    protected PieSetNode( final SettableProperty<PieSet> model, final PNode rootNode, final F<SliceNodeArgs, PNode> createSliceNode, final F<PieSet, PNode> createEmptyCellsNode, final F<PieSet, PNode> createBucketIcon,
+
+                          //Text is on the right for intro, on the left for equality lab
+                          final boolean iconTextOnTheRight ) {
         bucketView = new BucketView( model.get().sliceFactory.bucket, createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 ) );
 
         final SimpleObserver observer = new SimpleObserver() {
