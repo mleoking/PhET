@@ -178,8 +178,6 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             model.rightWaterGlasses.addObserver( new SimpleObserver() {
                 public void update() {
                     removeAllChildren();
-                    //REVIEW: Can commented out code be removed?
-//                    System.out.println("Right water glasses changed");
                     final Shape shape = scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1, model.getRandomSeed() ).head().getShape();
                     addChild( WaterGlassSetNode.createEmptyCellsNode( LIGHT_PINK, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
                 }
@@ -192,7 +190,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                                              model.maximum, 15,
                                              new Color( Colors.LIGHT_PINK.getRed(), Colors.LIGHT_PINK.getGreen(), Colors.LIGHT_PINK.getBlue(), 200 ), true,
                                              model.denominator ) {{
-            setOffset( 385 + 200, 445 ); //REVIEW: Explain numbers.
+            setOffset( 585, 445 ); //Numbers manually tuned so it would look about right
 
             //Can't interact with right-side representations
             setPickable( false );
