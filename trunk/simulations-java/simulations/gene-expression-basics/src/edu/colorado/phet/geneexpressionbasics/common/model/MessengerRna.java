@@ -393,18 +393,7 @@ public class MessengerRna extends WindingBiomolecule {
     }
 
     public AttachmentSite considerProposalFrom( MessengerRnaDestroyer messengerRnaDestroyer ) {
-        // REVIEW: I was able to get a crash on this by adding a mRNA destroyer to mRNA as it was being created.
-        // reproducible by: add positive transcription factor, pull out mRNA destroyer, put polymerase on the DNA attachment site, and once mRNA appears put the destroyer on the placement hint
-        /*
-            at edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna.considerProposalFrom(MessengerRna.java:403)
-            at edu.colorado.phet.geneexpressionbasics.common.model.MessengerRnaDestroyer.proposeAttachments(MessengerRnaDestroyer.java:57)
-            at edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentState$GenericUnattachedAndAvailableState.stepInTime(AttachmentState.java:39)
-            at edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine.stepInTime(AttachmentStateMachine.java:55)
-            at edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule.stepInTime(MobileBiomolecule.java:149)
-            at edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel.stepInTime(ManualGeneExpressionModel.java:319)
-            at edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel.access$000(ManualGeneExpressionModel.java:43)
-            at edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel$2.clockTicked(ManualGeneExpressionModel.java:116)
-         */
+
         assert this.messengerRnaDestroyer != messengerRnaDestroyer; // Shouldn't get redundant proposals from same destroyer.
         AttachmentSite returnValue = null;
 
@@ -425,6 +414,15 @@ public class MessengerRna extends WindingBiomolecule {
         }
 
         return returnValue;
+    }
+
+    /*
+     * Aborts the destruction process, used if the mRNA destroyer was on its
+     * way to the mRNA but the user picked it up before it got there.
+     */
+    public void abortDestruction() {
+        messengerRnaDestroyer = null;
+        attachmentStateMachine.forceImmediateUnattachedAndAvailable();
     }
 
     @Override protected AttachmentStateMachine createAttachmentStateMachine() {
