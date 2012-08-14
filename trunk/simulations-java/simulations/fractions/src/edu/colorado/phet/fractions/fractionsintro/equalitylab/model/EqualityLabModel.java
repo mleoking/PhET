@@ -112,11 +112,7 @@ public class EqualityLabModel {
     //The max number of filled containers in this tab is 4.
     private final FractionsIntroModel model = new FractionsIntroModel( IntroState.newState( 4, primaryFactorySet, System.currentTimeMillis() ), primaryFactorySet );
 
-    //REVIEW: doc - It looks like there are a bunch of things that are being
-    // set up to be pass through to the contained FractionsIntroModel.  Why
-    // not expose it?  My guess is either for code conciseness or because there
-    // are some differences in model behavior that need to be 'insulated', but
-    // it would be good to explain it.
+    //Set up convenience access for the components of the main underlying model, to factor out the "model." calls everywhere else
     public final SettableProperty<PieSet> pieSet = model.pieSet;
     public final SettableProperty<PieSet> horizontalBarSet = model.horizontalBarSet;
     public final SettableProperty<PieSet> verticalBarSet = model.verticalBarSet;
