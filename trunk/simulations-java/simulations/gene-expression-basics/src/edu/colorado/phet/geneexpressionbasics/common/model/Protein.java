@@ -4,8 +4,8 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentState;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
@@ -110,5 +110,5 @@ public abstract class Protein extends MobileBiomolecule {
      *
      * @param attachmentPointLocation
      */
-    abstract public void setAttachmentPointPosition( Point2D attachmentPointLocation );
+    abstract public void setAttachmentPointPosition( Vector2D attachmentPointLocation );
 }

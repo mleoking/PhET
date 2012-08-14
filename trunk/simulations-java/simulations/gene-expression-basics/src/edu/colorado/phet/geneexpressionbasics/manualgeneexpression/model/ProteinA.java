@@ -1,10 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
+import java.awt.Color;
+import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.GeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.common.model.Protein;
@@ -33,7 +34,7 @@ public class ProteinA extends Protein {
         return new ProteinA( this.model );
     }
 
-    @Override public void setAttachmentPointPosition( Point2D attachmentPointLocation ) {
+    @Override public void setAttachmentPointPosition( Vector2D attachmentPointLocation ) {
         // Note: This is specific to this protein's shape, and will need to be
         // adjusted if the protein's shape algorithm changes.
         setPosition( attachmentPointLocation.getX(), attachmentPointLocation.getY() + ( FULL_GROWN_WIDTH / 2 * getFullSizeProportion() ) );
