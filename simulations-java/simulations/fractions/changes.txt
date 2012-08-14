@@ -1,3 +1,4 @@
+# 1.00.35 (66922) Aug 13, 2012
 Added a faint shadow to make "level selection screen" button icons look more like buttons
 Build a Fraction: Shapes: Move the "undo" button closer to the circular containers
 Build a Fraction: Shapes: For level 8, where fractions > 1 are introduced, only use denominators of 1/2 and 1/4 for the fractions > 1
