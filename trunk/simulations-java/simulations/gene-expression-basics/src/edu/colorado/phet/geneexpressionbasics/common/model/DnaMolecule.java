@@ -516,55 +516,14 @@ public class DnaMolecule {
 
     /**
      * Take a list of attachment sites and eliminate any of them that, if the
-     * given molecule attaches, it would end up overlapping with another
-     * biomolecule that is already attached to the DNA strand.
-     *
-     * @param biomolecule              - the biomolecule that is potentially going to
-     *                                 attach to the provided list of attachment sites.
-     * @param potentialAttachmentSites - attachment sites where the given
-     *                                 biomolecule could attach.
-     */
-    private void eliminateOverlappedAttachmentSites( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
-        for ( AttachmentSite potentialAttachmentSite : new ArrayList<AttachmentSite>( potentialAttachmentSites ) ) {
-            Vector2D translationVector = new Vector2D( biomolecule.getPosition(), potentialAttachmentSite.locationProperty.get() );
-            AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
-            Shape translatedShape = transform.createTransformedShape( biomolecule.getShape() );
-            for ( MobileBiomolecule mobileBiomolecule : model.getOverlappingBiomolecules( translatedShape ) ) {
-                if ( mobileBiomolecule.attachedToDna.get() && mobileBiomolecule != biomolecule ) {
-                    // Eliminate this attachment site, since attaching to it
-                    // would cause overlap with molecules already there.
-                    potentialAttachmentSites.remove( potentialAttachmentSite );
-                    break;
-                }
-            }
-        }
-    }
-
-    /**
-     * Take a list of attachment sites and eliminate any of them that, if the
-     * given molecule attaches, it would end up with some portion of it outside
-     * of its motion bounds.
+     * given molecule attaches, it would end up out of bounds or overlapping
+     * with another biomolecule that is already attached to the DNA strand.
      *
      * @param biomolecule              The biomolecule that is potentially going to
      *                                 attach to the provided list of attachment sites.
      * @param potentialAttachmentSites Attachment sites where the given
      *                                 biomolecule could attach.
      */
-    private void eliminateOutOfBoundsAttachmentSites( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
-        // REVIEW: would recommend something like a functional "filter" function here. For example, FunctionalUtils.filter or Functional Java's filter
-        // Would simplify the code to effectively return filter( potentialAttachmentSites, <predicate function> )
-        for ( AttachmentSite potentialAttachmentSite : new ArrayList<AttachmentSite>( potentialAttachmentSites ) ) {
-            Vector2D translationVector = new Vector2D( biomolecule.getPosition(), potentialAttachmentSite.locationProperty.get() );
-            AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
-            Shape translatedShape = transform.createTransformedShape( biomolecule.getShape() );
-            if ( !biomolecule.motionBoundsProperty.get().inBounds( translatedShape ) ) {
-                // This attachment site would put the biomolecule out of its
-                // motion bounds, so eliminate it.
-                potentialAttachmentSites.remove( potentialAttachmentSite );
-            }
-        }
-    }
-
     private List<AttachmentSite> eliminateInvalidAttachmentSites( final MobileBiomolecule biomolecule, final List<AttachmentSite> potentialAttachmentSites ) {
         return FunctionalUtils.filter( potentialAttachmentSites, new Function1<AttachmentSite, Boolean>() {
             public Boolean apply( AttachmentSite attachmentSite ) {
