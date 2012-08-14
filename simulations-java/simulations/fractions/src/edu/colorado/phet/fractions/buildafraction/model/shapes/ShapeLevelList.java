@@ -360,6 +360,12 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    -- Introduce numbers larger than 1 at this level
    -- On this level lets have at least 2 numbers larger than 1 as targets
    -- Enough pieces available to match targets in "obvious ways"...so if 5/4 is a target a whole piece is available and a 1/4 piece available
+
+    Update: The Schwartz group suggested that for Level 8 shapes we tweak the
+    level description so that students are first introduced to numbers
+    greater than 1 only with 1/2's and 1/4's.  So if the number is greater
+    than 1 on level 8, it should be something like 3/2 or 4/2 or 7/4, since
+    1/2's and 1/4's are more familiar to students (rather than 1/3's and such).
     */
     ShapeLevel level8() {
         List<Fraction> targets = level8Targets();
@@ -367,8 +373,10 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     }
 
     private List<Fraction> level8Targets() {
-        final List<Fraction> large = choose( 2, list( new Fraction( 4, 3 ), new Fraction( 3, 2 ), new Fraction( 5, 4 ),
-                                                      new Fraction( 5, 3 ), new Fraction( 7, 4 ) ) );
+        final List<Fraction> large = choose( 2, list( new Fraction( 3, 2 ),
+                                                      new Fraction( 4, 2 ),
+                                                      new Fraction( 5, 4 ),
+                                                      new Fraction( 7, 4 ) ) );
         final List<Fraction> small = choose( 2, list( new Fraction( 2, 3 ), new Fraction( 3, 4 ), new Fraction( 2, 5 ), new Fraction( 3, 5 ), new Fraction( 4, 5 ) ) );
         return large.append( small );
     }
