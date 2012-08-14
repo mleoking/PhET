@@ -251,6 +251,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         return iterableList( children );
     }
 
+    //The user finished dragging a container node.  Perhaps they dropped it in a correct or incorrect collection box, or over the toolbox.
     public void endDrag( final ContainerNode containerNode ) {
         //See if it hits any matching collection boxes
         List<ShapeSceneCollectionBoxPair> pairs = this.pairs.sort( ord( new F<ShapeSceneCollectionBoxPair, Double>() {
@@ -314,7 +315,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
             //If no fraction skeleton in play area, move one there
             final List<ContainerNode> inToolbox = getContainerNodesInToolbox();
-            if ( getContainerNodesInPlayArea().length() == 0 && inToolbox.length() > 0 ) {
+            final int playing = getContainerNodesInPlayArea().length();
+            final int boxing = inToolbox.length();
+            System.out.println( "playing = " + playing + ", boxing = " + boxing );
+            if ( playing == 0 && boxing > 0 ) {
                 animateToCenterScreen( inToolbox.head(), new NullDelegate() );
             }
         }

@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Fixed: if you push the undo button on more than one shape after it has been collected, new containers will not fly out automatically when you complete a target
 Build a Fraction: Numbers: Fixed: Level 6 can create challenges with only a stack of "1" cards
 Build a Fraction: Shapes: Fixed: mouse gets away from bars when dragged out
 Build a Fraction: Made carousel circles clickable since they look like radio buttons
