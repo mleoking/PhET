@@ -43,5 +43,5 @@ public class HomeButton extends PNode {
         }
     }
 
-    private PhetPPath path() {return new PhetPPath( new Rectangle2D.Double( 0, 0, 6, 10 ), Color.black );}
+    private PhetPPath path() {return new PhetPPath( new Rectangle2D.Double( 0, 0, 6, 10 ), Color.darkGray );}
 }
