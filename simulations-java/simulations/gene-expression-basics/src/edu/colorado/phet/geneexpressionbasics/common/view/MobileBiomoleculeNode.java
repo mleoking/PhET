@@ -26,23 +26,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class MobileBiomoleculeNode extends PPath {
 
-    /**
-     * Constructor that uses default stroke.
-     *
-     * @param mvt
-     * @param mobileBiomolecule
-     */
     public MobileBiomoleculeNode( final ModelViewTransform mvt, final MobileBiomolecule mobileBiomolecule ) {
         this( mvt, mobileBiomolecule, new BasicStroke( 1 ) );
     }
 
-    /**
-     * Constructor.
-     * REVIEW: JavaDoc not needed here?
-     *
-     * @param mvt
-     * @param mobileBiomolecule
-     */
     public MobileBiomoleculeNode( final ModelViewTransform mvt, final MobileBiomolecule mobileBiomolecule, Stroke outlineStroke ) {
 
         addChild( new PhetPPath( outlineStroke, Color.BLACK ) {{
