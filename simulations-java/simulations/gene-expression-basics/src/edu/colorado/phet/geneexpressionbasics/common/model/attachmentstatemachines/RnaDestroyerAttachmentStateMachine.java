@@ -37,9 +37,23 @@ public class RnaDestroyerAttachmentStateMachine extends GenericAttachmentStateMa
         // Set up a non-default "attached" state, since the behavior is
         // different from the default.
         attachedState = new MRnaDestroyerAttachedState();
+
+        // Set up a non-default "moving toward attachment" state, since the
+        // behavior is slightly different from the default.
+        movingTowardsAttachmentState = new MRnaDestroyerMovingTowardAttachmentState();
     }
 
-    /**
+    /*
+     * Use generic state except that interaction is turned off.
+     */
+    protected class MRnaDestroyerMovingTowardAttachmentState extends AttachmentState.GenericMovingTowardsAttachmentState {
+        @Override public void entered( AttachmentStateMachine asm ) {
+            super.entered( asm );
+            asm.biomolecule.movableByUser.set( false );
+        }
+    }
+
+    /*
      * Class that defines what the mRNA destroyer does when attached to mRNA.
      */
     protected class MRnaDestroyerAttachedState extends AttachmentState {
@@ -92,5 +106,14 @@ public class RnaDestroyerAttachmentStateMachine extends GenericAttachmentStateMa
             // Turn off user interaction while mRNA is being destroyed.
             asm.biomolecule.movableByUser.set( false );
         }
+    }
+
+    @Override public void forceImmediateUnattachedAndAvailable() {
+        if ( mRnaDestroyer.getMessengerRnaBeingDestroyed() != null ) {
+            // Abort a pending attachment to mRNA.
+            mRnaDestroyer.getMessengerRnaBeingDestroyed().abortDestruction();
+            mRnaDestroyer.clearMessengerRnaBeingDestroyed();
+        }
+        super.forceImmediateUnattachedAndAvailable();
     }
 }
