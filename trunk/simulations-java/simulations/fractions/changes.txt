@@ -1,3 +1,4 @@
+Build a Fraction: Made carousel circles clickable since they look like radio buttons
 # 1.00.37 (66926) Aug 14, 2012
 Equality Lab: Made right representation pink so it doesn't match any of the left representation colors
 # 1.00.36 (66924) Aug 13, 2012
