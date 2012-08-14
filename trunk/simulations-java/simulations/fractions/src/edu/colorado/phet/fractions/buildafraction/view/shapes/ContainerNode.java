@@ -233,6 +233,10 @@ public class ContainerNode extends PNode {
 
     public void animateHome() {
         animateToPositionScaleRotation( initialX, initialY, initialScale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( this, true ) );
+        animateToShowSpinners();
+    }
+
+    public void animateToShowSpinners() {
         leftSpinner.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
         rightSpinner.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
     }
