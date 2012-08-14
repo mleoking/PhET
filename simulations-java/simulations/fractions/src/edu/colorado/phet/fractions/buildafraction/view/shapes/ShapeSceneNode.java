@@ -288,10 +288,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     }
                 } ) ) {
                     double angle = Math.PI * 2 * random.nextDouble();
-                    animateToPosition( containerNode, getContainerPosition( level ).plus( Vector2D.createPolar( 150, angle ) ), new MoveAwayFromCollectionBoxes( containerNode ) );
+                    animateToPosition( containerNode, getContainerPosition( level ).plus( Vector2D.createPolar( 150, angle ) ), new MoveAwayFromCollectionBoxes( this, containerNode ) );
                 }
                 else {
-                    animateToPosition( containerNode, getContainerPosition( level ), new MoveAwayFromCollectionBoxes( containerNode ) );
+                    animateToPosition( containerNode, getContainerPosition( level ), new MoveAwayFromCollectionBoxes( this, containerNode ) );
                 }
 
             }
@@ -592,15 +592,4 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                new LinearFunction( 0, numInGroup - 1, -totalSpacing / 2, +totalSpacing / 2 ).evaluate( cardIndex );
     }
 
-    private class MoveAwayFromCollectionBoxes implements PActivityDelegate {
-        private ContainerNode containerNode;
-
-        private MoveAwayFromCollectionBoxes( final ContainerNode containerNode ) { this.containerNode = containerNode; }
-
-        @Override public void activityStarted( final PActivity activity ) { }
-
-        @Override public void activityStepped( final PActivity activity ) { }
-
-        @Override public void activityFinished( final PActivity activity ) { moveContainerNodeAwayFromCollectionBoxes( containerNode ); }
-    }
 }
