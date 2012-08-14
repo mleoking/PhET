@@ -28,9 +28,11 @@ public class FractionsResources {
         public static final String MY_MATCHES = RESOURCES.getLocalizedString( "myMatches" );
         public static final String NEXT = RESOURCES.getLocalizedString( "next" );
         public static final String OK = RESOURCES.getLocalizedString( "ok" );
+        public static final String ONE_THROUGH_FIVE = RESOURCES.getLocalizedString( "oneThroughFive" );
         public static final String RESET = RESOURCES.getLocalizedString( "reset" );
         public static final String SCORE__PATTERN = RESOURCES.getLocalizedString( "score.pattern" );
         public static final String SHOW_ANSWER = RESOURCES.getLocalizedString( "showAnswer" );
+        public static final String SIX_THROUGH_TEN = RESOURCES.getLocalizedString( "sixThroughTen" );
         public static final String TIME__PATTERN = RESOURCES.getLocalizedString( "time.pattern" );
         public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "tryAgain" );
     }

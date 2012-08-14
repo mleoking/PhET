@@ -19,6 +19,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
+import static edu.colorado.phet.fractions.FractionsResources.Strings.ONE_THROUGH_FIVE;
+import static edu.colorado.phet.fractions.FractionsResources.Strings.SIX_THROUGH_TEN;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.carouselRadioButton;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.carouselRadioButtonLabel;
 
@@ -31,8 +33,8 @@ class CarouselDotComponent extends PNode {
     public CarouselDotComponent( final IntegerProperty selectedPage ) {
         final int circleDiameter = 16;
 
-        addChild( new HBox( 23, new VBox( text( "1-5", selectedPage, 0 ), circle( selectedPage, circleDiameter, 0 ) ),
-                            new VBox( text( "6-10", selectedPage, 1 ), circle( selectedPage, circleDiameter, 1 ) ) ) );
+        addChild( new HBox( 23, new VBox( text( ONE_THROUGH_FIVE, selectedPage, 0 ), circle( selectedPage, circleDiameter, 0 ) ),
+                            new VBox( text( SIX_THROUGH_TEN, selectedPage, 1 ), circle( selectedPage, circleDiameter, 1 ) ) ) );
     }
 
     private PhetPPath circle( final IntegerProperty selectedPage, final int circleDiameter, final int index ) {
