@@ -22,7 +22,11 @@ public abstract class AttachmentState {
         // By default does nothing, override to implement unique behavior.
     }
 
-    // REVIEW: is this always called when the state is created? when it is attached? would be good to document
+    /**
+     * Method called by state machine framework whenever a state is entered.
+     *
+     * @param enclosingStateMachine
+     */
     public void entered( AttachmentStateMachine enclosingStateMachine ) {
         // By default does nothing, override to implement unique behavior.
     }
