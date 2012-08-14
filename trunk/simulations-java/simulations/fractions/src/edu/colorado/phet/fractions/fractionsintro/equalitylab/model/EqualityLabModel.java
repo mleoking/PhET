@@ -37,14 +37,12 @@ import static edu.colorado.phet.fractions.common.view.Colors.LIGHT_PINK;
 public class EqualityLabModel {
 
     //REVIEW: Doc - What, in general, are these constants for?
-    //REVIEW: These don't seem to use the normal all caps naming convention for constants.  Any reason for this?
-    private static final double pieY = 212.5;
-    private static final double pieDiameter = 135;
-    private static final double distanceBetweenGlasses = 5;
-    private static final double distanceBetweenBars = 12;
-    private static final double horizontalSliceY = -1.5;
-
-    private static final double verticalSliceScale = 0.75;
+    private static final double PIE_Y = 212.5;
+    private static final double PIE_DIAMETER = 135;
+    private static final double DISTANCE_BETWEEN_GLASSES = 5;
+    private static final double DISTANCE_BETWEEN_BARS = 12;
+    private static final double HORIZONTAL_SLICE_Y = -1.5;
+    private static final double VERTICAL_SLICE_SCALE = 0.75;
 
     //REVIEW: In understand the following comment, but I don't get why it seems
     //to be associated with primaryFactorySet.  Please clarify or move.
@@ -62,12 +60,12 @@ public class EqualityLabModel {
             //REVIEW: Is the following comment a cut-and-paste error?  I only see one size of bucket here.
             //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
-            return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, Colors.CIRCLE_COLOR ),
-                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), littleBucket, Colors.HORIZONTAL_SLICE_COLOR, 125 + 114, horizontalSliceY, false ),
-                                   new VerticalSliceFactory( -120, 125 * verticalSliceScale, 225 * verticalSliceScale, false, bucketPosition, littleBucket, Colors.VERTICAL_SLICE_COLOR, distanceBetweenBars, false ),
+            return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, PIE_DIAMETER, pieX, PIE_Y, siteMap, Colors.CIRCLE_COLOR ),
+                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), littleBucket, Colors.HORIZONTAL_SLICE_COLOR, 125 + 114, HORIZONTAL_SLICE_Y, false ),
+                                   new VerticalSliceFactory( -120, 125 * VERTICAL_SLICE_SCALE, 225 * VERTICAL_SLICE_SCALE, false, bucketPosition, littleBucket, Colors.VERTICAL_SLICE_COLOR, DISTANCE_BETWEEN_BARS, false ),
 
                                    //Align the right side of the water glasses with the right edge of the representation control panel
-                                   new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, littleBucket, Colors.CUP_COLOR, distanceBetweenGlasses, true ),
+                                   new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, littleBucket, Colors.CUP_COLOR, DISTANCE_BETWEEN_GLASSES, true ),
                                    new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
 
         }
@@ -103,12 +101,12 @@ public class EqualityLabModel {
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
             Dimension2D bigBucket = new Dimension2D( 350, 100 );
 
-            return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, LIGHT_PINK ),
-                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, LIGHT_PINK, 125 + 445, horizontalSliceY, true ),
-                                   new VerticalSliceFactory( 400, 125 * verticalSliceScale, 225 * verticalSliceScale, false, bucketPosition, littleBucket, LIGHT_PINK, distanceBetweenBars, false ),
+            return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, PIE_DIAMETER, pieX, PIE_Y, siteMap, LIGHT_PINK ),
+                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, LIGHT_PINK, 125 + 445, HORIZONTAL_SLICE_Y, true ),
+                                   new VerticalSliceFactory( 400, 125 * VERTICAL_SLICE_SCALE, 225 * VERTICAL_SLICE_SCALE, false, bucketPosition, littleBucket, LIGHT_PINK, DISTANCE_BETWEEN_BARS, false ),
 
                                    //Align the left side of the water glasses with the left edge of the right representation control panel
-                                   new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, littleBucket, LIGHT_PINK, distanceBetweenGlasses, true ),
+                                   new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, littleBucket, LIGHT_PINK, DISTANCE_BETWEEN_GLASSES, true ),
                                    new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
 
         }
