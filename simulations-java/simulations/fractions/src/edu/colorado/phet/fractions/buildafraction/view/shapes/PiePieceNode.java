@@ -39,8 +39,7 @@ public class PiePieceNode extends PieceNode {
             addChild( new PhetPPath( ContainerShapeNode.createPieSlice( 1 ), BuildAFractionCanvas.TRANSPARENT ) );
         }};
         addChild( new ZeroOffsetNode( pieBackground ) );
-        pieShadow = new PhetPPath( getShadowOffset().createTransformedShape( this.pathNode.getPathReference() ),
-                                   ShapeNode.SHADOW_PAINT );
+        pieShadow = new PhetPPath( getShadowOffset().createTransformedShape( this.pathNode.getPathReference() ), ShapeNode.SHADOW_PAINT );
         pieBackground.addChild( this.pathNode );
 
         installInputListeners();
