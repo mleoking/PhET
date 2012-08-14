@@ -74,6 +74,9 @@ public class ShapeCollectionBoxNode extends PNode {
             containerNode.setScale( 1.0 );
             containerNode.addBackSplitButton();
             containerNode.setAllPickable( true );
+
+            //Have to start animating back before changing the "target cell" flag, because that flag is used to determine whether it is "inPlayArea" for purposes of choosing location.
+            sceneNode.animateContainerNodeToAppropriateLocation( containerNode );
             containerNode.setInTargetCell( false, 0 );
 
             //Send the pieces home
@@ -84,7 +87,6 @@ public class ShapeCollectionBoxNode extends PNode {
 
             containerNode.resetNumberOfContainers();
 
-            sceneNode.animateContainerNodeToAppropriateLocation( containerNode );
             containerNode = null;
 
             sceneNode.collectionBoxSplit();
