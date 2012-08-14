@@ -3,13 +3,13 @@ package edu.colorado.phet.geneexpressionbasics.mrnaproduction.model;
 
 import java.awt.Shape;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -295,7 +295,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         // Add the polymerase molecules.  These don't come and go, the
         // concentration of these remains constant in this model.
         for ( int i = 0; i < RNA_POLYMERASE_COUNT; i++ ) {
-            RnaPolymerase rnaPolymerase = new RnaPolymerase( this, new Point2D.Double( 0, 0 ) );
+            RnaPolymerase rnaPolymerase = new RnaPolymerase( this, new Vector2D( 0, 0 ) );
             rnaPolymerase.setPosition3D( generateInitialLocation3D( rnaPolymerase ) );
             rnaPolymerase.set3DMotionEnabled( true );
             rnaPolymerase.setRecycleMode( true );
@@ -341,7 +341,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         if ( targetCount > currentLevel ) {
             // Add some.
             for ( int i = currentLevel; i < targetCount; i++ ) {
-                TranscriptionFactor transcriptionFactor = new TranscriptionFactor( this, tcConfig, new Point2D.Double( 0, 0 ) );
+                TranscriptionFactor transcriptionFactor = new TranscriptionFactor( this, tcConfig, new Vector2D( 0, 0 ) );
                 transcriptionFactor.setPosition3D( generateInitialLocation3D( transcriptionFactor ) );
                 transcriptionFactor.set3DMotionEnabled( true );
                 addMobileBiomolecule( transcriptionFactor );

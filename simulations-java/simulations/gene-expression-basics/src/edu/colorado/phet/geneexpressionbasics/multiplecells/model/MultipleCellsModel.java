@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -237,7 +237,7 @@ public class MultipleCellsModel implements Resettable {
             for ( int j = 0; j < radius * Math.PI / ( Cell.DEFAULT_CELL_SIZE.getHeight() * 2 ); j++ ) {
                 double angle = positionRandomizer.nextDouble() * 2 * Math.PI;
                 cell.setPosition( radius * Math.cos( angle ), radius * Math.sin( angle ) );
-                if ( !boundingShape.contains( cell.getPosition() ) ) {
+                if ( !boundingShape.contains( cell.getPosition().toPoint2D() ) ) {
                     // Not in bounds.
                     continue;
                 }

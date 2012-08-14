@@ -2,12 +2,12 @@
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Color;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.TranscriptionFactorConfig;
@@ -71,8 +71,7 @@ public abstract class Gene {
 
         // Create the attachment site for polymerase.  It is always at the end
         // of the regulatory region.
-        polymeraseAttachmentSite = new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex(
-                regulatoryRegion.getMax() ), DnaMolecule.Y_POS ), 1 );
+        polymeraseAttachmentSite = new AttachmentSite( new Vector2D( dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMax() ), DnaMolecule.Y_POS ), 1 );
 
         // Initialize the placement hint for polymerase.
         rnaPolymerasePlacementHint.setPosition( polymeraseAttachmentSite.locationProperty.get() );
@@ -164,7 +163,7 @@ public abstract class Gene {
      */
     protected void addTranscriptionFactor( int basePairOffset, TranscriptionFactorConfig tfConfig ) {
         transcriptionFactorMap.put( basePairOffset, new TranscriptionFactor( tfConfig ) );
-        Point2D position = new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( basePairOffset + regulatoryRegion.getMin() ), DnaMolecule.Y_POS );
+        Vector2D position = new Vector2D( dnaMolecule.getBasePairXOffsetByIndex( basePairOffset + regulatoryRegion.getMin() ), DnaMolecule.Y_POS );
         transcriptionFactorPlacementHints.add( new TranscriptionFactorPlacementHint( new TranscriptionFactor( new StubGeneExpressionModel(), tfConfig, position ) ) );
         transcriptionFactorAttachmentSites.add( new TranscriptionFactorAttachmentSite( position, tfConfig, 1 ) );
     }

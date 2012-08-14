@@ -189,7 +189,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
                     }
                     if ( wasUserControlled ) {
                         // The user dropped this biomolecule.
-                        if ( proteinCaptureArea.contains( mobileBiomolecule.getPosition() ) && mobileBiomolecule instanceof Protein ) {
+                        if ( proteinCaptureArea.contains( mobileBiomolecule.getPosition().toPoint2D() ) && mobileBiomolecule instanceof Protein ) {
                             // The user has dropped this protein in the
                             // capture area.  So, like, capture it.
                             captureProtein( (Protein) mobileBiomolecule );

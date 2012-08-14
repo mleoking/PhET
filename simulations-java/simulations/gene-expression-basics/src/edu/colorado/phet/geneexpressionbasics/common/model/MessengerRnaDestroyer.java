@@ -5,9 +5,9 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.RnaDestroyerAttachmentStateMachine;
@@ -25,10 +25,10 @@ public class MessengerRnaDestroyer extends MobileBiomolecule {
     private MessengerRna messengerRnaBeingDestroyed;
 
     public MessengerRnaDestroyer( GeneExpressionModel model ) {
-        this( model, new Point2D.Double( 0, 0 ) );
+        this( model, new Vector2D( 0, 0 ) );
     }
 
-    public MessengerRnaDestroyer( GeneExpressionModel model, Point2D position ) {
+    public MessengerRnaDestroyer( GeneExpressionModel model, Vector2D position ) {
         super( model, createShape(), new Color( 255, 150, 66 ) );
         setPosition( position );
     }

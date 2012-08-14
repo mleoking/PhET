@@ -1,8 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
-import java.awt.geom.Point2D;
-
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.TranscriptionFactorConfig;
 
 /**
@@ -27,7 +26,7 @@ public class TranscriptionFactorAttachmentSite extends AttachmentSite {
      * @param initialLocation
      * @param initialAffinity
      */
-    public TranscriptionFactorAttachmentSite( Point2D initialLocation, TranscriptionFactorConfig tfConfig, double initialAffinity ) {
+    public TranscriptionFactorAttachmentSite( Vector2D initialLocation, TranscriptionFactorConfig tfConfig, double initialAffinity ) {
         super( initialLocation, initialAffinity );
         this.tfConfig = tfConfig;
     }

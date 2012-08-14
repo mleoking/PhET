@@ -49,9 +49,9 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
         velocityZ = -1 / FADE_AND_DRIFT_TIME;
     }
 
-    @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
+    @Override public Vector2D getNextLocation( Vector2D currentLocation, Shape shape, double dt ) {
         Point3D location3D = getNextLocation3D( new Point3D.Double( currentLocation.getX(), currentLocation.getY(), 0 ), shape, dt );
-        return new Point2D.Double( location3D.getX(), location3D.getY() );
+        return new Vector2D( location3D.getX(), location3D.getY() );
     }
 
     @Override public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {

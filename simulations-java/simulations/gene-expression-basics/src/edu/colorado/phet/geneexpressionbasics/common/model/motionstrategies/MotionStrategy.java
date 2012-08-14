@@ -5,9 +5,9 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
@@ -35,7 +35,7 @@ public abstract class MotionStrategy {
      * @param dt
      * @return
      */
-    public abstract Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt );
+    public abstract Vector2D getNextLocation( Vector2D currentLocation, Shape shape, double dt );
 
     /**
      * Get the next location in three dimensions given the current position.
@@ -51,7 +51,7 @@ public abstract class MotionStrategy {
      */
     public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {
         // Default version does not move in Z direction, override for true 3D motion.
-        Point2D nextLocation2D = getNextLocation( new Point2D.Double( currentLocation.getX(), currentLocation.getY() ), shape, dt );
+        Vector2D nextLocation2D = getNextLocation( new Vector2D( currentLocation.getX(), currentLocation.getY() ), shape, dt );
         return new Point3D.Double( nextLocation2D.getX(), nextLocation2D.getY(), 0 );
     }
 

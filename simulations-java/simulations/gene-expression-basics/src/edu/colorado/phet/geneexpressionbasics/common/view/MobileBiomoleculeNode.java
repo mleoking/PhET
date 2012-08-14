@@ -54,7 +54,7 @@ public class MobileBiomoleculeNode extends PPath {
                     Shape centeredShape = getCenteredShape( mvt.modelToView( shape ) );
                     setPathTo( centeredShape );
                     // Account for the offset.
-                    setOffset( mvt.modelToView( mobileBiomolecule.getPosition() ) );
+                    setOffset( mvt.modelToView( mobileBiomolecule.getPosition() ).toPoint2D() );
                     // Set the gradient paint.
                     setPaint( createGradientPaint( centeredShape, mobileBiomolecule.colorProperty.get() ) );
                 }

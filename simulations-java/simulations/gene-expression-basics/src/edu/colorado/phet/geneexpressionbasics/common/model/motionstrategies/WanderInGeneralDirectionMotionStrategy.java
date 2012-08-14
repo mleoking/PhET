@@ -2,7 +2,6 @@
 package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.Shape;
-import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -37,7 +36,7 @@ public class WanderInGeneralDirectionMotionStrategy extends MotionStrategy {
         this.generalDirection = generalDirection;
     }
 
-    @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
+    @Override public Vector2D getNextLocation( Vector2D currentLocation, Shape shape, double dt ) {
         directionChangeCountdown -= dt;
         if ( directionChangeCountdown <= 0 ) {
             // Time to change the direction.
@@ -58,15 +57,13 @@ public class WanderInGeneralDirectionMotionStrategy extends MotionStrategy {
             directionChangeCountdown = generateDirectionChangeCountdownValue();
         }
 
-        // Calculate the next location based on the motion vector.
-        return new Point2D.Double( currentLocation.getX() + currentMotionVector.getX() * dt,
-                                   currentLocation.getY() + currentMotionVector.getY() * dt );
+        return currentLocation.plus( currentMotionVector.times( dt ) );
     }
 
     @Override public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {
         // The 3D version of this motion strategy doesn't move in the z
         // direction.  This may change some day.
-        Point2D nextLocation2D = getNextLocation( new Point2D.Double( currentLocation.getX(), currentLocation.getY() ), shape, dt );
+        Vector2D nextLocation2D = getNextLocation( new Vector2D( currentLocation.getX(), currentLocation.getY() ), shape, dt );
         return new Point3D.Double( nextLocation2D.getX(), nextLocation2D.getY(), currentLocation.getZ() );
     }
 

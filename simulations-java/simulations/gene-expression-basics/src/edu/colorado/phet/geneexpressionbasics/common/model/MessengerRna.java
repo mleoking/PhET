@@ -72,8 +72,8 @@ public class MessengerRna extends WindingBiomolecule {
      *
      * @param position
      */
-    public MessengerRna( final GeneExpressionModel model, Protein proteinPrototype, Point2D position ) {
-        super( model, new DoubleGeneralPath( position ).getGeneralPath(), position );
+    public MessengerRna( final GeneExpressionModel model, Protein proteinPrototype, Vector2D position ) {
+        super( model, new DoubleGeneralPath( position.toPoint2D() ).getGeneralPath(), position );
         this.proteinPrototype = proteinPrototype;
         mRnaAttachmentStateMachine = (MessengerRnaAttachmentStateMachine) super.attachmentStateMachine;
 
@@ -91,8 +91,8 @@ public class MessengerRna extends WindingBiomolecule {
             public void update() {
                 // This hint always sits at the beginning of the RNA strand.
                 Vector2D currentMRnaFirstPointPosition = new Vector2D( firstShapeDefiningPoint.getPosition() );
-                ribosomePlacementHint.setPosition( currentMRnaFirstPointPosition.minus( Ribosome.OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
-                mRnaDestroyerPlacementHint.setPosition( currentMRnaFirstPointPosition.toPoint2D() );
+                ribosomePlacementHint.setPosition( currentMRnaFirstPointPosition.minus( Ribosome.OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ) );
+                mRnaDestroyerPlacementHint.setPosition( currentMRnaFirstPointPosition );
             }
         } );
     }

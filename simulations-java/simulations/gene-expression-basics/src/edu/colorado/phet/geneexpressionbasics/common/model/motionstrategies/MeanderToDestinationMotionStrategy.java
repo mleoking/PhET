@@ -2,10 +2,10 @@
 package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.Shape;
-import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -20,7 +20,7 @@ public class MeanderToDestinationMotionStrategy extends MotionStrategy {
 
     // Destination property.  It is only in two dimensions because the
     // destination must always have a Z value of zero.
-    private final Property<Point2D> destinationProperty;
+    private final Property<Vector2D> destinationProperty;
 
     /**
      * Constructor.
@@ -29,20 +29,20 @@ public class MeanderToDestinationMotionStrategy extends MotionStrategy {
      * @param motionBoundsProperty
      * @param destinationOffset
      */
-    public MeanderToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, AbstractVector2D destinationOffset ) {
+    public MeanderToDestinationMotionStrategy( Property<Vector2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, AbstractVector2D destinationOffset ) {
         randomWalkMotionStrategy = new RandomWalkMotionStrategy( motionBoundsProperty );
         directToDestinationMotionStrategy = new MoveDirectlyToDestinationMotionStrategy( destinationProperty, motionBoundsProperty, destinationOffset, 750 );
         this.destinationProperty = destinationProperty;
     }
 
-    @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
+    @Override public Vector2D getNextLocation( Vector2D currentLocation, Shape shape, double dt ) {
         Point3D nextLocation3D = getNextLocation3D( new Point3D.Double( currentLocation.getX(), currentLocation.getY(), 0 ), shape, dt );
-        return new Point2D.Double( nextLocation3D.getX(), nextLocation3D.getY() );
+        return new Vector2D( nextLocation3D.getX(), nextLocation3D.getY() );
     }
 
     @Override public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {
         // If the destination in within the shape, go straight to it.
-        if ( shape.getBounds2D().contains( destinationProperty.get() ) ) {
+        if ( shape.getBounds2D().contains( destinationProperty.get().toPoint2D() ) ) {
             // Move directly towards the destination with no randomness.
             return directToDestinationMotionStrategy.getNextLocation3D( currentLocation, shape, dt );
         }

@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
@@ -41,7 +42,7 @@ public class MessengerRnaTest {
                 new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.50 ) ),
                 0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        MessengerRna messengerRna = new MessengerRna( new StubGeneExpressionModel(), new ProteinA(), new Point2D.Double( 0, 0 ) );
+        MessengerRna messengerRna = new MessengerRna( new StubGeneExpressionModel(), new ProteinA(), new Vector2D( 0, 0 ) );
         messengerRna.addLength( 100 );
         messengerRna.addLength( 100 );
         messengerRna.addLength( 100 );
