@@ -143,16 +143,21 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     }
 
     private PNode createLevelNode( final int levelIndex, final LevelType levelType ) {
-        return levelType == LevelType.SHAPES ? new ShapeSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) :
+        return levelType == LevelType.SHAPES ?
+               new ShapeSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) :
                new NumberSceneNode( levelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled );
     }
 
     public void goToNextShapeLevel( final int newLevelIndex ) {
-        animateTo( new ShapeSceneNode( newLevelIndex, model, STAGE_SIZE, this, model.audioEnabled ), Direction.RIGHT );
+        final PNode newShapeScene = createLevelNode( newLevelIndex, LevelType.SHAPES );
+        map.put( new LevelIdentifier( newLevelIndex, LevelType.SHAPES ), newShapeScene );
+        animateTo( newShapeScene, Direction.RIGHT );
     }
 
     public void goToNextNumberLevel( final int newLevelIndex ) {
-        animateTo( new NumberSceneNode( newLevelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled ), Direction.RIGHT );
+        PNode newScene = createLevelNode( newLevelIndex, LevelType.NUMBERS );
+        map.put( new LevelIdentifier( newLevelIndex, LevelType.NUMBERS ), newScene );
+        animateTo( newScene, Direction.RIGHT );
     }
 
     public void goToLevelSelectionScreen() {
@@ -161,11 +166,15 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
     public void resampleShapeLevel( final int levelIndex ) {
         model.resampleShapeLevel( levelIndex );
-        crossFadeTo( new ShapeSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) );
+        final PNode newNode = createLevelNode( levelIndex, LevelType.SHAPES );
+        map.put( new LevelIdentifier( levelIndex, LevelType.SHAPES ), newNode );
+        crossFadeTo( newNode );
     }
 
     public void resampleNumberLevel( final int levelIndex ) {
         model.resampleNumberLevel( levelIndex );
-        crossFadeTo( new NumberSceneNode( levelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled ) );
+        final PNode newNode = createLevelNode( levelIndex, LevelType.NUMBERS );
+        map.put( new LevelIdentifier( levelIndex, LevelType.NUMBERS ), newNode );
+        crossFadeTo( newNode );
     }
 }

@@ -1,3 +1,4 @@
+Build a Fraction: Fixed: Resample forgotten if main screen viewed, see #3397
 Build a Fraction: Numbers: Changed from 4 targets to 3 in level 5
 Build a Mixed Fraction: Numbers: Factored out "box" class
 Build a Mixed Fraction: Numbers: Started showing whole number dotted line region
