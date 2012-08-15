@@ -24,15 +24,18 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.*
 public class MyCrustPanel extends PNode {
     private static final PhetFont sliderTitleFont = new PhetFont( 14 );
     private static final PhetFont limitFont = new PhetFont( 10 );
+    private final SliderNode temperatureSlider;
+    private final SliderNode compositionSlider;
+    private final SliderNode thicknessSlider;
 
     public MyCrustPanel( CrustModel model ) {
         PText titleNode = new PText( MY_CRUST ) {{
             setFont( new PhetFont( 16, true ) );
         }};
 
-        SliderNode temperatureSlider = new SliderNode( UserComponents.temperatureSlider, TEMPERATURE, COOL, WARM, model.temperatureRatio, 0, 1 );
-        SliderNode compositionSlider = new SliderNode( UserComponents.compositionSlider, COMPOSITION, MORE_IRON, MORE_SILICA, model.compositionRatio, 0, 1 );
-        SliderNode thicknessSlider = new SliderNode( UserComponents.thicknessSlider, THICKNESS, THIN, THICK, model.thickness, 4000, 70000 );
+        temperatureSlider = new SliderNode( UserComponents.temperatureSlider, TEMPERATURE, COOL, WARM, model.temperatureRatio, 0, 1 );
+        compositionSlider = new SliderNode( UserComponents.compositionSlider, COMPOSITION, MORE_IRON, MORE_SILICA, model.compositionRatio, 0, 1 );
+        thicknessSlider = new SliderNode( UserComponents.thicknessSlider, THICKNESS, THIN, THICK, model.thickness, 4000, 70000 );
 
         // center the title node (based on the slider itself, not the other labels!)
         titleNode.setOffset( ( temperatureSlider.getSlider().getWidth() - titleNode.getFullBounds().getWidth() ) / 2, 0 );
@@ -46,6 +49,26 @@ public class MyCrustPanel extends PNode {
         addChild( temperatureSlider );
         addChild( compositionSlider );
         addChild( thicknessSlider );
+    }
+
+    public void resetAll() {
+        // properties handled in the LWJGL thread
+        temperatureSlider.getProperty().reset();
+        compositionSlider.getProperty().reset();
+        thicknessSlider.getProperty().reset();
+
+        final int temp = temperatureSlider.getInitialValue();
+        final int composition = compositionSlider.getInitialValue();
+        final int thickness = thicknessSlider.getInitialValue();
+
+        // Swing changes in the Swing EDT
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                temperatureSlider.setValue( temp );
+                compositionSlider.setValue( composition );
+                thicknessSlider.setValue( thickness );
+            }
+        } );
     }
 
     private static class SliderNode extends PNode {
@@ -105,7 +128,7 @@ public class MyCrustPanel extends PNode {
             } );
         }
 
-        private int getInitialValue() {
+        public int getInitialValue() {
             double ratio = ( property.get() - min ) / ( max - min );
             return (int) ( ratio * sliderMax );
         }
@@ -115,8 +138,16 @@ public class MyCrustPanel extends PNode {
             return min + ratio * ( max - min );
         }
 
+        public void setValue( int value ) {
+            slider.setValue( value );
+        }
+
         public JSlider getSlider() {
             return slider;
+        }
+
+        public Property<Double> getProperty() {
+            return property;
         }
     }
 }

@@ -118,9 +118,7 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
         this.transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
         draggedPosition = draggedPosition.plus( delta );
         final double temp = getTemperatureValue();
-        System.out.println( temp );
         updateLiquidHeight( temp );
-//        tab.getModel().debugPing.updateListeners( getSensorModelPosition() );
     }
 
     private void updateLiquidHeight( double temperature ) {
