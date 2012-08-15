@@ -1,4 +1,4 @@
-package edu.colorado.phet.functions.buildafunction2;
+package edu.colorado.phet.functions.buildafunction;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -16,19 +16,20 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.functions.buildafunction2.Constants.functionColor;
+import static edu.colorado.phet.functions.buildafunction.Constants.*;
 
 /**
  * @author Sam Reid
  */
-public class BinaryNumberFunctionNode extends PNode {
-    public BinaryNumberFunctionNode( String text ) {
+public class CopyNumberFunctionNode extends PNode {
+    public CopyNumberFunctionNode( String text ) {
         //use CAG for prototype, may need to speed up later on
-        final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, Constants.bodyDimension.width, Constants.bodyDimension.height * 2 + Constants.inset, 20, 20 );
+        final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, bodyDimension.width, bodyDimension.height * 2 + inset, 20, 20 );
         Area a = new Area( bodyRect );
-        a.subtract( new Area( new Ellipse2D.Double( bodyRect.getX() - Constants.ellipseWidth / 2, Constants.bodyDimension.height / 2 - Constants.ellipseWidth / 2, Constants.ellipseWidth, Constants.ellipseWidth ) ) );
-        a.subtract( new Area( new Ellipse2D.Double( bodyRect.getX() - Constants.ellipseWidth / 2, Constants.bodyDimension.height * 3.0 / 2 + Constants.inset - Constants.ellipseWidth / 2, Constants.ellipseWidth, Constants.ellipseWidth ) ) );
-        a.add( new Area( new Ellipse2D.Double( bodyRect.getMaxX() - Constants.ellipseWidth / 2, bodyRect.getCenterY() - Constants.ellipseWidth / 2, Constants.ellipseWidth, Constants.ellipseWidth ) ) );
+        double ellipseWidth = 50;
+        a.subtract( new Area( new Ellipse2D.Double( bodyRect.getX() - ellipseWidth / 2, bodyRect.height / 2 - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
+        a.add( new Area( new Ellipse2D.Double( bodyRect.getMaxX() - ellipseWidth / 2, bodyDimension.height / 2 - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
+        a.add( new Area( new Ellipse2D.Double( bodyRect.getMaxX() - ellipseWidth / 2, bodyDimension.height * 3.0 / 2 + inset - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         addChild( new PhetPPath( a, functionColor.get(), new BasicStroke( 1 ), Color.black ) {{
             functionColor.addObserver( new VoidFunction1<Color>() {
                 public void apply( final Color color ) {
@@ -36,17 +37,17 @@ public class BinaryNumberFunctionNode extends PNode {
                 }
             } );
         }} );
-        addChild( new PhetPText( text, new PhetFont( 42, true ) ) {{
+        addChild( new PhetPText( text, new PhetFont( 24, true ) ) {{
             setOffset( bodyRect.getCenterX() - getFullBounds().getWidth() / 2 + 10, bodyRect.getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
-                BinaryNumberFunctionNode.this.moveToFront();
+                CopyNumberFunctionNode.this.moveToFront();
             }
 
             @Override public void mouseDragged( final PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( BinaryNumberFunctionNode.this.getParent() );
+                PDimension delta = event.getDeltaRelativeTo( CopyNumberFunctionNode.this.getParent() );
                 translate( delta.width, delta.height );
             }
         } );
