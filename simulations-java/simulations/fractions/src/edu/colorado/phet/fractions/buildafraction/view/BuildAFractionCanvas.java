@@ -37,12 +37,12 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     private PNode currentScene;
     private final BuildAFractionModel model;
 
-    public BuildAFractionCanvas( final BuildAFractionModel model ) {
+    public BuildAFractionCanvas( final BuildAFractionModel model, String title ) {
         this.model = model;
         //Set a really light blue because there is a lot of white everywhere
         setBackground( new Color( 236, 251, 251 ) );
 
-        currentScene = new LevelSelectionNode( Strings.BUILD_A_FRACTION, this, model.audioEnabled, model.selectedPage, model.gameProgress );
+        currentScene = new LevelSelectionNode( title, this, model.audioEnabled, model.selectedPage, model.gameProgress );
         addChild( currentScene );
     }
 
