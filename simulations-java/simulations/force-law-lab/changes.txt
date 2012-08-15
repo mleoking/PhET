@@ -14,7 +14,7 @@ Renamed GravityForceLabApplicationMain to GravityForceLabApplication for consist
 Removed equals from main declaration, was preventing from running in the IDE
 # 1.01.02 (48784) Feb 9, 2011
 # 1.01.01 (48774) Feb 8, 2011
-2/8/11 generationg a dev version is the only way for me to test KSU translations in this Scala sim
+2/8/11 generating a dev version is the only way for me to test KSU translations in this Scala sim
 Fixed compatibility with java 1.5
 # 1.01.00 (37999) Jan 9, 2010
 1/9/10 public version for milestone "full redeploy, 2010 Q1"
