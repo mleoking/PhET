@@ -41,7 +41,7 @@ public class ManualGeneExpressionModule extends Module {
         }
     }
 
-    public ObservableProperty<Boolean> getCanvasZoomedInProperty() {
+    public ObservableProperty<Double> getCanvasZoomedInProperty() {
         return canvas.getZoomedInProperty();
     }
 

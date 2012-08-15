@@ -70,9 +70,9 @@ public class GeneExpressionBasicsApplication extends PiccoloPhetApplication {
                 }
             } );
         }};
-        manualGeneExpressionModule.getCanvasZoomedInProperty().addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean zoomedIn ) {
-                if ( zoomedIn ) {
+        manualGeneExpressionModule.getCanvasZoomedInProperty().addObserver( new VoidFunction1<Double>() {
+            public void apply( Double zoomedInProportion ) {
+                if ( zoomedInProportion == 1.0 ) {
                     teacherMenu.remove( zoomIn );
                     teacherMenu.add( zoomOut );
                 }
