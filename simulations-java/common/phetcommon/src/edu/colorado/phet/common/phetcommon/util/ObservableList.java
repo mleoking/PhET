@@ -115,9 +115,8 @@ public class ObservableList<T> implements List<T> {
     }
 
     //------------------------------------------------------------------------
-    // Below are functions that modify the contents of the list, so they make
-    // the modifications of the enclosed list and then send out the
-    // appropriate notifications.
+    // Below are functions that modify the contents of the list.  In each case,
+    // the enclosed list is modified and then notifications are sent out.
     //------------------------------------------------------------------------
 
     public boolean add( T t ) {
@@ -356,5 +355,43 @@ public class ObservableList<T> implements List<T> {
     //Returns the maximum value in the list, causes runtime fail if not comparable
     public T max() {
         return (T) Collections.max( new ArrayList<Comparable>( (Collection<? extends Comparable>) this ) );
+    }
+
+    public T getNextItem( T item ) {
+        int index = indexOf( item );
+        // REVIEW: maybe have an exception here, since if assertions are not enabled it will return the first element in the list
+        assert index != -1; // This function shouldn't be used for segments not on the list.
+        if ( index == size() - 1 ) {
+            // The given segment is the last element on the list, so null is returned.
+            return null;
+        }
+        else {
+            return get( index + 1 );
+        }
+    }
+
+    public T getPreviousItem( T item ) {
+        int index = indexOf( item );
+        // REVIEW: also recommend an exception here
+        assert index != -1; // This function shouldn't be used for segments not on the list.
+        if ( index == 0 ) {
+            // The given segment is the first element on the list, so null is returned.
+            return null;
+        }
+        else {
+            return get( index - 1 );
+        }
+    }
+
+    public void insertAfter( T existingItem, T itemToInsert ) {
+        // REVIEW: also recommend an exception here
+        assert contains( existingItem );
+        add( indexOf( existingItem ) + 1, itemToInsert );
+    }
+
+    public void insertBefore( T existingItem, T itemToInsert ) {
+        // REVIEW: also recommend an exception here
+        assert contains( existingItem );
+        add( indexOf( existingItem ), itemToInsert );
     }
 }
