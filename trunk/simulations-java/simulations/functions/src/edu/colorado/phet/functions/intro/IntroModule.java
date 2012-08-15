@@ -9,10 +9,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 public class IntroModule extends PiccoloModule {
     public IntroModule() {
         super( "Intro", new ConstantDtClock() );
-
-        setSimulationPanel( new IntroCanvas() {{
-
-        }} );
+        setSimulationPanel( new IntroCanvas() );
         setClockControlPanel( null );
     }
 }
