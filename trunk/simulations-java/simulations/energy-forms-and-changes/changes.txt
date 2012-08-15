@@ -1,3 +1,6 @@
+2nd tab: Integrated latest version of water wheel artwork, fixes issue where highlight would turn with the wheel.
+2nd tab: Made light bulbs and heater light up (or glow) when energy is supplied.
+2nd tab: Made energy interaction between various systems work.
 2nd tab: Added basic interaction between the energy producers, consumers, and users.
 Backed out the changes that were made for the fast prototype of Heat Capacity Lab.
 # 0.00.16 (66383) Jul 27, 2012
