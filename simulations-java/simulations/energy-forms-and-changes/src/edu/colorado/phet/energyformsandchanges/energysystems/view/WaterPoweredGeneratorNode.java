@@ -23,8 +23,11 @@ public class WaterPoweredGeneratorNode extends PNode {
         addChild( new ModelElementImageNode( WaterPoweredGenerator.WIRE_STRAIGHT_IMAGE, mvt ) );
         addChild( new ModelElementImageNode( WaterPoweredGenerator.HOUSING_IMAGE, mvt ) );
         addChild( new ModelElementImageNode( WaterPoweredGenerator.CONNECTOR_IMAGE, mvt ) );
-        final PNode wheelImageNode = new ModelElementImageNode( WaterPoweredGenerator.WHEEL_IMAGE, mvt );
+        final PNode wheelImageNode = new ModelElementImageNode( WaterPoweredGenerator.WHEEL_PADDLES_IMAGE, mvt );
         addChild( wheelImageNode );
+        addChild( new ModelElementImageNode( WaterPoweredGenerator.WHEEL_HUB_IMAGE, mvt ) );
+        final PNode wheelTextureNode = new ModelElementImageNode( WaterPoweredGenerator.WHEEL_TEXTURE_IMAGE, mvt );
+        addChild( wheelTextureNode );
 
         // Update the rotation of the wheel image based on model value.
         final Point2D wheelRotationPoint = new Point2D.Double( wheelImageNode.getFullBoundsReference().getCenterX(),
@@ -33,6 +36,7 @@ public class WaterPoweredGeneratorNode extends PNode {
             public void apply( Double angle ) {
                 double delta = angle - wheelImageNode.getRotation();
                 wheelImageNode.rotateAboutPoint( delta, wheelRotationPoint );
+                wheelTextureNode.rotateAboutPoint( delta, wheelRotationPoint );
             }
         } );
 
