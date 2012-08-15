@@ -184,23 +184,13 @@ public class FractionNode extends RichPNode {
 
     public void attachNumber( final PhetPPath box, final NumberCardNode numberCardNode ) {
         if ( box == numerator.box ) {
-            numerator.card = numberCardNode;
-
-            //Store the parent so it can be re-parented on undo
-            numerator.parent = numberCardNode.getParent();
-            numerator.number = numberCardNode.numberNode;
+            attachToBox( numberCardNode, numerator );
         }
         else if ( box == denominator.box ) {
-            denominator.card = numberCardNode;
-
-            denominator.parent = numberCardNode.getParent();
-            denominator.number = numberCardNode.numberNode;
+            attachToBox( numberCardNode, denominator );
         }
         else if ( box == whole.box ) {
-            whole.card = numberCardNode;
-
-            whole.parent = numberCardNode.getParent();
-            whole.number = numberCardNode.numberNode;
+            attachToBox( numberCardNode, whole );
         }
         else {
             throw new RuntimeException( "No such box!" );
@@ -227,6 +217,14 @@ public class FractionNode extends RichPNode {
 
         numberNode.setPickable( false );
         numberNode.setChildrenPickable( false );
+    }
+
+    private void attachToBox( final NumberCardNode numberCardNode, final Box box ) {
+        box.card = numberCardNode;
+
+        //Store the parent so it can be re-parented on undo
+        box.parent = numberCardNode.getParent();
+        box.number = numberCardNode.numberNode;
     }
 
     public boolean isComplete() {
