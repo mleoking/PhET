@@ -1,3 +1,4 @@
+# 2.00.02 (67037) Aug 15, 2012
 # 2.00.01 (67036) Aug 15, 2012
 8/15/12 > Changed "Sticky" and "Bouncy" to "Inelastic" and "Elastic"
 # 2.00.00 (65086) Jun 14, 2012
