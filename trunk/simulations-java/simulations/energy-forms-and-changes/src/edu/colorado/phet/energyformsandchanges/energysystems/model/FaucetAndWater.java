@@ -40,11 +40,8 @@ public class FaucetAndWater extends EnergySource {
         return new Energy( Energy.Type.MECHANICAL, MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() * dt, -Math.PI / 2 );
     }
 
-    @Override public void activate() {
-        enabled.set( true );
-    }
-
     @Override public void deactivate() {
+        super.deactivate();
         enabled.set( false );
     }
 
