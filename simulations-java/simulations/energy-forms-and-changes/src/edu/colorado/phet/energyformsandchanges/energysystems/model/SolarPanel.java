@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
-import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
 
@@ -22,10 +21,10 @@ public class SolarPanel extends EnergyConverter {
     private static final double CONVERSION_EFFICIENCY = 0.3;
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( SOLAR_PANEL_BASE, SOLAR_PANEL_BASE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0.015, -0.025 ) ) );
-        add( new ModelElementImage( SOLAR_PANEL, SOLAR_PANEL.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0, 0.044 ) ) );
-        add( new ModelElementImage( WIRE_BLACK_MIDDLE, WIRE_BLACK_MIDDLE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0.075, -0.04 ) ) );
-        add( new ModelElementImage( CONNECTOR, CONNECTOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0.058, -0.04 ) ) );
+        add( new ModelElementImage( SOLAR_PANEL_BASE, new Vector2D( 0.015, -0.025 ) ) );
+        add( new ModelElementImage( SOLAR_PANEL, new Vector2D( 0, 0.044 ) ) );
+        add( new ModelElementImage( WIRE_BLACK_MIDDLE, new Vector2D( 0.075, -0.04 ) ) );
+        add( new ModelElementImage( CONNECTOR, new Vector2D( 0.058, -0.04 ) ) );
     }};
 
     protected SolarPanel() {

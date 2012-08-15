@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
-import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.TEAPOT;
 
@@ -22,7 +21,7 @@ public class TeaPot extends EnergySource {
     private static final double ENERGY_PRODUCTION_RATE = 200; // In joules/second
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( TEAPOT, TEAPOT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0.02, -0.05 ) ) );
+        add( new ModelElementImage( TEAPOT, new Vector2D( 0.02, -0.05 ) ) );
     }};
 
     protected TeaPot() {

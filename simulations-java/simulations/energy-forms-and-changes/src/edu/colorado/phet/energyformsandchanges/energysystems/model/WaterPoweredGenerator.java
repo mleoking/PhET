@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
-import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
 
@@ -26,27 +25,13 @@ public class WaterPoweredGenerator extends EnergyConverter {
     // Class Data
     //-------------------------------------------------------------------------
 
-    public static final ModelElementImage HOUSING_IMAGE = new ModelElementImage( GENERATOR,
-                                                                                 GENERATOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                 new Vector2D( 0, 0 ) );
-    public static final ModelElementImage WHEEL_PADDLES_IMAGE = new ModelElementImage( GENERATOR_WHEEL_PADDLES_SHORT,
-                                                                                       GENERATOR_WHEEL_PADDLES_SHORT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                       new Vector2D( 0, 0.03 ) );
-    public static final ModelElementImage WHEEL_TEXTURE_IMAGE = new ModelElementImage( GENERATOR_WHEEL_TEXTURE,
-                                                                                       GENERATOR_WHEEL_TEXTURE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                       new Vector2D( 0, 0.03 ) );
-    public static final ModelElementImage WHEEL_HUB_IMAGE = new ModelElementImage( GENERATOR_WHEEL_HUB,
-                                                                                   GENERATOR_WHEEL_HUB.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                   new Vector2D( 0, 0.03 ) );
-    public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR,
-                                                                                   CONNECTOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                   new Vector2D( 0.058, -0.04 ) ); // Offset empirically determined for optimal look.
-    public static final ModelElementImage WIRE_CURVED_IMAGE = new ModelElementImage( WIRE_BLACK_LEFT,
-                                                                                     WIRE_BLACK_LEFT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                     new Vector2D( 0.0185, -0.015 ) ); // Offset empirically determined for optimal look.
-    public static final ModelElementImage WIRE_STRAIGHT_IMAGE = new ModelElementImage( WIRE_BLACK_MIDDLE,
-                                                                                       WIRE_BLACK_MIDDLE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                       new Vector2D( 0.075, -0.04 ) ); // Offset empirically determined for optimal look.
+    public static final ModelElementImage HOUSING_IMAGE = new ModelElementImage( GENERATOR, new Vector2D( 0, 0 ) );
+    public static final ModelElementImage WHEEL_PADDLES_IMAGE = new ModelElementImage( GENERATOR_WHEEL_PADDLES_SHORT, new Vector2D( 0, 0.03 ) );
+    public static final ModelElementImage WHEEL_TEXTURE_IMAGE = new ModelElementImage( GENERATOR_WHEEL_TEXTURE, new Vector2D( 0, 0.03 ) );
+    public static final ModelElementImage WHEEL_HUB_IMAGE = new ModelElementImage( GENERATOR_WHEEL_HUB, new Vector2D( 0, 0.03 ) );
+    public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR, new Vector2D( 0.058, -0.04 ) ); // Offset empirically determined for optimal look.
+    public static final ModelElementImage WIRE_CURVED_IMAGE = new ModelElementImage( WIRE_BLACK_LEFT, new Vector2D( 0.0185, -0.015 ) ); // Offset empirically determined for optimal look.
+    public static final ModelElementImage WIRE_STRAIGHT_IMAGE = new ModelElementImage( WIRE_BLACK_MIDDLE, new Vector2D( 0.075, -0.04 ) ); // Offset empirically determined for optimal look.
     private static final double WHEEL_RADIUS = WHEEL_HUB_IMAGE.getWidth() / 2;
 
     private static final double WHEEL_MOMENT_OF_INERTIA = 5; // In kg.

@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.selectFluorescentLightBulbButton;
@@ -16,13 +15,9 @@ public class FluorescentLightBulb extends LightBulb {
 
     private static final Vector2D IMAGE_OFFSET = new Vector2D( 0, 0.04 );
 
-    public static final ModelElementImage NON_ENERGIZED_BULB = new ModelElementImage( FLUORESCENT,
-                                                                                      FLUORESCENT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                      IMAGE_OFFSET );
+    public static final ModelElementImage NON_ENERGIZED_BULB = new ModelElementImage( FLUORESCENT, IMAGE_OFFSET );
 
-    public static final ModelElementImage ENERGIZED_BULB = new ModelElementImage( FLUORESCENT_ON,
-                                                                                  FLUORESCENT_ON.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                                  IMAGE_OFFSET );
+    public static final ModelElementImage ENERGIZED_BULB = new ModelElementImage( FLUORESCENT_ON, IMAGE_OFFSET );
 
     private static final double ENERGY_TO_FULLY_LIGHT = 20; // In joules/sec, a.k.a. watts.
 
