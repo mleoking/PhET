@@ -21,7 +21,7 @@ public class BuildAFunctionPrototype2Canvas extends AbstractFunctionsCanvas {
         addChild( new BinaryNumberFunctionNode( "-" ) );
         addChild( new CopyNumberFunctionNode( "copy" ) );
 
-        addChild( new UnaryNumberFunctionNode( "*2", true ) );
+        addChild( new UnaryNumberFunctionNode( "\u27152", true ) );
         addChild( new UnaryNumberFunctionNode( "+1", true ) );
         addChild( new UnaryNumberFunctionNode( "-1", true ) );
         addChild( new UnaryNumberFunctionNode( "^2", true ) );

@@ -24,7 +24,7 @@ public class BuildAFunctionCanvas extends AbstractFunctionCanvas implements Cont
         }};
         addChild( x );
 
-        addChild( new FunctionBoxWithText( "*2" ) {
+        addChild( new FunctionBoxWithText( "\u27152" ) {
             {
                 setOffset( 200, 100 );
             }
