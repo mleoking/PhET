@@ -55,7 +55,13 @@ class FractionCardNode extends RichPNode {
         PBounds bottomBounds = fractionNode.getBottomNumberNode().getGlobalFullBounds();
         Rectangle2D divisorBounds = fractionNode.divisorLine.getGlobalFullBounds();
 
-        Rectangle2D borderShape = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
+
+        //Compute the bounds, different depending on whether it is for a mixed number or (im)proper fraction
+        final Rectangle2D fractionPartBounds = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
+        Rectangle2D borderShape = fractionNode.mixedNumber ?
+                                  fractionPartBounds.createUnion( fractionNode.getWholeNumberNode().getGlobalFullBounds() ) :
+                                  fractionPartBounds;
+
         borderShape = globalToLocal( borderShape );
         borderShape = RectangleUtils.expand( borderShape, 10, 2 );
 

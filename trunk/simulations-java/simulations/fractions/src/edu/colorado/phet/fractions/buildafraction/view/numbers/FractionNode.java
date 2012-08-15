@@ -58,7 +58,7 @@ public class FractionNode extends RichPNode {
 
     private FractionCardNode cardNode;
     private final FractionDraggingContext context;
-    private final boolean mixedNumber;
+    public final boolean mixedNumber;
 
     private final double SCALE_IN_TOOLBOX = 0.7;
 
@@ -244,6 +244,8 @@ public class FractionNode extends RichPNode {
     public NumberNode getTopNumberNode() { return numerator.number; }
 
     public NumberNode getBottomNumberNode() { return denominator.number; }
+
+    public NumberNode getWholeNumberNode() { return whole.number; }
 
     //Ignore click events on everything except the "undo" button, which appears over the card
     public void setDragRegionPickable( final boolean b ) {
