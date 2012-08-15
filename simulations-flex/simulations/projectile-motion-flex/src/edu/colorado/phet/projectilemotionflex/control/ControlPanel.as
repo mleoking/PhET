@@ -43,7 +43,7 @@ import mx.core.FlexSimpleButton;
 
 public class ControlPanel extends Canvas {
     private var mainView: MainView;
-    private var trajectoryModel: MainModel;
+    private var mainModel: MainModel;
     private var stageW: Number;
     private var stageH: Number;
 
@@ -93,10 +93,10 @@ public class ControlPanel extends Canvas {
     //check box string
     private var airResistance_str: String;
 
-    public function ControlPanel( mainView:MainView,  trajectoryModel: MainModel ) {
+    public function ControlPanel( mainView:MainView,  mainModel: MainModel ) {
         this.mainView = mainView;
-        this.trajectoryModel = trajectoryModel;
-        trajectoryModel.registerView( this );
+        this.mainModel = mainModel;
+        mainModel.registerView( this );
         this.stageW = mainView.stageW;
         this.stageH = mainView.stageH;
         this.init();
@@ -125,13 +125,13 @@ public class ControlPanel extends Canvas {
 
         projectileComboBox = new ComboBox();
         choiceList_arr = new Array();
-        var numberOfProjectileTypes: int = this.trajectoryModel.projectiles.length;
+        var numberOfProjectileTypes: int = this.mainModel.projectiles.length;
         for(var i: int = 0; i < numberOfProjectileTypes; i++ ){
-            var projectileName: String = trajectoryModel.projectiles[i].name;
+            var projectileName: String = mainModel.projectiles[i].name;
             var projectileIndex: int = i;
             //var projectileData:Array = new Array();
             choiceList_arr[i] = { label: projectileName, indexOfProjectile: projectileIndex }
-            //choiceList_arr[i].label = trajectoryModel.projectiles[i].name;
+            //choiceList_arr[i].label = mainModel.projectiles[i].name;
             //choiceList_arr[i].index = i;
         }
         //choiceList_arr = [ userChoice_str, tankshell_str, golfball_str, baseball_str, bowlingball_str, football_str, pumpkin_str, adultHuman_str, piano_str, buick_str ];
@@ -253,7 +253,7 @@ public class ControlPanel extends Canvas {
     private function selectProjectile(evt:Event):void{
         //trace( "ControlPanel.selectProjectile() called. target = " + projectileComboBox.selectedItem.indexOfProjectile );
         var index: int =  projectileComboBox.selectedItem.indexOfProjectile;
-        trajectoryModel.setProjectileType( index );
+        mainModel.setProjectileType( index );
         //var projectileType:Object = projectileComboBox.selectedItem;
         //trace( "selectedItem has index "+ projectileComboBox.dataProvider.indexOfProjectile );
     }
@@ -272,7 +272,7 @@ public class ControlPanel extends Canvas {
 
     private function fireProjectile():void{
         mainView.backgroundView.trajectoryView.startTrajectory();
-        trajectoryModel.fireCannon();
+        mainModel.fireCannon();
     }
 
     private function eraseTrajectories():void{
@@ -287,35 +287,35 @@ public class ControlPanel extends Canvas {
         }
         //trace("angleListener called text is "+ angleInDeg );
         if( angleInDeg < 180 && angleInDeg > -180 && !isNaN( angleInDeg )){
-            trajectoryModel.angleInDeg = angleInDeg;
+            mainModel.angleInDeg = angleInDeg;
         }
     }
 
     private function setSpeed( initSpeed ):void{
-        trajectoryModel.v0 = initSpeed;
+        mainModel.v0 = initSpeed;
     }
 
     private function setMass( massInkg ):void{
-        trajectoryModel.setMass( massInkg );
+        mainModel.setMass( massInkg );
     }
 
     private function setDiameter( diameterInMeters ):void{
-       trajectoryModel.setDiameter( diameterInMeters );
+       mainModel.setDiameter( diameterInMeters );
         this.mainView.backgroundView.projectileView.drawProjectileInFlight();
         //this.mainView.backgroundView.projectileView.drawProjectileOnGround();
     }
 
     private function clickAirResistance( evt: Event ):void{
         var selected:Boolean = airResistanceCheckBox.selected;
-        trajectoryModel.airResistance = selected;
+        mainModel.airResistance = selected;
         mainView.backgroundView.trajectoryView.updateTrajectoryColor();
     }
 
     public function update():void{
-        var angleNbr:Number = trajectoryModel.angleInDeg;
-        var speedNbr: Number = trajectoryModel.v0;
-        var massNbr: Number = trajectoryModel.projectiles[0].mass;
-        var diameterNbr: Number = trajectoryModel.projectiles[0].diameter;
+        var angleNbr:Number = mainModel.angleInDeg;
+        var speedNbr: Number = mainModel.v0;
+        var massNbr: Number = mainModel.projectiles[0].mass;
+        var diameterNbr: Number = mainModel.projectiles[0].diameter;
         this.angleReadout.setVal( angleNbr );
         this.speedReadout.setVal( speedNbr );
         this.massReadout.setVal( massNbr );
@@ -329,7 +329,7 @@ public class ControlPanel extends Canvas {
 //        }else{
 //            this.angle_txt.text = angleNbr.toString() + ".0";
 //        }
-//        var initSpeed:Number = trajectoryModel.v0;
+//        var initSpeed:Number = mainModel.v0;
 //        this.speed_txt.text = initSpeed.toString();
 
 
