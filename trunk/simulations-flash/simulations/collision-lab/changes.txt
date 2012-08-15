@@ -1,3 +1,5 @@
+# 2.00.01 (67036) Aug 15, 2012
+8/15/12 > Changed "Sticky" and "Bouncy" to "Inelastic" and "Elastic"
 # 2.00.00 (65086) Jun 14, 2012
 > Many changes, including adding a introductory tab. See below for more information.
 # 1.00.29 (64570) May 31, 2012
