@@ -1,3 +1,4 @@
+8/5/2012 Minor style and formatting changes
 # 1.02.00 (58700) Nov 17, 2011
 # 1.01.05 (58647) Nov 16, 2011
 11/16/11 > Java 7 compatibility fix (#3138, treeLock exception)

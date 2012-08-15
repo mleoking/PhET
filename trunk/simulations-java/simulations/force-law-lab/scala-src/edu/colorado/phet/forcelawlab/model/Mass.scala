@@ -14,14 +14,14 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
   def mass = _mass
 
   def mass_=(m: Double) {
-    _mass = m;
+    _mass = m
     notifyListeners()
   }
 
   def position = _position
 
   def position_=(p: Vector2D) {
-    _position = p;
+    _position = p
     notifyListeners()
   }
 
