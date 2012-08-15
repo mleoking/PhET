@@ -38,7 +38,7 @@ public class CopyNumberFunctionNode extends PNode {
             } );
         }} );
         addChild( new PhetPText( text, new PhetFont( 24, true ) ) {{
-            setOffset( bodyRect.getCenterX() - getFullBounds().getWidth() / 2, 2 );
+            setOffset( bodyRect.getCenterX() - getFullBounds().getWidth() / 2 + 10, bodyRect.getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
         addInputEventListener( new PBasicInputEventHandler() {
