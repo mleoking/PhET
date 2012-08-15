@@ -46,6 +46,17 @@ import static java.awt.Color.black;
  */
 public class FractionNode extends RichPNode {
 
+//    public static @Data class Box {
+//        public final PhetPPath box;
+//        public final NumberCardNode card;
+//        public final NumberNode number;
+//        public final PNode parent;
+//    }
+
+//    public final Box numerator;
+//    public final Box deno;
+//    public final Box numerator;
+
     public final PhetPPath numeratorBox;
     public final PhetPPath denominatorBox;
 
@@ -54,22 +65,32 @@ public class FractionNode extends RichPNode {
 
     public final PhetPPath divisorLine;
     public final UndoButton undoButton;
+
     private NumberCardNode topCard;
+    private NumberNode topNumberNode;
+    private PNode topCardParent;
+
     private NumberCardNode bottomCard;
+    private NumberNode bottomNumberNode;
+    private PNode bottomCardParent;
+
+    private NumberCardNode wholeCard;
+    private PNode wholeCardParent;
+    private NumberNode wholeNumberNode;
+
     private final ArrayList<VoidFunction1<Option<Fraction>>> undoListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
     private double toolboxPositionX;
     private double toolboxPositionY;
-    private PNode topCardParent;
-    private PNode bottomCardParent;
-    private NumberNode topNumberNode;
-    private NumberNode bottomNumberNode;
+
     private FractionCardNode cardNode;
     private final FractionDraggingContext context;
+    private final boolean mixedNumber;
 
     private final double SCALE_IN_TOOLBOX = 0.7;
 
     public FractionNode( final FractionDraggingContext context, boolean mixedNumber ) {
         this.context = context;
+        this.mixedNumber = mixedNumber;
         numeratorBox = box( true );
         denominatorBox = box( true );
         wholeBox = box( true, 1.6 );
@@ -140,6 +161,7 @@ public class FractionNode extends RichPNode {
             cardNode.undo();
             cardNode = null;
         }
+        //TODO: factor out
         //TODO simsharing message
         if ( topCard != null ) {
             topCard.setCardShapeVisible( true );
@@ -209,6 +231,12 @@ public class FractionNode extends RichPNode {
             bottomCardParent = numberCardNode.getParent();
             bottomNumberNode = numberCardNode.numberNode;
         }
+        else if ( box == wholeBox ) {
+            wholeCard = numberCardNode;
+
+            wholeCardParent = numberCardNode.getParent();
+            wholeNumberNode = numberCardNode.numberNode;
+        }
         else {
             throw new RuntimeException( "No such box!" );
         }
@@ -236,9 +264,19 @@ public class FractionNode extends RichPNode {
         numberNode.setChildrenPickable( false );
     }
 
-    public boolean isComplete() { return topCard != null && bottomCard != null; }
+    public boolean isComplete() {
+        return mixedNumber ?
+               topCard != null && bottomCard != null && wholeCard != null :
+               topCard != null && bottomCard != null;
+    }
 
-    public Fraction getValue() { return new Fraction( topCard.number, bottomCard.number ); }
+    public Fraction getValue() {
+        return mixedNumber ?
+               getFractionPart().plus( Fraction.fraction( wholeCard.number, 1 ) ) :
+               getFractionPart();
+    }
+
+    private Fraction getFractionPart() {return new Fraction( topCard.number, bottomCard.number );}
 
     public NumberNode getTopNumberNode() { return topNumberNode; }
 
@@ -279,5 +317,9 @@ public class FractionNode extends RichPNode {
     }
 
     //Return true if nothing is in top and nothing is in bottom
-    public boolean isEmpty() { return topCard == null && bottomCard == null; }
+    public boolean isEmpty() {
+        return mixedNumber ?
+               topCard == null && bottomCard == null && wholeCard == null :
+               topCard == null && bottomCard == null;
+    }
 }

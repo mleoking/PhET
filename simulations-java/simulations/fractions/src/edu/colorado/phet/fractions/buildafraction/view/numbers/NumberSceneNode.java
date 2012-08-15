@@ -263,6 +263,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         for ( FractionNode fractionGraphic : fractionNodes ) {
             final PhetPPath topBox = fractionGraphic.numeratorBox;
             final PhetPPath bottomBox = fractionGraphic.denominatorBox;
+            final PhetPPath wholeBox = fractionGraphic.wholeBox;
             if ( numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() && !fractionGraphic.isInToolboxPosition() ) {
                 numberDroppedOnFraction( fractionGraphic, numberCardNode, topBox );
                 hitFraction = true;
@@ -270,6 +271,11 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             }
             if ( numberCardNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() && !fractionGraphic.isInToolboxPosition() ) {
                 numberDroppedOnFraction( fractionGraphic, numberCardNode, bottomBox );
+                hitFraction = true;
+                break;
+            }
+            if ( numberCardNode.getGlobalFullBounds().intersects( wholeBox.getGlobalFullBounds() ) && wholeBox.getVisible() && !fractionGraphic.isInToolboxPosition() ) {
+                numberDroppedOnFraction( fractionGraphic, numberCardNode, wholeBox );
                 hitFraction = true;
                 break;
             }
