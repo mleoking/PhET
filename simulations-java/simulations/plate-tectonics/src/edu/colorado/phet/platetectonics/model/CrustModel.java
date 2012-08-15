@@ -371,7 +371,7 @@ public class CrustModel extends PlateTectonicsModel {
         // outer core
         addStrip( rectangularConstantStrip( mantleBottom, innerOuterCoreBoundary,
                                             CORE_BOUNDARY_DENSITY, INNER_OUTER_CORE_BOUNDARY_DENSITY,
-                                            ZERO_CELSIUS + 4400f, ZERO_CELSIUS + 5778 ) );
+                                            ZERO_CELSIUS + 4400f, 5778 ) );
 
         // inner core
         addStrip( rectangularConstantStrip( innerOuterCoreBoundary, centerOfTheEarth,

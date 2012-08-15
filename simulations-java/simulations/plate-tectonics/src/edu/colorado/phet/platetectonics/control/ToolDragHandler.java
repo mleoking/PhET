@@ -46,12 +46,12 @@ public class ToolDragHandler {
         SimSharingManager.sendUserMessage( tool.getUserComponent(), UserComponentTypes.sprite, startDrag, getToolLocationParameterSet( tool ) );
     }
 
-    public void mouseUp( boolean overToolbox ) {
+    public void mouseUp( boolean isLocationUnacceptable ) {
         if ( dragging ) {
             SimSharingManager.sendUserMessage( tool.getUserComponent(), UserComponentTypes.sprite, endDrag, getToolLocationParameterSet( tool ) );
-        }
-        if ( dragging && overToolbox ) {
-            putToolBackInToolbox( tool );
+            if ( isLocationUnacceptable ) {
+                putToolBackInToolbox( tool );
+            }
         }
         dragging = false;
     }
@@ -77,6 +77,10 @@ public class ToolDragHandler {
 
     public boolean isDragging() {
         return dragging;
+    }
+
+    public DraggableTool2D getDraggedTool() {
+        return tool;
     }
 
     private static ParameterSet getToolLocationParameterSet( DraggableTool2D tool ) {
