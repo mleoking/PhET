@@ -48,7 +48,10 @@ public class FractionNode extends RichPNode {
 
     public final PhetPPath numeratorBox;
     public final PhetPPath denominatorBox;
+
+    //Whole box is only shown and used for mixed numbers
     public final PhetPPath wholeBox;
+
     public final PhetPPath divisorLine;
     public final UndoButton undoButton;
     private NumberCardNode topCard;
@@ -84,6 +87,7 @@ public class FractionNode extends RichPNode {
 
         final VBox fractionPart = new VBox( numeratorBox, divisorLine, denominatorBox );
 
+        //Only show the whole box for mixed numbers
         final PNode box = mixedNumber ? new HBox( wholeBox, fractionPart ) :
                           fractionPart;
 
