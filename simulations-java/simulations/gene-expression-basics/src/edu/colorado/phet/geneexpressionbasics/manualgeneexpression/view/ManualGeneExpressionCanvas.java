@@ -368,21 +368,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }};
         frontControlsLayer.addChild( zoomInButton );
 
-        // REVIEW: is this finalized?
-        // TODO: 7/10/2012 - The design team requested that the zoom out button
-        // be removed and the functionality moved to a teacher control.  If
-        // and when this change is finalized, the code for zoom out button -
-        // commented out below - should be permanently removed.
-//        final PNode zoomOutButton = new TextButtonNode( ZOOM_OUT, new PhetFont( 18 ), Color.YELLOW ) {{
-//            centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
-//            addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    zoomOut( ZOOM_ANIMATION_TIME );
-//                }
-//            } );
-//        }};
-//        frontControlsLayer.addChild( zoomOutButton );
-
         // Monitor the zoom and set the visibility of various controls.
         modelRootNode.addPropertyChangeListener( new PropertyChangeListener() {
 
@@ -392,22 +377,18 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             public void propertyChange( PropertyChangeEvent evt ) {
                 if ( evt.getPropertyName().equals( "transform" ) ) {
                     double scaleFactor = ( (AffineTransform) evt.getNewValue() ).getScaleX();
-                    // REVIEW: why not use isZoomedOut() and isZoomedIn() here?
-                    boolean zoomedOut = scaleFactor < MIN_ZOOM + SCALE_COMPARISON_FACTOR;
-                    boolean zoomedIn = scaleFactor > MAX_ZOOM - SCALE_COMPARISON_FACTOR;
 
                     // Set the visibility of the controls that aren't shown
                     // unless we are zoomed all the way in.
-                    biomoleculeToolBoxLayer.setVisible( zoomedIn );
-                    proteinCollectionNode.setVisible( zoomedIn );
-                    previousGeneButton.setVisible( zoomedIn );
-                    nextGeneButton.setVisible( zoomedIn );
-//                    zoomOutButton.setVisible( zoomedIn );
-                    resetAllButton.setVisible( zoomedIn );
+                    biomoleculeToolBoxLayer.setVisible( isZoomedIn() );
+                    proteinCollectionNode.setVisible( isZoomedIn() );
+                    previousGeneButton.setVisible( isZoomedIn() );
+                    nextGeneButton.setVisible( isZoomedIn() );
+                    resetAllButton.setVisible( isZoomedIn() );
 
                     // Set the visibility of the controls that aren't shown
                     // unless we are zoomed all the way out.
-                    zoomInButton.setVisible( zoomedOut );
+                    zoomInButton.setVisible( isZoomedOut() );
 
                     // Fade the DNA molecule.  A linear fade didn't look good,
                     // so the fade is exponential with a threshold.
@@ -419,7 +400,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
                     // Change the cursor handler on the cell when zoomed all
                     // the way out in order to indicate that it is clickable.
-                    if ( zoomedOut ) {
+                    if ( isZoomedOut() ) {
                         if ( arrayContainsItem( backgroundCell.getInputEventListeners(), defaultCursor ) ) {
                             backgroundCell.removeInputEventListener( defaultCursor );
                         }
