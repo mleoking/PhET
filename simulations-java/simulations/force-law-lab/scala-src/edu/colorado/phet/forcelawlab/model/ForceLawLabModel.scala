@@ -44,22 +44,13 @@ class ForceLawLabModel(mass1: Double,
   def distance = m2.position.x - m1.position.x
 
   //set the location of the m2 based on the total separation radius
-  def distance_=(d: Double) {
-    m2.position = new Vector2D(m1.position.x + d, 0)
-  }
+  def distance_=(d: Double) { m2.position = new Vector2D(m1.position.x + d, 0) }
 
-  def rMin = if ( m1.position.x + m1.radius < m2.position.x - m2.radius ) {
-    r
-  }
-  else {
-    m2.position - new Vector2D(m2.radius, 0)
-  }
+  def rMin = if ( m1.position.x + m1.radius < m2.position.x - m2.radius ) r else m2.position - new Vector2D(m2.radius, 0)
 
   def getGravityForce = r * ForceLawLabDefaults.G * m1.mass * m2.mass / pow(r.magnitude, 3)
 
-  def setDragging(b: Boolean) {
-    this.isDraggingControl = b
-  }
+  def setDragging(b: Boolean) { this.isDraggingControl = b }
 
   def update(dt: Double) {}
 }

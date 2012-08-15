@@ -38,12 +38,7 @@ class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform, le
 
   def ropeStart = transformMV.modelToView(mass.position)
 
-  lazy val sign = if ( leftOfObject ) {
-    -1
-  }
-  else {
-    1
-  }
+  lazy val sign = if ( leftOfObject ) -1 else 1
 
   def ropeLength = transformMV.modelToViewDeltaX(mass.radius) + 100
 
@@ -68,12 +63,7 @@ class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform, le
 
   def getImage = {
     val im = ForceLawLabResources.getImage("pull-figure/pull_figure_" + forceAmount + ".png")
-    val flipIm = if ( leftOfObject ) {
-      BufferedImageUtils.flipX(im)
-    }
-    else {
-      im
-    }
+    val flipIm = if ( leftOfObject ) BufferedImageUtils.flipX(im) else im
     BufferedImageUtils.multiScale(flipIm, 0.5)
   }
 
@@ -82,7 +72,7 @@ class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform, le
   addChild(characterImageNode)
   update()
 
-  def updateCharacterNode() = {
+  def updateCharacterNode() {
     characterImageNode.setImage(getImage)
     characterImageNode.setOffset(ropeEnd)
     characterImageNode.translate(0, ropeHeightFromImageBase - characterImageNode.getFullBounds.getHeight)
@@ -92,5 +82,4 @@ class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform, le
     characterImageNode.translate(-40 * sign * scale, 0) //move closer to rope, since graphic offset increases as force increases
     characterImageNode.translate(-forceAmount * sign * 1.5 * scale, 0) //step closer to rope, to keep rope constant length
   }
-
 }

@@ -13,7 +13,5 @@ class Magnification(private var _magnified: Boolean) extends Observable {
 
   def magnified = _magnified
 
-  def reset() {
-    magnified = initialState
-  }
+  def reset() { magnified = initialState }
 }

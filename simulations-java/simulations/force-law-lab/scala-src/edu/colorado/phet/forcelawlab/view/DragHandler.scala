@@ -28,11 +28,7 @@ class DragHandler(mass: Mass,
     }
   }
 
-  override def mousePressed(event: PInputEvent) {
-    dragging = true
-  }
+  override def mousePressed(event: PInputEvent) { dragging = true }
 
-  override def mouseReleased(event: PInputEvent) {
-    dragging = false
-  }
+  override def mouseReleased(event: PInputEvent) { dragging = false }
 }
