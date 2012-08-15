@@ -152,7 +152,7 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
 
     private class Scene2 extends Scene {
         private Scene2() {
-            addChild( new UnaryNumberFunctionNode( "*2", false ) {{
+            addChild( new UnaryNumberFunctionNode( "\u27152", false ) {{
                 setOffset( 390.72378138847836, 294.298375184638 );
             }} );
 
