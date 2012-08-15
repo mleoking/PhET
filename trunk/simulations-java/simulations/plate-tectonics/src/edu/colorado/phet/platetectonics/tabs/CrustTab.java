@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -23,6 +22,7 @@ import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
 import edu.colorado.phet.platetectonics.control.DraggableTool2D;
 import edu.colorado.phet.platetectonics.control.LegendPanel;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
+import edu.colorado.phet.platetectonics.control.ResetPanel;
 import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
 import edu.colorado.phet.platetectonics.control.ZoomPanel;
 import edu.colorado.phet.platetectonics.model.CrustModel;
@@ -46,6 +46,8 @@ public class CrustTab extends PlateTectonicsTab {
 
     private final Property<Boolean> showLabels = new Property<Boolean>( false );
     private OrthoPiccoloNode optionsPiccoloNode;
+    private MyCrustPanel myCrustPanel;
+    private ZoomPanel zoomPanel;
 
     public CrustTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.CRUST_TAB, 2 ); // 0.5 km => 1 distance in view
@@ -174,7 +176,8 @@ public class CrustTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
         * my crust
         *----------------------------------------------------------------------------*/
-        addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( new MyCrustPanel( getCrustModel() ) ), CrustTab.this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
+        myCrustPanel = new MyCrustPanel( getCrustModel() );
+        addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( myCrustPanel ), CrustTab.this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             // layout the panel if its size changes (and on startup)
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
@@ -196,7 +199,8 @@ public class CrustTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
         * zoom control
         *----------------------------------------------------------------------------*/
-        addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( new ZoomPanel( zoomRatio ) ), CrustTab.this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
+        zoomPanel = new ZoomPanel( zoomRatio );
+        addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( zoomPanel ), CrustTab.this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             // top right
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
@@ -226,6 +230,25 @@ public class CrustTab extends PlateTectonicsTab {
             updateOnEvent( beforeFrameRender );
         }};
         addGuiNode( optionsPiccoloNode );
+
+        final OrthoPiccoloNode resetPanelNode = new OrthoPiccoloNode( new ResetPanel( this, new Runnable() {
+            public void run() {
+                resetAll();
+            }
+        } ), this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
+            onResize.addUpdateListener( new UpdateListener() {
+                public void update() {
+
+                    final double toolboxRightEdge = toolboxNode.position.get().getX() + toolboxNode.getComponentWidth();
+
+                    position.set( new Vector2D(
+                            (int) ( toolboxRightEdge + 10 ),
+                            getStageSize().height - getComponentHeight() - 40 ) ); // extra padding
+                }
+            }, true );
+            updateOnEvent( beforeFrameRender );
+        }};
+        addGuiNode( resetPanelNode );
 
         /*---------------------------------------------------------------------------*
         * legend
@@ -287,6 +310,8 @@ public class CrustTab extends PlateTectonicsTab {
         super.resetAll();
 
         showLabels.reset();
+        myCrustPanel.resetAll();
+        zoomPanel.resetAll();
     }
 
     @Override public boolean isWaterVisible() {

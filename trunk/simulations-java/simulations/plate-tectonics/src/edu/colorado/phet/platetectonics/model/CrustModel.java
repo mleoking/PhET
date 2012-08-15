@@ -381,6 +381,19 @@ public class CrustModel extends PlateTectonicsModel {
         updateView();
     }
 
+    @Override public void resetAll() {
+        super.resetAll();
+
+        // reset the My Crust properties
+        thickness.reset();
+        temperatureRatio.reset();
+        compositionRatio.reset();
+
+        // reset the motion of the crust to its resting state
+        crustElevation = computeIdealCrustElevation();
+        crustVelocity = 0;
+    }
+
     private CrossSectionStrip rectangularConstantStrip( final Vector2F[] top, final Vector2F[] bottom,
                                                         final float topDensity, final float bottomDensity,
                                                         final float topTemperature, final float bottomTemperature ) {
