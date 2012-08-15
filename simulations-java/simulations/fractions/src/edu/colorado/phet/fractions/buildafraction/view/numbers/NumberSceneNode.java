@@ -261,8 +261,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     public void endDrag( final NumberCardNode numberCardNode ) {
         boolean hitFraction = false;
         for ( FractionNode fractionGraphic : fractionNodes ) {
-            final PhetPPath topBox = fractionGraphic.topBox;
-            final PhetPPath bottomBox = fractionGraphic.bottomBox;
+            final PhetPPath topBox = fractionGraphic.numeratorBox;
+            final PhetPPath bottomBox = fractionGraphic.denominatorBox;
             if ( numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() && !fractionGraphic.isInToolboxPosition() ) {
                 numberDroppedOnFraction( fractionGraphic, numberCardNode, topBox );
                 hitFraction = true;
