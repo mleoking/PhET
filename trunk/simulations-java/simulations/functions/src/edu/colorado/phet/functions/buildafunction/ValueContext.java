@@ -1,4 +1,4 @@
-package edu.colorado.phet.functions.buildafunction2;
+package edu.colorado.phet.functions.buildafunction;
 
 import edu.umd.cs.piccolo.util.PDimension;
 

@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.functions.buildafunction2.BuildAFunctionPrototype2;
+import edu.colorado.phet.functions.buildafunction.BuildAFunctionPrototype2;
 import edu.colorado.phet.functions.intro.IntroModule;
 
 /**

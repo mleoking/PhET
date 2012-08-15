@@ -1,4 +1,4 @@
-package edu.colorado.phet.functions.buildafunction2;
+package edu.colorado.phet.functions.buildafunction;
 
 import java.awt.Color;
 

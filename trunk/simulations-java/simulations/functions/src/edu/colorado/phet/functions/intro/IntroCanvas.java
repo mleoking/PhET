@@ -10,11 +10,11 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.functions.buildafunction2.AbstractFunctionsCanvas;
-import edu.colorado.phet.functions.buildafunction2.BuildAFunctionPrototype2Canvas;
-import edu.colorado.phet.functions.buildafunction2.UnaryNumberFunctionNode;
-import edu.colorado.phet.functions.buildafunction2.ValueContext;
-import edu.colorado.phet.functions.buildafunction2.ValueNode;
+import edu.colorado.phet.functions.buildafunction.AbstractFunctionsCanvas;
+import edu.colorado.phet.functions.buildafunction.BuildAFunctionPrototype2Canvas;
+import edu.colorado.phet.functions.buildafunction.UnaryNumberFunctionNode;
+import edu.colorado.phet.functions.buildafunction.ValueContext;
+import edu.colorado.phet.functions.buildafunction.ValueNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.functions.FunctionModule.radioButton;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.functions.buildafunction2;
+package edu.colorado.phet.functions.buildafunction;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.functions.buildafunction2.Constants.functionColor;
+import static edu.colorado.phet.functions.buildafunction.Constants.functionColor;
 
 /**
  * @author Sam Reid
