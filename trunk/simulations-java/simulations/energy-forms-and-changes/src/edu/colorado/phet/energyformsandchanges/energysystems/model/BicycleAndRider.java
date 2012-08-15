@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
-import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.BICYCLE_FRAME;
 
@@ -26,9 +25,7 @@ public class BicycleAndRider extends EnergySource {
     // Class Data
     //-------------------------------------------------------------------------
 
-    public static final ModelElementImage FRAME_IMAGE = new ModelElementImage( BICYCLE_FRAME,
-                                                                               BICYCLE_FRAME.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
-                                                                               new Vector2D( 0, 0 ) );
+    public static final ModelElementImage FRAME_IMAGE = new ModelElementImage( BICYCLE_FRAME, new Vector2D( 0, 0 ) );
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
         add( FRAME_IMAGE );

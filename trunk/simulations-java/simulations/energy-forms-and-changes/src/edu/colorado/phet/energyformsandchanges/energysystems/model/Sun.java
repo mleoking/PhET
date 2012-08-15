@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
-import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.TEMP_SUN;
 
@@ -23,7 +22,7 @@ public class Sun extends EnergySource {
     private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( TEMP_SUN, TEMP_SUN.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( -0.05, 0.1 ) ) );
+        add( new ModelElementImage( TEMP_SUN, new Vector2D( -0.05, 0.1 ) ) );
     }};
 
     protected Sun() {
