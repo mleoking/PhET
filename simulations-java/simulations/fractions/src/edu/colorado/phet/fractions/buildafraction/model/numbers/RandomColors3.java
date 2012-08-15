@@ -13,7 +13,7 @@ import static fj.data.List.list;
  *
  * @author Sam Reid
  */
-class RandomColors3 {
+class RandomColors3 implements IRandomColors {
     private final List<Color> colors = NumberLevelList.shuffle( list( LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE ) );
     private int index = 0;
 

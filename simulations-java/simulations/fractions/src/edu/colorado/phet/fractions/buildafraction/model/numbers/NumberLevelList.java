@@ -193,7 +193,6 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         RandomColors4 colors = new RandomColors4();
         return new NumberLevel( list( targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
                                       targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
-                                      targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
                                       targetLessThanOrEqualTo1( colors, chooseOne( types ), true ) ) );
     }
 
@@ -346,7 +345,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     private Fraction smallerNumerator( final Fraction a, final Fraction b ) { return b.numerator < a.numerator ? b : a; }
 
-    private static NumberTarget targetLessThanOrEqualTo1( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {
+    private static NumberTarget targetLessThanOrEqualTo1( final IRandomColors colors, final RepresentationType representationType, boolean sequential ) {
         int denominator = chooseOne( representationType.denominators );
         int numerator = chooseOne( rangeInclusive( 1, denominator ) );
         Fraction fraction = new Fraction( numerator, denominator );
