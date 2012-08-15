@@ -337,7 +337,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                 else if ( toolDragHandler.isDragging() ) {
 
                                     boolean isMouseOverToolbox = guiCollision != null && guiCollision == toolboxNode;
-                                    toolDragHandler.mouseUp( isMouseOverToolbox );
+                                    boolean isOutsideOfBounds = !isToolInBounds( toolDragHandler.getDraggedTool() );
+                                    toolDragHandler.mouseUp( isMouseOverToolbox || isOutsideOfBounds );
                                     // TODO: remove the "removed" tool from the guiNodes list
                                 }
                                 else {
@@ -888,4 +889,18 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     public abstract boolean isWaterVisible();
+
+    public boolean isToolInBounds( DraggableTool2D tool ) {
+        // TODO: make getCameraRay invertible so we can actually compute this better
+        Vector2F viewBottom = getViewPositionOnZPlane( 0.5f, 0 );
+        Vector2F viewTop = getViewPositionOnZPlane( 0.5f, 1 );
+        Vector2F viewLeft = getViewPositionOnZPlane( 0, 0.5f );
+        Vector2F viewRight = getViewPositionOnZPlane( 1, 0.5f );
+
+        Vector3F sensorViewPosition = tool.getSensorViewPosition();
+        return !( sensorViewPosition.getY() <= viewBottom.getY()
+                  || sensorViewPosition.getX() >= viewRight.getX()
+                  || sensorViewPosition.getX() <= viewLeft.getX()
+                  || sensorViewPosition.getY() >= viewTop.getY() );
+    }
 }

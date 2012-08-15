@@ -118,6 +118,7 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
         this.transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
         draggedPosition = draggedPosition.plus( delta );
         final double temp = getTemperatureValue();
+        System.out.println( temp );
         updateLiquidHeight( temp );
 //        tab.getModel().debugPing.updateListeners( getSensorModelPosition() );
     }
@@ -217,7 +218,7 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
         }
 
         public void setTemperature( double temperature ) {
-            final double relativeTemp = ( temperature - PlateTectonicsModel.ZERO_CELSIUS ) / DEGREES_C_IN_THERMOMETER;
+            final double relativeTemp = ( temperature ) / DEGREES_C_IN_THERMOMETER;
 
             int extraThermometerQuantity = (int) Math.floor( relativeTemp );
 

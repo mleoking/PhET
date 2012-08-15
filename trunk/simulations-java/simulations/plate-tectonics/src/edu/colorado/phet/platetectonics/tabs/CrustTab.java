@@ -273,17 +273,9 @@ public class CrustTab extends PlateTectonicsTab {
         // if we zoom in such a way that a tool is not visible, move it into the toolbox
         zoomRatio.addObserver( new SimpleObserver() {
             public void update() {
-                // TODO: make getCameraRay invertible so we can actually compute this better
-                Vector2F viewBottom = getViewPositionOnZPlane( 0.5f, 0 );
-                Vector2F viewLeft = getViewPositionOnZPlane( 0, 0.5f );
-                Vector2F viewRight = getViewPositionOnZPlane( 1, 0.5f );
-
                 for ( GLNode glNode : new ArrayList<GLNode>( toolLayer.getChildren() ) ) {
                     DraggableTool2D tool = (DraggableTool2D) glNode;
-                    Vector3F sensorViewPosition = tool.getSensorViewPosition();
-                    if ( sensorViewPosition.getY() < viewBottom.getY()
-                         || sensorViewPosition.getX() > viewRight.getX()
-                         || sensorViewPosition.getX() < viewLeft.getX() ) {
+                    if ( !isToolInBounds( tool ) ) {
                         toolDragHandler.putToolBackInToolbox( tool );
                     }
                 }

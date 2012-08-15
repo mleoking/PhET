@@ -1,3 +1,6 @@
+Dropping a sensor / tool outside of the screen causes it to be brought back into the toolbox
+Fixed inner core boundary temperature
+Fixed thermometer so it doesn't "bottom out" at 0 C (correctly shows air temperature now)
 # 0.00.55 (66877) Aug 13, 2012
 Resize time control panel when in manual mode
 The handle arrows are now clickable and can control the animation

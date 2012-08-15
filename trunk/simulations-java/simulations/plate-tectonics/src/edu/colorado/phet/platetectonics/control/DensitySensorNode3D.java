@@ -45,8 +45,6 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import static java.lang.Double.isNaN;
-
 /**
  * Displays a speedometer-style draggable readout.
  */
