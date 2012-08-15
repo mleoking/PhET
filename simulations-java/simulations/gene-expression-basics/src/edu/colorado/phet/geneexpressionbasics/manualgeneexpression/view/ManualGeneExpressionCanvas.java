@@ -315,13 +315,12 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // whenever it changes.
         model.activeGene.addObserver( new VoidFunction1<Gene>() {
             public void apply( Gene gene ) {
-                terminateAnyRunningActivities();
+                terminateActivitiesWithoutFinishing();
                 viewportOffset.setComponents( -mvt.modelToViewX( gene.getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
-                // Perform an animation that will put the selected gene in
-                // the center of the view port.
+                // Perform an animation that will put the selected gene in the
+                // center of the view port.
                 backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, GENE_TO_GENE_ANIMATION_TIME );
 
-                // REVIEW: it is a bit awkward using this when the user clicks on "next gene" twice in a row, as there is a discrete jump
                 final PTransformActivity animateToActiveGene =
                         modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, GENE_TO_GENE_ANIMATION_TIME );
                 animateToActiveGene.setDelegate( new PActivityDelegateAdapter() {
@@ -463,7 +462,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     }
 
     private void zoomInOnNodes( long duration, PNode... nodesToZoom ) {
-        terminateAnyRunningActivities();
+        terminateAndFinishRunningActivities();
         PActivity activity = null;
 
         // Animate the zoom for all of the provided nodes.
@@ -483,7 +482,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     }
 
     private void zoomOutFromNodes( long duration, PNode... nodesToZoom ) {
-        terminateAnyRunningActivities();
+        terminateAndFinishRunningActivities();
         PActivity activity = null;
 
         // Animate the zoom for all of the provided nodes.
@@ -502,9 +501,15 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }
     }
 
-    private void terminateAnyRunningActivities() {
+    private void terminateAndFinishRunningActivities() {
         for ( Object activity : new ArrayList( getRoot().getActivityScheduler().getActivitiesReference() ) ) {
             ( (PActivity) activity ).terminate( PActivity.TERMINATE_AND_FINISH );
+        }
+    }
+
+    private void terminateActivitiesWithoutFinishing() {
+        for ( Object activity : new ArrayList( getRoot().getActivityScheduler().getActivitiesReference() ) ) {
+            ( (PActivity) activity ).terminate( PActivity.TERMINATE_WITHOUT_FINISHING );
         }
     }
 
