@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.Distribution;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
@@ -33,18 +34,18 @@ import static java.awt.Color.orange;
 public class NumberLevelList extends ArrayList<NumberLevel> {
     private static final Random random = new Random();
 
-    public static abstract class PatternMaker extends F<Fraction, Pattern> {
-        public F<Fraction, FilledPattern> sequential() {
-            return new F<Fraction, FilledPattern>() {
-                @Override public FilledPattern f( final Fraction fraction ) {
+    public static abstract class PatternMaker extends F<MixedFraction, Pattern> {
+        public F<MixedFraction, FilledPattern> sequential() {
+            return new F<MixedFraction, FilledPattern>() {
+                @Override public FilledPattern f( final MixedFraction fraction ) {
                     return sequentialFill( PatternMaker.this.f( fraction ), fraction.numerator );
                 }
             };
         }
 
-        public F<Fraction, FilledPattern> random() {
-            return new F<Fraction, FilledPattern>() {
-                @Override public FilledPattern f( final Fraction fraction ) {
+        public F<MixedFraction, FilledPattern> random() {
+            return new F<MixedFraction, FilledPattern>() {
+                @Override public FilledPattern f( final MixedFraction fraction ) {
                     return randomFill( PatternMaker.this.f( fraction ), fraction.numerator, random.nextLong() );
                 }
             };
@@ -53,57 +54,57 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     //Create the pattern makers for all the different shape types. The following reads better with closure folding.
     public static final PatternMaker pie = new PatternMaker() {
-        @Override public Pattern f( final Fraction fraction ) {
+        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pie( fraction.denominator );
         }
     };
     public static final PatternMaker horizontalBar = new PatternMaker() {
-        @Override public Pattern f( final Fraction fraction ) {
+        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.horizontalBars( fraction.denominator );
         }
     };
     public static final PatternMaker verticalBar = new PatternMaker() {
-        @Override public Pattern f( final Fraction fraction ) {
+        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.verticalBars( fraction.denominator );
         }
     };
     public static final PatternMaker pyramid1 = new PatternMaker() {
-        @Override public Pattern f( final Fraction fraction ) {
+        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pyramidSingle();
         }
     };
     public static final PatternMaker pyramid4 = new PatternMaker() {
-        @Override public Pattern f( final Fraction fraction ) {
+        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pyramidFour();
         }
     };
     public static final PatternMaker pyramid9 = new PatternMaker() {
-        @Override public Pattern f( final Fraction fraction ) {
+        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pyramidNine();
         }
     };
     public static final PatternMaker grid1 = new PatternMaker() {
-        @Override public Pattern f( final Fraction fraction ) {
+        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.grid( 1 );
         }
     };
     public static final PatternMaker grid4 = new PatternMaker() {
-        @Override public Pattern f( final Fraction fraction ) {
+        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.grid( 2 );
         }
     };
     public static final PatternMaker grid9 = new PatternMaker() {
-        @Override public Pattern f( final Fraction fraction ) {
+        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.grid( 3 );
         }
     };
     public static final PatternMaker flower = new PatternMaker() {
-        @Override public Pattern f( final Fraction fraction ) {
+        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.sixFlower();
         }
     };
     public static final PatternMaker polygon = new PatternMaker() {
-        @Override public Pattern f( final Fraction fraction ) {
+        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.polygon( 60, fraction.denominator );
         }
     };
@@ -140,7 +141,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     -- I like how at these early levels it is all just a single representation
      */
     private NumberLevel level2() {
-        final F<Fraction, FilledPattern> representation = new Distribution<F<Fraction, FilledPattern>>() {{
+        final F<MixedFraction, FilledPattern> representation = new Distribution<F<MixedFraction, FilledPattern>>() {{
             put( pie.sequential(), 40 );
             put( horizontalBar.sequential(), 30 );
             put( verticalBar.sequential(), 30 );

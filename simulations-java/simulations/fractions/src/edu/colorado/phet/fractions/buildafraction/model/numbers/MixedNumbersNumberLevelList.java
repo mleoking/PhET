@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 /**
+ * List of levels used for the "mixed fractions" tab, for the levels in which number cards are used.
+ *
  * @author Sam Reid
  */
 public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
@@ -15,6 +17,6 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     }
 
     private NumberLevel level1() {
-        return new NumberLevel( List.replicate( 3, NumberTarget.target( 1, 2, 3, Color.red, NumberLevelList.pie.sequential() ) ) );
+        return new NumberLevel( List.list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 5 ), List.replicate( 3, NumberTarget.target( 1, 2, 3, Color.red, NumberLevelList.pie.sequential() ) ) );
     }
 }

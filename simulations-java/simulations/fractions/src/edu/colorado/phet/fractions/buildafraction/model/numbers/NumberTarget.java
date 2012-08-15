@@ -29,32 +29,33 @@ public @Data class NumberTarget {
         }
     };
 
-    public static NumberTarget target( int whole, int numerator, int denominator, Color color, F<Fraction, FilledPattern> pattern ) {
-        return new NumberTarget( new MixedFraction( whole, numerator, denominator ), color, composite( pattern ).f( new Fraction( numerator, denominator ) ) );
+    public static NumberTarget target( int whole, int numerator, int denominator, Color color, F<MixedFraction, FilledPattern> pattern ) {
+        return new NumberTarget( new MixedFraction( whole, numerator, denominator ), color, composite( pattern ).f( new MixedFraction( whole, numerator, denominator ) ) );
     }
 
     //Convenience for single pattern
-    public static NumberTarget target( int numerator, int denominator, Color color, F<Fraction, FilledPattern> pattern ) {
+    public static NumberTarget target( int numerator, int denominator, Color color, F<MixedFraction, FilledPattern> pattern ) {
         return target( 0, numerator, denominator, color, pattern );
     }
 
-    public static NumberTarget target( Fraction fraction, Color color, F<Fraction, FilledPattern> pattern ) {
+    public static NumberTarget target( Fraction fraction, Color color, F<MixedFraction, FilledPattern> pattern ) {
         return target( fraction.numerator, fraction.denominator, color, pattern );
     }
 
     //Create a list of filled patterns from a single pattern type
-    private static F<Fraction, List<FilledPattern>> composite( final F<Fraction, FilledPattern> element ) {
-        return new F<Fraction, List<FilledPattern>>() {
-            @Override public List<FilledPattern> f( final Fraction fraction ) {
+    private static F<MixedFraction, List<FilledPattern>> composite( final F<MixedFraction, FilledPattern> element ) {
+        return new F<MixedFraction, List<FilledPattern>>() {
+            @Override public List<FilledPattern> f( final MixedFraction f ) {
+                MixedFraction fraction = new MixedFraction( 0, f.toFraction().numerator, f.toFraction().denominator );
                 List<FilledPattern> result = nil();
                 int numerator = fraction.numerator;
                 int denominator = fraction.denominator;
                 while ( numerator > denominator ) {
-                    result = result.snoc( element.f( new Fraction( denominator, denominator ) ) );
+                    result = result.snoc( element.f( new MixedFraction( 0, denominator, denominator ) ) );
                     numerator = numerator - denominator;
                 }
                 if ( numerator > 0 ) {
-                    result = result.snoc( element.f( new Fraction( numerator, denominator ) ) );
+                    result = result.snoc( element.f( new MixedFraction( 0, numerator, denominator ) ) );
                 }
                 return result;
             }
