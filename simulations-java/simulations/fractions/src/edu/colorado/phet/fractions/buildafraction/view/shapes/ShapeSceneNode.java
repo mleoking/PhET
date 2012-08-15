@@ -274,7 +274,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 containerNode.removeUndoButton();
 
                 //Order dependence: set in target cell first so that layout code will work better afterwards
-                containerNode.setInTargetCell( true, pair.value.fraction.denominator );
+                containerNode.setInTargetCell( true, pair.value.denominator );
                 containerNode.animateToPositionScaleRotation( pair.collectionBoxNode.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
                                                               pair.collectionBoxNode.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, false ) );
                 pair.collectionBoxNode.setCompletedFraction( containerNode );

@@ -4,19 +4,29 @@ package edu.colorado.phet.fractions.buildafraction.model;
 import fj.F;
 import lombok.Data;
 
+import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
 import edu.colorado.phet.fractions.common.math.Fraction;
 
-import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
-
 /**
+ * A fraction representation that has a whole part, and a fraction part.  Like 1 3/4 (one and three fourths).  If the whole part is zero, it is not displayed.
+ * To keep the code general, all fractions in Build a Fraction are MixedFractions, but in the first tab, the whole part is always zero
+ * because mixed numbers are introduced in the 2nd tab.
+ *
  * @author Sam Reid
  */
 public @Data class MixedFraction {
     public final int whole;
-    public final Fraction fraction;
-    public static final F<MixedFraction, Double> _toDouble = new F<MixedFraction, Double>() {
-        @Override public Double f( final MixedFraction f ) {
-            return f.toDouble();
+    public final int numerator;
+    public final int denominator;
+
+    public static F<MixedFraction, Double> _toDouble = new F<MixedFraction, Double>() {
+        @Override public Double f( final MixedFraction mixedFraction ) {
+            return mixedFraction.toDouble();
+        }
+    };
+    public static F<Fraction, MixedFraction> _toMixedFraction = new F<Fraction, MixedFraction>() {
+        @Override public MixedFraction f( final Fraction fraction ) {
+            return new MixedFraction( 0, fraction.numerator, fraction.denominator );
         }
     };
     public static final F<MixedFraction, Boolean> _greaterThanOne = new F<MixedFraction, Boolean>() {
@@ -24,17 +34,32 @@ public @Data class MixedFraction {
             return Fraction._greaterThanOne.f( f.toFraction() );
         }
     };
-    public static final F<Fraction, MixedFraction> _toMixedFraction = new F<Fraction, MixedFraction>() {
-        @Override public MixedFraction f( final Fraction fraction ) {
-            return new MixedFraction( 0, fraction );
+    public static F<MixedFraction, Integer> _numerator = new F<MixedFraction, Integer>() {
+        @Override public Integer f( final MixedFraction mixedFraction ) {
+            return mixedFraction.numerator;
+        }
+    };
+    public static F<MixedFraction, Integer> _denominator = new F<MixedFraction, Integer>() {
+        @Override public Integer f( final MixedFraction mixedFraction ) {
+            return mixedFraction.denominator;
+        }
+    };
+    public static F<MixedFraction, Integer> _whole = new F<MixedFraction, Integer>() {
+        @Override public Integer f( final MixedFraction mixedFraction ) {
+            return mixedFraction.whole;
+        }
+    };
+    public static F<NumberTarget, Fraction> _fractionPart = new F<NumberTarget, Fraction>() {
+        @Override public Fraction f( final NumberTarget numberTarget ) {
+            return numberTarget.mixedFraction.getFractionPart();
         }
     };
 
-    public Fraction toFraction() { return fraction.plus( fraction( whole, 1 ) ).reduce(); }
+    public Fraction getFractionPart() { return new Fraction( numerator, denominator ); }
 
-    public static MixedFraction mixedFraction( int whole, int numerator, int denominator ) {
-        return new MixedFraction( whole, Fraction.fraction( numerator, denominator ) );
-    }
+    public Fraction toFraction() { return getFractionPart().plus( Fraction.fraction( whole, 1 ) ); }
 
-    public double toDouble() { return toFraction().toDouble(); }
+    public double toDouble() { return whole + getFractionPart().toDouble(); }
+
+    public boolean approxEquals( final Fraction value ) { return toFraction().approxEquals( value ); }
 }

@@ -336,7 +336,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                                  targetLessThanOrEqualTo2( colors, types.index( 3 ), random.nextBoolean() ) );
         List<Fraction> targetFractions = targets.map( new F<NumberTarget, Fraction>() {
             @Override public Fraction f( final NumberTarget numberTarget ) {
-                return numberTarget.fraction;
+                return numberTarget.mixedFraction.toFraction();
             }
         } );
         List<Fraction> scaled = targetFractions.zipWith( shuffle( list( 1, 1, 2, 3 ) ), _times );
