@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
@@ -47,6 +48,7 @@ public class FractionNode extends RichPNode {
 
     public final PhetPPath numeratorBox;
     public final PhetPPath denominatorBox;
+    public final PhetPPath wholeBox;
     public final PhetPPath divisorLine;
     public final UndoButton undoButton;
     private NumberCardNode topCard;
@@ -63,10 +65,11 @@ public class FractionNode extends RichPNode {
 
     private final double SCALE_IN_TOOLBOX = 0.7;
 
-    public FractionNode( final FractionDraggingContext context ) {
+    public FractionNode( final FractionDraggingContext context, boolean mixedNumber ) {
         this.context = context;
         numeratorBox = box( true );
         denominatorBox = box( true );
+        wholeBox = box( true, 1.6 );
 
         //Size in the toolbox is smaller to keep the toolbox size good
         setScale( SCALE_IN_TOOLBOX );
@@ -79,7 +82,10 @@ public class FractionNode extends RichPNode {
             }
         } );
 
-        final VBox box = new VBox( numeratorBox, divisorLine, denominatorBox );
+        final VBox fractionPart = new VBox( numeratorBox, divisorLine, denominatorBox );
+
+        final PNode box = mixedNumber ? new HBox( wholeBox, fractionPart ) :
+                          fractionPart;
 
         //Show a background behind it to make the entire shape draggable
         final Color transparent = new Color( 0, 0, 0, 0 );
@@ -178,7 +184,11 @@ public class FractionNode extends RichPNode {
     }
 
     private static PhetPPath box( boolean showOutline ) {
-        return new PhetPPath( new Rectangle2D.Double( 0, 0, 40, 50 ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 6 }, 0 ), showOutline ? Color.red : BuildAFractionCanvas.TRANSPARENT );
+        return box( showOutline, 1.0 );
+    }
+
+    private static PhetPPath box( boolean showOutline, double scale ) {
+        return new PhetPPath( new Rectangle2D.Double( 0, 0, 40 * scale, 50 * scale ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 6 }, 0 ), showOutline ? Color.red : BuildAFractionCanvas.TRANSPARENT );
     }
 
     public void attachNumber( final PhetPPath box, final NumberCardNode numberCardNode ) {

@@ -131,7 +131,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             }
         } );
 
-        final FractionNode fractionNode = new FractionNode( this );
+        final FractionNode fractionNode = new FractionNode( this, level.hasMixedNumbers() );
         fractionNode.setScale( 1.0 );
 
         final double extentX = leftRightInset * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + spacingBetweenNumbersAndFractionSkeleton + fractionNode.getFullBounds().getWidth();
@@ -173,7 +173,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         double toolboxPositionX = 0;
         double toolboxPositionY = 0;
         for ( int i = 0; i < numRemainingFractionSkeletons; i++ ) {
-            final FractionNode toolboxFractionGraphic = new FractionNode( this );
+            final FractionNode toolboxFractionGraphic = new FractionNode( this, level.hasMixedNumbers() );
 
             //Put it to the right of the numbers in the toolbox
 

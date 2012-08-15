@@ -56,4 +56,12 @@ public class NumberLevel extends Level {
             }
         } );
     }
+
+    public boolean hasMixedNumbers() {
+        return targets.exists( new F<NumberTarget, Boolean>() {
+            @Override public Boolean f( final NumberTarget numberTarget ) {
+                return numberTarget.mixedFraction.whole > 0;
+            }
+        } );
+    }
 }
