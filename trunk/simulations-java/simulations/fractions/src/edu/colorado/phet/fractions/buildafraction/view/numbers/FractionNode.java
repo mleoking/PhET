@@ -45,8 +45,8 @@ import static java.awt.Color.black;
  */
 public class FractionNode extends RichPNode {
 
-    public final PhetPPath topBox;
-    public final PhetPPath bottomBox;
+    public final PhetPPath numeratorBox;
+    public final PhetPPath denominatorBox;
     public final PhetPPath divisorLine;
     public final UndoButton undoButton;
     private NumberCardNode topCard;
@@ -65,8 +65,8 @@ public class FractionNode extends RichPNode {
 
     public FractionNode( final FractionDraggingContext context ) {
         this.context = context;
-        topBox = box( true );
-        bottomBox = box( true );
+        numeratorBox = box( true );
+        denominatorBox = box( true );
 
         //Size in the toolbox is smaller to keep the toolbox size good
         setScale( SCALE_IN_TOOLBOX );
@@ -79,7 +79,7 @@ public class FractionNode extends RichPNode {
             }
         } );
 
-        final VBox box = new VBox( topBox, divisorLine, bottomBox );
+        final VBox box = new VBox( numeratorBox, divisorLine, denominatorBox );
 
         //Show a background behind it to make the entire shape draggable
         final Color transparent = new Color( 0, 0, 0, 0 );
@@ -134,7 +134,7 @@ public class FractionNode extends RichPNode {
         if ( topCard != null ) {
             topCard.setCardShapeVisible( true );
             topCard.setAllPickable( true );
-            topBox.setVisible( true );
+            numeratorBox.setVisible( true );
 
             topCardParent.addChild( topCard );
             topCard.addNumberNodeBackIn( topNumberNode );
@@ -153,7 +153,7 @@ public class FractionNode extends RichPNode {
         if ( bottomCard != null ) {
             bottomCard.setCardShapeVisible( true );
             bottomCard.setAllPickable( true );
-            bottomBox.setVisible( true );
+            denominatorBox.setVisible( true );
 
             bottomCardParent.addChild( bottomCard );
             bottomCard.addNumberNodeBackIn( bottomNumberNode );
@@ -182,14 +182,14 @@ public class FractionNode extends RichPNode {
     }
 
     public void attachNumber( final PhetPPath box, final NumberCardNode numberCardNode ) {
-        if ( box == topBox ) {
+        if ( box == numeratorBox ) {
             topCard = numberCardNode;
 
             //Store the parent so it can be re-parented on undo
             topCardParent = numberCardNode.getParent();
             topNumberNode = numberCardNode.numberNode;
         }
-        else if ( box == bottomBox ) {
+        else if ( box == denominatorBox ) {
             bottomCard = numberCardNode;
 
             bottomCardParent = numberCardNode.getParent();
