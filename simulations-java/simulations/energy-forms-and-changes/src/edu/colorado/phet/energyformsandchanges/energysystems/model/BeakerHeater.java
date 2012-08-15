@@ -14,6 +14,9 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
 
 /**
+ * Base class for model elements that use energy, and generally do something
+ * as a result.
+ *
  * @author John Blanco
  */
 public class BeakerHeater extends EnergyUser {
