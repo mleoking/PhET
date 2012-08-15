@@ -12,6 +12,7 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.BICYCLE_FRAME;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.BICYCLE_REAR_WHEEL;
 
 /**
  * This class represents a bicycle being peddled by a rider in order to
@@ -25,9 +26,14 @@ public class BicycleAndRider extends EnergySource {
     // Class Data
     //-------------------------------------------------------------------------
 
-    public static final ModelElementImage FRAME_IMAGE = new ModelElementImage( BICYCLE_FRAME, new Vector2D( 0, 0 ) );
+    private static final Vector2D FRAME_CENTER_OFFSET = new Vector2D( -0.01, 0.01 );
+
+    // Offsets, which are in meters, were empirically determined.
+    public static final ModelElementImage FRAME_IMAGE = new ModelElementImage( BICYCLE_FRAME, FRAME_CENTER_OFFSET );
+    public static final ModelElementImage REAR_WHEEL_IMAGE = new ModelElementImage( BICYCLE_REAR_WHEEL, FRAME_CENTER_OFFSET.plus( new Vector2D( 0.053, -0.026 ) ) );
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
+        add( REAR_WHEEL_IMAGE );
         add( FRAME_IMAGE );
     }};
 
