@@ -26,7 +26,7 @@ public class UnaryNumberFunctionNode extends PNode {
     private static boolean dragForLayout = false;
 
     public UnaryNumberFunctionNode( String text, boolean draggable ) {
-        this( new PhetPText( text, new PhetFont( 24, true ) ), draggable );
+        this( new PhetPText( text, new PhetFont( 46, true ) ), draggable );
     }
 
     public UnaryNumberFunctionNode( PNode icon, boolean draggable ) {
@@ -43,7 +43,7 @@ public class UnaryNumberFunctionNode extends PNode {
             } );
         }} );
         addChild( icon );
-        icon.setOffset( bodyRect.getCenterX() - icon.getFullBounds().getWidth() / 2, 2 );
+        icon.setOffset( bodyRect.getCenterX() - icon.getFullBounds().getWidth() / 2 + 10, bodyRect.getCenterY() - icon.getFullBounds().getHeight() / 2 );
 
         if ( draggable ) {
             addInputEventListener( new PBasicInputEventHandler() {

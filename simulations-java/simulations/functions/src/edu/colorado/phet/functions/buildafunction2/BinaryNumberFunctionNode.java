@@ -36,8 +36,8 @@ public class BinaryNumberFunctionNode extends PNode {
                 }
             } );
         }} );
-        addChild( new PhetPText( text, new PhetFont( 24, true ) ) {{
-            setOffset( bodyRect.getCenterX() - getFullBounds().getWidth() / 2, 2 );
+        addChild( new PhetPText( text, new PhetFont( 42, true ) ) {{
+            setOffset( bodyRect.getCenterX() - getFullBounds().getWidth() / 2 + 10, bodyRect.getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
         addInputEventListener( new PBasicInputEventHandler() {
