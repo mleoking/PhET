@@ -28,13 +28,12 @@ import edu.colorado.phet.fractions.buildafraction.view.shapes.AnimateToScale;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.UndoButton;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.fraction;
-import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys.denominator;
-import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys.numerator;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_MITER;
 import static java.awt.Color.black;
@@ -46,37 +45,12 @@ import static java.awt.Color.black;
  */
 public class FractionNode extends RichPNode {
 
-//    public static @Data class Box {
-//        public final PhetPPath box;
-//        public final NumberCardNode card;
-//        public final NumberNode number;
-//        public final PNode parent;
-//    }
-
-//    public final Box numerator;
-//    public final Box deno;
-//    public final Box numerator;
-
-    public final PhetPPath numeratorBox;
-    public final PhetPPath denominatorBox;
-
-    //Whole box is only shown and used for mixed numbers
-    public final PhetPPath wholeBox;
+    public final Box numerator = new Box();
+    public final Box denominator = new Box();
+    public final Box whole = new Box();//Whole box is only shown and used for mixed numbers
 
     public final PhetPPath divisorLine;
     public final UndoButton undoButton;
-
-    private NumberCardNode topCard;
-    private NumberNode topNumberNode;
-    private PNode topCardParent;
-
-    private NumberCardNode bottomCard;
-    private NumberNode bottomNumberNode;
-    private PNode bottomCardParent;
-
-    private NumberCardNode wholeCard;
-    private PNode wholeCardParent;
-    private NumberNode wholeNumberNode;
 
     private final ArrayList<VoidFunction1<Option<Fraction>>> undoListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
     private double toolboxPositionX;
@@ -91,9 +65,9 @@ public class FractionNode extends RichPNode {
     public FractionNode( final FractionDraggingContext context, boolean mixedNumber ) {
         this.context = context;
         this.mixedNumber = mixedNumber;
-        numeratorBox = box( true );
-        denominatorBox = box( true );
-        wholeBox = box( true, 1.6 );
+        numerator.box = box( true );
+        denominator.box = box( true );
+        whole.box = box( true, 1.6 );
 
         //Size in the toolbox is smaller to keep the toolbox size good
         setScale( SCALE_IN_TOOLBOX );
@@ -106,10 +80,10 @@ public class FractionNode extends RichPNode {
             }
         } );
 
-        final VBox fractionPart = new VBox( numeratorBox, divisorLine, denominatorBox );
+        final VBox fractionPart = new VBox( numerator.box, divisorLine, denominator.box );
 
         //Only show the whole box for mixed numbers
-        final PNode box = mixedNumber ? new HBox( wholeBox, fractionPart ) :
+        final PNode box = mixedNumber ? new HBox( whole.box, fractionPart ) :
                           fractionPart;
 
         //Show a background behind it to make the entire shape draggable
@@ -127,8 +101,10 @@ public class FractionNode extends RichPNode {
         dragRegion.addInputEventListener( new CursorHandler() );
         dragRegion.addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( fraction, FractionNode.this.hashCode() ), FractionNode.this ) {
             @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
-                return super.getParametersForAllEvents( event ).with( numerator, topNumberNode != null ? topNumberNode.number + "" : "empty" ).
-                        with( denominator, bottomNumberNode != null ? bottomNumberNode.number + "" : "empty" );
+                final String numString = numerator.number != null ? numerator.number.number + "" : "empty";
+                final String denString = denominator.number != null ? denominator.number.number + "" : "empty";
+                return super.getParametersForAllEvents( event ).with( ParameterKeys.numerator, numString ).
+                        with( ParameterKeys.denominator, denString );
             }
 
             @Override public void mousePressed( final PInputEvent event ) {
@@ -154,59 +130,48 @@ public class FractionNode extends RichPNode {
         setDragRegionPickable( true );
         Option<Fraction> value = isComplete() ? Option.some( getValue() ) : Option.<Fraction>none();
 
-        Point2D topCardLocation = topCard != null ? topCard.getGlobalTranslation() : null;
-        Point2D bottomCardLocation = bottomCard != null ? bottomCard.getGlobalTranslation() : null;
+        Point2D topCardLocation = numerator.card != null ? numerator.card.getGlobalTranslation() : null;
+        Point2D bottomCardLocation = denominator.card != null ? denominator.card.getGlobalTranslation() : null;
+        Point2D wholeCardLocation = whole.card != null ? whole.card.getGlobalTranslation() : null;
 
         if ( cardNode != null ) {
             cardNode.undo();
             cardNode = null;
         }
-        //TODO: factor out
+
         //TODO simsharing message
-        if ( topCard != null ) {
-            topCard.setCardShapeVisible( true );
-            topCard.setAllPickable( true );
-            numeratorBox.setVisible( true );
+        undo( numerator, topCardLocation );
+        undo( denominator, bottomCardLocation );
+        undo( whole, wholeCardLocation );
 
-            topCardParent.addChild( topCard );
-            topCard.addNumberNodeBackIn( topNumberNode );
-
-            //fix offset
-            topCard.setGlobalTranslation( topCardLocation );
-
-            topCard.setVisible( true );
-            topCard.setPickable( true );
-            topCard.setChildrenPickable( true );
-
-            topCard.animateToTopOfStack();
-            topCard = null;
-            topNumberNode = null;
-        }
-        if ( bottomCard != null ) {
-            bottomCard.setCardShapeVisible( true );
-            bottomCard.setAllPickable( true );
-            denominatorBox.setVisible( true );
-
-            bottomCardParent.addChild( bottomCard );
-            bottomCard.addNumberNodeBackIn( bottomNumberNode );
-
-            //fix offset
-            bottomCard.setGlobalTranslation( bottomCardLocation );
-
-            bottomCard.setVisible( true );
-            bottomCard.setPickable( true );
-            bottomCard.setChildrenPickable( true );
-
-            bottomCard.animateToTopOfStack();
-            bottomCard = null;
-            bottomNumberNode = null;
-        }
         undoButton.setVisible( false );
         for ( VoidFunction1<Option<Fraction>> undoListener : undoListeners ) {
             undoListener.apply( value );
         }
 
         context.updateStacks();
+    }
+
+    private void undo( final Box box, final Point2D topCardLocation ) {
+        if ( box.card != null ) {
+            box.card.setCardShapeVisible( true );
+            box.card.setAllPickable( true );
+            box.box.setVisible( true );
+
+            box.parent.addChild( box.card );
+            box.card.addNumberNodeBackIn( box.number );
+
+            //fix offset
+            box.card.setGlobalTranslation( topCardLocation );
+
+            box.card.setVisible( true );
+            box.card.setPickable( true );
+            box.card.setChildrenPickable( true );
+
+            box.card.animateToTopOfStack();
+            box.card = null;
+            box.number = null;
+        }
     }
 
     private static PhetPPath box( boolean showOutline ) {
@@ -218,24 +183,24 @@ public class FractionNode extends RichPNode {
     }
 
     public void attachNumber( final PhetPPath box, final NumberCardNode numberCardNode ) {
-        if ( box == numeratorBox ) {
-            topCard = numberCardNode;
+        if ( box == numerator.box ) {
+            numerator.card = numberCardNode;
 
             //Store the parent so it can be re-parented on undo
-            topCardParent = numberCardNode.getParent();
-            topNumberNode = numberCardNode.numberNode;
+            numerator.parent = numberCardNode.getParent();
+            numerator.number = numberCardNode.numberNode;
         }
-        else if ( box == denominatorBox ) {
-            bottomCard = numberCardNode;
+        else if ( box == denominator.box ) {
+            denominator.card = numberCardNode;
 
-            bottomCardParent = numberCardNode.getParent();
-            bottomNumberNode = numberCardNode.numberNode;
+            denominator.parent = numberCardNode.getParent();
+            denominator.number = numberCardNode.numberNode;
         }
-        else if ( box == wholeBox ) {
-            wholeCard = numberCardNode;
+        else if ( box == whole.box ) {
+            whole.card = numberCardNode;
 
-            wholeCardParent = numberCardNode.getParent();
-            wholeNumberNode = numberCardNode.numberNode;
+            whole.parent = numberCardNode.getParent();
+            whole.number = numberCardNode.numberNode;
         }
         else {
             throw new RuntimeException( "No such box!" );
@@ -266,21 +231,21 @@ public class FractionNode extends RichPNode {
 
     public boolean isComplete() {
         return mixedNumber ?
-               topCard != null && bottomCard != null && wholeCard != null :
-               topCard != null && bottomCard != null;
+               numerator.card != null && denominator.card != null && whole.card != null :
+               numerator.card != null && denominator.card != null;
     }
 
     public Fraction getValue() {
         return mixedNumber ?
-               getFractionPart().plus( Fraction.fraction( wholeCard.number, 1 ) ) :
+               getFractionPart().plus( Fraction.fraction( whole.card.number, 1 ) ) :
                getFractionPart();
     }
 
-    private Fraction getFractionPart() {return new Fraction( topCard.number, bottomCard.number );}
+    private Fraction getFractionPart() {return new Fraction( numerator.card.number, denominator.card.number );}
 
-    public NumberNode getTopNumberNode() { return topNumberNode; }
+    public NumberNode getTopNumberNode() { return numerator.number; }
 
-    public NumberNode getBottomNumberNode() { return bottomNumberNode; }
+    public NumberNode getBottomNumberNode() { return denominator.number; }
 
     //Ignore click events on everything except the "undo" button, which appears over the card
     public void setDragRegionPickable( final boolean b ) {
@@ -319,7 +284,7 @@ public class FractionNode extends RichPNode {
     //Return true if nothing is in top and nothing is in bottom
     public boolean isEmpty() {
         return mixedNumber ?
-               topCard == null && bottomCard == null && wholeCard == null :
-               topCard == null && bottomCard == null;
+               numerator.card == null && denominator.card == null && whole.card == null :
+               numerator.card == null && denominator.card == null;
     }
 }
