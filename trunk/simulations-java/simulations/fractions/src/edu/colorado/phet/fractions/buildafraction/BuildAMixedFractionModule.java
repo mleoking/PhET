@@ -6,6 +6,7 @@ import fj.Unit;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.MixedNumbersNumberLevelList;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
@@ -25,8 +26,8 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroApplicati
  */
 public class BuildAMixedFractionModule extends AbstractFractionsModule {
     public BuildAMixedFractionModule( BuildAFractionModel model ) {
-        super( Components.buildAFractionTab, "Mixed Fractions", model.clock );
-        setSimulationPanel( new BuildAFractionCanvas( model ) );
+        super( Components.buildAFractionTab, Strings.MIXED_NUMBERS, model.clock );
+        setSimulationPanel( new BuildAFractionCanvas( model, Strings.BUILD_A_MIXED_FRACTION ) );
     }
 
     //Test main for launching this module in an application by itself for testing

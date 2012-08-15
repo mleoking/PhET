@@ -19,7 +19,7 @@ public class BuildAFractionModule extends AbstractFractionsModule {
 
     public BuildAFractionModule( BuildAFractionModel model ) {
         super( Components.buildAFractionTab, Strings.BUILD_A_FRACTION, model.clock );
-        setSimulationPanel( new BuildAFractionCanvas( model ) );
+        setSimulationPanel( new BuildAFractionCanvas( model, Strings.BUILD_A_FRACTION ) );
     }
 
     //Test main for launching this module in an application by itself for testing
