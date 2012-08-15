@@ -23,6 +23,6 @@ class MixedFractionNode extends PNode {
                             new FractionNumberNode( new Property<Integer>( fraction.whole ) ) {{
                                 setScale( fractionSizeScale * mixedNumberWholeScale );
                             }},
-                            new FractionNode( fraction.fraction, fractionSizeScale ) ) );
+                            new FractionNode( fraction.getFractionPart(), fractionSizeScale ) ) );
     }
 }

@@ -95,7 +95,7 @@ class FractionCardNode extends RichPNode {
                 //Only consider the closest box, otherwise students can overlap many boxes instead of thinking of the correct answer
                 for ( NumberCollectionBoxNode scoreCell : sortedCells.take( 1 ) ) {
                     if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) &&
-                         scoreCell.fraction.approxEquals( fractionNode.getValue() ) &&
+                         scoreCell.mixedFraction.approxEquals( fractionNode.getValue() ) &&
                          !scoreCell.isCompleted() ) {
                         //Lock in target cell
                         Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();

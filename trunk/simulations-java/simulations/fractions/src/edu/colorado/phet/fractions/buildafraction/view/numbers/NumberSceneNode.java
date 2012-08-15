@@ -80,8 +80,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
         //Create the scoring cells with target patterns
         ArrayList<NumberSceneCollectionBoxPair> _pairs = new ArrayList<NumberSceneCollectionBoxPair>();
-        for ( int i = 0; i < model.getNumberLevel( levelIndex ).targets.length(); i++ ) {
-            NumberTarget target = model.getNumberLevel( levelIndex ).targets.index( i );
+        for ( int i = 0; i < level.targets.length(); i++ ) {
+            NumberTarget target = level.targets.index( i );
 
             ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
             for ( int k = 0; k < target.filledPattern.length(); k++ ) {
@@ -96,8 +96,9 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
                 }} );
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
-            _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.fraction.numerator, target.fraction.denominator,
-                                                                                       this ), new ZeroOffsetNode( patternNode ) ) );
+
+            //TODO: whole part
+            _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.mixedFraction, this ), new ZeroOffsetNode( patternNode ) ) );
         }
         initCollectionBoxes( insetY, _pairs );
 
