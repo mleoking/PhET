@@ -99,12 +99,8 @@ public class WaterPoweredGenerator extends EnergyConverter {
         return new Energy( Energy.Type.ELECTRICAL, Math.abs( wheelRotationalVelocity * ENERGY_OUTPUT_RATE ) );
     }
 
-    @Override public void activate() {
-        active = true;
-    }
-
     @Override public void deactivate() {
-        active = false;
+        super.deactivate();
         wheelRotationalVelocity = 0;
     }
 

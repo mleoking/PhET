@@ -54,6 +54,7 @@ public class EnergySystemsModel {
     public final FaucetAndWater faucet = new FaucetAndWater();
     public final Sun sun = new Sun();
     public final TeaPot teaPot = new TeaPot();
+    public final BicycleAndRider bicycleAndRider = new BicycleAndRider();
 
     // Energy Converters.
     public final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
@@ -86,6 +87,7 @@ public class EnergySystemsModel {
         energySourcesCarousel.add( faucet );
         energySourcesCarousel.add( sun );
         energySourcesCarousel.add( teaPot );
+        energySourcesCarousel.add( bicycleAndRider );
         energyConvertersCarousel.add( waterPoweredGenerator );
         energyConvertersCarousel.add( solarPanel );
         energyUsersCarousel.add( beakerHeater );
