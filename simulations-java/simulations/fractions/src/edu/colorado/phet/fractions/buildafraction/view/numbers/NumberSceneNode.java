@@ -260,22 +260,22 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     public void endDrag( final NumberCardNode numberCardNode ) {
         boolean hitFraction = false;
-        for ( FractionNode fractionGraphic : fractionNodes ) {
-            final PhetPPath topBox = fractionGraphic.numeratorBox;
-            final PhetPPath bottomBox = fractionGraphic.denominatorBox;
-            final PhetPPath wholeBox = fractionGraphic.wholeBox;
-            if ( numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() && !fractionGraphic.isInToolboxPosition() ) {
-                numberDroppedOnFraction( fractionGraphic, numberCardNode, topBox );
+        for ( FractionNode f : fractionNodes ) {
+            final PhetPPath topBox = f.numerator.box;
+            final PhetPPath bottomBox = f.denominator.box;
+            final PhetPPath wholeBox = f.whole.box;
+            if ( numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() && !f.isInToolboxPosition() ) {
+                numberDroppedOnFraction( f, numberCardNode, topBox );
                 hitFraction = true;
                 break;
             }
-            if ( numberCardNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() && !fractionGraphic.isInToolboxPosition() ) {
-                numberDroppedOnFraction( fractionGraphic, numberCardNode, bottomBox );
+            if ( numberCardNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() && !f.isInToolboxPosition() ) {
+                numberDroppedOnFraction( f, numberCardNode, bottomBox );
                 hitFraction = true;
                 break;
             }
-            if ( numberCardNode.getGlobalFullBounds().intersects( wholeBox.getGlobalFullBounds() ) && wholeBox.getVisible() && !fractionGraphic.isInToolboxPosition() ) {
-                numberDroppedOnFraction( fractionGraphic, numberCardNode, wholeBox );
+            if ( numberCardNode.getGlobalFullBounds().intersects( wholeBox.getGlobalFullBounds() ) && wholeBox.getVisible() && !f.isInToolboxPosition() ) {
+                numberDroppedOnFraction( f, numberCardNode, wholeBox );
                 hitFraction = true;
                 break;
             }
