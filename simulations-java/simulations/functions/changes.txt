@@ -1,3 +1,4 @@
+Prevent value from dragging left through function
 Added a stack of input cards
 Show rotation icon as 90 degrees
 Instead of "*2", show "x2" but not with the letter "x"
