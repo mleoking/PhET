@@ -1,3 +1,5 @@
+# 0.00.17 (67063) Aug 16, 2012
+8/16/12 Deploying snapshot to dev for review and testing.
 2nd tab: Added initial version of biker.
 2nd tab: Integrated latest version of water wheel artwork, fixes issue where highlight would turn with the wheel.
 2nd tab: Made light bulbs and heater light up (or glow) when energy is supplied.
