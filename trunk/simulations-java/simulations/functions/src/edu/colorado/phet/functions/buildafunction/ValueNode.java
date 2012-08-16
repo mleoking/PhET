@@ -38,8 +38,8 @@ public class ValueNode extends PNode {
     public ValueNode( final ValueContext valueContext, Object originalValue, Stroke stroke, Color paint, Color strokePaint, Color textPaint ) {
         this.originalValue = originalValue;
         this.textPaint = textPaint;
-        a = new Area( new Rectangle2D.Double( 0, 0, 50, Constants.ellipseWidth ) );
-        double ellipseWidth = 50;
+        final double ellipseWidth = Constants.ellipseWidth;
+        a = new Area( new Rectangle2D.Double( 0, 0, 50, ellipseWidth ) );
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMaxX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMinX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         boundNode = new PhetPPath( a, paint, stroke, strokePaint );
@@ -93,7 +93,7 @@ public class ValueNode extends PNode {
 
     private PNode toNode( final Object currentValue ) {
         if ( currentValue instanceof Key ) {
-            return new PImage( BufferedImageUtils.getRotatedImage( BufferedImageUtils.multiScaleToWidth( Images.KEY, 45 ), -Math.PI / 2 + ( (Key) currentValue ).getNumRotations() * Math.PI / 2 ) );
+            return new PImage( BufferedImageUtils.getRotatedImage( BufferedImageUtils.multiScaleToWidth( Images.KEY, 60 ), -Math.PI / 2 + ( (Key) currentValue ).getNumRotations() * Math.PI / 2 ) );
         }
         else {
             return toTextNode( currentValue.toString(), textPaint );

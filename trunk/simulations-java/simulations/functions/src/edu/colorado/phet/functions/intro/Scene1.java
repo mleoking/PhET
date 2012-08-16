@@ -9,7 +9,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.functions.FunctionsResources.Images;
-import edu.colorado.phet.functions.buildafunction.UnaryNumberFunctionNode;
+import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 class Scene1 extends Scene {
 
-    private final UnaryNumberFunctionNode functionNode;
+    private final UnaryFunctionNode functionNode;
     private ValueNode valueNode;
     private final ValueNode targetNode;
     private IntroCanvas introCanvas;
@@ -48,7 +48,7 @@ class Scene1 extends Scene {
             addChild( valueNode );
         }
 
-        functionNode = new UnaryNumberFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 50 ) ), false ) {{
+        functionNode = new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false ) {{
             setOffset( 390.72378138847836, 294.298375184638 );
         }};
         addChild( functionNode );

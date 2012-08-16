@@ -21,10 +21,10 @@ public class BuildAFunctionPrototype2Canvas extends AbstractFunctionsCanvas {
         addChild( new BinaryNumberFunctionNode( "-" ) );
         addChild( new CopyNumberFunctionNode( "copy" ) );
 
-        addChild( new UnaryNumberFunctionNode( "\u27152", true ) );
-        addChild( new UnaryNumberFunctionNode( "+1", true ) );
-        addChild( new UnaryNumberFunctionNode( "-1", true ) );
-        addChild( new UnaryNumberFunctionNode( "^2", true ) );
+        addChild( new UnaryFunctionNode( "\u27152", true ) );
+        addChild( new UnaryFunctionNode( "+1", true ) );
+        addChild( new UnaryFunctionNode( "-1", true ) );
+        addChild( new UnaryFunctionNode( "^2", true ) );
 
         addChild( new ValueNode( new ValueContext() {
             @Override public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {

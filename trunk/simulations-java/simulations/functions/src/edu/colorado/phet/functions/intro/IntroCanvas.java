@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.functions.buildafunction.AbstractFunctionsCanvas;
 import edu.colorado.phet.functions.buildafunction.BuildAFunctionPrototype2Canvas;
-import edu.colorado.phet.functions.buildafunction.UnaryNumberFunctionNode;
+import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueContext;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -72,11 +72,11 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
 
     private class Scene2 extends Scene {
         private Scene2() {
-            addChild( new UnaryNumberFunctionNode( "\u27152", false ) {{
+            addChild( new UnaryFunctionNode( "\u27152", false ) {{
                 setOffset( 390.72378138847836, 294.298375184638 );
             }} );
 
-            addChild( new UnaryNumberFunctionNode( "+1", false ) {{
+            addChild( new UnaryFunctionNode( "+1", false ) {{
                 setOffset( 390.72378138847836, 444.298375184638 );
             }} );
 

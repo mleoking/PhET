@@ -26,7 +26,7 @@ public class CopyNumberFunctionNode extends PNode {
         //use CAG for prototype, may need to speed up later on
         final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, bodyDimension.width, bodyDimension.height * 2 + inset, 20, 20 );
         Area a = new Area( bodyRect );
-        double ellipseWidth = 50;
+        double ellipseWidth = Constants.ellipseWidth;
         a.subtract( new Area( new Ellipse2D.Double( bodyRect.getX() - ellipseWidth / 2, bodyRect.height / 2 - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         a.add( new Area( new Ellipse2D.Double( bodyRect.getMaxX() - ellipseWidth / 2, bodyDimension.height / 2 - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         a.add( new Area( new Ellipse2D.Double( bodyRect.getMaxX() - ellipseWidth / 2, bodyDimension.height * 3.0 / 2 + inset - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
