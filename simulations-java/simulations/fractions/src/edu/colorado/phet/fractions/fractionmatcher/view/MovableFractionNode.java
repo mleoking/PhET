@@ -21,7 +21,7 @@ import edu.colorado.phet.fractions.fractionmatcher.model.UpdateArgs;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
+import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.ord;
 import static edu.colorado.phet.fractions.fractionmatcher.model.Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES;
 import static edu.colorado.phet.fractions.fractionmatcher.model.Motions.*;
 import static fj.data.TreeMap.fromMutableMap;

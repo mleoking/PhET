@@ -1,10 +1,12 @@
 package edu.colorado.phet.functions.intro;
 
+import fj.F;
 import fj.data.List;
 
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueContext;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
@@ -37,7 +39,11 @@ public abstract class Scene extends PNode implements ValueContext {
     }
 
     @Override public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
-        UnaryFunctionNode functionNode = unaryFunctionNodeList.head();
+        UnaryFunctionNode functionNode = unaryFunctionNodeList.sort( FJUtils.ord( new F<UnaryFunctionNode, Double>() {
+            @Override public Double f( final UnaryFunctionNode n ) {
+                return n.getGlobalFullBounds().getCenter2D().distance( valueNode.getGlobalFullBounds().getCenter2D() );
+            }
+        } ) ).head();
         PBounds valueBounds = valueNode.getGlobalFullBounds();
         PBounds functionBounds = functionNode.getGlobalFullBounds();
         boolean leftBefore = valueNode.getGlobalFullBounds().getCenterX() < functionNode.getGlobalFullBounds().getCenterX();

@@ -9,7 +9,7 @@ import lombok.Data;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
-import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
+import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.ord;
 import static edu.colorado.phet.fractions.fractionmatcher.model.Motions.*;
 import static fj.data.List.range;
 
