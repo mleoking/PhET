@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.functions.intro;
 
-import fj.F;
 import fj.data.List;
 
 import java.awt.BasicStroke;
@@ -10,35 +9,12 @@ import java.awt.Color;
 import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueContext;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
+import edu.colorado.phet.functions.model.Functions;
 
 /**
  * @author Sam Reid
  */
 public class Scene2 extends Scene {
-
-    public static final F<Object, Object> INTEGER_TIMES_2 = new F<Object, Object>() {
-        @Override public Object f( final Object o ) {
-            return ( (Integer) o ) * 2;
-        }
-    };
-
-    public static final F<Object, Object> INTEGER_PLUS_1 = new F<Object, Object>() {
-        @Override public Object f( final Object o ) {
-            return ( (Integer) o ) + 1;
-        }
-    };
-
-    public static final F<Object, Object> INTEGER_MINUS_1 = new F<Object, Object>() {
-        @Override public Object f( final Object o ) {
-            return ( (Integer) o ) + 1;
-        }
-    };
-
-    public static final F<Object, Object> INTEGER_POWER_2 = new F<Object, Object>() {
-        @Override public Object f( final Object o ) {
-            return ( (Integer) o ) + 1;
-        }
-    };
 
     Scene2( IntroCanvas canvas ) {
         super( valueNodeList( canvas ), unaryFunctionNodeList(), targetNodeList( canvas ), canvas );
@@ -52,9 +28,9 @@ public class Scene2 extends Scene {
     }
 
     private static List<UnaryFunctionNode> unaryFunctionNodeList() {
-        return List.list( new UnaryFunctionNode( "\u27152", false, INTEGER_TIMES_2 ) {{
+        return List.list( new UnaryFunctionNode( "\u27152", false, Functions.INTEGER_TIMES_2 ) {{
                               setOffset( 390.72378138847836, 294.298375184638 );
-                          }}, new UnaryFunctionNode( "+1", false, INTEGER_PLUS_1 ) {{
+                          }}, new UnaryFunctionNode( "+1", false, Functions.INTEGER_PLUS_1 ) {{
                               setOffset( 390.72378138847836, 444.298375184638 );
                           }}
         );
