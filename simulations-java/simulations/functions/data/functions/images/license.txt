@@ -1,2 +1,3 @@
+grid-icon.png author=reid
 key.png open clip art, public domain
 rotate-right.png open clip art, public domain

@@ -9,8 +9,10 @@ import java.awt.geom.RoundRectangle2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.functions.FunctionsResources.Images;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -67,5 +69,12 @@ public class UnaryFunctionNode extends PNode {
                 }
             } );
         }
+
+        final HTMLImageButtonNode htmlImageButtonNode = new HTMLImageButtonNode( Images.GRID_ICON ) {{
+            setBackground( Color.orange );
+            scale( 0.5 );
+            setOffset( bodyRect.getWidth() - getFullBounds().getWidth() - 6, 4 );
+        }};
+        addChild( htmlImageButtonNode );
     }
 }
