@@ -44,8 +44,13 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  * @author Sam Reid
  */
 public class ContainerNode extends PNode {
+
+    //Button that can be used to send all pieces back to the toolbox.
     private final UndoButton undoButton;
+
+    //For showing the divisions
     final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
+
     private final DynamicCursorHandler dynamicCursorHandler;
     public final ShapeSceneNode parent;
     public final ContainerContext context;
