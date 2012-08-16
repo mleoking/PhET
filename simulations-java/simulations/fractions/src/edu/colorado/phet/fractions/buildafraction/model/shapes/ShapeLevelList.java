@@ -95,6 +95,7 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     private void addWithPostprocessing( final Function0<ShapeLevel> levelMaker ) {
         for ( int i = 0; i < 100; i++ ) {
             ShapeLevel level = levelMaker.apply();
+            //REVIEW: Why can't the constraints be built into the level maker, and enforced here via assertion or exception?  Or as a parameter to levelMaker?
             if ( level.getNumberOfStacks() < 6 && level.getNumberOfCardsInHighestStack() < 8 ) {
                 add( level );
                 return;
@@ -104,6 +105,9 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
         add( levelMaker.apply() );
     }
 
+    //REVIEW: Comments for all of the level generation methods are odd, like
+    //they are excerpts from emails or something.  Should be cleaned up to
+    //be more conventional, and thus decipherable.
     /* Level 1:
     --I like the idea of starting with this simple set of fractions
     - Can we make two draws, one target should be from the set  {1/1, 2/2, 3/3} and the second draw for the next two targets from the set {1/2, 1/3, 2/3} */
@@ -141,7 +145,7 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
                                                   fraction( 4, 5 ) ) );
 
         //Use same number for each card type
-        //Lets add a few extra pieces so that at least one of the targets has the option of being completed differently.
+        //Let's add a few extra pieces so that at least one of the targets has the option of being completed differently.
         return shapeLevel( straightforwardCards( targets ).append( interestingShapesForOne( chooseOne( targets ) ) ), targets, colors[1], booleanToShape( pies ) );
     }
 
@@ -187,7 +191,9 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     -- let's make the 2 possible targets be {1/2, 1/1}.  For 1/2, I like the constraints you have chosen, but take away the "whole" piece. For 1/1,
     again take away the "whole" piece, and constrain one of the targets so they must use two different sizes.  For instance, only enough halves and
     quarters so they must do 1 half piece and 2 quarter pieces.  Or 2 third pieces and 2 sixth pieces.*/
-    private ShapeLevel level4( final boolean pies ) { return random.nextBoolean() ? halfLevel4( pies ) : wholesLevel4( pies ); }
+    private ShapeLevel level4( final boolean pies ) {
+        return random.nextBoolean() ? halfLevel4( pies ) : wholesLevel4( pies );
+    }
 
     private ShapeLevel wholesLevel4( final boolean pies ) {
         return shapeLevel( list( 2, 2, 2, 3, 3, 3, 4, 4, 4, 6, 6, 6 ), replicate( 3, fraction( 1, 1 ) ), colors[3], booleanToShape( pies ) );
@@ -465,12 +471,17 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
     }
 
     //Choose randomly whether a level should be pies or bars
-    private static ShapeType choosePiesOrBars() { return booleanToShape( random.nextBoolean() );}
+    private static ShapeType choosePiesOrBars() {
+        return booleanToShape( random.nextBoolean() );
+    }
 
-    private static ShapeType booleanToShape( final boolean pies ) {return pies ? ShapeType.PIE : ShapeType.BAR;}
+    private static ShapeType booleanToShape( final boolean pies ) {
+        return pies ? ShapeType.PIE : ShapeType.BAR;
+    }
 
     public static void main( String[] args ) {
 
+        //REVIEW: Clean up or document commented-out code.
 //        interestingShapesForOne( new Fraction( 2, 2 ) );
 
         for ( int denominator = 1; denominator <= 8; denominator++ ) {
@@ -479,6 +490,7 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
             }
         }
 
+        //REVIEW: Clean up or document commented-out code.
 //        for ( int i = 0; i < 1000; i++ ) {
 //            ShapeLevelList list = new ShapeLevelList();
 //            list.toString();//Just a method that makes it so list appears used.
