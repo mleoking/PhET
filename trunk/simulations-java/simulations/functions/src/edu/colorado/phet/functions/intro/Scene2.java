@@ -28,18 +28,13 @@ public class Scene2 extends Scene {
     }
 
     private static List<UnaryFunctionNode> unaryFunctionNodeList() {
-        return List.list( new UnaryFunctionNode( "\u27152", false, Functions.INTEGER_TIMES_2 ) {{
-                              setOffset( 390.72378138847836, 294.298375184638 );
-                          }}, new UnaryFunctionNode( "+1", false, Functions.INTEGER_PLUS_1 ) {{
-                              setOffset( 390.72378138847836, 444.298375184638 );
-                          }}
+        return List.list( new UnaryFunctionNode( "\u27152", false, Functions.INTEGER_TIMES_2 ) {{ setOffset( 390.72378138847836, 294.298375184638 ); }},
+                          new UnaryFunctionNode( "+1", false, Functions.INTEGER_PLUS_1 ) {{ setOffset( 390.72378138847836, 444.298375184638 ); }}
         );
     }
 
     private static List<ValueNode> valueNodeList( final ValueContext valueContext ) {
-        final ValueNode value = new ValueNode( valueContext, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black ) {{
-            setOffset( 84.37223042836038, 315.3914327917278 );
-        }};
+        final ValueNode value = new ValueNode( valueContext, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black ) {{ setOffset( 84.37223042836038, 315.3914327917278 ); }};
         return List.list( value );
     }
 }
