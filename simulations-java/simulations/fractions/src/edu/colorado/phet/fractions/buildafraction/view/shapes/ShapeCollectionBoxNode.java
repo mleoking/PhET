@@ -28,10 +28,10 @@ public class ShapeCollectionBoxNode extends PNode {
     private ContainerNode containerNode;
     private final ShapeSceneNode sceneNode;
 
-    public ShapeCollectionBoxNode( final ShapeSceneNode sceneNode, final MixedFraction maxFraction ) {
+    public ShapeCollectionBoxNode( final ShapeSceneNode sceneNode, final MixedFraction mixedFraction ) {
         this.sceneNode = sceneNode;
         if ( sceneNode == null ) { throw new RuntimeException( "Null scene" ); }
-        double numberShapes = ceil( maxFraction.toDouble() );
+        double numberShapes = ceil( mixedFraction.toDouble() );
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0,
 
                                                                 //room for shape items

@@ -6,6 +6,8 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.FractionNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Create a node for the given mixed fraction to show as a target near the collection box.
+ *
  * @author Sam Reid
  */
 class MixedFractionNodeFactory {

@@ -57,7 +57,11 @@ public @Data class MixedFraction {
 
     public Fraction getFractionPart() { return new Fraction( numerator, denominator ); }
 
-    public Fraction toFraction() { return getFractionPart().plus( Fraction.fraction( whole, 1 ) ); }
+    //Converts to a Fraction instance, but without reducing.  It is important to be non-reduced because some solutions are unreduced like 2/2
+    public Fraction toFraction() {
+        Fraction f = getFractionPart();
+        return new Fraction( f.numerator + whole * f.denominator, f.denominator );
+    }
 
     public double toDouble() { return whole + getFractionPart().toDouble(); }
 
