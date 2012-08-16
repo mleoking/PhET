@@ -5,8 +5,8 @@ import fj.F;
 import fj.data.List;
 import lombok.Data;
 
+import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
-import edu.colorado.phet.fractions.common.util.FJUtils;
 
 /**
  * @author Sam Reid

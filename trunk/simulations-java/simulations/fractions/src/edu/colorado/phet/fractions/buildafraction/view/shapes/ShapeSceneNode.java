@@ -42,11 +42,11 @@ import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.ord;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerNode.*;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.createPieSlice;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.createRect;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceIconNode.TINY_SCALE;
-import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;

@@ -38,7 +38,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
+import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.ord;
 import static fj.data.List.iterableList;
 import static java.lang.Math.abs;
 

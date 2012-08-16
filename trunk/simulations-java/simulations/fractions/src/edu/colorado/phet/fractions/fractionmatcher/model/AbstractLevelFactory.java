@@ -19,7 +19,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.Conta
 import edu.colorado.phet.fractions.fractionsintro.intro.view.FractionNode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fractions.common.util.FJUtils.shuffle;
+import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.shuffle;
 import static edu.colorado.phet.fractions.common.view.Colors.*;
 import static edu.colorado.phet.fractions.fractionmatcher.model.FillType.MIXED;
 import static edu.colorado.phet.fractions.fractionmatcher.model.FillType.SEQUENTIAL;

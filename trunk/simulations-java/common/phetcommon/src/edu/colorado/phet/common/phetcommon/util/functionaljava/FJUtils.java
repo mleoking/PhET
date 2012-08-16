@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractions.common.util;
+package edu.colorado.phet.common.phetcommon.util.functionaljava;
 
 import fj.F;
 import fj.F2;

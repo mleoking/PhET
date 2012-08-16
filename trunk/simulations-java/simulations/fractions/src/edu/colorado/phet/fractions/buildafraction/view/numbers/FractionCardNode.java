@@ -14,6 +14,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -23,7 +24,6 @@ import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBounde
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.common.math.Fraction;
-import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;

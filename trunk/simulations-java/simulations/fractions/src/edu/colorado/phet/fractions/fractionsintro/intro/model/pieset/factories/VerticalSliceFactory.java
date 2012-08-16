@@ -16,7 +16,7 @@ import edu.colorado.phet.fractions.common.util.Dimension2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
 
-import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
+import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.ord;
 
 /**
  * Factory pattern for creating vertical pies and PieSets for the vertical bars representation.
