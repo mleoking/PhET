@@ -26,7 +26,6 @@ import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
-import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.buildafraction.view.SceneContext;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.Stack;
@@ -61,6 +60,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private final Dimension2DDouble singleDigitCardSize;
     private final Dimension2DDouble doubleDigitCardSize;
     private final List<List<Integer>> stacks;
+    private final Vector2D centerOfScreen;
 
     @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled, context );
@@ -188,7 +188,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
 
         fractionNode.setToolboxPosition( toolboxPositionX, toolboxPositionY );
-        fractionNode.setOffset( toolboxNode.getCenterX() - fractionNode.getFullBounds().getWidth() / 2 - 20 + 29, 300 );
+        centerOfScreen = new Vector2D( toolboxNode.getCenterX() + 26 - fractionNode.getFullWidth() / 2, 350 - fractionNode.getFullHeight() / 2 );
+        fractionNode.setOffset( centerOfScreen.toPoint2D() );
         fractionNode.moveInFrontOf( toolboxNode );
 
         finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel );
@@ -232,11 +233,11 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         for ( FractionNode fractionNode : fractionNodes ) {
             fractionNode.undo();
             if ( !sentOneToPlayArea.get() ) {
-                fractionNode.sendFractionSkeletonToCenterOfScreen();
+                fractionNode.animateToCenterOfScreen();
                 sentOneToPlayArea.set( true );
             }
             else {
-                fractionNode.sendFractionSkeletonToToolbox();
+                fractionNode.animateToToolbox();
             }
         }
     }
@@ -254,7 +255,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
         //if fraction graphic overlaps the toolbox when dropped, animate back to the toolbox position (but only if empty)
         if ( toolboxNode.getGlobalFullBounds().intersects( fractionGraphic.getGlobalFullBounds() ) && fractionGraphic.isEmpty() ) {
-            fractionGraphic.sendFractionSkeletonToToolbox();
+            fractionGraphic.animateToToolbox();
         }
     }
 
@@ -336,7 +337,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
                     }
                 }
                 if ( node != null ) {
-                    node.animateToPositionScaleRotation( toolboxNode.getCenterX() - fractionCardNode.fractionNode.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 ).setDelegate( new DisablePickingWhileAnimating( node, true ) );
+                    node.animateToCenterOfScreen();
                 }
             }
         }
@@ -383,6 +384,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             stack.update();
         }
     }
+
+    @Override public Vector2D getCenterOfScreen() { return centerOfScreen; }
 
     public Vector2D getLocation( final int stackIndex, final int cardIndex, NumberCardNode cardNode ) {
 

@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.AnimateToScale;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.UndoButton;
 import edu.colorado.phet.fractions.common.math.Fraction;
@@ -271,14 +272,14 @@ public class FractionNode extends RichPNode {
 
     public void setCardNode( final FractionCardNode fractionCardNode ) { this.cardNode = fractionCardNode; }
 
-    public void sendFractionSkeletonToToolbox() {
+    public void animateToToolbox() {
         animateToPositionScaleRotation( toolboxPositionX, toolboxPositionY, SCALE_IN_TOOLBOX, 0, 1000 );
     }
 
-    public void sendFractionSkeletonToCenterOfScreen() {
-        double x = 428;
-        double y = 300;
-        animateToPositionScaleRotation( x - getFullBounds().getWidth() / 2, y, 1.0, 0, 1000 );
+    public void animateToCenterOfScreen() {
+        final double x = context.getCenterOfScreen().x;
+        final double y = context.getCenterOfScreen().y;
+        animateToPositionScaleRotation( x, y, 1.0, 0, 1000 ).setDelegate( new DisablePickingWhileAnimating( this, true ) );
     }
 
     //Return true if nothing is in top and nothing is in bottom

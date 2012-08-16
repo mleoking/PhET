@@ -71,10 +71,10 @@ public class NumberCollectionBoxNode extends PNode {
 
             cardNode.fractionNode.undo();
             if ( sendToToolbox ) {
-                cardNode.fractionNode.sendFractionSkeletonToToolbox();
+                cardNode.fractionNode.animateToToolbox();
             }
             else {
-                cardNode.fractionNode.sendFractionSkeletonToCenterOfScreen();
+                cardNode.fractionNode.animateToCenterOfScreen();
             }
 
             numberSceneNode.numberCollectionBoxUndone();
