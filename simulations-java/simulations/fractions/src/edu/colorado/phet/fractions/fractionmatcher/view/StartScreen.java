@@ -70,7 +70,7 @@ class StartScreen extends PNode {
         setOffset( 0, 0 );
 
         //Game settings
-        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), false, false );
+        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), true, false );
 
         //Function invoked when the user pushes a level button to start the game.
         final VoidFunction0 startGame = new VoidFunction0() {
