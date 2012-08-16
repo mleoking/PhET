@@ -1,5 +1,7 @@
 package edu.colorado.phet.functions.buildafunction;
 
+import fj.F;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Area;
@@ -26,12 +28,14 @@ import static edu.colorado.phet.functions.buildafunction.Constants.functionColor
 public class UnaryFunctionNode extends PNode {
     public static final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, Constants.bodyDimension.width, Constants.bodyDimension.height, 20, 20 );
     private static boolean dragForLayout = false;
+    public final F<Object, Object> function;
 
-    public UnaryFunctionNode( String text, boolean draggable ) {
-        this( new PhetPText( text, new PhetFont( 46, true ) ), draggable );
+    public UnaryFunctionNode( String text, boolean draggable, F<Object, Object> function ) {
+        this( new PhetPText( text, new PhetFont( 46, true ) ), draggable, function );
     }
 
-    public UnaryFunctionNode( PNode icon, boolean draggable ) {
+    public UnaryFunctionNode( PNode icon, boolean draggable, F<Object, Object> function ) {
+        this.function = function;
         //use CAG for prototype, may need to speed up later on
         Area a = new Area( bodyRect );
         double ellipseWidth = Constants.ellipseWidth;
