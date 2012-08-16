@@ -57,6 +57,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         addChild( newNode );
         final PNode oldNode = currentScene;
 
+        //REVIEW: Make the 500 a constant if it should be the same in both places.
         PActivity activity = oldNode.animateToTransparency( 0, 500 );
         activity.setDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
@@ -91,6 +92,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
         PActivity activity = currentScene.animateToPositionScaleRotation( oldNodeOffset.x, oldNodeOffset.y, 1, 0, 400 );
         activity.setDelegate( new CompositeDelegate( new PActivityDelegate() {
+            //REVIEW: I've seen this in a couple of places.  Why not create a PActivityDelegateAdapter?  Might even want it in common code, since I've created on before too.
             public void activityStarted( final PActivity activity ) {
             }
 
@@ -101,6 +103,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
                 PInterpolatingActivity fade = oldNode.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
                 fade.setDelegate( new PActivityDelegate() {
+                    //REVIEW: Again, the adapter would be good here.  Should find all usages of PActivityDelegate and replace.
                     public void activityStarted( final PActivity activity ) {
                     }
 
@@ -117,6 +120,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         currentScene = node;
     }
 
+    //REVIEW: Suggest more descriptive name.
     private final HashMap<LevelIdentifier, PNode> map = new HashMap<LevelIdentifier, PNode>();
 
     public void levelButtonPressed( final LevelInfo info ) {
@@ -148,12 +152,14 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
                new NumberSceneNode( levelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled );
     }
 
+    //REVIEW: Suggest rename to "goToShapeLevel".  The 'next' seems to be handled where this is called.
     public void goToNextShapeLevel( final int newLevelIndex ) {
         final PNode newShapeScene = createLevelNode( newLevelIndex, LevelType.SHAPES );
         map.put( new LevelIdentifier( newLevelIndex, LevelType.SHAPES ), newShapeScene );
         animateTo( newShapeScene, Direction.RIGHT );
     }
 
+    //REVIEW: Suggest rename to "goToNumberLevel".  The 'next' seems to be handled where this is called.
     public void goToNextNumberLevel( final int newLevelIndex ) {
         PNode newScene = createLevelNode( newLevelIndex, LevelType.NUMBERS );
         map.put( new LevelIdentifier( newLevelIndex, LevelType.NUMBERS ), newScene );
