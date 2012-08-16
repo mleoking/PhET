@@ -1,0 +1,55 @@
+PhET Progress Report, J. Blanco, 8-16-2012
+
+PhET Weekly Progress Report
+John Blanco
+August 16th, 2012
+
+Time period covered: August 9th through August 15th.
+
+Fractions Intro - 11.0 hrs
+
+o	Code review.  One more tab to go (Build a Fraction).
+o	Tested based on code seen during code review, logged issues in the code review ticket, see #3397.
+o	Demonstrated bugs to and discussed them with Ariel P.
+o	Demonstrated "undo" icon with Sam R.
+
+Energy Forms and Changes - 8.0 hrs
+
+o	Reviewed and discussed during physics meeting.
+o	Integrated new E's for solar and electrical energy.
+o	Integrated new representation of wheel.
+o	Created Bicycle and Rider energy source, integrated artwork from Noah P.
+
+Gene Expression Basics - 8.0 hrs
+
+o	Made a number of changes based on code review comments, see #3381.
+
+Plate Tectonics - 1.0 hrs
+
+o	Worked with Jonathan to try to diagnose an issue where the sim would crash at startup on my machine.  An update of the graphics drivers fixed the problem.
+
+Neuron - 0.5 hrs
+
+o	Worked with Trish on adding activities.
+
+Customer Support - 1.0 hrs
+
+o	A bit of final followup with Pearson on getting them the latest simulations, see #3403.
+
+Tablet Investigation - 3.0 hrs
+
+o	Discussions on plan for this with Kathy P.
+o	Discussions with Oliver on the results of his research.
+o	Contacted a contract house about iPad development.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Logged work hours for June and July.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays -  0.0 hrs
+
+o	Planning to take Friday, August 17th as a vacation day.
