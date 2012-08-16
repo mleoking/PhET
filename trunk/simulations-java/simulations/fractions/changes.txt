@@ -1,6 +1,6 @@
 Build a Fraction: Fixed: Dotted lines don't always make sense and 2/2 and 3/3 targets not shown on level 1 shapes, see #3397 comment 15 item 3
 Build a Fraction: Fixed: Container node in collection box doesn't always go back to the center of the screen on reset all, see #3397 comment 15 item 2
-Build a Fraction: Fixed: Resample forgotten if main screen viewed, see #3397 comment 15 item 1
+Build a Fraction: Fixed: Resample forgotten if main screen viewed, see #3397 comment 15 item 1 and 4
 Build a Fraction: Numbers: Changed from 4 targets to 3 in level 5
 Build a Mixed Fraction: Numbers: Factored out "box" class
 Build a Mixed Fraction: Numbers: Started showing whole number dotted line region
