@@ -792,7 +792,7 @@ public class AtomIdentifier {
         setIsotopeName( 14, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_SILICON_NAME );
         setIsotopeName( 15, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_PHOSPHORUS_NAME );
         setIsotopeName( 16, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_SULFUR_NAME );
-        setIsotopeName( 17, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_CALCIUM_NAME );
+        setIsotopeName( 17, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_CHLORINE_NAME );
         setIsotopeName( 18, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_ARGON_NAME );
 
         for ( IsotopeKey key : isotopeInfoMap.keySet() ) {
