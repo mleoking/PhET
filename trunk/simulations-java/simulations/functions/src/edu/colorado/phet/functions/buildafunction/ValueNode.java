@@ -50,7 +50,6 @@ public class ValueNode extends PNode {
 
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
-//                ValueNode.this.moveToFront();
             }
 
             @Override public void mouseDragged( final PInputEvent event ) {
@@ -100,5 +99,10 @@ public class ValueNode extends PNode {
         }
     }
 
-    public int getNumberRotations() { return ( (Key) getCurrentValue() ).numRotations; }
+    public int getNumberRotations() {
+        if ( getCurrentValue() instanceof Key ) {
+            return ( (Key) getCurrentValue() ).numRotations;
+        }
+        else { return 0; }
+    }
 }
