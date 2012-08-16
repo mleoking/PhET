@@ -1,3 +1,4 @@
+# 1.00.40 (67060) Aug 15, 2012
 Build a Fraction: Numbers: Fixed: hitting "reset" when the sim starts up causes the fraction outline to move
 > Made sound on by default for Fraction Matcher
 # 1.00.39 (67048) Aug 15, 2012
