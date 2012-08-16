@@ -21,18 +21,18 @@ import static edu.colorado.phet.functions.buildafunction.Constants.functionColor
 /**
  * @author Sam Reid
  */
-public class UnaryNumberFunctionNode extends PNode {
+public class UnaryFunctionNode extends PNode {
     public static final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, Constants.bodyDimension.width, Constants.bodyDimension.height, 20, 20 );
     private static boolean dragForLayout = false;
 
-    public UnaryNumberFunctionNode( String text, boolean draggable ) {
+    public UnaryFunctionNode( String text, boolean draggable ) {
         this( new PhetPText( text, new PhetFont( 46, true ) ), draggable );
     }
 
-    public UnaryNumberFunctionNode( PNode icon, boolean draggable ) {
+    public UnaryFunctionNode( PNode icon, boolean draggable ) {
         //use CAG for prototype, may need to speed up later on
         Area a = new Area( bodyRect );
-        double ellipseWidth = 50;
+        double ellipseWidth = Constants.ellipseWidth;
         a.subtract( new Area( new Ellipse2D.Double( bodyRect.getX() - ellipseWidth / 2, bodyRect.getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         a.add( new Area( new Ellipse2D.Double( bodyRect.getMaxX() - ellipseWidth / 2, bodyRect.getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
         addChild( new PhetPPath( a, functionColor.get(), new BasicStroke( 1 ), Color.black ) {{
@@ -48,11 +48,11 @@ public class UnaryNumberFunctionNode extends PNode {
         if ( draggable ) {
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( final PInputEvent event ) {
-                    UnaryNumberFunctionNode.this.moveToFront();
+                    UnaryFunctionNode.this.moveToFront();
                 }
 
                 @Override public void mouseDragged( final PInputEvent event ) {
-                    PDimension delta = event.getDeltaRelativeTo( UnaryNumberFunctionNode.this.getParent() );
+                    PDimension delta = event.getDeltaRelativeTo( UnaryFunctionNode.this.getParent() );
                     translate( delta.width, delta.height );
                 }
             } );
