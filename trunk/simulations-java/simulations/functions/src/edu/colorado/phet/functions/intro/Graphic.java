@@ -6,8 +6,8 @@ import lombok.Data;
 /**
  * @author Sam Reid
  */
-public @Data class Key {
+public @Data class Graphic {
     public final int numRotations;
 
-    public Key rotateRight() { return new Key( ( numRotations + 1 ) % 4 ); }
+    public Graphic rotateRight() { return new Graphic( ( numRotations + 1 ) % 4 ); }
 }

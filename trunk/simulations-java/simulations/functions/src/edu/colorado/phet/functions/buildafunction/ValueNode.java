@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.functions.FunctionsResources.Images;
-import edu.colorado.phet.functions.intro.Key;
+import edu.colorado.phet.functions.intro.Graphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -91,8 +91,8 @@ public class ValueNode extends PNode {
     }
 
     private PNode toNode( final Object currentValue ) {
-        if ( currentValue instanceof Key ) {
-            return new PImage( BufferedImageUtils.getRotatedImage( BufferedImageUtils.multiScaleToWidth( Images.KEY, 60 ), -Math.PI / 2 + ( (Key) currentValue ).getNumRotations() * Math.PI / 2 ) );
+        if ( currentValue instanceof Graphic ) {
+            return new PImage( BufferedImageUtils.getRotatedImage( BufferedImageUtils.multiScaleToWidth( Images.KEY, 60 ), -Math.PI / 2 + ( (Graphic) currentValue ).getNumRotations() * Math.PI / 2 ) );
         }
         else {
             return toTextNode( currentValue.toString(), textPaint );
@@ -100,8 +100,8 @@ public class ValueNode extends PNode {
     }
 
     public int getNumberRotations() {
-        if ( getCurrentValue() instanceof Key ) {
-            return ( (Key) getCurrentValue() ).numRotations;
+        if ( getCurrentValue() instanceof Graphic ) {
+            return ( (Graphic) getCurrentValue() ).numRotations;
         }
         else { return 0; }
     }
