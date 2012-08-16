@@ -5,6 +5,7 @@ package edu.colorado.phet.common.phetcommon.view.util;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.util.Iterator;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -91,6 +92,25 @@ public class ShapeUtils {
         path.moveTo( points.get( 0 ) );
         for ( Point2D point : points ) {
             path.lineTo( point );
+        }
+        path.closePath();
+        return path.getGeneralPath();
+    }
+
+    /**
+     * Creates a shape from a set of points specified as Vector2D.
+     * The points must be in an order that, when connected by
+     * straight lines, would form a closed shape.
+     * Otherwise strange and undefined output may result.
+     *
+     * @param points Set of Vector2D points to connect.
+     * @return Shape that the provided points define.
+     */
+    public static Shape createShapeFromPoints( Iterable<Vector2D> points ) {
+        Iterator<Vector2D> iterator = points.iterator();
+        DoubleGeneralPath path = new DoubleGeneralPath( iterator.next() );
+        while ( iterator.hasNext() ) {
+            path.lineTo( iterator.next() );
         }
         path.closePath();
         return path.getGeneralPath();
