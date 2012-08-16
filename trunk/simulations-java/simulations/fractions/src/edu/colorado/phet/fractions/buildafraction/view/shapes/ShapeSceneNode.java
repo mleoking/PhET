@@ -229,15 +229,18 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         //Eject everything from target containers
         //Split everything
         //Return everything home
-        for ( ShapeSceneCollectionBoxPair targetPair : pairs ) {
-            targetPair.collectionBoxNode.undo();
-        }
         for ( ContainerNode containerNode : getContainerNodes() ) {
             containerNode.undoAll();
             containerNode.animateHome();
             containerNode.selectedPieceSize.reset();
             containerNode.resetNumberOfContainers();
         }
+
+        //Order dependence: have to undo the collection boxes after animating other containers home, so one container will go to the center of the screen, see #3397 comment 15 item 2
+        for ( ShapeSceneCollectionBoxPair targetPair : pairs ) {
+            targetPair.collectionBoxNode.undo();
+        }
+
         for ( PieceNode piece : getPieceNodes() ) {
             piece.animateToTopOfStack();
         }
