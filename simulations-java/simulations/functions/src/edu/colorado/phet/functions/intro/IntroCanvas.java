@@ -9,15 +9,13 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.functions.buildafunction.AbstractFunctionsCanvas;
 import edu.colorado.phet.functions.buildafunction.BuildAFunctionPrototype2Canvas;
 import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueContext;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
+import edu.colorado.phet.functions.intro.view.NavigationBar;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import static edu.colorado.phet.functions.FunctionModule.radioButton;
 
 /**
  * @author Sam Reid
@@ -30,7 +28,7 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
     public IntroCanvas() {
 
         setBackground( BuildAFunctionPrototype2Canvas.BACKGROUND_COLOR );
-        addScreenChild( new HBox( radioButton( "Shapes", false ), radioButton( "Text", true ), radioButton( "Numbers", false ) ) {{
+        addChild( new NavigationBar() {{
             setOffset( INSET, INSET );
         }} );
         resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
