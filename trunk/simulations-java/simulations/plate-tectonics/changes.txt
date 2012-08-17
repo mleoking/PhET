@@ -1,3 +1,4 @@
+Vertical angle of the "blue transform" arrows lowered for the "front" direction
 Added in "New Crust" button that resets the model but leaves all of the view controls intact
 # 0.00.57 (67024) Aug 15, 2012
 Added "Reset All" button to the Crust (1st) tab
