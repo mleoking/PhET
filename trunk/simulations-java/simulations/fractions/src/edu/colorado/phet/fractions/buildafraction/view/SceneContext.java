@@ -11,7 +11,7 @@ public interface SceneContext {
 
     void goToNextNumberLevel( int newLevelIndex );
 
-    void goToLevelSelectionScreen();
+    void goToLevelSelectionScreen( int fromLevelIndex );
 
     void resampleShapeLevel( int levelIndex );
 

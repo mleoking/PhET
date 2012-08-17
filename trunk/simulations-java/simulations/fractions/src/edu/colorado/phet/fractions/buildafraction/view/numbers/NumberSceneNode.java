@@ -63,7 +63,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private final Vector2D centerOfScreen;
 
     @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
-        super( soundEnabled, context );
+        super( levelIndex, soundEnabled, context );
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {

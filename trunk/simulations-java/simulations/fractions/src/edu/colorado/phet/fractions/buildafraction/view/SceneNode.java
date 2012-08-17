@@ -52,7 +52,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     protected VBox faceNodeDialog;
     protected PhetPText levelReadoutTitle;
 
-    protected SceneNode( BooleanProperty audioEnabled, final SceneContext context ) {
+    protected SceneNode( final int levelIndex, BooleanProperty audioEnabled, final SceneContext context ) {
         gameAudioPlayer = new GameAudioPlayer( audioEnabled.get() );
         audioEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean enabled ) {
@@ -62,7 +62,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
 
         levelSelectionScreenButton = new LevelSelectionScreenButton( new VoidFunction0() {
             public void apply() {
-                context.goToLevelSelectionScreen();
+                context.goToLevelSelectionScreen( levelIndex );
             }
         }, Images.FRACTIONS_BUTTON_BUILD ) {{
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
