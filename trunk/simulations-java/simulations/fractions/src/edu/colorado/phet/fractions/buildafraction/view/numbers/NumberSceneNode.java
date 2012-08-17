@@ -58,7 +58,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private final List<List<Integer>> stacks;
     private final Vector2D centerOfScreen;
 
-    private static final double SPACE_BETWEEN_STACKS = 20;
+    //Make the spacing big enough that tall stacks don't overlap, but not so large that lots of stacks go offscreen
+    private static final double SPACE_BETWEEN_STACKS = 28;
     private static final double LEFT_RIGHT_INSET = 20;
     private static final double SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON = 50;
 
