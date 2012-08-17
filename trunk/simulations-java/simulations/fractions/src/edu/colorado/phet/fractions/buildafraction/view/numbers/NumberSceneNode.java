@@ -320,7 +320,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         numberNode.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getCenterY() );
     }
 
-    public void fractionCardNodeDroppedInCollectionBox( final FractionCardNode fractionCardNode ) {
+    public void fractionCardNodeDroppedInCollectionBox() {
         level.filledTargets.increment();
 
         //Add a new fraction skeleton when the previous one is completed
