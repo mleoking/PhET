@@ -345,7 +345,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
                 resetPanelNode.position.set( new Vector2D(
                         (int) ( toolboxRightEdge + padding + viewPanelWidth + padding ),
-                        getStageSize().height - resetPanelNode.getComponentHeight() - 40 ) ); // extra padding
+                        getStageSize().height - resetPanelNode.getComponentHeight() - 25 ) ); // extra padding
             }
         } );
 
@@ -577,6 +577,19 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }
     }
 
+    public void newCrust() {
+        getPlateMotionModel().newCrust();
+        getClock().pause();
+        getClock().resetSimulationTime();
+        getPlateMotionModel().resetAll();
+
+        for ( OrthoPiccoloNode placedPiece : placedPieces ) {
+            // add in to the front
+            addCrustPieceGLNode( (CrustPieceGLNode) placedPiece );
+            placedPiece.position.reset();
+        }
+    }
+
     private boolean isMouseOverLeftSide() {
         return getMouseViewPositionOnZPlane().x < 0;
     }
@@ -612,12 +625,6 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 0.109761804f, 0.010024817f, 0.9939069f, -6.4759464f,
                 0.0f, 0.0f, 0.0f, 1.0f
         ).times( regularView ) ) ) );
-    }
-
-    public void rewind() {
-        getPlateMotionModel().rewind();
-        getClock().pause();
-        getClock().resetSimulationTime();
     }
 
     // 3D GLNode responsible for showing the CrustPiece

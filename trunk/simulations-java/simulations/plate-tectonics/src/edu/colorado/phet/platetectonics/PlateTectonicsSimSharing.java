@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class PlateTectonicsSimSharing {
     public static enum UserComponents implements IUserComponent {
-        plateMotionTab, crustTab, zoomSlider, timeSpeedSlider,
+        plateMotionTab, crustTab, zoomSlider, timeSpeedSlider, newCrustButton,
 
         densityView, temperatureView, bothView,
         compositionSlider, temperatureSlider, thicknessSlider,

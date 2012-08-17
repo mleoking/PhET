@@ -49,6 +49,9 @@ public class PlateMotionPlate extends Plate {
             }
         } ) );
         addTerrain( textureStrategy, TERRAIN_DEPTH_SAMPLES, model.getBounds().getMinZ(), model.getBounds().getMaxZ() );
+
+        // don't show the water until we have dropped the crust
+        getTerrain().isWaterValid.set( false );
     }
 
     private Sample createMantleSample( int xIndex, int yIndex, int verticalSamples, float mantleTopY, float mantleBottomY, float mantleTopTemp, float mantleBottomTemp ) {
@@ -145,6 +148,9 @@ public class PlateMotionPlate extends Plate {
             }
         };
         model.boundaryLabels.add( boundaryLabel );
+
+        // show the water above the terrain now
+        getTerrain().isWaterValid.set( true );
     }
 
     public float getSimpleChunkWidth() {

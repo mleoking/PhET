@@ -8,6 +8,7 @@ import java.util.Map;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
@@ -17,7 +18,6 @@ import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
-import edu.colorado.phet.platetectonics.util.MortalSimpleObserver;
 
 /**
  * A view (node) that displays everything physical related to a plate model, within the bounds
@@ -120,9 +120,11 @@ public class PlateTectonicsView extends GLNode {
 
             if ( terrain.hasWater() ) {
                 final WaterStripNode waterNode = new WaterStripNode( terrain, model, tab );
-                showWater.addObserver( new MortalSimpleObserver( showWater, terrain.disposed ) {
+
+                // how to set our visibility of the water
+                final SimpleObserver visibilityObserver = new SimpleObserver() {
                     public void update() {
-                        if ( showWater.get() ) {
+                        if ( showWater.get() && terrain.isWaterValid.get() ) {
                             addChild( waterNode );
                         }
                         else {
@@ -131,7 +133,18 @@ public class PlateTectonicsView extends GLNode {
                             }
                         }
                     }
-                } );
+                };
+
+                // listen to the properties
+                showWater.addObserver( visibilityObserver );
+                terrain.isWaterValid.addObserver( visibilityObserver );
+                // and stop listening once the terrain is disposed, to prevent memory leaks
+                terrain.disposed.addUpdateListener( new UpdateListener() {
+                    public void update() {
+                        showWater.removeObserver( visibilityObserver );
+                        terrain.isWaterValid.removeObserver( visibilityObserver );
+                    }
+                }, false );
             }
         }} );
     }

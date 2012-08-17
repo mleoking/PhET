@@ -140,6 +140,17 @@ public class PlateMotionModel extends PlateTectonicsModel {
         rightPlateType.addObserver( observer );
     }};
 
+    // whether at least one plate has chosen from the "crust chooser". this does NOT mean a motion direction / behavior set has been chosen
+    public final Property<Boolean> hasAnyPlates = new Property<Boolean>( false ) {{
+        SimpleObserver observer = new SimpleObserver() {
+            public void update() {
+                set( hasLeftPlate() || hasRightPlate() );
+            }
+        };
+        leftPlateType.addObserver( observer );
+        rightPlateType.addObserver( observer );
+    }};
+
     // TODO: change bounds to possibly a Z range, or just bake it in
     public PlateMotionModel( final TectonicsClock clock, final Bounds3F bounds ) {
         super( bounds, new TextureStrategy( 0.000006f ) );
@@ -357,14 +368,14 @@ public class PlateMotionModel extends PlateTectonicsModel {
         smokePuffs.clear();
     }
 
-    @Override
-    public void resetAll() {
+    public void newCrust() {
+        resetEverythingExceptTime();
+    }
+
+    private void resetEverythingExceptTime() {
         super.resetAll();
 
         joiningBoundaryLabel = null;
-
-        clock.resetTimeLimit();
-        clock.setTimeMultiplier( 1 ); // TODO: refactor so this is easier to reset (maybe property-based?)
 
         leftPlateType.reset();
         rightPlateType.reset();
@@ -385,6 +396,14 @@ public class PlateMotionModel extends PlateTectonicsModel {
         rangeLabels.clear();
         boundaryLabels.clear();
         textLabels.clear();
+    }
+
+    @Override
+    public void resetAll() {
+        clock.resetTimeLimit();
+        clock.setTimeMultiplier( 1 ); // TODO: refactor so this is easier to reset (maybe property-based?)
+
+        resetEverythingExceptTime();
     }
 
     // xIndex can be from 0 to HORIZONTAL_SAMPLES-1
