@@ -321,7 +321,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     }
 
     public void fractionCardNodeDroppedInCollectionBox( final FractionCardNode fractionCardNode ) {
-        level.incrementFilledTargets();
+        level.filledTargets.increment();
 
         //Add a new fraction skeleton when the previous one is completed
         if ( !allTargetsComplete() ) {

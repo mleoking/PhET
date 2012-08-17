@@ -319,7 +319,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
 
         if ( hit ) {
-            level.incrementFilledTargets();
+            level.filledTargets.increment();
         }
 
         //Put the piece back in its starting location, but only if it is empty

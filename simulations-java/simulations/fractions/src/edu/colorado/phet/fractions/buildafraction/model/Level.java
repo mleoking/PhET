@@ -20,7 +20,7 @@ public class Level {
     //Number of targets the user must match, usually 3 or 4
     public final int numTargets;
 
-    //For keeping score
+    //For keeping score, the number of the 3 or 4 collection boxes the user has filled
     public final IntegerProperty filledTargets = new IntegerProperty( 0 );
 
     protected Level( final int numTargets ) { this.numTargets = numTargets; }
@@ -29,8 +29,6 @@ public class Level {
         createdFractions.reset();
         filledTargets.reset();
     }
-
-    public void incrementFilledTargets() { filledTargets.increment(); }
 
     public void dispose() { createdFractions.removeAllObservers(); }
 }
