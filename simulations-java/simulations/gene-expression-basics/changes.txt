@@ -1,3 +1,5 @@
+# 0.00.25 (67085) Aug 17, 2012
+8/17/12 Publishing to dev as release candidate
 # 0.00.24 (65991) Jul 18, 2012
 7/18/12 Custom version for MK with Multiple Cells tab first and multiple cells (rather than just one) showing initially.
 # 0.00.23 (65743) Jul 11, 2012
