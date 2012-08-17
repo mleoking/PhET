@@ -61,7 +61,7 @@ public class EqualityLabModel {
             //Use smaller buckets than on the intro tab, because there is less room
             Dimension2D bucketSize = new Dimension2D( 250, 100 );
             return new FactorySet( new CircularSliceFactory( NUM_PER_ROW, bucketPosition, bucketSize, PIE_DIAMETER, pieX, PIE_Y, siteMap, Colors.CIRCLE_COLOR ),
-                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bucketSize, Colors.HORIZONTAL_SLICE_COLOR, 125 + 114, HORIZONTAL_SLICE_Y, false ),
+                                   new StackedHorizontalSliceFactory( bucketPosition, bucketSize, Colors.HORIZONTAL_SLICE_COLOR, 125 + 114, HORIZONTAL_SLICE_Y, false ),
                                    new VerticalSliceFactory( -120, 125 * VERTICAL_SLICE_SCALE, 225 * VERTICAL_SLICE_SCALE, false, bucketPosition, bucketSize, Colors.VERTICAL_SLICE_COLOR, DISTANCE_BETWEEN_BARS, false ),
 
                                    //Align the right side of the water glasses with the right edge of the representation control panel

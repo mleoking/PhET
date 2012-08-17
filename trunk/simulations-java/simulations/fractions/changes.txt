@@ -1,3 +1,4 @@
+Equality Lab: Fixed location for the bucket for red rectangles (was 20px left of others)
 Build a Fraction: Shapes: Determines whether the user is trying to put the container in the toolbox, if so do not send back to play area if overlapped with collection box, see #3397
 Fraction Matcher: Level 4: allow unreduced fractions in the numeric representation
 Intro: Prevent glitches in the circle shapes
