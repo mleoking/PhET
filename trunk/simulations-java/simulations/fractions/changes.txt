@@ -1,3 +1,4 @@
+Fraction Matcher: Level 4: allow unreduced fractions in the numeric representation
 Intro: Prevent glitches in the circle shapes
 # 1.00.40 (67060) Aug 15, 2012
 Build a Fraction: Numbers: Fixed: hitting "reset" when the sim starts up causes the fraction outline to move
