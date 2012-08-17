@@ -17,8 +17,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  * Convenience class for a horizontal slider that has labels at each end
  * rather than having tick marks with labels below them.
  *
- * REVIEW: useful enough to be moved to phetcommon?
- *
  * @author John Blanco
  */
 class HorizontalSliderWithLabelsAtEnds extends PNode {
