@@ -243,7 +243,7 @@ public class CrustTab extends PlateTectonicsTab {
 
                     position.set( new Vector2D(
                             (int) ( toolboxRightEdge + 10 ),
-                            getStageSize().height - getComponentHeight() - 40 ) ); // extra padding
+                            getStageSize().height - getComponentHeight() - 25 ) ); // extra padding
                 }
             }, true );
             updateOnEvent( beforeFrameRender );

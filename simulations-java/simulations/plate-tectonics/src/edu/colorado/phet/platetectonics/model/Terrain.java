@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.Triangle3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
@@ -38,6 +39,8 @@ public class Terrain {
 
     // fired when the terrain is permanently removed from the model, so we can detach the necessary listeners
     public final ValueNotifier<Terrain> disposed = new ValueNotifier<Terrain>( this );
+
+    public final Property<Boolean> isWaterValid = new Property<Boolean>( true );
 
     // number of samples in the Z direction
     private final int zSamples;

@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.lwjglphet.utils.GLActionListener;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
 import edu.colorado.phet.platetectonics.tabs.PlateMotionTab;
 import edu.colorado.phet.platetectonics.tabs.PlateTectonicsTab;
 import edu.umd.cs.piccolo.PNode;
@@ -25,18 +26,20 @@ public class ResetPanel extends PNode {
         // current y to add things at
         final Property<Double> y = new Property<Double>( 0.0 );
 
-        final boolean showRewindButton = tab instanceof PlateMotionTab;
+        final boolean isMotionTab = tab instanceof PlateMotionTab;
 
         PNode rewindNode = null;
-        if ( showRewindButton ) {
+        PNode newCrustNode = null;
+        if ( isMotionTab ) {
+            final PlateMotionTab motionTab = (PlateMotionTab) tab;
             rewindNode = new TextButtonNode( Strings.REWIND, PlateTectonicsConstants.BUTTON_FONT, PlateTectonicsConstants.BUTTON_COLOR ) {{
                 setUserComponent( UserComponents.rewindButton );
                 setOffset( 0, y.get() + 15 );
                 y.set( getFullBounds().getMaxY() );
                 maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
-                ( (PlateMotionTab) tab ).getPlateMotionModel().animationStarted.addObserver( new SimpleObserver() {
+                motionTab.getPlateMotionModel().animationStarted.addObserver( new SimpleObserver() {
                     public void update() {
-                        setEnabled( ( (PlateMotionTab) tab ).getPlateMotionModel().animationStarted.get() );
+                        setEnabled( motionTab.getPlateMotionModel().animationStarted.get() );
                         repaint();
                     }
                 } );
@@ -44,11 +47,34 @@ public class ResetPanel extends PNode {
                 // run the rewind in the LWJGL thread
                 addActionListener( new GLActionListener( new Runnable() {
                     public void run() {
-                        ( (PlateMotionTab) tab ).rewind();
+                        motionTab.getPlateMotionModel().rewind();
+                        motionTab.getClock().pause();
+                        motionTab.getClock().resetSimulationTime();
                     }
                 } ) );
             }};
             addChild( rewindNode );
+
+            newCrustNode = new TextButtonNode( Strings.NEW_CRUST, PlateTectonicsConstants.BUTTON_FONT, PlateTectonicsConstants.BUTTON_COLOR ) {{
+                setUserComponent( PlateTectonicsSimSharing.UserComponents.newCrustButton );
+                setOffset( 0, y.get() + 15 );
+                y.set( getFullBounds().getMaxY() );
+                maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
+                motionTab.getPlateMotionModel().hasAnyPlates.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setEnabled( motionTab.getPlateMotionModel().hasAnyPlates.get() );
+                        repaint();
+                    }
+                } );
+
+                // run the rewind in the LWJGL thread
+                addActionListener( new GLActionListener( new Runnable() {
+                    public void run() {
+                        motionTab.newCrust();
+                    }
+                } ) );
+            }};
+            addChild( newCrustNode );
         }
 
         PNode resetAllNode = new TextButtonNode( Strings.RESET_ALL, PlateTectonicsConstants.BUTTON_FONT, PlateTectonicsConstants.BUTTON_COLOR ) {{
@@ -64,8 +90,9 @@ public class ResetPanel extends PNode {
 
         // horizontally center the buttons, if applicable
         resetAllNode.setOffset( ( maxWidth.get() - resetAllNode.getFullBounds().getWidth() ) / 2, resetAllNode.getYOffset() );
-        if ( showRewindButton ) {
+        if ( isMotionTab ) {
             rewindNode.setOffset( ( maxWidth.get() - rewindNode.getFullBounds().getWidth() ) / 2, rewindNode.getYOffset() );
+            newCrustNode.setOffset( ( maxWidth.get() - newCrustNode.getFullBounds().getWidth() ) / 2, newCrustNode.getYOffset() );
         }
 
         // this prevents panel resizing when the button bounds change (like when they are pressed)

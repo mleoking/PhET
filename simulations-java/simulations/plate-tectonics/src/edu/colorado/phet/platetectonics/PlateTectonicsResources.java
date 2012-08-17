@@ -33,6 +33,7 @@ public class PlateTectonicsResources {
         public static final String MORE_IRON = RESOURCES.getLocalizedString( "moreIron" );
         public static final String MORE_SILICA = RESOURCES.getLocalizedString( "moreSilica" );
         public static final String MY_CRUST = RESOURCES.getLocalizedString( "myCrust" );
+        public static final String NEW_CRUST = RESOURCES.getLocalizedString( "newCrust" );
         public static final String OCEANIC_CRUST = RESOURCES.getLocalizedString( "oceanicCrust" );
         public static final String OLD_OCEANIC_CRUST = RESOURCES.getLocalizedString( "oldOceanicCrust" );
         public static final String OPTIONS = RESOURCES.getLocalizedString( "options" );
