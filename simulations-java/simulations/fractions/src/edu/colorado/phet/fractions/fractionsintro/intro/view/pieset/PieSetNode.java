@@ -84,13 +84,15 @@ public class PieSetNode extends FNode {
     //Construct the exterior to show the pie cells border with a bigger stroke than the individual cells
     //Cache to save on performance, otherwise drops frame rate to < 5 fps
     //Still reduced performance a bit due to runtime rendering, could be rewritten if necessary to add explicit getBorderShape function for each pie
-    private static final Cache<List<Slice>, Area> cache = new Cache<List<Slice>, Area>( new F<List<Slice>, Area>() {
+    private static final Cache<List<Slice>, Area> getContainerShape = new Cache<List<Slice>, Area>( new F<List<Slice>, Area>() {
         @Override public Area f( final List<Slice> cells ) {
             return new Area() {{
                 for ( Slice cell : cells ) {
                     //Enlarge a bit to cover up "seams" in the horizontal bars
                     add( new Area( cell.getShape() ) );
-                    add( new Area( new BasicStroke( 2 ).createStrokedShape( cell.getShape() ) ) );
+
+                    //Using a round/round stroke with small miter limit prevents graphical glitches
+                    add( new Area( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.01f ).createStrokedShape( cell.getShape() ) ) );
                 }
             }};
         }
@@ -118,7 +120,8 @@ public class PieSetNode extends FNode {
                             return state.cellFilledNowOrSoon( cell );
                         }
                     } );
-                    return new PhetPPath( cache.f( pie.cells ), new BasicStroke( 2.0f ), filled ? Color.black : Color.lightGray );
+                    //Using a round/round stroke with small miter limit prevents graphical glitches
+                    return new PhetPPath( getContainerShape.f( pie.cells ), new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0.01f ), filled ? Color.black : Color.lightGray );
                 }
             } ).foreach( node.addChild );
 
