@@ -70,14 +70,14 @@ class RewardNode extends PNode {
 
             //Create rows of images above the screen and have them fall to the ground.
             for ( int i = 0; i < 20; i++ ) {
-                for ( BufferedImage node : images ) {
-                    PImage image = new PImage( node );
-                    image.setOffset( x, -maxHeight - image.getFullBounds().getHeight() / 2 + y );
-                    addChild( image );
+                for ( BufferedImage image : images ) {
+                    PImage node = new PImage( image );
+                    node.setOffset( x, -maxHeight - node.getFullBounds().getHeight() / 2 + y );
+                    addChild( node );
                     final double h = AbstractFractionsCanvas.STAGE_SIZE.getHeight();
-                    image.animateToPositionScaleRotation( x, h + h / 16 + h / 4 * ( random.nextDouble() - 0.5 ) * 2, random.nextDouble() + 0.5, 2 * ( random.nextDouble() - 0.5 ) * Math.PI, 5000 + random.nextInt( 5000 ) );
-                    image.setTransparency( 0 );
-                    image.animateToTransparency( 1, 2000 );
+                    node.animateToPositionScaleRotation( x, h + h / 16 + h / 4 * ( random.nextDouble() - 0.5 ) * 2, random.nextDouble() + 0.5, 2 * ( random.nextDouble() - 0.5 ) * Math.PI, 5000 + random.nextInt( 5000 ) );
+                    node.setTransparency( 0 );
+                    node.animateToTransparency( 1, 2000 );
                     x += dx;
                 }
                 //Go to the next row above the screen.
