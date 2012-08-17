@@ -385,7 +385,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
     }
 
-    @Override public Vector2D getCenterOfScreen() { return centerOfScreen; }
+    public Vector2D getCenterOfScreen() { return centerOfScreen; }
 
     public Vector2D getLocation( final int stackIndex, final int cardIndex, NumberCardNode cardNode ) {
 

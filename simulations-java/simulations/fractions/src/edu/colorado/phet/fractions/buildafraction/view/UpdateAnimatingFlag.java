@@ -17,9 +17,9 @@ public class UpdateAnimatingFlag implements PActivityDelegate {
 
     public UpdateAnimatingFlag( final BooleanProperty animating ) { this.animating = animating; }
 
-    @Override public void activityStarted( final PActivity activity ) { animating.set( true ); }
+    public void activityStarted( final PActivity activity ) { animating.set( true ); }
 
-    @Override public void activityStepped( final PActivity activity ) { }
+    public void activityStepped( final PActivity activity ) { }
 
-    @Override public void activityFinished( final PActivity activity ) { animating.set( false ); }
+    public void activityFinished( final PActivity activity ) { animating.set( false ); }
 }
