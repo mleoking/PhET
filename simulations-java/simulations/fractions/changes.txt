@@ -1,3 +1,5 @@
+Build a Fraction: Numbers: Adjusted level 6 so that it has at least 3 stacks, because when there are just 2 stacks, one often has 7 cards and is too tall (and overlaps adjacent stacks and goes out of the toolbox bounds)
+Build a Fraction: Numbers: Increase spacing between stacks so that tall stacks don't overlap adjacent stacks
 Build a Fraction: If you get past level 5 by pressing "next" then the level selection screen will take you to the 2nd page, showing the higher levels
 Build a Fraction: Numbers: Fixed: pressing undo on one target clears all the stars
 Removed @Override in interface implementations

@@ -206,7 +206,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         //Use 1000 tries to come up with a level that has multiple stacks
         for ( int i = 0; i < 1000; i++ ) {
             NumberLevel level = level6Impl();
-            if ( level.numbers.group( Equal.intEqual ).length() > 1 ) {
+            if ( level.numbers.group( Equal.intEqual ).length() > 2 ) {
                 return level;
             }
         }
