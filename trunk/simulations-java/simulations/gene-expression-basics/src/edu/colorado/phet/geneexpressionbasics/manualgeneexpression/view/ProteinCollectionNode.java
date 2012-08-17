@@ -195,9 +195,9 @@ class ProteinCollectionNode extends PNode {
                                                        Math.max( proteinShapeBounds.getHeight() * ProteinCaptureNode.SCALE_FOR_FLASH_NODE, captureNodeBackgroundSize.getHeight() ) );
                 }
                 catch ( Exception e ) {
-                    // REVIEW: this will continue executing past this. maybe instead throw RuntimeException( <message>, e )?
-                    System.out.println( "Exception thrown when instantiating protein, e = " + e );
-                    e.printStackTrace();
+                    // Not much that can be done here except to essentially
+                    // re-throw the exception.
+                    throw new RuntimeException( "Exception thrown when instantiating protein, e = " + e );
                 }
             }
 
