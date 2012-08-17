@@ -7,6 +7,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.Bounds3F;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
+import edu.colorado.phet.common.phetcommon.math.Triangle3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
@@ -379,16 +380,18 @@ public abstract class PlateTectonicsModel {
 
     // not the most numerically accurate way, but that doesn't matter in this scenario
     private static HitResult triangleXYIntersection( Sample a, Sample b, Sample c, Vector3F point ) {
-        float areaA = triangleXYArea( point, b.getPosition(), c.getPosition() );
-        float areaB = triangleXYArea( point, c.getPosition(), a.getPosition() );
-        float areaC = triangleXYArea( point, a.getPosition(), b.getPosition() );
-        float insideArea = triangleXYArea( a.getPosition(), b.getPosition(), c.getPosition() );
+        boolean hit = new Triangle3F( a.getPosition(), b.getPosition(), c.getPosition() ).intersectWith( new Ray3F( point, Vector3F.Z_UNIT ) ).isSome();
 
         // some area must be "outside" the main triangle (just needs to be close)
-        if ( areaA + areaB + areaC > insideArea * 1.02 ) {
+        if ( !hit ) {
             return null;
         }
         else {
+            float areaA = triangleXYArea( point, b.getPosition(), c.getPosition() );
+            float areaB = triangleXYArea( point, c.getPosition(), a.getPosition() );
+            float areaC = triangleXYArea( point, a.getPosition(), b.getPosition() );
+            float insideArea = triangleXYArea( a.getPosition(), b.getPosition(), c.getPosition() );
+
             // results based on relative triangle areas
             return new HitResult(
                     ( areaA / insideArea ) * a.getDensity() + ( areaB / insideArea ) * b.getDensity() + ( areaC / insideArea ) * c.getDensity(),

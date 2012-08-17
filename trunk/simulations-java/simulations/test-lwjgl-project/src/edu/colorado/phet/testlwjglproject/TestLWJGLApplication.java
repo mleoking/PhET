@@ -14,9 +14,9 @@ public class TestLWJGLApplication extends PhetApplication {
 
     public TestLWJGLApplication( PhetApplicationConfig config ) {
         super( config );
-        final LWJGLCanvas canvas = LWJGLCanvas.getCanvasInstance();
+        final LWJGLCanvas canvas = LWJGLCanvas.getCanvasInstance( getPhetFrame() );
         addModule( new TabbedModule( canvas ) {{
-            Tab[] tabs = new Tab[] {
+            Tab[] tabs = new Tab[]{
                     new TestingTab( canvas, TestProjectResources.getString( "sim1.module1" ) ),
                     new TestingTab( canvas, TestProjectResources.getString( "sim1.module2" ) )
             };
@@ -30,7 +30,7 @@ public class TestLWJGLApplication extends PhetApplication {
         try {
             StartupUtils.setupLibraries();
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
 

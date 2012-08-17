@@ -105,6 +105,10 @@ public abstract class LWJGLTab implements Tab {
         return canvas;
     }
 
+    public Dimension getCanvasSize() {
+        return canvasSize.get();
+    }
+
     public void setupGuiTransformations() {
         glMatrixMode( GL_PROJECTION );
         glLoadIdentity();

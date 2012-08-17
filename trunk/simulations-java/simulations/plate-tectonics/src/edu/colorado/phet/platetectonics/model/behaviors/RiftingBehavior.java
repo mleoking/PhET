@@ -105,15 +105,15 @@ public class RiftingBehavior extends PlateBehavior {
         }
 
         final float oceanLabelX = getSide().getSign() * 120000; // 120km from the edge
-        float oceanYBefore = getCrust().getBottomBoundary().getApproximateYFromX( oceanLabelX );
+        float oceanYBefore = getLithosphere().getBottomBoundary().getApproximateYFromX( oceanLabelX );
 
         // main spreading animation
         moveSpreading( millionsOfYears );
 
-        float oceanYAfter = getCrust().getBottomBoundary().getApproximateYFromX( oceanLabelX );
+        float oceanYAfter = getLithosphere().getBottomBoundary().getApproximateYFromX( oceanLabelX );
 
         // watch for when to add labels to the oceanic crust that is new (12km threshold)
-        if ( !addedLabels && ( oceanYBefore < -13000 ) != ( oceanYAfter < -13000 ) ) {
+        if ( plate.getPlateType() != PlateType.YOUNG_OCEANIC && !addedLabels && ( oceanYBefore < -55000 ) != ( oceanYAfter < -55000 ) ) {
             addedLabels = true;
             plate.getModel().rangeLabels.add( new RangeLabel(
                     new Property<Vector3F>( new Vector3F() ) {{

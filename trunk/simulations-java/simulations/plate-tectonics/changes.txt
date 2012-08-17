@@ -1,3 +1,6 @@
+"Young Oceanic Crust" label will now appear on crust created next to old oceanic crust (not just continental crust)
+Fixed temperature anomaly between ocean floor and water
+Added "Error" dialog for startup failures
 Vertical angle of the "blue transform" arrows lowered for the "front" direction
 Added in "New Crust" button that resets the model but leaves all of the view controls intact
 # 0.00.57 (67024) Aug 15, 2012
