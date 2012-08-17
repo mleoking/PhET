@@ -369,7 +369,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     }
 
     public void numberCollectionBoxUndone() {
-        level.filledTargets.reset();
+        level.filledTargets.decrement();
 
         //Only subtract from the score if the face dialog was showing.  Otherwise you can get a negative score by removing an item from the target container since this method is called
         //each time.
