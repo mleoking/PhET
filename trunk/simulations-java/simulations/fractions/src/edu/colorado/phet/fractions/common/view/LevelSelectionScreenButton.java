@@ -24,7 +24,7 @@ public class LevelSelectionScreenButton extends PNode {
             setBackground( RefreshButtonNode.BUTTON_COLOR );
             setUserComponent( Components.levelSelectionScreenButton );
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( final ActionEvent e ) {
+                public void actionPerformed( final ActionEvent e ) {
                     pressed.apply();
                 }
             } );

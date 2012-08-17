@@ -50,7 +50,7 @@ public class ShapeCollectionBoxNode extends PNode {
             scale( 0.8 );
             setOffset( -1, -1 );
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( final ActionEvent e ) {
+                public void actionPerformed( final ActionEvent e ) {
                     undo();
                 }
             } );

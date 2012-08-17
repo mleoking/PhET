@@ -17,19 +17,19 @@ public class CompositeDelegate implements PActivityDelegate {
         this.delegates = delegates;
     }
 
-    @Override public void activityStarted( final PActivity activity ) {
+    public void activityStarted( final PActivity activity ) {
         for ( PActivityDelegate delegate : delegates ) {
             delegate.activityStarted( activity );
         }
     }
 
-    @Override public void activityStepped( final PActivity activity ) {
+    public void activityStepped( final PActivity activity ) {
         for ( PActivityDelegate delegate : delegates ) {
             delegate.activityStepped( activity );
         }
     }
 
-    @Override public void activityFinished( final PActivity activity ) {
+    public void activityFinished( final PActivity activity ) {
         for ( PActivityDelegate delegate : delegates ) {
             delegate.activityFinished( activity );
         }

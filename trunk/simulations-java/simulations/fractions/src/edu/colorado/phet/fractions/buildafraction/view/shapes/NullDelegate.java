@@ -8,12 +8,9 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
  * @author Sam Reid
  */
 class NullDelegate implements PActivityDelegate {
-    @Override public void activityStarted( final PActivity activity ) {
-    }
+    public void activityStarted( final PActivity activity ) { }
 
-    @Override public void activityStepped( final PActivity activity ) {
-    }
+    public void activityStepped( final PActivity activity ) { }
 
-    @Override public void activityFinished( final PActivity activity ) {
-    }
+    public void activityFinished( final PActivity activity ) { }
 }
