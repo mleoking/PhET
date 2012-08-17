@@ -264,47 +264,18 @@ public class MultipleCellsModel implements Resettable {
      * @return
      */
     public Rectangle2D getVisibleCellCollectionBounds() {
-        /*
-         * REVIEW: since this is symmetric around 0, could we get away with the following?
-         *
-         * double xBound = 0; // in range [-xBound, xBound]
-         * double yBound = 0; // in range [-yBound, yBound]
-         *
-         * for ( Cell cell : visibleCellList ) {
-         *     Rectangle2D bounds = cell.getShape().getBounds2D();
-         *
-         *     // these COULD be shortened to 2 lines, but I find it more readable this way
-         *     xBound = Math.min( xBound, Math.abs( bounds.getMinX() ) )
-         *     xBound = Math.min( xBound, Math.abs( bounds.getMaxX() ) )
-         *     yBound = Math.min( yBound, Math.abs( bounds.getMinY() ) )
-         *     yBound = Math.min( yBound, Math.abs( bounds.getMaxY() ) )
-         * }
-         *
-         * return new Rectangle2D.Double( -xBound, -yBound, 2 * xBound, 2 * yBound );
-         */
-        double minX = 0;
-        double minY = 0;
-        double maxX = 0;
-        double maxY = 0;
+        double xBound = 0; // in range [-xBound, xBound]
+        double yBound = 0; // in range [-yBound, yBound]
+
         for ( Cell cell : visibleCellList ) {
-            if ( cell.getShape().getBounds2D().getMinX() < minX ) {
-                minX = cell.getShape().getBounds2D().getMinX();
-                maxX = -minX;
-            }
-            if ( cell.getShape().getBounds2D().getMinY() < minY ) {
-                minY = cell.getShape().getBounds2D().getMinY();
-                maxY = -minY;
-            }
-            if ( cell.getShape().getBounds2D().getMaxX() > maxX ) {
-                maxX = cell.getShape().getBounds2D().getMaxX();
-                minX = -maxX;
-            }
-            if ( cell.getShape().getBounds2D().getMaxY() > maxY ) {
-                maxY = cell.getShape().getBounds2D().getMaxY();
-                minY = -maxY;
-            }
+            Rectangle2D bounds = cell.getShape().getBounds2D();
+            xBound = Math.max( xBound, Math.abs( bounds.getMinX() ) );
+            xBound = Math.max( xBound, Math.abs( bounds.getMaxX() ) );
+            yBound = Math.max( yBound, Math.abs( bounds.getMinY() ) );
+            yBound = Math.max( yBound, Math.abs( bounds.getMaxY() ) );
         }
-        return new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
+
+        return new Rectangle2D.Double( -xBound, -yBound, 2 * xBound, 2 * yBound );
     }
 
     /**
