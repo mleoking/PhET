@@ -267,39 +267,54 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         } ) );
         boolean hit = false;
 
-        //Only consider the closest box, otherwise students can overlap many boxes instead of thinking of the correct answer
-        for ( ShapeSceneCollectionBoxPair pair : pairs.take( 1 ) ) {
-            final boolean intersects = pair.collectionBoxNode.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
-            final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value.toFraction() );
-            final boolean occupied = pair.getCollectionBoxNode().isCompleted();
-            if ( intersects && matchesValue && !occupied ) {
-                final double scale = 0.5;
-                containerNode.removeUndoButton();
+        final boolean intersectsToolbox = containerNode.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() );
 
-                //Order dependence: set in target cell first so that layout code will work better afterwards
-                containerNode.setInTargetCell( true, pair.value.denominator );
-                containerNode.animateToPositionScaleRotation( pair.collectionBoxNode.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
-                                                              pair.collectionBoxNode.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, false ) );
-                pair.collectionBoxNode.setCompletedFraction( containerNode );
-                containerNode.setAllPickable( false );
+        //The following block determines whether the user is trying to put the container in the toolbox.
+        //If so, then it should not test for overlap with the collection boxes, which would erroneously eject it to the play area, see #3397
+        ShapeSceneCollectionBoxPair closestCollectionBoxPair = pairs.take( 1 ).head();
+        double collectionBoxY = closestCollectionBoxPair.getCollectionBoxNode().getGlobalFullBounds().getCenterY();
+        double toolboxY = toolboxNode.getGlobalFullBounds().getCenterY();
+        double containerNodeY = containerNode.getGlobalFullBounds().getCenterY();
+        double distanceToCollectionBoxInY = Math.abs( collectionBoxY - containerNodeY );
+        double distanceToToolboxY = Math.abs( toolboxY - containerNodeY );
+        boolean closerToToolboxCenter = distanceToToolboxY < distanceToCollectionBoxInY;
+        boolean skipCollectionBoxes = intersectsToolbox && closerToToolboxCenter;
 
-                hit = true;
-                break;
-            }
-            else if ( intersects ) {
-                //move back to the center of the screen, but only if no other container node is already there.
-                if ( getContainerNodesInPlayArea().exists( new F<ContainerNode, Boolean>() {
-                    @Override public Boolean f( final ContainerNode containerNode ) {
-                        return containerNode.getOffset().distance( getContainerPosition( level ).toPoint2D() ) < 10;
+        if ( !skipCollectionBoxes ) {
+            //Only consider the closest box, otherwise students can overlap many boxes instead of thinking of the correct answer
+            for ( ShapeSceneCollectionBoxPair pair : pairs.take( 1 ) ) {
+                final boolean intersects = pair.collectionBoxNode.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
+                final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value.toFraction() );
+                final boolean occupied = pair.getCollectionBoxNode().isCompleted();
+                if ( intersects && matchesValue && !occupied ) {
+                    final double scale = 0.5;
+                    containerNode.removeUndoButton();
+
+                    //Order dependence: set in target cell first so that layout code will work better afterwards
+                    containerNode.setInTargetCell( true, pair.value.denominator );
+                    containerNode.animateToPositionScaleRotation( pair.collectionBoxNode.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
+                                                                  pair.collectionBoxNode.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, false ) );
+                    pair.collectionBoxNode.setCompletedFraction( containerNode );
+                    containerNode.setAllPickable( false );
+
+                    hit = true;
+                    break;
+                }
+                else if ( intersects ) {
+                    //move back to the center of the screen, but only if no other container node is already there.
+                    if ( getContainerNodesInPlayArea().exists( new F<ContainerNode, Boolean>() {
+                        @Override public Boolean f( final ContainerNode containerNode ) {
+                            return containerNode.getOffset().distance( getContainerPosition( level ).toPoint2D() ) < 10;
+                        }
+                    } ) ) {
+                        double angle = Math.PI * 2 * random.nextDouble();
+                        animateToPosition( containerNode, getContainerPosition( level ).plus( Vector2D.createPolar( 150, angle ) ), new MoveAwayFromCollectionBoxes( this, containerNode ) );
                     }
-                } ) ) {
-                    double angle = Math.PI * 2 * random.nextDouble();
-                    animateToPosition( containerNode, getContainerPosition( level ).plus( Vector2D.createPolar( 150, angle ) ), new MoveAwayFromCollectionBoxes( this, containerNode ) );
-                }
-                else {
-                    animateToPosition( containerNode, getContainerPosition( level ), new MoveAwayFromCollectionBoxes( this, containerNode ) );
-                }
+                    else {
+                        animateToPosition( containerNode, getContainerPosition( level ), new MoveAwayFromCollectionBoxes( this, containerNode ) );
+                    }
 
+                }
             }
         }
 
@@ -308,7 +323,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
 
         //Put the piece back in its starting location, but only if it is empty
-        if ( !hit && containerNode.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() ) && containerNode.getFractionValue().numerator == 0 ) {
+        if ( !hit && intersectsToolbox && containerNode.getFractionValue().numerator == 0 ) {
             if ( containerNode.belongsInToolbox() ) {
                 containerNode.resetNumberOfContainers();
                 containerNode.selectedPieceSize.reset();
