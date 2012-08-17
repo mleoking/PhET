@@ -186,7 +186,7 @@ class GameNode extends PNode {
 
         final LevelSelectionScreenButton levelSelectionScreenButton = new LevelSelectionScreenButton( new VoidFunction0() {
             public void apply() {
-                model.state.set( model.state.get().withMode( Mode.CHOOSING_SETTINGS ) );
+                model.levelSelectionButtonPressed();
             }
         }, Images.FRACTIONS_BUTTON_MATCHING ) {{
             setOffset( AbstractFractionsCanvas.INSET, myMatchesText.getMaxY() + AbstractFractionsCanvas.INSET * 2 );
