@@ -1,3 +1,4 @@
+Build a Fraction: Fixed green button colors with NP provided artwork
 # 1.00.42 (67096) Aug 17, 2012
 Fraction Matcher: When a game is over, if the "level selection screen button" is pressed, record the stars and clear the level as if the user had pressed "new game"
 Build a Fraction: Numbers: Adjusted level 6 so that it has at least 3 stacks, because when there are just 2 stacks, one often has 7 cards and is too tall (and overlaps adjacent stacks and goes out of the toolbox bounds)
