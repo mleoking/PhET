@@ -43,6 +43,7 @@ public class NumberCollectionBoxNode extends PNode {
             scale( 0.8 );
             setOffset( -1, -1 );
             addActionListener( new ActionListener() {
+                //REVIEW: Override of interface.  If we're not allowing these yet, all of the code should be checked for them.
                 @Override public void actionPerformed( final ActionEvent e ) {
                     undo( true );
                 }
