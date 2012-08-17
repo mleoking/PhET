@@ -76,6 +76,7 @@ public class FractionNode extends RichPNode {
 
         undoButton = new UndoButton( chain( Components.playAreaUndoButton, FractionNode.this.hashCode() ) );
         undoButton.addActionListener( new ActionListener() {
+            //REVIEW: Override on an interface, Java 1.6 only.  Can't recall if we started allowing these.
             @Override public void actionPerformed( final ActionEvent e ) {
                 undo();
             }
@@ -240,7 +241,9 @@ public class FractionNode extends RichPNode {
                getFractionPart();
     }
 
-    private Fraction getFractionPart() {return new Fraction( numerator.card.number, denominator.card.number );}
+    private Fraction getFractionPart() {
+        return new Fraction( numerator.card.number, denominator.card.number );
+    }
 
     public NumberNode getTopNumberNode() { return numerator.number; }
 
@@ -261,16 +264,22 @@ public class FractionNode extends RichPNode {
         setPickable( true );
     }
 
-    public void addUndoListener( final VoidFunction1<Option<Fraction>> listener ) { undoListeners.add( listener ); }
+    public void addUndoListener( final VoidFunction1<Option<Fraction>> listener ) {
+        undoListeners.add( listener );
+    }
 
-    public boolean isInToolboxPosition() { return getXOffset() == toolboxPositionX && getYOffset() == toolboxPositionY; }
+    public boolean isInToolboxPosition() {
+        return getXOffset() == toolboxPositionX && getYOffset() == toolboxPositionY;
+    }
 
     public void setToolboxPosition( final double x, final double y ) {
         this.toolboxPositionX = x;
         this.toolboxPositionY = y;
     }
 
-    public void setCardNode( final FractionCardNode fractionCardNode ) { this.cardNode = fractionCardNode; }
+    public void setCardNode( final FractionCardNode fractionCardNode ) {
+        this.cardNode = fractionCardNode;
+    }
 
     public void animateToToolbox() {
         animateToPositionScaleRotation( toolboxPositionX, toolboxPositionY, SCALE_IN_TOOLBOX, 0, 1000 );
