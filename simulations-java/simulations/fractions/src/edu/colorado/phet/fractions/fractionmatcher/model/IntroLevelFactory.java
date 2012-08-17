@@ -8,7 +8,6 @@ import edu.colorado.phet.fractions.common.math.Fraction;
 import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.shuffle;
 import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 import static fj.data.List.list;
-import static fj.data.List.single;
 
 /**
  * Description for levels in the matching game
@@ -108,7 +107,8 @@ public class IntroLevelFactory extends AbstractLevelFactory {
                                                      level == 8 ? LEVEL_8_FRACTIONS :
                                                      List.<Fraction>nil() );
 
-        final List<Integer> numericScaleFactors = level < 5 ? single( 1 ) :
+        final List<Integer> numericScaleFactors = level <= 3 ? list( 1 ) :
+                                                  level == 4 ? list( 1, 2 ) :
                                                   level == 5 ? list( 1, 2, 3 ) :
                                                   level == 6 ? list( 1, 4, 5 ) :
                                                   level == 7 ? list( 1, 6, 7 ) :
