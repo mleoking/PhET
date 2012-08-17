@@ -33,9 +33,7 @@ class GameOverDialog {
                                     public void newGamePressed() {
 
                                         //Refresh the level so the next time the user comes back they can play it again instead of seeing the "game over" dialog
-                                        model.finishRefresh();
-                                        final MatchingGameState value = model.state.get().newGame( state.info.level, state.info.score );
-                                        model.state.set( value );
+                                        model.startNewGame();
                                     }
                                 } );
                             }} );

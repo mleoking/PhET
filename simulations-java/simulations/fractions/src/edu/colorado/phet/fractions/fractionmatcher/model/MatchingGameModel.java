@@ -31,6 +31,7 @@ import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Model
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState.initialState;
 import static edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState.newLevel;
+import static edu.colorado.phet.fractions.fractionmatcher.model.Mode.SHOWING_GAME_OVER_SCREEN;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ModelActions.changed;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ModelComponentTypes.scale;
 
@@ -283,4 +284,27 @@ public class MatchingGameModel {
     public void addLevelStartedListener( final VoidFunction1<Integer> listener ) {
         levelStartedListeners.add( listener );
     }
+
+    public void startNewGame() {
+        final MatchingGameState state = this.state.get();
+        finishRefresh();
+        final MatchingGameState value = this.state.get().newGame( state.info.level, state.info.score );
+        this.state.set( value );
+    }
+
+    public void showLevelSelectionScreen() { state.set( state.get().withMode( Mode.CHOOSING_SETTINGS ) ); }
+
+    public Mode getMode() { return state.get().getMode(); }
+
+    //When the level selection button is pressed, show the level selection screen.  But if the game was over, also record the stars in the level.
+    public void levelSelectionButtonPressed() {
+        if ( isGameOver() ) {
+            startNewGame();
+        }
+        else {
+            showLevelSelectionScreen();
+        }
+    }
+
+    private boolean isGameOver() {return getMode() == SHOWING_GAME_OVER_SCREEN;}
 }
