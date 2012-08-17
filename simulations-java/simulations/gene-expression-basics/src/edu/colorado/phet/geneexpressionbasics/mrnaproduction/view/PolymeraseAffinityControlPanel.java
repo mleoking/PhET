@@ -112,8 +112,7 @@ public class PolymeraseAffinityControlPanel extends PNode {
         }
 
         public SpacerNode( double width, double height ) {
-            // REVIEW: just use Color.BLACK?
-            spacer = new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new Color( 0, 0, 0, 255 ) );
+            spacer = new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new Color( 0, 0, 0, 0 ) );
             addChild( spacer );
         }
 
