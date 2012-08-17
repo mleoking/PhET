@@ -40,6 +40,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 
+import static edu.colorado.phet.fractions.fractionmatcher.view.GameOverDialog.createGameOverDialog;
 import static java.awt.Color.lightGray;
 
 /**
@@ -256,6 +257,6 @@ class GameNode extends PNode {
 
         //Show the game over dialog, if the game has ended.  Also, it has a stateful piccolo button so must not be cleared when the model changes, so it is stored in a field
         //and only regenerated when new games end.
-        addChild( GameOverDialog.createGameOverDialog( model ) );
+        addChild( createGameOverDialog( model ) );
     }
 }
