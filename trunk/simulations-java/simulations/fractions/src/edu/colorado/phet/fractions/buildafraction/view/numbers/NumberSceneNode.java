@@ -52,15 +52,15 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     //When sending cards back to the toolbox, make sure they have the right location and z-order.
     private final ArrayList<Stack> stackList;
-
-    private static final double spacingBetweenNumbers = 20;
-    private static final double leftRightInset = 20;
-    private static final double spacingBetweenNumbersAndFractionSkeleton = 50;
     public final NumberLevel level;
     private final Dimension2DDouble singleDigitCardSize;
     private final Dimension2DDouble doubleDigitCardSize;
     private final List<List<Integer>> stacks;
     private final Vector2D centerOfScreen;
+
+    private static final double SPACE_BETWEEN_STACKS = 20;
+    private static final double LEFT_RIGHT_INSET = 20;
+    private static final double SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON = 50;
 
     @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         super( levelIndex, soundEnabled, context );
@@ -134,7 +134,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         final FractionNode fractionNode = new FractionNode( this, level.hasMixedNumbers() );
         fractionNode.setScale( 1.0 );
 
-        final double extentX = leftRightInset * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + spacingBetweenNumbersAndFractionSkeleton + fractionNode.getFullBounds().getWidth();
+        final double extentX = LEFT_RIGHT_INSET * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON + fractionNode.getFullBounds().getWidth();
 
         //Create the toolbox node
         toolboxNode = new RichPNode() {{
@@ -392,7 +392,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         final double cardDeltaX = 4;
         final double cardOffset = cardIndex * cardDeltaX;
         final double cardDeltaY = 4;
-        return new Vector2D( toolboxNode.getMinX() + leftRightInset + getStackOffset( stackIndex ) + cardOffset,
+        return new Vector2D( toolboxNode.getMinX() + LEFT_RIGHT_INSET + getStackOffset( stackIndex ) + cardOffset,
                              toolboxNode.getCenterY() - cardNode.getFullBounds().getHeight() / 2 + cardIndex * cardDeltaY );
     }
 
@@ -401,7 +401,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         double stackOffset = 0;
         for ( List<Integer> stack : stacks.take( stackIndex ) ) {
             stackOffset += stack.head().toString().length() < 2 ? singleDigitCardSize.width : doubleDigitCardSize.width;
-            stackOffset += spacingBetweenNumbers;
+            stackOffset += SPACE_BETWEEN_STACKS;
         }
         return stackOffset;
     }
