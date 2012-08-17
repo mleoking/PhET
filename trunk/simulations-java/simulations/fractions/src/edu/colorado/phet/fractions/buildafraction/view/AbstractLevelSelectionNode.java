@@ -134,12 +134,12 @@ class AbstractLevelSelectionNode extends PNode {
         }} );
     }
 
-    private VBox toButtonSetNode( final List<List<LevelInfo>> page1Levels, final LevelSelectionContext context ) {
+    private VBox toButtonSetNode( final List<List<LevelInfo>> pageLevels, final LevelSelectionContext context ) {
         ArrayList<HBox> boxes = new ArrayList<HBox>();
-        for ( List<LevelInfo> list : page1Levels ) {
+        for ( List<LevelInfo> list : pageLevels ) {
             List<PNode> icons = list.map( new F<LevelInfo, PNode>() {
                 @Override public PNode f( final LevelInfo levelInfo ) {
-                    return toLevelIcon( levelInfo, page1Levels, context );
+                    return toLevelIcon( levelInfo, pageLevels, context );
                 }
             } );
             boxes.add( new HBox( 25, icons.array( PNode[].class ) ) );
