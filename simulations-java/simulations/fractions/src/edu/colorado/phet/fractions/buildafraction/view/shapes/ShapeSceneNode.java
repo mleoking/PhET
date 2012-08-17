@@ -101,7 +101,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     }
 
     @SuppressWarnings("unchecked") private ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset ) {
-        super( soundEnabled, context );
+        super( levelIndex, soundEnabled, context );
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {

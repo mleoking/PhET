@@ -166,7 +166,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         animateTo( newScene, Direction.RIGHT );
     }
 
-    public void goToLevelSelectionScreen() {
+    public void goToLevelSelectionScreen( final int fromLevelIndex ) {
+        model.selectedPage.set( fromLevelIndex < 5 ? 0 : 1 );
         animateTo( new LevelSelectionNode( Strings.BUILD_A_FRACTION, this, model.audioEnabled, model.selectedPage, model.gameProgress ), Direction.LEFT );
     }
 
