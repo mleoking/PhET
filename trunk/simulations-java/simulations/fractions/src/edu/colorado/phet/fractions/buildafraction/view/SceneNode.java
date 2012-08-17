@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
@@ -63,7 +64,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
             public void apply() {
                 context.goToLevelSelectionScreen();
             }
-        }, 0, 0 ) {{
+        }, Images.FRACTIONS_BUTTON_BUILD ) {{
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
         }};
         addChild( levelSelectionScreenButton );

@@ -40,6 +40,8 @@ public class FractionsResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage FRACTIONS_BUTTON_BUILD = RESOURCES.getImage( "fractions_button_build.png" );
+        public static final BufferedImage FRACTIONS_BUTTON_MATCHING = RESOURCES.getImage( "fractions_button_matching.png" );
         public static final BufferedImage LEFT_BUTTON_GRAY = RESOURCES.getImage( "left_button_gray.png" );
         public static final BufferedImage LEFT_BUTTON_PRESSED = RESOURCES.getImage( "left_button_pressed.png" );
         public static final BufferedImage LEFT_BUTTON_PRESSED_GREEN = RESOURCES.getImage( "left_button_pressed_green.png" );

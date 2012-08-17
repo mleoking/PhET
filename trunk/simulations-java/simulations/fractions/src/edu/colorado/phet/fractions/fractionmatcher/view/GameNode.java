@@ -25,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.common.view.FNode;
@@ -186,7 +187,7 @@ class GameNode extends PNode {
             public void apply() {
                 model.state.set( model.state.get().withMode( Mode.CHOOSING_SETTINGS ) );
             }
-        }, 5, 4 ) {{
+        }, Images.FRACTIONS_BUTTON_MATCHING ) {{
             setOffset( AbstractFractionsCanvas.INSET, myMatchesText.getMaxY() + AbstractFractionsCanvas.INSET * 2 );
         }};
 

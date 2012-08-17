@@ -1,3 +1,5 @@
+fractions_button_build.png source=PhET notes=NP
+fractions_button_matching.png source=PhET notes=NP
 left_button_gray.png source=PhET notes=NP
 left_button_pressed.png source=PhET notes=NP
 left_button_up.png source=PhET notes=NP
