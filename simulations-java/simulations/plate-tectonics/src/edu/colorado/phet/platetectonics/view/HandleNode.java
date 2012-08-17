@@ -403,6 +403,9 @@ public class HandleNode extends GLNode {
             Vector3F tipRadialPosition = convertToRadial( tipPlanarPosition );
             Vector3F delta = tipRadialPosition.minus( tailRadialPosition ).normalized();
             float angleChange = (float) Math.atan2( delta.getY(), Math.sqrt( delta.x * delta.x + delta.z * delta.z ) );
+            if ( motionType == MotionType.TRANSFORM && rotation < 0 ) {
+                angleChange = (float) (-Math.PI / 50);
+            }
             rotate( Z_UNIT, angleChange );
 
             // update visibility when necessary
