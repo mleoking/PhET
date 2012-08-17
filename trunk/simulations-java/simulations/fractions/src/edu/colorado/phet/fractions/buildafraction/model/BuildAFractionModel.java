@@ -39,8 +39,8 @@ public class BuildAFractionModel {
     private final ArrayList<ShapeLevel> shapeLevels;
 
     public final F<LevelIdentifier, LevelProgress> gameProgress = new F<LevelIdentifier, LevelProgress>() {
-        @Override public LevelProgress f( final LevelIdentifier i ) {
-            final Level level = getLevel( i );
+        @Override public LevelProgress f( final LevelIdentifier id ) {
+            final Level level = getLevel( id );
             return new LevelProgress( level.filledTargets.get(), level.numTargets );
         }
     };
