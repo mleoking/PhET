@@ -21,6 +21,7 @@ import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLPhetApplication;
 import edu.colorado.phet.lwjglphet.StartupUtils;
 import edu.colorado.phet.lwjglphet.utils.ColorPropertyControl;
+import edu.colorado.phet.lwjglphet.utils.GLActionListener;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.dev.PerformanceFrame;
 import edu.colorado.phet.platetectonics.tabs.CrustTab;
@@ -57,7 +58,7 @@ public class PlateTectonicsApplication extends LWJGLPhetApplication {
 
         final Frame parentFrame = getPhetFrame();
 
-        final LWJGLCanvas canvas = LWJGLCanvas.getCanvasInstance();
+        final LWJGLCanvas canvas = LWJGLCanvas.getCanvasInstance( parentFrame );
 
         // uses our TabbedMolecule interface to present multiple tabs using the same LWJGL canvas.
         // at the current time, it is impractical to have multiple LWJGL canvases at the same time, and the module system was not flexible enough to
@@ -156,6 +157,14 @@ public class PlateTectonicsApplication extends LWJGLPhetApplication {
                     }}.setVisible( true );
                 }
             } );
+        }} );
+
+        developerMenu.add( new JMenuItem( "Show Error Dialog" ) {{
+            addActionListener( new GLActionListener(new Runnable() {
+                public void run() {
+                    LWJGLUtils.showErrorDialog( frame, new RuntimeException( "This is a test" ) );
+                }
+            } ) );
         }} );
     }
 

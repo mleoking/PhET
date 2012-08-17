@@ -8,6 +8,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.PixelFormat;
 
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+
 /**
  * Main rendering area for an LWJGL-based simulation. Native code will take over painting of this
  * canvas with the OpenGL accelerated view.
@@ -35,10 +37,11 @@ public class LWJGLCanvas extends Canvas {
 
     private static LWJGLCanvas instance = null;
     private static ConcurrentLinkedQueue<Runnable> taskQueue = new ConcurrentLinkedQueue<Runnable>();
+    private final Frame parentFrame;
 
-    public static synchronized LWJGLCanvas getCanvasInstance() {
+    public static synchronized LWJGLCanvas getCanvasInstance( Frame parentFrame ) {
         if ( instance == null ) {
-            instance = new LWJGLCanvas();
+            instance = new LWJGLCanvas( parentFrame );
         }
         return instance;
     }
@@ -47,7 +50,8 @@ public class LWJGLCanvas extends Canvas {
         taskQueue.add( runnable );
     }
 
-    private LWJGLCanvas() {
+    private LWJGLCanvas( Frame parentFrame ) {
+        this.parentFrame = parentFrame;
         setFocusable( true );
         requestFocus();
         setIgnoreRepaint( true );
@@ -97,26 +101,29 @@ public class LWJGLCanvas extends Canvas {
                                                      0, // stencil
                                                      Math.min( 4, maxAntiAliasingSamples ) ) // antialiasing samples
                     );
+
+                    // main loop
+                    while ( running ) {
+                        while ( !taskQueue.isEmpty() ) {
+                            taskQueue.poll().run();
+                        }
+                        if ( activeTab != null ) {
+                            if ( tabDirty ) {
+                                activeTab.start();
+                                tabDirty = false;
+                            }
+                            activeTab.loop();
+                        }
+                    }
+
+                    Display.destroy();
+
                 }
                 catch( LWJGLException e ) {
+                    LWJGLUtils.showErrorDialog( parentFrame, e );
                     e.printStackTrace();
                 }
 
-                // main loop
-                while ( running ) {
-                    while ( !taskQueue.isEmpty() ) {
-                        taskQueue.poll().run();
-                    }
-                    if ( activeTab != null ) {
-                        if ( tabDirty ) {
-                            activeTab.start();
-                            tabDirty = false;
-                        }
-                        activeTab.loop();
-                    }
-                }
-
-                Display.destroy();
             }
         };
         renderThread.start();
