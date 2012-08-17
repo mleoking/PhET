@@ -26,9 +26,13 @@ public class RefreshButtonNode extends PNode {
 
     //Reshape so the button will have similar dimension to the other text buttons.
     public static BufferedImage copyWithPadding( BufferedImage image, int dw ) {
-        BufferedImage copy = new BufferedImage( image.getWidth() + dw * 2, image.getHeight(), image.getType() );
+        return copyWithPadding( image, dw, 0 );
+    }
+
+    public static BufferedImage copyWithPadding( BufferedImage image, int dw, int dh ) {
+        BufferedImage copy = new BufferedImage( image.getWidth() + dw * 2, image.getHeight() + dh * 2, image.getType() );
         Graphics2D graphics2D = copy.createGraphics();
-        graphics2D.drawImage( image, dw, 0, null );
+        graphics2D.drawImage( image, dw, dh, null );
         graphics2D.dispose();
         return copy;
     }
