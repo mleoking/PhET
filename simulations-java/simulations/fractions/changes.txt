@@ -1,3 +1,5 @@
+> fraction-matcher: Added a refresh button to load new challenges for the same level
+> fraction-matcher: Improved level selection screen and other UI improvements
 # 1.00.43 (67099) Aug 17, 2012
 Build a Fraction: Fixed green button colors with NP provided artwork
 # 1.00.42 (67096) Aug 17, 2012
