@@ -1,3 +1,4 @@
+# 3.02.00 (67107) Aug 18, 2012
 > Removed strings, including translated versions, for calcium and potassium.  These were unused, and removed to avoid potential confusion.
 # 3.01.01 (67068) Aug 16, 2012
 > 8/16/12 Fixed an issue where the label "calcium" was being used where it should have said "chlorine".
