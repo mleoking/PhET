@@ -282,8 +282,8 @@ public class CrustModel extends PlateTectonicsModel {
             }
         }, new Vector2F[mantleTop.length] );
         Vector2F[] centerOfTheEarth = map( innerOuterCoreBoundary, new Function1<Vector2F, Vector2F>() {
-            public Vector2F apply( Vector2F immutableVector2F ) {
-                return new Vector2F( 0, CENTER_OF_EARTH_Y );
+            public Vector2F apply( Vector2F vector2f ) {
+                return new Vector2F( vector2f.x, CENTER_OF_EARTH_Y );
             }
         }, new Vector2F[innerOuterCoreBoundary.length] );
 
