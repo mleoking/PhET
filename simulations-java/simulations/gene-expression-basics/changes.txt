@@ -1,3 +1,4 @@
+Changed type of exception thrown to prevent security exception when run via JNLP.
 # 0.00.25 (67085) Aug 17, 2012
 8/17/12 Publishing to dev as release candidate
 # 0.00.24 (65991) Jul 18, 2012

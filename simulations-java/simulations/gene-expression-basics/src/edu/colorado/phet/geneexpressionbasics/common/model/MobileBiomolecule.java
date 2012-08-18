@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.awt.Color;
 import java.awt.Shape;
 
@@ -246,7 +244,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      */
     public void changeConformation( double changeFactor ) {
         // Should never be called if not implemented.
-        throw new NotImplementedException();
+        throw new RuntimeException( "Method 'changeConformation' not implemented in base class." );
     }
 
     /**
