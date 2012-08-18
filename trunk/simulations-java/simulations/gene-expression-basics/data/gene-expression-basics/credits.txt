@@ -1,1 +1,4 @@
-phet-credits lead-design=X software-development=X design-team=X, X, X interviews=X, X, X
+phet-credits lead-design=John Blanco & Mike Klymkowsky
+software-development=John Blanco
+design-team=Katherine Perkins, Ariel Paul
+interviews=Ariel Paul
