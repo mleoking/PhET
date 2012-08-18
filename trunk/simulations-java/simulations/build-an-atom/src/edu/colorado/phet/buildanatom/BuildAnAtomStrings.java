@@ -58,7 +58,6 @@ public class BuildAnAtomStrings {
     public static final String ELEMENT_SULFUR_NAME = getString( "element.sulfur.name" );
     public static final String ELEMENT_CHLORINE_NAME = getString( "element.chlorine.name" );
     public static final String ELEMENT_ARGON_NAME = getString( "element.argon.name" );
-    public static final String ELEMENT_POTASSIUM_NAME = getString( "element.potassium.name" );
 
     //game
     public static final String GAME_PROBLEM_INDEX_READOUT_PATTERN = getString( "game.problemIndexReadout.pattern" );
