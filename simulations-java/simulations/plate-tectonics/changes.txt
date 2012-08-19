@@ -1,3 +1,4 @@
+"Young Oceanic Crust" labels are always added on rift zones
 # 0.00.59 (67105) Aug 18, 2012
 Fixed center-of-earth temperature bug
 # 0.00.58 (67101) Aug 17, 2012
