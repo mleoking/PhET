@@ -113,7 +113,8 @@ public class RiftingBehavior extends PlateBehavior {
         float oceanYAfter = getLithosphere().getBottomBoundary().getApproximateYFromX( oceanLabelX );
 
         // watch for when to add labels to the oceanic crust that is new (12km threshold)
-        if ( plate.getPlateType() != PlateType.YOUNG_OCEANIC && !addedLabels && ( oceanYBefore < -55000 ) != ( oceanYAfter < -55000 ) ) {
+//        if ( plate.getPlateType() != PlateType.YOUNG_OCEANIC && !addedLabels && ( oceanYBefore < -55000 ) != ( oceanYAfter < -55000 ) ) {
+        if ( !addedLabels && timeElapsed > 8.43664 ) {
             addedLabels = true;
             plate.getModel().rangeLabels.add( new RangeLabel(
                     new Property<Vector3F>( new Vector3F() ) {{
