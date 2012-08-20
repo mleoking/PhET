@@ -1,3 +1,5 @@
+# 1.00.00 (67117) Aug 20, 2012
+8/20/12 > Initial publication to production server.
 # 0.00.26 (67110) Aug 18, 2012
 8/18/12 Release candidate with fix for security exception
 Changed type of exception thrown to prevent security exception when run via JNLP.
