@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.linegame.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
@@ -19,6 +20,10 @@ public class GameTimer {
 
     private final IClock clock;
     private long startTime; // System time in ms when the game started
+
+    public GameTimer() {
+        this( new ConstantDtClock( 1000 / 5, 1 ) ); // don't need to tick too often to update the scoreboard time
+    }
 
     public GameTimer( IClock clock ) {
         this.clock = clock;
