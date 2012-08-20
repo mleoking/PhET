@@ -1,2 +1,2 @@
-phet-credits design-team=John Blanco, Mike Klymkowsky, Ariel Paul, Katherine Perkins, Tom Perkins software-development=John Blanco (lead developer), George Emanuel (multi-cell model software) interviews=Ariel Paul
+phet-credits design-team=John Blanco, Mike Klymkowsky, Ariel Paul, Katherine Perkins, Tom Perkins software-development=John Blanco, George Emanuel interviews=Ariel Paul
 
