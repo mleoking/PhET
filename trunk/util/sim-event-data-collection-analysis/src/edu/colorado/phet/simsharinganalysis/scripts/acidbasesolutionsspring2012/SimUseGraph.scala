@@ -73,6 +73,27 @@ object SimUseGraph {
       }
     }
 
+    println("Feature\t" + table.map(_._1.name).mkString("\t"))
+    println()
+    println("A1 Groups")
+    println()
+    def toDouble(b: Boolean) = if ( b ) 1 else 0
+    for ( report <- groups(0).reports ) {
+      println(report.session + "\t" + table.map(_._1.filter).map(f => f(report)).map(toDouble).mkString("\t"))
+    }
+    println()
+    println("A2 Groups")
+    println()
+    for ( report <- groups(1).reports ) {
+      println(report.session + "\t" + table.map(_._1.filter).map(f => f(report)).map(toDouble).mkString("\t"))
+    }
+    println()
+    println("A3 Groups")
+    println()
+    for ( report <- groups(2).reports ) {
+      println(report.session + "\t" + table.map(_._1.filter).map(f => f(report)).map(toDouble).mkString("\t"))
+    }
+
     println("Feature\tA1\tA2\tA3\t\tA1-E\tA1-P\tA2-E\tA2-P\tA3-E\tA3-P\t\tA1-E\tA1-P\tA2-E\tA2-P\tA3-E\tA3-P")
     for ( entry <- table ) {
       val feature = entry._1
