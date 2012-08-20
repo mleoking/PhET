@@ -17,7 +17,7 @@ object SimUseGraphSupport {
   }
 
   lazy val groups = {
-    val folder = new File("C:\\Users\\Sam\\Desktop\\abs-study-data")
+    val folder = new File("C:\\Users\\Sam\\Desktop\\phet\\studies\\abs-study-data")
     val files = GroupComparisonTool.filesAt(folder)
 
     Group("a1", load(files.filter(_.getName.indexOf("_a1_") >= 0)) map toReport) ::
