@@ -76,27 +76,31 @@ object SimUseGraph {
     println("Feature\tA1\tA2\tA3\t\tA1-E\tA1-P\tA2-E\tA2-P\tA3-E\tA3-P\t\tA1-E\tA1-P\tA2-E\tA2-P\tA3-E\tA3-P")
     for ( entry <- table ) {
       val feature = entry._1
-      val value = entry._2
+      val classifications = entry._2
 
-      def indicator(s: String) = {
-        val category = s.substring(0, 2)
-        val myType = s.last + ""
-
-        val index = category match {
-          case "A1" => 0
-          case "A2" => 1
-          case "A3" => 2
-        }
-        val result = value(index)
-        if ( myType.charAt(0) == result.charAt(0) ) {
-          "1\t"
-        } else {
-          "\t"
-        }
+      def indicator(column: String) = {
+        val myType = column.last + ""
+        val index = getGroupIndex(column)
+        val classification = classifications(index)
+        if ( myType.charAt(0) == classification.charAt(0) ) "1\t" else "\t"
       }
 
-      println(feature.name + "\t" + value(0) + "\t" + value(1) + "\t" + value(2) + "\t\t" +
-              indicator("A1-E") + indicator("A1-P") + indicator("A2-E") + indicator("A2-P") + indicator("A3-E") + indicator("A3-P"))
+      def data(column: String) = {
+        val index: Int = getGroupIndex(column)
+        val amount = getFractionInGroup(feature, groups(index)) + ""
+        if ( indicator(column) == "1\t" ) amount + "\t" else "\t"
+      }
+
+      println(feature.name + "\t" + classifications(0) + "\t" + classifications(1) + "\t" + classifications(2) + "\t\t" +
+              indicator("A1-E") + indicator("A1-P") + indicator("A2-E") + indicator("A2-P") + indicator("A3-E") + indicator("A3-P") + "\t" +
+              data("A1-E") + data("A1-P") + data("A2-E") + data("A2-P") + data("A3-E") + data("A3-P")
+      )
     }
+  }
+
+  def getGroupIndex(column: String): Int = column.substring(0, 2) match {
+    case "A1" => 0
+    case "A2" => 1
+    case "A3" => 2
   }
 }
