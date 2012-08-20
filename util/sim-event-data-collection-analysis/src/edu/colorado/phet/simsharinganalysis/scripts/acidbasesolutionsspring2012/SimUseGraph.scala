@@ -73,6 +73,7 @@ object SimUseGraph {
       }
     }
 
+    //the 0/1 indicator table for each session
     println("Feature\t" + table.map(_._1.name).mkString("\t"))
     println()
     println("A1 Groups")
@@ -94,6 +95,7 @@ object SimUseGraph {
       println(report.session + "\t" + table.map(_._1.filter).map(f => f(report)).map(toDouble).mkString("\t"))
     }
 
+    //The overall summary for comparative bar charts
     println("Feature\tA1\tA2\tA3\t\tA1-E\tA1-P\tA2-E\tA2-P\tA3-E\tA3-P\t\tA1-E\tA1-P\tA2-E\tA2-P\tA3-E\tA3-P")
     for ( entry <- table ) {
       val feature = entry._1
