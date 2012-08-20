@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -99,7 +98,7 @@ public class LineGameModel {
         this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), pointTool1.location.get().getY() ), allLines );
 
         // time
-        timer = new GameTimer( new ConstantDtClock( 1000 / 5, 1 ) );
+        timer = new GameTimer();
         bestTimes = new HashMap<Integer, Long>();
         for ( int i = settings.level.getMin(); i <= settings.level.getMax(); i++ ) {
             bestTimes.put( i, 0L );

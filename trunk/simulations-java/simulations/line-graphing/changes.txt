@@ -1,3 +1,4 @@
+8/20/12 add a zero-arg constructor to GameTimer
 7/31/12 add PlayState.NONE to fix bugs with starting a new game in the middle of playing a game
 7/31/12 #3395, move -startModule program arg to PhetApplication.startApplication
 # 0.00.22 (66238) Jul 25, 2012
