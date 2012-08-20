@@ -17,10 +17,12 @@ public class PlateTectonicsResources {
         public static final String BOTH_VIEW = RESOURCES.getLocalizedString( "bothView" );
         public static final String COMPOSITION = RESOURCES.getLocalizedString( "composition" );
         public static final String CONTINENTAL_CRUST = RESOURCES.getLocalizedString( "continentalCrust" );
+        public static final String CONVERGENT = RESOURCES.getLocalizedString( "convergent" );
         public static final String COOL = RESOURCES.getLocalizedString( "cool" );
         public static final String CRUST = RESOURCES.getLocalizedString( "crust" );
         public static final String CRUST_TAB = RESOURCES.getLocalizedString( "crustTab" );
         public static final String DENSITY_VIEW = RESOURCES.getLocalizedString( "densityView" );
+        public static final String DIVERGENT = RESOURCES.getLocalizedString( "divergent" );
         public static final String INNER_CORE = RESOURCES.getLocalizedString( "innerCore" );
         public static final String LEGEND = RESOURCES.getLocalizedString( "legend" );
         public static final String LESS_DENSE = RESOURCES.getLocalizedString( "lessDense" );
@@ -53,6 +55,7 @@ public class PlateTectonicsResources {
         public static final String TIME_FAST = RESOURCES.getLocalizedString( "timeFast" );
         public static final String TIME_SLOW = RESOURCES.getLocalizedString( "timeSlow" );
         public static final String TOOLBOX = RESOURCES.getLocalizedString( "toolbox" );
+        public static final String TRANSFORM = RESOURCES.getLocalizedString( "transform" );
         public static final String WARM = RESOURCES.getLocalizedString( "warm" );
         public static final String YOUNG_OCEANIC_CRUST = RESOURCES.getLocalizedString( "youngOceanicCrust" );
         public static final String ZOOM = RESOURCES.getLocalizedString( "zoom" );

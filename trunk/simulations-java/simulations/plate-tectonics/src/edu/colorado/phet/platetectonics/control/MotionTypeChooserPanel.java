@@ -18,11 +18,14 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
+import edu.colorado.phet.platetectonics.PlateTectonicsResources;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 
 /**
  * Allows you to choose between convergent, divergent and transform boundaries
@@ -43,9 +46,9 @@ public class MotionTypeChooserPanel extends PNode {
         boolean showConvergent = plateModel.allowsConvergentMotion();
         boolean showTransform = plateModel.allowsTransformMotion();
 
-        PSwing convergentButton = new PSwing( new MotionTypeChooserRadioButton( UserComponents.convergentMotion, "Convergent", MotionType.CONVERGENT ) );
-        PSwing divergentButton = new PSwing( new MotionTypeChooserRadioButton( UserComponents.divergentMotion, "Divergent", MotionType.DIVERGENT ) );
-        PSwing transformButton = new PSwing( new MotionTypeChooserRadioButton( UserComponents.transformMotion, "Transform", MotionType.TRANSFORM ) );
+        PSwing convergentButton = new PSwing( new MotionTypeChooserRadioButton( UserComponents.convergentMotion, Strings.CONVERGENT, MotionType.CONVERGENT ) );
+        PSwing divergentButton = new PSwing( new MotionTypeChooserRadioButton( UserComponents.divergentMotion, Strings.DIVERGENT, MotionType.DIVERGENT ) );
+        PSwing transformButton = new PSwing( new MotionTypeChooserRadioButton( UserComponents.transformMotion, Strings.TRANSFORM, MotionType.TRANSFORM ) );
 
         final Property<Double> x = new Property<Double>( 0.0 );
 
