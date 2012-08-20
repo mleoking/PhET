@@ -251,11 +251,16 @@ class AcidBaseReport(log: Log) {
 
   def used(radioButton: String, icon: String): Boolean = used(radioButton) || used(icon)
 
+  //See if they used any of the specified elements
   def used(elm: List[String]): Boolean = elm.find(used).isDefined
 
   def neverUsed(component: String): Boolean = log.entries.filter(_.messageType == "user").filter(_.component == component).length == 0
 
   def neverUsed(radioButton: String, icon: String): Boolean = neverUsed(radioButton) && neverUsed(icon)
+
+  def usedAcidControlOn2ndTab(control: String) = statesWithTransitions.find(s => s.start.tab1.acid && s.start.selectedTab == 1 && used(control)).isDefined
+
+  def usedBaseControlOn2ndTab(control: String) = statesWithTransitions.find(s => !s.start.tab1.acid && s.start.selectedTab == 1 && used(control)).isDefined
 
   val everUsedAcidSolutionControl = {
     statesWithTransitions.find(s => s.start.tab1.acid && s.start.selectedTab == 1 && used("weakStrengthControl" :: "weakRadioButton" :: "strongRadioButton" :: "concentrationControl" :: Nil)).isDefined
