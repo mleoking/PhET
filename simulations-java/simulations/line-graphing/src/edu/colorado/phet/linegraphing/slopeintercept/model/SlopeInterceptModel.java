@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
-import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
 
 /**
  * Model for the "Slope-Intercept" module.
@@ -38,7 +37,7 @@ public class SlopeInterceptModel extends LineFormsModel {
      * @param yIntercept initial yIntercept value
      */
     private SlopeInterceptModel( final IntegerRange xRange, final IntegerRange yRange, int rise, int run, int yIntercept ) {
-        super( xRange, yRange, new WellDefinedLineProperty( new StraightLine( rise, run, yIntercept, LGColors.INTERACTIVE_LINE ) ) );
+        super( xRange, yRange, new StraightLine( rise, run, yIntercept, LGColors.INTERACTIVE_LINE ) );
 
         assert( yRange.contains( yIntercept ) );
 

@@ -34,12 +34,12 @@ public class LineFormsModel implements Resettable {
      * @param yRange          range of the y axis
      * @param interactiveLine line that the user can manipulate
      */
-    public LineFormsModel( IntegerRange xRange, IntegerRange yRange, WellDefinedLineProperty interactiveLine ) {
+    public LineFormsModel( IntegerRange xRange, IntegerRange yRange, StraightLine interactiveLine ) {
 
         final double mvtScale = GRID_VIEW_UNITS / Math.max( xRange.getLength(), yRange.getLength() ); // view units / model units
         this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), mvtScale, -mvtScale ); // y is inverted
 
-        this.interactiveLine = interactiveLine;
+        this.interactiveLine = new WellDefinedLineProperty( interactiveLine );
         this.savedLines = new ObservableList<StraightLine>();
         this.standardLines = new ObservableList<StraightLine>();
 
@@ -48,7 +48,7 @@ public class LineFormsModel implements Resettable {
         // Observable collection of all lines, required by point tool.
         final ObservableList<StraightLine> allLines = new ObservableList<StraightLine>();
         {
-            interactiveLine.addObserver( new ChangeObserver<StraightLine>() {
+            this.interactiveLine.addObserver( new ChangeObserver<StraightLine>() {
                 public void update( StraightLine newLine, StraightLine oldLine ) {
                     //TODO there's a bug here, oldLine is sometimes not found in the list, allLines leaks and continues to grow
                     allLines.remove( oldLine ); // remove first, because on observer registration oldLine == newLine
