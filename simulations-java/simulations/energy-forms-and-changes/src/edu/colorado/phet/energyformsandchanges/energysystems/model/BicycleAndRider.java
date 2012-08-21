@@ -59,7 +59,6 @@ public class BicycleAndRider extends EnergySource {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private boolean active = false;
     private Property<Double> crankAngle = new Property<Double>( 0.0 ); // In radians.
     private Property<Double> rearWheelAngle = new Property<Double>( 0.0 ); // In radians.
     private double crankAngularVelocity = 0; // In radians/s.
@@ -103,6 +102,11 @@ public class BicycleAndRider extends EnergySource {
     @Override public void deactivate() {
         super.deactivate();
         crankAngularVelocity = 0;
+    }
+
+    @Override public void activate() {
+        super.activate();
+        System.out.println( "bicycle activated" );
     }
 
     public ObservableProperty<Double> getRearWheelAngle() {

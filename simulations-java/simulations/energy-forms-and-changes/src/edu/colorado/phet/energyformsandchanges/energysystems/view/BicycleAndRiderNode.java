@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -22,7 +24,8 @@ public class BicycleAndRiderNode extends PNode {
     public BicycleAndRiderNode( final BicycleAndRider bicycleAndRider, final ModelViewTransform mvt ) {
 
         // Create and add the various image nodes.
-        addChild( new ModelElementImageNode( BicycleAndRider.REAR_WHEEL_IMAGE, mvt ) );
+        final PNode rearWheelImage = new ModelElementImageNode( BicycleAndRider.REAR_WHEEL_IMAGE, mvt );
+        addChild( rearWheelImage );
         addChild( new ModelElementImageNode( BicycleAndRider.BACK_LEG_AND_CRANK, mvt ) );
         addChild( new ModelElementImageNode( BicycleAndRider.FRAME_IMAGE, mvt ) );
         addChild( new ModelElementImageNode( BicycleAndRider.RIDER_IMAGE, mvt ) );
@@ -32,6 +35,16 @@ public class BicycleAndRiderNode extends PNode {
         addChild( new CrankRateSlider( bicycleAndRider.targetCrankAngularVelocity ) {{
             setOffset( -getFullBoundsReference().width / 2, 120 );
         }} );
+
+        // Add and observer that will turn the back wheel.
+        final Point2D wheelRotationPoint = new Point2D.Double( rearWheelImage.getFullBoundsReference().getCenterX(),
+                                                               rearWheelImage.getFullBoundsReference().getCenterY() );
+        bicycleAndRider.getRearWheelAngle().addObserver( new VoidFunction1<Double>() {
+            public void apply( Double angle ) {
+                double delta = angle - rearWheelImage.getRotation();
+                rearWheelImage.rotateAboutPoint( delta, wheelRotationPoint );
+            }
+        } );
 
         // Update the overall offset based on the model position.
         bicycleAndRider.getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
