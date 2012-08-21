@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.functions.intro;
 
+import fj.F;
+import fj.Unit;
 import fj.data.List;
 
 import java.awt.BasicStroke;
@@ -34,7 +36,10 @@ public class Scene2 extends Scene {
     }
 
     private static List<ValueNode> valueNodeList( final ValueContext valueContext ) {
-        final ValueNode value = new ValueNode( valueContext, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black ) {{ setOffset( 84.37223042836038, 315.3914327917278 ); }};
-        return List.list( value );
+        return Scene.toStack( 3, new F<Unit, ValueNode>() {
+            @Override public ValueNode f( final Unit unit ) {
+                return new ValueNode( valueContext, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+            }
+        } );
     }
 }

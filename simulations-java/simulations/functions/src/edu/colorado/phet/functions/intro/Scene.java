@@ -1,9 +1,11 @@
 package edu.colorado.phet.functions.intro;
 
 import fj.F;
+import fj.Unit;
 import fj.data.List;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
@@ -94,5 +96,15 @@ public abstract class Scene extends PNode implements ValueContext {
             valueNode.centerFullBoundsOnPoint( targetNode.getFullBounds().getCenterX(), targetNode.getFullBounds().getCenterY() );
             sceneContext.showNextButton();
         }
+    }
+
+    public static List<ValueNode> toStack( int stackSize, final F<Unit, ValueNode> f ) {
+        ArrayList<ValueNode> valueNodes = new ArrayList<ValueNode>();
+        for ( int i = 0; i < stackSize; i++ ) {
+            ValueNode valueNode = f.f( Unit.unit() );
+            valueNode.setOffset( 84.37223042836038 + i * 3, 315.3914327917278 - i * 3 );
+            valueNodes.add( valueNode );
+        }
+        return List.iterableList( valueNodes );
     }
 }
