@@ -78,7 +78,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     }
 
     /*
-     * Forms where abs slope is 1.
+     * Forms where absolute slope is 1.
      * y = x
      * y = -x
      * y = x + b

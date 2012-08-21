@@ -78,7 +78,7 @@ public class PointSlopeEquationFactory extends EquationFactory {
     }
 
     /*
-     * Forms where abs slope is 1.
+     * Forms where absolute slope is 1.
      * (y - y1) = (x - x1)
      * (y - y1) = -(x - x1)
      */
