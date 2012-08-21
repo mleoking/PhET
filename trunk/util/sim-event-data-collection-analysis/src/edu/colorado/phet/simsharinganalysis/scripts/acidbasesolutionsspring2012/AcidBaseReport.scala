@@ -13,6 +13,8 @@ object AcidBaseReport {
   def toReport(log: Log) = new AcidBaseReport(log)
 }
 
+case class StateTransition(start: SimState, entry: Entry, end: SimState)
+
 class AcidBaseReport(log: Log) {
 
   def getSign(d: Double) = d match {
@@ -79,8 +81,6 @@ class AcidBaseReport(log: Log) {
   //Find the sequence of states of the sim
   //The list will contain one state per event, indicating the state of the sim after the event.
   def getStates(log: Log) = SimState() :: getStatesWithTransitions(log).map(_.end)
-
-  case class StateTransition(start: SimState, entry: Entry, end: SimState)
 
   //Find the sequence of states of the sim
   //The list will contain one state per event, indicating the state of the sim after the event.
@@ -258,15 +258,16 @@ class AcidBaseReport(log: Log) {
 
   def neverUsed(radioButton: String, icon: String): Boolean = neverUsed(radioButton) && neverUsed(icon)
 
-  def usedAcidControlOn2ndTab(control: String) = statesWithTransitions.find(s => s.start.tab1.acid && s.start.selectedTab == 1 && used(control)).isDefined
+  //Fixed a bug in the following 6 functions that was checking for usage of a component any time in the log, not just at the appropriate time
+  def usedAcidControlOn2ndTab(control: String) = statesWithTransitions.find(s => s.start.tab1.acid && s.start.selectedTab == 1 && s.entry.messageType == "user" && s.entry.component == control).isDefined
 
-  def usedBaseControlOn2ndTab(control: String) = statesWithTransitions.find(s => !s.start.tab1.acid && s.start.selectedTab == 1 && used(control)).isDefined
+  def usedBaseControlOn2ndTab(control: String) = statesWithTransitions.find(s => !s.start.tab1.acid && s.start.selectedTab == 1 && s.entry.messageType == "user" && s.entry.component == control).isDefined
 
   val everUsedAcidSolutionControl = {
-    statesWithTransitions.find(s => s.start.tab1.acid && s.start.selectedTab == 1 && used("weakStrengthControl" :: "weakRadioButton" :: "strongRadioButton" :: "concentrationControl" :: Nil)).isDefined
+    statesWithTransitions.find(s => s.start.tab1.acid && s.start.selectedTab == 1 && s.entry.messageType == "user" && List("weakStrengthControl", "weakRadioButton", "strongRadioButton", "concentrationControl").contains(s.entry.component)).isDefined
   }
   val everUsedBaseSolutionControl = {
-    statesWithTransitions.find(s => !s.start.tab1.acid && s.start.selectedTab == 1 && used("weakStrengthControl" :: "weakRadioButton" :: "strongRadioButton" :: "concentrationControl" :: Nil)).isDefined
+    statesWithTransitions.find(s => !s.start.tab1.acid && s.start.selectedTab == 1 && s.entry.messageType == "user" && List("weakStrengthControl", "weakRadioButton", "strongRadioButton", "concentrationControl").contains(s.entry.component)).isDefined
   }
   val neverUsedAcidSolutionControls = !everUsedAcidSolutionControl
   val neverUsedBaseSolutionControls = !everUsedBaseSolutionControl
