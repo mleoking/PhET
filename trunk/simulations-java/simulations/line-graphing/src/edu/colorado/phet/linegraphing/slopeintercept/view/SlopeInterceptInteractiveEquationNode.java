@@ -41,7 +41,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
-    private final Property<Double> rise, run, yIntercept;
+    private final Property<Double> rise, run, yIntercept; // internal properties that are connected to spinners
 
     public SlopeInterceptInteractiveEquationNode( final Property<StraightLine> interactiveLine,
                                                   Property<DoubleRange> riseRange,

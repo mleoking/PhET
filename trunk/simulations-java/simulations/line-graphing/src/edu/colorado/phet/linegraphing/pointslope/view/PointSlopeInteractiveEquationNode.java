@@ -42,7 +42,7 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
-    private final Property<Double> rise, run, x1, y1;
+    private final Property<Double> rise, run, x1, y1; // internal properties that are connected to spinners
 
     public PointSlopeInteractiveEquationNode( final Property<StraightLine> interactiveLine,
                                               Property<DoubleRange> riseRange,
