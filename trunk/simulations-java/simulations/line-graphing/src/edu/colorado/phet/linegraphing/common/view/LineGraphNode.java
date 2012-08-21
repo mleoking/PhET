@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -74,24 +73,24 @@ public abstract class LineGraphNode extends GraphNode {
         // Add/remove standard lines
         standardLines.addElementAddedObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
-                addStandardLine( line );
+                standardLineAdded( line );
             }
         } );
         standardLines.addElementRemovedObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
-                removeStandardLine( line );
+                standardLineRemoved( line );
             }
         } );
 
         // Add/remove saved lines
         savedLines.addElementAddedObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
-                addSavedLine( line );
+                savedLineAdded( line );
             }
         } );
         savedLines.addElementRemovedObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
-                removeSavedLine( line );
+                savedLineRemoved( line );
             }
         } );
 
@@ -120,15 +119,18 @@ public abstract class LineGraphNode extends GraphNode {
         } );
     }
 
-    private void addStandardLine( StraightLine line ) {
+    // Called when a standard line is added to the model.
+    private void standardLineAdded( StraightLine line ) {
         standardLinesParentNode.addChild( createLineNode( line, graph, mvt ) );
     }
 
-    private void removeStandardLine( StraightLine line ) {
-        removeLine( line, standardLinesParentNode );
+    // Called when a standard line is removed from the model.
+    private void standardLineRemoved( StraightLine line ) {
+        removeLineNode( line, standardLinesParentNode );
     }
 
-    private void addSavedLine( final StraightLine line ) {
+    // Called when a saved line is added to the model.
+    private void savedLineAdded( final StraightLine line ) {
         final StraightLineNode lineNode = createLineNode( line, graph, mvt );
         savedLinesParentNode.addChild( lineNode );
         // highlight on mouseOver
@@ -139,11 +141,13 @@ public abstract class LineGraphNode extends GraphNode {
         } ) );
     }
 
-    private void removeSavedLine( StraightLine line ) {
-        removeLine( line, savedLinesParentNode );
+    // Called when a saved line is removed from the model.
+    private void savedLineRemoved( StraightLine line ) {
+        removeLineNode( line, savedLinesParentNode );
     }
 
-    private static void removeLine( StraightLine line, PNode parent ) {
+    // Removes the node that corresponds to the specified line.
+    private static void removeLineNode( StraightLine line, PNode parent ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode node = parent.getChild( i );
             if ( node instanceof StraightLineNode ) {
@@ -156,6 +160,7 @@ public abstract class LineGraphNode extends GraphNode {
         }
     }
 
+    // Updates the visibility of lines and associated decorations
     protected void updateLinesVisibility( boolean linesVisible, boolean interactiveLineVisible, boolean slopeVisible ) {
 
         savedLinesParentNode.setVisible( linesVisible );
