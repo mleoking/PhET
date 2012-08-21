@@ -26,10 +26,10 @@ import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
+import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RunSpinnerNode;
-import edu.colorado.phet.linegraphing.common.view.SpinnerNode.X1SpinnerNode;
-import edu.colorado.phet.linegraphing.common.view.SpinnerNode.Y1SpinnerNode;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.PointColors;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -83,7 +83,7 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
         PNode yLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         PNode yNode = new PhetPText( "y", staticFont, staticColor );
         PNode y1SignNode = new PhetPText( "-", staticFont, staticColor );
-        PNode y1Node = new ZeroOffsetNode( new Y1SpinnerNode( UserComponents.y1Spinner, this.y1, y1Range, interactiveFont, FORMAT ) );
+        PNode y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, new PointColors(), this.y1, y1Range, interactiveFont, FORMAT ) );
         PNode yRightParenNode = new PhetPText( ")", staticFont, staticColor );
         PNode equalsNode = new PhetPText( "=", staticFont, staticColor );
         PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, riseRange, interactiveFont, FORMAT ) );
@@ -92,7 +92,7 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
         PNode xLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         PNode xNode = new PhetPText( "x", staticFont, staticColor );
         PNode x1SignNode = new PhetPText( "-", staticFont, staticColor );
-        PNode x1Node = new ZeroOffsetNode( new X1SpinnerNode( UserComponents.x1Spinner, this.x1, x1Range, interactiveFont, FORMAT ) );
+        PNode x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, new PointColors(), this.x1, x1Range, interactiveFont, FORMAT ) );
         PNode xRightParenNode = new PhetPText( ")", staticFont, staticColor );
 
         // rendering order
