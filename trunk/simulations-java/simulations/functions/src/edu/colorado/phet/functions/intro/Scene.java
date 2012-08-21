@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueContext;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
+import edu.colorado.phet.functions.intro.view.GameAudioPlayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -101,6 +102,10 @@ public abstract class Scene extends PNode implements ValueContext {
             targetNode.completed.set( true );
             if ( targetNodes.filter( TargetNode._isComplete ).length() == targetNodes.length() ) {
                 sceneContext.showNextButton();
+                GameAudioPlayer.instance.gameOverPerfectScore();
+            }
+            else {
+                GameAudioPlayer.instance.correctAnswer();
             }
         }
     }
