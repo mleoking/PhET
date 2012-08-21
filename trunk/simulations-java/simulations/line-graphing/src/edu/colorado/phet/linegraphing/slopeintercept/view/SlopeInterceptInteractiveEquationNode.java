@@ -34,7 +34,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Interface for manipulating a slope-intercept equation.
- * This version uses spinner buttons to increment/decrement rise, run and intercept.
+ * Uses spinners to increment/decrement rise, run and intercept.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
