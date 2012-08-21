@@ -25,18 +25,18 @@ import static fj.data.List.list;
 public class Scenes {
     public static final F<IntroCanvas, Scene> level1 = new F<IntroCanvas, Scene>() {
         @Override public Scene f( final IntroCanvas introCanvas ) {
-            return new Scene( Scene.toStack( 3, new F<Unit, ValueNode>() {
+            return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
                 @Override public ValueNode f( final Unit unit ) {
                     return new ValueNode( introCanvas, new Graphic( 0 ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                 }
             } ),
                               List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
-                              Scene.createTargetNodeList( introCanvas, list( new Graphic( 1 ) ) ), introCanvas );
+                              Scene.createTargetNodeList( introCanvas, list( new Graphic( 1 ) ) ) );
         }
     };
     public static final F<IntroCanvas, Scene> level2 = new F<IntroCanvas, Scene>() {
         @Override public Scene f( final IntroCanvas canvas ) {
-            return new Scene( Scene.toStack( 3, new F<Unit, ValueNode>() {
+            return new Scene( canvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
                 @Override public ValueNode f( final Unit unit ) {
                     return new ValueNode( canvas, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                 }
@@ -44,8 +44,8 @@ public class Scenes {
                               list( new UnaryFunctionNode( "\u27152", false, INTEGER_TIMES_2, 390.72378138847836, 294.298375184638 - 80 ),
                                     new UnaryFunctionNode( "+1", false, INTEGER_PLUS_1, 390.72378138847836, 444.298375184638 - 80 )
                               ),
-                              Scene.createTargetNodeList( canvas, list( 4, 6, 8 ) ),
-                              canvas );
+                              Scene.createTargetNodeList( canvas, list( 4, 6, 8 ) )
+            );
         }
     };
     public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list( level1, level2 );
