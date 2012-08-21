@@ -15,7 +15,7 @@ object AcidBaseReport {
 
 case class StateTransition(start: SimState, entry: Entry, end: SimState)
 
-class AcidBaseReport(log: Log) {
+class AcidBaseReport(val log: Log) {
 
   def getSign(d: Double) = d match {
     case x if x < 0 => -1
