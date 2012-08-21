@@ -28,10 +28,8 @@ class Scene1 extends Scene {
     private static List<ValueNode> valueNodes( final IntroCanvas introCanvas ) {
         ArrayList<ValueNode> valueNodes = new ArrayList<ValueNode>();
         for ( int i = 0; i < 3; i++ ) {
-            final int finalI = i;
-            ValueNode valueNode = new ValueNode( introCanvas, new Graphic( 0 ), new BasicStroke( 1 ), Color.white, Color.black, Color.black ) {{
-                setOffset( 84.37223042836038 + finalI * 3, 315.3914327917278 - finalI * 3 );
-            }};
+            ValueNode valueNode = new ValueNode( introCanvas, new Graphic( 0 ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+            valueNode.setOffset( 84.37223042836038 + i * 3, 315.3914327917278 - i * 3 );
             valueNodes.add( valueNode );
         }
         return List.iterableList( valueNodes );
