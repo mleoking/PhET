@@ -32,7 +32,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import static edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents.*;
 
 /**
- * Control for various features related to the graph.
+ * Controls for various features related to the graph.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
