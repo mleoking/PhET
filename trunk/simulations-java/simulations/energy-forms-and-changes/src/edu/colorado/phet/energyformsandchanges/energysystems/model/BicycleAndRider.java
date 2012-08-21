@@ -27,7 +27,7 @@ public class BicycleAndRider extends EnergySource {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double MAX_ANGULAR_VELOCITY_OF_CRANK = 2 * Math.PI; // In radians/sec.
+    public static final double MAX_ANGULAR_VELOCITY_OF_CRANK = 2 * Math.PI; // In radians/sec.
     private static final double ANGULAR_ACCELERATION = Math.PI / 2; // In radians/(sec^2).
     // TODO: This is temp until we figure out how much it should really put out.
     private static final double MAX_ENERGY_OUTPUT_RATE = 10; // In joules / (radians / sec)
