@@ -36,8 +36,7 @@ public class Functions {
 
     public static final F<Object, Object> ROTATE_GRAPHIC_RIGHT = new F<Object, Object>() {
         @Override public Object f( final Object o ) {
-            Graphic graphic = (Graphic) o;
-            return graphic.rotateRight();
+            return ( (Graphic) o ).rotateRight();
         }
     };
 }
