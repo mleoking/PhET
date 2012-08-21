@@ -31,10 +31,18 @@ public class UnaryFunctionNode extends PNode {
     public final F<Object, Object> function;
 
     public UnaryFunctionNode( String text, boolean draggable, F<Object, Object> function ) {
-        this( new PhetPText( text, new PhetFont( 46, true ) ), draggable, function );
+        this( text, draggable, function, 0, 0 );
+    }
+
+    public UnaryFunctionNode( String text, boolean draggable, F<Object, Object> function, double x, double y ) {
+        this( new PhetPText( text, new PhetFont( 46, true ) ), draggable, function, x, y );
     }
 
     public UnaryFunctionNode( PNode icon, boolean draggable, F<Object, Object> function ) {
+        this( icon, draggable, function, 0, 0 );
+    }
+
+    public UnaryFunctionNode( PNode icon, boolean draggable, F<Object, Object> function, double x, double y ) {
         this.function = function;
         //use CAG for prototype, may need to speed up later on
         Area a = new Area( bodyRect );
@@ -80,5 +88,7 @@ public class UnaryFunctionNode extends PNode {
             setOffset( bodyRect.getWidth() - getFullBounds().getWidth() - 6, 4 );
         }};
         addChild( htmlImageButtonNode );
+
+        setOffset( x, y );
     }
 }
