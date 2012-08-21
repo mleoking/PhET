@@ -26,9 +26,10 @@ import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
-import edu.colorado.phet.linegraphing.common.view.SpinnerNode.InterceptSpinnerNode;
+import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RunSpinnerNode;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.InterceptColors;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -83,7 +84,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
         PNode lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ), new BasicStroke( 3f ), staticColor );
         PNode xNode = new PhetPText( "x", staticFont, staticColor );
         PNode interceptSignNode = new PhetPText( "+", staticFont, staticColor );
-        PNode interceptNode = new ZeroOffsetNode( new InterceptSpinnerNode( UserComponents.interceptSpinner, this.yIntercept, yInterceptRange, interactiveFont, FORMAT ) );
+        PNode interceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, new InterceptColors(), this.yIntercept, yInterceptRange, interactiveFont, FORMAT ) );
 
         // rendering order
         {

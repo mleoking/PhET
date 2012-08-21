@@ -39,7 +39,6 @@ import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.BackgroundColors;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.DownButtonImages;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.InterceptColors;
-import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.PointColors;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeColors;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.UpButtonImages;
 import edu.umd.cs.piccolo.PNode;
@@ -326,42 +325,14 @@ public class SpinnerNode extends PNode {
         }
     }
 
-    // Intercept spinner
-    public static class InterceptSpinnerNode extends SpinnerNode {
-        public InterceptSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, new InterceptColors(), value, range, font, format );
-        }
-    }
-
-    // Base class that is color-coded for point in point-slope form
-    private abstract static class PointSpinnerNode extends SpinnerNode {
-        public PointSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, new PointColors(), value, range, font, format );
-        }
-    }
-
-    // x1 spinner
-    public static class X1SpinnerNode extends PointSpinnerNode {
-        public X1SpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, value, range, font, format );
-        }
-    }
-
-    // y1 spinner
-    public static class Y1SpinnerNode extends PointSpinnerNode {
-        public Y1SpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, value, range, font, format );
-        }
-    }
-
     // test
     public static void main( String[] args ) {
 
         Property<DoubleRange> range = new Property<DoubleRange>( new DoubleRange( -10, 10, 0 ) );
         Property<Double> value = new Property<Double>( range.get().getDefault() );
 
-        PNode node = new InterceptSpinnerNode( UserComponents.interceptSpinner,
-                                               value, range, new PhetFont( Font.BOLD, 24 ), new DecimalFormat( "0" ) );
+        PNode node = new SpinnerNode( UserComponents.interceptSpinner, new InterceptColors(),
+                                      value, range, new PhetFont( Font.BOLD, 24 ), new DecimalFormat( "0" ) );
         node.setOffset( 200, 200 );
 
         // canvas
