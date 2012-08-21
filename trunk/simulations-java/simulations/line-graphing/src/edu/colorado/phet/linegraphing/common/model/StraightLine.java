@@ -8,6 +8,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 
 /**
  * An immutable straight line, which can be specified in slope-intercept or point-slope form.
+ * Note that slope-intercept is a special case of point-slope, where the point is on the y axis.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
