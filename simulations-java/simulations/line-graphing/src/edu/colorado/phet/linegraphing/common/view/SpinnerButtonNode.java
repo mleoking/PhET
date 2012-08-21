@@ -40,17 +40,14 @@ class SpinnerButtonNode<T> extends PNode {
     /**
      * Constructor
      * @param userComponent component identifier for user data-collection message
-     * @param inactiveImage
-     * @param highlightedImage
-     * @param pressedImage
-     * @param disabledImage
+     * @param images set of images for the button states
      * @param pressed is the button pressed?
      * @param inside is the mouse inside the bounds of the button?
      * @param enabled property that controls whether the button is enabled
      * @param newValueFunction function that computes the new value when the button fires
      */
     public SpinnerButtonNode( final IUserComponent userComponent,
-                              final Image inactiveImage, final Image highlightedImage, final Image pressedImage, final Image disabledImage,
+                              final SpinnerStateIndicator<Image> images,
                               final Property<Boolean> pressed, final Property<Boolean> inside, final ObservableProperty<Boolean> enabled,
                               final Property<T> value, final Function0<T> newValueFunction ) {
 
@@ -72,16 +69,16 @@ class SpinnerButtonNode<T> extends PNode {
                 imageNode.setImage( new Function0<Image>() {
                     public Image apply() {
                         if ( !enabled.get() ) {
-                            return disabledImage;
+                            return images.disabled;
                         }
                         else if ( pressed.get() ) {
-                            return pressedImage;
+                            return images.pressed;
                         }
                         else if ( inside.get() ) {
-                            return highlightedImage;
+                            return images.highlighted;
                         }
                         else {
-                            return inactiveImage;
+                            return images.inactive;
                         }
                     }
                 }.apply() );

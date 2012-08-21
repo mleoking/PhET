@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.common.view;
 
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -31,15 +30,18 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.BackgroundColors;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.DownButtonImages;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.InterceptColors;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.PointColors;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeColors;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.UpButtonImages;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -55,52 +57,59 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class SpinnerNode extends PNode {
 
-    private static enum ArrowOrientation {UP,DOWN}
-
-    private static final PDimension BUTTON_SIZE = new PDimension( 26, 4 );
-
-    private static final Color BUTTON_DISABLED_COLOR = new Color( 190, 190, 190 );
-
-    private static final Color SLOPE_INACTIVE = LGColors.SLOPE;
-    private static final Color SLOPE_HIGHLIGHTED = LGColors.SLOPE;
-    private static final Color SLOPE_PRESSED = LGColors.SLOPE.darker();
-    private static final Color SLOPE_DISABLED = BUTTON_DISABLED_COLOR;
-
-    private static final Color INTERCEPT_INACTIVE = LGColors.INTERCEPT;
-    private static final Color INTERCEPT_HIGHLIGHTED = LGColors.INTERCEPT;
-    private static final Color INTERCEPT_PRESSED = LGColors.INTERCEPT.darker();
-    private static final Color INTERCEPT_DISABLED = BUTTON_DISABLED_COLOR;
-
-    private static final Color POINT_INACTIVE = LGColors.POINT_X1_Y1;
-    private static final Color POINT_HIGHLIGHTED = LGColors.POINT_X1_Y1;
-    private static final Color POINT_PRESSED = LGColors.POINT_X1_Y1.darker();
-    private static final Color POINT_DISABLED = BUTTON_DISABLED_COLOR;
-
-    private static final Color BACKGROUND_INACTIVE = new Color( 245, 245, 245 );
-
-    // Constructor that creates default up/down arrow images using the specified colors.
+    // Constructor with default button images and default up/down functions.
     public SpinnerNode( IUserComponent userComponent,
-                        Color inactiveColor, Color highlightedColor, Color pressedColor, Color disabledColor,
+                        SpinnerStateIndicator<Color> colors,
                         final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
         this( userComponent,
-              new ArrowButtonNode( inactiveColor, ArrowOrientation.UP, BUTTON_SIZE ).toImage(),
-              new ArrowButtonNode( highlightedColor, ArrowOrientation.UP, BUTTON_SIZE ).toImage(),
-              new ArrowButtonNode( pressedColor, ArrowOrientation.UP, BUTTON_SIZE ).toImage(),
-              new ArrowButtonNode( disabledColor, ArrowOrientation.UP, BUTTON_SIZE, false ).toImage(),
-              new ArrowButtonNode( inactiveColor, ArrowOrientation.DOWN, BUTTON_SIZE ).toImage(),
-              new ArrowButtonNode( highlightedColor, ArrowOrientation.DOWN, BUTTON_SIZE ).toImage(),
-              new ArrowButtonNode( pressedColor, ArrowOrientation.DOWN, BUTTON_SIZE ).toImage(),
-              new ArrowButtonNode( disabledColor, ArrowOrientation.DOWN, BUTTON_SIZE, false ).toImage(),
-              BACKGROUND_INACTIVE, highlightedColor, pressedColor, BACKGROUND_INACTIVE,
-              value, range, font, format );
+              colors,
+              value, range, font, format,
+              // default "up" function, increments by 1
+              new Function0<Double>() {
+                  public Double apply() {
+                      return value.get() + 1;
+                  }
+              },
+              // default "down" function, decrements by 1
+              new Function0<Double>() {
+                  public Double apply() {
+                      return value.get() - 1;
+                  }
+              }
+        );
     }
 
-    // Constructor that uses images for the various button states.
+    // Constructor with default button images and custom up/down functions.
     public SpinnerNode( IUserComponent userComponent,
-                        final Image upInactiveImage, final Image upHighlightImage, final Image upPressedImage, final Image upDisabledImage,
-                        final Image downInactiveImage, final Image downHighlightImage, final Image downPressedImage, final Image downDisabledImage,
-                        final Color backgroundInactive, final Color backgroundHighlighted, final Color backgroundPressed, final Color backgroundDisabled,
-                        final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
+                        SpinnerStateIndicator<Color> colors,
+                        final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format,
+                        Function0<Double> upFunction, Function0<Double> downFunction ) {
+        this( userComponent,
+              new UpButtonImages( colors ), new DownButtonImages( colors ), new BackgroundColors( colors.highlighted, colors.pressed ),
+              value, range, font, format,
+              upFunction, downFunction );
+    }
+
+    /**
+     * Fully-specified constructor.
+     *
+     * @param userComponent
+     * @param upButtonImages images for the "up" button states
+     * @param downButtonImages images for the "down" button states
+     * @param backgroundColors colors for the background state
+     * @param value the value property that is being manipulated by the spinner
+     * @param range range of the value
+     * @param font font used to display the value
+     * @param format displayed format of the value
+     * @param upFunction function called when the "up" (increment) button is pressed
+     * @param downFunction function called when the "down" (decrement) button is pressed
+     */
+    private SpinnerNode( IUserComponent userComponent,
+                         final SpinnerStateIndicator<Image> upButtonImages,
+                         final SpinnerStateIndicator<Image> downButtonImages,
+                         final SpinnerStateIndicator<Color> backgroundColors,
+                         final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format,
+                         Function0<Double> upFunction, Function0<Double> downFunction ) {
 
         // properties for the "up" (increment) control
         final BooleanProperty upPressed = new BooleanProperty( false );
@@ -139,43 +148,35 @@ public class SpinnerNode extends PNode {
         final PPath upBackgroundNode = new PPath() {{
             setPathTo( ShapeUtils.subtract( backgroundShape, new Rectangle2D.Double( 0, ( backgroundHeight / 2 ) - backgroundOverlap, backgroundWidth, backgroundHeight ) ) );
             setStroke( null );
-            setPaint( backgroundInactive );
+            setPaint( backgroundColors.inactive );
             addInputEventListener( new BackgroundMouseHandler( this, new PDimension( backgroundWidth, backgroundHeight ),
                                                                upPressed, upInside, upEnabled,
-                                                               backgroundInactive, backgroundHighlighted, backgroundPressed, backgroundDisabled ) );
+                                                               backgroundColors ) );
         }};
 
         // bottom half of the background, for "down"
         final PNode downBackgroundNode = new PPath() {{
             setPathTo( ShapeUtils.subtract( backgroundShape, new Rectangle2D.Double( 0, 0, backgroundWidth, ( backgroundHeight / 2 ) - backgroundOverlap ) ) );
             setStroke( null );
-            setPaint( backgroundInactive );
+            setPaint( backgroundColors.inactive );
             addInputEventListener( new BackgroundMouseHandler( this, new PDimension( backgroundWidth, backgroundHeight ),
                                                                downPressed, downInside, downEnabled,
-                                                               backgroundInactive, backgroundHighlighted, backgroundPressed, backgroundDisabled ) );
+                                                               backgroundColors ) );
         }};
 
         // up (increment) button
         SpinnerButtonNode upButton = new SpinnerButtonNode<Double>( UserComponentChain.chain( userComponent, "up" ),
-                                                                      upInactiveImage, upHighlightImage, upPressedImage, upDisabledImage,
-                                                                      upPressed, upInside, upEnabled,
-                                                                      value,
-                                                                      new Function0<Double>() {
-                                                                          public Double apply() {
-                                                                              return value.get() + 1;
-                                                                          }
-                                                                      } );
+                                                                    upButtonImages,
+                                                                    upPressed, upInside, upEnabled,
+                                                                    value,
+                                                                    upFunction );
 
         // down (decrement) button
         SpinnerButtonNode downButton = new SpinnerButtonNode<Double>( UserComponentChain.chain( userComponent, "down" ),
-                                                                        downInactiveImage, downHighlightImage, downPressedImage, downDisabledImage,
-                                                                        downPressed, downInside, downEnabled,
-                                                                        value,
-                                                                        new Function0<Double>() {
-                                                                            public Double apply() {
-                                                                                return value.get() - 1;
-                                                                            }
-                                                                        } );
+                                                                      downButtonImages,
+                                                                      downPressed, downInside, downEnabled,
+                                                                      value,
+                                                                      downFunction );
 
         // rendering order
         addChild( upBackgroundNode );
@@ -199,7 +200,7 @@ public class SpinnerNode extends PNode {
          */
         value.addObserver( new SimpleObserver() {
             public void update() {
-                 // displayed value
+                // displayed value
                 textNode.setText( format.format( value.get() ) );
                 // centered
                 textNode.setOffset( ( backgroundWidth - textNode.getFullBoundsReference().getWidth() ) / 2, textNode.getYOffset() );
@@ -217,13 +218,13 @@ public class SpinnerNode extends PNode {
         final PDimension buttonSize;
         final BooleanProperty pressed, inside;
         final ObservableProperty<Boolean> enabled;
-        final Color inactiveColor, highlightColor, pressedColor, disabledColor;
+        final SpinnerStateIndicator<Color> stateIndicator;
         final IBackgroundPaintStrategy paintStrategy;
         final DynamicCursorHandler cursorHandler;
 
         public BackgroundMouseHandler( PNode backgroundNode, PDimension backgroundSize,
                                        BooleanProperty pressed, BooleanProperty inside, ObservableProperty<Boolean> enabled,
-                                       Color inactiveColor, Color highlightColor, Color pressedColor, Color disabledColor ) {
+                                       SpinnerStateIndicator<Color> stateColors ) {
 
             this.backgroundNode = backgroundNode;
             this.buttonSize = backgroundSize;
@@ -232,10 +233,7 @@ public class SpinnerNode extends PNode {
             this.inside = inside;
             this.enabled = enabled;
 
-            this.inactiveColor = inactiveColor;
-            this.highlightColor = highlightColor;
-            this.pressedColor = pressedColor;
-            this.disabledColor = disabledColor;
+            this.stateIndicator = stateColors;
             this.paintStrategy = new GradientColorStrategy();
 
             RichSimpleObserver observer = new RichSimpleObserver() {
@@ -273,16 +271,16 @@ public class SpinnerNode extends PNode {
         private void updatePaint() {
             Paint paint;
             if ( !enabled.get() ) {
-                paint = disabledColor;
+                paint = stateIndicator.disabled;
             }
             else if ( pressed.get() ) {
-                paint = paintStrategy.createPaint( pressedColor, buttonSize );
+                paint = paintStrategy.createPaint( stateIndicator.pressed, buttonSize );
             }
             else if ( inside.get() ) {
-                paint = paintStrategy.createPaint( highlightColor, buttonSize );
+                paint = paintStrategy.createPaint( stateIndicator.highlighted, buttonSize );
             }
             else {
-                paint = inactiveColor;
+                paint = stateIndicator.inactive;
             }
             backgroundNode.setPaint( paint );
         }
@@ -293,7 +291,7 @@ public class SpinnerNode extends PNode {
         public Paint createPaint( Color baseColor, PDimension buttonSize );
     }
 
-    // Creates a solid color background paint.
+    // Creates a solid color background paint. Vestigial, kept for historical reasons.
     private static class SolidColorStrategy implements IBackgroundPaintStrategy {
         public Paint createPaint( Color baseColor, PDimension buttonSize ) {
             return baseColor;
@@ -307,42 +305,10 @@ public class SpinnerNode extends PNode {
         }
     }
 
-    // Base class for arrow buttons (the default increment/decrement buttons)
-    private static class ArrowButtonNode extends PPath {
-
-        public ArrowButtonNode( final Color color, ArrowOrientation orientation, PDimension size ) {
-            this( color, orientation, size, true );
-        }
-
-        public ArrowButtonNode( final Color color, final ArrowOrientation orientation, final PDimension size, boolean outlined ) {
-            setPathTo( new DoubleGeneralPath() {{
-                if ( orientation == ArrowOrientation.UP ) {
-                    moveTo( 0, size.getHeight() );
-                    lineTo( size.getWidth() / 2, 0 );
-                    lineTo( size.getWidth(), size.getHeight() );
-                }
-                else {
-                    moveTo( 0, 0 );
-                    lineTo( size.getWidth() / 2, size.getHeight() );
-                    lineTo( size.getWidth(), 0 );
-                }
-                closePath();
-            }}.getGeneralPath() );
-            setPaint( color );
-            setStroke( new BasicStroke( 0.25f ) );
-            setStrokePaint( outlined ? Color.BLACK : color ); // stroke with the fill color, so the arrow doesn't appear to shrink
-        }
-
-        // WORKAROUND for #558
-        @Override public Image toImage() {
-            return new PadBoundsNode( this ).toImage();
-        }
-    }
-
     // Base class that is color-coded for slope
     private abstract static class SlopeSpinnerNode extends SpinnerNode {
         public SlopeSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, SLOPE_INACTIVE, SLOPE_HIGHLIGHTED, SLOPE_PRESSED, SLOPE_DISABLED, value, range, font, format );
+            super( userComponent, new SlopeColors(), value, range, font, format );
         }
     }
 
@@ -363,14 +329,14 @@ public class SpinnerNode extends PNode {
     // Intercept spinner
     public static class InterceptSpinnerNode extends SpinnerNode {
         public InterceptSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, INTERCEPT_INACTIVE, INTERCEPT_HIGHLIGHTED, INTERCEPT_PRESSED, INTERCEPT_DISABLED, value, range, font, format );
+            super( userComponent, new InterceptColors(), value, range, font, format );
         }
     }
 
     // Base class that is color-coded for point in point-slope form
     private abstract static class PointSpinnerNode extends SpinnerNode {
         public PointSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, POINT_INACTIVE, POINT_HIGHLIGHTED, POINT_PRESSED, POINT_DISABLED, value, range, font, format );
+            super( userComponent, new PointColors(), value, range, font, format );
         }
     }
 
@@ -395,7 +361,7 @@ public class SpinnerNode extends PNode {
         Property<Double> value = new Property<Double>( range.get().getDefault() );
 
         PNode node = new InterceptSpinnerNode( UserComponents.interceptSpinner,
-                                                value, range, new PhetFont( Font.BOLD, 24 ), new DecimalFormat( "0" ) );
+                                               value, range, new PhetFont( Font.BOLD, 24 ), new DecimalFormat( "0" ) );
         node.setOffset( 200, 200 );
 
         // canvas
