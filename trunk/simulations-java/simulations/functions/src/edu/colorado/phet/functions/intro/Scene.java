@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author Sam Reid
  */
-public abstract class Scene extends PNode implements ValueContext {
+public class Scene extends PNode implements ValueContext {
     private final List<UnaryFunctionNode> unaryFunctionNodeList;
     private final List<TargetNode> targetNodes;
     private final SceneContext sceneContext;
