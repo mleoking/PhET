@@ -4,11 +4,13 @@ import fj.F;
 import fj.Unit;
 import fj.data.List;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueContext;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
@@ -106,5 +108,24 @@ public abstract class Scene extends PNode implements ValueContext {
             valueNodes.add( valueNode );
         }
         return List.iterableList( valueNodes );
+    }
+
+    public static <T> List<ValueNode> createTargetNodeList( final IntroCanvas valueContext, final List<T> list ) {
+
+        ArrayList<ValueNode> arrayList = new ArrayList<ValueNode>();
+        for ( T elm : list ) {
+            arrayList.add( new ValueNode( valueContext, elm, new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray, Color.gray ) );
+        }
+
+        //Use a temporary VBox for layout
+        VBox box = new VBox( arrayList.toArray( new PNode[arrayList.size()] ) );
+        double width = box.getFullWidth();
+        double height = box.getFullHeight();
+        box.removeAllChildren();
+        for ( ValueNode valueNode : arrayList ) {
+            valueNode.translate( 903 - width / 2, 350 - height / 2 );
+        }
+
+        return List.iterableList( arrayList );
     }
 }
