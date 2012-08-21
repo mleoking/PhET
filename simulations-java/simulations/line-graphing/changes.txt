@@ -1,3 +1,4 @@
+8/21/12 simplify placement of slope manipulator for slope-intercept lines
 8/21/12 rename methods that deal with add/remove of lines in LineGraphNode, doc
 8/21/12 memory leak in list of lines solved by other previous change (updating spinners atomically)
 8/21/12 bug fix: update spinners atomically, so that dragging slope manipulator can't create a line with slope=0/0

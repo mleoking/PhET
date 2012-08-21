@@ -90,19 +90,8 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
         super.updateInteractiveLine( line, graph, mvt );
         if ( slopeManipulatorNode != null && interceptManipulatorNode != null ) {
             // move the manipulators
-            final double y = line.rise + line.y1;
-            double x;
-            if ( line.run == 0 ) {
-                x = 0;
-            }
-            else if ( line.rise == 0 ) {
-                x = line.run;
-            }
-            else {
-                x = line.solveX( y );
-            }
-            slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( x, y ) ) );
-            interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( 0, line.y1 ) ) );
+            slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1 + line.run, line.y1 + line.rise ) ) );
+            interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
         }
     }
 
