@@ -26,12 +26,11 @@ public class BicycleAndRiderNode extends PNode {
     public BicycleAndRiderNode( final BicycleAndRider bicycleAndRider, final ModelViewTransform mvt ) {
 
         // Create and add the various image nodes.
-        final PNode rearWheelImage = new ModelElementImageNode( BicycleAndRider.REAR_WHEEL_IMAGE, mvt );
-        addChild( rearWheelImage );
+        final PNode spokesImage = new ModelElementImageNode( BicycleAndRider.REAR_WHEEL_SPOKES_IMAGE, mvt );
+        addChild( spokesImage );
         PNode backLegRootNode = new PNode();
         addChild( backLegRootNode );
         addChild( new ModelElementImageNode( BicycleAndRider.FRAME_IMAGE, mvt ) );
-        addChild( new ModelElementImageNode( BicycleAndRider.RIDER_IMAGE, mvt ) );
         PNode frontLegRootNode = new PNode();
         addChild( frontLegRootNode );
 
@@ -68,13 +67,20 @@ public class BicycleAndRiderNode extends PNode {
             }
         } );
 
+        // Add the upper body.
+        addChild( new ModelElementImageNode( BicycleAndRider.RIDER_IMAGE, mvt ) );
+
         // Add and observer that will turn the back wheel.
-        final Point2D wheelRotationPoint = new Point2D.Double( rearWheelImage.getFullBoundsReference().getCenterX(),
-                                                               rearWheelImage.getFullBoundsReference().getCenterY() );
+        final Point2D wheelRotationPoint = new Point2D.Double( spokesImage.getFullBoundsReference().getCenterX(),
+                                                               spokesImage.getFullBoundsReference().getCenterY() );
         bicycleAndRider.getRearWheelAngle().addObserver( new VoidFunction1<Double>() {
             public void apply( Double angle ) {
-                double delta = angle - rearWheelImage.getRotation();
-                rearWheelImage.rotateAboutPoint( delta, wheelRotationPoint );
+                assert angle < 2 * Math.PI; // Limit this to one rotation.
+                // Piccolo doesn't use the convention in physics where a
+                // positive rotation is counter-clockwise, so we have to
+                // invert the angle in the following calculation.
+                double delta = -angle - spokesImage.getRotation();
+                spokesImage.rotateAboutPoint( delta, wheelRotationPoint );
             }
         } );
 
@@ -84,6 +90,9 @@ public class BicycleAndRiderNode extends PNode {
                 setOffset( mvt.modelToView( immutableVector2D ).toPoint2D() );
             }
         } );
+
+        // TODO: Temp - for prototyping - remove.
+        setScale( 0.8 );
     }
 
     private static class CrankRateSlider extends PNode {
