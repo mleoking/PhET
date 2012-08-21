@@ -41,7 +41,7 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
         }};
         addScreenChild( resetAllButtonNode );
 
-        scene = new Scene1( this );
+        scene = Scenes.scenes.index( 0 ).f( this );
         addChild( scene );
 
         nextButton = new HTMLImageButtonNode( "Next" ) {{
@@ -51,7 +51,7 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
         }};
         nextButton.addActionListener( new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
-                animateToNewScene( new Scene2( IntroCanvas.this ) );
+                animateToNewScene( Scenes.scenes.index( 1 ).f( IntroCanvas.this ) );
             }
         } );
         addChild( nextButton );
