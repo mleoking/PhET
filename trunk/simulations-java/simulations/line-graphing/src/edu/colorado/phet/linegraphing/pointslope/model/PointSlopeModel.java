@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
-import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
 
 /**
  * Model for the "Point Slope" module.
@@ -39,7 +38,7 @@ public class PointSlopeModel extends LineFormsModel {
      * @param y1 initial y1 value
      */
     private PointSlopeModel( final IntegerRange xRange, final IntegerRange yRange, int rise, int run, int x1, int y1 ) {
-        super( xRange, yRange, new WellDefinedLineProperty( new StraightLine( rise, run, x1, y1, LGColors.INTERACTIVE_LINE ) ) );
+        super( xRange, yRange, new StraightLine( rise, run, x1, y1, LGColors.INTERACTIVE_LINE ) );
 
         assert( xRange.contains( x1 ) );
         assert( yRange.contains( y1 ) );
