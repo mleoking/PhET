@@ -52,8 +52,9 @@ class PointDragHandler extends LineManipulatorDragHandler {
     @Override protected void drag( PInputEvent event ) {
         super.drag( event );
         Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
-        double x1 = MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ), x1Range.get() );
-        double y1 = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), y1Range.get() );
-        updateLine( line.get().rise, line.get().run, x1, y1 );
+        // constrain to range, snap to grid
+        double x1 = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ), x1Range.get() ) );
+        double y1 = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), y1Range.get() ) );
+        line.set( new StraightLine( line.get().rise, line.get().run, x1, y1, line.get().color ) );
     }
 }

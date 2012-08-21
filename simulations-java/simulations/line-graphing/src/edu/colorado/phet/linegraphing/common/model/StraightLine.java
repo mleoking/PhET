@@ -98,18 +98,4 @@ public class StraightLine {
                ( thisSimplified.x1 == thatSimplified.x1 ) &&
                ( thisSimplified.y1 == thatSimplified.y1 );
     }
-
-    // Specialization that rounds its constructor args to integers, using nearest-neighbor rounding.
-    public static class RoundedStraightLine extends StraightLine {
-
-        // slope-intercept form: y = mx + b
-        public RoundedStraightLine( double rise, double run, double yIntercept, Color color ) {
-            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( yIntercept ), color );
-        }
-
-        // point-slope form: (y - y1) = m(x - x1)
-        public RoundedStraightLine( double rise, double run, double x1, double y1, Color color ) {
-            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( x1 ), MathUtil.roundHalfUp( y1 ), color );
-        }
-    }
 }
