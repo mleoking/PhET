@@ -15,8 +15,7 @@ import edu.colorado.phet.functions.buildafunction.ValueNode;
 import edu.colorado.phet.functions.model.Functions;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.functions.model.Functions.INTEGER_PLUS_1;
-import static edu.colorado.phet.functions.model.Functions.INTEGER_TIMES_2;
+import static edu.colorado.phet.functions.model.Functions.*;
 import static fj.data.List.list;
 
 /**
@@ -36,7 +35,7 @@ public class Scenes {
     };
     public static final F<IntroCanvas, Scene> level2 = new F<IntroCanvas, Scene>() {
         @Override public Scene f( final IntroCanvas canvas ) {
-            return new Scene( canvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
+            return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
                 @Override public ValueNode f( final Unit unit ) {
                     return new ValueNode( canvas, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                 }
@@ -49,5 +48,20 @@ public class Scenes {
         }
     };
 
-    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list( level1, level2 );
+    public static final F<IntroCanvas, Scene> level3 = new F<IntroCanvas, Scene>() {
+        @Override public Scene f( final IntroCanvas canvas ) {
+            return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
+                @Override public ValueNode f( final Unit unit ) {
+                    return new ValueNode( canvas, 2, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                }
+            } ),
+                              list( new UnaryFunctionNode( "^2", false, INTEGER_POWER_2, 390.72378138847836, 294.298375184638 - 80 ),
+                                    new UnaryFunctionNode( "-1", false, INTEGER_MINUS_1, 390.72378138847836, 444.298375184638 - 80 )
+                              ),
+                              Scene.createTargetNodeList( canvas, list( 4, 6, 8 ) )
+            );
+        }
+    };
+
+    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list( level1, level2, level3 );
 }
