@@ -23,15 +23,12 @@ public class Scene2 extends Scene {
     }
 
     private static List<ValueNode> targetNodeList( final IntroCanvas valueContext ) {
-        final ValueNode valueNode = new ValueNode( valueContext, 6, new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray, Color.gray ) {{
-            setOffset( 903.9881831610056, 318.4047267355978 );
-        }};
-        return List.list( valueNode );
+        return Scene.createTargetNodeList( valueContext, List.list( 4, 6, 8 ) );
     }
 
     private static List<UnaryFunctionNode> unaryFunctionNodeList() {
-        return List.list( new UnaryFunctionNode( "\u27152", false, Functions.INTEGER_TIMES_2 ) {{ setOffset( 390.72378138847836, 294.298375184638 ); }},
-                          new UnaryFunctionNode( "+1", false, Functions.INTEGER_PLUS_1 ) {{ setOffset( 390.72378138847836, 444.298375184638 ); }}
+        return List.list( new UnaryFunctionNode( "\u27152", false, Functions.INTEGER_TIMES_2 ) {{ setOffset( 390.72378138847836, 294.298375184638 - 80 ); }},
+                          new UnaryFunctionNode( "+1", false, Functions.INTEGER_PLUS_1 ) {{ setOffset( 390.72378138847836, 444.298375184638 - 80 ); }}
         );
     }
 
