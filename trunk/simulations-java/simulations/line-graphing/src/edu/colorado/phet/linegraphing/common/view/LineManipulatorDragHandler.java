@@ -1,21 +1,19 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
-import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
-import edu.colorado.phet.linegraphing.common.model.StraightLine.RoundedStraightLine;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Base class drag handler for line manipulators.
+ * Main purpose is to handle sim-sharing data collection.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -41,16 +39,7 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         this.line = line;
     }
 
-    // Update the line using point-slope form, snaps to integer grid.
-    protected void updateLine( double rise, double run, double x1, double y1 ) {
-        line.set( new RoundedStraightLine( rise, run, x1, y1, line.get().color ) );
-    }
-
-    // Update the line using slope-intercept form, snaps to integer grid.
-    protected void updateLine( double rise, double run, double yIntercept ) {
-        line.set( new RoundedStraightLine( rise, run, yIntercept, line.get().color ) );
-    }
-
+    // Add information about the line to the sim-sharing message.
     @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
         return new ParameterSet().
                 with( ParameterKeys.rise, line.get().rise ).

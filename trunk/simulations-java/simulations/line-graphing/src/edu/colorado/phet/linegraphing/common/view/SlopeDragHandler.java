@@ -51,11 +51,12 @@ public class SlopeDragHandler extends LineManipulatorDragHandler {
     @Override protected void drag( PInputEvent event ) {
         super.drag( event );
         Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
+        // constrain to range, snap to grid
         double run = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ) - line.get().x1, runRange.get() ) );
         double rise = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().y1, riseRange.get() ) );
+        // don't allow slope=0/0, undefined line
         if ( !( run == 0 && rise == 0 ) ) {
-            // avoid slope=0/0
-            updateLine( rise, run, line.get().x1, line.get().y1 );
+            line.set( new StraightLine( rise, run, line.get().x1, line.get().y1, line.get().color ) );
         }
     }
 }

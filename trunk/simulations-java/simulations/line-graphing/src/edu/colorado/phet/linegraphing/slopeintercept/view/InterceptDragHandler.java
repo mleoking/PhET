@@ -49,7 +49,8 @@ public class InterceptDragHandler extends LineManipulatorDragHandler {
     @Override protected void drag( PInputEvent event ) {
         super.drag( event );
         Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
-        double yIntercept = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), yInterceptRange.get() );
-        updateLine( line.get().rise, line.get().run, yIntercept );
+        // constrain to range, snap to grid
+        double yIntercept = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), yInterceptRange.get() ) );
+        line.set( new StraightLine( line.get().rise, line.get().run, yIntercept, line.get().color ) );
     }
 }
