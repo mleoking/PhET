@@ -8,7 +8,7 @@ import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeCanvas;
 
 /**
- * Module for the "Point Slope" tab.
+ * Module for the "Point-Slope" tab.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
