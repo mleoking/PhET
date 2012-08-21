@@ -4,7 +4,6 @@ package edu.colorado.phet.energyformsandchanges.energysystems.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -44,15 +43,43 @@ public class BicycleAndRider extends EnergySource {
     public static final ModelElementImage FRAME_IMAGE = new ModelElementImage( BICYCLE_FRAME, FRAME_CENTER_OFFSET );
     public static final ModelElementImage REAR_WHEEL_IMAGE = new ModelElementImage( BICYCLE_REAR_WHEEL, FRAME_CENTER_OFFSET.plus( new Vector2D( 0.053, -0.026 ) ) );
     public static final ModelElementImage RIDER_IMAGE = new ModelElementImage( BICYCLE_RIDER, FRAME_CENTER_OFFSET.plus( new Vector2D( 0.0073, 0.078 ) ) );
-    public static final ModelElementImage BACK_LEG_AND_CRANK = new ModelElementImage( BICYCLE_BACK_LEG_1, FRAME_CENTER_OFFSET.plus( new Vector2D( 0.03, 0.01 ) ) );
-    public static final ModelElementImage FRONT_LEG = new ModelElementImage( BICYCLE_FRONT_LEG_1, FRAME_CENTER_OFFSET.plus( new Vector2D( 0.02, 0.01 ) ) );
+
+    public static final List<ModelElementImage> FRONT_LEG_IMAGES = new ArrayList<ModelElementImage>() {{
+        Vector2D offset = new Vector2D( 0.02, 0.01 );
+        add( new ModelElementImage( FRONT_LEG_01, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( FRONT_LEG_02, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( FRONT_LEG_03, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( FRONT_LEG_04, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( FRONT_LEG_05, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( FRONT_LEG_06, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( FRONT_LEG_07, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( FRONT_LEG_08, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( FRONT_LEG_09, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( FRONT_LEG_10, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( FRONT_LEG_11, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( FRONT_LEG_12, FRAME_CENTER_OFFSET.plus( offset ) ) );
+    }};
+
+    public static final List<ModelElementImage> BACK_LEG_IMAGES = new ArrayList<ModelElementImage>() {{
+        Vector2D offset = new Vector2D( 0.02, 0.01 );
+        add( new ModelElementImage( BACK_LEG_01, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( BACK_LEG_02, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( BACK_LEG_03, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( BACK_LEG_04, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( BACK_LEG_05, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( BACK_LEG_06, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( BACK_LEG_07, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( BACK_LEG_08, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( BACK_LEG_09, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( BACK_LEG_10, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( BACK_LEG_11, FRAME_CENTER_OFFSET.plus( offset ) ) );
+        add( new ModelElementImage( BACK_LEG_12, FRAME_CENTER_OFFSET.plus( offset ) ) );
+    }};
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( BACK_LEG_AND_CRANK );
         add( RIDER_IMAGE );
         add( REAR_WHEEL_IMAGE );
         add( FRAME_IMAGE );
-        add( FRONT_LEG );
     }};
 
     //-------------------------------------------------------------------------
@@ -89,12 +116,18 @@ public class BicycleAndRider extends EnergySource {
         if ( active ) {
             double angularVelocityDiffFromTarget = targetCrankAngularVelocity.get() - crankAngularVelocity;
             if ( angularVelocityDiffFromTarget != 0 ) {
-                // Accelerate or decelerate.
-                double change = ANGULAR_ACCELERATION * dt * ( angularVelocityDiffFromTarget > 0 ? 1 : -1 );
-                crankAngularVelocity = MathUtil.clamp( 0, crankAngularVelocity + change, targetCrankAngularVelocity.get() );
+                double change = ANGULAR_ACCELERATION * dt;
+                if ( angularVelocityDiffFromTarget > 0 ) {
+                    // Accelerate
+                    crankAngularVelocity = Math.min( crankAngularVelocity + change, targetCrankAngularVelocity.get() );
+                }
+                else {
+                    // Decelerate
+                    crankAngularVelocity = Math.max( crankAngularVelocity - change, 0 );
+                }
             }
-            crankAngle.set( crankAngle.get() + crankAngularVelocity * dt );
-            rearWheelAngle.set( rearWheelAngle.get() + crankAngularVelocity * dt * CRANK_TO_REAR_WHEEL_RATIO );
+            crankAngle.set( ( crankAngle.get() + crankAngularVelocity * dt ) % ( 2 * Math.PI ) );
+            rearWheelAngle.set( ( rearWheelAngle.get() + crankAngularVelocity * dt * CRANK_TO_REAR_WHEEL_RATIO ) % ( 2 * Math.PI ) );
         }
         return new Energy( Energy.Type.ELECTRICAL, Math.abs( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK * MAX_ENERGY_OUTPUT_RATE ) );
     }
