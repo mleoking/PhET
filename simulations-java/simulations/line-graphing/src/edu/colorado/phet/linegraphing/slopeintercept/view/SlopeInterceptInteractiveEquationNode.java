@@ -143,6 +143,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
         // sync the controls with the model
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
+                assert( line.x1 == 0 );
                 updatingControls = true;
                 {
                     rise.set( line.rise );

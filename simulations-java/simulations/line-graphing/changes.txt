@@ -1,3 +1,4 @@
+8/21/12 add assertions to verify x1==0 when we're expecting a slope-intercept line
 8/21/12 add assertions to equation factory constructors
 8/21/12 simplify placement of slope manipulator for slope-intercept lines
 8/21/12 rename methods that deal with add/remove of lines in LineGraphNode, doc
