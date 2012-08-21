@@ -57,7 +57,6 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
                 with( ParameterKeys.run, line.get().run ).
                 with( ParameterKeys.x1, line.get().x1 ).
                 with( ParameterKeys.y1, line.get().y1 ).
-                with( ParameterKeys.intercept, line.get().yIntercept ).
                 with( super.getParametersForAllEvents( event ) );
     }
 }

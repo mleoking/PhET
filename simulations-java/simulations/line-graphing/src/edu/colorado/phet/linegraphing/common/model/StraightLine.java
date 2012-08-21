@@ -20,17 +20,11 @@ public class StraightLine {
     public final double rise; // vertical component of the slope
     public final double run; // horizontal component of the slope
     public final double x1, y1; // some point
-    public final double yIntercept; // y intercept, Double.NaN if the line doesn't intersect the y axis
     public final Color color; // color used for visualizing the line
 
     // slope-intercept form: y = mx + b
-    public StraightLine( double rise, double run, double yIntercept, Color color ) {
-        this.rise = rise;
-        this.run = run;
-        this.x1 = 0;
-        this.y1 = yIntercept;
-        this.yIntercept = yIntercept;
-        this.color = color;
+    public StraightLine( double rise, double run, double y1, Color color ) {
+        this( rise, run, 0, y1, color );
     }
 
     // point-slope form: (y - y1) = m(x - x1)
@@ -39,7 +33,6 @@ public class StraightLine {
         this.run = run;
         this.x1 = x1;
         this.y1 = y1;
-        this.yIntercept = ( x1 == 0 )? y1 : solveY( 0 );
         this.color = color;
     }
 
@@ -97,7 +90,7 @@ public class StraightLine {
     }
 
     @Override public String toString() {
-        return "rise=" + rise + ",run=" + run + ",x1=" + x1 + ",y1=" + y1 + ",yIntercept=" + yIntercept + ",color=" + color;
+        return "rise=" + rise + ",run=" + run + ",x1=" + x1 + ",y1=" + y1 + ",color=" + color;
     }
 
     // Two lines are the same if they describe the same simplified line.
@@ -113,10 +106,12 @@ public class StraightLine {
     // Specialization that rounds its constructor args to integers, using nearest-neighbor rounding.
     public static class RoundedStraightLine extends StraightLine {
 
-        public RoundedStraightLine( double rise, double run, double yIntercept, Color color ) {
-            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( yIntercept ), color );
+        // slope-intercept form: y = mx + b
+        public RoundedStraightLine( double rise, double run, double y1, Color color ) {
+            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( y1 ), color );
         }
 
+        // point-slope form: (y - y1) = m(x - x1)
         public RoundedStraightLine( double rise, double run, double x1, double y1, Color color ) {
             super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( x1 ), MathUtil.roundHalfUp( y1 ), color );
         }

@@ -61,7 +61,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
-        this.yIntercept = new Property<Double>( interactiveLine.get().yIntercept );
+        this.yIntercept = new Property<Double>( interactiveLine.get().y1 );
 
         // determine the max width of the rise and run spinners, based on the extents of their range
         double maxSlopeWidth;
@@ -131,7 +131,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
             public void apply( StraightLine line ) {
                 rise.set( line.rise );
                 run.set( line.run );
-                yIntercept.set( line.yIntercept );
+                yIntercept.set( line.y1 );
             }
         } );
     }
