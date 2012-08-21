@@ -7,7 +7,6 @@ DESIGN
 - revisit the placement algorithm for equations on graphed lines
 
 HIGH
-- use typing to enforce usage of lines in slope-intercept form
 - consider some major rearchitecting, adding just one type of game challenge has already introduced an acceptable amount of chaos
 - create quick-and-dirty examples of each type of challenge
 - offset values used for LineGameModel.mvt determine when the graph is located, and will vary depending on where the graph is located in the challenge. Better to have a location for the graph than mvt offset?
@@ -15,6 +14,7 @@ HIGH
 - too many lists of lines; Graph model element should have a list of lines that it is displaying, PointTool should get list from Graph
 
 MEDIUM
+- use typing to enforce usage of lines in slope-intercept form, instead of "assert( line.x1 == 0 )"
 
 LOW
 
