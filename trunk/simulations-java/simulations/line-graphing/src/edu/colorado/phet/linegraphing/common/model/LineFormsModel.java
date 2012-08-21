@@ -55,6 +55,7 @@ public class LineFormsModel implements Resettable {
                     allLines.add( newLine ); // add interactive line to end, so we find it last
                 }
             } );
+
             final VoidFunction1<StraightLine> elementAddedObserver = new VoidFunction1<StraightLine>() {
                 public void apply( StraightLine line ) {
                     allLines.add( 0, line ); // add saved and standard lines to front, so we find them first
