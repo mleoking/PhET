@@ -19,6 +19,7 @@ public class SlopeInterceptLineNode extends StraightLineNode {
         super( line, graph, mvt );
     }
 
+    // Creates equations in slope-intercept form.
     protected EquationNode createEquationNode( StraightLine line, PhetFont font ) {
         return new SlopeInterceptEquationFactory().createSimplifiedNode( line, font );
     }

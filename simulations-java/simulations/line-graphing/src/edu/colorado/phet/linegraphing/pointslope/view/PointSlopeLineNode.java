@@ -19,6 +19,7 @@ class PointSlopeLineNode extends StraightLineNode {
         super( line, graph, mvt );
     }
 
+    // Creates equations in point-slope form.
     protected EquationNode createEquationNode( StraightLine line, PhetFont font ) {
         return new PointSlopeEquationFactory().createSimplifiedNode( line, font );
     }
