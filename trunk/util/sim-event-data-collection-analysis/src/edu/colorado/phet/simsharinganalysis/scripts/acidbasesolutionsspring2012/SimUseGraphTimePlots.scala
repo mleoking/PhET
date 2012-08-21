@@ -25,48 +25,48 @@ object SimUseGraphTimePlots {
 
   def getCounts(report: AcidBaseReport, rule: StateTransition => Boolean) = minutes.map(minute => getCountsForMinute(minute, report, rule))
 
+  def countEverything(s: StateTransition) = true
+
+  def countClicks(s: StateTransition, featureType: String, groupIndex: Int, report: AcidBaseReport) = {
+    //only want to count this transition if it is in the same category as the specified feature type (for this group).
+    //it should only match one thing in the table
+    val matched = SimUseGraph.table.filter(_._1.filter(s))
+    matched.length match {
+      case 0 => false //didn't match anything in the table, so doesn't count as explore
+      case 1 => matched.head._2.apply(groupIndex) == featureType
+    }
+  }
+
+  //Find the first occurrence of the feature, but only considering the events counted as clicks
+  def firstOccurrenceOfFeature(s: StateTransition, f: Feature, report: AcidBaseReport) = {
+    report.statesWithTransitions.filter(p => AcidBaseReport.isAcidBaseClick(report.log, p.entry)).find(f.filter)
+  }
+
+  //Check whether this is the first time a certain feature was used, considering only the events that count as clicks
+  def isNovel(s: StateTransition, report: AcidBaseReport) = {
+    val tableEntry = SimUseGraph.table.filter(_._1.filter(s)).head
+    val firstOccurrence = firstOccurrenceOfFeature(s, tableEntry._1, report)
+    if ( firstOccurrence.isDefined ) s == firstOccurrence.get else false
+  }
+
+  def countNewClicks(s: StateTransition, featureType: String, groupIndex: Int, report: AcidBaseReport) = if ( countClicks(s, featureType, groupIndex, report) ) isNovel(s, report) else false
+
   def main(args: Array[String]) {
     val groups = SimUseGraphSupport.groups
     for ( group <- groups ) {
       println("longest use in group: " + group.reports.map(_.log.minutesUsed).max)
     }
-    val table = SimUseGraph.table
     println("Session\tType\t" + minutes.mkString("\t"))
     for ( groupIndex <- 0 to 2 ) {
       println()
       println("A" + ( groupIndex + 1 ) + " Sessions")
       println()
       for ( report <- groups(groupIndex).reports ) {
-        def countEverything(s: StateTransition) = true
-        def countClicks(s: StateTransition, featureType: String) = {
-          //only want to count this transition if it is in the same category as the specified feature type (for this group).
-          //it should only match one thing in the table
-          val matched = table.filter(_._1.filter(s))
-          matched.length match {
-            case 0 => false //didn't match anything in the table, so doesn't count as explore
-            case 1 => matched.head._2.apply(groupIndex) == featureType
-          }
-        }
-
-        //Find the first occurrence of the feature, but only considering the events counted as clicks
-        def firstOccurrenceOfFeature(s: StateTransition, f: Feature) = {
-          report.statesWithTransitions.filter(p => AcidBaseReport.isAcidBaseClick(report.log, p.entry)).find(f.filter)
-        }
-
-        //Check whether this is the first time a certain feature was used, considering only the events that count as clicks
-        def isNovel(s: StateTransition) = {
-          val tableEntry = table.filter(_._1.filter(s)).head
-          val firstOccurrence = firstOccurrenceOfFeature(s, tableEntry._1)
-          if ( firstOccurrence.isDefined ) s == firstOccurrence.get else false
-        }
-
-        def countNewClicks(s: StateTransition, featureType: String) = if ( countClicks(s, featureType) ) isNovel(s) else false
-
         println(report.session + "\tTotal Clicks (E,P,N)\t" + getCounts(report, countEverything).mkString("\t"))
-        println(report.session + "\tExplore Clicks (E)\t" + getCounts(report, countClicks(_, SimUseGraph.Explore)).mkString("\t"))
-        println(report.session + "\tPrompted Clicks (P)\t" + getCounts(report, countClicks(_, SimUseGraph.Prompted)).mkString("\t"))
-        println(report.session + "\tNew Features (E)\t" + getCounts(report, countNewClicks(_, SimUseGraph.Explore)).mkString("\t"))
-        println(report.session + "\tNew Features (P)\t" + getCounts(report, countNewClicks(_, SimUseGraph.Prompted)).mkString("\t"))
+        println(report.session + "\tExplore Clicks (E)\t" + getCounts(report, countClicks(_, SimUseGraph.Explore, groupIndex, report)).mkString("\t"))
+        println(report.session + "\tPrompted Clicks (P)\t" + getCounts(report, countClicks(_, SimUseGraph.Prompted, groupIndex, report)).mkString("\t"))
+        println(report.session + "\tNew Features (E)\t" + getCounts(report, countNewClicks(_, SimUseGraph.Explore, groupIndex, report)).mkString("\t"))
+        println(report.session + "\tNew Features (P)\t" + getCounts(report, countNewClicks(_, SimUseGraph.Prompted, groupIndex, report)).mkString("\t"))
       }
     }
   }
