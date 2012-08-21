@@ -102,7 +102,14 @@ public abstract class Scene extends PNode implements ValueContext {
             targetNode.completed.set( true );
             if ( targetNodes.filter( TargetNode._isComplete ).length() == targetNodes.length() ) {
                 sceneContext.showNextButton();
-                GameAudioPlayer.instance.gameOverPerfectScore();
+
+                //For levels with only 1 target, just ding
+                if ( targetNodes.length() == 1 ) {
+                    GameAudioPlayer.instance.correctAnswer();
+                }
+                else {
+                    GameAudioPlayer.instance.gameOverPerfectScore();
+                }
             }
             else {
                 GameAudioPlayer.instance.correctAnswer();
