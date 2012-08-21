@@ -34,7 +34,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Interface for manipulating a point-slope equation.
- * This version uses spinner buttons to increment/decrement rise, run, x1 and y1.
+ * Uses spinners to increment/decrement rise, run, x1 and y1.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
