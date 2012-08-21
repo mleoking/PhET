@@ -47,7 +47,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     // Verbose form of slope-intercept, not reduced, for debugging.
     private static class VerboseNode extends EquationNode {
         public VerboseNode( StraightLine line, PhetFont font ) {
-            addChild( new PhetPText( MessageFormat.format( "y = ({0}/{1})x + {2})", line.rise, line.run, line.yIntercept ), font, line.color ) );
+            addChild( new PhetPText( MessageFormat.format( "y = ({0}/{1})x + {2})", line.rise, line.run, line.y1 ), font, line.color ) );
         }
     }
 
@@ -63,7 +63,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             // y = b
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
-            PText interceptNode = new PhetPText( toIntString( line.yIntercept ), font, line.color );
+            PText interceptNode = new PhetPText( toIntString( line.y1 ), font, line.color );
 
             // rendering order
             addChild( yNode );
@@ -96,14 +96,14 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
             PText xNode = new PhetPText( slopeIsPositive ? Strings.SYMBOL_X : "-" + Strings.SYMBOL_X, font, line.color );
-            PText interceptSignNode = new PhetPText( line.yIntercept > 0 ? "+" : "-", font, line.color );
-            PText interceptNode = new PhetPText( toIntString( Math.abs( line.yIntercept ) ), font, line.color );
+            PText interceptSignNode = new PhetPText( line.y1 > 0 ? "+" : "-", font, line.color );
+            PText interceptNode = new PhetPText( toIntString( Math.abs( line.y1 ) ), font, line.color );
 
             // rendering order
             addChild( yNode );
             addChild( equalsNode );
             addChild( xNode );
-            if ( line.yIntercept != 0 ) {
+            if ( line.y1 != 0 ) {
                 addChild( interceptSignNode );
                 addChild( interceptNode );
             }
@@ -135,15 +135,15 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             PText equalsNode = new PhetPText( "=", font, line.color );
             PText riseNode = new PhetPText( toIntString( line.rise / line.run ), font, line.color );
             PText xNode = new PhetPText( Strings.SYMBOL_X, font, line.color );
-            PText signNode = new PhetPText( line.yIntercept > 0 ? "+" : "-", font, line.color );
-            PText interceptNode = new PhetPText( toIntString( Math.abs( line.yIntercept ) ), font, line.color );
+            PText signNode = new PhetPText( line.y1 > 0 ? "+" : "-", font, line.color );
+            PText interceptNode = new PhetPText( toIntString( Math.abs( line.y1 ) ), font, line.color );
 
             // rendering order
             addChild( yNode );
             addChild( equalsNode );
             addChild( riseNode );
             addChild( xNode );
-            if ( line.yIntercept != 0 ) {
+            if ( line.y1 != 0 ) {
                 addChild( signNode );
                 addChild( interceptNode );
             }
@@ -179,8 +179,8 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             PText runNode = new PhetPText( toIntString( Math.abs( line.run ) ), font, line.color );
             PPath lineNode = new PhetPPath( new Line2D.Double( 0, 0, Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), 0 ), new BasicStroke( 1f ), line.color );
             PText xNode = new PhetPText( Strings.SYMBOL_X, font, line.color );
-            PText interceptSignNode = new PhetPText( line.yIntercept > 0 ? "+" : "-", font, line.color );
-            PText interceptNode = new PhetPText( toIntString( Math.abs( line.yIntercept ) ), font, line.color );
+            PText interceptSignNode = new PhetPText( line.y1 > 0 ? "+" : "-", font, line.color );
+            PText interceptNode = new PhetPText( toIntString( Math.abs( line.y1 ) ), font, line.color );
 
             // rendering order
             addChild( yNode );
@@ -192,7 +192,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             addChild( lineNode );
             addChild( runNode );
             addChild( xNode );
-            if ( line.yIntercept != 0 ) {
+            if ( line.y1 != 0 ) {
                 addChild( interceptSignNode );
                 addChild( interceptNode );
             }

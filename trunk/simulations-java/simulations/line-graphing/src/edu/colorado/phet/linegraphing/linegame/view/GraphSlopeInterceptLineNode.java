@@ -262,7 +262,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
 
                     // move the manipulators
                     {
-                        final double y = line.rise + line.yIntercept;
+                        final double y = line.rise + line.y1;
                         double x;
                         if ( line.run == 0 ) {
                             x = 0;
@@ -274,15 +274,15 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
                             x = line.solveX( y );
                         }
                         slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( x, y ) ) );
-                        interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( 0, line.yIntercept ) ) );
+                        interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( 0, line.y1 ) ) );
                     }
 
                     //TODO this was copied from SlopeInterceptModel constructor
                     // adjust the ranges
                     {
                         // rise
-                        final double minRise = graph.yRange.getMin() - line.yIntercept;
-                        final double maxRise = graph.yRange.getMax() - line.yIntercept;
+                        final double minRise = graph.yRange.getMin() - line.y1;
+                        final double maxRise = graph.yRange.getMax() - line.y1;
                         riseRange.set( new DoubleRange( minRise, maxRise ) );
 
                         // y yIntercept

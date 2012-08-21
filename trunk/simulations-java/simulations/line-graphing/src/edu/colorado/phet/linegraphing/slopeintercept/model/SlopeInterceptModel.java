@@ -50,8 +50,8 @@ public class SlopeInterceptModel extends LineFormsModel {
             public void apply( StraightLine line ) {
 
                 // rise
-                final double minRise = yRange.getMin() - line.yIntercept;
-                final double maxRise = yRange.getMax() - line.yIntercept;
+                final double minRise = yRange.getMin() - line.y1;
+                final double maxRise = yRange.getMax() - line.y1;
                 riseRange.set( new DoubleRange( minRise, maxRise ) );
 
                 // y yIntercept

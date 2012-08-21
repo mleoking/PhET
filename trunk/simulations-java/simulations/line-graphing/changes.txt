@@ -1,3 +1,4 @@
+8/20/12 simplify StraightLine model by deleting redundant yIntercept field
 8/20/12 bug fix in WellDefinedLineProperty constructor
 8/20/12 change LineFormsModel constructor, pass in default line, create property internally
 8/20/12 add a zero-arg constructor to GameTimer

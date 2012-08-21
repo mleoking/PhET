@@ -43,7 +43,7 @@ public class InterceptDragHandler extends LineManipulatorDragHandler {
     @Override protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
-        clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().yIntercept );
+        clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().y1 );
     }
 
     @Override protected void drag( PInputEvent event ) {
