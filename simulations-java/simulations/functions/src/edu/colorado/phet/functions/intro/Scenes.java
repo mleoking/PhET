@@ -48,5 +48,6 @@ public class Scenes {
             );
         }
     };
-    public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list( level1, level2 );
+
+    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list( level1, level2 );
 }
