@@ -15,6 +15,7 @@ HIGH
 - too many lists of lines; Graph model element should have a list of lines that it is displaying, PointTool should get list from Graph
 
 MEDIUM
+- bug: dragging slope manipulator sometimes creates a line with slope=0/0, causes an assertion to fire
 - bug: after dragging slope manipulator around a lot, point tool will highlight "red" (interactive line) in places where the line is not (LineFormModel.allLines has a leak)
 
 LOW

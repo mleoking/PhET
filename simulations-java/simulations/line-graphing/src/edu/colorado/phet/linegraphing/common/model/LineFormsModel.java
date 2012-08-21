@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -21,7 +22,7 @@ public class LineFormsModel implements Resettable {
     private static final int GRID_VIEW_UNITS = 530; // max dimension (width or height) of the grid in the view
 
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
-    public final WellDefinedLineProperty interactiveLine; // the line that can be manipulated by the user
+    public final Property<StraightLine> interactiveLine; // the line that can be manipulated by the user
     public final ObservableList<StraightLine> savedLines; // lines that have been saved by the user
     public final ObservableList<StraightLine> standardLines; // standard lines (eg, y=x) that are available for viewing
     public final Graph graph; // the graph that plots the lines
@@ -39,7 +40,7 @@ public class LineFormsModel implements Resettable {
         final double mvtScale = GRID_VIEW_UNITS / Math.max( xRange.getLength(), yRange.getLength() ); // view units / model units
         this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), mvtScale, -mvtScale ); // y is inverted
 
-        this.interactiveLine = new WellDefinedLineProperty( interactiveLine );
+        this.interactiveLine = new Property<StraightLine>( interactiveLine );
         this.savedLines = new ObservableList<StraightLine>();
         this.standardLines = new ObservableList<StraightLine>();
 
