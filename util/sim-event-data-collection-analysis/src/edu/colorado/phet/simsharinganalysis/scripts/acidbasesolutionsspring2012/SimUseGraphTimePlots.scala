@@ -18,6 +18,7 @@ object SimUseGraphTimePlots {
     report.statesWithTransitions.filter(p =>
                                           p.entry.time - startTime >= startMillis &&
                                           p.entry.time - startTime < endMillis &&
+                                          AcidBaseReport.isAcidBaseClick(report.log, p.entry) && //make sure it is classified as a click
                                           rule(p)).length
   }
 
@@ -40,11 +41,12 @@ object SimUseGraphTimePlots {
       for ( report <- groups(groupIndex).reports ) {
         def countEverything(s: StateTransition) = true
         def countClicks(s: StateTransition, featureType: String) = {
-          val filtered = table.filter(_._1.filter(s))
-          assert(filtered.length == 1)
-          val element = filtered.head
-          val classification = element._2(groupIndex)
-          classification == featureType
+          //                    val filtered = table.filter(_._1.filter(s))
+          //                    assert(filtered.length == 1)
+          //                    val element = filtered.head
+          //                    val classification = element._2(groupIndex)
+          //                    classification == featureType
+          true
         }
         println(report.session + "\tTotal Clicks (E,P,N)\t" + getCounts(report, countEverything).mkString("\t"))
         println(report.session + "\tExplore Clicks (E)\t" + getCounts(report, countClicks(_, SimUseGraph.Explore)).mkString("\t"))
