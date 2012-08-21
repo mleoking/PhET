@@ -1,3 +1,4 @@
+8/21/12 fixed StraightLine.same
 8/21/12 use color constant for title in control panel
 8/21/12 delete RoundedStraightLine class, handle snap-to-grid in drag handlers for line manipulators
 8/21/12 fix issues with StraightLine.solveX and solveY
