@@ -27,7 +27,7 @@ public class Scene extends PNode implements ValueContext {
     private final List<TargetNode> targetNodes;
     private final SceneContext sceneContext;
 
-    protected Scene( List<ValueNode> valueNodes, List<UnaryFunctionNode> unaryFunctionNodeList, List<TargetNode> targetNodes, SceneContext sceneContext ) {
+    protected Scene( SceneContext sceneContext, List<ValueNode> valueNodes, List<UnaryFunctionNode> unaryFunctionNodeList, List<TargetNode> targetNodes ) {
         this.unaryFunctionNodeList = unaryFunctionNodeList;
         this.targetNodes = targetNodes;
         this.sceneContext = sceneContext;
