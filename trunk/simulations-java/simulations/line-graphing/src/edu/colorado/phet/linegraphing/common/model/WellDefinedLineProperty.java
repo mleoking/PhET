@@ -18,6 +18,7 @@ public class WellDefinedLineProperty extends Property<StraightLine> {
 
     public WellDefinedLineProperty( StraightLine line ) {
         super( line );
+        set( line ); // in case constructor was not provided with a well-defined line
     }
 
     @Override public void set( StraightLine line ) {

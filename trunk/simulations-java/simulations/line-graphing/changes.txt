@@ -1,3 +1,4 @@
+8/20/12 bug fix in WellDefinedProperty constructor
 8/20/12 change LineFormsModel constructor, pass in default line, create property internally
 8/20/12 add a zero-arg constructor to GameTimer
 7/31/12 add PlayState.NONE to fix bugs with starting a new game in the middle of playing a game
