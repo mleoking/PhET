@@ -16,7 +16,6 @@ HIGH
 
 MEDIUM
 - bug: after dragging slope manipulator around a lot, point tool will highlight "red" (interactive line) in places where the line is not (LineFormModel.allLines has a leak)
-- move StraightLine.color to view
 
 LOW
 
