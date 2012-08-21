@@ -28,11 +28,11 @@ public class BuildAFunctionPrototype2Canvas extends AbstractFunctionsCanvas {
         addChild( new UnaryFunctionNode( "^2", true, Functions.INTEGER_POWER_2 ) );
 
         addChild( new ValueNode( new ValueContext() {
-            @Override public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
+            public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
                 valueNode.translate( delta.width, delta.height );
             }
 
-            @Override public void mouseReleased( final ValueNode valueNode ) {
+            public void mouseReleased( final ValueNode valueNode ) {
             }
         }, 3, new BasicStroke(), Color.white, Color.black, Color.black ) );
     }

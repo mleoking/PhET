@@ -38,7 +38,7 @@ public abstract class Scene extends PNode implements ValueContext {
         }
     }
 
-    @Override public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
+    public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
         UnaryFunctionNode functionNode = unaryFunctionNodeList.sort( FJUtils.ord( new F<UnaryFunctionNode, Double>() {
             @Override public Double f( final UnaryFunctionNode n ) {
                 return n.getGlobalFullBounds().getCenter2D().distance( valueNode.getGlobalFullBounds().getCenter2D() );
@@ -82,7 +82,7 @@ public abstract class Scene extends PNode implements ValueContext {
         }
     }
 
-    @Override public void mouseReleased( final ValueNode valueNode ) {
+    public void mouseReleased( final ValueNode valueNode ) {
         ValueNode targetNode = targetNodes.head();
         if ( valueNode.getGlobalFullBounds().intersects( targetNode.getGlobalFullBounds() ) && valueNode.getNumberRotations() % 4 == 1 ) {
             valueNode.setStrokePaint( Color.red );
