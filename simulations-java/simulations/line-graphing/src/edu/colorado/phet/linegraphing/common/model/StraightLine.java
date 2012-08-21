@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.linegraphing.common.LGColors;
 
 /**
- * A straight line, which can be specified in slope-intercept or point-slope form.
+ * An immutable straight line, which can be specified in slope-intercept or point-slope form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
