@@ -51,7 +51,6 @@ public class LineFormsModel implements Resettable {
         {
             this.interactiveLine.addObserver( new ChangeObserver<StraightLine>() {
                 public void update( StraightLine newLine, StraightLine oldLine ) {
-                    //TODO there's a bug here, oldLine is sometimes not found in the list, allLines leaks and continues to grow
                     allLines.remove( oldLine ); // remove first, because on observer registration oldLine == newLine
                     allLines.add( newLine ); // add interactive line to end, so we find it last
                 }
