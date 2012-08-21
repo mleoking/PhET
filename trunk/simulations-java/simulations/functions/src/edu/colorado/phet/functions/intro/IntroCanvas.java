@@ -13,6 +13,8 @@ import edu.colorado.phet.functions.buildafunction.BuildAFunctionPrototype2Canvas
 import edu.colorado.phet.functions.buildafunction.ValueContext;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
 import edu.colorado.phet.functions.intro.view.NavigationBar;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -22,6 +24,8 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
 
     private Scene scene;
     private final ResetAllButtonNode resetAllButtonNode;
+    private final HTMLImageButtonNode nextButton;
+    private static final long ANIMATION_DELAY = 200;
 
     public IntroCanvas() {
 
@@ -39,6 +43,19 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
 
         scene = new Scene1( this );
         addChild( scene );
+
+        nextButton = new HTMLImageButtonNode( "Next" ) {{
+            setFont( resetAllButtonNode.getFont() );
+            setBackground( Color.green );
+            setOffset( resetAllButtonNode.getFullBounds().getX(), resetAllButtonNode.getFullBounds().getMinY() - getFullBounds().getHeight() - 10 );
+        }};
+        nextButton.addActionListener( new ActionListener() {
+            public void actionPerformed( final ActionEvent e ) {
+                animateToNewScene( new Scene2( IntroCanvas.this ) );
+            }
+        } );
+        addChild( nextButton );
+        nextButton.setVisible( false );
     }
 
     public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
@@ -50,20 +67,25 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
     }
 
     public void showNextButton() {
-        final HTMLImageButtonNode nextButton = new HTMLImageButtonNode( "Next" ) {{
-            setFont( resetAllButtonNode.getFont() );
-            setBackground( Color.green );
-            setOffset( resetAllButtonNode.getFullBounds().getX(), resetAllButtonNode.getFullBounds().getMinY() - getFullBounds().getHeight() - 10 );
-        }};
-        nextButton.addActionListener( new ActionListener() {
-            public void actionPerformed( final ActionEvent e ) {
-                IntroCanvas.this.removeChild( scene );
-                scene = new Scene2( IntroCanvas.this );
-                IntroCanvas.this.addChild( scene );
-                IntroCanvas.this.removeChild( nextButton );
-            }
-        } );
-        addChild( nextButton );
+        nextButton.setVisible( true );
     }
 
+    private void animateToNewScene( final Scene newScene ) {
+        nextButton.setVisible( false );
+        addChild( newScene );
+        newScene.setOffset( STAGE_SIZE.width, 0 );
+        newScene.animateToPositionScaleRotation( 0, 0, 1, 0, ANIMATION_DELAY );
+        scene.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, ANIMATION_DELAY ).setDelegate( new PActivityDelegate() {
+            public void activityStarted( final PActivity activity ) {
+            }
+
+            public void activityStepped( final PActivity activity ) {
+            }
+
+            public void activityFinished( final PActivity activity ) {
+                IntroCanvas.this.removeChild( scene );
+                IntroCanvas.this.scene = newScene;
+            }
+        } );
+    }
 }
