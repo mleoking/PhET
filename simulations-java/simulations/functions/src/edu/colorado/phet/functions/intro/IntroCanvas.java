@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -26,6 +27,7 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
     private final ResetAllButtonNode resetAllButtonNode;
     private final HTMLImageButtonNode nextButton;
     private static final long ANIMATION_DELAY = 200;
+    public final IntegerProperty level = new IntegerProperty( 0 );
 
     public IntroCanvas() {
 
@@ -41,7 +43,7 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
         }};
         addScreenChild( resetAllButtonNode );
 
-        scene = Scenes.scenes.index( 0 ).f( this );
+        scene = Scenes.scenes.index( level.get() ).f( this );
         addChild( scene );
 
         nextButton = new HTMLImageButtonNode( "Next" ) {{
@@ -51,7 +53,12 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
         }};
         nextButton.addActionListener( new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
-                animateToNewScene( Scenes.scenes.index( 1 ).f( IntroCanvas.this ) );
+                level.increment();
+                Integer level = IntroCanvas.this.level.get();
+                if ( level >= Scenes.scenes.length() ) {
+                    level = Scenes.scenes.length() - 1;
+                }
+                animateToNewScene( Scenes.scenes.index( level ).f( IntroCanvas.this ) );
             }
         } );
         addChild( nextButton );
