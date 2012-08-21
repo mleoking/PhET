@@ -23,8 +23,8 @@ public class StraightLine {
     public final Color color; // color used for visualizing the line
 
     // slope-intercept form: y = mx + b
-    public StraightLine( double rise, double run, double y1, Color color ) {
-        this( rise, run, 0, y1, color );
+    public StraightLine( double rise, double run, double yIntercept, Color color ) {
+        this( rise, run, 0, yIntercept, color );
     }
 
     // point-slope form: (y - y1) = m(x - x1)
