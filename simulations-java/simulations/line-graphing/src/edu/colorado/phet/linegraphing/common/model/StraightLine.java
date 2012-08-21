@@ -107,8 +107,8 @@ public class StraightLine {
     public static class RoundedStraightLine extends StraightLine {
 
         // slope-intercept form: y = mx + b
-        public RoundedStraightLine( double rise, double run, double y1, Color color ) {
-            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( y1 ), color );
+        public RoundedStraightLine( double rise, double run, double yIntercept, Color color ) {
+            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( yIntercept ), color );
         }
 
         // point-slope form: (y - y1) = m(x - x1)
