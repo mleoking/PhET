@@ -24,13 +24,13 @@ public class Functions {
 
     public static final F<Object, Object> INTEGER_MINUS_1 = new F<Object, Object>() {
         @Override public Object f( final Object o ) {
-            return ( (Integer) o ) + 1;
+            return ( (Integer) o ) - 1;
         }
     };
 
     public static final F<Object, Object> INTEGER_POWER_2 = new F<Object, Object>() {
         @Override public Object f( final Object o ) {
-            return ( (Integer) o ) + 1;
+            return (int) Math.pow( ( (Integer) o ), 2 );
         }
     };
 
