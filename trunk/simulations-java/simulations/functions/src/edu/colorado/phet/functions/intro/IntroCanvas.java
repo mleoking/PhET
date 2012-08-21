@@ -41,11 +41,11 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
         addChild( scene );
     }
 
-    @Override public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
+    public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
         scene.mouseDragged( valueNode, delta );
     }
 
-    @Override public void mouseReleased( final ValueNode valueNode ) {
+    public void mouseReleased( final ValueNode valueNode ) {
         scene.mouseReleased( valueNode );
     }
 
@@ -56,7 +56,7 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
             setOffset( resetAllButtonNode.getFullBounds().getX(), resetAllButtonNode.getFullBounds().getMinY() - getFullBounds().getHeight() - 10 );
         }};
         nextButton.addActionListener( new ActionListener() {
-            @Override public void actionPerformed( final ActionEvent e ) {
+            public void actionPerformed( final ActionEvent e ) {
                 IntroCanvas.this.removeChild( scene );
                 scene = new Scene2( IntroCanvas.this );
                 IntroCanvas.this.addChild( scene );
