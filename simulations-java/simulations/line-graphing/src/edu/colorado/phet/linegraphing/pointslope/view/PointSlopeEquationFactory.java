@@ -60,6 +60,8 @@ public class PointSlopeEquationFactory extends EquationFactory {
 
         public ZeroSlopeNode( StraightLine line, PhetFont font ) {
 
+            assert( line.rise == 0 );
+
             // y = y1
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
@@ -86,6 +88,8 @@ public class PointSlopeEquationFactory extends EquationFactory {
 
         public UnitSlopeNode( StraightLine line, PhetFont font ) {
 
+            assert( Math.abs( line.rise ) == Math.abs( line.run ) );
+
             PText yNode = new PhetPText( getYText( line.y1 ), font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
             String slopeText = ( line.rise * line.run >= 0 ) ? "" : "-";
@@ -111,6 +115,8 @@ public class PointSlopeEquationFactory extends EquationFactory {
     private static class IntegerSlopeNode extends EquationNode {
 
         public IntegerSlopeNode( StraightLine line, PhetFont font ) {
+
+            assert( Math.abs( line.run ) == 1 );
 
             PText yNode = new PhetPText( getYText( line.y1 ), font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );

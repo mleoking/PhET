@@ -28,6 +28,7 @@ public abstract class EquationFactory {
      */
     protected static class UndefinedSlopeNode extends EquationNode {
         public UndefinedSlopeNode( StraightLine line, PhetFont font ) {
+            assert( line.run == 0 );
             setPickable( false );
             addChild( new PhetPText( Strings.SLOPE_UNDEFINED, font, line.color ) );
         }
