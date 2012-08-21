@@ -1,11 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.functions.intro;
 
+import fj.F;
+import fj.Unit;
 import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.functions.FunctionsResources.Images;
@@ -26,13 +27,11 @@ class Scene1 extends Scene {
     }
 
     private static List<ValueNode> valueNodes( final IntroCanvas introCanvas ) {
-        ArrayList<ValueNode> valueNodes = new ArrayList<ValueNode>();
-        for ( int i = 0; i < 3; i++ ) {
-            ValueNode valueNode = new ValueNode( introCanvas, new Graphic( 0 ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
-            valueNode.setOffset( 84.37223042836038 + i * 3, 315.3914327917278 - i * 3 );
-            valueNodes.add( valueNode );
-        }
-        return List.iterableList( valueNodes );
+        return Scene.toStack( 3, new F<Unit, ValueNode>() {
+            @Override public ValueNode f( final Unit unit ) {
+                return new ValueNode( introCanvas, new Graphic( 0 ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+            }
+        } );
     }
 
     private static ValueNode targetNode( final IntroCanvas introCanvas ) {
