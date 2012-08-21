@@ -11,16 +11,17 @@ import java.text.DecimalFormat
 
 object AcidBaseReport {
   def toReport(log: Log) = new AcidBaseReport(log)
-}
 
-case class StateTransition(start: SimState, entry: Entry, end: SimState)
+  def isAcidBaseClick(log: Log, e: Entry) = {
+    e match {
 
-class AcidBaseReport(val log: Log) {
-
-  def getSign(d: Double) = d match {
-    case x if x < 0 => -1
-    case x if x > 0 => 1
-    case x if x == 0 => 0
+      //Starting a slider drag counts as a click
+      case Entry(_, "user", _, _, "endDrag", _) => false
+      case Entry(_, "user", _, "slider", "startDrag", _) => true
+      case Entry(_, "user", _, "slider", "drag", _) => sliderChangedDirection(log, e)
+      case Entry(_, "user", _, _, _, _) => true
+      case _ => false
+    }
   }
 
   //KL: Each time students start dragging should count as one click. But if they change direction during a single drag, I want that to count as more than one click - one for each direction.
@@ -43,17 +44,28 @@ class AcidBaseReport(val log: Log) {
     }
   }
 
-  def isAcidBaseClick(log: Log, e: Entry) = {
-    e match {
-
-      //Starting a slider drag counts as a click
-      case Entry(_, "user", _, _, "endDrag", _) => false
-      case Entry(_, "user", _, "slider", "startDrag", _) => true
-      case Entry(_, "user", _, "slider", "drag", _) => sliderChangedDirection(log, e)
-      case Entry(_, "user", _, _, _, _) => true
-      case _ => false
-    }
+  def getSign(d: Double) = d match {
+    case x if x < 0 => -1
+    case x if x > 0 => 1
+    case x if x == 0 => 0
   }
+}
+
+case class StateTransition(start: SimState, entry: Entry, end: SimState) {
+  def used(component: String): Boolean = entry.messageType == "user" && entry.component == component
+
+  def used(radioButton: String, icon: String): Boolean = used(radioButton) || used(icon)
+
+  val dunkedPHMeter = entry.component == "phMeter" && entry.hasParameter("isInSolution", "true") && entry.action == "drag"
+  val dunkedPHPaper = entry.component == "phPaper" && entry.hasParameter("isInSolution", "true") && entry.action == "drag"
+  val completedCircuit = entry.hasParameter("isCircuitCompleted", "true")
+
+  def usedAcidControlOn2ndTab(control: String) = start.tab1.acid && start.selectedTab == 1 && entry.messageType == "user" && entry.component == control
+
+  def usedBaseControlOn2ndTab(control: String) = !start.tab1.acid && start.selectedTab == 1 && entry.messageType == "user" && entry.component == control
+}
+
+class AcidBaseReport(val log: Log) {
 
   def matchesAny(s: String, list: List[String]) = list.contains(s)
 
@@ -107,7 +119,7 @@ class AcidBaseReport(val log: Log) {
   def countEntriesWithinTime(entries: List[Entry], min: Long, max: Long): Int = entries.filter(e => e.time >= min && e.time < max).length
 
   def getClickTimeHistogram(log: Log, startTime: Log => Long = _.startTime) = {
-    val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
+    val entries: List[Entry] = log.entries.filter(AcidBaseReport.isAcidBaseClick(log, _)).toList
     val millisPerMinute = 60L * 1000L
     ( ( startTime(log) until log.endTime by millisPerMinute ).map(time => ( time - startTime(log) ) / millisPerMinute -> countEntriesWithinTime(entries, time, time + millisPerMinute)) ).toMap
   }
@@ -124,7 +136,7 @@ class AcidBaseReport(val log: Log) {
 
   val filename = log.file.getName
 
-  val clicks: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
+  val clicks: List[Entry] = log.entries.filter(AcidBaseReport.isAcidBaseClick(log, _)).toList
 
   if ( clicks.length > 0 ) {
     //Show how long the sim was open.  Format so that RealTimeAnalysis isn't too jumpy

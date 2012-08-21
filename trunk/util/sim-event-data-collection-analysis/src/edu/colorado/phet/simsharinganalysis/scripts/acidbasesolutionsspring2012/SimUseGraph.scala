@@ -9,7 +9,13 @@ import edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012.
 object SimUseGraph {
 
   //http://stackoverflow.com/questions/10373715/scala-ignore-case-class-field-for-equals-hascode
-  case class Feature(name: String)(val filter: AcidBaseReport => Boolean)
+  case class Feature(name: String, filter: StateTransition => Boolean) {
+
+    //promote the state transition filter to look at a whole log
+    val logFilter: AcidBaseReport => Boolean = (p: AcidBaseReport) => {
+      p.statesWithTransitions.filter(filter).length > 0
+    }
+  }
 
   val NoCredit = "No credit"
   val Explore = "Explore"
@@ -21,41 +27,41 @@ object SimUseGraph {
 
   def table = {
     List(
-      Feature("introductionTab")(_.used("introductionTab")) -> NNN,
-      Feature("strongAcidRadioButton")(_.used("strongAcidRadioButton")) -> EPP,
-      Feature("weakAcidRadioButton")(_.used("weakAcidRadioButton")) -> EPP,
-      Feature("strongBaseRadioButton")(_.used("strongBaseRadioButton")) -> EEE,
-      Feature("weakBaseRadioButton")(_.used("weakBaseRadioButton")) -> EEE,
-      Feature("waterRadioButton")(_.used("waterRadioButton")) -> EEE,
-      Feature("magnifyingGlassRadioButton")(_.used("magnifyingGlassRadioButton")) -> EEP,
-      Feature("showSolventCheckBox")(_.used("showSolventCheckBox")) -> EEE,
-      Feature("concentrationGraphRadioButton")(_.used("concentrationGraphRadioButton")) -> EEP,
-      Feature("liquidRadioButton")(_.used("liquidRadioButton")) -> EEE,
-      Feature("phMeterRadioButton, phMeterIcon")(_.used("phMeterRadioButton", "phMeterIcon")) -> NNN,
-      Feature("phPaperRadioButton, phPaperIcon")(_.used("phPaperRadioButton", "phPaperIcon")) -> NNN,
-      Feature("conductivityTesterRadioButton, conductivityTesterIcon")(_.used("conductivityTesterRadioButton", "conductivityTesterIcon")) -> NNN,
-      Feature("dunkedPhMeter")(_.dunkedPHMeter) -> EEP,
-      Feature("dunkedPhPaper")(_.dunkedPHPaper) -> EEE,
-      Feature("completedCircuit")(_.completedCircuit) -> EEE,
-      Feature("customSolutionTab")(_.used("customSolutionTab")) -> NNN,
+      Feature("introductionTab", _.used("introductionTab")) -> NNN,
+      Feature("strongAcidRadioButton", _.used("strongAcidRadioButton")) -> EPP,
+      Feature("weakAcidRadioButton", _.used("weakAcidRadioButton")) -> EPP,
+      Feature("strongBaseRadioButton", _.used("strongBaseRadioButton")) -> EEE,
+      Feature("weakBaseRadioButton", _.used("weakBaseRadioButton")) -> EEE,
+      Feature("waterRadioButton", _.used("waterRadioButton")) -> EEE,
+      Feature("magnifyingGlassRadioButton", _.used("magnifyingGlassRadioButton")) -> EEP,
+      Feature("showSolventCheckBox", _.used("showSolventCheckBox")) -> EEE,
+      Feature("concentrationGraphRadioButton", _.used("concentrationGraphRadioButton")) -> EEP,
+      Feature("liquidRadioButton", _.used("liquidRadioButton")) -> EEE,
+      Feature("phMeterRadioButton, phMeterIcon", _.used("phMeterRadioButton", "phMeterIcon")) -> NNN,
+      Feature("phPaperRadioButton, phPaperIcon", _.used("phPaperRadioButton", "phPaperIcon")) -> NNN,
+      Feature("conductivityTesterRadioButton, conductivityTesterIcon", _.used("conductivityTesterRadioButton", "conductivityTesterIcon")) -> NNN,
+      Feature("dunkedPhMeter", _.dunkedPHMeter) -> EEP,
+      Feature("dunkedPhPaper", _.dunkedPHPaper) -> EEE,
+      Feature("completedCircuit", _.completedCircuit) -> EEE,
+      Feature("customSolutionTab", _.used("customSolutionTab")) -> NNN,
 
-      Feature("acidRadioButton")(_.used("acidRadioButton")) -> EPP,
-      Feature("acid.concentrationControl")(r => r.usedAcidControlOn2ndTab("concentrationControl")) -> EPP,
-      Feature("acid.strongRadioButton")(r => r.usedAcidControlOn2ndTab("strongRadioButton")) -> EPP,
-      Feature("acid.weakRadioButton")(r => r.usedAcidControlOn2ndTab("weakRadioButton")) -> EPP,
-      Feature("acid.weakStrengthControl")(r => r.usedAcidControlOn2ndTab("weakStrengthControl")) -> EPP,
+      Feature("acidRadioButton", _.used("acidRadioButton")) -> EPP,
+      Feature("acid.concentrationControl", r => r.usedAcidControlOn2ndTab("concentrationControl")) -> EPP,
+      Feature("acid.strongRadioButton", r => r.usedAcidControlOn2ndTab("strongRadioButton")) -> EPP,
+      Feature("acid.weakRadioButton", r => r.usedAcidControlOn2ndTab("weakRadioButton")) -> EPP,
+      Feature("acid.weakStrengthControl", r => r.usedAcidControlOn2ndTab("weakStrengthControl")) -> EPP,
 
-      Feature("baseRadioButton")(_.used("baseRadioButton")) -> EEE,
-      Feature("base.concentrationControl")(r => r.usedBaseControlOn2ndTab("concentrationControl")) -> EEE,
-      Feature("base.strongRadioButton")(r => r.usedBaseControlOn2ndTab("strongRadioButton")) -> EEE,
-      Feature("base.weakRadioButton")(r => r.usedBaseControlOn2ndTab("weakRadioButton")) -> EEE,
-      Feature("base.weakStrengthControl")(r => r.usedBaseControlOn2ndTab("weakStrengthControl")) -> EEE
+      Feature("baseRadioButton", _.used("baseRadioButton")) -> EEE,
+      Feature("base.concentrationControl", r => r.usedBaseControlOn2ndTab("concentrationControl")) -> EEE,
+      Feature("base.strongRadioButton", r => r.usedBaseControlOn2ndTab("strongRadioButton")) -> EEE,
+      Feature("base.weakRadioButton", r => r.usedBaseControlOn2ndTab("weakRadioButton")) -> EEE,
+      Feature("base.weakStrengthControl", r => r.usedBaseControlOn2ndTab("weakStrengthControl")) -> EEE
     )
   }
 
   def getFractionInGroup(feature: Feature, group: Group) = {
     val size = group.size
-    val number = group.reports.filter(report => feature.filter(report)).length
+    val number = group.reports.filter(report => feature.logFilter(report)).length
     number.toDouble / size.toDouble
   }
 
@@ -80,19 +86,19 @@ object SimUseGraph {
     println()
     def toDouble(b: Boolean) = if ( b ) 1 else 0
     for ( report <- groups(0).reports ) {
-      println(report.session + "\t" + table.map(_._1.filter).map(f => f(report)).map(toDouble).mkString("\t"))
+      println(report.session + "\t" + table.map(_._1.logFilter).map(f => f(report)).map(toDouble).mkString("\t"))
     }
     println()
     println("A2 Groups")
     println()
     for ( report <- groups(1).reports ) {
-      println(report.session + "\t" + table.map(_._1.filter).map(f => f(report)).map(toDouble).mkString("\t"))
+      println(report.session + "\t" + table.map(_._1.logFilter).map(f => f(report)).map(toDouble).mkString("\t"))
     }
     println()
     println("A3 Groups")
     println()
     for ( report <- groups(2).reports ) {
-      println(report.session + "\t" + table.map(_._1.filter).map(f => f(report)).map(toDouble).mkString("\t"))
+      println(report.session + "\t" + table.map(_._1.logFilter).map(f => f(report)).map(toDouble).mkString("\t"))
     }
 
     //The overall summary for comparative bar charts
