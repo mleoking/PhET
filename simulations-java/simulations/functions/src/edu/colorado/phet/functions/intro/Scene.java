@@ -83,8 +83,13 @@ public abstract class Scene extends PNode implements ValueContext {
     }
 
     public void mouseReleased( final ValueNode valueNode ) {
-        ValueNode targetNode = targetNodes.head();
-        if ( valueNode.getGlobalFullBounds().intersects( targetNode.getGlobalFullBounds() ) && valueNode.getNumberRotations() % 4 == 1 ) {
+        //find the nearest target node, and see if the value matches
+        ValueNode targetNode = targetNodes.sort( FJUtils.ord( new F<ValueNode, Double>() {
+            @Override public Double f( final ValueNode t ) {
+                return t.getGlobalFullBounds().getCenter2D().distance( valueNode.getGlobalFullBounds().getCenter2D() );
+            }
+        } ) ).head();
+        if ( valueNode.getGlobalFullBounds().intersects( targetNode.getGlobalFullBounds() ) && valueNode.getCurrentValue().equals( targetNode.getCurrentValue() ) ) {
             valueNode.setStrokePaint( Color.red );
             valueNode.centerFullBoundsOnPoint( targetNode.getFullBounds().getCenterX(), targetNode.getFullBounds().getCenterY() );
             sceneContext.showNextButton();
