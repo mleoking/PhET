@@ -45,6 +45,7 @@ public class StraightLine {
     /*
      * Given x, solve y = m(x - x1) + y1
      * Returns Double.NaN if the solution is not unique, or there is no solution (x can't possibly be on the line.)
+     * This occurs when we have a vertical line, with no rise.
      */
     public double solveY( double x ) {
         if ( run == 0 ) {
@@ -58,6 +59,7 @@ public class StraightLine {
     /*
      * Given y, solve x = ((y - y1)/m) + x1
      * Returns Double.NaN if the solution is not unique, or there is no solution (y can't possibly be on the line.)
+     * This occurs when we have a horizontal line, with no run.
      */
     public double solveX( double y ) {
         if ( rise == 0 ) {
@@ -76,8 +78,8 @@ public class StraightLine {
      */
     public StraightLine simplified() {
         if ( ( rise == (int) rise ) && ( run == (int) run ) ) { // true if rise and run are integers
-            final int reducedRise = (int)( rise / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
-            final int reducedRun = (int)( run / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
+            final int reducedRise = (int) ( rise / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
+            final int reducedRun = (int) ( run / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
             return new StraightLine( reducedRise, reducedRun, x1, y1, color );
         }
         else {
@@ -85,17 +87,25 @@ public class StraightLine {
         }
     }
 
-    @Override public String toString() {
-        return "rise=" + rise + ",run=" + run + ",x1=" + x1 + ",y1=" + y1 + ",color=" + color;
+    // Returns true if 2 points on the specified line are also on this line.
+    public boolean same( StraightLine line ) {
+        return onLine( line.x1, line.y1 ) && onLine( line.x1 + run, line.y1 + rise );
     }
 
-    // Two lines are the same if they describe the same simplified line.
-    public boolean same( StraightLine line ) {
-        StraightLine thisSimplified = this.simplified();
-        StraightLine thatSimplified = line.simplified();
-        return ( thisSimplified.rise == thatSimplified.rise ) &&
-               ( thisSimplified.run == thatSimplified.run ) &&
-               ( thisSimplified.x1 == thatSimplified.x1 ) &&
-               ( thisSimplified.y1 == thatSimplified.y1 );
+    // Returns true if point (x,y) is on this line.
+    private boolean onLine( double x, double y ) {
+        if ( rise == 0 ) {
+            return ( y == y1 );
+        }
+        else if ( run == 0 ) {
+            return ( x == x1 );
+        }
+        else {
+            return ( x == solveX( y ) );
+        }
+    }
+
+    @Override public String toString() {
+        return "rise=" + rise + ",run=" + run + ",x1=" + x1 + ",y1=" + y1 + ",color=" + color;
     }
 }
