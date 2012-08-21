@@ -2,20 +2,19 @@ package edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012
 
 import edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012.SimUseGraphSupport.Group
 
+//http://stackoverflow.com/questions/10373715/scala-ignore-case-class-field-for-equals-hascode
+case class Feature(name: String, filter: StateTransition => Boolean) {
+
+  //promote the state transition filter to look at a whole log
+  val logFilter: AcidBaseReport => Boolean = (p: AcidBaseReport) => {
+    p.statesWithTransitions.filter(filter).length > 0
+  }
+}
 
 /**
  * @author Sam Reid
  */
 object SimUseGraph {
-
-  //http://stackoverflow.com/questions/10373715/scala-ignore-case-class-field-for-equals-hascode
-  case class Feature(name: String, filter: StateTransition => Boolean) {
-
-    //promote the state transition filter to look at a whole log
-    val logFilter: AcidBaseReport => Boolean = (p: AcidBaseReport) => {
-      p.statesWithTransitions.filter(filter).length > 0
-    }
-  }
 
   val NoCredit = "No credit"
   val Explore = "Explore"
