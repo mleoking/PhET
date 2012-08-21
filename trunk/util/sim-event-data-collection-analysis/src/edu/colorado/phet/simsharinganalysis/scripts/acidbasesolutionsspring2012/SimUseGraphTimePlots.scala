@@ -8,6 +8,7 @@ object SimUseGraphTimePlots {
   //Range of minutes to look at, inclusive
   val minutes = 1 to 45
 
+  //Convert minutes to milliseconds
   def minutesToMilliseconds(minute: Int) = minute * 60000
 
   //Count the events that happen within the specified minute
@@ -23,10 +24,13 @@ object SimUseGraphTimePlots {
                                           rule(p)).length
   }
 
+  //Get a list of counts for each minute specified above
   def getCounts(report: AcidBaseReport, rule: StateTransition => Boolean) = minutes.map(minute => getCountsForMinute(minute, report, rule))
 
+  //Rule that allows anny state transition to be counted
   def countEverything(s: StateTransition) = true
 
+  //Rule that only counts clicks that are classified as "Explore" or "Prompted" according to the featureType argument
   def countClicks(s: StateTransition, featureType: String, groupIndex: Int, report: AcidBaseReport) = {
     //only want to count this transition if it is in the same category as the specified feature type (for this group).
     //it should only match one thing in the table
@@ -37,7 +41,7 @@ object SimUseGraphTimePlots {
     }
   }
 
-  //Find the first occurrence of the feature, but only considering the events counted as clicks
+  //Find the first occurrence of the feature (if any), but only considering the events counted as clicks
   def firstOccurrenceOfFeature(s: StateTransition, f: Feature, report: AcidBaseReport) = {
     report.statesWithTransitions.filter(p => AcidBaseReport.isAcidBaseClick(report.log, p.entry)).find(f.filter)
   }
@@ -49,6 +53,7 @@ object SimUseGraphTimePlots {
     if ( firstOccurrence.isDefined ) s == firstOccurrence.get else false
   }
 
+  //Classifier that returns true for a StateTransition if it is the first time the feature is used
   def countNewClicks(s: StateTransition, featureType: String, groupIndex: Int, report: AcidBaseReport) = if ( countClicks(s, featureType, groupIndex, report) ) isNovel(s, report) else false
 
   def main(args: Array[String]) {
