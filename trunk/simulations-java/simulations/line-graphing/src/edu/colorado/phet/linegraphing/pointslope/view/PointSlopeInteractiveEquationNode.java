@@ -25,11 +25,11 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
-import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
+import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
+import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
-import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RiseSpinnerNode;
-import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.PointColors;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeColors;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -70,11 +70,19 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
         // determine the max width of the rise and run spinners, based on the extents of their range
         double maxSlopeWidth;
         {
-            PNode maxRiseNode = new RiseSpinnerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMax() ), riseRange, interactiveFont, FORMAT );
-            PNode minRiseNode = new RiseSpinnerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMin() ), riseRange, interactiveFont, FORMAT );
+            PNode maxRiseNode = new RiseSpinnerNode( UserComponents.riseSpinner,
+                                                     new Property<Double>( riseRange.get().getMax() ), new Property<Double>( runRange.get().getMax() ), riseRange,
+                                                     new SlopeColors(), interactiveFont, FORMAT );
+            PNode minRiseNode = new RiseSpinnerNode( UserComponents.riseSpinner,
+                                                     new Property<Double>( riseRange.get().getMin() ), new Property<Double>( runRange.get().getMax() ), riseRange,
+                                                     new SlopeColors(), interactiveFont, FORMAT );
             double maxRiseWidth = Math.max( maxRiseNode.getFullBoundsReference().getWidth(), minRiseNode.getFullBoundsReference().getWidth() );
-            PNode maxRunNode = new RunSpinnerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMax() ), runRange, interactiveFont, FORMAT );
-            PNode minRunNode = new RunSpinnerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMin() ), runRange, interactiveFont, FORMAT );
+            PNode maxRunNode = new RunSpinnerNode( UserComponents.riseSpinner,
+                                                   new Property<Double>( riseRange.get().getMin() ), new Property<Double>( runRange.get().getMax() ), runRange,
+                                                   new SlopeColors(), interactiveFont, FORMAT );
+            PNode minRunNode = new RunSpinnerNode( UserComponents.riseSpinner,
+                                                   new Property<Double>( riseRange.get().getMin() ), new Property<Double>( runRange.get().getMin() ), runRange,
+                                                   new SlopeColors(), interactiveFont, FORMAT );
             double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }
@@ -83,16 +91,16 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
         PNode yLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         PNode yNode = new PhetPText( "y", staticFont, staticColor );
         PNode y1SignNode = new PhetPText( "-", staticFont, staticColor );
-        PNode y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, new PointColors(), this.y1, y1Range, interactiveFont, FORMAT ) );
+        PNode y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, this.y1, y1Range, new PointColors(), interactiveFont, FORMAT ) );
         PNode yRightParenNode = new PhetPText( ")", staticFont, staticColor );
         PNode equalsNode = new PhetPText( "=", staticFont, staticColor );
-        PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, riseRange, interactiveFont, FORMAT ) );
-        PNode runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.run, runRange, interactiveFont, FORMAT ) );
+        PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, this.run, riseRange, new SlopeColors(), interactiveFont, FORMAT ) );
+        PNode runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.rise, this.run, runRange, new SlopeColors(), interactiveFont, FORMAT ) );
         PNode lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ), new BasicStroke( 3f ), staticColor );
         PNode xLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         PNode xNode = new PhetPText( "x", staticFont, staticColor );
         PNode x1SignNode = new PhetPText( "-", staticFont, staticColor );
-        PNode x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, new PointColors(), this.x1, x1Range, interactiveFont, FORMAT ) );
+        PNode x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, this.x1, x1Range, new PointColors(), interactiveFont, FORMAT ) );
         PNode xRightParenNode = new PhetPText( ")", staticFont, staticColor );
 
         // rendering order
@@ -170,7 +178,7 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
     public static void main( String[] args ) {
 
         // model
-        WellDefinedLineProperty line = new WellDefinedLineProperty( new StraightLine( 3, 4, 1, 2, LGColors.INTERACTIVE_LINE ) );
+        Property<StraightLine> line = new Property<StraightLine>( new StraightLine( 3, 4, 1, 2, LGColors.INTERACTIVE_LINE ) );
         DoubleRange range = new DoubleRange( -10, 10 );
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );

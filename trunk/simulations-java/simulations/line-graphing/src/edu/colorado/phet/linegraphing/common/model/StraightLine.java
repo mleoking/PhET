@@ -30,6 +30,7 @@ public class StraightLine {
 
     // point-slope form: (y - y1) = m(x - x1)
     public StraightLine( double rise, double run, double x1, double y1, Color color ) {
+        assert( !( rise == 0 && run == 0 ) ); // a line with slope=0/0 is undefined
         this.rise = rise;
         this.run = run;
         this.x1 = x1;

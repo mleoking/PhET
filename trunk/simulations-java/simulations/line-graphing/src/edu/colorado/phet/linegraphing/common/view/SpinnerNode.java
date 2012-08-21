@@ -39,7 +39,6 @@ import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.BackgroundColors;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.DownButtonImages;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.InterceptColors;
-import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeColors;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.UpButtonImages;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -58,11 +57,11 @@ public class SpinnerNode extends PNode {
 
     // Constructor with default button images and default up/down functions.
     public SpinnerNode( IUserComponent userComponent,
-                        SpinnerStateIndicator<Color> colors,
-                        final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
+                        final Property<Double> value, final Property<DoubleRange> range,
+                        SpinnerStateIndicator<Color> colors, PhetFont font, final NumberFormat format ) {
         this( userComponent,
-              colors,
-              value, range, font, format,
+              value, range, colors,
+              font, format,
               // default "up" function, increments by 1
               new Function0<Double>() {
                   public Double apply() {
@@ -80,12 +79,12 @@ public class SpinnerNode extends PNode {
 
     // Constructor with default button images and custom up/down functions.
     public SpinnerNode( IUserComponent userComponent,
-                        SpinnerStateIndicator<Color> colors,
-                        final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format,
+                        final Property<Double> value, final Property<DoubleRange> range,
+                        SpinnerStateIndicator<Color> colors, PhetFont font, final NumberFormat format,
                         Function0<Double> upFunction, Function0<Double> downFunction ) {
         this( userComponent,
-              new UpButtonImages( colors ), new DownButtonImages( colors ), new BackgroundColors( colors.highlighted, colors.pressed ),
-              value, range, font, format,
+              value, range, new UpButtonImages( colors ), new DownButtonImages( colors ), new BackgroundColors( colors.highlighted, colors.pressed ),
+              font, format,
               upFunction, downFunction );
     }
 
@@ -93,21 +92,22 @@ public class SpinnerNode extends PNode {
      * Fully-specified constructor.
      *
      * @param userComponent
-     * @param upButtonImages images for the "up" button states
+     * @param value            the value property that is being manipulated by the spinner
+     * @param range            range of the value
+     * @param upButtonImages   images for the "up" button states
      * @param downButtonImages images for the "down" button states
      * @param backgroundColors colors for the background state
-     * @param value the value property that is being manipulated by the spinner
-     * @param range range of the value
-     * @param font font used to display the value
-     * @param format displayed format of the value
-     * @param upFunction function called when the "up" (increment) button is pressed
-     * @param downFunction function called when the "down" (decrement) button is pressed
+     * @param font             font used to display the value
+     * @param format           displayed format of the value
+     * @param upFunction       function called when the "up" (increment) button is pressed
+     * @param downFunction     function called when the "down" (decrement) button is pressed
      */
     private SpinnerNode( IUserComponent userComponent,
+                         final Property<Double> value, final Property<DoubleRange> range,
                          final SpinnerStateIndicator<Image> upButtonImages,
                          final SpinnerStateIndicator<Image> downButtonImages,
                          final SpinnerStateIndicator<Color> backgroundColors,
-                         final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format,
+                         PhetFont font, final NumberFormat format,
                          Function0<Double> upFunction, Function0<Double> downFunction ) {
 
         // properties for the "up" (increment) control
@@ -304,35 +304,15 @@ public class SpinnerNode extends PNode {
         }
     }
 
-    // Base class that is color-coded for slope
-    private abstract static class SlopeSpinnerNode extends SpinnerNode {
-        public SlopeSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, new SlopeColors(), value, range, font, format );
-        }
-    }
-
-    // Rise spinner
-    public static class RiseSpinnerNode extends SlopeSpinnerNode {
-        public RiseSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, value, range, font, format );
-        }
-    }
-
-    // Run spinner
-    public static class RunSpinnerNode extends SlopeSpinnerNode {
-        public RunSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, value, range, font, format );
-        }
-    }
-
     // test
     public static void main( String[] args ) {
 
         Property<DoubleRange> range = new Property<DoubleRange>( new DoubleRange( -10, 10, 0 ) );
         Property<Double> value = new Property<Double>( range.get().getDefault() );
 
-        PNode node = new SpinnerNode( UserComponents.interceptSpinner, new InterceptColors(),
-                                      value, range, new PhetFont( Font.BOLD, 24 ), new DecimalFormat( "0" ) );
+        PNode node = new SpinnerNode( UserComponents.interceptSpinner,
+                                      value, range,
+                                      new InterceptColors(), new PhetFont( Font.BOLD, 24 ), new DecimalFormat( "0" ) );
         node.setOffset( 200, 200 );
 
         // canvas
