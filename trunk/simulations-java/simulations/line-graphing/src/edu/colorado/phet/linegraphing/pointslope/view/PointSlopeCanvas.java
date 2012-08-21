@@ -6,7 +6,7 @@ import edu.colorado.phet.linegraphing.common.view.LineFormsCanvas;
 import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 
 /**
- * Canvas for the "Point Slope" module.
+ * Canvas for the "Point-Slope" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

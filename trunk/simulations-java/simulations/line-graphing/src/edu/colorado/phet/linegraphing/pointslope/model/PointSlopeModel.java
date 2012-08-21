@@ -10,7 +10,7 @@ import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 
 /**
- * Model for the "Point Slope" module.
+ * Model for the "Point-Slope" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
