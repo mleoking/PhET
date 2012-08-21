@@ -42,17 +42,12 @@ public class StraightLine {
         return new StraightLine( rise, run, x1, y1, color );
     }
 
-    // Line is undefined if its slope is undefined.
-    public boolean isUndefined() {
-        return ( run == 0 );
-    }
-
     /*
      * Given x, solve y = m(x - x1) + y1
-     * Returns Double.NaN if the slope is undefined.
+     * Returns Double.NaN if the solution is not unique, or there is no solution (x can't possibly be on the line.)
      */
     public double solveY( double x ) {
-        if ( isUndefined() ) {
+        if ( run == 0 ) {
             return Double.NaN;
         }
         else {
@@ -62,10 +57,10 @@ public class StraightLine {
 
     /*
      * Given y, solve x = ((y - y1)/m) + x1
-     * Returns Double.NaN if the slope is undefined or solution is not unique.
+     * Returns Double.NaN if the solution is not unique, or there is no solution (y can't possibly be on the line.)
      */
     public double solveX( double y ) {
-        if ( isUndefined() || rise == 0 ) {
+        if ( rise == 0 ) {
             return Double.NaN;
         }
         else {
