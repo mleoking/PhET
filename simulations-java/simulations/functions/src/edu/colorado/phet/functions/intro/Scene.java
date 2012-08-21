@@ -23,10 +23,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public abstract class Scene extends PNode implements ValueContext {
     private final List<UnaryFunctionNode> unaryFunctionNodeList;
-    private final List<ValueNode> targetNodes;
+    private final List<TargetNode> targetNodes;
     private final SceneContext sceneContext;
 
-    protected Scene( List<ValueNode> valueNodes, List<UnaryFunctionNode> unaryFunctionNodeList, List<ValueNode> targetNodes, SceneContext sceneContext ) {
+    protected Scene( List<ValueNode> valueNodes, List<UnaryFunctionNode> unaryFunctionNodeList, List<TargetNode> targetNodes, SceneContext sceneContext ) {
         this.unaryFunctionNodeList = unaryFunctionNodeList;
         this.targetNodes = targetNodes;
         this.sceneContext = sceneContext;
@@ -88,15 +88,20 @@ public abstract class Scene extends PNode implements ValueContext {
 
     public void mouseReleased( final ValueNode valueNode ) {
         //find the nearest target node, and see if the value matches
-        ValueNode targetNode = targetNodes.sort( FJUtils.ord( new F<ValueNode, Double>() {
-            @Override public Double f( final ValueNode t ) {
+        TargetNode targetNode = targetNodes.sort( FJUtils.ord( new F<TargetNode, Double>() {
+            @Override public Double f( final TargetNode t ) {
                 return t.getGlobalFullBounds().getCenter2D().distance( valueNode.getGlobalFullBounds().getCenter2D() );
             }
         } ) ).head();
         if ( valueNode.getGlobalFullBounds().intersects( targetNode.getGlobalFullBounds() ) && valueNode.getCurrentValue().equals( targetNode.getCurrentValue() ) ) {
             valueNode.setStrokePaint( Color.red );
             valueNode.centerFullBoundsOnPoint( targetNode.getFullBounds().getCenterX(), targetNode.getFullBounds().getCenterY() );
-            sceneContext.showNextButton();
+            valueNode.setPickable( false );
+            valueNode.setChildrenPickable( false );
+            targetNode.completed.set( true );
+            if ( targetNodes.filter( TargetNode._isComplete ).length() == targetNodes.length() ) {
+                sceneContext.showNextButton();
+            }
         }
     }
 
@@ -110,11 +115,11 @@ public abstract class Scene extends PNode implements ValueContext {
         return List.iterableList( valueNodes );
     }
 
-    public static <T> List<ValueNode> createTargetNodeList( final IntroCanvas valueContext, final List<T> list ) {
+    public static <T> List<TargetNode> createTargetNodeList( final IntroCanvas valueContext, final List<T> list ) {
 
-        ArrayList<ValueNode> arrayList = new ArrayList<ValueNode>();
+        ArrayList<TargetNode> arrayList = new ArrayList<TargetNode>();
         for ( T elm : list ) {
-            arrayList.add( new ValueNode( valueContext, elm, new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray, Color.gray ) );
+            arrayList.add( new TargetNode( valueContext, elm, new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray, Color.gray ) );
         }
 
         //Use a temporary VBox for layout

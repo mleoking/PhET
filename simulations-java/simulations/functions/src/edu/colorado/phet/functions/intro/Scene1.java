@@ -34,9 +34,9 @@ class Scene1 extends Scene {
         } );
     }
 
-    private static ValueNode targetNode( final IntroCanvas introCanvas ) {
-        return new ValueNode( introCanvas, new Graphic( 1 ),
-                              new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray, Color.black ) {{
+    private static TargetNode targetNode( final IntroCanvas introCanvas ) {
+        return new TargetNode( introCanvas, new Graphic( 1 ),
+                               new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 10, 10 }, 0 ), new Color( 0, 0, 0, 0 ), Color.gray, Color.black ) {{
             setOffset( 903.9881831610056, 318.4047267355978 );
         }};
     }
