@@ -43,6 +43,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private final Property<Double> rise, run, yIntercept; // internal properties that are connected to spinners
+    private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
     public SlopeInterceptInteractiveEquationNode( final Property<StraightLine> interactiveLine,
                                                   Property<DoubleRange> riseRange,
@@ -132,7 +133,9 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
         // sync the model with the controls
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
-                interactiveLine.set( new StraightLine( rise.get(), run.get(), yIntercept.get(), interactiveLine.get().color ) );
+                if ( !updatingControls ) {
+                    interactiveLine.set( new StraightLine( rise.get(), run.get(), yIntercept.get(), interactiveLine.get().color ) );
+                }
             }
         };
         lineUpdater.observe( rise, run, yIntercept );
@@ -140,9 +143,13 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
         // sync the controls with the model
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
-                rise.set( line.rise );
-                run.set( line.run );
-                yIntercept.set( line.y1 );
+                updatingControls = true;
+                {
+                    rise.set( line.rise );
+                    run.set( line.run );
+                    yIntercept.set( line.y1 );
+                }
+                updatingControls = false;
             }
         } );
     }

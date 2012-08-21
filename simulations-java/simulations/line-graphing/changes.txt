@@ -1,3 +1,4 @@
+8/21/12 bug fix: update spinners atomically, so that dragging slope manipulator can't create a line with slope=0/0
 8/21/12 delete WellDefinedLineProperty, make slope spinners handle avoidance of slope=0/0, add assertion check for slope=0/0 to StraightLine
 8/21/12 change order of args to constructors in SpinnerNode hierarchy
 8/21/12 more cleanup of equation spinners
