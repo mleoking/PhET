@@ -22,7 +22,7 @@ public class Scene2 extends Scene {
         super( valueNodeList( canvas ), unaryFunctionNodeList(), targetNodeList( canvas ), canvas );
     }
 
-    private static List<ValueNode> targetNodeList( final IntroCanvas valueContext ) {
+    private static List<TargetNode> targetNodeList( final IntroCanvas valueContext ) {
         return Scene.createTargetNodeList( valueContext, List.list( 4, 6, 8 ) );
     }
 
