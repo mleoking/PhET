@@ -50,6 +50,7 @@ public class GraphControls extends PNode {
      */
     public GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible, final ObservableList<StraightLine> standardLines ) {
 
+        // private properties for standard-line check boxes
         final Property<Boolean> yEqualsXVisible = new Property<Boolean>( standardLines.contains( StraightLine.Y_EQUALS_X_LINE ) );
         final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( standardLines.contains( StraightLine.Y_EQUALS_NEGATIVE_X_LINE ) );
 
