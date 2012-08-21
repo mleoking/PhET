@@ -54,7 +54,7 @@ public class EquationControls extends PhetPNode {
                              PNode interactiveEquationNode ) {
 
         // nodes
-        PNode titleNode = new HTMLNode( title, interactiveLine.get().color, new PhetFont( Font.BOLD, 18 ) );
+        PNode titleNode = new HTMLNode( title, LGColors.INTERACTIVE_LINE, new PhetFont( Font.BOLD, 18 ) );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
             @Override protected ParameterSet getParameterSet() {
                 return super.getParameterSet().with( ParameterKeys.maximized, !maximized.get() );
