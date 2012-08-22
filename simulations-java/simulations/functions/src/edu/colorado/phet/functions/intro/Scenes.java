@@ -7,44 +7,93 @@ import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Shape;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.functions.FunctionsResources.Images;
 import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
+import edu.colorado.phet.functions.intro.view.NavigationBar.ShapeIcon;
 import edu.colorado.phet.functions.model.Functions;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.functions.model.Functions.*;
 import static fj.data.List.list;
+import static java.lang.Math.toRadians;
 
 /**
  * @author Sam Reid
  */
 public class Scenes {
+    public static F<Graphic, PNode> imageNode( final Image image ) {
+        return new F<Graphic, PNode>() {
+            @Override public PNode f( final Graphic graphic ) {
+                return new PImage( BufferedImageUtils.getRotatedImage( BufferedImageUtils.toBufferedImage( image ), -Math.PI / 2 + graphic.getNumRotations() * Math.PI / 2 ) );
+            }
+        };
+    }
+
+    //    private static final F<Graphic, PNode> key = imageNode( BufferedImageUtils.multiScaleToWidth( Images.KEY, 60 ) );
+    private static final F<Graphic, PNode> smile = imageNode( new FaceNode( 60 ).toImage() );
+    private static final F<Graphic, PNode> triangle = imageNode( new ShapeIcon().toImage() );
+
+    //copied from fractions
+    private static Shape triangle( final double length, final Vector2D tip, final Vector2D direction ) {
+        return new DoubleGeneralPath() {{
+            moveTo( tip.toPoint2D() );
+            lineTo( tip.plus( direction.getRotatedInstance( toRadians( 90 + 60 ) ).times( length ) ).toPoint2D() );
+            lineTo( tip.plus( direction.getRotatedInstance( toRadians( -90 - 60 ) ).times( length ) ).toPoint2D() );
+            lineTo( tip.toPoint2D() );
+        }}.getGeneralPath();
+    }
+
+    //Apply a single function
     public static final F<IntroCanvas, Scene> level1 = new F<IntroCanvas, Scene>() {
         @Override public Scene f( final IntroCanvas introCanvas ) {
             return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
                 @Override public ValueNode f( final Unit unit ) {
-                    return new ValueNode( introCanvas, new Graphic( 0 ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                    return new ValueNode( introCanvas, new Graphic( 0, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                 }
             } ),
                               List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
-                              Scene.createTargetNodeList( introCanvas, list( new Graphic( 1 ) ) ) );
+                              Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, smile ) ) ) );
         }
     };
+
+    //Apply same function twice
     public static final F<IntroCanvas, Scene> level2 = new F<IntroCanvas, Scene>() {
         @Override public Scene f( final IntroCanvas introCanvas ) {
             return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
                 @Override public ValueNode f( final Unit unit ) {
-                    return new ValueNode( introCanvas, new Graphic( 0 ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                    return new ValueNode( introCanvas, new Graphic( -1, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                 }
             } ),
                               List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
-                              Scene.createTargetNodeList( introCanvas, list( new Graphic( 1 ) ) ) );
+                              Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, smile ) ) ) );
         }
     };
+
+    //Apply different functions, one after the other
     public static final F<IntroCanvas, Scene> level3 = new F<IntroCanvas, Scene>() {
+        @Override public Scene f( final IntroCanvas introCanvas ) {
+            return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
+                @Override public ValueNode f( final Unit unit ) {
+                    return new ValueNode( introCanvas, new Graphic( -1, triangle ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                }
+            } ),
+                              List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
+                              Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, smile ) ) ) );
+        }
+    };
+
+    //Apply different functions in different orders to achieve 2 goals.
+
+    public static final F<IntroCanvas, Scene> level4 = new F<IntroCanvas, Scene>() {
         @Override public Scene f( final IntroCanvas canvas ) {
             return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
                 @Override public ValueNode f( final Unit unit ) {
@@ -59,7 +108,7 @@ public class Scenes {
         }
     };
 
-    public static final F<IntroCanvas, Scene> level4 = new F<IntroCanvas, Scene>() {
+    public static final F<IntroCanvas, Scene> level5 = new F<IntroCanvas, Scene>() {
         @Override public Scene f( final IntroCanvas canvas ) {
             return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
                 @Override public ValueNode f( final Unit unit ) {
@@ -74,5 +123,5 @@ public class Scenes {
         }
     };
 
-    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list( level1, level2, level3, level4 );
+    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list( level1, level2, level3, level4, level5 );
 }
