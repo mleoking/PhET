@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.functions.intro.Graphic;
+import edu.colorado.phet.functions.intro.ShapeValue;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -88,8 +88,8 @@ public class ValueNode extends PNode {
     }
 
     private PNode toNode( final Object currentValue ) {
-        if ( currentValue instanceof Graphic ) {
-            return ( (Graphic) currentValue ).toNode();
+        if ( currentValue instanceof ShapeValue ) {
+            return ( (ShapeValue) currentValue ).toNode();
         }
         else {
             return toTextNode( currentValue.toString(), textPaint );
@@ -97,8 +97,8 @@ public class ValueNode extends PNode {
     }
 
     public int getNumberRotations() {
-        if ( getCurrentValue() instanceof Graphic ) {
-            return ( (Graphic) getCurrentValue() ).numRotations;
+        if ( getCurrentValue() instanceof ShapeValue ) {
+            return ( (ShapeValue) getCurrentValue() ).numRotations;
         }
         else { return 0; }
     }

@@ -3,7 +3,7 @@ package edu.colorado.phet.functions.model;
 
 import fj.F;
 
-import edu.colorado.phet.functions.intro.Graphic;
+import edu.colorado.phet.functions.intro.ShapeValue;
 
 /**
  * @author Sam Reid
@@ -46,7 +46,7 @@ public class Functions {
 
     public static final F<Object, Object> ROTATE_GRAPHIC_RIGHT = new F<Object, Object>() {
         @Override public Object f( final Object o ) {
-            return ( (Graphic) o ).rotateRight();
+            return ( (ShapeValue) o ).rotateRight();
         }
     };
 }

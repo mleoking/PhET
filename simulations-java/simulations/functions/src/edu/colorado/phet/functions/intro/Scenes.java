@@ -30,17 +30,17 @@ import static java.lang.Math.toRadians;
  * @author Sam Reid
  */
 public class Scenes {
-    public static F<Graphic, PNode> imageNode( final Image image ) {
-        return new F<Graphic, PNode>() {
-            @Override public PNode f( final Graphic graphic ) {
+    public static F<ShapeValue, PNode> imageNode( final Image image ) {
+        return new F<ShapeValue, PNode>() {
+            @Override public PNode f( final ShapeValue graphic ) {
                 return new PImage( BufferedImageUtils.getRotatedImage( BufferedImageUtils.toBufferedImage( image ), -Math.PI / 2 + graphic.getNumRotations() * Math.PI / 2 ) );
             }
         };
     }
 
     //    private static final F<Graphic, PNode> key = imageNode( BufferedImageUtils.multiScaleToWidth( Images.KEY, 60 ) );
-    private static final F<Graphic, PNode> smile = imageNode( new FaceNode( 60 ).toImage() );
-    private static final F<Graphic, PNode> triangle = imageNode( new ShapeIcon().toImage() );
+    private static final F<ShapeValue, PNode> smile = imageNode( new FaceNode( 60 ).toImage() );
+    private static final F<ShapeValue, PNode> triangle = imageNode( new ShapeIcon().toImage() );
 
     //copied from fractions
     private static Shape triangle( final double length, final Vector2D tip, final Vector2D direction ) {
@@ -59,11 +59,11 @@ public class Scenes {
                 @Override public Scene f( final IntroCanvas introCanvas ) {
                     return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
                         @Override public ValueNode f( final Unit unit ) {
-                            return new ValueNode( introCanvas, new Graphic( 0, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                            return new ValueNode( introCanvas, new ShapeValue( 0, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
                                       List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
-                                      Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, smile ) ) ) );
+                                      Scene.createTargetNodeList( introCanvas, list( new ShapeValue( 1, smile ) ) ) );
                 }
             },
 
@@ -72,11 +72,11 @@ public class Scenes {
                 @Override public Scene f( final IntroCanvas introCanvas ) {
                     return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
                         @Override public ValueNode f( final Unit unit ) {
-                            return new ValueNode( introCanvas, new Graphic( -1, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                            return new ValueNode( introCanvas, new ShapeValue( -1, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
                                       List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
-                                      Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, smile ) ) ) );
+                                      Scene.createTargetNodeList( introCanvas, list( new ShapeValue( 1, smile ) ) ) );
                 }
             },
 
@@ -85,11 +85,11 @@ public class Scenes {
                 @Override public Scene f( final IntroCanvas introCanvas ) {
                     return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
                         @Override public ValueNode f( final Unit unit ) {
-                            return new ValueNode( introCanvas, new Graphic( -1, triangle ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                            return new ValueNode( introCanvas, new ShapeValue( -1, triangle ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
                                       List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
-                                      Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, triangle ) ) ) );
+                                      Scene.createTargetNodeList( introCanvas, list( new ShapeValue( 1, triangle ) ) ) );
                 }
             },
 
