@@ -29,6 +29,10 @@ public @Data class NumberTarget {
         }
     };
 
+    public static NumberTarget target( int whole, Fraction fractionPart, Color color, F<MixedFraction, FilledPattern> pattern ) {
+        return target( whole, fractionPart.numerator, fractionPart.denominator, color, pattern );
+    }
+
     public static NumberTarget target( int whole, int numerator, int denominator, Color color, F<MixedFraction, FilledPattern> pattern ) {
         return new NumberTarget( new MixedFraction( whole, numerator, denominator ), color, composite( pattern ).f( new MixedFraction( whole, numerator, denominator ) ) );
     }
