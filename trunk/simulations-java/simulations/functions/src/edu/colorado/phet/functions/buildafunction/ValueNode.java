@@ -9,17 +9,14 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.functions.FunctionsResources.Images;
 import edu.colorado.phet.functions.intro.Graphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -92,7 +89,7 @@ public class ValueNode extends PNode {
 
     private PNode toNode( final Object currentValue ) {
         if ( currentValue instanceof Graphic ) {
-            return new PImage( BufferedImageUtils.getRotatedImage( BufferedImageUtils.multiScaleToWidth( Images.KEY, 60 ), -Math.PI / 2 + ( (Graphic) currentValue ).getNumRotations() * Math.PI / 2 ) );
+            return ( (Graphic) currentValue ).toNode();
         }
         else {
             return toTextNode( currentValue.toString(), textPaint );
