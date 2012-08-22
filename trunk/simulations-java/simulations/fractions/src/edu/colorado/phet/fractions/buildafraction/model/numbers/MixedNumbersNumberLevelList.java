@@ -32,6 +32,7 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
         add( level1() );
         add( level2() );
         add( level3() );
+        add( level4() );
         while ( size() < 10 ) { add( levelX() ); }
     }
 
@@ -80,12 +81,27 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     -- Fractional portion from the set {1/2, 1/3, 2/3, 1/6, 5/6}
     -- So, if a “six flower” is showing 3/6, we will want a 1 and 2 card in the deck*/
     private NumberLevel level3() {
-        RandomColors3 colors = new RandomColors3();
         List<MixedFraction> mixedFractions = getMixedFractions( list( 1, 2, 3 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 6 ), fraction( 5, 6 ) ) );
-        List<MixedFraction> selected = choose( 3, mixedFractions );
+        return new NumberLevel( choose( 3, mixedFractions ), new RandomColors3(), flower.sequential() );
+    }
 
-        final F<MixedFraction, FilledPattern> shape = flower.sequential();
-        return new NumberLevel( selected, colors, shape );
+    /*Level 4:
+    -- All pyramids
+    -- 1, 2, or 3, as whole number
+    -- Fractional portion from the set {1/2, 1/3, 2/3, ¼, ¾, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9}*/
+    private NumberLevel level4() {
+        List<MixedFraction> mixedFractions = getMixedFractions( list( 1, 2, 3 ), list( //fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ),
+                                                                                       fraction( 1, 4 ), fraction( 3, 4 ),
+                                                                                       fraction( 1, 9 ), fraction( 2, 9 ), fraction( 4, 9 ), fraction( 5, 9 ), fraction( 7, 9 ), fraction( 8, 9 ) ) );
+        return new NumberLevel( choose( 3, mixedFractions ), new RandomColors3(), new F<MixedFraction, FilledPattern>() {
+            @Override public FilledPattern f( final MixedFraction mixedFraction ) {
+                final int d = mixedFraction.getFractionPart().denominator;
+                return d == 1 ? pyramid1.sequential().f( mixedFraction ) :
+                       d == 4 ? pyramid4.sequential().f( mixedFraction ) :
+                       d == 9 ? pyramid9.sequential().f( mixedFraction ) :
+                       null;
+            }
+        } );
     }
 
     private NumberLevel levelX() {
