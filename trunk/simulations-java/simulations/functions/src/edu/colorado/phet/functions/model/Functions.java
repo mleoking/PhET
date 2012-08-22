@@ -15,6 +15,16 @@ public class Functions {
             return ( (Integer) o ) * 2;
         }
     };
+    public static final F<Object, Object> STRING_REVERSE = new F<Object, Object>() {
+        @Override public Object f( final Object o ) {
+            return new StringBuffer( (String) o ).reverse().toString();
+        }
+    };
+    public static final F<Object, Object> STRING_DOUBLE = new F<Object, Object>() {
+        @Override public Object f( final Object o ) {
+            return ( (String) o ) + "" + ( (String) o );
+        }
+    };
 
     public static final F<Object, Object> INTEGER_PLUS_1 = new F<Object, Object>() {
         @Override public Object f( final Object o ) {
