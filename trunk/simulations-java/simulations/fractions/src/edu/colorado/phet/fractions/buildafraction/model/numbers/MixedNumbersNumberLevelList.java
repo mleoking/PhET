@@ -1,13 +1,20 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.numbers;
 
+import fj.F;
 import fj.data.List;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Random;
 
-import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.pie;
-import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
+import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
+import edu.colorado.phet.fractions.common.math.Fraction;
+import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
+
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
+import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
+import static edu.colorado.phet.fractions.common.util.Sampling.chooseOne;
 import static fj.data.List.list;
 
 /**
@@ -16,8 +23,11 @@ import static fj.data.List.list;
  * @author Sam Reid
  */
 public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
+    public static final Random random = new Random();
+
     public MixedNumbersNumberLevelList() {
         add( level1() );
+        add( level2() );
         while ( size() < 10 ) { add( levelX() ); }
     }
 
@@ -32,6 +42,20 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
         return new NumberLevel( shuffle( list( NumberTarget.target( 1, 1, 2, colors.next(), pie.sequential() ),
                                                NumberTarget.target( 2, 1, 2, colors.next(), pie.sequential() ),
                                                NumberTarget.target( 3, 1, 4, colors.next(), pie.sequential() ) ) ) );
+    }
+
+    /* Level 2:
+    -- Circles or Rectangles as targets, but all targets same shape
+    -- 1, 2, or 3, as whole number
+    -- Fractional portion from the set {1/2, 1/3, 2/3, ¼, ¾} */
+    private NumberLevel level2() {
+        RandomColors3 colors = new RandomColors3();
+        final F<MixedFraction, FilledPattern> shape = random.nextBoolean() ? pie.sequential() : horizontalBar.sequential();
+        List<Integer> wholes = list( 1, 2, 3 );
+        List<Fraction> fractionParts = list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 4 ), fraction( 3, 4 ) );
+        return new NumberLevel( list( NumberTarget.target( chooseOne( wholes ), chooseOne( fractionParts ), colors.next(), shape ),
+                                      NumberTarget.target( chooseOne( wholes ), chooseOne( fractionParts ), colors.next(), shape ),
+                                      NumberTarget.target( chooseOne( wholes ), chooseOne( fractionParts ), colors.next(), shape ) ) );
     }
 
     private NumberLevel levelX() {
