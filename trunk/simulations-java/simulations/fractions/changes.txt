@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Numbers: Level 2: Prevent duplicate challenges
 # 1.01.02 (67235) Aug 22, 2012
 Build a Mixed Fraction: Numbers: Added level 2
 # 1.01.01 (67225) Aug 22, 2012
