@@ -34,6 +34,17 @@ public class Scenes {
         }
     };
     public static final F<IntroCanvas, Scene> level2 = new F<IntroCanvas, Scene>() {
+        @Override public Scene f( final IntroCanvas introCanvas ) {
+            return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
+                @Override public ValueNode f( final Unit unit ) {
+                    return new ValueNode( introCanvas, new Graphic( 0 ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                }
+            } ),
+                              List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
+                              Scene.createTargetNodeList( introCanvas, list( new Graphic( 1 ) ) ) );
+        }
+    };
+    public static final F<IntroCanvas, Scene> level3 = new F<IntroCanvas, Scene>() {
         @Override public Scene f( final IntroCanvas canvas ) {
             return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
                 @Override public ValueNode f( final Unit unit ) {
@@ -48,7 +59,7 @@ public class Scenes {
         }
     };
 
-    public static final F<IntroCanvas, Scene> level3 = new F<IntroCanvas, Scene>() {
+    public static final F<IntroCanvas, Scene> level4 = new F<IntroCanvas, Scene>() {
         @Override public Scene f( final IntroCanvas canvas ) {
             return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
                 @Override public ValueNode f( final Unit unit ) {
@@ -63,5 +74,5 @@ public class Scenes {
         }
     };
 
-    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list( level1, level2, level3 );
+    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list( level1, level2, level3, level4 );
 }
