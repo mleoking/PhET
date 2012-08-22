@@ -9,11 +9,11 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * @author Sam Reid
  */
-public @Data class Graphic {
+public @Data class ShapeValue {
     public final int numRotations;
-    public final F<Graphic, PNode> node;
+    public final F<ShapeValue, PNode> node;
 
-    public Graphic rotateRight() { return new Graphic( ( numRotations + 1 ) % 4, node ); }
+    public ShapeValue rotateRight() { return new ShapeValue( ( numRotations + 1 ) % 4, node ); }
 
     public PNode toNode() { return node.f( this ); }
 }
