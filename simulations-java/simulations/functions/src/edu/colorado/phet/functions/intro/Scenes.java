@@ -93,24 +93,25 @@ public class Scenes {
                 }
             },
 
-            //Level 4:
+
+            //First string level
             new F<IntroCanvas, Scene>() {
                 @Override public Scene f( final IntroCanvas canvas ) {
                     return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
                         @Override public ValueNode f( final Unit unit ) {
-                            return new ValueNode( canvas, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                            return new ValueNode( canvas, "hello", new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
-                                      list( new UnaryFunctionNode( "\u27152", false, INTEGER_TIMES_2, 390.72378138847836, 294.298375184638 - 80 ),
-                                            new UnaryFunctionNode( "+1", false, INTEGER_PLUS_1, 390.72378138847836, 444.298375184638 - 80 )
+                                      list( new UnaryFunctionNode( "reverse", false, STRING_REVERSE, 390.72378138847836, 294.298375184638 - 80 ),
+                                            new UnaryFunctionNode( "double", false, STRING_DOUBLE, 390.72378138847836, 444.298375184638 - 80 )
                                       ),
-                                      Scene.createTargetNodeList( canvas, list( 4, 6, 8 ) )
+                                      Scene.createTargetNodeList( canvas, list( "olleh", "hellohello" ) )
                     );
                 }
             },
 
-
             //Apply different functions in different orders to achieve 2 goals.
+
 
             new F<IntroCanvas, Scene>() {
                 @Override public Scene f( final IntroCanvas canvas ) {
