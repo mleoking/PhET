@@ -118,6 +118,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode fluorescentLightBulbNode = new LightBulbNode( model.fluorescentLightBulb, mvt );
         PNode solarPanelNode = new EnergySystemElementNode( model.solarPanel, mvt );
         PNode beakerHeaterNode = new BeakerHeaterNode( model.beakerHeater, mvt );
+        PNode beltNode = new BeltNode( model.belt, mvt );
 
         //------- Node Layering -----------------------------------------------
 
@@ -141,6 +142,8 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         rootNode.addChild( energySourcesCarouselController );
         rootNode.addChild( energyConvertersCarouselController );
         rootNode.addChild( energyUsersCarouselController );
+
+        rootNode.addChild( beltNode );
 
         //------- Node Layout -------------------------------------------------
 
