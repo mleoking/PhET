@@ -1,0 +1,1 @@
+I tried implementing the "shapes" states as Area objects since I noticed it has equals() implementation, but it failed even on the simplest case of rotating a rectangle.
