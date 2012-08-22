@@ -17,11 +17,18 @@ object AcidBaseReport {
 
       //Starting a slider drag counts as a click
       case Entry(_, "user", _, _, "endDrag", _) => false
-      case Entry(_, "user", _, "slider", "startDrag", _) => true
+      case Entry(_, "user", _, "slider", "startDrag", _) => trueUnlessPreviousLineWasAStartDrag(log, e)
       case Entry(_, "user", _, "slider", "drag", _) => sliderChangedDirection(log, e)
       case Entry(_, "user", _, _, _, _) => true
       case _ => false
     }
+  }
+
+  //4 of the log files have duplicate "startDrag" lines within milliseconds of each other.  Filter them out so they don't count as clicks.
+  def trueUnlessPreviousLineWasAStartDrag(log: Log, e: Entry) = {
+    val index = log indexOf e
+    val previousUserEvent = log.entries.slice(0, index).filter(_.messageType == "user").last
+    if ( previousUserEvent.action == "startDrag" ) false else true
   }
 
   //KL: Each time students start dragging should count as one click. But if they change direction during a single drag, I want that to count as more than one click - one for each direction.
@@ -271,9 +278,11 @@ class AcidBaseReport(val log: Log) {
   def neverUsed(radioButton: String, icon: String): Boolean = neverUsed(radioButton) && neverUsed(icon)
 
   //Fixed a bug in the following 6 functions that was checking for usage of a component any time in the log, not just at the appropriate time
-  def usedAcidControlOn2ndTab(control: String) = statesWithTransitions.find(s => s.start.tab1.acid && s.start.selectedTab == 1 && s.entry.messageType == "user" && s.entry.component == control).isDefined
+  def usedAcidControlOn2ndTab(control: String) =
+    statesWithTransitions.find(s => s.start.tab1.acid && s.start.selectedTab == 1 && s.entry.messageType == "user" && s.entry.component == control).isDefined
 
-  def usedBaseControlOn2ndTab(control: String) = statesWithTransitions.find(s => !s.start.tab1.acid && s.start.selectedTab == 1 && s.entry.messageType == "user" && s.entry.component == control).isDefined
+  def usedBaseControlOn2ndTab(control: String) =
+    statesWithTransitions.find(s => !s.start.tab1.acid && s.start.selectedTab == 1 && s.entry.messageType == "user" && s.entry.component == control).isDefined
 
   val everUsedAcidSolutionControl = {
     statesWithTransitions.find(s => s.start.tab1.acid && s.start.selectedTab == 1 && s.entry.messageType == "user" && List("weakStrengthControl", "weakRadioButton", "strongRadioButton", "concentrationControl").contains(s.entry.component)).isDefined
