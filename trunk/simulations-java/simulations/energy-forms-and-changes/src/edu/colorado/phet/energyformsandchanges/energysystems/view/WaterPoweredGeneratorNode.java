@@ -34,7 +34,6 @@ public class WaterPoweredGeneratorNode extends PNode {
                                                                wheelImageNode.getFullBoundsReference().getCenterY() );
         generator.getWheelRotationalAngle().addObserver( new VoidFunction1<Double>() {
             public void apply( Double angle ) {
-                System.out.println( "angle = " + angle );
                 double delta = angle - wheelImageNode.getRotation();
                 wheelImageNode.rotateAboutPoint( delta, wheelRotationPoint );
                 wheelTextureNode.rotateAboutPoint( delta, wheelRotationPoint );
