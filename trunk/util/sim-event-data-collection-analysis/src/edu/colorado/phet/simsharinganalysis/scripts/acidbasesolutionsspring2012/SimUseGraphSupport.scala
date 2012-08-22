@@ -20,13 +20,13 @@ object SimUseGraphSupport {
     val folder = new File("C:\\Users\\Sam\\Desktop\\phet\\studies\\abs-study-data")
     val files = GroupComparisonTool.filesAt(folder)
 
-    Group("a1", load(files.filter(_.getName.indexOf("_a1_") >= 0)).take(2) map toReport) ::
-    Group("a2", load(files.filter(_.getName.indexOf("_a2_") >= 0)).take(2) map toReport) ::
-    Group("a3", load(files.filter(_.getName.indexOf("_a3_") >= 0)).take(2) map toReport) :: Nil
+    //    Group("a1", load(files.filter(_.getName.indexOf("_a1_") >= 0)).take(2) map toReport) ::
+    //    Group("a2", load(files.filter(_.getName.indexOf("_a2_") >= 0)).take(2) map toReport) ::
+    //    Group("a3", load(files.filter(_.getName.indexOf("_a3_") >= 0)).take(2) map toReport) :: Nil
 
-    //    Group("a1", load(files.filter(_.getName.indexOf("_a1_") >= 0)) map toReport) ::
-    //    Group("a2", load(files.filter(_.getName.indexOf("_a2_") >= 0)) map toReport) ::
-    //    Group("a3", load(files.filter(_.getName.indexOf("_a3_") >= 0)) map toReport) :: Nil
+    Group("a1", load(files.filter(_.getName.indexOf("_a1_") >= 0)) map toReport) ::
+    Group("a2", load(files.filter(_.getName.indexOf("_a2_") >= 0)) map toReport) ::
+    Group("a3", load(files.filter(_.getName.indexOf("_a3_") >= 0)) map toReport) :: Nil
   }
 
   def reportLine(group: Group, filtered: List[AcidBaseReport]) {
