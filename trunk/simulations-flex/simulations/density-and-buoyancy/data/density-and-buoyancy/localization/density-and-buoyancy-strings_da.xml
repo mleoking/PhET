@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--density-and-buoyancy-strings_da.xml created Mon Sep 26 11:48:39 CEST 2011 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.11.00 (55119) aug 13, 2011-->
+<!--density-and-buoyancy-strings_da.xml created Tue Aug 21 18:58:55 CEST 2012 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.13.00 (59150) dec 8, 2011-->
 <SimStrings>
 <string key="buoyancy.tab.intro" value="Introduktion"/>
 <string key="properties.mass" value="Masse"/>
 <string key="controlPanel.showVectorValues" value="Kraftværdier / N."/>
-<string key="forceArrows.contact" value="Kontakt"/>
+<string key="forceArrows.contact" value="Normalkraft"/>
 <string key="mode.objectsOfSameVolume" value="Samme volumen"/>
 <string key="mysteryObject.densityColumnHeader" value="Massefylde ({0})"/>
 <string key="material.aluminum" value="Aluminium"/>
-<string key="properties.massKilogram" value="kg."/>
+<string key="properties.massKilogram" value="kg"/>
 <string key="material.air" value="Luft"/>
-<string key="material.custom" value="Mit opjekt"/>
+<string key="material.custom" value="Min klods"/>
 <string key="material.gasoline" value="Benzin"/>
 <string key="customObject.material" value="Materiale"/>
 <string key="mode.mysteryObjects" value="Mysterium"/>
-<string key="customObject.custom" value="Mit objekt"/>
+<string key="customObject.custom" value="Min klods"/>
 <string key="material.wood" value="Træ"/>
 <string key="properties.massKilogramValue" value="{0} kg"/>
 <string key="mode.two" value="To"/>
 <string key="material.styrofoam" value="Flamingo"/>
 <string key="material.honey" value="Honning"/>
 <string key="material.apple" value="Æble"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
 <string key="material.ice" value="Is"/>
 <string key="buoyancy.tab.playground" value="Opdriftslegeland"/>
 <string key="fluid.controls.intro.label" value="Væske"/>
@@ -30,14 +32,14 @@
 <string key="mode.mysteryObjects.B" value="B"/>
 <string key="material.diamond" value="Diamant"/>
 <string key="mode.mysteryObjects.A" value="A"/>
-<string key="mode.title" value="Objekter"/>
+<string key="mode.title" value="Klodser"/>
 <string key="material.oliveOil" value="Olivenolie"/>
 <string key="material.lead" value="Bly"/>
 <string key="forceArrows.buoyancy" value="Opdrift"/>
 <string key="properties.fluidDensity" value="Væskens massefylde"/>
 <string key="mysteryObject.densityUnitsKgL" value="kg/l"/>
 <string key="customObject.properties" value="Muligheder"/>
-<string key="forceArrows.gravity" value="Tiltrækning"/>
+<string key="forceArrows.gravity" value="Tyngdekraft"/>
 <string key="material.brick" value="Mursten"/>
 <string key="mysteryObject.material" value="Materiale"/>
 <string key="mysteryObject.table.title" value="Massefylde af forskellige materialer"/>
@@ -62,7 +64,7 @@
 <string key="properties.density" value="Massefylde"/>
 <string key="material.waterBalloon" value="Vandballon"/>
 <string key="mysteryObject.table.showTable" value="Vis tabel"/>
-<string key="mode.one" value="Een"/>
+<string key="mode.one" value="En"/>
 <string key="properties.volume" value="Volumen"/>
 <string key="buoyancy.simTitle" value="Opdrift"/>
 <string key="properties.kilogramPerLiter" value="kg/l"/>
