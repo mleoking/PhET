@@ -137,7 +137,7 @@ public class Scenes {
                                       list( new UnaryFunctionNode( "^2", false, INTEGER_POWER_2, 390.72378138847836, 294.298375184638 - 80 ),
                                             new UnaryFunctionNode( "-1", false, INTEGER_MINUS_1, 390.72378138847836, 444.298375184638 - 80 )
                                       ),
-                                      Scene.createTargetNodeList( canvas, list( 4, 6, 8 ) )
+                                      Scene.createTargetNodeList( canvas, list( 4, 9, 16 ) )
                     );
                 }
             }
