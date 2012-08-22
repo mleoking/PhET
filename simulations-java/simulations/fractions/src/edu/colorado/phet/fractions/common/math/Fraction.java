@@ -15,11 +15,13 @@ import lombok.Data;
 public @Data class Fraction {
     public final int numerator;
     public final int denominator;
+    //REVIEW: Intellij says that this is unused, and since there is an equivalent method, it seems redundant.
     public static final F<Fraction, Double> _toDouble = new F<Fraction, Double>() {
         @Override public Double f( final Fraction fraction ) {
             return fraction.toDouble();
         }
     };
+    //REVIEW: I looked at usages for this, and it's always just executed right away, never passed as a parameter.  So why do it this way instead of a method?
     public static final F<Fraction, Boolean> _greaterThanOne = new F<Fraction, Boolean>() {
         @Override public Boolean f( final Fraction f ) {
             return f.numerator > f.denominator;
@@ -31,10 +33,14 @@ public @Data class Fraction {
     public String toString() { return numerator + "/" + denominator; }
 
     //Returns true of the fractions have the same numeric value (i.e. are reducible to the same value)
-    public boolean approxEquals( final Fraction fractionValue ) { return Math.abs( toDouble() - fractionValue.toDouble() ) < 1E-6; }
+    public boolean approxEquals( final Fraction fractionValue ) {
+        return Math.abs( toDouble() - fractionValue.toDouble() ) < 1E-6;
+    }
 
     //Convenience constructor to make level declaration read a little easier
-    public static Fraction fraction( int numerator, int denominator ) { return new Fraction( numerator, denominator ); }
+    public static Fraction fraction( int numerator, int denominator ) {
+        return new Fraction( numerator, denominator );
+    }
 
     //Return a reduced copy of this fraction.
     public Fraction reduce() {
@@ -45,7 +51,9 @@ public @Data class Fraction {
     //Get the greatest common denominator using the classic algorithm
     private int gcd( int a, int b ) { return b == 0 ? a : gcd( b, a % b ); }
 
-    public Fraction times( final int scale ) { return new Fraction( numerator * scale, denominator * scale ); }
+    public Fraction times( final int scale ) {
+        return new Fraction( numerator * scale, denominator * scale );
+    }
 
     public static Fraction sum( final List<Fraction> values ) {
 
@@ -67,7 +75,9 @@ public @Data class Fraction {
         return fraction( sum, denominator ).reduce();
     }
 
-    public Fraction plus( final Fraction fraction ) { return sum( List.list( this, fraction ) ); }
+    public Fraction plus( final Fraction fraction ) {
+        return sum( List.list( this, fraction ) );
+    }
 
     //Return true if this fraction is less than or equal to the provided fraction.
     public boolean lessThanOrEqualTo( final Fraction target ) {

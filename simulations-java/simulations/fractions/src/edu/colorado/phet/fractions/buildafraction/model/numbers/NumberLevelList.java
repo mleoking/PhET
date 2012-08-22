@@ -168,6 +168,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         ArrayList<Integer> numerators = new ArrayList<Integer>( Arrays.asList( 1, 2, 3, 4, 5 ) );
         Collections.shuffle( numerators );
 
+        //REVIEW: Has this been addressed and, if not, should it be?  Sounds important.
         //TODO: guarantee this level is solvable, possibly by generating cards to make it so
         RandomColors3 colors = new RandomColors3();
         return new NumberLevel( list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9 ), shuffle( list( NumberTarget.target( numerators.get( 0 ), 6, colors.next(), flower.sequential() ),
@@ -343,7 +344,9 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         return new NumberLevel( scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
     }
 
-    private Fraction smallerNumerator( final Fraction a, final Fraction b ) { return b.numerator < a.numerator ? b : a; }
+    private Fraction smallerNumerator( final Fraction a, final Fraction b ) {
+        return b.numerator < a.numerator ? b : a;
+    }
 
     private static NumberTarget targetLessThanOrEqualTo1( final IRandomColors colors, final RepresentationType representationType, boolean sequential ) {
         int denominator = chooseOne( representationType.denominators );
@@ -365,7 +368,9 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         return NumberTarget.target( fraction, colors.next(), sequential ? patternMaker.sequential() : patternMaker.random() );
     }
 
-    private static List<Color> shuffledColors() {return shuffle( list( LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE, orange ) );}
+    private static List<Color> shuffledColors() {
+        return shuffle( list( LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE, orange ) );
+    }
 
     public static <T> List<T> shuffle( final List<T> list ) {
         ArrayList<T> collection = new ArrayList<T>( list.toCollection() );
@@ -373,7 +378,9 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         return iterableList( collection );
     }
 
-    public static List<Integer> rangeInclusive( final int a, final int b ) { return range( a, b + 1 ); }
+    public static List<Integer> rangeInclusive( final int a, final int b ) {
+        return range( a, b + 1 );
+    }
 
     private Fraction chooseFraction( final List<Integer> allowedNumerators, final List<Integer> allowedDenominators, F<Fraction, Boolean> accept ) {
         for ( int i = 0; i < 1000; i++ ) {

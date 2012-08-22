@@ -98,6 +98,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
 
+            //REVIEW: TODO is unclear.  Should either be addressed or the comment should be clearer.
             //TODO: whole part
             _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.mixedFraction, this ), new ZeroOffsetNode( patternNode ) ) );
         }
@@ -355,7 +356,9 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
     }
 
-    private boolean allTargetsComplete() { return numCompletedTargets() == pairs.length(); }
+    private boolean allTargetsComplete() {
+        return numCompletedTargets() == pairs.length();
+    }
 
     private int numCompletedTargets() {
         return pairs.map( new F<NumberSceneCollectionBoxPair, Boolean>() {
