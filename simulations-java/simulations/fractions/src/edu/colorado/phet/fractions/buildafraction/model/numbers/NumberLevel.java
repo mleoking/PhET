@@ -7,10 +7,13 @@ import fj.data.List;
 import edu.colorado.phet.fractions.buildafraction.model.Level;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.common.math.Fraction;
+import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget._mixedFraction;
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.target;
 import static edu.colorado.phet.fractions.common.math.Fraction.*;
 import static fj.Ord.intOrd;
+import static fj.data.List.list;
 
 /**
  * Level for the build a fraction game.
@@ -40,6 +43,19 @@ public class NumberLevel extends Level {
                                 return integer > 0;
                             }
                         } ) ) ), targets );
+    }
+
+    public NumberLevel( final List<MixedFraction> selected, final RandomColors3 colors, final F<MixedFraction, FilledPattern> shape ) {
+        this( list( target( selected.index( 0 ), colors.next(), shape ),
+                    target( selected.index( 1 ), colors.next(), shape ),
+                    target( selected.index( 2 ), colors.next(), shape ) ) );
+    }
+
+    public NumberLevel( final List<MixedFraction> selected, final RandomColors4 colors, final F<MixedFraction, FilledPattern> shape ) {
+        this( list( target( selected.index( 0 ), colors.next(), shape ),
+                    target( selected.index( 1 ), colors.next(), shape ),
+                    target( selected.index( 2 ), colors.next(), shape ),
+                    target( selected.index( 3 ), colors.next(), shape ) ) );
     }
 
     //Create a Number Level from the reduced fractions

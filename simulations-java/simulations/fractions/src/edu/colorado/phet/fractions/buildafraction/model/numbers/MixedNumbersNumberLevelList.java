@@ -14,8 +14,9 @@ import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 
 import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction.mixedFraction;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.target;
 import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
-import static edu.colorado.phet.fractions.common.util.Sampling.chooseOne;
+import static edu.colorado.phet.fractions.common.util.Sampling.choose;
 import static fj.data.List.iterableList;
 import static fj.data.List.list;
 
@@ -30,6 +31,7 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     public MixedNumbersNumberLevelList() {
         add( level1() );
         add( level2() );
+        add( level3() );
         while ( size() < 10 ) { add( levelX() ); }
     }
 
@@ -41,9 +43,9 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     */
     private NumberLevel level1() {
         RandomColors3 colors = new RandomColors3();
-        return new NumberLevel( shuffle( list( NumberTarget.target( 1, 1, 2, colors.next(), pie.sequential() ),
-                                               NumberTarget.target( 2, 1, 2, colors.next(), pie.sequential() ),
-                                               NumberTarget.target( 3, 1, 4, colors.next(), pie.sequential() ) ) ) );
+        return new NumberLevel( shuffle( list( target( 1, 1, 2, colors.next(), pie.sequential() ),
+                                               target( 2, 1, 2, colors.next(), pie.sequential() ),
+                                               target( 3, 1, 4, colors.next(), pie.sequential() ) ) ) );
     }
 
     /* Level 2:
@@ -55,21 +57,38 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
         final F<MixedFraction, FilledPattern> shape = random.nextBoolean() ? pie.sequential() : horizontalBar.sequential();
         List<Integer> wholes = list( 1, 2, 3 );
         List<Fraction> fractionParts = list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 4 ), fraction( 3, 4 ) );
+        List<MixedFraction> mixedFractions = getMixedFractions( wholes, fractionParts );
 
-        //Do not let any MixedFraction be selected twice
+        List<MixedFraction> selected = choose( 3, mixedFractions );
+        return new NumberLevel( selected, colors, shape );
+    }
+
+    //Generate all combinations of mixed fractions from the given wholes and fraction parts
+    private List<MixedFraction> getMixedFractions( final List<Integer> wholes, final List<Fraction> fractionParts ) {//Do not let any MixedFraction be selected twice
         ArrayList<MixedFraction> _mixedFractions = new ArrayList<MixedFraction>();
         for ( Integer whole : wholes ) {
             for ( Fraction fractionPart : fractionParts ) {
                 _mixedFractions.add( mixedFraction( whole, fractionPart ) );
             }
         }
-        List<MixedFraction> mixedFractions = iterableList( _mixedFractions );
-        return new NumberLevel( list( NumberTarget.target( chooseOne( mixedFractions ), colors.next(), shape ),
-                                      NumberTarget.target( chooseOne( mixedFractions ), colors.next(), shape ),
-                                      NumberTarget.target( chooseOne( mixedFractions ), colors.next(), shape ) ) );
+        return iterableList( _mixedFractions );
+    }
+
+    /*Level 3:
+    -- All targets “six flowers”
+    -- 1, 2, or 3, as whole number
+    -- Fractional portion from the set {1/2, 1/3, 2/3, 1/6, 5/6}
+    -- So, if a “six flower” is showing 3/6, we will want a 1 and 2 card in the deck*/
+    private NumberLevel level3() {
+        RandomColors3 colors = new RandomColors3();
+        List<MixedFraction> mixedFractions = getMixedFractions( list( 1, 2, 3 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 6 ), fraction( 5, 6 ) ) );
+        List<MixedFraction> selected = choose( 3, mixedFractions );
+
+        final F<MixedFraction, FilledPattern> shape = flower.sequential();
+        return new NumberLevel( selected, colors, shape );
     }
 
     private NumberLevel levelX() {
-        return new NumberLevel( List.list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 5 ), List.replicate( 3, NumberTarget.target( 1, 2, 3, Color.red, pie.sequential() ) ) );
+        return new NumberLevel( List.list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 5 ), List.replicate( 3, target( 1, 2, 3, Color.red, pie.sequential() ) ) );
     }
 }
