@@ -55,6 +55,10 @@ public @Data class MixedFraction {
         }
     };
 
+    public static MixedFraction mixedFraction( final Integer whole, final Fraction fractionPart ) {
+        return new MixedFraction( whole, fractionPart.numerator, fractionPart.denominator );
+    }
+
     public Fraction getFractionPart() { return new Fraction( numerator, denominator ); }
 
     //Converts to a Fraction instance, but without reducing.  It is important to be non-reduced because some solutions are unreduced like 2/2

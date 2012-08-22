@@ -34,7 +34,11 @@ public @Data class NumberTarget {
     }
 
     public static NumberTarget target( int whole, int numerator, int denominator, Color color, F<MixedFraction, FilledPattern> pattern ) {
-        return new NumberTarget( new MixedFraction( whole, numerator, denominator ), color, composite( pattern ).f( new MixedFraction( whole, numerator, denominator ) ) );
+        return target( new MixedFraction( whole, numerator, denominator ), color, pattern );
+    }
+
+    public static NumberTarget target( MixedFraction mixedFraction, Color color, F<MixedFraction, FilledPattern> pattern ) {
+        return new NumberTarget( mixedFraction, color, composite( pattern ).f( mixedFraction ) );
     }
 
     //Convenience for single pattern

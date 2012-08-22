@@ -12,9 +12,11 @@ import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 
+import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction.mixedFraction;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
 import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 import static edu.colorado.phet.fractions.common.util.Sampling.chooseOne;
+import static fj.data.List.iterableList;
 import static fj.data.List.list;
 
 /**
@@ -53,9 +55,18 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
         final F<MixedFraction, FilledPattern> shape = random.nextBoolean() ? pie.sequential() : horizontalBar.sequential();
         List<Integer> wholes = list( 1, 2, 3 );
         List<Fraction> fractionParts = list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 4 ), fraction( 3, 4 ) );
-        return new NumberLevel( list( NumberTarget.target( chooseOne( wholes ), chooseOne( fractionParts ), colors.next(), shape ),
-                                      NumberTarget.target( chooseOne( wholes ), chooseOne( fractionParts ), colors.next(), shape ),
-                                      NumberTarget.target( chooseOne( wholes ), chooseOne( fractionParts ), colors.next(), shape ) ) );
+
+        //Do not let any MixedFraction be selected twice
+        ArrayList<MixedFraction> _mixedFractions = new ArrayList<MixedFraction>();
+        for ( Integer whole : wholes ) {
+            for ( Fraction fractionPart : fractionParts ) {
+                _mixedFractions.add( mixedFraction( whole, fractionPart ) );
+            }
+        }
+        List<MixedFraction> mixedFractions = iterableList( _mixedFractions );
+        return new NumberLevel( list( NumberTarget.target( chooseOne( mixedFractions ), colors.next(), shape ),
+                                      NumberTarget.target( chooseOne( mixedFractions ), colors.next(), shape ),
+                                      NumberTarget.target( chooseOne( mixedFractions ), colors.next(), shape ) ) );
     }
 
     private NumberLevel levelX() {
