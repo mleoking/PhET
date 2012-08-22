@@ -41,42 +41,42 @@ public class BicycleAndRider extends EnergySource {
     // aren't really to scale, since there are so many things in this model
     // with very different scales.
     public static final ModelElementImage FRAME_IMAGE = new ModelElementImage( BICYCLE_FRAME_2, FRAME_CENTER_OFFSET );
-    public static final ModelElementImage REAR_WHEEL_SPOKES_IMAGE = new ModelElementImage( BICYCLE_SPOKES, FRAME_CENTER_OFFSET.plus( new Vector2D( 0.043, -0.026 ) ) );
-    public static final ModelElementImage RIDER_IMAGE = new ModelElementImage( BICYCLE_RIDER, FRAME_CENTER_OFFSET.plus( new Vector2D( -0.004, 0.078 ) ) );
+    public static final ModelElementImage REAR_WHEEL_SPOKES_IMAGE = new ModelElementImage( BICYCLE_SPOKES, FRAME_CENTER_OFFSET.plus( new Vector2D( 0.035, -0.020 ) ) );
+    public static final ModelElementImage RIDER_UPPER_BODY_IMAGE = new ModelElementImage( BICYCLE_RIDER, FRAME_CENTER_OFFSET.plus( new Vector2D( -0.0025, 0.062 ) ) );
 
-    private static final Vector2D LEG_IMAGE_OFFSET = new Vector2D( 0.010, 0.002 );
+    private static final Vector2D LEG_IMAGE_OFFSET = new Vector2D( 0.009, 0.002 );
     public static final List<ModelElementImage> FRONT_LEG_IMAGES = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( FRONT_LEG_01, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_02, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_03, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_04, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_05, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_06, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_07, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_08, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_09, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_1, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_2, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_3, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_4, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_5, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_6, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_7, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_8, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_9, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( FRONT_LEG_10, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( FRONT_LEG_11, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( FRONT_LEG_12, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
     }};
 
     public static final List<ModelElementImage> BACK_LEG_IMAGES = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( BACK_LEG_01, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_02, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_03, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_04, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_05, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_06, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_07, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_08, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_09, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_1, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_2, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_3, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_4, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_5, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_6, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_7, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_8, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_9, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( BACK_LEG_10, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( BACK_LEG_11, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( BACK_LEG_12, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
     }};
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( RIDER_IMAGE );
+        add( RIDER_UPPER_BODY_IMAGE );
         add( REAR_WHEEL_SPOKES_IMAGE );
         add( FRAME_IMAGE );
     }};
