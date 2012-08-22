@@ -52,76 +52,93 @@ public class Scenes {
         }}.getGeneralPath();
     }
 
-    //Apply a single function
-    public static final F<IntroCanvas, Scene> level1 = new F<IntroCanvas, Scene>() {
-        @Override public Scene f( final IntroCanvas introCanvas ) {
-            return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
-                @Override public ValueNode f( final Unit unit ) {
-                    return new ValueNode( introCanvas, new Graphic( 0, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list(
+
+            //Level 1: Apply a single function
+            new F<IntroCanvas, Scene>() {
+                @Override public Scene f( final IntroCanvas introCanvas ) {
+                    return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
+                        @Override public ValueNode f( final Unit unit ) {
+                            return new ValueNode( introCanvas, new Graphic( 0, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                        }
+                    } ),
+                                      List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
+                                      Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, smile ) ) ) );
                 }
-            } ),
-                              List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
-                              Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, smile ) ) ) );
-        }
-    };
+            },
 
-    //Apply same function twice
-    public static final F<IntroCanvas, Scene> level2 = new F<IntroCanvas, Scene>() {
-        @Override public Scene f( final IntroCanvas introCanvas ) {
-            return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
-                @Override public ValueNode f( final Unit unit ) {
-                    return new ValueNode( introCanvas, new Graphic( -1, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+            //Level 2: Apply same function twice
+            new F<IntroCanvas, Scene>() {
+                @Override public Scene f( final IntroCanvas introCanvas ) {
+                    return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
+                        @Override public ValueNode f( final Unit unit ) {
+                            return new ValueNode( introCanvas, new Graphic( -1, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                        }
+                    } ),
+                                      List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
+                                      Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, smile ) ) ) );
                 }
-            } ),
-                              List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
-                              Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, smile ) ) ) );
-        }
-    };
+            },
 
-    //Apply different functions, one after the other
-    public static final F<IntroCanvas, Scene> level3 = new F<IntroCanvas, Scene>() {
-        @Override public Scene f( final IntroCanvas introCanvas ) {
-            return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
-                @Override public ValueNode f( final Unit unit ) {
-                    return new ValueNode( introCanvas, new Graphic( -1, triangle ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+            //Level 3: Apply different functions, one after the other
+            new F<IntroCanvas, Scene>() {
+                @Override public Scene f( final IntroCanvas introCanvas ) {
+                    return new Scene( introCanvas, Scene.toStack( 3, new F<Unit, ValueNode>() {
+                        @Override public ValueNode f( final Unit unit ) {
+                            return new ValueNode( introCanvas, new Graphic( -1, triangle ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                        }
+                    } ),
+                                      List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
+                                      Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, triangle ) ) ) );
                 }
-            } ),
-                              List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
-                              Scene.createTargetNodeList( introCanvas, list( new Graphic( 1, smile ) ) ) );
-        }
-    };
+            },
 
-    //Apply different functions in different orders to achieve 2 goals.
-
-    public static final F<IntroCanvas, Scene> level4 = new F<IntroCanvas, Scene>() {
-        @Override public Scene f( final IntroCanvas canvas ) {
-            return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
-                @Override public ValueNode f( final Unit unit ) {
-                    return new ValueNode( canvas, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+            //Level 4:
+            new F<IntroCanvas, Scene>() {
+                @Override public Scene f( final IntroCanvas canvas ) {
+                    return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
+                        @Override public ValueNode f( final Unit unit ) {
+                            return new ValueNode( canvas, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                        }
+                    } ),
+                                      list( new UnaryFunctionNode( "\u27152", false, INTEGER_TIMES_2, 390.72378138847836, 294.298375184638 - 80 ),
+                                            new UnaryFunctionNode( "+1", false, INTEGER_PLUS_1, 390.72378138847836, 444.298375184638 - 80 )
+                                      ),
+                                      Scene.createTargetNodeList( canvas, list( 4, 6, 8 ) )
+                    );
                 }
-            } ),
-                              list( new UnaryFunctionNode( "\u27152", false, INTEGER_TIMES_2, 390.72378138847836, 294.298375184638 - 80 ),
-                                    new UnaryFunctionNode( "+1", false, INTEGER_PLUS_1, 390.72378138847836, 444.298375184638 - 80 )
-                              ),
-                              Scene.createTargetNodeList( canvas, list( 4, 6, 8 ) )
-            );
-        }
-    };
+            },
 
-    public static final F<IntroCanvas, Scene> level5 = new F<IntroCanvas, Scene>() {
-        @Override public Scene f( final IntroCanvas canvas ) {
-            return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
-                @Override public ValueNode f( final Unit unit ) {
-                    return new ValueNode( canvas, 2, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+
+            //Apply different functions in different orders to achieve 2 goals.
+
+            new F<IntroCanvas, Scene>() {
+                @Override public Scene f( final IntroCanvas canvas ) {
+                    return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
+                        @Override public ValueNode f( final Unit unit ) {
+                            return new ValueNode( canvas, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                        }
+                    } ),
+                                      list( new UnaryFunctionNode( "\u27152", false, INTEGER_TIMES_2, 390.72378138847836, 294.298375184638 - 80 ),
+                                            new UnaryFunctionNode( "+1", false, INTEGER_PLUS_1, 390.72378138847836, 444.298375184638 - 80 )
+                                      ),
+                                      Scene.createTargetNodeList( canvas, list( 4, 6, 8 ) )
+                    );
                 }
-            } ),
-                              list( new UnaryFunctionNode( "^2", false, INTEGER_POWER_2, 390.72378138847836, 294.298375184638 - 80 ),
-                                    new UnaryFunctionNode( "-1", false, INTEGER_MINUS_1, 390.72378138847836, 444.298375184638 - 80 )
-                              ),
-                              Scene.createTargetNodeList( canvas, list( 4, 6, 8 ) )
-            );
-        }
-    };
-
-    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list( level1, level2, level3, level4, level5 );
+            },
+            new F<IntroCanvas, Scene>() {
+                @Override public Scene f( final IntroCanvas canvas ) {
+                    return new Scene( canvas, Scene.toStack( 4, new F<Unit, ValueNode>() {
+                        @Override public ValueNode f( final Unit unit ) {
+                            return new ValueNode( canvas, 2, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                        }
+                    } ),
+                                      list( new UnaryFunctionNode( "^2", false, INTEGER_POWER_2, 390.72378138847836, 294.298375184638 - 80 ),
+                                            new UnaryFunctionNode( "-1", false, INTEGER_MINUS_1, 390.72378138847836, 444.298375184638 - 80 )
+                                      ),
+                                      Scene.createTargetNodeList( canvas, list( 4, 6, 8 ) )
+                    );
+                }
+            }
+    );
 }
