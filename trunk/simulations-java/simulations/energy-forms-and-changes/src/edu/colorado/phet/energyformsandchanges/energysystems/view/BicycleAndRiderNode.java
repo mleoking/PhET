@@ -68,7 +68,7 @@ public class BicycleAndRiderNode extends PNode {
         } );
 
         // Add the upper body.
-        addChild( new ModelElementImageNode( BicycleAndRider.RIDER_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( BicycleAndRider.RIDER_UPPER_BODY_IMAGE, mvt ) );
 
         // Add and observer that will turn the back wheel.
         final Point2D wheelRotationPoint = new Point2D.Double( spokesImage.getFullBoundsReference().getCenterX(),
@@ -90,9 +90,6 @@ public class BicycleAndRiderNode extends PNode {
                 setOffset( mvt.modelToView( immutableVector2D ).toPoint2D() );
             }
         } );
-
-        // TODO: Temp - for prototyping - remove.
-        setScale( 0.8 );
     }
 
     private static class CrankRateSlider extends PNode {
