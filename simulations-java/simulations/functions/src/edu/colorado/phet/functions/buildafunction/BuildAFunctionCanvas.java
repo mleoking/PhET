@@ -9,11 +9,11 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author Sam Reid
  */
-public class BuildAFunctionPrototype2Canvas extends AbstractFunctionsCanvas {
+public class BuildAFunctionCanvas extends AbstractFunctionsCanvas {
 
     public static final Color BACKGROUND_COLOR = new Color( 236, 251, 251 );
 
-    public BuildAFunctionPrototype2Canvas() {
+    public BuildAFunctionCanvas() {
 
         //Set a really light blue because there is a lot of white everywhere
         setBackground( BACKGROUND_COLOR );

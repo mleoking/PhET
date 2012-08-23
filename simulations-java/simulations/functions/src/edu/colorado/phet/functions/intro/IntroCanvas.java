@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.functions.buildafunction.AbstractFunctionsCanvas;
-import edu.colorado.phet.functions.buildafunction.BuildAFunctionPrototype2Canvas;
+import edu.colorado.phet.functions.buildafunction.BuildAFunctionCanvas;
 import edu.colorado.phet.functions.buildafunction.ValueContext;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
 import edu.colorado.phet.functions.intro.view.NavigationBar;
@@ -31,7 +31,7 @@ public class IntroCanvas extends AbstractFunctionsCanvas implements ValueContext
 
     public IntroCanvas() {
 
-        setBackground( BuildAFunctionPrototype2Canvas.BACKGROUND_COLOR );
+        setBackground( BuildAFunctionCanvas.BACKGROUND_COLOR );
         addChild( new NavigationBar() {{
             setOffset( INSET, INSET );
         }} );
