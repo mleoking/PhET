@@ -38,6 +38,7 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
         add( level4() );
         add( level5() );
         add( level6() );
+        add( level7() );
         while ( size() < 10 ) { add( levelX() ); }
     }
 
@@ -123,15 +124,13 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     -- Fractional portion from the set {1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9}
     --2 of the representations match cards exactly, 1 of the representations requires simplifying to a solution*/
     public NumberLevel level5() {
-        List<Fraction> expandable = parse( "1/2, 1/3, 2/3, 1/4, 3/4" );
-        List<Fraction> full = parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9" );
         List<Integer> wholes = list( 1, 2, 3 );
-        List<MixedFraction> mixedFractions = getMixedFractions( wholes, full );
+        List<MixedFraction> mixedFractions = getMixedFractions( wholes, fullListOfFractions() );
         final List<MixedFraction> targets = choose( 2, mixedFractions );
         RandomColors3 colors = new RandomColors3();
         final MixedFraction target1 = targets.index( 0 );
         final MixedFraction target2 = targets.index( 1 );
-        final MixedFraction target3 = chooseOne( getMixedFractions( wholes, expandable ) );
+        final MixedFraction target3 = chooseOne( getMixedFractions( wholes, expandable() ) );
         final long seed = random.nextLong();
         return new NumberLevel( list( target( target1, colors.next(), chooseMatchingPattern( target1.denominator ).sequential() ),
                                       target( target2, colors.next(), chooseMatchingPattern( target2.denominator ).sequential() ),
@@ -186,11 +185,16 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
         return iterableList( f );
     }
 
+    /**
+     * Level 6:
+     * --Same as level 5 (now with 4 targets)
+     * --Random fill now possible, so for instance {2:1/4} could be represented by 2 full circles with a partially filled circle in between them.  As in, we do not need to strictly fill from left to right.
+     * -- 2 of the representations require simplifying
+     */
     public NumberLevel level6() {
-        List<Fraction> expandable = parse( "1/2, 1/3, 2/3, 1/4, 3/4" );
-        List<Fraction> full = parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9" );
+        List<Fraction> expandable = expandable();
         List<Integer> wholes = list( 1, 2, 3 );
-        List<MixedFraction> mixedFractions = getMixedFractions( wholes, full );
+        List<MixedFraction> mixedFractions = getMixedFractions( wholes, fullListOfFractions() );
         final List<MixedFraction> targets = choose( 2, mixedFractions );
         RandomColors4 colors = new RandomColors4();
         final MixedFraction target1 = targets.index( 0 );
@@ -203,21 +207,51 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
                                       shuffledTarget( target2, colors.next(), chooseMatchingPattern( target2.denominator ).random() ),
 
                                       //For the third target, scale it up so that it is shown as a non-reduced picture
-                                      shuffledTarget( target3, colors.next(), scaledRepresentation( seed ) ),
-                                      shuffledTarget( target4, colors.next(), scaledRepresentation( seed ) ) ) );
+                                      shuffledTarget( target3, colors.next(), scaledRepresentation( seed, true, true ) ),
+                                      shuffledTarget( target4, colors.next(), scaledRepresentation( seed, true, true ) ) ) );
     }
 
-    private F<MixedFraction, FilledPattern> scaledRepresentation( final long seed ) {
+    //Fractions that can be scaled up
+    private List<Fraction> expandable() {return parse( "1/2, 1/3, 2/3, 1/4, 3/4" );}
+
+    private List<Fraction> fullListOfFractions() {return parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9" );}
+
+    private F<MixedFraction, FilledPattern> scaledRepresentation( final long seed, final boolean random, final boolean reallyScaleIt ) {
         return new F<MixedFraction, FilledPattern>() {
             @Override public FilledPattern f( final MixedFraction mixedFraction ) {
                 int d = mixedFraction.getFractionPart().denominator;
-                List<Integer> scaleFactors = getScaleFactors( d );
+                List<Integer> scaleFactors = reallyScaleIt ? getScaleFactors( d ) : list( 1 );
 
                 //Use the same random seed each time otherwise composite representations might have different shape types for each of its parts
                 Integer scaleFactor = chooseOneWithSeed( seed, scaleFactors );
-                return chooseOneWithSeed( seed, matching( d * scaleFactor ) ).random().f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
+                final PatternMaker patternMaker = chooseOneWithSeed( seed, matching( d * scaleFactor ) );
+                return ( random ? patternMaker.random() : patternMaker.sequential() ).f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
             }
         };
+    }
+
+    /**
+     * Level 7:
+     * --Top two representations are equivalent in magnitude, and bottom 2 representations are equivalent in magnitude
+     * -- For instance if the top two representations are {1:1/2}, the first representation could be a full circle and
+     * a half circle divided in halves, and the second representation could be a full circle and a half circle divide in fourths.
+     */
+    public NumberLevel level7() {
+        List<MixedFraction> fractions = getMixedFractions( list( 1, 2, 3 ), expandable() );
+        P2<MixedFraction, MixedFraction> selected = chooseTwo( fractions );
+        MixedFraction topOne = selected._1();
+        MixedFraction bottomOne = selected._2();
+        final long seed = random.nextLong();
+        RandomColors4 colors = new RandomColors4();
+
+        List<Boolean> a = shuffle( list( true, false ) );
+        List<Boolean> b = shuffle( list( true, false ) );
+        return new NumberLevel( list( target( topOne, colors.next(), scaledRepresentation( seed, false, a.index( 0 ) ) ),
+                                      target( topOne, colors.next(), scaledRepresentation( seed, false, a.index( 1 ) ) ),
+
+                                      //For the third target, scale it up so that it is shown as a non-reduced picture
+                                      target( bottomOne, colors.next(), scaledRepresentation( seed, false, b.index( 0 ) ) ),
+                                      target( bottomOne, colors.next(), scaledRepresentation( seed, false, b.index( 1 ) ) ) ) );
     }
 
     private NumberLevel levelX() {
