@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  *
  * @author John Blanco
  */
-public abstract class EnergySystemElement extends PositionableModelElement {
+public abstract class EnergySystemElement extends PositionableFadableModelElement {
 
     // List of images, if any, that are used in the view to represent this element. 
     private final List<ModelElementImage> imageList = new ArrayList<ModelElementImage>();

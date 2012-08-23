@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author John Blanco
  */
-public class Carousel<T extends PositionableModelElement> {
+public class Carousel<T extends PositionableFadableModelElement> {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -137,12 +137,25 @@ public class Carousel<T extends PositionableModelElement> {
             if ( currentCarouselOffset == targetCarouselOffset ) {
                 animationInProgress.set( false );
             }
+            updateManagedElementOpacities();
         }
     }
 
     private void updateManagedElementPositions() {
         for ( int i = 0; i < managedElements.size(); i++ ) {
             managedElements.get( i ).setPosition( selectedElementPosition.plus( offsetBetweenElements.times( i ) ).plus( currentCarouselOffset ) );
+        }
+    }
+
+    private void updateManagedElementOpacities() {
+        for ( int i = 0; i < managedElements.size(); i++ ) {
+            System.out.println( "------------------------------" );
+            System.out.println( "managedElement = " + managedElements.get( i ) );
+            double distanceFromSelectionPosition = managedElements.get( i ).getPosition().distance( selectedElementPosition );
+            System.out.println( "distanceFromSelectionPosition = " + distanceFromSelectionPosition );
+            double opacity = MathUtil.clamp( 0, 1 - ( distanceFromSelectionPosition / offsetBetweenElements.magnitude() ), 1 );
+            System.out.println( "opacity = " + opacity );
+            managedElements.get( i ).opacity.set( opacity );
         }
     }
 
