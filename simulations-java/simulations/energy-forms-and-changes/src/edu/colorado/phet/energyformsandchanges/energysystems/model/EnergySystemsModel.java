@@ -65,7 +65,7 @@ public class EnergySystemsModel {
     public final BeakerHeater beakerHeater = new BeakerHeater();
 
     // Items that span between energy system elements.
-    public final Belt belt = new Belt( 0.025, new Vector2D( -0.1, -0.1 ), 0.05, new Vector2D( 0, 0 ) );
+    public final Belt belt = new Belt( 0.02, new Vector2D( -0.115, -0.01 ), 0.04, new Vector2D( -0.025, 0.03 ) );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
