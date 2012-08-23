@@ -3,7 +3,6 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.WaterPoweredGenerator;
@@ -14,9 +13,10 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author John Blanco
  */
-public class WaterPoweredGeneratorNode extends PNode {
+public class WaterPoweredGeneratorNode extends PositionableFadableModelElementNode {
 
     public WaterPoweredGeneratorNode( final WaterPoweredGenerator generator, final ModelViewTransform mvt ) {
+        super( generator, mvt );
 
         // Create and add the various image nodes.
         addChild( new ModelElementImageNode( WaterPoweredGenerator.WIRE_CURVED_IMAGE, mvt ) );
@@ -37,13 +37,6 @@ public class WaterPoweredGeneratorNode extends PNode {
                 double delta = angle - wheelImageNode.getRotation();
                 wheelImageNode.rotateAboutPoint( delta, wheelRotationPoint );
                 wheelTextureNode.rotateAboutPoint( delta, wheelRotationPoint );
-            }
-        } );
-
-        // Update the overall offset based on the model position.
-        generator.getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
-            public void apply( Vector2D immutableVector2D ) {
-                setOffset( mvt.modelToView( immutableVector2D ).toPoint2D() );
             }
         } );
     }
