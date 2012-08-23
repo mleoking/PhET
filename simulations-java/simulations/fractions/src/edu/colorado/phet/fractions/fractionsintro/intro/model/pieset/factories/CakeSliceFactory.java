@@ -12,7 +12,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.fractions.common.util.Dimension2D;
+import edu.colorado.phet.fractions.common.util.Size2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
 
@@ -31,7 +31,7 @@ public @EqualsAndHashCode(callSuper = false) class CakeSliceFactory extends Slic
     public final double spacing = 22;
 
     //Private, require users to use singleton
-    public CakeSliceFactory( Vector2D bucketPosition, Dimension2D bucketSize ) {super( 0.0, bucketPosition, bucketSize, null ); }
+    public CakeSliceFactory( Vector2D bucketPosition, Size2D bucketSize ) {super( 0.0, bucketPosition, bucketSize, null ); }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     final F<Slice, Shape> getShapeFunction( final double extent ) {

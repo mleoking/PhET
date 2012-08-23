@@ -12,7 +12,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.fractions.common.util.Dimension2D;
+import edu.colorado.phet.fractions.common.util.Size2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
 
@@ -37,7 +37,7 @@ public @EqualsAndHashCode(callSuper = false) class VerticalSliceFactory extends 
     public final boolean isWaterGlasses;
 
     //Private, require users to use singleton
-    public VerticalSliceFactory( double x, double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor, final double distanceBetweenBars, final boolean waterGlasses ) {
+    public VerticalSliceFactory( double x, double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition, Size2D bucketSize, Color sliceColor, final double distanceBetweenBars, final boolean waterGlasses ) {
         super( 15.0, bucketPosition, bucketSize, sliceColor );
         this.barWidth = barWidth;
         this.barHeight = barHeight;

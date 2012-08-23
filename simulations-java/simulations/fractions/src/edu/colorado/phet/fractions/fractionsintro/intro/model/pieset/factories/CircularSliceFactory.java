@@ -10,7 +10,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.fractions.common.util.Dimension2D;
+import edu.colorado.phet.fractions.common.util.Size2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Site;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
 
@@ -30,7 +30,7 @@ public @EqualsAndHashCode(callSuper = false) class CircularSliceFactory extends 
     private final double radius;
 
     //Private, require users to use singleton
-    public CircularSliceFactory( int piesPerRow, Vector2D bucketPosition, Dimension2D bucketSize, double diameter, double x, double y, F<Site, Site> siteMap, Color sliceColor ) {
+    public CircularSliceFactory( int piesPerRow, Vector2D bucketPosition, Size2D bucketSize, double diameter, double x, double y, F<Site, Site> siteMap, Color sliceColor ) {
         super( 0.0, bucketPosition, bucketSize, sliceColor );
         this.piesPerRow = piesPerRow;
         this.diameter = diameter;

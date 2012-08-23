@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.fractions.common.util.Dimension2D;
+import edu.colorado.phet.fractions.common.util.Size2D;
 import edu.colorado.phet.fractions.common.view.Colors;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.Container;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.ContainerSet;
@@ -109,7 +109,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.Representation;
         final F<Site, Site> siteMap = new IdentitySiteMap();
 
         final double distanceBetweenBars = 20 * 1.3;
-        Dimension2D bucketSize = new Dimension2D( 350, 135 );
+        Size2D bucketSize = new Size2D( 350, 135 );
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, bucketSize, pieDiameter, pieX, pieY, siteMap, Colors.CIRCLE_COLOR ),
                                new HorizontalSliceFactory( bucketPosition, bucketSize, Colors.HORIZONTAL_SLICE_COLOR ),
                                new VerticalSliceFactory( -35.5, 125, 200, false, bucketPosition, bucketSize, Colors.VERTICAL_SLICE_COLOR, distanceBetweenBars, false ),
