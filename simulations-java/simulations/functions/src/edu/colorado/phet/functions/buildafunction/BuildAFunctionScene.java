@@ -4,6 +4,7 @@ package edu.colorado.phet.functions.buildafunction;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
+import edu.colorado.phet.functions.common.view.TableNode;
 import edu.colorado.phet.functions.model.Functions;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -30,5 +31,7 @@ public class BuildAFunctionScene extends PNode {
             public void mouseReleased( final ValueNode valueNode ) {
             }
         }, 3, new BasicStroke(), Color.white, Color.black, Color.black ) );
+
+        addChild( new TableNode() {{setOffset( 400, 10 );}} );
     }
 }
