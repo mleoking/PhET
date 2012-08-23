@@ -95,14 +95,22 @@ public class EnergySystemsModel {
         // biker and the generator.
         VoidFunction1<Boolean> beltVisibilityUpdated = new VoidFunction1<Boolean>() {
             public void apply( Boolean isAnimating ) {
-                belt.isVisible.set( !isAnimating &&
-                                    energySourcesCarousel.getSelectedElement() instanceof BicycleAndRider &&
-                                    energyConvertersCarousel.getSelectedElement() instanceof WaterPoweredGenerator );
+                boolean bikerAndGeneratorSelected = !isAnimating &&
+                                                    energySourcesCarousel.getSelectedElement() instanceof BicycleAndRider &&
+                                                    energyConvertersCarousel.getSelectedElement() instanceof WaterPoweredGenerator;
+                belt.isVisible.set( bikerAndGeneratorSelected );
+                waterPoweredGenerator.setDirectCouplingMode( bikerAndGeneratorSelected );
             }
         };
 
-        energySourcesCarousel.getAnimationInProgressProperty().addObserver( beltVisibilityUpdated );
-        energyConvertersCarousel.getAnimationInProgressProperty().addObserver( beltVisibilityUpdated );
+        energySourcesCarousel.getAnimationInProgressProperty().
+
+                addObserver( beltVisibilityUpdated );
+
+        energyConvertersCarousel.getAnimationInProgressProperty().
+
+                addObserver( beltVisibilityUpdated );
+
     }
 
     //-------------------------------------------------------------------------
