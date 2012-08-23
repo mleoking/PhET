@@ -9,13 +9,13 @@ import java.awt.Stroke;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.CompositeDelegate;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
-import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;

@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
-import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
+import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.umd.cs.piccolo.activities.PActivity;
 
 /**
