@@ -19,11 +19,11 @@ import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.common.math.Fraction;
+import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -153,13 +153,7 @@ public class ContainerNode extends PNode {
             increaseDecreaseButton.hideIncreaseButton();
         }
         PInterpolatingActivity activity = increaseDecreaseButton.showDecreaseButton();
-        activity.setDelegate( new CompositeDelegate( new PActivityDelegate() {
-            public void activityStarted( final PActivity activity ) {
-            }
-
-            public void activityStepped( final PActivity activity ) {
-            }
-
+        activity.setDelegate( new CompositeDelegate( new PActivityDelegateAdapter() {
             public void activityFinished( final PActivity activity ) {
                 child.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
                 context.containerAdded( ContainerNode.this );
@@ -177,13 +171,7 @@ public class ContainerNode extends PNode {
         last.undoAll();
 
         PActivity activity = last.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
-        activity.setDelegate( new PActivityDelegate() {
-            public void activityStarted( final PActivity activity ) {
-            }
-
-            public void activityStepped( final PActivity activity ) {
-            }
-
+        activity.setDelegate( new PActivityDelegateAdapter() {
             public void activityFinished( final PActivity activity ) {
                 containerLayer.removeChild( last );
                 final SingleContainerNode child = getSingleContainerNodes().last();
@@ -215,13 +203,7 @@ public class ContainerNode extends PNode {
     public void undoAll() {
         getSingleContainers().foreach( _undoAll );
         PInterpolatingActivity activity = undoButton.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
-        activity.setDelegate( new PActivityDelegate() {
-            public void activityStarted( final PActivity activity ) {
-            }
-
-            public void activityStepped( final PActivity activity ) {
-            }
-
+        activity.setDelegate( new PActivityDelegateAdapter() {
             public void activityFinished( final PActivity activity ) {
                 undoButton.setVisible( false );
                 undoButton.setPickable( false );

@@ -20,8 +20,8 @@ import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimat
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
 import edu.colorado.phet.fractions.buildafraction.view.UpdateAnimatingFlag;
 import edu.colorado.phet.fractions.common.math.Fraction;
+import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
 import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
@@ -70,15 +70,9 @@ public abstract class PieceNode extends Stackable {
                 final AnimateToScale activity = new AnimateToScale( PieceNode.this, BuildAFractionModule.ANIMATION_TIME );
                 addActivity( activity );
 
-                activity.setDelegate( new PActivityDelegate() {
-                    public void activityStarted( final PActivity activity ) {
-                    }
-
+                activity.setDelegate( new PActivityDelegateAdapter() {
                     public void activityStepped( final PActivity activity ) {
                         stepTowardMouse( event );
-                    }
-
-                    public void activityFinished( final PActivity activity ) {
                     }
                 } );
             }
@@ -156,12 +150,9 @@ public abstract class PieceNode extends Stackable {
         animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, BuildAFractionModule.ANIMATION_TIME ).
                 setDelegate(
                         new CompositeDelegate( new DisablePickingWhileAnimating( this, true ),
-                                               new PActivityDelegate() {
+                                               new PActivityDelegateAdapter() {
                                                    public void activityStarted( final PActivity activity ) {
                                                        showShadow();
-                                                   }
-
-                                                   public void activityStepped( final PActivity activity ) {
                                                    }
 
                                                    public void activityFinished( final PActivity activity ) {

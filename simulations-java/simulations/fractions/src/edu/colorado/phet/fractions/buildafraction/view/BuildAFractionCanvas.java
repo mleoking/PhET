@@ -15,10 +15,10 @@ import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.CompositeDelegate;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
+import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 
 /**
@@ -63,13 +63,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         final PNode oldNode = currentScene;
 
         PActivity activity = oldNode.animateToTransparency( 0, CROSS_FADE_DURATION );
-        activity.setDelegate( new PActivityDelegate() {
-            public void activityStarted( final PActivity activity ) {
-            }
-
-            public void activityStepped( final PActivity activity ) {
-            }
-
+        activity.setDelegate( new PActivityDelegateAdapter() {
             public void activityFinished( final PActivity activity ) {
                 oldNode.removeFromParent();
                 newNode.animateToTransparency( 1, CROSS_FADE_DURATION );
@@ -95,25 +89,11 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
                                  Vector2D.ZERO;
 
         PActivity activity = currentScene.animateToPositionScaleRotation( oldNodeOffset.x, oldNodeOffset.y, 1, 0, 400 );
-        activity.setDelegate( new CompositeDelegate( new PActivityDelegate() {
-            //REVIEW: I've seen this in a couple of places.  Why not create a PActivityDelegateAdapter?  Might even want it in common code, since I've created on before too.
-            public void activityStarted( final PActivity activity ) {
-            }
-
-            public void activityStepped( final PActivity activity ) {
-            }
-
+        activity.setDelegate( new CompositeDelegate( new PActivityDelegateAdapter() {
             public void activityFinished( final PActivity activity ) {
 
                 PInterpolatingActivity fade = oldNode.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
-                fade.setDelegate( new PActivityDelegate() {
-                    //REVIEW: Again, the adapter would be good here.  Should find all usages of PActivityDelegate and replace.
-                    public void activityStarted( final PActivity activity ) {
-                    }
-
-                    public void activityStepped( final PActivity activity ) {
-                    }
-
+                fade.setDelegate( new PActivityDelegateAdapter() {
                     public void activityFinished( final PActivity activity ) {
                         oldNode.removeFromParent();
                     }

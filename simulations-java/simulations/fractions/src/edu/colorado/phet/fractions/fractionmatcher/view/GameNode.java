@@ -27,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
+import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.common.view.LevelSelectionScreenButton;
@@ -38,7 +39,6 @@ import edu.colorado.phet.fractions.fractionmatcher.view.Controller.GameOver;
 import edu.colorado.phet.fractions.fractionmatcher.view.Controller.Resample;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 
 import static edu.colorado.phet.fractions.fractionmatcher.view.GameOverDialog.createGameOverDialog;
 import static java.awt.Color.lightGray;
@@ -60,13 +60,7 @@ class GameNode extends PNode {
         //Fade in and out on refresh
         model.addRefreshListener( new VoidFunction0() {
             public void apply() {
-                animateToTransparency( 0, FADE_DURATION ).setDelegate( new PActivityDelegate() {
-                    public void activityStarted( final PActivity activity ) {
-                    }
-
-                    public void activityStepped( final PActivity activity ) {
-                    }
-
+                animateToTransparency( 0, FADE_DURATION ).setDelegate( new PActivityDelegateAdapter() {
                     public void activityFinished( final PActivity activity ) {
                         model.finishRefresh();
                         animateToTransparency( 1, FADE_DURATION );
@@ -90,13 +84,7 @@ class GameNode extends PNode {
                 }
                 else {
                     animateToPositionScaleRotation( AbstractFractionsCanvas.STAGE_SIZE.getWidth(), 0, 1, 0, 400 ).
-                            setDelegate( new PActivityDelegate() {
-                                public void activityStarted( final PActivity activity ) {
-                                }
-
-                                public void activityStepped( final PActivity activity ) {
-                                }
-
+                            setDelegate( new PActivityDelegateAdapter() {
                                 public void activityFinished( final PActivity activity ) {
                                     setVisible( false );
                                 }
