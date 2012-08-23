@@ -22,15 +22,6 @@ public class EnergyFormsAndChangesResources {
 
     //Images
     public static class Images {
-        public static final BufferedImage BACK_LEG_01 = RESOURCES.getImage( "back_leg_01.png" );
-        public static final BufferedImage BACK_LEG_02 = RESOURCES.getImage( "back_leg_02.png" );
-        public static final BufferedImage BACK_LEG_03 = RESOURCES.getImage( "back_leg_03.png" );
-        public static final BufferedImage BACK_LEG_04 = RESOURCES.getImage( "back_leg_04.png" );
-        public static final BufferedImage BACK_LEG_05 = RESOURCES.getImage( "back_leg_05.png" );
-        public static final BufferedImage BACK_LEG_06 = RESOURCES.getImage( "back_leg_06.png" );
-        public static final BufferedImage BACK_LEG_07 = RESOURCES.getImage( "back_leg_07.png" );
-        public static final BufferedImage BACK_LEG_08 = RESOURCES.getImage( "back_leg_08.png" );
-        public static final BufferedImage BACK_LEG_09 = RESOURCES.getImage( "back_leg_09.png" );
         public static final BufferedImage BACK_LEG_1 = RESOURCES.getImage( "back_leg_1.png" );
         public static final BufferedImage BACK_LEG_10 = RESOURCES.getImage( "back_leg_10.png" );
         public static final BufferedImage BACK_LEG_11 = RESOURCES.getImage( "back_leg_11.png" );
@@ -43,13 +34,8 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage BACK_LEG_7 = RESOURCES.getImage( "back_leg_7.png" );
         public static final BufferedImage BACK_LEG_8 = RESOURCES.getImage( "back_leg_8.png" );
         public static final BufferedImage BACK_LEG_9 = RESOURCES.getImage( "back_leg_9.png" );
-        public static final BufferedImage BICYCLE_ALL = RESOURCES.getImage( "bicycle_all.png" );
-        public static final BufferedImage BICYCLE_BACK_LEG_1 = RESOURCES.getImage( "bicycle_back_leg_1.png" );
-        public static final BufferedImage BICYCLE_FRAME = RESOURCES.getImage( "bicycle_frame.png" );
         public static final BufferedImage BICYCLE_FRAME_2 = RESOURCES.getImage( "bicycle_frame_2.png" );
-        public static final BufferedImage BICYCLE_FRONT_LEG_1 = RESOURCES.getImage( "bicycle_front_leg_1.png" );
         public static final BufferedImage BICYCLE_ICON = RESOURCES.getImage( "bicycle_icon.png" );
-        public static final BufferedImage BICYCLE_REAR_WHEEL = RESOURCES.getImage( "bicycle_rear_wheel.png" );
         public static final BufferedImage BICYCLE_RIDER = RESOURCES.getImage( "bicycle_rider.png" );
         public static final BufferedImage BICYCLE_SPOKES = RESOURCES.getImage( "bicycle_spokes.png" );
         public static final BufferedImage BRICK_TEXTURE_FRONT = RESOURCES.getImage( "brick_texture_front.png" );
@@ -71,15 +57,6 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage FLUORESCENT = RESOURCES.getImage( "fluorescent.png" );
         public static final BufferedImage FLUORESCENT_ICON = RESOURCES.getImage( "fluorescent_icon.png" );
         public static final BufferedImage FLUORESCENT_ON = RESOURCES.getImage( "fluorescent_on.png" );
-        public static final BufferedImage FRONT_LEG_01 = RESOURCES.getImage( "front_leg_01.png" );
-        public static final BufferedImage FRONT_LEG_02 = RESOURCES.getImage( "front_leg_02.png" );
-        public static final BufferedImage FRONT_LEG_03 = RESOURCES.getImage( "front_leg_03.png" );
-        public static final BufferedImage FRONT_LEG_04 = RESOURCES.getImage( "front_leg_04.png" );
-        public static final BufferedImage FRONT_LEG_05 = RESOURCES.getImage( "front_leg_05.png" );
-        public static final BufferedImage FRONT_LEG_06 = RESOURCES.getImage( "front_leg_06.png" );
-        public static final BufferedImage FRONT_LEG_07 = RESOURCES.getImage( "front_leg_07.png" );
-        public static final BufferedImage FRONT_LEG_08 = RESOURCES.getImage( "front_leg_08.png" );
-        public static final BufferedImage FRONT_LEG_09 = RESOURCES.getImage( "front_leg_09.png" );
         public static final BufferedImage FRONT_LEG_1 = RESOURCES.getImage( "front_leg_1.png" );
         public static final BufferedImage FRONT_LEG_10 = RESOURCES.getImage( "front_leg_10.png" );
         public static final BufferedImage FRONT_LEG_11 = RESOURCES.getImage( "front_leg_11.png" );
@@ -94,10 +71,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage FRONT_LEG_9 = RESOURCES.getImage( "front_leg_9.png" );
         public static final BufferedImage GENERATOR = RESOURCES.getImage( "generator.png" );
         public static final BufferedImage GENERATOR_ICON = RESOURCES.getImage( "generator_icon.png" );
-        public static final BufferedImage GENERATOR_WHEEL = RESOURCES.getImage( "generator_wheel.png" );
-        public static final BufferedImage GENERATOR_WHEEL_2 = RESOURCES.getImage( "generator_wheel_2.png" );
         public static final BufferedImage GENERATOR_WHEEL_HUB = RESOURCES.getImage( "generator_wheel_hub.png" );
-        public static final BufferedImage GENERATOR_WHEEL_LONG = RESOURCES.getImage( "generator_wheel_long.png" );
         public static final BufferedImage GENERATOR_WHEEL_PADDLES = RESOURCES.getImage( "generator_wheel_paddles.png" );
         public static final BufferedImage GENERATOR_WHEEL_PADDLES_SHORT = RESOURCES.getImage( "generator_wheel_paddles_short.png" );
         public static final BufferedImage GENERATOR_WHEEL_TEXTURE = RESOURCES.getImage( "generator_wheel_texture.png" );
