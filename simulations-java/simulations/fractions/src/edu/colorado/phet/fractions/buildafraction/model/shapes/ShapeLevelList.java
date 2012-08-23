@@ -105,12 +105,8 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
         add( levelMaker.apply() );
     }
 
-    //REVIEW: Comments for all of the level generation methods are odd, like
-    //they are excerpts from emails or something.  Should be cleaned up to
-    //be more conventional, and thus decipherable.
     /* Level 1:
-    --I like the idea of starting with this simple set of fractions
-    - Can we make two draws, one target should be from the set  {1/1, 2/2, 3/3} and the second draw for the next two targets from the set {1/2, 1/3, 2/3} */
+    --Make two draws, one target should be from the set  {1/1, 2/2, 3/3} and the second draw for the next two targets from the set {1/2, 1/3, 2/3} */
     private ShapeLevel level1( final boolean pies ) {
         Distribution<Fraction> set1 = new Distribution<Fraction>( list( fraction( 1, 1 ),
                                                                         fraction( 2, 2 ),
@@ -128,9 +124,9 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     }
 
     /* Level 2:
-   --Here I would begin choosing from a distribution of fractions ranging from 1/2 to 4/5.
-   As in the numerator could be 1, 2, 3, or 4 and the denominator could be 2, 3, 4, or 5 with the stipulation that the fraction is always less than 1.
-   So I would remove the "wholes" from the shapes pile.
+   --Choose from a distribution of fractions ranging from 1/2 to 4/5.
+   The numerator could be 1, 2, 3, or 4 and the denominator could be 2, 3, 4, or 5 with the stipulation that the fraction is always less than 1.
+   No "wholes" will appear in the shapes pile.
     */
     private ShapeLevel level2( final boolean pies ) {
         List<Fraction> targets = choose( 3, list( fraction( 1, 2 ),
@@ -172,8 +168,8 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     }
 
     /* Level 3:
---Like level 2, but now fractions ranging from 1/1 to 6/6, and with "whole" pieces available.
---Number of pieces of each fraction allowing for multiple solutions*/
+    --Like level 2, but now fractions ranging from 1/1 to 6/6, and with "whole" pieces available.
+    --Number of pieces of each fraction allowing for multiple solutions*/
     private ShapeLevel level3( final boolean pies ) {
         List<Fraction> targets = list( fraction( 1, 1 ), fraction( 1, 2 ), fraction( 1, 3 ), fraction( 1, 4 ), fraction( 1, 5 ), fraction( 1, 6 ),
                                        fraction( 2, 2 ), fraction( 2, 3 ), fraction( 2, 4 ), fraction( 2, 5 ), fraction( 2, 6 ),
@@ -187,9 +183,8 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     }
 
     /* Level 4:
-    -- I like the idea of trying to build the same targets with constrained pieces.
-    -- let's make the 2 possible targets be {1/2, 1/1}.  For 1/2, I like the constraints you have chosen, but take away the "whole" piece. For 1/1,
-    again take away the "whole" piece, and constrain one of the targets so they must use two different sizes.  For instance, only enough halves and
+    -- Goal: build the same targets with constrained pieces.
+    -- 2 possible targets, which are {1/2, 1/1}.  For 1/1, constrain one of the targets so they must use two different sizes.  For instance, only enough halves and
     quarters so they must do 1 half piece and 2 quarter pieces.  Or 2 third pieces and 2 sixth pieces.*/
     private ShapeLevel level4( final boolean pies ) {
         return random.nextBoolean() ? halfLevel4( pies ) : wholesLevel4( pies );
@@ -204,11 +199,9 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     }
 
     /*Level 5:
-    --At this point I think we should switch to 4 bins for all future levels
-    -SR: Let's make this one have 3 challenges so it can fit on the page with 3 stars per level
-    -- Let's use pie shapes for this level
-    - numerator able to range from 1-8, and denominator able to range from 1-8, with the number less than or equal to 1
-    - all pieces available to fulfill targets in the most straightforward way (so for instance if 3/8 appears there will 3 1/8 pieces)*/
+    -- Pie shapes for this level
+    -- numerator able to range from 1-8, and denominator able to range from 1-8, with the number less than or equal to 1
+    -- all pieces available to fulfill targets in the most straightforward way (so for instance if 3/8 appears there will 3 1/8 pieces)*/
     private ShapeLevel level5() {
         List<Integer> values = range( 1, 9 );
         List<Integer> denominators = choose( 3, values );
@@ -226,14 +219,12 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     }
 
     /*Level 6:
---Lets try a challenge for this level where all targets are made from only 2 stacks of the same size pieces
---So for instance we give a stack of thirds and a stack of halves, and {2/3, 2/4, 5/6, 1/1} are the target fractions, but we constrain the
-pieces so that some fractions must be made in "interesting" ways.  2/3 could just be made with 2 third pieces, but 5/6 would need to be made of
-a 1/2 and a 1/3.
--- It seems the sets that would work well for pieces would be, {1/2, 1/3}, {1/2, 1/4}, {1/3, 1/4}, {1/2, 1/6}, {1/3, 1/6}, {1/4, 1/8}, {1/2, 1/8}
---the constraint should be such that only enough pieces exist to complete the targets.
-
-    But keep the values less than 1 by trial and error.*/
+    --all targets are made from only 2 stacks of the same size pieces
+    --So for instance we give a stack of thirds and a stack of halves, and {2/3, 2/4, 5/6, 1/1} are the target fractions, but we constrain the
+    pieces so that some fractions must be made in "interesting" ways.  2/3 could just be made with 2 third pieces, but 5/6 would need to be made of a 1/2 and a 1/3.
+    -- It seems the sets that would work well for pieces would be, {1/2, 1/3}, {1/2, 1/4}, {1/3, 1/4}, {1/2, 1/6}, {1/3, 1/6}, {1/4, 1/8}, {1/2, 1/8}
+    --the constraint should be such that only enough pieces exist to complete the targets.
+    Keep the values less than 1 by trial and error.*/
     private ShapeLevel level6() {
         ShapeLevel level = sampleLevel6();
         if ( !level.hasValuesGreaterThanOne() ) {
@@ -272,12 +263,12 @@ a 1/2 and a 1/3.
     }
 
     /*Level 7:
---Top two targets, and bottom 2 targets are equivalent but still numbers less than 1
--- A built in check to draw a different fraction for the top 2 and the bottom 2
--- Possible fractions sets from which to draw 2 each {1/2, 1/3, 2/3, 1/4, 3/4, 5/6, 3/8, 5/8}
--- Shape pieces constrained so that for instance if 1/2 and 1/2 appears for the top targets, a 1/2 piece might be available but the other one
-will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
--- If 3/8 or 5/8 are drawn circles should be used, if not circles or tiles will work fine*/
+    --Top two targets, and bottom 2 targets are equivalent but still numbers less than 1
+    -- A built in check to draw a different fraction for the top 2 and the bottom 2
+    -- Possible fractions sets from which to draw 2 each {1/2, 1/3, 2/3, 1/4, 3/4, 5/6, 3/8, 5/8}
+    -- Shape pieces constrained so that for instance if 1/2 and 1/2 appears for the top targets, a 1/2 piece might be available but the other one
+    will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
+    -- If 3/8 or 5/8 are drawn circles should be used, if not circles or tiles will work fine*/
     ShapeLevel level7() {
         List<Fraction> available = list( new Fraction( 1, 2 ), new Fraction( 1, 3 ), new Fraction( 2, 3 ), new Fraction( 1, 4 ),
                                          new Fraction( 3, 4 ), new Fraction( 5, 6 ), new Fraction( 3, 8 ), new Fraction( 5, 8 ) );
@@ -366,12 +357,8 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    -- Introduce numbers larger than 1 at this level
    -- On this level lets have at least 2 numbers larger than 1 as targets
    -- Enough pieces available to match targets in "obvious ways"...so if 5/4 is a target a whole piece is available and a 1/4 piece available
-
-    Update: The Schwartz group suggested that for Level 8 shapes we tweak the
-    level description so that students are first introduced to numbers
-    greater than 1 only with 1/2's and 1/4's.  So if the number is greater
-    than 1 on level 8, it should be something like 3/2 or 4/2 or 7/4, since
-    1/2's and 1/4's are more familiar to students (rather than 1/3's and such).
+   --Students are first introduced to numbers greater than 1 only with 1/2's and 1/4's.  So if the number is greater than 1 on level 8,
+        it should be something like 3/2 or 4/2 or 7/4, since 1/2's and 1/4's are more familiar to students (rather than 1/3's and such).
     */
     ShapeLevel level8() {
         List<Fraction> targets = level8Targets();
@@ -401,9 +388,8 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
    Level 10
    --Same as level 7 but now all targets are greater than one.
    --Still top two targets same, and bottom two targets the same
-   --No whole pieces available, and targets must be built in interesting ways.  We could say something like the target must be built from 3 or
-   more pieces as a way to constrain the pieces given. So for instance something like 4/3 would have to be built by something like 1(half) +
-   2(quarters) + (1/3)
+   --No whole pieces available, and targets must be built in interesting ways.  E.g., the target must be built from 3 or
+   more pieces as a way to constrain the pieces given. So for instance something like 4/3 would have to be built by something like 1(half) + 2(quarters) + (1/3)
     */
     private static ShapeLevel level10() {
         List<Fraction> available = list( new Fraction( 3, 2 ),
