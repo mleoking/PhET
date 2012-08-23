@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--resistance-in-a-wire-strings_es.xml created Tue Oct 28 22:26:46 CET 2008 using: resistance-in-a-wire 1.00.00 (22498), translation-utility 1.06.00 (25624)-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_es.xml created Wed Aug 22 11:54:37 MDT 2012 using: resistance-in-a-wire 2.02.00 (52286), translation-utility 2.13.00 (59150) Dec 7, 2011-->
 <SimStrings>
 <string key="cm" value="cm"/>
 <string key="resistanceEq" value="resistencia ="/>
 <string key="ohm" value="omnio"/>
+<string key="simTitle" value="Resistencia en un Alambre"/>
 </SimStrings>
