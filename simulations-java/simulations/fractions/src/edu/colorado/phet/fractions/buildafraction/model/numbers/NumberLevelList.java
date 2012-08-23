@@ -168,8 +168,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         ArrayList<Integer> numerators = new ArrayList<Integer>( Arrays.asList( 1, 2, 3, 4, 5 ) );
         Collections.shuffle( numerators );
 
-        //REVIEW: Has this been addressed and, if not, should it be?  Sounds important.
-        //TODO: guarantee this level is solvable, possibly by generating cards to make it so
+        //Guaranteed to be solvable, but not enough sixes to just use those as all denominators
         RandomColors3 colors = new RandomColors3();
         return new NumberLevel( list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9 ), shuffle( list( NumberTarget.target( numerators.get( 0 ), 6, colors.next(), flower.sequential() ),
                                                                                                                                      NumberTarget.target( numerators.get( 1 ), 6, colors.next(), flower.sequential() ),
