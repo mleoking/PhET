@@ -20,8 +20,10 @@ public class TeaPot extends EnergySource {
 
     private static final double ENERGY_PRODUCTION_RATE = 200; // In joules/second
 
+    public static final ModelElementImage TEAPOT_IMAGE = new ModelElementImage( TEAPOT, new Vector2D( 0.02, 0.005 ) );
+
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( TEAPOT, new Vector2D( 0.02, -0.05 ) ) );
+        add( TEAPOT_IMAGE );
     }};
 
     protected TeaPot() {

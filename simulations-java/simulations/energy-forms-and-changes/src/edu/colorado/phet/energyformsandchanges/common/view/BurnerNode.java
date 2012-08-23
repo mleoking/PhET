@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.energyformsandchanges.intro.view;
+package edu.colorado.phet.energyformsandchanges.common.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -21,13 +21,14 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyformsandchanges.common.view.stove.HeaterCoolerWithLimitsNode;
 import edu.colorado.phet.energyformsandchanges.intro.model.Burner;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
-import edu.colorado.phet.energyformsandchanges.intro.view.stove.HeaterCoolerWithLimitsNode;
+import edu.colorado.phet.energyformsandchanges.intro.view.EnergyChunkNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.energyformsandchanges.intro.view.stove.HeaterCoolerWithLimitsNode.HeatCoolMode;
+import static edu.colorado.phet.energyformsandchanges.common.view.stove.HeaterCoolerWithLimitsNode.HeatCoolMode;
 
 /**
  * Piccolo node that represents a burner in the view.

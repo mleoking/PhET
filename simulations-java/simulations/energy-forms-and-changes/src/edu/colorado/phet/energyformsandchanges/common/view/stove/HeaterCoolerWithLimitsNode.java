@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.energyformsandchanges.intro.view.stove;
+package edu.colorado.phet.energyformsandchanges.common.view.stove;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
