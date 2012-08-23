@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--plinko-probability-strings_es.xml created Tue Oct 28 04:17:21 CET 2008 using: plinko-probability 1.00.00 (22498), translation-utility 1.05.00 (25607)-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--plinko-probability-strings_es.xml created Wed Aug 22 11:55:46 MDT 2012 using: plinko-probability 2.02.00 (53818), translation-utility 2.13.00 (59150) Dec 7, 2011-->
 <SimStrings>
 <string key="none" value="nada"/>
 <string key="number" value="número"/>
 <string key="start" value="Empezar"/>
 <string key="continuous" value="continuo"/>
+<string key="simTitle" value="Plinko-Probabilidad"/>
 <string key="fraction" value="fracción"/>
 <string key="NEquals" value="N ="/>
 <string key="rows" value="hileras"/>
