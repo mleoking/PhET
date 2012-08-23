@@ -13,24 +13,24 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
-import edu.colorado.phet.energyformsandchanges.energysystems.model.BicycleAndRider;
+import edu.colorado.phet.energyformsandchanges.energysystems.model.Biker;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Piccolo node that represents the water-powered generator in the view.
+ * Piccolo node that represents the biker in the view.
  *
  * @author John Blanco
  */
-public class BicycleAndRiderNode extends PNode {
+public class BikerNode extends PNode {
 
-    public BicycleAndRiderNode( final BicycleAndRider bicycleAndRider, final ModelViewTransform mvt ) {
+    public BikerNode( final Biker bicycleAndRider, final ModelViewTransform mvt ) {
 
         // Create and add the various image nodes.
-        final PNode spokesImage = new ModelElementImageNode( BicycleAndRider.REAR_WHEEL_SPOKES_IMAGE, mvt );
+        final PNode spokesImage = new ModelElementImageNode( Biker.REAR_WHEEL_SPOKES_IMAGE, mvt );
         addChild( spokesImage );
         PNode backLegRootNode = new PNode();
         addChild( backLegRootNode );
-        addChild( new ModelElementImageNode( BicycleAndRider.FRAME_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( Biker.FRAME_IMAGE, mvt ) );
         PNode frontLegRootNode = new PNode();
         addChild( frontLegRootNode );
 
@@ -40,16 +40,16 @@ public class BicycleAndRiderNode extends PNode {
         }} );
 
         // Add the images that will animate the front and back legs.
-        int numAnimationImages = BicycleAndRider.BACK_LEG_IMAGES.size();
-        assert numAnimationImages == BicycleAndRider.FRONT_LEG_IMAGES.size();
+        int numAnimationImages = Biker.BACK_LEG_IMAGES.size();
+        assert numAnimationImages == Biker.FRONT_LEG_IMAGES.size();
         final List<PNode> backLegImageNodes = new ArrayList<PNode>();
         final List<PNode> frontLegImageNodes = new ArrayList<PNode>();
         for ( int i = 0; i < numAnimationImages; i++ ) {
-            PNode backLegImageNode = new ModelElementImageNode( BicycleAndRider.BACK_LEG_IMAGES.get( i ), mvt );
+            PNode backLegImageNode = new ModelElementImageNode( Biker.BACK_LEG_IMAGES.get( i ), mvt );
             backLegImageNode.setVisible( false );
             backLegImageNodes.add( backLegImageNode );
             backLegRootNode.addChild( backLegImageNode );
-            PNode frontLegImageNode = new ModelElementImageNode( BicycleAndRider.FRONT_LEG_IMAGES.get( i ), mvt );
+            PNode frontLegImageNode = new ModelElementImageNode( Biker.FRONT_LEG_IMAGES.get( i ), mvt );
             frontLegImageNode.setVisible( false );
             frontLegImageNodes.add( frontLegImageNode );
             frontLegRootNode.addChild( frontLegImageNode );
@@ -68,7 +68,7 @@ public class BicycleAndRiderNode extends PNode {
         } );
 
         // Add the upper body.
-        addChild( new ModelElementImageNode( BicycleAndRider.RIDER_UPPER_BODY_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( Biker.RIDER_UPPER_BODY_IMAGE, mvt ) );
 
         // Add and observer that will turn the back wheel.
         final Point2D wheelRotationPoint = new Point2D.Double( spokesImage.getFullBoundsReference().getCenterX(),
@@ -96,7 +96,7 @@ public class BicycleAndRiderNode extends PNode {
         public CrankRateSlider( final SettableProperty<Double> value ) {
             addChild( new ControlPanelNode( new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.bicyclePedalRateSlider,
                                                              0,
-                                                             BicycleAndRider.MAX_ANGULAR_VELOCITY_OF_CRANK,
+                                                             Biker.MAX_ANGULAR_VELOCITY_OF_CRANK,
                                                              value ),
                                             EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR ) );
         }

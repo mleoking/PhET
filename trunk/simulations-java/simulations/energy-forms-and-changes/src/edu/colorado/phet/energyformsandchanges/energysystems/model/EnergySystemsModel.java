@@ -54,7 +54,7 @@ public class EnergySystemsModel {
     public final FaucetAndWater faucet = new FaucetAndWater();
     public final Sun sun = new Sun();
     public final TeaPot teaPot = new TeaPot();
-    public final BicycleAndRider bicycleAndRider = new BicycleAndRider();
+    public final Biker bicycleAndRider = new Biker();
 
     // Energy Converters.
     public final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
@@ -96,7 +96,7 @@ public class EnergySystemsModel {
         VoidFunction1<Boolean> beltVisibilityUpdated = new VoidFunction1<Boolean>() {
             public void apply( Boolean isAnimating ) {
                 boolean bikerAndGeneratorSelected = !isAnimating &&
-                                                    energySourcesCarousel.getSelectedElement() instanceof BicycleAndRider &&
+                                                    energySourcesCarousel.getSelectedElement() instanceof Biker &&
                                                     energyConvertersCarousel.getSelectedElement() instanceof WaterPoweredGenerator;
                 belt.isVisible.set( bikerAndGeneratorSelected );
                 waterPoweredGenerator.setDirectCouplingMode( bikerAndGeneratorSelected );
