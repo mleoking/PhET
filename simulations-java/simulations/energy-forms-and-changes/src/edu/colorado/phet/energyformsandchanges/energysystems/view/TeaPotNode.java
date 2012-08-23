@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.HeaterCoolerNode;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.TeaPot;
@@ -14,12 +13,12 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class TeaPotNode extends PositionableFadableModelElementNode {
 
-    public TeaPotNode( TeaPot faucet, final ModelViewTransform mvt ) {
-        super( faucet, mvt );
+    public TeaPotNode( TeaPot teaPot, final ModelViewTransform mvt ) {
+        super( teaPot, mvt );
 
         // Add the burner.
         // TODO: i18n
-        PNode heaterNode = new HeaterCoolerNode( new Property<Double>( 0.0 ), "Heat", "Cool" ) {{
+        PNode heaterNode = new HeaterCoolerNode( teaPot.heatCoolAmount, "Heat", "Cool" ) {{
             setScale( 0.5 );
         }};
         addChild( heaterNode );
