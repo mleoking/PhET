@@ -4,7 +4,6 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 import java.awt.BasicStroke;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -13,7 +12,6 @@ import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.FaucetAndWater;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -21,12 +19,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author John Blanco
  */
-public class FaucetAndWaterNode extends PNode {
+public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
 
     private static final double FAUCET_NODE_HORIZONTAL_LENGTH = 700; // In screen coords, which are close to pixels.
     private static final double WATER_NODE_VERTICAL_LENGTH = 700; // In screen coords, which are close to pixels.
 
     public FaucetAndWaterNode( FaucetAndWater faucet, final ModelViewTransform mvt ) {
+        super( faucet, mvt );
 
         // Create the faucet.
         final FaucetNode faucetNode = new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet,
@@ -54,12 +53,5 @@ public class FaucetAndWaterNode extends PNode {
         // Add the nodes in the order that creates the desired layering.
         addChild( waterNode );
         addChild( faucetNode );
-
-        // Update the overall offset based on the model position.
-        faucet.getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
-            public void apply( Vector2D immutableVector2D ) {
-                setOffset( mvt.modelToView( immutableVector2D ).toPoint2D() );
-            }
-        } );
     }
 }
