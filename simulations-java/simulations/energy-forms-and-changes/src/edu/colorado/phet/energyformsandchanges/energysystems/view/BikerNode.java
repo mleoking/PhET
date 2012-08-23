@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -21,9 +20,10 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author John Blanco
  */
-public class BikerNode extends PNode {
+public class BikerNode extends PositionableFadableModelElementNode {
 
-    public BikerNode( final Biker bicycleAndRider, final ModelViewTransform mvt ) {
+    public BikerNode( final Biker biker, final ModelViewTransform mvt ) {
+        super( biker, mvt );
 
         // Create and add the various image nodes.
         final PNode spokesImage = new ModelElementImageNode( Biker.REAR_WHEEL_SPOKES_IMAGE, mvt );
@@ -35,7 +35,7 @@ public class BikerNode extends PNode {
         addChild( frontLegRootNode );
 
         // Add slider that will control pedaling rate.
-        addChild( new CrankRateSlider( bicycleAndRider.targetCrankAngularVelocity ) {{
+        addChild( new CrankRateSlider( biker.targetCrankAngularVelocity ) {{
             setOffset( -getFullBoundsReference().width / 2, 120 );
         }} );
 
@@ -54,7 +54,7 @@ public class BikerNode extends PNode {
             frontLegImageNodes.add( frontLegImageNode );
             frontLegRootNode.addChild( frontLegImageNode );
         }
-        bicycleAndRider.getCrankAngle().addObserver( new VoidFunction1<Double>() {
+        biker.getCrankAngle().addObserver( new VoidFunction1<Double>() {
             int numImages = backLegImageNodes.size();
 
             public void apply( Double rotationalAngle ) {
@@ -73,7 +73,7 @@ public class BikerNode extends PNode {
         // Add and observer that will turn the back wheel.
         final Point2D wheelRotationPoint = new Point2D.Double( spokesImage.getFullBoundsReference().getCenterX(),
                                                                spokesImage.getFullBoundsReference().getCenterY() );
-        bicycleAndRider.getRearWheelAngle().addObserver( new VoidFunction1<Double>() {
+        biker.getRearWheelAngle().addObserver( new VoidFunction1<Double>() {
             public void apply( Double angle ) {
                 assert angle < 2 * Math.PI; // Limit this to one rotation.
                 // Piccolo doesn't use the convention in physics where a
@@ -81,13 +81,6 @@ public class BikerNode extends PNode {
                 // invert the angle in the following calculation.
                 double delta = -angle - spokesImage.getRotation();
                 spokesImage.rotateAboutPoint( delta, wheelRotationPoint );
-            }
-        } );
-
-        // Update the overall offset based on the model position.
-        bicycleAndRider.getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
-            public void apply( Vector2D immutableVector2D ) {
-                setOffset( mvt.modelToView( immutableVector2D ).toPoint2D() );
             }
         } );
     }
