@@ -22,11 +22,8 @@ public abstract class Stackable<T extends Stackable> extends PNode {
 
     public void setAllPickable( boolean pickable ) {
 
-        //REVIEW: The empty if clause seems unnecessary.  Just do the inverse and improve the comment.
         //Don't make something animating pickable, see DisablePickingWhileAnimating
-        if ( pickable && animating.get() ) {
-        }
-        else {
+        if ( !pickable || !animating.get() ) {
             setPickable( pickable );
             setChildrenPickable( pickable );
         }
