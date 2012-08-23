@@ -35,6 +35,16 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     private static final Random random = new Random();
 
     public static abstract class PatternMaker extends F<MixedFraction, Pattern> {
+        public final List<Integer> acceptedDenominators;
+
+        protected PatternMaker( int... values ) {
+            List<Integer> c = nil();
+            for ( int value : values ) {
+                c = c.snoc( value );
+            }
+            acceptedDenominators = c;
+        }
+
         public F<MixedFraction, FilledPattern> sequential() {
             return new F<MixedFraction, FilledPattern>() {
                 @Override public FilledPattern f( final MixedFraction fraction ) {
@@ -53,57 +63,57 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     }
 
     //Create the pattern makers for all the different shape types. The following reads better with closure folding.
-    public static final PatternMaker pie = new PatternMaker() {
+    public static final PatternMaker pie = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pie( fraction.denominator );
         }
     };
-    public static final PatternMaker horizontalBar = new PatternMaker() {
+    public static final PatternMaker horizontalBar = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.horizontalBars( fraction.denominator );
         }
     };
-    public static final PatternMaker verticalBar = new PatternMaker() {
+    public static final PatternMaker verticalBar = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.verticalBars( fraction.denominator );
         }
     };
-    public static final PatternMaker pyramid1 = new PatternMaker() {
+    public static final PatternMaker pyramid1 = new PatternMaker( 1 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pyramidSingle();
         }
     };
-    public static final PatternMaker pyramid4 = new PatternMaker() {
+    public static final PatternMaker pyramid4 = new PatternMaker( 4 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pyramidFour();
         }
     };
-    public static final PatternMaker pyramid9 = new PatternMaker() {
+    public static final PatternMaker pyramid9 = new PatternMaker( 9 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pyramidNine();
         }
     };
-    public static final PatternMaker grid1 = new PatternMaker() {
+    public static final PatternMaker grid1 = new PatternMaker( 1 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.grid( 1 );
         }
     };
-    public static final PatternMaker grid4 = new PatternMaker() {
+    public static final PatternMaker grid4 = new PatternMaker( 4 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.grid( 2 );
         }
     };
-    public static final PatternMaker grid9 = new PatternMaker() {
+    public static final PatternMaker grid9 = new PatternMaker( 9 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.grid( 3 );
         }
     };
-    public static final PatternMaker flower = new PatternMaker() {
+    public static final PatternMaker flower = new PatternMaker( 6 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.sixFlower();
         }
     };
-    public static final PatternMaker polygon = new PatternMaker() {
+    public static final PatternMaker polygon = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.polygon( 60, fraction.denominator );
         }
@@ -111,6 +121,8 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     //Only choose from the universal patterns (that accept all denominators)
     private static final List<PatternMaker> universalTypes = list( pie, horizontalBar, verticalBar );
+
+    public static final List<PatternMaker> allTypes = list( pie, horizontalBar, verticalBar, pyramid1, pyramid4, pyramid9, grid1, grid4, grid9, flower, polygon );
 
     //Create all of the levels
     public NumberLevelList() {
