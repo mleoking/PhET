@@ -7,6 +7,7 @@ import fj.data.List;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.StringTokenizer;
 
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.common.math.Fraction;
@@ -17,6 +18,7 @@ import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLev
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.target;
 import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 import static edu.colorado.phet.fractions.common.util.Sampling.choose;
+import static edu.colorado.phet.fractions.common.util.Sampling.chooseOne;
 import static fj.data.List.iterableList;
 import static fj.data.List.list;
 
@@ -33,6 +35,7 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
         add( level2() );
         add( level3() );
         add( level4() );
+        add( level5() );
         while ( size() < 10 ) { add( levelX() ); }
     }
 
@@ -110,6 +113,55 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
                        null;
             }
         } );
+    }
+
+    /*Level 5:
+    --All representations possible, but each target is only one type of representation
+    -- 1, 2, or 3, as whole number
+    -- Fractional portion from the set {1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9}
+    --2 of the representations match cards exactly, 1 of the representations requires simplifying to a solution*/
+    public NumberLevel level5() {
+        List<Fraction> parsed = parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9" );
+        List<Integer> wholes = list( 1, 2, 3 );
+        List<MixedFraction> mixedFractions = getMixedFractions( wholes, parsed );
+        final List<MixedFraction> targets = choose( 3, mixedFractions );
+        RandomColors3 colors = new RandomColors3();
+        final MixedFraction target1 = targets.index( 0 );
+        final MixedFraction target2 = targets.index( 1 );
+        final MixedFraction target3 = targets.index( 2 );
+        return new NumberLevel( list( target( target1, colors.next(), chooseMatchingPattern( target1.denominator ).sequential() ),
+                                      target( target2, colors.next(), chooseMatchingPattern( target2.denominator ).sequential() ),
+                                      target( target3, colors.next(), chooseMatchingPattern( target3.denominator ).sequential() ) ) );
+    }
+
+    private PatternMaker chooseMatchingPattern( final int denominator ) { return chooseOne( matching( denominator ) ); }
+
+    private List<PatternMaker> matching( final int denominator ) {
+        return NumberLevelList.allTypes.filter( new F<PatternMaker, Boolean>() {
+            @Override public Boolean f( final PatternMaker patternMaker ) {
+                return patternMaker.acceptedDenominators.exists( equalsInt( denominator ) );
+            }
+        } );
+    }
+
+    private F<Integer, Boolean> equalsInt( final int denominator ) {
+        return new F<Integer, Boolean>() {
+            @Override public Boolean f( final Integer integer ) {
+                return integer == denominator;
+            }
+        };
+    }
+
+    //Parse a list of fractions.
+    private List<Fraction> parse( final String s ) {
+        StringTokenizer st = new StringTokenizer( s, ", " );
+        ArrayList<Fraction> f = new ArrayList<Fraction>();
+        while ( st.hasMoreTokens() ) {
+            String fraction = st.nextToken();
+            StringTokenizer st2 = new StringTokenizer( fraction, "/" );
+            f.add( fraction( Integer.parseInt( st2.nextToken() ), Integer.parseInt( st2.nextToken() ) ) );
+        }
+        return iterableList( f );
     }
 
     private NumberLevel levelX() {
