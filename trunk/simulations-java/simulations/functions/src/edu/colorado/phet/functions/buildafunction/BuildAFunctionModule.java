@@ -7,12 +7,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.functions.FunctionsApplication;
 
-public class BuildAFunctionPrototype2 extends PiccoloModule {
+public class BuildAFunctionModule extends PiccoloModule {
     private boolean showColorDialog = false;
 
-    public BuildAFunctionPrototype2() {
+    public BuildAFunctionModule() {
         super( "Build a Function", new ConstantDtClock( 30 ) );
-        setSimulationPanel( new BuildAFunctionPrototype2Canvas() );
+        setSimulationPanel( new BuildAFunctionCanvas() );
         setClockControlPanel( null );
         setLogoPanelVisible( false );
 
@@ -33,5 +33,5 @@ public class BuildAFunctionPrototype2 extends PiccoloModule {
         }
     }
 
-    public static void main( String[] args ) { FunctionsApplication.runModule( args, new BuildAFunctionPrototype2() ); }
+    public static void main( String[] args ) { FunctionsApplication.runModule( args, new BuildAFunctionModule() ); }
 }
