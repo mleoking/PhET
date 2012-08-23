@@ -46,8 +46,6 @@ public @EqualsAndHashCode(callSuper = false) class SetMaximum extends F<IntroSta
             for ( int i = 0; i < numPiecesToEject; i++ ) {
                 final CellPointer cp = csx.getLastFullCell();
 
-                //REVIEW: Address TODO or remove.
-                //TODO: improve readability
                 final Slice newPieSlice = factorySet.circularSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
                 newState = newState.pieSet( newState.pieSet.withSlices( newState.pieSet.slices.cons( newPieSlice ) ).animateSliceToBucket( newPieSlice, s.randomSeed ) );
 
