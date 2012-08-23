@@ -8,19 +8,15 @@ import fj.function.Integers;
 import lombok.Data;
 
 /**
- * Immutable fraction object with denominator and numerator
+ * Immutable fraction object with denominator and numerator, may be improper, unreduced, or have minus signs in both numerator and denominator.
  *
  * @author Sam Reid
  */
 public @Data class Fraction {
     public final int numerator;
     public final int denominator;
-    //REVIEW: I looked at usages for this, and it's always just executed right away, never passed as a parameter.  So why do it this way instead of a method?
-    public static final F<Fraction, Boolean> _greaterThanOne = new F<Fraction, Boolean>() {
-        @Override public Boolean f( final Fraction f ) {
-            return f.numerator > f.denominator;
-        }
-    };
+
+    public boolean greaterThanOne() { return numerator > denominator; }
 
     public double toDouble() { return ( (double) numerator ) / denominator; }
 
