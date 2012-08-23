@@ -109,7 +109,6 @@ public class WaterPoweredGenerator extends EnergyConverter {
 
     public void setDirectCouplingMode( boolean directCouplingMode ) {
         this.directCouplingMode = directCouplingMode;
-        System.out.println( "directCouplingMode = " + directCouplingMode );
     }
 
     public ObservableProperty<Double> getWheelRotationalAngle() {

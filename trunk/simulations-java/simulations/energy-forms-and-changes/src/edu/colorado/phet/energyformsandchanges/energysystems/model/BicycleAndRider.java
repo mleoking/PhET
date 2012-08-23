@@ -138,7 +138,6 @@ public class BicycleAndRider extends EnergySource {
 
     @Override public void activate() {
         super.activate();
-        System.out.println( "bicycle activated" );
     }
 
     public ObservableProperty<Double> getRearWheelAngle() {
