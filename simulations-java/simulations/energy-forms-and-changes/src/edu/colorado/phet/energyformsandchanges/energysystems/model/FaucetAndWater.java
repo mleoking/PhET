@@ -44,6 +44,11 @@ public class FaucetAndWater extends EnergySource {
         enabled.set( false );
     }
 
+    @Override public void activate() {
+        super.activate();
+        enabled.set( true );
+    }
+
     @Override public IUserComponent getUserComponent() {
         return EnergyFormsAndChangesSimSharing.UserComponents.selectFaucetButton;
     }
