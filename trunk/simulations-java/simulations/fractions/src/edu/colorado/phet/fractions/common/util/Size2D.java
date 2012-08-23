@@ -5,14 +5,12 @@ import lombok.Data;
 
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 
-//REVIEW: Strikes me as risky and potentially confusing to use the name "Dimension2D".  Can something else be used?  FDimension or something?
-
 /**
  * Immutable class for a dimension (width and height).  Uses Lombok to generate equals, hash code.
  *
  * @author Sam Reid
  */
-public @Data class Dimension2D {
+public @Data class Size2D {
     public final double width;
     public final double height;
 

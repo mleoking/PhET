@@ -9,7 +9,7 @@ import java.awt.Shape;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.fractions.common.util.Dimension2D;
+import edu.colorado.phet.fractions.common.util.Size2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
 
 /**
@@ -23,7 +23,7 @@ public @EqualsAndHashCode(callSuper = false) class StackedHorizontalSliceFactory
     private final double y;
     private final boolean backwards;
 
-    public StackedHorizontalSliceFactory( Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor, double x, double y, final boolean backwards ) {
+    public StackedHorizontalSliceFactory( Vector2D bucketPosition, Size2D bucketSize, Color sliceColor, double x, double y, final boolean backwards ) {
         super( 15.0, bucketPosition, bucketSize, sliceColor );
         this.x = x;
         this.y = y;

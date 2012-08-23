@@ -10,7 +10,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.fractions.common.util.Dimension2D;
+import edu.colorado.phet.fractions.common.util.Size2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
 
 /**
@@ -20,7 +20,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
  */
 public @EqualsAndHashCode(callSuper = false) class HorizontalSliceFactory extends SliceFactory {
 
-    public HorizontalSliceFactory( Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor ) {
+    public HorizontalSliceFactory( Vector2D bucketPosition, Size2D bucketSize, Color sliceColor ) {
         super( 15.0, bucketPosition, bucketSize, sliceColor );
     }
 

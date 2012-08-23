@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
-import edu.colorado.phet.fractions.common.util.Dimension2D;
+import edu.colorado.phet.fractions.common.util.Size2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.Container;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Pie;
@@ -38,7 +38,7 @@ public @Data abstract class SliceFactory {
     //Slice color, only used for some shapes (not for pre-rendered 3d cakes)
     public final Color sliceColor;
 
-    SliceFactory( double yRange, Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor ) {
+    SliceFactory( double yRange, Vector2D bucketPosition, Size2D bucketSize, Color sliceColor ) {
         this.yRange = yRange;
         this.sliceColor = sliceColor;
         this.bucket = new Bucket( bucketPosition.x + 50, bucketPosition.y, bucketSize.toDimension2DDouble(), bucketColor, "" );

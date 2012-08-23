@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Times;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.fractions.common.util.Dimension2D;
+import edu.colorado.phet.fractions.common.util.Size2D;
 import edu.colorado.phet.fractions.common.view.Colors;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.IntroState;
@@ -59,7 +59,7 @@ public class EqualityLabModel {
             final F<Site, Site> siteMap = new SiteMap();
 
             //Use smaller buckets than on the intro tab, because there is less room
-            Dimension2D bucketSize = new Dimension2D( 250, 100 );
+            Size2D bucketSize = new Size2D( 250, 100 );
             return new FactorySet( new CircularSliceFactory( NUM_PER_ROW, bucketPosition, bucketSize, PIE_DIAMETER, pieX, PIE_Y, siteMap, Colors.CIRCLE_COLOR ),
                                    new StackedHorizontalSliceFactory( bucketPosition, bucketSize, Colors.HORIZONTAL_SLICE_COLOR, 125 + 114, HORIZONTAL_SLICE_Y, false ),
                                    new VerticalSliceFactory( -120, 125 * VERTICAL_SLICE_SCALE, 225 * VERTICAL_SLICE_SCALE, false, bucketPosition, bucketSize, Colors.VERTICAL_SLICE_COLOR, DISTANCE_BETWEEN_BARS, false ),
@@ -89,7 +89,7 @@ public class EqualityLabModel {
             };
 
             //Bucket positions irrelevant for scaled factory, though (since not shown), so just use width=height=0
-            Dimension2D noBucket = new Dimension2D( 0, 0 );
+            Size2D noBucket = new Size2D( 0, 0 );
 
             return new FactorySet( new CircularSliceFactory( NUM_PER_ROW, bucketPosition, noBucket, PIE_DIAMETER, 414, PIE_Y, siteMap, LIGHT_PINK ),
                                    new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), noBucket, LIGHT_PINK, 125 + 445, HORIZONTAL_SLICE_Y, true ),
