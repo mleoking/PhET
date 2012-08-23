@@ -1,39 +1,30 @@
 package edu.colorado.phet.functions.buildafunction;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 
-import edu.colorado.phet.functions.model.Functions;
-import edu.umd.cs.piccolo.util.PDimension;
+import edu.colorado.phet.functions.intro.ChallengeProgressionCanvas;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * @author Sam Reid
  */
-public class BuildAFunctionCanvas extends AbstractFunctionsCanvas {
+public class BuildAFunctionCanvas extends ChallengeProgressionCanvas {
 
     public static final Color BACKGROUND_COLOR = new Color( 236, 251, 251 );
+    private BuildAFunctionScene scene;
 
     public BuildAFunctionCanvas() {
 
         //Set a really light blue because there is a lot of white everywhere
         setBackground( BACKGROUND_COLOR );
 
-        addChild( new BinaryNumberFunctionNode( "+" ) );
-        addChild( new BinaryNumberFunctionNode( "-" ) );
-        addChild( new CopyNumberFunctionNode( "copy" ) );
+        scene = new BuildAFunctionScene();
+        addChild( scene );
+    }
 
-        addChild( new UnaryFunctionNode( "\u27152", true, Functions.INTEGER_TIMES_2 ) );
-        addChild( new UnaryFunctionNode( "+1", true, Functions.INTEGER_PLUS_1 ) );
-        addChild( new UnaryFunctionNode( "-1", true, Functions.INTEGER_MINUS_1 ) );
-        addChild( new UnaryFunctionNode( "^2", true, Functions.INTEGER_POWER_2 ) );
+    @Override protected void nextButtonPressed() {
+    }
 
-        addChild( new ValueNode( new ValueContext() {
-            public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
-                valueNode.translate( delta.width, delta.height );
-            }
-
-            public void mouseReleased( final ValueNode valueNode ) {
-            }
-        }, 3, new BasicStroke(), Color.white, Color.black, Color.black ) );
+    @Override protected void finishAnimation( final PNode newScene ) {
     }
 }
