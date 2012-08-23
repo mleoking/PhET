@@ -20,7 +20,7 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  *
  * @author John Blanco
  */
-public class BicycleAndRider extends EnergySource {
+public class Biker extends EnergySource {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -96,7 +96,7 @@ public class BicycleAndRider extends EnergySource {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public BicycleAndRider() {
+    public Biker() {
         super( EnergyFormsAndChangesResources.Images.BICYCLE_ICON, IMAGE_LIST );
 
         // Monitor target rotation rate for validity.

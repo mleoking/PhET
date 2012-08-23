@@ -112,7 +112,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode faucetAndWaterNode = new FaucetAndWaterNode( model.faucet, mvt );
         PNode sunNode = new EnergySystemElementNode( model.sun, mvt );
         PNode teaPotNode = new EnergySystemElementNode( model.teaPot, mvt );
-        PNode bicycleAndRiderNode = new BicycleAndRiderNode( model.bicycleAndRider, mvt );
+        PNode bicycleAndRiderNode = new BikerNode( model.bicycleAndRider, mvt );
         PNode waterPoweredGeneratorNode = new WaterPoweredGeneratorNode( model.waterPoweredGenerator, mvt );
         PNode incandescentLightBulbNode = new LightBulbNode( model.incandescentLightBulb, mvt );
         PNode fluorescentLightBulbNode = new LightBulbNode( model.fluorescentLightBulb, mvt );
