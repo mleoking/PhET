@@ -121,17 +121,30 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     -- Fractional portion from the set {1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9}
     --2 of the representations match cards exactly, 1 of the representations requires simplifying to a solution*/
     public NumberLevel level5() {
-        List<Fraction> parsed = parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9" );
+        List<Fraction> expandable = parse( "1/2, 1/3, 2/3, 1/4, 3/4" );
+        List<Fraction> full = parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9" );
         List<Integer> wholes = list( 1, 2, 3 );
-        List<MixedFraction> mixedFractions = getMixedFractions( wholes, parsed );
-        final List<MixedFraction> targets = choose( 3, mixedFractions );
+        List<MixedFraction> mixedFractions = getMixedFractions( wholes, full );
+        final List<MixedFraction> targets = choose( 2, mixedFractions );
         RandomColors3 colors = new RandomColors3();
         final MixedFraction target1 = targets.index( 0 );
         final MixedFraction target2 = targets.index( 1 );
-        final MixedFraction target3 = targets.index( 2 );
+        final MixedFraction target3 = chooseOne( getMixedFractions( wholes, expandable ) );
         return new NumberLevel( list( target( target1, colors.next(), chooseMatchingPattern( target1.denominator ).sequential() ),
                                       target( target2, colors.next(), chooseMatchingPattern( target2.denominator ).sequential() ),
-                                      target( target3, colors.next(), chooseMatchingPattern( target3.denominator ).sequential() ) ) );
+
+                                      //For the third target, scale it up so that it is shown as a non-reduced picture
+                                      target( target3, colors.next(), new F<MixedFraction, FilledPattern>() {
+                                          @Override public FilledPattern f( final MixedFraction mixedFraction ) {
+                                              int d = mixedFraction.getFractionPart().denominator;
+                                              List<Integer> scaleFactors = d == 2 ? list( 2, 3, 4 ) :
+                                                                           d == 3 ? list( 2, 3 ) :
+                                                                           d == 4 ? list( 2 ) :
+                                                                           null;
+                                              Integer scaleFactor = chooseOne( scaleFactors );
+                                              return chooseMatchingPattern( d * scaleFactor ).sequential().f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
+                                          }
+                                      } ) ) );
     }
 
     private PatternMaker chooseMatchingPattern( final int denominator ) { return chooseOne( matching( denominator ) ); }
