@@ -150,10 +150,12 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     }
 
     private List<Integer> getScaleFactors( final int d ) {
-        return d == 2 ? List.list( 2, 3, 4 ) :
-               d == 3 ? List.list( 2, 3 ) :
-               d == 4 ? List.list( 2 ) :
-               null;
+        final List<Integer> value = d == 2 ? List.list( 2, 3, 4 ) :
+                                    d == 3 ? List.list( 2, 3 ) :
+                                    d == 4 ? List.list( 2 ) :
+                                    null;
+        assert value != null;
+        return value;
     }
 
     private PatternMaker chooseMatchingPattern( final int denominator ) { return chooseOne( matching( denominator ) ); }
@@ -263,21 +265,15 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     public NumberLevel level8() {
         List<Fraction> expandable = expandable();
         List<Integer> wholes = list( 1, 2, 3 );
-        List<MixedFraction> mixedFractions = getMixedFractions( wholes, fullListOfFractions() );
-        final List<MixedFraction> targets = choose( 2, mixedFractions );
         RandomColors4 colors = new RandomColors4();
-        final MixedFraction target1 = targets.index( 0 );
-        final MixedFraction target2 = targets.index( 1 );
-        final P2<MixedFraction, MixedFraction> target34 = chooseTwo( getMixedFractions( wholes, expandable ) );
-        final MixedFraction target3 = target34._1();
-        final MixedFraction target4 = target34._2();
+        final List<MixedFraction> targets = choose( 4, getMixedFractions( wholes, expandable ) );
         final long seed = random.nextLong();
-        return new NumberLevel( list( shuffledTarget( target1, colors.next(), scaledRepresentation( seed, true, true ) ),
-                                      shuffledTarget( target2, colors.next(), scaledRepresentation( seed, true, true ) ),
+        return new NumberLevel( list( shuffledTarget( targets.index( 0 ), colors.next(), scaledRepresentation( seed, true, true ) ),
+                                      shuffledTarget( targets.index( 1 ), colors.next(), scaledRepresentation( seed, true, true ) ),
 
                                       //For the third target, scale it up so that it is shown as a non-reduced picture
-                                      shuffledTarget( target3, colors.next(), scaledRepresentation( seed, true, true ) ),
-                                      shuffledTarget( target4, colors.next(), scaledRepresentation( seed, true, true ) ) ) );
+                                      shuffledTarget( targets.index( 2 ), colors.next(), scaledRepresentation( seed, true, true ) ),
+                                      shuffledTarget( targets.index( 3 ), colors.next(), scaledRepresentation( seed, true, true ) ) ) );
     }
 
     private NumberLevel levelX() {
