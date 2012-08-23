@@ -36,6 +36,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
     private PNode currentScene;
     private final BuildAFractionModel model;
+    private static final int CROSS_FADE_DURATION = 500;
 
     public BuildAFractionCanvas( final BuildAFractionModel model, String title ) {
         this.model = model;
@@ -57,8 +58,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         addChild( newNode );
         final PNode oldNode = currentScene;
 
-        //REVIEW: Make the 500 a constant if it should be the same in both places.
-        PActivity activity = oldNode.animateToTransparency( 0, 500 );
+        PActivity activity = oldNode.animateToTransparency( 0, CROSS_FADE_DURATION );
         activity.setDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
             }
@@ -68,7 +68,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
             public void activityFinished( final PActivity activity ) {
                 oldNode.removeFromParent();
-                newNode.animateToTransparency( 1, 500 );
+                newNode.animateToTransparency( 1, CROSS_FADE_DURATION );
             }
         } );
         currentScene = newNode;
