@@ -15,12 +15,6 @@ import lombok.Data;
 public @Data class Fraction {
     public final int numerator;
     public final int denominator;
-    //REVIEW: Intellij says that this is unused, and since there is an equivalent method, it seems redundant.
-    public static final F<Fraction, Double> _toDouble = new F<Fraction, Double>() {
-        @Override public Double f( final Fraction fraction ) {
-            return fraction.toDouble();
-        }
-    };
     //REVIEW: I looked at usages for this, and it's always just executed right away, never passed as a parameter.  So why do it this way instead of a method?
     public static final F<Fraction, Boolean> _greaterThanOne = new F<Fraction, Boolean>() {
         @Override public Boolean f( final Fraction f ) {
