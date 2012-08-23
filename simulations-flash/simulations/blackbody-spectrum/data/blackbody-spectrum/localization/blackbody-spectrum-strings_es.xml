@@ -1,8 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_es.xml created Wed Aug 22 11:44:28 MDT 2012 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.13.00 (59150) Dec 7, 2011-->
 <SimStrings>
 <string key="r" value="R"/>
 <string key="zoomIn" value="acercar"/>
 <string key="intensity" value="intensidad"/>
+<string key="simTitle" value="Espectro del Cuerpo Negro"/>
 <string key="zoomOut" value="alejar"/>
 <string key="clear" value="Borrar"/>
 <string key="g" value="V"/>
