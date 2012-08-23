@@ -1,33 +1,34 @@
-<?xml version="1.0" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--wave-on-a-string-strings_es.xml created Wed Aug 22 11:50:29 MDT 2012 using: wave-on-a-string 2.04.00 (65974), translation-utility 2.13.00 (59150) Dec 7, 2011-->
 <SimStrings>
-  <string key="rulers" value="reglas" />
-  <string key="timer" value="contador" />
-  <string key="amplitude" value="amplitud" />
-  <string key="frequency" value="frecuecia" />
-  <string key="pulseWidth" value="extensión del pulso" />
-  <string key="damping" value="amortiguación" />
-  <string key="tension" value="tensión" />
-  <string key="low" value="baja" />
-  <string key="high" value="alta" />
-  <string key="showHelp" value="mostrar ayuda" />
-  <string key="hideHelp" value="ocultar ayuda" />
-  <string key="wiggleWrench" value="mueva la llave inglesa" />
-  <string key="manual" value="manual" />
-  <string key="oscillate" value="oscilación" />
-  <string key="pulse" value="pulso" />
-  <string key="reset" value="reiniciar" />
-  <string key="pulse2" value="pulso" />
-  <string key="paused" value="pausado" />
-  <string key="fixedEnd" value="final fijado" />
-  <string key="looseEnd" value="final suelto" />
-  <string key="noEnd" value="sin final" />
-  <string key="wrenchHelp" value="llave inglesa movible" />
-  <string key="rulerHelp" value="regla movible" />
-  <string key="timerHelp" value="contador movible" />
-  <string key="refLineHelp" value="linea de referecia movible" />
-  <string key="pausePlay" value="pausa/acción" />
-  <string key="step" value="un paso" />
-  <string key="resetTimer" value="reiniciar contador" />
-  <string key="startTimer" value="iniciar contador" />
- 
+<string key="manual" value="manual"/>
+<string key="resetTimer" value="reiniciar contador"/>
+<string key="damping" value="amortiguación"/>
+<string key="simTitle" value="Onda en una Cuerda"/>
+<string key="showHelp" value="mostrar ayuda"/>
+<string key="pulse" value="pulso"/>
+<string key="amplitude" value="amplitud"/>
+<string key="pausePlay" value="pausa/acción"/>
+<string key="step" value="un paso"/>
+<string key="tension" value="tensión"/>
+<string key="startTimer" value="iniciar contador"/>
+<string key="pulseWidth" value="extensión del pulso"/>
+<string key="rulerHelp" value="regla movible"/>
+<string key="high" value="alta"/>
+<string key="wiggleWrench" value="mueva la llave inglesa"/>
+<string key="timer" value="contador"/>
+<string key="oscillate" value="oscilación"/>
+<string key="rulers" value="reglas"/>
+<string key="frequency" value="frecuecia"/>
+<string key="wrenchHelp" value="llave inglesa movible"/>
+<string key="fixedEnd" value="final fijado"/>
+<string key="refLineHelp" value="linea de referecia movible"/>
+<string key="hideHelp" value="ocultar ayuda"/>
+<string key="timerHelp" value="contador movible"/>
+<string key="looseEnd" value="final suelto"/>
+<string key="noEnd" value="sin final"/>
+<string key="paused" value="pausado"/>
+<string key="reset" value="reiniciar"/>
+<string key="pulse2" value="pulso"/>
+<string key="low" value="baja"/>
 </SimStrings>
