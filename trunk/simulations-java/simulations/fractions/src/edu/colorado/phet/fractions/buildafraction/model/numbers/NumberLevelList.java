@@ -136,9 +136,9 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     /*
     Level 2:
-    --Here I would begin choosing from a distribution of fractions ranging from 1/2 to 4/5.  As in the numerator could be 1, 2, 3, or 4 and the denominator could be 2, 3, 4, or 5 with the stipulation that the fraction is always less than 1.
-    -- I might put the percentages for choosing the bar representations each at 30 percent
-    -- I like how at these early levels it is all just a single representation
+    --Draw from a distribution of fractions ranging from 1/2 to 4/5.  As in the numerator could be 1, 2, 3, or 4 and the denominator could be 2, 3, 4, or 5 with the stipulation that the fraction is always less than 1.
+    -- Percentage chance for choosing the bar representations at 30 percent
+    -- Just use a single representation
      */
     private NumberLevel level2() {
         final F<MixedFraction, FilledPattern> representation = new Distribution<F<MixedFraction, FilledPattern>>() {{
@@ -184,10 +184,9 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
 
     /*Level 5:
---At his point I think we should switch to 4 bins for all future levels
-- numerator able to range from 1-9, and denominator able to range from 1-9, with the number less than 1
-- all representations possible (circle, "9 and 4 square", bars, pyramids, 6 flower, perhaps regular polygons), I don't think we need to get too funky in the representations like we did in the match game
-- all cards available to fulfill challenges in the most straightforward way, for instance a 4/5 representation has a 4 and a 5 available.*/
+    - numerator able to range from 1-9, and denominator able to range from 1-9, with the number less than 1
+    - all representations possible (circle, "9 and 4 square", bars, pyramids, 6 flower, perhaps regular polygons)
+    - all cards available to fulfill challenges in the most straightforward way, for instance a 4/5 representation has a 4 and a 5 available.*/
     private NumberLevel level5() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
@@ -198,9 +197,8 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     /* Level 6:
     --Same as level 5, but now random fill is possible (maybe with 50 percent probability of being used)
-    --could begin to introduce some card constraints at this point, for instance making sure that one of the representations
-    only has cards available to match it with a "non-obvious fraction".
-    For instance if 3/9 appears, and 5/9 appears, we have 1(5) and 1(9), but not 2(9), so that 1/3 would need to be used to match. */
+    --could begin to introduce some card constraints at this point, for instance making sure that one of the representations only has cards available to match it with a "non-obvious fraction".
+    --For instance if 3/9 appears, and 5/9 appears, we have 1(5) and 1(9), but not 2(9), so that 1/3 would need to be used to match. */
     private NumberLevel level6() {
 
         //Use 1000 tries to come up with a level that has multiple stacks
@@ -272,8 +270,8 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     /*Level 8:
     -- Introduce double representations at this level (numbers greater than 1)
-    -- I really like your idea of having 8 cards, 4 each of 2 numbers
-    -- Lets randomly choose from  {2/3, 3/2, 2/2, 3/3}, {2/4, 4/2, 2/2, 4/4}, {3/4,4/3, 3/3, 4/4}, {3/5, 5/3, 3/3, 5/5}, {3/6, 6/3, 3/3, 6/6}*/
+    -- Have 8 cards, 4 each of 2 numbers
+    -- Randomly choose from  {2/3, 3/2, 2/2, 3/3}, {2/4, 4/2, 2/2, 4/4}, {3/4,4/3, 3/3, 4/4}, {3/5, 5/3, 3/3, 5/5}, {3/6, 6/3, 3/3, 6/6}*/
     @SuppressWarnings("unchecked") private NumberLevel level8() {
         List<List<Fraction>> sets = list( list( fraction( 2, 3 ),
                                                 fraction( 3, 2 ),
@@ -307,9 +305,9 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
 
     /*Level 9:
--- Representations both less than 1 and greater than 1
--- All representations possible
--- No card constraints (as in straightforward matching of number and picture possible)*/
+    -- Representations both less than 1 and greater than 1
+    -- All representations possible
+    -- No card constraints (as in straightforward matching of number and picture possible)*/
     private NumberLevel level9() {
         //Choose 4 different patterns
         List<RepresentationType> types = choose( 4, RepresentationType.all );
@@ -322,9 +320,9 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     }
 
     /*Level 10:
--- Representations both less than 1 and greater than 1
--- All representations possible
--- No card constraints (as in straightforward matching of number and picture possible)*/
+    -- Representations both less than 1 and greater than 1
+    -- All representations possible
+    -- No card constraints (as in straightforward matching of number and picture possible)*/
     public static NumberLevel level10() {
         //Choose 4 different patterns
         List<RepresentationType> types = choose( 4, RepresentationType.all );
