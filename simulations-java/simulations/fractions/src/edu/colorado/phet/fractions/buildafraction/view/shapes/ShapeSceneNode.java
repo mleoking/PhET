@@ -105,7 +105,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
-                context.goToNextShapeLevel( levelIndex + 1 );
+                context.goToShapeLevel( levelIndex + 1 );
             }
         };
         final VoidFunction0 _resampleLevel = new VoidFunction0() {

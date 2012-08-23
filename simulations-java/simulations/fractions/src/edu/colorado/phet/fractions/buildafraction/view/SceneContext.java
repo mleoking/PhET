@@ -7,9 +7,9 @@ package edu.colorado.phet.fractions.buildafraction.view;
  * @author Sam Reid
  */
 public interface SceneContext {
-    void goToNextShapeLevel( int newLevelIndex );
+    void goToShapeLevel( int newLevelIndex );
 
-    void goToNextNumberLevel( int newLevelIndex );
+    void goToNumberLevel( int newLevelIndex );
 
     void goToLevelSelectionScreen( int fromLevelIndex );
 

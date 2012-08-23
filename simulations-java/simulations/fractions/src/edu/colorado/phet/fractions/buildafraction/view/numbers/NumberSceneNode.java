@@ -68,7 +68,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
-                context.goToNextNumberLevel( levelIndex + 1 );
+                context.goToNumberLevel( levelIndex + 1 );
             }
         };
         final VoidFunction0 _resampleLevel = new VoidFunction0() {

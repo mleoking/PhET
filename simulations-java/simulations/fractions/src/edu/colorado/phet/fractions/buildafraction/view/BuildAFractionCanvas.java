@@ -36,6 +36,10 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
     private PNode currentScene;
     private final BuildAFractionModel model;
+
+    //Keeps track of the scene node PNode for each level
+    private final HashMap<LevelIdentifier, PNode> levelMap = new HashMap<LevelIdentifier, PNode>();
+
     private static final int CROSS_FADE_DURATION = 500;
 
     public BuildAFractionCanvas( final BuildAFractionModel model, String title ) {
@@ -120,9 +124,6 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         currentScene = node;
     }
 
-    //REVIEW: Suggest more descriptive name.
-    private final HashMap<LevelIdentifier, PNode> map = new HashMap<LevelIdentifier, PNode>();
-
     public void levelButtonPressed( final LevelInfo info ) {
 
         //if level was in progress, go back to it.  Otherwise create a new one and cache it.
@@ -130,15 +131,15 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     }
 
     private PNode levelNode( final LevelIdentifier level ) {
-        if ( !map.containsKey( level ) ) {
-            map.put( level, createLevelNode( level.levelIndex, level.levelType ) );
+        if ( !levelMap.containsKey( level ) ) {
+            levelMap.put( level, createLevelNode( level.levelIndex, level.levelType ) );
         }
-        return map.get( level );
+        return levelMap.get( level );
     }
 
     public void reset() {
         model.resetAll();
-        map.clear();
+        levelMap.clear();
         crossFadeTo( new LevelSelectionNode( Strings.BUILD_A_FRACTION, this, model.audioEnabled, model.selectedPage, model.gameProgress ) );
     }
 
@@ -152,17 +153,15 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
                new NumberSceneNode( levelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled );
     }
 
-    //REVIEW: Suggest rename to "goToShapeLevel".  The 'next' seems to be handled where this is called.
-    public void goToNextShapeLevel( final int newLevelIndex ) {
+    public void goToShapeLevel( final int newLevelIndex ) {
         final PNode newShapeScene = createLevelNode( newLevelIndex, LevelType.SHAPES );
-        map.put( new LevelIdentifier( newLevelIndex, LevelType.SHAPES ), newShapeScene );
+        levelMap.put( new LevelIdentifier( newLevelIndex, LevelType.SHAPES ), newShapeScene );
         animateTo( newShapeScene, Direction.RIGHT );
     }
 
-    //REVIEW: Suggest rename to "goToNumberLevel".  The 'next' seems to be handled where this is called.
-    public void goToNextNumberLevel( final int newLevelIndex ) {
+    public void goToNumberLevel( final int newLevelIndex ) {
         PNode newScene = createLevelNode( newLevelIndex, LevelType.NUMBERS );
-        map.put( new LevelIdentifier( newLevelIndex, LevelType.NUMBERS ), newScene );
+        levelMap.put( new LevelIdentifier( newLevelIndex, LevelType.NUMBERS ), newScene );
         animateTo( newScene, Direction.RIGHT );
     }
 
@@ -174,14 +173,14 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     public void resampleShapeLevel( final int levelIndex ) {
         model.resampleShapeLevel( levelIndex );
         final PNode newNode = createLevelNode( levelIndex, LevelType.SHAPES );
-        map.put( new LevelIdentifier( levelIndex, LevelType.SHAPES ), newNode );
+        levelMap.put( new LevelIdentifier( levelIndex, LevelType.SHAPES ), newNode );
         crossFadeTo( newNode );
     }
 
     public void resampleNumberLevel( final int levelIndex ) {
         model.resampleNumberLevel( levelIndex );
         final PNode newNode = createLevelNode( levelIndex, LevelType.NUMBERS );
-        map.put( new LevelIdentifier( levelIndex, LevelType.NUMBERS ), newNode );
+        levelMap.put( new LevelIdentifier( levelIndex, LevelType.NUMBERS ), newNode );
         crossFadeTo( newNode );
     }
 }
