@@ -92,10 +92,11 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     }
 
     //Keep resampling levels until they match our constraints, such as not having too many stacks or too many cards.
+    //It is difficult to constrain the creation of levels as they are being created, because making challenge creation inter-dependent on each other would be very complex.
+    //Instead individual challenges within a level are created independently, and this code checks to make sure that it didn't create any stacks too high.
     private void addWithPostprocessing( final Function0<ShapeLevel> levelMaker ) {
         for ( int i = 0; i < 100; i++ ) {
             ShapeLevel level = levelMaker.apply();
-            //REVIEW: Why can't the constraints be built into the level maker, and enforced here via assertion or exception?  Or as a parameter to levelMaker?
             if ( level.getNumberOfStacks() < 6 && level.getNumberOfCardsInHighestStack() < 8 ) {
                 add( level );
                 return;
