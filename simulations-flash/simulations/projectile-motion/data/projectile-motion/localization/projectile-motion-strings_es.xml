@@ -1,11 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--projectile-motion-strings_es.xml created Tue Oct 28 04:51:56 CET 2008 using: projectile-motion 1.00.00 (22510), translation-utility 1.05.00 (25607)-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_es.xml created Wed Aug 22 11:54:07 MDT 2012 using: projectile-motion 2.03.00 (52266), translation-utility 2.13.00 (59150) Dec 7, 2011-->
 <SimStrings>
 <string key="dragLabel" value="arrastrar coeficiente"/>
 <string key="userChoice" value="a elegir"/>
 <string key="altitudeLabel" value="altitud (m)"/>
 <string key="football" value="Balón de Rugby"/>
 <string key="golfball" value="Pelota de golf"/>
+<string key="simTitle" value="Movimiento de un Proyectil"/>
 <string key="collision" value="¡Colisión!"/>
 <string key="adultHuman" value="humano adulto"/>
 <string key="time" value="tiempo (s)"/>
@@ -16,8 +17,8 @@
 <string key="piano" value="piano"/>
 <string key="sound" value="Sonido"/>
 <string key="range" value="alcance (m)"/>
-<string key="height" value="altura (m)"/>
 <string key="mass" value="masa (kg)"/>
+<string key="height" value="altura (m)"/>
 <string key="pumpkin" value="Calabaza"/>
 <string key="score" value="¡Diana!"/>
 <string key="angle" value="angulo (grados)"/>
