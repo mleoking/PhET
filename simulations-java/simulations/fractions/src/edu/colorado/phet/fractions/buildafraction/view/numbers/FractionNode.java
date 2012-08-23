@@ -76,7 +76,6 @@ public class FractionNode extends RichPNode {
 
         undoButton = new UndoButton( chain( Components.playAreaUndoButton, FractionNode.this.hashCode() ) );
         undoButton.addActionListener( new ActionListener() {
-            //REVIEW: Override on an interface, Java 1.6 only.  Can't recall if we started allowing these.
             public void actionPerformed( final ActionEvent e ) {
                 undo();
             }
