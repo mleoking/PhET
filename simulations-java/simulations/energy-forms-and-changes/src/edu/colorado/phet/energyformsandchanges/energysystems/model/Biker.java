@@ -133,7 +133,8 @@ public class Biker extends EnergySource {
 
     @Override public void deactivate() {
         super.deactivate();
-        crankAngularVelocity = 0;
+        targetCrankAngularVelocity.set( 0.0 );
+        crankAngularVelocity = targetCrankAngularVelocity.get();
     }
 
     @Override public void activate() {
