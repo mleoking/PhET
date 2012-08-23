@@ -20,13 +20,13 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel;
 import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
@@ -53,13 +53,7 @@ class StartScreen extends PNode {
                 }
                 else {
                     animateToPositionScaleRotation( -AbstractFractionsCanvas.STAGE_SIZE.getWidth(), 0, 1, 0, 400 ).
-                            setDelegate( new PActivityDelegate() {
-                                public void activityStarted( final PActivity activity ) {
-                                }
-
-                                public void activityStepped( final PActivity activity ) {
-                                }
-
+                            setDelegate( new PActivityDelegateAdapter() {
                                 public void activityFinished( final PActivity activity ) {
                                     setVisible( false );
                                 }

@@ -9,11 +9,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.CircularShapeFunction;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.ShapeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
@@ -59,15 +59,9 @@ public class PiePieceNode extends PieceNode {
     //If it moved closer to a different target site, update rotation.
     @Override protected void rotateTo( final double angle, final PInputEvent event ) {
         PActivity activity = animateToAngle( angle );
-        activity.setDelegate( new PActivityDelegate() {
-            public void activityStarted( final PActivity activity ) {
-            }
-
+        activity.setDelegate( new PActivityDelegateAdapter() {
             public void activityStepped( final PActivity activity ) {
                 stepTowardMouse( event );
-            }
-
-            public void activityFinished( final PActivity activity ) {
             }
         } );
     }

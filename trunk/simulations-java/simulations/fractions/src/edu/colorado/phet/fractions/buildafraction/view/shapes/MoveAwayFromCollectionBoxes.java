@@ -1,15 +1,15 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
+import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
 import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 
 /**
  * Activity that moves a ContainerNode away from the collection boxes when it overlaps.
  *
  * @author Sam Reid
  */
-class MoveAwayFromCollectionBoxes implements PActivityDelegate {
+class MoveAwayFromCollectionBoxes extends PActivityDelegateAdapter {
     private final ContainerNode containerNode;
     private final ShapeSceneNode shapeSceneNode;
 
@@ -17,10 +17,6 @@ class MoveAwayFromCollectionBoxes implements PActivityDelegate {
         this.shapeSceneNode = shapeSceneNode;
         this.containerNode = containerNode;
     }
-
-    public void activityStarted( final PActivity activity ) { }
-
-    public void activityStepped( final PActivity activity ) { }
 
     public void activityFinished( final PActivity activity ) { shapeSceneNode.moveContainerNodeAwayFromCollectionBoxes( containerNode ); }
 }

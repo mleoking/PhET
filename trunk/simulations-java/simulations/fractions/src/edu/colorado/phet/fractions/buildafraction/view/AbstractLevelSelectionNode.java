@@ -28,13 +28,13 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
+import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionmatcher.view.PaddedIcon;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.*;
 
@@ -86,13 +86,7 @@ class AbstractLevelSelectionNode extends PNode {
 
                         //Wait then fade
                         PActivity activity = pageNode.animateToTransparency( pageNode.getTransparency(), BuildAFractionModule.ANIMATION_TIME );
-                        activity.setDelegate( new PActivityDelegate() {
-                            public void activityStarted( final PActivity activity ) {
-                            }
-
-                            public void activityStepped( final PActivity activity ) {
-                            }
-
+                        activity.setDelegate( new PActivityDelegateAdapter() {
                             public void activityFinished( final PActivity activity ) {
                                 pageNode.animateToTransparency( index == selectedPage ? 1 : 0, BuildAFractionModule.ANIMATION_TIME );
                             }

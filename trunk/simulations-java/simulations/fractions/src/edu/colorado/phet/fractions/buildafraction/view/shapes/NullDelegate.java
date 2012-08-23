@@ -5,6 +5,8 @@ import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 
 /**
+ * Activity delegate that does nothing, just used as a placeholder.
+ *
  * @author Sam Reid
  */
 class NullDelegate implements PActivityDelegate {

@@ -35,6 +35,7 @@ import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.StackContext;
 import edu.colorado.phet.fractions.common.math.Fraction;
+import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.umd.cs.piccolo.PNode;
@@ -518,13 +519,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         piece.setPickable( false );
         piece.setChildrenPickable( false );
         final VoidFunction0 finalPostProcess = postprocess;
-        activity.setDelegate( new CompositeDelegate( new PActivityDelegate() {
-            public void activityStarted( final PActivity activity ) {
-            }
-
-            public void activityStepped( final PActivity activity ) {
-            }
-
+        activity.setDelegate( new CompositeDelegate( new PActivityDelegateAdapter() {
             public void activityFinished( final PActivity activity ) {
                 container.setPickable( true );
                 container.setChildrenPickable( true );
