@@ -29,7 +29,9 @@ public class Energy {
      *
      * @param type      Energy type.
      * @param amount    Amount of energy, in joules.
-     * @param direction Direction of energy.  Not meaningful for all energy types.
+     * @param direction Direction of energy, in radians.  Not meaningful for
+     *                  all energy types.  Zero indicates to the right, PI/2
+     *                  is up, and so forth.
      */
     public Energy( Type type, double amount, double direction ) {
         this.type = type;
