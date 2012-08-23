@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.buildafraction.model.numbers;
 
 import fj.F;
+import fj.P2;
 import fj.data.List;
 
 import java.awt.Color;
@@ -15,6 +16,7 @@ import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 
 import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction.mixedFraction;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.shuffledTarget;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.target;
 import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 import static edu.colorado.phet.fractions.common.util.Sampling.*;
@@ -35,6 +37,7 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
         add( level3() );
         add( level4() );
         add( level5() );
+        add( level6() );
         while ( size() < 10 ) { add( levelX() ); }
     }
 
@@ -137,16 +140,20 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
                                       target( target3, colors.next(), new F<MixedFraction, FilledPattern>() {
                                           @Override public FilledPattern f( final MixedFraction mixedFraction ) {
                                               int d = mixedFraction.getFractionPart().denominator;
-                                              List<Integer> scaleFactors = d == 2 ? list( 2, 3, 4 ) :
-                                                                           d == 3 ? list( 2, 3 ) :
-                                                                           d == 4 ? list( 2 ) :
-                                                                           null;
+                                              List<Integer> scaleFactors = getScaleFactors( d );
 
                                               //Use the same random seed each time otherwise composite representations might have different shape types for each of its parts
                                               Integer scaleFactor = chooseOneWithSeed( seed, scaleFactors );
                                               return chooseOneWithSeed( seed, matching( d * scaleFactor ) ).sequential().f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
                                           }
                                       } ) ) );
+    }
+
+    private List<Integer> getScaleFactors( final int d ) {
+        return d == 2 ? List.list( 2, 3, 4 ) :
+               d == 3 ? List.list( 2, 3 ) :
+               d == 4 ? List.list( 2 ) :
+               null;
     }
 
     private PatternMaker chooseMatchingPattern( final int denominator ) { return chooseOne( matching( denominator ) ); }
@@ -177,6 +184,40 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
             f.add( fraction( Integer.parseInt( st2.nextToken() ), Integer.parseInt( st2.nextToken() ) ) );
         }
         return iterableList( f );
+    }
+
+    public NumberLevel level6() {
+        List<Fraction> expandable = parse( "1/2, 1/3, 2/3, 1/4, 3/4" );
+        List<Fraction> full = parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9" );
+        List<Integer> wholes = list( 1, 2, 3 );
+        List<MixedFraction> mixedFractions = getMixedFractions( wholes, full );
+        final List<MixedFraction> targets = choose( 2, mixedFractions );
+        RandomColors4 colors = new RandomColors4();
+        final MixedFraction target1 = targets.index( 0 );
+        final MixedFraction target2 = targets.index( 1 );
+        final P2<MixedFraction, MixedFraction> target34 = chooseTwo( getMixedFractions( wholes, expandable ) );
+        final MixedFraction target3 = target34._1();
+        final MixedFraction target4 = target34._2();
+        final long seed = random.nextLong();
+        return new NumberLevel( list( shuffledTarget( target1, colors.next(), chooseMatchingPattern( target1.denominator ).random() ),
+                                      shuffledTarget( target2, colors.next(), chooseMatchingPattern( target2.denominator ).random() ),
+
+                                      //For the third target, scale it up so that it is shown as a non-reduced picture
+                                      shuffledTarget( target3, colors.next(), scaledRepresentation( seed ) ),
+                                      shuffledTarget( target4, colors.next(), scaledRepresentation( seed ) ) ) );
+    }
+
+    private F<MixedFraction, FilledPattern> scaledRepresentation( final long seed ) {
+        return new F<MixedFraction, FilledPattern>() {
+            @Override public FilledPattern f( final MixedFraction mixedFraction ) {
+                int d = mixedFraction.getFractionPart().denominator;
+                List<Integer> scaleFactors = getScaleFactors( d );
+
+                //Use the same random seed each time otherwise composite representations might have different shape types for each of its parts
+                Integer scaleFactor = chooseOneWithSeed( seed, scaleFactors );
+                return chooseOneWithSeed( seed, matching( d * scaleFactor ) ).random().f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
+            }
+        };
     }
 
     private NumberLevel levelX() {

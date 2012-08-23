@@ -11,6 +11,7 @@ import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
 import static fj.data.List.nil;
 
 /**
@@ -38,9 +39,12 @@ public @Data class NumberTarget {
     }
 
     public static NumberTarget target( MixedFraction mixedFraction, Color color, F<MixedFraction, FilledPattern> pattern ) {
-        final List<FilledPattern> list = composite( pattern ).f( mixedFraction );
-        System.out.println( "list = " + list );
-        return new NumberTarget( mixedFraction, color, list );
+        return new NumberTarget( mixedFraction, color, composite( pattern ).f( mixedFraction ) );
+    }
+
+    //same as target above but the shapes may appear in a different order (though it does not randomize across filled/unfilled)
+    public static NumberTarget shuffledTarget( MixedFraction mixedFraction, Color color, F<MixedFraction, FilledPattern> pattern ) {
+        return new NumberTarget( mixedFraction, color, shuffle( composite( pattern ).f( mixedFraction ) ) );
     }
 
     //Convenience for single pattern
