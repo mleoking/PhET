@@ -90,7 +90,7 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     -- 1, 2, or 3, as whole number
     -- Fractional portion from the set {1/2, 1/3, 2/3, ¼, ¾, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9}*/
     private NumberLevel level4() {
-        List<MixedFraction> mixedFractions = getMixedFractions( list( 1, 2, 3 ), list( //fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ),
+        List<MixedFraction> mixedFractions = getMixedFractions( list( 1, 2, 3 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ),
                                                                                        fraction( 1, 4 ), fraction( 3, 4 ),
                                                                                        fraction( 1, 9 ), fraction( 2, 9 ), fraction( 4, 9 ), fraction( 5, 9 ), fraction( 7, 9 ), fraction( 8, 9 ) ) );
         return new NumberLevel( choose( 3, mixedFractions ), new RandomColors3(), new F<MixedFraction, FilledPattern>() {
