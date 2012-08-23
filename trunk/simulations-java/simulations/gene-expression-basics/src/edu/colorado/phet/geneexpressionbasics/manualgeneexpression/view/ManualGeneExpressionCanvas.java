@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -526,25 +527,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }
         if ( !isZoomedIn() ) {
             zoomIn( 0 );
-        }
-    }
-
-    //-------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //-------------------------------------------------------------------------
-
-    private static class PActivityDelegateAdapter implements PActivity.PActivityDelegate {
-
-        public void activityStarted( PActivity activity ) {
-            // Override to change, does nothing by default.
-        }
-
-        public void activityStepped( PActivity activity ) {
-            // Override to change, does nothing by default.
-        }
-
-        public void activityFinished( PActivity activity ) {
-            // Override to change, does nothing by default.
         }
     }
 }
