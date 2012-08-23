@@ -6,7 +6,7 @@ import edu.umd.cs.piccolo.activities.PActivity;
 /**
  * Adapter pattern for PActivityDelegate.
  */
-class PActivityDelegateAdapter implements PActivity.PActivityDelegate {
+public class PActivityDelegateAdapter implements PActivity.PActivityDelegate {
 
     public void activityStarted( PActivity activity ) {
         // Override to change, does nothing by default.
