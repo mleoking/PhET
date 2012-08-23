@@ -21,6 +21,11 @@ public class Sampling {
 
     private static final Random random = new Random();
 
+    public static <T> T chooseOneWithSeed( long seed, final List<T> list ) {
+        Random random = new Random( seed );
+        return list.index( random.nextInt( list.length() ) );
+    }
+
     public static <T> T chooseOne( final List<T> list ) {
         return list.index( random.nextInt( list.length() ) );
     }

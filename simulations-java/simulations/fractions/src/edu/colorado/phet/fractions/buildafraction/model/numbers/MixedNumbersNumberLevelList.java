@@ -17,8 +17,7 @@ import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction.mix
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.target;
 import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
-import static edu.colorado.phet.fractions.common.util.Sampling.choose;
-import static edu.colorado.phet.fractions.common.util.Sampling.chooseOne;
+import static edu.colorado.phet.fractions.common.util.Sampling.*;
 import static fj.data.List.iterableList;
 import static fj.data.List.list;
 
@@ -130,6 +129,7 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
         final MixedFraction target1 = targets.index( 0 );
         final MixedFraction target2 = targets.index( 1 );
         final MixedFraction target3 = chooseOne( getMixedFractions( wholes, expandable ) );
+        final long seed = random.nextLong();
         return new NumberLevel( list( target( target1, colors.next(), chooseMatchingPattern( target1.denominator ).sequential() ),
                                       target( target2, colors.next(), chooseMatchingPattern( target2.denominator ).sequential() ),
 
@@ -141,8 +141,10 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
                                                                            d == 3 ? list( 2, 3 ) :
                                                                            d == 4 ? list( 2 ) :
                                                                            null;
-                                              Integer scaleFactor = chooseOne( scaleFactors );
-                                              return chooseMatchingPattern( d * scaleFactor ).sequential().f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
+
+                                              //Use the same random seed each time otherwise composite representations might have different shape types for each of its parts
+                                              Integer scaleFactor = chooseOneWithSeed( seed, scaleFactors );
+                                              return chooseOneWithSeed( seed, matching( d * scaleFactor ) ).sequential().f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
                                           }
                                       } ) ) );
     }
