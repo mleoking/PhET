@@ -31,6 +31,11 @@ This sim uses single-line methods elsewhere ("simple methods in one line" in Int
 The animation is implemented in the model instead of piccolo because it is (a) conceptually natural (that the location of objects is in the model and not just how they look),
 (b) so that if we port it to another platform (such as Android), the model will still work properly and (c) it led to easy and uniform code
 
+Functions that are intended to be used as arguments in higher order functions are typically named with an underscore prefix for clarity and to avoid namespace clashes with instance fields.
+For instance: FNode.getChildren( ShapeSceneNode.this, PieceIconNode.class ).map( _minX ) //uses _minX in a higher order function, whereas minX might be a field that applies directly to an instance
+This is the opposite of the convention in FunctionalJava, which is to put the underscore afterwards, such as List's "public static <A> F<List<A>, A> head_()".
+However, I prefer putting the underscore first since it seems to read more clearly.
+
 [===================Intro tab===================]
 The Intro module uses a novel technique for supporting multiple representations with Property<T> while avoiding looping, please see this ticket for details:
 https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3259
