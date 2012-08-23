@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Primary model class for the "Energy Systems" tab of the Energy Forms and
@@ -65,6 +66,7 @@ public class EnergySystemsModel {
     public final BeakerHeater beakerHeater = new BeakerHeater();
 
     // Items that span between energy system elements.
+    // TODO: Need to make position based on the model elements instead of just hard coded.
     public final Belt belt = new Belt( 0.02, new Vector2D( -0.115, -0.01 ), 0.04, new Vector2D( -0.025, 0.03 ) );
 
     //-------------------------------------------------------------------------
@@ -89,7 +91,18 @@ public class EnergySystemsModel {
         energyUsersCarousel.add( incandescentLightBulb );
         energyUsersCarousel.add( fluorescentLightBulb );
 
+        // Add the functionality to show/hide the belt that interconnects the
+        // biker and the generator.
+        VoidFunction1<Boolean> beltVisibilityUpdated = new VoidFunction1<Boolean>() {
+            public void apply( Boolean isAnimating ) {
+                belt.isVisible.set( !isAnimating &&
+                                    energySourcesCarousel.getSelectedElement() instanceof BicycleAndRider &&
+                                    energyConvertersCarousel.getSelectedElement() instanceof WaterPoweredGenerator );
+            }
+        };
 
+        energySourcesCarousel.getAnimationInProgressProperty().addObserver( beltVisibilityUpdated );
+        energyConvertersCarousel.getAnimationInProgressProperty().addObserver( beltVisibilityUpdated );
     }
 
     //-------------------------------------------------------------------------

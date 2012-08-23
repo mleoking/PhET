@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -29,6 +30,8 @@ public class BeltNode extends PNode {
     private static final Color BELT_COLOR = Color.BLACK;
 
     public BeltNode( Belt belt, final ModelViewTransform mvt ) {
+
+        // Create the wheel shapes.
         final double wheel1Radius = mvt.modelToViewDeltaX( belt.wheel1Radius );
         final Vector2D wheel1Center = mvt.modelToView( belt.wheel1Center );
         Shape wheel1Shape = new Ellipse2D.Double( wheel1Center.getX() - wheel1Radius, wheel1Center.getY() - wheel1Radius, wheel1Radius * 2, wheel1Radius * 2 );
@@ -52,6 +55,14 @@ public class BeltNode extends PNode {
         overallShape.add( new Area( wheel1Shape ) );
         overallShape.add( new Area( wheel2Shape ) );
 
+        // Add the node.
         addChild( new PhetPPath( overallShape, BELT_STROKE, BELT_COLOR ) );
+
+        // Control the visibility.
+        belt.isVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean isVisible ) {
+                setVisible( isVisible );
+            }
+        } );
     }
 }
