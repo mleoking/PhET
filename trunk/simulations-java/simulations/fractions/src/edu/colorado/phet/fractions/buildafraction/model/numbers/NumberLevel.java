@@ -68,7 +68,7 @@ public class NumberLevel extends Level {
     public boolean hasValuesGreaterThanOne() {
         return targets.exists( new F<NumberTarget, Boolean>() {
             @Override public Boolean f( final NumberTarget numberTarget ) {
-                return Fraction._greaterThanOne.f( numberTarget.mixedFraction.toFraction() );
+                return numberTarget.mixedFraction.toFraction().greaterThanOne();
             }
         } );
     }

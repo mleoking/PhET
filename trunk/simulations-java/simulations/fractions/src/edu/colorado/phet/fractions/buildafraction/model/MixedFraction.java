@@ -31,7 +31,7 @@ public @Data class MixedFraction {
     };
     public static final F<MixedFraction, Boolean> _greaterThanOne = new F<MixedFraction, Boolean>() {
         @Override public Boolean f( final MixedFraction f ) {
-            return Fraction._greaterThanOne.f( f.toFraction() );
+            return f.toFraction().greaterThanOne();
         }
     };
     public static F<MixedFraction, Integer> _numerator = new F<MixedFraction, Integer>() {
