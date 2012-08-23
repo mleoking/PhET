@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 
-//REVIEW: doc
-
 /**
+ * This class enumerates the different levels for "Build a Mixed Fraction: Shapes"
+ *
  * @author Sam Reid
  */
 public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
