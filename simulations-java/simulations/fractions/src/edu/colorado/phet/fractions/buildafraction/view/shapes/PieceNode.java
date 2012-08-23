@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
@@ -20,7 +21,6 @@ import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimat
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
 import edu.colorado.phet.fractions.buildafraction.view.UpdateAnimatingFlag;
 import edu.colorado.phet.fractions.common.math.Fraction;
-import edu.colorado.phet.fractions.common.util.PActivityDelegateAdapter;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
