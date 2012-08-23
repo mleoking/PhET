@@ -70,4 +70,8 @@ public @Data class MixedFraction {
     public double toDouble() { return whole + getFractionPart().toDouble(); }
 
     public boolean approxEquals( final Fraction value ) { return toFraction().approxEquals( value ); }
+
+    public MixedFraction scaleNumeratorAndDenominator( final int scaleFactor ) {
+        return new MixedFraction( whole, numerator * scaleFactor, denominator * scaleFactor );
+    }
 }

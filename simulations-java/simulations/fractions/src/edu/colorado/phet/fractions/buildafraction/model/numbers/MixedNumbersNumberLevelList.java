@@ -92,11 +92,19 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     private NumberLevel level4() {
         List<MixedFraction> mixedFractions = getMixedFractions( list( 1, 2, 3 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ),
                                                                                        fraction( 1, 4 ), fraction( 3, 4 ),
-                                                                                       fraction( 1, 9 ), fraction( 2, 9 ), fraction( 4, 9 ), fraction( 5, 9 ), fraction( 7, 9 ), fraction( 8, 9 ) ) );
+                                                                                       fraction( 1, 9 ), fraction( 2, 9 ), fraction( 4, 9 ), fraction( 5, 9 ), fraction( 7, 9 ), fraction( 8, 9 )
+        ) );
         return new NumberLevel( choose( 3, mixedFractions ), new RandomColors3(), new F<MixedFraction, FilledPattern>() {
             @Override public FilledPattern f( final MixedFraction mixedFraction ) {
                 final int d = mixedFraction.getFractionPart().denominator;
-                return d == 1 ? pyramid1.sequential().f( mixedFraction ) :
+
+                //These next two lines are tricky, let me explain them.
+                //We want to use the reduced fractions in the fraction declarations above so when the levels are generated they will have a perfect match for the cards
+                //However, some of the values don't have a direct representation in the pyramid shape.  For example: 1/2 appears as a 2/4 pyramid.
+                //So we have to make the mapping here, which is used for making the "wholes" as well as the fraction parts.
+                //For d==4 and d=9, the regular representations can be used
+                return d == 2 ? pyramid4.sequential().f( mixedFraction.scaleNumeratorAndDenominator( 2 ) ) :
+                       d == 3 ? pyramid9.sequential().f( mixedFraction.scaleNumeratorAndDenominator( 3 ) ) :
                        d == 4 ? pyramid4.sequential().f( mixedFraction ) :
                        d == 9 ? pyramid9.sequential().f( mixedFraction ) :
                        null;

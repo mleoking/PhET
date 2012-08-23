@@ -38,7 +38,9 @@ public @Data class NumberTarget {
     }
 
     public static NumberTarget target( MixedFraction mixedFraction, Color color, F<MixedFraction, FilledPattern> pattern ) {
-        return new NumberTarget( mixedFraction, color, composite( pattern ).f( mixedFraction ) );
+        final List<FilledPattern> list = composite( pattern ).f( mixedFraction );
+        System.out.println( "list = " + list );
+        return new NumberTarget( mixedFraction, color, list );
     }
 
     //Convenience for single pattern
@@ -59,12 +61,18 @@ public @Data class NumberTarget {
                 int numerator = fraction.numerator;
                 int denominator = fraction.denominator;
                 while ( numerator > denominator ) {
-                    result = result.snoc( element.f( new MixedFraction( 0, denominator, denominator ) ) );
+                    System.out.println( "making filled pie with denominator = " + denominator );
+                    final FilledPattern elm = element.f( new MixedFraction( 0, denominator, denominator ) );
+                    assert elm != null;
+                    result = result.snoc( elm );
                     numerator = numerator - denominator;
                 }
                 if ( numerator > 0 ) {
-                    result = result.snoc( element.f( new MixedFraction( 0, numerator, denominator ) ) );
+                    final FilledPattern elm = element.f( new MixedFraction( 0, numerator, denominator ) );
+                    assert elm != null;
+                    result = result.snoc( elm );
                 }
+                assert result != null;
                 return result;
             }
         };
