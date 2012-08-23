@@ -479,22 +479,18 @@ will need to be made with a 1/4 and 1/4, or a 1/3 and a 1/6 or such.
         return pies ? ShapeType.PIE : ShapeType.BAR;
     }
 
+    //Test generating levels to make sure they are solvable.  This works since there is a check during construction.
     public static void main( String[] args ) {
-
-        //REVIEW: Clean up or document commented-out code.
-//        interestingShapesForOne( new Fraction( 2, 2 ) );
-
         for ( int denominator = 1; denominator <= 8; denominator++ ) {
             for ( int numerator = 1; numerator <= denominator * 2; numerator++ ) {
                 interestingShapesForOne( new Fraction( numerator, denominator ) );
             }
         }
 
-        //REVIEW: Clean up or document commented-out code.
-//        for ( int i = 0; i < 1000; i++ ) {
-//            ShapeLevelList list = new ShapeLevelList();
-//            list.toString();//Just a method that makes it so list appears used.
-//            System.out.println( "checked: " + i );
-//        }
+        for ( int i = 0; i < 1000; i++ ) {
+            ShapeLevelList list = new ShapeLevelList();
+            list.toString();//Just a method that makes it so list appears used.
+            System.out.println( "checked: " + i );
+        }
     }
 }
