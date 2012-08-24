@@ -12,6 +12,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
@@ -103,15 +104,18 @@ class FractionCardNode extends RichPNode {
                     if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) &&
                          scoreCell.mixedFraction.approxEquals( fractionNode.getValue() ) &&
                          !scoreCell.isCompleted() ) {
+
                         //Lock in target cell
                         Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
-                        final double scaleFactor = 0.75;
+                        final double scaleFactor = fractionNode.mixedNumber ? 0.65 : 0.75;
 
                         Point2D x = fractionNode.getGlobalTranslation();
                         numberSceneNode.addChild( fractionNode );
                         fractionNode.setGlobalTranslation( x );
-                        fractionNode.animateToPositionScaleRotation( targetCenter.getX() - fractionNode.getFullBounds().getWidth() / 2 * scaleFactor + 25,
-                                                                     targetCenter.getY() - fractionNode.getFullBounds().getHeight() / 2 * scaleFactor + 10,
+
+                        Vector2D offset = fractionNode.mixedNumber ? Vector2D.v( 7, 30 ) : Vector2D.v( 25, 10 );
+                        fractionNode.animateToPositionScaleRotation( targetCenter.getX() - fractionNode.getFullBounds().getWidth() / 2 * scaleFactor + offset.x,
+                                                                     targetCenter.getY() - fractionNode.getFullBounds().getHeight() / 2 * scaleFactor + offset.y,
                                                                      scaleFactor, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( fractionNode, false ) );
 
                         fractionNode.undoButton.setVisible( false );

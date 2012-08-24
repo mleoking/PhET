@@ -250,6 +250,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
     }
 
+    //When the user drags an un-filled fraction node.  If you are looking for the code that is called when a fraction card is dropped (say in a target) that is called fractionCardNodeDroppedInCollectionBox()
     public void endDrag( final FractionNode fractionGraphic ) {
 
         //if fraction graphic overlaps the toolbox when dropped, animate back to the toolbox position (but only if empty)
