@@ -79,4 +79,8 @@ public @Data class MixedFraction {
         Fraction reduced = getFractionPart().reduce();
         return new MixedFraction( whole, reduced.numerator, reduced.denominator );
     }
+
+    public String toString() {
+        return whole + " " + numerator + "/" + denominator;
+    }
 }
