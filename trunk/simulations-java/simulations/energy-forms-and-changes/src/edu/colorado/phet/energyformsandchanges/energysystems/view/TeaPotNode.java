@@ -3,12 +3,11 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -71,6 +70,7 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
 
         private static double MAX_HEIGHT_AND_WIDTH = 200;
         private static boolean SHOW_BOUNDS = false; // For debug.
+        private static final Random RANDOM = new Random();
 
         private SteamBackgroundNode( final Vector2D origin, ObservableProperty<Double> energyOutput, final double maxEnergyOutput ) {
             final PPath cloud = new PhetPPath( Color.LIGHT_GRAY );
@@ -83,20 +83,25 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
                 public void apply( Double energyOutput ) {
                     double proportion = energyOutput / maxEnergyOutput;
                     final double heightAndWidth = proportion * MAX_HEIGHT_AND_WIDTH;
-                    List<Vector2D> cloudShapePoints = new ArrayList<Vector2D>() {{
+                    List<Vector2D> cloudStemShapePoints = new ArrayList<Vector2D>() {{
                         Vector2D startingPoint = new Vector2D( 0, heightAndWidth );
                         add( startingPoint );
-                        double stemWidth = Math.PI / 4;
+                        double stemWidth = Math.PI / 4 * ( 1 + 0.1 * ( RANDOM.nextDouble() - 0.5 ) );
                         add( startingPoint.plus( new Vector2D( heightAndWidth / 2, -heightAndWidth / 2 ).getRotatedInstance( -stemWidth / 2 ) ) );
                         add( startingPoint.plus( new Vector2D( heightAndWidth / 2, -heightAndWidth / 2 ).getRotatedInstance( stemWidth / 2 ) ) );
                     }};
-                    double cloudHeightAndWidth = heightAndWidth * 0.9;
-                    Shape cloudBodyPath = new Ellipse2D.Double( heightAndWidth - cloudHeightAndWidth,
-                                                                0,
-                                                                cloudHeightAndWidth,
-                                                                cloudHeightAndWidth );
-                    Area overallShape = new Area( ShapeUtils.createShapeFromPoints( cloudShapePoints ) );
-                    overallShape.add( new Area( cloudBodyPath ) );
+                    List<Vector2D> cloudBodyShapePoints = new ArrayList<Vector2D>() {{
+                        double cloudBodyHeightAndWidth = heightAndWidth * 0.9; // Multiplier empirically chosen.
+                        Vector2D centerPoint = new Vector2D( heightAndWidth - cloudBodyHeightAndWidth / 2, cloudBodyHeightAndWidth / 2 );
+                        int numPoints = 16;
+                        for ( int i = 0; i < numPoints; i++ ) {
+                            double distanceFromCenter = cloudBodyHeightAndWidth / 2 * ( 1 + 0.1 * ( RANDOM.nextDouble() - 0.5 ) );
+                            add( centerPoint.plus( new Vector2D( distanceFromCenter, 0 ).getRotatedInstance( i * ( Math.PI * 2 / numPoints ) ) ) );
+                        }
+                    }};
+
+                    Area overallShape = new Area( ShapeUtils.createShapeFromPoints( cloudStemShapePoints ) );
+                    overallShape.add( new Area( ShapeUtils.createRoundedShapeFromVectorPoints( cloudBodyShapePoints ) ) );
                     cloud.setPathTo( overallShape );
                     overallBounds.setPathTo( new Rectangle2D.Double( 0, 0, heightAndWidth, heightAndWidth ) );
                     cloud.setTransparency( (float) proportion / 2 );
