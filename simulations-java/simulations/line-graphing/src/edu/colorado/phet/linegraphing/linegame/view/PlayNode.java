@@ -27,6 +27,7 @@ class PlayNode extends PhetPNode {
     public PlayNode( final LineGameModel model, Dimension2D stageSize, final GameAudioPlayer audioPlayer ) {
 
         final GameScoreboardNode scoreboardNode = new GameScoreboardNode( model.settings.level.getMax(), model.getPerfectScore(), new DecimalFormat( "0" ) );
+        scoreboardNode.setConfirmNewGame( false );
         scoreboardNode.setBackgroundWidth( stageSize.getWidth() - 150 ); // bottom center
         scoreboardNode.setOffset( ( stageSize.getWidth() - scoreboardNode.getFullBoundsReference().getWidth() ) / 2,
                                   stageSize.getHeight() - scoreboardNode.getFullBoundsReference().getHeight() - 10 );
