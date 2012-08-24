@@ -113,7 +113,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
             return Pattern.sixFlower();
         }
     };
-    public static final PatternMaker polygon = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) {
+    public static final PatternMaker polygon = new PatternMaker( 3, 4, 5, 6, 7, 8, 9 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.polygon( 60, fraction.denominator );
         }
