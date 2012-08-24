@@ -68,12 +68,12 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
             return Pattern.pie( fraction.denominator );
         }
     };
-    public static final PatternMaker horizontalBar = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) {
+    public static final PatternMaker horizontalBar = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.horizontalBars( fraction.denominator );
         }
     };
-    public static final PatternMaker verticalBar = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) {
+    public static final PatternMaker verticalBar = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.verticalBars( fraction.denominator );
         }
