@@ -156,7 +156,11 @@ public class FractionNode extends RichPNode {
 
     private void undo( final Box box, final Point2D topCardLocation ) {
         if ( box.card != null ) {
+
+            //Undo the effects caused by attachNumber()
             box.card.numberNode.setScale( 1.0 );
+            box.card.numberNode.setBoldFont( true );
+
             box.card.setCardShapeVisible( true );
             box.card.setAllPickable( true );
             box.box.setVisible( true );
@@ -224,6 +228,7 @@ public class FractionNode extends RichPNode {
         if ( box == whole.box ) {
             numberNode.setScale( MixedFractionNode.mixedNumberWholeScale );
             numberNode.translate( -3, -numberNode.getFullHeight() / 8 );
+            numberNode.setBoldFont( false );
         }
     }
 

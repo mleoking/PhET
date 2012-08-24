@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Numbers: Make the number non-bold when it expands into the "whole" part of a mixed fraction
 Build a Mixed Fraction: Added level icons
 Build a Mixed Fraction: Numbers: Prevent horizontal and vertical bars from being used for shapes with "ninths" divisions
 # 1.01.05 (67346) Aug 24, 2012
