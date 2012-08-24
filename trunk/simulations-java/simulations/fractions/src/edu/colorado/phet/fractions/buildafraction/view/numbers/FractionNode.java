@@ -156,6 +156,7 @@ public class FractionNode extends RichPNode {
 
     private void undo( final Box box, final Point2D topCardLocation ) {
         if ( box.card != null ) {
+            box.card.numberNode.setScale( 1.0 );
             box.card.setCardShapeVisible( true );
             box.card.setAllPickable( true );
             box.box.setVisible( true );
@@ -219,14 +220,19 @@ public class FractionNode extends RichPNode {
 
         numberNode.setPickable( false );
         numberNode.setChildrenPickable( false );
+
+        if ( box == whole.box ) {
+            numberNode.setScale( MixedFractionNode.mixedNumberWholeScale );
+            numberNode.translate( -3, -numberNode.getFullHeight() / 8 );
+        }
     }
 
     private void attachToBox( final NumberCardNode numberCardNode, final Box box ) {
         box.card = numberCardNode;
+        box.number = numberCardNode.numberNode;
 
         //Store the parent so it can be re-parented on undo
         box.parent = numberCardNode.getParent();
-        box.number = numberCardNode.numberNode;
     }
 
     public boolean isComplete() {
