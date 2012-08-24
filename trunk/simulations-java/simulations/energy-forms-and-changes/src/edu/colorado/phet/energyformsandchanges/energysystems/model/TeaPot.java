@@ -24,7 +24,7 @@ public class TeaPot extends EnergySource {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double MAX_ENERGY_PRODUCTION_RATE = 200; // In joules/second
+    public static final double MAX_ENERGY_PRODUCTION_RATE = 200; // In joules/second
     private static final double MAX_ENERGY_CHANGE_RATE = 20; // In joules/second
     private static final double COOLING_CONSTANT = 0.1; // Controls rate at which tea pot cools down, empirically determined.
     private static final double COOL_DOWN_COMPLETE_THRESHOLD = 30; // In joules/second
@@ -57,8 +57,6 @@ public class TeaPot extends EnergySource {
 
     @Override public Energy stepInTime( double dt ) {
         if ( active ) {
-            double energyProductionIncreaseRate = heatCoolAmount.get() * MAX_ENERGY_CHANGE_RATE; // Analogous to acceleration.
-            double energyProductionDecreaseRate = energyProductionRate.get() * COOLING_CONSTANT; // Analogous to friction.
             if ( heatCoolAmount.get() <= 0 && energyProductionRate.get() < COOL_DOWN_COMPLETE_THRESHOLD ) {
                 // Clamp the energy production rate to zero so that it doesn't
                 // trickle on forever.
@@ -66,7 +64,10 @@ public class TeaPot extends EnergySource {
             }
             else {
                 // Calculate the energy production rate normally.
-                energyProductionRate.set( Math.min( energyProductionRate.get() + energyProductionIncreaseRate * dt, MAX_ENERGY_PRODUCTION_RATE ) ); // Analogous to velocity.
+                double energyProductionIncreaseRate = heatCoolAmount.get() * MAX_ENERGY_CHANGE_RATE; // Analogous to acceleration.
+                double energyProductionDecreaseRate = energyProductionRate.get() * COOLING_CONSTANT; // Analogous to friction.
+                energyProductionRate.set( Math.min( energyProductionRate.get() + energyProductionIncreaseRate * dt - energyProductionDecreaseRate * dt,
+                                                    MAX_ENERGY_PRODUCTION_RATE ) ); // Analogous to velocity.
             }
         }
         return new Energy( Energy.Type.MECHANICAL, energyProductionRate.get() * dt, Math.PI / 2 );
