@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.StringTokenizer;
 
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 
 import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction.mixedFraction;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
-import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.shuffledTarget;
-import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.target;
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.*;
 import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 import static edu.colorado.phet.fractions.common.util.Sampling.*;
 import static fj.data.List.iterableList;
@@ -40,7 +40,8 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
         add( level6() );
         add( level7() );
         add( level8() );
-        while ( size() < 10 ) { add( levelX() ); }
+        add( level9() );
+        add( level10() );
     }
 
     /*Level 1:
@@ -276,7 +277,41 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
                                       shuffledTarget( targets.index( 3 ), colors.next(), scaledRepresentation( seed, true, true ) ) ) );
     }
 
-    private NumberLevel levelX() {
-        return new NumberLevel( List.list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 5 ), List.replicate( 3, target( 1, 2, 3, Color.red, pie.sequential() ) ) );
+    /**
+     * Level 9:
+     * -- All representations, random fill, and simplifying possible
+     * -- Now representations within the targets can have different divisions, do this for 2 of the targets
+     * --So, for instance if {1:3/4} is being represented by circles, the first circle could be divided in ¼’s and the second circle divided in 1/8’s, with pieces randomly distributed between the two circles.
+     */
+    public NumberLevel level9() {
+        final List<Integer> wholes = list( 1, 2, 3 );
+        List<Integer> denominators = rangeInclusive( 1, 8 );
+        List<Integer> selectedDenominators = choose( 4, denominators );
+        List<MixedFraction> mixedFractions = selectedDenominators.map( new F<Integer, MixedFraction>() {
+            @Override public MixedFraction f( final Integer denominator ) {
+                final MixedFraction mf = new MixedFraction( chooseOne( wholes ), chooseOne( rangeInclusive( 1, denominator ) ), denominator );
+                return mf.withReducedFractionPart();
+            }
+        } );
+        final RandomColors4 colors = new RandomColors4();
+        final List<Boolean> scattered = shuffle( list( true, true, false, false ) );
+        final IntegerProperty index = new IntegerProperty( 0 );
+        return new NumberLevel( mixedFractions.map( new F<MixedFraction, NumberTarget>() {
+            @Override public NumberTarget f( final MixedFraction mixedFraction ) {
+                final NumberTarget result = difficultTarget( mixedFraction, colors.next(), scattered.index( index.get() ) );
+                index.increment();
+                return result;
+            }
+        } ) );
+    }
+
+    public NumberLevel level10() {
+        return level9();
+    }
+
+    private NumberTarget difficultTarget( final MixedFraction mixedFraction, final Color next, final Boolean scattered ) {
+        return scattered ?
+               scatteredTarget( mixedFraction, next, pie.random() ) :
+               target( mixedFraction, next, pie.random() );
     }
 }

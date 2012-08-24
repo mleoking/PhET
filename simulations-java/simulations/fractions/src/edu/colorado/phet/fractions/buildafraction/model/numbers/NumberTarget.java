@@ -42,6 +42,10 @@ public @Data class NumberTarget {
         return new NumberTarget( mixedFraction, color, composite( pattern ).f( mixedFraction ) );
     }
 
+    public static NumberTarget scatteredTarget( MixedFraction mixedFraction, Color color, F<MixedFraction, FilledPattern> pattern ) {
+        return new NumberTarget( mixedFraction, color, scatteredComposite( pattern ).f( mixedFraction ) );
+    }
+
     //same as target above but the shapes may appear in a different order (though it does not randomize across filled/unfilled)
     public static NumberTarget shuffledTarget( MixedFraction mixedFraction, Color color, F<MixedFraction, FilledPattern> pattern ) {
         return new NumberTarget( mixedFraction, color, shuffle( composite( pattern ).f( mixedFraction ) ) );
@@ -80,5 +84,10 @@ public @Data class NumberTarget {
                 return result;
             }
         };
+    }
+
+    //Start with solutions as above, and subdivide them, then rearrange them.
+    private static F<MixedFraction, List<FilledPattern>> scatteredComposite( final F<MixedFraction, FilledPattern> element ) {
+        return composite( element );
     }
 }
