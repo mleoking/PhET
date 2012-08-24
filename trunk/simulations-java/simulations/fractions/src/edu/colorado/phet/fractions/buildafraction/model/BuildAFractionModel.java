@@ -115,4 +115,6 @@ public class BuildAFractionModel {
         checkLevelSizes();
         return levelIndex == numberLevels.size() - 1;
     }
+
+    public boolean isMixedNumbers() { return false; }
 }

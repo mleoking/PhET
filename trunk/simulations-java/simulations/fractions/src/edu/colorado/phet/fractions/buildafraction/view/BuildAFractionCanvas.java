@@ -10,7 +10,6 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
-import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
@@ -41,13 +40,15 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     private final HashMap<LevelIdentifier, PNode> levelMap = new HashMap<LevelIdentifier, PNode>();
 
     private static final int CROSS_FADE_DURATION = 500;
+    private final String title;
 
     public BuildAFractionCanvas( final BuildAFractionModel model, String title ) {
         this.model = model;
+        this.title = title;
         //Set a really light blue because there is a lot of white everywhere
         setBackground( new Color( 236, 251, 251 ) );
 
-        currentScene = new LevelSelectionNode( title, this, model.audioEnabled, model.selectedPage, model.gameProgress );
+        currentScene = createLevelSelectionNode();
         addChild( currentScene );
     }
 
@@ -120,12 +121,16 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     public void reset() {
         model.resetAll();
         levelMap.clear();
-        crossFadeTo( new LevelSelectionNode( Strings.BUILD_A_FRACTION, this, model.audioEnabled, model.selectedPage, model.gameProgress ) );
+        crossFadeTo( createLevelSelectionNode() );
     }
 
-    public Component getComponent() {
-        return this;
+    private AbstractLevelSelectionNode createLevelSelectionNode() {
+        return model.isMixedNumbers() ?
+               new MixedNumbersLevelSelectionNode( title, this, model.audioEnabled, model.selectedPage, model.gameProgress ) :
+               new LevelSelectionNode( title, this, model.audioEnabled, model.selectedPage, model.gameProgress );
     }
+
+    public Component getComponent() { return this; }
 
     private PNode createLevelNode( final int levelIndex, final LevelType levelType ) {
         return levelType == LevelType.SHAPES ?
@@ -147,7 +152,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
     public void goToLevelSelectionScreen( final int fromLevelIndex ) {
         model.selectedPage.set( fromLevelIndex < 5 ? 0 : 1 );
-        animateTo( new LevelSelectionNode( Strings.BUILD_A_FRACTION, this, model.audioEnabled, model.selectedPage, model.gameProgress ), Direction.LEFT );
+        animateTo( createLevelSelectionNode(), Direction.LEFT );
     }
 
     public void resampleShapeLevel( final int levelIndex ) {

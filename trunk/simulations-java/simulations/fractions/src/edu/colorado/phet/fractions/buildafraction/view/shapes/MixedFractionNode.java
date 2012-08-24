@@ -17,13 +17,18 @@ public class MixedFractionNode extends PNode {
 
     //AP: Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
     public static final double mixedNumberWholeScale = 2.4;
+    public static final double fractionSizeScale = 0.3;
 
     public MixedFractionNode( final MixedFraction fraction ) {
-        final double fractionSizeScale = 0.3;
         addChild( new HBox( 0,
-                            new FractionNumberNode( new Property<Integer>( fraction.whole ) ) {{
-                                setScale( fractionSizeScale * mixedNumberWholeScale );
-                            }},
+                            wholeNumberNode( fraction.whole ),
                             new FractionNode( fraction.getFractionPart(), fractionSizeScale ) ) );
+    }
+
+    //Creates a PNode showing something with similar look and feel to the
+    public static PNode wholeNumberNode( int value ) {
+        return new FractionNumberNode( new Property<Integer>( value ) ) {{
+            setScale( fractionSizeScale * mixedNumberWholeScale );
+        }};
     }
 }
