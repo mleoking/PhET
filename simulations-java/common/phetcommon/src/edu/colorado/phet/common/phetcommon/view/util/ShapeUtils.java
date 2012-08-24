@@ -138,6 +138,21 @@ public class ShapeUtils {
         return path.getGeneralPath();
     }
 
+    public static Shape createRoundedShapeFromVectorPoints( List<Vector2D> points ) {
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        path.moveTo( points.get( 0 ) );
+        for ( int i = 0; i < points.size(); i++ ) {
+            Vector2D segmentStartPoint = points.get( i );
+            Vector2D segmentEndPoint = points.get( ( i + 1 ) % points.size() );
+            Vector2D previousPoint = points.get( i - 1 >= 0 ? i - 1 : points.size() - 1 );
+            Vector2D nextPoint = points.get( ( i + 2 ) % points.size() );
+            Vector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
+            Vector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
+            path.curveTo( controlPoint1.getX(), controlPoint1.getY(), controlPoint2.getX(), controlPoint2.getY(), segmentEndPoint.getX(), segmentEndPoint.getY() );
+        }
+        return path.getGeneralPath();
+    }
+
     /**
      * Extrapolates a control point given three input points.  The resulting
      * control point is for the segment from point y to point z, and the
