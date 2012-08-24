@@ -30,7 +30,7 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
 
         // Create the burner stand.
         double burnerStandWidth = teaPotImageNode.getFullBoundsReference().getWidth() * 0.9;
-        double burnerStandHeight = burnerStandWidth * 0.8;
+        double burnerStandHeight = burnerStandWidth * 0.7;
         Rectangle2D burnerStandRect = new Rectangle2D.Double( teaPotImageNode.getFullBoundsReference().getCenterX() - burnerStandWidth / 2,
                                                               teaPotImageNode.getFullBoundsReference().getMaxY() - 35,
                                                               burnerStandWidth,
