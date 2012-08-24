@@ -26,6 +26,7 @@ import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.AnimateToScale;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.MixedFractionNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.UndoButton;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
@@ -68,7 +69,7 @@ public class FractionNode extends RichPNode {
         this.mixedNumber = mixedNumber;
         numerator.box = box( true );
         denominator.box = box( true );
-        whole.box = box( true, 1.6 );
+        whole.box = box( true, MixedFractionNode.mixedNumberWholeScale );
 
         //Size in the toolbox is smaller to keep the toolbox size good
         setScale( SCALE_IN_TOOLBOX );

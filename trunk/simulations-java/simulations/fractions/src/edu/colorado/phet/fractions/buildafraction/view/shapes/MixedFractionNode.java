@@ -13,12 +13,13 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-class MixedFractionNode extends PNode {
+public class MixedFractionNode extends PNode {
+
+    //AP: Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
+    public static final double mixedNumberWholeScale = 2.4;
+
     public MixedFractionNode( final MixedFraction fraction ) {
         final double fractionSizeScale = 0.3;
-
-        //AP: Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
-        final double mixedNumberWholeScale = 2.4;
         addChild( new HBox( 0,
                             new FractionNumberNode( new Property<Integer>( fraction.whole ) ) {{
                                 setScale( fractionSizeScale * mixedNumberWholeScale );

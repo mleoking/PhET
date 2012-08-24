@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Numbers: Made the "whole" number part of the skeleton taller (full height of the fractional portion)
 Build a Mixed Fraction: Numbers: Fixed: Level 3 "flowers" were random and not filled properly
 # 1.01.04 (67332) Aug 24, 2012
 Added levels 6-10
