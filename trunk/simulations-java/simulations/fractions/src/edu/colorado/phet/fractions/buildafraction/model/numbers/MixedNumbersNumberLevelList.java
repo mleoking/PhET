@@ -278,11 +278,18 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     }
 
     /*
-     * Level 9-10:
+     * Level 9:
      * -- All representations, random fill, and simplifying possible
      * -- Now representations within the targets can have different divisions, do this for 2 of the targets
      * --So, for instance if {1:3/4} is being represented by circles, the first circle could be divided in ¼’s and the second circle divided in 1/8’s, with pieces randomly distributed between the two circles.
      */
+    public NumberLevel level9() { return levelWithSomeScattering( list( true, true, false, false ) ); }
+
+    /*Level 10:
+    --Same as level 9, but now all 4 targets can have different internal divisions in representations.*/
+    public NumberLevel level10() { return levelWithSomeScattering( list( true, true, true, true ) ); }
+
+    //Shared code for levels 9-10, see their descriptions
     public NumberLevel levelWithSomeScattering( List<Boolean> scatterList ) {
         final List<Integer> wholes = list( 1, 2, 3 );
         List<Integer> denominators = rangeInclusive( 2, 8 );
@@ -303,14 +310,6 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
                 return result;
             }
         } ) );
-    }
-
-    public NumberLevel level10() {
-        return levelWithSomeScattering( list( true, true, true, true ) );
-    }
-
-    public NumberLevel level9() {
-        return levelWithSomeScattering( list( true, true, false, false ) );
     }
 
     private NumberTarget difficultTarget( final MixedFraction mixedFraction, final Color next, final Boolean scattered ) {
