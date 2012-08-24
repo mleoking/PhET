@@ -74,4 +74,9 @@ public @Data class MixedFraction {
     public MixedFraction scaleNumeratorAndDenominator( final int scaleFactor ) {
         return new MixedFraction( whole, numerator * scaleFactor, denominator * scaleFactor );
     }
+
+    public MixedFraction withReducedFractionPart() {
+        Fraction reduced = getFractionPart().reduce();
+        return new MixedFraction( whole, reduced.numerator, reduced.denominator );
+    }
 }
