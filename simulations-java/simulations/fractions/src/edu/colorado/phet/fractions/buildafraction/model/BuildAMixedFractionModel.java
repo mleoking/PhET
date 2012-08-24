@@ -27,4 +27,6 @@ public class BuildAMixedFractionModel extends BuildAFractionModel {
                }
         );
     }
+
+    @Override public boolean isMixedNumbers() { return true; }
 }

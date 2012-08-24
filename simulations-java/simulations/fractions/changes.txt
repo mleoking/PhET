@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Added level icons
 Build a Mixed Fraction: Numbers: Prevent horizontal and vertical bars from being used for shapes with "ninths" divisions
 # 1.01.05 (67346) Aug 24, 2012
 Build a Mixed Fraction: Numbers: Fixed: whole numbers no longer centered in target cells
