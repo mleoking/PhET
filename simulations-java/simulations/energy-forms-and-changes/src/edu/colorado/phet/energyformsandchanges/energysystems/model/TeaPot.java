@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
@@ -40,7 +41,7 @@ public class TeaPot extends EnergySource {
 
     public final Property<Double> heatCoolAmount = new Property<Double>( 0.0 );
 
-    private double energyProductionRate = 0;
+    private Property<Double> energyProductionRate = new Property<Double>( 0.0 );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -56,29 +57,32 @@ public class TeaPot extends EnergySource {
 
     @Override public Energy stepInTime( double dt ) {
         if ( active ) {
-            double energyProductionIncreaseRate = heatCoolAmount.get() * MAX_ENERGY_CHANGE_RATE;
-            energyProductionRate = Math.min( energyProductionRate + energyProductionIncreaseRate * dt, MAX_ENERGY_PRODUCTION_RATE );
-            double energyProductionDecreaseRate = energyProductionRate * COOLING_CONSTANT;
-            if ( heatCoolAmount.get() <= 0 && energyProductionRate < COOL_DOWN_COMPLETE_THRESHOLD ) {
+            double energyProductionIncreaseRate = heatCoolAmount.get() * MAX_ENERGY_CHANGE_RATE; // Analogous to acceleration.
+            double energyProductionDecreaseRate = energyProductionRate.get() * COOLING_CONSTANT; // Analogous to friction.
+            if ( heatCoolAmount.get() <= 0 && energyProductionRate.get() < COOL_DOWN_COMPLETE_THRESHOLD ) {
                 // Clamp the energy production rate to zero so that it doesn't
                 // trickle on forever.
-                energyProductionRate = 0;
+                energyProductionRate.set( 0.0 );
             }
             else {
                 // Calculate the energy production rate normally.
-                energyProductionRate = energyProductionRate + energyProductionIncreaseRate * dt - energyProductionDecreaseRate * dt;
+                energyProductionRate.set( Math.min( energyProductionRate.get() + energyProductionIncreaseRate * dt, MAX_ENERGY_PRODUCTION_RATE ) ); // Analogous to velocity.
             }
         }
-        return new Energy( Energy.Type.MECHANICAL, energyProductionRate * dt, Math.PI / 2 );
+        return new Energy( Energy.Type.MECHANICAL, energyProductionRate.get() * dt, Math.PI / 2 );
     }
 
     @Override public void deactivate() {
         super.deactivate();
         heatCoolAmount.reset();
-        energyProductionRate = 0;
+        energyProductionRate.reset();
     }
 
     @Override public IUserComponent getUserComponent() {
         return EnergyFormsAndChangesSimSharing.UserComponents.selectTeapotButton;
+    }
+
+    public ObservableProperty<Double> getEnergyProductionRate() {
+        return energyProductionRate;
     }
 }
