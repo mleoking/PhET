@@ -1,0 +1,17 @@
+Inequalities sim requirements (7/26/11 meeting)
+
+• slope-intercept format only (y = mx + b)
+• chose relational operator via radio buttons placed below equation
+• order of relation operator buttons: <, <=, =, >=, >
+• tooltips for relational operator buttons?
+• shade above/below line with transparent color
+• use dashed line for <, >
+• no standard lines (y=x, y=-x) feature
+• no Save/Erase lines feature
+• toggle rise/run brackets via "Slope" check box
+• "Hide plot" check box (similar to "Hide lines" in Line Graphing)
+• point tools (start with 2)
+• first tab: 1 line
+• second tab: compare 2 lines
+• need to work out color scheme for 2-line case, to differentiate lines and manipulators
+• might skip Game tab
