@@ -14,6 +14,7 @@ HIGH
 - too many lists of lines; Graph model element should have a list of lines that it is displaying, PointTool should get list from Graph
 
 MEDIUM
+- make one point tool point "up"
 - use typing to enforce usage of lines in slope-intercept form, instead of "assert( line.x1 == 0 )"
 
 LOW
