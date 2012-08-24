@@ -125,12 +125,15 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode rootNode = new PNode();
         addWorldChild( rootNode );
 
+        // The order is important due to some of the visual interactions
+        // between the energy system elements.
         rootNode.addChild( faucetAndWaterNode );
-        rootNode.addChild( sunNode );
-        rootNode.addChild( teaPotNode );
-        rootNode.addChild( bikerNode );
-        rootNode.addChild( waterPoweredGeneratorNode );
         rootNode.addChild( solarPanelNode );
+        rootNode.addChild( sunNode );
+        rootNode.addChild( waterPoweredGeneratorNode );
+        rootNode.addChild( beltNode );
+        rootNode.addChild( bikerNode );
+        rootNode.addChild( teaPotNode );
         rootNode.addChild( incandescentLightBulbNode );
         rootNode.addChild( fluorescentLightBulbNode );
         rootNode.addChild( beakerHeaterNode );
@@ -143,7 +146,6 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         rootNode.addChild( energyConvertersCarouselController );
         rootNode.addChild( energyUsersCarouselController );
 
-        rootNode.addChild( beltNode );
 
         //------- Node Layout -------------------------------------------------
 
