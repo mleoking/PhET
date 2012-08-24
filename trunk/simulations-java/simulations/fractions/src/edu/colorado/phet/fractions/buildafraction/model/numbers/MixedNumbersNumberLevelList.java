@@ -90,7 +90,15 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     -- So, if a “six flower” is showing 3/6, we will want a 1 and 2 card in the deck*/
     private NumberLevel level3() {
         List<MixedFraction> mixedFractions = getMixedFractions( list( 1, 2, 3 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 6 ), fraction( 5, 6 ) ) );
-        return new NumberLevel( choose( 3, mixedFractions ), new RandomColors3(), flower.sequential() );
+
+        RandomColors3 colors = new RandomColors3();
+        List<MixedFraction> targets = choose( 3, mixedFractions );
+
+        //Scale so they fit in the flowers which requires a denominator of 6
+        return new NumberLevel( list( target( targets.index( 0 ), colors.next(), scaleToSixths( flower ) ),
+                                      target( targets.index( 1 ), colors.next(), scaleToSixths( flower ) ),
+                                      target( targets.index( 2 ), colors.next(), scaleToSixths( flower ) ) ) );
+
     }
 
     /*Level 4:
@@ -219,6 +227,18 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     private List<Fraction> expandable() {return parse( "1/2, 1/3, 2/3, 1/4, 3/4" );}
 
     private List<Fraction> fullListOfFractions() {return parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9" );}
+
+    private F<MixedFraction, FilledPattern> scaleToSixths( final PatternMaker patternMaker ) {
+        return new F<MixedFraction, FilledPattern>() {
+            @Override public FilledPattern f( final MixedFraction mixedFraction ) {
+                int d = mixedFraction.getFractionPart().denominator;
+
+                //Use the same random seed each time otherwise composite representations might have different shape types for each of its parts
+                Integer scaleFactor = 6 / d;
+                return patternMaker.sequential().f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
+            }
+        };
+    }
 
     private F<MixedFraction, FilledPattern> scaledRepresentation( final long seed, final boolean random, final boolean reallyScaleIt ) {
         return new F<MixedFraction, FilledPattern>() {
