@@ -12,9 +12,14 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
  */
 public class NumberNode extends RichPNode {
     public final int number;
+    private final PhetPText textNode;
 
     public NumberNode( final int number ) {
         this.number = number;
-        addChild( new PhetPText( number + "", new PhetFont( 64, true ) ) );
+        textNode = new PhetPText( number + "", new PhetFont( 64, true ) );
+        addChild( textNode );
     }
+
+    //Make the number non-bold when it expands into the "whole" part of a mixed fraction
+    public void setBoldFont( boolean boldFont ) { textNode.setFont( new PhetFont( 64, boldFont ) ); }
 }
