@@ -24,8 +24,9 @@ public class TeaPot extends EnergySource {
     //-------------------------------------------------------------------------
 
     private static final double MAX_ENERGY_PRODUCTION_RATE = 200; // In joules/second
-    private static final double MAX_ENERGY_CHANGE_RATE = 10; // In joules/second
+    private static final double MAX_ENERGY_CHANGE_RATE = 20; // In joules/second
     private static final double COOLING_CONSTANT = 0.1; // Controls rate at which tea pot cools down, empirically determined.
+    private static final double COOL_DOWN_COMPLETE_THRESHOLD = 30; // In joules/second
 
     public static final ModelElementImage TEAPOT_IMAGE = new ModelElementImage( TEAPOT_MEDIUM, new Vector2D( 0.015, 0.015 ) );
 
@@ -58,9 +59,16 @@ public class TeaPot extends EnergySource {
             double energyProductionIncreaseRate = heatCoolAmount.get() * MAX_ENERGY_CHANGE_RATE;
             energyProductionRate = Math.min( energyProductionRate + energyProductionIncreaseRate * dt, MAX_ENERGY_PRODUCTION_RATE );
             double energyProductionDecreaseRate = energyProductionRate * COOLING_CONSTANT;
-            energyProductionRate = energyProductionRate + energyProductionIncreaseRate * dt - energyProductionDecreaseRate * dt;
+            if ( heatCoolAmount.get() <= 0 && energyProductionRate < COOL_DOWN_COMPLETE_THRESHOLD ) {
+                // Clamp the energy production rate to zero so that it doesn't
+                // trickle on forever.
+                energyProductionRate = 0;
+            }
+            else {
+                // Calculate the energy production rate normally.
+                energyProductionRate = energyProductionRate + energyProductionIncreaseRate * dt - energyProductionDecreaseRate * dt;
+            }
         }
-        System.out.println( "energyProductionRate = " + energyProductionRate );
         return new Energy( Energy.Type.MECHANICAL, energyProductionRate * dt, Math.PI / 2 );
     }
 
