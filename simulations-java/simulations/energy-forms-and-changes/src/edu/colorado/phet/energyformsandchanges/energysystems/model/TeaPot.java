@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.TEAPOT_MEDIUM;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.TEAPOT_LARGE;
 
 /**
  * Class that represents the steam-generating tea pot in the model.
@@ -28,7 +28,7 @@ public class TeaPot extends EnergySource {
     private static final double COOLING_CONSTANT = 0.1; // Controls rate at which tea pot cools down, empirically determined.
     private static final double COOL_DOWN_COMPLETE_THRESHOLD = 30; // In joules/second
 
-    public static final ModelElementImage TEAPOT_IMAGE = new ModelElementImage( TEAPOT_MEDIUM, new Vector2D( 0.015, 0.015 ) );
+    public static final ModelElementImage TEAPOT_IMAGE = new ModelElementImage( TEAPOT_LARGE, new Vector2D( 0.0, 0.015 ) );
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
         add( TEAPOT_IMAGE );
