@@ -277,24 +277,24 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
                                       shuffledTarget( targets.index( 3 ), colors.next(), scaledRepresentation( seed, true, true ) ) ) );
     }
 
-    /**
-     * Level 9:
+    /*
+     * Level 9-10:
      * -- All representations, random fill, and simplifying possible
      * -- Now representations within the targets can have different divisions, do this for 2 of the targets
      * --So, for instance if {1:3/4} is being represented by circles, the first circle could be divided in ¼’s and the second circle divided in 1/8’s, with pieces randomly distributed between the two circles.
      */
-    public NumberLevel level9() {
+    public NumberLevel levelWithSomeScattering( List<Boolean> scatterList ) {
         final List<Integer> wholes = list( 1, 2, 3 );
-        List<Integer> denominators = rangeInclusive( 1, 8 );
+        List<Integer> denominators = rangeInclusive( 2, 8 );
         List<Integer> selectedDenominators = choose( 4, denominators );
         List<MixedFraction> mixedFractions = selectedDenominators.map( new F<Integer, MixedFraction>() {
             @Override public MixedFraction f( final Integer denominator ) {
-                final MixedFraction mf = new MixedFraction( chooseOne( wholes ), chooseOne( rangeInclusive( 1, denominator ) ), denominator );
+                final MixedFraction mf = new MixedFraction( chooseOne( wholes ), chooseOne( rangeInclusive( 1, denominator - 1 ) ), denominator );
                 return mf.withReducedFractionPart();
             }
         } );
         final RandomColors4 colors = new RandomColors4();
-        final List<Boolean> scattered = shuffle( list( true, true, false, false ) );
+        final List<Boolean> scattered = shuffle( scatterList );
         final IntegerProperty index = new IntegerProperty( 0 );
         return new NumberLevel( mixedFractions.map( new F<MixedFraction, NumberTarget>() {
             @Override public NumberTarget f( final MixedFraction mixedFraction ) {
@@ -306,7 +306,11 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     }
 
     public NumberLevel level10() {
-        return level9();
+        return levelWithSomeScattering( list( true, true, true, true ) );
+    }
+
+    public NumberLevel level9() {
+        return levelWithSomeScattering( list( true, true, false, false ) );
     }
 
     private NumberTarget difficultTarget( final MixedFraction mixedFraction, final Color next, final Boolean scattered ) {

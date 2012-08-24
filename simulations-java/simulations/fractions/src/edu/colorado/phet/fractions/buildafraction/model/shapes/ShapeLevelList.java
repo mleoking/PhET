@@ -302,8 +302,15 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
         return shapes;
     }
 
+    public static class Tester {
+        public static void main( String[] args ) {
+            ArrayList<List<Integer>> result = getCoefficientSets( new Fraction( 20, 3 ) );
+            System.out.println( "result = " + result );
+        }
+    }
+
     //Brute force search for coefficients that make n*1/1 + m * 1/2 + o * 1/3 + ... solve the given fraction.
-    private static ArrayList<List<Integer>> getCoefficientSets( final Fraction target ) {
+    public static ArrayList<List<Integer>> getCoefficientSets( final Fraction target ) {
 
         List<Integer> range = range( 0, 9 );
 
