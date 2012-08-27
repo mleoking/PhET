@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class graph for the 2 tabs that deal with line forms (slope-intercept and point-slope).
+ * Base class graph for the "Slope-Intercept" and "Point-Slope" tabs.
  * This graph displays lines, but includes no interactivity.
  * Line manipulators are added by subclasses.
  *

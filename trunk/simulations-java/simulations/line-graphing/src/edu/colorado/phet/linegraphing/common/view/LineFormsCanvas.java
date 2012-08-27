@@ -12,7 +12,7 @@ import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Base class canvas for the 2 tabs that deal with line forms (slope-intercept and point-slope).
+ * Base class canvas for the "Slope-Intercept" and "Point-Slope" tabs.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
