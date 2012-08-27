@@ -12,7 +12,7 @@ import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Base class canvas for the "Slope-Intercept" and "Point-Slope" tabs.
+ * Base class canvas for the "Slope-Intercept" and "Point-Slope" modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class graph for the "Slope-Intercept" and "Point-Slope" tabs.
+ * Base class graph for the "Slope-Intercept" and "Point-Slope" modules.
  * This graph displays lines, but includes no interactivity.
  * Line manipulators are added by subclasses.
  *

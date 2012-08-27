@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Portion of the scenegraph that corresponds to the "play" game phase
+ * Portion of the scenegraph that corresponds to the "play" game phase.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

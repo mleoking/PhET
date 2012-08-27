@@ -53,7 +53,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * The reward that is displayed when the game is completed with a perfect score.
+ * The reward that is displayed when a game is completed with a perfect score.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

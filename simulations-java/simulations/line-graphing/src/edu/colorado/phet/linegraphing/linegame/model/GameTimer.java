@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * Game timer, keeps track of the elapsed time in the game.
+ * Game timer, keeps track of the elapsed time in the game using "wall clock" time.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
