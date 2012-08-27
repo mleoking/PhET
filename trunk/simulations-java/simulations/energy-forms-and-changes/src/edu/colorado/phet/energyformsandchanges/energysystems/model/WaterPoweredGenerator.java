@@ -83,16 +83,16 @@ public class WaterPoweredGenerator extends EnergyConverter {
                 // Treat the wheel as though it is directly coupled to the
                 // energy source, e.g. through a belt or drive shaft.
                 if ( incomingEnergy.type == Energy.Type.MECHANICAL ) {
-                    wheelRotationalVelocity = incomingEnergy.amount * DIRECT_COUPLING_ENERGY_TO_ROTATION_CONSTANT * ( Math.sin( incomingEnergy.direction ) > 0 ? 1 : -1 );
+                    wheelRotationalVelocity = incomingEnergy.amount * DIRECT_COUPLING_ENERGY_TO_ROTATION_CONSTANT * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
                     wheelRotationalAngle.set( wheelRotationalAngle.get() + wheelRotationalVelocity * dt );
                 }
             }
             else {
-                // Treat the wheel like it is not directly coupled to anything
-                // and has inertia.
+                // Treat the wheel like it is being moved from an external
+                // energy, such as water, and has inertia.
                 double torqueFromIncomingEnergy = 0;
                 if ( incomingEnergy.type == Energy.Type.MECHANICAL ) {
-                    torqueFromIncomingEnergy = incomingEnergy.amount * WHEEL_RADIUS * 30 * ( Math.sin( incomingEnergy.direction ) > 0 ? 1 : -1 );
+                    torqueFromIncomingEnergy = incomingEnergy.amount * WHEEL_RADIUS * 30 * ( Math.sin( incomingEnergy.direction ) > 0 ? -1 : 1 ); // Convention is positive is counter clockwise.
                 }
                 double torqueFromResistance = -wheelRotationalVelocity * RESISTANCE_CONSTANT;
                 double angularAcceleration = ( torqueFromIncomingEnergy + torqueFromResistance ) / WHEEL_MOMENT_OF_INERTIA;

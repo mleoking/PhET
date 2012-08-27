@@ -34,7 +34,7 @@ public class WaterPoweredGeneratorNode extends PositionableFadableModelElementNo
                                                                paddlesNode.getFullBoundsReference().getCenterY() );
         generator.getWheelRotationalAngle().addObserver( new VoidFunction1<Double>() {
             public void apply( Double angle ) {
-                double delta = angle - paddlesNode.getRotation();
+                double delta = -angle - paddlesNode.getRotation();
                 paddlesNode.rotateAboutPoint( delta, wheelRotationPoint );
                 wheelTextureNode.rotateAboutPoint( delta, wheelRotationPoint );
             }
