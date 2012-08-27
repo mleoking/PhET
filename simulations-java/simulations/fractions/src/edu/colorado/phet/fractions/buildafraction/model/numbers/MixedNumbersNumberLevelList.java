@@ -3,6 +3,7 @@ package edu.colorado.phet.fractions.buildafraction.model.numbers;
 
 import fj.F;
 import fj.P2;
+import fj.Unit;
 import fj.data.List;
 
 import java.awt.Color;
@@ -20,6 +21,7 @@ import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLev
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.*;
 import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 import static edu.colorado.phet.fractions.common.util.Sampling.*;
+import static fj.Unit.unit;
 import static fj.data.List.iterableList;
 import static fj.data.List.list;
 
@@ -36,12 +38,63 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
         add( level2() );
         add( level3() );
         add( level4() );
-        add( level5() );
-        add( level6() );
-        add( level7() );
-        add( level8() );
-        add( level9() );
-        add( level10() );
+        add( withDifferentRepresentations( new F<Unit, NumberLevel>() {
+            @Override public NumberLevel f( final Unit unit ) {
+                return level5();
+            }
+        } ) );
+        add( withDifferentRepresentations( new F<Unit, NumberLevel>() {
+            @Override public NumberLevel f( final Unit unit ) {
+                return level6();
+            }
+        } ) );
+        add( withDifferentRepresentations( new F<Unit, NumberLevel>() {
+            @Override public NumberLevel f( final Unit unit ) {
+                return level7();
+            }
+        } ) );
+        add( withDifferentRepresentations( new F<Unit, NumberLevel>() {
+            @Override public NumberLevel f( final Unit unit ) {
+                return level8();
+            }
+        } ) );
+        add( withAnyRepresentations( new F<Unit, NumberLevel>() {
+            @Override public NumberLevel f( final Unit unit ) {
+                return level9();
+            }
+        } ) );
+        add( withAnyRepresentations( new F<Unit, NumberLevel>() {
+            @Override public NumberLevel f( final Unit unit ) {
+                return level10();
+            }
+        } ) );
+        while ( size() < 10 ) {
+            add( level1() );
+        }
+    }
+
+    //Convenience method so that smaller changes can be made to the constructor
+    private NumberLevel withAnyRepresentations( final F<Unit, NumberLevel> f ) {return f.f( unit() ); }
+
+    //Keep sampling from the level until we find a level with two different shape types
+    private NumberLevel withDifferentRepresentations( final F<Unit, NumberLevel> f ) {
+        int count = 0;
+        while ( count < 10 ) {
+            NumberLevel level = f.f( unit() );
+            if ( level.hasDifferentShapeTypes() ) {
+                return level;
+            }
+            else {
+                System.out.println( "level.targets.map( new  ) = " + level.targets.map( new F<NumberTarget, Object>() {
+                    @Override public Object f( final NumberTarget numberTarget ) {
+                        return numberTarget.representation;
+                    }
+                } ) );
+            }
+            count++;
+            System.out.println( "count = " + count );
+        }
+        return f.f( unit() );
     }
 
     /*Level 1:
@@ -248,7 +301,9 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
 
                 //Use the same random seed each time otherwise composite representations might have different shape types for each of its parts
                 Integer scaleFactor = chooseOneWithSeed( seed, scaleFactors );
-                final PatternMaker patternMaker = chooseOneWithSeed( seed, matching( d * scaleFactor ) );
+                final int denominator = d * scaleFactor;
+                final PatternMaker patternMaker = chooseOneWithSeed( seed, matching( denominator ) );
+                System.out.println( "denominator = " + denominator + ", patternmaker = " + patternMaker );
                 return ( random ? patternMaker.random() : patternMaker.sequential() ).f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
             }
         };

@@ -5,6 +5,7 @@ import fj.Equal;
 import fj.F;
 import fj.P2;
 import fj.data.List;
+import lombok.Data;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -34,10 +35,12 @@ import static java.awt.Color.orange;
 public class NumberLevelList extends ArrayList<NumberLevel> {
     private static final Random random = new Random();
 
-    public static abstract class PatternMaker extends F<MixedFraction, Pattern> {
+    public static @Data abstract class PatternMaker extends F<MixedFraction, Pattern> {
+        public final String name;
         public final List<Integer> acceptedDenominators;
 
-        protected PatternMaker( int... values ) {
+        protected PatternMaker( String name, int... values ) {
+            this.name = name;
             List<Integer> c = nil();
             for ( int value : values ) {
                 c = c.snoc( value );
@@ -46,74 +49,84 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         }
 
         public F<MixedFraction, FilledPattern> sequential() {
-            return new F<MixedFraction, FilledPattern>() {
-                @Override public FilledPattern f( final MixedFraction fraction ) {
-                    return sequentialFill( PatternMaker.this.f( fraction ), fraction.numerator );
-                }
-            };
+            return new Sequential( this );
         }
 
         public F<MixedFraction, FilledPattern> random() {
-            return new F<MixedFraction, FilledPattern>() {
-                @Override public FilledPattern f( final MixedFraction fraction ) {
-                    return randomFill( PatternMaker.this.f( fraction ), fraction.numerator, random.nextLong() );
-                }
-            };
+            return new RandomFill( this );
+        }
+    }
+
+    //Used for equality tests, so needs a working equality test
+    public static @Data class Sequential extends F<MixedFraction, FilledPattern> {
+        public final PatternMaker patternMaker;
+
+        @Override public FilledPattern f( final MixedFraction fraction ) {
+            return sequentialFill( patternMaker.f( fraction ), fraction.numerator );
+        }
+    }
+
+    //Used for equality tests, so needs a working equality test
+    public static @Data class RandomFill extends F<MixedFraction, FilledPattern> {
+        public final PatternMaker patternMaker;
+
+        @Override public FilledPattern f( final MixedFraction fraction ) {
+            return randomFill( patternMaker.f( fraction ), fraction.numerator, random.nextLong() );
         }
     }
 
     //Create the pattern makers for all the different shape types. The following reads better with closure folding.
-    public static final PatternMaker pie = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) {
+    public static final PatternMaker pie = new PatternMaker( "pie", 1, 2, 3, 4, 5, 6, 7, 8, 9 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pie( fraction.denominator );
         }
     };
-    public static final PatternMaker horizontalBar = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8 ) {
+    public static final PatternMaker horizontalBar = new PatternMaker( "bar", 1, 2, 3, 4, 5, 6, 7, 8 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.horizontalBars( fraction.denominator );
         }
     };
-    public static final PatternMaker verticalBar = new PatternMaker( 1, 2, 3, 4, 5, 6, 7, 8 ) {
+    public static final PatternMaker verticalBar = new PatternMaker( "bar", 1, 2, 3, 4, 5, 6, 7, 8 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.verticalBars( fraction.denominator );
         }
     };
-    public static final PatternMaker pyramid1 = new PatternMaker( 1 ) {
+    public static final PatternMaker pyramid1 = new PatternMaker( "pyramid", 1 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pyramidSingle();
         }
     };
-    public static final PatternMaker pyramid4 = new PatternMaker( 4 ) {
+    public static final PatternMaker pyramid4 = new PatternMaker( "pyramid", 4 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pyramidFour();
         }
     };
-    public static final PatternMaker pyramid9 = new PatternMaker( 9 ) {
+    public static final PatternMaker pyramid9 = new PatternMaker( "pyramid", 9 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.pyramidNine();
         }
     };
-    public static final PatternMaker grid1 = new PatternMaker( 1 ) {
+    public static final PatternMaker grid1 = new PatternMaker( "grid", 1 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.grid( 1 );
         }
     };
-    public static final PatternMaker grid4 = new PatternMaker( 4 ) {
+    public static final PatternMaker grid4 = new PatternMaker( "grid", 4 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.grid( 2 );
         }
     };
-    public static final PatternMaker grid9 = new PatternMaker( 9 ) {
+    public static final PatternMaker grid9 = new PatternMaker( "grid", 9 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.grid( 3 );
         }
     };
-    public static final PatternMaker flower = new PatternMaker( 6 ) {
+    public static final PatternMaker flower = new PatternMaker( "flower", 6 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.sixFlower();
         }
     };
-    public static final PatternMaker polygon = new PatternMaker( 3, 4, 5, 6, 7, 8, 9 ) {
+    public static final PatternMaker polygon = new PatternMaker( "polygon", 3, 4, 5, 6, 7, 8, 9 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.polygon( 60, fraction.denominator );
         }
