@@ -1,13 +1,20 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
+import java.awt.Color;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighlightHandler;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.RiseRunBracketNode.Direction;
@@ -16,8 +23,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Base class graph for the "Slope-Intercept" and "Point-Slope" modules.
- * This graph displays lines, but includes no interactivity.
- * Line manipulators are added by subclasses.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -30,6 +35,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
     private final Property<Boolean> interactiveEquationVisible;
     private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
     private final PNode interactiveLineParentNode, bracketsParentNode;
+    private final LineManipulatorNode pointManipulator, slopeManipulatorNode;
     private StraightLineNode interactiveLineNode;
 
     /**
@@ -43,6 +49,12 @@ public abstract class LineFormsGraphNode extends GraphNode {
      * @param interactiveLineVisible is the interactive line visible visible on the graph?
      * @param interactiveEquationVisible is the equation visible on the interactive line?
      * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
+     * @param riseRange
+     * @param runRange
+     * @param x1Range
+     * @param y1Range
+     * @param pointManipulatorColor
+     * @param slopeManipulatorColor
      */
     public LineFormsGraphNode( final Graph graph, final ModelViewTransform mvt,
                                Property<StraightLine> interactiveLine,
@@ -51,7 +63,13 @@ public abstract class LineFormsGraphNode extends GraphNode {
                                final Property<Boolean> linesVisible,
                                final Property<Boolean> interactiveLineVisible,
                                Property<Boolean> interactiveEquationVisible,
-                               final Property<Boolean> slopeVisible ) {
+                               final Property<Boolean> slopeVisible,
+                               Property<DoubleRange> riseRange,
+                               Property<DoubleRange> runRange,
+                               Property<DoubleRange> x1Range,
+                               Property<DoubleRange> y1Range,
+                               Color pointManipulatorColor,
+                               Color slopeManipulatorColor ) {
         super( graph, mvt );
 
         this.graph = graph;
@@ -66,11 +84,27 @@ public abstract class LineFormsGraphNode extends GraphNode {
         // Rise and run brackets for the interactive line
         bracketsParentNode = new PComposite();
 
+        // Manipulators for the interactive line
+        final double manipulatorDiameter = mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
+
+        // interactivity for point (x1,y1) manipulator
+        pointManipulator = new LineManipulatorNode( manipulatorDiameter, pointManipulatorColor );
+        pointManipulator.addInputEventListener( new CursorHandler() );
+        pointManipulator.addInputEventListener( new PointDragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
+                                                                      pointManipulator, mvt, interactiveLine, x1Range, y1Range ) );
+        // interactivity for slope manipulator
+        slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, slopeManipulatorColor );
+        slopeManipulatorNode.addInputEventListener( new CursorHandler() );
+        slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
+                                                                          slopeManipulatorNode, mvt, interactiveLine, riseRange, runRange ) );
+
         // Rendering order
         addChild( interactiveLineParentNode );
         addChild( savedLinesParentNode );
         addChild( standardLinesParentNode );
         addChild( bracketsParentNode );
+        addChild( pointManipulator );
+        addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
         // Add/remove standard lines
         standardLines.addElementAddedObserver( new VoidFunction1<StraightLine>() {
@@ -119,6 +153,8 @@ public abstract class LineFormsGraphNode extends GraphNode {
                 }
             }
         } );
+
+        updateInteractiveLine( interactiveLine.get(), graph, mvt ); // initial position of manipulators
     }
 
     // Called when a standard line is added to the model.
@@ -165,16 +201,23 @@ public abstract class LineFormsGraphNode extends GraphNode {
     // Updates the visibility of lines and associated decorations
     protected void updateLinesVisibility( boolean linesVisible, boolean interactiveLineVisible, boolean slopeVisible ) {
 
-        savedLinesParentNode.setVisible( linesVisible );
-        standardLinesParentNode.setVisible( linesVisible );
-
+        // interactive line
         if ( interactiveLineParentNode != null ) {
             interactiveLineParentNode.setVisible( linesVisible && interactiveLineVisible );
         }
 
+        // saved & standard lines
+        savedLinesParentNode.setVisible( linesVisible );
+        standardLinesParentNode.setVisible( linesVisible );
+
+        // slope brackets
         if ( bracketsParentNode != null ) {
             bracketsParentNode.setVisible( slopeVisible && linesVisible && interactiveLineVisible );
         }
+
+        // Hide the manipulators at appropriate times (when dragging or based on visibility of lines).
+        pointManipulator.setVisible( linesVisible && interactiveLineVisible );
+        slopeManipulatorNode.setVisible( linesVisible && interactiveLineVisible );
     }
 
     // Updates the line and its associated decorations
@@ -204,6 +247,10 @@ public abstract class LineFormsGraphNode extends GraphNode {
                 riseBracket.setOffset( mvt.modelToViewX( line.x1 + line.run ), mvt.modelToViewY( line.y1 ) );
             }
         }
+
+        // move the manipulators
+        pointManipulator.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
+        slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1 + line.run, line.y1 + line.rise ) ) );
     }
 
     // Creates a line node of the proper form.
