@@ -40,8 +40,9 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.common.view.EquationFactory;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
@@ -165,14 +166,14 @@ public class RewardNode extends PhetPNode {
         final PhetFont font = new PhetFont( Font.BOLD, 24 );
         PNode node;
         if ( useSlopeInterceptForm ) {
-            StraightLine line = new StraightLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
-                                                  getRandomNonZeroInteger( -20, 20 ),
-                                                  color );
+            PointSlopeLine line = new SlopeInterceptLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
+                                                        getRandomNonZeroInteger( -20, 20 ),
+                                                        color );
             EquationFactory factory = new SlopeInterceptEquationFactory();
             node = factory.createNode( line, font );
         }
         else {
-            StraightLine line = new StraightLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
+            PointSlopeLine line = new PointSlopeLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
                                                   color );
             EquationFactory factory = new PointSlopeEquationFactory();
             node = factory.createNode( line, font );

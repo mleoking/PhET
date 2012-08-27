@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -33,7 +33,7 @@ public class SlopeDragHandler extends LineManipulatorDragHandler {
      * @param runRange
      */
     public SlopeDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                             LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line,
+                             LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<PointSlopeLine> line,
                              Property<DoubleRange> riseRange,
                              Property<DoubleRange> runRange ) {
         super( userComponent, componentType, manipulatorNode, mvt, line );
@@ -56,7 +56,7 @@ public class SlopeDragHandler extends LineManipulatorDragHandler {
         double rise = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().y1, riseRange.get() ) );
         // don't allow slope=0/0, undefined line
         if ( !( run == 0 && rise == 0 ) ) {
-            line.set( new StraightLine( line.get().x1, line.get().y1, rise, run, line.get().color ) );
+            line.set( new PointSlopeLine( line.get().x1, line.get().y1, rise, run, line.get().color ) );
         }
     }
 }

@@ -4,7 +4,7 @@ package edu.colorado.phet.linegraphing.pointslope.view;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
 
@@ -15,12 +15,12 @@ import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
  */
 class PointSlopeLineNode extends StraightLineNode {
 
-    public PointSlopeLineNode( final StraightLine line, Graph graph, ModelViewTransform mvt ) {
+    public PointSlopeLineNode( final PointSlopeLine line, Graph graph, ModelViewTransform mvt ) {
         super( line, graph, mvt );
     }
 
     // Creates the line's equation in point-slope form.
-    protected EquationNode createEquationNode( StraightLine line, PhetFont font ) {
+    protected EquationNode createEquationNode( PointSlopeLine line, PhetFont font ) {
         return new PointSlopeEquationFactory().createSimplifiedNode( line, font );
     }
 }

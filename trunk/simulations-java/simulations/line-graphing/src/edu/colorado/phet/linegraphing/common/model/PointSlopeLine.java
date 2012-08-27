@@ -12,24 +12,19 @@ import edu.colorado.phet.linegraphing.common.LGColors;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class StraightLine {
+public class PointSlopeLine {
 
     // standard lines
-    public static final StraightLine Y_EQUALS_X_LINE = new StraightLine( 1, 1, 0, LGColors.Y_EQUALS_X );  // y = x
-    public static final StraightLine Y_EQUALS_NEGATIVE_X_LINE = new StraightLine( -1, 1, 0, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
+    public static final SlopeInterceptLine Y_EQUALS_X_LINE = new SlopeInterceptLine( 1, 1, 0, LGColors.Y_EQUALS_X );  // y = x
+    public static final SlopeInterceptLine Y_EQUALS_NEGATIVE_X_LINE = new SlopeInterceptLine( -1, 1, 0, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
 
     public final double rise; // vertical component of the slope
     public final double run; // horizontal component of the slope
     public final double x1, y1; // some point
     public final Color color; // color used for visualizing the line
 
-    // slope-intercept form: y = mx + b
-    public StraightLine( double rise, double run, double yIntercept, Color color ) {
-        this( 0, yIntercept, rise, run, color );
-    }
-
     // point-slope form: (y - y1) = m(x - x1)
-    public StraightLine( double x1, double y1, double rise, double run, Color color ) {
+    public PointSlopeLine( double x1, double y1, double rise, double run, Color color ) {
         assert( !( rise == 0 && run == 0 ) ); // a line with slope=0/0 is undefined
         this.rise = rise;
         this.run = run;
@@ -39,8 +34,8 @@ public class StraightLine {
     }
 
     // Creates a new instance with a different color.
-    public StraightLine withColor( Color color ) {
-        return new StraightLine( x1, y1, rise, run, color );
+    public PointSlopeLine withColor( Color color ) {
+        return new PointSlopeLine( x1, y1, rise, run, color );
     }
 
     /*
@@ -77,11 +72,11 @@ public class StraightLine {
      * Simplification uses Euclid's algorithm for computing the greatest common divisor (GCD) of two integers,
      * so this is effective only if the rise and run are integer values. Otherwise 'this' is returned.
      */
-    public StraightLine simplified() {
+    public PointSlopeLine simplified() {
         if ( ( rise == (int) rise ) && ( run == (int) run ) ) { // true if rise and run are integers
             final int reducedRise = (int) ( rise / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
             final int reducedRun = (int) ( run / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
-            return new StraightLine( x1, y1, reducedRise, reducedRun, color );
+            return new PointSlopeLine( x1, y1, reducedRise, reducedRun, color );
         }
         else {
             return this;
@@ -89,7 +84,7 @@ public class StraightLine {
     }
 
     // Returns true if 2 points on the specified line are also on this line.
-    public boolean same( StraightLine line ) {
+    public boolean same( PointSlopeLine line ) {
         return onLine( line.x1, line.y1 ) && onLine( line.x1 + run, line.y1 + rise );
     }
 

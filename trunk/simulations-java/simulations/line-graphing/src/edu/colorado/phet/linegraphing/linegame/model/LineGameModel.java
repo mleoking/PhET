@@ -15,9 +15,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 
 /**
@@ -69,7 +70,7 @@ public class LineGameModel {
     private MatchingChallenge[] challenges = new MatchingChallenge[CHALLENGES_PER_GAME];
     private int challengeIndex;
     public final PointTool pointTool1, pointTool2;
-    private final ObservableList<StraightLine> allLines;
+    private final ObservableList<PointSlopeLine> allLines;
 
     // Defaults
     public LineGameModel() {
@@ -92,9 +93,9 @@ public class LineGameModel {
 
         graph = new Graph( xRange, yRange );
 
-        challenge = new Property<MatchingChallenge>( new MatchingChallenge( new StraightLine( 1, 1, 1, Color.BLACK ) ) ); // initial value is meaningless
+        challenge = new Property<MatchingChallenge>( new MatchingChallenge( new SlopeInterceptLine( 1, 1, 1, Color.BLACK ) ) ); // initial value is meaningless
 
-        allLines = new ObservableList<StraightLine>(  );
+        allLines = new ObservableList<PointSlopeLine>(  );
         this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
         this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ), Orientation.DOWN, allLines );
 
@@ -178,11 +179,11 @@ public class LineGameModel {
     private void initChallenges() {
         //TODO create different types of challenges, randomized for level
         challengeIndex = 0;
-        challenges[0] = new MatchingChallenge( new StraightLine( 4, 2, 3, GameConstants.GIVEN_COLOR ) );
-        challenges[1] = new MatchingChallenge( new StraightLine( 5, 1, 1, GameConstants.GIVEN_COLOR ) );
-        challenges[2] = new MatchingChallenge( new StraightLine( -3, 3, -2, GameConstants.GIVEN_COLOR ) );
-        challenges[3] = new MatchingChallenge( new StraightLine( 10, 2, -6, GameConstants.GIVEN_COLOR ) );
-        challenges[4] = new MatchingChallenge( new StraightLine( 0, 3, 2, GameConstants.GIVEN_COLOR ) );
+        challenges[0] = new MatchingChallenge( new SlopeInterceptLine( 4, 2, 3, GameConstants.GIVEN_COLOR ) );
+        challenges[1] = new MatchingChallenge( new SlopeInterceptLine( 5, 1, 1, GameConstants.GIVEN_COLOR ) );
+        challenges[2] = new MatchingChallenge( new SlopeInterceptLine( -3, 3, -2, GameConstants.GIVEN_COLOR ) );
+        challenges[3] = new MatchingChallenge( new SlopeInterceptLine( 10, 2, -6, GameConstants.GIVEN_COLOR ) );
+        challenges[4] = new MatchingChallenge( new SlopeInterceptLine( 0, 3, 2, GameConstants.GIVEN_COLOR ) );
     }
 
     public boolean isPerfectScore() {

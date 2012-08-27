@@ -26,9 +26,9 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -75,7 +75,7 @@ public class PointToolNode extends PhetPNode {
                     setCoordinates( location );
                     if ( linesVisible.get() ) {
                         // use the line's color to highlight
-                        StraightLine onLine = pointTool.onLine.get();
+                        PointSlopeLine onLine = pointTool.onLine.get();
                         setForeground( onLine == null ? LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR : LGColors.POINT_TOOL_FOREGROUND_HIGHLIGHT_COLOR );
                         setBackground( onLine == null ? LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR : onLine.color );
                     }

@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.view.EquationFactory;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class PointSlopeEquationFactory extends EquationFactory {
 
-    public EquationNode createNode( StraightLine line, PhetFont font ) {
+    public EquationNode createNode( PointSlopeLine line, PhetFont font ) {
         if ( line.run == 0 ) {
             return new UndefinedSlopeNode( line, font );
         }
@@ -42,7 +42,7 @@ public class PointSlopeEquationFactory extends EquationFactory {
 
     // Verbose form of point-slope, not reduced, for debugging.
     private static class VerboseNode extends EquationNode {
-        public VerboseNode( StraightLine line, PhetFont font ) {
+        public VerboseNode( PointSlopeLine line, PhetFont font ) {
             addChild( new PhetPText( MessageFormat.format( "(y - {0}) = ({1}/{2})(x - {3})", line.y1, line.rise, line.run, line.x1 ), font, line.color ) );
         }
     }
@@ -53,7 +53,7 @@ public class PointSlopeEquationFactory extends EquationFactory {
      */
     private static class ZeroSlopeNode extends EquationNode {
 
-        public ZeroSlopeNode( StraightLine line, PhetFont font ) {
+        public ZeroSlopeNode( PointSlopeLine line, PhetFont font ) {
 
             assert( line.rise == 0 );
 
@@ -81,7 +81,7 @@ public class PointSlopeEquationFactory extends EquationFactory {
      */
     private static class UnitSlopeNode extends EquationNode {
 
-        public UnitSlopeNode( StraightLine line, PhetFont font ) {
+        public UnitSlopeNode( PointSlopeLine line, PhetFont font ) {
 
             assert( Math.abs( line.rise ) == Math.abs( line.run ) );
 
@@ -109,7 +109,7 @@ public class PointSlopeEquationFactory extends EquationFactory {
      */
     private static class IntegerSlopeNode extends EquationNode {
 
-        public IntegerSlopeNode( StraightLine line, PhetFont font ) {
+        public IntegerSlopeNode( PointSlopeLine line, PhetFont font ) {
 
             assert( Math.abs( line.run ) == 1 );
 
@@ -139,7 +139,7 @@ public class PointSlopeEquationFactory extends EquationFactory {
     */
     private static class FractionSlopeNode extends EquationNode {
 
-        public FractionSlopeNode( StraightLine line, PhetFont font ) {
+        public FractionSlopeNode( PointSlopeLine line, PhetFont font ) {
 
             final boolean slopeIsPositive = ( line.rise * line.run ) >= 0;
 
