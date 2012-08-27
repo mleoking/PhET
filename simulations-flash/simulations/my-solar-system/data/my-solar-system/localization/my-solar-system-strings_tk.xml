@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_tk.xml created Mon Aug 27 12:58:31 UZT 2012 using: my-solar-system 2.03.00 (52285), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="slingshot" value="Ýaý atmak"/>
+<string key="binaryStarPlanet" value="Goşa ýyldyz, planeta"/>
+<string key="sunAndPlanet" value="Gün we planeta"/>
+<string key="body4" value="jisim 4"/>
+<string key="numberOfBodies" value="jisimleriň \n sany"/>
+<string key="body3" value="jisim 3"/>
+<string key="body2" value="jisim 2"/>
+<string key="body1" value="jisim 1"/>
+<string key="velocity" value="tizlik"/>
+<string key="doubleDouble" value="Goşa iki"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="massEquals" value="massa="/>
+<string key="hyperbolics" value="Giperbolik"/>
+<string key="help9" value="Eýeçilik haklary PhET taslama hem-de Bolderiň Kolorado uniwersitetine degişli."/>
+<string key="help8" value="Runge-Kutta tapawutlylykda, Werlet algoritmda energiýa yrgyldy sistema saklanyp,durnukly orbitalary  getirýär. Islendik  wagt aralykly algoritmlerde bolşy ýaly, Werlet b/a alnan netijeler hakykata gabat gelmeýär haçan-da jisimler juda golaýlap ahyrky tizlenme juda ýokary bolanda. Onuň öňüni almak üçin, juda golaýlan jisimler impulslary saklaýjy çakyşmada birikýärler."/>
+<string key="help6" value="Simulýasiýada traýektoriýalaryny integrirlemek üçin belli-wagt aralyklardaky tizlik üçin Werlet algoritmi ulanylýar:"/>
+<string key="help5" value="Sistema merkezde edilip saýlananda, sistemanyň agyrlyk merkezi aýyrylýar."/>
+<string key="help4" value="Şu pursatdaky ýagdaýy we tizligi bilmek üçin, Stop basyp myşkany jisimiň üstüne getir."/>
+<string key="help3" value="Massalary birnäçe müňden köp etmän sakla, ýogsa düşnüksiz netije çykyp bilýär."/>
+<string key="help2" value="Aralyklar, massalar we wagt erkin ölçeg birliklerinde  öz ygtyýaryna berlen. Özüňkini islege görä girizip bilýäň!"/>
+<string key="help1" value="Jisimleri we olaryň V nyşanlaryny (V tizligi aňladýar) süýşürip \n ýa-da Başdaky sazlamalara  baha girizip öz gün sistemaňy ýasa."/>
+<string key="help0" value="Meniň Gün sistemamyň orbitasynyň simulýatory"/>
+<string key="doubleSlingshot" value="Goşa ýaý atmak"/>
+<string key="systemCentered" value="Sistema merkezde"/>
+<string key="showTraces" value="Yzlary görkez"/>
+<string key="back" value="yzyna gaýt"/>
+<string key="tapeMeasure" value="Ölçeýji lenta"/>
+<string key="accurate" value="takyk"/>
+<string key="help" value="Kömek"/>
+<string key="selectPreset" value="Öňünden sazlamak"/>
+<string key="showGrid" value="Gözenegi görkez"/>
+<string key="timeEquals" value="wagt ="/>
+<string key="ellipses" value="Ellipsler"/>
+<string key="trojanAsteroids" value="Troýan asteroid (Ýupiter bilen meňzeş hereket eden asteroid)"/>
+<string key="fourStarBallet" value="Dört ýyldyzly balet"/>
+<string key="position" value="ýagdaýy"/>
+<string key="reset" value="Yzyna gaýt"/>
+<string key="mass" value="massa"/>
+<string key="fast" value="çalt"/>
+<string key="simTitle" value="Meniň Gün sistemam"/>
+<string key="sunPlanetMoon" value="Gün,planeta,aý"/>
+<string key="initialSettings" value="Başdaky sazlamalar:"/>
+<string key="sunPlanetComet" value="Gün,planeta,kometa"/>
+</SimStrings>
