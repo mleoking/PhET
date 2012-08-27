@@ -28,6 +28,7 @@ public class FaceNode extends PComposite {
 
     private final PPath smileNode;
     private final PPath frownNode;
+    public final PPath headNode;
 
     public FaceNode( double headDiameter ) {
         this( headDiameter, HEAD_COLOR );
@@ -44,7 +45,7 @@ public class FaceNode extends PComposite {
         final double mouthRadius = headDiameter / 4d;
         final Stroke mouthStroke = new BasicStroke( Math.max( 1f, (float) ( headDiameter / 25 ) ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
-        PNode headNode = new CircleNode( headDiameter, headPaint );
+        headNode = new CircleNode( headDiameter, headPaint );
         PNode leftEyeNode = new CircleNode( eyeDiameter, eyePaint );
         PNode rightEyeNode = new CircleNode( eyeDiameter, eyePaint );
         smileNode = new SmileNode( mouthRadius, mouthPaint, mouthStroke );
