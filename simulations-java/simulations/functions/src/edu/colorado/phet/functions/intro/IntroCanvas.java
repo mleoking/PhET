@@ -26,7 +26,8 @@ public class IntroCanvas extends ChallengeProgressionCanvas implements ValueCont
     }
 
     @Override protected void nextButtonPressed() {
-        animateToNewScene( Scenes.scenes.index( level.get() ).f( this ) );
+        final Integer index = Math.min( Scenes.scenes.length() - 1, level.get() );
+        animateToNewScene( Scenes.scenes.index( index ).f( this ) );
     }
 
     @Override protected void finishAnimation( final PNode newScene ) {
