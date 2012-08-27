@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.shapes;
 
+import fj.Equal;
 import fj.F;
 import fj.Unit;
 import fj.data.List;
@@ -19,8 +20,7 @@ import static edu.colorado.phet.fractions.buildafraction.view.MixedNumbersLevelS
 import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 import static edu.colorado.phet.fractions.common.util.Sampling.choose;
 import static edu.colorado.phet.fractions.common.util.Sampling.chooseOne;
-import static fj.data.List.list;
-import static fj.data.List.nil;
+import static fj.data.List.*;
 
 /**
  * This class enumerates the different levels for "Build a Mixed Fraction: Shapes"
@@ -34,6 +34,7 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
         add( level1() );
         add( level2() );
         add( level3() );
+        add( level4() );
         while ( size() < 10 ) { add( testLevel() ); }
     }
 
@@ -83,6 +84,14 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
         return shapeLevelMixed( addSubdividedCards( addSubdividedCards( straightforwardCards( targets ), 3 ), 3 ), shuffle( targets ), colors[2], choosePiesOrBars() );
     }
 
+    /*Level 4:
+    -- All targets 1, 2, or 3, as whole number, fractional portion from the set {1/2, 1/3, 2/3, 1/4, 3/4, 1/6, 5/6}
+    -- a few extra pieces to allow multiple pathways to a solution*/
+    private ShapeLevel level4() {
+        List<MixedFraction> targets = replicate( 3, chooseOne( getMixedFractions( list( 1, 2 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 4 ), fraction( 3, 4 ) ) ) ) );
+        return shapeLevelMixed( substituteSubdividedCards( substituteSubdividedCards( straightforwardCards( targets ), 1 ), 2 ), shuffle( targets ), colors[3], choosePiesOrBars() );
+    }
+
     //Take any of the cards, and subdivide it into smaller cards
     private List<Integer> addSubdividedCards( final List<Integer> integers, final int smallestPieceToSubdivide ) {
 
@@ -101,6 +110,26 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
 
         //Add the new cards.
         return integers.append( subdivided );
+    }
+
+    //Take any of the cards, and subdivide it into smaller cards
+    private List<Integer> substituteSubdividedCards( final List<Integer> integers, final int smallestPieceToSubdivide ) {
+
+        //Find cards that can be divided into smaller cards
+        List<Integer> allowed = integers.filter( new F<Integer, Boolean>() {
+            @Override public Boolean f( final Integer integer ) {
+                return integer <= smallestPieceToSubdivide;
+            }
+        } );
+
+        //Choose one to subdivide
+        Integer oneToSubdivide = chooseOne( allowed );
+
+        //Split into two smaller cards that add to the same thing
+        List<Integer> subdivided = list( oneToSubdivide * 2, oneToSubdivide * 2 );
+
+        //Add the new cards.
+        return integers.delete( oneToSubdivide, Equal.intEqual ).append( subdivided );
     }
 
     //Just the exact cards necessary to fit the selected fractions
