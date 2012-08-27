@@ -13,6 +13,7 @@ import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.common.math.Fraction;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.MixedNumbersNumberLevelList.getMixedFractions;
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.MixedNumbersNumberLevelList.parse;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel.shapeLevelMixed;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevelList.choosePiesOrBars;
@@ -35,6 +36,7 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
         add( level2() );
         add( level3() );
         add( level4() );
+        add( level5() );
         while ( size() < 10 ) { add( testLevel() ); }
     }
 
@@ -90,6 +92,18 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
     private ShapeLevel level4() {
         List<MixedFraction> targets = replicate( 3, chooseOne( getMixedFractions( list( 1, 2 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 4 ), fraction( 3, 4 ) ) ) ) );
         return shapeLevelMixed( substituteSubdividedCards( substituteSubdividedCards( straightforwardCards( targets ), 1 ), 2 ), shuffle( targets ), colors[3], choosePiesOrBars() );
+    }
+
+    /*Level 5:
+    -- Targets with 1, 2, or 3, as whole number, fractional portion from the set {1/2, 1/3, 2/3, ¼, ¾, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8}
+    -- A few more cards than needed, but at least one target must be constructed with "nontrivial" pieces.  For instance {1:1/3} only have two 1/6 pieces available for building*/
+    private ShapeLevel level5() {
+        List<MixedFraction> targets = chooseRestricted( new F<Unit, List<MixedFraction>>() {
+            @Override public List<MixedFraction> f( final Unit unit ) {
+                return choose( 3, getMixedFractions( list( 1, 2, 3 ), parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8" ) ) );
+            }
+        } );
+        return shapeLevelMixed( substituteSubdividedCards( addSubdividedCards( substituteSubdividedCards( straightforwardCards( targets ), 4 ), 4 ), 4 ), shuffle( targets ), colors[4], choosePiesOrBars() );
     }
 
     //Take any of the cards, and subdivide it into smaller cards

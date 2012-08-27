@@ -239,7 +239,7 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     }
 
     //Parse a list of fractions.
-    private List<Fraction> parse( final String s ) {
+    public static List<Fraction> parse( final String s ) {
         StringTokenizer st = new StringTokenizer( s, ", " );
         ArrayList<Fraction> f = new ArrayList<Fraction>();
         while ( st.hasMoreTokens() ) {
