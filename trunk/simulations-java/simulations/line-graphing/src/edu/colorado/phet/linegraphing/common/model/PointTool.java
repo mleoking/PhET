@@ -19,7 +19,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class PointTool implements Resettable {
 
+    public static enum Orientation { UP, DOWN }
+
     public final Property<Vector2D> location;
+    public final Orientation orientation;
     public final Property<StraightLine> onLine; // line that the tool is on, possibly null
 
     private final ObservableList<StraightLine> lines;
@@ -30,9 +33,10 @@ public class PointTool implements Resettable {
      * @param location        location of the tool, in model coordinate frame
      * @param lines           lines that the tool might intersect
      */
-    public PointTool( Vector2D location, ObservableList<StraightLine> lines ) {
+    public PointTool( Vector2D location, Orientation orientation, ObservableList<StraightLine> lines ) {
 
         this.location = new Property<Vector2D>( location );
+        this.orientation = orientation;
         this.onLine = new Property<StraightLine>( null );
 
         this.lines = lines;

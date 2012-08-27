@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
+import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 
@@ -94,8 +95,8 @@ public class LineGameModel {
         challenge = new Property<MatchingChallenge>( new MatchingChallenge( new StraightLine( 1, 1, 1, Color.BLACK ) ) ); // initial value is meaningless
 
         allLines = new ObservableList<StraightLine>(  );
-        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ), allLines );
-        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), pointTool1.location.get().getY() ), allLines );
+        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
+        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ), Orientation.DOWN, allLines );
 
         // time
         timer = new GameTimer();
