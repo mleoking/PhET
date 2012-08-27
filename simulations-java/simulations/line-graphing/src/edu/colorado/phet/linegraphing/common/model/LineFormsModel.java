@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 
 /**
  * Base class model for the 2 tabs that deal with line forms (slope-intercept and point-slope).
@@ -73,8 +74,8 @@ public class LineFormsModel implements Resettable {
             standardLines.addElementRemovedObserver( elementRemovedObserver );
         }
 
-        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.75 * xRange.getLength() ), yRange.getMin() - 3 ), allLines );
-        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.25 * xRange.getLength() ), pointTool1.location.get().getY() ), allLines );
+        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.25 * xRange.getLength() ), yRange.getMin() - 0.5 ), Orientation.UP, allLines );
+        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.75 * xRange.getLength() ), yRange.getMin() - 3 ), Orientation.DOWN, allLines );
     }
 
     public void reset() {

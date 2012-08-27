@@ -27,6 +27,7 @@ import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
+import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -46,8 +47,8 @@ public class PointToolNode extends PhetPNode {
     private static final double COORDINATES_Y_CENTER = 21; // center of the display area, measured from the top of the unscaled image file
 
     private final PNode bodyNode;
-    private final PText valueNode; // the displayed value
     private final PPath backgroundNode; // the background behind the displayed value
+    private final PText valueNode; // the displayed value
 
     /**
      * Constructor
@@ -59,7 +60,7 @@ public class PointToolNode extends PhetPNode {
      * @param linesVisible
      */
     public PointToolNode( final PointTool pointTool, final ModelViewTransform mvt, final Graph graph, Rectangle2D dragBounds, final Property<Boolean> linesVisible ) {
-        this( pointTool.location.get(), LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
+        this( pointTool.location.get(), pointTool.orientation, LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
 
         // location and display
         RichSimpleObserver observer = new RichSimpleObserver() {
@@ -101,27 +102,40 @@ public class PointToolNode extends PhetPNode {
      * This constructor creates a node that is independent of the model.
      * This was needed so that we could easily generate images of the point tool, for inclusion in the game reward.
      */
-    public PointToolNode( Vector2D point, Color background ) {
+    public PointToolNode( Vector2D point, Orientation orientation, Color background ) {
 
         // tool body
         bodyNode = new PImage( Images.POINT_TOOL );
-        bodyNode.setOffset( -bodyNode.getFullBoundsReference().getWidth() / 2, -bodyNode.getFullBoundsReference().getHeight() );
-
-        // displayed value
-        valueNode = new PText();
-        valueNode.setFont( new PhetFont( Font.BOLD, 15 ) );
 
         // background behind the displayed value, shows through a transparent hole in the display area portion of the body image
-        backgroundNode = new PPath( new Rectangle2D.Double( 5, 5,
+        backgroundNode = new PPath( new Rectangle2D.Double( 0, 0,
                                                             bodyNode.getFullBoundsReference().getWidth() - 10,
                                                             0.55 * bodyNode.getFullBoundsReference().getHeight() ) );
         backgroundNode.setStroke( null );
         backgroundNode.setOffset( bodyNode.getOffset() );
 
+        // displayed value
+        valueNode = new PText( "?" );
+        valueNode.setFont( new PhetFont( Font.BOLD, 15 ) );
+
         // rendering order
         addChild( backgroundNode );
         addChild( bodyNode );
         addChild( valueNode );
+
+        // orientation
+        if ( orientation == Orientation.DOWN ) {
+            bodyNode.setOffset( -bodyNode.getFullBoundsReference().getWidth() / 2, -bodyNode.getFullBoundsReference().getHeight() );
+            backgroundNode.setOffset( bodyNode.getXOffset() + 5, bodyNode.getYOffset() + 5 );
+            valueNode.setOffset( 0, bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
+        }
+        else {
+            bodyNode.rotate( Math.PI );
+            bodyNode.setOffset( bodyNode.getFullBoundsReference().getWidth() / 2, bodyNode.getFullBoundsReference().getHeight( ) );
+            backgroundNode.setOffset( bodyNode.getFullBoundsReference().getMinX() + 5,
+                                      bodyNode.getFullBoundsReference().getMaxY() - backgroundNode.getFullBoundsReference().getHeight() - 5 );
+            valueNode.setOffset( 0, bodyNode.getFullBoundsReference().getMaxY() - COORDINATES_Y_CENTER - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
+        }
 
         // default state
         setCoordinates( point );
@@ -137,8 +151,7 @@ public class PointToolNode extends PhetPNode {
     private void setCoordinates( String s ) {
         valueNode.setText( s );
         // horizontally centered
-        valueNode.setOffset( bodyNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 ),
-                             bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
+        valueNode.setOffset( bodyNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 ), valueNode.getYOffset() );
     }
 
     // Sets the foreground, the color of the displayed value

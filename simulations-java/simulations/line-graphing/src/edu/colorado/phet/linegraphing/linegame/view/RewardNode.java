@@ -40,6 +40,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.EquationFactory;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
@@ -190,7 +191,7 @@ public class RewardNode extends PhetPNode {
 
     private Image createPointToolImage( Color color ) {
         Vector2D point = new Vector2D( Math.random() * 20, Math.random() * 20 );
-        final PNode pointToolNode = new PointToolNode( point, color );
+        final PNode pointToolNode = new PointToolNode( point, Orientation.DOWN, color );
         pointToolNode.scale( 0.75 );
         return new PadBoundsNode( pointToolNode ).toImage();
     }
