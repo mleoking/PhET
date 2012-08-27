@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_tk.xml created Mon Aug 27 16:53:55 UZT 2012 using: normal-modes 1.01.00 (66456), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="simSpeed" value="sim. tizlik"/>
+<string key="vertical" value="Dik"/>
+<string key="slow" value="haýal"/>
+<string key="modeSpectrumDisplay" value="Diapazonyny görkez"/>
+<string key="phase:" value="Faza:"/>
+<string key="zeroPositions" value="Nol ýagdaýy"/>
+<string key="step" value="ädim"/>
+<string key="modeNumbersXY" value="Garmonikanyň belgisi x, y."/>
+<string key="polarization:" value="Polýarizasiýa&lt;br&gt;kontroly:"/>
+<string key="amplitude:" value="Amplituda:"/>
+<string key="modeSpectrum" value="Normal görnüşli yrgyldamanyň diapazony"/>
+<string key="frequency:" value="Ýygylyk:"/>
+<string key="normalModes" value="Normal diapazonlar:"/>
+<string key="showPhases" value="Fazalary görkez"/>
+<string key="normal-modes.simTitle" value="Yrgyldamanyň normal diapazonlary"/>
+<string key="showSprings" value="Pružinalary görkez"/>
+<string key="resetPositions" value="Başdaky ýagdaýlary"/>
+<string key="normalMode:" value="Normal diapazony:"/>
+<string key="translation.credits" value="PICTT"/>
+<string key="horizontal" value="Gorizontal"/>
+<string key="paused" value="ARAKESME"/>
+<string key="numberOfMasses" value="Massalaryň sany"/>
+<string key="normal" value="normal"/>
+</SimStrings>
