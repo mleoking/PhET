@@ -92,7 +92,11 @@ public class ValueNode extends PNode {
             return ( (ShapeValue) currentValue ).toNode();
         }
         else {
-            return toTextNode( currentValue.toString(), textPaint );
+            final PhetPText textNode = toTextNode( currentValue.toString(), textPaint );
+            if ( textNode.getFullWidth() > Constants.ellipseWidth ) {
+                textNode.scale( Constants.ellipseWidth / textNode.getFullWidth() );
+            }
+            return textNode;
         }
     }
 
