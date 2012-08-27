@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 
 /**
@@ -21,7 +22,7 @@ import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineFormsModel implements Resettable {
+public class LineFormsModel implements Resettable {
 
     protected static final int GRAPH_SIZE = 10;
     private static final int GRID_VIEW_UNITS = 530; // max dimension (width or height) of the grid in the view
@@ -35,12 +36,12 @@ public abstract class LineFormsModel implements Resettable {
     public final Graph graph; // the graph that plots the lines
     public final PointTool pointTool1, pointTool2; // tools for measuring points on the graph
 
-    // Use this constructor for point-slope form.
-    protected LineFormsModel( StraightLine interactiveLine ) {
-        this( interactiveLine, new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ) );
+    // Default model.
+    public LineFormsModel() {
+        this( new StraightLine( 2, 3, 1, LGColors.INTERACTIVE_LINE ), new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ) );
     }
 
-    // Use this constructor for slope-intercept form.
+    // For use by slope-intercept subclass.
     protected LineFormsModel( StraightLine interactiveLine, DoubleRange x1Range ) {
         this( interactiveLine,
               new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ), // rise
