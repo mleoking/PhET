@@ -126,7 +126,7 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
     }
 
     //Generate all combinations of mixed fractions from the given wholes and fraction parts
-    private List<MixedFraction> getMixedFractions( final List<Integer> wholes, final List<Fraction> fractionParts ) {//Do not let any MixedFraction be selected twice
+    public static List<MixedFraction> getMixedFractions( final List<Integer> wholes, final List<Fraction> fractionParts ) {//Do not let any MixedFraction be selected twice
         ArrayList<MixedFraction> _mixedFractions = new ArrayList<MixedFraction>();
         for ( Integer whole : wholes ) {
             for ( Fraction fractionPart : fractionParts ) {
