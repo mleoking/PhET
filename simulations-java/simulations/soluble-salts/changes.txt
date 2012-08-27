@@ -1,3 +1,4 @@
+Changed CuI Ksp value from 5.1E-12 to 1.1E-12
 Factored out Shaker.shakeCrystal
 Refactored model to not depend on module
 Made the faucet slider knobs bigger
