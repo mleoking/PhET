@@ -19,13 +19,11 @@ import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 
 /**
- * Base class model for the "Slope-Intercept" and "Point-Slope" modules.
- * Note that slope-intercept is a special case of point-slope form, with x1 fixed at zero.
- * This is why the base class has knowledge of the point (x1,y1).
+ * Model for the "Point-Slope" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LineFormsModel implements Resettable {
+public class PointSlopeModel implements Resettable {
 
     protected static final int GRAPH_SIZE = 10;
     private static final int GRID_VIEW_UNITS = 530; // max dimension (width or height) of the grid in the view
@@ -40,12 +38,15 @@ public class LineFormsModel implements Resettable {
     public final PointTool pointTool1, pointTool2; // tools for measuring points on the graph
 
     // Default model.
-    public LineFormsModel() {
+    public PointSlopeModel() {
         this( new StraightLine( 2, 3, 1, LGColors.INTERACTIVE_LINE ), new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ) );
     }
 
-    // For use by slope-intercept subclass.
-    protected LineFormsModel( StraightLine interactiveLine, DoubleRange x1Range ) {
+    /*
+     * For use by slope-intercept subclass.
+     * Slope-intercept is a specialization of point-slope form, having x1 fixed at zero.
+     */
+    protected PointSlopeModel( StraightLine interactiveLine, DoubleRange x1Range ) {
         this( interactiveLine,
               new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ), // rise
               new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ), // run
@@ -67,9 +68,9 @@ public class LineFormsModel implements Resettable {
      * @param xRange          range of the x axis
      * @param yRange          range of the y axis
      */
-    private LineFormsModel( StraightLine interactiveLine,
-                            DoubleRange riseRange, DoubleRange runRange, DoubleRange x1Range, DoubleRange y1Range,
-                            final IntegerRange xRange, final IntegerRange yRange ) {
+    private PointSlopeModel( StraightLine interactiveLine,
+                             DoubleRange riseRange, DoubleRange runRange, DoubleRange x1Range, DoubleRange y1Range,
+                             final IntegerRange xRange, final IntegerRange yRange ) {
 
         // ranges
         this.riseRange = new Property<DoubleRange>( riseRange );
@@ -127,22 +128,22 @@ public class LineFormsModel implements Resettable {
                 // rise
                 final double minRise = yRange.getMin() - line.y1;
                 final double maxRise = yRange.getMax() - line.y1;
-                LineFormsModel.this.riseRange.set( new DoubleRange( minRise, maxRise ) );
+                PointSlopeModel.this.riseRange.set( new DoubleRange( minRise, maxRise ) );
 
                 // run
                 final double minRun = xRange.getMin() - line.x1;
                 final double maxRun = xRange.getMax() - line.x1;
-                LineFormsModel.this.runRange.set( new DoubleRange( minRun, maxRun ) );
+                PointSlopeModel.this.runRange.set( new DoubleRange( minRun, maxRun ) );
 
                 // x1
                 final double minX1 = Math.max( xRange.getMin(), xRange.getMin() - line.run );
                 final double maxX1 = Math.min( xRange.getMax(), xRange.getMax() - line.run );
-                LineFormsModel.this.x1Range.set( new DoubleRange( minX1, maxX1 ) );
+                PointSlopeModel.this.x1Range.set( new DoubleRange( minX1, maxX1 ) );
 
                 // y1
                 final double minY1 = Math.max( yRange.getMin(), yRange.getMin() - line.rise );
                 final double maxY1 = Math.min( yRange.getMax(), yRange.getMax() - line.rise );
-                LineFormsModel.this.y1Range.set( new DoubleRange( minY1, maxY1 ) );
+                PointSlopeModel.this.y1Range.set( new DoubleRange( minY1, maxY1 ) );
             }
         } );
     }

@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
-import edu.colorado.phet.linegraphing.pointslope.model.LineFormsModel;
+import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -34,7 +34,7 @@ public class LineFormsCanvas extends LGCanvas {
      * @param graphNode
      * @param equationControls
      */
-    public LineFormsCanvas( LineFormsModel model,
+    public LineFormsCanvas( PointSlopeModel model,
                             Property<Boolean> linesVisible, Property<Boolean> interactiveLineVisible,
                             Property<Boolean> interactiveEquationVisible, Property<Boolean> slopeVisible,
                             PNode graphNode, PNode equationControls ) {

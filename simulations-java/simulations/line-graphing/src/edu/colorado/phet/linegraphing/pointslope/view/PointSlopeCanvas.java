@@ -3,7 +3,7 @@ package edu.colorado.phet.linegraphing.pointslope.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.linegraphing.common.view.LineFormsCanvas;
-import edu.colorado.phet.linegraphing.pointslope.model.LineFormsModel;
+import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 
 /**
  * Canvas for the "Point-Slope" module.
@@ -13,7 +13,7 @@ import edu.colorado.phet.linegraphing.pointslope.model.LineFormsModel;
 public class PointSlopeCanvas extends LineFormsCanvas {
 
     // Constructor with default properties
-    public PointSlopeCanvas( final LineFormsModel model ) {
+    public PointSlopeCanvas( final PointSlopeModel model ) {
         this( model,
               new Property<Boolean>( true ),
               new Property<Boolean>( true ),
@@ -29,7 +29,7 @@ public class PointSlopeCanvas extends LineFormsCanvas {
      * @param interactiveEquationVisible is the equation visible on the interactive line?
      * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
      */
-    private PointSlopeCanvas( final LineFormsModel model,
+    private PointSlopeCanvas( final PointSlopeModel model,
                               Property<Boolean> linesVisible, Property<Boolean> interactiveLineVisible,
                               Property<Boolean> interactiveEquationVisible, Property<Boolean> slopeVisible ) {
         super( model,
