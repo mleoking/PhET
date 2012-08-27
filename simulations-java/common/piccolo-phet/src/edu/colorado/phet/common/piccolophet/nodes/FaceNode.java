@@ -4,12 +4,17 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -22,21 +27,21 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class FaceNode extends PComposite {
 
     // default properties
-    public static final Color HEAD_COLOR = Color.YELLOW;
-    public static final Color EYE_COLOR = Color.BLACK;
-    public static final Color MOUTH_COLOR = Color.BLACK;
-    public static final BasicStroke HEAD_STROKE = null;
-    public static final Color HEAD_STROKE_PAINT = Color.lightGray;
+    public static final Paint HEAD_PAINT = Color.YELLOW;
+    public static final Paint EYE_PAINT = Color.BLACK;
+    public static final Paint MOUTH_PAINT = Color.BLACK;
+    public static final Stroke HEAD_STROKE = null;
+    public static final Paint HEAD_STROKE_PAINT = null;
 
     private final PPath smileNode;
     private final PPath frownNode;
 
     public FaceNode( double headDiameter ) {
-        this( headDiameter, HEAD_COLOR );
+        this( headDiameter, HEAD_PAINT );
     }
 
     public FaceNode( double headDiameter, Paint headPaint ) {
-        this( headDiameter, headPaint, EYE_COLOR, MOUTH_COLOR );
+        this( headDiameter, headPaint, EYE_PAINT, MOUTH_PAINT );
     }
 
     public FaceNode( final double headDiameter, Paint headPaint, Paint eyePaint, Paint mouthPaint ) {
@@ -126,5 +131,38 @@ public class FaceNode extends PComposite {
             setStrokePaint( strokePaint );
             setStroke( stroke );
         }
+    }
+
+    // test
+    public static void main( String[] args ) {
+
+        // one example of each constructor
+        FaceNode face1 = new FaceNode( 60 );
+        FaceNode face2 = new FaceNode( 40, Color.ORANGE );
+        FaceNode face3 = new FaceNode( 40, Color.ORANGE, Color.BLUE, Color.GREEN );
+        FaceNode face4 = new FaceNode( 40, Color.ORANGE, new BasicStroke( 3f ), Color.MAGENTA, Color.BLUE, Color.GREEN );
+
+        // test the "frown" feature
+        face1.frown();
+
+        // add to a Piccolo canvas
+        PhetPCanvas canvas = new PhetPCanvas();
+        canvas.setPreferredSize( new Dimension( 400, 300 ) );
+        canvas.getLayer().addChild( face1 );
+        canvas.getLayer().addChild( face2 );
+        canvas.getLayer().addChild( face3 );
+        canvas.getLayer().addChild( face4 );
+
+        // layout horizontally, tops vertically aligned
+        face1.setOffset( 50, 50 );
+        face2.setOffset( face1.getFullBoundsReference().getMaxX() + 20, face1.getYOffset() );
+        face3.setOffset( face2.getFullBoundsReference().getMaxX() + 20, face2.getYOffset() );
+        face4.setOffset( face3.getFullBoundsReference().getMaxX() + 20, face3.getYOffset() );
+
+        JFrame frame = new JFrame();
+        frame.setContentPane( canvas );
+        frame.pack();
+        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }

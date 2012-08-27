@@ -39,7 +39,7 @@ public class Scenes {
         };
     }
 
-    private static final F<ShapeValue, PNode> smile = imageNode( new PadBoundsNode( new FaceNode( 60, FaceNode.HEAD_COLOR, new BasicStroke( 1 ), Color.lightGray, FaceNode.EYE_COLOR, FaceNode.MOUTH_COLOR ) ).toImage() );
+    private static final F<ShapeValue, PNode> smile = imageNode( new PadBoundsNode( new FaceNode( 60, FaceNode.HEAD_PAINT, new BasicStroke( 1 ), Color.lightGray, FaceNode.EYE_PAINT, FaceNode.MOUTH_PAINT ) ).toImage() );
     private static final F<ShapeValue, PNode> triangle = imageNode( new ShapeIcon().toImage() );
 
     //copied from fractions
