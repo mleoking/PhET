@@ -99,7 +99,7 @@ public class EnergySystemsModel {
                                                     energySourcesCarousel.getSelectedElement() instanceof Biker &&
                                                     energyConvertersCarousel.getSelectedElement() instanceof WaterPoweredGenerator;
                 belt.isVisible.set( bikerAndGeneratorSelected );
-                waterPoweredGenerator.setDirectCouplingMode( bikerAndGeneratorSelected );
+                waterPoweredGenerator.directCouplingMode.set( bikerAndGeneratorSelected );
             }
         };
 
