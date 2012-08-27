@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
+import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.functions.FunctionsResources.Images;
 import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
@@ -38,8 +39,10 @@ public class Scenes {
         };
     }
 
-    //    private static final F<Graphic, PNode> key = imageNode( BufferedImageUtils.multiScaleToWidth( Images.KEY, 60 ) );
-    private static final F<ShapeValue, PNode> smile = imageNode( new FaceNode( 60 ).toImage() );
+    private static final F<ShapeValue, PNode> smile = imageNode( new PadBoundsNode( new FaceNode( 60 ) {{
+        headNode.setStroke( new BasicStroke( 1 ) );
+        headNode.setStrokePaint( Color.lightGray );
+    }} ).toImage() );
     private static final F<ShapeValue, PNode> triangle = imageNode( new ShapeIcon().toImage() );
 
     //copied from fractions
