@@ -8,7 +8,13 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.view.SpinnerArrowNode.SpinnerArrowOrientation;
 
 /**
- * A set of objects that corresponds to the states of the spinner.
+ * A set of objects that corresponds to the states of the spinner. The states are:
+ * <ul>
+ * <li>inactive: mouse is not over the spinner</li>
+ * <li>highlighted: mouse is over the spinner, but no mouse button is pressed</li>
+ * <li>pressed: mouse button is pressed</li>
+ * <li>disabled: the spinner is disabled and will not respond to user interactions</li>
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

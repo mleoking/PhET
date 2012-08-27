@@ -120,6 +120,6 @@ public abstract class StraightLineNode extends PComposite {
 
     protected void updateColor( Color color ) {
         arrowNode.setPaint( color );
-        equationNode.setEquationColor( color );
+        equationNode.setPaintDeep( color );
     }
 }

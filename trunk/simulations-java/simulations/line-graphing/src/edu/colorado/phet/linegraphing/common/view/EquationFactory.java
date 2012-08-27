@@ -14,18 +14,19 @@ import edu.colorado.phet.linegraphing.common.model.StraightLine;
  */
 public abstract class EquationFactory {
 
+    // spacing between components of an equation
     protected static final double X_SPACING = 3;
     protected static final double Y_SPACING = 0;
 
+    // Subclasses implement this to create the equation in the correct form.
     public abstract EquationNode createNode( StraightLine line, PhetFont font );
 
+    // Convenience method that simplifies the line before creating the equation.
     public EquationNode createSimplifiedNode( StraightLine line, PhetFont font ) {
         return createNode( line.simplified(), font );
     }
 
-    /*
-     * Slope is undefined.
-     */
+    // When slope is undefined, we display "undefined" in place of an equation.
     protected static class UndefinedSlopeNode extends EquationNode {
         public UndefinedSlopeNode( StraightLine line, PhetFont font ) {
             assert( line.run == 0 );
