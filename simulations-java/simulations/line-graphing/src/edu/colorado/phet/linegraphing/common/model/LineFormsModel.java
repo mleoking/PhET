@@ -74,8 +74,8 @@ public class LineFormsModel implements Resettable {
             standardLines.addElementRemovedObserver( elementRemovedObserver );
         }
 
-        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.25 * xRange.getLength() ), yRange.getMin() - 0.5 ), Orientation.UP, allLines );
-        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.75 * xRange.getLength() ), yRange.getMin() - 3 ), Orientation.DOWN, allLines );
+        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 0.5 ), Orientation.UP, allLines );
+        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.90 * xRange.getLength() ), yRange.getMin() - 3 ), Orientation.DOWN, allLines );
     }
 
     public void reset() {

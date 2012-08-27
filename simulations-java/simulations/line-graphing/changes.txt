@@ -1,3 +1,4 @@
+8/27/12 place point tools close together
 8/27/12 add orientation to point tool, make one point "up", one point "down"
 8/24/12 don't request confirmation for "New Game" button
 8/21/12 add assertions to verify x1==0 when we're expecting a slope-intercept line
