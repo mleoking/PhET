@@ -22,13 +22,14 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class FaceNode extends PComposite {
 
     // default properties
-    private static final Color HEAD_COLOR = Color.YELLOW;
-    private static final Color EYE_COLOR = Color.BLACK;
-    private static final Color MOUTH_COLOR = Color.BLACK;
+    public static final Color HEAD_COLOR = Color.YELLOW;
+    public static final Color EYE_COLOR = Color.BLACK;
+    public static final Color MOUTH_COLOR = Color.BLACK;
+    public static final BasicStroke HEAD_STROKE = null;
+    public static final Color HEAD_STROKE_PAINT = Color.lightGray;
 
     private final PPath smileNode;
     private final PPath frownNode;
-    public final PPath headNode;
 
     public FaceNode( double headDiameter ) {
         this( headDiameter, HEAD_COLOR );
@@ -39,13 +40,20 @@ public class FaceNode extends PComposite {
     }
 
     public FaceNode( final double headDiameter, Paint headPaint, Paint eyePaint, Paint mouthPaint ) {
+        this( headDiameter, headPaint, HEAD_STROKE, HEAD_STROKE_PAINT, eyePaint, mouthPaint );
+    }
+
+    public FaceNode( final double headDiameter, Paint headPaint, final Stroke headStroke, final Paint headStrokePaint, Paint eyePaint, Paint mouthPaint ) {
         super();
 
         final double eyeDiameter = 0.15f * headDiameter;
         final double mouthRadius = headDiameter / 4d;
         final Stroke mouthStroke = new BasicStroke( Math.max( 1f, (float) ( headDiameter / 25 ) ), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
-        headNode = new CircleNode( headDiameter, headPaint );
+        CircleNode headNode = new CircleNode( headDiameter, headPaint ) {{
+            setStroke( headStroke );
+            setStrokePaint( headStrokePaint );
+        }};
         PNode leftEyeNode = new CircleNode( eyeDiameter, eyePaint );
         PNode rightEyeNode = new CircleNode( eyeDiameter, eyePaint );
         smileNode = new SmileNode( mouthRadius, mouthPaint, mouthStroke );
@@ -119,5 +127,4 @@ public class FaceNode extends PComposite {
             setStroke( stroke );
         }
     }
-
 }
