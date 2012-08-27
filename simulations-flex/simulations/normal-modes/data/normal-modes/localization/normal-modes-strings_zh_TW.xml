@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_zh_TW.xml created Mon Aug 27 23:54:20 CST 2012 using: normal-modes 1.01.00 (66456), translation-utility 2.13.00 (59150) 十二月 8, 2011-->
+<SimStrings>
+<string key="horizontal" value="橫"/>
+<string key="start" value="開始"/>
+<string key="amplitude:" value="振幅"/>
+<string key="vertical" value="直"/>
+<string key="normal" value="標準"/>
+<string key="frequency:" value="頻率"/>
+<string key="normalMode:" value="標準振盪"/>
+<string key="slow" value="慢速"/>
+<string key="paused" value="暫停"/>
+</SimStrings>
