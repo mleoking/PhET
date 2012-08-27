@@ -20,6 +20,7 @@ public class FunctionsResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage COPY = RESOURCES.getImage( "copy.png" );
         public static final BufferedImage GRID_ICON = RESOURCES.getImage( "grid-icon.png" );
         public static final BufferedImage KEY = RESOURCES.getImage( "key.png" );
         public static final BufferedImage LEFT_RIGHT_ARROW = RESOURCES.getImage( "left-right-arrow.png" );

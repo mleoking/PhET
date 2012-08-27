@@ -106,7 +106,7 @@ public class Scenes {
                         }
                     } ),
                                       list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.LEFT_RIGHT_ARROW, 80 ) ), false, STRING_REVERSE, 390.72378138847836, 294.298375184638 - 80 ),
-                                            new UnaryFunctionNode( "double", false, STRING_DOUBLE, 390.72378138847836, 444.298375184638 - 80 )
+                                            new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.COPY, 50 ) ), false, STRING_DOUBLE, 390.72378138847836, 444.298375184638 - 80 )
                                       ),
                                       Scene.createTargetNodeList( canvas, list( "olleh", "hellohello" ) )
                     );

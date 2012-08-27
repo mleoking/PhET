@@ -1,4 +1,5 @@
 grid-icon.png author=reid
 key.png open clip art, public domain
 rotate-right.png open clip art, public domain
-left-right-arrow license=public domain source=open clip art notes=http://openclipart.org/detail/3677/arrow-left-right-by-torfnase
+left-right-arrow.png license=public domain source=open clip art notes=http://openclipart.org/detail/3677/arrow-left-right-by-torfnase
+copy.png license=public domain source=open clip art notes=http://openclipart.org/detail/38881/copy-by-mightyman
