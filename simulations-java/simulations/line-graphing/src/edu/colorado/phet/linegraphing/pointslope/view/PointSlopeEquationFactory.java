@@ -16,12 +16,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Factory that creates a node for displaying a point-slope equation in simplified form.
- * Simplifications include:
- * <li>
- * <ul>slope, eg 6/8 -> 3/4
- * <ul>signs in front of x1 and y1, eg (y - -2) -> (y+2)
- * </li>
+ * Factory that creates line equations in point-slope form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

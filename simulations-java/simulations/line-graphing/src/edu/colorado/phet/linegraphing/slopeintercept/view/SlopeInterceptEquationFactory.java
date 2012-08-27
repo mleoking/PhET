@@ -16,11 +16,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Factory that creates a node for displaying a slope-intercept equation in simplified form.
- * Simplifications include:
- * <li>
- * <ul>slope, eg 6/8 -> 3/4
- * </li>
+ * Factory that creates line equations in slope-intercept equation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

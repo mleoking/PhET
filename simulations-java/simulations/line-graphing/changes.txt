@@ -1,3 +1,4 @@
+8/27/12 doc and "final cleanup of classes that are specific to tabs 1 & 2
 8/27/12 place point tools close together
 8/27/12 add orientation to point tool, make one point "up", one point "down"
 8/24/12 don't request confirmation for "New Game" button
