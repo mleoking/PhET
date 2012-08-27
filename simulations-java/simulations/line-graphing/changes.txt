@@ -1,3 +1,4 @@
+8/27/12 rename LineFormsGraphNode, doc that it's a base class for tabs 1 & 2
 8/27/12 doc and cleanup of common classes
 8/27/12 doc and cleanup of classes that are specific to tabs 1 & 2
 8/27/12 place point tools close together

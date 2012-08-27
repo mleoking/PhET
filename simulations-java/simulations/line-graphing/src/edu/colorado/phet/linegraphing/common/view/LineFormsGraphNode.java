@@ -15,11 +15,13 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for graph that displays static lines (no interactivity.)
+ * Base class graph for the 2 tabs that deal with line forms (slope-intercept and point-slope).
+ * This graph displays lines, but includes no interactivity.
+ * Line manipulators are added by subclasses.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineGraphNode extends GraphNode {
+public abstract class LineFormsGraphNode extends GraphNode {
 
     protected static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
 
@@ -42,14 +44,14 @@ public abstract class LineGraphNode extends GraphNode {
      * @param interactiveEquationVisible is the equation visible on the interactive line?
      * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
      */
-    public LineGraphNode( final Graph graph, final ModelViewTransform mvt,
-                          Property<StraightLine> interactiveLine,
-                          ObservableList<StraightLine> savedLines,
-                          ObservableList<StraightLine> standardLines,
-                          final Property<Boolean> linesVisible,
-                          final Property<Boolean> interactiveLineVisible,
-                          Property<Boolean> interactiveEquationVisible,
-                          final Property<Boolean> slopeVisible ) {
+    public LineFormsGraphNode( final Graph graph, final ModelViewTransform mvt,
+                               Property<StraightLine> interactiveLine,
+                               ObservableList<StraightLine> savedLines,
+                               ObservableList<StraightLine> standardLines,
+                               final Property<Boolean> linesVisible,
+                               final Property<Boolean> interactiveLineVisible,
+                               Property<Boolean> interactiveEquationVisible,
+                               final Property<Boolean> slopeVisible ) {
         super( graph, mvt );
 
         this.graph = graph;
