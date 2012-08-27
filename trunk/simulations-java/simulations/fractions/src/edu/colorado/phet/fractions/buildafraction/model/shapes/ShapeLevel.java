@@ -13,6 +13,10 @@ import edu.colorado.phet.fractions.buildafraction.model.Level;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.common.math.Fraction;
 
+import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction._toDouble;
+import static fj.Ord.doubleOrd;
+import static java.lang.Math.ceil;
+
 /**
  * Level for the build a fraction game.
  *
@@ -42,7 +46,7 @@ public class ShapeLevel extends Level {
         this.shapeType = shapeType;
 
         //make sure it can be solved
-        double totalFractionValue = targets.map( MixedFraction._toDouble ).foldLeft( Doubles.add, 0.0 );
+        double totalFractionValue = targets.map( _toDouble ).foldLeft( Doubles.add, 0.0 );
         double totalPiecesValue = pieces.map( new F<Integer, Double>() {
             @Override public Double f( final Integer integer ) {
                 return 1.0 / integer;
@@ -60,4 +64,6 @@ public class ShapeLevel extends Level {
     private List<List<Integer>> getStacks() {return pieces.group( Equal.intEqual );}
 
     public int getNumberOfCardsInHighestStack() { return getStacks().map( List.<Integer>length_() ).maximum( Ord.intOrd ); }
+
+    public int getMaxNumberOfSingleContainers() { return (int) ceil( targets.map( _toDouble ).maximum( doubleOrd ) ); }
 }

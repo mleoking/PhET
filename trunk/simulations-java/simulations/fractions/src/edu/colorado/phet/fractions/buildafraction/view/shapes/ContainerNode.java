@@ -55,6 +55,7 @@ public class ContainerNode extends PNode {
     public final ShapeSceneNode parent;
     public final ContainerContext context;
     private final ShapeType shapeType;
+    private final int maxNumberOfSingleContainers;
     private boolean inTargetCell = false;
     private final PNode containerLayer;
     private double initialX;
@@ -65,10 +66,11 @@ public class ContainerNode extends PNode {
     private final IncreaseDecreaseButton increaseDecreaseButton;
     private final boolean showIncreaseButton;
 
-    public ContainerNode( ShapeSceneNode parent, final ContainerContext context, boolean showIncreaseButton, final ShapeType shapeType ) {
+    public ContainerNode( ShapeSceneNode parent, final ContainerContext context, boolean showIncreaseButton, final ShapeType shapeType, int maxNumberOfSingleContainers ) {
         this.parent = parent;
         this.context = context;
         this.shapeType = shapeType;
+        this.maxNumberOfSingleContainers = maxNumberOfSingleContainers;
 
         undoButton = new UndoButton( chain( Components.playAreaUndoButton, ContainerNode.this.hashCode() ) );
         addChild( undoButton );
@@ -149,7 +151,7 @@ public class ContainerNode extends PNode {
         child.setTransparency( 0 );
         containerLayer.addChild( child );
         increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( increaseDecreaseButton, true ) );
-        if ( getSingleContainerNodes().length() >= 2 ) {
+        if ( getSingleContainerNodes().length() >= maxNumberOfSingleContainers ) {
             increaseDecreaseButton.hideIncreaseButton();
         }
         PInterpolatingActivity activity = increaseDecreaseButton.showDecreaseButton();
