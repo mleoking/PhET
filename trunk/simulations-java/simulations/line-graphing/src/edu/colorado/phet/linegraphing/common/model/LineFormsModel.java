@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 
 /**
- * Base class model for the "Slope-Intercept" and "Point-Slope" tabs.
+ * Base class model for the "Slope-Intercept" and "Point-Slope" modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

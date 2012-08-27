@@ -15,7 +15,7 @@ import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * Portion of the scenegraph that corresponds to the "results" game phase
+ * Portion of the scenegraph that corresponds to the "results" game phase.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
