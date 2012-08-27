@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -21,7 +21,7 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
 
     protected final LineManipulatorNode manipulatorNode;
     protected final ModelViewTransform mvt;
-    protected final Property<StraightLine> line;
+    protected final Property<PointSlopeLine> line;
 
     /**
      * Constructor
@@ -32,7 +32,7 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
      * @param line the line being manipulated
      */
     public LineManipulatorDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                                       LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line ) {
+                                       LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<PointSlopeLine> line ) {
         super( userComponent, componentType, true /* sendDragMessages */ );
         this.manipulatorNode = manipulatorNode;
         this.mvt = mvt;

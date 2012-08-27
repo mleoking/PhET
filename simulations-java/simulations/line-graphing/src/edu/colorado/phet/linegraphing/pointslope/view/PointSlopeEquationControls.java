@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
 
 /**
@@ -28,8 +28,8 @@ class PointSlopeEquationControls extends EquationControls {
      * @param x1Range
      * @param y1Range
      */
-    public PointSlopeEquationControls( final Property<StraightLine> interactiveLine,
-                                       final ObservableList<StraightLine> savedLines,
+    public PointSlopeEquationControls( final Property<PointSlopeLine> interactiveLine,
+                                       final ObservableList<PointSlopeLine> savedLines,
                                        final Property<Boolean> maximized,
                                        final Property<Boolean> linesVisible,
                                        Property<DoubleRange> riseRange,

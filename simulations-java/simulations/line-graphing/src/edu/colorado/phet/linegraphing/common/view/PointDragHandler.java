@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -34,7 +34,7 @@ public class PointDragHandler extends LineManipulatorDragHandler {
      * @param y1Range
      */
     public PointDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                             LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line,
+                             LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<PointSlopeLine> line,
                              Property<DoubleRange> x1Range, Property<DoubleRange> y1Range ) {
         super( userComponent, componentType, manipulatorNode, mvt, line );
         this.x1Range = x1Range;
@@ -54,6 +54,6 @@ public class PointDragHandler extends LineManipulatorDragHandler {
         // constrain to range, snap to grid
         double x1 = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ), x1Range.get() ) );
         double y1 = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), y1Range.get() ) );
-        line.set( new StraightLine( x1, y1, line.get().rise, line.get().run, line.get().color ) );
+        line.set( new PointSlopeLine( x1, y1, line.get().rise, line.get().run, line.get().color ) );
     }
 }

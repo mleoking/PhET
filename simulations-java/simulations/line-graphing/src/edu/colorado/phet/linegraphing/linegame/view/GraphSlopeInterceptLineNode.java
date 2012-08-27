@@ -25,7 +25,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
@@ -210,8 +210,8 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
         private final LineManipulatorNode slopeManipulatorNode, interceptManipulatorNode;
 
         public GameGraphNode( final Graph graph,
-                              Property<StraightLine> guessLine,
-                              StraightLine answerLine,
+                              Property<PointSlopeLine> guessLine,
+                              PointSlopeLine answerLine,
                               final ModelViewTransform mvt ) {
             super( graph, mvt );
 
@@ -250,8 +250,8 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
             addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
             // Show the user's current guess
-            guessLine.addObserver( new VoidFunction1<StraightLine>() {
-                public void apply( StraightLine line ) {
+            guessLine.addObserver( new VoidFunction1<PointSlopeLine>() {
+                public void apply( PointSlopeLine line ) {
 
                     // draw the line
                     {

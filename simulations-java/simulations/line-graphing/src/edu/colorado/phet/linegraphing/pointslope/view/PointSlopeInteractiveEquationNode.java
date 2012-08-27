@@ -24,7 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
@@ -45,7 +45,7 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
     private final Property<Double> rise, run, x1, y1; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
-    public PointSlopeInteractiveEquationNode( final Property<StraightLine> interactiveLine,
+    public PointSlopeInteractiveEquationNode( final Property<PointSlopeLine> interactiveLine,
                                               Property<DoubleRange> riseRange,
                                               Property<DoubleRange> runRange,
                                               Property<DoubleRange> x1Range,
@@ -54,7 +54,7 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
-    private PointSlopeInteractiveEquationNode( final Property<StraightLine> interactiveLine,
+    private PointSlopeInteractiveEquationNode( final Property<PointSlopeLine> interactiveLine,
                                                Property<DoubleRange> riseRange,
                                                Property<DoubleRange> runRange,
                                                Property<DoubleRange> x1Range,
@@ -160,15 +160,15 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 if ( !updatingControls ) {
-                    interactiveLine.set( new StraightLine( x1.get(), y1.get(), rise.get(), run.get(), interactiveLine.get().color ) );
+                    interactiveLine.set( new PointSlopeLine( x1.get(), y1.get(), rise.get(), run.get(), interactiveLine.get().color ) );
                 }
             }
         };
         lineUpdater.observe( rise, run, x1, y1 );
 
         // sync the controls with the model
-        interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
-            public void apply( StraightLine line ) {
+        interactiveLine.addObserver( new VoidFunction1<PointSlopeLine>() {
+            public void apply( PointSlopeLine line ) {
                 updatingControls = true;
                 {
                     rise.set( line.rise );
@@ -185,7 +185,7 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
     public static void main( String[] args ) {
 
         // model
-        Property<StraightLine> line = new Property<StraightLine>( new StraightLine( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ) );
+        Property<PointSlopeLine> line = new Property<PointSlopeLine>( new PointSlopeLine( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ) );
         DoubleRange range = new DoubleRange( -10, 10 );
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );

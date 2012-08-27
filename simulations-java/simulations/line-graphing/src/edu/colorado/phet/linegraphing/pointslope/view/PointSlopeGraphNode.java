@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.view.LineFormsGraphNode;
 import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
 
@@ -19,9 +19,9 @@ import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
 public class PointSlopeGraphNode extends LineFormsGraphNode {
 
     public PointSlopeGraphNode( final Graph graph, final ModelViewTransform mvt,
-                                Property<StraightLine> interactiveLine,
-                                ObservableList<StraightLine> savedLines,
-                                ObservableList<StraightLine> standardLines,
+                                Property<PointSlopeLine> interactiveLine,
+                                ObservableList<PointSlopeLine> savedLines,
+                                ObservableList<PointSlopeLine> standardLines,
                                 Property<Boolean> linesVisible,
                                 Property<Boolean> interactiveLineVisible,
                                 Property<Boolean> interactiveEquationVisible,
@@ -38,7 +38,7 @@ public class PointSlopeGraphNode extends LineFormsGraphNode {
     }
 
     // Creates a node that displays the line in point-slope form.
-    protected StraightLineNode createLineNode( StraightLine line, Graph graph, ModelViewTransform mvt ) {
+    protected StraightLineNode createLineNode( PointSlopeLine line, Graph graph, ModelViewTransform mvt ) {
        return new PointSlopeLineNode( line, graph, mvt );
     }
 }

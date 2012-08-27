@@ -14,9 +14,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
 
 /**
  * Model for the "Point-Slope" module.
@@ -31,22 +31,22 @@ public class PointSlopeModel implements Resettable {
     public final Property<DoubleRange> riseRange, runRange, x1Range, y1Range; // ranges of things that the user can manipulate
 
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
-    public final Property<StraightLine> interactiveLine; // the line that can be manipulated by the user
-    public final ObservableList<StraightLine> savedLines; // lines that have been saved by the user
-    public final ObservableList<StraightLine> standardLines; // standard lines (eg, y=x) that are available for viewing
+    public final Property<PointSlopeLine> interactiveLine; // the line that can be manipulated by the user
+    public final ObservableList<PointSlopeLine> savedLines; // lines that have been saved by the user
+    public final ObservableList<PointSlopeLine> standardLines; // standard lines (eg, y=x) that are available for viewing
     public final Graph graph; // the graph that plots the lines
     public final PointTool pointTool1, pointTool2; // tools for measuring points on the graph
 
     // Default model.
     public PointSlopeModel() {
-        this( new StraightLine( 2, 3, 1, LGColors.INTERACTIVE_LINE ), new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ) );
+        this( new PointSlopeLine( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ), new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ) );
     }
 
     /*
      * For use by slope-intercept subclass.
      * Slope-intercept is a specialization of point-slope form, having x1 fixed at zero.
      */
-    protected PointSlopeModel( StraightLine interactiveLine, DoubleRange x1Range ) {
+    protected PointSlopeModel( PointSlopeLine interactiveLine, DoubleRange x1Range ) {
         this( interactiveLine,
               new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ), // rise
               new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ), // run
@@ -68,7 +68,7 @@ public class PointSlopeModel implements Resettable {
      * @param xRange          range of the x axis
      * @param yRange          range of the y axis
      */
-    private PointSlopeModel( StraightLine interactiveLine,
+    private PointSlopeModel( PointSlopeLine interactiveLine,
                              DoubleRange riseRange, DoubleRange runRange, DoubleRange x1Range, DoubleRange y1Range,
                              final IntegerRange xRange, final IntegerRange yRange ) {
 
@@ -82,31 +82,31 @@ public class PointSlopeModel implements Resettable {
         this.graph = new Graph( xRange, yRange );
 
         // lines
-        this.interactiveLine = new Property<StraightLine>( interactiveLine );
-        this.savedLines = new ObservableList<StraightLine>();
-        this.standardLines = new ObservableList<StraightLine>();
+        this.interactiveLine = new Property<PointSlopeLine>( interactiveLine );
+        this.savedLines = new ObservableList<PointSlopeLine>();
+        this.standardLines = new ObservableList<PointSlopeLine>();
 
         // model-view transform
         final double mvtScale = GRID_VIEW_UNITS / Math.max( xRange.getLength(), yRange.getLength() ); // view units / model units
         this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), mvtScale, -mvtScale ); // y is inverted
 
         // Observable collection of all lines, required by point tool.
-        final ObservableList<StraightLine> allLines = new ObservableList<StraightLine>();
+        final ObservableList<PointSlopeLine> allLines = new ObservableList<PointSlopeLine>();
         {
-            this.interactiveLine.addObserver( new ChangeObserver<StraightLine>() {
-                public void update( StraightLine newLine, StraightLine oldLine ) {
+            this.interactiveLine.addObserver( new ChangeObserver<PointSlopeLine>() {
+                public void update( PointSlopeLine newLine, PointSlopeLine oldLine ) {
                     allLines.remove( oldLine ); // remove first, because on observer registration oldLine == newLine
                     allLines.add( newLine ); // add interactive line to end, so we find it last
                 }
             } );
 
-            final VoidFunction1<StraightLine> elementAddedObserver = new VoidFunction1<StraightLine>() {
-                public void apply( StraightLine line ) {
+            final VoidFunction1<PointSlopeLine> elementAddedObserver = new VoidFunction1<PointSlopeLine>() {
+                public void apply( PointSlopeLine line ) {
                     allLines.add( 0, line ); // add saved and standard lines to front, so we find them first
                 }
             };
-            final VoidFunction1<StraightLine> elementRemovedObserver = new VoidFunction1<StraightLine>() {
-                public void apply( StraightLine line ) {
+            final VoidFunction1<PointSlopeLine> elementRemovedObserver = new VoidFunction1<PointSlopeLine>() {
+                public void apply( PointSlopeLine line ) {
                     boolean removed = allLines.remove( line );
                     assert ( removed );
                 }
@@ -122,8 +122,8 @@ public class PointSlopeModel implements Resettable {
         this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.90 * xRange.getLength() ), yRange.getMin() - 3 ), Orientation.DOWN, allLines );
 
         // Dynamically adjust ranges so that variables are constrained to the bounds of the graph.
-        this.interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
-            public void apply( StraightLine line ) {
+        this.interactiveLine.addObserver( new VoidFunction1<PointSlopeLine>() {
+            public void apply( PointSlopeLine line ) {
 
                 // rise
                 final double minRise = yRange.getMin() - line.y1;

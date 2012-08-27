@@ -2,7 +2,7 @@
 package edu.colorado.phet.linegraphing.linegame.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 
 /**
@@ -12,12 +12,12 @@ import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
  */
 public class MatchingChallenge {
 
-    public final StraightLine answer; // the correct answer
-    public final Property<StraightLine> guess; // the user's current guess
+    public final PointSlopeLine answer; // the correct answer
+    public final Property<PointSlopeLine> guess; // the user's current guess
 
-    public MatchingChallenge( StraightLine answer ) {
+    public MatchingChallenge( PointSlopeLine answer ) {
         this.answer = answer;
-        this.guess = new Property<StraightLine>( StraightLine.Y_EQUALS_X_LINE.withColor( GameConstants.GUESS_COLOR ) );
+        this.guess = new Property<PointSlopeLine>( PointSlopeLine.Y_EQUALS_X_LINE.withColor( GameConstants.GUESS_COLOR ) );
     }
 
     // Correct if the we have 2 descriptions of the same line.

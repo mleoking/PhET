@@ -1,14 +1,10 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.model;
 
-import java.util.ArrayList;
-
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -23,9 +19,9 @@ public class PointTool implements Resettable {
 
     public final Property<Vector2D> location;
     public final Orientation orientation;
-    public final Property<StraightLine> onLine; // line that the tool is on, possibly null
+    public final Property<PointSlopeLine> onLine; // line that the tool is on, possibly null
 
-    private final ObservableList<StraightLine> lines;
+    private final ObservableList<PointSlopeLine> lines;
 
     /**
      * Constructor
@@ -33,11 +29,11 @@ public class PointTool implements Resettable {
      * @param location        location of the tool, in model coordinate frame
      * @param lines           lines that the tool might intersect
      */
-    public PointTool( Vector2D location, Orientation orientation, ObservableList<StraightLine> lines ) {
+    public PointTool( Vector2D location, Orientation orientation, ObservableList<PointSlopeLine> lines ) {
 
         this.location = new Property<Vector2D>( location );
         this.orientation = orientation;
-        this.onLine = new Property<StraightLine>( null );
+        this.onLine = new Property<PointSlopeLine>( null );
 
         this.lines = lines;
 
@@ -51,8 +47,8 @@ public class PointTool implements Resettable {
             } );
 
             // saved & standard lines
-            final VoidFunction1<StraightLine> linesChanged = new VoidFunction1<StraightLine>() {
-                public void apply( StraightLine line ) {
+            final VoidFunction1<PointSlopeLine> linesChanged = new VoidFunction1<PointSlopeLine>() {
+                public void apply( PointSlopeLine line ) {
                     updateOnLine();
                 }
             };
@@ -63,7 +59,7 @@ public class PointTool implements Resettable {
 
     // Determine which line (if any) the tool is placed on.
     private void updateOnLine() {
-        for ( StraightLine line : lines ) {
+        for ( PointSlopeLine line : lines ) {
             if ( isOnLine( line ) ) {
                 onLine.set( line );
                 return;
@@ -73,7 +69,7 @@ public class PointTool implements Resettable {
     }
 
     // Is the point tool on this line?
-    private boolean isOnLine( StraightLine line ) {
+    private boolean isOnLine( PointSlopeLine line ) {
         if ( line.run == 0 && location.get().getX() == line.x1 ) {
             // slope is undefined, tool is on the line
             return true;

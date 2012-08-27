@@ -5,14 +5,12 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighlightHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -31,11 +29,11 @@ public abstract class StraightLineNode extends PComposite {
     private static final double LINE_EXTENT = 25; // how far the line extends past the grid
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 18 );
 
-    public final StraightLine line;
+    public final PointSlopeLine line;
     private final DoubleArrowNode arrowNode;
     private final EquationNode equationNode;
 
-    public StraightLineNode( final StraightLine line, Graph graph, ModelViewTransform mvt ) {
+    public StraightLineNode( final PointSlopeLine line, Graph graph, ModelViewTransform mvt ) {
 
         this.line = line;
 
@@ -112,7 +110,7 @@ public abstract class StraightLineNode extends PComposite {
     }
 
     // Creates the line's equation in the correct form.
-    protected abstract EquationNode createEquationNode( StraightLine line, PhetFont font );
+    protected abstract EquationNode createEquationNode( PointSlopeLine line, PhetFont font );
 
     public void setEquationVisible( boolean visible ) {
         equationNode.setVisible( visible );

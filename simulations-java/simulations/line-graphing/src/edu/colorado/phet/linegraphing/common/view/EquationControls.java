@@ -26,7 +26,7 @@ import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -47,8 +47,8 @@ public class EquationControls extends PhetPNode {
      * @param interactiveEquationNode node that implements the interactive equation
      */
     public EquationControls( String title,
-                             final Property<StraightLine> interactiveLine,
-                             final ObservableList<StraightLine> savedLines,
+                             final Property<PointSlopeLine> interactiveLine,
+                             final ObservableList<PointSlopeLine> savedLines,
                              final Property<Boolean> maximized,
                              final Property<Boolean> linesVisible,
                              PNode interactiveEquationNode ) {
@@ -152,8 +152,8 @@ public class EquationControls extends PhetPNode {
         };
 
         // Enabled/disable buttons when saved lines are added/removed.
-        final VoidFunction1<StraightLine> savedLinesChanged = new VoidFunction1<StraightLine>() {
-            public void apply( StraightLine line ) {
+        final VoidFunction1<PointSlopeLine> savedLinesChanged = new VoidFunction1<PointSlopeLine>() {
+            public void apply( PointSlopeLine line ) {
                 enableButtons.apply();
             }
         };

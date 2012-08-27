@@ -16,7 +16,7 @@ import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighl
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.view.RiseRunBracketNode.Direction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -57,9 +57,9 @@ public abstract class LineFormsGraphNode extends GraphNode {
      * @param slopeManipulatorColor
      */
     public LineFormsGraphNode( final Graph graph, final ModelViewTransform mvt,
-                               Property<StraightLine> interactiveLine,
-                               ObservableList<StraightLine> savedLines,
-                               ObservableList<StraightLine> standardLines,
+                               Property<PointSlopeLine> interactiveLine,
+                               ObservableList<PointSlopeLine> savedLines,
+                               ObservableList<PointSlopeLine> standardLines,
                                final Property<Boolean> linesVisible,
                                final Property<Boolean> interactiveLineVisible,
                                Property<Boolean> interactiveEquationVisible,
@@ -107,32 +107,32 @@ public abstract class LineFormsGraphNode extends GraphNode {
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
         // Add/remove standard lines
-        standardLines.addElementAddedObserver( new VoidFunction1<StraightLine>() {
-            public void apply( StraightLine line ) {
+        standardLines.addElementAddedObserver( new VoidFunction1<PointSlopeLine>() {
+            public void apply( PointSlopeLine line ) {
                 standardLineAdded( line );
             }
         } );
-        standardLines.addElementRemovedObserver( new VoidFunction1<StraightLine>() {
-            public void apply( StraightLine line ) {
+        standardLines.addElementRemovedObserver( new VoidFunction1<PointSlopeLine>() {
+            public void apply( PointSlopeLine line ) {
                 standardLineRemoved( line );
             }
         } );
 
         // Add/remove saved lines
-        savedLines.addElementAddedObserver( new VoidFunction1<StraightLine>() {
-            public void apply( StraightLine line ) {
+        savedLines.addElementAddedObserver( new VoidFunction1<PointSlopeLine>() {
+            public void apply( PointSlopeLine line ) {
                 savedLineAdded( line );
             }
         } );
-        savedLines.addElementRemovedObserver( new VoidFunction1<StraightLine>() {
-            public void apply( StraightLine line ) {
+        savedLines.addElementRemovedObserver( new VoidFunction1<PointSlopeLine>() {
+            public void apply( PointSlopeLine line ) {
                 savedLineRemoved( line );
             }
         } );
 
         // When the interactive line changes, update the graph.
-        interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
-            public void apply( StraightLine line ) {
+        interactiveLine.addObserver( new VoidFunction1<PointSlopeLine>() {
+            public void apply( PointSlopeLine line ) {
                 updateInteractiveLine( line, graph, mvt );
             }
         } );
@@ -158,17 +158,17 @@ public abstract class LineFormsGraphNode extends GraphNode {
     }
 
     // Called when a standard line is added to the model.
-    private void standardLineAdded( StraightLine line ) {
+    private void standardLineAdded( PointSlopeLine line ) {
         standardLinesParentNode.addChild( createLineNode( line, graph, mvt ) );
     }
 
     // Called when a standard line is removed from the model.
-    private void standardLineRemoved( StraightLine line ) {
+    private void standardLineRemoved( PointSlopeLine line ) {
         removeLineNode( line, standardLinesParentNode );
     }
 
     // Called when a saved line is added to the model.
-    private void savedLineAdded( final StraightLine line ) {
+    private void savedLineAdded( final PointSlopeLine line ) {
         final StraightLineNode lineNode = createLineNode( line, graph, mvt );
         savedLinesParentNode.addChild( lineNode );
         // highlight on mouseOver
@@ -180,12 +180,12 @@ public abstract class LineFormsGraphNode extends GraphNode {
     }
 
     // Called when a saved line is removed from the model.
-    private void savedLineRemoved( StraightLine line ) {
+    private void savedLineRemoved( PointSlopeLine line ) {
         removeLineNode( line, savedLinesParentNode );
     }
 
     // Removes the node that corresponds to the specified line.
-    private static void removeLineNode( StraightLine line, PNode parent ) {
+    private static void removeLineNode( PointSlopeLine line, PNode parent ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode node = parent.getChild( i );
             if ( node instanceof StraightLineNode ) {
@@ -221,7 +221,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
     }
 
     // Updates the line and its associated decorations
-    protected void updateInteractiveLine( final StraightLine line, final Graph graph, final ModelViewTransform mvt ) {
+    protected void updateInteractiveLine( final PointSlopeLine line, final Graph graph, final ModelViewTransform mvt ) {
 
         // replace the line node
         interactiveLineParentNode.removeAllChildren();
@@ -254,5 +254,5 @@ public abstract class LineFormsGraphNode extends GraphNode {
     }
 
     // Creates a line node of the proper form.
-    protected abstract StraightLineNode createLineNode( StraightLine line, Graph graph, ModelViewTransform mvt );
+    protected abstract StraightLineNode createLineNode( PointSlopeLine line, Graph graph, ModelViewTransform mvt );
 }
