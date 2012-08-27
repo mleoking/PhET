@@ -130,7 +130,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
         //Center the first container node in the play area.
         //Layout values sampled manually at runtime
-        ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
+        ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
             Vector2D position = getContainerPosition( level );
             setInitialPosition( position.x, position.y );
         }};
@@ -192,7 +192,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         final int numInGroup = level.targets.length() - 1;
         for ( int i = 0; i < numInGroup; i++ ) {
             final double delta = getCardOffsetWithinStack( numInGroup, i );
-            final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
+            final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
                 final int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
                 setInitialState( layoutXOffset + INSET + 20 + delta * sign + finalGroupIndex * spacing,
                                  stageSize.height - INSET - toolboxHeight + 20 + delta, TINY_SCALE );
