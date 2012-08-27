@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.buildafraction.model.shapes;
 
 import fj.F;
+import fj.Unit;
 import fj.data.List;
 
 import java.awt.Color;
@@ -32,6 +33,7 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
     public MixedNumbersShapeLevelList() {
         add( level1() );
         add( level2() );
+        add( level3() );
         while ( size() < 10 ) { add( testLevel() ); }
     }
 
@@ -52,6 +54,33 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
     private ShapeLevel level2() {
         List<MixedFraction> targets = choose( 3, getMixedFractions( list( 1, 2 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 4 ), fraction( 3, 4 ) ) ) );
         return shapeLevelMixed( addSubdividedCards( straightforwardCards( targets ), 2 ), shuffle( targets ), colors[1], choosePiesOrBars() );
+    }
+
+    //To avoid big piles, we probably want to do a check so that on any given draw, only a single "3" is drawn for a target whole number.  So there will never be a level where two targets appear with 3 as the whole number.
+    public static List<MixedFraction> chooseRestricted( F<Unit, List<MixedFraction>> f ) {
+        while ( true ) {
+            final List<MixedFraction> solution = f.f( Unit.unit() );
+            List<MixedFraction> filtered = solution.filter( new F<MixedFraction, Boolean>() {
+                @Override public Boolean f( final MixedFraction mixedFraction ) {
+                    return mixedFraction.numerator == 3;
+                }
+            } );
+            if ( filtered.length() <= 1 ) {
+                return solution;
+            }
+        }
+    }
+
+    /*Level 3:
+    -- All targets 1, 2, or 3, as whole number, fractional portion from the set {1/2, 1/3, 2/3, 1/4, 3/4, 1/6, 5/6}
+    -- a few extra pieces to allow multiple pathways to a solution*/
+    private ShapeLevel level3() {
+        List<MixedFraction> targets = chooseRestricted( new F<Unit, List<MixedFraction>>() {
+            @Override public List<MixedFraction> f( final Unit unit ) {
+                return choose( 3, getMixedFractions( list( 1, 2, 3 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 4 ), fraction( 3, 4 ), fraction( 1, 6 ), fraction( 5, 6 ) ) ) );
+            }
+        } );
+        return shapeLevelMixed( addSubdividedCards( addSubdividedCards( straightforwardCards( targets ), 3 ), 3 ), shuffle( targets ), colors[2], choosePiesOrBars() );
     }
 
     //Take any of the cards, and subdivide it into smaller cards
