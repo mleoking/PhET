@@ -1,3 +1,4 @@
+8/27/12 Added constructor args to FaceNode for head stroke and head stroke paint
 8/27/12 Made FaceNode.headNode a public final field
 8/10/12 Added SimSharingCanvasBoundedDragHandler and deprecated CanvasBoundedDragHandler
 8/7/12 Fixed: PhetPPath causes exception if constructor called with null shape
