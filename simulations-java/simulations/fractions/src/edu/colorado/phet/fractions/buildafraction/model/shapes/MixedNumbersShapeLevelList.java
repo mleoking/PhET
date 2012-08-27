@@ -40,6 +40,9 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
         add( level5() );
         add( level6() );
         add( level7() );
+        add( level8() );
+        add( level9() );
+        add( level10() );
         while ( size() < 10 ) { add( testLevel() ); }
     }
 
@@ -68,7 +71,7 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
             final List<MixedFraction> solution = f.f( Unit.unit() );
             List<MixedFraction> filtered = solution.filter( new F<MixedFraction, Boolean>() {
                 @Override public Boolean f( final MixedFraction mixedFraction ) {
-                    return mixedFraction.numerator == 3;
+                    return mixedFraction.whole == 3;
                 }
             } );
             if ( filtered.length() <= 1 ) {
@@ -153,6 +156,41 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
         final List<Integer> c = interestingShapes( single( top.toFraction() ), 5 );
         final List<Integer> d = interestingShapes( single( bottom.toFraction() ), 5 );
         return shapeLevelMixed( a.append( b ).append( c ).append( d ), targets, colors[6], choosePiesOrBars() );
+    }
+
+    /*Level 8
+    -- Targets with 1, 2, or 3, as whole number, fractional portion from the set {1/2, 1/3, 2/3, ¼, ¾, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6}
+    -- Only enough pieces to fulfill targets
+    -- At least 2 targets require "nontrivial" pieces*/
+    private ShapeLevel level8() {
+        List<MixedFraction> targets = chooseRestricted( new F<Unit, List<MixedFraction>>() {
+            @Override public List<MixedFraction> f( final Unit unit ) {
+                return choose( 4, getMixedFractions( list( 1, 2, 3 ), parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6" ) ) );
+            }
+        } );
+        return shapeLevelMixed( interestingShapes( targets.take( 2 ).map( _toFraction ), 5 ).append( straightforwardCards( targets.reverse().take( 2 ) ) ), shuffle( targets ), colors[7], choosePiesOrBars() );
+    }
+
+    /*Level 9:
+    --Same as level 8, but now all 4 targets must be built with some "nontrivial pieces"*/
+    private ShapeLevel level9() {
+        List<MixedFraction> targets = chooseRestricted( new F<Unit, List<MixedFraction>>() {
+            @Override public List<MixedFraction> f( final Unit unit ) {
+                return choose( 4, getMixedFractions( list( 1, 2, 3 ), parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6" ) ) );
+            }
+        } );
+        return shapeLevelMixed( interestingShapes( targets.map( _toFraction ), 5 ), shuffle( targets ), colors[7], choosePiesOrBars() );
+    }
+
+    /*Level 10:
+    --Same as level 9, but fractional portion from the set {1/2, 1/3, 2/3, ¼, ¾, 1/6, 5/6, 1/8, 3/8, 5/8, 7/8}*/
+    private ShapeLevel level10() {
+        List<MixedFraction> targets = chooseRestricted( new F<Unit, List<MixedFraction>>() {
+            @Override public List<MixedFraction> f( final Unit unit ) {
+                return choose( 4, getMixedFractions( list( 1, 2, 3 ), parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/6, 5/6, 1/8, 3/8, 5/8, 7/8" ) ) );
+            }
+        } );
+        return shapeLevelMixed( interestingShapes( targets.map( _toFraction ), 5 ), shuffle( targets ), colors[7], choosePiesOrBars() );
     }
 
     //Take any of the cards, and subdivide it into smaller cards
