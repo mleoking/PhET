@@ -105,7 +105,7 @@ public class Scenes {
                             return new ValueNode( canvas, "hello", new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
-                                      list( new UnaryFunctionNode( "reverse", false, STRING_REVERSE, 390.72378138847836, 294.298375184638 - 80 ),
+                                      list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.LEFT_RIGHT_ARROW, 80 ) ), false, STRING_REVERSE, 390.72378138847836, 294.298375184638 - 80 ),
                                             new UnaryFunctionNode( "double", false, STRING_DOUBLE, 390.72378138847836, 444.298375184638 - 80 )
                                       ),
                                       Scene.createTargetNodeList( canvas, list( "olleh", "hellohello" ) )
