@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class SlopeInterceptEquationFactory extends EquationFactory {
 
     public EquationNode createNode( StraightLine line, PhetFont font ) {
-        assert( line.x1 == 0 );
+        assert ( line.x1 == 0 ); // line is in slope intercept form
         if ( line.run == 0 ) {
             return new UndefinedSlopeNode( line, font );
         }

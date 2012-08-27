@@ -21,7 +21,7 @@ public class SlopeInterceptLineNode extends StraightLineNode {
 
     // Creates equations in slope-intercept form.
     protected EquationNode createEquationNode( StraightLine line, PhetFont font ) {
-        assert( line.x1 == 0 );
+        assert( line.x1 == 0 ); // line is in slope intercept form
         return new SlopeInterceptEquationFactory().createSimplifiedNode( line, font );
     }
 }
