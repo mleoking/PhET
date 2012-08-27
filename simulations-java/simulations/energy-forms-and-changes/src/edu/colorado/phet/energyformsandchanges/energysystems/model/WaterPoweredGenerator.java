@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -62,7 +63,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
     // Flag that controls "direct coupling mode", which means that the
     // generator wheel turns at a rate that is directly proportionate to the
     // incoming energy, with no rotational inertia.
-    private boolean directCouplingMode = false;
+    public BooleanProperty directCouplingMode = new BooleanProperty( false );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -78,7 +79,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
 
     @Override public Energy stepInTime( double dt, Energy incomingEnergy ) {
         if ( active ) {
-            if ( directCouplingMode ) {
+            if ( directCouplingMode.get() ) {
                 // Treat the wheel as though it is directly coupled to the
                 // energy source, e.g. through a belt or drive shaft.
                 if ( incomingEnergy.type == Energy.Type.MECHANICAL ) {
@@ -105,10 +106,6 @@ public class WaterPoweredGenerator extends EnergyConverter {
     @Override public void deactivate() {
         super.deactivate();
         wheelRotationalVelocity = 0;
-    }
-
-    public void setDirectCouplingMode( boolean directCouplingMode ) {
-        this.directCouplingMode = directCouplingMode;
     }
 
     public ObservableProperty<Double> getWheelRotationalAngle() {
