@@ -87,7 +87,7 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
 
     // Updates the positions of the manipulators
     @Override protected void updateInteractiveLine( final StraightLine line, final Graph graph, final ModelViewTransform mvt ) {
-        assert ( line.x1 == 0 );
+        assert ( line.x1 == 0 ); // line is in slope intercept form
         super.updateInteractiveLine( line, graph, mvt );
         if ( slopeManipulatorNode != null && interceptManipulatorNode != null ) {
             // move the manipulators
@@ -98,7 +98,7 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
 
     // Creates a node that displays the line in slope-intercept form.
     protected StraightLineNode createLineNode( StraightLine line, Graph graph, ModelViewTransform mvt ) {
-        assert ( line.x1 == 0 );
+        assert ( line.x1 == 0 ); // line is in slope intercept form
         return new SlopeInterceptLineNode( line, graph, mvt );
     }
 }

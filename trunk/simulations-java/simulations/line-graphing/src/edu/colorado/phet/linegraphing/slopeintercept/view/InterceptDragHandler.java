@@ -37,7 +37,7 @@ public class InterceptDragHandler extends LineManipulatorDragHandler {
                                  LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line,
                                  Property<DoubleRange> yInterceptRange ) {
         super( userComponent, componentType, manipulatorNode, mvt, line );
-        assert ( line.get().x1 == 0 );
+        assert ( line.get().x1 == 0 ); // line is in slope intercept form
         this.yInterceptRange = yInterceptRange;
     }
 
