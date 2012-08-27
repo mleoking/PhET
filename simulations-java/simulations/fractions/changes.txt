@@ -1,3 +1,4 @@
+# 1.01.06 (67368) Aug 27, 2012
 Build a Mixed Fraction: Numbers: Added a check for levels 5-8 to ensure different representation types
 Build a Mixed Fraction: Numbers: Make the number non-bold when it expands into the "whole" part of a mixed fraction
 Build a Mixed Fraction: Added level icons
