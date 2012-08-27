@@ -147,7 +147,7 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     }
 
     //Just the exact cards necessary to fit the selected fractions
-    private List<Integer> straightforwardCards( final List<Fraction> targets ) {
+    public static List<Integer> straightforwardCards( final List<Fraction> targets ) {
         List<Integer> cards = nil();
         for ( Fraction fraction : targets ) {
             for ( int i = 0; i < fraction.numerator; i++ ) {
@@ -157,7 +157,7 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
         return cards;
     }
 
-    private List<Integer> createCardsSameNumberEachType( final List<Fraction> selected ) {
+    public static List<Integer> createCardsSameNumberEachType( final List<Fraction> selected ) {
         Integer maxNumerator = selected.map( _numerator ).maximum( Ord.intOrd );
         List<Integer> cards = nil();
         for ( Fraction fraction : selected ) {
@@ -465,7 +465,7 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     }
 
     //Choose randomly whether a level should be pies or bars
-    private static ShapeType choosePiesOrBars() {
+    public static ShapeType choosePiesOrBars() {
         return booleanToShape( random.nextBoolean() );
     }
 
