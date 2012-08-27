@@ -39,6 +39,7 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
         add( level4() );
         add( level5() );
         add( level6() );
+        add( level7() );
         while ( size() < 10 ) { add( testLevel() ); }
     }
 
@@ -132,6 +133,26 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
             }
         } );
         return shapeLevelMixed( interestingShapes( targets.map( _toFraction ), 1 ), shuffle( targets ), colors[5], choosePiesOrBars() );
+    }
+
+    /*Level 7:
+    -- Top two targets are the same, bottom two targets are the same
+    -- Targets with 1, 2, or 3, as whole number, fractional portion from the set {1/2, 1/3, 2/3, 1/4, 3/4, 1/6, 5/6, 1/8, 3/8, 5/8, 7/8}
+    -- Only enough pieces to fulfill targets. One of each of the top and bottom targets require "nontrivial" pieces to build the solution.*/
+    private ShapeLevel level7() {
+        List<MixedFraction> selected = chooseRestricted( new F<Unit, List<MixedFraction>>() {
+            @Override public List<MixedFraction> f( final Unit unit ) {
+                return choose( 2, getMixedFractions( list( 1, 2, 3 ), parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/6, 5/6, 1/8, 3/8, 5/8, 7/8" ) ) );
+            }
+        } );
+        MixedFraction top = selected.head();
+        MixedFraction bottom = selected.last();
+        List<MixedFraction> targets = list( top, top, bottom, bottom );
+        final List<Integer> a = straightforwardCards( single( top ) );
+        final List<Integer> b = straightforwardCards( single( bottom ) );
+        final List<Integer> c = interestingShapes( single( top.toFraction() ), 5 );
+        final List<Integer> d = interestingShapes( single( bottom.toFraction() ), 5 );
+        return shapeLevelMixed( a.append( b ).append( c ).append( d ), targets, colors[6], choosePiesOrBars() );
     }
 
     //Take any of the cards, and subdivide it into smaller cards
