@@ -1,15 +1,19 @@
 package edu.colorado.phet.functions.buildafunction;
 
 import fj.F;
+import fj.data.List;
 
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -37,8 +41,14 @@ public class ValueNode extends PNode {
         this.textPaint = textPaint;
         final double ellipseWidth = Constants.ellipseWidth;
         a = new Area( new Rectangle2D.Double( 0, 0, 50, ellipseWidth ) );
-        a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMaxX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
-        a.add( new Area( new Ellipse2D.Double( a.getBounds2D().getMinX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
+        if ( originalValue instanceof ShapeValue ) {
+            a.add( roundedLeftSide( ellipseWidth, a ) );
+            a.add( roundedRightSide( ellipseWidth, a ) );
+        }
+        else if ( originalValue instanceof String ) {
+            a.add( angledLeftSide( ellipseWidth, a ) );
+            a.add( angledRightSide( ellipseWidth, a ) );
+        }
         boundNode = new PhetPPath( a, paint, stroke, strokePaint );
         addChild( boundNode );
         this.node = toNode( getCurrentValue() );
@@ -59,6 +69,26 @@ public class ValueNode extends PNode {
             }
         } );
         addInputEventListener( new CursorHandler() );
+    }
+
+    public static Area roundedRightSide( final double ellipseWidth, Shape a ) {
+        return new Area( new Ellipse2D.Double( a.getBounds2D().getMinX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) );
+    }
+
+    public static Area roundedLeftSide( final double ellipseWidth, Shape a ) {
+        return new Area( new Ellipse2D.Double( a.getBounds2D().getMaxX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) );
+    }
+
+    public static Area angledRightSide( final double ellipseWidth, Shape a ) {
+        return new Area( ShapeUtils.createShapeFromPoints( List.list( Vector2D.v( a.getBounds2D().getMaxX(), a.getBounds2D().getMinY() ),
+                                                                      Vector2D.v( a.getBounds2D().getMaxX() + ellipseWidth / 2, a.getBounds2D().getCenterY() ),
+                                                                      Vector2D.v( a.getBounds2D().getMaxX(), a.getBounds2D().getMaxY() ) ) ) );
+    }
+
+    public static Area angledLeftSide( final double ellipseWidth, Shape a ) {
+        return new Area( ShapeUtils.createShapeFromPoints( List.list( Vector2D.v( a.getBounds2D().getMinX(), a.getBounds2D().getMinY() ),
+                                                                      Vector2D.v( a.getBounds2D().getMinX() - ellipseWidth / 2, a.getBounds2D().getCenterY() ),
+                                                                      Vector2D.v( a.getBounds2D().getMinX(), a.getBounds2D().getMaxY() ) ) ) );
     }
 
     public Object getCurrentValue() {
