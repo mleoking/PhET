@@ -22,6 +22,7 @@ public class FunctionsResources {
     public static class Images {
         public static final BufferedImage GRID_ICON = RESOURCES.getImage( "grid-icon.png" );
         public static final BufferedImage KEY = RESOURCES.getImage( "key.png" );
+        public static final BufferedImage LEFT_RIGHT_ARROW = RESOURCES.getImage( "left-right-arrow.png" );
         public static final BufferedImage ROTATE_RIGHT = RESOURCES.getImage( "rotate-right.png" );
     }
 }
