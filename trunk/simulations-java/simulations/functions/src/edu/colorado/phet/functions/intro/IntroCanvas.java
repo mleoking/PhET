@@ -17,9 +17,8 @@ public class IntroCanvas extends ChallengeProgressionCanvas implements ValueCont
 
     public IntroCanvas() {
 
-
         addChild( new NavigationBar() {{
-            setOffset( INSET, INSET );
+            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, INSET );
         }} );
 
         scene = Scenes.scenes.index( level.get() ).f( this );

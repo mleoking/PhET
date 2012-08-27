@@ -1,3 +1,4 @@
+Center the representation bar at the top of the screen
 Added a thin light border to the smiling face
 # 0.00.02 (67061) Aug 16, 2012
 Added a grid icon
