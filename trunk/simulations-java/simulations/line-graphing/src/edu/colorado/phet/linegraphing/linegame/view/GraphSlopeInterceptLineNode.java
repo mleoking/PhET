@@ -29,11 +29,11 @@ import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
+import edu.colorado.phet.linegraphing.common.view.PointDragHandler;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
-import edu.colorado.phet.linegraphing.slopeintercept.view.InterceptDragHandler;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.PNode;
@@ -237,11 +237,12 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
             slopeManipulatorNode.addInputEventListener( new CursorHandler() );
             slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                               slopeManipulatorNode, mvt, guessLine, riseRange, runRange ) );
-            // interactivity for intercept manipulator
+            // interactivity for point (intercept) manipulator
             interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
             interceptManipulatorNode.addInputEventListener( new CursorHandler() );
-            interceptManipulatorNode.addInputEventListener( new InterceptDragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
-                                                                                      interceptManipulatorNode, mvt, guessLine, yInterceptRange ) );
+            interceptManipulatorNode.addInputEventListener( new PointDragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
+                                                                                  interceptManipulatorNode, mvt, guessLine,
+                                                                                  new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), yInterceptRange ) );
 
             // Rendering order
             addChild( guessNodeParent );
