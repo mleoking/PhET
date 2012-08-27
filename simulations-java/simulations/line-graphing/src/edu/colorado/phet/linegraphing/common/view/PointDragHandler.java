@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.pointslope.view;
+package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.geom.Point2D;
 
@@ -16,10 +16,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Drag handler for the point (x1,y1) manipulator of a line in point-slope form.
+ * This can also be used for a line in slope-intercept form, if x1's range is fixed at zero.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class PointDragHandler extends LineManipulatorDragHandler {
+public class PointDragHandler extends LineManipulatorDragHandler {
 
     private final Property<DoubleRange> x1Range, y1Range;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
