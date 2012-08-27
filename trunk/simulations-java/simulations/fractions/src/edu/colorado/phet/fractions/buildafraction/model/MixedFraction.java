@@ -54,6 +54,11 @@ public @Data class MixedFraction {
             return numberTarget.mixedFraction.getFractionPart();
         }
     };
+    public static F<MixedFraction, Fraction> _toFraction = new F<MixedFraction, Fraction>() {
+        @Override public Fraction f( final MixedFraction mixedFraction ) {
+            return mixedFraction.toFraction();
+        }
+    };
 
     public static MixedFraction mixedFraction( final Integer whole, final Fraction fractionPart ) {
         return new MixedFraction( whole, fractionPart.numerator, fractionPart.denominator );

@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.common.math.Fraction;
 
-import static edu.colorado.phet.fractions.buildafraction.model.numbers.MixedNumbersNumberLevelList.getMixedFractions;
-import static edu.colorado.phet.fractions.buildafraction.model.numbers.MixedNumbersNumberLevelList.parse;
+import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction._toFraction;
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.MixedNumbersNumberLevelList.*;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel.shapeLevelMixed;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevelList.choosePiesOrBars;
+import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevelList.interestingShapes;
 import static edu.colorado.phet.fractions.buildafraction.view.MixedNumbersLevelSelectionNode.colors;
 import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 import static edu.colorado.phet.fractions.common.util.Sampling.choose;
@@ -37,6 +38,7 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
         add( level3() );
         add( level4() );
         add( level5() );
+        add( level6() );
         while ( size() < 10 ) { add( testLevel() ); }
     }
 
@@ -104,6 +106,32 @@ public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
             }
         } );
         return shapeLevelMixed( substituteSubdividedCards( addSubdividedCards( substituteSubdividedCards( straightforwardCards( targets ), 4 ), 4 ), 4 ), shuffle( targets ), colors[4], choosePiesOrBars() );
+    }
+
+    /*Level 6:
+    -- Targets with 1, 2, or 3, as whole number, fractional portion from the set {1/2, 1/3, 2/3, 1/6, 5/6} or {1/2, ¼, ¾, 1/8, 3/8, 5/8, 7/8}
+    -- Pieces will be wholes, and either {1/2's and 1/6's} or {1/2's and 1/8's}
+    -- Only enough pieces to fulfill targets.  Pieces chosen to minimize small pieces, so for instance if 5/8 is a fractional portion it will be built with a 1/2 and a 1/8 piece.*/
+    private ShapeLevel level6() {
+        return random.nextBoolean() ? level6A() : level6B();
+    }
+
+    private ShapeLevel level6A() {
+        List<MixedFraction> targets = chooseRestricted( new F<Unit, List<MixedFraction>>() {
+            @Override public List<MixedFraction> f( final Unit unit ) {
+                return choose( 4, getMixedFractions( list( 1, 2, 3 ), parse( "1/2, 1/3, 2/3, 1/6, 5/6" ) ) );
+            }
+        } );
+        return shapeLevelMixed( interestingShapes( targets.map( _toFraction ), 1 ), shuffle( targets ), colors[5], choosePiesOrBars() );
+    }
+
+    private ShapeLevel level6B() {
+        List<MixedFraction> targets = chooseRestricted( new F<Unit, List<MixedFraction>>() {
+            @Override public List<MixedFraction> f( final Unit unit ) {
+                return choose( 4, getMixedFractions( list( 1, 2, 3 ), parse( "1/2, 1/4, 3/4, 1/8, 3/8, 5/8, 7/8" ) ) );
+            }
+        } );
+        return shapeLevelMixed( interestingShapes( targets.map( _toFraction ), 1 ), shuffle( targets ), colors[5], choosePiesOrBars() );
     }
 
     //Take any of the cards, and subdivide it into smaller cards

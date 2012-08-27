@@ -370,7 +370,7 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     */
     ShapeLevel level8() {
         List<Fraction> targets = level8Targets();
-        return shapeLevel( interestingShapes( targets ), shuffle( targets ), colors[7], choosePiesOrBars() );
+        return shapeLevel( interestingShapes( targets, 5 ), shuffle( targets ), colors[7], choosePiesOrBars() );
     }
 
     private List<Fraction> level8Targets() {
@@ -389,7 +389,7 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
     */
     ShapeLevel level9() {
         List<Fraction> targets = level8Targets();
-        return shapeLevel( interestingShapes( targets ), shuffle( targets ), colors[8], choosePiesOrBars() );
+        return shapeLevel( interestingShapes( targets, 5 ), shuffle( targets ), colors[8], choosePiesOrBars() );
     }
 
     /*
@@ -409,19 +409,23 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
         P2<Fraction, Fraction> two = chooseTwo( available );
         List<Fraction> targets = list( two._1(), two._1(), two._2(), two._2() );
 
-        return shapeLevel( interestingShapes( targets ), targets, colors[9], choosePiesOrBars() );
+        return shapeLevel( interestingShapes( targets, 5 ), targets, colors[9], choosePiesOrBars() );
     }
 
-    private static List<Integer> interestingShapes( final List<Fraction> fractions ) {
+    public static List<Integer> interestingShapes( final List<Fraction> fractions, int numSolutionsToSelectFrom ) {
         List<Integer> list = nil();
         for ( Fraction fraction : fractions ) {
-            list = list.append( interestingShapesForOne( fraction ) );
+            list = list.append( interestingShapesForOne( fraction, numSolutionsToSelectFrom ) );
         }
         return list;
     }
 
-    //Get some interesting(non straightforward) shapes for making the fraction.
     private static List<Integer> interestingShapesForOne( final Fraction fraction ) {
+        return interestingShapesForOne( fraction, 5 );
+    }
+
+    //Get some interesting(non straightforward) shapes for making the fraction.
+    private static List<Integer> interestingShapesForOne( final Fraction fraction, int numToTake ) {
         List<List<Integer>> coefficients = iterableList( getCoefficientSets( fraction ) );
         List<List<Integer>> filtered = coefficients.filter( new F<List<Integer>, Boolean>() {
             @Override public Boolean f( final List<Integer> integers ) {
@@ -430,14 +434,14 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
         } );
 
         //favor solutions that have a smaller number of cards
-        final List<List<Integer>> listToUse = selectSolutionsWithSmallNumberOfCards( filtered.length() == 0 ? coefficients : filtered );
+        final List<List<Integer>> listToUse = selectSolutionsWithSmallNumberOfCards( filtered.length() == 0 ? coefficients : filtered, numToTake );
         final List<Integer> chosenCoefficients = chooseOne( listToUse );
         return coefficientsToShapes( single( chosenCoefficients ) );
     }
 
     //In order to remove the tedium but still require creation of interesting shapes, sort by the number of pieces required to create the fraction
     //and choose one of the solutions with a small number of cards.
-    private static List<List<Integer>> selectSolutionsWithSmallNumberOfCards( final List<List<Integer>> lists ) {
+    private static List<List<Integer>> selectSolutionsWithSmallNumberOfCards( final List<List<Integer>> lists, int numToTake ) {
 
         List<List<Integer>> sorted = lists.sort( FJUtils.ord( new F<List<Integer>, Double>() {
             @Override public Double f( final List<Integer> list ) {
@@ -453,7 +457,7 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
 //        }
 //        System.out.println( "END<<<<<<<<<<<<<<<<<<<<" );
 
-        return sorted.take( 5 );
+        return sorted.take( numToTake );
     }
 
     private static int numberOfNonzeroElements( final List<Integer> integers ) {
