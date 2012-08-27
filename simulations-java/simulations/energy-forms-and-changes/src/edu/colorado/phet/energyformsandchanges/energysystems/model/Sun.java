@@ -9,8 +9,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.TEMP_SUN;
-
 /**
  * Class that represents the sun (as an energy source) in the model.
  *
@@ -18,11 +16,14 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  */
 public class Sun extends EnergySource {
 
+    public static final double RADIUS = 0.02; // In meters, apparent size, not (obviously) actual size.
+    public static final Vector2D OFFSET_TO_CENTER_OF_SUN = new Vector2D( -0.05, 0.12 );
+
     // Energy production per square meter of the Earth's surface.
     private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
 
+    //TODO: This, and all image lists, should be removed once the prototypes have all been replaced.
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( TEMP_SUN, new Vector2D( -0.05, 0.1 ) ) );
     }};
 
     protected Sun() {
