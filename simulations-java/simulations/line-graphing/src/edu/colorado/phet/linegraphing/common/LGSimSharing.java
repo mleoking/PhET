@@ -19,7 +19,7 @@ public class LGSimSharing {
         riseSpinner, runSpinner, interceptSpinner, x1Spinner, y1Spinner,
         saveLineButton, eraseLinesButton,
         linesCheckBox, riseOverRunCheckBox, yEqualsXCheckBox, yEqualsNegativeXCheckBox,
-        interceptManipulator, slopeManipulator, pointTool
+        pointManipulator, slopeManipulator, pointTool
     }
 
     public static enum ParameterKeys implements IParameterKey {

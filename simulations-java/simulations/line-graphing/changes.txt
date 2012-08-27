@@ -1,3 +1,4 @@
+8/27/12 delete InterceptDragHandler, it's a special case of PointDragHandler with x1 fixed at zero
 8/27/12 move line manipulator functionality into LineFormsGraphNode base class, because slope-intercept is a special case of point-slope, with x1 fixed at zero
 8/27/12 rename LineFormsGraphNode, doc that it's a base class for tabs 1 & 2
 8/27/12 doc and cleanup of common classes
