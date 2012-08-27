@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.common.model;
+package edu.colorado.phet.linegraphing.pointslope.model;
 
 import java.awt.geom.Point2D;
 
@@ -13,7 +13,10 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 
 /**
  * Base class model for the "Slope-Intercept" and "Point-Slope" modules.
