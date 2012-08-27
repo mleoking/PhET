@@ -20,12 +20,16 @@ public class SlopeInterceptModel extends LineFormsModel {
 
     // Constructor with default values.
     public SlopeInterceptModel() {
-        this( 10, 2, 3, 1 );
+        this( 10, new StraightLine( 2, 3, 1, LGColors.INTERACTIVE_LINE ) );
     }
 
-    // Constructs a square grid, with uniform quadrant sizes.
-    private SlopeInterceptModel( int quadrantSize, int rise, int run, int yIntercept ) {
-        this( new IntegerRange( -quadrantSize, quadrantSize ), new IntegerRange( -quadrantSize, quadrantSize ), rise, run, yIntercept );
+    /**
+     * Constructs a square grid, with uniform quadrant sizes.
+     * @param quadrantSize number of cells in vertical or horizontal dimension of each quadrant
+     * @param interactiveLine default interactive line
+     */
+    private SlopeInterceptModel( int quadrantSize, StraightLine interactiveLine ) {
+        this( new IntegerRange( -quadrantSize, quadrantSize ), new IntegerRange( -quadrantSize, quadrantSize ), interactiveLine );
     }
 
     /*
@@ -36,17 +40,18 @@ public class SlopeInterceptModel extends LineFormsModel {
      * @param run initial run value
      * @param yIntercept initial yIntercept value
      */
-    private SlopeInterceptModel( final IntegerRange xRange, final IntegerRange yRange, int rise, int run, int yIntercept ) {
-        super( xRange, yRange, new StraightLine( rise, run, yIntercept, LGColors.INTERACTIVE_LINE ) );
+    private SlopeInterceptModel( final IntegerRange xRange, final IntegerRange yRange, StraightLine interactiveLine ) {
+        super( xRange, yRange, interactiveLine );
 
-        assert( yRange.contains( yIntercept ) );
+        assert( interactiveLine.x1 == 0 ); // line is in slope intercept form
+        assert( yRange.contains( interactiveLine.y1 ) );
 
-        this.riseRange = new Property<DoubleRange>( new DoubleRange( yRange.getMin(), yRange.getMax(), rise ) );
-        this.runRange = new Property<DoubleRange>( new DoubleRange( xRange.getMin(), xRange.getMax(), run ) );
-        this.yInterceptRange = new Property<DoubleRange>( new DoubleRange( yRange.getMin(), yRange.getMax(), yIntercept ) );
+        this.riseRange = new Property<DoubleRange>( new DoubleRange( yRange.getMin(), yRange.getMax(), interactiveLine.rise ) );
+        this.runRange = new Property<DoubleRange>( new DoubleRange( xRange.getMin(), xRange.getMax(), interactiveLine.run ) );
+        this.yInterceptRange = new Property<DoubleRange>( new DoubleRange( yRange.getMin(), yRange.getMax(), interactiveLine.y1 ) );
 
         // Dynamically adjust ranges so that variables are constrained to the bounds of the graph.
-        interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
+        this.interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
 
                 // rise

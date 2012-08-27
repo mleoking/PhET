@@ -25,7 +25,7 @@ public class SlopeInterceptCanvas extends LineFormsCanvas {
      * Constructor
      * @param model
      * @param linesVisible are lines visible on the graph?
-     * @param interactiveLineVisible is the interactive line visible visible on the graph?
+     * @param interactiveLineVisible is the interactive line visible on the graph?
      * @param interactiveEquationVisible is the equation visible on the interactive line?
      * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
      */

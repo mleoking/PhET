@@ -111,7 +111,7 @@ public abstract class StraightLineNode extends PComposite {
         }
     }
 
-    // Creates the equation in the correct form.
+    // Creates the line's equation in the correct form.
     protected abstract EquationNode createEquationNode( StraightLine line, PhetFont font );
 
     public void setEquationVisible( boolean visible ) {
