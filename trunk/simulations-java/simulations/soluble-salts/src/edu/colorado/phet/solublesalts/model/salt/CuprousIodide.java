@@ -26,6 +26,6 @@ public class CuprousIodide extends Salt {
     }
 
     public CuprousIodide() {
-        super( CuprousIodide.components, CuprousIodide.lattice, Copper.class, Iodide.class, 5.1E-12 );
+        super( CuprousIodide.components, CuprousIodide.lattice, Copper.class, Iodide.class, 1.10E-12 );
     }
 }
