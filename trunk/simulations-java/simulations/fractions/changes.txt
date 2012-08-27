@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Numbers: Added a check for levels 5-8 to ensure different representation types
 Build a Mixed Fraction: Numbers: Make the number non-bold when it expands into the "whole" part of a mixed fraction
 Build a Mixed Fraction: Added level icons
 Build a Mixed Fraction: Numbers: Prevent horizontal and vertical bars from being used for shapes with "ninths" divisions

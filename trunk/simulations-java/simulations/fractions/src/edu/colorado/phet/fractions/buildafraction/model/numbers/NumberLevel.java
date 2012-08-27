@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.numbers;
 
+import fj.Equal;
 import fj.F;
 import fj.data.List;
 
@@ -79,5 +80,13 @@ public class NumberLevel extends Level {
                 return numberTarget.mixedFraction.whole > 0;
             }
         } );
+    }
+
+    public boolean hasDifferentShapeTypes() {
+        return targets.map( new F<NumberTarget, Object>() {
+            @Override public Object f( final NumberTarget numberTarget ) {
+                return numberTarget.representation;
+            }
+        } ).group( Equal.anyEqual() ).length() > 1;
     }
 }

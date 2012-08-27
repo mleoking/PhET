@@ -27,15 +27,11 @@ public @Data class NumberTarget {
     public final MixedFraction mixedFraction;
     public final Color color;
     public final List<FilledPattern> filledPattern;
+    public final F<MixedFraction, FilledPattern> representation;
 
     public static final F<NumberTarget, MixedFraction> _mixedFraction = new F<NumberTarget, MixedFraction>() {
         @Override public MixedFraction f( final NumberTarget numberTarget ) {
             return numberTarget.mixedFraction;
-        }
-    };
-    private static F<Integer, Boolean> nonZero = new F<Integer, Boolean>() {
-        @Override public Boolean f( final Integer integer ) {
-            return integer != 0;
         }
     };
 
@@ -48,16 +44,16 @@ public @Data class NumberTarget {
     }
 
     public static NumberTarget target( MixedFraction mixedFraction, Color color, F<MixedFraction, FilledPattern> pattern ) {
-        return new NumberTarget( mixedFraction, color, composite( pattern ).f( mixedFraction ) );
+        return new NumberTarget( mixedFraction, color, composite( pattern ).f( mixedFraction ), pattern );
     }
 
     public static NumberTarget scatteredTarget( MixedFraction mixedFraction, Color color, F<MixedFraction, FilledPattern> pattern ) {
-        return new NumberTarget( mixedFraction, color, scatteredComposite( pattern ).f( mixedFraction ) );
+        return new NumberTarget( mixedFraction, color, scatteredComposite( pattern ).f( mixedFraction ), pattern );
     }
 
     //same as target above but the shapes may appear in a different order (though it does not randomize across filled/unfilled)
     public static NumberTarget shuffledTarget( MixedFraction mixedFraction, Color color, F<MixedFraction, FilledPattern> pattern ) {
-        return new NumberTarget( mixedFraction, color, shuffle( composite( pattern ).f( mixedFraction ) ) );
+        return new NumberTarget( mixedFraction, color, shuffle( composite( pattern ).f( mixedFraction ) ), pattern );
     }
 
     //Convenience for single pattern
