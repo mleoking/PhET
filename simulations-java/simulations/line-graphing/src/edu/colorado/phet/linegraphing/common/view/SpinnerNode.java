@@ -49,7 +49,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Spinner for a double value, with up and down arrows.
- * Unlike a JSpinner, the value is not directly editable.
+ * Unlike a JSpinner, there is no ability to type in a value.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

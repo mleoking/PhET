@@ -109,7 +109,7 @@ public class GraphControls extends PNode {
             }
         } );
 
-        // Check boxes when standard lines are added
+        // Select appropriate check boxes when standard lines are added.
         standardLines.addElementAddedObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
                 if ( line == StraightLine.Y_EQUALS_X_LINE ) {
@@ -121,7 +121,7 @@ public class GraphControls extends PNode {
             }
         } );
 
-        // Uncheck boxes when standard lines are removed
+        // Deselect appropriate check boxes when standard lines are removed.
         standardLines.addElementRemovedObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
                 if ( line == StraightLine.Y_EQUALS_X_LINE ) {

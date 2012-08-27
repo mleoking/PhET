@@ -27,7 +27,7 @@ public class LineFormsCanvas extends LGCanvas {
     /**
      * Constructor
      * @param model model container
-     * @param linesVisible are lines visible on the graph?
+     * @param linesVisible are lines visible on the graph? (applies to all lines)
      * @param interactiveLineVisible is the interactive line visible visible on the graph?
      * @param interactiveEquationVisible is the equation visible on the interactive line?
      * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?

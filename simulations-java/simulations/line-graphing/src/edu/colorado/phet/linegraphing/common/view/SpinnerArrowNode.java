@@ -41,7 +41,7 @@ public class SpinnerArrowNode extends PPath {
         }}.getGeneralPath() );
         setPaint( color );
         setStroke( new BasicStroke( 0.25f ) );
-        setStrokePaint( outlined ? Color.BLACK : color ); // stroke with the fill color, so the arrow doesn't appear to shrink
+        setStrokePaint( outlined ? Color.BLACK : color ); // stroke with the fill color, so outlined and non-outlined arrows are the same size
     }
 
     // WORKAROUND for #558

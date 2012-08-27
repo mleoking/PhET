@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Tool that displays the (x,y) coordinates of a point on the graph.
+ * Tool that displays the (x,y) coordinates of a grid-point on the graph.
  * Origin is at the tip of the tool (bottom center in the image file.)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -164,7 +164,7 @@ public class PointToolNode extends PhetPNode {
         backgroundNode.setPaint( color );
     }
 
-    // Drag handler for the point tool, constrained to the range of the graph, snaps to grid.
+    // Drag handler for the point tool, constrained to the range of the graph, snaps to integer grid.
     private static class PointToolDragHandler extends SimSharingDragHandler {
 
         private final PNode dragNode;

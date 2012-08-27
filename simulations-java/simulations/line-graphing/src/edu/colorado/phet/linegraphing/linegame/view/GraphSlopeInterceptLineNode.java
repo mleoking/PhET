@@ -154,7 +154,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
                 if ( model.challenge.get().isCorrect() ) {
                     faceNode.smile();
                     audioPlayer.correctAnswer();
-                    equationNode.setEquationColor( GameConstants.CORRECT_ANSWER_COLOR );
+                    equationNode.setPaintDeep( GameConstants.CORRECT_ANSWER_COLOR );
                     model.challenge.get().guess.set( model.challenge.get().guess.get().withColor( GameConstants.CORRECT_ANSWER_COLOR ) );
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.score.set( model.score.get() + points );
@@ -190,7 +190,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
             public void actionPerformed( ActionEvent e ) {
                 graphNode.setAnswerVisible( true );
                 model.state.set( PlayState.NEXT );
-                equationNode.setEquationColor( GameConstants.CORRECT_ANSWER_COLOR );
+                equationNode.setPaintDeep( GameConstants.CORRECT_ANSWER_COLOR );
             }
         } );
 
