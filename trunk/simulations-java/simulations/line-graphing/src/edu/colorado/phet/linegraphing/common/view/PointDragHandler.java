@@ -10,8 +10,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentTyp
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
-import edu.colorado.phet.linegraphing.common.view.LineManipulatorDragHandler;
-import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -56,6 +54,6 @@ public class PointDragHandler extends LineManipulatorDragHandler {
         // constrain to range, snap to grid
         double x1 = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ), x1Range.get() ) );
         double y1 = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), y1Range.get() ) );
-        line.set( new StraightLine( line.get().rise, line.get().run, x1, y1, line.get().color ) );
+        line.set( new StraightLine( x1, y1, line.get().rise, line.get().run, line.get().color ) );
     }
 }

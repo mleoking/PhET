@@ -160,7 +160,7 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 if ( !updatingControls ) {
-                    interactiveLine.set( new StraightLine( rise.get(), run.get(), x1.get(), y1.get(), interactiveLine.get().color ) );
+                    interactiveLine.set( new StraightLine( x1.get(), y1.get(), rise.get(), run.get(), interactiveLine.get().color ) );
                 }
             }
         };
@@ -185,7 +185,7 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
     public static void main( String[] args ) {
 
         // model
-        Property<StraightLine> line = new Property<StraightLine>( new StraightLine( 3, 4, 1, 2, LGColors.INTERACTIVE_LINE ) );
+        Property<StraightLine> line = new Property<StraightLine>( new StraightLine( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ) );
         DoubleRange range = new DoubleRange( -10, 10 );
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );

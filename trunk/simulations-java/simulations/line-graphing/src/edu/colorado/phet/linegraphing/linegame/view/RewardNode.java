@@ -172,8 +172,7 @@ public class RewardNode extends PhetPNode {
             node = factory.createNode( line, font );
         }
         else {
-            StraightLine line = new StraightLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
-                                                  getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
+            StraightLine line = new StraightLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
                                                   color );
             EquationFactory factory = new PointSlopeEquationFactory();
             node = factory.createNode( line, font );

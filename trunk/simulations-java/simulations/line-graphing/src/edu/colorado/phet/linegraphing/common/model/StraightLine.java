@@ -25,11 +25,11 @@ public class StraightLine {
 
     // slope-intercept form: y = mx + b
     public StraightLine( double rise, double run, double yIntercept, Color color ) {
-        this( rise, run, 0, yIntercept, color );
+        this( 0, yIntercept, rise, run, color );
     }
 
     // point-slope form: (y - y1) = m(x - x1)
-    public StraightLine( double rise, double run, double x1, double y1, Color color ) {
+    public StraightLine( double x1, double y1, double rise, double run, Color color ) {
         assert( !( rise == 0 && run == 0 ) ); // a line with slope=0/0 is undefined
         this.rise = rise;
         this.run = run;
@@ -40,7 +40,7 @@ public class StraightLine {
 
     // Creates a new instance with a different color.
     public StraightLine withColor( Color color ) {
-        return new StraightLine( rise, run, x1, y1, color );
+        return new StraightLine( x1, y1, rise, run, color );
     }
 
     /*
@@ -81,7 +81,7 @@ public class StraightLine {
         if ( ( rise == (int) rise ) && ( run == (int) run ) ) { // true if rise and run are integers
             final int reducedRise = (int) ( rise / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
             final int reducedRun = (int) ( run / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
-            return new StraightLine( reducedRise, reducedRun, x1, y1, color );
+            return new StraightLine( x1, y1, reducedRise, reducedRun, color );
         }
         else {
             return this;
