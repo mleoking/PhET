@@ -54,7 +54,7 @@ public class BallImage extends Sprite {
     private var mouseOverBallHandle: Boolean = false;
     private var mouseDownOnArrow: Boolean = false;
 
-    private static const arrowDragRadius: Number = 15; // radius of the arrow "handle" and visible marker is
+    private static const arrowDragRadius: Number = 20; // radius of the arrow "handle" and visible marker is
 
     public function BallImage( myModel: Model, indx: int, myTableView: TableView ) {
         this.myModel = myModel;
