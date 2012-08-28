@@ -19,7 +19,7 @@ public class GameMakerCanvas extends AbstractFunctionsCanvas {
             setBackground( Color.red );
             setFont( BuildAFunctionScene.BUTTON_FONT );
             setEnabled( false );
-            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.height / 2 - INSET );
+            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.height / 2 + 2 );
         }};
         addChild( runButton );
     }
