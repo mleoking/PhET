@@ -22,12 +22,12 @@ import static edu.colorado.phet.functions.buildafunction.Constants.functionColor
 /**
  * @author Sam Reid
  */
-public class BinaryFunctionNode extends PNode {
-    public BinaryFunctionNode( String text, Type type ) {
+public class TwoInputFunctionNode extends PNode {
+    public TwoInputFunctionNode( String text, Type type ) {
         this( text, type, type, type );
     }
 
-    public BinaryFunctionNode( String text, Type input1, Type input2, Type output ) {
+    public TwoInputFunctionNode( String text, Type input1, Type input2, Type output ) {
         //use CAG for prototype, may need to speed up later on
         final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, Constants.bodyDimension.width, Constants.bodyDimension.height * 2 + Constants.inset, 20, 20 );
         Area a = new Area( bodyRect );
@@ -47,11 +47,11 @@ public class BinaryFunctionNode extends PNode {
 
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
-                BinaryFunctionNode.this.moveToFront();
+                TwoInputFunctionNode.this.moveToFront();
             }
 
             @Override public void mouseDragged( final PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( BinaryFunctionNode.this.getParent() );
+                PDimension delta = event.getDeltaRelativeTo( TwoInputFunctionNode.this.getParent() );
                 translate( delta.width, delta.height );
             }
         } );
