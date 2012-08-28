@@ -12,10 +12,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
-import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge;
+import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.SlopeInterceptChallenge;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Portion of the scenegraph that corresponds to the "play" game phase.
@@ -69,8 +68,8 @@ class PlayNode extends PhetPNode {
         } );
 
         // Set up a new challenge
-        model.challenge.addObserver( new VoidFunction1<MatchingChallenge>() {
-            public void apply( MatchingChallenge challenge ) {
+        model.challenge.addObserver( new VoidFunction1<SlopeInterceptChallenge>() {
+            public void apply( SlopeInterceptChallenge challenge ) {
                 challengeParent.removeAllChildren();
                 //TODO type of challenge will vary
                 challengeParent.addChild( new GraphSlopeInterceptLineNode( model, audioPlayer, challengeSize ) );
