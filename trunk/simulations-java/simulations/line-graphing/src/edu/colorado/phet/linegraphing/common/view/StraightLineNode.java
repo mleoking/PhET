@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class StraightLineNode extends PComposite {
+public abstract class StraightLineNode<T extends PointSlopeLine> extends PComposite {
 
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 10, 10 );
     private static final double LINE_THICKNESS = 3;
@@ -33,7 +33,7 @@ public abstract class StraightLineNode extends PComposite {
     private final DoubleArrowNode arrowNode;
     private final EquationNode equationNode;
 
-    public StraightLineNode( final PointSlopeLine line, Graph graph, ModelViewTransform mvt ) {
+    public StraightLineNode( final T line, Graph graph, ModelViewTransform mvt ) {
 
         this.line = line;
 
@@ -110,7 +110,7 @@ public abstract class StraightLineNode extends PComposite {
     }
 
     // Creates the line's equation in the correct form.
-    protected abstract EquationNode createEquationNode( PointSlopeLine line, PhetFont font );
+    protected abstract EquationNode createEquationNode( T line, PhetFont font );
 
     public void setEquationVisible( boolean visible ) {
         equationNode.setVisible( visible );

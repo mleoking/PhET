@@ -4,7 +4,6 @@ package edu.colorado.phet.linegraphing.common.model;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.linegraphing.common.LGColors;
 
 /**
  * An immutable straight line, which can be specified in slope-intercept or point-slope form.
@@ -13,10 +12,6 @@ import edu.colorado.phet.linegraphing.common.LGColors;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PointSlopeLine {
-
-    // standard lines
-    public static final SlopeInterceptLine Y_EQUALS_X_LINE = new SlopeInterceptLine( 1, 1, 0, LGColors.Y_EQUALS_X );  // y = x
-    public static final SlopeInterceptLine Y_EQUALS_NEGATIVE_X_LINE = new SlopeInterceptLine( -1, 1, 0, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
 
     public final double rise; // vertical component of the slope
     public final double run; // horizontal component of the slope
@@ -33,6 +28,7 @@ public class PointSlopeLine {
         this.color = color;
     }
 
+    //TODO move to factory and delete
     // Creates a new instance with a different color.
     public PointSlopeLine withColor( Color color ) {
         return new PointSlopeLine( x1, y1, rise, run, color );

@@ -7,7 +7,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.LineFactory.SlopeInterceptLineFactory;
+import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
 
 /**
@@ -15,7 +16,7 @@ import edu.colorado.phet.linegraphing.common.view.EquationControls;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptEquationControls extends EquationControls {
+class SlopeInterceptEquationControls extends EquationControls<SlopeInterceptLine> {
 
     /**
      * Constructor
@@ -27,8 +28,8 @@ class SlopeInterceptEquationControls extends EquationControls {
      * @param runRange
      * @param yInterceptRange
      */
-    public SlopeInterceptEquationControls( final Property<PointSlopeLine> interactiveLine,
-                                           final ObservableList<PointSlopeLine> savedLines,
+    public SlopeInterceptEquationControls( final Property<SlopeInterceptLine> interactiveLine,
+                                           final ObservableList<SlopeInterceptLine> savedLines,
                                            final Property<Boolean> maximized,
                                            final Property<Boolean> linesVisible,
                                            Property<DoubleRange> riseRange,
@@ -37,6 +38,7 @@ class SlopeInterceptEquationControls extends EquationControls {
         super( MessageFormat.format( "{0} = {1}{2} + {3}", /* y = mx + b */
                                      Strings.SYMBOL_Y, Strings.SYMBOL_SLOPE, Strings.SYMBOL_X, Strings.SYMBOL_INTERCEPT ),
                interactiveLine, savedLines, maximized, linesVisible,
-               new SlopeInterceptInteractiveEquationNode( interactiveLine, riseRange, runRange, yInterceptRange ) );
+               new SlopeInterceptInteractiveEquationNode( interactiveLine, riseRange, runRange, yInterceptRange ),
+               new SlopeInterceptLineFactory() );
     }
 }

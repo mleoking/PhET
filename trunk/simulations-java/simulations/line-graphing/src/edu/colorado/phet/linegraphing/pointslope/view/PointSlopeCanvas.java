@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.pointslope.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.linegraphing.common.view.LineFormsCanvas;
+import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 
 /**

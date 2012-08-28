@@ -7,7 +7,8 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.LineFactory.SlopeInterceptLineFactory;
+import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.common.view.LineFormsGraphNode;
 import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
 
@@ -16,13 +17,13 @@ import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SlopeInterceptGraphNode extends LineFormsGraphNode {
+public class SlopeInterceptGraphNode extends LineFormsGraphNode<SlopeInterceptLine> {
 
     public SlopeInterceptGraphNode( final Graph graph,
                                     final ModelViewTransform mvt,
-                                    Property<PointSlopeLine> interactiveLine,
-                                    ObservableList<PointSlopeLine> savedLines,
-                                    ObservableList<PointSlopeLine> standardLines,
+                                    Property<SlopeInterceptLine> interactiveLine,
+                                    ObservableList<SlopeInterceptLine> savedLines,
+                                    ObservableList<SlopeInterceptLine> standardLines,
                                     Property<Boolean> linesVisible,
                                     Property<Boolean> interactiveLineVisible,
                                     Property<Boolean> interactiveEquationVisible,
@@ -34,12 +35,12 @@ public class SlopeInterceptGraphNode extends LineFormsGraphNode {
                interactiveLine, savedLines, standardLines,
                linesVisible, interactiveLineVisible, interactiveEquationVisible, slopeVisible,
                riseRange, runRange, new Property<DoubleRange>( new DoubleRange( 0, 0 ) ) /* x1 is fixed at zero */, yInterceptRange,
-               LGColors.INTERCEPT, LGColors.SLOPE );
+               LGColors.INTERCEPT, LGColors.SLOPE,
+               new SlopeInterceptLineFactory() );
     }
 
     // Creates a node that displays the line in slope-intercept form.
-    protected StraightLineNode createLineNode( PointSlopeLine line, Graph graph, ModelViewTransform mvt ) {
-        assert ( line.x1 == 0 ); // line is in slope intercept form
+    protected StraightLineNode createLineNode( SlopeInterceptLine line, Graph graph, ModelViewTransform mvt ) {
         return new SlopeInterceptLineNode( line, graph, mvt );
     }
 }
