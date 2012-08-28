@@ -23,11 +23,11 @@ import static edu.colorado.phet.functions.buildafunction.Constants.functionColor
  * @author Sam Reid
  */
 public class TwoInputFunctionNode extends PNode {
-    public TwoInputFunctionNode( String text, Type type ) {
-        this( text, type, type, type );
+    public TwoInputFunctionNode( String text, boolean draggable, Type type, double x, double y ) {
+        this( text, draggable, type, type, type, x, y );
     }
 
-    public TwoInputFunctionNode( String text, Type input1, Type input2, Type output ) {
+    public TwoInputFunctionNode( String text, boolean draggable, Type input1, Type input2, Type output, double x, double y ) {
         //use CAG for prototype, may need to speed up later on
         final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, Constants.bodyDimension.width, Constants.bodyDimension.height * 2 + Constants.inset, 20, 20 );
         Area a = new Area( bodyRect );
@@ -45,16 +45,20 @@ public class TwoInputFunctionNode extends PNode {
             setOffset( bodyRect.getCenterX() - getFullBounds().getWidth() / 2 + 10, bodyRect.getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mousePressed( final PInputEvent event ) {
-                TwoInputFunctionNode.this.moveToFront();
-            }
+        if ( draggable ) {
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( final PInputEvent event ) {
+                    TwoInputFunctionNode.this.moveToFront();
+                }
 
-            @Override public void mouseDragged( final PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( TwoInputFunctionNode.this.getParent() );
-                translate( delta.width, delta.height );
-            }
-        } );
-        addInputEventListener( new CursorHandler() );
+                @Override public void mouseDragged( final PInputEvent event ) {
+                    PDimension delta = event.getDeltaRelativeTo( TwoInputFunctionNode.this.getParent() );
+                    translate( delta.width, delta.height );
+                    System.out.println( "getOffset() = " + getOffset() );
+                }
+            } );
+            addInputEventListener( new CursorHandler() );
+        }
+        setOffset( x, y );
     }
 }

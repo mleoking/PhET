@@ -15,8 +15,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class BuildAFunctionScene extends PNode {
     public BuildAFunctionScene() {
-        addChild( new TwoInputFunctionNode( "+", Type.NUMBER ) );
-        addChild( new TwoInputFunctionNode( "-", Type.NUMBER ) );
+        addChild( new TwoInputFunctionNode( "+", true, Type.NUMBER, 0, 0 ) );
+        addChild( new TwoInputFunctionNode( "-", true, Type.NUMBER, 0, 0 ) );
         addChild( new CopyFunctionNode( "copy", Type.NUMBER ) );
 
         addChild( new UnaryFunctionNode( "\u27152", true, Functions.INTEGER_TIMES_2, Type.NUMBER, Type.NUMBER ) );

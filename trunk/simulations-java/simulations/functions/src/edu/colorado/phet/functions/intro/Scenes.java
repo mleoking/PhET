@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.functions.FunctionsResources.Images;
+import edu.colorado.phet.functions.buildafunction.TwoInputFunctionNode;
 import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
 import edu.colorado.phet.functions.intro.view.NavigationBar.ShapeIcon;
@@ -159,7 +160,8 @@ public class Scenes {
                             return new ValueNode( introCanvas, new ShapeValue( 0, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
-                                      List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( ROTATE_RIGHT, 60 ) ), false, ROTATE_GRAPHIC_RIGHT, SHAPE, SHAPE, 390.72378138847836, 294.298375184638 ) ),
+                                      List.<UnaryFunctionNode>list(),
+                                      list( new TwoInputFunctionNode( "+", false, SHAPE, 418.8478581979311, 224.9926144756274 ) ),
                                       Scene.createTargetNodeList( introCanvas, list( new ShapeValue( 1, smile ) ) ) );
                 }
             }

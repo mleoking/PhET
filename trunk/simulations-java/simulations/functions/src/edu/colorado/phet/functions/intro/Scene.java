@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.functions.buildafunction.TwoInputFunctionNode;
 import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueContext;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
@@ -24,11 +25,17 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class Scene extends PNode implements ValueContext {
     private final List<UnaryFunctionNode> unaryFunctionNodeList;
+    private final List<TwoInputFunctionNode> binaryFunctionNodeList;
     private final List<TargetNode> targetNodes;
     private final SceneContext sceneContext;
 
     protected Scene( SceneContext sceneContext, List<ValueNode> valueNodes, List<UnaryFunctionNode> unaryFunctionNodeList, List<TargetNode> targetNodes ) {
+        this( sceneContext, valueNodes, unaryFunctionNodeList, List.<TwoInputFunctionNode>nil(), targetNodes );
+    }
+
+    protected Scene( SceneContext sceneContext, List<ValueNode> valueNodes, List<UnaryFunctionNode> unaryFunctionNodeList, List<TwoInputFunctionNode> binaryFunctionNodeList, List<TargetNode> targetNodes ) {
         this.unaryFunctionNodeList = unaryFunctionNodeList;
+        this.binaryFunctionNodeList = binaryFunctionNodeList;
         this.targetNodes = targetNodes;
         this.sceneContext = sceneContext;
 
@@ -41,9 +48,13 @@ public class Scene extends PNode implements ValueContext {
         for ( UnaryFunctionNode unaryFunctionNode : unaryFunctionNodeList ) {
             addChild( unaryFunctionNode );
         }
+        for ( TwoInputFunctionNode functionNode : binaryFunctionNodeList ) {
+            addChild( functionNode );
+        }
     }
 
     public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
+        if ( unaryFunctionNodeList.length() == 0 ) {return;}
         UnaryFunctionNode functionNode = unaryFunctionNodeList.sort( FJUtils.ord( new F<UnaryFunctionNode, Double>() {
             @Override public Double f( final UnaryFunctionNode n ) {
                 return n.getGlobalFullBounds().getCenter2D().distance( valueNode.getGlobalFullBounds().getCenter2D() );
