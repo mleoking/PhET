@@ -53,7 +53,7 @@ public class TwoInputFunctionNode extends PNode {
 
                 @Override public void mouseDragged( final PInputEvent event ) {
                     PDimension delta = event.getDeltaRelativeTo( TwoInputFunctionNode.this.getParent() );
-                    translate( delta.width, delta.height );
+                    translate( delta.width / getScale(), delta.height / getScale() );
                     System.out.println( "getOffset() = " + getOffset() );
                 }
             } );

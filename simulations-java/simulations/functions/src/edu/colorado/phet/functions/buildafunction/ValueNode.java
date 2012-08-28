@@ -56,6 +56,7 @@ public class ValueNode extends PNode {
             @Override public void mouseDragged( final PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( ValueNode.this.getParent() );
                 valueContext.mouseDragged( ValueNode.this, delta );
+                System.out.println( "getOffset() = " + getOffset() );
             }
 
             @Override public void mouseReleased( final PInputEvent event ) {
