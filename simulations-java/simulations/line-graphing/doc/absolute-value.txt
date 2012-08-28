@@ -1,9 +1,9 @@
 Absolute Value sim
 
-equation form: y = a|x - h| + k)
+equation form: y = a|x - h| + k
 
 From http://www.sparknotes.com/math/algebra2/specialgraphs/section4.rhtml:
-In general, the graph of the absolute value function f (x) = a| x - h| + k is a "V" with vertex (h, k),
+In general, the graph of the absolute value function f(x) = a|x - h| + k is a "V" with vertex (h, k),
 slope m = a on the right side of the vertex ( x > h ) and slope m = - a on the left side of the vertex ( x < h ).
-The graph of f (x) = - a| x - h| + k is an upside-down "V" with vertex (h, k), slope m = - a for x > h
+The graph of f(x) = -a|x - h| + k is an upside-down "V" with vertex (h, k), slope m = -a for x > h
 and slope m = a for x < h.
