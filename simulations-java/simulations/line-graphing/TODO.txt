@@ -7,9 +7,9 @@ DESIGN
 - revisit the placement algorithm for equations on graphed lines
 
 HIGH
-- consider some major rearchitecting, adding just one type of game challenge has already introduced an acceptable amount of chaos
-- create quick-and-dirty examples of each type of challenge
-- some of the fields and responsibilities in LineGameModel are challenge specific. Eg, point tools, whether to maintain a list of lines, etc.
+- rewrite demo challenge
+- some of the fields and responsibilities in LineGameModel are challenge specific. Eg, mvt, point tools, whether to maintain a list of lines, etc.
+- create additional game challenges
 
 MEDIUM
 - use typing (SlopeInterceptLine extends PointSlopeLine) and generics to enforce usage of lines in slope-intercept form (interactive & saved), instead of "assert( line.x1 == 0 )"
