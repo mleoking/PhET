@@ -11,18 +11,30 @@ import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MatchingChallenge {
+public abstract class MatchingChallenge<T extends PointSlopeLine> {
 
-    public final SlopeInterceptLine answer; // the correct answer
-    public final Property<SlopeInterceptLine> guess; // the user's current guess
+    public final T answer; // the correct answer
+    public final Property<T> guess; // the user's current guess
 
-    public MatchingChallenge( SlopeInterceptLine answer ) {
+    public MatchingChallenge( T answer, T guess ) {
         this.answer = answer;
-        this.guess = new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 1, 0, GameConstants.GUESS_COLOR ) /* y=x */ );
+        this.guess = new Property<T>( guess );
     }
 
     // Correct if the we have 2 descriptions of the same line.
     public boolean isCorrect() {
         return answer.same( guess.get() );
     }
+
+    public static class SlopeInterceptChallenge extends MatchingChallenge<SlopeInterceptLine> {
+        public SlopeInterceptChallenge( SlopeInterceptLine answer ) {
+            super( answer, SlopeInterceptLine.Y_EQUALS_X_LINE );
+        }
+    }
+
+    public static class PointSlopeChallenge extends MatchingChallenge<PointSlopeLine> {
+            public PointSlopeChallenge( PointSlopeLine answer ) {
+                super( answer, SlopeInterceptLine.Y_EQUALS_X_LINE );
+            }
+        }
 }
