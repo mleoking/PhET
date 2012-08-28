@@ -183,12 +183,14 @@ public class PointToolNode extends PhetPNode {
             this.dragBounds = dragBounds;
         }
 
-        // Note the mouse-click offset when dragging starts.
         @Override protected void startDrag( PInputEvent event ) {
             super.startDrag( event );
+            // Note the mouse-click offset when dragging starts.
             Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
             clickXOffset = pMouse.getX() - mvt.modelToViewX( point.get().getX() );
             clickYOffset = pMouse.getY() - mvt.modelToViewY( point.get().getY() );
+            // Move the tool that we're dragging to the foreground.
+            dragNode.moveToFront();
         }
 
         // Translate the model's location. Snap to integer grid if the location is inside the bounds of the graph.

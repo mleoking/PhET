@@ -1,3 +1,4 @@
+8/27/12 move point tool to the foreground when drag starts
 8/27/12 change line class hierarchy, SlopeInterceptLine extends PointSlopeLine
 8/27/12 change order of constructor params to "point,slope" and "slope,intercept" to match line-form names
 8/27/12 SlopeInterceptModel extends PointSlopeModel
