@@ -30,6 +30,7 @@ public class UnaryFunctionNode extends PNode {
     public static final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, Constants.bodyDimension.width, Constants.bodyDimension.height, 20, 20 );
     private static boolean dragForLayout = false;
     public final F<Object, Object> function;
+    public static final long ANIMATION_DURATION = 90;
 
     public UnaryFunctionNode( String text, boolean draggable, F<Object, Object> function, Type input, Type output ) {
         this( text, draggable, function, input, output, 0, 0 );
@@ -63,6 +64,7 @@ public class UnaryFunctionNode extends PNode {
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( final PInputEvent event ) {
                     UnaryFunctionNode.this.moveToFront();
+                    if ( getScale() < 0.75 ) { animateToPositionScaleRotation( getXOffset(), getYOffset(), 1.0, 0, UnaryFunctionNode.ANIMATION_DURATION ); }
                 }
 
                 @Override public void mouseDragged( final PInputEvent event ) {
