@@ -193,6 +193,14 @@ public class MomentumView extends Sprite {
         this.tipToTail_cb.selected = true;
         this.tipToTail_cb.textField.width = 0.7 * this.borderWidth;
         this.tipToTail_cb.y = this.borderHeight - this.tipToTail_cb.height;
+
+        var tFormat:TextFormat = new TextFormat();
+        tFormat.font = "Arial";
+        tFormat.size = 22;
+        //textFormat must be applied to text, so set text property first then apply format
+        this.tipToTail_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.tipToTail_cb.setStyle("textFormat", tFormat);
+
         this.canvas2.addChild( this.tipToTail_cb );
         this.tipToTail_cb.addEventListener( MouseEvent.CLICK, tipToTailChangeListener );
     }//end of setupCheckBox
