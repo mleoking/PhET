@@ -23,7 +23,7 @@ public class LightRays extends PNode {
         assert numRays > 0 && outerRadius > innerRadius; // Parameter checking.
         for ( int i = 0; i < numRays; i++ ) {
             double angle = ( Math.PI * 2 / numRays ) * i;
-            Vector2D rayStartPoint = new Vector2D( outerRadius - innerRadius, 0 ).getRotatedInstance( angle );
+            Vector2D rayStartPoint = new Vector2D( innerRadius, 0 ).getRotatedInstance( angle );
             Vector2D rayEndPoint = new Vector2D( outerRadius, 0 ).getRotatedInstance( angle );
             addChild( new PhetPPath( new Line2D.Double( rayStartPoint.toPoint2D(), rayEndPoint.toPoint2D() ), RAY_STROKE, color ) );
         }

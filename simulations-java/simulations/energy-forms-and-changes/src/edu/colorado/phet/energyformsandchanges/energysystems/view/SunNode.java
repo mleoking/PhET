@@ -28,7 +28,7 @@ public class SunNode extends PositionableFadableModelElementNode {
             setStroke( new BasicStroke( 1 ) );
             setStrokePaint( Color.YELLOW );
         }};
-        addChild( new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius * 2, 200, 8, Color.YELLOW ) );
+        addChild( new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius * 1, 500, 40, Color.YELLOW ) );
         addChild( sunNode );
     }
 }
