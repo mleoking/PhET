@@ -49,6 +49,7 @@ public class TwoInputFunctionNode extends PNode {
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( final PInputEvent event ) {
                     TwoInputFunctionNode.this.moveToFront();
+                    if ( getScale() < 0.75 ) { animateToPositionScaleRotation( getXOffset(), getYOffset(), 1.0, 0, UnaryFunctionNode.ANIMATION_DURATION ); }
                 }
 
                 @Override public void mouseDragged( final PInputEvent event ) {

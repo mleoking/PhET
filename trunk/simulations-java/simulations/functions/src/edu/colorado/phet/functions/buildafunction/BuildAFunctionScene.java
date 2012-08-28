@@ -4,6 +4,7 @@ package edu.colorado.phet.functions.buildafunction;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.functions.common.view.TableNode;
 import edu.colorado.phet.functions.model.Functions;
 import edu.colorado.phet.functions.model.Type;
@@ -38,6 +39,23 @@ public class BuildAFunctionScene extends PNode {
             setOffset( 55.24372230428363, 280.23633677991086 );
         }} );
 
-        addChild( new TableNode() {{setOffset( STAGE_SIZE.width - INSET - getFullBounds().getWidth(), INSET );}} );
+        addChild( new TableNode() {{
+            setOffset( STAGE_SIZE.width - INSET - getFullBounds().getWidth(), INSET );
+
+            //*2+1
+            int i = 0;
+            addPair( i++, 1, 3 );
+            addPair( i++, 2, 5 );
+            addPair( i++, 3, 7 );
+            addPair( i++, 4, 9 );
+            addPair( i++, 5, 11 );
+//            addPair( i++, "...", "..." );
+        }} );
+
+        addChild( new HTMLImageButtonNode( "Test" ) {{
+            setBackground( Color.red );
+            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, INSET );
+            setEnabled( false );
+        }} );
     }
 }
