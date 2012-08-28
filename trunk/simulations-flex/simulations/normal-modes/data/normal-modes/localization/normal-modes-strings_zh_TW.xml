@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--normal-modes-strings_zh_TW.xml created Mon Aug 27 23:54:20 CST 2012 using: normal-modes 1.01.00 (66456), translation-utility 2.13.00 (59150) 十二月 8, 2011-->
+<!--normal-modes-strings_zh_TW.xml created Tue Aug 28 11:14:07 CST 2012 using: normal-modes 1.01.00 (66456), translation-utility 2.13.00 (59150) 十二月 8, 2011-->
 <SimStrings>
-<string key="horizontal" value="橫"/>
+<string key="simSpeed" value="模擬速度"/>
+<string key="vertical" value="垂直"/>
+<string key="slow" value="慢"/>
+<string key="modeSpectrumDisplay" value="顯示波模頻譜"/>
+<string key="phase:" value="相位:"/>
+<string key="minusPi" value="-π"/>
+<string key="zeroPositions" value="零位"/>
 <string key="start" value="開始"/>
-<string key="amplitude:" value="振幅"/>
-<string key="vertical" value="直"/>
-<string key="normal" value="標準"/>
-<string key="frequency:" value="頻率"/>
-<string key="normalMode:" value="標準振盪"/>
-<string key="slow" value="慢速"/>
+<string key="step" value="步驟"/>
+<string key="modeNumbersXY" value="模數 x, y."/>
+<string key="polarization:" value="偏振控制:"/>
+<string key="amplitude:" value="振幅:"/>
+<string key="plusPi" value="+π"/>
+<string key="modeSpectrum" value="正規波模頻譜"/>
+<string key="frequency:" value="頻率:"/>
+<string key="normalModes" value="正規振態"/>
+<string key="omega" value="ω"/>
+<string key="showPhases" value="顯示位相"/>
+<string key="normal-modes.simTitle" value="Normal Modes 正規振態"/>
+<string key="showSprings" value="顯示彈簧"/>
+<string key="stop" value="停止"/>
+<string key="resetPositions" value="起始位置"/>
+<string key="normalMode:" value="正規振態:"/>
+<string key="translation.credits" value="江易原 (I-Yuan Chiang) 2012;"/>
+<string key="horizontal" value="水平"/>
 <string key="paused" value="暫停"/>
+<string key="numberOfMasses" value="質量數"/>
+<string key="normal" value="正常"/>
 </SimStrings>
