@@ -5,6 +5,7 @@ DEADLINES
 DESIGN
 - play area layout feels very unbalanced for game challenges, very heavy on the graph side
 - revisit the placement algorithm for equations on graphed lines
+- names for the 3 sims in this project
 
 HIGH
 - rewrite demo challenge
@@ -23,14 +24,14 @@ DEVELOPER CONTROLS
 
 GAME CHALLENGES
 Do each of these for "Graph the Line" and "Make the Equation"
-- slope-intercept format + intercept variable
-- slope-intercept format + slope variable (plot intercept)
-- slope-intercept format + slope variable + intercept variable
-- slope-intercept format + 2 point manipulators
-- point-slope format + point variable
-- point-slope format + slope variable (plot point)
-- point-slope format + slope variable + point variable
-- point-slope format + 2 point manipulators
+- slope-intercept form + intercept variable
+- slope-intercept form + slope variable (plot intercept)
+- slope-intercept form + slope variable + intercept variable
+- slope-intercept form + 2 point manipulators
+- point-slope form + point variable
+- point-slope form + slope variable (plot point)
+- point-slope form + slope variable + point variable
+- point-slope form + 2 point manipulators
 
 DATA COLLECTION
 - instrument Game
