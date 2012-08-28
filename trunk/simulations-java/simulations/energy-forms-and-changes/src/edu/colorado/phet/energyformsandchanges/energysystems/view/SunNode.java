@@ -3,8 +3,10 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -19,6 +21,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class SunNode extends PositionableFadableModelElementNode {
+
     public SunNode( final Sun sun, final ModelViewTransform mvt ) {
         super( sun, mvt );
         final double radius = mvt.modelToViewDeltaX( Sun.RADIUS );
@@ -28,7 +31,10 @@ public class SunNode extends PositionableFadableModelElementNode {
             setStroke( new BasicStroke( 1 ) );
             setStrokePaint( Color.YELLOW );
         }};
-        addChild( new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius * 1, 500, 40, Color.YELLOW ) );
+        final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius * 1, 500, 4, Color.YELLOW );
+        Shape testRayBlockingShape = new Rectangle2D.Double( -10, 100, 20, 20 );
+        lightRays.addRayBlockingShape( testRayBlockingShape );
+        addChild( lightRays );
         addChild( sunNode );
     }
 }
