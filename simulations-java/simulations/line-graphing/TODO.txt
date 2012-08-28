@@ -9,7 +9,6 @@ DESIGN
 HIGH
 - consider some major rearchitecting, adding just one type of game challenge has already introduced an acceptable amount of chaos
 - create quick-and-dirty examples of each type of challenge
-- offset values used for LineGameModel.mvt determine when the graph is located, and will vary depending on where the graph is located in the challenge. Better to have a location for the graph than mvt offset?
 - some of the fields and responsibilities in LineGameModel are challenge specific. Eg, point tools, whether to maintain a list of lines, etc.
 
 MEDIUM
@@ -18,7 +17,7 @@ MEDIUM
 LOW
 
 DEVELOPER CONTROLS
-- replace the current Game challenge
+- replay the current Game challenge
 - "resample" to change the challenges for the current Game level
 - provide (or specify) a fixed set of challenges for Game testing
 
