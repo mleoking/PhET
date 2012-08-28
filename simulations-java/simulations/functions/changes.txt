@@ -1,3 +1,4 @@
+Fixed shapes for multi-argument functions
 Added different input/output shapes for different types
 Center the representation bar at the top of the screen
 Added a thin light border to the smiling face
