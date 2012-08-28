@@ -4,6 +4,7 @@ package edu.colorado.phet.functions.buildafunction;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.functions.common.view.TableNode;
 import edu.colorado.phet.functions.model.Functions;
@@ -54,7 +55,8 @@ public class BuildAFunctionScene extends PNode {
 
         addChild( new HTMLImageButtonNode( "Test" ) {{
             setBackground( Color.red );
-            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, INSET );
+            setFont( new PhetFont( 22, true ) );
+            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - 50, INSET );
             setEnabled( false );
         }} );
     }
