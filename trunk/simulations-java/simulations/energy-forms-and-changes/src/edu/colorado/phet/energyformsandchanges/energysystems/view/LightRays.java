@@ -79,26 +79,12 @@ public class LightRays extends PNode {
             double length = origin.distance( endPoint );
             double lengthChange = length / 2;
             for ( int i = 0; i < SEARCH_ITERATIONS; i++ ) {
-                System.out.println( "------------------" );
-                System.out.println( "i = " + i );
-                System.out.println( "length being tested = " + length );
                 Line2D testLine = new Line2D.Double( origin.toPoint2D(), origin.plus( new Vector2D( length, 0 ).getRotatedInstance( angle ) ).toPoint2D() );
                 length += lengthChange * ( testLine.intersects( shapeRect ) ? -1 : 1 );
-                System.out.println( "testLine = " + testLine.getP1() + " - " + testLine.getP2() );
-                System.out.println( "testLine.intersects( shapeRect ) = " + testLine.intersects( shapeRect ) );
                 lengthChange = lengthChange / 2;
             }
-            adjustedEndPoint = new Vector2D( length, 0 ).getRotatedInstance( angle );
+            adjustedEndPoint = origin.plus( new Vector2D( length, 0 ).getRotatedInstance( angle ) );
         }
         return adjustedEndPoint;
     }
-
-    public static void main( String[] args ) {
-        Vector2D startPoint = new Vector2D( 0, 0 );
-        Vector2D endPoint = new Vector2D( 20, 0 );
-        Rectangle2D shape = new Rectangle2D.Double( 5, -10, 20, 20 );
-        System.out.println( "endPoint before = " + endPoint );
-        System.out.println( "endPoint after = " + LightRays.blockRay( startPoint, endPoint, shape ) );
-    }
-
 }

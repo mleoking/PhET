@@ -17,8 +17,7 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 public class Sun extends EnergySource {
 
     public static final double RADIUS = 0.02; // In meters, apparent size, not (obviously) actual size.
-    //    public static final Vector2D OFFSET_TO_CENTER_OF_SUN = new Vector2D( -0.05, 0.12 );
-    public static final Vector2D OFFSET_TO_CENTER_OF_SUN = new Vector2D( 0, 0 );
+    public static final Vector2D OFFSET_TO_CENTER_OF_SUN = new Vector2D( -0.05, 0.12 );
 
     // Energy production per square meter of the Earth's surface.
     private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
