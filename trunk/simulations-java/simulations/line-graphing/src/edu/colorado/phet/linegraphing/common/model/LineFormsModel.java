@@ -21,7 +21,7 @@ import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
  */
 public abstract class LineFormsModel<T extends PointSlopeLine> implements Resettable {
 
-    protected static final int GRAPH_SIZE = 10;
+    private static final int GRAPH_SIZE = 10;
     private static final int GRID_VIEW_UNITS = 530; // max dimension (width or height) of the grid in the view
 
     public final Property<DoubleRange> riseRange, runRange, x1Range, y1Range; // ranges of things that the user can manipulate

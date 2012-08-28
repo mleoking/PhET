@@ -11,16 +11,16 @@ import java.awt.Color;
  */
 public interface LineFactory<T extends PointSlopeLine> {
 
-    // Simplifies a line by reducing its slope.
+    // Creates a simplified version of the specified line. Simplification involves reducing the slope.
     public T simplify( T line );
 
-    // Clone a line with a different point
+    // Creates a line with a different point
     public T withPoint( T line, double x1, double y1 );
 
-    // Clone a line with a different slope
+    // Creates a line with a different slope
     public T withSlope( T line, double rise, double run );
 
-    // Clone a line with a different color
+    // Creates a line with a different color
     public T withColor( T line, Color color );
 
     // Factory for creating lines in point-slope form.

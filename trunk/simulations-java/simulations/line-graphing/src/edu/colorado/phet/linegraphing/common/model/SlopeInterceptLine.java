@@ -6,7 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.linegraphing.common.LGColors;
 
 /**
- * An immutable straight line, specified in slope-intercept form: y = mx + b.
+ * An immutable line, specified in slope-intercept form: y = mx + b.
  * Slope-intercept is a specialization of point-slope, with x1 = 0.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

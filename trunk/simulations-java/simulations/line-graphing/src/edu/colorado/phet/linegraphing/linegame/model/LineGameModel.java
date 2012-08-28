@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.LineFactory.SlopeInterceptLineFactory;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
@@ -172,7 +173,7 @@ public class LineGameModel {
         allLines.add( challenge.get().guess.get() );
         if ( state.get() == PlayState.NEXT && !challenge.get().isCorrect() ) {
             // user got it wrong and we're showing the correct answer
-            allLines.add( challenge.get().answer.withColor( GameConstants.CORRECT_ANSWER_COLOR ) );
+            allLines.add( new SlopeInterceptLineFactory().withColor( challenge.get().answer, GameConstants.CORRECT_ANSWER_COLOR ) );
         }
     }
 
