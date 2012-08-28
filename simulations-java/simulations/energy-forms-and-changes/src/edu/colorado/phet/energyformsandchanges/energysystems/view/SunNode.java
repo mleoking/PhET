@@ -3,7 +3,6 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -31,9 +30,10 @@ public class SunNode extends PositionableFadableModelElementNode {
             setStroke( new BasicStroke( 1 ) );
             setStrokePaint( Color.YELLOW );
         }};
-        final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius * 1, 500, 4, Color.YELLOW );
-        Shape testRayBlockingShape = new Rectangle2D.Double( -10, 100, 20, 20 );
-        lightRays.addRayBlockingShape( testRayBlockingShape );
+        final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius, 500, 40, Color.YELLOW );
+        lightRays.addRayBlockingShape( new Rectangle2D.Double( -10, 100, 20, 20 ) );
+        lightRays.addRayBlockingShape( new Rectangle2D.Double( 50, -10, 20, 20 ) );
+        lightRays.addRayBlockingShape( new Rectangle2D.Double( 50, 50, 20, 20 ) );
         addChild( lightRays );
         addChild( sunNode );
     }
