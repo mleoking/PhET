@@ -19,6 +19,9 @@ import static edu.colorado.phet.functions.buildafunction.AbstractFunctionsCanvas
  * @author Sam Reid
  */
 public class BuildAFunctionScene extends PNode {
+
+    public static final PhetFont BUTTON_FONT = new PhetFont( 22, true );
+
     public BuildAFunctionScene() {
         addChild( new UnaryFunctionNode( "+1", true, Functions.INTEGER_PLUS_1, Type.NUMBER, Type.NUMBER, 20.088626292466763, 596.632200886265 ) {{setScale( 0.5 );}} );
         addChild( new UnaryFunctionNode( "-1", true, Functions.INTEGER_MINUS_1, Type.NUMBER, Type.NUMBER, 138.61152141802097, 595.6277695716408 ) {{setScale( 0.5 );}} );
@@ -55,7 +58,7 @@ public class BuildAFunctionScene extends PNode {
 
         addChild( new HTMLImageButtonNode( "Test" ) {{
             setBackground( Color.red );
-            setFont( new PhetFont( 22, true ) );
+            setFont( BUTTON_FONT );
             setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - 50, INSET );
             setEnabled( false );
         }} );
