@@ -1,5 +1,8 @@
 package edu.colorado.phet.functions.intro;
 
+import fj.F;
+import fj.data.List;
+
 import edu.colorado.phet.functions.buildafunction.ValueContext;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
 import edu.colorado.phet.functions.intro.view.NavigationBar;
@@ -14,20 +17,22 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class IntroCanvas extends ChallengeProgressionCanvas implements ValueContext, SceneContext {
 
     private Scene scene;
+    private List<F<IntroCanvas, Scene>> scenes;
 
-    public IntroCanvas() {
+    public IntroCanvas( List<F<IntroCanvas, Scene>> scenes ) {
+        this.scenes = scenes;
 
         addChild( new NavigationBar() {{
             setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, INSET );
         }} );
 
-        scene = Scenes.scenes.index( level.get() ).f( this );
+        scene = scenes.index( level.get() ).f( this );
         addChild( scene );
     }
 
     @Override protected void nextButtonPressed() {
-        final Integer index = Math.min( Scenes.scenes.length() - 1, level.get() );
-        animateToNewScene( Scenes.scenes.index( index ).f( this ) );
+        final Integer index = Math.min( scenes.length() - 1, level.get() );
+        animateToNewScene( scenes.index( index ).f( this ) );
     }
 
     @Override protected void finishAnimation( final PNode newScene ) {
