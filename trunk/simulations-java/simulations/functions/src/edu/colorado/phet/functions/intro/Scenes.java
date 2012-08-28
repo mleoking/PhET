@@ -47,7 +47,10 @@ public class Scenes {
         };
     }
 
-    private static final F<ShapeValue, PNode> smile = imageNode( new PadBoundsNode( new FaceNode( 60, HEAD_PAINT, new BasicStroke( 1 ), lightGray, EYE_PAINT, MOUTH_PAINT ) ).toImage() );
+    private static final F<ShapeValue, PNode> smile = imageNode( new PadBoundsNode( createFaceNode() ).toImage() );
+
+    public static FaceNode createFaceNode() {return new FaceNode( 60, HEAD_PAINT, new BasicStroke( 1 ), lightGray, EYE_PAINT, MOUTH_PAINT );}
+
     private static final F<ShapeValue, PNode> triangle = imageNode( new ShapeIcon().toImage() );
 
     //copied from fractions
