@@ -119,7 +119,6 @@ public class Scenes {
 
             //Apply different functions in different orders to achieve 2 goals.
 
-
             new F<IntroCanvas, Scene>() {
                 @Override public Scene f( final IntroCanvas canvas ) {
                     return new Scene( canvas, toStack( 4, new F<Unit, ValueNode>() {
