@@ -53,17 +53,17 @@ public class InputOutputShapes {
     }
 
     //Shapes are for unary functions, subtracted from left and added to the right.
-    public static Area getLeftSide( final Type input, Vector2D attachmentPoint ) {
-        return input == Type.SHAPE ? roundedLeftSide( attachmentPoint ) :
-               input == Type.TEXT ? angledLeftSide( attachmentPoint ) :
-               input == Type.NUMBER ? squareLeftSide( attachmentPoint ) :
+    public static Area getLeftSide( final Type type, Vector2D attachmentPoint ) {
+        return type == Type.SHAPE ? roundedLeftSide( attachmentPoint ) :
+               type == Type.TEXT ? angledLeftSide( attachmentPoint ) :
+               type == Type.NUMBER ? squareLeftSide( attachmentPoint ) :
                null;
     }
 
-    public static Area getRightSide( final Type input, Vector2D attachmentPoint ) {
-        return input == Type.SHAPE ? roundedRightSide( attachmentPoint ) :
-               input == Type.TEXT ? angledRightSide( attachmentPoint ) :
-               input == Type.NUMBER ? squareRightSide( attachmentPoint ) :
+    public static Area getRightSide( final Type type, Vector2D attachmentPoint ) {
+        return type == Type.SHAPE ? roundedRightSide( attachmentPoint ) :
+               type == Type.TEXT ? angledRightSide( attachmentPoint ) :
+               type == Type.NUMBER ? squareRightSide( attachmentPoint ) :
                null;
     }
 }
