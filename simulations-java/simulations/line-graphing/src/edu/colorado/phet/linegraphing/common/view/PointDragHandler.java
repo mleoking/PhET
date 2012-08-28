@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.linegraphing.common.model.LineFactory;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -18,9 +19,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointDragHandler extends LineManipulatorDragHandler {
+public class PointDragHandler<T extends PointSlopeLine> extends LineManipulatorDragHandler<T> {
 
     private final Property<DoubleRange> x1Range, y1Range;
+    private final LineFactory<T> lineFactory;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
     /**
@@ -34,11 +36,13 @@ public class PointDragHandler extends LineManipulatorDragHandler {
      * @param y1Range
      */
     public PointDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                             LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<PointSlopeLine> line,
-                             Property<DoubleRange> x1Range, Property<DoubleRange> y1Range ) {
+                             LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<T> line,
+                             Property<DoubleRange> x1Range, Property<DoubleRange> y1Range,
+                             LineFactory<T> lineFactory ) {
         super( userComponent, componentType, manipulatorNode, mvt, line );
         this.x1Range = x1Range;
         this.y1Range = y1Range;
+        this.lineFactory = lineFactory;
     }
 
     @Override protected void startDrag( PInputEvent event ) {
@@ -54,6 +58,6 @@ public class PointDragHandler extends LineManipulatorDragHandler {
         // constrain to range, snap to grid
         double x1 = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ), x1Range.get() ) );
         double y1 = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), y1Range.get() ) );
-        line.set( new PointSlopeLine( x1, y1, line.get().rise, line.get().run, line.get().color ) );
+        line.set( lineFactory.withPoint( line.get(), x1, y1 ) );
     }
 }

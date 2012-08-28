@@ -24,7 +24,6 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
@@ -46,7 +45,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
     private final Property<Double> rise, run, yIntercept; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
-    public SlopeInterceptInteractiveEquationNode( final Property<PointSlopeLine> interactiveLine,
+    public SlopeInterceptInteractiveEquationNode( final Property<SlopeInterceptLine> interactiveLine,
                                                   Property<DoubleRange> riseRange,
                                                   Property<DoubleRange> runRange,
                                                   Property<DoubleRange> yInterceptRange ) {
@@ -54,7 +53,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
-    private SlopeInterceptInteractiveEquationNode( final Property<PointSlopeLine> interactiveLine,
+    private SlopeInterceptInteractiveEquationNode( final Property<SlopeInterceptLine> interactiveLine,
                                                    Property<DoubleRange> riseRange,
                                                    Property<DoubleRange> runRange,
                                                    Property<DoubleRange> yInterceptRange,
@@ -142,9 +141,8 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
         lineUpdater.observe( rise, run, yIntercept );
 
         // sync the controls with the model
-        interactiveLine.addObserver( new VoidFunction1<PointSlopeLine>() {
-            public void apply( PointSlopeLine line ) {
-                assert( line.x1 == 0 ); // line is in slope intercept form
+        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
+            public void apply( SlopeInterceptLine line ) {
                 updatingControls = true;
                 {
                     rise.set( line.rise );
@@ -160,7 +158,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
     public static void main( String[] args ) {
 
         // model
-        Property<PointSlopeLine> line = new Property<PointSlopeLine>( new SlopeInterceptLine( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
+        Property<SlopeInterceptLine> line = new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
         DoubleRange range = new DoubleRange( -10, 10 );
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );

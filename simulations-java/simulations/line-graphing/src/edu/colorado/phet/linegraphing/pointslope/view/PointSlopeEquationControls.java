@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
+import edu.colorado.phet.linegraphing.common.model.LineFactory.PointSlopeLineFactory;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
 
@@ -15,7 +16,7 @@ import edu.colorado.phet.linegraphing.common.view.EquationControls;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class PointSlopeEquationControls extends EquationControls {
+class PointSlopeEquationControls extends EquationControls<PointSlopeLine> {
 
     /**
      * Constructor
@@ -39,6 +40,7 @@ class PointSlopeEquationControls extends EquationControls {
         super( MessageFormat.format( "({0} - {1}) = {2}({3} - {4})", /* (y - y1) = m(x - x1) */
                                      Strings.SYMBOL_Y, Strings.SYMBOL_Y1, Strings.SYMBOL_SLOPE, Strings.SYMBOL_X, Strings.SYMBOL_X1 ),
                interactiveLine, savedLines, maximized, linesVisible,
-               new PointSlopeInteractiveEquationNode( interactiveLine, riseRange, runRange, x1Range, y1Range ) );
+               new PointSlopeInteractiveEquationNode( interactiveLine, riseRange, runRange, x1Range, y1Range ),
+               new PointSlopeLineFactory() );
     }
 }

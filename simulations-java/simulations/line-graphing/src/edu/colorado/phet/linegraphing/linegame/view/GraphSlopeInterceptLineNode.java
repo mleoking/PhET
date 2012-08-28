@@ -25,7 +25,8 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.LineFactory.SlopeInterceptLineFactory;
+import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
@@ -52,11 +53,14 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
     //TODO this class has too much access to model, narrow the interface
     public GraphSlopeInterceptLineNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
+        final SlopeInterceptLineFactory lineFactory = new SlopeInterceptLineFactory();
+
         PNode titleNode = new PhetPText( "Graph the Line", GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR ); //TODO i18n
 
-        final EquationNode equationNode = new SlopeInterceptEquationFactory().createNode( model.challenge.get().answer.withColor( GameConstants.GIVEN_COLOR ), GameConstants.EQUATION_FONT );
+        final EquationNode equationNode = new SlopeInterceptEquationFactory().createNode( lineFactory.withColor( model.challenge.get().answer, GameConstants.GIVEN_COLOR ),
+                                                                                          GameConstants.EQUATION_FONT );
 
-        final GameGraphNode graphNode = new GameGraphNode( model.graph, model.challenge.get().guess, model.challenge.get().answer, model.mvt );
+        final GameGraphNode graphNode = new GameGraphNode( model.graph, model.challenge.get().guess, model.challenge.get().answer, model.mvt, lineFactory );
 
         final FaceNode faceNode = new FaceNode( GameConstants.FACE_DIAMETER, GameConstants.FACE_COLOR );
 
@@ -155,7 +159,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
                     faceNode.smile();
                     audioPlayer.correctAnswer();
                     equationNode.setPaintDeep( GameConstants.CORRECT_ANSWER_COLOR );
-                    model.challenge.get().guess.set( model.challenge.get().guess.get().withColor( GameConstants.CORRECT_ANSWER_COLOR ) );
+                    model.challenge.get().guess.set( lineFactory.withColor( model.challenge.get().guess.get(), GameConstants.CORRECT_ANSWER_COLOR ) );
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.score.set( model.score.get() + points );
                     pointsNode.setText( MessageFormat.format( Strings.POINTS_AWARDED, String.valueOf( points ) ) );
@@ -210,16 +214,17 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
         private final LineManipulatorNode slopeManipulatorNode, interceptManipulatorNode;
 
         public GameGraphNode( final Graph graph,
-                              Property<PointSlopeLine> guessLine,
-                              PointSlopeLine answerLine,
-                              final ModelViewTransform mvt ) {
+                              Property<SlopeInterceptLine> guessLine,
+                              SlopeInterceptLine answerLine,
+                              final ModelViewTransform mvt,
+                              SlopeInterceptLineFactory lineFactory ) {
             super( graph, mvt );
 
             // parent for the guess node, to maintain rendering order
             final PNode guessNodeParent = new PComposite();
 
             // the correct answer, initially hidden
-            answerNode = new SlopeInterceptLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
+            answerNode = new SlopeInterceptLineNode( new SlopeInterceptLineFactory().withColor( answerLine, GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
             answerNode.setEquationVisible( false );
             addChild( answerNode );
             answerNode.setVisible( false );
@@ -235,14 +240,16 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
             // interactivity for slope manipulator
             slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
             slopeManipulatorNode.addInputEventListener( new CursorHandler() );
-            slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                              slopeManipulatorNode, mvt, guessLine, riseRange, runRange ) );
+            slopeManipulatorNode.addInputEventListener( new SlopeDragHandler<SlopeInterceptLine>( UserComponents.slopeManipulator, UserComponentTypes.sprite,
+                                                                              slopeManipulatorNode, mvt, guessLine, riseRange, runRange,
+                                                                              lineFactory ) );
             // interactivity for point (intercept) manipulator
             interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
             interceptManipulatorNode.addInputEventListener( new CursorHandler() );
-            interceptManipulatorNode.addInputEventListener( new PointDragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
+            interceptManipulatorNode.addInputEventListener( new PointDragHandler<SlopeInterceptLine>( UserComponents.pointManipulator, UserComponentTypes.sprite,
                                                                                   interceptManipulatorNode, mvt, guessLine,
-                                                                                  new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), yInterceptRange ) );
+                                                                                  new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), yInterceptRange,
+                                                                                  lineFactory ) );
 
             // Rendering order
             addChild( guessNodeParent );
@@ -250,8 +257,8 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
             addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
             // Show the user's current guess
-            guessLine.addObserver( new VoidFunction1<PointSlopeLine>() {
-                public void apply( PointSlopeLine line ) {
+            guessLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
+                public void apply( SlopeInterceptLine line ) {
 
                     // draw the line
                     {

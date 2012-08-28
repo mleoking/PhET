@@ -13,7 +13,6 @@ HIGH
 - create additional game challenges
 
 MEDIUM
-- use generics to enforce usage of lines in slope-intercept form (interactive & saved), instead of "assert( line.x1 == 0 )"
 
 LOW
 

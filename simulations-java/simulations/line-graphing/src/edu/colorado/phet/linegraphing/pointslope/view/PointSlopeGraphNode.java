@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.LineFactory.PointSlopeLineFactory;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.view.LineFormsGraphNode;
 import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
@@ -34,7 +35,8 @@ public class PointSlopeGraphNode extends LineFormsGraphNode {
                interactiveLine, savedLines, standardLines,
                linesVisible, interactiveLineVisible, interactiveEquationVisible, slopeVisible,
                riseRange, runRange, x1Range, y1Range,
-               LGColors.POINT_X1_Y1, LGColors.SLOPE );
+               LGColors.POINT_X1_Y1, LGColors.SLOPE,
+               new PointSlopeLineFactory() );
     }
 
     // Creates a node that displays the line in point-slope form.

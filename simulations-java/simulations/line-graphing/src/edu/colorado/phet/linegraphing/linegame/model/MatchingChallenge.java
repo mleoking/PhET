@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.linegame.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 
 /**
@@ -12,12 +13,12 @@ import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
  */
 public class MatchingChallenge {
 
-    public final PointSlopeLine answer; // the correct answer
-    public final Property<PointSlopeLine> guess; // the user's current guess
+    public final SlopeInterceptLine answer; // the correct answer
+    public final Property<SlopeInterceptLine> guess; // the user's current guess
 
-    public MatchingChallenge( PointSlopeLine answer ) {
+    public MatchingChallenge( SlopeInterceptLine answer ) {
         this.answer = answer;
-        this.guess = new Property<PointSlopeLine>( PointSlopeLine.Y_EQUALS_X_LINE.withColor( GameConstants.GUESS_COLOR ) );
+        this.guess = new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 1, 0, GameConstants.GUESS_COLOR ) /* y=x */ );
     }
 
     // Correct if the we have 2 descriptions of the same line.

@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.common.view.EquationFactory;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -20,10 +20,9 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SlopeInterceptEquationFactory extends EquationFactory {
+public class SlopeInterceptEquationFactory extends EquationFactory<SlopeInterceptLine> {
 
-    public EquationNode createNode( PointSlopeLine line, PhetFont font ) {
-        assert ( line.x1 == 0 ); // line is in slope intercept form
+    public EquationNode createNode( SlopeInterceptLine line, PhetFont font ) {
         if ( line.run == 0 ) {
             return new UndefinedSlopeNode( line, font );
         }
@@ -43,7 +42,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
 
     // Verbose form of slope-intercept, not reduced, for debugging.
     private static class VerboseNode extends EquationNode {
-        public VerboseNode( PointSlopeLine line, PhetFont font ) {
+        public VerboseNode( SlopeInterceptLine line, PhetFont font ) {
             addChild( new PhetPText( MessageFormat.format( "y = ({0}/{1})x + {2})", line.rise, line.run, line.y1 ), font, line.color ) );
         }
     }
@@ -55,7 +54,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
      */
     private static class ZeroSlopeNode extends EquationNode {
 
-        public ZeroSlopeNode( PointSlopeLine line, PhetFont font ) {
+        public ZeroSlopeNode( SlopeInterceptLine line, PhetFont font ) {
 
             assert( line.rise == 0 );
 
@@ -87,7 +86,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     */
     private static class UnitSlopeNode extends EquationNode {
 
-        public UnitSlopeNode( PointSlopeLine line, PhetFont font ) {
+        public UnitSlopeNode( SlopeInterceptLine line, PhetFont font ) {
 
             assert( Math.abs( line.rise ) == Math.abs( line.run ) );
 
@@ -129,7 +128,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
      */
     private static class IntegerSlopeNode extends EquationNode {
 
-        public IntegerSlopeNode( PointSlopeLine line, PhetFont font ) {
+        public IntegerSlopeNode( SlopeInterceptLine line, PhetFont font ) {
 
             assert( Math.abs( line.run ) == 1 );
 
@@ -170,7 +169,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     */
     private static class FractionSlopeNode extends EquationNode {
 
-        public FractionSlopeNode( PointSlopeLine line, PhetFont font ) {
+        public FractionSlopeNode( SlopeInterceptLine line, PhetFont font ) {
 
             final boolean slopeIsPositive = ( line.rise * line.run ) >= 0;
 
