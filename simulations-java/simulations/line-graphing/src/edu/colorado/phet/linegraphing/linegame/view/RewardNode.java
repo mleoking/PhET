@@ -43,7 +43,6 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
-import edu.colorado.phet.linegraphing.common.view.EquationFactory;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationFactory;
@@ -161,22 +160,27 @@ public class RewardNode extends PhetPNode {
         setSmileyFacesVisible( true );
     }
 
+    // Creates a random equation is the specified color.
     private Image createEquationImage( Color color ) {
         boolean useSlopeInterceptForm = ( Math.random() < 0.5 );
         final PhetFont font = new PhetFont( Font.BOLD, 24 );
         PNode node;
         if ( useSlopeInterceptForm ) {
-            PointSlopeLine line = new SlopeInterceptLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
-                                                        getRandomNonZeroInteger( -20, 20 ),
-                                                        color );
-            EquationFactory factory = new SlopeInterceptEquationFactory();
-            node = factory.createNode( line, font );
+            node = new SlopeInterceptEquationFactory().createNode(
+                    new SlopeInterceptLine( getRandomNonZeroInteger( -20, 20 ),
+                                            getRandomNonZeroInteger( -20, 20 ),
+                                            getRandomNonZeroInteger( -20, 20 ),
+                                            color ),
+                    font );
         }
         else {
-            PointSlopeLine line = new PointSlopeLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
-                                                  color );
-            EquationFactory factory = new PointSlopeEquationFactory();
-            node = factory.createNode( line, font );
+            node = new PointSlopeEquationFactory().createNode(
+                    new PointSlopeLine( getRandomNonZeroInteger( -20, 20 ),
+                                        getRandomNonZeroInteger( -20, 20 ),
+                                        getRandomNonZeroInteger( -20, 20 ),
+                                        getRandomNonZeroInteger( -20, 20 ),
+                                        color ),
+                    font );
         }
         return new PadBoundsNode( node ).toImage();
     }
@@ -189,6 +193,7 @@ public class RewardNode extends PhetPNode {
         return i;
     }
 
+    // Creates a point tool with a random point and the specified color.
     private Image createPointToolImage( Color color ) {
         Vector2D point = new Vector2D( Math.random() * 20, Math.random() * 20 );
         final PNode pointToolNode = new PointToolNode( point, Orientation.DOWN, color );
@@ -196,6 +201,7 @@ public class RewardNode extends PhetPNode {
         return new PadBoundsNode( pointToolNode ).toImage();
     }
 
+    // Creates a smiley face with the specified color.
     private Image createSmileyFaceImage( Color color ) {
         return new PadBoundsNode( new FaceNode( 40, color ) ).toImage();
     }
