@@ -23,6 +23,8 @@ public abstract class ChallengeProgressionCanvas extends AbstractFunctionsCanvas
     protected final HTMLImageButtonNode nextButton;
     public final IntegerProperty level = new IntegerProperty( 0 );
 
+    private static final boolean dev = true;
+
     public ChallengeProgressionCanvas() {
         setBackground( BuildAFunctionCanvas.BACKGROUND_COLOR );
         resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
@@ -50,7 +52,9 @@ public abstract class ChallengeProgressionCanvas extends AbstractFunctionsCanvas
             }
         } );
         addChild( nextButton );
-        nextButton.setVisible( false );
+        if ( !dev ) {
+            nextButton.setVisible( false );
+        }
     }
 
     protected abstract void nextButtonPressed();
@@ -60,7 +64,9 @@ public abstract class ChallengeProgressionCanvas extends AbstractFunctionsCanvas
     }
 
     protected void animateToNewScene( final PNode newScene ) {
-        nextButton.setVisible( false );
+        if ( !dev ) {
+            nextButton.setVisible( false );
+        }
         addChild( newScene );
         newScene.setOffset( STAGE_SIZE.width, 0 );
         newScene.animateToPositionScaleRotation( 0, 0, 1, 0, ANIMATION_DELAY );

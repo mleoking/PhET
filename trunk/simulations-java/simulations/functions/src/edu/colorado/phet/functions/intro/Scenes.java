@@ -20,6 +20,7 @@ import edu.colorado.phet.functions.buildafunction.UnaryFunctionNode;
 import edu.colorado.phet.functions.buildafunction.ValueNode;
 import edu.colorado.phet.functions.intro.view.NavigationBar.ShapeIcon;
 import edu.colorado.phet.functions.model.Functions;
+import edu.colorado.phet.functions.model.Type;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -62,7 +63,7 @@ public class Scenes {
                             return new ValueNode( introCanvas, new ShapeValue( 0, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
-                                      List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
+                                      List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, Type.SHAPE, Type.SHAPE, 390.72378138847836, 294.298375184638 ) ),
                                       Scene.createTargetNodeList( introCanvas, list( new ShapeValue( 1, smile ) ) ) );
                 }
             },
@@ -75,7 +76,7 @@ public class Scenes {
                             return new ValueNode( introCanvas, new ShapeValue( -1, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
-                                      List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
+                                      List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, Type.SHAPE, Type.SHAPE, 390.72378138847836, 294.298375184638 ) ),
                                       Scene.createTargetNodeList( introCanvas, list( new ShapeValue( 1, smile ) ) ) );
                 }
             },
@@ -88,7 +89,7 @@ public class Scenes {
                             return new ValueNode( introCanvas, new ShapeValue( -1, triangle ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
-                                      List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, 390.72378138847836, 294.298375184638 ) ),
+                                      List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.ROTATE_RIGHT, 60 ) ), false, Functions.ROTATE_GRAPHIC_RIGHT, Type.SHAPE, Type.SHAPE, 390.72378138847836, 294.298375184638 ) ),
                                       Scene.createTargetNodeList( introCanvas, list( new ShapeValue( 1, triangle ) ) ) );
                 }
             },
@@ -102,8 +103,8 @@ public class Scenes {
                             return new ValueNode( canvas, "hello", new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
-                                      list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.LEFT_RIGHT_ARROW, 80 ) ), false, STRING_REVERSE, 390.72378138847836, 294.298375184638 - 80 ),
-                                            new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.COPY, 50 ) ), false, STRING_DOUBLE, 390.72378138847836, 444.298375184638 - 80 )
+                                      list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.LEFT_RIGHT_ARROW, 80 ) ), false, STRING_REVERSE, Type.TEXT, Type.TEXT, 390.72378138847836, 294.298375184638 - 80 ),
+                                            new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( Images.COPY, 50 ) ), false, STRING_DOUBLE, Type.TEXT, Type.TEXT, 390.72378138847836, 444.298375184638 - 80 )
                                       ),
                                       Scene.createTargetNodeList( canvas, list( "olleh", "hellohello" ) )
                     );
@@ -120,8 +121,8 @@ public class Scenes {
                             return new ValueNode( canvas, 3, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
-                                      list( new UnaryFunctionNode( "\u27152", false, INTEGER_TIMES_2, 390.72378138847836, 294.298375184638 - 80 ),
-                                            new UnaryFunctionNode( "+1", false, INTEGER_PLUS_1, 390.72378138847836, 444.298375184638 - 80 )
+                                      list( new UnaryFunctionNode( "\u27152", false, INTEGER_TIMES_2, Type.NUMBER, Type.NUMBER, 390.72378138847836, 294.298375184638 - 80 ),
+                                            new UnaryFunctionNode( "+1", false, INTEGER_PLUS_1, Type.NUMBER, Type.NUMBER, 390.72378138847836, 444.298375184638 - 80 )
                                       ),
                                       Scene.createTargetNodeList( canvas, list( 4, 6, 8 ) )
                     );
@@ -134,8 +135,8 @@ public class Scenes {
                             return new ValueNode( canvas, 2, new BasicStroke( 1 ), Color.white, Color.black, Color.black );
                         }
                     } ),
-                                      list( new UnaryFunctionNode( "^2", false, INTEGER_POWER_2, 390.72378138847836, 294.298375184638 - 80 ),
-                                            new UnaryFunctionNode( "-1", false, INTEGER_MINUS_1, 390.72378138847836, 444.298375184638 - 80 )
+                                      list( new UnaryFunctionNode( "^2", false, INTEGER_POWER_2, Type.NUMBER, Type.NUMBER, 390.72378138847836, 294.298375184638 - 80 ),
+                                            new UnaryFunctionNode( "-1", false, INTEGER_MINUS_1, Type.NUMBER, Type.NUMBER, 390.72378138847836, 444.298375184638 - 80 )
                                       ),
                                       Scene.createTargetNodeList( canvas, list( 4, 9, 16 ) )
                     );
