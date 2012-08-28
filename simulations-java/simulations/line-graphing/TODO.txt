@@ -12,7 +12,7 @@ HIGH
 - create additional game challenges
 
 MEDIUM
-- use typing (SlopeInterceptLine extends PointSlopeLine) and generics to enforce usage of lines in slope-intercept form (interactive & saved), instead of "assert( line.x1 == 0 )"
+- use generics to enforce usage of lines in slope-intercept form (interactive & saved), instead of "assert( line.x1 == 0 )"
 
 LOW
 
