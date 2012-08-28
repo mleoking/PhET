@@ -26,15 +26,17 @@ public abstract class MatchingChallenge<T extends PointSlopeLine> {
         return answer.same( guess.get() );
     }
 
+    // A challenge that involves a line in slope-intercept form.
     public static class SlopeInterceptChallenge extends MatchingChallenge<SlopeInterceptLine> {
         public SlopeInterceptChallenge( SlopeInterceptLine answer ) {
             super( answer, SlopeInterceptLine.Y_EQUALS_X_LINE );
         }
     }
 
+    // A challenge that involves a line in point-slope form.
     public static class PointSlopeChallenge extends MatchingChallenge<PointSlopeLine> {
-            public PointSlopeChallenge( PointSlopeLine answer ) {
-                super( answer, SlopeInterceptLine.Y_EQUALS_X_LINE );
-            }
+        public PointSlopeChallenge( PointSlopeLine answer ) {
+            super( answer, SlopeInterceptLine.Y_EQUALS_X_LINE );
         }
+    }
 }
