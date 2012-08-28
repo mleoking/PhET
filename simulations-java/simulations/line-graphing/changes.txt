@@ -1,4 +1,4 @@
-8/28/12 major change: use generics to enforce use of SlopeInterceptLine, instead of "assert( line.x1 == 0 )"
+8/28/12 major change: use generics to enforce use of SlopeInterceptLine, instead of "assert( line.x1 == 0 )" [67467]
 8/27/12 move point tool to the foreground when drag starts
 8/27/12 change line class hierarchy, SlopeInterceptLine extends PointSlopeLine
 8/27/12 change order of constructor params to "point,slope" and "slope,intercept" to match line-form names
