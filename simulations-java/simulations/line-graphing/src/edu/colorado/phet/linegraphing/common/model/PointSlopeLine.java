@@ -6,19 +6,16 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 /**
- * An immutable straight line, which can be specified in slope-intercept or point-slope form.
- * Note that slope-intercept is a special case of point-slope, with the point being on the y axis.
+ * An immutable line, specified in point-slope form: (y - y1) = m(x - x1)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PointSlopeLine {
 
-    public final double rise; // vertical component of the slope
-    public final double run; // horizontal component of the slope
-    public final double x1, y1; // some point
+    public final double x1, y1; // x and y components of the point
+    public final double rise, run; // vertical and horizontal components of the slope
     public final Color color; // color used for visualizing the line
 
-    // point-slope form: (y - y1) = m(x - x1)
     public PointSlopeLine( double x1, double y1, double rise, double run, Color color ) {
         assert( !( rise == 0 && run == 0 ) ); // a line with slope=0/0 is undefined
         this.rise = rise;
@@ -26,12 +23,6 @@ public class PointSlopeLine {
         this.x1 = x1;
         this.y1 = y1;
         this.color = color;
-    }
-
-    //TODO move to factory and delete
-    // Creates a new instance with a different color.
-    public PointSlopeLine withColor( Color color ) {
-        return new PointSlopeLine( x1, y1, rise, run, color );
     }
 
     /*
