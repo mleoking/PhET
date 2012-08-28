@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -47,9 +46,6 @@ public class SunNode extends PositionableFadableModelElementNode {
             setStrokePaint( Color.YELLOW );
         }};
         final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius, 500, 40, Color.YELLOW );
-        lightRays.addRayBlockingShape( new Rectangle2D.Double( -10, 100, 20, 20 ) );
-        lightRays.addRayBlockingShape( new Rectangle2D.Double( 50, -10, 20, 20 ) );
-        lightRays.addRayBlockingShape( new Rectangle2D.Double( 50, 50, 20, 20 ) );
         addChild( lightRays );
         addChild( sunNode );
 
