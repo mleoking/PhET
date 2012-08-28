@@ -45,8 +45,8 @@ public abstract class ChallengeProgressionCanvas extends AbstractFunctionsCanvas
             public void actionPerformed( final ActionEvent e ) {
                 level.increment();
                 Integer level = ChallengeProgressionCanvas.this.level.get();
-                if ( level >= Scenes.scenes.length() ) {
-                    level = Scenes.scenes.length() - 1;
+                if ( level >= Scenes.introScenes.length() ) {
+                    level = Scenes.introScenes.length() - 1;
                 }
                 nextButtonPressed();
             }

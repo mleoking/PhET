@@ -59,7 +59,7 @@ public class Scenes {
         }}.getGeneralPath();
     }
 
-    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> scenes = List.<F<IntroCanvas, Scene>>list(
+    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> introScenes = List.<F<IntroCanvas, Scene>>list(
 
             //Level 1: Apply a single function
             new F<IntroCanvas, Scene>() {
@@ -148,4 +148,21 @@ public class Scenes {
                 }
             }
     );
+
+    @SuppressWarnings("unchecked") public static final List<F<IntroCanvas, Scene>> binaryScenes = List.<F<IntroCanvas, Scene>>list(
+
+            //Level 1: Apply a single function
+            new F<IntroCanvas, Scene>() {
+                @Override public Scene f( final IntroCanvas introCanvas ) {
+                    return new Scene( introCanvas, toStack( 3, new F<Unit, ValueNode>() {
+                        @Override public ValueNode f( final Unit unit ) {
+                            return new ValueNode( introCanvas, new ShapeValue( 0, smile ), new BasicStroke( 1 ), Color.white, Color.black, Color.black );
+                        }
+                    } ),
+                                      List.list( new UnaryFunctionNode( new PImage( BufferedImageUtils.multiScaleToWidth( ROTATE_RIGHT, 60 ) ), false, ROTATE_GRAPHIC_RIGHT, SHAPE, SHAPE, 390.72378138847836, 294.298375184638 ) ),
+                                      Scene.createTargetNodeList( introCanvas, list( new ShapeValue( 1, smile ) ) ) );
+                }
+            }
+    );
+
 }
