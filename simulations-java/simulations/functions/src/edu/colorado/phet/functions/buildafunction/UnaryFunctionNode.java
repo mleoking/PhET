@@ -5,9 +5,9 @@ import fj.F;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -15,6 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.functions.FunctionsResources.Images;
+import edu.colorado.phet.functions.model.Type;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -30,25 +31,24 @@ public class UnaryFunctionNode extends PNode {
     private static boolean dragForLayout = false;
     public final F<Object, Object> function;
 
-    public UnaryFunctionNode( String text, boolean draggable, F<Object, Object> function ) {
-        this( text, draggable, function, 0, 0 );
+    public UnaryFunctionNode( String text, boolean draggable, F<Object, Object> function, Type input, Type output ) {
+        this( text, draggable, function, input, output, 0, 0 );
     }
 
-    public UnaryFunctionNode( String text, boolean draggable, F<Object, Object> function, double x, double y ) {
-        this( new PhetPText( text, new PhetFont( 46, true ) ), draggable, function, x, y );
+    public UnaryFunctionNode( String text, boolean draggable, F<Object, Object> function, Type input, Type output, double x, double y ) {
+        this( new PhetPText( text, new PhetFont( 46, true ) ), draggable, function, input, output, x, y );
     }
 
-    public UnaryFunctionNode( PNode icon, boolean draggable, F<Object, Object> function ) {
-        this( icon, draggable, function, 0, 0 );
+    public UnaryFunctionNode( PNode icon, boolean draggable, F<Object, Object> function, Type input, Type output ) {
+        this( icon, draggable, function, input, output, 0, 0 );
     }
 
-    public UnaryFunctionNode( PNode icon, boolean draggable, F<Object, Object> function, double x, double y ) {
+    public UnaryFunctionNode( PNode icon, boolean draggable, F<Object, Object> function, Type input, Type output, double x, double y ) {
         this.function = function;
         //use CAG for prototype, may need to speed up later on
         Area a = new Area( bodyRect );
-        double ellipseWidth = Constants.ellipseWidth;
-        a.subtract( new Area( new Ellipse2D.Double( bodyRect.getX() - ellipseWidth / 2, bodyRect.getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
-        a.add( new Area( new Ellipse2D.Double( bodyRect.getMaxX() - ellipseWidth / 2, bodyRect.getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) ) );
+        a.subtract( InputOutputShapes.getRightSide( input, new Vector2D( a.getBounds2D().getMinX(), a.getBounds2D().getCenterY() ) ) );
+        a.add( InputOutputShapes.getRightSide( output, new Vector2D( a.getBounds2D().getMaxX(), a.getBounds2D().getCenterY() ) ) );
         addChild( new PhetPPath( a, functionColor.get(), new BasicStroke( 1 ), Color.black ) {{
             functionColor.addObserver( new VoidFunction1<Color>() {
                 public void apply( final Color color ) {

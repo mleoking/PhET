@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.functions.common.view.TableNode;
 import edu.colorado.phet.functions.model.Functions;
+import edu.colorado.phet.functions.model.Type;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -18,10 +19,10 @@ public class BuildAFunctionScene extends PNode {
         addChild( new BinaryNumberFunctionNode( "-" ) );
         addChild( new CopyNumberFunctionNode( "copy" ) );
 
-        addChild( new UnaryFunctionNode( "\u27152", true, Functions.INTEGER_TIMES_2 ) );
-        addChild( new UnaryFunctionNode( "+1", true, Functions.INTEGER_PLUS_1 ) );
-        addChild( new UnaryFunctionNode( "-1", true, Functions.INTEGER_MINUS_1 ) );
-        addChild( new UnaryFunctionNode( "^2", true, Functions.INTEGER_POWER_2 ) );
+        addChild( new UnaryFunctionNode( "\u27152", true, Functions.INTEGER_TIMES_2, Type.NUMBER, Type.NUMBER ) );
+        addChild( new UnaryFunctionNode( "+1", true, Functions.INTEGER_PLUS_1, Type.NUMBER, Type.NUMBER ) );
+        addChild( new UnaryFunctionNode( "-1", true, Functions.INTEGER_MINUS_1, Type.NUMBER, Type.NUMBER ) );
+        addChild( new UnaryFunctionNode( "^2", true, Functions.INTEGER_POWER_2, Type.NUMBER, Type.NUMBER ) );
 
         addChild( new ValueNode( new ValueContext() {
             public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {

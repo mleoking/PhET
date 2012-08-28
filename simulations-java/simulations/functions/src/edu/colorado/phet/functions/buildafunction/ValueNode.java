@@ -1,27 +1,28 @@
 package edu.colorado.phet.functions.buildafunction;
 
 import fj.F;
-import fj.data.List;
 
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.functions.intro.ShapeValue;
+import edu.colorado.phet.functions.model.Type;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.functions.buildafunction.Constants.ellipseWidth;
+import static edu.colorado.phet.functions.buildafunction.InputOutputShapes.getLeftSide;
+import static edu.colorado.phet.functions.buildafunction.InputOutputShapes.getRightSide;
 
 /**
  * @author Sam Reid
@@ -39,16 +40,9 @@ public class ValueNode extends PNode {
     public ValueNode( final ValueContext valueContext, Object originalValue, Stroke stroke, Color paint, Color strokePaint, Color textPaint ) {
         this.originalValue = originalValue;
         this.textPaint = textPaint;
-        final double ellipseWidth = Constants.ellipseWidth;
         a = new Area( new Rectangle2D.Double( 0, 0, 50, ellipseWidth ) );
-        if ( originalValue instanceof ShapeValue ) {
-            a.add( roundedLeftSide( ellipseWidth, a ) );
-            a.add( roundedRightSide( ellipseWidth, a ) );
-        }
-        else if ( originalValue instanceof String ) {
-            a.add( angledLeftSide( ellipseWidth, a ) );
-            a.add( angledRightSide( ellipseWidth, a ) );
-        }
+        a.add( getLeftSide( getType( originalValue ), new Vector2D( a.getBounds2D().getMinX(), a.getBounds2D().getCenterY() ) ) );
+        a.add( getRightSide( getType( originalValue ), new Vector2D( a.getBounds2D().getMaxX(), a.getBounds2D().getCenterY() ) ) );
         boundNode = new PhetPPath( a, paint, stroke, strokePaint );
         addChild( boundNode );
         this.node = toNode( getCurrentValue() );
@@ -71,24 +65,11 @@ public class ValueNode extends PNode {
         addInputEventListener( new CursorHandler() );
     }
 
-    public static Area roundedRightSide( final double ellipseWidth, Shape a ) {
-        return new Area( new Ellipse2D.Double( a.getBounds2D().getMinX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) );
-    }
-
-    public static Area roundedLeftSide( final double ellipseWidth, Shape a ) {
-        return new Area( new Ellipse2D.Double( a.getBounds2D().getMaxX() - ellipseWidth / 2, a.getBounds2D().getCenterY() - ellipseWidth / 2, ellipseWidth, ellipseWidth ) );
-    }
-
-    public static Area angledRightSide( final double ellipseWidth, Shape a ) {
-        return new Area( ShapeUtils.createShapeFromPoints( List.list( Vector2D.v( a.getBounds2D().getMaxX(), a.getBounds2D().getMinY() ),
-                                                                      Vector2D.v( a.getBounds2D().getMaxX() + ellipseWidth / 2, a.getBounds2D().getCenterY() ),
-                                                                      Vector2D.v( a.getBounds2D().getMaxX(), a.getBounds2D().getMaxY() ) ) ) );
-    }
-
-    public static Area angledLeftSide( final double ellipseWidth, Shape a ) {
-        return new Area( ShapeUtils.createShapeFromPoints( List.list( Vector2D.v( a.getBounds2D().getMinX(), a.getBounds2D().getMinY() ),
-                                                                      Vector2D.v( a.getBounds2D().getMinX() - ellipseWidth / 2, a.getBounds2D().getCenterY() ),
-                                                                      Vector2D.v( a.getBounds2D().getMinX(), a.getBounds2D().getMaxY() ) ) ) );
+    private Type getType( final Object value ) {
+        return value instanceof ShapeValue ? Type.SHAPE :
+               value instanceof String ? Type.TEXT :
+               value instanceof Number ? Type.NUMBER :
+               null;
     }
 
     public Object getCurrentValue() {
@@ -123,17 +104,10 @@ public class ValueNode extends PNode {
         }
         else {
             final PhetPText textNode = toTextNode( currentValue.toString(), textPaint );
-            if ( textNode.getFullWidth() > Constants.ellipseWidth ) {
-                textNode.scale( Constants.ellipseWidth / textNode.getFullWidth() );
+            if ( textNode.getFullWidth() > ellipseWidth ) {
+                textNode.scale( ellipseWidth / textNode.getFullWidth() );
             }
             return textNode;
         }
-    }
-
-    public int getNumberRotations() {
-        if ( getCurrentValue() instanceof ShapeValue ) {
-            return ( (ShapeValue) getCurrentValue() ).numRotations;
-        }
-        else { return 0; }
     }
 }
