@@ -1,3 +1,4 @@
+Limited number of balls to a max of 3
 Disabled grabbable control panels for ipad
 Advanced tab: Improved performance when paused and dragging one of 5 balls.  Originally 1 frame per 10 sec, now 5fps or so
 Centered slider knobs on the track

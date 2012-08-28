@@ -1,6 +1,6 @@
 package edu.colorado.phet.collisionlab.constants {
 public class CLConstants {
-    public static const MAX_BALLS: int = 5;
+    public static const MAX_BALLS: int = 3;
 
     public static const BACKGROUND_COLOR: int = 0xFFCC99; // play area background
 
