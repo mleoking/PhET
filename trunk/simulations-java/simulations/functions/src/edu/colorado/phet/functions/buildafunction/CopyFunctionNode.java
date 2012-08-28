@@ -23,7 +23,7 @@ import static edu.colorado.phet.functions.buildafunction.Constants.*;
  * @author Sam Reid
  */
 public class CopyFunctionNode extends PNode {
-    public CopyFunctionNode( String text, Type type ) {
+    public CopyFunctionNode( String text, Type type, double x, double y ) {
         //use CAG for prototype, may need to speed up later on
         final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, bodyDimension.width, bodyDimension.height * 2 + inset, 20, 20 );
         Area a = new Area( bodyRect );
@@ -50,9 +50,10 @@ public class CopyFunctionNode extends PNode {
 
             @Override public void mouseDragged( final PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( CopyFunctionNode.this.getParent() );
-                translate( delta.width, delta.height );
+                translate( delta.width / getScale(), delta.height / getScale() );
             }
         } );
         addInputEventListener( new CursorHandler() );
+        setOffset( x, y );
     }
 }
