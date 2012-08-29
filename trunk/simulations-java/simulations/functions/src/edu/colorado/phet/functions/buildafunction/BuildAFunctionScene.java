@@ -43,7 +43,7 @@ public class BuildAFunctionScene extends PNode {
             setOffset( 55.24372230428363, 280.23633677991086 );
         }} );
 
-        addChild( new TableNode() {{
+        final TableNode tableNode = new TableNode() {{
             setOffset( STAGE_SIZE.width - INSET - getFullBounds().getWidth(), INSET );
 
             //*2+1
@@ -54,12 +54,13 @@ public class BuildAFunctionScene extends PNode {
             addPair( i++, 4, 9 );
             addPair( i++, 5, 11 );
 //            addPair( i++, "...", "..." );
-        }} );
+        }};
+        addChild( tableNode );
 
-        addChild( new HTMLImageButtonNode( "Test" ) {{
+        addChild( new HTMLImageButtonNode( "Check" ) {{
             setBackground( Color.red );
             setFont( BUTTON_FONT );
-            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - 50, INSET );
+            setOffset( tableNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, tableNode.getFullBounds().getMaxY() + INSET * 2 );
             setEnabled( false );
         }} );
     }
