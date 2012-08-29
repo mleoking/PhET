@@ -36,5 +36,4 @@ DATA COLLECTION
 - instrument Game
 
 MIGRATE TO COMMON
-- "game phase" framework
-- LGCanvas: I've been doing this over and over in sims, create StageCanvas or PhetPCanvasWithStage
+- #3423, migrate LGCanvas to common as "StageCanvas", reuse in other sims
