@@ -1,3 +1,4 @@
+8/28/12 migrate game strings to phetcommon: Check, Try Again, Show Answer, Next
 8/28/12 migrate GameTimer to common.games, use in RPAL and BCE
 8/28/12 generalizations and doc for GameTimer
 8/28/12 minor tweaks in RewardNode
