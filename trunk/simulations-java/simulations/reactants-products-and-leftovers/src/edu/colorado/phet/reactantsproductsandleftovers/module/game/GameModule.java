@@ -24,7 +24,7 @@ public class GameModule extends RPALModule {
         super( UserComponents.gameTab, RPALStrings.TITLE_GAME, new RPALClock(), true /* startsPaused */ );
 
         // Model
-        model = new GameModel( getClock() );
+        model = new GameModel();
         
         // Canvas
         canvas = new GameCanvas( model, this );

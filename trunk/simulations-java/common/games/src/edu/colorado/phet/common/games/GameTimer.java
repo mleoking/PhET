@@ -1,6 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 
-package edu.colorado.phet.linegraphing.linegame.model;
+package edu.colorado.phet.common.games;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -43,8 +43,8 @@ public class GameTimer {
     }
 
     /**
-     * Starts the timer. When the timer is started, it restarts from zero.
-     * Calling start while the timer is running is equivalent to calling stop and start.
+     * Starts the timer. When the timer is started, it resets to zero.
+     * Note that calling start while the timer is running resets the time to zero.
      */
     public void start() {
         time.set( 0L );
@@ -63,7 +63,7 @@ public class GameTimer {
     }
 
     /**
-     *  Convenience method for starting/stopping the timer.
+     * Convenience method for starting/stopping the timer, for avoiding if-then-else logic in client.
      */
     public void setRunning( boolean running ) {
         if ( running ) {

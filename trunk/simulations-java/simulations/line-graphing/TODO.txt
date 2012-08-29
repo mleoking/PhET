@@ -36,7 +36,6 @@ DATA COLLECTION
 - instrument Game
 
 MIGRATE TO COMMON
-- GameTimer, copied from BCE and RPAL
 - RewardNode, copied and adapted from BCE and RPAL
 - "game phase" framework
 - standardize and move game strings to phetcommon? (Check, Try Again, Show Answer, Next)

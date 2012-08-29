@@ -12,6 +12,7 @@ import edu.colorado.phet.balancingchemicalequations.view.BalancedRepresentation;
 import edu.colorado.phet.balancingchemicalequations.view.game.IBalancedRepresentationStrategy;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.games.GameSimSharing;
+import edu.colorado.phet.common.games.GameTimer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
@@ -37,8 +38,6 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterS
     public static enum GameState {
         START_GAME, CHECK, TRY_AGAIN, SHOW_ANSWER, NEXT, NEW_GAME
     }
-
-    ;
 
     /*
      * Strategies for selecting the "balanced representation" that is displayed by the "Not Balanced" popup.
@@ -87,7 +86,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterS
         for ( int i = settings.level.getMin(); i <= settings.level.getMax(); i++ ) {
             bestTimes.put( i, 0L );
         }
-        timer = new GameTimer( new BCEClock() );
+        timer = new GameTimer();
         equations = equationsFactory.createEquations( EQUATIONS_PER_GAME, settings.level.get() ); // needs to be non-null after initialization
         currentEquationIndex = 0;
         currentEquation = new Property<Equation>( equations.get( currentEquationIndex ) );
