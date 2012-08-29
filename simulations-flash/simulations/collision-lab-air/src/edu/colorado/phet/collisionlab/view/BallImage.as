@@ -72,8 +72,12 @@ public class BallImage extends Sprite {
         this.pArrowImage.setMaxHeadLength( 20 );
         this.showPArrow( false );
         this.ballHandle = new Sprite();
+        ballHandle.scaleX = 1.3;
+        ballHandle.scaleY = 1.3;
         this.arrowHeadIndicator = new Sprite();
         this.arrowHeadHandle = new Sprite();
+        arrowHeadHandle.scaleX = 1.3;
+        arrowHeadHandle.scaleY = 1.3;
         this.tFieldBallNbr = new TextField();
         var outline: GlowFilter = new GlowFilter( 0x000000, 1.0, 2.0, 2.0, 10 ); //outline for ball number text for better visibility
         outline.quality = BitmapFilterQuality.MEDIUM;

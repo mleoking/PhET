@@ -36,6 +36,20 @@ public class PlayPauseButtons extends Sprite {
         this.buttonView.myRewindButton.buttonMode = true;
         this.buttonView.myPlayPauseButton.buttonMode = true;
         this.buttonView.myStepButton.buttonMode = true;
+
+        function addLargerTarget( sprite: Sprite, x: Number, y: Number, w: Number, h: Number ): void {
+            var target: Sprite = new Sprite();
+            target.graphics.beginFill( 0xFF0000, 0 );
+            target.graphics.drawRect( x, y, w, h );
+            target.graphics.endFill();
+            sprite.addChild( target );
+            sprite.hitArea = target;
+        }
+
+        addLargerTarget( buttonView.myPlayPauseButton, -15, -15, 30, 40 );
+        addLargerTarget( buttonView.myStepBackButton, -25, -15, 40, 40 );
+        addLargerTarget( buttonView.myRewindButton, -25, -15, 40, 40 );
+        addLargerTarget( buttonView.myStepButton, -15, -15, 40, 40 );
     }
 
     private function setPlayText(): void {
@@ -128,7 +142,7 @@ public class PlayPauseButtons extends Sprite {
     }
 
     public function stepBack( evt: MouseEvent ): void {
-        if( !backEnabled ) {
+        if ( !backEnabled ) {
             return;
         }
         this.paused = true;
