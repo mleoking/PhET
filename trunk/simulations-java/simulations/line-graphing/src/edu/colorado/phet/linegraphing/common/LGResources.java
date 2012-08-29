@@ -16,6 +16,7 @@ public class LGResources {
 
     public static final String PROJECT_NAME = "line-graphing";
     private static final PhetResources RESOURCES = new PhetResources( PROJECT_NAME );
+    private static final PhetResources COMMON_RESOURCE = PhetCommonResources.getInstance();
 
     // Localized strings
     public static class Strings {
@@ -25,10 +26,10 @@ public class LGResources {
         public static final String SLOPE = RESOURCES.getLocalizedString( "slope" );
         public static final String SLOPE_UNDEFINED = RESOURCES.getLocalizedString( "slopeUndefined" );
         public static final String SAVE_LINE = RESOURCES.getLocalizedString( "saveLine" );
-        public static final String CHECK = RESOURCES.getLocalizedString( "check" );
-        public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "tryAgain" );
-        public static final String SHOW_ANSWER = RESOURCES.getLocalizedString( "showAnswer" );
-        public static final String NEXT = RESOURCES.getLocalizedString( "next" );
+        public static final String CHECK = COMMON_RESOURCE.getLocalizedString( "Games.check" );
+        public static final String TRY_AGAIN = COMMON_RESOURCE.getLocalizedString( "Games.tryAgain" );
+        public static final String SHOW_ANSWER = COMMON_RESOURCE.getLocalizedString( "Games.showAnswer" );
+        public static final String NEXT = COMMON_RESOURCE.getLocalizedString( "Games.next" );
 
         public static final String SYMBOL_X = RESOURCES.getLocalizedString( "symbol.x" );
         public static final String SYMBOL_X1 = RESOURCES.getLocalizedString( "symbol.x1" );

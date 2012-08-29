@@ -37,5 +37,4 @@ DATA COLLECTION
 
 MIGRATE TO COMMON
 - "game phase" framework
-- standardize and move game strings to phetcommon? (Check, Try Again, Show Answer, Next)
 - LGCanvas: I've been doing this over and over in sims, create StageCanvas or PhetPCanvasWithStage
