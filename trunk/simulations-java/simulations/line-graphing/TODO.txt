@@ -36,7 +36,6 @@ DATA COLLECTION
 - instrument Game
 
 MIGRATE TO COMMON
-- RewardNode, copied and adapted from BCE and RPAL
 - "game phase" framework
 - standardize and move game strings to phetcommon? (Check, Try Again, Show Answer, Next)
 - LGCanvas: I've been doing this over and over in sims, create StageCanvas or PhetPCanvasWithStage
