@@ -224,8 +224,10 @@ public class PointToolNode extends PhetPNode {
          * Assumes the origin is at the bottom center of the drag node.
          */
         private Vector2D constrainToBounds( double x, double y ) {
-            return new Vector2D( Math.max( dragBounds.getMinX() + ( dragNode.getFullBoundsReference().getWidth() / 2 ), Math.min( dragBounds.getMaxX() - ( dragNode.getFullBoundsReference().getWidth() / 2 ), x ) ),
-                                 Math.max( dragBounds.getMinY() + dragNode.getFullBoundsReference().getHeight(), Math.min( dragBounds.getMaxY(), y ) ) );
+            return new Vector2D( Math.max( dragBounds.getMinX() + ( dragNode.getFullBoundsReference().getWidth() / 2 ),
+                                           Math.min( dragBounds.getMaxX() - ( dragNode.getFullBoundsReference().getWidth() / 2 ), x ) ),
+                                 Math.max( dragBounds.getMinY() + dragNode.getFullBoundsReference().getHeight(),
+                                           Math.min( dragBounds.getMaxY(), y ) ) );
         }
     }
 }
