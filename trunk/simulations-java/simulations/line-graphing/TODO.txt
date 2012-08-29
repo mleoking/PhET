@@ -3,7 +3,7 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- play area layout feels very unbalanced for game challenges, very heavy on the graph side
+- play area layout feels unbalanced for game challenges
 - revisit the placement algorithm for equations on graphed lines
 - names for the 3 sims in this project
 
