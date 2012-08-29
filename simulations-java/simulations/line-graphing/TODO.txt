@@ -13,6 +13,7 @@ HIGH
 - create additional game challenges
 
 MEDIUM
+- bug: drag bounds of points tools isn't behaving correctly, should be stage bounds
 
 LOW
 
