@@ -3,6 +3,7 @@ package edu.colorado.phet.platetectonics.view.labels;
 
 import java.awt.geom.AffineTransform;
 
+import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
@@ -10,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
@@ -180,16 +180,16 @@ public class RangeLabelNode extends BaseLabelNode {
 
         shouldRotate = labelFits;
 
-        labelNode.transform.set( ImmutableMatrix4F.translation( labelLocation.get().x,
-                                                                labelLocation.get().y,
-                                                                labelLocation.get().z ) );
-        labelNode.transform.append( ImmutableMatrix4F.scaling( LABEL_SCALE * scale.get() ) );
-        labelNode.transform.append( ImmutableMatrix4F.translation( -labelNode.getComponentWidth() / 2,
-                                                                   -labelNode.getComponentHeight() / 2,
-                                                                   0 ) );
+        labelNode.transform.set( Matrix4F.translation( labelLocation.get().x,
+                                                       labelLocation.get().y,
+                                                       labelLocation.get().z ) );
+        labelNode.transform.append( Matrix4F.scaling( LABEL_SCALE * scale.get() ) );
+        labelNode.transform.append( Matrix4F.translation( -labelNode.getComponentWidth() / 2,
+                                                          -labelNode.getComponentHeight() / 2,
+                                                          0 ) );
 
         if ( labelFits ) {
-            labelNodeContainer.transform.set( ImmutableMatrix4F.IDENTITY );
+            labelNodeContainer.transform.set( Matrix4F.IDENTITY );
 
             glBegin( GL_LINES );
             LWJGLUtils.color4f( getColor() );
@@ -208,8 +208,8 @@ public class RangeLabelNode extends BaseLabelNode {
         }
         else {
             final float labelOffset = (float) ( labelPNode.getFullBounds().getWidth() / 2 ) * LABEL_SCALE * 1.1f * scale.get();
-            labelNodeContainer.transform.set( ImmutableMatrix4F.translation( ( COLLAPSED_DIAGONAL_SEGMENT_LENGTH + COLLAPSED_HORIZONTAL_SEGMENT_LENGTH ) * scale.get() + labelOffset,
-                                                                             COLLAPSED_DIAGONAL_SEGMENT_LENGTH * scale.get(), 0 ) );
+            labelNodeContainer.transform.set( Matrix4F.translation( ( COLLAPSED_DIAGONAL_SEGMENT_LENGTH + COLLAPSED_HORIZONTAL_SEGMENT_LENGTH ) * scale.get() + labelOffset,
+                                                                    COLLAPSED_DIAGONAL_SEGMENT_LENGTH * scale.get(), 0 ) );
 
             glBegin( GL_LINE_STRIP );
             LWJGLUtils.color4f( getColor() );

@@ -5,11 +5,12 @@ import java.nio.FloatBuffer;
 
 import org.lwjgl.BufferUtils;
 
+import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F.MatrixType;
+import edu.colorado.phet.common.phetcommon.math.Matrix4F.MatrixType;
 
 import static org.lwjgl.opengl.GL11.glMultMatrix;
 import static org.lwjgl.opengl.GL11.glScalef;
@@ -24,22 +25,22 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 public class LWJGLTransform {
     public final Notifier<LWJGLTransform> changed = new ValueNotifier<LWJGLTransform>( this );
 
-    private ImmutableMatrix4F matrix;
-    private ImmutableMatrix4F inverse;
+    private Matrix4F matrix;
+    private Matrix4F inverse;
 
     // various buffers for quick handling of the model-view transform
     private FloatBuffer transformBuffer = BufferUtils.createFloatBuffer( 16 );
     private FloatBuffer inverseTransformBuffer = BufferUtils.createFloatBuffer( 16 );
 
     public LWJGLTransform() {
-        set( ImmutableMatrix4F.IDENTITY );
+        set( Matrix4F.IDENTITY );
     }
 
-    public LWJGLTransform( ImmutableMatrix4F matrix ) {
+    public LWJGLTransform( Matrix4F matrix ) {
         set( matrix );
     }
 
-    public void set( ImmutableMatrix4F matrix ) {
+    public void set( Matrix4F matrix ) {
         this.matrix = matrix;
         // store the inverse matrix
         inverse = matrix.inverted();
@@ -51,11 +52,11 @@ public class LWJGLTransform {
         changed.updateListeners( this );
     }
 
-    public void prepend( ImmutableMatrix4F matrix ) {
+    public void prepend( Matrix4F matrix ) {
         set( matrix.times( this.matrix ) );
     }
 
-    public void append( ImmutableMatrix4F matrix ) {
+    public void append( Matrix4F matrix ) {
         set( this.matrix.times( matrix ) );
     }
 
@@ -63,21 +64,23 @@ public class LWJGLTransform {
         append( transform.matrix );
     }
 
-    public ImmutableMatrix4F getMatrix() {
+    public Matrix4F getMatrix() {
         return matrix;
     }
 
-    public ImmutableMatrix4F getInverse() {
+    public Matrix4F getInverse() {
         return inverse;
     }
 
     public void apply() {
         switch( matrix.type ) {
             case SCALING:
-                glScalef( matrix.m00, matrix.m11, matrix.m22 );
+                Vector3F scale = matrix.getScaling();
+                glScalef( scale.x, scale.y, scale.z );
                 break;
-            case TRANSLATION:
-                glTranslatef( matrix.m30, matrix.m31, matrix.m32 );
+            case TRANSLATION_3D:
+                Vector3F translation = matrix.getTranslation();
+                glTranslatef( translation.x, translation.y, translation.z );
                 break;
             default:
                 // fall back to sending the entire matrix

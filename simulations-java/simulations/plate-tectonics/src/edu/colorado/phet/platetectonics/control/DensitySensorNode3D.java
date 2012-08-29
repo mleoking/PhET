@@ -11,6 +11,7 @@ import java.awt.geom.Line2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.DampedMassSpringSystem;
+import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
@@ -28,7 +29,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
@@ -78,10 +78,10 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
         tab.zoomRatio.addObserver( new MortalSimpleObserver( tab.zoomRatio, disposed ) {
             public void update() {
-                final ImmutableMatrix4F scaling = ImmutableMatrix4F.scaling( getScale() );
-                final ImmutableMatrix4F translation = ImmutableMatrix4F.translation( draggedPosition.x - getSensorXOffset(),
-                                                                                     draggedPosition.y,
-                                                                                     0 );
+                final Matrix4F scaling = Matrix4F.scaling( getScale() );
+                final Matrix4F translation = Matrix4F.translation( draggedPosition.x - getSensorXOffset(),
+                                                                   draggedPosition.y,
+                                                                   0 );
                 transform.set( translation.times( scaling ) );
             }
         } );
@@ -133,7 +133,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
     }
 
     public void dragDelta( Vector2F delta ) {
-        transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
+        transform.prepend( Matrix4F.translation( delta.x, delta.y, 0 ) );
         draggedPosition = draggedPosition.plus( delta );
         updateReadout();
 //        tab.getModel().debugPing.updateListeners( getSensorModelPosition() );

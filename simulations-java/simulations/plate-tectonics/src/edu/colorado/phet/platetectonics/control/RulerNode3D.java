@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
@@ -14,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
@@ -64,13 +64,13 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
                     repaint();
                 }
 
-                final ImmutableMatrix4F scaling = ImmutableMatrix4F.scaling( zoomMultiplier / PICCOLO_PIXELS_TO_VIEW_UNIT );
-                final ImmutableMatrix4F translation = ImmutableMatrix4F.translation( draggedPosition.x,
-                                                                                     draggedPosition.y,
-                                                                                     0 );
+                final Matrix4F scaling = Matrix4F.scaling( zoomMultiplier / PICCOLO_PIXELS_TO_VIEW_UNIT );
+                final Matrix4F translation = Matrix4F.translation( draggedPosition.x,
+                                                                   draggedPosition.y,
+                                                                   0 );
 
                 // subtract height first, so we scale from the ruler TOP, and move from there
-                transform.set( translation.times( scaling ).times( ImmutableMatrix4F.translation( 0, -(float) getNode().getFullBounds().getHeight(), 0 ) ) );
+                transform.set( translation.times( scaling ).times( Matrix4F.translation( 0, -(float) getNode().getFullBounds().getHeight(), 0 ) ) );
             }
         } );
 
@@ -107,7 +107,7 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
     }
 
     public void dragDelta( Vector2F delta ) {
-        transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
+        transform.prepend( Matrix4F.translation( delta.x, delta.y, 0 ) );
         draggedPosition = draggedPosition.plus( delta );
     }
 

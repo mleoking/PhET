@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 
+import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.PlaneF;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.Triangle3F;
@@ -17,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.materials.ColorMaterial;
 import edu.colorado.phet.lwjglphet.math.Arrow2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ArrowNode;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
@@ -157,7 +157,7 @@ public class HandleNode extends GLNode {
     }
 
     public void updateTransform( float xRotation, float zRotation ) {
-        transform.set( ImmutableMatrix4F.rotationZ( -xRotation ).times( ImmutableMatrix4F.rotationX( zRotation ) ) );
+        transform.set( Matrix4F.rotationZ( -xRotation ).times( Matrix4F.rotationX( zRotation ) ) );
         updateLocations();
     }
 
@@ -399,7 +399,7 @@ public class HandleNode extends GLNode {
 
             // tweak the vertical angle of the arrow so that it matches the local curvature of the earth
             Vector3F tipPlanarPosition = tailPlanarPosition.plus(
-                    ImmutableMatrix4F.rotation( Y_UNIT, (float) rotation ).times( new Vector3F( EXTENT - OFFSET, 0, 0 ) ) );
+                    Matrix4F.rotation( Y_UNIT, (float) rotation ).times( new Vector3F( EXTENT - OFFSET, 0, 0 ) ) );
             Vector3F tipRadialPosition = convertToRadial( tipPlanarPosition );
             Vector3F delta = tipRadialPosition.minus( tailRadialPosition ).normalized();
             float angleChange = (float) Math.atan2( delta.getY(), Math.sqrt( delta.x * delta.x + delta.z * delta.z ) );
