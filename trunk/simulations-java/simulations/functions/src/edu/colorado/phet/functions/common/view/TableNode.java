@@ -21,12 +21,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class TableNode extends PNode {
     final int width = 200;
     final int cellWidth = width / 2;
-    final int rowHeight = 40;
+    final int rowHeight = 30;
 
-    public TableNode() {
+    public TableNode
+            () {
         //draw lines
         //Let's have rounded edges for the border
-        int numDataRows = 5;
+        int numDataRows = 3;
         int numRows = numDataRows + 1;
         final int height = numRows * rowHeight;
         RoundRectangle2D.Double border = new RoundRectangle2D.Double( 0, 0, width, height, 20, 20 );
