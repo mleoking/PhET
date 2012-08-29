@@ -115,6 +115,7 @@ public class LineGameModel {
                 LOGGER.info( "game phase = " + phase );
                 if ( phase == GamePhase.SETTINGS ) {
                     state.set( PlayState.NONE );
+                    timer.stop();
                 }
                 else if ( phase == GamePhase.PLAY ) {
                     initChallenges();

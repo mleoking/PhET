@@ -4,13 +4,14 @@ package edu.colorado.phet.linegraphing.linegame.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * Game timer, keeps track of the elapsed time in the game using "wall clock" time.
+ * The frame rate of this clock is sufficient for displaying a game timer in "seconds", but not for driving smooth animation.
+ * If you need to drive animation, look at the IClock hierarchy.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -22,16 +23,8 @@ public class GameTimer {
     private final IClock clock;
     private long startTime; // System time in ms when the game started
 
-    /**
-     * Constructor that uses a default clock.
-     * The frame rate of this clock is sufficient for displaying a timer, but not for driving smooth animation.
-     */
     public GameTimer() {
-        this( new ConstantDtClock( 1000 / 5, 1 ) ); // don't need to tick too often to update the scoreboard time
-    }
-
-    public GameTimer( IClock clock ) {
-        this.clock = clock;
+        this.clock = new ConstantDtClock( 1000 / 5, 1 ); // sufficient for showing seconds
         this.time = new Property<Long>( 0L );
         clock.addClockListener( new ClockAdapter() {
             @Override
@@ -51,14 +44,12 @@ public class GameTimer {
 
     /**
      * Starts the timer. When the timer is started, it restarts from zero.
-     * If the timer is already running, this is a no-op.
+     * Calling start while the timer is running is equivalent to calling stop and start.
      */
     public void start() {
-        if ( !isRunning() ) {
-            time.set( 0L );
-            startTime = System.currentTimeMillis(); // don't use clock.getWallTime, it's not valid until the clock ticks
-            clock.start();
-        }
+        time.set( 0L );
+        startTime = System.currentTimeMillis(); // don't use clock.getWallTime, it's not valid until the clock ticks
+        clock.start();
     }
 
     /**
