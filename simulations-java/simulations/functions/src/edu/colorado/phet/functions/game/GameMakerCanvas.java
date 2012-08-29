@@ -14,12 +14,13 @@ import edu.colorado.phet.functions.buildafunction.BuildAFunctionScene;
 public class GameMakerCanvas extends AbstractFunctionsCanvas {
     public GameMakerCanvas() {
         setBackground( BuildAFunctionCanvas.BACKGROUND_COLOR );
-        addChild( new PlayAreaNode() );
+        final PlayAreaNode playAreaNode = new PlayAreaNode();
+        addChild( playAreaNode );
         HTMLImageButtonNode runButton = new HTMLImageButtonNode( "Run" ) {{
             setBackground( Color.red );
             setFont( BuildAFunctionScene.BUTTON_FONT );
             setEnabled( false );
-            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.height / 2 + 2 );
+            setOffset( playAreaNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, playAreaNode.getFullBounds().getMaxY() + 2 );
         }};
         addChild( runButton );
     }

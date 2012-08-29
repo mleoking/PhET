@@ -16,9 +16,10 @@ import static edu.colorado.phet.functions.buildafunction.AbstractFunctionsCanvas
  */
 public class PlayAreaNode extends PNode {
     public PlayAreaNode() {
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height / 2 ), Color.white, new BasicStroke( 1 ), Color.black ) );
+        final PhetPPath area = new PhetPPath( new Rectangle2D.Double( STAGE_SIZE.width / 2, 0, STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), Color.white, new BasicStroke( 1 ), Color.black );
+        addChild( area );
         PNode faceNode = Scenes.createFaceNode();
-        faceNode.setOffset( STAGE_SIZE.width / 2 - faceNode.getFullBounds().getWidth() / 2, STAGE_SIZE.height / 4 - faceNode.getFullBounds().getHeight() / 2 );
+        faceNode.setOffset( area.getFullBounds().getCenterX() - faceNode.getFullBounds().getWidth() / 2, area.getFullBounds().getCenterY() - faceNode.getFullBounds().getHeight() / 2 );
         addChild( faceNode );
     }
 }
