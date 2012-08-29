@@ -17,7 +17,7 @@ public class FractionsResources {
     public static class Strings {
         public static final String BUILD_A_FRACTION = RESOURCES.getLocalizedString( "buildAFraction" );
         public static final String BUILD_A_MIXED_FRACTION = RESOURCES.getLocalizedString( "buildAMixedFraction" );
-        public static final String CHECK_ANSWER = RESOURCES.getLocalizedString( "checkAnswer" );
+        public static final String CHECK = RESOURCES.getLocalizedString( "check" );
         public static final String EQUALITY_LAB = RESOURCES.getLocalizedString( "equalityLab" );
         public static final String FRACTION_MATCHER = RESOURCES.getLocalizedString( "fractionMatcher" );
         public static final String FRACTION_MATCHER_MIXED_NUMBERS = RESOURCES.getLocalizedString( "fractionMatcherMixedNumbers" );

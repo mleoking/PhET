@@ -45,7 +45,7 @@ class GameButtonsNode extends PNode {
 
             else if ( ( state.getChecks() == 0 && state.getMode() == USER_IS_MOVING_OBJECTS_TO_THE_SCALES ) ||
                       ( state.getChecks() == 1 && state.getMode() == USER_IS_MOVING_OBJECTS_TO_THE_SCALES && state.changedFromWrongAnswer() ) ) {
-                addChild( buttonFactory.f( new ButtonArgs( Components.checkAnswerButton, Strings.CHECK_ANSWER, Color.orange, buttonLocation, new CheckAnswer() ) ) );
+                addChild( buttonFactory.f( new ButtonArgs( Components.checkAnswerButton, Strings.CHECK, Color.orange, buttonLocation, new CheckAnswer() ) ) );
             }
 
             //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
