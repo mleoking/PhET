@@ -1,3 +1,4 @@
+Print which components not used for utah molecule polarity analysis
 # 00.00.43 (67239) Aug 22, 2012
 # 00.00.42 (67238) Aug 22, 2012
 Acid base solution: Converted SessionResult case class to AcidBaseSolutionSpring2012AnalysisReport class state

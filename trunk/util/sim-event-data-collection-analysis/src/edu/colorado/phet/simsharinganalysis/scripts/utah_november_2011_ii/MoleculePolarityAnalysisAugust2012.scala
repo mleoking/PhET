@@ -145,7 +145,7 @@ object NewParser {
   }
 
   def main(args: Array[String]) {
-    val file = new File("C:\\Users\\Sam\\Desktop\\molecule-polarity")
+    val file = new File("C:\\Users\\Sam\\Desktop\\phet\\studies\\molecule-polarity")
     val logs = file.listFiles.map(file => (file, readText(file))).map(tuple => parseFile(tuple._1, tuple._2)).filter(_.project == "molecule-polarity")
     logs.foreach(println)
     logs.map(_.id).foreach(println)
@@ -215,6 +215,13 @@ object NewParser {
         entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0
       }).mkString("\t"))
       println()
+    }
+
+    //EM: For each computer, can you list out what actions were not used, for each tab?
+    println("Session\tActions Not Used")
+    for ( log <- logs.sortBy(_.id) ) {
+      val unusedComponents = componentSet -- getUsedComponents(getStates(log), e => true)
+      println(log.sessionID + "\t" + unusedComponents.toList.sortBy(_.toString).mkString(", "))
     }
   }
 }
