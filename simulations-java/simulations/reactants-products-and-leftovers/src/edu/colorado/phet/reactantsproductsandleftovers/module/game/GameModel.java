@@ -9,7 +9,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.games.GameSimSharing;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.games.GameTimer;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -63,7 +63,7 @@ public class GameModel extends RPALModel {
     // properties that can be configure by the user via the Game Settings panel
     private final RPALGameSettings gameSettings;
 
-    public GameModel( IClock clock ) {
+    public GameModel() {
 
         gameSettings = new RPALGameSettings( LEVEL_RANGE, DEFAULT_TIMER_VISIBLE, DEFAULT_SOUND_ENABLED, DEFAULT_CHALLENGE_VISIBILITY );
         listeners = new EventListenerList();
@@ -74,9 +74,9 @@ public class GameModel extends RPALModel {
         }
         isNewBestTime = false;
 
-        timer = new GameTimer( clock );
-        timer.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
+        timer = new GameTimer();
+        timer.time.addObserver( new SimpleObserver() {
+            public void update() {
                 // notify when the timer changes
                 if ( isTimerVisible() ) {
                     fireTimeChanged();
@@ -322,7 +322,7 @@ public class GameModel extends RPALModel {
      * @return time, in ms
      */
     public long getTime() {
-        return timer.getTime();
+        return timer.time.get();
     }
 
     /**
