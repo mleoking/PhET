@@ -20,7 +20,7 @@ import static edu.colorado.phet.functions.buildafunction.AbstractFunctionsCanvas
  */
 public class BuildAFunctionScene extends PNode {
 
-    public static final PhetFont BUTTON_FONT = new PhetFont( 22, true );
+    public static final PhetFont BUTTON_FONT = new PhetFont( 20, true );
 
     public BuildAFunctionScene() {
         addChild( new UnaryFunctionNode( "+1", true, Functions.INTEGER_PLUS_1, Type.NUMBER, Type.NUMBER, 20.088626292466763, 596.632200886265 ) {{setScale( 0.5 );}} );
@@ -44,15 +44,15 @@ public class BuildAFunctionScene extends PNode {
         }} );
 
         final TableNode tableNode = new TableNode() {{
-            setOffset( STAGE_SIZE.width - INSET - getFullBounds().getWidth(), INSET );
+            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, INSET / 2 );
 
             //*2+1
             int i = 0;
             addPair( i++, 1, 3 );
             addPair( i++, 2, 5 );
             addPair( i++, 3, 7 );
-            addPair( i++, 4, 9 );
-            addPair( i++, 5, 11 );
+//            addPair( i++, 4, 9 );
+//            addPair( i++, 5, 11 );
 //            addPair( i++, "...", "..." );
         }};
         addChild( tableNode );
@@ -60,7 +60,7 @@ public class BuildAFunctionScene extends PNode {
         addChild( new HTMLImageButtonNode( "Check" ) {{
             setBackground( Color.red );
             setFont( BUTTON_FONT );
-            setOffset( tableNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, tableNode.getFullBounds().getMaxY() + INSET * 2 );
+            setOffset( tableNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, tableNode.getFullBounds().getMaxY() + INSET / 2 );
             setEnabled( false );
         }} );
     }
