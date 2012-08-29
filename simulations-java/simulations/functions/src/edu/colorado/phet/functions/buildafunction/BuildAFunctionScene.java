@@ -30,7 +30,7 @@ public class BuildAFunctionScene extends PNode {
 
         addChild( new TwoInputFunctionNode( "+", true, Type.NUMBER, 521.2998522895131, 540.8862629246682 ) {{setScale( 0.5 );}} );
         addChild( new TwoInputFunctionNode( "-", true, Type.NUMBER, 662.9054652880341, 538.8774002954215 ) {{setScale( 0.5 );}} );
-        addChild( new CopyFunctionNode( "copy", Type.NUMBER, 787.4549483013308, 542.895125553915 ) {{setScale( 0.5 );}} );
+        addChild( new CopyFunctionNode( Type.NUMBER, 787.4549483013308, 542.895125553915 ) {{setScale( 0.5 );}} );
 
         addChild( new ValueNode( new ValueContext() {
             public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {

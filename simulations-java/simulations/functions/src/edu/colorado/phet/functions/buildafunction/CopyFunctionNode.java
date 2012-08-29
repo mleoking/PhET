@@ -7,14 +7,15 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.functions.FunctionsResources.Images;
 import edu.colorado.phet.functions.model.Type;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.functions.buildafunction.Constants.*;
@@ -23,7 +24,7 @@ import static edu.colorado.phet.functions.buildafunction.Constants.*;
  * @author Sam Reid
  */
 public class CopyFunctionNode extends PNode {
-    public CopyFunctionNode( String text, Type type, double x, double y ) {
+    public CopyFunctionNode( Type type, double x, double y ) {
         //use CAG for prototype, may need to speed up later on
         final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, bodyDimension.width, bodyDimension.height * 2 + inset, 20, 20 );
         Area a = new Area( bodyRect );
@@ -39,7 +40,8 @@ public class CopyFunctionNode extends PNode {
                 }
             } );
         }} );
-        addChild( new PhetPText( text, new PhetFont( 24, true ) ) {{
+
+        addChild( new PImage( BufferedImageUtils.multiScaleToWidth( Images.COPY, 60 ) ) {{
             setOffset( bodyRect.getCenterX() - getFullBounds().getWidth() / 2 + 10, bodyRect.getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
