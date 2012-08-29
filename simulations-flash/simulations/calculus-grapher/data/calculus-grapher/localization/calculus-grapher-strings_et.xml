@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_et.xml created Sun Dec 20 16:29:57 EET 2009 using: calculus-grapher 2.02.00 (34696), translation-utility 2.03.00 (36202) Okt 29, 2009-->
-<SimStrings>
-<string key="simDescription" value="Graafiku kirjeldus"/>
-<string key="smooth" value="Silu"/>
-<string key="undo" value="Tagasi"/>
-<string key="zero" value="Nulli"/>
-<string key="simTitle" value="Graafik"/>
-</SimStrings>

@@ -1,9 +1,0 @@
-###################################
-# License info for balloons
-# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
-###################################
-
-balloon-blue.gif source=PhET author=Kathy P., Oliver N.
-balloon-meg.gif source=phet author=PhET 
-balloon-yellow.gif source= PhET author=Kathy P., Oliver N.
-sweaterWidth300.gif source=PhET author=Kathy P., Oliver N.

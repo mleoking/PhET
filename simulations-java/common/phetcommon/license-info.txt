@@ -1,1 +1,0 @@
-java-look-and-feel-graphics license=Sun Graphics License licensefile=sun-graphics-license.txt name=Java Look and Feel Graphics Repository description=a collection of toolbar button graphics copyright=2000 Sun Microsystems website=http://java.sun.com/developer/techDocs/hi/repository/

@@ -1,2 +1,0 @@
-gray-arrow.png source=PhET
-ecoli.jpg source=Dennis Kunkel Microscopy notes=used with permission (purchased), terms are on purchase invoice

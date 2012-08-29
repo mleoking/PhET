@@ -1,1 +1,0 @@
-poly2tri-core license=New BSD License licensefile=LICENSE.txt name=poly2tri description=A 2D constrained Delaunay triangulation library copyright=Poly2Tri Contributors website=http://code.google.com/p/poly2tri/

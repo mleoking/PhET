@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_el.xml created Thu Nov 04 12:21:39 EET 2010 using: equation-grapher 2.01.00 (37298), translation-utility 2.09.00 (44031) Σεπ 14, 2010-->
-<SimStrings>
-<string key="showYEq" value="Δείξε y="/>
-<string key="erase" value="Διαγραφή"/>
-<string key="save" value="Αποθήκευση"/>
-<string key="zero" value="Μηδενισμός"/>
-<string key="simTitle" value="Σχεδιαστής Εξίσωσης"/>
-</SimStrings>

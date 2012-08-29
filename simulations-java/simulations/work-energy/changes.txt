@@ -1,3 +1,0 @@
-replace incomplete "Reset All" node with ResetAllButtonNode
-# 0.00.01 (45869) Nov 8, 2010
-Initialized work-energy sim

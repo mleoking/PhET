@@ -1,4 +1,0 @@
-This directory contains scripts and possibly other files that were created
-while testing and debugging the installer builder.  They are not directly used
-in the process of creating the installers, but could serve as examples and
-templates for the creation of similar test scripts in the future.

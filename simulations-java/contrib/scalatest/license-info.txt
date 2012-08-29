@@ -1,1 +1,0 @@
-scalatest license=Apache License licensefile=LICENSE name=scala test, a testing library for scala

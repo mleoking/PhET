@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_sk.xml created Sat Dec 04 01:36:14 CET 2010 using: equation-grapher 2.01.00 (37298), translation-utility 2.09.00 (44031) sep 14, 2010-->
-<SimStrings>
-<string key="showYEq" value="Zobraziť y ="/>
-<string key="erase" value="Zmazať"/>
-<string key="save" value="Uložiť"/>
-<string key="zero" value="Nulovať"/>
-<string key="simTitle" value="Graf kvadratickej funkcie"/>
-</SimStrings>

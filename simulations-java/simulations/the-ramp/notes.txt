@@ -1,7 +1,0 @@
-This regex finds string literals that aren't followed by .translate or .literal
-"[^"\r\n]*"((?!(\.literal|\.translate)))
-
-Here's another regex, written by Jonathan, that has better accuracy
-^(?:[^"\r\n]*"(?:[^"\\]|(?:\\.))*")*?[^"\r\n]*("(?:[^"\\\r\n]|(?:\\.))*")(?:$|(?:(?!\.translate)(?!\.literal)))[^\r\n]*$
-
-It can be used to help identify unhandled strings (i.e. strings that may need to be translated or annotated)

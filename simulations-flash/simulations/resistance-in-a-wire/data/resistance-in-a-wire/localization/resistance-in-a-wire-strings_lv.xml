@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_lv.xml created Sat Mar 12 09:38:24 EET 2011 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.10.00 (48775) Feb 9, 2011-->
-<SimStrings>
-<string key="cm" value="cm"/>
-<string key="resistanceEq" value="pretestība ="/>
-<string key="ohm" value="omi"/>
-<string key="simTitle" value="Pretestība vadā"/>
-<string key="translation.credits" value="Arvis Lācis (@arvislacis)"/>
-</SimStrings>

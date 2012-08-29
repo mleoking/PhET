@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_pt.xml created Sun Mar 06 14:25:56 CET 2011 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.10.00 (48775) Fev 9, 2011-->
-<SimStrings>
-<string key="cm" value="cm"/>
-<string key="resistanceEq" value="resistência ="/>
-<string key="ohm" value="ohm"/>
-<string key="simTitle" value="Resistência num condutor"/>
-<string key="translation.credits" value="Fernando Rui Campos, D.G.I.D.C "/>
-</SimStrings>

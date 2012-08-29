@@ -1,1 +1,0 @@
-phet-credits software-development=Ron LeMaster, John Blanco design-team=Wendy Adams, Kelly Lancaster, Trish Loeblein, Robert Parson, Kathy Perkins, Carl Wieman interviews=Wendy Adams, Danielle Harlow, Kelly Lancaster

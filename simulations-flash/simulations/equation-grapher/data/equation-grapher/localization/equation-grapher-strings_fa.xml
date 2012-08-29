@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_fa.xml created Tue Oct 19 22:11:01 IRST 2010 using: equation-grapher 2.01.00 (37298), translation-utility 2.09.00 (44031) Sep 14, 2010-->
-<SimStrings>
-<string key="showYEq" value="y= ? نشان دهيد"/>
-<string key="erase" value="پاک کردن"/>
-<string key="save" value="ذخيره کردن"/>
-<string key="zero" value="صفر کردن "/>
-<string key="simTitle" value="نمودار معادله درجه دوم"/>
-</SimStrings>

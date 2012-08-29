@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_ja.xml created Tue Sep 07 16:45:53 JST 2010 using: calculus-grapher 2.02.00 (34696), translation-utility 2.08.00 (39581) 4 2, 2010-->
-<SimStrings>
-<string key="simDescription" value="微分積分をグラフで表現する"/>
-<string key="smooth" value="平滑化"/>
-<string key="undo" value="取消"/>
-<string key="zero" value="リセット"/>
-<string key="simTitle" value="微分積分グラフCalculus Grapher)"/>
-</SimStrings>

@@ -1,1 +1,0 @@
-Some game-related components that we generalized from other sims.

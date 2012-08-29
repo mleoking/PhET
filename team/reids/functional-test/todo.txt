@@ -1,4 +1,0 @@
-Circles bouncing around the screen
-Mouse can click and drag them
-Selected one gets highlighted
-x-y coordinates of the selected circle

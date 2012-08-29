@@ -1,1 +1,0 @@
-phet-credits lead-design=Noah Podolefsky software-development=John Blanco design-team=Noah Podolefsky, John Blanco, Katherine Perkins interviews=Noah Podolefsky

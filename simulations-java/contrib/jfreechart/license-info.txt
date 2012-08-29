@@ -1,1 +1,0 @@
-jfreechart license=LGPL licensefile=licence-LGPL.txt notes=lib/ contains several JARs not used by phet, jcommon.jar and jfreechart.jar have license as indicated description=a free Java chart library name=JFreeChart copyright=JFree.org website=http://www.jfree.org
