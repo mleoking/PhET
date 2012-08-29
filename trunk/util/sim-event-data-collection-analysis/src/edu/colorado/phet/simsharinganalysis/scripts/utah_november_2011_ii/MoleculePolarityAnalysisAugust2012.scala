@@ -120,8 +120,11 @@ object NewParser {
                                p.component != "window" &&
                                p.toString != "Three Atoms: mouse" &&
                                p.toString != "Two Atoms: mouse" &&
-                               p.toString != "Three Atoms: radioButton: off" &&
-                               p.toString.startsWith(tabNames(2)))
+                               p.toString != "Three Atoms: radioButton: off"
+
+                          //Uncomment this line to make a plot for just the last tab
+                          //                               && p.toString.startsWith(tabNames(2))
+    )
   }
 
   val tabNames = "Two Atoms" :: "Three Atoms" :: "Real Molecules" :: Nil
@@ -221,7 +224,9 @@ object NewParser {
     println("Session\tActions Not Used")
     for ( log <- logs.sortBy(_.id) ) {
       val unusedComponents = componentSet -- getUsedComponents(getStates(log), e => true)
-      println(log.sessionID + "\t" + unusedComponents.toList.sortBy(_.toString).mkString(", "))
+      println(log.id + "\t" + unusedComponents.toList.sortBy(_.toString).mkString(", "))
     }
+
+    componentSet.foreach(println)
   }
 }
