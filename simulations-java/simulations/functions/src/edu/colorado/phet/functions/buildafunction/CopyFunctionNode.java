@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.functions.buildafunction.Constants.*;
+import static edu.colorado.phet.functions.buildafunction.InputOutputShapes.getRightSide;
 
 /**
  * @author Sam Reid
@@ -29,9 +30,9 @@ public class CopyFunctionNode extends PNode {
         final RoundRectangle2D.Double bodyRect = new RoundRectangle2D.Double( 0, 0, bodyDimension.width, bodyDimension.height * 2 + inset, 20, 20 );
         Area a = new Area( bodyRect );
         final double maxX = a.getBounds2D().getMaxX();
-        a.add( InputOutputShapes.getRightSide( type, Vector2D.v( maxX, a.getBounds2D().getCenterY() + Constants.bodyDimension.height * 0.5 ) ) );
-        a.add( InputOutputShapes.getRightSide( type, Vector2D.v( maxX, a.getBounds2D().getCenterY() - Constants.bodyDimension.height * 0.5 ) ) );
-        a.subtract( InputOutputShapes.getRightSide( type, Vector2D.v( a.getBounds2D().getX(), a.getBounds2D().getCenterY() ) ) );
+        a.add( getRightSide( type, Vector2D.v( maxX, a.getBounds2D().getCenterY() + Constants.bodyDimension.height * 0.5 ) ) );
+        a.add( getRightSide( type, Vector2D.v( maxX, a.getBounds2D().getCenterY() - Constants.bodyDimension.height * 0.5 ) ) );
+        a.subtract( getRightSide( type, Vector2D.v( a.getBounds2D().getX(), a.getBounds2D().getCenterY() ) ) );
 
         addChild( new PhetPPath( a, functionColor.get(), new BasicStroke( 1 ), Color.black ) {{
             functionColor.addObserver( new VoidFunction1<Color>() {
