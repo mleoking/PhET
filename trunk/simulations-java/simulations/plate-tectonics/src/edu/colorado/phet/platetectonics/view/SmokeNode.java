@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.lwjgl.BufferUtils;
 
+import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -14,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateTectonicsModel;
@@ -97,8 +97,8 @@ public class SmokeNode extends GLNode {
                 public void update() {
                     Vector3F viewCoordinates = modelViewTransform.transformPosition(
                             PlateTectonicsModel.convertToRadial( puff.position.get() ) );
-                    transform.set( ImmutableMatrix4F.translation( viewCoordinates.x, viewCoordinates.y, viewCoordinates.z ).times(
-                            ImmutableMatrix4F.scaling( puff.scale.get() ) ) );
+                    transform.set( Matrix4F.translation( viewCoordinates.x, viewCoordinates.y, viewCoordinates.z ).times(
+                            Matrix4F.scaling( puff.scale.get() ) ) );
                 }
             };
 

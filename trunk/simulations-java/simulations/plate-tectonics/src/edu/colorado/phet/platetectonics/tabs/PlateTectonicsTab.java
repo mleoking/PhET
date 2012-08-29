@@ -14,6 +14,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
+import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.PlaneF;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -35,7 +36,6 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
@@ -152,7 +152,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         super( canvas, title );
 
         // TODO: better initialization for this model view transform (for each module)
-        modelViewTransform = new LWJGLTransform( ImmutableMatrix4F.scaling( kilometerScale / 1000 ) );
+        modelViewTransform = new LWJGLTransform( Matrix4F.scaling( kilometerScale / 1000 ) );
 
         // commented out code made for picking transformation matrices by using in-sim "flying" controls
         // if we want to slightly change the initial angle of view, this code will be extremely helpful
@@ -239,11 +239,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                             int dx = Mouse.getEventDX();
                             if ( Mouse.isButtonDown( 0 ) ) {
                                 int dy = Mouse.getEventDY();
-                                debugCameraTransform.prepend( ImmutableMatrix4F.rotationY( (float) dx / 100 ) );
-                                debugCameraTransform.prepend( ImmutableMatrix4F.rotationX( (float) -dy / 100 ) );
+                                debugCameraTransform.prepend( Matrix4F.rotationY( (float) dx / 100 ) );
+                                debugCameraTransform.prepend( Matrix4F.rotationX( (float) -dy / 100 ) );
                             }
                             else if ( Mouse.isButtonDown( 1 ) ) {
-                                debugCameraTransform.prepend( ImmutableMatrix4F.rotationZ( (float) dx / 100 ) );
+                                debugCameraTransform.prepend( Matrix4F.rotationZ( (float) dx / 100 ) );
                             }
                         }
                     }
@@ -264,16 +264,16 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                 new UpdateListener() {
                     public void update() {
                         if ( Keyboard.isKeyDown( Keyboard.KEY_W ) ) {
-                            debugCameraTransform.prepend( ImmutableMatrix4F.translation( 0, 0, 1 ) );
+                            debugCameraTransform.prepend( Matrix4F.translation( 0, 0, 1 ) );
                         }
                         if ( Keyboard.isKeyDown( Keyboard.KEY_S ) ) {
-                            debugCameraTransform.prepend( ImmutableMatrix4F.translation( 0, 0, -1 ) );
+                            debugCameraTransform.prepend( Matrix4F.translation( 0, 0, -1 ) );
                         }
                         if ( Keyboard.isKeyDown( Keyboard.KEY_A ) ) {
-                            debugCameraTransform.prepend( ImmutableMatrix4F.translation( 1, 0, 0 ) );
+                            debugCameraTransform.prepend( Matrix4F.translation( 1, 0, 0 ) );
                         }
                         if ( Keyboard.isKeyDown( Keyboard.KEY_D ) ) {
-                            debugCameraTransform.prepend( ImmutableMatrix4F.translation( -1, 0, 0 ) );
+                            debugCameraTransform.prepend( Matrix4F.translation( -1, 0, 0 ) );
                         }
                     }
                 }, false );
@@ -382,9 +382,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     final float initialX = mousePosition.x - initialMouseOffset.x;
                     final float initialY = mousePosition.y - initialMouseOffset.y;
                     ruler.draggedPosition = new Vector2F( initialX, initialY );
-                    ruler.transform.prepend( ImmutableMatrix4F.translation( initialX,
-                                                                            initialY,
-                                                                            RULER_Z ) );
+                    ruler.transform.prepend( Matrix4F.translation( initialX,
+                                                                   initialY,
+                                                                   RULER_Z ) );
                     toolDragHandler.startDragging( ruler, mousePosition );
                 }
             }
@@ -406,9 +406,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     final float initialX = mousePosition.x - initialMouseOffset.x;
                     final float initialY = mousePosition.y - initialMouseOffset.y;
                     thermometer.draggedPosition = new Vector2F( initialX, initialY );
-                    thermometer.transform.prepend( ImmutableMatrix4F.translation( initialX,
-                                                                                  initialY,
-                                                                                  THERMOMETER_Z ) );
+                    thermometer.transform.prepend( Matrix4F.translation( initialX,
+                                                                         initialY,
+                                                                         THERMOMETER_Z ) );
 
                     toolDragHandler.startDragging( thermometer, mousePosition );
                 }
@@ -431,9 +431,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     final float initialX = mousePosition.x - initialMouseOffset.x;
                     final float initialY = mousePosition.y - initialMouseOffset.y;
                     sensorNode.draggedPosition = new Vector2F( initialX, initialY );
-                    sensorNode.transform.prepend( ImmutableMatrix4F.translation( initialX,
-                                                                                 initialY,
-                                                                                 DENSITY_SENSOR_Z ) );
+                    sensorNode.transform.prepend( Matrix4F.translation( initialX,
+                                                                        initialY,
+                                                                        DENSITY_SENSOR_Z ) );
 
                     toolDragHandler.startDragging( sensorNode, mousePosition );
                 }
@@ -573,11 +573,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         sceneModelViewTransform.apply();
     }
 
-    public ImmutableMatrix4F getSceneProjectionMatrix() {
+    public Matrix4F getSceneProjectionMatrix() {
         // NOTE: keep for reference, however the stage centering in this case is being done (for now) exclusively by using the fieldOfViewYFactor
 //        AffineTransform affineCanvasTransform = canvasTransform.transform.get();
 //
-//        ImmutableMatrix4F scalingMatrix = ImmutableMatrix4F.scaling(
+//        Matrix4F scalingMatrix = Matrix4F.scaling(
 //                (float) affineCanvasTransform.getScaleX(),
 //                (float) affineCanvasTransform.getScaleY(),
 //                1 );
@@ -586,7 +586,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         float fieldOfViewRadians = (float) ( fieldOfViewDegrees / 180f * Math.PI );
         float correctedFieldOfViewRadians = (float) Math.atan( canvasTransform.getFieldOfViewYFactor() * Math.tan( fieldOfViewRadians ) );
 
-        ImmutableMatrix4F perspectiveMatrix = getGluPerspective( correctedFieldOfViewRadians,
+        Matrix4F perspectiveMatrix = getGluPerspective( correctedFieldOfViewRadians,
                                                                  (float) canvasSize.get().width / (float) canvasSize.get().height,
                                                                  nearPlane, farPlane );
         return perspectiveMatrix;
@@ -600,7 +600,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     // compute the camera position, essentially
-    public ImmutableMatrix4F getSceneModelViewMatrix() {
+    public Matrix4F getSceneModelViewMatrix() {
         // min == close up
         // max == far away
 
@@ -614,8 +614,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         float ratio = getEffectiveZoomRatio();
         float angle = minAngle + ratio * ( maxAngle - minAngle );
         return debugCameraTransform.getMatrix()
-                .times( ImmutableMatrix4F.rotation( X_UNIT, angle / 180f * (float) Math.PI ) )
-                .times( ImmutableMatrix4F.translation( 0, minY + ratio * ratio * ( maxY - minY ), minZ + ratio * ( maxZ - minZ ) ) );
+                .times( Matrix4F.rotation( X_UNIT, angle / 180f * (float) Math.PI ) )
+                .times( Matrix4F.translation( 0, minY + ratio * ratio * ( maxY - minY ), minZ + ratio * ( maxZ - minZ ) ) );
     }
 
     // nonlinear function for nice zoom effect
@@ -625,13 +625,13 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     // the GLUT perspective function did not allow the proper FOV options that we needed, so here is an equivalent version that is simpler
-    public ImmutableMatrix4F getGluPerspective( float fovYRadians, float aspect, float zNear, float zFar ) {
+    public Matrix4F getGluPerspective( float fovYRadians, float aspect, float zNear, float zFar ) {
         float cotangent = (float) Math.cos( fovYRadians ) / (float) Math.sin( fovYRadians );
 
-        return ImmutableMatrix4F.rowMajor( cotangent / aspect, 0, 0, 0,
-                                           0, cotangent, 0, 0,
-                                           0, 0, ( zFar + zNear ) / ( zNear - zFar ), ( 2 * zFar * zNear ) / ( zNear - zFar ),
-                                           0, 0, -1, 0 );
+        return Matrix4F.rowMajor( cotangent / aspect, 0, 0, 0,
+                                  0, cotangent, 0, 0,
+                                  0, 0, ( zFar + zNear ) / ( zNear - zFar ), ( 2 * zFar * zNear ) / ( zNear - zFar ),
+                                  0, 0, -1, 0 );
     }
 
     // in view coordinates
@@ -832,7 +832,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
     public void resetAll() {
         zoomRatio.reset();
-        debugCameraTransform.set( ImmutableMatrix4F.IDENTITY );
+        debugCameraTransform.set( Matrix4F.IDENTITY );
         model.resetAll();
         colorMode.reset();
 

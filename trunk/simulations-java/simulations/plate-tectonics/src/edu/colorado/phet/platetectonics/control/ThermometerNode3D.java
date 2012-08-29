@@ -5,6 +5,7 @@ import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
@@ -18,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
@@ -78,10 +78,10 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
 //        scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
         tab.zoomRatio.addObserver( new MortalSimpleObserver( tab.zoomRatio, disposed ) {
             public void update() {
-                final ImmutableMatrix4F scaling = ImmutableMatrix4F.scaling( getScale() );
-                final ImmutableMatrix4F translation = ImmutableMatrix4F.translation( draggedPosition.x,
-                                                                                     draggedPosition.y - sensorVerticalOffset * getScale() * scaleMultiplier( tab ),
-                                                                                     0 );
+                final Matrix4F scaling = Matrix4F.scaling( getScale() );
+                final Matrix4F translation = Matrix4F.translation( draggedPosition.x,
+                                                                   draggedPosition.y - sensorVerticalOffset * getScale() * scaleMultiplier( tab ),
+                                                                   0 );
                 transform.set( translation.times( scaling ) );
 
                 ( (LiquidExpansionThermometerNode) getNode() ).setTicks( 10 / getTemperatureScale(), Color.BLACK, 1 );
@@ -115,7 +115,7 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
     }
 
     public void dragDelta( Vector2F delta ) {
-        this.transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
+        this.transform.prepend( Matrix4F.translation( delta.x, delta.y, 0 ) );
         draggedPosition = draggedPosition.plus( delta );
         final double temp = getTemperatureValue();
         updateLiquidHeight( temp );

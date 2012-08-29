@@ -4,11 +4,11 @@ package edu.colorado.phet.lwjglphet.nodes;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.materials.GLMaterial;
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -299,19 +299,19 @@ public class GLNode {
     }
 
     public void translate( float x, float y, float z ) {
-        transform.append( ImmutableMatrix4F.translation( x, y, z ) );
+        transform.append( Matrix4F.translation( x, y, z ) );
     }
 
     public void scale( float x, float y, float z ) {
-        transform.append( ImmutableMatrix4F.scaling( x, y, z ) );
+        transform.append( Matrix4F.scaling( x, y, z ) );
     }
 
     public void scale( float s ) {
-        transform.append( ImmutableMatrix4F.scaling( s ) );
+        transform.append( Matrix4F.scaling( s ) );
     }
 
     public void rotate( Vector3F axis, float angle ) {
-        transform.append( ImmutableMatrix4F.rotation( axis, angle ) );
+        transform.append( Matrix4F.rotation( axis, angle ) );
     }
 
     public GLNode getParent() {
@@ -347,7 +347,7 @@ public class GLNode {
      * @return The combined transform from the ancestor to this GLNode, INCLUDING the transform of this node and the ancestor
      */
     public LWJGLTransform getTransformRelativeTo( GLNode ancestor ) {
-        ImmutableMatrix4F matrix = transform.getMatrix();
+        Matrix4F matrix = transform.getMatrix();
 
         // walk up the tree
         GLNode node = this;

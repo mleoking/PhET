@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view.labels;
 
+import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.GLOptions;
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
@@ -64,10 +64,10 @@ public class TextLabelNode extends BaseLabelNode {
         super.renderSelf( options );
 
         Vector3F labelLocation = modelViewTransform.transformPosition( PlateTectonicsModel.convertToRadial( textLabel.centerPosition.get() ) );
-        labelNode.transform.set( ImmutableMatrix4F.translation( labelLocation.x, labelLocation.y, labelLocation.z ) );
-        labelNode.transform.append( ImmutableMatrix4F.scaling( LABEL_SCALE * scale.get() ) );
-        labelNode.transform.append( ImmutableMatrix4F.translation( -labelNode.getComponentWidth() / 2,
-                                                                   -labelNode.getComponentHeight() / 2,
-                                                                   0 ) );
+        labelNode.transform.set( Matrix4F.translation( labelLocation.x, labelLocation.y, labelLocation.z ) );
+        labelNode.transform.append( Matrix4F.scaling( LABEL_SCALE * scale.get() ) );
+        labelNode.transform.append( Matrix4F.translation( -labelNode.getComponentWidth() / 2,
+                                                          -labelNode.getComponentHeight() / 2,
+                                                          0 ) );
     }
 }
