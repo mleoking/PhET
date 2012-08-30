@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.energysystems.model.Cloud;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.Sun;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -38,6 +39,8 @@ public class SunNode extends PositionableFadableModelElementNode {
 
     public SunNode( final Sun sun, final ModelViewTransform mvt ) {
         super( sun, mvt );
+
+        // Add the sun.
         final double radius = mvt.modelToViewDeltaX( Sun.RADIUS );
         PNode sunNode = new PhetPPath( new Ellipse2D.Double( -radius, -radius, radius * 2, radius * 2 ) ) {{
             setOffset( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ).toPoint2D() );
@@ -45,9 +48,16 @@ public class SunNode extends PositionableFadableModelElementNode {
             setStroke( new BasicStroke( 1 ) );
             setStrokePaint( Color.YELLOW );
         }};
+
+        // Add the rays of sunlight.
         final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius, 450, 40, Color.YELLOW );
         addChild( lightRays );
         addChild( sunNode );
+
+        // Add the clouds.
+        for ( Cloud cloud : sun.clouds ) {
+            addChild( new CloudNode( cloud, mvt ) );
+        }
 
         // Add the control panel for the clouds.
         PNode cloudIcon = new PImage( EnergyFormsAndChangesResources.Images.CLOUD_1 ) {{

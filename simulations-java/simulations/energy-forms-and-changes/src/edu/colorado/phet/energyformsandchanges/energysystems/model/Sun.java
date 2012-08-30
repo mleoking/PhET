@@ -10,7 +10,8 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 
 /**
- * Class that represents the sun (as an energy source) in the model.
+ * Class that represents the sun (as an energy source) in the model.  This
+ * includes the clouds that can block the sun's rays.
  *
  * @author John Blanco
  */
@@ -18,6 +19,13 @@ public class Sun extends EnergySource {
 
     public static final double RADIUS = 0.02; // In meters, apparent size, not (obviously) actual size.
     public static final Vector2D OFFSET_TO_CENTER_OF_SUN = new Vector2D( -0.05, 0.12 );
+
+    // Clouds that can potentially block the sun's rays.
+    public final List<Cloud> clouds = new ArrayList<Cloud>() {{
+        add( new Cloud( new Vector2D( 0.0, 0.085 ) ) );
+        add( new Cloud( new Vector2D( 0.01, 0.1 ) ) );
+        add( new Cloud( new Vector2D( -0.02, 0.07 ) ) );
+    }};
 
     // Energy production per square meter of the Earth's surface.
     private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
