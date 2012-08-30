@@ -22,7 +22,8 @@ public class BuildAFunctionCanvas extends ChallengeProgressionCanvas {
         addChild( scene );
     }
 
-    @Override protected void nextButtonPressed() {
+    @Override protected int getLevelCount() {
+        return 0;
     }
 
     @Override protected void finishAnimation( final PNode newScene ) {

@@ -23,7 +23,7 @@ public abstract class ChallengeProgressionCanvas extends AbstractFunctionsCanvas
     protected final HTMLImageButtonNode nextButton;
     public final IntegerProperty level = new IntegerProperty( 0 );
 
-    private static final boolean dev = true;
+    private static final boolean dev = false;
 
     public ChallengeProgressionCanvas() {
         setBackground( BuildAFunctionCanvas.BACKGROUND_COLOR );
@@ -43,12 +43,7 @@ public abstract class ChallengeProgressionCanvas extends AbstractFunctionsCanvas
         }};
         nextButton.addActionListener( new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
-                level.increment();
-                Integer level = ChallengeProgressionCanvas.this.level.get();
-                if ( level >= Scenes.introScenes.length() ) {
-                    level = Scenes.introScenes.length() - 1;
-                }
-                nextButtonPressed();
+                if ( level.get() < getLevelCount() - 1 ) { level.increment(); }
             }
         } );
         addChild( nextButton );
@@ -57,7 +52,7 @@ public abstract class ChallengeProgressionCanvas extends AbstractFunctionsCanvas
         }
     }
 
-    protected abstract void nextButtonPressed();
+    protected abstract int getLevelCount();
 
     public void showNextButton() {
         nextButton.setVisible( true );
