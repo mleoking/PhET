@@ -9,13 +9,13 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel;
+import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel.Element;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.MixedFractionNode;
 import edu.colorado.phet.fractions.common.view.Colors;
-import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel;
-import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;

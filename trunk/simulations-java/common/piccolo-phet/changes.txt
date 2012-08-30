@@ -1,3 +1,4 @@
+8/29/12 Moved SettingsOnOffPanel and dependencies from fractions-intro to piccolo-phet
 8/27/12 Added constructor args to FaceNode for head stroke and head stroke paint
 8/27/12 Made FaceNode.headNode a public final field
 8/10/12 Added SimSharingCanvasBoundedDragHandler and deprecated CanvasBoundedDragHandler
