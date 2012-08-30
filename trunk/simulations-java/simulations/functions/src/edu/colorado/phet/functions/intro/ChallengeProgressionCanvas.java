@@ -69,6 +69,10 @@ public abstract class ChallengeProgressionCanvas extends AbstractFunctionsCanvas
 
     protected abstract int getLevelCount();
 
+    public void showNextButton() {
+        nextButton.setVisible( true );
+    }
+
     protected void animateToNewScene( final PNode newScene ) {
         if ( !dev ) {
             nextButton.setVisible( false );
