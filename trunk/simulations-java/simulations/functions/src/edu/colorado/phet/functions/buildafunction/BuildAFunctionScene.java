@@ -1,6 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.functions.buildafunction;
 
+import fj.P2;
+import fj.data.List;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 
@@ -32,18 +35,21 @@ public class BuildAFunctionScene extends PNode {
         addChild( new TwoInputFunctionNode( "-", true, Type.NUMBER, 662.9054652880341, 538.8774002954215 ) {{setScale( 0.5 );}} );
         addChild( new CopyFunctionNode( Type.NUMBER, 787.4549483013308, 542.895125553915 ) {{setScale( 0.5 );}} );
 
-        for ( int i = 0; i < 3; i++ ) {
-            final int finalI = i;
-            addChild( new ValueNode( new ValueContext() {
-                public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
-                    valueNode.translate( delta.width, delta.height );
-                }
+        List<Integer> cardValues = List.list( 1, 2, 3 );
+        for ( final P2<Integer, Integer> cardValue : cardValues.zipIndex() ) {
+            for ( int i = 0; i < 3; i++ ) {
+                final int finalI = i;
+                addChild( new ValueNode( new ValueContext() {
+                    public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
+                        valueNode.translate( delta.width, delta.height );
+                    }
 
-                public void mouseReleased( final ValueNode valueNode ) {
-                }
-            }, 3, new BasicStroke(), Color.white, Color.black, Color.black ) {{
-                setOffset( 55.24372230428363 - 3 * finalI, 280.23633677991086 - 3 * finalI );
-            }} );
+                    public void mouseReleased( final ValueNode valueNode ) {
+                    }
+                }, cardValue._1(), new BasicStroke(), Color.white, Color.black, Color.black ) {{
+                    setOffset( 55.24372230428363 - 3 * finalI, 280.23633677991086 - 3 * finalI + cardValue._2() * 100 - 100 );
+                }} );
+            }
         }
 
         final TableNode tableNode = new TableNode() {{
