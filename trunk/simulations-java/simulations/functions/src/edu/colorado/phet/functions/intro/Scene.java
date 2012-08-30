@@ -132,7 +132,7 @@ public class Scene extends PNode implements ValueContext {
         ArrayList<ValueNode> valueNodes = new ArrayList<ValueNode>();
         for ( int i = 0; i < stackSize; i++ ) {
             ValueNode valueNode = f.f( Unit.unit() );
-            valueNode.setOffset( 84.37223042836038 + i * 3, 315.3914327917278 - i * 3 );
+            valueNode.setOffset( 84.37223042836038 - i * 3, 315.3914327917278 - i * 3 );
             valueNodes.add( valueNode );
         }
         return List.iterableList( valueNodes );
