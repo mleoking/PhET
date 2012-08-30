@@ -60,7 +60,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
         final EquationNode equationNode = new SlopeInterceptEquationFactory().createNode( lineFactory.withColor( model.challenge.get().answer, GameConstants.GIVEN_COLOR ),
                                                                                           GameConstants.EQUATION_FONT );
 
-        final GameGraphNode graphNode = new GameGraphNode( model.graph, model.challenge.get().guess, model.challenge.get().answer, model.mvt, lineFactory );
+        final GameGraphNode graphNode = new GameGraphNode( model.graph, model.challenge.get().guess, model.challenge.get().answer, model.challenge.get().mvt, lineFactory );
 
         final FaceNode faceNode = new FaceNode( GameConstants.FACE_DIAMETER, GameConstants.FACE_COLOR );
 
@@ -76,8 +76,8 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
 
         // Point tools
         Rectangle2D pointToolDragBounds = new Rectangle2D.Double( 0, 0, challengeSize.getWidth(), challengeSize.getHeight() );
-        PointToolNode pointToolNode1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
-        PointToolNode pointToolNode2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
+        PointToolNode pointToolNode1 = new PointToolNode( model.pointTool1, model.challenge.get().mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
+        PointToolNode pointToolNode2 = new PointToolNode( model.pointTool2, model.challenge.get().mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
 
         // non-interactive nodes
         {
@@ -207,7 +207,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
     }
 
     //TODO generalize and promote to top level
-    //TODO could SlopeInterceptGraphNode be generalize to handle this?
+    //TODO could SlopeInterceptGraphNode be generalized to handle this?
     private static class GameGraphNode extends GraphNode {
 
         private final SlopeInterceptLineNode answerNode;

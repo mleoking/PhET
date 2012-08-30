@@ -59,7 +59,8 @@ public class LineGameModel {
         NONE // use this value when game is not in the "play" phase
     }
 
-    public final ModelViewTransform mvt; // transform between model and view coordinate frames
+    private final ModelViewTransform mvtGraphTheLine, mvtMakeTheEquation;
+
     public final GameSettings settings;
     public final GameTimer timer;
     private final HashMap<Integer, Long> bestTimes; // best times, maps level to time in ms
@@ -88,7 +89,8 @@ public class LineGameModel {
     private LineGameModel( IntegerRange xRange, IntegerRange yRange ) {
 
         final double mvtScale = GRID_VIEW_UNITS / Math.max( xRange.getLength(), yRange.getLength() ); // view units / model units
-        this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 700, 300 ), mvtScale, -mvtScale ); // y is inverted
+        mvtGraphTheLine = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 700, 300 ), mvtScale, -mvtScale ); // graph on right, y inverted
+        mvtMakeTheEquation = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 200, 300 ), mvtScale, -mvtScale ); // graph on left, y inverted
 
         settings = new GameSettings( new IntegerRange( 1, 3 ), true /* soundEnabled */, true /* timerEnabled */ );
 
@@ -96,7 +98,7 @@ public class LineGameModel {
 
         graph = new Graph( xRange, yRange );
 
-        challenge = new Property<SlopeInterceptChallenge>( new SlopeInterceptChallenge( new SlopeInterceptLine( 1, 1, 1, Color.BLACK ) ) ); // initial value is meaningless
+        challenge = new Property<SlopeInterceptChallenge>( new SlopeInterceptChallenge( new SlopeInterceptLine( 1, 1, 1, Color.BLACK ), mvtGraphTheLine ) ); // initial value is meaningless
 
         allLines = new ObservableList<PointSlopeLine>(  );
         this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
@@ -183,11 +185,11 @@ public class LineGameModel {
     private void initChallenges() {
         //TODO create different types of challenges, randomized for level
         challengeIndex = 0;
-        challenges[0] = new SlopeInterceptChallenge( new SlopeInterceptLine( 4, 2, 3, GameConstants.GIVEN_COLOR ) );
-        challenges[1] = new SlopeInterceptChallenge( new SlopeInterceptLine( 5, 1, 1, GameConstants.GIVEN_COLOR ) );
-        challenges[2] = new SlopeInterceptChallenge( new SlopeInterceptLine( -3, 3, -2, GameConstants.GIVEN_COLOR ) );
-        challenges[3] = new SlopeInterceptChallenge( new SlopeInterceptLine( 10, 2, -6, GameConstants.GIVEN_COLOR ) );
-        challenges[4] = new SlopeInterceptChallenge( new SlopeInterceptLine( 0, 3, 2, GameConstants.GIVEN_COLOR ) );
+        challenges[0] = new SlopeInterceptChallenge( new SlopeInterceptLine( 4, 2, 3, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[1] = new SlopeInterceptChallenge( new SlopeInterceptLine( 5, 1, 1, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[2] = new SlopeInterceptChallenge( new SlopeInterceptLine( -3, 3, -2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[3] = new SlopeInterceptChallenge( new SlopeInterceptLine( 10, 2, -6, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[4] = new SlopeInterceptChallenge( new SlopeInterceptLine( 0, 3, 2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
     }
 
     public boolean isPerfectScore() {
