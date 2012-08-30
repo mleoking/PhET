@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractions.common.view;
+package edu.colorado.phet.common.piccolophet.nodes.controlpanel;
 
 import fj.F;
 import fj.P2;
@@ -10,6 +10,7 @@ import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -18,20 +19,16 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.fractions.fractionmatcher.view.PaddedIcon;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getString;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
-import static edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element.nodes;
-import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.off;
-import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.on;
+import static edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel.Element.nodes;
 
 /**
- * Shows nodes in a grid, for on/off for timer/sound.
+ * Shows nodes in a grid, for on/off for timer and/or sound and other features
  *
  * @author Sam Reid
  */
@@ -71,11 +68,11 @@ public class SettingsOnOffPanel extends PNode {
             element.on.addInputEventListener( new CursorHandler() );
             element.off.addInputEventListener( toggle );
             element.off.addInputEventListener( new CursorHandler() );
-            PNode offButton = new PSwing( new PropertyRadioButton<Boolean>( chain( element.component, off ), getString( "Games.radioButton.off" ), element.onProperty, false ) {{
+            PNode offButton = new PSwing( new PropertyRadioButton<Boolean>( UserComponentChain.chain( element.component, "off" ), getString( "Games.radioButton.off" ), element.onProperty, false ) {{
                 setFont( FONT );
                 setOpaque( false );
             }} );
-            PNode onButton = new PSwing( new PropertyRadioButton<Boolean>( chain( element.component, on ), getString( "Games.radioButton.on" ), element.onProperty, true ) {{
+            PNode onButton = new PSwing( new PropertyRadioButton<Boolean>( UserComponentChain.chain( element.component, "on" ), getString( "Games.radioButton.on" ), element.onProperty, true ) {{
                 setFont( FONT );
                 setOpaque( false );
             }} );

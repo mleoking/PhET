@@ -1,18 +1,27 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.functions.intro;
 
+import fj.data.List;
+
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel;
+import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel.Element;
 import edu.colorado.phet.functions.buildafunction.AbstractFunctionsCanvas;
 import edu.colorado.phet.functions.buildafunction.BuildAFunctionCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
+
+import static edu.colorado.phet.common.games.GameConstants.SOUND_ICON;
+import static edu.colorado.phet.common.games.GameConstants.SOUND_OFF_ICON;
 
 /**
  * @author Sam Reid
@@ -50,13 +59,15 @@ public abstract class ChallengeProgressionCanvas extends AbstractFunctionsCanvas
         if ( !dev ) {
             nextButton.setVisible( false );
         }
+
+        //Add the audio on/off panel
+        addChild( new SettingsOnOffPanel( List.list( new Element( new PImage( SOUND_OFF_ICON ),
+                                                                  new PImage( SOUND_ICON ), new BooleanProperty( true ), null ) ) ) {{
+            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, INSET );
+        }} );
     }
 
     protected abstract int getLevelCount();
-
-    public void showNextButton() {
-        nextButton.setVisible( true );
-    }
 
     protected void animateToNewScene( final PNode newScene ) {
         if ( !dev ) {

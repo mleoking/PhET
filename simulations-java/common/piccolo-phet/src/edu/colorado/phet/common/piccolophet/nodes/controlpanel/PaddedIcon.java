@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractions.fractionmatcher.view;
+package edu.colorado.phet.common.piccolophet.nodes.controlpanel;
 
+import fj.F;
 import fj.data.List;
 
 import java.awt.geom.Dimension2D;
@@ -11,8 +12,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fractions.common.view.FNode._fullHeight;
-import static edu.colorado.phet.fractions.common.view.FNode._fullWidth;
 import static fj.Ord.doubleOrd;
 
 /**
@@ -40,4 +39,17 @@ public class PaddedIcon extends PNode {
     public static Dimension2DDouble getMaxSize( final List<PNode> icons ) {
         return new Dimension2DDouble( icons.map( _fullWidth ).maximum( doubleOrd ), icons.map( _fullHeight ).maximum( doubleOrd ) );
     }
+
+    public static final F<PNode, Double> _fullWidth = new F<PNode, Double>() {
+        @Override public Double f( final PNode pnode ) {
+            return pnode.getFullBounds().getWidth();
+        }
+    };
+
+    public static final F<PNode, Double> _fullHeight = new F<PNode, Double>() {
+        @Override public Double f( final PNode pnode ) {
+            return pnode.getFullBounds().getHeight();
+        }
+    };
+
 }
