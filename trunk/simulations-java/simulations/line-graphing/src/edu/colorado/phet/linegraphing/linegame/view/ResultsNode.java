@@ -23,7 +23,7 @@ class ResultsNode extends PhetPNode {
 
     private RewardNode rewardNode;
 
-    public ResultsNode( final LineGameModel model, final Dimension2D stageSize, final PhetPCanvas canvas ) {
+    public ResultsNode( final LineGameModel model, final Dimension2D stageSize ) {
 
         // show results when we enter this phase
         model.phase.addObserver( new VoidFunction1<GamePhase>() {

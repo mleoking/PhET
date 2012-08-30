@@ -35,7 +35,7 @@ public class LineGameCanvas extends LGCanvas  {
         // parent nodes for various "phases" of the game
         settingsNode = new SettingsNode( model, getStageSize() );
         playNode = new PlayNode( model, getStageSize(), audioPlayer );
-        resultsNode = new ResultsNode( model, getStageSize(), this );
+        resultsNode = new ResultsNode( model, getStageSize() );
 
         // rendering order
         {
