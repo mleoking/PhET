@@ -62,5 +62,4 @@ public class IntroCanvas extends ChallengeProgressionCanvas implements ValueCont
     public void mouseReleased( final ValueNode valueNode ) {
         scene.mouseReleased( valueNode );
     }
-
 }
