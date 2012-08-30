@@ -1,3 +1,4 @@
+# 0.00.03 (67514) Aug 29, 2012
 Fixed shapes for multi-argument functions
 Added different input/output shapes for different types
 Center the representation bar at the top of the screen
