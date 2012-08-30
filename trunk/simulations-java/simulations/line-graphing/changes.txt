@@ -1,3 +1,4 @@
+8/30/12 change request: rename sim to "Graphing: Lines"
 8/30/12 encapsulate game results in GameResults
 8/30/12 remove unused constructor arg
 8/30/12 reset point tool locations when challenge changes

@@ -13,13 +13,13 @@ import edu.colorado.phet.linegraphing.pointslope.PointSlopeModule;
 import edu.colorado.phet.linegraphing.slopeintercept.SlopeInterceptModule;
 
 /**
- * The "Line Graphing" simulation.
+ * The "Graphing: Lines" simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LineGraphingApplication extends PiccoloPhetApplication {
+public class GraphingLinesApplication extends PiccoloPhetApplication {
 
-    public LineGraphingApplication( PhetApplicationConfig config ) {
+    public GraphingLinesApplication( PhetApplicationConfig config ) {
         super( config );
 
         addModule( new SlopeInterceptModule() );
@@ -32,6 +32,6 @@ public class LineGraphingApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, LGResources.PROJECT_NAME, LineGraphingApplication.class );
+        new PhetApplicationLauncher().launchSim( args, LGResources.PROJECT_NAME, GraphingLinesApplication.class );
     }
 }
