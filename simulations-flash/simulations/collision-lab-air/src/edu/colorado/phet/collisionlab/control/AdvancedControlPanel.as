@@ -26,7 +26,6 @@ public class AdvancedControlPanel extends ControlPanel {
         this.sub_twoD_rb.selected = true;
         this.sub_reflectingBorder_cb.selected = true;
         this.sub_showCM_cb.selected = false;
-        this.sub_showPaths_cb.selected = false;
         this.sub_showValues_cb.selected = false;
     }
 
@@ -45,9 +44,6 @@ public class AdvancedControlPanel extends ControlPanel {
             setBorderExists( e.target.selected );
         } );
 
-        this.sub_showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
-        this.sub_showPaths_cb.addEventListener( MouseEvent.CLICK, showOrErasePaths );
-
         this.sub_showValues_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showValues_cb.addEventListener( MouseEvent.CLICK, showValues );
     }
@@ -59,7 +55,6 @@ public class AdvancedControlPanel extends ControlPanel {
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.1d", "1 Dimension", sub_oneD_txt, sub_oneD_rb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.2d", "2 Dimensions", sub_twoD_txt, sub_twoD_rb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.reflectingBorder", "Reflecting Border", sub_reflectingBorder_label, sub_reflectingBorder_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showPaths", "Show Paths", sub_showPaths_label, sub_showPaths_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showValues", "Show Values", sub_showValues_label, sub_showValues_cb );
     }
 
@@ -81,8 +76,6 @@ public class AdvancedControlPanel extends ControlPanel {
 
     public function get sub_reflectingBorder_cb(): CheckBox { return reflectingBorder_cb; }
 
-    public function get sub_showPaths_cb(): CheckBox { return showPaths_cb; }
-
     override public function get sub_showMomenta_cb(): CheckBox { return showMomenta_cb; }
 
     override public function get sub_sound_cb(): CheckBox { return sound_cb; }
@@ -102,8 +95,6 @@ public class AdvancedControlPanel extends ControlPanel {
     public function get sub_reflectingBorder_label(): TextField { return reflectingBorder_label; }
 
     override public function get sub_showMomenta_label(): TextField { return showMomenta_label; }
-
-    public function get sub_showPaths_label(): TextField { return showPaths_label; }
 
     override public function get sub_sound_label(): TextField { return sound_label; }
 
