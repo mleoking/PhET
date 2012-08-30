@@ -161,7 +161,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
                     equationNode.setPaintDeep( GameConstants.CORRECT_ANSWER_COLOR );
                     model.challenge.get().guess.set( lineFactory.withColor( model.challenge.get().guess.get(), GameConstants.CORRECT_ANSWER_COLOR ) );
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
-                    model.score.set( model.score.get() + points );
+                    model.results.score.set( model.results.score.get() + points );
                     pointsNode.setText( MessageFormat.format( Strings.POINTS_AWARDED, String.valueOf( points ) ) );
                     // center points below face
                     pointsNode.setOffset( faceNode.getFullBoundsReference().getCenterX() - ( pointsNode.getFullBoundsReference().getWidth() / 2 ),

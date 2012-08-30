@@ -3,7 +3,6 @@ package edu.colorado.phet.linegraphing.linegame.model;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.util.HashMap;
 
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.games.GameTimer;
@@ -36,6 +35,7 @@ public class LineGameModel {
     private static final int GRID_VIEW_UNITS = 400; // max dimension (width or height) of the grid in the view
     private static final int CHALLENGES_PER_GAME = 5;
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
+    private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3 );
 
     // phases of a game, mutually exclusive
     public enum GamePhase {
@@ -63,9 +63,7 @@ public class LineGameModel {
 
     public final GameSettings settings;
     public final GameTimer timer;
-    private final HashMap<Integer, Long> bestTimes; // best times, maps level to time in ms
-    private boolean isNewBestTime; // is the time for this game a new best time?
-    public final Property<Integer> score; // how many points the user has earned for the current game
+    public final GameResults results;
     public final Property<GamePhase> phase;
     public final Property<PlayState> state;
 
@@ -92,9 +90,9 @@ public class LineGameModel {
         mvtGraphTheLine = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 700, 300 ), mvtScale, -mvtScale ); // graph on right, y inverted
         mvtMakeTheEquation = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 200, 300 ), mvtScale, -mvtScale ); // graph on left, y inverted
 
-        settings = new GameSettings( new IntegerRange( 1, 3 ), true /* soundEnabled */, true /* timerEnabled */ );
-
-        score = new Property<Integer>( 0 );
+        settings = new GameSettings( LEVELS_RANGE, true /* soundEnabled */, true /* timerEnabled */ );
+        timer = new GameTimer();
+        results = new GameResults( LEVELS_RANGE );
 
         graph = new Graph( xRange, yRange );
 
@@ -103,13 +101,6 @@ public class LineGameModel {
         allLines = new ObservableList<PointSlopeLine>(  );
         this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
         this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ), Orientation.DOWN, allLines );
-
-        // time
-        timer = new GameTimer();
-        bestTimes = new HashMap<Integer, Long>();
-        for ( int i = settings.level.getMin(); i <= settings.level.getMax(); i++ ) {
-            bestTimes.put( i, 0L );
-        }
 
         phase = new Property<GamePhase>( GamePhase.SETTINGS ) {
 
@@ -196,7 +187,7 @@ public class LineGameModel {
     }
 
     public boolean isPerfectScore() {
-        return score.get() == getPerfectScore();
+        return results.score.get() == getPerfectScore();
     }
 
     // Gets the number of points in a perfect score (ie, correct answers for all challenges on the first try)
@@ -204,39 +195,11 @@ public class LineGameModel {
        return CHALLENGES_PER_GAME * computePoints( 1 );
     }
 
-    /**
-     * Gets the best time for a specified level.
-     * If this returns zero, then there is no best time for the level.
-     *
-     * @param level
-     * @return
-     */
-    public long getBestTime( int level ) {
-        Long bestTime = bestTimes.get( level );
-        if ( bestTime == null ) {
-            bestTime = 0L;
-        }
-        return bestTime;
-    }
-
-    public boolean isNewBestTime() {
-        return isNewBestTime;
-    }
-
-    // Updates the best time for the current level, at the end of a game with a perfect score.
+    // Updates the best time for the current level, at the end of a timed game with a perfect score.
     private void updateBestTime() {
         assert( !timer.isRunning() );
-        if ( settings.timerEnabled.get() && score.get() == getPerfectScore() ) {
-            isNewBestTime = false;
-            if ( bestTimes.get( settings.level.get() ) == 0 ) {
-                // there was no previous time for this level
-                bestTimes.put( settings.level.get(), timer.time.get() );
-            }
-            else if ( timer.time.get() < bestTimes.get( settings.level.get() ) ) {
-                // we have a new best time for this level
-                bestTimes.put( settings.level.get(), timer.time.get() );
-                isNewBestTime = true;
-            }
+        if ( settings.timerEnabled.get() && results.score.get() == getPerfectScore() ) {
+            results.updateBestTime( settings.level.get(), timer.time.get() );
         }
     }
 

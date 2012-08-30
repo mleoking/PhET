@@ -47,9 +47,9 @@ class PlayNode extends PhetPNode {
         } );
 
         // points on the scoreboard
-        model.score.addObserver( new SimpleObserver() {
+        model.results.score.addObserver( new SimpleObserver() {
             public void update() {
-                scoreboardNode.setScore( model.score.get() );
+                scoreboardNode.setScore( model.results.score.get() );
             }
         } );
 
@@ -63,7 +63,7 @@ class PlayNode extends PhetPNode {
         // timer
         model.timer.time.addObserver( new VoidFunction1<Long>() {
             public void apply( Long t ) {
-                scoreboardNode.setTime( t, model.getBestTime( model.settings.level.get() ) );
+                scoreboardNode.setTime( t, model.results.getBestTime( model.settings.level.get() ) );
             }
         } );
 
