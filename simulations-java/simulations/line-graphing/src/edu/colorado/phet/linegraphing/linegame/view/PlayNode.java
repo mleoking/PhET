@@ -68,7 +68,7 @@ class PlayNode extends PhetPNode {
         } );
 
         // Set up a new challenge
-        model.challenge.addObserver( new VoidFunction1<SlopeInterceptChallenge>() {
+        model.challenge.addObserver( new VoidFunction1<SlopeInterceptChallenge>() {  //TODO use generics
             public void apply( SlopeInterceptChallenge challenge ) {
                 challengeParent.removeAllChildren();
                 //TODO type of challenge will vary
