@@ -1,3 +1,4 @@
+Added spacing between rows in the "Data Table" area (more room for sliders)
 Removed "Show Paths" feature
 Increased hit-boxes around the slider knobs
 Increased hit-boxes around play/restart/step/back buttons, balls, and their velocity targets

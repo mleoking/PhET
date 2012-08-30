@@ -26,6 +26,7 @@ public class DataTable extends Sprite {
     private var colWidth: int;			//width of column in pix
     private const ballColWidth: int = 60;
     private static const rowHeight: int = 27;			//height of row in pix
+    private static const rowPadding: int = 11; // padding between rows in the data table
 
     private var myModel: Model;
     private var myMainView: MainView;
@@ -78,7 +79,7 @@ public class DataTable extends Sprite {
         tFormat.align = TextFormatAlign.CENTER;
 
         //create textfields for full data table and mass sliders for partial data table
-        for ( var row: int = 0; row < maxRows; row++ ) {  //header row + row for each ball
+        for ( var row: int = 0 ; row < maxRows ; row++ ) {  //header row + row for each ball
             rowCanvas_arr[row] = new Sprite();
             text_arr[row] = new Array( nbrColumns );
             if ( row > headerRowNbr ) {
@@ -89,7 +90,7 @@ public class DataTable extends Sprite {
                 massSlider_arr[ballNum].name = ballNum; //label slider with ball number: 0, 1, ..
                 setupSlider( this.massSlider_arr[ballNum] );
             }
-            for ( var col: int = 0; col < nbrColumns; col++ ) {
+            for ( var col: int = 0 ; col < nbrColumns ; col++ ) {
                 text_arr[row][col] = new TextField();
                 text_arr[row][col].defaultTextFormat = tFormat;
                 text_arr[row][col].name = row;  //label textfield with ball number
@@ -128,7 +129,7 @@ public class DataTable extends Sprite {
         myMainView.addChild( this );
 
         //layout textFields in full data table
-        for ( var row: int = 0; row < maxRows; row++ ) {
+        for ( var row: int = 0 ; row < maxRows ; row++ ) {
             canvas.addChild( rowCanvas_arr[row] );
 
             var ballBackground: Sprite = new Sprite();
@@ -148,7 +149,7 @@ public class DataTable extends Sprite {
                 rowCanvas_arr[row].addChild( ballBackground );
             }
 
-            for ( var col: int = 0; col < nbrColumns; col++ ) {
+            for ( var col: int = 0 ; col < nbrColumns ; col++ ) {
                 if ( row >= headerOffset && col == 0 ) {
                     // outline all ball numbers
                     var glow: GlowFilter = new GlowFilter( 0x000000, 1.0, 2.0, 2.0, 10 );
@@ -157,7 +158,7 @@ public class DataTable extends Sprite {
                     text_arr[row][col].filters = [glow];
                 }
                 rowCanvas_arr[row].addChild( text_arr[row][col] );
-                rowCanvas_arr[row].y = row * rowHeight - 5;
+                rowCanvas_arr[row].y = row * (rowHeight + rowPadding) - 5;
                 if ( row == 0 ) {
                     rowCanvas_arr[row].y = 5;
                 }
@@ -249,13 +250,13 @@ public class DataTable extends Sprite {
         g.clear();
         g.lineStyle( bWidth, 0x2222ff );
         g.beginFill( 0xffff99 );
-        g.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + 2 * del - offTopOffset );
+        g.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + (nbrRows-1) * rowPadding + 2 * del - offTopOffset );
         g.endFill();
 
         var gI: Graphics = invisibleBorder.graphics;
         gI.clear();
         gI.lineStyle( bWidth, 0x000000, 0 );
-        gI.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + 2 * del - offTopOffset );
+        gI.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + (nbrRows-1) * rowPadding + 2 * del - offTopOffset );
     }
 
     public function get vxColumnNbr(): int {
@@ -328,9 +329,9 @@ public class DataTable extends Sprite {
             text_arr[1][pyColumnNbr].text = SimStrings.get( "DataTable.py", "Py" );
         }
         tFormat.bold = true;
-        for ( var row: int = 0; row < maxRows; row++ ) {
+        for ( var row: int = 0 ; row < maxRows ; row++ ) {
             if ( row >= headerOffset ) {text_arr[row][0].text = row - headerOffset + 1;}
-            for ( var col: int = 0; col < nbrColumns; col++ ) {
+            for ( var col: int = 0 ; col < nbrColumns ; col++ ) {
                 if ( row == 0 || col == 0 ) {
                     text_arr[row][col].setTextFormat( tFormat );
                 }
@@ -398,11 +399,11 @@ public class DataTable extends Sprite {
         }
         drawBorder( nbrBalls );
         //hide all but 1st two columns for partial
-        for ( var row: int = 0; row < maxRows; row++ ) {
+        for ( var row: int = 0 ; row < maxRows ; row++ ) {
             if ( row > headerRowNbr ) {
                 massSlider_arr[ballNbr( row )].visible = showSliders;
             }
-            for ( var col: int = 2; col < nbrColumns; col++ ) {
+            for ( var col: int = 2 ; col < nbrColumns ; col++ ) {
                 text_arr[row][col].visible = !showSliders;
             }
         }
@@ -412,14 +413,14 @@ public class DataTable extends Sprite {
     public function setNbrDisplayedRows(): void {
         nbrBalls = myModel.nbrBalls;
         drawBorder( nbrBalls );
-        for ( var i: int = 0; i < maxRows; i++ ) {
+        for ( var i: int = 0 ; i < maxRows ; i++ ) {
             rowCanvas_arr[i].visible = i < nbrBalls + headerOffset;
         }
     }
 
     public function createTextChangeListeners(): void {
-        for ( var row: int = 1; row < maxRows; row++ ) {
-            for ( var col: int = 1; col < nbrColumns; col++ ) {
+        for ( var row: int = 1 ; row < maxRows ; row++ ) {
+            for ( var col: int = 1 ; col < nbrColumns ; col++ ) {
                 if ( col == massColumnNbr ) {
                     text_arr[row][col].addEventListener( Event.CHANGE, changeMassListener );
                 }
@@ -547,7 +548,7 @@ public class DataTable extends Sprite {
     }
 
     private function resetMassSliders(): void {  //called when reset button on Control panel
-        for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) { // TODO: not adding +1 to MAX_BALLS. Is this an error?
+        for ( var i: int = 0 ; i < CLConstants.MAX_BALLS ; i++ ) { // TODO: not adding +1 to MAX_BALLS. Is this an error?
             massSlider_arr[i].value = myModel.ball_arr[i].getMass();
             myMainView.myTableView.ballImage_arr[i].drawLayer1();  //redraw ballImage for new diameter
             myMainView.myTableView.ballImage_arr[i].drawLayer1a(); //redraw ballImage for new diameter
@@ -607,9 +608,9 @@ public class DataTable extends Sprite {
         var col: int;
         var mass: Number;
         if ( !manualUpdating ) {   //do not update if user is manually filling textFields
-            for ( row = headerOffset; row < maxRows; row++ ) {  //skip header row
+            for ( row = headerOffset ; row < maxRows ; row++ ) {  //skip header row
                 var ballNum: int = ballNbr( row );
-                for ( col = 0; col < nbrColumns; col++ ) {
+                for ( col = 0 ; col < nbrColumns ; col++ ) {
                     if ( col == massColumnNbr ) { // mass in kg
                         mass = myModel.ball_arr[ballNum].getMass();
                         text_arr[row][col].text = mass.toFixed( massPrecision ); //round(mass, 1);
@@ -638,7 +639,7 @@ public class DataTable extends Sprite {
 
         if ( sliderUpdating ) {
             // WARNING: here, "row" is actually the ball number
-            for ( row = 0; row < CLConstants.MAX_BALLS; row++ ) {
+            for ( row = 0 ; row < CLConstants.MAX_BALLS ; row++ ) {
                 mass = myModel.ball_arr[row].getMass();
                 text_arr[rowOfBall( row )][massColumnNbr].text = round( mass, massPrecision );
             }
@@ -649,7 +650,7 @@ public class DataTable extends Sprite {
         }
 
         //update Momenta fields regardless of whether user is manually updating other fields
-        for ( row = headerOffset; row < maxRows; row++ ) {  //skip header row
+        for ( row = headerOffset ; row < maxRows ; row++ ) {  //skip header row
             mass = myModel.ball_arr[ballNbr( row )].getMass();
             xVel = myModel.ball_arr[ballNbr( row )].velocity.getX();
             yVel = myModel.ball_arr[ballNbr( row )].velocity.getY();
