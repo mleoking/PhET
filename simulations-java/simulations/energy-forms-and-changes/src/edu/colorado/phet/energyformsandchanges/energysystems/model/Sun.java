@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 
@@ -27,6 +29,8 @@ public class Sun extends EnergySource {
         add( new Cloud( new Vector2D( -0.02, 0.07 ) ) );
     }};
 
+    public final Property<Double> cloudiness = new Property<Double>( 0.0 );
+
     // Energy production per square meter of the Earth's surface.
     private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
 
@@ -36,6 +40,13 @@ public class Sun extends EnergySource {
 
     protected Sun() {
         super( EnergyFormsAndChangesResources.Images.SUN_ICON, IMAGE_LIST );
+        cloudiness.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double cloudiness ) {
+                for ( Cloud cloud : clouds ) {
+                    cloud.existenceStrength.set( cloudiness );
+                }
+            }
+        } );
     }
 
     @Override public Energy stepInTime( double dt ) {

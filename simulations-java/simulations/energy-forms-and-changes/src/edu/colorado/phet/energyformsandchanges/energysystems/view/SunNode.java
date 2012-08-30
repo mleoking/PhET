@@ -8,7 +8,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -71,7 +70,7 @@ public class SunNode extends PositionableFadableModelElementNode {
                                          1,
                                          5,
                                          80,
-                                         new Property<Double>( 0.0 ),
+                                         sun.cloudiness,
                                          new BooleanProperty( true ) ) {{
                             addLabel( 0, new PhetPText( "None", CONTROL_PANEL_LABEL_FONT_FONT ) ); // TODO: i18n
                             addLabel( 1, new PhetPText( "Lots", CONTROL_PANEL_LABEL_FONT_FONT ) ); // TODO: i18n
