@@ -1,3 +1,5 @@
+# 0.00.23 (67522) Aug 30, 2012
+8/30/12 demo change requests and internal-architecture changes
 8/28/12 migrate game strings to phetcommon: Check, Try Again, Show Answer, Next
 8/28/12 migrate GameTimer to common.games, use in RPAL and BCE
 8/28/12 generalizations and doc for GameTimer
