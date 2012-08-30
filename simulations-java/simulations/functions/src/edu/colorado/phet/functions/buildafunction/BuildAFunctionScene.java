@@ -32,16 +32,19 @@ public class BuildAFunctionScene extends PNode {
         addChild( new TwoInputFunctionNode( "-", true, Type.NUMBER, 662.9054652880341, 538.8774002954215 ) {{setScale( 0.5 );}} );
         addChild( new CopyFunctionNode( Type.NUMBER, 787.4549483013308, 542.895125553915 ) {{setScale( 0.5 );}} );
 
-        addChild( new ValueNode( new ValueContext() {
-            public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
-                valueNode.translate( delta.width, delta.height );
-            }
+        for ( int i = 0; i < 3; i++ ) {
+            final int finalI = i;
+            addChild( new ValueNode( new ValueContext() {
+                public void mouseDragged( final ValueNode valueNode, final PDimension delta ) {
+                    valueNode.translate( delta.width, delta.height );
+                }
 
-            public void mouseReleased( final ValueNode valueNode ) {
-            }
-        }, 3, new BasicStroke(), Color.white, Color.black, Color.black ) {{
-            setOffset( 55.24372230428363, 280.23633677991086 );
-        }} );
+                public void mouseReleased( final ValueNode valueNode ) {
+                }
+            }, 3, new BasicStroke(), Color.white, Color.black, Color.black ) {{
+                setOffset( 55.24372230428363 - 3 * finalI, 280.23633677991086 - 3 * finalI );
+            }} );
+        }
 
         final TableNode tableNode = new TableNode() {{
             setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, INSET / 2 );
