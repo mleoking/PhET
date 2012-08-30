@@ -8,7 +8,6 @@ DESIGN
 - names for the 3 sims in this project
 
 HIGH
-- reset point tool locations when challenge changes
 - rewrite demo challenge
 - move some of the fields and responsibilities in LineGameModel into challenges
 - create additional game challenges

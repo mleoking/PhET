@@ -152,6 +152,9 @@ public class LineGameModel {
                             // next challenge
                             challenge.set( challenges[challengeIndex] );
                             challengeIndex++;
+                            // reset location of point tools
+                            pointTool1.location.reset();
+                            pointTool2.location.reset();
                         }
                     }
                     else if ( state == PlayState.NEXT ) {
