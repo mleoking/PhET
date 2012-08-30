@@ -1,3 +1,4 @@
+8/30/12 move mvt into game challenge, since the origin location depends on where the graph is in the play area
 # 0.00.23 (67522) Aug 30, 2012
 8/30/12 demo change requests and internal-architecture changes
 8/28/12 migrate game strings to phetcommon: Check, Try Again, Show Answer, Next
