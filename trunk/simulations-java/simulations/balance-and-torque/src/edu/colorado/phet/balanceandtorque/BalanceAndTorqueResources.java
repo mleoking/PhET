@@ -48,6 +48,7 @@ public class BalanceAndTorqueResources {
         public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "tryAgain" );
         public static final String UNKNOWN_MASS_LABEL = RESOURCES.getLocalizedString( "unknownMassLabel" );
         public static final String WHAT_IS_THE_MASS = RESOURCES.getLocalizedString( "whatIsTheMass" );
+        public static final String WHAT_WILL_HAPPEN = RESOURCES.getLocalizedString( "whatWillHappen" );
     }
 
     //Images
