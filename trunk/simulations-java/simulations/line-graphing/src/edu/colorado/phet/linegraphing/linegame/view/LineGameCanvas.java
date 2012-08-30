@@ -58,7 +58,7 @@ public class LineGameCanvas extends LGCanvas  {
 
                 // play audio when game ends
                 if ( gamePhase == GamePhase.RESULTS ) {
-                    if ( model.score.get() == model.getPerfectScore() ) {
+                    if ( model.results.score.get() == model.getPerfectScore() ) {
                         audioPlayer.gameOverPerfectScore();
                     }
                     else {

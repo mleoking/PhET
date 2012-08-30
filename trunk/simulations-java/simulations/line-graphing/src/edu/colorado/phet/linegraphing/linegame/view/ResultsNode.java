@@ -40,12 +40,12 @@ class ResultsNode extends PhetPNode {
 
                     // game results
                     final GameOverNode gameOverNode = new GameOverNode( model.settings.level.get(),
-                                                                 model.score.get(),
+                                                                 model.results.score.get(),
                                                                  model.getPerfectScore(),
                                                                  new DefaultDecimalFormat( "0" ),
                                                                  model.timer.time.get(),
-                                                                 model.getBestTime( model.settings.level.get() ),
-                                                                 model.isNewBestTime(),
+                                                                 model.results.getBestTime( model.settings.level.get() ),
+                                                                 model.results.isNewBestTime,
                                                                  model.settings.timerEnabled.get(),
                                                                  LGColors.GAME_INSTRUCTION_COLORS );
                     gameOverNode.scale( 1.5 );
