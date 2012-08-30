@@ -8,8 +8,9 @@ DESIGN
 - names for the 3 sims in this project
 
 HIGH
+- reset point tool locations when challenge changes
 - rewrite demo challenge
-- some of the fields and responsibilities in LineGameModel are challenge specific. Eg, mvt, point tools, whether to maintain a list of lines, etc.
+- move some of the fields and responsibilities in LineGameModel into challenges
 - create additional game challenges
 
 MEDIUM
