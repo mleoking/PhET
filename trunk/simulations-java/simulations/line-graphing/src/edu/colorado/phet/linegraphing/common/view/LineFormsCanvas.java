@@ -80,7 +80,7 @@ public class LineFormsCanvas extends LGCanvas {
             // Create a dummy point tool, so we know its height for the purposes of computing drag bounds.
             final double height = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), linesVisible ).getFullBoundsReference().getHeight();
 
-            // Compute drag bounds such that 50% of the point tool is always inside the stage. Differs based on tool orientation.
+            // Compute drag bounds such that 50% of the point tool node is always inside the stage. Bounds differ based on tool orientation.
             Rectangle2D stageBounds = getStageBounds();
             Rectangle2D upDragBounds = new Rectangle2D.Double( stageBounds.getX(), stageBounds.getY() - ( height / 2 ), stageBounds.getWidth(), stageBounds.getHeight() );
             Rectangle2D downDragBounds = new Rectangle2D.Double( upDragBounds.getX(), stageBounds.getY() + ( height / 2 ), upDragBounds.getWidth(), upDragBounds.getHeight() );
