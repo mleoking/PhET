@@ -52,7 +52,7 @@ public class BuildJNLPTask {
     private HashMap createJNLPFilterMap( Simulation simulation, JavaProject project, String simulationName, Locale locale, String codebase,
                                          boolean devArg, boolean interviewsArg, String suffix ) {
         HashMap map = new HashMap();
-        map.put( "PROJECT.NAME", StringEscapeUtils.escapeHtml( simulation.getTitle() ) );
+        map.put( "PROJECT.NAME", StringEscapeUtils.escapeXml( simulation.getTitle() ) );
         map.put( "JNLP.NAME", getJNLPFileName( simulationName, locale, suffix ) );
         map.put( "PROJECT.JAR", project.getJarFile().getName() );
         map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//TODO: map this to correct sim-specific (possibly online) URL
