@@ -38,7 +38,7 @@ public class BuildJNLPTask {
     protected void buildJNLP( JavaProject project, String simulationName, Locale locale, boolean devArg, boolean interviewsArg, String codebase, String suffix ) throws Exception {
         Simulation simulation = project.getSimulation( simulationName, locale );
         File JNLP_TEMPLATE = new File( project.getTrunk(), BuildToolsPaths.WEBSTART_TEMPLATE );
-        FileUtils.filter( JNLP_TEMPLATE, getDestFile( project, simulationName, locale, suffix ), createJNLPFilterMap( simulation, project, simulationName, locale, codebase, devArg, interviewsArg, suffix ), "UTF-16" );
+        FileUtils.filter( JNLP_TEMPLATE, getDestFile( project, simulationName, locale, suffix ), createJNLPFilterMap( simulation, project, simulationName, locale, codebase, devArg, interviewsArg, suffix ), "UTF-8" );
     }
 
     private String getJNLPFileName( String simulationName, Locale locale, String suffix ) {

@@ -15,7 +15,7 @@ public class BuildToolsPaths {
 
     public static final String BUILD_TOOLS_TEMPLATES = BUILD_TOOLS_DIR + "/templates";
 
-    public static final String WEBSTART_TEMPLATE = BUILD_TOOLS_TEMPLATES + "/webstart-template.jnlp";
+    public static final String WEBSTART_TEMPLATE = BUILD_TOOLS_TEMPLATES + "/webstart-utf8-template.jnlp";
     public static final String PROGUARD_TEMPLATE = BUILD_TOOLS_TEMPLATES + "/proguard-template.pro";
     public static final String LWJGL_JNLP_RESOURCES = BUILD_TOOLS_TEMPLATES + "/jme3-jnlp-resources.xml"; // same for both the JME3 LWJGL and straight LWJGL
 
