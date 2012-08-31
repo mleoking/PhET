@@ -13,7 +13,6 @@ HIGH
 - create additional game challenges
 
 MEDIUM
-- verify that game "reward" animation is running only when visible
 
 LOW
 
