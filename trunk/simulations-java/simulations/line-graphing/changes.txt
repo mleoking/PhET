@@ -1,3 +1,4 @@
+8/31/12 fix: reset score when starting a new game
 8/31/12 add logging to game canvas, to debug start/stop of reward animation when module is activated/deactivated
 8/31/12 move initial location of point tools up slightly
 8/31/12 fix drag bounds for point tools
