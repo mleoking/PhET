@@ -87,7 +87,7 @@ public class LineFormsCanvas extends LGCanvas {
 
             // Create point tool nodes
             PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, model.pointTool1.orientation == Orientation.UP ? upDragBounds : downDragBounds, linesVisible );
-            PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, model.pointTool1.orientation == Orientation.DOWN ? upDragBounds : downDragBounds, linesVisible );
+            PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, model.pointTool2.orientation == Orientation.UP ? upDragBounds : downDragBounds, linesVisible );
             addChild( pointTool1 );
             addChild( pointTool2 );
         }
