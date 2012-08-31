@@ -5,7 +5,7 @@ DEADLINES
 DESIGN
 - play area layout feels unbalanced for game challenges
 - revisit the placement algorithm for equations on graphed lines
-- names for the 3 sims in this project
+- names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 
 HIGH
 - rewrite demo challenge
