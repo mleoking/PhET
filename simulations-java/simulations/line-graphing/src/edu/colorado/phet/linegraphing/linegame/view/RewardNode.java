@@ -30,6 +30,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -58,6 +59,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class RewardNode extends PhetPNode {
+
+    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( RewardNode.class.getCanonicalName() );
 
     private final ConstantDtClock clock; // clock that controls the animation
 
@@ -396,6 +399,7 @@ public class RewardNode extends PhetPNode {
 
     // Sets whether the animation is running.
     public void setRunning( boolean running ) {
+        LOGGER.info( "running = " + running );
         if ( running ) {
             clock.start();
         }

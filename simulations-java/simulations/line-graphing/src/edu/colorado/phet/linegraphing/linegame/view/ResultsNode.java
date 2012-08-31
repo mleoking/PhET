@@ -7,7 +7,6 @@ import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
@@ -21,9 +20,11 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 class ResultsNode extends PhetPNode {
 
-    private RewardNode rewardNode;
+    private final RewardNode rewardNode;
 
     public ResultsNode( final LineGameModel model, final Dimension2D stageSize ) {
+
+        rewardNode = new RewardNode();
 
         // show results when we enter this phase
         model.phase.addObserver( new VoidFunction1<GamePhase>() {
@@ -32,10 +33,9 @@ class ResultsNode extends PhetPNode {
 
                     // game reward, shown for perfect score
                     if ( model.isPerfectScore() ) {
-                        rewardNode = new RewardNode();
                         rewardNode.setLevel( model.settings.level.get() );
                         addChild( rewardNode );
-                        rewardNode.setRunning( true );
+                        setRewardRunning( true );
                     }
 
                     // game results
@@ -59,11 +59,10 @@ class ResultsNode extends PhetPNode {
                             model.phase.set( GamePhase.SETTINGS );
                         }
                     } );
-
                 }
                 else {
                     removeAllChildren();
-                    rewardNode = null;
+                    setRewardRunning( false );
                 }
             }
         } );
@@ -71,18 +70,14 @@ class ResultsNode extends PhetPNode {
 
     // Sets the bounds of the reward node, called when the canvas is resized so that the reward fills the canvas.
     public void setRewardBounds( PBounds bounds ) {
-        if ( rewardNode != null ) {
-            rewardNode.setBounds( bounds );
-        }
+        rewardNode.setBounds( bounds );
     }
 
     public boolean isRewardRunning() {
-        return ( rewardNode != null && rewardNode.isRunning() );
+        return rewardNode.isRunning();
     }
 
     public void setRewardRunning( boolean running ) {
-        if ( rewardNode != null ) {
-            rewardNode.setRunning( running );
-        }
+        rewardNode.setRunning( running );
     }
 }

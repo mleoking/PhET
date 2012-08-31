@@ -4,7 +4,6 @@ package edu.colorado.phet.linegraphing.linegame.view;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
@@ -17,8 +16,6 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class LineGameCanvas extends LGCanvas  {
-
-    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( LGCanvas.class.getCanonicalName() );
 
     private final PNode settingsNode; // parent of the nodes related to choosing game settings
     private final PNode playNode; // parent of nodes related to playing the game
@@ -82,7 +79,6 @@ public class LineGameCanvas extends LGCanvas  {
     }
 
     public void setRewardRunning( boolean running ) {
-        LOGGER.info( "running = " + running );
         resultsNode.setRewardRunning( running );
     }
 }
