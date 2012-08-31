@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Class that represents rays of light in the view.
+ * Class that represents rays of light emitting from a light source.
  *
  * @author John Blanco
  */
@@ -27,32 +27,30 @@ public class LightRays extends PNode {
     private static boolean SHOW_RAY_BLOCKING_SHAPES = true;
 
     private final ObservableList<Shape> rayBlockingShapes = new ObservableList<Shape>();
-    private final PNode rayLayer = new PNode();
 
     public LightRays( final Vector2D center, final double innerRadius, final double outerRadius, final int numRays, final Color color ) {
 
         assert numRays > 0 && outerRadius > innerRadius; // Parameter checking.
-        addChild( rayLayer );
 
         // Function that creates the rays, accounting for any blocking shapes.
         VoidFunction1<Shape> rayUpdater = new VoidFunction1<Shape>() {
             public void apply( Shape shape ) {
-                rayLayer.removeAllChildren();
                 for ( int i = 0; i < numRays; i++ ) {
                     double angle = ( Math.PI * 2 / numRays ) * i;
                     final Vector2D rayStartPoint = center.plus( new Vector2D( innerRadius, 0 ).getRotatedInstance( angle ) );
                     Vector2D rayEndPoint = center.plus( new Vector2D( outerRadius, 0 ).getRotatedInstance( angle ) );
-                    for ( Shape rayBlockingShape : rayBlockingShapes ) {
-                        System.out.println( "==================" );
-                        System.out.println( "rayEndPoint before blocking = " + rayEndPoint );
-                        rayEndPoint = blockRay( rayStartPoint, rayEndPoint, rayBlockingShape );
-                        System.out.println( "rayEndPoint after blocking = " + rayEndPoint );
-                    }
-                    rayLayer.addChild( new PhetPPath( new Line2D.Double( rayStartPoint.toPoint2D(), rayEndPoint.toPoint2D() ), RAY_STROKE, color ) );
+                    addChild( new LightRayNode( rayStartPoint, rayEndPoint, color ) );
+//                    for ( Shape rayBlockingShape : rayBlockingShapes ) {
+//                        System.out.println( "==================" );
+//                        System.out.println( "rayEndPoint before blocking = " + rayEndPoint );
+//                        rayEndPoint = blockRay( rayStartPoint, rayEndPoint, rayBlockingShape );
+//                        System.out.println( "rayEndPoint after blocking = " + rayEndPoint );
+//                    }
+//                    rayLayer.addChild( new PhetPPath( new Line2D.Double( rayStartPoint.toPoint2D(), rayEndPoint.toPoint2D() ), RAY_STROKE, color ) );
                 }
                 if ( SHOW_RAY_BLOCKING_SHAPES ) {
                     for ( Shape rayBlockingShape : rayBlockingShapes ) {
-                        rayLayer.addChild( new PhetPPath( rayBlockingShape ) );
+                        addChild( new PhetPPath( rayBlockingShape ) );
                     }
                 }
             }
