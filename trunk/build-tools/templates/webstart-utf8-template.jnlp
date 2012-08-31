@@ -10,9 +10,7 @@
 
         <vendor>University of Colorado, Department of Physics</vendor>
 
-        <description>@PROJECT.DESCRIPTION@</description>
-
-        <description kind="short">The @PROJECT.NAME@ Simulation</description>
+        <description>The @PROJECT.NAME@ Simulation</description>
 
         <offline-allowed/>
 
