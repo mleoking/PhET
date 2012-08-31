@@ -32,7 +32,7 @@ public class LineGameCanvas extends LGCanvas  {
             }
         } );
 
-        // parent nodes for various "phases" of the game
+        // one parent node for each "phase" of the game
         settingsNode = new SettingsNode( model, getStageSize() );
         playNode = new PlayNode( model, getStageSize(), audioPlayer );
         resultsNode = new ResultsNode( model, getStageSize() );
