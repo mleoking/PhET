@@ -1,4 +1,4 @@
-8/30/12 change flavor name to "graphing-lines", to match new sim name
+8/31/12 change flavor name to "graphing-lines", to match new sim name
 8/30/12 change request: rename sim to "Graphing: Lines"
 8/30/12 encapsulate game results in GameResults
 8/30/12 remove unused constructor arg
