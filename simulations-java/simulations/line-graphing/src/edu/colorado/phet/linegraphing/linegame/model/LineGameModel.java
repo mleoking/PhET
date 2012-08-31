@@ -114,6 +114,7 @@ public class LineGameModel {
                 else if ( phase == GamePhase.PLAY ) {
                     initChallenges();
                     state.set( PlayState.FIRST_CHECK );
+                    results.score.set( 0 );
                     timer.start();
                 }
                 else if ( phase == GamePhase.RESULTS ) {
