@@ -32,6 +32,6 @@ public class GraphingLinesApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, LGResources.PROJECT_NAME, GraphingLinesApplication.class );
+        new PhetApplicationLauncher().launchSim( args, LGResources.PROJECT_NAME, "graphing-lines", GraphingLinesApplication.class );
     }
 }
