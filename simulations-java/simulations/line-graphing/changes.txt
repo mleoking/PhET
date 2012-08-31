@@ -1,3 +1,4 @@
+8/31/12 add logging to game canvas, to debug start/stop of reward animation when module is activated/deactivated
 8/31/12 move initial location of point tools up slightly
 8/31/12 fix drag bounds for point tools
 8/31/12 change flavor name to "graphing-lines", to match new sim name
