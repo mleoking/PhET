@@ -2,6 +2,7 @@
 package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.Color;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -9,6 +10,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
+import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -44,9 +46,6 @@ public class LineFormsCanvas extends LGCanvas {
         this.interactiveEquationVisible = interactiveEquationVisible;
         this.slopeVisible = slopeVisible;
 
-        // nodes
-        PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), linesVisible );
-        PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, getStageBounds(), linesVisible );
         PNode graphControls = new GraphControls( linesVisible, slopeVisible, model.standardLines );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
@@ -58,8 +57,7 @@ public class LineFormsCanvas extends LGCanvas {
             addChild( equationControls );
             addChild( graphControls );
             addChild( resetAllButtonNode );
-            addChild( pointTool1 );
-            addChild( pointTool2 );
+
         }
 
         // layout
@@ -76,6 +74,23 @@ public class LineFormsCanvas extends LGCanvas {
                                           graphControls.getFullBoundsReference().getMaxY() + ySpacing );
         }
         centerRootNodeOnStage();
+
+        // Point tools, added after centering root node, so that we can compute drag bounds.
+        {
+            // Create a dummy point tool, so we know its height for the purposes of computing drag bounds.
+            final double height = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), linesVisible ).getFullBoundsReference().getHeight();
+
+            // Compute drag bounds such that 50% of the point tool is always inside the stage. Differs based on tool orientation.
+            Rectangle2D stageBounds = getStageBounds();
+            Rectangle2D upDragBounds = new Rectangle2D.Double( stageBounds.getX(), stageBounds.getY() - ( height / 2 ), stageBounds.getWidth(), stageBounds.getHeight() );
+            Rectangle2D downDragBounds = new Rectangle2D.Double( upDragBounds.getX(), stageBounds.getY() + ( height / 2 ), upDragBounds.getWidth(), upDragBounds.getHeight() );
+
+            // Create point tool nodes
+            PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, model.pointTool1.orientation == Orientation.UP ? upDragBounds : downDragBounds, linesVisible );
+            PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, model.pointTool1.orientation == Orientation.DOWN ? upDragBounds : downDragBounds, linesVisible );
+            addChild( pointTool1 );
+            addChild( pointTool2 );
+        }
     }
 
     @Override public void reset() {
