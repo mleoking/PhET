@@ -1,3 +1,5 @@
+Moved Momentum Diagram down, slightly shrunk excess control panel area to fit
+Momentum Diagram slider and +/- buttons given larger hit areas
 Added spacing between rows in the "Data Table" area (more room for sliders)
 Removed "Show Paths" feature
 Increased hit-boxes around the slider knobs
