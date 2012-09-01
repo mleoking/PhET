@@ -458,7 +458,7 @@ public class DataTable extends Sprite {
 
     private function changeMassListener( evt: Event ): void {
         manualUpdating = true;
-        var mass: Number = Number( evt.target.text );
+        var mass: Number = evtTextToNumber( evt );
         var row: Number = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
         var ballNum: int = ballNbr( row );
         myModel.setMass( ballNum, mass );
