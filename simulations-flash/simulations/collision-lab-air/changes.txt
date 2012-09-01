@@ -1,3 +1,4 @@
+Removed padding around the "units" row in the data table
 Fixed data table "mass" entry: can now enter in "." first, will fill to "0." as in other columns
 Moved Momentum Diagram down, slightly shrunk excess control panel area to fit
 Momentum Diagram slider and +/- buttons given larger hit areas

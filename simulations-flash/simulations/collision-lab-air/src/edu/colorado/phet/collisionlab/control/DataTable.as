@@ -158,9 +158,14 @@ public class DataTable extends Sprite {
                     text_arr[row][col].filters = [glow];
                 }
                 rowCanvas_arr[row].addChild( text_arr[row][col] );
-                rowCanvas_arr[row].y = row * (rowHeight + rowPadding) - 5;
                 if ( row == 0 ) {
                     rowCanvas_arr[row].y = 5;
+                }
+                else if ( row == 1 ) {
+                    rowCanvas_arr[row].y = rowHeight - 5;
+                }
+                else {
+                    rowCanvas_arr[row].y = row * rowHeight + (row-2) * rowPadding - 5;
                 }
 
                 // decrease width (and thus position) for the ball column
@@ -250,13 +255,13 @@ public class DataTable extends Sprite {
         g.clear();
         g.lineStyle( bWidth, 0x2222ff );
         g.beginFill( 0xffff99 );
-        g.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + (nbrRows-1) * rowPadding + 2 * del - offTopOffset );
+        g.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + (nbrRows - 3) * rowPadding + 2 * del - offTopOffset );
         g.endFill();
 
         var gI: Graphics = invisibleBorder.graphics;
         gI.clear();
         gI.lineStyle( bWidth, 0x000000, 0 );
-        gI.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + (nbrRows-1) * rowPadding + 2 * del - offTopOffset );
+        gI.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + (nbrRows - 3) * rowPadding + 2 * del - offTopOffset );
     }
 
     public function get vxColumnNbr(): int {
