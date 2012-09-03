@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet;
 
+import fj.F;
+
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -25,6 +27,18 @@ public class PhetPNode extends RichPNode {
 
     private boolean pickable; // keep track of node's pickable property
     private boolean childrenPickable; // keep track of children's pickable property
+
+    //Static methods for convenient interoperability with functional java
+    public static final F<PNode, Double> _fullWidth = new F<PNode, Double>() {
+        @Override public Double f( final PNode pnode ) {
+            return pnode.getFullBounds().getWidth();
+        }
+    };
+    public static final F<PNode, Double> _fullHeight = new F<PNode, Double>() {
+        @Override public Double f( final PNode pnode ) {
+            return pnode.getFullBounds().getHeight();
+        }
+    };
 
     /**
      * Constructs a new PNode.

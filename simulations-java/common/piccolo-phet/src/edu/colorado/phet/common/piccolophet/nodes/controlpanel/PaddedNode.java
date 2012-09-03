@@ -1,13 +1,13 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.controlpanel;
 
-import fj.F;
 import fj.data.List;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
@@ -38,19 +38,6 @@ public class PaddedNode extends PNode {
     }
 
     public static Dimension2DDouble getMaxSize( final List<PNode> icons ) {
-        return new Dimension2DDouble( icons.map( _fullWidth ).maximum( doubleOrd ), icons.map( _fullHeight ).maximum( doubleOrd ) );
+        return new Dimension2DDouble( icons.map( PhetPNode._fullWidth ).maximum( doubleOrd ), icons.map( PhetPNode._fullHeight ).maximum( doubleOrd ) );
     }
-
-    public static final F<PNode, Double> _fullWidth = new F<PNode, Double>() {
-        @Override public Double f( final PNode pnode ) {
-            return pnode.getFullBounds().getWidth();
-        }
-    };
-
-    public static final F<PNode, Double> _fullHeight = new F<PNode, Double>() {
-        @Override public Double f( final PNode pnode ) {
-            return pnode.getFullBounds().getHeight();
-        }
-    };
-
 }
