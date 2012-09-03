@@ -25,7 +25,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getString;
-import static edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel.Element.nodes;
 
 /**
  * Shows nodes in a grid, for on/off for timer and/or sound and other features
@@ -36,16 +35,20 @@ public class SettingsOnOffPanel extends PNode {
 
     public static final PhetFont FONT = new PhetFont( 20, true );
 
+    //Class that encapsulates the information for a settings feature (such as audio on/off).
     public static final @Data class Element {
+
+        //The icon to show when the feature is off
         public final PNode off;
+
+        //The icon to show when the feature is on
         public final PNode on;
+
+        //Property that views/sets the state of whether the feature is enabled.
         public final BooleanProperty onProperty;
+
+        //Sim sharing component
         public final IUserComponent component;
-        public static final F<Element, List<PNode>> nodes = new F<Element, List<PNode>>() {
-            @Override public List<PNode> f( final Element element ) {
-                return List.list( element.on, element.off );
-            }
-        };
     }
 
     public SettingsOnOffPanel( final List<Element> icons ) {
@@ -101,4 +104,11 @@ public class SettingsOnOffPanel extends PNode {
         }
         addChild( new ZeroOffsetNode( box ) );
     }
+
+    //Get the nodes for an element.
+    public static final F<Element, List<PNode>> nodes = new F<Element, List<PNode>>() {
+        @Override public List<PNode> f( final Element element ) {
+            return List.list( element.on, element.off );
+        }
+    };
 }
