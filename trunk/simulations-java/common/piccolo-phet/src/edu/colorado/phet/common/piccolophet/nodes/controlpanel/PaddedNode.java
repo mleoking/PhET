@@ -20,8 +20,8 @@ import static fj.Ord.doubleOrd;
  *
  * @author Sam Reid
  */
-public class PaddedIcon extends PNode {
-    public PaddedIcon( final double maxIconWidth, final double maxIconHeight, final PNode icon ) {
+public class PaddedNode extends PNode {
+    public PaddedNode( final double maxIconWidth, final double maxIconHeight, final PNode icon ) {
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, maxIconWidth, maxIconHeight ) ) {{
             setVisible( false );
             setPickable( false );
@@ -32,7 +32,7 @@ public class PaddedIcon extends PNode {
         }} );
     }
 
-    public PaddedIcon( final Dimension2D maxSize, final PNode icon ) {
+    public PaddedNode( final Dimension2D maxSize, final PNode icon ) {
         this( maxSize.getWidth(), maxSize.getHeight(), icon );
     }
 

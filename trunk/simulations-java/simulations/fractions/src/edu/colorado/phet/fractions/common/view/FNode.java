@@ -6,7 +6,7 @@ import fj.F;
 import fj.data.List;
 
 import edu.colorado.phet.common.piccolophet.RichPNode;
-import edu.colorado.phet.common.piccolophet.nodes.controlpanel.PaddedIcon;
+import edu.colorado.phet.common.piccolophet.nodes.controlpanel.PaddedNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -38,9 +38,9 @@ public class FNode extends RichPNode {
 
     //Function wrappers for use with the functional java library, for performing tasks such as finding the maximum width of a list of PNodes.
 
-    public static final F<PNode, Double> _fullWidth = PaddedIcon._fullWidth;
+    public static final F<PNode, Double> _fullWidth = PaddedNode._fullWidth;
 
-    public static final F<PNode, Double> _fullHeight = PaddedIcon._fullHeight;
+    public static final F<PNode, Double> _fullHeight = PaddedNode._fullHeight;
 
     //See declaration site variance discussion here: https://groups.google.com/forum/?fromgroups#!topic/functionaljava/uGzU8x-rKJ4
     public static <A extends PNode> F<A, Double> _minX() {
