@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel;
-import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel.Element;
+import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel.Feature;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameModel;
@@ -98,8 +98,8 @@ class StartScreen extends PNode {
         final BufferedImage soundIcon = multiScaleToWidth( GameConstants.SOUND_ICON, iconWidth );
         final BufferedImage soundOffIcon = multiScaleToWidth( GameConstants.SOUND_OFF_ICON, iconWidth );
 
-        addChild( new SettingsOnOffPanel( List.list( new Element( new PImage( stopwatchOffIcon ), new PImage( stopwatchIcon ), gameSettings.timerEnabled, timerRadioButton ),
-                                                     new Element( new PImage( soundOffIcon ), new PImage( soundIcon ), gameSettings.soundEnabled, soundRadioButton ) ) ) {{
+        addChild( new SettingsOnOffPanel( List.list( new Feature( new PImage( stopwatchOffIcon ), new PImage( stopwatchIcon ), gameSettings.timerEnabled, timerRadioButton ),
+                                                     new Feature( new PImage( soundOffIcon ), new PImage( soundIcon ), gameSettings.soundEnabled, soundRadioButton ) ) ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, STAGE_SIZE.height - getFullBounds().getHeight() - INSET );
         }} );
     }

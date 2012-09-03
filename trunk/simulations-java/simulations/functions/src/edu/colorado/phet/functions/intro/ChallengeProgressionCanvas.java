@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel;
-import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel.Element;
+import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel.Feature;
 import edu.colorado.phet.functions.buildafunction.AbstractFunctionsCanvas;
 import edu.colorado.phet.functions.buildafunction.BuildAFunctionCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -61,7 +61,7 @@ public abstract class ChallengeProgressionCanvas extends AbstractFunctionsCanvas
         }
 
         //Add the audio on/off panel
-        addChild( new SettingsOnOffPanel( List.list( new Element( new PImage( SOUND_OFF_ICON ),
+        addChild( new SettingsOnOffPanel( List.list( new Feature( new PImage( SOUND_OFF_ICON ),
                                                                   new PImage( SOUND_ICON ), new BooleanProperty( true ), null ) ) ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, INSET );
         }} );
