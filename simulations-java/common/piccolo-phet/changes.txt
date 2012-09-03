@@ -1,3 +1,4 @@
+9/2/12 Factored out method for creating a (row) node for each feature, renamed Element => Feature, added docs, see #3425
 9/2/12 Documented inner class Element, see #3425
 9/2/12 Use getFullBoundsReference instead of getFullBounds, see #3425
 9/2/12 Moved _fullWidth and _fullHeight to PhetPNode, see #3425

@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel;
-import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel.Element;
+import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel.Feature;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberCardNode;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberDragContext;
@@ -43,7 +43,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
         super( title, list( new Page( page1( gameProgress ) ), new Page( page2( gameProgress ) ) ), canvas, selectedPage );
 
         //Add the audio on/off panel
-        addChild( new SettingsOnOffPanel( list( new Element( new PImage( SOUND_OFF_ICON ),
+        addChild( new SettingsOnOffPanel( list( new Feature( new PImage( SOUND_OFF_ICON ),
                                                              new PImage( SOUND_ICON ), audioEnabled, Components.soundRadioButton ) ) ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, resetAllButton.getFullBounds().getMinY() - getFullBounds().getHeight() - INSET );
         }} );
