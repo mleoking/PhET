@@ -52,8 +52,8 @@ public class SettingsOnOffPanel extends PNode {
         final List<PNode> all = icons.bind( nodes );
         List<Element> padded = icons.map( new F<Element, Element>() {
             @Override public Element f( final Element element ) {
-                return new Element( new PaddedIcon( PaddedIcon.getMaxSize( all ), element.off ),
-                                    new PaddedIcon( PaddedIcon.getMaxSize( all ), element.on ), element.onProperty, element.component );
+                return new Element( new PaddedNode( PaddedNode.getMaxSize( all ), element.off ),
+                                    new PaddedNode( PaddedNode.getMaxSize( all ), element.on ), element.onProperty, element.component );
             }
         } );
         VBox box = new VBox( 4 );

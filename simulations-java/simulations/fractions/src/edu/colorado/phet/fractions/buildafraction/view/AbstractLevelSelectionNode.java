@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.controlpanel.PaddedIcon;
+import edu.colorado.phet.common.piccolophet.nodes.controlpanel.PaddedNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
@@ -149,10 +149,10 @@ class AbstractLevelSelectionNode extends PNode {
                 return list.map( LevelInfo._icon );
             }
         } );
-        final Dimension2DDouble maxSize = PaddedIcon.getMaxSize( nodes );
+        final Dimension2DDouble maxSize = PaddedNode.getMaxSize( nodes );
 
         final Property<Boolean> selected = new Property<Boolean>( false );
-        final PaddedIcon centerIcon = new PaddedIcon( maxSize, info.icon );
+        final PaddedNode centerIcon = new PaddedNode( maxSize, info.icon );
         LevelIconNode node = new LevelIconNode( info.name, centerIcon, info.levelProgress.stars, info.levelProgress.maxStars );
         ToggleButtonNode button = new ToggleButtonNode( node, selected, new VoidFunction0() {
             public void apply() {

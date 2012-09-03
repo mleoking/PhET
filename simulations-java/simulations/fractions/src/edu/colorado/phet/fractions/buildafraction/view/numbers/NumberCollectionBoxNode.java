@@ -1,16 +1,22 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
+import fj.data.List;
+
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
+import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.UndoButton;
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 
@@ -35,7 +41,19 @@ public class NumberCollectionBoxNode extends PNode {
 
             setStrokePaint( Color.darkGray );
             setStroke( controlPanelStroke );
+
+            NumberLevel level = numberSceneNode.getLevel();
+            level.createdFractions.addObserver( new VoidFunction1<List<Fraction>>() {
+                public void apply( final List<Fraction> fractions ) {
+                    if ( fractions.length() > 0 ) {
+                        setStrokePaint( Color.red );
+                        setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[] { 10, 10 }, 0 ) );
+                    }
+                }
+            } );
         }};
+
+
         this.mixedFraction = mixedFraction;
         addChild( this.path );
 
