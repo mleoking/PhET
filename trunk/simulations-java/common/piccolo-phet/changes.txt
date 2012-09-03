@@ -1,3 +1,4 @@
+9/2/12 Use getFullBoundsReference instead of getFullBounds, see #3425
 9/2/12 Moved _fullWidth and _fullHeight to PhetPNode, see #3425
 9/2/12 Assert the max size is >= the size of the PaddedNode content, see #3425
 9/2/12 Renamed PaddedIcon->PaddedNode, see #3425

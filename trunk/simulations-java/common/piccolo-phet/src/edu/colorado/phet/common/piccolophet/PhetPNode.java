@@ -31,12 +31,12 @@ public class PhetPNode extends RichPNode {
     //Static methods for convenient interoperability with functional java
     public static final F<PNode, Double> _fullWidth = new F<PNode, Double>() {
         @Override public Double f( final PNode pnode ) {
-            return pnode.getFullBounds().getWidth();
+            return pnode.getFullBoundsReference().getWidth();
         }
     };
     public static final F<PNode, Double> _fullHeight = new F<PNode, Double>() {
         @Override public Double f( final PNode pnode ) {
-            return pnode.getFullBounds().getHeight();
+            return pnode.getFullBoundsReference().getHeight();
         }
     };
 
