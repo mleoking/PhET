@@ -22,6 +22,7 @@ import static fj.Ord.doubleOrd;
  */
 public class PaddedNode extends PNode {
     public PaddedNode( final double maxIconWidth, final double maxIconHeight, final PNode icon ) {
+        assert icon.getFullBoundsReference().getWidth() <= maxIconWidth && icon.getFullBoundsReference().getHeight() <= maxIconHeight;
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, maxIconWidth, maxIconHeight ) ) {{
             setVisible( false );
             setPickable( false );
