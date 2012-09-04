@@ -79,7 +79,7 @@ public class LineGameModel {
         this( 10 );
     }
 
-    // Uses a graph with with uniform quadrant sizes.
+    // Uses a graph with uniform quadrant sizes.
     private LineGameModel( int quadrantSize ) {
         this( new IntegerRange( -quadrantSize, quadrantSize ), new IntegerRange( -quadrantSize, quadrantSize ) );
     }
@@ -98,7 +98,7 @@ public class LineGameModel {
 
         challenge = new Property<SlopeInterceptChallenge>( new SlopeInterceptChallenge( new SlopeInterceptLine( 1, 1, 1, Color.BLACK ), mvtGraphTheLine ) ); // initial value is meaningless
 
-        allLines = new ObservableList<PointSlopeLine>(  );
+        allLines = new ObservableList<PointSlopeLine>();
         this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
         this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ), Orientation.DOWN, allLines );
 
@@ -193,12 +193,12 @@ public class LineGameModel {
 
     // Gets the number of points in a perfect score (ie, correct answers for all challenges on the first try)
     public int getPerfectScore() {
-       return CHALLENGES_PER_GAME * computePoints( 1 );
+        return CHALLENGES_PER_GAME * computePoints( 1 );
     }
 
     // Updates the best time for the current level, at the end of a timed game with a perfect score.
     private void updateBestTime() {
-        assert( !timer.isRunning() );
+        assert ( !timer.isRunning() );
         if ( settings.timerEnabled.get() && results.score.get() == getPerfectScore() ) {
             results.updateBestTime( settings.level.get(), timer.time.get() );
         }
@@ -206,6 +206,6 @@ public class LineGameModel {
 
     // Compute points to be awarded for a correct answer.
     public int computePoints( int attempts ) {
-        return Math.max( 0, MAX_POINTS_PER_CHALLENGE - attempts + 1 ) ;
+        return Math.max( 0, MAX_POINTS_PER_CHALLENGE - attempts + 1 );
     }
 }
