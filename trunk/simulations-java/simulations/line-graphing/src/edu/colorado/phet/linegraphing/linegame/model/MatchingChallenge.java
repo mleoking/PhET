@@ -24,7 +24,7 @@ public abstract class MatchingChallenge<T extends PointSlopeLine> {
         this.mvt = mvt;
     }
 
-    // Correct if the we have 2 descriptions of the same line.
+    // Correct if the guess and answer are descriptions of the same line.
     public boolean isCorrect() {
         return answer.same( guess.get() );
     }
