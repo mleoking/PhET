@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
+import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
@@ -28,6 +29,7 @@ import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode.Dro
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
@@ -92,7 +94,13 @@ class SingleContainerNode extends PNode {
                 @Override public void mousePressed( final PInputEvent event ) {
                     super.mousePressed( event );
                     parent.moveToFront();
-                    addActivity( new AnimateToScale( parent, BuildAFractionModule.ANIMATION_TIME ) );
+                    final AnimateToScale activity = new AnimateToScale( parent, BuildAFractionModule.ANIMATION_TIME );
+                    activity.setDelegate( new PActivityDelegateAdapter() {
+                        @Override public void activityFinished( final PActivity activity ) {
+                            parent.updateButtonPickability();
+                        }
+                    } );
+                    addActivity( activity );
                 }
 
                 @Override protected void dragNode( final DragEvent event ) {
