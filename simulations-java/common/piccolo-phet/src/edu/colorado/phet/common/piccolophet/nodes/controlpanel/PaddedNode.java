@@ -15,29 +15,31 @@ import edu.umd.cs.piccolo.PNode;
 import static fj.Ord.doubleOrd;
 
 /**
- * Adds padding around a node to make it a standardized size.  Different than PadBoundsNode from piccolo-phet because that neither centers the node nor allows different
- * sizes in the x and y directions.
+ * Adds padding around a node to make it a standardized size.
+ * Different than piccolo-phet's PadBoundsNode because that neither centers the node
+ * nor allows different sizes in the x and y directions.
  *
  * @author Sam Reid
  */
 public class PaddedNode extends PNode {
-    public PaddedNode( final double maxIconWidth, final double maxIconHeight, final PNode icon ) {
-        assert icon.getFullBoundsReference().getWidth() <= maxIconWidth && icon.getFullBoundsReference().getHeight() <= maxIconHeight;
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, maxIconWidth, maxIconHeight ) ) {{
+
+    public PaddedNode( final double paddedWidth, final double paddedHeight, final PNode node ) {
+        assert node.getFullBoundsReference().getWidth() <= paddedWidth && node.getFullBoundsReference().getHeight() <= paddedHeight;
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, paddedWidth, paddedHeight ) ) {{
             setVisible( false );
             setPickable( false );
             setChildrenPickable( false );
         }} );
-        addChild( new ZeroOffsetNode( icon ) {{
-            setOffset( maxIconWidth / 2 - icon.getFullBounds().getWidth() / 2, maxIconHeight / 2 - icon.getFullBounds().getHeight() / 2 );
+        addChild( new ZeroOffsetNode( node ) {{
+            setOffset( paddedWidth / 2 - node.getFullBounds().getWidth() / 2, paddedHeight / 2 - node.getFullBounds().getHeight() / 2 );
         }} );
     }
 
-    public PaddedNode( final Dimension2D maxSize, final PNode icon ) {
-        this( maxSize.getWidth(), maxSize.getHeight(), icon );
+    public PaddedNode( final Dimension2D paddedSize, final PNode node ) {
+        this( paddedSize.getWidth(), paddedSize.getHeight(), node );
     }
 
-    public static Dimension2DDouble getMaxSize( final List<PNode> icons ) {
-        return new Dimension2DDouble( icons.map( PhetPNode._fullWidth ).maximum( doubleOrd ), icons.map( PhetPNode._fullHeight ).maximum( doubleOrd ) );
+    public static Dimension2DDouble getMaxSize( final List<PNode> nodes ) {
+        return new Dimension2DDouble( nodes.map( PhetPNode._fullWidth ).maximum( doubleOrd ), nodes.map( PhetPNode._fullHeight ).maximum( doubleOrd ) );
     }
 }
