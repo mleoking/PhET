@@ -24,6 +24,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Base class graph for the "Slope-Intercept" and "Point-Slope" modules.
+ * Displays the following lines:
+ * <ul>
+ * <li>one interactive line with point and slope manipulators, and slope (rise/run) brackets</li>
+ * <li>zero or more "saved" lines</li>
+ * <li>zero or more "standard" lines</li>
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -41,15 +47,16 @@ public abstract class LineFormsGraphNode<T extends PointSlopeLine> extends Graph
 
     /**
      * Constructor
+     *
      * @param graph
-     * @param mvt transform between model and view coordinate frames
-     * @param interactiveLine the line that can be manipulated by the user
-     * @param savedLines lines that have been saved by the user
-     * @param standardLines standard lines (eg, y=x) that are available for viewing
-     * @param linesVisible are lines visible on the graph?
-     * @param interactiveLineVisible is the interactive line visible visible on the graph?
+     * @param mvt                        transform between model and view coordinate frames
+     * @param interactiveLine            the line that can be manipulated by the user
+     * @param savedLines                 lines that have been saved by the user
+     * @param standardLines              standard lines (eg, y=x) that are available for viewing
+     * @param linesVisible               are lines visible on the graph?
+     * @param interactiveLineVisible     is the interactive line visible visible on the graph?
      * @param interactiveEquationVisible is the equation visible on the interactive line?
-     * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
+     * @param slopeVisible               are the slope (rise/run) brackets visible on the graphed line?
      * @param riseRange
      * @param runRange
      * @param x1Range
@@ -244,7 +251,7 @@ public abstract class LineFormsGraphNode<T extends PointSlopeLine> extends Graph
             runBracketNode.setOffset( mvt.modelToViewX( line.x1 ), mvt.modelToViewY( line.y1 ) );
 
             // rise bracket
-            if (  line.rise != 0  ) {
+            if ( line.rise != 0 ) {
                 final Direction riseDirection = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
                 final RiseRunBracketNode riseBracket = new RiseRunBracketNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), line.rise );
                 bracketsParentNode.addChild( riseBracket );
