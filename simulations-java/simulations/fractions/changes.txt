@@ -1,3 +1,4 @@
+Build a Fraction: Prevent +,<,> buttons from being pressed on a container node while it is in the toolbox
 # 1.01.08 (67410) Aug 27, 2012
 Build a Mixed Fraction: Shapes: Added levels
 # 1.01.07 (67375) Aug 27, 2012

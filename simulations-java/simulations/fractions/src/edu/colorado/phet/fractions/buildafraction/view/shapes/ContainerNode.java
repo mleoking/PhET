@@ -65,6 +65,7 @@ public class ContainerNode extends PNode {
     private final SpinnerButtonNode rightSpinner;
     private final IncreaseDecreaseButton increaseDecreaseButton;
     private final boolean showIncreaseButton;
+    private static final double MACHINE_EPSILON = 1E-6;
 
     public ContainerNode( ShapeSceneNode parent, final ContainerContext context, boolean showIncreaseButton, final ShapeType shapeType, int maxNumberOfSingleContainers ) {
         this.parent = parent;
@@ -227,7 +228,12 @@ public class ContainerNode extends PNode {
     }
 
     public void animateHome() {
-        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( this, true ) );
+        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( this, true ), new PActivityDelegateAdapter() {
+            @Override public void activityFinished( final PActivity activity ) {
+                super.activityFinished( activity );
+                updateButtonPickability();
+            }
+        } ) );
         animateToShowSpinners();
     }
 
@@ -277,6 +283,17 @@ public class ContainerNode extends PNode {
         this.initialScale = scale;
         setOffset( x, y );
         setScale( scale );
+        updateButtonPickability();
+    }
+
+    public void updateButtonPickability() {
+        final boolean pickable = !isInToolbox();
+        increaseDecreaseButton.setPickable( pickable );
+        increaseDecreaseButton.setChildrenPickable( pickable );
+        leftSpinner.setPickable( pickable );
+        leftSpinner.setChildrenPickable( pickable );
+        rightSpinner.setPickable( pickable );
+        rightSpinner.setChildrenPickable( pickable );
     }
 
     //Identify containers as being in the toolbox if they are shrunken

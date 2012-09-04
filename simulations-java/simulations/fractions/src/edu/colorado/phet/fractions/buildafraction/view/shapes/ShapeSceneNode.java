@@ -260,6 +260,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     //The user finished dragging a container node.  Perhaps they dropped it in a correct or incorrect collection box, or over the toolbox.
     public void endDrag( final ContainerNode containerNode ) {
+
+        //Make the buttons pressable
+        containerNode.updateButtonPickability();
+
         //See if it hits any matching collection boxes
         List<ShapeSceneCollectionBoxPair> pairs = this.pairs.sort( ord( new F<ShapeSceneCollectionBoxPair, Double>() {
             @Override public Double f( final ShapeSceneCollectionBoxPair t ) {
@@ -409,7 +413,11 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     private void animateToPosition( final ContainerNode containerNode, final Vector2D position, PActivityDelegate delegate ) {
         containerNode.animateToPositionScaleRotation( position.x, position.y,
-                                                      1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( containerNode, true ), delegate ) );
+                                                      1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( containerNode, true ), delegate, new PActivityDelegateAdapter() {
+            @Override public void activityFinished( final PActivity activity ) {
+                containerNode.updateButtonPickability();
+            }
+        } ) );
     }
 
     public void endDrag( final PieceNode piece ) {
