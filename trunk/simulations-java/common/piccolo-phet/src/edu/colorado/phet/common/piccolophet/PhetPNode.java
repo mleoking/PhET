@@ -2,11 +2,15 @@
 package edu.colorado.phet.common.piccolophet;
 
 import fj.F;
+import fj.data.List;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.umd.cs.piccolo.PNode;
+
+import static fj.Ord.doubleOrd;
 
 /**
  * PhetPNode provides useful extensions to the
@@ -208,5 +212,9 @@ public class PhetPNode extends RichPNode {
             removedNode = super.removeChild( child );
         }
         return removedNode;
+    }
+
+    public static Dimension2DDouble getMaxSize( final List<PNode> nodes ) {
+        return new Dimension2DDouble( nodes.map( _fullWidth ).maximum( doubleOrd ), nodes.map( _fullHeight ).maximum( doubleOrd ) );
     }
 }

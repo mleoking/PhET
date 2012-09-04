@@ -38,8 +38,4 @@ public class PaddedNode extends PNode {
     public PaddedNode( final Dimension2D paddedSize, final PNode node ) {
         this( paddedSize.getWidth(), paddedSize.getHeight(), node );
     }
-
-    public static Dimension2DDouble getMaxSize( final List<PNode> nodes ) {
-        return new Dimension2DDouble( nodes.map( PhetPNode._fullWidth ).maximum( doubleOrd ), nodes.map( PhetPNode._fullHeight ).maximum( doubleOrd ) );
-    }
 }

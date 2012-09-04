@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChai
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -55,8 +56,8 @@ public class SettingsOnOffPanel extends PNode {
         final List<PNode> all = icons.bind( nodes );
         List<Feature> padded = icons.map( new F<Feature, Feature>() {
             @Override public Feature f( final Feature element ) {
-                return new Feature( new PaddedNode( PaddedNode.getMaxSize( all ), element.off ),
-                                    new PaddedNode( PaddedNode.getMaxSize( all ), element.on ), element.onProperty, element.component );
+                return new Feature( new PaddedNode( PhetPNode.getMaxSize( all ), element.off ),
+                                    new PaddedNode( PhetPNode.getMaxSize( all ), element.on ), element.onProperty, element.component );
             }
         } );
         VBox box = new VBox( 4 );
