@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 
 /**
@@ -21,7 +22,6 @@ import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
  */
 public abstract class LineFormsModel<T extends PointSlopeLine> implements Resettable {
 
-    private static final int GRAPH_SIZE = 10;
     private static final int GRID_VIEW_UNITS = 530; // max dimension (width or height) of the grid in the view
 
     public final Property<DoubleRange> riseRange, runRange, x1Range, y1Range; // ranges of things that the user can manipulate
@@ -35,7 +35,7 @@ public abstract class LineFormsModel<T extends PointSlopeLine> implements Resett
 
     // For use by point-slope subclass.
     protected LineFormsModel( T interactiveLine ) {
-        this( interactiveLine, new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ) );
+        this( interactiveLine, new DoubleRange( LGConstants.X_AXIS_RANGE.getMin(), LGConstants.X_AXIS_RANGE.getMax() ) /* x1Range */ );
     }
 
     /*
@@ -44,12 +44,12 @@ public abstract class LineFormsModel<T extends PointSlopeLine> implements Resett
      */
     protected LineFormsModel( T interactiveLine, DoubleRange x1Range ) {
         this( interactiveLine,
-              new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ), // rise
-              new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ), // run
+              new DoubleRange( LGConstants.Y_AXIS_RANGE.getMin(), LGConstants.Y_AXIS_RANGE.getMax() ), // rise
+              new DoubleRange( LGConstants.X_AXIS_RANGE.getMin(), LGConstants.X_AXIS_RANGE.getMax() ), // run
               x1Range, // x1
-              new DoubleRange( -GRAPH_SIZE, GRAPH_SIZE ), // y1
-              new IntegerRange( -GRAPH_SIZE, GRAPH_SIZE ), // x axis
-              new IntegerRange( -GRAPH_SIZE, GRAPH_SIZE ) // y axis
+              new DoubleRange( LGConstants.Y_AXIS_RANGE.getMin(), LGConstants.Y_AXIS_RANGE.getMax() ), // y1
+              new IntegerRange( LGConstants.X_AXIS_RANGE.getMin(), LGConstants.X_AXIS_RANGE.getMax() ), // x axis
+              new IntegerRange( LGConstants.Y_AXIS_RANGE.getMin(), LGConstants.Y_AXIS_RANGE.getMax() ) // y axis
         );
     }
 
@@ -65,7 +65,8 @@ public abstract class LineFormsModel<T extends PointSlopeLine> implements Resett
      * @param yRange          range of the y axis
      */
     private LineFormsModel( T interactiveLine,
-                            DoubleRange riseRange, DoubleRange runRange, DoubleRange x1Range, DoubleRange y1Range,
+                            DoubleRange riseRange, DoubleRange runRange,
+                            DoubleRange x1Range, DoubleRange y1Range,
                             final IntegerRange xRange, final IntegerRange yRange ) {
 
         // ranges

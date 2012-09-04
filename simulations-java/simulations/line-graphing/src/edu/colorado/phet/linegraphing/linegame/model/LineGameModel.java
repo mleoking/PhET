@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.LineFactory.SlopeInterceptLineFactory;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
@@ -74,14 +75,9 @@ public class LineGameModel {
     public final PointTool pointTool1, pointTool2;
     private final ObservableList<PointSlopeLine> allLines;
 
-    // Defaults
+    // Default is a graph with uniform quadrants.
     public LineGameModel() {
-        this( 10 );
-    }
-
-    // Uses a graph with uniform quadrant sizes.
-    private LineGameModel( int quadrantSize ) {
-        this( new IntegerRange( -quadrantSize, quadrantSize ), new IntegerRange( -quadrantSize, quadrantSize ) );
+        this( LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
     }
 
     private LineGameModel( IntegerRange xRange, IntegerRange yRange ) {
