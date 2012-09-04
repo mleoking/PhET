@@ -33,7 +33,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for graphs, displays grid and axes.
+ * Base class for graphs, displays a 2D grid and axes.
  * The node's origin is at model coordinate (0,0).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
