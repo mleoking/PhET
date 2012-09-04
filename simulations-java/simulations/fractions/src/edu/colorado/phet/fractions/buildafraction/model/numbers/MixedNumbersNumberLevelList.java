@@ -303,7 +303,6 @@ public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
                 Integer scaleFactor = chooseOneWithSeed( seed, scaleFactors );
                 final int denominator = d * scaleFactor;
                 final PatternMaker patternMaker = chooseOneWithSeed( seed, matching( denominator ) );
-                System.out.println( "denominator = " + denominator + ", patternmaker = " + patternMaker );
                 return ( random ? patternMaker.random() : patternMaker.sequential() ).f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
             }
         };
