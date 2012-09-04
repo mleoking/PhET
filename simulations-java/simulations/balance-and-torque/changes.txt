@@ -1,3 +1,4 @@
+# 1.03.00 (67625) Sep 4, 2012
 # 1.02.01 (67551) Aug 30, 2012
 Fixed an untranslatable string.  String was "What will happen".
 # 1.02.00 (66650) Aug 7, 2012
