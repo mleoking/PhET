@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -149,7 +150,7 @@ class AbstractLevelSelectionNode extends PNode {
                 return list.map( LevelInfo._icon );
             }
         } );
-        final Dimension2DDouble maxSize = PaddedNode.getMaxSize( nodes );
+        final Dimension2DDouble maxSize = PhetPNode.getMaxSize( nodes );
 
         final Property<Boolean> selected = new Property<Boolean>( false );
         final PaddedNode centerIcon = new PaddedNode( maxSize, info.icon );
