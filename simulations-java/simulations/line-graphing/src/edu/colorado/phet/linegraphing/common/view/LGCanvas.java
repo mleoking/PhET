@@ -61,7 +61,6 @@ public abstract class LGCanvas extends PhetPCanvas implements Resettable {
     protected void centerRootNodeOnStage() {
         rootNode.setOffset( ( ( STAGE_SIZE.getWidth() - rootNode.getFullBoundsReference().getWidth() ) / 2 ) - PNodeLayoutUtils.getOriginXOffset( rootNode ),
                             ( ( STAGE_SIZE.getHeight() - rootNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeLayoutUtils.getOriginYOffset( rootNode ) );
-        System.out.println( "rootNode.offset = " + rootNode.getOffset() );//XXX
     }
 
     // Scales the root node to fit in the bounds of the stage.
