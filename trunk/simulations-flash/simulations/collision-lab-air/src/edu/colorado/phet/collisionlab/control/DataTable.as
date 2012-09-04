@@ -162,7 +162,7 @@ public class DataTable extends Sprite {
                     rowCanvas_arr[row].y = 5;
                 }
                 else if ( row == 1 ) {
-                    rowCanvas_arr[row].y = rowHeight - 5;
+                    rowCanvas_arr[row].y = rowHeight;
                 }
                 else {
                     rowCanvas_arr[row].y = row * rowHeight + (row-2) * rowPadding - 5;
@@ -512,6 +512,9 @@ public class DataTable extends Sprite {
     private function evtTextToNumber( evt: Event ): Number {
         var inputText: String = evt.target.text;
         var outputNumber: Number;
+        if( inputText.charAt( 0 ) == "." ) {
+            inputText = "0" + inputText;
+        }
         if ( inputText == "." ) {
             evt.target.text = "0.";
             evt.target.setSelection( 2, 2 ); //sets cursor at end of line
