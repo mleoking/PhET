@@ -1,3 +1,6 @@
+Workaround for iOS where "." is treated properly without adding a leading "0"
+Added resized icons in properly
+Moved the units label row down towards the data
 Removed padding around the "units" row in the data table
 Fixed data table "mass" entry: can now enter in "." first, will fill to "0." as in other columns
 Moved Momentum Diagram down, slightly shrunk excess control panel area to fit
