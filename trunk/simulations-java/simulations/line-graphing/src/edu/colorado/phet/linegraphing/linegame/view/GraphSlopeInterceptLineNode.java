@@ -241,15 +241,15 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
             slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
             slopeManipulatorNode.addInputEventListener( new CursorHandler() );
             slopeManipulatorNode.addInputEventListener( new SlopeDragHandler<SlopeInterceptLine>( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                              slopeManipulatorNode, mvt, guessLine, riseRange, runRange,
-                                                                              lineFactory ) );
+                                                                                                  slopeManipulatorNode, mvt, guessLine, riseRange, runRange,
+                                                                                                  lineFactory ) );
             // interactivity for point (intercept) manipulator
             interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
             interceptManipulatorNode.addInputEventListener( new CursorHandler() );
             interceptManipulatorNode.addInputEventListener( new PointDragHandler<SlopeInterceptLine>( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                                  interceptManipulatorNode, mvt, guessLine,
-                                                                                  new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), yInterceptRange,
-                                                                                  lineFactory ) );
+                                                                                                      interceptManipulatorNode, mvt, guessLine,
+                                                                                                      new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), yInterceptRange,
+                                                                                                      lineFactory ) );
 
             // Rendering order
             addChild( guessNodeParent );
@@ -285,7 +285,7 @@ public class GraphSlopeInterceptLineNode extends PhetPNode {
                         interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( 0, line.y1 ) ) );
                     }
 
-                    //TODO this was copied from SlopeInterceptModel constructor
+                    //TODO this was copied from LineFormsModel constructor
                     // adjust the ranges
                     {
                         // rise
