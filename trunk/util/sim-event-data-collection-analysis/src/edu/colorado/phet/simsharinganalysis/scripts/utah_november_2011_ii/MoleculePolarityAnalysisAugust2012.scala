@@ -120,10 +120,13 @@ object NewParser {
                                p.component != "window" &&
                                p.toString != "Three Atoms: mouse" &&
                                p.toString != "Two Atoms: mouse" &&
-                               p.toString != "Three Atoms: radioButton: off"
+                               p.toString != "Three Atoms: radioButton: off" &&
+                               p.toString != "Real Molecules: buttonNode: Reset All" &&
+                               p.toString != "Three Atoms: buttonNode: Reset All" &&
+                               p.toString != "Two Atoms: buttonNode: Reset All"
 
-                          //Uncomment this line to make a plot for just the last tab
-                          //                               && p.toString.startsWith(tabNames(2))
+                               //Uncomment this line to make a plot for just the last tab
+                               && p.toString.startsWith(tabNames(0))
     )
   }
 
@@ -150,12 +153,13 @@ object NewParser {
   def main(args: Array[String]) {
     val file = new File("C:\\Users\\Sam\\Desktop\\phet\\studies\\molecule-polarity")
     val logs = file.listFiles.map(file => (file, readText(file))).map(tuple => parseFile(tuple._1, tuple._2)).filter(_.project == "molecule-polarity")
-    logs.foreach(println)
-    logs.map(_.id).foreach(println)
-    logs.map(_.entries(0)).foreach(println)
+    //.filter(_.id == "20")
+    //    logs.foreach(println)
+    //    logs.map(_.id).foreach(println)
+    //    logs.map(_.entries(0)).foreach(println)
 
     val group2 = logs.filter(_.id == "2")
-    assert(group2.length == 1)
+    //assert(group2.length == 1)
     //For the recording that is linked with audio #2, the play time was from (min:sec) 0:00-9:30 from the start.
     //    val startPlayTime = group2.apply(0).serverTime
     //    println("file for for group 2 = "+group2.apply(0).file)
@@ -171,7 +175,7 @@ object NewParser {
     //right before everyone starts changing to tab 1 for the activity
     val endPlayTime: Long = 1320867957969L + 609600L
 
-    println(endPlayTime)
+    //    println(endPlayTime)
 
     //Todo could flat map this probably
     val allComponents = new ArrayBuffer[UniqueComponent]
@@ -184,8 +188,10 @@ object NewParser {
     val componentSet = allComponents.toSet
     componentSet.map(_.toString).toList.sorted.foreach(println)
 
+    println()
     println("Total items possible: " + componentSet.size)
     val formatter = new DecimalFormat("0.00")
+    println()
 
     println("group\tcomponents used during\"play only\" time")
     for ( log <- logs.sortBy(_.id) ) {
@@ -194,39 +200,39 @@ object NewParser {
       val entriesUsedAnyTime = getUsedComponents(elements, e => true)
       println(log.id + "\t" + formatter.format(entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0) + "%")
     }
+    println()
 
     //Print line plots.  How many controls each team used as a function of time
-    val columns = startPlayTime to endPlayTime by 5000
+    //    val columns = startPlayTime to endPlayTime by 5000
 
-    println("start time = " + startPlayTime)
-    println("end time = " + endPlayTime)
-    println("first few columns = " + columns.take(3))
+    //    println("start time = " + startPlayTime)
+    //    println("end time = " + endPlayTime)
+    //    println("first few columns = " + columns.take(3))
+    //
+    //    def timeToServerTime(seconds: Long) = {
+    //      //      new Date(seconds*1000 + startPlayTime)
+    //      seconds * 1000L + startPlayTime
+    //    }
 
-    def timeToServerTime(seconds: Long) = {
-      //      new Date(seconds*1000 + startPlayTime)
-      seconds * 1000L + startPlayTime
-    }
-
-    print("time(millis)\t" + columns.mkString("\t") + "\n")
-    for ( log <- logs.sortBy(_.id) ) {
-
-      print(log.id + "\t" + columns.map(endTimeForHistogram => {
-        val elements = getStates(log)
-        val entriesUsedInPlayTime = getUsedComponents(elements, e =>
-          e.serverTime >= startPlayTime &&
-          e.serverTime <= endTimeForHistogram)
-        entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0
-      }).mkString("\t"))
-      println()
-    }
+    //    print("time(millis)\t" + columns.mkString("\t") + "\n")
+    //    for ( log <- logs.sortBy(_.id) ) {
+    //
+    //      print(log.id + "\t" + columns.map(endTimeForHistogram => {
+    //        val elements = getStates(log)
+    //        val entriesUsedInPlayTime = getUsedComponents(elements, e =>
+    //          e.serverTime >= startPlayTime &&
+    //          e.serverTime <= endTimeForHistogram)
+    //        entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0
+    //      }).mkString("\t"))
+    //      println()
+    //    }
 
     //EM: For each computer, can you list out what actions were not used, for each tab?
     println("Session\tActions Not Used")
     for ( log <- logs.sortBy(_.id) ) {
-      val unusedComponents = componentSet -- getUsedComponents(getStates(log), e => true)
+      val unusedComponents = componentSet -- getUsedComponents(getStates(log), e => e.serverTime >= startPlayTime && e.serverTime <= endPlayTime)
       println(log.id + "\t" + unusedComponents.toList.sortBy(_.toString).mkString(", "))
     }
 
-    componentSet.foreach(println)
   }
 }
