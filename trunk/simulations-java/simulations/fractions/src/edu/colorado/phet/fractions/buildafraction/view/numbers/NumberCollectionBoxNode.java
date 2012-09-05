@@ -32,11 +32,16 @@ public class NumberCollectionBoxNode extends CollectionBoxNode {
 
     public NumberCollectionBoxNode( final MixedFraction mixedFraction, final NumberSceneNode numberSceneNode, final BooleanProperty userCreatedMatch ) {
         this.numberSceneNode = numberSceneNode;
-        this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, ARC, ARC ), BACKGROUND, STROKE, STROKE_PAINT ) {{
-            if ( !userCreatedMatch.get() ) { setTransparency( FADED_OUT ); }
+        this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, ARC, ARC ), BACKGROUND, STROKE, DISABLED_STROKE_PAINT ) {{
+            if ( !userCreatedMatch.get() ) {
+                setTransparency( FADED_OUT );
+            }
             userCreatedMatch.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( final Boolean aBoolean ) {
-                    animateToTransparency( 1f, FADE_IN_TIME );
+                public void apply( final Boolean matched ) {
+                    if ( matched ) {
+                        setStrokePaint( ENABLED_STROKE_PAINT );
+                        animateToTransparency( 1f, FADE_IN_TIME );
+                    }
                 }
             } );
         }};

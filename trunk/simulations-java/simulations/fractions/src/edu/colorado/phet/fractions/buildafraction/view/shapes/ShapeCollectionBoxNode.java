@@ -40,12 +40,17 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
 
                                                                 //spacing between them
                                                                 5 * ( numberShapes - 1 ),
-                                                                114, ARC, ARC ), BACKGROUND, STROKE, STROKE_PAINT ) {{
+                                                                114, ARC, ARC ), BACKGROUND, STROKE, DISABLED_STROKE_PAINT ) {{
 
-            if ( !userCreatedMatch.get() ) { setTransparency( FADED_OUT ); }
+            if ( !userCreatedMatch.get() ) {
+                setTransparency( FADED_OUT );
+            }
             userCreatedMatch.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( final Boolean aBoolean ) {
-                    animateToTransparency( 1f, FADE_IN_TIME );
+                public void apply( final Boolean matched ) {
+                    if ( matched ) {
+                        setStrokePaint( ENABLED_STROKE_PAINT );
+                        animateToTransparency( 1f, FADE_IN_TIME );
+                    }
                 }
             } );
         }};
