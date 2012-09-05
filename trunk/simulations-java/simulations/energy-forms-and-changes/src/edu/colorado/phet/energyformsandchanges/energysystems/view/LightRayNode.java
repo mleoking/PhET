@@ -17,9 +17,15 @@ import edu.umd.cs.piccolo.PNode;
 public class LightRayNode extends PNode {
     private static final double STROKE_THICKNESS = 3;
     private final List<FadingLineNode> lines = new ArrayList<FadingLineNode>();
+    private final List<LightAbsorbingShape> lightAbsorbingShapes = new ArrayList<LightAbsorbingShape>();
 
     public LightRayNode( Vector2D origin, Vector2D endpoint, Color color ) {
         lines.add( new FadingLineNode( origin, endpoint, color, 0.5, STROKE_THICKNESS ) );
         addChild( lines.get( 0 ) );
+    }
+
+    public void addLightAbsorbingShape( LightAbsorbingShape lightAbsorbingShape ) {
+        lightAbsorbingShapes.add( lightAbsorbingShape );
+        // TODO: Need to monitor shape for changes in absorption coefficient.
     }
 }
