@@ -216,11 +216,12 @@ public class Atom2D extends Atom implements IBucketSphere<Atom2D> {
         position.removeObserver( listener );
     }
 
-    public String getReference() {
+    private String getReference() {
         return Integer.toHexString( hashCode() );
     }
 
-    public String getSerialization() {
+    // ID for sim-sharing purposes
+    public String getId() {
         return getSymbol() + "_" + getReference();
     }
 

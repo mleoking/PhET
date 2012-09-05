@@ -14,8 +14,15 @@ import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.umd.cs.piccolo.util.PBounds;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ModelAction;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ModelComponent;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ParameterKey;
 
 /**
  * Contains multiple buckets of different types of atoms
@@ -165,8 +172,13 @@ public class Kit {
      */
     public void atomDropped( Atom2D atom ) {
         // dropped on kit, put it in a bucket
-        if ( getAvailableKitBounds().contains( atom.getPosition().toPoint2D() ) ) {
-            if ( isAtomInPlay( atom ) ) {
+        boolean wasInKitArea = isAtomInPlay( atom );
+        boolean droppedInKitArea = getAvailableKitBounds().contains( atom.getPosition().toPoint2D() );
+        SimSharingManager.sendModelMessage( ModelComponent.atom, ModelComponentTypes.modelElement, ModelAction.atomDropped,
+                                            ParameterSet.parameterSet( ParameterKey.atomWasInKitArea, wasInKitArea )
+                                                    .with( ParameterKey.atomDroppedInKitArea, droppedInKitArea ) );
+        if ( droppedInKitArea ) {
+            if ( wasInKitArea ) {
                 recycleMoleculeIntoBuckets( getMolecule( atom ) );
             }
             else {
@@ -175,7 +187,7 @@ public class Kit {
         }
         else {
             // dropped in play area
-            if ( isAtomInPlay( atom ) ) {
+            if ( wasInKitArea ) {
                 attemptToBondMolecule( getMolecule( atom ) );
                 separateMoleculeDestinations();
             }
@@ -490,7 +502,15 @@ public class Kit {
         * bonding diagnostics and sanity checks
         *----------------------------------------------------------------------------*/
 
-        System.out.println( "created structure: " + getMolecule( a ).toSerial2() );
+        String serializedForm = getMolecule( a ).toSerial2();
+        System.out.println( "created structure: " + serializedForm );
+        SimSharingManager.sendModelMessage( ModelComponent.molecule, ModelComponentTypes.modelElement, ModelAction.bonding, new ParameterSet()
+                .with( ParameterKey.bondMoleculeDestroyedA, molA.getMoleculeId() )
+                .with( ParameterKey.bondMoleculeDestroyedB, molB.getMoleculeId() )
+                .with( ParameterKey.bondMoleculeCreated, newMolecule.getMoleculeId() )
+                .with( ParameterKey.moleculeStructureDestroyedA, molA.toSerial2() )
+                .with( ParameterKey.moleculeStructureDestroyedB, molB.toSerial2() )
+                .with( ParameterKey.moleculeStructureCreated, newMolecule.toSerial2() ) );
         Molecule struc = getMolecule( a );
         if ( struc.getAtoms().size() > 2 ) {
             for ( Bond<Atom2D> bond : struc.getBonds() ) {
@@ -561,7 +581,15 @@ public class Kit {
         }
 
         // if our closest bond is too far, then ignore it
-        if ( bestLocation == null || bestDistanceFromIdealLocation > BOND_DISTANCE_THRESHOLD ) {
+        boolean isBondingInvalid = bestLocation == null || bestDistanceFromIdealLocation > BOND_DISTANCE_THRESHOLD;
+
+        ParameterSet baseParameterSet = ParameterSet.parameterSet( ParameterKey.bondOccurs, !isBondingInvalid );
+        SimSharingManager.sendModelMessage( ModelComponent.atom, ModelComponentTypes.modelElement, ModelAction.bondAttempt,
+                                            isBondingInvalid ? baseParameterSet : baseParameterSet
+                                                    .with( ParameterKey.bondAtomA, bestLocation.a.getId() )
+                                                    .with( ParameterKey.bondAtomB, bestLocation.b.getId() )
+                                                    .with( ParameterKey.bondDirection, bestLocation.direction.toString() ) );
+        if ( isBondingInvalid ) {
             return false;
         }
 

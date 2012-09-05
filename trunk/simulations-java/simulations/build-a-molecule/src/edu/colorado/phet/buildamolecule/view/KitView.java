@@ -61,7 +61,7 @@ public class KitView {
 
                 // Add a drag listener that will move the model element when the user
                 // drags this atom.
-                atomNode.addInputEventListener( new SimSharingDragHandler( UserComponentChain.chain( UserComponent.atom, atom.getSerialization() ),
+                atomNode.addInputEventListener( new SimSharingDragHandler( UserComponentChain.chain( UserComponent.atom, atom.getId() ),
                                                                            UserComponentTypes.sprite, true ) {
                     @Override protected void startDrag( PInputEvent event ) {
                         super.startDrag( event );
@@ -93,8 +93,8 @@ public class KitView {
 
                     @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
                         return super.getParametersForAllEvents( event )
-                                .with( ParameterKey.atomSymbol, atom.getSymbol() )
-                                .with( ParameterKey.atomReference, atom.getReference() );
+                                .with( ParameterKey.atomId, atom.getId() )
+                                .with( ParameterKey.atomElement, atom.getSymbol() );
                     }
                 } );
             }
