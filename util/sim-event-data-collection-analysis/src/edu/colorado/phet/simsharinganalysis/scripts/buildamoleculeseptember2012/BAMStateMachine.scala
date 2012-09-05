@@ -22,6 +22,6 @@ class BAMStateMachine extends StateMachine[SimState] {
     //    else if ( state.tab == 0 ) state.copy(tab0 = state.tab0.next(e), time = e.time)
     //    else if ( state.tab == 1 ) state.copy(tab1 = state.tab1.next(e), time = e.time)
     //    else state.copy(tab1 = state.tab1.next(e), time = e.time)
-    else state
+    else state.copy(time = e.time)
   }
 }
