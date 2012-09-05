@@ -104,7 +104,10 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
         return new PNode() {{
             for ( int i = 0; i < level; i++ ) {
                 NumberCardNode card = new NumberCardNode( new Dimension2DDouble( level < 10 ? 60 : 70, 75 ), level, new NumberDragContext() {
-                    public void endDrag( final NumberCardNode draggableNumberNode ) {
+                    public void endDrag( final NumberCardNode numberCardNode ) {
+                    }
+
+                    public void startDrag( final NumberCardNode numberCardNode ) {
                     }
                 } );
                 addChild( card );

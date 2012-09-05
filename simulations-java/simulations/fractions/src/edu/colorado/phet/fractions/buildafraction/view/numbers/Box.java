@@ -10,8 +10,20 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class Box {
-    public PhetPPath box;
-    public NumberCardNode card;
-    public NumberNode number;
+    public ShapeContainer box;
+    public NumberCardNode cardNode;
+    public NumberNode numberNode;
     public PNode parent;
+
+    public void setEnabled( final boolean enabled ) { box.setVisible( enabled ); }
+
+    //Extra layer so it can have 2 levels of enabled/disabled
+    public static class ShapeContainer extends PNode {
+        public final PhetPPath shape;
+
+        public ShapeContainer( PhetPPath shape ) {
+            this.shape = shape;
+            addChild( shape );
+        }
+    }
 }

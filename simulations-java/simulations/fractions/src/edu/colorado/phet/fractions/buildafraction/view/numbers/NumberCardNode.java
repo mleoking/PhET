@@ -47,6 +47,11 @@ public class NumberCardNode extends Stackable {
                 return super.getParametersForAllEvents( event ).with( value, number );
             }
 
+            @Override protected void startDrag( final PInputEvent event ) {
+                super.startDrag( event );
+                context.startDrag( NumberCardNode.this );
+            }
+
             @Override protected void dragNode( final DragEvent event ) {
                 moveToFront();
                 setPositionInStack( Option.<Integer>none() );

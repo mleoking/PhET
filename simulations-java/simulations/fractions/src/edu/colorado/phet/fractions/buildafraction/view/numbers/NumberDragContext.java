@@ -7,5 +7,7 @@ package edu.colorado.phet.fractions.buildafraction.view.numbers;
  * @author Sam Reid
  */
 public interface NumberDragContext {
-    void endDrag( NumberCardNode draggableNumberNode );
+    void endDrag( NumberCardNode numberCardNode );
+
+    void startDrag( NumberCardNode numberCardNode );
 }
