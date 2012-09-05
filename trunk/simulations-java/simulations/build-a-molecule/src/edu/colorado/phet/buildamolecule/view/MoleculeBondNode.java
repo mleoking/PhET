@@ -21,6 +21,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent.scissorsButton;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendButtonPressed;
 
 /**
  * This is a circular mouse target that when moused-over turns the mouse cursor into scissors that will split the referenced bond
@@ -82,6 +84,8 @@ public class MoleculeBondNode extends PNode {
 
                 addInputEventListener( new CursorHandler( createEmptyCursor() ) {
                     @Override public void mouseClicked( PInputEvent event ) {
+                        sendButtonPressed( scissorsButton );
+
                         // actually snip and break the bond
                         kit.breakBond( a, b );
 

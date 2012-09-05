@@ -24,6 +24,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent.breakApartButton;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendButtonPressed;
 
 /**
  * Displays the molecule name and 'X' to break apart the molecule
@@ -73,6 +75,7 @@ public class MoleculeMetadataNode extends PNode {
             addInputEventListener( new CursorHandler() {
                 @Override
                 public void mouseClicked( PInputEvent event ) {
+                    sendButtonPressed( breakApartButton );
                     kit.breakMolecule( molecule );
                 }
             } );
