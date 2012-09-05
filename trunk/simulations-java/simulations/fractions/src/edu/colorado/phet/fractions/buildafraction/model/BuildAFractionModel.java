@@ -47,6 +47,9 @@ public class BuildAFractionModel {
     private final F<Unit, ArrayList<NumberLevel>> numberLevelFactory;
     private final F<Unit, ArrayList<ShapeLevel>> shapeLevelFactory;
 
+    //After the user creates their first correct match, all of the collection boxes fade into view
+    public final BooleanProperty userCreatedMatch = new BooleanProperty( false );
+
     public BuildAFractionModel() {
         this( new F<Unit, ArrayList<ShapeLevel>>() {
                   @Override public ArrayList<ShapeLevel> f( final Unit unit ) {
@@ -61,12 +64,18 @@ public class BuildAFractionModel {
     }
 
     public BuildAFractionModel( F<Unit, ArrayList<ShapeLevel>> shapeLevelFactory, F<Unit, ArrayList<NumberLevel>> numberLevelFactory ) {
-        numberLevels = numberLevelFactory.f( unit() );
-        shapeLevels = shapeLevelFactory.f( unit() );
-        checkLevelSizes();
-
         this.numberLevelFactory = numberLevelFactory;
         this.shapeLevelFactory = shapeLevelFactory;
+
+        numberLevels = numberLevelFactory.f( unit() );
+        for ( NumberLevel level : numberLevels ) {
+            level.addMatchListener( userCreatedMatch );
+        }
+        shapeLevels = shapeLevelFactory.f( unit() );
+        for ( ShapeLevel level : shapeLevels ) {
+            level.addMatchListener( userCreatedMatch );
+        }
+        checkLevelSizes();
     }
 
     private void checkLevelSizes() { assert numberLevels.size() == shapeLevels.size(); }
@@ -81,12 +90,16 @@ public class BuildAFractionModel {
 
     public void resampleNumberLevel( final int levelIndex ) {
         numberLevels.remove( levelIndex ).dispose();
-        numberLevels.add( levelIndex, numberLevelFactory.f( unit() ).get( levelIndex ) );
+        final NumberLevel level = numberLevelFactory.f( unit() ).get( levelIndex );
+        level.addMatchListener( userCreatedMatch );
+        numberLevels.add( levelIndex, level );
     }
 
     public void resampleShapeLevel( final int levelIndex ) {
         shapeLevels.remove( levelIndex ).dispose();
-        shapeLevels.add( levelIndex, shapeLevelFactory.f( unit() ).get( levelIndex ) );
+        final ShapeLevel level = shapeLevelFactory.f( unit() ).get( levelIndex );
+        level.addMatchListener( userCreatedMatch );
+        shapeLevels.add( levelIndex, level );
     }
 
     public void resetAll() {
@@ -99,16 +112,37 @@ public class BuildAFractionModel {
             level.resetAll();
         }
         numberLevels.clear();
-        numberLevels.addAll( numberLevelFactory.f( unit() ) );
+        final ArrayList<NumberLevel> numberLevelList = numberLevelFactory.f( unit() );
+        for ( NumberLevel level : numberLevelList ) {
+            level.addMatchListener( userCreatedMatch );
+        }
+        numberLevels.addAll( numberLevelList );
 
         shapeLevel.reset();
         for ( ShapeLevel level : shapeLevels ) {
             level.resetAll();
         }
         shapeLevels.clear();
-        shapeLevels.addAll( shapeLevelFactory.f( unit() ) );
+        final ArrayList<ShapeLevel> shapeLevelList = shapeLevelFactory.f( unit() );
+        for ( ShapeLevel level : shapeLevelList ) {
+            level.addMatchListener( userCreatedMatch );
+        }
+        shapeLevels.addAll( shapeLevelList );
 
         audioEnabled.reset();
+        userCreatedMatch.reset();
+
+//        level.createdFractions.addObserver( new VoidFunction1<List<Fraction>>() {
+//                        public void apply( final List<Fraction> fractions ) {
+//                            if ( fractions.length() > 0 && fractions.filter( new F<Fraction, Boolean>() {
+//                                @Override public Boolean f( final Fraction fraction ) {
+//                                    return fraction.approxEquals( mixedFraction.toFraction() );
+//                                }
+//                            } ).length() > 0 ) {
+//
+//                            }
+//                        }
+//                    } );
     }
 
     public boolean isLastLevel( final int levelIndex ) {

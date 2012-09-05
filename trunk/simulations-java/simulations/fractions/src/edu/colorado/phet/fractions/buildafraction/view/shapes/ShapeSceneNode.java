@@ -123,7 +123,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             MixedFraction target = level.getTarget( i );
 
             PNode f = MixedFractionNodeFactory.toNode( target );
-            final ShapeCollectionBoxNode cell = new ShapeCollectionBoxNode( this, level.targets.maximum( ord( MixedFraction._toDouble ) ) );
+            final ShapeCollectionBoxNode cell = new ShapeCollectionBoxNode( this, level.targets.maximum( ord( MixedFraction._toDouble ) ), model.userCreatedMatch );
             _pairs.add( new ShapeSceneCollectionBoxPair( cell, new ZeroOffsetNode( f ), target ) );
         }
         initCollectionBoxes( insetY, _pairs );

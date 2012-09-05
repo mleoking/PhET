@@ -30,7 +30,7 @@ public class NumberLevel extends Level {
     public final List<NumberTarget> targets;
 
     public NumberLevel( final List<Integer> numbers, final List<NumberTarget> targets ) {
-        super( targets.length() );
+        super( targets.map( _mixedFraction ) );
         this.numbers = numbers.sort( intOrd );
         this.targets = targets;
     }
