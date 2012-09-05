@@ -2,11 +2,22 @@
 package edu.colorado.phet.buildamolecule.model;
 
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ModelAction;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ModelComponent;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ParameterKey;
 
 /**
  * Stores multiple instances of a single type of molecule. Keeps track of quantity, and has a desired capacity.
@@ -21,17 +32,29 @@ public class CollectionBox {
 
     private Set<Molecule> molecules = new HashSet<Molecule>();
 
-    public CollectionBox( CompleteMolecule moleculeType, final int capacity ) {
+    public CollectionBox( final CompleteMolecule moleculeType, final int capacity ) {
         this.moleculeType = moleculeType;
         this.capacity = capacity;
 
         addListener( new Adapter() {
             @Override public void onAddedMolecule( Molecule molecule ) {
+                SimSharingManager.sendModelMessage( ModelComponent.collectionBox, ModelComponentTypes.modelElement, ModelAction.moleculePutInCollectionBox, getSimSharingParameters()
+                        .with( ParameterKey.moleculeId, molecule.getMoleculeId() ) );
                 if ( quantity.get() == capacity ) {
+                    SimSharingManager.sendModelMessage( ModelComponent.collectionBox, ModelComponentTypes.modelElement, ModelAction.collectionBoxFilled, getSimSharingParameters() );
                     BuildAMoleculeApplication.playCollectionBoxFilledSound();
                 }
             }
         } );
+    }
+
+    private ParameterSet getSimSharingParameters() {
+        return new ParameterSet()
+                .with( ParameterKey.collectionBoxMolecularFormula, moleculeType.getMolecularFormula() )
+                .with( ParameterKey.collectionBoxCommonName, moleculeType.getCommonName() )
+                .with( ParameterKey.collectionBoxCID, moleculeType.getCID() )
+                .with( ParameterKey.collectionBoxQuantity, quantity.get() )
+                .with( ParameterKey.collectionBoxCapacity, capacity );
     }
 
     public CompleteMolecule getMoleculeType() {

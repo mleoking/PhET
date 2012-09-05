@@ -1,12 +1,21 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ModelAction;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ModelComponent;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ParameterKey;
 
 /**
  * Represents a main running model for the 1st two tabs. Contains a collection of kits and boxes. Kits are responsible
@@ -51,19 +60,35 @@ public class KitCollection {
                     if ( kit.isAtomInPlay( atom ) ) {
                         Molecule molecule = kit.getMolecule( atom );
 
+                        boolean attemptedDropOverCollectionBox = false;
+                        Set<CollectionBox> boxesUnderDrop = new HashSet<CollectionBox>();
+                        CollectionBox droppedIntoThisBox = null;
+
                         // check to see if we are trying to drop it in a collection box.
                         for ( CollectionBox box : boxes ) {
 
                             // permissive, so that if the box bounds and molecule bounds intersect, we call it a "hit"
                             if ( box.getDropBounds().intersects( molecule.getPositionBounds() ) ) {
+                                attemptedDropOverCollectionBox = true;
+
+                                boxesUnderDrop.add( box );
 
                                 // if our box takes this type of molecule
                                 if ( box.willAllowMoleculeDrop( molecule ) ) {
                                     kit.moleculePutInCollectionBox( molecule, box );
                                     wasDroppedInCollectionBox = true;
+                                    droppedIntoThisBox = box;
                                     break;
                                 }
                             }
+                        }
+
+                        SimSharingManager.sendModelMessage( ModelComponent.atom, ModelComponentTypes.modelElement, ModelAction.collectionDropInformation, new ParameterSet()
+                                .with( ParameterKey.atomDroppedOverCollectionBox, attemptedDropOverCollectionBox )
+                                .with( ParameterKey.atomSuccessfullyDroppedInCollectionBox, wasDroppedInCollectionBox ) );
+                        // TODO: Add in more collection information here
+                        if ( attemptedDropOverCollectionBox && !wasDroppedInCollectionBox ) {
+                            // the user tried to drop a molecule into a collection box (and it didn't fit)
                         }
                     }
 

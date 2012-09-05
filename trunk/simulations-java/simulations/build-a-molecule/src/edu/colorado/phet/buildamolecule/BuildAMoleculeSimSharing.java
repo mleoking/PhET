@@ -16,6 +16,8 @@ public class BuildAMoleculeSimSharing {
 
         atomWasInKitArea,
         atomDroppedInKitArea,
+        atomDroppedOverCollectionBox,
+        atomSuccessfullyDroppedInCollectionBox,
 
         bondOccurs,
         bondAtomA,
@@ -28,18 +30,31 @@ public class BuildAMoleculeSimSharing {
 
         moleculeStructureDestroyedA,
         moleculeStructureDestroyedB,
-        moleculeStructureCreated
+        moleculeStructureCreated,
+        moleculeId,
+
+        collectionBoxMolecularFormula,
+        collectionBoxCommonName,
+        collectionBoxCID,
+        collectionBoxQuantity,
+        collectionBoxCapacity
+
     }
 
     public enum ModelComponent implements IModelComponent {
         atom,
-        molecule
+        molecule,
+        collectionBox
     }
 
     public enum ModelAction implements IModelAction {
         atomDropped,
+        collectionDropInformation,
         bondAttempt,
-        bonding
+        bonding,
+
+        moleculePutInCollectionBox,
+        collectionBoxFilled
     }
 
 }
