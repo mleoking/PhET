@@ -8,7 +8,10 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 public class BuildAMoleculeSimSharing {
     public enum UserComponent implements IUserComponent {
-        atom
+        atom,
+        makeMoleculesTab,
+        collectMultipleTab,
+        largerMoleculesTab
     }
 
     public enum ParameterKey implements IParameterKey {
