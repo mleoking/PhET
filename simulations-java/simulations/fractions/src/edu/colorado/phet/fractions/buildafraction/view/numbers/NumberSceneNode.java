@@ -97,7 +97,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
                 }} );
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
-            _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.mixedFraction, this ), new ZeroOffsetNode( patternNode ) ) );
+            _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.mixedFraction, this, model.userCreatedMatch ), new ZeroOffsetNode( patternNode ) ) );
         }
         initCollectionBoxes( insetY, _pairs );
 

@@ -1,24 +1,19 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
-import fj.data.List;
-
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
-import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
-import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.buildafraction.view.CollectionBoxNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.UndoButton;
-import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
 
@@ -27,7 +22,7 @@ import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanv
  *
  * @author Sam Reid
  */
-public class NumberCollectionBoxNode extends PNode {
+public class NumberCollectionBoxNode extends CollectionBoxNode {
     public final MixedFraction mixedFraction;
     private final PhetPPath path;
     private boolean completed;
@@ -35,24 +30,16 @@ public class NumberCollectionBoxNode extends PNode {
     private FractionNode fractionGraphic;
     private final NumberSceneNode numberSceneNode;
 
-    public NumberCollectionBoxNode( final MixedFraction mixedFraction, final NumberSceneNode numberSceneNode ) {
+    public NumberCollectionBoxNode( final MixedFraction mixedFraction, final NumberSceneNode numberSceneNode, final BooleanProperty userCreatedMatch ) {
         this.numberSceneNode = numberSceneNode;
-        this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
-
-            setStrokePaint( Color.darkGray );
-            setStroke( controlPanelStroke );
-
-            NumberLevel level = numberSceneNode.getLevel();
-            level.createdFractions.addObserver( new VoidFunction1<List<Fraction>>() {
-                public void apply( final List<Fraction> fractions ) {
-                    if ( fractions.length() > 0 ) {
-                        setStrokePaint( Color.red );
-                        setStroke( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1, new float[] { 10, 10 }, 0 ) );
-                    }
+        this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, ARC, ARC ), BACKGROUND, STROKE, STROKE_PAINT ) {{
+            if ( !userCreatedMatch.get() ) { setTransparency( FADED_OUT ); }
+            userCreatedMatch.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( final Boolean aBoolean ) {
+                    animateToTransparency( 1f, FADE_IN_TIME );
                 }
             } );
         }};
-
 
         this.mixedFraction = mixedFraction;
         addChild( this.path );

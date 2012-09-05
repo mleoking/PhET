@@ -6,12 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
-import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.buildafraction.view.CollectionBoxNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
 import static java.lang.Math.ceil;
@@ -21,14 +22,14 @@ import static java.lang.Math.ceil;
  *
  * @author Sam Reid
  */
-public class ShapeCollectionBoxNode extends PNode {
+public class ShapeCollectionBoxNode extends CollectionBoxNode {
     private final PhetPPath path;
     private boolean completed;
     private final UndoButton undoButton;
     private ContainerNode containerNode;
     private final ShapeSceneNode sceneNode;
 
-    public ShapeCollectionBoxNode( final ShapeSceneNode sceneNode, final MixedFraction mixedFraction ) {
+    public ShapeCollectionBoxNode( final ShapeSceneNode sceneNode, final MixedFraction mixedFraction, final BooleanProperty userCreatedMatch ) {
         this.sceneNode = sceneNode;
         if ( sceneNode == null ) { throw new RuntimeException( "Null scene" ); }
         double numberShapes = ceil( mixedFraction.toDouble() );
@@ -39,10 +40,14 @@ public class ShapeCollectionBoxNode extends PNode {
 
                                                                 //spacing between them
                                                                 5 * ( numberShapes - 1 ),
-                                                                114, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
+                                                                114, ARC, ARC ), BACKGROUND, STROKE, STROKE_PAINT ) {{
 
-            setStrokePaint( Color.darkGray );
-            setStroke( controlPanelStroke );
+            if ( !userCreatedMatch.get() ) { setTransparency( FADED_OUT ); }
+            userCreatedMatch.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( final Boolean aBoolean ) {
+                    animateToTransparency( 1f, FADE_IN_TIME );
+                }
+            } );
         }};
         addChild( this.path );
 

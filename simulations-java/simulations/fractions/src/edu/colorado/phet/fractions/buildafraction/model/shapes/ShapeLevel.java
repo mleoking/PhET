@@ -39,7 +39,7 @@ public class ShapeLevel extends Level {
     }
 
     public ShapeLevel( final List<Integer> pieces, final List<MixedFraction> targets, Color color, ShapeType shapeType ) {
-        super( targets.length() );
+        super( targets );
         this.targets = targets;
         this.pieces = pieces.sort( Ord.intOrd );
         this.color = color;
