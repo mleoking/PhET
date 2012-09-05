@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -52,6 +53,9 @@ public class SunNode extends PositionableFadableModelElementNode {
         final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius, 1000, 40, Color.YELLOW );
         addChild( lightRays );
         addChild( sunNode );
+
+        // TODO: Testing - adding ray-absorbing shapes.
+        lightRays.addRayBlockingShape( new LightAbsorbingShape( new Rectangle2D.Double( 0, 0, 100, 100 ), 0.5 ) );
 
         // Add the clouds.
         for ( Cloud cloud : sun.clouds ) {
