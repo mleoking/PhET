@@ -1,4 +1,5 @@
-8/31/12 extract constants for range of axes
+9/4/12 add factory field to challenges
+9/4/12 extract constants for range of axes
 8/31/12 fix: game reward should be running only when its visible
 8/31/12 fix: reset score when starting a new game
 8/31/12 add logging to game canvas, to debug start/stop of reward animation when module is activated/deactivated
