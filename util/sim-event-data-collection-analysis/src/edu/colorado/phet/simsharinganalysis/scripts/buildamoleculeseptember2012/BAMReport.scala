@@ -6,14 +6,6 @@ import java.io.File
 import edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent
 import edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent._
 
-object BAMReport {
-  def main(args: Array[String]) {
-    val log: Log = phet.parse(new File("C:\\Users\\jon\\phet-logs\\2012-09-05_14-45-54_qi25pe493mrs87usq9sqflklnc_smundbg1eiucc1q8rn1jijvl29u.txt"))
-    val report = new BAMReport(log)
-    println(report.reportText)
-  }
-}
-
 /**
  * @author Sam Reid
  */
@@ -48,4 +40,12 @@ class BAMReport(log: Log) {
                    buttonReport(jmol3DButton) +
                    buttonReport(scissorsButton) +
                    "Molecules collected: " + collectedMolecules.mkString(", ")
+}
+
+object BAMReport {
+  def main(args: Array[String]) {
+    val log: Log = phet.parse(new File("C:\\Users\\jon\\phet-logs\\2012-09-05_14-45-54_qi25pe493mrs87usq9sqflklnc_smundbg1eiucc1q8rn1jijvl29u.txt"))
+    val report = new BAMReport(log)
+    println(report.reportText)
+  }
 }
