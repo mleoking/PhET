@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildamolecule.view;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,14 +12,19 @@ import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ParameterKey;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent;
 
 /**
  * Shows a kit (series of buckets full of different types of atoms)
@@ -56,9 +61,9 @@ public class KitView {
 
                 // Add a drag listener that will move the model element when the user
                 // drags this atom.
-                atomNode.addInputEventListener( new PDragEventHandler() {
-                    @Override
-                    protected void startDrag( PInputEvent event ) {
+                atomNode.addInputEventListener( new SimSharingDragHandler( UserComponentChain.chain( UserComponent.atom, atom.getSerialization() ),
+                                                                           UserComponentTypes.sprite, true ) {
+                    @Override protected void startDrag( PInputEvent event ) {
                         super.startDrag( event );
                         atom.setUserControlled( true );
 
@@ -74,17 +79,22 @@ public class KitView {
                         }
                     }
 
-                    @Override
-                    public void mouseDragged( PInputEvent event ) {
+                    @Override public void mouseDragged( PInputEvent event ) {
+                        super.mouseDragged( event );
                         PDimension delta = event.getDeltaRelativeTo( atomNode.getParent() );
                         Vector2D modelDelta = MODEL_VIEW_TRANSFORM.viewToModelDelta( new Vector2D( delta.width, delta.height ) );
                         kit.atomDragged( atom, modelDelta );
                     }
 
-                    @Override
-                    protected void endDrag( PInputEvent event ) {
+                    @Override protected void endDrag( PInputEvent event ) {
                         super.endDrag( event );
                         atom.setUserControlled( false );
+                    }
+
+                    @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
+                        return super.getParametersForAllEvents( event )
+                                .with( ParameterKey.atomSymbol, atom.getSymbol() )
+                                .with( ParameterKey.atomReference, atom.getReference() );
                     }
                 } );
             }
