@@ -1,10 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
@@ -21,7 +19,6 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class LightRays extends PNode {
 
-    private static Stroke RAY_STROKE = new BasicStroke( 2 );
     private static int SEARCH_ITERATIONS = 10;
 
     private static boolean SHOW_RAY_BLOCKING_SHAPES = true;

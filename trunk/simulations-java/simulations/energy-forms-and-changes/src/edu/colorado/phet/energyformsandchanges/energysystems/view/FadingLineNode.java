@@ -30,9 +30,25 @@ public class FadingLineNode extends PNode {
         assert fadeRate >= 0; // Can't have negative fade.
         double zeroIntensityDistance = (double) startColor.getAlpha() / fadeRate;
         Vector2D zeroIntensityPoint = new Vector2D( zeroIntensityDistance, 0 ).getRotatedInstance( endpoint.minus( origin ).getAngle() );
+        int intensityAtEndPoint = (int) Math.round( Math.max( startColor.getAlpha() - fadeRate * origin.distance( endpoint ), 0 ) );
 
-        Color fullyFadedColor = new Color( startColor.getRed(), startColor.getGreen(), startColor.getBlue(), 0 );
-        Paint gradientPaint = new GradientPaint( (float) origin.x, (float) origin.y, startColor, (float) zeroIntensityPoint.x, (float) zeroIntensityPoint.y, fullyFadedColor );
+        Paint gradientPaint;
+        if ( intensityAtEndPoint == 0 ) {
+            gradientPaint = new GradientPaint( (float) origin.x,
+                                               (float) origin.y,
+                                               startColor,
+                                               (float) zeroIntensityPoint.x,
+                                               (float) zeroIntensityPoint.y,
+                                               new Color( startColor.getRed(), startColor.getGreen(), startColor.getBlue(), 0 ) );
+        }
+        else {
+            gradientPaint = new GradientPaint( (float) origin.x,
+                                               (float) origin.y,
+                                               startColor,
+                                               (float) endpoint.x,
+                                               (float) endpoint.y,
+                                               new Color( startColor.getRed(), startColor.getGreen(), startColor.getBlue(), intensityAtEndPoint ) );
+        }
         addChild( new PhetPPath( new Line2D.Double( origin.toPoint2D(), endpoint.toPoint2D() ), new BasicStroke( (float) lineThickness ), gradientPaint ) );
     }
 
@@ -48,7 +64,7 @@ public class FadingLineNode extends PNode {
         PNode rootNode = new PNode();
         canvas.getLayer().addChild( rootNode );
 
-        rootNode.addChild( new FadingLineNode( new Vector2D( 10, 10 ), new Vector2D( 100, 100 ), Color.ORANGE, 10, 2 ) );
+        rootNode.addChild( new FadingLineNode( new Vector2D( 10, 10 ), new Vector2D( 100, 100 ), Color.ORANGE, 0, 2 ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();

@@ -49,7 +49,7 @@ public class SunNode extends PositionableFadableModelElementNode {
         }};
 
         // Add the rays of sunlight.
-        final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius, 450, 40, Color.YELLOW );
+        final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius, 1000, 40, Color.YELLOW );
         addChild( lightRays );
         addChild( sunNode );
 
