@@ -22,11 +22,13 @@ public class Sun extends EnergySource {
     public static final double RADIUS = 0.02; // In meters, apparent size, not (obviously) actual size.
     public static final Vector2D OFFSET_TO_CENTER_OF_SUN = new Vector2D( -0.05, 0.12 );
 
-    // Clouds that can potentially block the sun's rays.
+    // Clouds that can potentially block the sun's rays.  The positions are
+    // set so that they appear between the sun and the solar panel, and must
+    // not overlap with one another.
     public final List<Cloud> clouds = new ArrayList<Cloud>() {{
-        add( new Cloud( new Vector2D( 0.0, 0.085 ) ) );
-        add( new Cloud( new Vector2D( 0.01, 0.1 ) ) );
-        add( new Cloud( new Vector2D( -0.02, 0.07 ) ) );
+        add( new Cloud( new Vector2D( 0.01, 0.11 ) ) );
+        add( new Cloud( new Vector2D( 0.0, 0.09 ) ) );
+        add( new Cloud( new Vector2D( -0.01, 0.07 ) ) );
     }};
 
     public final Property<Double> cloudiness = new Property<Double>( 0.0 );
