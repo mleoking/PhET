@@ -13,7 +13,9 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  */
 public class Cloud {
 
-    public static final ModelElementImage CLOUD_IMAGE = new ModelElementImage( CLOUD_1, new Vector2D( 0, 0 ) );
+    private static final double CLOUD_WIDTH = 0.07; // In meters, though obviously not to scale.
+
+    public static final ModelElementImage CLOUD_IMAGE = new ModelElementImage( CLOUD_1, CLOUD_WIDTH, new Vector2D( 0, 0 ) );
     public final Vector2D offset;
     public final Property<Double> existenceStrength = new Property<Double>( 1.0 );
 

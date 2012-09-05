@@ -59,7 +59,9 @@ public class SunNode extends PositionableFadableModelElementNode {
 
         // Add the clouds.
         for ( Cloud cloud : sun.clouds ) {
-            addChild( new CloudNode( cloud, mvt ) );
+            final CloudNode cloudNode = new CloudNode( cloud, mvt );
+            addChild( cloudNode );
+            lightRays.addRayBlockingShape( new LightAbsorbingShape( cloudNode.getFullBoundsReference(), 0 ) );
         }
 
         // Add the control panel for the clouds.
