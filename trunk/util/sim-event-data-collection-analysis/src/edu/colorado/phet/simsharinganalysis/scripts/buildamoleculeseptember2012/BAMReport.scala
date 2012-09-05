@@ -2,9 +2,9 @@ package edu.colorado.phet.simsharinganalysis.scripts.buildamoleculeseptember2012
 
 import edu.colorado.phet.simsharinganalysis.{phet, Log}
 import BAMStateMachine.tabNames
-import BuildAMoleculeSimSharing.UserComponent._
 import java.io.File
 import edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent
+import edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent._
 
 object BAMReport {
   def main(args: Array[String]) {
