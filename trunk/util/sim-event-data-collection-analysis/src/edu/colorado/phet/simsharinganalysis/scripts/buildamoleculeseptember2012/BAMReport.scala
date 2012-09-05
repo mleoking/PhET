@@ -1,7 +1,17 @@
 package edu.colorado.phet.simsharinganalysis.scripts.buildamoleculeseptember2012
 
-import edu.colorado.phet.simsharinganalysis.Log
+import edu.colorado.phet.simsharinganalysis.{phet, Log}
 import BAMStateMachine.tabs
+import edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing
+import java.io.File
+
+object BAMReport {
+  def main(args: Array[String]) {
+    val log: Log = phet.parse(new File("C:\\Users\\jon\\phet-logs\\2012-09-05_14-45-54_qi25pe493mrs87usq9sqflklnc_smundbg1eiucc1q8rn1jijvl29u.txt"))
+    val report = new BAMReport(log)
+    println(report.reportText)
+  }
+}
 
 /**
  * @author Sam Reid
@@ -30,7 +40,7 @@ class BAMReport(log: Log) {
                    "start time: " + states.head.start.time + "\n" +
                    "end time: " + states.last.end.time + "\n" +
                    tabs.map(tab => "Time on tab " + ( tabs.indexOf(tab) + 1 ) + " (" + tab + "): " + timeOnTab(tab)).mkString("\n") + "\n" +
-                   buttonReport("breakApartButton") +
-                   buttonReport("jmol3DButton") +
-                   buttonReport("scissorsButton")
+                   buttonReport(BuildAMoleculeSimSharing.UserComponent.breakApartButton.name()) +
+                   buttonReport(BuildAMoleculeSimSharing.UserComponent.jmol3DButton.name()) +
+                   buttonReport(BuildAMoleculeSimSharing.UserComponent.scissorsButton.name())
 }
