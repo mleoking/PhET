@@ -216,6 +216,14 @@ public class Atom2D extends Atom implements IBucketSphere<Atom2D> {
         position.removeObserver( listener );
     }
 
+    public String getReference() {
+        return Integer.toHexString( hashCode() );
+    }
+
+    public String getSerialization() {
+        return getSymbol() + "_" + getReference();
+    }
+
     // -----------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
