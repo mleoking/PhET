@@ -2,8 +2,9 @@ package edu.colorado.phet.simsharinganalysis.scripts.buildamoleculeseptember2012
 
 import edu.colorado.phet.simsharinganalysis.{phet, Log}
 import BAMStateMachine.tabNames
-import edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing
+import BuildAMoleculeSimSharing.UserComponent._
 import java.io.File
+import edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent
 
 object BAMReport {
   def main(args: Array[String]) {
@@ -28,9 +29,9 @@ class BAMReport(log: Log) {
     millisecondsToMinutes(states.filter(_.start.tab == tabIndex).map(_.time).sum)
   }
 
-  def buttonReport(component: String) = {
-    val count = log.filter(e => e.component == component && e.enabled).length
-    "Number of times pressing " + component + ": " + count + "\n"
+  def buttonReport(component: UserComponent) = {
+    val count = log.filter(e => e.component == component.name && e.enabled).length
+    "Number of times pressing " + component.name + ": " + count + "\n"
   }
 
   lazy val collectedMolecules = states.flatMap(state => state.end.tab0.collected ++ state.end.tab1.collected ++ state.end.tab2.collected).distinct
@@ -43,8 +44,8 @@ class BAMReport(log: Log) {
                    "start time: " + states.head.start.time + "\n" +
                    "end time: " + states.last.end.time + "\n" +
                    tabNames.map(tab => "Time on tab " + ( tabNames.indexOf(tab) + 1 ) + " (" + tab + "): " + timeOnTab(tab)).mkString("\n") + "\n" +
-                   buttonReport(BuildAMoleculeSimSharing.UserComponent.breakApartButton.name()) +
-                   buttonReport(BuildAMoleculeSimSharing.UserComponent.jmol3DButton.name()) +
-                   buttonReport(BuildAMoleculeSimSharing.UserComponent.scissorsButton.name()) +
+                   buttonReport(breakApartButton) +
+                   buttonReport(jmol3DButton) +
+                   buttonReport(scissorsButton) +
                    "Molecules collected: " + collectedMolecules.mkString(", ")
 }
