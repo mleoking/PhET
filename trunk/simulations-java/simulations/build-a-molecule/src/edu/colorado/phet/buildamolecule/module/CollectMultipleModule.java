@@ -2,16 +2,23 @@
 
 package edu.colorado.phet.buildamolecule.module;
 
-import java.awt.*;
+import java.awt.Frame;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.control.CollectionPanel;
-import edu.colorado.phet.buildamolecule.model.*;
+import edu.colorado.phet.buildamolecule.model.Bucket;
+import edu.colorado.phet.buildamolecule.model.CollectionBox;
+import edu.colorado.phet.buildamolecule.model.CollectionList;
+import edu.colorado.phet.buildamolecule.model.Kit;
+import edu.colorado.phet.buildamolecule.model.KitCollection;
+import edu.colorado.phet.buildamolecule.model.LayoutBounds;
+import edu.colorado.phet.buildamolecule.model.MoleculeList;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.buildamolecule.view.MoleculeCollectingCanvas;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent.collectMultipleTab;
 import static edu.colorado.phet.chemistry.model.Element.*;
 
 /**
@@ -20,7 +27,7 @@ import static edu.colorado.phet.chemistry.model.Element.*;
 public class CollectMultipleModule extends AbstractBuildAMoleculeModule {
 
     public CollectMultipleModule( Frame parentFrame ) {
-        super( parentFrame, BuildAMoleculeStrings.TITLE_COLLECT_MULTIPLE, new LayoutBounds( false, CollectionPanel.getCollectionPanelModelWidth( false ) ) );
+        super( collectMultipleTab, parentFrame, BuildAMoleculeStrings.TITLE_COLLECT_MULTIPLE, new LayoutBounds( false, CollectionPanel.getCollectionPanelModelWidth( false ) ) );
 
         /*---------------------------------------------------------------------------*
         * initial model

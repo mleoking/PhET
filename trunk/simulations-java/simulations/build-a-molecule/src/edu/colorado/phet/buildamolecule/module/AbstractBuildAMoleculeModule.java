@@ -1,31 +1,44 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.module;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Frame;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
-import edu.colorado.phet.buildamolecule.model.*;
+import edu.colorado.phet.buildamolecule.model.Bucket;
+import edu.colorado.phet.buildamolecule.model.CollectionBox;
+import edu.colorado.phet.buildamolecule.model.CollectionList;
+import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
+import edu.colorado.phet.buildamolecule.model.Kit;
+import edu.colorado.phet.buildamolecule.model.KitCollection;
+import edu.colorado.phet.buildamolecule.model.LayoutBounds;
+import edu.colorado.phet.buildamolecule.model.MoleculeList;
+import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Superclass for modules in Build a Molecule. Handles code required for all modules (bounds, canvas handling, and the ability to switch models)
  */
-public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
+public abstract class AbstractBuildAMoleculeModule extends SimSharingPiccoloModule {
     protected final LayoutBounds bounds;
     protected BuildAMoleculeCanvas canvas;
     private CollectionList collectionList;
 
     private static Random random = new Random( System.currentTimeMillis() );
 
-    public AbstractBuildAMoleculeModule( Frame parentFrame, String name, LayoutBounds bounds ) {
+    public AbstractBuildAMoleculeModule( IUserComponent tabUserComponent, Frame parentFrame, String name, LayoutBounds bounds ) {
         // parentFrame is accessed through the application
-        super( name, new ConstantDtClock( 30 ) );
+        super( tabUserComponent, name, new ConstantDtClock( 30 ) );
         this.bounds = bounds;
         setClockControlPanel( null );
     }
