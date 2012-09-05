@@ -1,13 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Stroke;
-import java.awt.geom.Line2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -17,9 +15,11 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class LightRayNode extends PNode {
-    private static final Stroke STROKE = new BasicStroke( 2 );
+    private static final double STROKE_THICKNESS = 2;
+    private final List<FadingLineNode> lines = new ArrayList<FadingLineNode>();
 
     public LightRayNode( Vector2D origin, Vector2D endpoint, Color color ) {
-        addChild( new PhetPPath( new Line2D.Double( origin.toPoint2D(), endpoint.toPoint2D() ), STROKE, color ) );
+        lines.add( new FadingLineNode( origin, endpoint, color, 0.5, STROKE_THICKNESS ) );
+        addChild( lines.get( 0 ) );
     }
 }
