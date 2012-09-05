@@ -68,11 +68,10 @@ class PlayNode extends PhetPNode {
         } );
 
         // Set up a new challenge
-        model.challenge.addObserver( new VoidFunction1<SlopeInterceptChallenge>() {  //TODO use generics
+        model.challenge.addObserver( new VoidFunction1<SlopeInterceptChallenge>() { //TODO use generics
             public void apply( SlopeInterceptChallenge challenge ) {
                 challengeParent.removeAllChildren();
-                //TODO type of challenge will vary
-                challengeParent.addChild( new GraphSlopeInterceptLineNode( model, audioPlayer, challengeSize ) );
+                challengeParent.addChild( challenge.createView( model, audioPlayer, challengeSize ) );
             }
         } );
     }

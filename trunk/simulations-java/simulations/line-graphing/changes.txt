@@ -1,4 +1,5 @@
-9/4/12 add factory field to challenges
+9/5/12 add factory method to challenges for instantiating view
+9/4/12 add factory field to challenges for instantiating lines
 9/4/12 extract constants for range of axes
 8/31/12 fix: game reward should be running only when its visible
 8/31/12 fix: reset score when starting a new game
