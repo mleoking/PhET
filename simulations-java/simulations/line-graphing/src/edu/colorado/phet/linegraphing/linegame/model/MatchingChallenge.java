@@ -23,7 +23,7 @@ public abstract class MatchingChallenge<T extends PointSlopeLine> {
     public final T answer; // the correct answer
     public final Property<T> guess; // the user's current guess
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
-    public final LineFactory<T> lineFactory;
+    public final LineFactory<T> lineFactory; // instantiates lines
 
     public MatchingChallenge( T answer, T guess, LineFactory<T> lineFactory, ModelViewTransform mvt ) {
         this.answer = answer;
