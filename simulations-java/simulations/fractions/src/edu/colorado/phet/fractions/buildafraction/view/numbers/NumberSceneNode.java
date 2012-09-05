@@ -100,6 +100,12 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
                 }} );
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
+
+
+            //On mixed number nodes, make the target values smaller so there is enough room
+            if ( model.isMixedNumbers() ) { patternNode.scale( 0.75 ); }
+
+            //Add to the set of pairs
             _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.mixedFraction, this, model.userCreatedMatch ), new ZeroOffsetNode( patternNode ) ) );
         }
         initCollectionBoxes( insetY, _pairs );

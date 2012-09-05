@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Numbers: Shrink the target representations so there is enough room in the play area
 Build a Mixed Fraction: Don't allow a number card to drop into a hidden numerator/denominator box
 Build a Mixed Fraction: Hide the numerator/denominator if it would create an improper fraction or fraction = 1
 # 1.01.09 (67638) Sep 5, 2012
