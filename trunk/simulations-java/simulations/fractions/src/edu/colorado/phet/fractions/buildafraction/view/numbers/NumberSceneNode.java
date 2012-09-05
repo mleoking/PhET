@@ -268,17 +268,17 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             final PhetPPath topBox = f.numerator.box.shape;
             final PhetPPath bottomBox = f.denominator.box.shape;
             final PhetPPath wholeBox = f.whole.box.shape;
-            if ( numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() && !f.isInToolboxPosition() ) {
+            if ( f.numerator.isEnabled() && numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() && !f.isInToolboxPosition() ) {
                 numberDroppedOnFraction( f, numberCardNode, topBox );
                 hitFraction = true;
                 break;
             }
-            if ( numberCardNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() && !f.isInToolboxPosition() ) {
+            if ( f.denominator.isEnabled() && numberCardNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() && !f.isInToolboxPosition() ) {
                 numberDroppedOnFraction( f, numberCardNode, bottomBox );
                 hitFraction = true;
                 break;
             }
-            if ( numberCardNode.getGlobalFullBounds().intersects( wholeBox.getGlobalFullBounds() ) && wholeBox.getVisible() && !f.isInToolboxPosition() ) {
+            if ( f.whole.isEnabled() && numberCardNode.getGlobalFullBounds().intersects( wholeBox.getGlobalFullBounds() ) && wholeBox.getVisible() && !f.isInToolboxPosition() ) {
                 numberDroppedOnFraction( f, numberCardNode, wholeBox );
                 hitFraction = true;
                 break;

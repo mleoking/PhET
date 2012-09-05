@@ -17,6 +17,8 @@ public class Box {
 
     public void setEnabled( final boolean enabled ) { box.setVisible( enabled ); }
 
+    public boolean isEnabled() { return box.getVisible(); }
+
     //Extra layer so it can have 2 levels of enabled/disabled
     public static class ShapeContainer extends PNode {
         public final PhetPPath shape;
