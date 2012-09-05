@@ -43,15 +43,15 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * View components for a challenge in which the user is given an equation and must graph the line.
- * The equation and line manipulators correspond to slope-intercept form.
+ * View components for a challenge in which the user is given an equation and must
+ * position the slope and intercept manipulators on the graph.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GraphSlopeInterceptLineNode extends PhetPNode {
+public class GraphSlopeInterceptNode extends PhetPNode {
 
     //TODO this class has too much access to model, narrow the interface
-    public GraphSlopeInterceptLineNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public GraphSlopeInterceptNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
         final SlopeInterceptLineFactory lineFactory = new SlopeInterceptLineFactory();
 

@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 //TODO should these be moved to LGColors, LGConstants, etc?
+
 /**
  * Constants related to the game.
  *
@@ -25,6 +26,7 @@ public class GameConstants {
     public static final Color CORRECT_ANSWER_COLOR = new Color( 0, 200, 0 ); // green
     public static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     public static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
+    public static final double POINT_DIAMETER = 0.5; // diameter of the manipulators, in model units
     public static final Color POINTS_COLOR = Color.BLACK;
     public static final PhetFont POINTS_FONT = new PhetFont( Font.BOLD, 36 );
 }
