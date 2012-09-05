@@ -18,11 +18,19 @@ class BAMReport(log: Log) {
     millisecondsToMinutes(states.filter(_.start.tab == tabIndex).map(_.time).sum)
   }
 
+  def buttonReport(component: String) = {
+    val count = log.filter(e => e.component == component && e.enabled).length
+    "Number of times pressing " + component + ": " + count + "\n"
+  }
+
   def reportText = "Previous state: " + states.last.start + "\n" +
                    "Entry: " + states.last.entry + "\n" +
                    "Current State: " + states.last.end + "\n" +
                    "Time sim open: " + timeSimOpenInMinutes + "\n" +
                    "start time: " + states.head.start.time + "\n" +
                    "end time: " + states.last.end.time + "\n" +
-                   tabs.map(tab => "Time on tab " + ( tabs.indexOf(tab) + 1 ) + " (" + tab + "): " + timeOnTab(tab)).mkString("\n")
+                   tabs.map(tab => "Time on tab " + ( tabs.indexOf(tab) + 1 ) + " (" + tab + "): " + timeOnTab(tab)).mkString("\n") + "\n" +
+                   buttonReport("breakApartButton") +
+                   buttonReport("jmol3DButton") +
+                   buttonReport("scissorsButton")
 }

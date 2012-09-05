@@ -9,6 +9,9 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 public class BuildAMoleculeSimSharing {
     public enum UserComponent implements IUserComponent {
         atom,
+        breakApartButton,
+        scissorsButton,
+        jmol3DButton,
         makeMoleculesTab,
         collectMultipleTab,
         largerMoleculesTab
