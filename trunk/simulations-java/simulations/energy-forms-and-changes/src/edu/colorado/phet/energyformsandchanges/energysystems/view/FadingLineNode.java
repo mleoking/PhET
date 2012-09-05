@@ -3,15 +3,14 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Point;
+import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -26,8 +25,15 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class FadingLineNode extends PNode {
 
-    public FadingLineNode( Vector2D origin, Vector2D endpoint, Color startColor, double fadeCoefficient, double lineThickness ) {
-        addChild( new PhetPPath( new Line2D.Double( origin.toPoint2D(), endpoint.toPoint2D() ), new BasicStroke( (float) lineThickness ), startColor ) );
+    // TODO: I don't like the fade rate parameter, because it's in units of absolute amount (out of 255) per unit distance, which seems weird.
+    public FadingLineNode( Vector2D origin, Vector2D endpoint, Color startColor, double fadeRate, double lineThickness ) {
+        assert fadeRate >= 0; // Can't have negative fade.
+        double zeroIntensityDistance = (double) startColor.getAlpha() / fadeRate;
+        Vector2D zeroIntensityPoint = new Vector2D( zeroIntensityDistance, 0 ).getRotatedInstance( endpoint.minus( origin ).getAngle() );
+
+        Color fullyFadedColor = new Color( startColor.getRed(), startColor.getGreen(), startColor.getBlue(), 0 );
+        Paint gradientPaint = new GradientPaint( (float) origin.x, (float) origin.y, startColor, (float) zeroIntensityPoint.x, (float) zeroIntensityPoint.y, fullyFadedColor );
+        addChild( new PhetPPath( new Line2D.Double( origin.toPoint2D(), endpoint.toPoint2D() ), new BasicStroke( (float) lineThickness ), gradientPaint ) );
     }
 
     // Test harness.
@@ -39,15 +45,10 @@ public class FadingLineNode extends PNode {
         // Set up the canvas-screen transform.
         canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, stageSize ) );
 
-        ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
-                new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
-                1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
-
         PNode rootNode = new PNode();
         canvas.getLayer().addChild( rootNode );
 
-        rootNode.addChild( new FadingLineNode( new Vector2D( 10, 10 ), new Vector2D( 100, 100 ), Color.ORANGE, 0, 2 ) );
+        rootNode.addChild( new FadingLineNode( new Vector2D( 10, 10 ), new Vector2D( 100, 100 ), Color.ORANGE, 10, 2 ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();
