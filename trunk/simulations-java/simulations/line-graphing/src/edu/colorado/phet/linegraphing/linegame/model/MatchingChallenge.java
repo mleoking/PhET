@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.model;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -9,7 +11,8 @@ import edu.colorado.phet.linegraphing.common.model.LineFactory.PointSlopeLineFac
 import edu.colorado.phet.linegraphing.common.model.LineFactory.SlopeInterceptLineFactory;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
-import edu.colorado.phet.linegraphing.linegame.view.GraphSlopeInterceptLineNode;
+import edu.colorado.phet.linegraphing.linegame.view.GraphSlopeInterceptNode;
+import edu.colorado.phet.linegraphing.linegame.view.GraphSlopeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -40,15 +43,27 @@ public abstract class MatchingChallenge<T extends PointSlopeLine> {
     // Creates the view component for the challenge.
     public abstract PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize );
 
-    // A challenge that involves a line in slope-intercept form.
-    public static class SlopeInterceptChallenge extends MatchingChallenge<SlopeInterceptLine> {
+    // A challenge that involves setting the slope and intercept for a line in slope-intercept form.
+    public static class GraphSlopeInterceptChallenge extends MatchingChallenge<SlopeInterceptLine> {
 
-        public SlopeInterceptChallenge( SlopeInterceptLine answer, ModelViewTransform mvt ) {
+        public GraphSlopeInterceptChallenge( SlopeInterceptLine answer, ModelViewTransform mvt ) {
             super( answer, SlopeInterceptLine.Y_EQUALS_X_LINE, new SlopeInterceptLineFactory(), mvt );
         }
 
         @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-            return new GraphSlopeInterceptLineNode( model, audioPlayer, challengeSize );
+            return new GraphSlopeInterceptNode( model, audioPlayer, challengeSize );
+        }
+    }
+
+    // A challenge that involves setting the slope for a line in slope-intercept form.
+    public static class GraphSlopeChallenge extends MatchingChallenge<SlopeInterceptLine> {
+
+        public GraphSlopeChallenge( SlopeInterceptLine answer, ModelViewTransform mvt ) {
+            super( answer, new SlopeInterceptLine( 1, 1, answer.y1, Color.BLACK ), new SlopeInterceptLineFactory(), mvt );
+        }
+
+        @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+            return new GraphSlopeNode( model, audioPlayer, challengeSize );
         }
     }
 

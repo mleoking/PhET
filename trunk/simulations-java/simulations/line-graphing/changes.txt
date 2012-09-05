@@ -1,3 +1,4 @@
+9/5/12 brute-force implementation of "graph the slope" challenge for slope-intercept lines
 9/5/12 add node for plotted points in game (typically the intercept for some slope-intercept challenges)
 9/5/12 add factory method to challenges for instantiating view
 9/4/12 add factory field to challenges for instantiating lines
