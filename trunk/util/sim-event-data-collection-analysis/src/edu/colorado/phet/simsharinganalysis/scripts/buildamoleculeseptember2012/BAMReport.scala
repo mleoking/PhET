@@ -26,7 +26,7 @@ class BAMReport(log: Log) {
     "Number of times pressing " + component.name + ": " + count + "\n"
   }
 
-  lazy val collectedMolecules = states.flatMap(state => state.end.tab0.collected ++ state.end.tab1.collected ++ state.end.tab2.collected).distinct
+  lazy val collectedMoleculeNames = states.flatMap(state => state.end.tab0.collected ++ state.end.tab1.collected ++ state.end.tab2.collected).distinct
 
   def reportText = "File: " + log.file + "\n" +
                    "Previous state: " + states.last.start + "\n" +
@@ -39,7 +39,8 @@ class BAMReport(log: Log) {
                    buttonReport(breakApartButton) +
                    buttonReport(jmol3DButton) +
                    buttonReport(scissorsButton) +
-                   "Molecules collected: " + collectedMolecules.mkString(", ")
+                   "All molecules collected: " + collectedMoleculeNames.mkString(", ") +
+                   "Molecules Collected:\n" + states.map(s => s.end.collectedMoleculesWithMetadata.distinct).distinct.mkString("\n")
 }
 
 object BAMReport {
