@@ -549,6 +549,10 @@ public class CompleteMolecule extends MoleculeStructure<PubChemAtom> implements 
         }
     }
 
+    public String getMolecularFormula() {
+        return molecularFormula;
+    }
+
     /*---------------------------------------------------------------------------*
     * used for utilities in construction
     *----------------------------------------------------------------------------*/
