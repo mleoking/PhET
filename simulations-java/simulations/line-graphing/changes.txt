@@ -1,3 +1,4 @@
+9/5/12 add node for plotted points in game (typically the intercept for some slope-intercept challenges)
 9/5/12 add factory method to challenges for instantiating view
 9/4/12 add factory field to challenges for instantiating lines
 9/4/12 extract constants for range of axes
