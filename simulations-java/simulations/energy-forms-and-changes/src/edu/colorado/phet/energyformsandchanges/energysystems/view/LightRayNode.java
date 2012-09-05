@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class LightRayNode extends PNode {
-    private static final double STROKE_THICKNESS = 2;
+    private static final double STROKE_THICKNESS = 3;
     private final List<FadingLineNode> lines = new ArrayList<FadingLineNode>();
 
     public LightRayNode( Vector2D origin, Vector2D endpoint, Color color ) {

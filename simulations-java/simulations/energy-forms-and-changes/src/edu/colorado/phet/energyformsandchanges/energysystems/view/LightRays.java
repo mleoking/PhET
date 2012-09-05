@@ -26,17 +26,24 @@ public class LightRays extends PNode {
     private final ObservableList<Shape> rayBlockingShapes = new ObservableList<Shape>();
 
     public LightRays( final Vector2D center, final double innerRadius, final double outerRadius, final int numRays, final Color color ) {
+        this( center, innerRadius, outerRadius, numRays, 0, color );
+    }
 
-        assert numRays > 0 && outerRadius > innerRadius; // Parameter checking.
+    public LightRays( final Vector2D center, final double innerRadius, final double outerRadius, final int numRaysForFullCircle, final double darkConeSpanAngle, final Color color ) {
 
-        // Function that creates the rays, accounting for any blocking shapes.
+        assert numRaysForFullCircle > 0 && outerRadius > innerRadius && darkConeSpanAngle < Math.PI * 2; // Parameter checking.
+
+        // Function that creates the rays.
         VoidFunction1<Shape> rayUpdater = new VoidFunction1<Shape>() {
             public void apply( Shape shape ) {
-                for ( int i = 0; i < numRays; i++ ) {
-                    double angle = ( Math.PI * 2 / numRays ) * i;
+                for ( int i = 0; i < numRaysForFullCircle; i++ ) {
+                    double angle = ( Math.PI * 2 / numRaysForFullCircle ) * i;
                     final Vector2D rayStartPoint = center.plus( new Vector2D( innerRadius, 0 ).getRotatedInstance( angle ) );
                     Vector2D rayEndPoint = center.plus( new Vector2D( outerRadius, 0 ).getRotatedInstance( angle ) );
-                    addChild( new LightRayNode( rayStartPoint, rayEndPoint, color ) );
+                    if ( angle <= Math.PI / 2 - darkConeSpanAngle / 2 || angle >= Math.PI / 2 + darkConeSpanAngle / 2 ) {
+                        // Ray is not in the "dark cone", so add it.
+                        addChild( new LightRayNode( rayStartPoint, rayEndPoint, color ) );
+                    }
 //                    for ( Shape rayBlockingShape : rayBlockingShapes ) {
 //                        System.out.println( "==================" );
 //                        System.out.println( "rayEndPoint before blocking = " + rayEndPoint );
