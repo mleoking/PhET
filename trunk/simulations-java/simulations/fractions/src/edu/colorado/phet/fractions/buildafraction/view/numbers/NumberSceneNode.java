@@ -5,6 +5,7 @@ import fj.Equal;
 import fj.F;
 import fj.P2;
 import fj.data.List;
+import fj.data.Option;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
@@ -62,6 +64,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private static final double SPACE_BETWEEN_STACKS = 28;
     private static final double LEFT_RIGHT_INSET = 20;
     private static final double SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON = 50;
+    private Property<Option<Integer>> draggedCardProperty = new Property<Option<Integer>>( Option.<Integer>none() );
 
     @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         super( levelIndex, soundEnabled, context );
@@ -262,9 +265,9 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     public void endDrag( final NumberCardNode numberCardNode ) {
         boolean hitFraction = false;
         for ( FractionNode f : fractionNodes ) {
-            final PhetPPath topBox = f.numerator.box;
-            final PhetPPath bottomBox = f.denominator.box;
-            final PhetPPath wholeBox = f.whole.box;
+            final PhetPPath topBox = f.numerator.box.shape;
+            final PhetPPath bottomBox = f.denominator.box.shape;
+            final PhetPPath wholeBox = f.whole.box.shape;
             if ( numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() && !f.isInToolboxPosition() ) {
                 numberDroppedOnFraction( f, numberCardNode, topBox );
                 hitFraction = true;
@@ -286,7 +289,11 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         if ( !hitFraction ) {
             numberCardNode.animateToTopOfStack();
         }
+
+        draggedCardProperty.set( Option.<Integer>none() );
     }
+
+    public void startDrag( final NumberCardNode numberCardNode ) { draggedCardProperty.set( some( numberCardNode.number ) ); }
 
     private void numberDroppedOnFraction( final FractionNode fractionGraphic, final NumberCardNode numberCardNode, final PhetPPath box ) {
         centerOnBox( numberCardNode, box );
@@ -388,6 +395,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     }
 
     public Vector2D getCenterOfScreen() { return centerOfScreen; }
+
+    public ObservableProperty<Option<Integer>> getDraggedCardProperty() { return draggedCardProperty; }
 
     public Vector2D getLocation( final int stackIndex, final int cardIndex, NumberCardNode cardNode ) {
 
