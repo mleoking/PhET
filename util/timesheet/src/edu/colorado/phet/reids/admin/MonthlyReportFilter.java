@@ -176,6 +176,7 @@ public class MonthlyReportFilter {
         if ( category.equals( "server" ) ) { return mapCategory( "misc" ); }
         if ( category.equals( "gas-properties" ) ) { return mapCategory( "ideal-gas" ); }
         if ( category.equals( "radiating-charge" ) ) { return mapCategory( "radiating-charges" ); }
+        if ( category.equals( "ipad-mass-springs-prototype" ) ) { return mapCategory( "ipad" ); }
 
         System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
