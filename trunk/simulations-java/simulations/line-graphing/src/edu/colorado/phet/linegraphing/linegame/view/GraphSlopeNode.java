@@ -249,13 +249,13 @@ public class GraphSlopeNode extends PhetPNode {
             slopeManipulatorNode.addInputEventListener( new SlopeDragHandler<SlopeInterceptLine>( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                                                   slopeManipulatorNode, mvt, guessLine, riseRange, runRange,
                                                                                                   lineFactory ) );
-            // interactivity for point (intercept) manipulator
-            PNode interceptManipulatorNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
-            interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( 0, guessLine.get().y1 ) ) );
+            // plotted point for intercept
+            PNode interceptPointNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
+            interceptPointNode.setOffset( mvt.modelToView( new Point2D.Double( 0, guessLine.get().y1 ) ) );
 
             // Rendering order
             addChild( guessNodeParent );
-            addChild( interceptManipulatorNode );
+            addChild( interceptPointNode );
             addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
             // Show the user's current guess
