@@ -53,6 +53,10 @@ public class GraphInterceptNode extends PhetPNode {
     //TODO Most of this class and inner class was copied from GraphSlopeInterceptNode, should be able to combine.
     public GraphInterceptNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
+        // Since slope is fixed, make sure that the guess has the same rise and run as the answer.
+        assert ( model.challenge.get().answer.rise == model.challenge.get().guess.get().rise &&
+                 model.challenge.get().answer.run == model.challenge.get().guess.get().run );
+
         final SlopeInterceptLineFactory lineFactory = new SlopeInterceptLineFactory();
 
         PNode titleNode = new PhetPText( "Graph the Line", GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR ); //TODO i18n
