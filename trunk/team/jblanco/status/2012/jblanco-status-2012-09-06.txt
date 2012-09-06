@@ -1,0 +1,51 @@
+PhET Progress Report, J. Blanco, 9-6-2012
+
+PhET Weekly Progress Report
+John Blanco
+September 6th, 2012
+
+Time period covered: August 30th through September 5th.
+
+Energy Forms and Changes - 11.0 hrs
+
+o	Implemented light rays, added to sun and light bulbs.
+o	Implemented fading and blocking of the light rays.
+
+Balancing Act - 1.0 hrs
+
+o	Deployed with fix for untranslatable string.
+
+Collision Lab - 1.0 hrs
+
+o	Loaded latest version on to PhET iPad, tested.
+
+Tablet Investigation - 11.0 hrs
+
+o	Met with Projective Labs/Spire Media, estimate in progress.
+o	Met with Competentum, estimate in progress.
+o	Emailed with Victory Productions, estimate in progress.
+o	Discussions with various people.
+o	Tested HTML5 on 10.8 Mac.
+
+Common Code - 0.5 hrs
+
+o	Tested Java operation on new 10.8 Mac.
+
+Installer - 2.0 hrs
+
+o	Fixed issues resulting from conversion of JNLP files to UTF-8.
+
+Fundraising - 1.5 hrs
+
+o	Met with Jim Vanides of HP Catalyst about possibly supporting PhET.
+
+Meetings, Email, and Other Administrative Overhead - 4.0 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays -  8.0 hrs
+
+o	Monday, September 3rd, was Labor Day.
