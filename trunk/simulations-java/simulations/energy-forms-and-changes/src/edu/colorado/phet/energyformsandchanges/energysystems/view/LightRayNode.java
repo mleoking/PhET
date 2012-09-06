@@ -32,7 +32,6 @@ public class LightRayNode extends PNode {
     private final Color color;
 
     public LightRayNode( Vector2D origin, Vector2D endpoint, Color color ) {
-        System.out.println( "LightRayNode constructed, this = " + this );
         this.origin = origin;
         this.endpoint = endpoint;
         this.color = color;
@@ -79,7 +78,6 @@ public class LightRayNode extends PNode {
         // TODO: Could I use a map of points to fade coefficents, then sort the map?
 
         // Add the segments that comprise the line.
-        System.out.println( "------------------------" + this );
         int opacity = 255;
         for ( int i = 0; i < pointAndFadeCoefficientList.size() - 1; i++ ) {
             final FadingLineNode fadingLineNode = new FadingLineNode( pointAndFadeCoefficientList.get( i ).point,
@@ -88,7 +86,6 @@ public class LightRayNode extends PNode {
                                                                       pointAndFadeCoefficientList.get( i ).fadeCoefficient,
                                                                       STROKE_THICKNESS );
             addChild( fadingLineNode );
-            System.out.println( "Added line, opacity at start = " + opacity + ", opacity at end = " + fadingLineNode.getOpacityAtEndpoint() );
             opacity = fadingLineNode.getOpacityAtEndpoint();
         }
     }
