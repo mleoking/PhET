@@ -59,6 +59,15 @@ EOT;
         $jnlp_xmls = array();
 
         foreach ($jnlp_files as $filename) {
+            
+            /*
+            // Historical Note: In early September of 2012 we ran into a
+            // problem with UTF-16 encoding, and the web site was changed to
+            // encode the JNLP files in UTF-8 instead.  The conversion from
+            // UTF-16 to UTF-8 was no longer needed, so this code was
+            // removed via commenting.  If it is still not needed after six
+            // months, this can and should be permanently removed.
+
             $orig_contents = file_get_contents($filename);
 
             // Convert to UTF-8:
@@ -69,7 +78,9 @@ EOT;
 
             // Possibly, there will be 2 extra junk bytes from UTF-16 conversion; get rid of them now:
             $contents = preg_replace('/^[^<]+<\?xml/', '<?xml', $contents);
+            */
 
+            $contents = file_get_contents($filename);
             $jnlp_xmls[$filename] = $contents;
         }
 
