@@ -88,7 +88,27 @@ class BAMReport(log: Log) {
                          "        " + e.entry.parameters("moleculeGeneralFormula") + (if(isDraggedMolecule) " (dropped)" else "" )
                        }).mkString("\n")
                      }
-                   ).mkString("\n")
+                   ).mkString("\n") + "\n" +
+                   "Rearranged Molecules:\n" + states.filter(entry => entry.entry.action == "moleculeAdded")
+                                        .filter(
+                                                        entry => entry.entry.parameters("moleculeIsCompleteMolecule") == "true" &&
+                                                                 entry.entry.parameters("atomIds").contains(",") &&
+                                                                 !states.filter(e=>e.entry.action == "moleculeAdded" && e.entry.parameters("atomIds") ==entry.entry.parameters("atomIds") && e.entry.parameters("moleculeSerial2")!=entry.entry.parameters("moleculeSerial2") && e.end.time < entry.end.time ).isEmpty ).map(
+                    entry => {
+                      val ourMoleculeId = entry.entry.parameters("moleculeId")
+                      val ourAtomIds = entry.entry.parameters("atomIds")
+                      val ourSerial2 = entry.entry.parameters("moleculeSerial2")
+                      val collectionState = states.find(e=>e.entry.action == "moleculePutInCollectionBox" && e.entry.parameters("moleculeId") == ourMoleculeId)
+                      val previousMatchingAtomStates = states.filter(e=>e.entry.action == "moleculeAdded" && e.entry.parameters("atomIds") ==ourAtomIds && e.entry.parameters("moleculeSerial2")!=ourSerial2 && e.end.time < entry.end.time )
+
+                      "    " + entry.end.time +
+                      " tab:" + entry.end.tab +
+                      " kit:" + entry.end.currentTab.kit + " " +
+                      entry.entry.parameters("completeMoleculeCommonName") + " (" + entry.entry.parameters("completeMoleculeMolecularFormula") + ", " + entry.entry.parameters("completeMoleculeCID") + ") " +
+                      (if(collectionState.isDefined) "(collected at " + collectionState.get.end.time + ")" else "(NOT COLLECTED)") + " " +
+                      (if (previousMatchingAtomStates.isEmpty) "" else ("with " + previousMatchingAtomStates.length + " previous other arrangements") )
+                    }
+                  ).mkString("\n")
 }
 
 object BAMReport {
