@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import org.lwjgl.opengl.GL11;
-
 import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
@@ -37,13 +35,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents.moleculeShapesTab;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_COLOR_MATERIAL;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
-import static org.lwjgl.opengl.GL11.GL_LIGHTING;
-import static org.lwjgl.opengl.GL11.glColor4f;
-import static org.lwjgl.opengl.GL11.glColorMaterial;
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11.glEnable;
 
 /**
  * Main module for Molecule Shapes

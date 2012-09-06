@@ -3,7 +3,6 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import java.awt.*;
 
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Sphere;
 
 import edu.colorado.phet.common.phetcommon.math.Matrix4F;

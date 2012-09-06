@@ -19,8 +19,9 @@
     <orderEntry type="module" module-name="piccolo-phet" />
     <orderEntry type="module" module-name="chemistry" />
     <orderEntry type="module" module-name="Jama" />
-    <orderEntry type="module" module-name="jme-phet" />
     <orderEntry type="module" module-name="jama-phet" />
+    <orderEntry type="module" module-name="lwjgl" />
+    <orderEntry type="module" module-name="lwjgl-phet" />
   </component>
 </module>
 
