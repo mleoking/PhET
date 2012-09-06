@@ -25,15 +25,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class FadingLineNode extends PNode {
 
-    // TODO: I don't like the fade rate parameter, because it's in units of absolute amount (out of 255) per unit distance, which seems weird.
-    public FadingLineNode( Vector2D origin, Vector2D endpoint, Color startColor, double fadeRate, double lineThickness ) {
-        assert fadeRate >= 0; // Can't have negative fade.
-        double zeroIntensityDistance = (double) startColor.getAlpha() / fadeRate;
-        Vector2D zeroIntensityPoint = new Vector2D( zeroIntensityDistance, 0 ).getRotatedInstance( endpoint.minus( origin ).getAngle() );
-        int intensityAtEndPoint = (int) Math.round( Math.max( startColor.getAlpha() - fadeRate * origin.distance( endpoint ), 0 ) );
+    public FadingLineNode( Vector2D origin, Vector2D endpoint, Color startColor, double fadeCoefficient, double lineThickness ) {
+        assert fadeCoefficient >= 0; // Can't have negative fade.
+        int intensityAtEndPoint = (int) Math.round( startColor.getAlpha() * Math.pow( Math.E, -fadeCoefficient * origin.distance( endpoint ) ) );
 
         Paint gradientPaint;
         if ( intensityAtEndPoint == 0 ) {
+            double zeroIntensityDistance = ( Math.log( startColor.getAlpha() ) - Math.log( 0.4999 ) ) / fadeCoefficient;
+            Vector2D zeroIntensityPoint = origin.plus( new Vector2D( zeroIntensityDistance, 0 ).getRotatedInstance( endpoint.minus( origin ).getAngle() ) );
             gradientPaint = new GradientPaint( (float) origin.x,
                                                (float) origin.y,
                                                startColor,
@@ -64,7 +63,7 @@ public class FadingLineNode extends PNode {
         PNode rootNode = new PNode();
         canvas.getLayer().addChild( rootNode );
 
-        rootNode.addChild( new FadingLineNode( new Vector2D( 10, 10 ), new Vector2D( 100, 100 ), Color.ORANGE, 0, 2 ) );
+        rootNode.addChild( new FadingLineNode( new Vector2D( 10, 10 ), new Vector2D( 100, 100 ), Color.ORANGE, 0.05, 2 ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();
