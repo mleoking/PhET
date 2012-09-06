@@ -1,3 +1,5 @@
+# 0.00.24 (67688) Sep 5, 2012
+9/5/12 demo a couple of new "Graph the Line" challenges
 9/5/12 refine challenges for slope-intercept lines, remove duplicate code
 9/5/12 brute-force implementation of "graph the intercept" challenge for slope-intercept lines
 9/5/12 brute-force implementation of "graph the slope" challenge for slope-intercept lines
