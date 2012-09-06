@@ -28,6 +28,8 @@ class BAMReport(log: Log) {
 
   lazy val collectedMoleculeNames = states.flatMap(state => state.end.tab0.collected ++ state.end.tab1.collected ++ state.end.tab2.collected).distinct
 
+  val firstDrop = states.find(entry=>entry.entry.action == "atomDropped")
+
   def reportText = "File: " + log.file + "\n" +
                    "Previous state: " + states.last.start + "\n" +
                    "Entry: " + states.last.entry + "\n" +
@@ -42,7 +44,10 @@ class BAMReport(log: Log) {
                    "Last Tab 0 Kit: " + states.last.end.tab0.kit + "\n" +
                    "Last Tab 1 Kit: " + states.last.end.tab1.kit + "\n" +
                    "Last Tab 2 Kit: " + states.last.end.tab2.kit + "\n" +
-                   "Molecules Completed:\n" + states.filter(entry => entry.entry.action == "moleculeAdded").filter(entry => entry.entry.parameters("moleculeIsCompleteMolecule") == "true").map(
+                   "'Make Molecules' filled collection boxes: " + states.last.end.tab0.filledCollectionBoxes + "\n" +
+                   "'Collect Multiple' filled collection boxes: " + states.last.end.tab1.filledCollectionBoxes + "\n" +
+                   "Time of first atom dropped into play area: " + (if(firstDrop.isDefined) (firstDrop.get.end.time) else "has not occurred") + "\n" +
+                   "Molecules Completed:\n" + states.filter(entry => entry.entry.action == "moleculeAdded").filter(entry => entry.entry.parameters("moleculeIsCompleteMolecule") == "true" && entry.entry.parameters("atomIds").contains(",")).map(
                     entry => {
                       val ourMoleculeId = entry.entry.parameters("moleculeId")
                       val ourAtomIds = entry.entry.parameters("atomIds")
