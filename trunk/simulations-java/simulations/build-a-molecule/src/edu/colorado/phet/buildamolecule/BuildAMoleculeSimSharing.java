@@ -58,18 +58,22 @@ public class BuildAMoleculeSimSharing {
         completeMoleculeCID,
         completeMoleculeSerial2,
         collectionBoxQuantity,
-        collectionBoxCapacity
+        collectionBoxCapacity,
 
+        kitIndex
     }
 
     public enum ModelComponent implements IModelComponent {
         atom,
         molecule,
-        collectionBox
+        collectionBox,
+        kit
     }
 
     public enum ModelAction implements IModelAction {
         atomAddedIntoPlay,
+
+        kitChanged,
 
         moleculeStatusAfterDrop,
 
