@@ -20,6 +20,7 @@ import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.GraphInterceptChallenge;
 import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.GraphSlopeChallenge;
 import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.GraphSlopeInterceptChallenge;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
@@ -178,7 +179,7 @@ public class LineGameModel {
         challengeIndex = 0;
         challenges[0] = new GraphSlopeInterceptChallenge( new SlopeInterceptLine( 4, 2, 3, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
         challenges[1] = new GraphSlopeChallenge( new SlopeInterceptLine( 5, 1, 1, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
-        challenges[2] = new GraphSlopeInterceptChallenge( new SlopeInterceptLine( -3, 3, -2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[2] = new GraphInterceptChallenge( new SlopeInterceptLine( -3, 3, -2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
         challenges[3] = new GraphSlopeInterceptChallenge( new SlopeInterceptLine( 10, 2, -6, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
         challenges[4] = new GraphSlopeInterceptChallenge( new SlopeInterceptLine( 0, 3, 2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
     }

@@ -11,6 +11,7 @@ import edu.colorado.phet.linegraphing.common.model.LineFactory.PointSlopeLineFac
 import edu.colorado.phet.linegraphing.common.model.LineFactory.SlopeInterceptLineFactory;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.linegame.view.GraphInterceptNode;
 import edu.colorado.phet.linegraphing.linegame.view.GraphSlopeInterceptNode;
 import edu.colorado.phet.linegraphing.linegame.view.GraphSlopeNode;
 import edu.umd.cs.piccolo.PNode;
@@ -64,6 +65,18 @@ public abstract class MatchingChallenge<T extends PointSlopeLine> {
 
         @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
             return new GraphSlopeNode( model, audioPlayer, challengeSize );
+        }
+    }
+
+    // A challenge that involves setting the intercept for a line in slope-intercept form.
+    public static class GraphInterceptChallenge extends MatchingChallenge<SlopeInterceptLine> {
+
+        public GraphInterceptChallenge( SlopeInterceptLine answer, ModelViewTransform mvt ) {
+            super( answer, new SlopeInterceptLine( answer.rise, answer.run, 0, Color.BLACK ), new SlopeInterceptLineFactory(), mvt );
+        }
+
+        @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+            return new GraphInterceptNode( model, audioPlayer, challengeSize );
         }
     }
 
