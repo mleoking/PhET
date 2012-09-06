@@ -16,7 +16,6 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class LightRays extends PNode {
 
-    private static int SEARCH_ITERATIONS = 10;
     private static boolean SHOW_RAY_BLOCKING_SHAPES = false;
 
     private final List<LightRayNode> lightRayNodes = new ArrayList<LightRayNode>();
