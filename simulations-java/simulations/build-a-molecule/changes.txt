@@ -1,3 +1,4 @@
+Added sim-sharing events
 # 1.02.01 (67672) Sep 5, 2012
 Added tab names to sim sharing messages
 # 1.02.00 (66653) Aug 7, 2012

@@ -1,18 +1,23 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.view.view3d;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
+import edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.common.jmolphet.JmolDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -25,7 +30,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent.jmol3DButton;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendButtonPressed;
 
 /**
  * A '3d' button that shows a 3d molecule view when pressed. Only allows one instance of the dialog to be present, so it communicates via a
@@ -89,7 +93,7 @@ public class ShowMolecule3DButtonNode extends PNode {
         addInputEventListener( new CursorHandler() {
             @Override
             public void mouseClicked( PInputEvent event ) {
-                sendButtonPressed( jmol3DButton );
+                SimSharingManager.sendUserMessage( jmol3DButton, UserComponentTypes.button, UserActions.pressed, ParameterSet.parameterSet( BuildAMoleculeSimSharing.ParameterKey.completeMoleculeCommonName, completeMolecule.getCommonName() ) );
                 // if the 3D dialog is not shown, show it
                 if ( dialog.get().isNone() ) {
                     // set our reference to it ("disables" this button)

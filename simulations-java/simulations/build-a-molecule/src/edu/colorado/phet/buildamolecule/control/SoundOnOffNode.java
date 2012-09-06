@@ -6,10 +6,13 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
+import edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing;
 import edu.colorado.phet.common.games.GameConstants;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent;
 
 /**
  * Allows the user to turn the global sound for the sim on or off
@@ -22,12 +25,12 @@ public class SoundOnOffNode extends PNode {
         final JLabel soundLabel = new JLabel( new ImageIcon( GameConstants.SOUND_ICON ) );
 
         // ON radio button
-        final PropertyRadioButton<Boolean> soundOnRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_ON, BuildAMoleculeApplication.soundEnabled, true ) {{
+        final PropertyRadioButton<Boolean> soundOnRadioButton = new PropertyRadioButton<Boolean>( UserComponent.soundOn, GameConstants.RADIO_BUTTON_ON, BuildAMoleculeApplication.soundEnabled, true ) {{
             setOpaque( false );
         }};
 
         // OFF radio button
-        final PropertyRadioButton<Boolean> soundOffRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_OFF, BuildAMoleculeApplication.soundEnabled, false ) {{
+        final PropertyRadioButton<Boolean> soundOffRadioButton = new PropertyRadioButton<Boolean>( UserComponent.soundOff, GameConstants.RADIO_BUTTON_OFF, BuildAMoleculeApplication.soundEnabled, false ) {{
             setOpaque( false );
         }};
 
