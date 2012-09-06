@@ -10,7 +10,6 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
@@ -36,6 +35,28 @@ public class LightRays extends PNode {
 
         assert numRaysForFullCircle > 0 && outerRadius > innerRadius && darkConeSpanAngle < Math.PI * 2; // Parameter checking.
 
+        // Create and add the rays.
+        for ( int i = 0; i < numRaysForFullCircle; i++ ) {
+            double angle = ( Math.PI * 2 / numRaysForFullCircle ) * i;
+            final Vector2D rayStartPoint = center.plus( new Vector2D( innerRadius, 0 ).getRotatedInstance( angle ) );
+            Vector2D rayEndPoint = center.plus( new Vector2D( outerRadius, 0 ).getRotatedInstance( angle ) );
+            if ( angle <= Math.PI / 2 - darkConeSpanAngle / 2 || angle >= Math.PI / 2 + darkConeSpanAngle / 2 ) {
+                // Ray is not in the "dark cone", so add it.
+                final LightRayNode lightRayNode = new LightRayNode( rayStartPoint, rayEndPoint, color );
+                lightRayNodes.add( lightRayNode );
+                addChild( lightRayNode );
+            }
+        }
+
+        // For debug: Show the ray-blocking shapes.
+        if ( SHOW_RAY_BLOCKING_SHAPES ) {
+            for ( LightAbsorbingShape rayAbsorbingShape : rayAbsorbingShapes ) {
+                addChild( new PhetPPath( rayAbsorbingShape.shape ) );
+            }
+        }
+
+
+        /*
         // Function that creates the rays.
         VoidFunction1<LightAbsorbingShape> rayUpdater = new VoidFunction1<LightAbsorbingShape>() {
             public void apply( LightAbsorbingShape lightAbsorbingShape ) {
@@ -65,10 +86,11 @@ public class LightRays extends PNode {
             }
         };
         rayUpdater.apply( null ); // Initial update.
+        */
 
         // Update the rays whenever shapes are added or removed.
-        rayAbsorbingShapes.addElementAddedObserver( rayUpdater );
-        rayAbsorbingShapes.addElementRemovedObserver( rayUpdater );
+//        rayAbsorbingShapes.addElementAddedObserver( rayUpdater );
+//        rayAbsorbingShapes.addElementRemovedObserver( rayUpdater );
     }
 
     public void addLightAbsorbingShape( LightAbsorbingShape lightAbsorbingShape ) {
