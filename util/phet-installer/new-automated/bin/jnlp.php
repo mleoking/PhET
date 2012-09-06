@@ -8,114 +8,17 @@
 
     define('JNLP_CODEBASE_PATTERN', '/codebase *= *"([^"]+)"/i');
 
-    $test_jnlp = <<<EOT
-        <?xml version="1.0" encoding="utf-16"?>
-
-        <!-- JNLP File for Test Interleaved -->
-
-        <jnlp spec="1.0+" codebase="http://www.colorado.edu/physics/phet/dev/rotation/0.00.19" href="test-interleaved.jnlp">
-
-            <information>
-
-                <title>Test Interleaved</title>
-
-                <vendor>University of Colorado, Department of Physics</vendor>
-
-                <description>Demonstration of interleaved data series for different render stategies</description>
-
-                <description kind="short">The Test Interleaved Simulation</description>
-
-                <offline-allowed/>
-
-                <icon href="http://phet-server.colorado.edu_8080/Design/Assets/images/Phet-Kavli-logo.jpg"/>
-
-                <icon kind="splash" href="http://phet-server.colorado.edu_8080/Design/Assets/images/Phet-Kavli-logo.jpg"/>
-
-            </information>
-
-            <resources>
-
-                <j2se version="1.4+"/>
-
-
-
-                <jar href="rotation.jar"/>
-
-            </resources>
-
-            <application-desc main-class="edu.colorado.phet.common.jfreechartphet.test.TestInterleavedSeries">
-
-                <argument>-dev</argument>
-
-
-            </application-desc>
-
-        </jnlp>
-EOT;
-
     function jnlp_get_all_in_directory($directory) {
         $jnlp_files = file_list_in_directory($directory, "*.jnlp");
 
         $jnlp_xmls = array();
 
         foreach ($jnlp_files as $filename) {
-            
-            /*
-            // Historical Note: In early September of 2012 we ran into a
-            // problem with UTF-16 encoding, and the web site was changed to
-            // encode the JNLP files in UTF-8 instead.  The conversion from
-            // UTF-16 to UTF-8 was no longer needed, so this code was
-            // removed via commenting.  If it is still not needed after six
-            // months, this can and should be permanently removed.
-
-            $orig_contents = file_get_contents($filename);
-
-            // Convert to UTF-8:
-            $contents = mb_convert_encoding($orig_contents, "UTF-8", file_detect_encoding($orig_contents));
-
-            // Replace 'XML' declaration specifying encoding:
-            $contents = preg_replace('/<\? *xml[^>]+\?>/i', '<?xml version="1.0" encoding="utf-8"?>', $contents);
-
-            // Possibly, there will be 2 extra junk bytes from UTF-16 conversion; get rid of them now:
-            $contents = preg_replace('/^[^<]+<\?xml/', '<?xml', $contents);
-            */
-
             $contents = file_get_contents($filename);
             $jnlp_xmls[$filename] = $contents;
         }
 
         return $jnlp_xmls;
-    }
-
-    function jnlp_convert_to_utf8($jnlp_file){
-
-        // Convert to UTF-8:
-        $contents = mb_convert_encoding($jnlp_file, "UTF-8", file_detect_encoding($jnlp_file));
-
-        // Replace 'XML' declaration specifying encoding:
-        $contents = preg_replace('/<\? *xml[^>]+\?>/i', '<?xml version="1.0" encoding="utf-8"?>', $contents);
-
-        // Possibly, there will be 2 extra junk bytes from UTF-16 conversion; get rid of them now:
-        $contents = preg_replace('/^[^<]+<\?xml/', '<?xml', $contents);
-
-        return $contents;
-    }
-
-    function jnlp_get_codebase($jnlp_file) {
-        $matches = array();
-
-        if (preg_match(JNLP_CODEBASE_PATTERN, $jnlp_file, $matches)) {
-            $codebase = $matches[1];
-
-            if (!string_ends_with($codebase, '/')) {
-                $codebase .= '/';
-            }
-
-            return $codebase;
-        }
-        else {
-            return false;
-        }
     }
 
     //-------------------------------------------------------------------------
