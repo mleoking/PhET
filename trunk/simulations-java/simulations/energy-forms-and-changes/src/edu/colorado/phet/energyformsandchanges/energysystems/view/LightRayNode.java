@@ -19,8 +19,9 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class LightRayNode extends PNode {
-    private static final double STROKE_THICKNESS = 3;
+    private static final double STROKE_THICKNESS = 2;
     private static final int SEARCH_ITERATIONS = 10;
+    private static final double FADE_COEFFICIENT_IN_AIR = 0.005;
 
     private final List<LightAbsorbingShape> lightAbsorbingShapes = new ArrayList<LightAbsorbingShape>();
     private final List<PointAndFadeCoefficient> pointAndFadeCoefficientList = new ArrayList<PointAndFadeCoefficient>();
@@ -47,14 +48,13 @@ public class LightRayNode extends PNode {
     private void updateLineSegments() {
         removeAllChildren();
         pointAndFadeCoefficientList.clear();
-        pointAndFadeCoefficientList.add( new PointAndFadeCoefficient( origin, 0 ) );
+        pointAndFadeCoefficientList.add( new PointAndFadeCoefficient( origin, FADE_COEFFICIENT_IN_AIR ) );
         pointAndFadeCoefficientList.add( new PointAndFadeCoefficient( endpoint, 0 ) );
         for ( int i = 0; i < pointAndFadeCoefficientList.size() - 1; i++ ) {
             addChild( new FadingLineNode( pointAndFadeCoefficientList.get( i ).point,
                                           pointAndFadeCoefficientList.get( i + 1 ).point,
                                           color,
-//                                          pointAndFadeCoefficientList.get( i ).fadeCoefficient,
-                                          0.5,
+                                          pointAndFadeCoefficientList.get( i ).fadeCoefficient,
                                           STROKE_THICKNESS ) );
         }
     }
