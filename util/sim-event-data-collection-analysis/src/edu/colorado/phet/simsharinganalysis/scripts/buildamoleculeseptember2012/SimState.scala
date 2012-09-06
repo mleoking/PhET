@@ -20,7 +20,7 @@ case class SimState(time: Long, tab: Int, tab0: TabState, tab1: TabState, tab2: 
 
 case class MoleculeCollectionEvent(name: String, time: Long)
 
-case class TabState(collected: List[MoleculeCollectionEvent], kit: Int, collection: Int) {
+case class TabState(collected: List[MoleculeCollectionEvent], kit: Int, collection: Int, filledCollectionBoxes: Int) {
   def collect(commonName: String, time: Long) = copy(collected = collected ::: List(MoleculeCollectionEvent(commonName, time)))
 }
 
