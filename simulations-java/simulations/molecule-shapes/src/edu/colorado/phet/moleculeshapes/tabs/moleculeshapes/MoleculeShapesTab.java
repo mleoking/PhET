@@ -89,10 +89,6 @@ public class MoleculeShapesTab extends MoleculeViewTab {
         super.initialize();
         initializeResources();
 
-        // add an offset to the left, since we have a control panel on the right
-        // TODO: make the offset dependent on the control panel width?
-        sceneLayer.translate( new Vector3F( -4.5f, 1.5f, 0 ) );
-
         // when the molecule is made empty, make sure to show lone pairs again (will allow us to drag out new ones)
         getMolecule().onBondChanged.addListener( new VoidFunction1<Bond<PairGroup>>() {
             public void apply( Bond<PairGroup> bond ) {
@@ -242,7 +238,11 @@ public class MoleculeShapesTab extends MoleculeViewTab {
     @Override public void updateState( final float tpf ) {
         getMolecule().update( tpf );
         moleculeNode.updateView();
-        moleculeNode.transform.set( Matrix4F.translation( moleculeNode.transform.getMatrix().getTranslation() ).times( rotation.get().toRotationMatrix().toMatrix4f() ) );
+
+        // add an offset to the left, since we have a control panel on the right, and add in the rotation
+        moleculeNode.transform.set(
+                Matrix4F.translation( new Vector3F( -4.5f, 1.5f, 0 ) )
+                        .times( rotation.get().toRotationMatrix().toMatrix4f() ) );
 
         // update the overlay viewport
         if ( resizeDirty && controlPanel != null ) {
