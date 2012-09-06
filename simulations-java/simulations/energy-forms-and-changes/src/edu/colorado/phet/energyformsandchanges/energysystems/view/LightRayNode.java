@@ -32,6 +32,7 @@ public class LightRayNode extends PNode {
     private final Color color;
 
     public LightRayNode( Vector2D origin, Vector2D endpoint, Color color ) {
+        System.out.println( "LightRayNode constructed, this = " + this );
         this.origin = origin;
         this.endpoint = endpoint;
         this.color = color;
@@ -57,7 +58,7 @@ public class LightRayNode extends PNode {
 
         // Add the entry and exit points for each shape.
         for ( LightAbsorbingShape lightAbsorbingShape : lightAbsorbingShapes ) {
-            if ( shapeIntersects( lightAbsorbingShape.shape ) ) {
+            if ( lineIntersectsShapeIntersects( origin, endpoint, lightAbsorbingShape.shape ) ) {
                 Vector2D entryPoint = getShapeEntryPoint( origin, endpoint, lightAbsorbingShape.shape );
                 assert entryPoint != null; // It's conceivable that we could handle a case where the line originates in a shape, but we don't for now.
                 pointAndFadeCoefficientList.add( new PointAndFadeCoefficient( entryPoint, lightAbsorbingShape.lightAbsorptionCoefficient.get() ) );
@@ -78,6 +79,7 @@ public class LightRayNode extends PNode {
         // TODO: Could I use a map of points to fade coefficents, then sort the map?
 
         // Add the segments that comprise the line.
+        System.out.println( "------------------------" + this );
         int opacity = 255;
         for ( int i = 0; i < pointAndFadeCoefficientList.size() - 1; i++ ) {
             final FadingLineNode fadingLineNode = new FadingLineNode( pointAndFadeCoefficientList.get( i ).point,
@@ -86,12 +88,13 @@ public class LightRayNode extends PNode {
                                                                       pointAndFadeCoefficientList.get( i ).fadeCoefficient,
                                                                       STROKE_THICKNESS );
             addChild( fadingLineNode );
+            System.out.println( "Added line, opacity at start = " + opacity + ", opacity at end = " + fadingLineNode.getOpacityAtEndpoint() );
             opacity = fadingLineNode.getOpacityAtEndpoint();
         }
     }
 
-    private boolean shapeIntersects( Shape shape ) {
-        if ( shape.getBounds2D().intersectsLine( origin.x, origin.y, endpoint.x, endpoint.y ) ) {
+    private static boolean lineIntersectsShapeIntersects( Vector2D startPoint, Vector2D endPoint, Shape shape ) {
+        if ( shape.getBounds2D().intersectsLine( startPoint.x, startPoint.y, endPoint.x, endPoint.y ) ) {
             // TODO: This only checks the bounding rect, not the full shape.
             return true;
         }
