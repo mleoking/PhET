@@ -19,8 +19,9 @@ public class ModelElementImageNode extends PNode {
         addChild( new PImage( modelElementImage.getImage() ) {{
             // TODO: Image used as their default size, i.e. no scaling.  Will this work long term?
             double scale = mvt.modelToViewDeltaX( modelElementImage.getWidth() ) / getFullBoundsReference().width;
-            System.out.println( "scale = " + scale );
-            setScale( scale );
+            if ( scale != 1 ) {
+                setScale( scale );
+            }
             Point2D centerToCenterOffsetInView = mvt.modelToViewDelta( modelElementImage.getCenterToCenterOffset() ).toPoint2D();
             centerFullBoundsOnPoint( centerToCenterOffsetInView.getX(), centerToCenterOffsetInView.getY() );
         }} );
