@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
+import java.text.MessageFormat;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -30,9 +32,9 @@ public abstract class EquationFactory<T extends PointSlopeLine> {
     // When slope is undefined, we display "undefined" in place of an equation.
     protected static class UndefinedSlopeNode extends EquationNode {
         public UndefinedSlopeNode( PointSlopeLine line, PhetFont font ) {
-            assert( line.run == 0 );
+            assert ( line.run == 0 );
             setPickable( false );
-            addChild( new PhetPText( Strings.SLOPE_UNDEFINED, font, line.color ) );
+            addChild( new PhetPText( MessageFormat.format( Strings.SLOPE_UNDEFINED, Strings.SYMBOL_X, line.x1 ), font, line.color ) );
         }
     }
 
