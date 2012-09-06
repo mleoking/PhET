@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.nodes.GLNode;
 
 import static org.lwjgl.opengl.GL11.glClearColor;
 import static org.lwjgl.opengl.GL11.glColor4f;
@@ -260,5 +261,15 @@ public class LWJGLUtils {
     private static void setClipboard( String str ) {
         StringSelection ss = new StringSelection( str );
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents( ss, null );
+    }
+
+    public static void discardTree( GLNode node ) {
+        // remove any children, if there are any
+        for ( GLNode child : node.getChildren() ) {
+            discardTree( child );
+        }
+
+        // remove the node itself
+        node.getParent().removeChild( node );
     }
 }

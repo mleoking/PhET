@@ -3,6 +3,8 @@ package edu.colorado.phet.common.phetcommon.math.vector;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import edu.colorado.phet.common.phetcommon.math.QuaternionF;
+
 /**
  * 3D vector, with similar functionality to Vector2F
  *
@@ -45,4 +47,16 @@ public @EqualsAndHashCode(callSuper = false) @ToString class Vector3F extends Ab
     @Override public float getY() { return y; }
 
     @Override public float getZ() { return z; }
+
+    /**
+     * Spherical linear interpolation between two unit vectors.
+     *
+     * @param start Start unit vector
+     * @param end   End unit vector
+     * @param ratio Between 0 (at start vector) and 1 (at end vector)
+     * @return Spherical linear interpolation between the start and end
+     */
+    public static Vector3F slerp( Vector3F start, Vector3F end, float ratio ) {
+        return QuaternionF.slerp( new QuaternionF(  ), QuaternionF.getRotationQuaternion( start, end ), ratio ).times( start );
+    }
 }

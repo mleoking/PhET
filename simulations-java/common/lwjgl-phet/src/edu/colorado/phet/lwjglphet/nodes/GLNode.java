@@ -302,6 +302,10 @@ public class GLNode {
         transform.append( Matrix4F.translation( x, y, z ) );
     }
 
+    public void translate( Vector3F offset ) {
+        transform.append( Matrix4F.translation( offset ) );
+    }
+
     public void scale( float x, float y, float z ) {
         transform.append( Matrix4F.scaling( x, y, z ) );
     }

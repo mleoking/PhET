@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -22,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class GLSimSharingPropertyRadioButton<T> extends SimSharingJRadioButton {
 
-    public GLSimSharingPropertyRadioButton( IUserComponent userComponent, String text, final Property<T> lwjglProperty, final T value ) {
+    public GLSimSharingPropertyRadioButton( IUserComponent userComponent, String text, final SettableProperty<T> lwjglProperty, final T value ) {
         super( userComponent, text );
 
         // during construction, assume both threads are synchronized
