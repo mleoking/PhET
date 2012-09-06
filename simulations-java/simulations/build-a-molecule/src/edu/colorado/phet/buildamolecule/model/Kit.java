@@ -18,11 +18,13 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.Pair;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ModelAction;
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ModelComponent;
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ParameterKey;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.mkString;
 
 /**
  * Contains multiple buckets of different types of atoms
@@ -66,6 +68,9 @@ public class Kit {
         // send out notifications for all removed molecules
         for ( Molecule molecule : new ArrayList<Molecule>( molecules ) ) {
             removeMolecule( molecule );
+
+            SimSharingManager.sendModelMessage( ModelComponent.molecule, ModelComponentTypes.modelElement, ModelAction.moleculeRemovedMisc,
+                                                ParameterSet.parameterSet( ParameterKey.moleculeId, molecule.getMoleculeId() ) );
         }
 
         // put everything back in buckets
@@ -172,13 +177,15 @@ public class Kit {
      */
     public void atomDropped( Atom2D atom ) {
         // dropped on kit, put it in a bucket
-        boolean wasInKitArea = isAtomInPlay( atom );
+        boolean wasInPlay = isAtomInPlay( atom );
         boolean droppedInKitArea = getAvailableKitBounds().contains( atom.getPosition().toPoint2D() );
         SimSharingManager.sendModelMessage( ModelComponent.atom, ModelComponentTypes.modelElement, ModelAction.atomDropped,
-                                            ParameterSet.parameterSet( ParameterKey.atomWasInKitArea, wasInKitArea )
-                                                    .with( ParameterKey.atomDroppedInKitArea, droppedInKitArea ) );
+                                            ParameterSet.parameterSet( ParameterKey.atomWasInKitArea, !wasInPlay )
+                                                    .with( ParameterKey.atomDroppedInKitArea, droppedInKitArea )
+                                                    .with( ParameterKey.atomId, atom.getId() )
+                                                    .with( ParameterKey.atomElement, atom.getSymbol() ) );
         if ( droppedInKitArea ) {
-            if ( wasInKitArea ) {
+            if ( wasInPlay ) {
                 recycleMoleculeIntoBuckets( getMolecule( atom ) );
             }
             else {
@@ -187,7 +194,7 @@ public class Kit {
         }
         else {
             // dropped in play area
-            if ( wasInKitArea ) {
+            if ( wasInPlay ) {
                 attemptToBondMolecule( getMolecule( atom ) );
                 separateMoleculeDestinations();
             }
@@ -262,6 +269,8 @@ public class Kit {
      * @param molecule The molecule to break
      */
     public void breakMolecule( Molecule molecule ) {
+        List<Molecule> createdMolecules = new ArrayList<Molecule>();
+
         removeMolecule( molecule );
         for ( final Atom2D atom : molecule.getAtoms() ) {
             lewisDotModel.breakBondsOfAtom( atom );
@@ -269,8 +278,17 @@ public class Kit {
                 addAtom( atom );
             }};
             addMolecule( newMolecule );
+            createdMolecules.add( molecule );
         }
         separateMoleculeDestinations();
+
+        SimSharingManager.sendModelMessage( ModelComponent.molecule, ModelComponentTypes.modelElement, ModelAction.moleculeBroken, new ParameterSet()
+                .with( ParameterKey.moleculeDestroyed, molecule.getMoleculeId() )
+                .with( ParameterKey.moleculesCreated, mkString( createdMolecules, new Function1<Molecule, String>() {
+                    public String apply( Molecule molecule ) {
+                        return Integer.toString( molecule.getMoleculeId() );
+                    }
+                }, "," ) ) );
     }
 
     /**
@@ -292,6 +310,16 @@ public class Kit {
         for ( Molecule molecule : newMolecules ) {
             addMolecule( molecule );
         }
+
+        SimSharingManager.sendModelMessage( ModelComponent.molecule, ModelComponentTypes.modelElement, ModelAction.bondBroken, new ParameterSet()
+                .with( ParameterKey.moleculeDestroyed, oldMolecule.getMoleculeId() )
+                .with( ParameterKey.moleculesCreated, mkString( newMolecules, new Function1<Molecule, String>() {
+                    public String apply( Molecule molecule ) {
+                        return Integer.toString( molecule.getMoleculeId() );
+                    }
+                }, "," ) )
+                .with( ParameterKey.bondAtomA, a.getId() )
+                .with( ParameterKey.bondAtomB, b.getId() ) );
 
         // push the new separate molecules away
         separateMoleculeDestinations();
@@ -336,6 +364,37 @@ public class Kit {
         for ( MoleculeListener listener : moleculeListeners ) {
             listener.addedMolecule( molecule );
         }
+
+        if ( SimSharingManager.getInstance().isEnabled() ) {
+            // somewhat of a state-dump
+            ParameterSet parameters = new ParameterSet()
+                    .with( ParameterKey.moleculeId, molecule.getMoleculeId() )
+                    .with( ParameterKey.atomIds, mkString( molecule.getAtoms(), new Function1<Atom2D, String>() {
+                        public String apply( Atom2D atom2D ) {
+                            return atom2D.getId();
+                        }
+                    }, "," ) )
+                    .with( ParameterKey.bonds, mkString( molecule.getBonds(), new Function1<Bond<Atom2D>, String>() {
+                        public String apply( Bond<Atom2D> bond ) {
+                            return bond.a.getId() + "-" + bond.b.getId();
+                        }
+                    }, "," ) )
+                    .with( ParameterKey.moleculeSerial2, molecule.toSerial2() )
+                    .with( ParameterKey.moleculeGeneralFormula, molecule.getGeneralFormula() );
+
+            // check it against complete molecules, so we can confirm any information
+            CompleteMolecule completeMolecule = molecule.getMatchingCompleteMolecule();
+            parameters = parameters.with( ParameterKey.moleculeIsCompleteMolecule, completeMolecule != null );
+            if ( completeMolecule != null ) {
+                parameters = parameters
+                        .with( ParameterKey.completeMoleculeMolecularFormula, completeMolecule.getMolecularFormula() )
+                        .with( ParameterKey.completeMoleculeCommonName, completeMolecule.getCommonName() )
+                        .with( ParameterKey.completeMoleculeSerial2, completeMolecule.toSerial2() )
+                        .with( ParameterKey.completeMoleculeCID, completeMolecule.getCID() );
+            }
+
+            SimSharingManager.sendModelMessage( ModelComponent.molecule, ModelComponentTypes.modelElement, ModelAction.moleculeAdded, parameters );
+        }
     }
 
     private void removeMolecule( Molecule molecule ) {
@@ -343,6 +402,9 @@ public class Kit {
         for ( MoleculeListener listener : moleculeListeners ) {
             listener.removedMolecule( molecule );
         }
+
+        SimSharingManager.sendModelMessage( ModelComponent.molecule, ModelComponentTypes.modelElement, ModelAction.moleculeRemoved,
+                                            ParameterSet.parameterSet( ParameterKey.moleculeId, molecule.getMoleculeId() ) );
     }
 
     /**
@@ -356,12 +418,15 @@ public class Kit {
         Molecule molecule = new Molecule() {{
             addAtom( atom );
         }};
+
         addMolecule( molecule );
+        SimSharingManager.sendModelMessage( ModelComponent.atom, ModelComponentTypes.modelElement, ModelAction.atomAddedIntoPlay, new ParameterSet()
+                .with( ParameterKey.atomId, atom.getId() )
+                .with( ParameterKey.atomElement, atom.getSymbol() )
+                .with( ParameterKey.moleculeId, molecule.getMoleculeId() ) );
 
         // attempt to bond
         attemptToBondMolecule( molecule );
-
-        separateMoleculeDestinations();
     }
 
     /**
@@ -386,6 +451,9 @@ public class Kit {
             recycleAtomIntoBuckets( atom, true );
         }
         removeMolecule( molecule );
+
+        SimSharingManager.sendModelMessage( ModelComponent.molecule, ModelComponentTypes.modelElement, ModelAction.moleculeRecycled,
+                                            ParameterSet.parameterSet( ParameterKey.moleculeId, molecule.getMoleculeId() ) );
     }
 
     private PBounds padMoleculeBounds( PBounds bounds ) {
@@ -395,10 +463,14 @@ public class Kit {
 
     /**
      * Update atom destinations so that separate molecules will be separated visually
+     * <p/>
+     * Returns all of the molecules that were pushed in this action
      */
-    private void separateMoleculeDestinations() {
+    private Set<Molecule> separateMoleculeDestinations() {
         int maxIterations = 500;
         double pushAmount = 10; // how much to push two molecules away
+
+        Set<Molecule> pushedMolecules = new HashSet<Molecule>();
 
         boolean foundOverlap = true;
         while ( foundOverlap && maxIterations-- >= 0 ) {
@@ -433,6 +505,10 @@ public class Kit {
                     if ( aBounds.intersects( bBounds ) ) {
                         foundOverlap = true;
 
+                        // try adding both. set should remove duplicates
+                        pushedMolecules.add( a );
+                        pushedMolecules.add( b );
+
                         // get perturbed centers. this is so that if two molecules have the exact same centers, we will push them away
                         Vector2D aCenter = new Vector2D( aBounds.getCenter2D() ).plus( Math.random() - 0.5, Math.random() - 0.5 );
                         Vector2D bCenter = new Vector2D( bBounds.getCenter2D() ).plus( Math.random() - 0.5, Math.random() - 0.5 );
@@ -457,6 +533,8 @@ public class Kit {
                 }
             }
         }
+
+        return pushedMolecules;
     }
 
     /**
@@ -510,7 +588,10 @@ public class Kit {
                 .with( ParameterKey.bondMoleculeCreated, newMolecule.getMoleculeId() )
                 .with( ParameterKey.moleculeStructureDestroyedA, molA.toSerial2() )
                 .with( ParameterKey.moleculeStructureDestroyedB, molB.toSerial2() )
-                .with( ParameterKey.moleculeStructureCreated, newMolecule.toSerial2() ) );
+                .with( ParameterKey.moleculeStructureCreated, newMolecule.toSerial2() )
+                .with( ParameterKey.bondAtomA, a.getId() )
+                .with( ParameterKey.bondAtomB, b.getId() )
+                .with( ParameterKey.bondDirection, dirAtoB.toString() ) );
         Molecule struc = getMolecule( a );
         if ( struc.getAtoms().size() > 2 ) {
             for ( Bond<Atom2D> bond : struc.getBonds() ) {
@@ -583,14 +664,34 @@ public class Kit {
         // if our closest bond is too far, then ignore it
         boolean isBondingInvalid = bestLocation == null || bestDistanceFromIdealLocation > BOND_DISTANCE_THRESHOLD;
 
-        ParameterSet baseParameterSet = ParameterSet.parameterSet( ParameterKey.bondOccurs, !isBondingInvalid );
-        SimSharingManager.sendModelMessage( ModelComponent.atom, ModelComponentTypes.modelElement, ModelAction.bondAttempt,
+        ParameterSet baseParameterSet = ParameterSet.parameterSet( ParameterKey.bondOccurs, !isBondingInvalid )
+                .with( ParameterKey.moleculeId, molecule.getMoleculeId() );
+        SimSharingManager.sendModelMessage( ModelComponent.molecule, ModelComponentTypes.modelElement, ModelAction.bondAttempt,
                                             isBondingInvalid ? baseParameterSet : baseParameterSet
                                                     .with( ParameterKey.bondAtomA, bestLocation.a.getId() )
                                                     .with( ParameterKey.bondAtomB, bestLocation.b.getId() )
-                                                    .with( ParameterKey.bondDirection, bestLocation.direction.toString() ) );
+                                                    .with( ParameterKey.bondDirection, bestLocation.direction.toString() )
+                                                    .with( ParameterKey.bondMoleculeIdA, getMolecule( bestLocation.a ).getMoleculeId() )
+                                                    .with( ParameterKey.bondMoleculeIdB, getMolecule( bestLocation.b ).getMoleculeId() ) );
         if ( isBondingInvalid ) {
+            Set<Molecule> pushedMolecules = separateMoleculeDestinations();
+
+            SimSharingManager.sendModelMessage( ModelComponent.molecule, ModelComponentTypes.modelElement, ModelAction.moleculeStatusAfterDrop, new ParameterSet()
+                    .with( ParameterKey.bondOccurs, false )
+                    .with( ParameterKey.moleculeRepulsed, pushedMolecules.contains( molecule ) )
+                    .with( ParameterKey.moleculeId, molecule.getMoleculeId() )
+                    .with( ParameterKey.moleculesRepulsed, mkString( pushedMolecules, new Function1<Molecule, String>() {
+                        public String apply( Molecule molecule ) {
+                            return Integer.toString( molecule.getMoleculeId() );
+                        }
+                    }, "," ) ) );
             return false;
+        }
+        else {
+            SimSharingManager.sendModelMessage( ModelComponent.molecule, ModelComponentTypes.modelElement, ModelAction.moleculeStatusAfterDrop, new ParameterSet()
+                    .with( ParameterKey.bondOccurs, true )
+                    .with( ParameterKey.moleculeRepulsed, false )
+                    .with( ParameterKey.moleculeId, molecule.getMoleculeId() ) );
         }
 
         // cause all atoms in the molecule to move to that location
