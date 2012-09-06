@@ -20,11 +20,13 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class LightRayNode extends PNode {
     private static final double STROKE_THICKNESS = 3;
+    private static final int SEARCH_ITERATIONS = 10;
+
     private final List<LightAbsorbingShape> lightAbsorbingShapes = new ArrayList<LightAbsorbingShape>();
+    private final List<PointAndFadeCoefficient> pointAndFadeCoefficientList = new ArrayList<PointAndFadeCoefficient>();
     private final Vector2D origin;
     private final Vector2D endpoint;
     private final Color color;
-    private static final int SEARCH_ITERATIONS = 10;
 
     public LightRayNode( Vector2D origin, Vector2D endpoint, Color color ) {
         this.origin = origin;
@@ -44,13 +46,17 @@ public class LightRayNode extends PNode {
 
     private void updateLineSegments() {
         removeAllChildren();
-        Vector2D endpointForThisSegment = endpoint;
-        for ( LightAbsorbingShape lightAbsorbingShape : lightAbsorbingShapes ) {
-            if ( shapeIntersects( lightAbsorbingShape.shape ) ) {
-                endpointForThisSegment = getShapeEntryPoint( origin, endpoint, lightAbsorbingShape.shape );
-            }
+        pointAndFadeCoefficientList.clear();
+        pointAndFadeCoefficientList.add( new PointAndFadeCoefficient( origin, 0 ) );
+        pointAndFadeCoefficientList.add( new PointAndFadeCoefficient( endpoint, 0 ) );
+        for ( int i = 0; i < pointAndFadeCoefficientList.size() - 1; i++ ) {
+            addChild( new FadingLineNode( pointAndFadeCoefficientList.get( i ).point,
+                                          pointAndFadeCoefficientList.get( i + 1 ).point,
+                                          color,
+//                                          pointAndFadeCoefficientList.get( i ).fadeCoefficient,
+                                          0.5,
+                                          STROKE_THICKNESS ) );
         }
-        addChild( new FadingLineNode( origin, endpointForThisSegment, color, 0.5, STROKE_THICKNESS ) );
     }
 
     private static Vector2D blockRay( Vector2D origin, Vector2D endPoint, Shape shape ) {
@@ -101,5 +107,15 @@ public class LightRayNode extends PNode {
             entryPoint = origin.plus( new Vector2D( length, 0 ).getRotatedInstance( angle ) );
         }
         return entryPoint;
+    }
+
+    private static class PointAndFadeCoefficient {
+        public final Vector2D point;
+        public final double fadeCoefficient;
+
+        private PointAndFadeCoefficient( Vector2D point, double fadeCoefficient ) {
+            this.point = point;
+            this.fadeCoefficient = fadeCoefficient;
+        }
     }
 }
