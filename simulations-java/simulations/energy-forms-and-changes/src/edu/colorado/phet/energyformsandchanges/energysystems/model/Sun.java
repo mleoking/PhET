@@ -30,8 +30,8 @@ public class Sun extends EnergySource {
 //        add( new Cloud( new Vector2D( 0.01, 0.12 ) ) );  // TODO: For testing, immediately to right of sun.
 //        add( new Cloud( new Vector2D( -0.04, 0.07 ) ) );   // TODO: For testing, immediately below the sun.
         add( new Cloud( new Vector2D( 0.01, 0.11 ) ) );
-        add( new Cloud( new Vector2D( 0.0, 0.09 ) ) );
-        add( new Cloud( new Vector2D( -0.01, 0.07 ) ) );
+        add( new Cloud( new Vector2D( 0.02, 0.0925 ) ) );
+        add( new Cloud( new Vector2D( -0.01, 0.085 ) ) );
     }};
 
     public final Property<Double> cloudiness = new Property<Double>( 0.0 );
