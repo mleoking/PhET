@@ -374,7 +374,7 @@ public class Kit {
             ArrayList<Atom2D> sortedAtoms = new ArrayList<Atom2D>( molecule.getAtoms() );
             Collections.sort( sortedAtoms, new Comparator<Atom2D>() {
                 public int compare( Atom2D a, Atom2D b ) {
-                    return Integer.compare( a.hashCode(), b.hashCode() );
+                    return Double.compare( a.hashCode(), b.hashCode() );
                 }
             } );
 

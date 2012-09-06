@@ -42,8 +42,6 @@ class BAMReport(log: Log) {
                    "Last Tab 0 Kit: " + states.last.end.tab0.kit + "\n" +
                    "Last Tab 1 Kit: " + states.last.end.tab1.kit + "\n" +
                    "Last Tab 2 Kit: " + states.last.end.tab2.kit + "\n" +
-                   //                   "All molecules collected: " + collectedMoleculeNames.mkString(", ") +
-                   //                   "Molecules Collected:\n" + states.map(s => s.end.collectedMoleculesWithMetadata.distinct).distinct.mkString("\n") + "\n" +
                    "Molecules Completed:\n" + states.filter(entry => entry.entry.action == "moleculeAdded").filter(entry => entry.entry.parameters("moleculeIsCompleteMolecule") == "true").map(
                     entry => {
                       val ourMoleculeId = entry.entry.parameters("moleculeId")
@@ -58,14 +56,16 @@ class BAMReport(log: Log) {
                       entry.entry.parameters("completeMoleculeCommonName") + " (" + entry.entry.parameters("completeMoleculeMolecularFormula") + ", " + entry.entry.parameters("completeMoleculeCID") + ") " +
                       (if(collectionState.isDefined) "(collected at " + collectionState.get.end.time + ")" else "(NOT COLLECTED)") + " " +
                       (if (previousMatchingAtomStates.isEmpty) "" else ("with " + previousMatchingAtomStates.length + " previous other arrangements") )
-                    }.mkString("\n") + "\n" +
+                    }
+                    ).mkString("\n")    + "\n" +
                    "Molecule Collection Failures:\n" +
                    states.filter(entry => entry.entry.action=="collectionDropInformation" && entry.entry.parameters("collectionBoxDropFailure") == "true").map(
-                    entry => {
-                      ""
-                    }
+                     entry => {
+                       val creationState = states.find(e=>e.entry.action == "moleculeAdded" && e.entry.parameters("moleculeId") == entry.entry.parameters("moleculeId")).get
+                       val target = entry.entry.parameters("collectionBoxFormulasUnderDroppedMolecule")
+                       "    " + entry.end.time + "dropped " + creationState.entry.parameters("completeMoleculeCommonName") + " (" + creationState.entry.parameters("completeMoleculeMolecularFormula") + ", " + creationState.entry.parameters("completeMoleculeCID") + ") on " + target
+                     }
                    ).mkString("\n")
-  ).mkString("\n")
 }
 
 object BAMReport {
