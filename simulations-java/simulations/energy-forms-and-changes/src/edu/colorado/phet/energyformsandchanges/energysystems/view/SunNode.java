@@ -50,18 +50,18 @@ public class SunNode extends PositionableFadableModelElementNode {
         }};
 
         // Add the rays of sunlight.
-        final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius, 1000, 40, Color.YELLOW );
+        final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), radius, 1000, 4, Color.YELLOW );
         addChild( lightRays );
         addChild( sunNode );
 
         // TODO: Testing - adding ray-absorbing shapes.
-        lightRays.addRayBlockingShape( new LightAbsorbingShape( new Rectangle2D.Double( 0, 0, 100, 100 ), 0.5 ) );
+        lightRays.addLightAbsorbingShape( new LightAbsorbingShape( new Rectangle2D.Double( 0, 0, 100, 100 ), 0.5 ) );
 
         // Add the clouds.
         for ( Cloud cloud : sun.clouds ) {
             final CloudNode cloudNode = new CloudNode( cloud, mvt );
             addChild( cloudNode );
-            lightRays.addRayBlockingShape( new LightAbsorbingShape( cloudNode.getFullBoundsReference(), 0 ) );
+            lightRays.addLightAbsorbingShape( new LightAbsorbingShape( cloudNode.getFullBoundsReference(), 0.0 ) );
         }
 
         // Add the control panel for the clouds.
