@@ -1,12 +1,12 @@
-9/5/12 #3136, remove "Return Lid" button when "Reset" is pressed, because "Reset" resets the chamber
+9/5/12 #3167, remove "Return Lid" button when "Reset" is pressed, because "Reset" resets the chamber
 # 3.14.05 (67635) Sep 4, 2012
 # 3.14.04 (66996) Aug 15, 2012
 # 3.14.03 (65514) Jun 28, 2012
 # 3.14.02 (64552) May 31, 2012
 # 3.14.01 (58842) Nov 29, 2011
 > added "Return Lid" feature
-11/29/11 #3136, added "Return Lid" button: empties the chamber, closes the lid, and (if relevant) ensures that the balloon is inside the chamber
-11/29/11 #3136, fix animation of lid blowing off, so that it happens on clock tick instead of pressure change
+11/29/11 #3167, added "Return Lid" button: empties the chamber, closes the lid, and (if relevant) ensures that the balloon is inside the chamber
+11/29/11 #3167, fix animation of lid blowing off, so that it happens on clock tick instead of pressure change
 > Improved graphics on low resolution screens
 > change thermometer to a shade of red that is visible to people with red/green colorblindness
 # 3.14.00 (51133) Apr 25, 2011
