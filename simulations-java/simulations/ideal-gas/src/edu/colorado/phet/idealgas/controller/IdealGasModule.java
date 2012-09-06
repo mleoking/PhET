@@ -323,7 +323,6 @@ public class IdealGasModule extends PhetGraphicsModule {
             setFont( new PhetFont( 18 ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
-                    returnLidGraphic.setVisible( false );
                     resetChamber();
                 }
             } );
@@ -784,6 +783,7 @@ public class IdealGasModule extends PhetGraphicsModule {
         box.setOpening( new Point2D[] { new Point2D.Double(), new Point2D.Double() } );
         box.clearData(); // should be observing the model, but doesn't work properly
         boxDoorGraphic.closeDoor();
+        returnLidGraphic.setVisible( false );
     }
 
     public void addResetListener( ResetListener listener ) {
