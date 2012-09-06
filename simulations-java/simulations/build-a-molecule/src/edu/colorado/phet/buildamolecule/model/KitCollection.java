@@ -44,6 +44,8 @@ public class KitCollection {
                 public void update( Kit newValue, Kit oldValue ) {
                     newValue.show();
                     oldValue.hide();
+                    SimSharingManager.sendModelMessage( ModelComponent.kit, ModelComponentTypes.modelElement, ModelAction.kitChanged, new ParameterSet()
+                            .with( ParameterKey.kitIndex, getCurrentKitIndex() ) );
                 }
             } );
         }

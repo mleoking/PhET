@@ -4,6 +4,8 @@ package edu.colorado.phet.buildamolecule.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -367,9 +369,18 @@ public class Kit {
 
         if ( SimSharingManager.getInstance().isEnabled() ) {
             // somewhat of a state-dump
+
+            // sort the atom list, so it's extremely easy to compare whether they are the same or not
+            ArrayList<Atom2D> sortedAtoms = new ArrayList<Atom2D>( molecule.getAtoms() );
+            Collections.sort( sortedAtoms, new Comparator<Atom2D>() {
+                public int compare( Atom2D a, Atom2D b ) {
+                    return Integer.compare( a.hashCode(), b.hashCode() );
+                }
+            } );
+
             ParameterSet parameters = new ParameterSet()
                     .with( ParameterKey.moleculeId, molecule.getMoleculeId() )
-                    .with( ParameterKey.atomIds, mkString( molecule.getAtoms(), new Function1<Atom2D, String>() {
+                    .with( ParameterKey.atomIds, mkString( sortedAtoms, new Function1<Atom2D, String>() {
                         public String apply( Atom2D atom2D ) {
                             return atom2D.getId();
                         }

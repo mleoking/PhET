@@ -30,6 +30,9 @@ class BAMStateMachine extends StateMachine[SimState] {
     else if ( e.messageType == "model" && e.component == "collectionBox" && state.tab == 0 ) state.copy(time = e.time, tab0 = state.tab0.collect(e("collectionBoxCommonName"), e.time))
     else if ( e.messageType == "model" && e.component == "collectionBox" && state.tab == 1 ) state.copy(time = e.time, tab1 = state.tab1.collect(e("collectionBoxCommonName"), e.time))
     else if ( e.messageType == "model" && e.component == "collectionBox" && state.tab == 2 ) state.copy(time = e.time, tab2 = state.tab2.collect(e("collectionBoxCommonName"), e.time))
+    else if ( e.messageType == "model" && e.action == "kitChanged" && state.tab == 0 ) { state.copy(time = e.time, tab0 = state.tab0.copy(kit = e.parameters("kitIndex").toInt))}
+    else if ( e.messageType == "model" && e.action == "kitChanged" && state.tab == 1 ) { state.copy(time = e.time, tab1 = state.tab0.copy(kit = e.parameters("kitIndex").toInt))}
+    else if ( e.messageType == "model" && e.action == "kitChanged" && state.tab == 2 ) { state.copy(time = e.time, tab2 = state.tab0.copy(kit = e.parameters("kitIndex").toInt))}
     else state.copy(time = e.time)
   }
 }
