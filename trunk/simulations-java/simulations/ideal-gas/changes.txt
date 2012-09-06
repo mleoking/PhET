@@ -1,3 +1,4 @@
+# 3.14.06 (67713) Sep 6, 2012
 9/5/12 #3167, remove "Return Lid" button when "Reset" is pressed, because "Reset" resets the chamber
 # 3.14.05 (67635) Sep 4, 2012
 # 3.14.04 (66996) Aug 15, 2012
