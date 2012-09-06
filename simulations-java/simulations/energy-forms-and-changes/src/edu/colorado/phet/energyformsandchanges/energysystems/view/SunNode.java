@@ -63,7 +63,7 @@ public class SunNode extends PositionableFadableModelElementNode {
             // TODO: This should probably be handled within the cloud node, and the shape available here.  Or something.  This is awkward.
             cloud.existenceStrength.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double existenceStrength ) {
-                    lightAbsorbingShape.lightAbsorptionCoefficient.set( existenceStrength / 1 );
+                    lightAbsorbingShape.lightAbsorptionCoefficient.set( existenceStrength / 10 );
                 }
             } );
         }
