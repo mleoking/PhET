@@ -25,9 +25,11 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class FadingLineNode extends PNode {
 
+    private final int intensityAtEndPoint;
+
     public FadingLineNode( Vector2D origin, Vector2D endpoint, Color startColor, double fadeCoefficient, double lineThickness ) {
         assert fadeCoefficient >= 0; // Can't have negative fade.
-        int intensityAtEndPoint = (int) Math.round( startColor.getAlpha() * Math.pow( Math.E, -fadeCoefficient * origin.distance( endpoint ) ) );
+        intensityAtEndPoint = (int) Math.round( startColor.getAlpha() * Math.pow( Math.E, -fadeCoefficient * origin.distance( endpoint ) ) );
 
         Paint gradientPaint;
         if ( intensityAtEndPoint == 0 ) {
@@ -49,6 +51,10 @@ public class FadingLineNode extends PNode {
                                                new Color( startColor.getRed(), startColor.getGreen(), startColor.getBlue(), intensityAtEndPoint ) );
         }
         addChild( new PhetPPath( new Line2D.Double( origin.toPoint2D(), endpoint.toPoint2D() ), new BasicStroke( (float) lineThickness ), gradientPaint ) );
+    }
+
+    public int getOpacityAtEndpoint() {
+        return intensityAtEndPoint;
     }
 
     // Test harness.
@@ -73,5 +79,4 @@ public class FadingLineNode extends PNode {
         frame.setLocationRelativeTo( null ); // Center.
         frame.setVisible( true );
     }
-
 }

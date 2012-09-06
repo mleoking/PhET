@@ -71,7 +71,7 @@ public class LightRays extends PNode {
         rayAbsorbingShapes.addElementRemovedObserver( rayUpdater );
     }
 
-    public void addRayBlockingShape( LightAbsorbingShape lightAbsorbingShape ) {
+    public void addLightAbsorbingShape( LightAbsorbingShape lightAbsorbingShape ) {
         rayAbsorbingShapes.add( lightAbsorbingShape );
         for ( LightRayNode lightRayNode : lightRayNodes ) {
             lightRayNode.addLightAbsorbingShape( lightAbsorbingShape );

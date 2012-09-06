@@ -6,6 +6,8 @@ import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -48,35 +50,44 @@ public class LightRayNode extends PNode {
     private void updateLineSegments() {
         removeAllChildren();
         pointAndFadeCoefficientList.clear();
+
+        // Add the initial start and end points.
         pointAndFadeCoefficientList.add( new PointAndFadeCoefficient( origin, FADE_COEFFICIENT_IN_AIR ) );
         pointAndFadeCoefficientList.add( new PointAndFadeCoefficient( endpoint, 0 ) );
-        for ( int i = 0; i < pointAndFadeCoefficientList.size() - 1; i++ ) {
-            addChild( new FadingLineNode( pointAndFadeCoefficientList.get( i ).point,
-                                          pointAndFadeCoefficientList.get( i + 1 ).point,
-                                          color,
-                                          pointAndFadeCoefficientList.get( i ).fadeCoefficient,
-                                          STROKE_THICKNESS ) );
-        }
-    }
 
-    private static Vector2D blockRay( Vector2D origin, Vector2D endPoint, Shape shape ) {
-        Rectangle2D shapeRect = shape.getBounds2D();
-        System.out.println( "shapeRect = " + shapeRect );
-        Vector2D adjustedEndPoint = endPoint;
-        if ( shapeRect.intersectsLine( new Line2D.Double( origin.toPoint2D(), endPoint.toPoint2D() ) ) ) {
-            // Phase I - Do a binary search to locate the edge of the
-            // rectangle that encloses the shape.
-            double angle = endPoint.minus( origin ).getAngle();
-            double length = origin.distance( endPoint );
-            double lengthChange = length / 2;
-            for ( int i = 0; i < SEARCH_ITERATIONS; i++ ) {
-                Line2D testLine = new Line2D.Double( origin.toPoint2D(), origin.plus( new Vector2D( length, 0 ).getRotatedInstance( angle ) ).toPoint2D() );
-                length += lengthChange * ( testLine.intersects( shapeRect ) ? -1 : 1 );
-                lengthChange = lengthChange / 2;
+        // Add the entry and exit points for each shape.
+        for ( LightAbsorbingShape lightAbsorbingShape : lightAbsorbingShapes ) {
+            if ( shapeIntersects( lightAbsorbingShape.shape ) ) {
+                Vector2D entryPoint = getShapeEntryPoint( origin, endpoint, lightAbsorbingShape.shape );
+                assert entryPoint != null; // It's conceivable that we could handle a case where the line originates in a shape, but we don't for now.
+                pointAndFadeCoefficientList.add( new PointAndFadeCoefficient( entryPoint, lightAbsorbingShape.lightAbsorptionCoefficient.get() ) );
+                Vector2D exitPoint = getShapeExitPoint( origin, endpoint, lightAbsorbingShape.shape );
+                if ( exitPoint != null ) {
+                    pointAndFadeCoefficientList.add( new PointAndFadeCoefficient( exitPoint, FADE_COEFFICIENT_IN_AIR ) );
+                }
             }
-            adjustedEndPoint = origin.plus( new Vector2D( length, 0 ).getRotatedInstance( angle ) );
         }
-        return adjustedEndPoint;
+
+        // Sort the list by distance from the origin.
+        Collections.sort( pointAndFadeCoefficientList, new Comparator<PointAndFadeCoefficient>() {
+            public int compare( PointAndFadeCoefficient p1, PointAndFadeCoefficient p2 ) {
+                return Double.compare( p1.point.distance( origin ), p2.point.distance( origin ) );
+            }
+        } );
+
+        // TODO: Could I use a map of points to fade coefficents, then sort the map?
+
+        // Add the segments that comprise the line.
+        int opacity = 255;
+        for ( int i = 0; i < pointAndFadeCoefficientList.size() - 1; i++ ) {
+            final FadingLineNode fadingLineNode = new FadingLineNode( pointAndFadeCoefficientList.get( i ).point,
+                                                                      pointAndFadeCoefficientList.get( i + 1 ).point,
+                                                                      new Color( color.getRed(), color.getGreen(), color.getBlue(), opacity ),
+                                                                      pointAndFadeCoefficientList.get( i ).fadeCoefficient,
+                                                                      STROKE_THICKNESS );
+            addChild( fadingLineNode );
+            opacity = fadingLineNode.getOpacityAtEndpoint();
+        }
     }
 
     private boolean shapeIntersects( Shape shape ) {
@@ -89,15 +100,14 @@ public class LightRayNode extends PNode {
         }
     }
 
-    private static Vector2D getShapeEntryPoint( Vector2D origin, Vector2D endPoint, Shape shape ) {
+    private static Vector2D getShapeEntryPoint( Vector2D origin, Vector2D endpoint, Shape shape ) {
         Rectangle2D shapeRect = shape.getBounds2D();
-        System.out.println( "shapeRect = " + shapeRect );
         Vector2D entryPoint = null;
-        if ( shapeRect.intersectsLine( new Line2D.Double( origin.toPoint2D(), endPoint.toPoint2D() ) ) ) {
+        if ( shapeRect.intersectsLine( new Line2D.Double( origin.toPoint2D(), endpoint.toPoint2D() ) ) ) {
             // Phase I - Do a binary search to locate the edge of the
             // rectangle that encloses the shape.
-            double angle = endPoint.minus( origin ).getAngle();
-            double length = origin.distance( endPoint );
+            double angle = endpoint.minus( origin ).getAngle();
+            double length = origin.distance( endpoint );
             double lengthChange = length / 2;
             for ( int i = 0; i < SEARCH_ITERATIONS; i++ ) {
                 Line2D testLine = new Line2D.Double( origin.toPoint2D(), origin.plus( new Vector2D( length, 0 ).getRotatedInstance( angle ) ).toPoint2D() );
@@ -107,6 +117,29 @@ public class LightRayNode extends PNode {
             entryPoint = origin.plus( new Vector2D( length, 0 ).getRotatedInstance( angle ) );
         }
         return entryPoint;
+    }
+
+    private Vector2D getShapeExitPoint( Vector2D origin, Vector2D endpoint, Shape shape ) {
+        Rectangle2D shapeRect = shape.getBounds2D();
+        Vector2D exitPoint = null;
+        if ( shape.contains( endpoint.toPoint2D() ) ) {
+            // Line ends inside shape, return null.
+            return null;
+        }
+        if ( !shape.contains( endpoint.toPoint2D() ) && shapeRect.intersectsLine( new Line2D.Double( origin.toPoint2D(), endpoint.toPoint2D() ) ) ) {
+            // Phase I - Do a binary search to locate the edge of the
+            // rectangle that encloses the shape.
+            double angle = endpoint.minus( origin ).getAngle();
+            double length = origin.distance( endpoint );
+            double lengthChange = length / 2;
+            for ( int i = 0; i < SEARCH_ITERATIONS; i++ ) {
+                Line2D testLine = new Line2D.Double( origin.plus( new Vector2D( length, 0 ).getRotatedInstance( angle ) ).toPoint2D(), endpoint.toPoint2D() );
+                length += lengthChange * ( testLine.intersects( shapeRect ) ? 1 : -1 );
+                lengthChange = lengthChange / 2;
+            }
+            exitPoint = origin.plus( new Vector2D( length, 0 ).getRotatedInstance( angle ) );
+        }
+        return exitPoint;
     }
 
     private static class PointAndFadeCoefficient {
