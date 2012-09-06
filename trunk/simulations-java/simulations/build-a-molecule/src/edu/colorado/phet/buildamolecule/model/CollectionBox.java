@@ -50,9 +50,9 @@ public class CollectionBox {
 
     private ParameterSet getSimSharingParameters() {
         return new ParameterSet()
-                .with( ParameterKey.collectionBoxMolecularFormula, moleculeType.getMolecularFormula() )
-                .with( ParameterKey.collectionBoxCommonName, moleculeType.getCommonName() )
-                .with( ParameterKey.collectionBoxCID, moleculeType.getCID() )
+                .with( ParameterKey.completeMoleculeMolecularFormula, moleculeType.getMolecularFormula() )
+                .with( ParameterKey.completeMoleculeCommonName, moleculeType.getCommonName() )
+                .with( ParameterKey.completeMoleculeCID, moleculeType.getCID() )
                 .with( ParameterKey.collectionBoxQuantity, quantity.get() )
                 .with( ParameterKey.collectionBoxCapacity, capacity );
     }

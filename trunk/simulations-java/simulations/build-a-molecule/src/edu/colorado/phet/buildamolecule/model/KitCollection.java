@@ -11,7 +11,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ModelAction;
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.ModelComponent;
@@ -83,13 +85,23 @@ public class KitCollection {
                             }
                         }
 
-                        SimSharingManager.sendModelMessage( ModelComponent.atom, ModelComponentTypes.modelElement, ModelAction.collectionDropInformation, new ParameterSet()
+                        ParameterSet baseParameterSet = new ParameterSet()
                                 .with( ParameterKey.atomDroppedOverCollectionBox, attemptedDropOverCollectionBox )
-                                .with( ParameterKey.atomSuccessfullyDroppedInCollectionBox, wasDroppedInCollectionBox ) );
-                        // TODO: Add in more collection information here
-                        if ( attemptedDropOverCollectionBox && !wasDroppedInCollectionBox ) {
-                            // the user tried to drop a molecule into a collection box (and it didn't fit)
-                        }
+                                .with( ParameterKey.atomSuccessfullyDroppedInCollectionBox, wasDroppedInCollectionBox )
+                                .with( ParameterKey.collectionBoxFormulasUnderDroppedMolecule, FunctionalUtils.mkString( boxesUnderDrop, new Function1<CollectionBox, String>() {
+                                    public String apply( CollectionBox collectionBox ) {
+                                        return collectionBox.getMoleculeType().getMolecularFormula();
+                                    }
+                                }, "," ) )
+                                .with( ParameterKey.moleculeId, molecule.getMoleculeId() )
+
+                                        // the user tried to drop a molecule into a collection box (and it didn't fit)
+                                .with( ParameterKey.collectionBoxDropFailure, attemptedDropOverCollectionBox && !wasDroppedInCollectionBox );
+                        SimSharingManager.sendModelMessage( ModelComponent.molecule, ModelComponentTypes.modelElement, ModelAction.collectionDropInformation,
+                                                            wasDroppedInCollectionBox
+                                                            ? baseParameterSet
+                                                                    .with( ParameterKey.collectionBoxFormulaDroppedInto, droppedIntoThisBox.getMoleculeType().getMolecularFormula() )
+                                                            : baseParameterSet );
                     }
 
                     if ( !wasDroppedInCollectionBox ) {

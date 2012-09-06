@@ -127,7 +127,7 @@ public class MoleculeStructure<AtomT extends Atom> {
      *
      * @return Text which is the structural formula
      */
-    public String getStructuralFormula() {
+    @Deprecated public String getStructuralFormula() {
 
         // scan for alcohols (OH bonded to C)
         int alcoholCount = 0;

@@ -18,30 +18,45 @@ public class BuildAMoleculeSimSharing {
     }
 
     public enum ParameterKey implements IParameterKey {
-        atomId, atomElement,
+        atomId, atomElement, atomIds,
 
         atomWasInKitArea,
         atomDroppedInKitArea,
         atomDroppedOverCollectionBox,
         atomSuccessfullyDroppedInCollectionBox,
 
+        collectionBoxFormulasUnderDroppedMolecule,
+        collectionBoxFormulaDroppedInto,
+        collectionBoxDropFailure,
+
+        bonds,
         bondOccurs,
         bondAtomA,
         bondAtomB,
+        bondMoleculeIdA,
+        bondMoleculeIdB,
         bondDirection,
 
         bondMoleculeDestroyedA,
         bondMoleculeDestroyedB,
         bondMoleculeCreated,
 
+        moleculesCreated,
+        moleculeDestroyed,
         moleculeStructureDestroyedA,
         moleculeStructureDestroyedB,
         moleculeStructureCreated,
         moleculeId,
+        moleculeRepulsed, // boolean
+        moleculesRepulsed, // list of molecules if applicable
+        moleculeSerial2,
+        moleculeGeneralFormula,
+        moleculeIsCompleteMolecule,
 
-        collectionBoxMolecularFormula,
-        collectionBoxCommonName,
-        collectionBoxCID,
+        completeMoleculeMolecularFormula,
+        completeMoleculeCommonName,
+        completeMoleculeCID,
+        completeMoleculeSerial2,
         collectionBoxQuantity,
         collectionBoxCapacity
 
@@ -54,13 +69,25 @@ public class BuildAMoleculeSimSharing {
     }
 
     public enum ModelAction implements IModelAction {
+        atomAddedIntoPlay,
+
+        moleculeStatusAfterDrop,
+
         atomDropped,
         collectionDropInformation,
         bondAttempt,
         bonding,
+        bondBroken, // just one bond broken, probably with scissors
+        moleculeBroken, // all bonds at once
+        moleculeRecycled,
+        moleculeRemovedMisc,
 
         moleculePutInCollectionBox,
-        collectionBoxFilled
+        collectionBoxFilled,
+
+        // lower-level events
+        moleculeAdded,
+        moleculeRemoved
     }
 
 }
