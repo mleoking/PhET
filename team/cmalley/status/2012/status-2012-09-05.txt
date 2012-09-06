@@ -32,7 +32,7 @@ Administrative
 WHAT'S NEXT:                                                                         '
 
 - Line Graphing: design & implement "Game" tab
-- Inequalities: design & implementation
+- Inequalities: design & implement
 - Absolute Value: design
 
 ISSUES:
