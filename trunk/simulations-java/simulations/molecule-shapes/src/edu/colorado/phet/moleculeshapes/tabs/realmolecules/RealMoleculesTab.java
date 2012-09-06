@@ -106,10 +106,6 @@ public class RealMoleculesTab extends MoleculeViewTab {
         super.initialize();
         initializeResources();
 
-        // add an offset to the left, since we have a control panel on the right
-        // TODO: make the offset dependent on the control panel width?
-        sceneLayer.translate( new Vector3F( -4.5f, 1.5f, 0 ) );
-
         moleculeNode = new MoleculeModelNode( getMolecule(), readoutLayer, this );
         sceneLayer.addChild( moleculeNode );
 
@@ -307,7 +303,10 @@ public class RealMoleculesTab extends MoleculeViewTab {
     @Override public void updateState( final float tpf ) {
         getMolecule().update( tpf );
         moleculeNode.updateView();
-        moleculeNode.transform.set( Matrix4F.translation( moleculeNode.transform.getMatrix().getTranslation() ).times( rotation.get().toRotationMatrix().toMatrix4f() ) );
+        // add an offset to the left, since we have a control panel on the right, and add in the rotation
+        moleculeNode.transform.set(
+                Matrix4F.translation( new Vector3F( -4.5f, 1.5f, 0 ) )
+                        .times( rotation.get().toRotationMatrix().toMatrix4f() ) );
 
         // update the overlay viewport
         if ( resizeDirty && controlPanel != null ) {
