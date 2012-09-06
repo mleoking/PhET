@@ -233,7 +233,6 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Create and add the game scoreboard.
         scoreboard = new GameScoreboardNode( BalanceGameModel.MAX_LEVELS, model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ) ) {{
-            setConfirmNewGame( false );
             setBackgroundWidth( DEFAULT_STAGE_SIZE.getWidth() * 0.85 );
             model.getClock().addClockListener( new ClockAdapter() {
                 @Override

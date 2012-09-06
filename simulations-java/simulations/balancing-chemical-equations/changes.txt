@@ -1,3 +1,4 @@
+9/6/12 #3434, change default behavior of "New Game" to no confirmation
 8/29/12 replace local copy of GameTimer with common.games.GameTimer
 # 1.01.00 (66652) Aug 7, 2012
 # 1.00.09 (66628) Aug 7, 2012
