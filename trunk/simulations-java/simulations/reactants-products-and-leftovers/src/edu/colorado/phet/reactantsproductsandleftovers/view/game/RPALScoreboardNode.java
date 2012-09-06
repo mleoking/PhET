@@ -47,24 +47,14 @@ public class RPALScoreboardNode extends GameScoreboardNode {
             public void timeChanged() {
                 setTime( model.getTime() );
             }
-
-            @Override
-            public void gameStarted() {
-                setConfirmNewGame( true );
-            }
-
-            @Override
-            public void gameCompleted() {
-                setConfirmNewGame( false );
-            }
-        });
+        } );
 
         // when the "New Game" button is pressed, tell the model
         addGameScoreboardListener( new GameScoreboardListener() {
             public void newGamePressed() {
                 model.newGame();
             }
-        });
+        } );
 
         // initial state
         setScore( model.getPoints() );
