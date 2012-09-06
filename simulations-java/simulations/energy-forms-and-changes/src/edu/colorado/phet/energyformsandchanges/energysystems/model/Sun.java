@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.energysystems.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -46,8 +47,9 @@ public class Sun extends EnergySource {
         super( EnergyFormsAndChangesResources.Images.SUN_ICON, IMAGE_LIST );
         cloudiness.addObserver( new VoidFunction1<Double>() {
             public void apply( Double cloudiness ) {
-                for ( Cloud cloud : clouds ) {
-                    cloud.existenceStrength.set( cloudiness );
+                for ( int i = 0; i < clouds.size(); i++ ) {
+                    // Stagger the existence strength of the clouds.
+                    clouds.get( i ).existenceStrength.set( MathUtil.clamp( 0, cloudiness * clouds.size() - i, 1 ) );
                 }
             }
         } );
