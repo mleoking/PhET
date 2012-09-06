@@ -1,3 +1,4 @@
+9/6/12 change request: when run=0, label line as "x=# (slope undefined)"
 9/6/12 #3434, change default behavior of "New Game" to no confirmation
 # 0.00.24 (67688) Sep 5, 2012
 9/5/12 demo a couple of new "Graph the Line" challenges
