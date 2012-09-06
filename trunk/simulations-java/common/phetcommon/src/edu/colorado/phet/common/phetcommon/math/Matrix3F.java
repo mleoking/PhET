@@ -16,7 +16,7 @@ import static java.util.Arrays.asList;
  *
  * @author Jonathan Olson
  */
-public @EqualsAndHashCode(callSuper = false) class Matrix3F {
+public @EqualsAndHashCode(callSuper = false, exclude = "type") class Matrix3F {
 
     // entries in row-major order (v<row><column>, both starting from 0)
     public final float v00, v01, v02, v10, v11, v12, v20, v21, v22;
@@ -148,6 +148,85 @@ public @EqualsAndHashCode(callSuper = false) class Matrix3F {
                              v10, v11, v12,
                              v20, v21, v22,
                              type );
+    }
+
+    // a rotation matrix that rotates A to B, by rotating about the axis A.cross( B ) -- Shortest path. ideally should be unit vectors
+    public static Matrix3F rotateAToB( Vector3F a, Vector3F b ) {
+        // see http://graphics.cs.brown.edu/~jfh/papers/Moller-EBA-1999/paper.pdf for information on this implementation
+        Vector3F start = a;
+        Vector3F end = b;
+
+        float epsilon = 0.0001f;
+
+        float e, h, f;
+
+        Vector3F v = start.cross( end );
+        e = start.dot( end );
+        f = ( e < 0 ) ? -e : e;
+
+        // if "from" and "to" vectors are nearly parallel
+        if ( f > 1.0f - epsilon ) {
+            float c1, c2, c3; /* coefficients for later use */
+            int i, j;
+
+            Vector3F x = new Vector3F(
+                    ( start.x > 0.0 ) ? start.x : -start.x,
+                    ( start.y > 0.0 ) ? start.y : -start.y,
+                    ( start.z > 0.0 ) ? start.z : -start.z
+            );
+
+            if ( x.x < x.y ) {
+                if ( x.x < x.z ) {
+                    x = Vector3F.X_UNIT;
+                }
+                else {
+                    x = Vector3F.Z_UNIT;
+                }
+            }
+            else {
+                if ( x.y < x.z ) {
+                    x = Vector3F.Y_UNIT;
+                }
+                else {
+                    x = Vector3F.Z_UNIT;
+                }
+            }
+
+            Vector3F u = x.minus( start );
+            v = x.minus( end );
+
+            c1 = 2.0f / u.dot( u );
+            c2 = 2.0f / v.dot( v );
+            c3 = c1 * c2 * u.dot( v );
+
+            return Matrix3F.IDENTITY.plus( Matrix3F.rowMajor(
+                    -c1 * u.x * u.x - c2 * v.x * v.x + c3 * v.x * u.x,
+                    -c1 * u.x * u.y - c2 * v.x * v.y + c3 * v.x * u.y,
+                    -c1 * u.x * u.z - c2 * v.x * v.z + c3 * v.x * u.z,
+                    -c1 * u.y * u.x - c2 * v.y * v.x + c3 * v.y * u.x,
+                    -c1 * u.y * u.y - c2 * v.y * v.y + c3 * v.y * u.y,
+                    -c1 * u.y * u.z - c2 * v.y * v.z + c3 * v.y * u.z,
+                    -c1 * u.z * u.x - c2 * v.z * v.x + c3 * v.z * u.x,
+                    -c1 * u.z * u.y - c2 * v.z * v.y + c3 * v.z * u.y,
+                    -c1 * u.z * u.z - c2 * v.z * v.z + c3 * v.z * u.z
+            ) );
+        }
+        else {
+            // the most common case, unless "start"="end", or "start"=-"end"
+            float hvx, hvz, hvxy, hvxz, hvyz;
+            h = 1.0f / ( 1.0f + e );
+            hvx = h * v.x;
+            hvz = h * v.z;
+            hvxy = hvx * v.y;
+            hvxz = hvx * v.z;
+            hvyz = hvz * v.y;
+
+            return Matrix3F.rowMajor(
+                    e + hvx * v.x, hvxy - v.z, hvxz + v.y,
+                    hvxy + v.z, e + h * v.y * v.y, hvyz - v.x,
+                    hvxz - v.y, hvyz + v.x, e + hvz * v.z
+            );
+        }
     }
 
     /*---------------------------------------------------------------------------*
@@ -324,5 +403,18 @@ public @EqualsAndHashCode(callSuper = false) class Matrix3F {
 
     public Vector3F getScaling() {
         return new Vector3F( v00, v11, v22 );
+    }
+
+    // allows slight numerical imprecision, due to rounding errors that may be lost in intermediate computations
+    public boolean equalsWithEpsilon( Matrix3F m, float epsilon ) {
+        return Math.abs( v00 - m.v00 ) < epsilon
+               && Math.abs( v01 - m.v01 ) < epsilon
+               && Math.abs( v02 - m.v02 ) < epsilon
+               && Math.abs( v10 - m.v10 ) < epsilon
+               && Math.abs( v11 - m.v11 ) < epsilon
+               && Math.abs( v12 - m.v12 ) < epsilon
+               && Math.abs( v20 - m.v20 ) < epsilon
+               && Math.abs( v21 - m.v21 ) < epsilon
+               && Math.abs( v22 - m.v22 ) < epsilon;
     }
 }

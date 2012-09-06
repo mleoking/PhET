@@ -1,14 +1,19 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.math;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 
 /**
  * Floating-point version of a quaternion. Very helpful for rotation-based computations. See http://en.wikipedia.org/wiki/Quaternion
  *
+ * TODO: convert from JME-style parameterization into classical mathematical description?
+ *
  * @author Jonathan Olson
  */
-public class QuaternionF {
+public @EqualsAndHashCode(callSuper = false) @ToString class QuaternionF {
     public final float x;
     public final float y;
     public final float z;
@@ -40,12 +45,33 @@ public class QuaternionF {
 
     // standard quaternion multiplication (hamilton product)
     public QuaternionF times( QuaternionF quat ) {
+        // TODO: note why this is the case? product noted everywhere is the other one mentioned!
+        // mathematica-style
+//        return new QuaternionF(
+//                x * quat.x - y * quat.y - z * quat.z - w * quat.w,
+//                x * quat.y + y * quat.x + z * quat.w - w * quat.z,
+//                x * quat.z - y * quat.w + z * quat.x + w * quat.y,
+//                x * quat.w + y * quat.z - z * quat.y + w * quat.x
+//        );
+
+        // JME-style
         return new QuaternionF(
-                x * quat.x - y * quat.y - z * quat.z - w * quat.w,
-                x * quat.y + y * quat.x + z * quat.w - w * quat.z,
-                x * quat.z - y * quat.w + z * quat.x + w * quat.y,
-                x * quat.w + y * quat.z - z * quat.y + w * quat.x
+                x * quat.w - z * quat.y + y * quat.z + w * quat.x,
+                -x * quat.z + y * quat.w + z * quat.x + w * quat.y,
+                x * quat.y - y * quat.x + z * quat.w + w * quat.z,
+                -x * quat.x - y * quat.y - z * quat.z + w * quat.w
         );
+
+        /*
+            Mathematica!
+            In[13]:= Quaternion[-0.0, -0.0024999974, 0.0, 0.9999969] ** Quaternion[-0.9864071, 0.0016701065, -0.0050373166, 0.16423558]
+            Out[13]= Quaternion[-0.164231, 0.00750332, 0.00208069, -0.986391]
+
+            In[17]:= Quaternion[-0.0024999974, 0.0, 0.9999969, 0] ** Quaternion[0.0016701065, -0.0050373166, 0.16423558, -0.9864071]
+            Out[17]= Quaternion[-0.164239, -0.986391, 0.00125951, 0.00750332]
+
+            JME contains the rearrangement of what is typically called {w,x,y,z}
+         */
     }
 
     // multiplication that transforms the vector by the quaternion
@@ -77,13 +103,17 @@ public class QuaternionF {
         return times( 1 / magnitude );
     }
 
+    public QuaternionF negated() {
+        return new QuaternionF( -x, -y, -z, -w );
+    }
+
     public static QuaternionF fromEulerAngles( float yaw, float roll, float pitch ) {
-        float sinYaw = (float) Math.sin( yaw / 2 );
-        float cosYaw = (float) Math.cos( yaw / 2 );
-        float sinRoll = (float) Math.sin( roll / 2 );
-        float cosRoll = (float) Math.cos( roll / 2 );
-        float sinPitch = (float) Math.sin( pitch / 2 );
-        float cosPitch = (float) Math.cos( pitch / 2 );
+        float sinPitch = (float) Math.sin( pitch * 0.5f );
+        float cosPitch = (float) Math.cos( pitch * 0.5f );
+        float sinRoll = (float) Math.sin( roll * 0.5f );
+        float cosRoll = (float) Math.cos( roll * 0.5f );
+        float sinYaw = (float) Math.sin( yaw * 0.5f );
+        float cosYaw = (float) Math.cos( yaw * 0.5f );
 
         float a = cosRoll * cosPitch;
         float b = sinRoll * sinPitch;
@@ -91,11 +121,11 @@ public class QuaternionF {
         float d = sinRoll * cosPitch;
 
         return new QuaternionF(
-                a * cosYaw - b * sinYaw,
                 a * sinYaw + b * cosYaw,
                 d * cosYaw + c * sinYaw,
-                c * cosYaw - d * sinYaw
-        ).normalized();
+                c * cosYaw - d * sinYaw,
+                a * cosYaw - b * sinYaw
+        );
     }
 
     public Matrix3F toRotationMatrix() {
@@ -114,10 +144,117 @@ public class QuaternionF {
         float zz = z * z * flip;
         float zw = w * z * flip;
 
-        return Matrix3F.rowMajor(
-                1 - ( yy + zz ), ( xy + zw ), ( xz - yw ),
-                ( xy - zw ), 1 - ( xx + zz ), ( yz + xw ),
-                ( xz + yw ), ( yz - xw ), 1 - ( xx + yy )
+        return Matrix3F.columnMajor(
+                1 - ( yy + zz ),
+                ( xy + zw ),
+                ( xz - yw ),
+                ( xy - zw ),
+                1 - ( xx + zz ),
+                ( yz + xw ),
+                ( xz + yw ),
+                ( yz - xw ),
+                1 - ( xx + yy )
+        );
+    }
+
+    public static QuaternionF fromRotationMatrix( Matrix3F matrix ) {
+        float v00 = matrix.v00;
+        float v01 = matrix.v01;
+        float v02 = matrix.v02;
+        float v10 = matrix.v10;
+        float v11 = matrix.v11;
+        float v12 = matrix.v12;
+        float v20 = matrix.v20;
+        float v21 = matrix.v21;
+        float v22 = matrix.v22;
+
+        // from graphics gems code
+        float trace = v00 + v11 + v22;
+        float sqt;
+
+        // we protect the division by s by ensuring that s>=1
+        if ( trace >= 0 ) {
+            sqt = (float) Math.sqrt( trace + 1 );
+            return new QuaternionF(
+                    ( v21 - v12 ) * 0.5f / sqt,
+                    ( v02 - v20 ) * 0.5f / sqt,
+                    ( v10 - v01 ) * 0.5f / sqt,
+                    0.5f * sqt
+            );
+        }
+        else if ( ( v00 > v11 ) && ( v00 > v22 ) ) {
+            sqt = (float) Math.sqrt( 1.0f + v00 - v11 - v22 );
+            return new QuaternionF(
+                    sqt * 0.5f,
+                    ( v10 + v01 ) * 0.5f / sqt,
+                    ( v02 + v20 ) * 0.5f / sqt,
+                    ( v21 - v12 ) * 0.5f / sqt
+            );
+        }
+        else if ( v11 > v22 ) {
+            sqt = (float) Math.sqrt( 1.0f + v11 - v00 - v22 );
+            return new QuaternionF(
+                    ( v10 + v01 ) * 0.5f / sqt,
+                    sqt * 0.5f,
+                    ( v21 + v12 ) * 0.5f / sqt,
+                    ( v02 - v20 ) * 0.5f / sqt
+            );
+        }
+        else {
+            sqt = (float) Math.sqrt( 1.0f + v22 - v00 - v11 );
+            return new QuaternionF(
+                    ( v02 + v20 ) * 0.5f / sqt,
+                    ( v21 + v12 ) * 0.5f / sqt,
+                    sqt * 0.5f,
+                    ( v10 - v01 ) * 0.5f / sqt
+            );
+        }
+    }
+
+    /**
+     * Find a quaternion that transforms a unit vector A into a unit vector B. There
+     * are technically multiple solutions, so this only picks one.
+     *
+     * @param a Unit vector A
+     * @param b Unit vector B
+     * @return A quaternion s.t. Q * A = B
+     */
+    public static QuaternionF getRotationQuaternion( Vector3F a, Vector3F b ) {
+        return QuaternionF.fromRotationMatrix( Matrix3F.rotateAToB( a, b ) );
+    }
+
+    // spherical linear interpolation - blending two quaternions
+    public static QuaternionF slerp( QuaternionF a, QuaternionF b, float t ) {
+        // if they are identical, just return one of them
+        if ( a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w ) {
+            return a;
+        }
+
+        float dot = ( a.x * b.x ) + ( a.y * b.y ) + ( a.z * b.z ) + ( a.w * b.w );
+
+        if ( dot < 0.0f ) {
+            b = b.negated();
+            dot = -dot;
+        }
+
+        // how much of each quaternion should be contributed
+        float ratioA = 1 - t;
+        float ratioB = t;
+
+        // tweak them if necessary
+        if ( ( 1 - dot ) > 0.1f ) {
+            float theta = (float) Math.acos( dot );
+            float invSinTheta = (float) ( 1f / Math.sin( theta ) );
+
+            ratioA = (float) ( Math.sin( ( 1 - t ) * theta ) * invSinTheta );
+            ratioB = (float) ( Math.sin( ( t * theta ) ) * invSinTheta );
+        }
+
+        return new QuaternionF(
+                ( ratioA * a.x ) + ( ratioB * b.x ),
+                ( ratioA * a.y ) + ( ratioB * b.y ),
+                ( ratioA * a.z ) + ( ratioB * b.z ),
+                ( ratioA * a.w ) + ( ratioB * b.w )
         );
     }
 }

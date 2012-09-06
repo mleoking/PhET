@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -20,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Jonathan Olson
  */
 public class GLSimSharingPropertyCheckBox extends SimSharingJCheckBox {
-    public GLSimSharingPropertyCheckBox( IUserComponent userComponent, String text, final Property<Boolean> lwjglProperty ) {
+    public GLSimSharingPropertyCheckBox( IUserComponent userComponent, String text, final SettableProperty<Boolean> lwjglProperty ) {
         super( userComponent, text );
 
         // during construction, assume both threads are synchronized
