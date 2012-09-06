@@ -22,6 +22,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent;
 
 /**
  * Contains the kit background and controls for switching between kits
@@ -87,6 +88,7 @@ public class KitPanel extends PNode {
             private SimpleObserver observer; // makes sure that we are enabled or disabled whenever the current kit is
 
             {
+                setUserComponent( UserComponent.refillKit );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         kitCollectionModel.getCurrentKit().resetKit();

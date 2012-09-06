@@ -14,7 +14,12 @@ public class BuildAMoleculeSimSharing {
         jmol3DButton,
         makeMoleculesTab,
         collectMultipleTab,
-        largerMoleculesTab
+        largerMoleculesTab,
+        resetCollection,
+        soundOn,
+        soundOff,
+        refillKit,
+        resetCurrentTab
     }
 
     public enum ParameterKey implements IParameterKey {

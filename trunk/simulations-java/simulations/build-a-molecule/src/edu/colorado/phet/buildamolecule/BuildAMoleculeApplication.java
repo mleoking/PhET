@@ -23,12 +23,17 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent;
 
 /**
  * The main application for this simulation.
@@ -98,6 +103,7 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     getActiveModule().reset();
+                    SimSharingManager.sendUserMessage( UserComponent.resetCurrentTab, UserComponentTypes.menuItem, UserActions.activated );
                 }
             } );
         }} );

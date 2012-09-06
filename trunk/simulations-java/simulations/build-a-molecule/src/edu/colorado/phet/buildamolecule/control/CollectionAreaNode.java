@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.control.GeneralLayoutNode.HorizontalAlignMethod.Align;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
@@ -21,6 +22,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeSimSharing.UserComponent;
 
 /**
  * Area that shows all of the collection boxes and a reset collection button
@@ -89,6 +92,8 @@ public class CollectionAreaNode extends GeneralLayoutNode {
 
         final HTMLImageButtonNode resetCollectionButton = new HTMLImageButtonNode( BuildAMoleculeStrings.RESET_COLLECTION, Color.ORANGE ) {
             {
+                setUserComponent( UserComponent.resetCollection );
+
                 // when clicked, empty collection boxes
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {

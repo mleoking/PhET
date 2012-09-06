@@ -63,7 +63,25 @@ class BAMReport(log: Log) {
                      entry => {
                        val creationState = states.find(e=>e.entry.action == "moleculeAdded" && e.entry.parameters("moleculeId") == entry.entry.parameters("moleculeId")).get
                        val target = entry.entry.parameters("collectionBoxFormulasUnderDroppedMolecule")
-                       "    " + entry.end.time + "dropped " + creationState.entry.parameters("completeMoleculeCommonName") + " (" + creationState.entry.parameters("completeMoleculeMolecularFormula") + ", " + creationState.entry.parameters("completeMoleculeCID") + ") on " + target
+                       "    " + entry.end.time + " dropped " + creationState.entry.parameters("completeMoleculeCommonName") + " (" + creationState.entry.parameters("completeMoleculeMolecularFormula") + ", " + creationState.entry.parameters("completeMoleculeCID") + ") on " + target
+                     }
+                   ).mkString("\n")       + "\n" +
+                   "Collection boxes filled:\n" +
+                   states.filter(entry => entry.entry.action=="collectionBoxFilled").map(
+                     entry => {
+                       "    " + entry.end.time + " tab:" + entry.end.tab + " " + entry.entry.parameters("completeMoleculeMolecularFormula")
+                     }
+                   ).mkString("\n")         + "\n" +
+                   "Bonding failures (repelled molecules):\n" +
+                   states.filter(entry => entry.entry.action=="moleculeStatusAfterDrop" && entry.entry.parameters("moleculeRepulsed") == "true").map(
+                     entry => {
+                       val repulsedIDs = entry.entry.parameters("moleculesRepulsed").split(",")
+                       val creationStates = repulsedIDs.map( id => states.find(e=>e.entry.action == "moleculeAdded" && e.entry.parameters("moleculeId") == id).get)
+                       "    " + entry.end.time + " tab:" + entry.end.tab + " kit:" + entry.end.currentTab.kit + ":\n" +
+                       creationStates.map(e=>{
+                         val isDraggedMolecule = e.entry.parameters("moleculeId") == entry.entry.parameters("moleculeId")
+                         "        " + e.entry.parameters("moleculeGeneralFormula") + (if(isDraggedMolecule) " (dropped)" else "" )
+                       }).mkString("\n")
                      }
                    ).mkString("\n")
 }
