@@ -9,6 +9,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -61,7 +62,14 @@ public class SunNode extends PositionableFadableModelElementNode {
         for ( Cloud cloud : sun.clouds ) {
             final CloudNode cloudNode = new CloudNode( cloud, mvt );
             addChild( cloudNode );
-            lightRays.addLightAbsorbingShape( new LightAbsorbingShape( cloudNode.getFullBoundsReference(), 0.0 ) );
+            final LightAbsorbingShape lightAbsorbingShape = new LightAbsorbingShape( cloudNode.getFullBoundsReference(), 0.0 );
+            lightRays.addLightAbsorbingShape( lightAbsorbingShape );
+            // TODO: This should probably be handled within the cloud node, and the shape available here.  Or something.  This is awkward.
+            cloud.existenceStrength.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double existenceStrength ) {
+                    lightAbsorbingShape.lightAbsorptionCoefficient.set( existenceStrength / 25 );
+                }
+            } );
         }
 
         // Add the control panel for the clouds.
