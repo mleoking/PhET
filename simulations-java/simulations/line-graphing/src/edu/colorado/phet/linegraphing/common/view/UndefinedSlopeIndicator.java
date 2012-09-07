@@ -16,7 +16,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class UndefinedSlopeIndicator extends PComposite {
 
-    private final BasicStroke STROKE = new BasicStroke( 4f );
+    private final BasicStroke STROKE = new BasicStroke( 4f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER );
     private final Paint STROKE_PAINT = new Color( 255, 0, 0, 80 );
 
     public UndefinedSlopeIndicator( double width, double height ) {
