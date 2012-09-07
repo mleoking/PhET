@@ -10,6 +10,7 @@ DESIGN
 - change request: change "y = #" to "slope is zero, y = #"
 
 HIGH
+- consider collapsing line hierarchy. what are the implications? does it simplify the implementation?
 - create drag handler for (x2,y2) in point-point lines
 - create additional game challenges
 
