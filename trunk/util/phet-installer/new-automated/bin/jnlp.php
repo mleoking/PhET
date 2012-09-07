@@ -21,6 +21,24 @@
         return $jnlp_xmls;
     }
 
+    function jnlp_get_codebase($jnlp_file) {
+        $matches = array();
+ 
+        if (preg_match(JNLP_CODEBASE_PATTERN, $jnlp_file, $matches)) {
+            $codebase = $matches[1];
+ 
+            if (!string_ends_with($codebase, '/')) {
+                $codebase .= '/';
+            }
+ 
+            return $codebase;
+        }
+        else {
+            return false;
+        }
+    }
+ 
+
     //-------------------------------------------------------------------------
     // This function replaces the "codebase" directive in the JNLP file with
     // the specified pattern.  This is done to allow the JNLP files to be
