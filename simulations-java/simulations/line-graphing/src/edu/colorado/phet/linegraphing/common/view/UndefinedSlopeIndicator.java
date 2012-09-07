@@ -20,6 +20,8 @@ public class UndefinedSlopeIndicator extends PComposite {
     private final Paint STROKE_PAINT = new Color( 255, 0, 0, 80 );
 
     public UndefinedSlopeIndicator( double width, double height ) {
+        setPickable( false );
+        setChildrenPickable( false );
         addChild( new PhetPPath( new Line2D.Double( 0, 0, width, height ), STROKE, STROKE_PAINT ) );
         addChild( new PhetPPath( new Line2D.Double( 0, height, width, 0 ), STROKE, STROKE_PAINT ) );
     }
