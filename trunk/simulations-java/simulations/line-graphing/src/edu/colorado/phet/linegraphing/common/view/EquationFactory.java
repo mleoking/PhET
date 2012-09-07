@@ -26,7 +26,7 @@ public abstract class EquationFactory<T extends PointSlopeLine> {
 
     // Convenience method that simplifies the line before creating the equation.
     public EquationNode createSimplifiedNode( T line, LineFactory<T> lineFactory, PhetFont font ) {
-        return createNode( lineFactory.simplify( line ), font );
+        return createNode( lineFactory.simplified( line ), font );
     }
 
     // When slope is undefined, we display "undefined" in place of an equation.
