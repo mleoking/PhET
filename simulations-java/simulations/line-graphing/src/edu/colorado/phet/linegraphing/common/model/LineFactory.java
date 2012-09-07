@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineFactory<T extends PointSlopeLine> {
+public abstract class LineFactory<T extends PointPointLine> {
 
     // Creates a line with a different point
     public abstract T withPoint( T line, double x1, double y1 );

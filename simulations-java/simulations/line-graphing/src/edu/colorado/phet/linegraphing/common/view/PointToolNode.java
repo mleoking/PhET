@@ -26,6 +26,7 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.PointPointLine;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
@@ -75,7 +76,7 @@ public class PointToolNode extends PhetPNode {
                     setCoordinates( location );
                     if ( linesVisible.get() ) {
                         // use the line's color to highlight
-                        PointSlopeLine onLine = pointTool.onLine.get();
+                        PointPointLine onLine = pointTool.onLine.get();
                         setForeground( onLine == null ? LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR : LGColors.POINT_TOOL_FOREGROUND_HIGHLIGHT_COLOR );
                         setBackground( onLine == null ? LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR : onLine.color );
                     }
@@ -131,7 +132,7 @@ public class PointToolNode extends PhetPNode {
         }
         else {
             bodyNode.rotate( Math.PI );
-            bodyNode.setOffset( bodyNode.getFullBoundsReference().getWidth() / 2, bodyNode.getFullBoundsReference().getHeight( ) );
+            bodyNode.setOffset( bodyNode.getFullBoundsReference().getWidth() / 2, bodyNode.getFullBoundsReference().getHeight() );
             backgroundNode.setOffset( bodyNode.getFullBoundsReference().getMinX() + 5,
                                       bodyNode.getFullBoundsReference().getMaxY() - backgroundNode.getFullBoundsReference().getHeight() - 5 );
             valueNode.setOffset( 0, bodyNode.getFullBoundsReference().getMaxY() - COORDINATES_Y_CENTER - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );

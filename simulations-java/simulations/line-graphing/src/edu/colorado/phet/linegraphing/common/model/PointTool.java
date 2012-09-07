@@ -15,25 +15,25 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class PointTool implements Resettable {
 
-    public static enum Orientation { UP, DOWN }
+    public static enum Orientation {UP, DOWN}
 
     public final Property<Vector2D> location;
     public final Orientation orientation;
-    public final Property<PointSlopeLine> onLine; // line that the tool is on, possibly null
+    public final Property<PointPointLine> onLine; // line that the tool is on, possibly null
 
-    private final ObservableList<PointSlopeLine> lines;
+    private final ObservableList<PointPointLine> lines;
 
     /**
      * Constructor
      *
-     * @param location        location of the tool, in model coordinate frame
-     * @param lines           lines that the tool might intersect
+     * @param location location of the tool, in model coordinate frame
+     * @param lines    lines that the tool might intersect
      */
-    public PointTool( Vector2D location, Orientation orientation, ObservableList<PointSlopeLine> lines ) {
+    public PointTool( Vector2D location, Orientation orientation, ObservableList<PointPointLine> lines ) {
 
         this.location = new Property<Vector2D>( location );
         this.orientation = orientation;
-        this.onLine = new Property<PointSlopeLine>( null );
+        this.onLine = new Property<PointPointLine>( null );
 
         this.lines = lines;
 
@@ -47,8 +47,8 @@ public class PointTool implements Resettable {
             } );
 
             // saved & standard lines
-            final VoidFunction1<PointSlopeLine> linesChanged = new VoidFunction1<PointSlopeLine>() {
-                public void apply( PointSlopeLine line ) {
+            final VoidFunction1<PointPointLine> linesChanged = new VoidFunction1<PointPointLine>() {
+                public void apply( PointPointLine line ) {
                     updateOnLine();
                 }
             };
@@ -59,7 +59,7 @@ public class PointTool implements Resettable {
 
     // Determine which line (if any) the tool is placed on.
     private void updateOnLine() {
-        for ( PointSlopeLine line : lines ) {
+        for ( PointPointLine line : lines ) {
             if ( isOnLine( line ) ) {
                 onLine.set( line );
                 return;
@@ -69,7 +69,7 @@ public class PointTool implements Resettable {
     }
 
     // Is the point tool on this line?
-    private boolean isOnLine( PointSlopeLine line ) {
+    private boolean isOnLine( PointPointLine line ) {
         if ( line.run == 0 && location.get().getX() == line.x1 ) {
             // slope is undefined, tool is on the line
             return true;

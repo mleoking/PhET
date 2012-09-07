@@ -20,7 +20,7 @@ import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineFormsModel<T extends PointSlopeLine> implements Resettable {
+public abstract class LineFormsModel<T extends PointPointLine> implements Resettable {
 
     private static final int GRID_VIEW_UNITS = 530; // max dimension (width or height) of the grid in the view
 
@@ -88,7 +88,7 @@ public abstract class LineFormsModel<T extends PointSlopeLine> implements Resett
         this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), mvtScale, -mvtScale ); // y is inverted
 
         // Observable collection of all lines, required by point tool.
-        final ObservableList<PointSlopeLine> allLines = new ObservableList<PointSlopeLine>();
+        final ObservableList<PointPointLine> allLines = new ObservableList<PointPointLine>();
         {
             this.interactiveLine.addObserver( new ChangeObserver<T>() {
                 public void update( T newLine, T oldLine ) {

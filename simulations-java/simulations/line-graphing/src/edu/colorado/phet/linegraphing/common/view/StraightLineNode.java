@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.PointPointLine;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -22,14 +23,14 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class StraightLineNode<T extends PointSlopeLine> extends PComposite {
+public abstract class StraightLineNode<T extends PointPointLine> extends PComposite {
 
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 10, 10 );
     private static final double LINE_THICKNESS = 3;
     private static final double LINE_EXTENT = 25; // how far the line extends past the grid
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 18 );
 
-    public final PointSlopeLine line;
+    public final PointPointLine line;
     private final DoubleArrowNode arrowNode;
     private final EquationNode equationNode;
 

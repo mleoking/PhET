@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.LineFactory;
+import edu.colorado.phet.linegraphing.common.model.PointPointLine;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 
 /**
@@ -15,7 +16,7 @@ import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class EquationFactory<T extends PointSlopeLine> {
+public abstract class EquationFactory<T extends PointPointLine> {
 
     // spacing between components of an equation
     protected static final double X_SPACING = 3;
