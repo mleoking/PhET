@@ -17,7 +17,7 @@ import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointSlopeGraphNode extends LineFormsGraphNode {
+public class PointSlopeGraphNode extends LineFormsGraphNode<PointSlopeLine> {
 
     public PointSlopeGraphNode( final Graph graph, final ModelViewTransform mvt,
                                 Property<PointSlopeLine> interactiveLine,
@@ -41,6 +41,6 @@ public class PointSlopeGraphNode extends LineFormsGraphNode {
 
     // Creates a node that displays the line in point-slope form.
     protected StraightLineNode createLineNode( PointSlopeLine line, Graph graph, ModelViewTransform mvt ) {
-       return new PointSlopeLineNode( line, graph, mvt );
+        return new PointSlopeLineNode( line, graph, mvt );
     }
 }

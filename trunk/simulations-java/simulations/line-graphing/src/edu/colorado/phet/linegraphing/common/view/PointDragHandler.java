@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentTyp
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.LineFactory;
+import edu.colorado.phet.linegraphing.common.model.PointPointLine;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -19,7 +20,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointDragHandler<T extends PointSlopeLine> extends LineManipulatorDragHandler<T> {
+public class PointDragHandler<T extends PointPointLine> extends LineManipulatorDragHandler<T> {
 
     private final Property<DoubleRange> x1Range, y1Range;
     private final LineFactory<T> lineFactory;
@@ -27,11 +28,12 @@ public class PointDragHandler<T extends PointSlopeLine> extends LineManipulatorD
 
     /**
      * Constructor
-     * @param userComponent sim-sharing component identifier
-     * @param componentType sim-sharing component type
+     *
+     * @param userComponent   sim-sharing component identifier
+     * @param componentType   sim-sharing component type
      * @param manipulatorNode the node being manipulated by the user
-     * @param mvt  transform between model and view coordinate frames
-     * @param line the line being manipulated
+     * @param mvt             transform between model and view coordinate frames
+     * @param line            the line being manipulated
      * @param x1Range
      * @param y1Range
      */

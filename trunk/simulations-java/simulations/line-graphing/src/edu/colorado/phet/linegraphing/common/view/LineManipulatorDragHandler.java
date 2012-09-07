@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
+import edu.colorado.phet.linegraphing.common.model.PointPointLine;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -17,7 +18,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineManipulatorDragHandler<T extends PointSlopeLine> extends SimSharingDragHandler {
+public abstract class LineManipulatorDragHandler<T extends PointPointLine> extends SimSharingDragHandler {
 
     protected final LineManipulatorNode manipulatorNode;
     protected final ModelViewTransform mvt;
@@ -25,11 +26,12 @@ public abstract class LineManipulatorDragHandler<T extends PointSlopeLine> exten
 
     /**
      * Constructor
-     * @param userComponent sim-sharing component identifier
-     * @param componentType sim-sharing component type
+     *
+     * @param userComponent   sim-sharing component identifier
+     * @param componentType   sim-sharing component type
      * @param manipulatorNode the node being manipulated by the user
-     * @param mvt  transform between model and view coordinate frames
-     * @param line the line being manipulated
+     * @param mvt             transform between model and view coordinate frames
+     * @param line            the line being manipulated
      */
     public LineManipulatorDragHandler( IUserComponent userComponent, IUserComponentType componentType,
                                        LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<T> line ) {

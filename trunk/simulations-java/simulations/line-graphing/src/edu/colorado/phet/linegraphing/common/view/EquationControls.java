@@ -27,6 +27,7 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.LineFactory;
+import edu.colorado.phet.linegraphing.common.model.PointPointLine;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -36,15 +37,16 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EquationControls<T extends PointSlopeLine> extends PhetPNode {
+public class EquationControls<T extends PointPointLine> extends PhetPNode {
 
     /**
      * Constructor
-     * @param title title that will be placed next to the minimize/maximize button
-     * @param interactiveLine the line that can be manipulated by the user
-     * @param savedLines lines that have been saved by the user
-     * @param maximized is the control panel maximized (true) or minimized (false)?
-     * @param linesVisible are lines visible on the graph?
+     *
+     * @param title                   title that will be placed next to the minimize/maximize button
+     * @param interactiveLine         the line that can be manipulated by the user
+     * @param savedLines              lines that have been saved by the user
+     * @param maximized               is the control panel maximized (true) or minimized (false)?
+     * @param linesVisible            are lines visible on the graph?
      * @param interactiveEquationNode node that implements the interactive equation
      */
     public EquationControls( String title,
@@ -87,7 +89,7 @@ public class EquationControls<T extends PointSlopeLine> extends PhetPNode {
         final PNode titleSeparator = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
             setStrokePaint( new Color( 212, 212, 212 ) );
         }};
-         final PNode buttonsSeparator = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
+        final PNode buttonsSeparator = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
             setStrokePaint( new Color( 212, 212, 212 ) );
         }};
         subPanelNode.addChild( titleSeparator );

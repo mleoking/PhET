@@ -17,6 +17,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.LineFactory;
+import edu.colorado.phet.linegraphing.common.model.PointPointLine;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.view.RiseRunBracketNode.Direction;
 import edu.umd.cs.piccolo.PNode;
@@ -33,7 +34,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineFormsGraphNode<T extends PointSlopeLine> extends GraphNode {
+public abstract class LineFormsGraphNode<T extends PointPointLine> extends GraphNode {
 
     protected static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
 
@@ -196,7 +197,7 @@ public abstract class LineFormsGraphNode<T extends PointSlopeLine> extends Graph
     }
 
     // Removes the node that corresponds to the specified line.
-    private static void removeLineNode( PointSlopeLine line, PNode parent ) {
+    private static void removeLineNode( PointPointLine line, PNode parent ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode node = parent.getChild( i );
             if ( node instanceof StraightLineNode ) {

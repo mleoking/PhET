@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.linegraphing.common.model.LineFactory;
 import edu.colorado.phet.linegraphing.common.model.LineFactory.PointSlopeLineFactory;
 import edu.colorado.phet.linegraphing.common.model.LineFactory.SlopeInterceptLineFactory;
+import edu.colorado.phet.linegraphing.common.model.PointPointLine;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.linegame.view.SlopeInterceptLineChallengeNode;
@@ -20,7 +21,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class MatchingChallenge<T extends PointSlopeLine> {
+public abstract class MatchingChallenge<T extends PointPointLine> {
 
     public final T answer; // the correct answer
     public final Property<T> guess; // the user's current guess

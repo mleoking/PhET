@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.PointPointLine;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
@@ -74,7 +75,7 @@ public class LineGameModel {
     private MatchingChallenge<SlopeInterceptLine>[] challenges = new MatchingChallenge[CHALLENGES_PER_GAME];
     private int challengeIndex;
     public final PointTool pointTool1, pointTool2;
-    private final ObservableList<PointSlopeLine> allLines;
+    private final ObservableList<PointPointLine> allLines;
 
     // Default is a graph with uniform quadrants.
     public LineGameModel() {
@@ -95,7 +96,7 @@ public class LineGameModel {
 
         challenge = new Property<MatchingChallenge<SlopeInterceptLine>>( new GraphSlopeInterceptChallenge( new SlopeInterceptLine( 1, 1, 1, Color.BLACK ), mvtGraphTheLine ) ); // initial value is meaningless
 
-        allLines = new ObservableList<PointSlopeLine>();
+        allLines = new ObservableList<PointPointLine>();
         this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
         this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ), Orientation.DOWN, allLines );
 
