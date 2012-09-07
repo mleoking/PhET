@@ -10,7 +10,6 @@ DESIGN
 - change request: change "y = #" to "slope is zero, y = #"
 
 HIGH
-- put a transparent "X" over the interactive equation when run=0
 - rewrite demo challenge
 - move some of the fields and responsibilities in LineGameModel into challenges
 - create additional game challenges
