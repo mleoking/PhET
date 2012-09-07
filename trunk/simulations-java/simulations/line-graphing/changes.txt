@@ -1,3 +1,4 @@
+9/7/12 fix: setPickable(false) for UndefinedSlopeIndicator
 # 0.00.25 (67746) Sep 7, 2012
 9/7/12 demo change requests
 9/7/12 introduce PointPointLine as the base class for the line model hierarchy [67742]
