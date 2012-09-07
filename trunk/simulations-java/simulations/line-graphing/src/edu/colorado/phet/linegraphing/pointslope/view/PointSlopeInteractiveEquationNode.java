@@ -25,6 +25,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
@@ -156,6 +157,12 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
                                        yNode.getYOffset() );
         }
 
+        // bad equation indicator, added after everything else
+        final PNode undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
+        addChild( undefinedSlopeIndicator );
+        undefinedSlopeIndicator.setOffset( getFullBoundsReference().getCenterX() - ( undefinedSlopeIndicator.getFullBoundsReference().getWidth() / 2 ),
+                                           lineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + 2 );
+
         // sync the model with the controls
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
@@ -169,6 +176,8 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
         // sync the controls with the model
         interactiveLine.addObserver( new VoidFunction1<PointSlopeLine>() {
             public void apply( PointSlopeLine line ) {
+
+                // Atomically synchronize the controls.
                 updatingControls = true;
                 {
                     rise.set( line.rise );
@@ -177,6 +186,9 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
                     y1.set( line.y1 );
                 }
                 updatingControls = false;
+
+                // Make the "bad equation" indicator visible for line with undefined slope.
+                undefinedSlopeIndicator.setVisible( line.run == 0 );
             }
         } );
     }
