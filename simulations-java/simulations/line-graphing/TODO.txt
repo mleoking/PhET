@@ -10,8 +10,7 @@ DESIGN
 - change request: change "y = #" to "slope is zero, y = #"
 
 HIGH
-- rewrite demo challenge
-- move some of the fields and responsibilities in LineGameModel into challenges
+- create drag handler for (x2,y2) in point-point lines
 - create additional game challenges
 
 MEDIUM
