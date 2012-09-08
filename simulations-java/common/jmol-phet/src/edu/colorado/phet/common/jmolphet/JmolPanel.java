@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
 import org.jmol.util.Logger;
+import org.jmol.viewer.JmolConstants;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -159,5 +160,11 @@ public class JmolPanel extends JPanel {
 
     public JLabel getLoadingText() {
         return loadingText;
+    }
+
+    public void destroy() {
+        if( viewer != null ) {
+            viewer.setModeMouse( JmolConstants.MOUSE_NONE );
+        }
     }
 }

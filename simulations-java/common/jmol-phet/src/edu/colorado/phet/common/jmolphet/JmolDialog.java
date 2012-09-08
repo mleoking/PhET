@@ -55,6 +55,12 @@ public class JmolDialog extends JDialog {
         setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
     }
 
+    @Override public void dispose() {
+        jmolPanel.destroy();
+
+        super.dispose();
+    }
+
     public JmolPanel getJmolPanel() {
         return jmolPanel;
     }
