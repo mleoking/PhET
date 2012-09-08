@@ -64,7 +64,7 @@ class BAMReport(log: Log) {
                     }
                     ).mkString("\n")    + "\n" +
                    "Molecule Collection Failures:\n" +
-                   states.filter(entry => entry.entry.action=="collectionDropInformation" && entry.entry.parameters("collectionBoxDropFailure") == "true").map(
+                   states.filter(entry => entry.entry.action=="collectionDropInformation" && entry.entry.parameters.contains("collectionBoxDropFailure" )&& entry.entry.parameters("collectionBoxDropFailure") == "true").map(
                      entry => {
                        val creationState = states.find(e=>e.entry.action == "moleculeAdded" && e.entry.parameters("moleculeId") == entry.entry.parameters("moleculeId")).get
                        val target = entry.entry.parameters("collectionBoxFormulasUnderDroppedMolecule")
@@ -113,7 +113,7 @@ class BAMReport(log: Log) {
 
 object BAMReport {
   def main(args: Array[String]) {
-    val log: Log = phet.parse(new File("C:\\Users\\jon\\phet-logs\\2012-09-05_14-45-54_qi25pe493mrs87usq9sqflklnc_smundbg1eiucc1q8rn1jijvl29u.txt"))
+    val log: Log = phet.parse(new File("C:\\Users\\jon\\phet\\tmp\\2012-09-06_17-11-28_52i0sav5g9i72uave1pktse89i_s81122hntia7mjp8g8fc9alkdkt.txt"))
     val report = new BAMReport(log)
     println(report.reportText)
   }
