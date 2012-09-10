@@ -21,5 +21,5 @@ public class CollectionBoxNode extends PNode {
     public static final Color ENABLED_STROKE_PAINT = Color.blue;
     public static final double ARC = 30;
     public static final float FADED_OUT = 0.2f;
-    public static final long FADE_IN_TIME = 500;
+    public static final long FADE_TIME = 500;
 }

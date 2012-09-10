@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -29,7 +29,7 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
     private ContainerNode containerNode;
     private final ShapeSceneNode sceneNode;
 
-    public ShapeCollectionBoxNode( final ShapeSceneNode sceneNode, final MixedFraction mixedFraction, final BooleanProperty userCreatedMatch ) {
+    public ShapeCollectionBoxNode( final ShapeSceneNode sceneNode, final MixedFraction mixedFraction, final ObservableProperty<Boolean> enabled ) {
         this.sceneNode = sceneNode;
         if ( sceneNode == null ) { throw new RuntimeException( "Null scene" ); }
         double numberShapes = ceil( mixedFraction.toDouble() );
@@ -42,15 +42,18 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
                                                                 5 * ( numberShapes - 1 ),
                                                                 114, ARC, ARC ), BACKGROUND, STROKE, DISABLED_STROKE_PAINT ) {{
 
-            if ( !userCreatedMatch.get() ) {
+            if ( !enabled.get() ) {
                 setTransparency( FADED_OUT );
             }
-            userCreatedMatch.addObserver( new VoidFunction1<Boolean>() {
+            enabled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( final Boolean matched ) {
                     if ( matched ) {
                         setStrokePaint( ENABLED_STROKE_PAINT );
-                        animateToTransparency( 1f, FADE_IN_TIME );
-                        animateToColor( BACKGROUND, 1000 );
+                        animateToTransparency( 1f, FADE_TIME );
+                    }
+                    else {
+                        setStrokePaint( DISABLED_STROKE_PAINT );
+                        animateToTransparency( FADED_OUT, FADE_TIME );
                     }
                 }
             } );

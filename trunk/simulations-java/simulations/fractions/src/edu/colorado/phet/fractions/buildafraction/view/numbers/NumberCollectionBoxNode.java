@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -30,18 +30,21 @@ public class NumberCollectionBoxNode extends CollectionBoxNode {
     private FractionNode fractionGraphic;
     private final NumberSceneNode numberSceneNode;
 
-    public NumberCollectionBoxNode( final MixedFraction mixedFraction, final NumberSceneNode numberSceneNode, final BooleanProperty userCreatedMatch ) {
+    public NumberCollectionBoxNode( final MixedFraction mixedFraction, final NumberSceneNode numberSceneNode, final ObservableProperty<Boolean> enabled ) {
         this.numberSceneNode = numberSceneNode;
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, ARC, ARC ), BACKGROUND, STROKE, DISABLED_STROKE_PAINT ) {{
-            if ( !userCreatedMatch.get() ) {
+            if ( !enabled.get() ) {
                 setTransparency( FADED_OUT );
             }
-            userCreatedMatch.addObserver( new VoidFunction1<Boolean>() {
+            enabled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( final Boolean matched ) {
                     if ( matched ) {
                         setStrokePaint( ENABLED_STROKE_PAINT );
-                        animateToTransparency( 1f, FADE_IN_TIME );
-                        animateToColor( BACKGROUND, 1000 );
+                        animateToTransparency( 1f, FADE_TIME );
+                    }
+                    else {
+                        setStrokePaint( DISABLED_STROKE_PAINT );
+                        animateToTransparency( FADED_OUT, FADE_TIME );
                     }
                 }
             } );

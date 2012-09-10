@@ -50,16 +50,16 @@ public class BuildAFractionModel {
     };
     private final NumberLevelFactory numberLevelFactory;
     private final ShapeLevelFactory shapeLevelFactory;
-    public final BooleanProperty userCreatedMatch;
+    public final BooleanProperty collectedMatch;
 
     //After the user creates their first correct match, all of the collection boxes fade into view
 
-    public BuildAFractionModel( BooleanProperty userCreatedMatch ) {
-        this( userCreatedMatch, new ShapeLevelList(), new NumberLevelList() );
+    public BuildAFractionModel( BooleanProperty collectedMatch ) {
+        this( collectedMatch, new ShapeLevelList(), new NumberLevelList() );
     }
 
-    public BuildAFractionModel( BooleanProperty userCreatedMatch, ShapeLevelFactory shapeLevelFactory, NumberLevelFactory numberLevelFactory ) {
-        this.userCreatedMatch = userCreatedMatch;
+    public BuildAFractionModel( BooleanProperty collectedMatch, ShapeLevelFactory shapeLevelFactory, NumberLevelFactory numberLevelFactory ) {
+        this.collectedMatch = collectedMatch;
         this.numberLevelFactory = numberLevelFactory;
         this.shapeLevelFactory = shapeLevelFactory;
     }
@@ -71,7 +71,7 @@ public class BuildAFractionModel {
     public NumberLevel getNumberLevel( final Integer level ) {
         if ( !numberLevels.containsKey( level ) ) {
             final NumberLevel newLevel = numberLevelFactory.createLevel( level );
-            newLevel.addMatchListener( userCreatedMatch );
+            newLevel.addMatchListener( collectedMatch );
             numberLevels.put( level, newLevel );
         }
         return numberLevels.get( level );
@@ -80,7 +80,7 @@ public class BuildAFractionModel {
     public ShapeLevel getShapeLevel( final Integer level ) {
         if ( !shapeLevels.containsKey( level ) ) {
             final ShapeLevel newLevel = shapeLevelFactory.createLevel( level );
-            newLevel.addMatchListener( userCreatedMatch );
+            newLevel.addMatchListener( collectedMatch );
             shapeLevels.put( level, newLevel );
         }
         return shapeLevels.get( level );
@@ -89,14 +89,14 @@ public class BuildAFractionModel {
     public void resampleNumberLevel( final int levelIndex ) {
         numberLevels.remove( levelIndex ).dispose();
         final NumberLevel level = numberLevelFactory.createLevel( levelIndex );
-        level.addMatchListener( userCreatedMatch );
+        level.addMatchListener( collectedMatch );
         numberLevels.put( levelIndex, level );
     }
 
     public void resampleShapeLevel( final int levelIndex ) {
         shapeLevels.remove( levelIndex ).dispose();
         final ShapeLevel level = shapeLevelFactory.createLevel( levelIndex );
-        level.addMatchListener( userCreatedMatch );
+        level.addMatchListener( collectedMatch );
         shapeLevels.put( levelIndex, level );
     }
 
@@ -119,7 +119,7 @@ public class BuildAFractionModel {
         audioEnabled.reset();
 
         //Resets it for both tabs
-        userCreatedMatch.reset();
+        collectedMatch.reset();
     }
 
     public boolean isLastLevel( final int levelIndex ) {

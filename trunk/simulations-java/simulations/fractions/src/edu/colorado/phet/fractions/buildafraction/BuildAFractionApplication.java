@@ -17,10 +17,12 @@ public class BuildAFractionApplication extends PiccoloPhetApplication {
 
     public BuildAFractionApplication( PhetApplicationConfig config ) {
         super( config );
-        BooleanProperty userCreatedMatch = new BooleanProperty( false );
-        addModule( new BuildAFractionModule( new BuildAFractionModel( userCreatedMatch ) ) );
-        addModule( new BuildAMixedFractionModule( new BuildAMixedFractionModel( userCreatedMatch ) ) );
-        addModule( new FreePlayModule( new BuildAMixedFractionModel( userCreatedMatch ) ) );
+
+        //Disable the collection boxes unless the user has created a match in that level or collected a match anywhere in the sim (any tab)
+        BooleanProperty collectedMatch = new BooleanProperty( false );
+        addModule( new BuildAFractionModule( new BuildAFractionModel( collectedMatch ) ) );
+        addModule( new BuildAMixedFractionModule( new BuildAMixedFractionModel( collectedMatch ) ) );
+        addModule( new FreePlayModule( new BuildAMixedFractionModel( collectedMatch ) ) );
     }
 
     public static void main( String[] args ) {

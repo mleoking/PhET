@@ -26,10 +26,26 @@ public class Level {
     //For keeping score, the number of the 3 or 4 collection boxes the user has filled
     public final IntegerProperty filledTargets = new IntegerProperty( 0 );
     public final int numTargets;
+    public final BooleanProperty matchExists;
 
     protected Level( final List<MixedFraction> targets ) {
         this.targets = targets;
         this.numTargets = targets.length();
+        this.matchExists = new BooleanProperty( false ) {{
+            createdFractions.addObserver( new VoidFunction1<List<Fraction>>() {
+                public void apply( final List<Fraction> fractions ) {
+                    set( fractions.exists( new F<Fraction, Boolean>() {
+                        @Override public Boolean f( final Fraction fraction ) {
+                            return targets.exists( new F<MixedFraction, Boolean>() {
+                                @Override public Boolean f( final MixedFraction mixedFraction ) {
+                                    return mixedFraction.approxEquals( fraction );
+                                }
+                            } );
+                        }
+                    } ) );
+                }
+            } );
+        }};
     }
 
     public void resetAll() {
@@ -39,10 +55,10 @@ public class Level {
 
     public void dispose() { createdFractions.removeAllObservers(); }
 
-    public void addMatchListener( final BooleanProperty userCreatedMatch ) {
+    public void addMatchListener( final BooleanProperty collectedMatch ) {
         createdFractions.addObserver( new VoidFunction1<List<Fraction>>() {
             public void apply( final List<Fraction> fractions ) {
-                boolean anyMatches = fractions.exists( new F<Fraction, Boolean>() {
+                matchExists.set( fractions.exists( new F<Fraction, Boolean>() {
                     @Override public Boolean f( final Fraction fraction ) {
                         return targets.exists( new F<MixedFraction, Boolean>() {
                             @Override public Boolean f( final MixedFraction mixedFraction ) {
@@ -50,8 +66,14 @@ public class Level {
                             }
                         } );
                     }
-                } );
-                if ( anyMatches ) { userCreatedMatch.set( true ); }
+                } ) );
+            }
+        } );
+        filledTargets.addObserver( new VoidFunction1<Integer>() {
+            public void apply( final Integer integer ) {
+                if ( integer > 0 ) {
+                    collectedMatch.set( true );
+                }
             }
         } );
     }
