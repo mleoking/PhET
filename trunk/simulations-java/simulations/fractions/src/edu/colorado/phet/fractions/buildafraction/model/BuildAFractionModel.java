@@ -50,15 +50,16 @@ public class BuildAFractionModel {
     };
     private final NumberLevelFactory numberLevelFactory;
     private final ShapeLevelFactory shapeLevelFactory;
+    public final BooleanProperty userCreatedMatch;
 
     //After the user creates their first correct match, all of the collection boxes fade into view
-    public final BooleanProperty userCreatedMatch = new BooleanProperty( false );
 
-    public BuildAFractionModel() {
-        this( new ShapeLevelList(), new NumberLevelList() );
+    public BuildAFractionModel( BooleanProperty userCreatedMatch ) {
+        this( userCreatedMatch, new ShapeLevelList(), new NumberLevelList() );
     }
 
-    public BuildAFractionModel( ShapeLevelFactory shapeLevelFactory, NumberLevelFactory numberLevelFactory ) {
+    public BuildAFractionModel( BooleanProperty userCreatedMatch, ShapeLevelFactory shapeLevelFactory, NumberLevelFactory numberLevelFactory ) {
+        this.userCreatedMatch = userCreatedMatch;
         this.numberLevelFactory = numberLevelFactory;
         this.shapeLevelFactory = shapeLevelFactory;
     }
@@ -127,6 +128,8 @@ public class BuildAFractionModel {
 //        shapeLevels.addAll( shapeLevelList );
 
         audioEnabled.reset();
+
+        //Resets it for both tabs
         userCreatedMatch.reset();
 
 //        level.createdFractions.addObserver( new VoidFunction1<List<Fraction>>() {
