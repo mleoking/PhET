@@ -1,3 +1,4 @@
+9/10/12 update sim-sharing message for line manipulators to match revised Line model
 9/10/12 add assert(x1==0) where we assume that a line is in slope-intercept form
 9/10/12 remove unnecessary final modifiers from constructor params
 9/10/12 rename StraightLineNode to LineNode

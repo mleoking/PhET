@@ -43,10 +43,12 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
     // Add information about the line to the sim-sharing message.
     @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
         return new ParameterSet().
-                with( ParameterKeys.rise, line.get().rise ).
-                with( ParameterKeys.run, line.get().run ).
                 with( ParameterKeys.x1, line.get().x1 ).
                 with( ParameterKeys.y1, line.get().y1 ).
+                with( ParameterKeys.x2, line.get().x2 ).
+                with( ParameterKeys.y2, line.get().y2 ).
+                with( ParameterKeys.rise, line.get().rise ).
+                with( ParameterKeys.run, line.get().run ).
                 with( super.getParametersForAllEvents( event ) );
     }
 }

@@ -23,7 +23,7 @@ public class LGSimSharing {
     }
 
     public static enum ParameterKeys implements IParameterKey {
-        rise, run, intercept, x1, y1, x, y, maximized
+        x, y, x1, y1, x2, y2, rise, run, maximized
     }
 
     public static enum ModelComponents implements IModelComponent {
