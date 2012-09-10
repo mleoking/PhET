@@ -6,14 +6,14 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
-import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
+import edu.colorado.phet.linegraphing.common.view.LineNode;
 
 /**
  * Visual representation of a line in simplified point-slope form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class PointSlopeLineNode extends StraightLineNode {
+class PointSlopeLineNode extends LineNode {
 
     public PointSlopeLineNode( final Line line, Graph graph, ModelViewTransform mvt ) {
         super( line, graph, mvt );
