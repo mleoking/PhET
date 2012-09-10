@@ -1,4 +1,4 @@
-Inequalities sim
+Graphing: Linear Inequalities (design notes)
 
 Requirements from 7/26/11 meeting:
 • slope-intercept format only (y = mx + b)
@@ -15,4 +15,4 @@ Requirements from 7/26/11 meeting:
 • first tab: 1 line
 • second tab: compare 2 lines
 • need to work out color scheme for 2-line case, to differentiate lines and manipulators
-• might skip Game tab
+• Game tab design?

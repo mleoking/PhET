@@ -1,4 +1,4 @@
-Absolute Value sim
+Graphing: Absolute Value (design notes)
 
 equation form: y = a|x - h| + k
 
