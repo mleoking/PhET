@@ -433,7 +433,16 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
 
     private NumberTarget difficultTarget( final MixedFraction mixedFraction, final Color next, final Boolean scattered ) {
         return scattered ?
-               scatteredTarget( mixedFraction, next, pie.random() ) :
-               target( mixedFraction, next, pie.random() );
+               scatteredTarget( mixedFraction, next, chooseOne( universalTypes ).random() ) :
+               target( mixedFraction, next, chooseOne( universalTypes ).random() );
+    }
+
+    public static void main( String[] args ) {
+        NumberLevel level = new MixedNumbersNumberLevelList().createLevel( 9 );
+        System.out.println( level.targets.map( new F<NumberTarget, Object>() {
+            @Override public Object f( final NumberTarget numberTarget ) {
+                return numberTarget.representation.f( numberTarget.mixedFraction );
+            }
+        } ) );
     }
 }

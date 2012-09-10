@@ -138,7 +138,7 @@ public class NumberLevelList implements NumberLevelFactory {
     };
 
     //Only choose from the universal patterns (that accept all denominators)
-    private static final List<PatternMaker> universalTypes = list( pie, horizontalBar, verticalBar );
+    public static final List<PatternMaker> universalTypes = list( pie, horizontalBar, verticalBar );
 
     public static final List<PatternMaker> allTypes = list( pie, horizontalBar, verticalBar, pyramid1, pyramid4, pyramid9, grid1, grid4, grid9, flower, polygon );
 
