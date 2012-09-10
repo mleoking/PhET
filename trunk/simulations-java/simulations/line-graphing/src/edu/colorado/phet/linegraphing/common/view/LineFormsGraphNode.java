@@ -33,8 +33,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
 
     protected static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
 
-    private final Graph graph;
-    private final ModelViewTransform mvt;
+    private final LineFormsModel model;
     private final LineFormsViewProperties viewProperties;
     private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
     private final PNode interactiveLineParentNode, bracketsParentNode;
@@ -55,8 +54,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
                                Color slopeManipulatorColor ) {
         super( model.graph, model.mvt );
 
-        this.graph = model.graph;
-        this.mvt = model.mvt;
+        this.model = model;
         this.viewProperties = viewProperties;
 
         // Parent nodes for each category of line (standard, saved, interactive) to maintain rendering order
@@ -68,16 +66,16 @@ public abstract class LineFormsGraphNode extends GraphNode {
         bracketsParentNode = new PComposite();
 
         // Manipulators for the interactive line
-        final double manipulatorDiameter = mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
+        final double manipulatorDiameter = model.mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
 
         // interactivity for point (x1,y1) manipulator
         pointManipulator = new LineManipulatorNode( manipulatorDiameter, pointManipulatorColor );
         pointManipulator.addInputEventListener( new PointDragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                      pointManipulator, mvt, model.interactiveLine, model.x1Range, model.y1Range ) );
+                                                                      pointManipulator, model.mvt, model.interactiveLine, model.x1Range, model.y1Range ) );
         // interactivity for slope manipulator
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, slopeManipulatorColor );
         slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                          slopeManipulatorNode, mvt, model.interactiveLine, model.riseRange, model.runRange ) );
+                                                                          slopeManipulatorNode, model.mvt, model.interactiveLine, model.riseRange, model.runRange ) );
 
         // Rendering order
         addChild( interactiveLineParentNode );
@@ -114,7 +112,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
         // When the interactive line changes, update the graph.
         model.interactiveLine.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
-                updateInteractiveLine( line, graph, mvt );
+                updateInteractiveLine( line );
             }
         } );
 
@@ -135,12 +133,12 @@ public abstract class LineFormsGraphNode extends GraphNode {
             }
         } );
 
-        updateInteractiveLine( model.interactiveLine.get(), graph, mvt ); // initial position of manipulators
+        updateInteractiveLine( model.interactiveLine.get() ); // initial position of manipulators
     }
 
     // Called when a standard line is added to the model.
     private void standardLineAdded( Line line ) {
-        standardLinesParentNode.addChild( createLineNode( line, graph, mvt ) );
+        standardLinesParentNode.addChild( createLineNode( line, model.graph, model.mvt ) );
     }
 
     // Called when a standard line is removed from the model.
@@ -150,7 +148,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
 
     // Called when a saved line is added to the model.
     private void savedLineAdded( final Line line ) {
-        final StraightLineNode lineNode = createLineNode( line, graph, mvt );
+        final StraightLineNode lineNode = createLineNode( line, model.graph, model.mvt );
         savedLinesParentNode.addChild( lineNode );
         // highlight on mouseOver
         lineNode.addInputEventListener( new FunctionHighlightHandler( new VoidFunction1<Boolean>() {
@@ -202,11 +200,13 @@ public abstract class LineFormsGraphNode extends GraphNode {
     }
 
     // Updates the line and its associated decorations
-    protected void updateInteractiveLine( final Line line, final Graph graph, final ModelViewTransform mvt ) {
+    protected void updateInteractiveLine( final Line line ) {
+
+        final ModelViewTransform mvt = model.mvt;
 
         // replace the line node
         interactiveLineParentNode.removeAllChildren();
-        interactiveLineNode = createLineNode( line, graph, mvt );
+        interactiveLineNode = createLineNode( line, model.graph, mvt );
         interactiveLineNode.setEquationVisible( viewProperties.interactiveEquationVisible.get() );
         interactiveLineParentNode.addChild( interactiveLineNode );
 
