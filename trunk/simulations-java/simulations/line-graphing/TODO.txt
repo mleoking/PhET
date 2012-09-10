@@ -9,8 +9,6 @@ DESIGN
 
 HIGH
 - replace SlopeDragHandler with PointDragHandler, pass in a function that determines how the point is used - move (x1,y1) or (x2,y2), keep slope constant, etc.
-- generalize (or eliminate?) ranges and/or range adjustment for line parameters
-- add assert(x1==0) for use sites that require slope-intercept form
 - create additional game challenges
 
 MEDIUM
