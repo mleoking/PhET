@@ -83,7 +83,7 @@ public class NumberCollectionBoxNode extends CollectionBoxNode {
 
             fractionGraphic = null;
 
-            cardNode.fractionNode.undo();
+            cardNode.fractionNode.undoAll();
             if ( sendToToolbox ) {
                 cardNode.fractionNode.animateToToolbox();
             }
