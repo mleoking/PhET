@@ -1,13 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.pointslope.view;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
+import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 import edu.colorado.phet.linegraphing.common.view.LineFormsGraphNode;
 import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
 
@@ -18,23 +17,8 @@ import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
  */
 public class PointSlopeGraphNode extends LineFormsGraphNode {
 
-    public PointSlopeGraphNode( final Graph graph, final ModelViewTransform mvt,
-                                Property<Line> interactiveLine,
-                                ObservableList<Line> savedLines,
-                                ObservableList<Line> standardLines,
-                                Property<Boolean> linesVisible,
-                                Property<Boolean> interactiveLineVisible,
-                                Property<Boolean> interactiveEquationVisible,
-                                Property<Boolean> slopeVisible,
-                                Property<DoubleRange> x1Range,
-                                Property<DoubleRange> y1Range,
-                                Property<DoubleRange> riseRange,
-                                Property<DoubleRange> runRange ) {
-        super( graph, mvt,
-               interactiveLine, savedLines, standardLines,
-               linesVisible, interactiveLineVisible, interactiveEquationVisible, slopeVisible,
-               x1Range, y1Range, riseRange, runRange,
-               LGColors.POINT_X1_Y1, LGColors.SLOPE );
+    public PointSlopeGraphNode( LineFormsModel model, LineFormsViewProperties viewProperties ) {
+        super( model, viewProperties, LGColors.POINT_X1_Y1, LGColors.SLOPE );
     }
 
     // Creates a node that displays the line in point-slope form.

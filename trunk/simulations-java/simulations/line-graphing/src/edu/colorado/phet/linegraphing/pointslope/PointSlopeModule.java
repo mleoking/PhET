@@ -5,6 +5,7 @@ import edu.colorado.phet.linegraphing.common.LGModule;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
+import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeCanvas;
 
 /**
@@ -16,6 +17,6 @@ public class PointSlopeModule extends LGModule {
 
     public PointSlopeModule() {
         super( UserComponents.pointSlopeTab, Strings.TAB_POINT_SLOPE );
-        setSimulationPanel( new PointSlopeCanvas( LineFormsModel.createPointSlope() ) );
+        setSimulationPanel( new PointSlopeCanvas( LineFormsModel.createPointSlope(), new LineFormsViewProperties() ) );
     }
 }

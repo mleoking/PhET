@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
@@ -18,36 +17,23 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LineFormsCanvas extends LGCanvas {
+public abstract class LineFormsCanvas extends LGCanvas {
 
-    // properties that control visibility
-    private final Property<Boolean> linesVisible;
-    private final Property<Boolean> interactiveLineVisible;
-    private final Property<Boolean> interactiveEquationVisible;
-    private final Property<Boolean> slopeVisible;
+    private final LineFormsViewProperties visibility;
 
     /**
      * Constructor
      *
-     * @param model                      model container
-     * @param linesVisible               are lines visible on the graph? (applies to all lines)
-     * @param interactiveLineVisible     is the interactive line visible visible on the graph?
-     * @param interactiveEquationVisible is the equation visible on the interactive line?
-     * @param slopeVisible               are the slope (rise/run) brackets visible on the graphed line?
+     * @param model            model container
+     * @param viewProperties
      * @param graphNode
      * @param equationControls
      */
-    public LineFormsCanvas( LineFormsModel model,
-                            Property<Boolean> linesVisible, Property<Boolean> interactiveLineVisible,
-                            Property<Boolean> interactiveEquationVisible, Property<Boolean> slopeVisible,
-                            PNode graphNode, PNode equationControls ) {
+    public LineFormsCanvas( LineFormsModel model, LineFormsViewProperties viewProperties, PNode graphNode, PNode equationControls ) {
 
-        this.linesVisible = linesVisible;
-        this.interactiveLineVisible = interactiveLineVisible;
-        this.interactiveEquationVisible = interactiveEquationVisible;
-        this.slopeVisible = slopeVisible;
+        this.visibility = viewProperties;
 
-        PNode graphControls = new GraphControls( linesVisible, slopeVisible, model.standardLines );
+        PNode graphControls = new GraphControls( viewProperties.linesVisible, viewProperties.slopeVisible, model.standardLines );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
         }};
@@ -78,7 +64,7 @@ public class LineFormsCanvas extends LGCanvas {
         // Point tools, added after centering root node, so that we can compute drag bounds.
         {
             // Create a dummy point tool, so we know its height for the purposes of computing drag bounds.
-            final double height = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), linesVisible ).getFullBoundsReference().getHeight();
+            final double height = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), viewProperties.linesVisible ).getFullBoundsReference().getHeight();
 
             // Compute drag bounds such that 50% of the point tool node is always inside the stage. Bounds differ based on tool orientation.
             Rectangle2D stageBounds = getStageBounds();
@@ -86,8 +72,8 @@ public class LineFormsCanvas extends LGCanvas {
             Rectangle2D downDragBounds = new Rectangle2D.Double( upDragBounds.getX(), stageBounds.getY() + ( height / 2 ), upDragBounds.getWidth(), upDragBounds.getHeight() );
 
             // Create point tool nodes
-            PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, model.pointTool1.orientation == Orientation.UP ? upDragBounds : downDragBounds, linesVisible );
-            PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, model.pointTool2.orientation == Orientation.UP ? upDragBounds : downDragBounds, linesVisible );
+            PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, model.pointTool1.orientation == Orientation.UP ? upDragBounds : downDragBounds, viewProperties.linesVisible );
+            PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, model.pointTool2.orientation == Orientation.UP ? upDragBounds : downDragBounds, viewProperties.linesVisible );
             addChild( pointTool1 );
             addChild( pointTool2 );
         }
@@ -95,9 +81,6 @@ public class LineFormsCanvas extends LGCanvas {
 
     @Override public void reset() {
         super.reset();
-        linesVisible.reset();
-        interactiveLineVisible.reset();
-        interactiveEquationVisible.reset();
-        slopeVisible.reset();
+        visibility.reset();
     }
 }

@@ -4,10 +4,7 @@ package edu.colorado.phet.linegraphing.common.view;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -16,6 +13,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.colorado.phet.linegraphing.common.view.RiseRunBracketNode.Direction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -37,7 +35,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
 
     private final Graph graph;
     private final ModelViewTransform mvt;
-    private final Property<Boolean> interactiveEquationVisible;
+    private final LineFormsViewProperties viewProperties;
     private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
     private final PNode interactiveLineParentNode, bracketsParentNode;
     private final LineManipulatorNode pointManipulator, slopeManipulatorNode;
@@ -46,41 +44,20 @@ public abstract class LineFormsGraphNode extends GraphNode {
     /**
      * Constructor
      *
-     * @param graph
-     * @param mvt                        transform between model and view coordinate frames
-     * @param interactiveLine            the line that can be manipulated by the user
-     * @param savedLines                 lines that have been saved by the user
-     * @param standardLines              standard lines (eg, y=x) that are available for viewing
-     * @param linesVisible               are lines visible on the graph?
-     * @param interactiveLineVisible     is the interactive line visible visible on the graph?
-     * @param interactiveEquationVisible is the equation visible on the interactive line?
-     * @param slopeVisible               are the slope (rise/run) brackets visible on the graphed line?
-     * @param x1Range
-     * @param y1Range
-     * @param riseRange
-     * @param runRange
+     * @param model
+     * @param viewProperties
      * @param pointManipulatorColor
      * @param slopeManipulatorColor
      */
-    public LineFormsGraphNode( final Graph graph, final ModelViewTransform mvt,
-                               Property<Line> interactiveLine,
-                               ObservableList<Line> savedLines,
-                               ObservableList<Line> standardLines,
-                               final Property<Boolean> linesVisible,
-                               final Property<Boolean> interactiveLineVisible,
-                               Property<Boolean> interactiveEquationVisible,
-                               final Property<Boolean> slopeVisible,
-                               Property<DoubleRange> x1Range,
-                               Property<DoubleRange> y1Range,
-                               Property<DoubleRange> riseRange,
-                               Property<DoubleRange> runRange,
+    public LineFormsGraphNode( LineFormsModel model,
+                               final LineFormsViewProperties viewProperties,
                                Color pointManipulatorColor,
                                Color slopeManipulatorColor ) {
-        super( graph, mvt );
+        super( model.graph, model.mvt );
 
-        this.graph = graph;
-        this.mvt = mvt;
-        this.interactiveEquationVisible = interactiveEquationVisible;
+        this.graph = model.graph;
+        this.mvt = model.mvt;
+        this.viewProperties = viewProperties;
 
         // Parent nodes for each category of line (standard, saved, interactive) to maintain rendering order
         standardLinesParentNode = new PComposite();
@@ -96,11 +73,11 @@ public abstract class LineFormsGraphNode extends GraphNode {
         // interactivity for point (x1,y1) manipulator
         pointManipulator = new LineManipulatorNode( manipulatorDiameter, pointManipulatorColor );
         pointManipulator.addInputEventListener( new PointDragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                      pointManipulator, mvt, interactiveLine, x1Range, y1Range ) );
+                                                                      pointManipulator, mvt, model.interactiveLine, model.x1Range, model.y1Range ) );
         // interactivity for slope manipulator
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, slopeManipulatorColor );
         slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                          slopeManipulatorNode, mvt, interactiveLine, riseRange, runRange ) );
+                                                                          slopeManipulatorNode, mvt, model.interactiveLine, model.riseRange, model.runRange ) );
 
         // Rendering order
         addChild( interactiveLineParentNode );
@@ -111,31 +88,31 @@ public abstract class LineFormsGraphNode extends GraphNode {
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
         // Add/remove standard lines
-        standardLines.addElementAddedObserver( new VoidFunction1<Line>() {
+        model.standardLines.addElementAddedObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
                 standardLineAdded( line );
             }
         } );
-        standardLines.addElementRemovedObserver( new VoidFunction1<Line>() {
+        model.standardLines.addElementRemovedObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
                 standardLineRemoved( line );
             }
         } );
 
         // Add/remove saved lines
-        savedLines.addElementAddedObserver( new VoidFunction1<Line>() {
+        model.savedLines.addElementAddedObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
                 savedLineAdded( line );
             }
         } );
-        savedLines.addElementRemovedObserver( new VoidFunction1<Line>() {
+        model.savedLines.addElementRemovedObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
                 savedLineRemoved( line );
             }
         } );
 
         // When the interactive line changes, update the graph.
-        interactiveLine.addObserver( new VoidFunction1<Line>() {
+        model.interactiveLine.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
                 updateInteractiveLine( line, graph, mvt );
             }
@@ -144,13 +121,13 @@ public abstract class LineFormsGraphNode extends GraphNode {
         // Visibility of lines
         RichSimpleObserver visibilityObserver = new RichSimpleObserver() {
             @Override public void update() {
-                updateLinesVisibility( linesVisible.get(), interactiveLineVisible.get(), slopeVisible.get() );
+                updateLinesVisibility( viewProperties.linesVisible.get(), viewProperties.interactiveLineVisible.get(), viewProperties.slopeVisible.get() );
             }
         };
-        visibilityObserver.observe( linesVisible, interactiveLineVisible, slopeVisible );
+        visibilityObserver.observe( viewProperties.linesVisible, viewProperties.interactiveLineVisible, viewProperties.slopeVisible );
 
         // Visibility of the equation on the interactive line
-        interactiveEquationVisible.addObserver( new VoidFunction1<Boolean>() {
+        viewProperties.interactiveEquationVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 if ( interactiveLineNode != null ) {
                     interactiveLineNode.setEquationVisible( visible );
@@ -158,7 +135,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
             }
         } );
 
-        updateInteractiveLine( interactiveLine.get(), graph, mvt ); // initial position of manipulators
+        updateInteractiveLine( model.interactiveLine.get(), graph, mvt ); // initial position of manipulators
     }
 
     // Called when a standard line is added to the model.
@@ -230,7 +207,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
         // replace the line node
         interactiveLineParentNode.removeAllChildren();
         interactiveLineNode = createLineNode( line, graph, mvt );
-        interactiveLineNode.setEquationVisible( interactiveEquationVisible.get() );
+        interactiveLineNode.setEquationVisible( viewProperties.interactiveEquationVisible.get() );
         interactiveLineParentNode.addChild( interactiveLineNode );
 
         // replace the rise/run brackets
