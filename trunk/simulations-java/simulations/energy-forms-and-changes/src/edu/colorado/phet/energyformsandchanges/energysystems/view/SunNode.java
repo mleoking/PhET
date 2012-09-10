@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -67,6 +68,15 @@ public class SunNode extends PositionableFadableModelElementNode {
                 }
             } );
         }
+
+        DoubleGeneralPath solarPanelShape = new DoubleGeneralPath() {{
+            double xOrigin = 200;
+            moveTo( xOrigin, 0 );
+            lineTo( xOrigin + 100, -100 );
+            lineTo( xOrigin + 100, 0 );
+            closePath();
+        }};
+        lightRays.addLightAbsorbingShape( new LightAbsorbingShape( solarPanelShape.getGeneralPath(), 1 ) );
 
         // Add the control panel for the clouds.
         PNode cloudIcon = new PImage( EnergyFormsAndChangesResources.Images.CLOUD_1 ) {{
