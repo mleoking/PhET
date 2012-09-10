@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
+import fj.data.List;
 import fj.data.Option;
 
 import java.awt.BasicStroke;
@@ -65,6 +66,9 @@ public class FractionNode extends RichPNode {
     public final boolean mixedNumber;
 
     private final double SCALE_IN_TOOLBOX = 0.7;
+
+    //For undo
+    private List<FractionNodePosition> dropListHistory = List.nil();
 
     public FractionNode( final FractionDraggingContext context, boolean mixedNumber ) {
         this.context = context;
@@ -165,17 +169,28 @@ public class FractionNode extends RichPNode {
             cardNode = null;
         }
 
-        //TODO simsharing message
-        undo( numerator, topCardLocation );
-        undo( denominator, bottomCardLocation );
-        undo( whole, wholeCardLocation );
+        //Undo whichever happened last
+        FractionNodePosition element = dropListHistory.last();
+        if ( element == FractionNodePosition.WHOLE ) { undo( whole, wholeCardLocation ); }
+        else if ( element == FractionNodePosition.NUMERATOR ) { undo( numerator, topCardLocation ); }
+        else if ( element == FractionNodePosition.DENOMINATOR ) { undo( denominator, bottomCardLocation ); }
 
-        undoButton.setVisible( false );
+        //Drop the last item
+        dropListHistory = dropListHistory.reverse().drop( 1 ).reverse();
+
+        undoButton.setVisible( numerator.cardNode != null || denominator.cardNode != null || whole.cardNode != null );
         for ( VoidFunction1<Option<Fraction>> undoListener : undoListeners ) {
             undoListener.apply( value );
         }
 
         context.updateStacks();
+    }
+
+    //Undo all the parts, called when "undo" pressed in the collection box
+    public void undoAll() {
+        while ( undoButton.getVisible() ) {
+            undo();
+        }
     }
 
     private void undo( final Box box, final Point2D topCardLocation ) {
@@ -217,13 +232,13 @@ public class FractionNode extends RichPNode {
 
     public void attachNumber( final PhetPPath box, final NumberCardNode numberCardNode ) {
         if ( box == numerator.box.shape ) {
-            attachToBox( numberCardNode, numerator );
+            attachToBox( numberCardNode, numerator, FractionNodePosition.NUMERATOR );
         }
         else if ( box == denominator.box.shape ) {
-            attachToBox( numberCardNode, denominator );
+            attachToBox( numberCardNode, denominator, FractionNodePosition.DENOMINATOR );
         }
         else if ( box == whole.box.shape ) {
-            attachToBox( numberCardNode, whole );
+            attachToBox( numberCardNode, whole, FractionNodePosition.WHOLE );
         }
         else {
             throw new RuntimeException( "No such box!" );
@@ -258,12 +273,14 @@ public class FractionNode extends RichPNode {
         }
     }
 
-    private void attachToBox( final NumberCardNode numberCardNode, final Box box ) {
+    private void attachToBox( final NumberCardNode numberCardNode, final Box box, final FractionNodePosition type ) {
         box.cardNode = numberCardNode;
         box.numberNode = numberCardNode.numberNode;
 
         //Store the parent so it can be re-parented on undo
         box.parent = numberCardNode.getParent();
+
+        dropListHistory = dropListHistory.snoc( type );
     }
 
     public boolean isComplete() {
