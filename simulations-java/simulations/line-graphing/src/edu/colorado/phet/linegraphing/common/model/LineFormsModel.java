@@ -127,7 +127,6 @@ public class LineFormsModel implements Resettable {
 
                 // rise
                 final double minRise = yMin - line.y1;
-
                 final double maxRise = yMax - line.y1;
                 LineFormsModel.this.riseRange.set( new DoubleRange( minRise, maxRise ) );
 
