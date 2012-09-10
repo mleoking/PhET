@@ -127,25 +127,25 @@ public class LineFormsModel implements Resettable {
 
                 // x1 should not be changed for slope-intercept form.
                 if ( !( LineFormsModel.this.x1Range.get().getMin() == 0d && LineFormsModel.this.x1Range.get().getMax() == 0d ) ) {
-                    final double minX1 = Math.max( xMin, xMin - line.run );
-                    final double maxX1 = Math.min( xMax, xMax - line.run );
-                    LineFormsModel.this.x1Range.set( new DoubleRange( minX1, maxX1 ) );
+                    final double x1Min = Math.max( xMin, xMin - line.run );
+                    final double x1Max = Math.min( xMax, xMax - line.run );
+                    LineFormsModel.this.x1Range.set( new DoubleRange( x1Min, x1Max ) );
                 }
 
                 // y1
-                final double minY1 = Math.max( yMin, yMin - line.rise );
-                final double maxY1 = Math.min( yMax, yMax - line.rise );
-                LineFormsModel.this.y1Range.set( new DoubleRange( minY1, maxY1 ) );
+                final double y1Min = Math.max( yMin, yMin - line.rise );
+                final double y1Max = Math.min( yMax, yMax - line.rise );
+                LineFormsModel.this.y1Range.set( new DoubleRange( y1Min, y1Max ) );
 
                 // rise
-                final double minRise = yMin - line.y1;
-                final double maxRise = yMax - line.y1;
-                LineFormsModel.this.riseRange.set( new DoubleRange( minRise, maxRise ) );
+                final double riseMin = yMin - line.y1;
+                final double riseMax = yMax - line.y1;
+                LineFormsModel.this.riseRange.set( new DoubleRange( riseMin, riseMax ) );
 
                 // run
-                final double minRun = xMin - line.x1;
-                final double maxRun = xMax - line.x1;
-                LineFormsModel.this.runRange.set( new DoubleRange( minRun, maxRun ) );
+                final double runMin = xMin - line.x1;
+                final double runMax = xMax - line.x1;
+                LineFormsModel.this.runRange.set( new DoubleRange( runMin, runMax ) );
             }
         } );
     }
