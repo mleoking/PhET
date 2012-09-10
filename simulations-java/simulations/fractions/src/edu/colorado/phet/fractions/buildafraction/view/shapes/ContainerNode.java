@@ -1,8 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
+import fj.Equal;
 import fj.F;
 import fj.data.List;
+import fj.data.Option;
+import fj.function.Integers;
 
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
@@ -36,6 +39,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.s
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.fractions.FractionsResources.Images.*;
+import static edu.colorado.phet.fractions.buildafraction.view.shapes.SingleContainerNode._getNumberPieces;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.SingleContainerNode._undoAll;
 import static edu.colorado.phet.fractions.common.math.Fraction.sum;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
@@ -69,6 +73,9 @@ public class ContainerNode extends PNode {
     private final SpinnerButtonNode rightSpinner;
     private final IncreaseDecreaseButton increaseDecreaseButton;
     private final boolean showIncreaseButton;
+
+    //For incremental undo
+    private List<DropLocation> dropLocationList = List.nil();
 
     public ContainerNode( ShapeSceneNode parent, final ContainerContext context, boolean showIncreaseButton, final ShapeType shapeType, int maxNumberOfSingleContainers ) {
         this.parent = parent;
@@ -104,7 +111,7 @@ public class ContainerNode extends PNode {
         dynamicCursorHandler = new DynamicCursorHandler( Cursor.HAND_CURSOR );
         undoButton.addActionListener( new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
-                undoAll();
+                undoLast();
             }
         } );
         undoButton.addInputEventListener( new PBasicInputEventHandler() {
@@ -151,6 +158,35 @@ public class ContainerNode extends PNode {
             addChild( increaseDecreaseButton );
             increaseDecreaseButton.setOffset( containerLayer.getFullBounds().getMaxX() + INSET, containerLayer.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2 );
         }
+    }
+
+    //Undo button was pressed, just eject the most recently added item
+    private void undoLast() {
+        //If only one piece left, clear the list and call undo all (so the undo button will disappear)
+        if ( getSingleContainerNodes().map( _getNumberPieces ).foldLeft( Integers.add, 0 ) == 1 ) {
+            undoAll();
+            dropLocationList = List.nil();
+        }
+        else {
+            dropLocationList = dropLocationList.filter( new F<DropLocation, Boolean>() {
+                @Override public Boolean f( final DropLocation dropLocation ) {
+                    return containsSite( dropLocation );
+                }
+            } );
+            if ( dropLocationList.length() == 0 ) { return; }
+            DropLocation undoSite = dropLocationList.last();
+            getSingleContainerNode( undoSite.container ).some().undoLast();
+            dropLocationList = dropLocationList.reverse().tail().reverse();//Remove last item from queue
+
+            context.syncModelFractions();
+        }
+    }
+
+    //If the user removed a SingleContainerNode for the piece that was going to be "undone" then ignore it and go to the next one.
+    private boolean containsSite( final DropLocation site ) { return getSingleContainerNode( site.container ).isSome() && getSingleContainerNode( site.container ).some().containsPiece(); }
+
+    private Option<SingleContainerNode> getSingleContainerNode( final int container ) {
+        return getSingleContainerNodes().length() <= container ? Option.<SingleContainerNode>none() : Option.some( getSingleContainerNodes().index( container ) );
     }
 
     List<SingleContainerNode> getSingleContainerNodes() {return getSingleContainers(); }
@@ -324,5 +360,10 @@ public class ContainerNode extends PNode {
 
     public Boolean isInPlayArea() {
         return !isInTargetCell() && !isInToolbox();
+    }
+
+    public void addDropLocation( final SingleContainerNode singleContainerNode ) {
+        int index = getSingleContainerNodes().elementIndex( Equal.<SingleContainerNode>anyEqual(), singleContainerNode ).some();
+        dropLocationList = dropLocationList.snoc( new DropLocation( index ) );
     }
 }
