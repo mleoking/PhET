@@ -29,7 +29,7 @@ import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.PlottedPointNode;
-import edu.colorado.phet.linegraphing.common.view.PointDragHandler;
+import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
@@ -249,9 +249,10 @@ public class SlopeInterceptLineChallengeNode extends PhetPNode {
                                                                               slopeManipulatorNode, mvt, guessLine, riseRange, runRange ) );
             // interactivity for point (intercept) manipulator
             interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
-            interceptManipulatorNode.addInputEventListener( new PointDragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                                  interceptManipulatorNode, mvt, guessLine,
-                                                                                  new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), yInterceptRange ) );
+            interceptManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
+                                                                                 interceptManipulatorNode, mvt, guessLine,
+                                                                                 new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), yInterceptRange,
+                                                                                 true /* constantSlope */ ) );
             // Rendering order
             addChild( guessNodeParent );
             if ( interactiveSlope && !interactiveIntercept ) {
