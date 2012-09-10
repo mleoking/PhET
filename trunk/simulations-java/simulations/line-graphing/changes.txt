@@ -1,3 +1,5 @@
+9/10/12 add assert(x1==0) where we assume that a line is in slope-intercept form
+9/10/12 remove unnecessary final modifiers from constructor params
 9/10/12 rename StraightLineNode to LineNode
 9/10/12 replace multiple params with LineFormsModel and LineFormsViewProperties in constructors that are specific to the first 2 tabs [67794]
 9/10/12 create a data structure (LineFormsViewProperties) for properties that are specific to the view [67794]

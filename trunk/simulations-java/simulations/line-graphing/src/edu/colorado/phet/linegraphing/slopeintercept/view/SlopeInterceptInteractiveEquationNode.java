@@ -46,7 +46,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
     private final Property<Double> rise, run, yIntercept; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
-    public SlopeInterceptInteractiveEquationNode( final Property<Line> interactiveLine,
+    public SlopeInterceptInteractiveEquationNode( Property<Line> interactiveLine,
                                                   Property<DoubleRange> riseRange,
                                                   Property<DoubleRange> runRange,
                                                   Property<DoubleRange> yInterceptRange ) {

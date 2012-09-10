@@ -46,7 +46,7 @@ class PointSlopeInteractiveEquationNode extends PhetPNode {
     private final Property<Double> rise, run, x1, y1; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
-    public PointSlopeInteractiveEquationNode( final Property<Line> interactiveLine,
+    public PointSlopeInteractiveEquationNode( Property<Line> interactiveLine,
                                               Property<DoubleRange> riseRange,
                                               Property<DoubleRange> runRange,
                                               Property<DoubleRange> x1Range,
