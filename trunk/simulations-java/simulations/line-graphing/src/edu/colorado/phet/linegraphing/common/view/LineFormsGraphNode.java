@@ -55,10 +55,10 @@ public abstract class LineFormsGraphNode extends GraphNode {
      * @param interactiveLineVisible     is the interactive line visible visible on the graph?
      * @param interactiveEquationVisible is the equation visible on the interactive line?
      * @param slopeVisible               are the slope (rise/run) brackets visible on the graphed line?
-     * @param riseRange
-     * @param runRange
      * @param x1Range
      * @param y1Range
+     * @param riseRange
+     * @param runRange
      * @param pointManipulatorColor
      * @param slopeManipulatorColor
      */
@@ -70,10 +70,10 @@ public abstract class LineFormsGraphNode extends GraphNode {
                                final Property<Boolean> interactiveLineVisible,
                                Property<Boolean> interactiveEquationVisible,
                                final Property<Boolean> slopeVisible,
-                               Property<DoubleRange> riseRange,
-                               Property<DoubleRange> runRange,
                                Property<DoubleRange> x1Range,
                                Property<DoubleRange> y1Range,
+                               Property<DoubleRange> riseRange,
+                               Property<DoubleRange> runRange,
                                Color pointManipulatorColor,
                                Color slopeManipulatorColor ) {
         super( graph, mvt );
