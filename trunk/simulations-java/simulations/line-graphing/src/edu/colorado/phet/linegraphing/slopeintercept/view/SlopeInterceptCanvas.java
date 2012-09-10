@@ -2,8 +2,8 @@
 package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.colorado.phet.linegraphing.common.view.LineFormsCanvas;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 
 /**
  * Canvas for the "Slope-Intercept" module.
@@ -13,7 +13,7 @@ import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 public class SlopeInterceptCanvas extends LineFormsCanvas {
 
     // Constructor with default properties
-    public SlopeInterceptCanvas( final SlopeInterceptModel model ) {
+    public SlopeInterceptCanvas( LineFormsModel model ) {
         this( model,
               new Property<Boolean>( true ),
               new Property<Boolean>( true ),
@@ -29,7 +29,7 @@ public class SlopeInterceptCanvas extends LineFormsCanvas {
      * @param interactiveEquationVisible is the equation visible on the interactive line?
      * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
      */
-    private SlopeInterceptCanvas( final SlopeInterceptModel model,
+    private SlopeInterceptCanvas( final LineFormsModel model,
                                   Property<Boolean> linesVisible, Property<Boolean> interactiveLineVisible,
                                   Property<Boolean> interactiveEquationVisible, Property<Boolean> slopeVisible ) {
         super( model,
