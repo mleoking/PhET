@@ -13,7 +13,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
+import edu.colorado.phet.fractions.buildafraction.model.NumberLevelFactory;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.Distribution;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
@@ -32,8 +34,11 @@ import static java.awt.Color.orange;
  *
  * @author Sam Reid
  */
-public class NumberLevelList extends ArrayList<NumberLevel> {
+public class NumberLevelList implements NumberLevelFactory {
     private static final Random random = new Random();
+    private ArrayList<Function0<NumberLevel>> levels = new ArrayList<Function0<NumberLevel>>();
+
+    public NumberLevel createLevel( final int level ) { return levels.get( level ).apply(); }
 
     public static @Data abstract class PatternMaker extends F<MixedFraction, Pattern> {
         public final String name;
@@ -139,16 +144,60 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     //Create all of the levels
     public NumberLevelList() {
-        add( level1() );
-        add( level2() );
-        add( level3() );
-        add( level4() );
-        add( level5() );
-        add( level6() );
-        add( level7() );
-        add( level8() );
-        add( level9() );
-        add( level10() );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level1();
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level2();
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level3();
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level4();
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level5();
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level6();
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level7();
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level8();
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level9();
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level10();
+            }
+        } );
+    }
+
+    private void add( final Function0<NumberLevel> numberLevel ) {
+        levels.add( numberLevel );
     }
 
     //Choose a representation, pies or bars, but use the same representation for all things

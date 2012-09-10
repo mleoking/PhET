@@ -12,6 +12,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
+import edu.colorado.phet.fractions.buildafraction.model.ShapeLevelFactory;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.util.Distribution;
 
@@ -28,8 +29,9 @@ import static fj.data.List.*;
  *
  * @author Sam Reid
  */
-public class ShapeLevelList extends ArrayList<ShapeLevel> {
+public class ShapeLevelList implements ShapeLevelFactory {
     private static final Random random = new Random();
+    private final ArrayList<Function0<ShapeLevel>> levels = new ArrayList<Function0<ShapeLevel>>();
 
     public ShapeLevelList() {
 
@@ -91,19 +93,29 @@ public class ShapeLevelList extends ArrayList<ShapeLevel> {
         } );
     }
 
+    public ShapeLevel createLevel( final int level ) {
+        return levels.get( level ).apply();
+    }
+
     //Keep resampling levels until they match our constraints, such as not having too many stacks or too many cards.
     //It is difficult to constrain the creation of levels as they are being created, because making challenge creation inter-dependent on each other would be very complex.
     //Instead individual challenges within a level are created independently, and this code checks to make sure that it didn't create any stacks too high.
     private void addWithPostprocessing( final Function0<ShapeLevel> levelMaker ) {
-        for ( int i = 0; i < 100; i++ ) {
-            ShapeLevel level = levelMaker.apply();
-            if ( level.getNumberOfStacks() < 6 && level.getNumberOfCardsInHighestStack() < 8 ) {
-                add( level );
-                return;
+        levels.add( withProcessing( levelMaker ) );
+    }
+
+    private Function0<ShapeLevel> withProcessing( final Function0<ShapeLevel> levelMaker ) {
+        return new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                for ( int i = 0; i < 100; i++ ) {
+                    ShapeLevel level = levelMaker.apply();
+                    if ( level.getNumberOfStacks() < 6 && level.getNumberOfCardsInHighestStack() < 8 ) {
+                        return level;
+                    }
+                }
+                return levelMaker.apply();
             }
-        }
-        System.out.println( "Could not create a level satisfying the constraints." );
-        add( levelMaker.apply() );
+        };
     }
 
     /* Level 1:
