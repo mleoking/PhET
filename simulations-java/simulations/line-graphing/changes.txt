@@ -1,3 +1,5 @@
+9/10/12 replace multiple params with LineFormsModel and LineFormsViewProperties in constructors that are specific to the first 2 tabs
+9/10/12 create a data structure (LineFormsViewProperties) for properties that are specific to the view
 9/10/12 fix: rise/run brackets go behind interactive-equation control panel
 9/10/12 change order of constructor args to match point-slope form
 9/10/12 prevent model from modifying x1 range when it is initially [0,0]
