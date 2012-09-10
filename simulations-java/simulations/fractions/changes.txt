@@ -1,3 +1,4 @@
+Build a Fraction: Mixed: Numbers: Show a "not allowed" sign where an improper fraction creation would have otherwise been possible
 Build a Fraction: Fixed: Fading in boxes should be across tabs, not just within each tab
 Build a Fraction: Isolated level resampling to speed up loading time
 Build a Fraction: Shapes: Gray out "+" button while a container is in the toolbox

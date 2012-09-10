@@ -110,39 +110,16 @@ public class BuildAFractionModel {
             level.resetAll();
         }
         numberLevels.clear();
-//        final ArrayList<NumberLevel> numberLevelList = numberLevelFactory.f( unit() );
-//        for ( NumberLevel level : numberLevelList ) {
-//            level.addMatchListener( userCreatedMatch );
-//        }
-//        numberLevels.addAll( numberLevelList );
 
         shapeLevel.reset();
         for ( ShapeLevel level : shapeLevels.values() ) {
             level.resetAll();
         }
         shapeLevels.clear();
-//        final ArrayList<ShapeLevel> shapeLevelList = shapeLevelFactory.f( unit() );
-//        for ( ShapeLevel level : shapeLevelList ) {
-//            level.addMatchListener( userCreatedMatch );
-//        }
-//        shapeLevels.addAll( shapeLevelList );
-
         audioEnabled.reset();
 
         //Resets it for both tabs
         userCreatedMatch.reset();
-
-//        level.createdFractions.addObserver( new VoidFunction1<List<Fraction>>() {
-//                        public void apply( final List<Fraction> fractions ) {
-//                            if ( fractions.length() > 0 && fractions.filter( new F<Fraction, Boolean>() {
-//                                @Override public Boolean f( final Fraction fraction ) {
-//                                    return fraction.approxEquals( mixedFraction.toFraction() );
-//                                }
-//                            } ).length() > 0 ) {
-//
-//                            }
-//                        }
-//                    } );
     }
 
     public boolean isLastLevel( final int levelIndex ) {
