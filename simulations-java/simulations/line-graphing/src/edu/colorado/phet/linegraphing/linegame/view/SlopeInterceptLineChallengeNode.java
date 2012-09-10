@@ -42,8 +42,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * View components for a challenge in which the user is given an equation and must create a line
- * by positioning slope and/or intercept manipulators on a graph. If the intercept is not interactive,
+ * View components for a challenge in which the user is given an equation in slope-intercept form
+ * and must create a line by positioning manipulators on a graph. If the intercept is not interactive,
  * then the intercept is plotted.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
