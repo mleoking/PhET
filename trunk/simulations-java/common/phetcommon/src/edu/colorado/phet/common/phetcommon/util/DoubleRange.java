@@ -212,4 +212,8 @@ public class DoubleRange {
     public double getCenter() {
         return ( _max + _min ) / 2;
     }
+
+    @Override public String toString() {
+        return "min=" + _min + ", max=" + _max + ", default=" + _default + ", significantDecimalPlaces=" + _significantDecimalPlaces;
+    }
 }
