@@ -33,6 +33,13 @@ public abstract class LineNode extends PComposite {
     private final DoubleArrowNode arrowNode;
     private final EquationNode equationNode;
 
+    /**
+     * Constructor
+     *
+     * @param line  the line to draw
+     * @param graph the graph to draw it on
+     * @param mvt   the transform between model and view coordinate frames
+     */
     public LineNode( final Line line, Graph graph, ModelViewTransform mvt ) {
 
         this.line = line;
