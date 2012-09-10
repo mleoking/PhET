@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighlightHandler;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
@@ -96,12 +95,10 @@ public abstract class LineFormsGraphNode extends GraphNode {
 
         // interactivity for point (x1,y1) manipulator
         pointManipulator = new LineManipulatorNode( manipulatorDiameter, pointManipulatorColor );
-        pointManipulator.addInputEventListener( new CursorHandler() );
         pointManipulator.addInputEventListener( new PointDragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
                                                                       pointManipulator, mvt, interactiveLine, x1Range, y1Range ) );
         // interactivity for slope manipulator
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, slopeManipulatorColor );
-        slopeManipulatorNode.addInputEventListener( new CursorHandler() );
         slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                           slopeManipulatorNode, mvt, interactiveLine, riseRange, runRange ) );
 

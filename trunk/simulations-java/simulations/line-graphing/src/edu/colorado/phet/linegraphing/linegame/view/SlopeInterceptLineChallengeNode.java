@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -246,12 +245,10 @@ public class SlopeInterceptLineChallengeNode extends PhetPNode {
 
             // interactivity for slope manipulator
             slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
-            slopeManipulatorNode.addInputEventListener( new CursorHandler() );
             slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                               slopeManipulatorNode, mvt, guessLine, riseRange, runRange ) );
             // interactivity for point (intercept) manipulator
             interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
-            interceptManipulatorNode.addInputEventListener( new CursorHandler() );
             interceptManipulatorNode.addInputEventListener( new PointDragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
                                                                                   interceptManipulatorNode, mvt, guessLine,
                                                                                   new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), yInterceptRange ) );
