@@ -107,7 +107,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             if ( model.isMixedNumbers() ) { patternNode.scale( 0.75 ); }
 
             //Add to the set of pairs
-            _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.mixedFraction, this, model.userCreatedMatch ), new ZeroOffsetNode( patternNode ) ) );
+            _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.mixedFraction, this, model.collectedMatch.or( level.matchExists ) ), new ZeroOffsetNode( patternNode ) ) );
         }
         initCollectionBoxes( insetY, _pairs );
 

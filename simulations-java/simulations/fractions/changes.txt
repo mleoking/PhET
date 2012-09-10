@@ -1,3 +1,4 @@
+Build a Fraction: Disable the collection boxes unless the user has created a match in that level or collected a match anywhere in the sim (any tab)
 Build a Fraction: Mixed: Numbers: Show vertical and horizontal boxes for levels 9-10
 Build a Fraction: Mixed: Numbers: Show a "not allowed" sign where an improper fraction creation would have otherwise been possible
 Build a Fraction: Fixed: Fading in boxes should be across tabs, not just within each tab

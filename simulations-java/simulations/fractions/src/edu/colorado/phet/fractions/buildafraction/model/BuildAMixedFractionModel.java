@@ -9,8 +9,8 @@ import edu.colorado.phet.fractions.buildafraction.model.shapes.MixedNumbersShape
  * @author Sam Reid
  */
 public class BuildAMixedFractionModel extends BuildAFractionModel {
-    public BuildAMixedFractionModel( BooleanProperty userCreatedMatch ) {
-        super( userCreatedMatch, new MixedNumbersShapeLevelList(), new MixedNumbersNumberLevelList() );
+    public BuildAMixedFractionModel( BooleanProperty collectedMatch ) {
+        super( collectedMatch, new MixedNumbersShapeLevelList(), new MixedNumbersNumberLevelList() );
     }
 
     @Override public boolean isMixedNumbers() { return true; }
