@@ -303,10 +303,6 @@ public class ContainerNode extends PNode {
         final boolean pickable = !isInToolbox();
         increaseDecreaseButton.setPickable( pickable );
         increaseDecreaseButton.setChildrenPickable( pickable );
-        leftSpinner.setPickable( pickable );
-        leftSpinner.setChildrenPickable( pickable );
-        rightSpinner.setPickable( pickable );
-        rightSpinner.setChildrenPickable( pickable );
     }
 
     //Identify containers as being in the toolbox if they are shrunken
