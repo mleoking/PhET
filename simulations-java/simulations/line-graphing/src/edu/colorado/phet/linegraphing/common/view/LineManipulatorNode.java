@@ -17,6 +17,6 @@ public class LineManipulatorNode extends ShadedSphereNode {
     public LineManipulatorNode( double diameter, Color fillColor ) {
         super( diameter, fillColor, Color.WHITE, fillColor.darker().darker(), false /* convertToImage */ );
         setStrokeAndPaint( new BasicStroke( 1f ), fillColor.darker().darker() );
-        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new CursorHandler() ); // all manipulators are interactive
     }
 }
