@@ -1,3 +1,4 @@
+9/10/12 add cursor handler in LineManipulatorNode base class, all manipulators are interactive
 9/10/12 cleanup and doc of revised line model
 9/10/12 major change: collapsed the line hierarchy, simplifies the entire implementation [67772]
 9/7/12 fix: setPickable(false) for UndefinedSlopeIndicator [67749]
