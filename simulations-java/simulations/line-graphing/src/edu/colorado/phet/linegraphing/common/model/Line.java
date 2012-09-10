@@ -7,7 +7,8 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.linegraphing.common.LGColors;
 
 /**
- * An immutable line, described by 2 points.
+ * An immutable line, described by 2 points, (x1,y1) and (x2,y2).
+ * Slope components (rise and run) are signed relative to (x1,y1).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -19,7 +20,7 @@ public class Line {
 
     public final double x1, y1; // x and y components of the first point
     public final double x2, y2; // x and y components of the second point
-    public final double rise, run; // vertical and horizontal components of the slope
+    public final double rise, run; // vertical and horizontal components of the slope, relative to (x1,y1)
     public final Color color; // color used for visualizing the line
 
     // Specified using 2 points
@@ -50,17 +51,7 @@ public class Line {
         return createPointSlope( 0, yIntercept, rise, run, color );
     }
 
-    // Creates a line with a different point
-    public Line withPoint( double x1, double y1 ) {
-        return new Line( x1, y1, x2, y2, color );
-    }
-
-    // Creates a line with a different slope
-    public Line withSlope( double rise, double run ) {
-        return createPointSlope( x1, y1, rise, run, color );
-    }
-
-    // Creates a line with a different color
+    // Convenience method for creating a line with a different color.
     public Line withColor( Color color ) {
         return new Line( x1, y1, x2, y2, color );
     }
@@ -99,16 +90,16 @@ public class Line {
     }
 
     /*
-    * Creates a simplified instance of the line.
-    * For our purposes, this means simplifying (aka, reducing) the slope.
-    * Simplification uses Euclid's algorithm for computing the greatest common divisor (GCD) of two integers,
-    * so this is effective only if the rise and run are integer values. Otherwise 'this' is returned.
-    */
+     * Creates a simplified instance of the line.
+     * For our purposes, this means simplifying (aka, reducing) the slope.
+     * Simplification uses Euclid's algorithm for computing the greatest common divisor (GCD) of two integers,
+     * so simplification is performed only if the rise and run are integer values. Otherwise 'this' is returned.
+     */
     public Line simplified() {
         if ( ( rise == (int) rise ) && ( run == (int) run ) ) { // true if rise and run are integers
             final int reducedRise = (int) ( rise / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
             final int reducedRun = (int) ( run / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
-            return withSlope( reducedRise, reducedRun );
+            return createPointSlope( x1, y1, reducedRise, reducedRun, color );
         }
         else {
             return this;
