@@ -20,6 +20,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.GraphInterceptChallenge;
+import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.GraphPointsChallenge;
 import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.GraphSlopeChallenge;
 import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.GraphSlopeInterceptChallenge;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
@@ -176,10 +177,10 @@ public class LineGameModel {
     private void initChallenges() {
         //TODO create different types of challenges, randomized for level
         int index = 0;
-        challenges[index++] = new GraphInterceptChallenge( Line.createSlopeIntercept( -3, 3, -2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[index++] = new GraphInterceptChallenge( Line.createSlopeIntercept( 1, 1, -2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
         challenges[index++] = new GraphSlopeChallenge( Line.createSlopeIntercept( 5, 1, 1, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
         challenges[index++] = new GraphSlopeInterceptChallenge( Line.createSlopeIntercept( 4, 2, 3, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
-        challenges[index++] = new GraphSlopeInterceptChallenge( Line.createSlopeIntercept( 10, 2, -6, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[index++] = new GraphPointsChallenge( Line.createSlopeIntercept( 3, 3, -3, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
         challenges[index++] = new GraphSlopeInterceptChallenge( Line.createSlopeIntercept( 0, 3, 2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
         assert ( challenges.length == CHALLENGES_PER_GAME );
         challengeIndex = 0;

@@ -14,6 +14,7 @@ import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
+import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
@@ -88,7 +89,7 @@ public class MatchSlopeInterceptNode extends MatchNode {
 
                     // draw the line
                     guessNodeParent.removeAllChildren();
-                    SlopeInterceptLineNode guessNode = new SlopeInterceptLineNode( line, graph, mvt );
+                    LineNode guessNode = new SlopeInterceptLineNode( line, graph, mvt );
                     guessNode.setEquationVisible( false );
                     guessNodeParent.addChild( guessNode );
 

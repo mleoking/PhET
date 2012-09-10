@@ -22,6 +22,7 @@ public class LGColors {
     public static final Color SLOPE = new Color( 120, 245, 3 );
     public static final Color INTERCEPT = Color.YELLOW;
     public static final Color POINT_X1_Y1 = new Color( 255, 125, 255 );
+    public static final Color POINT_X2_Y2 = POINT_X1_Y1;
     public static final Color SAVE_LINE_BUTTON = Color.WHITE;
     public static final Color ERASE_LINES_BUTTON = Color.WHITE;
     public static final Color RESET_ALL_BUTTON = Color.WHITE;
