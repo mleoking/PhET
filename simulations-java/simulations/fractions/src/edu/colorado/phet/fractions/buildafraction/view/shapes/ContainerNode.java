@@ -8,7 +8,11 @@ import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -125,8 +129,20 @@ public class ContainerNode extends PNode {
         containerLayer = new PNode() {{
             addChild( new SingleContainerNode( shapeType, ContainerNode.this, selectedPieceSize ) );
         }};
-        leftSpinner = new SpinnerButtonNode( spinnerImage( LEFT_BUTTON_UP_GREEN ), spinnerImage( LEFT_BUTTON_PRESSED_GREEN ), spinnerImage( LEFT_BUTTON_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ) );
-        rightSpinner = new SpinnerButtonNode( spinnerImage( RIGHT_BUTTON_UP_GREEN ), spinnerImage( RIGHT_BUTTON_PRESSED_GREEN ), spinnerImage( RIGHT_BUTTON_GRAY ), increment, selectedPieceSize.lessThan( 8 ) );
+
+
+        //Property of whether the container node is in the toolbox or not, used for disabling controls when it is in the toolbox.
+        BooleanProperty inToolbox = new BooleanProperty( true ) {{
+
+            //Scale is the only dependency of "isInToolbox" so update it when the scale changes.
+            addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
+                public void propertyChange( final PropertyChangeEvent evt ) {
+                    set( isInToolbox() );
+                }
+            } );
+        }};
+        leftSpinner = new SpinnerButtonNode( spinnerImage( LEFT_BUTTON_UP_GREEN ), spinnerImage( LEFT_BUTTON_PRESSED_GREEN ), spinnerImage( LEFT_BUTTON_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ).and( Not.not( inToolbox ) ) );
+        rightSpinner = new SpinnerButtonNode( spinnerImage( RIGHT_BUTTON_UP_GREEN ), spinnerImage( RIGHT_BUTTON_PRESSED_GREEN ), spinnerImage( RIGHT_BUTTON_GRAY ), increment, selectedPieceSize.lessThan( 8 ).and( Not.not( inToolbox ) ) );
         addChild( new VBox( containerLayer,
                             new HBox( leftSpinner, rightSpinner ) ) );
 
