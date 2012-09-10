@@ -150,6 +150,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
         // sync the controls with the model
         interactiveLine.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
+                assert ( line.x1 == 0 ); // line is in slope-intercept form
 
                 // Atomically synchronize the controls.
                 updatingControls = true;
