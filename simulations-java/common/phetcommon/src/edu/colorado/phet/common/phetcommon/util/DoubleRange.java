@@ -45,6 +45,15 @@ public class DoubleRange {
     }
 
     /**
+     * Converts an IntegerRange to a DoubleRange.
+     *
+     * @param range
+     */
+    public DoubleRange( IntegerRange range ) {
+        this( range.getMin(), range.getMax(), range.getDefault() );
+    }
+
+    /**
      * Constructor.
      *
      * @param min
