@@ -7,7 +7,9 @@ import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.linegame.view.SlopeInterceptLineChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.MatchInterceptNode;
+import edu.colorado.phet.linegraphing.linegame.view.MatchSlopeInterceptNode;
+import edu.colorado.phet.linegraphing.linegame.view.MatchSlopeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -36,18 +38,6 @@ public abstract class MatchingChallenge {
     // Creates the view component for the challenge.
     public abstract PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize );
 
-    // Given an equation in slope-intercept form, create a line by manipulating slope and intercept.
-    public static class GraphSlopeInterceptChallenge extends MatchingChallenge {
-
-        public GraphSlopeInterceptChallenge( Line answer, ModelViewTransform mvt ) {
-            super( answer, Line.Y_EQUALS_X_LINE, mvt );
-        }
-
-        @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-            return new SlopeInterceptLineChallengeNode( model, audioPlayer, challengeSize, true, true );
-        }
-    }
-
     // Given an equation in slope-intercept form, create a line by manipulating slope.
     public static class GraphSlopeChallenge extends MatchingChallenge {
 
@@ -56,7 +46,7 @@ public abstract class MatchingChallenge {
         }
 
         @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-            return new SlopeInterceptLineChallengeNode( model, audioPlayer, challengeSize, true, false );
+            return new MatchSlopeNode( model, audioPlayer, challengeSize );
         }
     }
 
@@ -68,7 +58,19 @@ public abstract class MatchingChallenge {
         }
 
         @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-            return new SlopeInterceptLineChallengeNode( model, audioPlayer, challengeSize, false, true );
+            return new MatchInterceptNode( model, audioPlayer, challengeSize );
+        }
+    }
+
+    // Given an equation in slope-intercept form, create a line by manipulating slope and intercept.
+    public static class GraphSlopeInterceptChallenge extends MatchingChallenge {
+
+        public GraphSlopeInterceptChallenge( Line answer, ModelViewTransform mvt ) {
+            super( answer, Line.Y_EQUALS_X_LINE, mvt );
+        }
+
+        @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+            return new MatchSlopeInterceptNode( model, audioPlayer, challengeSize );
         }
     }
 }
