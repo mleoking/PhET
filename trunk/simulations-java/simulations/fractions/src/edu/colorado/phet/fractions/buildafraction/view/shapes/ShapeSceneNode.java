@@ -262,7 +262,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     public void endDrag( final ContainerNode containerNode ) {
 
         //Make the buttons pressable
-        containerNode.updateButtonPickability();
+        containerNode.updateExpansionButtonsEnabled();
 
         //See if it hits any matching collection boxes
         List<ShapeSceneCollectionBoxPair> pairs = this.pairs.sort( ord( new F<ShapeSceneCollectionBoxPair, Double>() {
@@ -415,7 +415,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         containerNode.animateToPositionScaleRotation( position.x, position.y,
                                                       1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( containerNode, true ), delegate, new PActivityDelegateAdapter() {
             @Override public void activityFinished( final PActivity activity ) {
-                containerNode.updateButtonPickability();
+                containerNode.updateExpansionButtonsEnabled();
             }
         } ) );
     }

@@ -246,7 +246,7 @@ public class ContainerNode extends PNode {
         animateToPositionScaleRotation( initialX, initialY, initialScale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( this, true ), new PActivityDelegateAdapter() {
             @Override public void activityFinished( final PActivity activity ) {
                 super.activityFinished( activity );
-                updateButtonPickability();
+                updateExpansionButtonsEnabled();
             }
         } ) );
         animateToShowSpinners();
@@ -296,14 +296,10 @@ public class ContainerNode extends PNode {
         this.initialScale = scale;
         setOffset( x, y );
         setScale( scale );
-        updateButtonPickability();
+        updateExpansionButtonsEnabled();
     }
 
-    public void updateButtonPickability() {
-        final boolean pickable = !isInToolbox();
-        increaseDecreaseButton.setPickable( pickable );
-        increaseDecreaseButton.setChildrenPickable( pickable );
-    }
+    public void updateExpansionButtonsEnabled() { increaseDecreaseButton.setEnabled( !isInToolbox() );}
 
     //Identify containers as being in the toolbox if they are shrunken
     public boolean isInToolbox() { return Math.abs( getScale() - PieceIconNode.TINY_SCALE ) < 1E-6; }
