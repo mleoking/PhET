@@ -6,8 +6,6 @@ DESIGN
 - play area layout feels unbalanced for game challenges
 - revisit the placement algorithm for equations on graphed lines
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
-- change request: change "slope undefined" to "slope is undefined, x =#"
-- change request: change "y = #" to "slope is zero, y = #"
 
 HIGH
 - replace SlopeDragHandler with PointDragHandler, pass in a function that determines how the point is used - move (x1,y1) or (x2,y2), keep slope constant, etc.
@@ -37,6 +35,12 @@ Do each of these for "Graph the Line" and "Make the Equation"
 
 DATA COLLECTION
 - instrument Game
+
+LOOSE ENDS
+- screenshot
+- model.txt
+- implementation-notes.txt
+- code review
 
 MIGRATE TO COMMON
 - #3423, migrate LGCanvas to common as "StageCanvas", reuse in other sims
