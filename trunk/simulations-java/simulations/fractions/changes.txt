@@ -1,3 +1,4 @@
+Build a Fraction: Removed extra yellow color pop for collection boxes
 Build a Fraction: Improved colors and fade-in behavior for collection boxes
 # 1.01.10 (67698) Sep 6, 2012
 Build a Mixed Fraction: Numbers: Shrink the target representations so there is enough room in the play area

@@ -8,13 +8,11 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.view.CollectionBoxNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.umd.cs.piccolo.activities.PActivity;
 
 import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
 import static java.lang.Math.ceil;
@@ -52,11 +50,7 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
                     if ( matched ) {
                         setStrokePaint( ENABLED_STROKE_PAINT );
                         animateToTransparency( 1f, FADE_IN_TIME );
-                        animateToColor( Color.yellow, 1000 ).setDelegate( new PActivityDelegateAdapter() {
-                            @Override public void activityFinished( final PActivity activity ) {
-                                animateToColor( BACKGROUND, 1000 );
-                            }
-                        } );
+                        animateToColor( BACKGROUND, 1000 );
                     }
                 }
             } );
