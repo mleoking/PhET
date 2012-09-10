@@ -34,12 +34,18 @@ public class Line {
         this.color = color;
     }
 
-    // Creates a line using point-slope description. Need to use a factory method instead of a constructor because param types are the same.
+    /*
+     * Creates a line using point-slope description.
+     * Need to use a factory method because params are identical to primary constructor.
+     */
     public static Line createPointSlope( double x1, double y1, double rise, double run, Color color ) {
         return new Line( x1, y1, x1 + run, y1 + rise, color );
     }
 
-    // Creates a line using slope-intercept description.
+    /*
+     * Creates a line using slope-intercept description.
+     * Using a factory method instead of a constructor to be consistent with createPointSlope.
+     */
     public static Line createSlopeIntercept( double rise, double run, double yIntercept, Color color ) {
         return createPointSlope( 0, yIntercept, rise, run, color );
     }
