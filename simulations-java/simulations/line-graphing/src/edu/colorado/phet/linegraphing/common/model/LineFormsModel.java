@@ -27,7 +27,7 @@ public class LineFormsModel implements Resettable {
 
     public final Graph graph; // the graph that plots the lines
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
-    public final Property<DoubleRange> riseRange, runRange, x1Range, y1Range; // ranges of things that the user can manipulate
+    public final Property<DoubleRange> x1Range, y1Range, riseRange, runRange; // ranges of things that the user can manipulate
     public final Property<Line> interactiveLine; // the line that can be manipulated by the user
     public final ObservableList<Line> savedLines; // lines that have been saved by the user
     public final ObservableList<Line> standardLines; // standard lines (eg, y=x) that are available for viewing
@@ -66,10 +66,10 @@ public class LineFormsModel implements Resettable {
         this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), mvtScale, -mvtScale ); // y is inverted
 
         // ranges
-        this.riseRange = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
-        this.runRange = new Property<DoubleRange>( new DoubleRange( LGConstants.X_AXIS_RANGE ) );
         this.x1Range = new Property<DoubleRange>( x1Range );
         this.y1Range = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
+        this.riseRange = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
+        this.runRange = new Property<DoubleRange>( new DoubleRange( LGConstants.X_AXIS_RANGE ) );
 
         // lines
         this.interactiveLine = new Property<Line>( interactiveLine );
@@ -125,16 +125,6 @@ public class LineFormsModel implements Resettable {
                 final int yMin = graph.yRange.getMin();
                 final int yMax = graph.yRange.getMax();
 
-                // rise
-                final double minRise = yMin - line.y1;
-                final double maxRise = yMax - line.y1;
-                LineFormsModel.this.riseRange.set( new DoubleRange( minRise, maxRise ) );
-
-                // run
-                final double minRun = xMin - line.x1;
-                final double maxRun = xMax - line.x1;
-                LineFormsModel.this.runRange.set( new DoubleRange( minRun, maxRun ) );
-
                 // x1 should not be changed for slope-intercept form.
                 if ( !( LineFormsModel.this.x1Range.get().getMin() == 0d && LineFormsModel.this.x1Range.get().getMax() == 0d ) ) {
                     final double minX1 = Math.max( xMin, xMin - line.run );
@@ -146,6 +136,16 @@ public class LineFormsModel implements Resettable {
                 final double minY1 = Math.max( yMin, yMin - line.rise );
                 final double maxY1 = Math.min( yMax, yMax - line.rise );
                 LineFormsModel.this.y1Range.set( new DoubleRange( minY1, maxY1 ) );
+
+                // rise
+                final double minRise = yMin - line.y1;
+                final double maxRise = yMax - line.y1;
+                LineFormsModel.this.riseRange.set( new DoubleRange( minRise, maxRise ) );
+
+                // run
+                final double minRun = xMin - line.x1;
+                final double maxRun = xMax - line.x1;
+                LineFormsModel.this.runRange.set( new DoubleRange( minRun, maxRun ) );
             }
         } );
     }
