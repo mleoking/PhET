@@ -12,7 +12,9 @@ import java.util.Random;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
+import edu.colorado.phet.fractions.buildafraction.model.NumberLevelFactory;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 
@@ -30,48 +32,91 @@ import static fj.data.List.list;
  *
  * @author Sam Reid
  */
-public class MixedNumbersNumberLevelList extends ArrayList<NumberLevel> {
+public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     public static final Random random = new Random();
+    private ArrayList<Function0<NumberLevel>> levels = new ArrayList<Function0<NumberLevel>>();
 
+    //Creates the levels for this game. Please enable closure folding to be able to read it.
     public MixedNumbersNumberLevelList() {
-        add( level1() );
-        add( level2() );
-        add( level3() );
-        add( level4() );
-        add( withDifferentRepresentations( new F<Unit, NumberLevel>() {
-            @Override public NumberLevel f( final Unit unit ) {
-                return level5();
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level1();
             }
-        } ) );
-        add( withDifferentRepresentations( new F<Unit, NumberLevel>() {
-            @Override public NumberLevel f( final Unit unit ) {
-                return level6();
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level2();
             }
-        } ) );
-        add( withDifferentRepresentations( new F<Unit, NumberLevel>() {
-            @Override public NumberLevel f( final Unit unit ) {
-                return level7();
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level3();
             }
-        } ) );
-        add( withDifferentRepresentations( new F<Unit, NumberLevel>() {
-            @Override public NumberLevel f( final Unit unit ) {
-                return level8();
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return level4();
             }
-        } ) );
-        add( withAnyRepresentations( new F<Unit, NumberLevel>() {
-            @Override public NumberLevel f( final Unit unit ) {
-                return level9();
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return withDifferentRepresentations( new F<Unit, NumberLevel>() {
+                    @Override public NumberLevel f( final Unit unit ) {
+                        return level5();
+                    }
+                } );
             }
-        } ) );
-        add( withAnyRepresentations( new F<Unit, NumberLevel>() {
-            @Override public NumberLevel f( final Unit unit ) {
-                return level10();
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return withDifferentRepresentations( new F<Unit, NumberLevel>() {
+                    @Override public NumberLevel f( final Unit unit ) {
+                        return level6();
+                    }
+                } );
             }
-        } ) );
-        while ( size() < 10 ) {
-            add( level1() );
-        }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return withDifferentRepresentations( new F<Unit, NumberLevel>() {
+                    @Override public NumberLevel f( final Unit unit ) {
+                        return level7();
+                    }
+                } );
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return withDifferentRepresentations( new F<Unit, NumberLevel>() {
+                    @Override public NumberLevel f( final Unit unit ) {
+                        return level8();
+                    }
+                } );
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return withAnyRepresentations( new F<Unit, NumberLevel>() {
+                    @Override public NumberLevel f( final Unit unit ) {
+                        return level9();
+                    }
+                } );
+            }
+        } );
+        add( new Function0<NumberLevel>() {
+            public NumberLevel apply() {
+                return withAnyRepresentations( new F<Unit, NumberLevel>() {
+                    @Override public NumberLevel f( final Unit unit ) {
+                        return level10();
+                    }
+                } );
+            }
+        } );
     }
+
+    private void add( final Function0<NumberLevel> level ) { levels.add( level ); }
+
+    public NumberLevel createLevel( final int level ) { return levels.get( level ).apply(); }
 
     //Convenience method so that smaller changes can be made to the constructor
     private NumberLevel withAnyRepresentations( final F<Unit, NumberLevel> f ) {return f.f( unit() ); }

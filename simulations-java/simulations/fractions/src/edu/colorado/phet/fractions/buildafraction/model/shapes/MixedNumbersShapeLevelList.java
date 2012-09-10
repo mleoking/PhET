@@ -9,7 +9,9 @@ import fj.data.List;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
+import edu.colorado.phet.fractions.buildafraction.model.ShapeLevelFactory;
 import edu.colorado.phet.fractions.common.math.Fraction;
 
 import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction._toFraction;
@@ -29,22 +31,67 @@ import static fj.data.List.*;
  *
  * @author Sam Reid
  */
-public class MixedNumbersShapeLevelList extends ArrayList<ShapeLevel> {
+public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
+
+    private ArrayList<Function0<ShapeLevel>> levels = new ArrayList<Function0<ShapeLevel>>();
 
     //To avoid big piles, we probably want to do a check so that on any given draw, only a single "3" is drawn for a target whole number.  So there will never be a level where two targets appear with 3 as the whole number.
     public MixedNumbersShapeLevelList() {
-        add( level1() );
-        add( level2() );
-        add( level3() );
-        add( level4() );
-        add( level5() );
-        add( level6() );
-        add( level7() );
-        add( level8() );
-        add( level9() );
-        add( level10() );
-        while ( size() < 10 ) { add( testLevel() ); }
+        add( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level1();
+            }
+        } );
+        add( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level2();
+            }
+        } );
+        add( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level3();
+            }
+        } );
+        add( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level4();
+            }
+        } );
+        add( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level5();
+            }
+        } );
+        add( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level6();
+            }
+        } );
+        add( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level7();
+            }
+        } );
+        add( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level8();
+            }
+        } );
+        add( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level9();
+            }
+        } );
+        add( new Function0<ShapeLevel>() {
+            public ShapeLevel apply() {
+                return level10();
+            }
+        } );
     }
+
+    private void add( final Function0<ShapeLevel> shapeLevel ) { levels.add( shapeLevel ); }
+
+    public ShapeLevel createLevel( final int level ) { return levels.get( level ).apply(); }
 
     /*Level 1:
     -- {1:1/2, 2:1/2, 2:1/4} as the targets
