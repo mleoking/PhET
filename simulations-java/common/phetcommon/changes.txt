@@ -1,3 +1,4 @@
+9/10/12 added DoubleRange(IntegerRange) constructor, DoubleRange.toString, IntegerRange.toString
 8/15/12 Migrated FJUtils to phetcommon for reuse in other sims
 8/15/12 Added createShapeFromPoints(Iterable<Vector2D>)
 7/31/12 #3395, add -startModule program arg for specifying start module (dev feature)

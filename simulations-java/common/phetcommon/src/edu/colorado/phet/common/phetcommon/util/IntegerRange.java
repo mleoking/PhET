@@ -143,4 +143,8 @@ public class IntegerRange {
     public boolean intersects( DoubleRange xRange ) {
         return ( _max >= xRange.getMin() && xRange.getMax() >= _min );
     }
+
+    @Override public String toString() {
+        return "min=" + _min + ", max=" + _max + ", default=" + _default;
+    }
 }
