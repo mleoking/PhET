@@ -25,7 +25,7 @@ Do each of these for "Graph the Line" and "Make the Equation"
 [DONE] slope-intercept form + intercept variable
 [DONE] slope-intercept form + slope variable (plot intercept)
 [DONE] slope-intercept form + slope variable + intercept variable
-- slope-intercept form + 2 point manipulators
+[DONE] slope-intercept form + 2 point manipulators
 - point-slope form + point variable
 - point-slope form + slope variable (plot point)
 - point-slope form + slope variable + point variable
