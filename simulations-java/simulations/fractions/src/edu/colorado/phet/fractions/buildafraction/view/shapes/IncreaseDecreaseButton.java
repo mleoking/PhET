@@ -21,8 +21,8 @@ class IncreaseDecreaseButton extends PNode {
     private final SingleButton addButton;
 
     public IncreaseDecreaseButton( final VoidFunction0 add, VoidFunction0 subtract ) {
-        subtractButton = new SingleButton( multiScaleToWidth( MINUS_BUTTON, 50 ), multiScaleToWidth( MINUS_BUTTON_PRESSED, 50 ), subtract );
-        addButton = new SingleButton( multiScaleToWidth( PLUS_BUTTON, 50 ), multiScaleToWidth( PLUS_BUTTON_PRESSED, 50 ), add );
+        subtractButton = new SingleButton( multiScaleToWidth( MINUS_BUTTON, 50 ), multiScaleToWidth( MINUS_BUTTON_PRESSED, 50 ), multiScaleToWidth( MINUS_BUTTON_GRAY, 50 ), subtract );
+        addButton = new SingleButton( multiScaleToWidth( PLUS_BUTTON, 50 ), multiScaleToWidth( PLUS_BUTTON_PRESSED, 50 ), multiScaleToWidth( PLUS_BUTTON_GRAY, 50 ), add );
         addChild( new VBox( addButton, subtractButton ) );
         subtractButton.setTransparency( 0 );
         subtractButton.setAllPickable( false );
@@ -52,4 +52,11 @@ class IncreaseDecreaseButton extends PNode {
         return subtractButton.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
     }
 
+    public void setEnabled( final boolean pickable ) {
+        setPickable( pickable );
+        setChildrenPickable( pickable );
+
+        subtractButton.setEnabled( pickable );
+        addButton.setEnabled( pickable );
+    }
 }

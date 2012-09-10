@@ -16,11 +16,19 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 class SingleButton extends PNode {
-    public SingleButton( final BufferedImage buttonImage, final BufferedImage pressedButtonImage, final VoidFunction0 effect ) {
-        final PImage node = new PImage( buttonImage );
+    private final BufferedImage buttonImage;
+    private final BufferedImage pressedButtonImage;
+    private final BufferedImage disabledImage;
+    private final PImage node;
+    private boolean pressed = false;
+
+    public SingleButton( final BufferedImage buttonImage, final BufferedImage pressedButtonImage, BufferedImage disabledImage, final VoidFunction0 effect ) {
+        this.buttonImage = buttonImage;
+        this.pressedButtonImage = pressedButtonImage;
+        this.disabledImage = disabledImage;
+        node = new PImage( buttonImage );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
-            boolean pressed = false;
 
             @Override public void mousePressed( final PInputEvent event ) {
                 node.setImage( pressedButtonImage );
@@ -51,5 +59,14 @@ class SingleButton extends PNode {
     public void setAllPickable( final boolean b ) {
         setPickable( b );
         setChildrenPickable( b );
+    }
+
+    public void setEnabled( final boolean enabled ) {
+        if ( enabled ) {
+            node.setImage( pressed ? pressedButtonImage : buttonImage );
+        }
+        else {
+            node.setImage( disabledImage );
+        }
     }
 }

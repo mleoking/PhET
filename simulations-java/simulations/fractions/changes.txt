@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Gray out "+" button while a container is in the toolbox
 Build a Fraction: Shapes: Gray out "<" and ">" buttons while a container is in the toolbox
 Build a Fraction: Added empty tab for new "free play" tab
 Build a Fraction: Removed extra yellow color pop for collection boxes

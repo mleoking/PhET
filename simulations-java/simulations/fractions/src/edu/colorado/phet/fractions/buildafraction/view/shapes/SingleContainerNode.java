@@ -97,7 +97,7 @@ class SingleContainerNode extends PNode {
                     final AnimateToScale activity = new AnimateToScale( parent, BuildAFractionModule.ANIMATION_TIME );
                     activity.setDelegate( new PActivityDelegateAdapter() {
                         @Override public void activityFinished( final PActivity activity ) {
-                            parent.updateButtonPickability();
+                            parent.updateExpansionButtonsEnabled();
                         }
                     } );
                     addActivity( activity );
