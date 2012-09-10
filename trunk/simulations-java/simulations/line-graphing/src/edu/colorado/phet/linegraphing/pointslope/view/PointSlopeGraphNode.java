@@ -8,7 +8,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 import edu.colorado.phet.linegraphing.common.view.LineFormsGraphNode;
-import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
+import edu.colorado.phet.linegraphing.common.view.LineNode;
 
 /**
  * Graph that provides direct manipulation of a line in point-slope form.
@@ -22,7 +22,7 @@ public class PointSlopeGraphNode extends LineFormsGraphNode {
     }
 
     // Creates a node that displays the line in point-slope form.
-    protected StraightLineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
+    protected LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
         return new PointSlopeLineNode( line, graph, mvt );
     }
 }

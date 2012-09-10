@@ -38,7 +38,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
     private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
     private final PNode interactiveLineParentNode, bracketsParentNode;
     private final LineManipulatorNode pointManipulator, slopeManipulatorNode;
-    private StraightLineNode interactiveLineNode;
+    private LineNode interactiveLineNode;
 
     /**
      * Constructor
@@ -148,7 +148,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
 
     // Called when a saved line is added to the model.
     private void savedLineAdded( final Line line ) {
-        final StraightLineNode lineNode = createLineNode( line, model.graph, model.mvt );
+        final LineNode lineNode = createLineNode( line, model.graph, model.mvt );
         savedLinesParentNode.addChild( lineNode );
         // highlight on mouseOver
         lineNode.addInputEventListener( new FunctionHighlightHandler( new VoidFunction1<Boolean>() {
@@ -167,8 +167,8 @@ public abstract class LineFormsGraphNode extends GraphNode {
     private static void removeLineNode( Line line, PNode parent ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode node = parent.getChild( i );
-            if ( node instanceof StraightLineNode ) {
-                StraightLineNode lineNode = (StraightLineNode) node;
+            if ( node instanceof LineNode ) {
+                LineNode lineNode = (LineNode) node;
                 if ( lineNode.line == line ) {
                     parent.removeChild( node );
                     break;
@@ -235,5 +235,5 @@ public abstract class LineFormsGraphNode extends GraphNode {
     }
 
     // Creates a line node of the proper form.
-    protected abstract StraightLineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt );
+    protected abstract LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt );
 }

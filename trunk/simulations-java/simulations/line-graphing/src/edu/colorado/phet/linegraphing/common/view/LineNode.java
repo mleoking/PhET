@@ -16,13 +16,13 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for visual representation of all straight lines.
+ * Base class for visual representation of all lines.
  * The line's equation (in reduced form) is positioned towards the tip, parallel with the line.
  * Subclasses are responsible for creating the equation in the correct form (slope-intercept, point-slope.)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class StraightLineNode extends PComposite {
+public abstract class LineNode extends PComposite {
 
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 10, 10 );
     private static final double LINE_THICKNESS = 3;
@@ -33,7 +33,7 @@ public abstract class StraightLineNode extends PComposite {
     private final DoubleArrowNode arrowNode;
     private final EquationNode equationNode;
 
-    public StraightLineNode( final Line line, Graph graph, ModelViewTransform mvt ) {
+    public LineNode( final Line line, Graph graph, ModelViewTransform mvt ) {
 
         this.line = line;
 
