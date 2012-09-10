@@ -37,7 +37,7 @@ public class SlopeInterceptCanvas extends LineFormsCanvas {
                new SlopeInterceptGraphNode( model.graph, model.mvt,
                                             model.interactiveLine, model.savedLines, model.standardLines,
                                             linesVisible, interactiveLineVisible, interactiveEquationVisible, slopeVisible,
-                                            model.riseRange, model.runRange, model.x1Range, model.y1Range ),
+                                            model.x1Range, model.y1Range, model.riseRange, model.runRange ),
                new SlopeInterceptEquationControls( model.interactiveLine, model.savedLines,
                                                    interactiveEquationVisible, linesVisible,
                                                    model.riseRange, model.runRange, model.y1Range ) );
