@@ -8,7 +8,6 @@ DESIGN
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 
 HIGH
-- replace SlopeDragHandler with PointDragHandler, pass in a function that determines how the point is used - move (x1,y1) or (x2,y2), keep slope constant, etc.
 - create additional game challenges
 
 MEDIUM

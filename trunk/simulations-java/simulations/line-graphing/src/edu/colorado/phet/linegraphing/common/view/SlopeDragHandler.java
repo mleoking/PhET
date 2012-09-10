@@ -14,6 +14,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Drag handler for the slope manipulator, usable with both slope-intercept and point-slope lines.
+ * Note that this manipulator also changes (x2,y2), since changing the slope relative to (x1,y1)
+ * effectively changes (x2,y2).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -45,8 +47,8 @@ public class SlopeDragHandler extends LineManipulatorDragHandler {
     @Override protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
-        clickXOffset = pMouse.getX() - mvt.modelToViewDeltaX( line.get().x1 + line.get().run );
-        clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().y1 + line.get().rise );
+        clickXOffset = pMouse.getX() - mvt.modelToViewDeltaX( line.get().x2 );
+        clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().y2 );
     }
 
     @Override protected void drag( PInputEvent event ) {
