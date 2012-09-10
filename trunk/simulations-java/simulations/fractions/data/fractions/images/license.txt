@@ -6,6 +6,7 @@ left_button_up.png source=PhET notes=NP
 minus_button.png source=PhET notes=NP
 minus_button_gray.png source=PhET notes=NP
 minus_button_pressed.png source=PhET notes=NP
+not_allowed.png license=public domain notes=open clip art here: http://openclipart.org/detail/1149/no-bicycles-roadsign-by-ryanlerch
 number_0.png source=PhET notes=SR
 number_1.png source=PhET notes=SR
 number_2.png source=PhET notes=SR

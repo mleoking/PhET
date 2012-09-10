@@ -51,6 +51,7 @@ public class FractionsResources {
         public static final BufferedImage MINUS_BUTTON = RESOURCES.getImage( "minus_button.png" );
         public static final BufferedImage MINUS_BUTTON_GRAY = RESOURCES.getImage( "minus_button_gray.png" );
         public static final BufferedImage MINUS_BUTTON_PRESSED = RESOURCES.getImage( "minus_button_pressed.png" );
+        public static final BufferedImage NOT_ALLOWED = RESOURCES.getImage( "not_allowed.png" );
         public static final BufferedImage PLUS_BUTTON = RESOURCES.getImage( "plus_button.png" );
         public static final BufferedImage PLUS_BUTTON_GRAY = RESOURCES.getImage( "plus_button_gray.png" );
         public static final BufferedImage PLUS_BUTTON_PRESSED = RESOURCES.getImage( "plus_button_pressed.png" );
