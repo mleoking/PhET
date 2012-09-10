@@ -38,6 +38,7 @@ public class MatchSlopeInterceptNode extends MatchNode {
         return new SlopeInterceptGraphNode( graph, guessLine, answerLine, mvt );
     }
 
+    // Graph for this challenge
     private static class SlopeInterceptGraphNode extends MatchGraphNode {
 
         private final SlopeInterceptLineNode answerNode;

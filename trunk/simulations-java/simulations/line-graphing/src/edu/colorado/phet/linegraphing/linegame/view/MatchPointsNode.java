@@ -39,6 +39,7 @@ public class MatchPointsNode extends MatchNode {
         return new PointsGraphNode( graph, guessLine, answerLine, mvt );
     }
 
+    // Graph for this challenge
     private static class PointsGraphNode extends MatchGraphNode {
 
         private final SlopeInterceptLineNode answerNode;
