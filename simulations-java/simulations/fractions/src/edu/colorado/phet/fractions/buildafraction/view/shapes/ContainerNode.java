@@ -65,7 +65,6 @@ public class ContainerNode extends PNode {
     private final SpinnerButtonNode rightSpinner;
     private final IncreaseDecreaseButton increaseDecreaseButton;
     private final boolean showIncreaseButton;
-    private static final double MACHINE_EPSILON = 1E-6;
 
     public ContainerNode( ShapeSceneNode parent, final ContainerContext context, boolean showIncreaseButton, final ShapeType shapeType, int maxNumberOfSingleContainers ) {
         this.parent = parent;
@@ -252,8 +251,6 @@ public class ContainerNode extends PNode {
     public void removeUndoButton() { removeChild( undoButton ); }
 
     public void addBackUndoButton() { addChild( undoButton ); }
-
-    boolean isAtStartingLocation() { return getXOffset() == initialX && getYOffset() == initialY; }
 
     public Boolean isInTargetCell() {return inTargetCell;}
 
