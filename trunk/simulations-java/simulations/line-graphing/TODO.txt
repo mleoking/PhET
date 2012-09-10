@@ -14,6 +14,8 @@ HIGH
 - create additional game challenges
 
 MEDIUM
+- create a data structure for visibility flags in first 2 tabs
+- replace multiple params with LineFormsModel in top-level MVC classes in first 2 tabs
 
 LOW
 
