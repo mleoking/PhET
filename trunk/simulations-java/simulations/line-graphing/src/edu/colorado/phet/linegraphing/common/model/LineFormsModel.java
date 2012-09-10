@@ -136,10 +136,12 @@ public class LineFormsModel implements Resettable {
                 final double maxRun = xMax - line.x1;
                 LineFormsModel.this.runRange.set( new DoubleRange( minRun, maxRun ) );
 
-                // x1
-                final double minX1 = Math.max( xMin, xMin - line.run );
-                final double maxX1 = Math.min( xMax, xMax - line.run );
-                LineFormsModel.this.x1Range.set( new DoubleRange( minX1, maxX1 ) );
+                // x1 should not be changed for slope-intercept form.
+                if ( !( LineFormsModel.this.x1Range.get().getMin() == 0d && LineFormsModel.this.x1Range.get().getMax() == 0d ) ) {
+                    final double minX1 = Math.max( xMin, xMin - line.run );
+                    final double maxX1 = Math.min( xMax, xMax - line.run );
+                    LineFormsModel.this.x1Range.set( new DoubleRange( minX1, maxX1 ) );
+                }
 
                 // y1
                 final double minY1 = Math.max( yMin, yMin - line.rise );
