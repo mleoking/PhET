@@ -15,8 +15,9 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
  */
 public class SlopeInterceptLineNode extends LineNode {
 
-    public SlopeInterceptLineNode( final Line line, Graph graph, ModelViewTransform mvt ) {
+    public SlopeInterceptLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
         super( line, graph, mvt );
+        assert ( line.x1 == 0 ); // line is in slope-intercept form
     }
 
     // Creates the line's equation in slope-intercept form.
