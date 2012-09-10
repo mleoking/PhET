@@ -70,10 +70,12 @@ public class SunNode extends PositionableFadableModelElementNode {
         }
 
         DoubleGeneralPath solarPanelShape = new DoubleGeneralPath() {{
-            double xOrigin = 200;
+            double xOrigin = 100;
+            double width = 350;
+            double height = 180;
             moveTo( xOrigin, 0 );
-            lineTo( xOrigin + 100, -100 );
-            lineTo( xOrigin + 100, 0 );
+            lineTo( xOrigin + width, -height );
+            lineTo( xOrigin + width, 0 );
             closePath();
         }};
         lightRays.addLightAbsorbingShape( new LightAbsorbingShape( solarPanelShape.getGeneralPath(), 1 ) );
