@@ -1,3 +1,4 @@
+Build a Fraction: Added empty tab for new "free play" tab
 Build a Fraction: Removed extra yellow color pop for collection boxes
 Build a Fraction: Improved colors and fade-in behavior for collection boxes
 # 1.01.10 (67698) Sep 6, 2012

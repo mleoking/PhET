@@ -19,6 +19,7 @@ public class BuildAFractionApplication extends PiccoloPhetApplication {
 
         addModule( new BuildAFractionModule( new BuildAFractionModel() ) );
         addModule( new BuildAMixedFractionModule( new BuildAMixedFractionModel() ) );
+        addModule( new FreePlayModule( new BuildAMixedFractionModel() ) );
     }
 
     public static void main( String[] args ) {
