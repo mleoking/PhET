@@ -3,12 +3,19 @@ package edu.colorado.phet.linegraphing.common.model;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.linegraphing.common.LGColors;
+
 /**
  * An immutable line, described by 2 points.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointPointLine {
+public class Line {
+
+    // standard lines
+    public static final Line Y_EQUALS_X_LINE = new Line( 0, 0, 1, 1, LGColors.Y_EQUALS_X );  // y = x
+    public static final Line Y_EQUALS_NEGATIVE_X_LINE = new Line( 0, 0, 1, -1, LGColors.Y_EQUALS_NEGATIVE_X );
 
     public final double x1, y1; // x and y components of the first point
     public final double x2, y2; // x and y components of the second point
@@ -16,7 +23,7 @@ public class PointPointLine {
     public final Color color; // color used for visualizing the line
 
     // Specified using 2 points
-    public PointPointLine( double x1, double y1, double x2, double y2, Color color ) {
+    public Line( double x1, double y1, double x2, double y2, Color color ) {
         assert ( x1 != x2 || y1 != y2 ); // 2 different points are required
         this.x1 = x1;
         this.y1 = y1;
@@ -25,6 +32,31 @@ public class PointPointLine {
         this.rise = y2 - y1;
         this.run = x2 - x1;
         this.color = color;
+    }
+
+    // Creates a line using point-slope description. Need to use a factory method instead of a constructor because param types are the same.
+    public static Line createPointSlope( double x1, double y1, double rise, double run, Color color ) {
+        return new Line( x1, y1, x1 + run, y1 + rise, color );
+    }
+
+    // Creates a line using slope-intercept description.
+    public static Line createSlopeIntercept( double rise, double run, double yIntercept, Color color ) {
+        return createPointSlope( 0, yIntercept, rise, run, color );
+    }
+
+    // Creates a line with a different point
+    public Line withPoint( double x1, double y1 ) {
+        return new Line( x1, y1, x2, y2, color );
+    }
+
+    // Creates a line with a different slope
+    public Line withSlope( double rise, double run ) {
+        return createPointSlope( x1, y1, rise, run, color );
+    }
+
+    // Creates a line with a different color
+    public Line withColor( Color color ) {
+        return new Line( x1, y1, x2, y2, color );
     }
 
     /*
@@ -56,8 +88,25 @@ public class PointPointLine {
     }
 
     // Returns true if 2 points on the specified line are also on this line.
-    public boolean same( PointPointLine line ) {
+    public boolean same( Line line ) {
         return onLine( line.x1, line.y1 ) && onLine( line.x1 + run, line.y1 + rise );
+    }
+
+    /*
+    * Creates a simplified instance of the line.
+    * For our purposes, this means simplifying (aka, reducing) the slope.
+    * Simplification uses Euclid's algorithm for computing the greatest common divisor (GCD) of two integers,
+    * so this is effective only if the rise and run are integer values. Otherwise 'this' is returned.
+    */
+    public Line simplified() {
+        if ( ( rise == (int) rise ) && ( run == (int) run ) ) { // true if rise and run are integers
+            final int reducedRise = (int) ( rise / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
+            final int reducedRun = (int) ( run / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
+            return withSlope( reducedRise, reducedRun );
+        }
+        else {
+            return this;
+        }
     }
 
     // Returns true if point (x,y) is on this line.

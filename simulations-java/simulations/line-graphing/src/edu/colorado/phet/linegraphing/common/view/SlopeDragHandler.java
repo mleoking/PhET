@@ -9,9 +9,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.linegraphing.common.model.LineFactory;
-import edu.colorado.phet.linegraphing.common.model.PointPointLine;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -19,10 +17,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SlopeDragHandler<T extends PointPointLine> extends LineManipulatorDragHandler<T> {
+public class SlopeDragHandler extends LineManipulatorDragHandler {
 
     private final Property<DoubleRange> riseRange, runRange;
-    private final LineFactory<T> lineFactory;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
     /**
@@ -37,14 +34,12 @@ public class SlopeDragHandler<T extends PointPointLine> extends LineManipulatorD
      * @param runRange
      */
     public SlopeDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                             LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<T> line,
+                             LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<Line> line,
                              Property<DoubleRange> riseRange,
-                             Property<DoubleRange> runRange,
-                             LineFactory<T> lineFactory ) {
+                             Property<DoubleRange> runRange ) {
         super( userComponent, componentType, manipulatorNode, mvt, line );
         this.riseRange = riseRange;
         this.runRange = runRange;
-        this.lineFactory = lineFactory;
     }
 
     @Override protected void startDrag( PInputEvent event ) {
@@ -62,7 +57,7 @@ public class SlopeDragHandler<T extends PointPointLine> extends LineManipulatorD
         double rise = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().y1, riseRange.get() ) );
         // don't allow slope=0/0, undefined line
         if ( !( run == 0 && rise == 0 ) ) {
-            line.set( lineFactory.withSlope( line.get(), rise, run ) );
+            line.set( line.get().withSlope( rise, run ) );
         }
     }
 }

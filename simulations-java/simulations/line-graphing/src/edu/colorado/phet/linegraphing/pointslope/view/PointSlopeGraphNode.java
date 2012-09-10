@@ -7,8 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.LineFactory.PointSlopeLineFactory;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineFormsGraphNode;
 import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
 
@@ -17,12 +16,12 @@ import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointSlopeGraphNode extends LineFormsGraphNode<PointSlopeLine> {
+public class PointSlopeGraphNode extends LineFormsGraphNode {
 
     public PointSlopeGraphNode( final Graph graph, final ModelViewTransform mvt,
-                                Property<PointSlopeLine> interactiveLine,
-                                ObservableList<PointSlopeLine> savedLines,
-                                ObservableList<PointSlopeLine> standardLines,
+                                Property<Line> interactiveLine,
+                                ObservableList<Line> savedLines,
+                                ObservableList<Line> standardLines,
                                 Property<Boolean> linesVisible,
                                 Property<Boolean> interactiveLineVisible,
                                 Property<Boolean> interactiveEquationVisible,
@@ -35,12 +34,11 @@ public class PointSlopeGraphNode extends LineFormsGraphNode<PointSlopeLine> {
                interactiveLine, savedLines, standardLines,
                linesVisible, interactiveLineVisible, interactiveEquationVisible, slopeVisible,
                riseRange, runRange, x1Range, y1Range,
-               LGColors.POINT_X1_Y1, LGColors.SLOPE,
-               new PointSlopeLineFactory() );
+               LGColors.POINT_X1_Y1, LGColors.SLOPE );
     }
 
     // Creates a node that displays the line in point-slope form.
-    protected StraightLineNode createLineNode( PointSlopeLine line, Graph graph, ModelViewTransform mvt ) {
+    protected StraightLineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
         return new PointSlopeLineNode( line, graph, mvt );
     }
 }

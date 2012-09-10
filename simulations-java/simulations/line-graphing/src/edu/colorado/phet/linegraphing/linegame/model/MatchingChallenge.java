@@ -6,12 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.linegraphing.common.model.LineFactory;
-import edu.colorado.phet.linegraphing.common.model.LineFactory.PointSlopeLineFactory;
-import edu.colorado.phet.linegraphing.common.model.LineFactory.SlopeInterceptLineFactory;
-import edu.colorado.phet.linegraphing.common.model.PointPointLine;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
-import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.view.SlopeInterceptLineChallengeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -21,17 +16,15 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class MatchingChallenge<T extends PointPointLine> {
+public abstract class MatchingChallenge {
 
-    public final T answer; // the correct answer
-    public final Property<T> guess; // the user's current guess
-    public final LineFactory<T> lineFactory; // instantiates lines
+    public final Line answer; // the correct answer
+    public final Property<Line> guess; // the user's current guess
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
 
-    public MatchingChallenge( T answer, T guess, LineFactory<T> lineFactory, ModelViewTransform mvt ) {
+    public MatchingChallenge( Line answer, Line guess, ModelViewTransform mvt ) {
         this.answer = answer;
-        this.guess = new Property<T>( guess );
-        this.lineFactory = lineFactory;
+        this.guess = new Property<Line>( guess );
         this.mvt = mvt;
     }
 
@@ -44,10 +37,10 @@ public abstract class MatchingChallenge<T extends PointPointLine> {
     public abstract PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize );
 
     // Given an equation in slope-intercept form, create a line by manipulating slope and intercept.
-    public static class GraphSlopeInterceptChallenge extends MatchingChallenge<SlopeInterceptLine> {
+    public static class GraphSlopeInterceptChallenge extends MatchingChallenge {
 
-        public GraphSlopeInterceptChallenge( SlopeInterceptLine answer, ModelViewTransform mvt ) {
-            super( answer, SlopeInterceptLine.Y_EQUALS_X_LINE, new SlopeInterceptLineFactory(), mvt );
+        public GraphSlopeInterceptChallenge( Line answer, ModelViewTransform mvt ) {
+            super( answer, Line.Y_EQUALS_X_LINE, mvt );
         }
 
         @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
@@ -56,10 +49,10 @@ public abstract class MatchingChallenge<T extends PointPointLine> {
     }
 
     // Given an equation in slope-intercept form, create a line by manipulating slope.
-    public static class GraphSlopeChallenge extends MatchingChallenge<SlopeInterceptLine> {
+    public static class GraphSlopeChallenge extends MatchingChallenge {
 
-        public GraphSlopeChallenge( SlopeInterceptLine answer, ModelViewTransform mvt ) {
-            super( answer, new SlopeInterceptLine( 1, 1, answer.y1, Color.BLACK ), new SlopeInterceptLineFactory(), mvt );
+        public GraphSlopeChallenge( Line answer, ModelViewTransform mvt ) {
+            super( answer, Line.createSlopeIntercept( 1, 1, answer.y1, Color.BLACK ), mvt );
         }
 
         @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
@@ -68,26 +61,14 @@ public abstract class MatchingChallenge<T extends PointPointLine> {
     }
 
     // Given an equation in slope-intercept form, create a line by manipulating intercept.
-    public static class GraphInterceptChallenge extends MatchingChallenge<SlopeInterceptLine> {
+    public static class GraphInterceptChallenge extends MatchingChallenge {
 
-        public GraphInterceptChallenge( SlopeInterceptLine answer, ModelViewTransform mvt ) {
-            super( answer, new SlopeInterceptLine( answer.rise, answer.run, 0, Color.BLACK ), new SlopeInterceptLineFactory(), mvt );
+        public GraphInterceptChallenge( Line answer, ModelViewTransform mvt ) {
+            super( answer, Line.createSlopeIntercept( answer.rise, answer.run, 0, Color.BLACK ), mvt );
         }
 
         @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
             return new SlopeInterceptLineChallengeNode( model, audioPlayer, challengeSize, false, true );
-        }
-    }
-
-    // A challenge that involves a line in point-slope form.
-    public static class PointSlopeChallenge extends MatchingChallenge<PointSlopeLine> {
-
-        public PointSlopeChallenge( PointSlopeLine answer, ModelViewTransform mvt ) {
-            super( answer, SlopeInterceptLine.Y_EQUALS_X_LINE, new PointSlopeLineFactory(), mvt );
-        }
-
-        @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-            return null; //TODO
         }
     }
 }

@@ -20,21 +20,21 @@ import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineFormsModel<T extends PointPointLine> implements Resettable {
+public abstract class LineFormsModel implements Resettable {
 
     private static final int GRID_VIEW_UNITS = 530; // max dimension (width or height) of the grid in the view
 
     public final Property<DoubleRange> riseRange, runRange, x1Range, y1Range; // ranges of things that the user can manipulate
 
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
-    public final Property<T> interactiveLine; // the line that can be manipulated by the user
-    public final ObservableList<T> savedLines; // lines that have been saved by the user
-    public final ObservableList<T> standardLines; // standard lines (eg, y=x) that are available for viewing
+    public final Property<Line> interactiveLine; // the line that can be manipulated by the user
+    public final ObservableList<Line> savedLines; // lines that have been saved by the user
+    public final ObservableList<Line> standardLines; // standard lines (eg, y=x) that are available for viewing
     public final Graph graph; // the graph that plots the lines
     public final PointTool pointTool1, pointTool2; // tools for measuring points on the graph
 
     // For use by point-slope subclass.
-    protected LineFormsModel( T interactiveLine ) {
+    protected LineFormsModel( Line interactiveLine ) {
         this( interactiveLine, new DoubleRange( LGConstants.X_AXIS_RANGE.getMin(), LGConstants.X_AXIS_RANGE.getMax() ) /* x1Range */ );
     }
 
@@ -42,7 +42,7 @@ public abstract class LineFormsModel<T extends PointPointLine> implements Resett
      * For use by slope-intercept subclass.
      * Slope-intercept is a specialization of point-slope form, having x1 fixed at zero.
      */
-    protected LineFormsModel( T interactiveLine, DoubleRange x1Range ) {
+    protected LineFormsModel( Line interactiveLine, DoubleRange x1Range ) {
         this( interactiveLine,
               new DoubleRange( LGConstants.Y_AXIS_RANGE.getMin(), LGConstants.Y_AXIS_RANGE.getMax() ), // rise
               new DoubleRange( LGConstants.X_AXIS_RANGE.getMin(), LGConstants.X_AXIS_RANGE.getMax() ), // run
@@ -64,7 +64,7 @@ public abstract class LineFormsModel<T extends PointPointLine> implements Resett
      * @param xRange          range of the x axis
      * @param yRange          range of the y axis
      */
-    private LineFormsModel( T interactiveLine,
+    private LineFormsModel( Line interactiveLine,
                             DoubleRange riseRange, DoubleRange runRange,
                             DoubleRange x1Range, DoubleRange y1Range,
                             final IntegerRange xRange, final IntegerRange yRange ) {
@@ -79,43 +79,43 @@ public abstract class LineFormsModel<T extends PointPointLine> implements Resett
         this.graph = new Graph( xRange, yRange );
 
         // lines
-        this.interactiveLine = new Property<T>( interactiveLine );
-        this.savedLines = new ObservableList<T>();
-        this.standardLines = new ObservableList<T>();
+        this.interactiveLine = new Property<Line>( interactiveLine );
+        this.savedLines = new ObservableList<Line>();
+        this.standardLines = new ObservableList<Line>();
 
         // model-view transform
         final double mvtScale = GRID_VIEW_UNITS / Math.max( xRange.getLength(), yRange.getLength() ); // view units / model units
         this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), mvtScale, -mvtScale ); // y is inverted
 
         // Observable collection of all lines, required by point tool.
-        final ObservableList<PointPointLine> allLines = new ObservableList<PointPointLine>();
+        final ObservableList<Line> allLines = new ObservableList<Line>();
         {
-            this.interactiveLine.addObserver( new ChangeObserver<T>() {
-                public void update( T newLine, T oldLine ) {
+            this.interactiveLine.addObserver( new ChangeObserver<Line>() {
+                public void update( Line newLine, Line oldLine ) {
                     allLines.remove( oldLine ); // remove first, because on observer registration oldLine == newLine
                     allLines.add( newLine ); // add interactive line to end, so we find it last
                 }
             } );
 
-            savedLines.addElementAddedObserver( new VoidFunction1<T>() {
-                public void apply( T line ) {
+            savedLines.addElementAddedObserver( new VoidFunction1<Line>() {
+                public void apply( Line line ) {
                     allLines.add( 0, line ); // add saved lines to front, so we find them first
                 }
             } );
-            savedLines.addElementRemovedObserver( new VoidFunction1<T>() {
-                public void apply( T line ) {
+            savedLines.addElementRemovedObserver( new VoidFunction1<Line>() {
+                public void apply( Line line ) {
                     boolean removed = allLines.remove( line );
                     assert ( removed );
                 }
             } );
 
-            standardLines.addElementAddedObserver( new VoidFunction1<T>() {
-                public void apply( T line ) {
+            standardLines.addElementAddedObserver( new VoidFunction1<Line>() {
+                public void apply( Line line ) {
                     allLines.add( 0, line ); // add standard lines to front, so we find them first
                 }
             } );
-            standardLines.addElementRemovedObserver( new VoidFunction1<T>() {
-                public void apply( T line ) {
+            standardLines.addElementRemovedObserver( new VoidFunction1<Line>() {
+                public void apply( Line line ) {
                     boolean removed = allLines.remove( line );
                     assert ( removed );
                 }
@@ -127,8 +127,8 @@ public abstract class LineFormsModel<T extends PointPointLine> implements Resett
         this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.90 * xRange.getLength() ), yRange.getMin() - 2.75 ), Orientation.DOWN, allLines );
 
         // Dynamically adjust ranges so that variables are constrained to the bounds of the graph.
-        this.interactiveLine.addObserver( new VoidFunction1<T>() {
-            public void apply( T line ) {
+        this.interactiveLine.addObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
 
                 // rise
                 final double minRise = yRange.getMin() - line.y1;

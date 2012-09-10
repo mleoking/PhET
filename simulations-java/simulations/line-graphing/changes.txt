@@ -1,3 +1,4 @@
+9/10/12 major change: collapsed the line hierarchy, simplifies the entire implementation
 9/7/12 fix: setPickable(false) for UndefinedSlopeIndicator [67749]
 # 0.00.25 (67746) Sep 7, 2012
 9/7/12 demo change requests

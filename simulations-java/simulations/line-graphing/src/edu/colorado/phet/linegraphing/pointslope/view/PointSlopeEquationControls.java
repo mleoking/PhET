@@ -7,8 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
-import edu.colorado.phet.linegraphing.common.model.LineFactory.PointSlopeLineFactory;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
 
 /**
@@ -16,21 +15,22 @@ import edu.colorado.phet.linegraphing.common.view.EquationControls;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class PointSlopeEquationControls extends EquationControls<PointSlopeLine> {
+class PointSlopeEquationControls extends EquationControls {
 
     /**
      * Constructor
+     *
      * @param interactiveLine the line that can be manipulated by the user
-     * @param savedLines lines that have been saved by the user
-     * @param maximized is the control panel maximized (true) or minimized (false)?
-     * @param linesVisible are lines visible on the graph?
+     * @param savedLines      lines that have been saved by the user
+     * @param maximized       is the control panel maximized (true) or minimized (false)?
+     * @param linesVisible    are lines visible on the graph?
      * @param riseRange
      * @param runRange
      * @param x1Range
      * @param y1Range
      */
-    public PointSlopeEquationControls( final Property<PointSlopeLine> interactiveLine,
-                                       final ObservableList<PointSlopeLine> savedLines,
+    public PointSlopeEquationControls( final Property<Line> interactiveLine,
+                                       final ObservableList<Line> savedLines,
                                        final Property<Boolean> maximized,
                                        final Property<Boolean> linesVisible,
                                        Property<DoubleRange> riseRange,
@@ -40,7 +40,6 @@ class PointSlopeEquationControls extends EquationControls<PointSlopeLine> {
         super( MessageFormat.format( "({0} - {1}) = {2}({3} - {4})", /* (y - y1) = m(x - x1) */
                                      Strings.SYMBOL_Y, Strings.SYMBOL_Y1, Strings.SYMBOL_SLOPE, Strings.SYMBOL_X, Strings.SYMBOL_X1 ),
                interactiveLine, savedLines, maximized, linesVisible,
-               new PointSlopeInteractiveEquationNode( interactiveLine, riseRange, runRange, x1Range, y1Range ),
-               new PointSlopeLineFactory() );
+               new PointSlopeInteractiveEquationNode( interactiveLine, riseRange, runRange, x1Range, y1Range ) );
     }
 }

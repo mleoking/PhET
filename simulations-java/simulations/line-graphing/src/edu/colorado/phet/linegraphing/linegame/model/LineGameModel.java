@@ -16,11 +16,9 @@ import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.PointPointLine;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
-import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.GraphInterceptChallenge;
 import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.GraphSlopeChallenge;
 import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.GraphSlopeInterceptChallenge;
@@ -71,11 +69,11 @@ public class LineGameModel {
     public final Property<PlayState> state;
 
     public final Graph graph; // the graph that plots the lines
-    public final Property<MatchingChallenge<SlopeInterceptLine>> challenge; // the current challenge
-    private MatchingChallenge<SlopeInterceptLine>[] challenges = new MatchingChallenge[CHALLENGES_PER_GAME];
+    public final Property<MatchingChallenge> challenge; // the current challenge
+    private MatchingChallenge[] challenges = new MatchingChallenge[CHALLENGES_PER_GAME];
     private int challengeIndex;
     public final PointTool pointTool1, pointTool2;
-    private final ObservableList<PointPointLine> allLines;
+    private final ObservableList<Line> allLines;
 
     // Default is a graph with uniform quadrants.
     public LineGameModel() {
@@ -94,9 +92,9 @@ public class LineGameModel {
 
         graph = new Graph( xRange, yRange );
 
-        challenge = new Property<MatchingChallenge<SlopeInterceptLine>>( new GraphSlopeInterceptChallenge( new SlopeInterceptLine( 1, 1, 1, Color.BLACK ), mvtGraphTheLine ) ); // initial value is meaningless
+        challenge = new Property<MatchingChallenge>( new GraphSlopeInterceptChallenge( Line.createSlopeIntercept( 1, 1, 1, Color.BLACK ), mvtGraphTheLine ) ); // initial value is meaningless
 
-        allLines = new ObservableList<PointPointLine>();
+        allLines = new ObservableList<Line>();
         this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
         this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ), Orientation.DOWN, allLines );
 
@@ -155,8 +153,8 @@ public class LineGameModel {
         }};
 
         // When the user's guess changes, update the list of lines.
-        challenge.addObserver( new VoidFunction1<MatchingChallenge<SlopeInterceptLine>>() {
-            public void apply( MatchingChallenge<SlopeInterceptLine> challenge ) {
+        challenge.addObserver( new VoidFunction1<MatchingChallenge>() {
+            public void apply( MatchingChallenge challenge ) {
                 challenge.guess.addObserver( new SimpleObserver() {
                     public void update() {
                         updateListOfLines();
@@ -171,18 +169,18 @@ public class LineGameModel {
         allLines.add( challenge.get().guess.get() );
         if ( state.get() == PlayState.NEXT && !challenge.get().isCorrect() ) {
             // user got it wrong and we're showing the correct answer
-            allLines.add( challenge.get().lineFactory.withColor( challenge.get().answer, GameConstants.CORRECT_ANSWER_COLOR ) );
+            allLines.add( challenge.get().answer.withColor( GameConstants.CORRECT_ANSWER_COLOR ) );
         }
     }
 
     private void initChallenges() {
         //TODO create different types of challenges, randomized for level
         challengeIndex = 0;
-        challenges[0] = new GraphSlopeInterceptChallenge( new SlopeInterceptLine( 4, 2, 3, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
-        challenges[1] = new GraphSlopeChallenge( new SlopeInterceptLine( 5, 1, 1, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
-        challenges[2] = new GraphInterceptChallenge( new SlopeInterceptLine( -3, 3, -2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
-        challenges[3] = new GraphSlopeInterceptChallenge( new SlopeInterceptLine( 10, 2, -6, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
-        challenges[4] = new GraphSlopeInterceptChallenge( new SlopeInterceptLine( 0, 3, 2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[0] = new GraphSlopeInterceptChallenge( Line.createSlopeIntercept( 4, 2, 3, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[1] = new GraphSlopeChallenge( Line.createSlopeIntercept( 5, 1, 1, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[2] = new GraphInterceptChallenge( Line.createSlopeIntercept( -3, 3, -2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[3] = new GraphSlopeInterceptChallenge( Line.createSlopeIntercept( 10, 2, -6, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        challenges[4] = new GraphSlopeInterceptChallenge( Line.createSlopeIntercept( 0, 3, 2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
     }
 
     public boolean isPerfectScore() {

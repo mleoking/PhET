@@ -8,8 +8,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
-import edu.colorado.phet.linegraphing.common.model.PointPointLine;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -18,11 +17,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineManipulatorDragHandler<T extends PointPointLine> extends SimSharingDragHandler {
+public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
 
     protected final LineManipulatorNode manipulatorNode;
     protected final ModelViewTransform mvt;
-    protected final Property<T> line;
+    protected final Property<Line> line;
 
     /**
      * Constructor
@@ -34,7 +33,7 @@ public abstract class LineManipulatorDragHandler<T extends PointPointLine> exten
      * @param line            the line being manipulated
      */
     public LineManipulatorDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                                       LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<T> line ) {
+                                       LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<Line> line ) {
         super( userComponent, componentType, true /* sendDragMessages */ );
         this.manipulatorNode = manipulatorNode;
         this.mvt = mvt;

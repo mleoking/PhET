@@ -7,8 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
-import edu.colorado.phet.linegraphing.common.model.LineFactory.SlopeInterceptLineFactory;
-import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
 
 /**
@@ -16,20 +15,21 @@ import edu.colorado.phet.linegraphing.common.view.EquationControls;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptEquationControls extends EquationControls<SlopeInterceptLine> {
+class SlopeInterceptEquationControls extends EquationControls {
 
     /**
      * Constructor
+     *
      * @param interactiveLine the line that can be manipulated by the user
-     * @param savedLines lines that have been saved by the user
-     * @param maximized is the control panel maximized (true) or minimized (false)?
-     * @param linesVisible are lines visible on the graph?
+     * @param savedLines      lines that have been saved by the user
+     * @param maximized       is the control panel maximized (true) or minimized (false)?
+     * @param linesVisible    are lines visible on the graph?
      * @param riseRange
      * @param runRange
      * @param yInterceptRange
      */
-    public SlopeInterceptEquationControls( final Property<SlopeInterceptLine> interactiveLine,
-                                           final ObservableList<SlopeInterceptLine> savedLines,
+    public SlopeInterceptEquationControls( final Property<Line> interactiveLine,
+                                           final ObservableList<Line> savedLines,
                                            final Property<Boolean> maximized,
                                            final Property<Boolean> linesVisible,
                                            Property<DoubleRange> riseRange,
@@ -38,7 +38,6 @@ class SlopeInterceptEquationControls extends EquationControls<SlopeInterceptLine
         super( MessageFormat.format( "{0} = {1}{2} + {3}", /* y = mx + b */
                                      Strings.SYMBOL_Y, Strings.SYMBOL_SLOPE, Strings.SYMBOL_X, Strings.SYMBOL_INTERCEPT ),
                interactiveLine, savedLines, maximized, linesVisible,
-               new SlopeInterceptInteractiveEquationNode( interactiveLine, riseRange, runRange, yInterceptRange ),
-               new SlopeInterceptLineFactory() );
+               new SlopeInterceptInteractiveEquationNode( interactiveLine, riseRange, runRange, yInterceptRange ) );
     }
 }

@@ -10,8 +10,8 @@ DESIGN
 - change request: change "y = #" to "slope is zero, y = #"
 
 HIGH
-- consider collapsing line hierarchy. what are the implications? does it simplify the implementation?
-- create drag handler for (x2,y2) in point-point lines
+- replace SlopeDragHandler with PointDragHandler, pass in a function that determines how the point is used - move (x1,y1) or (x2,y2), keep slope constant, etc.
+- add assert(x1==0) for use sites that require slope-intercept form
 - create additional game challenges
 
 MEDIUM
