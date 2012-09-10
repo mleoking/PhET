@@ -21,6 +21,7 @@ public class FractionsResources {
         public static final String EQUALITY_LAB = RESOURCES.getLocalizedString( "equalityLab" );
         public static final String FRACTION_MATCHER = RESOURCES.getLocalizedString( "fractionMatcher" );
         public static final String FRACTION_MATCHER_MIXED_NUMBERS = RESOURCES.getLocalizedString( "fractionMatcherMixedNumbers" );
+        public static final String FREE_PLAY = RESOURCES.getLocalizedString( "freePlay" );
         public static final String INTRO = RESOURCES.getLocalizedString( "intro" );
         public static final String LEVEL__PATTERN = RESOURCES.getLocalizedString( "level.pattern" );
         public static final String MATCHING_GAME = RESOURCES.getLocalizedString( "matchingGame" );
