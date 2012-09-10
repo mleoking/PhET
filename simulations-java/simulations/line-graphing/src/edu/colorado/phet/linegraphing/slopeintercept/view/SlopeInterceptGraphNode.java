@@ -29,11 +29,12 @@ public class SlopeInterceptGraphNode extends LineFormsGraphNode {
                                     Property<Boolean> slopeVisible,
                                     Property<DoubleRange> riseRange,
                                     Property<DoubleRange> runRange,
-                                    Property<DoubleRange> yInterceptRange ) {
+                                    Property<DoubleRange> x1Range,
+                                    Property<DoubleRange> y1Range ) {
         super( graph, mvt,
                interactiveLine, savedLines, standardLines,
                linesVisible, interactiveLineVisible, interactiveEquationVisible, slopeVisible,
-               riseRange, runRange, new Property<DoubleRange>( new DoubleRange( 0, 0 ) ) /* x1 is fixed at zero */, yInterceptRange,
+               riseRange, runRange, x1Range, y1Range,
                LGColors.INTERCEPT, LGColors.SLOPE );
     }
 
