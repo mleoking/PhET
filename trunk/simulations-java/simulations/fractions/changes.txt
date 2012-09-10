@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Reduced the size of collection boxes
 Build a Fraction: Shapes: Made "undo" work incrementally when not in a collection box
 Build a Fraction: Numbers: Made "undo" work incrementally when not in a collection box
 Build a Fraction: Disable the collection boxes unless the user has created a match in that level or collected a match anywhere in the sim (any tab)
