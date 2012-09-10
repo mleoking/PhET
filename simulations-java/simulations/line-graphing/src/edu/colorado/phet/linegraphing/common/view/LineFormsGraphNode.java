@@ -70,8 +70,9 @@ public abstract class LineFormsGraphNode extends GraphNode {
 
         // interactivity for point (x1,y1) manipulator
         pointManipulator = new LineManipulatorNode( manipulatorDiameter, pointManipulatorColor );
-        pointManipulator.addInputEventListener( new PointDragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                      pointManipulator, model.mvt, model.interactiveLine, model.x1Range, model.y1Range ) );
+        pointManipulator.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
+                                                                     pointManipulator, model.mvt, model.interactiveLine, model.x1Range, model.y1Range,
+                                                                     true /* constantSlope */ ) );
         // interactivity for slope manipulator
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, slopeManipulatorColor );
         slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,

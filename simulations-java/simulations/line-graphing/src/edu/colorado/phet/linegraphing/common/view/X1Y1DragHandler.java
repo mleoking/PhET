@@ -14,14 +14,15 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Drag handler for the point (x1,y1) manipulator of a line in point-slope form.
- * This can also be used for a line in slope-intercept form, if x1's range is fixed at zero.
+ * This can also be used to manipulate the y-intercept for a line in slope-intercept form, where x1's range is fixed at zero.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointDragHandler extends LineManipulatorDragHandler {
+public class X1Y1DragHandler extends LineManipulatorDragHandler {
 
     private final Property<DoubleRange> x1Range, y1Range;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
+    private final boolean constantSlope;
 
     /**
      * Constructor
@@ -33,13 +34,16 @@ public class PointDragHandler extends LineManipulatorDragHandler {
      * @param line            the line being manipulated
      * @param x1Range
      * @param y1Range
+     * @param constantSlope   true: slope is constant, false: (x2,y2) is constant
      */
-    public PointDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                             LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<Line> line,
-                             Property<DoubleRange> x1Range, Property<DoubleRange> y1Range ) {
+    public X1Y1DragHandler( IUserComponent userComponent, IUserComponentType componentType,
+                            LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<Line> line,
+                            Property<DoubleRange> x1Range, Property<DoubleRange> y1Range,
+                            boolean constantSlope ) {
         super( userComponent, componentType, manipulatorNode, mvt, line );
         this.x1Range = x1Range;
         this.y1Range = y1Range;
+        this.constantSlope = constantSlope;
     }
 
     @Override protected void startDrag( PInputEvent event ) {
@@ -55,6 +59,13 @@ public class PointDragHandler extends LineManipulatorDragHandler {
         // constrain to range, snap to grid
         double x1 = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ), x1Range.get() ) );
         double y1 = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), y1Range.get() ) );
-        line.set( Line.createPointSlope( x1, y1, line.get().rise, line.get().run, line.get().color ) );
+        if ( constantSlope ) {
+            // Keep slope constant, change (x1,y1) and (x2,y2).
+            line.set( Line.createPointSlope( x1, y1, line.get().rise, line.get().run, line.get().color ) );
+        }
+        else {
+            // Keep (x2,y2) constant, change (x1,y1) and slope.
+            line.set( new Line( x1, y1, line.get().x2, line.get().y2, line.get().color ) );
+        }
     }
 }
