@@ -3,6 +3,7 @@ package edu.colorado.phet.fractions.buildafraction;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAMixedFractionModel;
@@ -16,10 +17,10 @@ public class BuildAFractionApplication extends PiccoloPhetApplication {
 
     public BuildAFractionApplication( PhetApplicationConfig config ) {
         super( config );
-
-        addModule( new BuildAFractionModule( new BuildAFractionModel() ) );
-        addModule( new BuildAMixedFractionModule( new BuildAMixedFractionModel() ) );
-        addModule( new FreePlayModule( new BuildAMixedFractionModel() ) );
+        BooleanProperty userCreatedMatch = new BooleanProperty( false );
+        addModule( new BuildAFractionModule( new BuildAFractionModel( userCreatedMatch ) ) );
+        addModule( new BuildAMixedFractionModule( new BuildAMixedFractionModel( userCreatedMatch ) ) );
+        addModule( new FreePlayModule( new BuildAMixedFractionModel( userCreatedMatch ) ) );
     }
 
     public static void main( String[] args ) {
