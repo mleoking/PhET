@@ -57,7 +57,7 @@ public class SlopeDragHandler extends LineManipulatorDragHandler {
         double rise = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().y1, riseRange.get() ) );
         // don't allow slope=0/0, undefined line
         if ( !( run == 0 && rise == 0 ) ) {
-            line.set( line.get().withSlope( rise, run ) );
+            line.set( Line.createPointSlope( line.get().x1, line.get().y1, rise, run, line.get().color ) );
         }
     }
 }
