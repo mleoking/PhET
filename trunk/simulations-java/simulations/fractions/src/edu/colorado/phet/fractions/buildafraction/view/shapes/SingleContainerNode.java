@@ -50,9 +50,11 @@ class SingleContainerNode extends PNode {
     public final ContainerNode parent;
     private final PNode dottedLineLayer;
     private final ContainerShapeNode shapeLayer;
+    private final ObservableProperty<Integer> number;
 
     public SingleContainerNode( final ShapeType shapeType, final ContainerNode parent, final ObservableProperty<Integer> number ) {
         this.parent = parent;
+        this.number = number;
         dottedLineLayer = new PNode() {{
             setPickable( false );
             setChildrenPickable( false );
@@ -138,6 +140,12 @@ class SingleContainerNode extends PNode {
 
     private List<PieceNode> getPieces() {return getChildren( this, PieceNode.class );}
 
+    public static final F<SingleContainerNode, Integer> _getNumberPieces = new F<SingleContainerNode, Integer>() {
+        @Override public Integer f( final SingleContainerNode singleContainerNode ) {
+            return singleContainerNode.getPieces().length();
+        }
+    };
+
     //How far over should a new piece be added in?
     double getPiecesWidth() {
         List<PieceNode> children = getPieces();
@@ -195,7 +203,18 @@ class SingleContainerNode extends PNode {
         }
     }
 
-    public void setInTargetCell() {
-        dottedLineLayer.setVisible( true );
+    public void setInTargetCell() { dottedLineLayer.setVisible( true ); }
+
+    //For undo, see if this container has the specified piece.  This is needed because the user could have added or removed more containers and hence dismissed pieces back to the toolbox.
+    public boolean containsPiece() { return number.get() > 0; }
+
+    public void undoLast() {
+        parent.parent.undoPieceFromContainer( getPieces().sort( FJUtils.ord( new F<PieceNode, Double>() {
+            @Override public Double f( final PieceNode pieceNode ) {
+                return pieceNode.attachmentTime + 0.0;
+            }
+        } ) ).last() );
     }
+
+    public void addDropLocationToUndoList() { parent.addDropLocation( SingleContainerNode.this ); }
 }

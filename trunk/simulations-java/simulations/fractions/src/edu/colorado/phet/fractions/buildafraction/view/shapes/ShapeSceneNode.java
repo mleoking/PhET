@@ -537,6 +537,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 syncModelFractions();
             }
         }, new DisablePickingWhileAnimating( piece, false ) ) );
+
+        container.addDropLocationToUndoList();
     }
 
     public void syncModelFractions() {

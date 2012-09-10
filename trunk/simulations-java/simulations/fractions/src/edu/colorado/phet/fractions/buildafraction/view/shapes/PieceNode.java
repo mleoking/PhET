@@ -45,6 +45,9 @@ public abstract class PieceNode extends Stackable {
     //Keep track of the container so we know whether to handle mouse events
     private SingleContainerNode container;
 
+    //Keep track of attachment time because the last attached is always the first removed.
+    public long attachmentTime = -1L;
+
     PieceNode( final Integer pieceSize, final PieceContext context, PhetPPath pathNode ) {
         this.pieceSize = pieceSize;
         this.context = context;
@@ -147,6 +150,7 @@ public abstract class PieceNode extends Stackable {
     //Show drop shadow when moving back to toolbox
     public void animateToStackLocation( Vector2D v ) {
         container = null;
+        attachmentTime = -1L;
         animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, BuildAFractionModule.ANIMATION_TIME ).
                 setDelegate(
                         new CompositeDelegate( new DisablePickingWhileAnimating( this, true ),
@@ -168,6 +172,7 @@ public abstract class PieceNode extends Stackable {
 
     public void setInContainer( final SingleContainerNode singleContainerNode ) {
         this.container = singleContainerNode;
+        this.attachmentTime = System.currentTimeMillis();
     }
 
     //When joining a container, all other animations must be stopped or it can result in very buggy behavior (such as the piece ending up in the wrong location)
