@@ -202,12 +202,11 @@ public abstract class MatchNode extends PhetPNode {
         } );
     }
 
-    // Default implementation, override if you want a different type of equation.
+    // Creates the equation portion of the view.
     public EquationNode createEquationNode( Line line, Color color, PhetFont font ) {
         return new SlopeInterceptEquationFactory().createNode( line.withColor( color ), font );
     }
 
-    public abstract MatchGraphNode createChallengeGraphNode( final Graph graph, Property<Line> guessLine,
-                                                             Line answerLine, final ModelViewTransform mvt );
-
+    // Creates the graph portion of the view.
+    public abstract MatchGraphNode createChallengeGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
 }
