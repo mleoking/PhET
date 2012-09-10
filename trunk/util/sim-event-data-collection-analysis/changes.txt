@@ -1,3 +1,4 @@
+Updated E,N,P assignments for acid base solution features
 # 00.00.47 (67711) Sep 6, 2012
 # 00.00.46 (67682) Sep 5, 2012
 # 00.00.45 (67676) Sep 5, 2012
