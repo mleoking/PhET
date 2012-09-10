@@ -218,7 +218,7 @@ public class SlopeInterceptLineChallengeNode extends PhetPNode {
                                    Property<Line> guessLine,
                                    Line answerLine,
                                    final ModelViewTransform mvt,
-                                   boolean interactiveSlope,
+                                   final boolean interactiveSlope,
                                    boolean interactiveIntercept ) {
             super( graph, mvt );
 
@@ -304,10 +304,12 @@ public class SlopeInterceptLineChallengeNode extends PhetPNode {
                         final double riseMax = graph.yRange.getMax() - line.y1;
                         riseRange.set( new DoubleRange( riseMin, riseMax ) );
 
-                        // y1 (y intercept)
-                        final double y1Min = ( line.rise >= 0 ) ? graph.yRange.getMin() : graph.yRange.getMin() - line.rise;
-                        final double y1Max = ( line.rise <= 0 ) ? graph.yRange.getMax() : graph.yRange.getMax() - line.rise;
-                        y1Range.set( new DoubleRange( y1Min, y1Max ) );
+                        // y1 (y intercept), only affected if slope is interactive
+                        if ( interactiveSlope ) {
+                            final double y1Min = ( line.rise >= 0 ) ? graph.yRange.getMin() : graph.yRange.getMin() - line.rise;
+                            final double y1Max = ( line.rise <= 0 ) ? graph.yRange.getMax() : graph.yRange.getMax() - line.rise;
+                            y1Range.set( new DoubleRange( y1Min, y1Max ) );
+                        }
                     }
                 }
             } );

@@ -1,3 +1,4 @@
+9/10/12 fix: for challenge where y-intercept is manipulated, position of slope shouldn't affect range of y-intercept
 9/10/12 change some variable names related to ranges
 9/10/12 add ability keep either slope or (x2,y2) constant while manipulating (x1,y1)
 9/10/12 update sim-sharing message for line manipulators to match revised Line model
