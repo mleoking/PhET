@@ -28,18 +28,20 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
     private final UndoButton undoButton;
     private ContainerNode containerNode;
     private final ShapeSceneNode sceneNode;
+    public final double scaleFactor;
 
     public ShapeCollectionBoxNode( final ShapeSceneNode sceneNode, final MixedFraction mixedFraction, final ObservableProperty<Boolean> enabled ) {
         this.sceneNode = sceneNode;
         if ( sceneNode == null ) { throw new RuntimeException( "Null scene" ); }
         double numberShapes = ceil( mixedFraction.toDouble() );
+        scaleFactor = sceneNode.isMixedNumbers() ? 0.75 : 1.0;
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0,
 
                                                                 //room for shape items
-                                                                120 * numberShapes +
+                                                                120 * numberShapes * scaleFactor +
 
                                                                 //spacing between them
-                                                                5 * ( numberShapes - 1 ),
+                                                                5 * ( numberShapes - 1 ) / 2 * scaleFactor,
                                                                 114, ARC, ARC ), BACKGROUND, STROKE, DISABLED_STROKE_PAINT ) {{
 
             if ( !enabled.get() ) {

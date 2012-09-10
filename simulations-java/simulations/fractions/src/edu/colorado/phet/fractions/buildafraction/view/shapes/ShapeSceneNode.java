@@ -41,6 +41,7 @@ import edu.colorado.phet.fractions.common.view.FNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.ord;
@@ -76,6 +77,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     private static final double CARD_SPACING_DX = 3;
     private static final double CARD_SPACING_DY = CARD_SPACING_DX;
+    private final BuildAFractionModel model;
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled ) ) );
@@ -103,6 +105,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     @SuppressWarnings("unchecked") private ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset ) {
         super( levelIndex, soundEnabled, context );
+        this.model = model;
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
@@ -218,6 +221,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel );
     }
 
+    public boolean isMixedNumbers() { return model.isMixedNumbers(); }
+
     //Location for a container to move to in the center of the play area
     private static Vector2D getContainerPosition( ShapeLevel level ) {
         double x = 298 + ( level.shapeType == ShapeType.PIE ? 26 : 0 );
@@ -292,13 +297,18 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value.toFraction() );
                 final boolean occupied = pair.getCollectionBoxNode().isCompleted();
                 if ( intersects && matchesValue && !occupied ) {
-                    final double scale = 0.5;
+
+                    //TODO: could fine tune layout here based on shape type or mixed vs non-mixed
+                    final double scale = 0.5 * pair.collectionBoxNode.scaleFactor;// * ( isMixedNumbers() ? 1.03 : 1.0 );
                     containerNode.removeUndoButton();
 
                     //Order dependence: set in target cell first so that layout code will work better afterwards
                     containerNode.setInTargetCell( true, pair.value.denominator );
-                    containerNode.animateToPositionScaleRotation( pair.collectionBoxNode.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
-                                                                  pair.collectionBoxNode.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale + 20, scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, false ) );
+                    final PBounds boxBounds = pair.collectionBoxNode.getFullBounds();
+                    final PBounds containerBounds = containerNode.getFullBounds();
+                    containerNode.animateToPositionScaleRotation( boxBounds.getCenterX() - containerBounds.getWidth() / 2 * scale,
+                                                                  boxBounds.getCenterY() - containerBounds.getHeight() / 2 * scale + 20, scale, 0,
+                                                                  BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, false ) );
                     pair.collectionBoxNode.setCompletedFraction( containerNode );
                     containerNode.setAllPickable( false );
 
