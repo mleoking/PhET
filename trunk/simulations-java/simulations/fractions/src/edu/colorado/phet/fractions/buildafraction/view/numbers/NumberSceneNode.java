@@ -423,8 +423,4 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
         return stackOffset;
     }
-
-    public NumberLevel getLevel() {
-        return level;
-    }
 }
