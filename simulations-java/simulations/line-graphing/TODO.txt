@@ -10,6 +10,7 @@ DESIGN
 HIGH
 - replace SlopeDragHandler with PointDragHandler, pass in a function that determines how the point is used - move (x1,y1) or (x2,y2), keep slope constant, etc.
 - create additional game challenges
+- for challenge where y-intercept is manipulated, position of slope shouldn't affect range of y-intercept
 
 MEDIUM
 

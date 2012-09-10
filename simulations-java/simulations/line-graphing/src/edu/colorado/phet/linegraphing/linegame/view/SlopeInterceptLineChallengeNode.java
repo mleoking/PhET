@@ -238,7 +238,8 @@ public class SlopeInterceptLineChallengeNode extends PhetPNode {
             // ranges
             final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange.getMin(), graph.yRange.getMax() ) );
             final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( graph.xRange.getMin(), graph.xRange.getMax() ) );
-            final Property<DoubleRange> yInterceptRange = new Property<DoubleRange>( new DoubleRange( graph.yRange.getMin(), graph.yRange.getMax() ) );
+            final Property<DoubleRange> x1Range = new Property<DoubleRange>( new DoubleRange( 0, 0 ) ); /* x1 is fixed */
+            final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( graph.yRange.getMin(), graph.yRange.getMax() ) );
 
             // line manipulators
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
@@ -251,7 +252,7 @@ public class SlopeInterceptLineChallengeNode extends PhetPNode {
             interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
             interceptManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
                                                                                  interceptManipulatorNode, mvt, guessLine,
-                                                                                 new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), yInterceptRange,
+                                                                                 x1Range, y1Range,
                                                                                  true /* constantSlope */ ) );
             // Rendering order
             addChild( guessNodeParent );
@@ -295,18 +296,18 @@ public class SlopeInterceptLineChallengeNode extends PhetPNode {
                         interceptPointNode.setOffset( interceptManipulatorNode.getOffset() );
                     }
 
-                    //TODO this was copied from LineFormsModel constructor
+                    //TODO this was copied from LineFormsModel constructor, apply strategy pattern
                     // adjust the ranges
                     {
                         // rise
-                        final double minRise = graph.yRange.getMin() - line.y1;
-                        final double maxRise = graph.yRange.getMax() - line.y1;
-                        riseRange.set( new DoubleRange( minRise, maxRise ) );
+                        final double riseMin = graph.yRange.getMin() - line.y1;
+                        final double riseMax = graph.yRange.getMax() - line.y1;
+                        riseRange.set( new DoubleRange( riseMin, riseMax ) );
 
-                        // y yIntercept
-                        final double minIntercept = ( line.rise >= 0 ) ? graph.yRange.getMin() : graph.yRange.getMin() - line.rise;
-                        final double maxIntercept = ( line.rise <= 0 ) ? graph.yRange.getMax() : graph.yRange.getMax() - line.rise;
-                        yInterceptRange.set( new DoubleRange( minIntercept, maxIntercept ) );
+                        // y1 (y intercept)
+                        final double y1Min = ( line.rise >= 0 ) ? graph.yRange.getMin() : graph.yRange.getMin() - line.rise;
+                        final double y1Max = ( line.rise <= 0 ) ? graph.yRange.getMax() : graph.yRange.getMax() - line.rise;
+                        y1Range.set( new DoubleRange( y1Min, y1Max ) );
                     }
                 }
             } );
