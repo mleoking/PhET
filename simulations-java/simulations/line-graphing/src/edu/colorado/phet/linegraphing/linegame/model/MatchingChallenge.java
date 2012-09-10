@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.view.MatchInterceptNode;
+import edu.colorado.phet.linegraphing.linegame.view.MatchPointsNode;
 import edu.colorado.phet.linegraphing.linegame.view.MatchSlopeInterceptNode;
 import edu.colorado.phet.linegraphing.linegame.view.MatchSlopeNode;
 import edu.umd.cs.piccolo.PNode;
@@ -71,6 +72,18 @@ public abstract class MatchingChallenge {
 
         @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
             return new MatchSlopeInterceptNode( model, audioPlayer, challengeSize );
+        }
+    }
+
+    // Given an equation in slope-intercept form, create a line by manipulating slope and intercept.
+    public static class GraphPointsChallenge extends MatchingChallenge {
+
+        public GraphPointsChallenge( Line answer, ModelViewTransform mvt ) {
+            super( answer, Line.Y_EQUALS_X_LINE, mvt );
+        }
+
+        @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+            return new MatchPointsNode( model, audioPlayer, challengeSize );
         }
     }
 }

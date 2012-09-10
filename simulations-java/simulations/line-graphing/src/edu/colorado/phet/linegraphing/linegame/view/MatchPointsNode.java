@@ -15,37 +15,39 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
+import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Given an equation in slope-intercept form, graph the matching line by manipulating the intercept.
+ * Given an equation in slope-intercept form, graph the matching line by manipulating 2 arbitrary points.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MatchInterceptNode extends MatchNode {
+public class MatchPointsNode extends MatchNode {
 
-    public MatchInterceptNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public MatchPointsNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
     }
 
     @Override public MatchGraphNode createChallengeGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
-        return new InterceptGraphNode( graph, guessLine, answerLine, mvt );
+        return new PointsGraphNode( graph, guessLine, answerLine, mvt );
     }
 
-    private static class InterceptGraphNode extends MatchGraphNode {
+    private static class PointsGraphNode extends MatchGraphNode {
 
         private final SlopeInterceptLineNode answerNode;
-        private final LineManipulatorNode interceptManipulatorNode;
+        private final LineManipulatorNode x1y1ManipulatorNode, x2y2ManipulatorNode;
 
-        public InterceptGraphNode( final Graph graph,
-                                   Property<Line> guessLine,
-                                   Line answerLine,
-                                   final ModelViewTransform mvt ) {
+        public PointsGraphNode( final Graph graph,
+                                Property<Line> guessLine,
+                                Line answerLine,
+                                final ModelViewTransform mvt ) {
             super( graph, mvt );
 
             // parent for the guess node, to maintain rendering order
@@ -57,17 +59,27 @@ public class MatchInterceptNode extends MatchNode {
             addChild( answerNode );
             answerNode.setVisible( false );
 
-            // interactivity for point (intercept) manipulator
+            // ranges
+            final Property<DoubleRange> x1Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
+            final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+            final Property<DoubleRange> x2Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
+            final Property<DoubleRange> y2Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+
+            // manipulators
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
-            interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
-            interceptManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                                 interceptManipulatorNode, mvt, guessLine,
-                                                                                 new Property<DoubleRange>( new DoubleRange( 0, 0 ) ),
-                                                                                 new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
-                                                                                 true /* constantSlope */ ) );
+            x1y1ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
+            x1y1ManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
+                                                                            x1y1ManipulatorNode, mvt, guessLine,
+                                                                            x1Range, y1Range,
+                                                                            false /* constantSlope */ ) );
+            x2y2ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X2_Y2 );
+            x2y2ManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
+                                                                             x2y2ManipulatorNode, mvt, guessLine, y2Range, x2Range ) );
+
             // Rendering order
             addChild( guessNodeParent );
-            addChild( interceptManipulatorNode );
+            addChild( x1y1ManipulatorNode );
+            addChild( x2y2ManipulatorNode );
 
             // Show the user's current guess
             guessLine.addObserver( new VoidFunction1<Line>() {
@@ -75,12 +87,13 @@ public class MatchInterceptNode extends MatchNode {
 
                     // draw the line
                     guessNodeParent.removeAllChildren();
-                    LineNode guessNode = new SlopeInterceptLineNode( line, graph, mvt );
+                    LineNode guessNode = new PointSlopeLineNode( line, graph, mvt );
                     guessNode.setEquationVisible( false );
                     guessNodeParent.addChild( guessNode );
 
-                    // move the manipulator
-                    interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
+                    // move the manipulators
+                    x1y1ManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
+                    x2y2ManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x2, line.y2 ) ) );
                 }
             } );
         }
@@ -88,7 +101,8 @@ public class MatchInterceptNode extends MatchNode {
         // Sets the visibility of the correct answer. When answer is visible, manipulators are hidden.
         public void setAnswerVisible( boolean visible ) {
             answerNode.setVisible( visible );
-            interceptManipulatorNode.setVisible( false );
+            x1y1ManipulatorNode.setVisible( !visible );
+            x2y2ManipulatorNode.setVisible( !visible );
         }
     }
 }

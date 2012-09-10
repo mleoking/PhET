@@ -13,7 +13,7 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class PointSlopeLineNode extends LineNode {
+public class PointSlopeLineNode extends LineNode {
 
     public PointSlopeLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
         super( line, graph, mvt );
