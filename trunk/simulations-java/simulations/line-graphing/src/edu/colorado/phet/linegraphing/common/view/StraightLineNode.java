@@ -10,8 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.PointPointLine;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -23,18 +22,18 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class StraightLineNode<T extends PointPointLine> extends PComposite {
+public abstract class StraightLineNode extends PComposite {
 
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 10, 10 );
     private static final double LINE_THICKNESS = 3;
     private static final double LINE_EXTENT = 25; // how far the line extends past the grid
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 18 );
 
-    public final PointPointLine line;
+    public final Line line;
     private final DoubleArrowNode arrowNode;
     private final EquationNode equationNode;
 
-    public StraightLineNode( final T line, Graph graph, ModelViewTransform mvt ) {
+    public StraightLineNode( final Line line, Graph graph, ModelViewTransform mvt ) {
 
         this.line = line;
 
@@ -111,7 +110,7 @@ public abstract class StraightLineNode<T extends PointPointLine> extends PCompos
     }
 
     // Creates the line's equation in the correct form.
-    protected abstract EquationNode createEquationNode( T line, PhetFont font );
+    protected abstract EquationNode createEquationNode( Line line, PhetFont font );
 
     public void setEquationVisible( boolean visible ) {
         equationNode.setVisible( visible );

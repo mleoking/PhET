@@ -3,7 +3,7 @@ package edu.colorado.phet.linegraphing.slopeintercept.model;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 
 /**
@@ -14,7 +14,7 @@ import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
  */
 public class SlopeInterceptModel extends LineFormsModel {
     public SlopeInterceptModel() {
-        super( new SlopeInterceptLine( 2, 3, 1, LGColors.INTERACTIVE_LINE ),
+        super( Line.createSlopeIntercept( 2, 3, 1, LGColors.INTERACTIVE_LINE ),
                new DoubleRange( 0, 0 ) ); // x1 is fixed at zero
     }
 }

@@ -22,8 +22,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
-import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents.*;
@@ -41,15 +40,16 @@ public class GraphControls extends PNode {
 
     /**
      * Constructor
-     * @param linesVisible are lines visible on the graph?
-     * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
+     *
+     * @param linesVisible  are lines visible on the graph?
+     * @param slopeVisible  are the slope (rise/run) brackets visible on the graphed line?
      * @param standardLines standard lines (eg, y=x) that are available for viewing
      */
-    public GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible, final ObservableList<PointSlopeLine> standardLines ) {
+    public GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible, final ObservableList<Line> standardLines ) {
 
         // private properties for standard-line check boxes
-        final Property<Boolean> yEqualsXVisible = new Property<Boolean>( standardLines.contains( SlopeInterceptLine.Y_EQUALS_X_LINE ) );
-        final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( standardLines.contains( SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE ) );
+        final Property<Boolean> yEqualsXVisible = new Property<Boolean>( standardLines.contains( Line.Y_EQUALS_X_LINE ) );
+        final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( standardLines.contains( Line.Y_EQUALS_NEGATIVE_X_LINE ) );
 
         // components
         final JComponent linesCheckBox = new PropertyCheckBox( UserComponents.linesCheckBox, Strings.HIDE_LINES, new SettableNot( linesVisible ) );
@@ -86,10 +86,10 @@ public class GraphControls extends PNode {
         yEqualsXVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 if ( visible ) {
-                    standardLines.add( SlopeInterceptLine.Y_EQUALS_X_LINE );
+                    standardLines.add( Line.Y_EQUALS_X_LINE );
                 }
                 else {
-                    standardLines.remove( SlopeInterceptLine.Y_EQUALS_X_LINE );
+                    standardLines.remove( Line.Y_EQUALS_X_LINE );
                 }
             }
         } );
@@ -98,33 +98,33 @@ public class GraphControls extends PNode {
         yEqualsNegativeXVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 if ( visible ) {
-                    standardLines.add( SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE );
+                    standardLines.add( Line.Y_EQUALS_NEGATIVE_X_LINE );
                 }
                 else {
-                    standardLines.remove( SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE );
+                    standardLines.remove( Line.Y_EQUALS_NEGATIVE_X_LINE );
                 }
             }
         } );
 
         // Select appropriate check boxes when standard lines are added.
-        standardLines.addElementAddedObserver( new VoidFunction1<PointSlopeLine>() {
-            public void apply( PointSlopeLine line ) {
-                if ( line == SlopeInterceptLine.Y_EQUALS_X_LINE ) {
+        standardLines.addElementAddedObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
+                if ( line == Line.Y_EQUALS_X_LINE ) {
                     yEqualsXVisible.set( true );
                 }
-                else if ( line == SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE ) {
+                else if ( line == Line.Y_EQUALS_NEGATIVE_X_LINE ) {
                     yEqualsNegativeXVisible.set( true );
                 }
             }
         } );
 
         // Deselect appropriate check boxes when standard lines are removed.
-        standardLines.addElementRemovedObserver( new VoidFunction1<PointSlopeLine>() {
-            public void apply( PointSlopeLine line ) {
-                if ( line == SlopeInterceptLine.Y_EQUALS_X_LINE ) {
+        standardLines.addElementRemovedObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
+                if ( line == Line.Y_EQUALS_X_LINE ) {
                     yEqualsXVisible.set( false );
                 }
-                else if ( line == SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE ) {
+                else if ( line == Line.Y_EQUALS_NEGATIVE_X_LINE ) {
                     yEqualsNegativeXVisible.set( false );
                 }
             }

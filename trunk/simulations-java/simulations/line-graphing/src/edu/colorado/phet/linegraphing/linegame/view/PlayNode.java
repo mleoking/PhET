@@ -3,7 +3,6 @@ package edu.colorado.phet.linegraphing.linegame.view;
 
 import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.games.GameScoreboardNode;
@@ -11,11 +10,9 @@ import edu.colorado.phet.common.games.GameScoreboardNode.GameScoreboardListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
 import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge;
-import edu.colorado.phet.linegraphing.linegame.model.MatchingChallenge.GraphSlopeInterceptChallenge;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -70,8 +67,8 @@ class PlayNode extends PhetPNode {
         } );
 
         // Set up a new challenge
-        model.challenge.addObserver( new VoidFunction1<MatchingChallenge<SlopeInterceptLine>>() { //TODO use generics
-            public void apply( MatchingChallenge<SlopeInterceptLine> challenge ) {
+        model.challenge.addObserver( new VoidFunction1<MatchingChallenge>() {
+            public void apply( MatchingChallenge challenge ) {
                 challengeParent.removeAllChildren();
                 challengeParent.addChild( challenge.createView( model, audioPlayer, challengeSize ) );
             }

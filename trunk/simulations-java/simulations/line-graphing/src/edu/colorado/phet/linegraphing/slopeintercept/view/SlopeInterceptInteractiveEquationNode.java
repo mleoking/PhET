@@ -24,13 +24,13 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
-import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.InterceptColors;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeColors;
+import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -46,7 +46,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
     private final Property<Double> rise, run, yIntercept; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
-    public SlopeInterceptInteractiveEquationNode( final Property<SlopeInterceptLine> interactiveLine,
+    public SlopeInterceptInteractiveEquationNode( final Property<Line> interactiveLine,
                                                   Property<DoubleRange> riseRange,
                                                   Property<DoubleRange> runRange,
                                                   Property<DoubleRange> yInterceptRange ) {
@@ -54,7 +54,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
-    private SlopeInterceptInteractiveEquationNode( final Property<SlopeInterceptLine> interactiveLine,
+    private SlopeInterceptInteractiveEquationNode( final Property<Line> interactiveLine,
                                                    Property<DoubleRange> riseRange,
                                                    Property<DoubleRange> runRange,
                                                    Property<DoubleRange> yInterceptRange,
@@ -141,15 +141,15 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 if ( !updatingControls ) {
-                    interactiveLine.set( new SlopeInterceptLine( rise.get(), run.get(), yIntercept.get(), interactiveLine.get().color ) );
+                    interactiveLine.set( Line.createSlopeIntercept( rise.get(), run.get(), yIntercept.get(), interactiveLine.get().color ) );
                 }
             }
         };
         lineUpdater.observe( rise, run, yIntercept );
 
         // sync the controls with the model
-        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        interactiveLine.addObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
 
                 // Atomically synchronize the controls.
                 updatingControls = true;
@@ -170,7 +170,7 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
     public static void main( String[] args ) {
 
         // model
-        Property<SlopeInterceptLine> line = new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
+        Property<Line> line = new Property<Line>( Line.createSlopeIntercept( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
         DoubleRange range = new DoubleRange( -10, 10 );
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );

@@ -26,9 +26,7 @@ import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.LineFactory;
-import edu.colorado.phet.linegraphing.common.model.PointPointLine;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -37,7 +35,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EquationControls<T extends PointPointLine> extends PhetPNode {
+public class EquationControls extends PhetPNode {
 
     /**
      * Constructor
@@ -50,12 +48,11 @@ public class EquationControls<T extends PointPointLine> extends PhetPNode {
      * @param interactiveEquationNode node that implements the interactive equation
      */
     public EquationControls( String title,
-                             final Property<T> interactiveLine,
-                             final ObservableList<T> savedLines,
+                             final Property<Line> interactiveLine,
+                             final ObservableList<Line> savedLines,
                              final Property<Boolean> maximized,
                              final Property<Boolean> linesVisible,
-                             PNode interactiveEquationNode,
-                             final LineFactory<T> lineFactory ) {
+                             PNode interactiveEquationNode ) {
 
         // nodes
         PNode titleNode = new HTMLNode( title, LGColors.INTERACTIVE_LINE, new PhetFont( Font.BOLD, 18 ) );
@@ -136,7 +133,7 @@ public class EquationControls<T extends PointPointLine> extends PhetPNode {
         // Save the current state of the interactive line.
         saveLineButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                savedLines.add( lineFactory.withColor( interactiveLine.get(), LGColors.SAVED_LINE_NORMAL ) );
+                savedLines.add( interactiveLine.get().withColor( LGColors.SAVED_LINE_NORMAL ) );
             }
         } );
 
@@ -156,8 +153,8 @@ public class EquationControls<T extends PointPointLine> extends PhetPNode {
         };
 
         // Enabled/disable buttons when saved lines are added/removed.
-        final VoidFunction1<T> savedLinesChanged = new VoidFunction1<T>() {
-            public void apply( T line ) {
+        final VoidFunction1<Line> savedLinesChanged = new VoidFunction1<Line>() {
+            public void apply( Line line ) {
                 enableButtons.apply();
             }
         };

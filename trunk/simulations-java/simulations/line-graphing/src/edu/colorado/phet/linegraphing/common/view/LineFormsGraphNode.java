@@ -16,9 +16,7 @@ import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighl
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.common.model.LineFactory;
-import edu.colorado.phet.linegraphing.common.model.PointPointLine;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.RiseRunBracketNode.Direction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -34,7 +32,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineFormsGraphNode<T extends PointPointLine> extends GraphNode {
+public abstract class LineFormsGraphNode extends GraphNode {
 
     protected static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
 
@@ -66,9 +64,9 @@ public abstract class LineFormsGraphNode<T extends PointPointLine> extends Graph
      * @param slopeManipulatorColor
      */
     public LineFormsGraphNode( final Graph graph, final ModelViewTransform mvt,
-                               Property<T> interactiveLine,
-                               ObservableList<T> savedLines,
-                               ObservableList<T> standardLines,
+                               Property<Line> interactiveLine,
+                               ObservableList<Line> savedLines,
+                               ObservableList<Line> standardLines,
                                final Property<Boolean> linesVisible,
                                final Property<Boolean> interactiveLineVisible,
                                Property<Boolean> interactiveEquationVisible,
@@ -78,8 +76,7 @@ public abstract class LineFormsGraphNode<T extends PointPointLine> extends Graph
                                Property<DoubleRange> x1Range,
                                Property<DoubleRange> y1Range,
                                Color pointManipulatorColor,
-                               Color slopeManipulatorColor,
-                               LineFactory<T> lineFactory ) {
+                               Color slopeManipulatorColor ) {
         super( graph, mvt );
 
         this.graph = graph;
@@ -100,15 +97,13 @@ public abstract class LineFormsGraphNode<T extends PointPointLine> extends Graph
         // interactivity for point (x1,y1) manipulator
         pointManipulator = new LineManipulatorNode( manipulatorDiameter, pointManipulatorColor );
         pointManipulator.addInputEventListener( new CursorHandler() );
-        pointManipulator.addInputEventListener( new PointDragHandler<T>( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                         pointManipulator, mvt, interactiveLine, x1Range, y1Range,
-                                                                         lineFactory ) );
+        pointManipulator.addInputEventListener( new PointDragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
+                                                                      pointManipulator, mvt, interactiveLine, x1Range, y1Range ) );
         // interactivity for slope manipulator
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, slopeManipulatorColor );
         slopeManipulatorNode.addInputEventListener( new CursorHandler() );
-        slopeManipulatorNode.addInputEventListener( new SlopeDragHandler<T>( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                             slopeManipulatorNode, mvt, interactiveLine, riseRange, runRange,
-                                                                             lineFactory ) );
+        slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
+                                                                          slopeManipulatorNode, mvt, interactiveLine, riseRange, runRange ) );
 
         // Rendering order
         addChild( interactiveLineParentNode );
@@ -119,32 +114,32 @@ public abstract class LineFormsGraphNode<T extends PointPointLine> extends Graph
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
         // Add/remove standard lines
-        standardLines.addElementAddedObserver( new VoidFunction1<T>() {
-            public void apply( T line ) {
+        standardLines.addElementAddedObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
                 standardLineAdded( line );
             }
         } );
-        standardLines.addElementRemovedObserver( new VoidFunction1<T>() {
-            public void apply( T line ) {
+        standardLines.addElementRemovedObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
                 standardLineRemoved( line );
             }
         } );
 
         // Add/remove saved lines
-        savedLines.addElementAddedObserver( new VoidFunction1<T>() {
-            public void apply( T line ) {
+        savedLines.addElementAddedObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
                 savedLineAdded( line );
             }
         } );
-        savedLines.addElementRemovedObserver( new VoidFunction1<T>() {
-            public void apply( T line ) {
+        savedLines.addElementRemovedObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
                 savedLineRemoved( line );
             }
         } );
 
         // When the interactive line changes, update the graph.
-        interactiveLine.addObserver( new VoidFunction1<T>() {
-            public void apply( T line ) {
+        interactiveLine.addObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
                 updateInteractiveLine( line, graph, mvt );
             }
         } );
@@ -170,17 +165,17 @@ public abstract class LineFormsGraphNode<T extends PointPointLine> extends Graph
     }
 
     // Called when a standard line is added to the model.
-    private void standardLineAdded( T line ) {
+    private void standardLineAdded( Line line ) {
         standardLinesParentNode.addChild( createLineNode( line, graph, mvt ) );
     }
 
     // Called when a standard line is removed from the model.
-    private void standardLineRemoved( T line ) {
+    private void standardLineRemoved( Line line ) {
         removeLineNode( line, standardLinesParentNode );
     }
 
     // Called when a saved line is added to the model.
-    private void savedLineAdded( final T line ) {
+    private void savedLineAdded( final Line line ) {
         final StraightLineNode lineNode = createLineNode( line, graph, mvt );
         savedLinesParentNode.addChild( lineNode );
         // highlight on mouseOver
@@ -192,12 +187,12 @@ public abstract class LineFormsGraphNode<T extends PointPointLine> extends Graph
     }
 
     // Called when a saved line is removed from the model.
-    private void savedLineRemoved( T line ) {
+    private void savedLineRemoved( Line line ) {
         removeLineNode( line, savedLinesParentNode );
     }
 
     // Removes the node that corresponds to the specified line.
-    private static void removeLineNode( PointPointLine line, PNode parent ) {
+    private static void removeLineNode( Line line, PNode parent ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode node = parent.getChild( i );
             if ( node instanceof StraightLineNode ) {
@@ -233,7 +228,7 @@ public abstract class LineFormsGraphNode<T extends PointPointLine> extends Graph
     }
 
     // Updates the line and its associated decorations
-    protected void updateInteractiveLine( final T line, final Graph graph, final ModelViewTransform mvt ) {
+    protected void updateInteractiveLine( final Line line, final Graph graph, final ModelViewTransform mvt ) {
 
         // replace the line node
         interactiveLineParentNode.removeAllChildren();
@@ -266,5 +261,5 @@ public abstract class LineFormsGraphNode<T extends PointPointLine> extends Graph
     }
 
     // Creates a line node of the proper form.
-    protected abstract StraightLineNode createLineNode( T line, Graph graph, ModelViewTransform mvt );
+    protected abstract StraightLineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt );
 }

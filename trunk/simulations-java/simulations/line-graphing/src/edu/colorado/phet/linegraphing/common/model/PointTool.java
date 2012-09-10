@@ -19,9 +19,9 @@ public class PointTool implements Resettable {
 
     public final Property<Vector2D> location;
     public final Orientation orientation;
-    public final Property<PointPointLine> onLine; // line that the tool is on, possibly null
+    public final Property<Line> onLine; // line that the tool is on, possibly null
 
-    private final ObservableList<PointPointLine> lines;
+    private final ObservableList<Line> lines;
 
     /**
      * Constructor
@@ -29,11 +29,11 @@ public class PointTool implements Resettable {
      * @param location location of the tool, in model coordinate frame
      * @param lines    lines that the tool might intersect
      */
-    public PointTool( Vector2D location, Orientation orientation, ObservableList<PointPointLine> lines ) {
+    public PointTool( Vector2D location, Orientation orientation, ObservableList<Line> lines ) {
 
         this.location = new Property<Vector2D>( location );
         this.orientation = orientation;
-        this.onLine = new Property<PointPointLine>( null );
+        this.onLine = new Property<Line>( null );
 
         this.lines = lines;
 
@@ -47,8 +47,8 @@ public class PointTool implements Resettable {
             } );
 
             // saved & standard lines
-            final VoidFunction1<PointPointLine> linesChanged = new VoidFunction1<PointPointLine>() {
-                public void apply( PointPointLine line ) {
+            final VoidFunction1<Line> linesChanged = new VoidFunction1<Line>() {
+                public void apply( Line line ) {
                     updateOnLine();
                 }
             };
@@ -59,7 +59,7 @@ public class PointTool implements Resettable {
 
     // Determine which line (if any) the tool is placed on.
     private void updateOnLine() {
-        for ( PointPointLine line : lines ) {
+        for ( Line line : lines ) {
             if ( isOnLine( line ) ) {
                 onLine.set( line );
                 return;
@@ -69,7 +69,7 @@ public class PointTool implements Resettable {
     }
 
     // Is the point tool on this line?
-    private boolean isOnLine( PointPointLine line ) {
+    private boolean isOnLine( Line line ) {
         if ( line.run == 0 && location.get().getX() == line.x1 ) {
             // slope is undefined, tool is on the line
             return true;

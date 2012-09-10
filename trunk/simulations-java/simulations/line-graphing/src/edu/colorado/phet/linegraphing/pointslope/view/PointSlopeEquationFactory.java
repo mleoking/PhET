@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationFactory;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -20,9 +20,9 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointSlopeEquationFactory extends EquationFactory<PointSlopeLine> {
+public class PointSlopeEquationFactory extends EquationFactory {
 
-    public EquationNode createNode( PointSlopeLine line, PhetFont font ) {
+    public EquationNode createNode( Line line, PhetFont font ) {
         if ( line.run == 0 ) {
             return new UndefinedSlopeNode( line, font );
         }
@@ -42,7 +42,7 @@ public class PointSlopeEquationFactory extends EquationFactory<PointSlopeLine> {
 
     // Verbose form of point-slope, not reduced, for debugging.
     private static class VerboseNode extends EquationNode {
-        public VerboseNode( PointSlopeLine line, PhetFont font ) {
+        public VerboseNode( Line line, PhetFont font ) {
             addChild( new PhetPText( MessageFormat.format( "(y - {0}) = ({1}/{2})(x - {3})", line.y1, line.rise, line.run, line.x1 ), font, line.color ) );
         }
     }
@@ -53,9 +53,9 @@ public class PointSlopeEquationFactory extends EquationFactory<PointSlopeLine> {
      */
     private static class ZeroSlopeNode extends EquationNode {
 
-        public ZeroSlopeNode( PointSlopeLine line, PhetFont font ) {
+        public ZeroSlopeNode( Line line, PhetFont font ) {
 
-            assert( line.rise == 0 );
+            assert ( line.rise == 0 );
 
             // y = y1
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
@@ -81,9 +81,9 @@ public class PointSlopeEquationFactory extends EquationFactory<PointSlopeLine> {
      */
     private static class UnitSlopeNode extends EquationNode {
 
-        public UnitSlopeNode( PointSlopeLine line, PhetFont font ) {
+        public UnitSlopeNode( Line line, PhetFont font ) {
 
-            assert( Math.abs( line.rise ) == Math.abs( line.run ) );
+            assert ( Math.abs( line.rise ) == Math.abs( line.run ) );
 
             PText yNode = new PhetPText( getYText( line.y1 ), font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
@@ -109,9 +109,9 @@ public class PointSlopeEquationFactory extends EquationFactory<PointSlopeLine> {
      */
     private static class IntegerSlopeNode extends EquationNode {
 
-        public IntegerSlopeNode( PointSlopeLine line, PhetFont font ) {
+        public IntegerSlopeNode( Line line, PhetFont font ) {
 
-            assert( Math.abs( line.run ) == 1 );
+            assert ( Math.abs( line.run ) == 1 );
 
             PText yNode = new PhetPText( getYText( line.y1 ), font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
@@ -139,7 +139,7 @@ public class PointSlopeEquationFactory extends EquationFactory<PointSlopeLine> {
     */
     private static class FractionSlopeNode extends EquationNode {
 
-        public FractionSlopeNode( PointSlopeLine line, PhetFont font ) {
+        public FractionSlopeNode( Line line, PhetFont font ) {
 
             final boolean slopeIsPositive = ( line.rise * line.run ) >= 0;
 

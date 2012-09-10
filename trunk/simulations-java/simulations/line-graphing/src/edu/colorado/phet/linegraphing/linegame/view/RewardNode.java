@@ -41,9 +41,8 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeLine;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
-import edu.colorado.phet.linegraphing.common.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationFactory;
@@ -170,19 +169,19 @@ public class RewardNode extends PhetPNode {
         PNode node;
         if ( useSlopeInterceptForm ) {
             node = new SlopeInterceptEquationFactory().createNode(
-                    new SlopeInterceptLine( getRandomNonZeroInteger( -20, 20 ),
-                                            getRandomNonZeroInteger( -20, 20 ),
-                                            getRandomNonZeroInteger( -20, 20 ),
-                                            color ),
+                    Line.createSlopeIntercept( getRandomNonZeroInteger( -20, 20 ),
+                                               getRandomNonZeroInteger( -20, 20 ),
+                                               getRandomNonZeroInteger( -20, 20 ),
+                                               color ),
                     font );
         }
         else {
             node = new PointSlopeEquationFactory().createNode(
-                    new PointSlopeLine( getRandomNonZeroInteger( -20, 20 ),
-                                        getRandomNonZeroInteger( -20, 20 ),
-                                        getRandomNonZeroInteger( -20, 20 ),
-                                        getRandomNonZeroInteger( -20, 20 ),
-                                        color ),
+                    Line.createPointSlope( getRandomNonZeroInteger( -20, 20 ),
+                                           getRandomNonZeroInteger( -20, 20 ),
+                                           getRandomNonZeroInteger( -20, 20 ),
+                                           getRandomNonZeroInteger( -20, 20 ),
+                                           color ),
                     font );
         }
         return new PadBoundsNode( node ).toImage();
