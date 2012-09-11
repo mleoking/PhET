@@ -1,3 +1,5 @@
+9/11/12 add convenience constructor for creating Line with a default color
+9/11/12 add challenge: given an equation in point-slope form, graph the matching line by manipulating point
 9/11/12 create base classes for challenge nodes
 9/11/12 add challenge: given an equation in point-slope form, graph the matching line by manipulating slope
 9/11/12 (temporary?) naming scheme for challenges, encodes: line form, "given" type, "guess" type

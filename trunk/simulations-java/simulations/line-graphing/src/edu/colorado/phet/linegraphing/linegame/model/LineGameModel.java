@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.model;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.games.GameSettings;
@@ -89,7 +88,7 @@ public class LineGameModel {
 
         graph = new Graph( xRange, yRange );
 
-        challenge = new Property<Challenge>( new SI_EG_SlopeIntercept_Challenge( Line.createSlopeIntercept( 1, 1, 1, Color.BLACK ), mvtGraphTheLine ) ); // initial value is meaningless
+        challenge = new Property<Challenge>( new SI_EG_SlopeIntercept_Challenge( Line.createSlopeIntercept( 1, 1, 1 ), mvtGraphTheLine ) ); // initial value is meaningless
 
         allLines = new ObservableList<Line>();
         this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
@@ -174,16 +173,16 @@ public class LineGameModel {
         //TODO create different types of challenges, randomized for level
         int index = 0;
         if ( settings.level.get() == 1 ) {
-            challenges[index++] = new SI_EG_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
-            challenges[index++] = new SI_EG_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
-            challenges[index++] = new SI_EG_SlopeIntercept_Challenge( Line.createSlopeIntercept( 4, 2, 3, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
-            challenges[index++] = new SI_EG_Points_Challenge( Line.createSlopeIntercept( 3, 3, -3, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
+            challenges[index++] = new SI_EG_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), mvtGraphTheLine );
+            challenges[index++] = new SI_EG_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), mvtGraphTheLine );
+            challenges[index++] = new SI_EG_SlopeIntercept_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), mvtGraphTheLine );
+            challenges[index++] = new SI_EG_Points_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), mvtGraphTheLine );
         }
         else if ( settings.level.get() == 2 ) {
-            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
-            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
-            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
-            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
+            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2 ), mvtGraphTheLine );
+            challenges[index++] = new PS_EG_Point_Challenge( Line.createPointSlope( -1, -3, 1, 2 ), mvtGraphTheLine );
+            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2 ), mvtGraphTheLine );
+            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2 ), mvtGraphTheLine );
         }
         assert ( challenges.length == CHALLENGES_PER_GAME );
         challengeIndex = 0;
