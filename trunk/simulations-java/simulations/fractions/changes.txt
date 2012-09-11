@@ -1,5 +1,6 @@
-Free play: Made number cards bottomless
-Free play: Made fraction skeletons bottomless
+Free play: Made shape piece stacks bottomless
+Free play: Made number card stacks bottomless
+Free play: Made fraction skeleton stacks bottomless
 Free play: Added mixed numbers for numbers toolbox
 Free play: Fixed initial location of container and fraction
 Free play: Added representation control panel for shape types

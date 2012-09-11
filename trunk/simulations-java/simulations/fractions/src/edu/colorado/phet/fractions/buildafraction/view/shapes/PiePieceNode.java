@@ -30,9 +30,15 @@ public class PiePieceNode extends PieceNode {
     //Shadow to be shown while dragging (and maybe animating).  Shown with add/remove child so it doesn't disrupt bounds/layout
     private final PhetPPath pieShadow;
     private final PNode pieBackground;
+    private final int pieceDenominator;
+    private final ShapeSceneNode shapeSceneNode;
+    private final PhetPPath shape;
 
     public PiePieceNode( final int pieceDenominator, final ShapeSceneNode shapeSceneNode, final PhetPPath shape ) {
         super( pieceDenominator, shapeSceneNode, shape );
+        this.pieceDenominator = pieceDenominator;
+        this.shapeSceneNode = shapeSceneNode;
+        this.shape = shape;
         pieBackground = new PNode() {{
             addChild( new PhetPPath( ContainerShapeNode.createPieSlice( 1 ), BuildAFractionCanvas.TRANSPARENT ) );
         }};
@@ -54,6 +60,18 @@ public class PiePieceNode extends PieceNode {
     protected void showShadow() {
         hideShadow();
         pieBackground.addChild( 0, pieShadow );
+    }
+
+    @Override public PieceNode copy() {
+        PiePieceNode copy = new PiePieceNode( pieceDenominator, shapeSceneNode, copy( shape ) );
+        copy.setStack( stack );
+        copy.setPositionInStack( getPositionInStack() );
+        stack.cards = stack.cards.snoc( copy );
+        return copy;
+    }
+
+    public static PhetPPath copy( final PhetPPath shape ) {
+        return new PhetPPath( shape.getPathReference(), shape.getPaint(), shape.getStroke(), shape.getStrokePaint() );
     }
 
     //If it moved closer to a different target site, update rotation.

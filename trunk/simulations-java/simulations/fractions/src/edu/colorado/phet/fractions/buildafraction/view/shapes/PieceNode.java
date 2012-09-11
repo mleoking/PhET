@@ -69,7 +69,6 @@ public abstract class PieceNode extends Stackable {
 
                 dragStarted();
                 PieceNode.this.moveToFront();
-                setPositionInStack( Option.<Integer>none() );
                 final AnimateToScale activity = new AnimateToScale( context.getContainerScale(), PieceNode.this, BuildAFractionModule.ANIMATION_TIME );
                 addActivity( activity );
 
@@ -78,6 +77,9 @@ public abstract class PieceNode extends Stackable {
                         stepTowardMouse( event );
                     }
                 } );
+
+                context.startDrag( PieceNode.this );
+                setPositionInStack( Option.<Integer>none() );
             }
 
             @Override public void mouseDragged( final PInputEvent event ) {
@@ -203,4 +205,6 @@ public abstract class PieceNode extends Stackable {
         activities.add( activity );
         return super.addActivity( activity );
     }
+
+    public abstract PieceNode copy();
 }
