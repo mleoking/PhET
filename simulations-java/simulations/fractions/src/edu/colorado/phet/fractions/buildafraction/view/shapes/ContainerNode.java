@@ -39,6 +39,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.s
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.fractions.FractionsResources.Images.*;
+import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceIconNode.toolboxScale;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.SingleContainerNode._getNumberPieces;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.SingleContainerNode._undoAll;
 import static edu.colorado.phet.fractions.common.math.Fraction.sum;
@@ -338,7 +339,7 @@ public class ContainerNode extends PNode {
     public void updateExpansionButtonsEnabled() { increaseDecreaseButton.setEnabled( !isInToolbox() );}
 
     //Identify containers as being in the toolbox if they are shrunken
-    public boolean isInToolbox() { return Math.abs( getScale() - PieceIconNode.TINY_SCALE ) < 1E-6; }
+    public boolean isInToolbox() { return Math.abs( getScale() - toolboxScale( parent.freePlay ) ) < 1E-6; }
 
     public boolean belongsInToolbox() {return initialY > 500;}
 
