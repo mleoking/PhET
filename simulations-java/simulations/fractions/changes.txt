@@ -1,3 +1,4 @@
+Free play: Fixed: containers shouldn't fly to the left when dropped near the right
 Free play: Reduced the size of shape cards in the toolbox so they will all fit
 Build a Mixed Fraction: Shapes: Center the container in the play area under the level description
 Build a Mixed Fraction: Numbers: Center the fraction skeleton in the play area under the level description

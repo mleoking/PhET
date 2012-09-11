@@ -324,7 +324,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     hit = true;
                     break;
                 }
-                else if ( intersects ) {
+                else if ( intersects && !freePlay ) {
                     //move back to the center of the screen, but only if no other container node is already there.
                     if ( getContainerNodesInPlayArea().exists( new F<ContainerNode, Boolean>() {
                         @Override public Boolean f( final ContainerNode containerNode ) {
