@@ -505,7 +505,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         VoidFunction0 postprocess;
         if ( level.shapeType == ShapeType.PIE ) {
             final DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
-            activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, 1, 0, BuildAFractionModule.ANIMATION_TIME );
+            activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, getContainerScale(), 0, BuildAFractionModule.ANIMATION_TIME );
 
             postprocess = new VoidFunction0() {
                 public void apply() {
@@ -527,7 +527,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             piece.localToParent( translation );
             final DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
             final Vector2D a = dropLocation.position.plus( translation );
-            activity = piece.animateToPositionScaleRotation( a.x, a.y, 1, dropLocation.angle, BuildAFractionModule.ANIMATION_TIME );
+            activity = piece.animateToPositionScaleRotation( a.x, a.y, getContainerScale(), dropLocation.angle, BuildAFractionModule.ANIMATION_TIME );
 
             postprocess = new VoidFunction0() {
                 public void apply() {
@@ -583,8 +583,11 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     public void undoPieceFromContainer( final PieceNode piece ) {
         Point2D offset = piece.getGlobalTranslation();
+        double scale = piece.getGlobalScale();
         addChild( piece );
         piece.setGlobalTranslation( offset );
+        piece.setGlobalScale( scale );
+
         piece.setPickable( true );
         piece.setChildrenPickable( true );
         piece.animateToTopOfStack();
