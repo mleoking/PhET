@@ -496,6 +496,17 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         return freePlay;
     }
 
+    public void startDrag( final PieceNode pieceNode ) {
+        if ( isFreePlay() ) {
+            //create another piece node under this one
+            PieceNode copy = pieceNode.copy();
+            addChild( copy );
+            copy.setGlobalRotation( pieceNode.getGlobalRotation() );
+            copy.setGlobalScale( pieceNode.getGlobalScale() );
+            copy.setGlobalTranslation( pieceNode.getGlobalTranslation() );
+        }
+    }
+
     public @Data static class DropLocation {
         public final Vector2D position;
         public final double angle;

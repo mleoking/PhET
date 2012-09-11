@@ -16,4 +16,6 @@ public interface PieceContext {
     double getContainerScale();
 
     boolean isFreePlay();
+
+    void startDrag( PieceNode pieceNode );
 }

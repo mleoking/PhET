@@ -64,4 +64,8 @@ public abstract class Stackable<T extends Stackable> extends PNode {
         } );
         stack.update();
     }
+
+    public Stack<T> getStack() {
+        return stack;
+    }
 }
