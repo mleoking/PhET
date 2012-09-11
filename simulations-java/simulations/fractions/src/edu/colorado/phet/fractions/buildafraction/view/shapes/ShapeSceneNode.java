@@ -426,11 +426,12 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     private void animateToPosition( final ContainerNode containerNode, final Vector2D position, PActivityDelegate delegate ) {
         containerNode.animateToPositionScaleRotation( position.x, position.y,
-                                                      1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( containerNode, true ), delegate, new PActivityDelegateAdapter() {
-            @Override public void activityFinished( final PActivity activity ) {
-                containerNode.updateExpansionButtonsEnabled();
-            }
-        } ) );
+                                                      getContainerScale(), 0, BuildAFractionModule.ANIMATION_TIME ).
+                setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( containerNode, true ), delegate, new PActivityDelegateAdapter() {
+                    @Override public void activityFinished( final PActivity activity ) {
+                        containerNode.updateExpansionButtonsEnabled();
+                    }
+                } ) );
     }
 
     public void endDrag( final PieceNode piece ) {
