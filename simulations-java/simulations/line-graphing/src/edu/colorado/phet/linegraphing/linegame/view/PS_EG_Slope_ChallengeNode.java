@@ -21,59 +21,60 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.PlottedPointNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationFactory;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Given an equation in slope-intercept form, graph the matching line by manipulating the slope.
+ * Given an equation in point-slope form, graph the matching line by manipulating the slope.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SI_EG_Slope_ChallengeNode extends ChallengeNode {
+public class PS_EG_Slope_ChallengeNode extends ChallengeNode {
 
-    public SI_EG_Slope_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public PS_EG_Slope_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
     }
 
+    //TODO this is identical for all PS*ChallengeNode
     // Creates the equation portion of the view.
     @Override public EquationNode createEquationNode( Line line, Color color, PhetFont font ) {
-        return new SlopeInterceptEquationFactory().createNode( line.withColor( color ), font );
+        return new PointSlopeEquationFactory().createNode( line.withColor( color ), font );
     }
 
     // Creates the graph portion of the view.
     @Override public ChallengeGraphNode createChallengeGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
-        return new ThisGraphNode( graph, guessLine, answerLine, mvt );
+        return new SlopeGraphNode( graph, guessLine, answerLine, mvt );
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends ChallengeGraphNode {
+    private static class SlopeGraphNode extends ChallengeGraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode slopeManipulatorNode;
-        private final PNode interceptPointNode;
+        private final PNode pointNode;
 
-        public ThisGraphNode( final Graph graph,
-                              Property<Line> guessLine,
-                              Line answerLine,
-                              final ModelViewTransform mvt ) {
+        public SlopeGraphNode( final Graph graph,
+                               Property<Line> guessLine,
+                               Line answerLine,
+                               final ModelViewTransform mvt ) {
             super( graph, mvt );
 
             // parent for the guess node, to maintain rendering order
             final PNode guessNodeParent = new PComposite();
 
             // the correct answer, initially hidden
-            answerNode = new SlopeInterceptLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
+            answerNode = new PointSlopeLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
             answerNode.setEquationVisible( false );
             addChild( answerNode );
             answerNode.setVisible( false );
 
-            // plotted point for intercept
+            // plotted point
             final double pointDiameter = mvt.modelToViewDeltaX( GameConstants.POINT_DIAMETER );
-            interceptPointNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
-            interceptPointNode.setOffset( mvt.modelToView( new Point2D.Double( 0, guessLine.get().y1 ) ) );
+            pointNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
+            pointNode.setOffset( mvt.modelToView( new Point2D.Double( guessLine.get().x1, guessLine.get().y1 ) ) );
 
             // ranges
             final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
@@ -86,7 +87,7 @@ public class SI_EG_Slope_ChallengeNode extends ChallengeNode {
                                                                               slopeManipulatorNode, mvt, guessLine, riseRange, runRange ) );
             // Rendering order
             addChild( guessNodeParent );
-            addChild( interceptPointNode );
+            addChild( pointNode );
             addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
             // Show the user's current guess
@@ -95,7 +96,7 @@ public class SI_EG_Slope_ChallengeNode extends ChallengeNode {
 
                     // draw the line
                     guessNodeParent.removeAllChildren();
-                    LineNode guessNode = new SlopeInterceptLineNode( line, graph, mvt );
+                    LineNode guessNode = new PointSlopeLineNode( line, graph, mvt );
                     guessNode.setEquationVisible( false );
                     guessNodeParent.addChild( guessNode );
 

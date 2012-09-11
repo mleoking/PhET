@@ -27,7 +27,6 @@ import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -53,7 +52,7 @@ public abstract class ChallengeNode extends PhetPNode {
 
         PNode titleNode = new PhetPText( "Graph the Line", GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR ); //TODO i18n
 
-        final EquationNode equationNode = createEquationNode( model.challenge.get().answer, GameConstants.GIVEN_COLOR, GameConstants.EQUATION_FONT );
+        final EquationNode equationNode = createEquationNode( model.challenge.get().answer, GameConstants.ANSWER_COLOR, GameConstants.EQUATION_FONT );
 
         final ChallengeGraphNode graphNode = createChallengeGraphNode( model.graph, model.challenge.get().guess, model.challenge.get().answer,
                                                                        model.challenge.get().mvt );
@@ -203,9 +202,7 @@ public abstract class ChallengeNode extends PhetPNode {
     }
 
     // Creates the equation portion of the view.
-    public EquationNode createEquationNode( Line line, Color color, PhetFont font ) {
-        return new SlopeInterceptEquationFactory().createNode( line.withColor( color ), font );
-    }
+    public abstract EquationNode createEquationNode( Line line, Color color, PhetFont font );
 
     // Creates the graph portion of the view.
     public abstract ChallengeGraphNode createChallengeGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
