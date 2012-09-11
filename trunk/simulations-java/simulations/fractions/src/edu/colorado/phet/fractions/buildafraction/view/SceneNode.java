@@ -51,8 +51,10 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     private final LevelSelectionScreenButton levelSelectionScreenButton;
     protected VBox faceNodeDialog;
     protected PhetPText levelReadoutTitle;
+    public final boolean freePlay;
 
     protected SceneNode( final int levelIndex, BooleanProperty audioEnabled, final SceneContext context, boolean freePlay ) {
+        this.freePlay = freePlay;
         gameAudioPlayer = new GameAudioPlayer( audioEnabled.get() );
         audioEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean enabled ) {
