@@ -171,12 +171,12 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             toolboxFractionGraphic.moveInFrontOf( toolboxNode );
         }
 
+        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
+
         fractionNode.setToolboxPosition( toolboxPositionX, toolboxPositionY );
-        centerOfScreen = new Vector2D( toolboxNode.getCenterX() + 26 - fractionNode.getFullWidth() / 2, 350 - fractionNode.getFullHeight() / 2 );
+        centerOfScreen = new Vector2D( levelReadoutTitle.getFullBounds().getCenterX() - fractionNode.getFullWidth() / 2 + 28, 350 - fractionNode.getFullHeight() / 2 );
         fractionNode.setOffset( centerOfScreen.toPoint2D() );
         fractionNode.moveInFrontOf( toolboxNode );
-
-        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
     }
 
     private ArrayList<NumberSceneCollectionBoxPair> getCollectionBoxPairs( final BuildAFractionModel model ) {
