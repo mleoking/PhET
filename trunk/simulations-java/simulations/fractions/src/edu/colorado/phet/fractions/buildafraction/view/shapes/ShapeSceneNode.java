@@ -78,7 +78,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private static final double CARD_SPACING_DX = 3;
     private static final double CARD_SPACING_DY = CARD_SPACING_DX;
     private final BuildAFractionModel model;
-    public final int toolboxHeight;
+    public int toolboxHeight;
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean freePlay ) {
         this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled, freePlay ) ), freePlay );
@@ -150,7 +150,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         List<List<Integer>> groups = level.pieces.group( intEqual );
         int numGroups = groups.length();
         layoutXOffset = ( 6 - numGroups ) * spacing / 4 + ( level.shapeType == ShapeType.BAR ? 0 : 45 ) + ( toolboxOffset.isSome() ? toolboxOffset.some() : 0.0 );
+
         toolboxHeight = ( level.shapeType == ShapeType.BAR ? 100 : 140 ) + 5;
+        if ( freePlay && level.shapeType == PIE ) { toolboxHeight = toolboxHeight - 25; }
+
         for ( P2<List<Integer>, Integer> groupWithIndex : groups.zipIndex() ) {
             int stackIndex = groupWithIndex._2();
             List<Integer> group = groupWithIndex._1();
@@ -193,6 +196,9 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             if ( level.shapeType == PIE && firstPiece.pieceSize == 5 ) {
                 child.translate( 4, 0 );
             }
+//            if ( isFreePlay() ) {
+//                child.translate( 0, 24 );
+//            }
             addChild( child );
             child.moveToBack();
         }
@@ -649,7 +655,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         int sign = level.shapeType == PIE ? -1 : +1;
         List<List<Integer>> groups = level.pieces.group( intEqual );
         double delta = getCardOffsetWithinStack( groups.index( stackIndex ).length(), cardIndex );
-        final int yOffset = level.shapeType == ShapeType.BAR ? 25 : 0;
+        int yOffset = level.shapeType == ShapeType.BAR ? 25 : 0;
+        if ( isFreePlay() && level.shapeType == PIE ) {
+            yOffset = yOffset + 12;
+        }
         return new Vector2D( layoutXOffset + 30 + delta * sign + stackIndex * spacing,
                              STAGE_SIZE.height - 117 - CARD_SPACING_DY * cardIndex + yOffset );
     }
