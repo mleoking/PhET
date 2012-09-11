@@ -96,7 +96,7 @@ class SingleContainerNode extends PNode {
                 @Override public void mousePressed( final PInputEvent event ) {
                     super.mousePressed( event );
                     parent.moveToFront();
-                    final AnimateToScale activity = new AnimateToScale( parent, BuildAFractionModule.ANIMATION_TIME );
+                    final AnimateToScale activity = new AnimateToScale( 1.0, parent, BuildAFractionModule.ANIMATION_TIME );
                     activity.setDelegate( new PActivityDelegateAdapter() {
                         @Override public void activityFinished( final PActivity activity ) {
                             parent.updateExpansionButtonsEnabled();
