@@ -152,18 +152,17 @@ public abstract class PieceNode extends Stackable {
         container = null;
         attachmentTime = -1L;
         animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, BuildAFractionModule.ANIMATION_TIME ).
-                setDelegate(
-                        new CompositeDelegate( new DisablePickingWhileAnimating( this, true ),
-                                               new PActivityDelegateAdapter() {
-                                                   public void activityStarted( final PActivity activity ) {
-                                                       showShadow();
-                                                   }
+                setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( this, true ),
+                                                    new PActivityDelegateAdapter() {
+                                                        public void activityStarted( final PActivity activity ) {
+                                                            showShadow();
+                                                        }
 
-                                                   public void activityFinished( final PActivity activity ) {
-                                                       hideShadow();
-                                                   }
-                                               },
-                                               new UpdateAnimatingFlag( animating ) ) );
+                                                        public void activityFinished( final PActivity activity ) {
+                                                            hideShadow();
+                                                        }
+                                                    },
+                                                    new UpdateAnimatingFlag( animating ) ) );
     }
 
     protected abstract void hideShadow();
