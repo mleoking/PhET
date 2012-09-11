@@ -42,7 +42,7 @@ public class SI_EG_Points_ChallengeNode extends ChallengeNode {
     // Graph for this challenge
     private static class PointsGraphNode extends MatchGraphNode {
 
-        private final SlopeInterceptLineNode answerNode;
+        private final LineNode answerNode;
         private final LineManipulatorNode x1y1ManipulatorNode, x2y2ManipulatorNode;
 
         public PointsGraphNode( final Graph graph,
