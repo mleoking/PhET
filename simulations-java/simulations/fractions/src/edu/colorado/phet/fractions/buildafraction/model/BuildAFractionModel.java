@@ -122,9 +122,7 @@ public class BuildAFractionModel {
         collectedMatch.reset();
     }
 
-    public boolean isLastLevel( final int levelIndex ) {
-        return levelIndex == numberLevels.size() - 1;
-    }
+    public boolean isLastLevel( final int levelIndex ) { return levelIndex == 9; }
 
     public boolean isMixedNumbers() { return false; }
 }
