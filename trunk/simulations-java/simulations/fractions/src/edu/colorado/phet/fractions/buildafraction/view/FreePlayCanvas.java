@@ -1,10 +1,23 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view;
 
+import fj.data.List;
+
+import java.awt.Color;
+
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
+import edu.colorado.phet.fractions.buildafraction.model.NumberLevelFactory;
+import edu.colorado.phet.fractions.buildafraction.model.ShapeLevelFactory;
+import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
+import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList;
+import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
+import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeLevel;
+import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 
 /**
@@ -15,7 +28,18 @@ import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 public class FreePlayCanvas extends AbstractFractionsCanvas {
     public FreePlayCanvas() {
         setBackground( BuildAFractionCanvas.LIGHT_BLUE );
-        final BuildAFractionModel model = new BuildAFractionModel( new BooleanProperty( false ) );
+        final BuildAFractionModel model = new BuildAFractionModel( new BooleanProperty( false ), new ShapeLevelFactory() {
+            public ShapeLevel createLevel( final int level ) {
+                final MixedFraction t = MixedFraction.mixedFraction( 0, Fraction.fraction( 1, 2 ) );
+                return new ShapeLevel( List.range( 1, 9 ).append( List.range( 1, 9 ) ), List.list( t, t ), Color.blue, ShapeType.PIE );
+            }
+        }, new NumberLevelFactory() {
+            public NumberLevel createLevel( final int level ) {
+                final NumberTarget t = NumberTarget.target( 1, 2, Color.blue, NumberLevelList.pie.sequential() );
+                return new NumberLevel( List.range( 1, 10 ).append( List.range( 1, 10 ) ), List.list( t, t ) );
+            }
+        }
+        );
         final SceneContext context = new SceneContext() {
             public void goToShapeLevel( final int newLevelIndex ) {
             }
