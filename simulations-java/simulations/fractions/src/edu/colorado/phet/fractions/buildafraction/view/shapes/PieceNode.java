@@ -70,7 +70,7 @@ public abstract class PieceNode extends Stackable {
                 dragStarted();
                 PieceNode.this.moveToFront();
                 setPositionInStack( Option.<Integer>none() );
-                final AnimateToScale activity = new AnimateToScale( PieceNode.this, BuildAFractionModule.ANIMATION_TIME );
+                final AnimateToScale activity = new AnimateToScale( 1.0, PieceNode.this, BuildAFractionModule.ANIMATION_TIME );
                 addActivity( activity );
 
                 activity.setDelegate( new PActivityDelegateAdapter() {
