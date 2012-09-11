@@ -12,9 +12,13 @@ import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Compo
  *
  * @author Sam Reid
  */
-public class FreePlayModule extends AbstractFractionsModule {
+public class FreePlayModule extends AbstractFractionsModule implements FreePlayCanvasContext {
     public FreePlayModule() {
         super( Components.freePlayModule, Strings.FREE_PLAY, new ConstantDtClock() );
-        setSimulationPanel( new FreePlayCanvas() );
+        setSimulationPanel( new FreePlayCanvas( this ) );
+    }
+
+    public void resetFreePlayCanvas() {
+        setSimulationPanel( new FreePlayCanvas( this ) );
     }
 }

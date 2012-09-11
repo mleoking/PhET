@@ -1,3 +1,5 @@
+Free play: Added representation control panel for shape types
+Free play: Added reset button
 Free play: Fixed: containers shouldn't fly to the left when dropped near the right
 Free play: Reduced the size of shape cards in the toolbox so they will all fit
 Build a Mixed Fraction: Shapes: Center the container in the play area under the level description
