@@ -582,6 +582,17 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     //When a container is added to a container node, move it to the left if it overlaps the scoring boxes.
     public void containerAdded( final ContainerNode c ) { moveContainerNodeAwayFromCollectionBoxes( c ); }
 
+    public void startDrag( final ContainerNode parent ) {
+        if ( isFreePlay() && parent.isInToolbox() ) {
+            ContainerNode copy = parent.copy();
+            copy.setInitialState( parent.initialX, parent.initialY, parent.initialScale );
+            addChild( copy );
+            copy.setGlobalScale( parent.getGlobalScale() );
+            copy.setGlobalTranslation( parent.getGlobalTranslation() );
+            parent.moveToFront();
+        }
+    }
+
     //if its right edge is past the left edge of any collection box, move it left
     public void moveContainerNodeAwayFromCollectionBoxes( final ContainerNode containerNode ) {
         double rightSide = containerNode.getGlobalFullBounds().getMaxX();

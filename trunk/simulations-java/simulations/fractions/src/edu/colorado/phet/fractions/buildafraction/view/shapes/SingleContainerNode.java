@@ -105,6 +105,8 @@ class SingleContainerNode extends PNode {
                         }
                     } );
                     addActivity( activity );
+
+                    parent.context.startDrag( parent );
                 }
 
                 @Override protected void dragNode( final DragEvent event ) {

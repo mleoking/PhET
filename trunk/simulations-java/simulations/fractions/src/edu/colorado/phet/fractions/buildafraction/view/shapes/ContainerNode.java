@@ -67,9 +67,9 @@ public class ContainerNode extends PNode {
     private final int maxNumberOfSingleContainers;
     private boolean inTargetCell = false;
     private final PNode containerLayer;
-    private double initialX;
-    private double initialY;
-    private double initialScale = 1;
+    public double initialX;
+    public double initialY;
+    public double initialScale = 1;
     private final SpinnerButtonNode leftSpinner;
     private final SpinnerButtonNode rightSpinner;
     private final IncreaseDecreaseButton increaseDecreaseButton;
@@ -367,4 +367,6 @@ public class ContainerNode extends PNode {
         int index = getSingleContainerNodes().elementIndex( Equal.<SingleContainerNode>anyEqual(), singleContainerNode ).some();
         dropLocationList = dropLocationList.snoc( new DropLocation( index ) );
     }
+
+    public ContainerNode copy() { return new ContainerNode( parent, context, showIncreaseButton, shapeType, maxNumberOfSingleContainers ); }
 }
