@@ -5,7 +5,10 @@ import fj.data.List;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.model.NumberLevelFactory;
@@ -19,6 +22,7 @@ import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 
 /**
  * Canvas for the "Free Play" tab.
@@ -65,5 +69,14 @@ public class FreePlayCanvas extends AbstractFractionsCanvas {
             translate( 0, -STAGE_SIZE.height + toolboxHeight + INSET * 3 );
         }};
         addChild( shapeSceneNode );
+
+        addChild( new VBox( new ResetAllButtonNode( new Resettable() {
+            public void reset() {
+            }
+        }, this, 18, Color.black, RefreshButtonNode.BUTTON_COLOR ) {{
+            setConfirmationEnabled( false );
+        }} ) {{
+            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, 175 );
+        }} );
     }
 }
