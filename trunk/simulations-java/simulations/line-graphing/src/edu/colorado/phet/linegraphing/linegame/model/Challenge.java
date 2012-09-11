@@ -1,16 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.model;
 
-import java.awt.Color;
-
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.linegame.view.SI_EG_Intercept_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.SI_EG_Points_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.SI_EG_SlopeIntercept_ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.SI_EG_Slope_ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -26,8 +21,8 @@ public abstract class Challenge {
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
 
     public Challenge( Line answer, Line guess, ModelViewTransform mvt ) {
-        this.answer = answer;
-        this.guess = new Property<Line>( guess );
+        this.answer = answer.withColor( GameConstants.ANSWER_COLOR );
+        this.guess = new Property<Line>( guess.withColor( GameConstants.GUESS_COLOR ) );
         this.mvt = mvt;
     }
 

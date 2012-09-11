@@ -31,9 +31,9 @@ public class LineGameModel {
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( LineGameModel.class.getCanonicalName() );
 
     private static final int GRID_VIEW_UNITS = 400; // max dimension (width or height) of the grid in the view
-    private static final int CHALLENGES_PER_GAME = 5;
+    private static final int CHALLENGES_PER_GAME = 4;
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
-    private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3 );
+    private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 4 );
 
     // phases of a game, mutually exclusive
     public enum GamePhase {
@@ -173,11 +173,18 @@ public class LineGameModel {
     private void initChallenges() {
         //TODO create different types of challenges, randomized for level
         int index = 0;
-        challenges[index++] = new SI_EG_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
-        challenges[index++] = new SI_EG_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
-        challenges[index++] = new SI_EG_SlopeIntercept_Challenge( Line.createSlopeIntercept( 4, 2, 3, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
-        challenges[index++] = new SI_EG_Points_Challenge( Line.createSlopeIntercept( 3, 3, -3, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
-        challenges[index++] = new SI_EG_SlopeIntercept_Challenge( Line.createSlopeIntercept( 0, 3, 2, GameConstants.GIVEN_COLOR ), mvtGraphTheLine );
+        if ( settings.level.get() == 1 ) {
+            challenges[index++] = new SI_EG_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
+            challenges[index++] = new SI_EG_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
+            challenges[index++] = new SI_EG_SlopeIntercept_Challenge( Line.createSlopeIntercept( 4, 2, 3, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
+            challenges[index++] = new SI_EG_Points_Challenge( Line.createSlopeIntercept( 3, 3, -3, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
+        }
+        else if ( settings.level.get() == 2 ) {
+            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
+            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
+            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
+            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2, GameConstants.ANSWER_COLOR ), mvtGraphTheLine );
+        }
         assert ( challenges.length == CHALLENGES_PER_GAME );
         challengeIndex = 0;
     }
