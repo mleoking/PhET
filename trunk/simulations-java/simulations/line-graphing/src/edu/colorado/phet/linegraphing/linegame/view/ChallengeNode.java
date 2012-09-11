@@ -37,7 +37,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class MatchNode extends PhetPNode {
+public abstract class ChallengeNode extends PhetPNode {
 
     // Base class for all graph nodes used in matching challenges.
     public static abstract class MatchGraphNode extends GraphNode {
@@ -49,7 +49,7 @@ public abstract class MatchNode extends PhetPNode {
         public abstract void setAnswerVisible( boolean visible );
     }
 
-    public MatchNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
         PNode titleNode = new PhetPText( "Graph the Line", GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR ); //TODO i18n
 

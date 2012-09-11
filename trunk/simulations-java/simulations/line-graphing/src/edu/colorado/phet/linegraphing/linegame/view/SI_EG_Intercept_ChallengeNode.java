@@ -27,9 +27,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MatchInterceptNode extends MatchNode {
+public class SI_EG_Intercept_ChallengeNode extends ChallengeNode {
 
-    public MatchInterceptNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public SI_EG_Intercept_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
     }
 
