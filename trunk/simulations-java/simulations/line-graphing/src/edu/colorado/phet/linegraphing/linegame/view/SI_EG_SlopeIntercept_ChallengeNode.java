@@ -77,8 +77,7 @@ public class SI_EG_SlopeIntercept_ChallengeNode extends SI_ChallengeNode {
             // interactivity for point (intercept) manipulator
             interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
             interceptManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                                 interceptManipulatorNode, mvt, guessLine,
-                                                                                 x1Range, y1Range,
+                                                                                 interceptManipulatorNode, mvt, guessLine, x1Range, y1Range,
                                                                                  true /* constantSlope */ ) );
             // Rendering order
             addChild( guessNodeParent );
