@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Shapes: Fixed: Fixed scale when new container node animates out of toolbox
 Build a Mixed Fraction: Shapes: Fixed: Fixed location when dropping into collection box
 Build a Mixed Fraction: Shapes: Fixed: Bar shape pieces no longer adjacent
 Build a Mixed Fraction: Shapes: Fixed: Piece jumps larger when "undo" pressed in a container
