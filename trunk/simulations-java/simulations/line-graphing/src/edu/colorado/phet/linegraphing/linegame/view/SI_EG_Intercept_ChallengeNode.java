@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.view;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -23,7 +21,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Given an equation in slope-intercept form, graph the matching line by manipulating the intercept.
+ * Given an equation in slope-intercept form, graph the line by manipulating the intercept.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -82,7 +80,7 @@ public class SI_EG_Intercept_ChallengeNode extends SI_ChallengeNode {
                     guessNodeParent.addChild( guessNode );
 
                     // move the manipulator
-                    interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
+                    interceptManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
                 }
             } );
         }
