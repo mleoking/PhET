@@ -145,10 +145,10 @@ public abstract class PieceNode extends Stackable {
         }
     };
 
-    @SuppressWarnings("unchecked") public void animateToTopOfStack() { stack.animateToTopOfStack( this ); }
+    @SuppressWarnings("unchecked") public void animateToTopOfStack() { stack.animateToTopOfStack( this, context.isFreePlay() ); }
 
     //Show drop shadow when moving back to toolbox
-    public void animateToStackLocation( Vector2D v ) {
+    public void animateToStackLocation( Vector2D v, final boolean deleteOnArrival ) {
         container = null;
         attachmentTime = -1L;
         animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, BuildAFractionModule.ANIMATION_TIME ).
@@ -162,7 +162,20 @@ public abstract class PieceNode extends Stackable {
                                                             hideShadow();
                                                         }
                                                     },
-                                                    new UpdateAnimatingFlag( animating ) ) );
+                                                    new UpdateAnimatingFlag( animating ),
+                                                    new PActivityDelegateAdapter() {
+                                                        @Override public void activityFinished( final PActivity activity ) {
+                                                            if ( deleteOnArrival ) {
+                                                                PieceNode.this.delete();
+                                                            }
+                                                        }
+                                                    }
+                ) );
+    }
+
+    public void delete() {
+        super.delete();
+        removeFromParent();
     }
 
     protected abstract void hideShadow();

@@ -23,12 +23,14 @@ import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
  * @author Sam Reid
  */
 public @Data class Stack<T extends Stackable> {
-    public final List<T> cards;
+    public List<T> cards;
     private final Integer stackIndex;
     private final StackContext<T> context;
+    private final List<T> originalCards;
 
     public Stack( List<T> cards, final Integer stackIndex, final StackContext<T> context ) {
         this.cards = cards;
+        this.originalCards = cards;
         this.stackIndex = stackIndex;
         this.context = context;
 
@@ -81,12 +83,12 @@ public @Data class Stack<T extends Stackable> {
     public Vector2D getLocation( final int index, T card ) { return context.getLocation( stackIndex, index, card ); }
 
     //Find the location for the topmost (in z-ordering) card and move the card there.  Also mark the site as used so no other cards will go there.
-    public void animateToTopOfStack( final T cardNode ) {
+    public void animateToTopOfStack( final T cardNode, boolean deleteOnArrival ) {
         List<Integer> sites = List.range( 0, cards.length() );
         for ( Integer site : sites ) {
             if ( !hasCardAtSite( site ) ) {
                 cardNode.setPositionInStack( Option.some( site ) );
-                cardNode.animateToStackLocation( getLocation( site, cardNode ) );
+                cardNode.animateToStackLocation( getLocation( site, cardNode ), deleteOnArrival );
                 cardNode.moveToFront();
                 break;
             }

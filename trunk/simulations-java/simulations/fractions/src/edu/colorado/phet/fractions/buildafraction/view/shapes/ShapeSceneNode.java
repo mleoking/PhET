@@ -492,6 +492,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     public double getContainerScale() { return isMixedNumbers() ? 0.6 : 1.0; }
 
+    public boolean isFreePlay() {
+        return freePlay;
+    }
+
     public @Data static class DropLocation {
         public final Vector2D position;
         public final double angle;

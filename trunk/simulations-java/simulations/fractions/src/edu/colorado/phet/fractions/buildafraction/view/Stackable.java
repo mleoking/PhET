@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view;
 
+import fj.F;
 import fj.data.Option;
 
 import java.beans.PropertyChangeEvent;
@@ -37,7 +38,7 @@ public abstract class Stackable<T extends Stackable> extends PNode {
         this.positionInStack = positionInStack;
     }
 
-    public abstract void animateToStackLocation( Vector2D v );
+    public abstract void animateToStackLocation( Vector2D v, boolean deleteOnArrival );
 
     protected double getAnimateToScale() { return 1.0; }
 
@@ -53,5 +54,14 @@ public abstract class Stackable<T extends Stackable> extends PNode {
             }
         } );
         this.stack = stack;
+    }
+
+    public void delete() {
+        stack.cards = stack.cards.filter( new F<T, Boolean>() {
+            @Override public Boolean f( final T t ) {
+                return t != Stackable.this;
+            }
+        } );
+        stack.update();
     }
 }

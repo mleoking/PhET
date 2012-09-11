@@ -21,4 +21,6 @@ public interface FractionDraggingContext {
     ObservableProperty<Option<Integer>> getDraggedCardProperty();
 
     void startDrag( FractionNode fractionNode );
+
+    boolean isFreePlay();
 }

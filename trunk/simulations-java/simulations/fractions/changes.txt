@@ -1,3 +1,4 @@
+Free play: Made number cards bottomless
 Free play: Made fraction skeletons bottomless
 Free play: Added mixed numbers for numbers toolbox
 Free play: Fixed initial location of container and fraction
