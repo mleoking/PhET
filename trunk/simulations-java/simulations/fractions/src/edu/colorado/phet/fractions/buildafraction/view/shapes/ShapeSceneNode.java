@@ -138,6 +138,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
             Vector2D position = getContainerPosition( level );
             setInitialPosition( position.x, position.y );
+            setScale( getContainerScale() );
         }};
         addChild( firstContainerNode );
 
@@ -484,6 +485,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
         else { return Option.none(); }
     }
+
+    public double getContainerScale() { return isMixedNumbers() ? 0.6 : 1.0; }
 
     public @Data static class DropLocation {
         public final Vector2D position;

@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Shapes: Fixed scaling for initial container
 Build a Fraction: Shapes: Reduced the size of collection boxes
 Build a Fraction: Shapes: Made "undo" work incrementally when not in a collection box
 Build a Fraction: Numbers: Made "undo" work incrementally when not in a collection box

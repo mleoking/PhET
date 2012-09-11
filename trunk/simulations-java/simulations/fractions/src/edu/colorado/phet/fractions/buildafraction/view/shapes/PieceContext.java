@@ -12,4 +12,6 @@ public interface PieceContext {
     void endDrag( PieceNode piece );
 
     Option<Double> getNextAngle( final PieceNode pieceNode );
+
+    double getContainerScale();
 }
