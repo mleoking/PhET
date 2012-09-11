@@ -39,10 +39,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public abstract class ChallengeNode extends PhetPNode {
 
-    // Base class for all graph nodes used in matching challenges.
-    public static abstract class MatchGraphNode extends GraphNode {
+    // Base class for the graph node in all challenges.
+    public static abstract class ChallengeGraphNode extends GraphNode {
 
-        public MatchGraphNode( Graph graph, ModelViewTransform mvt ) {
+        public ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
             super( graph, mvt );
         }
 
@@ -55,8 +55,8 @@ public abstract class ChallengeNode extends PhetPNode {
 
         final EquationNode equationNode = createEquationNode( model.challenge.get().answer, GameConstants.GIVEN_COLOR, GameConstants.EQUATION_FONT );
 
-        final MatchGraphNode graphNode = createChallengeGraphNode( model.graph, model.challenge.get().guess, model.challenge.get().answer,
-                                                                   model.challenge.get().mvt );
+        final ChallengeGraphNode graphNode = createChallengeGraphNode( model.graph, model.challenge.get().guess, model.challenge.get().answer,
+                                                                       model.challenge.get().mvt );
 
         final FaceNode faceNode = new FaceNode( GameConstants.FACE_DIAMETER, GameConstants.FACE_COLOR );
 
@@ -208,5 +208,5 @@ public abstract class ChallengeNode extends PhetPNode {
     }
 
     // Creates the graph portion of the view.
-    public abstract MatchGraphNode createChallengeGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
+    public abstract ChallengeGraphNode createChallengeGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
 }
