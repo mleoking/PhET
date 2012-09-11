@@ -30,13 +30,9 @@ public abstract class Stackable<T extends Stackable> extends PNode {
         }
     }
 
-    public Option<Integer> getPositionInStack() {
-        return positionInStack;
-    }
+    public Option<Integer> getPositionInStack() { return positionInStack; }
 
-    public void setPositionInStack( Option<Integer> positionInStack ) {
-        this.positionInStack = positionInStack;
-    }
+    public void setPositionInStack( Option<Integer> positionInStack ) { this.positionInStack = positionInStack; }
 
     public abstract void animateToStackLocation( Vector2D v, boolean deleteOnArrival );
 

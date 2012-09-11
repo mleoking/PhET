@@ -64,6 +64,7 @@ public class PiePieceNode extends PieceNode {
 
     @Override public PieceNode copy() {
         PiePieceNode copy = new PiePieceNode( pieceDenominator, shapeSceneNode, copy( shape ) );
+        copy.setInitialScale( initialScale );
         copy.setStack( stack );
         copy.setPositionInStack( getPositionInStack() );
         stack.cards = stack.cards.snoc( copy );

@@ -36,7 +36,7 @@ import static java.awt.geom.AffineTransform.getTranslateInstance;
  */
 public abstract class PieceNode extends Stackable {
     public final Integer pieceSize;
-    private double initialScale = Double.NaN;
+    protected double initialScale = Double.NaN;
     final PieceContext context;
     final PhetPPath pathNode;
     public static final BasicStroke stroke = new BasicStroke( 2 );
