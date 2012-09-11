@@ -45,9 +45,9 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.ord;
+import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType.PIE;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerNode.*;
-import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.createPieSlice;
-import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.createRect;
+import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.*;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceIconNode.TINY_SCALE;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.STAGE_SIZE;
@@ -78,6 +78,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private static final double CARD_SPACING_DX = 3;
     private static final double CARD_SPACING_DY = CARD_SPACING_DX;
     private final BuildAFractionModel model;
+    private final boolean freePlay;
     public final int toolboxHeight;
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean freePlay ) {
@@ -108,6 +109,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                                                            final boolean freePlay ) {
         super( levelIndex, soundEnabled, context, freePlay );
         this.model = model;
+        this.freePlay = freePlay;
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
@@ -160,8 +162,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 int cardIndex = pieceDenominatorWithIndex._2();
 
                 //Choose the shape for the level, pies or horizontal bars
-                final PieceNode piece = level.shapeType == ShapeType.PIE ? new PiePieceNode( pieceDenominator, ShapeSceneNode.this, new PhetPPath( createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) )
-                                                                         : new BarPieceNode( pieceDenominator, ShapeSceneNode.this, new PhetPPath( createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) );
+                final PieceNode piece = level.shapeType == PIE ? new PiePieceNode( pieceDenominator, ShapeSceneNode.this, new PhetPPath( createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) )
+                                                               : new BarPieceNode( pieceDenominator, ShapeSceneNode.this, new PhetPPath( createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) );
                 piece.setOffset( getLocation( stackIndex, cardIndex, piece ).toPoint2D() );
                 piece.setInitialScale( TINY_SCALE );
 
@@ -184,11 +186,11 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             final PieceIconNode child = new PieceIconNode( group.head(), level.shapeType );
             final PieceNode firstPiece = pieces.get( 0 );
 
-            child.setOffset( level.shapeType == ShapeType.PIE ? new Point2D.Double( firstPiece.getFullBounds().getMaxX() - child.getFullBounds().getWidth(), firstPiece.getYOffset() )
-                                                              : new Point2D.Double( pieces.get( 0 ).getOffset().getX() + 0.5, pieces.get( 0 ).getOffset().getY() + 0.5 ) );
+            child.setOffset( level.shapeType == PIE ? new Point2D.Double( firstPiece.getFullBounds().getMaxX() - child.getFullBounds().getWidth(), firstPiece.getYOffset() )
+                                                    : new Point2D.Double( pieces.get( 0 ).getOffset().getX() + 0.5, pieces.get( 0 ).getOffset().getY() + 0.5 ) );
 
             //It is unknown why the above computation doesn't work for fifths pie slices, but it is off horizontally by several units
-            if ( level.shapeType == ShapeType.PIE && firstPiece.pieceSize == 5 ) {
+            if ( level.shapeType == PIE && firstPiece.pieceSize == 5 ) {
                 child.translate( 4, 0 );
             }
             addChild( child );
@@ -201,7 +203,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         for ( int i = 0; i < numInGroup; i++ ) {
             final double delta = getCardOffsetWithinStack( numInGroup, i );
             final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
-                final int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
+                final int sign = level.shapeType == PIE ? -1 : +1;
                 setInitialState( layoutXOffset + INSET + 20 + delta * sign + finalGroupIndex * spacing,
                                  stageSize.height - INSET - toolboxHeight + 20 + delta, TINY_SCALE );
             }};
@@ -228,11 +230,12 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     //Location for a container to move to in the center of the play area
     private Vector2D getContainerPosition() {
-//        double x = 298 + ( level.shapeType == ShapeType.PIE ? 26 : 0 );
-//        if ( level.hasValuesGreaterThanOne() ) { x = x - 61; }
-        double offset = level.shapeType == ShapeType.PIE ? ContainerShapeNode.circleDiameter / 2 : ContainerShapeNode.rectangleWidth / 2;
-        final int y = level.shapeType == ShapeType.PIE ? 200 : 250;
-        return new Vector2D( levelReadoutTitle.getCenterX() - offset * getContainerScale(), y );
+        double offset = level.shapeType == PIE ? circleDiameter / 2 : rectangleWidth / 2;
+        double freePlayOffset = freePlay ? STAGE_SIZE.height - toolboxHeight - INSET * 3 - 100 : 0;
+        final double y = ( level.shapeType == PIE ? 200 : 250 ) + freePlayOffset;
+
+        double freePlayXOffset = freePlay ? 150 : 0;
+        return new Vector2D( levelReadoutTitle.getCenterX() - offset * getContainerScale() + freePlayXOffset, y );
     }
 
     protected void reset() {
@@ -505,7 +508,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         PActivity activity;
         //Function that finalizes the piece in the container
         VoidFunction0 postprocess;
-        if ( level.shapeType == ShapeType.PIE ) {
+        if ( level.shapeType == PIE ) {
             final DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
             activity = piece.animateToPositionScaleRotation( dropLocation.position.x, dropLocation.position.y, getContainerScale(), 0, BuildAFractionModule.ANIMATION_TIME );
 
@@ -618,7 +621,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     //Determine the location of a card within a stack.  This code is complicated because it takes into account the number of stacks and the card types
     public Vector2D getLocation( final int stackIndex, final int cardIndex, final PieceNode card ) {
-        int sign = level.shapeType == ShapeType.PIE ? -1 : +1;
+        int sign = level.shapeType == PIE ? -1 : +1;
         List<List<Integer>> groups = level.pieces.group( intEqual );
         double delta = getCardOffsetWithinStack( groups.index( stackIndex ).length(), cardIndex );
         final int yOffset = level.shapeType == ShapeType.BAR ? 25 : 0;
