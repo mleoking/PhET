@@ -133,10 +133,12 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
         initCollectionBoxes( insetY, _pairs, freePlay );
 
+        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
+
         //Center the first container node in the play area.
         //Layout values sampled manually at runtime
         ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
-            Vector2D position = getContainerPosition( level );
+            Vector2D position = getContainerPosition();
             setInitialPosition( position.x, position.y );
             setScale( getContainerScale() );
         }};
@@ -220,18 +222,17 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }};
         addChild( toolboxNode );
         toolboxNode.moveToBack();
-
-        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
     }
 
     public boolean isMixedNumbers() { return model.isMixedNumbers(); }
 
     //Location for a container to move to in the center of the play area
-    private static Vector2D getContainerPosition( ShapeLevel level ) {
-        double x = 298 + ( level.shapeType == ShapeType.PIE ? 26 : 0 );
-        if ( level.hasValuesGreaterThanOne() ) { x = x - 61; }
+    private Vector2D getContainerPosition() {
+//        double x = 298 + ( level.shapeType == ShapeType.PIE ? 26 : 0 );
+//        if ( level.hasValuesGreaterThanOne() ) { x = x - 61; }
+        double offset = level.shapeType == ShapeType.PIE ? ContainerShapeNode.circleDiameter / 2 : ContainerShapeNode.rectangleWidth / 2;
         final int y = level.shapeType == ShapeType.PIE ? 200 : 250;
-        return new Vector2D( x, y );
+        return new Vector2D( levelReadoutTitle.getCenterX() - offset * getContainerScale(), y );
     }
 
     protected void reset() {
@@ -322,14 +323,14 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     //move back to the center of the screen, but only if no other container node is already there.
                     if ( getContainerNodesInPlayArea().exists( new F<ContainerNode, Boolean>() {
                         @Override public Boolean f( final ContainerNode containerNode ) {
-                            return containerNode.getOffset().distance( getContainerPosition( level ).toPoint2D() ) < 10;
+                            return containerNode.getOffset().distance( getContainerPosition().toPoint2D() ) < 10;
                         }
                     } ) ) {
                         double angle = Math.PI * 2 * random.nextDouble();
-                        animateToPosition( containerNode, getContainerPosition( level ).plus( Vector2D.createPolar( 150, angle ) ), new MoveAwayFromCollectionBoxes( this, containerNode ) );
+                        animateToPosition( containerNode, getContainerPosition().plus( Vector2D.createPolar( 150, angle ) ), new MoveAwayFromCollectionBoxes( this, containerNode ) );
                     }
                     else {
-                        animateToPosition( containerNode, getContainerPosition( level ), new MoveAwayFromCollectionBoxes( this, containerNode ) );
+                        animateToPosition( containerNode, getContainerPosition(), new MoveAwayFromCollectionBoxes( this, containerNode ) );
                     }
 
                 }
@@ -396,7 +397,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             } );
             //Fail safe!  Shouldn't happen but fail gracefully just in case
             if ( v.length() == 0 ) {
-                animateToPosition( containerNode, getContainerPosition( level ).plus( 100, 100 ), new NullDelegate() );
+                animateToPosition( containerNode, getContainerPosition().plus( 100, 100 ), new NullDelegate() );
             }
             else {
                 containerNode.animateToPositionScaleRotation( v.head().x, v.head().y,
@@ -422,7 +423,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         } );
     }
 
-    private void animateToCenterScreen( final ContainerNode containerNode, PActivityDelegate delegate ) { animateToPosition( containerNode, getContainerPosition( level ), delegate ); }
+    private void animateToCenterScreen( final ContainerNode containerNode, PActivityDelegate delegate ) { animateToPosition( containerNode, getContainerPosition(), delegate ); }
 
     private void animateToPosition( final ContainerNode containerNode, final Vector2D position, PActivityDelegate delegate ) {
         containerNode.animateToPositionScaleRotation( position.x, position.y,
