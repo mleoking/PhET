@@ -40,7 +40,7 @@ public class SI_EG_Intercept_ChallengeNode extends ChallengeNode {
     // Graph for this challenge
     private static class InterceptGraphNode extends MatchGraphNode {
 
-        private final SlopeInterceptLineNode answerNode;
+        private final LineNode answerNode;
         private final LineManipulatorNode interceptManipulatorNode;
 
         public InterceptGraphNode( final Graph graph,
