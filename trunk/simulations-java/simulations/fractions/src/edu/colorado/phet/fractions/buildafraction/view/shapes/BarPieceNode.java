@@ -14,7 +14,7 @@ public class BarPieceNode extends PieceNode {
     private final ZeroOffsetNode barShadowNode;
 
     public BarPieceNode( final int pieceDenominator, final ShapeSceneNode shapeSceneNode, final PhetPPath shape ) {
-        super( pieceDenominator, shapeSceneNode, shape, shapeSceneNode.isMixedNumbers() );
+        super( pieceDenominator, shapeSceneNode, shape );
 
         final PhetPPath barShadow = new PhetPPath( this.pathNode.getPathReference(), ShapeNode.SHADOW_PAINT );
         barShadowNode = new ZeroOffsetNode( barShadow ) {{
