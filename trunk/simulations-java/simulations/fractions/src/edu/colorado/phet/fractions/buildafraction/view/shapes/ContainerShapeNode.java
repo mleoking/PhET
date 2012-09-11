@@ -21,8 +21,8 @@ import edu.umd.cs.piccolo.PNode;
 class ContainerShapeNode extends PNode {
 
     private static final double scale = 1.7;
-    public static final double rectangleWidth = 130 * scale;
-    public static final double rectangleHeight = 55 * scale;
+    public static final double rectangleWidth = 130 * scale * 0.9;
+    public static final double rectangleHeight = 55 * scale * 1.1;
 
     public static final double circleDiameter = 100 * scale;
 
