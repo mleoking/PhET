@@ -324,7 +324,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     public void startDrag( final NumberCardNode node ) {
         draggedCardProperty.set( some( node.number ) );
-        if ( freePlay ) {
+        if ( freePlay && !node.animating.get() ) {
             NumberCardNode copy = node.copy();
             addChild( copy );
             copy.setGlobalTranslation( node.getGlobalTranslation() );

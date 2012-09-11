@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBounde
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
+import edu.colorado.phet.fractions.buildafraction.view.UpdateAnimatingFlag;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.CompositeDelegate;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -75,13 +76,16 @@ public class NumberCardNode extends Stackable {
     }
 
     public void animateToStackLocation( Vector2D v, final boolean deleteOnArrival ) {
-        animateToPositionScaleRotation( v.x, v.y, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( this, true ), new PActivityDelegateAdapter() {
-            @Override public void activityFinished( final PActivity activity ) {
-                if ( deleteOnArrival ) {
-                    delete();
-                }
-            }
-        } ) );
+        animateToPositionScaleRotation( v.x, v.y, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate(
+                new DisablePickingWhileAnimating( this, true ),
+                new UpdateAnimatingFlag( animating ),
+                new PActivityDelegateAdapter() {
+                    @Override public void activityFinished( final PActivity activity ) {
+                        if ( deleteOnArrival ) {
+                            delete();
+                        }
+                    }
+                } ) );
     }
 
     public void delete() {
