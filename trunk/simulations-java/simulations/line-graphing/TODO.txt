@@ -8,6 +8,7 @@ DESIGN
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 
 HIGH
+- debug incorrect answers that are accepted as correct
 - example of each game challenge
 - random creation of challenges, subject to constraints tbd
 
@@ -27,7 +28,7 @@ Do each of these for "Graph the Line" and "Make the Equation"
 [DONE] slope-intercept form + slope variable + intercept variable
 [DONE] slope-intercept form + 2 point manipulators
 [DONE] point-slope form + point variable
-- point-slope form + slope variable (plot point)
+[DONE] point-slope form + slope variable (plot point)
 - point-slope form + slope variable + point variable
 - point-slope form + 2 point manipulators
 
