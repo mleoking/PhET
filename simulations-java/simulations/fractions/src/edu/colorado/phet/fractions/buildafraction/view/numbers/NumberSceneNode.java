@@ -118,11 +118,13 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         final FractionNode fractionNode = new FractionNode( this, level.hasMixedNumbers() );
         fractionNode.setScale( 1.0 );
 
-        final double extentX = LEFT_RIGHT_INSET * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON + fractionNode.getFullBounds().getWidth();
+        double extentX = LEFT_RIGHT_INSET * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON + fractionNode.getFullBounds().getWidth();
+        if ( freePlay ) { extentX = extentX + 73; }
 
         //Create the toolbox node
+        final double finalExtentX = extentX;
         toolboxNode = new RichPNode() {{
-            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, extentX, 130, 30, 30 ), Color.white, BuildAFractionCanvas.controlPanelStroke, darkGray );
+            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, finalExtentX, 130, 30, 30 ), Color.white, BuildAFractionCanvas.controlPanelStroke, darkGray );
             addChild( border );
             final double offsetX = Math.max( ( AbstractFractionsCanvas.STAGE_SIZE.width - 150 ) / 2 - this.getFullWidth() / 2 - 29
                                              - ( level.hasValuesGreaterThanOne() ? 48 : 0 ), INSET );
@@ -162,6 +164,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             //Put it to the right of the numbers in the toolbox
 
             toolboxPositionX = toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth();
+            if ( freePlay ) { toolboxPositionX = toolboxPositionX - 108; }
             toolboxPositionY = toolboxNode.getCenterY() - toolboxFractionGraphic.getFullBounds().getHeight() / 2;
             toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
             toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
@@ -169,6 +172,23 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             fractionNodes.add( toolboxFractionGraphic );
 
             toolboxFractionGraphic.moveInFrontOf( toolboxNode );
+        }
+
+        double xx = toolboxPositionX;
+        if ( freePlay ) {
+            for ( int i = 0; i < numRemainingFractionSkeletons; i++ ) {
+                final FractionNode toolboxFractionGraphic = new FractionNode( this, true );
+
+                //Put it to the right of the numbers in the toolbox
+
+                toolboxPositionX = xx + 67;
+                toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
+                toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
+                addChild( toolboxFractionGraphic );
+                fractionNodes.add( toolboxFractionGraphic );
+
+                toolboxFractionGraphic.moveInFrontOf( toolboxNode );
+            }
         }
 
         finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
