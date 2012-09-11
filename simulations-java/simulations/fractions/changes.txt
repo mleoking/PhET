@@ -1,3 +1,4 @@
+Free play: Fixed: Sometimes shapes create an odd clipping region when animating back to the toolbox
 Free play: Fixed: When clicking on a number card lots, it fills up with duplicated cards
 # 1.01.11 (67870) Sep 11, 2012
 Build a Fraction: Fixed: "Next button" doesn't show sometimes

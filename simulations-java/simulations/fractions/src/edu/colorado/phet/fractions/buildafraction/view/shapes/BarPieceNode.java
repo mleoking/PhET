@@ -48,6 +48,7 @@ public class BarPieceNode extends PieceNode {
 
     @Override public PieceNode copy() {
         BarPieceNode copy = new BarPieceNode( pieceDenominator, shapeSceneNode, PiePieceNode.copy( shape ) );
+        copy.setInitialScale( initialScale );
         copy.setStack( stack );
         stack.cards = stack.cards.snoc( copy );
         copy.setPositionInStack( getPositionInStack() );
