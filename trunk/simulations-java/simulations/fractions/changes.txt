@@ -1,3 +1,4 @@
+# 1.01.11 (67870) Sep 11, 2012
 Build a Fraction: Fixed: "Next button" doesn't show sometimes
 Free play: Fixed: Shapes move to the left when pressing "+" button -- should only do so if it expands off screen
 Free play: Reduced height of top toolbox for circles
