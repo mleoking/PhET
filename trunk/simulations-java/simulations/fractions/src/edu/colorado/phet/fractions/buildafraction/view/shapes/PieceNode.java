@@ -92,7 +92,7 @@ public abstract class PieceNode extends Stackable {
                 //This node gets reparented, so only send mouse events if it is traveling freely (i.e. not in a container)
                 if ( container != null ) { return; }
                 Option<Double> originalAngle = context.getNextAngle( PieceNode.this );
-                translate( event.delta.width, event.delta.height );
+                translate( event.delta.width / getScale(), event.delta.height / getScale() );
                 Option<Double> newAngle = context.getNextAngle( PieceNode.this );
                 if ( originalAngle.isSome() && newAngle.isSome() && !originalAngle.some().equals( newAngle.some() ) ) {
                     rotateTo( newAngle.some(), event.event );
