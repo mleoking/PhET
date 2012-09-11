@@ -12,11 +12,13 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
  * @author Sam Reid
  */
 public interface FractionDraggingContext {
-    void endDrag( FractionNode fractionGraphic );
+    void endDrag( FractionNode fractionNode );
 
     void updateStacks();
 
     Vector2D getCenterOfScreen();
 
     ObservableProperty<Option<Integer>> getDraggedCardProperty();
+
+    void startDrag( FractionNode fractionNode );
 }

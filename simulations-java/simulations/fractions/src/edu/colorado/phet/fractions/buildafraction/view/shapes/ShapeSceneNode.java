@@ -78,7 +78,6 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private static final double CARD_SPACING_DX = 3;
     private static final double CARD_SPACING_DY = CARD_SPACING_DX;
     private final BuildAFractionModel model;
-    public final boolean freePlay;
     public final int toolboxHeight;
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean freePlay ) {
@@ -109,7 +108,6 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                                                            final boolean freePlay ) {
         super( levelIndex, soundEnabled, context, freePlay );
         this.model = model;
-        this.freePlay = freePlay;
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {

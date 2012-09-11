@@ -66,6 +66,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private static final double LEFT_RIGHT_INSET = 20;
     private static final double SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON = 50;
     private Property<Option<Integer>> draggedCardProperty = new Property<Option<Integer>>( Option.<Integer>none() );
+    private double toolboxPositionY;
+    private double offsetX;
 
     @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean freePlay ) {
         super( levelIndex, soundEnabled, context, freePlay );
@@ -159,36 +161,18 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         double toolboxPositionX = 0;
         double toolboxPositionY = 0;
         for ( int i = 0; i < numRemainingFractionSkeletons; i++ ) {
-            final FractionNode toolboxFractionGraphic = new FractionNode( this, level.hasMixedNumbers() );
-
-            //Put it to the right of the numbers in the toolbox
-
-            toolboxPositionX = toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth();
-            if ( freePlay ) { toolboxPositionX = toolboxPositionX - 108; }
-            toolboxPositionY = toolboxNode.getCenterY() - toolboxFractionGraphic.getFullBounds().getHeight() / 2;
-            toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
-            toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
-            addChild( toolboxFractionGraphic );
-            fractionNodes.add( toolboxFractionGraphic );
-
-            toolboxFractionGraphic.moveInFrontOf( toolboxNode );
+            CreateNonMixedFractionGraphicFreePlay c = new CreateNonMixedFractionGraphicFreePlay( freePlay ).invoke();
+            toolboxPositionX = c.getToolboxPositionX();
+            toolboxPositionY = c.getToolboxPositionY();
         }
 
-        double xx = toolboxPositionX;
+        double offsetX = toolboxPositionX;
 
         //For free play, also create a mixed number graphic
         if ( freePlay ) {
-            final FractionNode toolboxFractionGraphic = new FractionNode( this, true );
-
-            //Put it to the right of the numbers in the toolbox
-
-            toolboxPositionX = xx + 67;
-            toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
-            toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
-            addChild( toolboxFractionGraphic );
-            fractionNodes.add( toolboxFractionGraphic );
-
-            toolboxFractionGraphic.moveInFrontOf( toolboxNode );
+            toolboxPositionX = addMixedFractionGraphicFreePlay( toolboxPositionY, offsetX );
+            this.toolboxPositionY = toolboxPositionY;
+            this.offsetX = offsetX;
         }
 
         finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
@@ -197,6 +181,21 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         centerOfScreen = new Vector2D( freePlay ? 550 : levelReadoutTitle.getFullBounds().getCenterX() - fractionNode.getFullWidth() / 2 + 28, 350 - fractionNode.getFullHeight() / 2 );
         fractionNode.setOffset( centerOfScreen.toPoint2D() );
         fractionNode.moveInFrontOf( toolboxNode );
+    }
+
+    private double addMixedFractionGraphicFreePlay( final double toolboxPositionY, final double offsetX ) {
+        final FractionNode toolboxFractionGraphic = new FractionNode( this, true );
+
+        //Put it to the right of the numbers in the toolbox
+
+        final double toolboxPositionX = offsetX + 67;
+        toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
+        toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
+        addChild( toolboxFractionGraphic );
+        fractionNodes.add( toolboxFractionGraphic );
+
+        toolboxFractionGraphic.moveInFrontOf( toolboxNode );
+        return toolboxPositionX;
     }
 
     private ArrayList<NumberSceneCollectionBoxPair> getCollectionBoxPairs( final BuildAFractionModel model ) {
@@ -285,11 +284,11 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     }
 
     //When the user drags an un-filled fraction node.  If you are looking for the code that is called when a fraction card is dropped (say in a target) that is called fractionCardNodeDroppedInCollectionBox()
-    public void endDrag( final FractionNode fractionGraphic ) {
+    public void endDrag( final FractionNode fractionNode ) {
 
         //if fraction graphic overlaps the toolbox when dropped, animate back to the toolbox position (but only if empty)
-        if ( toolboxNode.getGlobalFullBounds().intersects( fractionGraphic.getGlobalFullBounds() ) && fractionGraphic.isEmpty() ) {
-            fractionGraphic.animateToToolbox();
+        if ( toolboxNode.getGlobalFullBounds().intersects( fractionNode.getGlobalFullBounds() ) && fractionNode.isEmpty() ) {
+            fractionNode.animateToToolbox();
         }
     }
 
@@ -429,6 +428,13 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     public ObservableProperty<Option<Integer>> getDraggedCardProperty() { return draggedCardProperty; }
 
+    public void startDrag( final FractionNode fractionNode ) {
+        if ( freePlay ) {
+            if ( fractionNode.mixedNumber ) { addMixedFractionGraphicFreePlay( toolboxPositionY, offsetX ); }
+            else {new CreateNonMixedFractionGraphicFreePlay( freePlay ).invoke();}
+        }
+    }
+
     public Vector2D getLocation( final int stackIndex, final int cardIndex, NumberCardNode cardNode ) {
 
         final double cardDeltaX = 4;
@@ -446,5 +452,38 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             stackOffset += SPACE_BETWEEN_STACKS;
         }
         return stackOffset;
+    }
+
+    private class CreateNonMixedFractionGraphicFreePlay {
+        private final boolean freePlay;
+        private double toolboxPositionX;
+        private double toolboxPositionY;
+
+        public CreateNonMixedFractionGraphicFreePlay( final boolean freePlay ) {this.freePlay = freePlay;}
+
+        public double getToolboxPositionX() {
+            return toolboxPositionX;
+        }
+
+        public double getToolboxPositionY() {
+            return toolboxPositionY;
+        }
+
+        public CreateNonMixedFractionGraphicFreePlay invoke() {
+            final FractionNode toolboxFractionGraphic = new FractionNode( NumberSceneNode.this, level.hasMixedNumbers() );
+
+            //Put it to the right of the numbers in the toolbox
+
+            toolboxPositionX = toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth();
+            if ( freePlay ) { toolboxPositionX = toolboxPositionX - 108; }
+            toolboxPositionY = toolboxNode.getCenterY() - toolboxFractionGraphic.getFullBounds().getHeight() / 2;
+            toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
+            toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
+            addChild( toolboxFractionGraphic );
+            fractionNodes.add( toolboxFractionGraphic );
+
+            toolboxFractionGraphic.moveInFrontOf( toolboxNode );
+            return this;
+        }
     }
 }

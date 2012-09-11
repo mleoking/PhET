@@ -120,6 +120,8 @@ public class FractionNode extends RichPNode {
 
                 //Grow as it moves out of the toolbox
                 addActivity( new AnimateToScale( 1.0, FractionNode.this, BuildAFractionModule.ANIMATION_TIME ) );
+
+                context.startDrag( FractionNode.this );
             }
 
             @Override protected void dragNode( final DragEvent event ) {
