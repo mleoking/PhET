@@ -140,13 +140,12 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             final Integer stackIndex = cards._2();
             final Stack<NumberCardNode> stack = new Stack<NumberCardNode>( cards._1(), stackIndex, this );
             stackList.add( stack );
-            for ( P2<NumberCardNode, Integer> cardNode : cards._1().zipIndex() ) {
+            for ( final P2<NumberCardNode, Integer> cardNode : cards._1().zipIndex() ) {
                 final Integer index = cardNode._2();
                 final NumberCardNode node = cardNode._1();
                 node.setOffset( stack.getLocation( index, node ).toPoint2D() );
                 node.setPositionInStack( some( index ) );
                 node.setStack( stack );
-
                 addChild( node );
             }
             stack.update();
@@ -317,13 +316,22 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
         //If it didn't hit a fraction, send back to its starting place--the user is not allowed to have free floating numbers in the play area
         if ( !hitFraction ) {
-            numberCardNode.animateToTopOfStack();
+            numberCardNode.animateToTopOfStack( true );
         }
 
         draggedCardProperty.set( Option.<Integer>none() );
     }
 
-    public void startDrag( final NumberCardNode numberCardNode ) { draggedCardProperty.set( some( numberCardNode.number ) ); }
+    public void startDrag( final NumberCardNode node ) {
+        draggedCardProperty.set( some( node.number ) );
+        if ( freePlay ) {
+            NumberCardNode copy = node.copy();
+            addChild( copy );
+            copy.setGlobalTranslation( node.getGlobalTranslation() );
+            copy.setGlobalScale( node.getGlobalScale() );
+            copy.moveToFront();
+        }
+    }
 
     private void numberDroppedOnFraction( final FractionNode fractionGraphic, final NumberCardNode numberCardNode, final PhetPPath box ) {
         centerOnBox( numberCardNode, box );
@@ -433,6 +441,10 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             if ( fractionNode.mixedNumber ) { addMixedFractionGraphicFreePlay( toolboxPositionY, offsetX ); }
             else {new CreateNonMixedFractionGraphicFreePlay( freePlay ).invoke();}
         }
+    }
+
+    public boolean isFreePlay() {
+        return freePlay;
     }
 
     public Vector2D getLocation( final int stackIndex, final int cardIndex, NumberCardNode cardNode ) {

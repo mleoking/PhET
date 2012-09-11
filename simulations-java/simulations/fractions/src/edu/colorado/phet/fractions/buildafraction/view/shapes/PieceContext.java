@@ -14,4 +14,6 @@ public interface PieceContext {
     Option<Double> getNextAngle( final PieceNode pieceNode );
 
     double getContainerScale();
+
+    boolean isFreePlay();
 }

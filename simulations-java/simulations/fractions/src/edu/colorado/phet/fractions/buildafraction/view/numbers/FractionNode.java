@@ -216,7 +216,7 @@ public class FractionNode extends RichPNode {
             box.cardNode.setPickable( true );
             box.cardNode.setChildrenPickable( true );
 
-            box.cardNode.animateToTopOfStack();
+            box.cardNode.animateToTopOfStack( context.isFreePlay() );
             box.cardNode = null;
             box.numberNode = null;
 

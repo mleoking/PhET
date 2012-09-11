@@ -10,6 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
+import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
@@ -17,6 +18,8 @@ import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBounde
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.CompositeDelegate;
+import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.value;
@@ -32,9 +35,13 @@ public class NumberCardNode extends Stackable {
     public final int number;
     private final PhetPPath cardShape;
     public final NumberNode numberNode;
+    private final Dimension2DDouble size;
+    private final NumberDragContext context;
 
     public NumberCardNode( final Dimension2DDouble size, final Integer number, final NumberDragContext context ) {
         this.number = number;
+        this.size = size;
+        this.context = context;
         cardShape = new PhetPPath( new RoundRectangle2D.Double( 0, 0, size.width, size.height, 10, 10 ), Color.white, new BasicStroke( 1 ), Color.black );
         addChild( cardShape );
         numberNode = new NumberNode( number ) {{
@@ -67,8 +74,19 @@ public class NumberCardNode extends Stackable {
         addInputEventListener( new CursorHandler() );
     }
 
-    public void animateToStackLocation( Vector2D v ) {
-        animateToPositionScaleRotation( v.x, v.y, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( this, true ) );
+    public void animateToStackLocation( Vector2D v, final boolean deleteOnArrival ) {
+        animateToPositionScaleRotation( v.x, v.y, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( this, true ), new PActivityDelegateAdapter() {
+            @Override public void activityFinished( final PActivity activity ) {
+                if ( deleteOnArrival ) {
+                    delete();
+                }
+            }
+        } ) );
+    }
+
+    public void delete() {
+        super.delete();
+        removeFromParent();
     }
 
     public void setCardShapeVisible( boolean visible ) { cardShape.setVisible( visible ); }
@@ -78,5 +96,13 @@ public class NumberCardNode extends Stackable {
         numberNode.setOffset( cardShape.getCenterX() - numberNode.getFullWidth() / 2, cardShape.getCenterY() - numberNode.getFullHeight() / 2 );
     }
 
-    @SuppressWarnings("unchecked") public void animateToTopOfStack() { stack.animateToTopOfStack( this ); }
+    @SuppressWarnings("unchecked") public void animateToTopOfStack( boolean deleteOnArrival ) { stack.animateToTopOfStack( this, deleteOnArrival ); }
+
+    public NumberCardNode copy() {
+        final NumberCardNode node = new NumberCardNode( size, number, context );
+        node.setStack( stack );
+        node.setPositionInStack( getPositionInStack() );
+        stack.cards = stack.cards.snoc( node );
+        return node;
+    }
 }
