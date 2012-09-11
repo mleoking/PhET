@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Shapes: Made bars more squarish to make them less rectangular: 10% taller and 10% less wide
 Build a Mixed Fraction: Shapes: Fixed: Fixed scale when new container node animates out of toolbox
 Build a Mixed Fraction: Shapes: Fixed: Fixed location when dropping into collection box
 Build a Mixed Fraction: Shapes: Fixed: Bar shape pieces no longer adjacent
