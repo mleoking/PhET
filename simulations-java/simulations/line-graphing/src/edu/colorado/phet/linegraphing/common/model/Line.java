@@ -14,6 +14,8 @@ import edu.colorado.phet.linegraphing.common.LGColors;
  */
 public class Line {
 
+    private static final Color DEFAULT_COLOR = Color.BLACK;
+
     // standard lines
     public static final Line Y_EQUALS_X_LINE = new Line( 0, 0, 1, 1, LGColors.Y_EQUALS_X );  // y = x
     public static final Line Y_EQUALS_NEGATIVE_X_LINE = new Line( 0, 0, 1, -1, LGColors.Y_EQUALS_NEGATIVE_X );
@@ -35,6 +37,10 @@ public class Line {
         this.color = color;
     }
 
+    public Line( double x1, double y1, double x2, double y2 ) {
+        this( x1, y1, x2, y2, DEFAULT_COLOR );
+    }
+
     /*
      * Creates a line using point-slope description: (y - y1) = m(x - x1)
      * Need to use a factory method because params are identical to primary constructor.
@@ -43,12 +49,20 @@ public class Line {
         return new Line( x1, y1, x1 + run, y1 + rise, color );
     }
 
+    public static Line createPointSlope( double x1, double y1, double rise, double run ) {
+        return createPointSlope( x1, y1, x1 + run, y1 + rise, DEFAULT_COLOR );
+    }
+
     /*
      * Creates a line using slope-intercept description: y = mx + b
      * Using a factory method instead of a constructor to be consistent with createPointSlope.
      */
     public static Line createSlopeIntercept( double rise, double run, double yIntercept, Color color ) {
         return createPointSlope( 0, yIntercept, rise, run, color );
+    }
+
+    public static Line createSlopeIntercept( double rise, double run, double yIntercept ) {
+        return createSlopeIntercept( rise, run, yIntercept, DEFAULT_COLOR );
     }
 
     // Convenience method for creating a line with a different color.
