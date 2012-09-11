@@ -35,12 +35,12 @@ public class SI_EG_Points_ChallengeNode extends ChallengeNode {
         super( model, audioPlayer, challengeSize );
     }
 
-    @Override public MatchGraphNode createChallengeGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
+    @Override public ChallengeGraphNode createChallengeGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
         return new PointsGraphNode( graph, guessLine, answerLine, mvt );
     }
 
     // Graph for this challenge
-    private static class PointsGraphNode extends MatchGraphNode {
+    private static class PointsGraphNode extends ChallengeGraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode x1y1ManipulatorNode, x2y2ManipulatorNode;

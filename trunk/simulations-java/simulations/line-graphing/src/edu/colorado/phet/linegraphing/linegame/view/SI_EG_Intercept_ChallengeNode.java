@@ -33,12 +33,12 @@ public class SI_EG_Intercept_ChallengeNode extends ChallengeNode {
         super( model, audioPlayer, challengeSize );
     }
 
-    @Override public MatchGraphNode createChallengeGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
+    @Override public ChallengeGraphNode createChallengeGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
         return new InterceptGraphNode( graph, guessLine, answerLine, mvt );
     }
 
     // Graph for this challenge
-    private static class InterceptGraphNode extends MatchGraphNode {
+    private static class InterceptGraphNode extends ChallengeGraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode interceptManipulatorNode;
