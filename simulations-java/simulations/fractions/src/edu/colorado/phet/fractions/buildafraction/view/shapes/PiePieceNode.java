@@ -32,7 +32,7 @@ public class PiePieceNode extends PieceNode {
     private final PNode pieBackground;
 
     public PiePieceNode( final int pieceDenominator, final ShapeSceneNode shapeSceneNode, final PhetPPath shape ) {
-        super( pieceDenominator, shapeSceneNode, shape, shapeSceneNode.isMixedNumbers() );
+        super( pieceDenominator, shapeSceneNode, shape );
         pieBackground = new PNode() {{
             addChild( new PhetPPath( ContainerShapeNode.createPieSlice( 1 ), BuildAFractionCanvas.TRANSPARENT ) );
         }};

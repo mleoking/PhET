@@ -47,13 +47,11 @@ public abstract class PieceNode extends Stackable {
 
     //Keep track of attachment time because the last attached is always the first removed.
     public long attachmentTime = -1L;
-    private final boolean mixedNumbers;
 
-    PieceNode( final Integer pieceSize, final PieceContext context, PhetPPath pathNode, boolean mixedNumbers ) {
+    PieceNode( final Integer pieceSize, final PieceContext context, PhetPPath pathNode ) {
         this.pieceSize = pieceSize;
         this.context = context;
         this.pathNode = pathNode;
-        this.mixedNumbers = mixedNumbers;
     }
 
     void installInputListeners() {
