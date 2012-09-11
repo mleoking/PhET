@@ -34,10 +34,10 @@ public class FreePlayCanvas extends AbstractFractionsCanvas {
         };
         final BooleanProperty soundEnabled = new BooleanProperty( false );
 
-        NumberSceneNode numberSceneNode = new NumberSceneNode( 0, rootNode, model, STAGE_SIZE, context, soundEnabled );
+        NumberSceneNode numberSceneNode = new NumberSceneNode( 0, rootNode, model, STAGE_SIZE, context, soundEnabled, true );
         addChild( numberSceneNode );
 
-        ShapeSceneNode shapeSceneNode = new ShapeSceneNode( 0, model, STAGE_SIZE, context, soundEnabled ) {{
+        ShapeSceneNode shapeSceneNode = new ShapeSceneNode( 0, model, STAGE_SIZE, context, soundEnabled, true ) {{
             translate( 0, -STAGE_SIZE.height + toolboxHeight + INSET * 3 );
         }};
         addChild( shapeSceneNode );

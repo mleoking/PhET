@@ -84,7 +84,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         sendSystemMessage( buildAFraction, application, allChallengesComplete );
     }
 
-    protected void initCollectionBoxes( final double insetY, final ArrayList<T> _pairs ) {
+    protected void initCollectionBoxes( final double insetY, final ArrayList<T> _pairs, boolean freePlay ) {
         this.pairs = iterableList( _pairs );
 
         List<PNode> patterns = pairs.map( new F<T, PNode>() {
@@ -113,14 +113,17 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
 
             pair.getCollectionBoxNode().setOffset( offsetX, offsetY );
             pair.getTargetNode().setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
-            addChild( pair.getCollectionBoxNode() );
-            addChild( pair.getTargetNode() );
+
+            if ( !freePlay ) {
+                addChild( pair.getCollectionBoxNode() );
+                addChild( pair.getTargetNode() );
+            }
 
             offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
         }
     }
 
-    protected void finishCreatingUI( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final ActionListener goToNextLevel, final VoidFunction0 _resampleLevel ) {
+    protected void finishCreatingUI( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final ActionListener goToNextLevel, final VoidFunction0 _resampleLevel, boolean freePlay ) {
         final HTMLImageButtonNode nextButton = new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), BUTTON_COLOR ) {{
             setUserComponent( Components.nextButton );
             addActionListener( goToNextLevel );
@@ -143,7 +146,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         } ).minimum( doubleOrd );
         levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
         levelReadoutTitle.setOffset( minScoreCellX / 2 - levelReadoutTitle.getFullWidth() / 2, levelSelectionScreenButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
-        addChild( levelReadoutTitle );
+        if ( !freePlay ) { addChild( levelReadoutTitle ); }
 
         final TextButtonNode resetButton = new TextButtonNode( Strings.RESET, AbstractFractionsCanvas.CONTROL_FONT, BUTTON_COLOR ) {{
             setUserComponent( Components.resetButton );
@@ -155,9 +158,11 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         }};
         final RefreshButtonNode refreshButton = new RefreshButtonNode( _resampleLevel );
 
-        addChild( new HBox( resetButton, refreshButton ) {{
-            setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, levelReadoutTitle.getMaxY() + INSET );
-        }} );
+        if ( !freePlay ) {
+            addChild( new HBox( resetButton, refreshButton ) {{
+                setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, levelReadoutTitle.getMaxY() + INSET );
+            }} );
+        }
     }
 
     protected abstract void reset();

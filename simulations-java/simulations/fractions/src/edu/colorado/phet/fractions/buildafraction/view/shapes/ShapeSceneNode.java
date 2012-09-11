@@ -80,15 +80,15 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private final BuildAFractionModel model;
     public final int toolboxHeight;
 
-    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
-        this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled ) ) );
+    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean freePlay ) {
+        this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled, freePlay ) ), freePlay );
     }
 
     //Create and throw away a new ShapeSceneNode in order to get the layout of the toolbar perfectly centered under the title.
     //Hack alert!  I have concerns that this could lead to difficult to understand code, especially during debugging because 2 ShapeSceneNodes are created for each one displayed.
     //This code was written because everything is in the same layer because nodes must move freely between toolbox, play area and collection boxes.
-    private static double getToolbarOffset( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, final BooleanProperty soundEnabled ) {
-        ShapeSceneNode node = new ShapeSceneNode( levelIndex, model, stageSize, context, soundEnabled, Option.<Double>none() );
+    private static double getToolbarOffset( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, final BooleanProperty soundEnabled, boolean freePlay ) {
+        ShapeSceneNode node = new ShapeSceneNode( levelIndex, model, stageSize, context, soundEnabled, Option.<Double>none(), freePlay );
 
         //Re-layout the toolbox based on the location of the title
         double desiredToolboxCenter = node.levelReadoutTitle.getFullBounds().getCenterX();
@@ -104,7 +104,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         return delta;
     }
 
-    @SuppressWarnings("unchecked") private ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset ) {
+    @SuppressWarnings("unchecked") private ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset,
+                                                           final boolean freePlay ) {
         super( levelIndex, soundEnabled, context );
         this.model = model;
         double insetY = 10;
@@ -130,7 +131,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             final ShapeCollectionBoxNode cell = new ShapeCollectionBoxNode( this, level.targets.maximum( ord( MixedFraction._toDouble ) ), model.collectedMatch.or( level.matchExists ) );
             _pairs.add( new ShapeSceneCollectionBoxPair( cell, new ZeroOffsetNode( f ), target ) );
         }
-        initCollectionBoxes( insetY, _pairs );
+        initCollectionBoxes( insetY, _pairs, freePlay );
 
         //Center the first container node in the play area.
         //Layout values sampled manually at runtime
@@ -219,7 +220,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         addChild( toolboxNode );
         toolboxNode.moveToBack();
 
-        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel );
+        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
     }
 
     public boolean isMixedNumbers() { return model.isMixedNumbers(); }

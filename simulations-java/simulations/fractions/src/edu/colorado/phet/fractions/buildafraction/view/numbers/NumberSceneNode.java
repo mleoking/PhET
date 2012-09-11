@@ -67,7 +67,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private static final double SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON = 50;
     private Property<Option<Integer>> draggedCardProperty = new Property<Option<Integer>>( Option.<Integer>none() );
 
-    @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
+    @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean freePlay ) {
         super( levelIndex, soundEnabled, context );
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
@@ -84,32 +84,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         this.rootNode = rootNode;
 
         //Create the scoring cells with target patterns
-        ArrayList<NumberSceneCollectionBoxPair> _pairs = new ArrayList<NumberSceneCollectionBoxPair>();
-        for ( int i = 0; i < level.targets.length(); i++ ) {
-            NumberTarget target = level.targets.index( i );
-
-            ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
-            for ( int k = 0; k < target.filledPattern.length(); k++ ) {
-                nodes.add( new PatternNode( target.filledPattern.index( k ), target.color ) {{
-
-                    //Scale all nodes up to be the same size, otherwise it is too much work fine tuning each representation to have a good width
-                    double desiredWidth = 80;
-                    double width = this.getFullBounds().getWidth();
-                    double scale = desiredWidth / width;
-                    scale( scale );
-                    scaleStrokes( 1.0 / scale );
-                }} );
-            }
-            HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
-
-
-            //On mixed number nodes, make the target values smaller so there is enough room
-            if ( model.isMixedNumbers() ) { patternNode.scale( 0.75 ); }
-
-            //Add to the set of pairs
-            _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.mixedFraction, this, model.collectedMatch.or( level.matchExists ) ), new ZeroOffsetNode( patternNode ) ) );
-        }
-        initCollectionBoxes( insetY, _pairs );
+        initCollectionBoxes( insetY, getCollectionBoxPairs( model ), freePlay );
 
         //Add a piece container toolbox the user can use to get containers
         //Put numbers on cards so you can see how many there are in a stack
@@ -201,7 +176,36 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         fractionNode.setOffset( centerOfScreen.toPoint2D() );
         fractionNode.moveInFrontOf( toolboxNode );
 
-        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel );
+        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
+    }
+
+    private ArrayList<NumberSceneCollectionBoxPair> getCollectionBoxPairs( final BuildAFractionModel model ) {
+        ArrayList<NumberSceneCollectionBoxPair> _pairs = new ArrayList<NumberSceneCollectionBoxPair>();
+        for ( int i = 0; i < level.targets.length(); i++ ) {
+            NumberTarget target = level.targets.index( i );
+
+            ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
+            for ( int k = 0; k < target.filledPattern.length(); k++ ) {
+                nodes.add( new PatternNode( target.filledPattern.index( k ), target.color ) {{
+
+                    //Scale all nodes up to be the same size, otherwise it is too much work fine tuning each representation to have a good width
+                    double desiredWidth = 80;
+                    double width = this.getFullBounds().getWidth();
+                    double scale = desiredWidth / width;
+                    scale( scale );
+                    scaleStrokes( 1.0 / scale );
+                }} );
+            }
+            HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
+
+
+            //On mixed number nodes, make the target values smaller so there is enough room
+            if ( model.isMixedNumbers() ) { patternNode.scale( 0.75 ); }
+
+            //Add to the set of pairs
+            _pairs.add( new NumberSceneCollectionBoxPair( new NumberCollectionBoxNode( target.mixedFraction, this, model.collectedMatch.or( level.matchExists ) ), new ZeroOffsetNode( patternNode ) ) );
+        }
+        return _pairs;
     }
 
     //Find the max size of each number node, so we can create a consistent card size
