@@ -33,7 +33,7 @@ public class LineGameModel {
     private static final int GRID_VIEW_UNITS = 400; // max dimension (width or height) of the grid in the view
     private static final int CHALLENGES_PER_GAME = 4;
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
-    private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 4 );
+    private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 2 );
 
     // phases of a game, mutually exclusive
     public enum GamePhase {
