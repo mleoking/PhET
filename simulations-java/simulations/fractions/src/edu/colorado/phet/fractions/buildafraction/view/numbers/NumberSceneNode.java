@@ -68,7 +68,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private Property<Option<Integer>> draggedCardProperty = new Property<Option<Integer>>( Option.<Integer>none() );
 
     @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean freePlay ) {
-        super( levelIndex, soundEnabled, context );
+        super( levelIndex, soundEnabled, context, freePlay );
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
