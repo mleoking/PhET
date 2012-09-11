@@ -233,11 +233,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     //Location for a container to move to in the center of the play area
     private Vector2D getContainerPosition() {
         double offset = level.shapeType == PIE ? circleDiameter / 2 : rectangleWidth / 2;
-        double freePlayOffset = freePlay ? STAGE_SIZE.height - toolboxHeight - INSET * 3 - 100 : 0;
-        final double y = ( level.shapeType == PIE ? 200 : 250 ) + freePlayOffset;
+        double freePlayYOffset = freePlay ? STAGE_SIZE.height - toolboxHeight - INSET * 3 - 100 : 0;
+        final double y = ( level.shapeType == PIE ? 200 : 250 ) + freePlayYOffset;
 
-        double freePlayXOffset = freePlay ? 150 : 0;
-        return new Vector2D( levelReadoutTitle.getCenterX() - offset * getContainerScale() + freePlayXOffset, y );
+        return new Vector2D( freePlay ? 200 : levelReadoutTitle.getCenterX() - offset * getContainerScale(), y );
     }
 
     protected void reset() {

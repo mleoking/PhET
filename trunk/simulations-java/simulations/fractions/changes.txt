@@ -1,3 +1,4 @@
+Free play: Fixed initial location of container and fraction
 Free play: Added representation control panel for shape types
 Free play: Added reset button
 Free play: Fixed: containers shouldn't fly to the left when dropped near the right
