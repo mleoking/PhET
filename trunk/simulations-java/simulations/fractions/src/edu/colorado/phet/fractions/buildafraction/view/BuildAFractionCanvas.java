@@ -133,8 +133,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
     private PNode createLevelNode( final int levelIndex, final LevelType levelType ) {
         return levelType == LevelType.SHAPES ?
-               new ShapeSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) :
-               new NumberSceneNode( levelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled );
+               new ShapeSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled, false ) :
+               new NumberSceneNode( levelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled, false );
     }
 
     public void goToShapeLevel( final int newLevelIndex ) {
