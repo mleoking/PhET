@@ -39,11 +39,13 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     private static final int CROSS_FADE_DURATION = 500;
     private final String title;
 
+    public static final Color LIGHT_BLUE = new Color( 236, 251, 251 );
+
     public BuildAFractionCanvas( final BuildAFractionModel model, String title ) {
         this.model = model;
         this.title = title;
         //Set a really light blue because there is a lot of white everywhere
-        setBackground( new Color( 236, 251, 251 ) );
+        setBackground( LIGHT_BLUE );
 
         currentScene = createLevelSelectionNode();
         addChild( currentScene );

@@ -77,7 +77,7 @@ public class ContainerNode extends PNode {
     //For incremental undo
     private List<DropLocation> dropLocationList = List.nil();
 
-    public ContainerNode( ShapeSceneNode parent, final ContainerContext context, boolean showIncreaseButton, final ShapeType shapeType, int maxNumberOfSingleContainers ) {
+    public ContainerNode( final ShapeSceneNode parent, final ContainerContext context, boolean showIncreaseButton, final ShapeType shapeType, int maxNumberOfSingleContainers ) {
         this.parent = parent;
         this.context = context;
         this.shapeType = shapeType;
@@ -134,7 +134,7 @@ public class ContainerNode extends PNode {
             }
         };
         containerLayer = new PNode() {{
-            addChild( new SingleContainerNode( shapeType, ContainerNode.this, selectedPieceSize ) );
+            addChild( new SingleContainerNode( shapeType, ContainerNode.this, selectedPieceSize, parent.isMixedNumbers() ) );
         }};
 
 
@@ -198,7 +198,7 @@ public class ContainerNode extends PNode {
     };
 
     private void addContainer() {
-        final SingleContainerNode child = new SingleContainerNode( shapeType, this, selectedPieceSize );
+        final SingleContainerNode child = new SingleContainerNode( shapeType, this, selectedPieceSize, parent.isMixedNumbers() );
         child.setOffset( containerLayer.getFullBounds().getMaxX() + INSET, containerLayer.getFullBounds().getY() );
         child.setTransparency( 0 );
         containerLayer.addChild( child );
