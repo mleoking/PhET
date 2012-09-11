@@ -35,20 +35,20 @@ public class SI_EG_Slope_ChallengeNode extends ChallengeNode {
     }
 
     @Override public ChallengeGraphNode createChallengeGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
-        return new SlopeGraphNode( graph, guessLine, answerLine, mvt );
+        return new ThisGraphNode( graph, guessLine, answerLine, mvt );
     }
 
     // Graph for this challenge
-    private static class SlopeGraphNode extends ChallengeGraphNode {
+    private static class ThisGraphNode extends ChallengeGraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode slopeManipulatorNode;
         private final PNode interceptPointNode;
 
-        public SlopeGraphNode( final Graph graph,
-                               Property<Line> guessLine,
-                               Line answerLine,
-                               final ModelViewTransform mvt ) {
+        public ThisGraphNode( final Graph graph,
+                              Property<Line> guessLine,
+                              Line answerLine,
+                              final ModelViewTransform mvt ) {
             super( graph, mvt );
 
             // parent for the guess node, to maintain rendering order

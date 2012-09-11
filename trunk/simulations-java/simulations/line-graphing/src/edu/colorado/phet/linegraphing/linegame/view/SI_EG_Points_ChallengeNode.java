@@ -36,19 +36,19 @@ public class SI_EG_Points_ChallengeNode extends ChallengeNode {
     }
 
     @Override public ChallengeGraphNode createChallengeGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
-        return new PointsGraphNode( graph, guessLine, answerLine, mvt );
+        return new ThisGraphNode( graph, guessLine, answerLine, mvt );
     }
 
     // Graph for this challenge
-    private static class PointsGraphNode extends ChallengeGraphNode {
+    private static class ThisGraphNode extends ChallengeGraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode x1y1ManipulatorNode, x2y2ManipulatorNode;
 
-        public PointsGraphNode( final Graph graph,
-                                Property<Line> guessLine,
-                                Line answerLine,
-                                final ModelViewTransform mvt ) {
+        public ThisGraphNode( final Graph graph,
+                              Property<Line> guessLine,
+                              Line answerLine,
+                              final ModelViewTransform mvt ) {
             super( graph, mvt );
 
             // parent for the guess node, to maintain rendering order
