@@ -1,3 +1,4 @@
+Free play: Fixed: Shapes move to the left when pressing "+" button -- should only do so if it expands off screen
 Free play: Reduced height of top toolbox for circles
 Free play: Made container stacks bottomless
 Free play: Made shape piece stacks bottomless
