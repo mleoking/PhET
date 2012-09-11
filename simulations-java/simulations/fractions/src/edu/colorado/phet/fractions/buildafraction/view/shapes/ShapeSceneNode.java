@@ -78,6 +78,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private static final double CARD_SPACING_DX = 3;
     private static final double CARD_SPACING_DY = CARD_SPACING_DX;
     private final BuildAFractionModel model;
+    public final int toolboxHeight;
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled ) {
         this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled ) ) );
@@ -143,7 +144,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         List<List<Integer>> groups = level.pieces.group( intEqual );
         int numGroups = groups.length();
         layoutXOffset = ( 6 - numGroups ) * spacing / 4 + ( level.shapeType == ShapeType.BAR ? 0 : 45 ) + ( toolboxOffset.isSome() ? toolboxOffset.some() : 0.0 );
-        final int toolboxHeight = ( level.shapeType == ShapeType.BAR ? 100 : 140 ) + 5;
+        toolboxHeight = ( level.shapeType == ShapeType.BAR ? 100 : 140 ) + 5;
         for ( P2<List<Integer>, Integer> groupWithIndex : groups.zipIndex() ) {
             int stackIndex = groupWithIndex._2();
             List<Integer> group = groupWithIndex._1();

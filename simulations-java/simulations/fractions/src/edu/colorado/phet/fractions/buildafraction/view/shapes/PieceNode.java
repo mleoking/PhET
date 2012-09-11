@@ -47,11 +47,13 @@ public abstract class PieceNode extends Stackable {
 
     //Keep track of attachment time because the last attached is always the first removed.
     public long attachmentTime = -1L;
+    private final boolean mixedNumbers;
 
-    PieceNode( final Integer pieceSize, final PieceContext context, PhetPPath pathNode ) {
+    PieceNode( final Integer pieceSize, final PieceContext context, PhetPPath pathNode, boolean mixedNumbers ) {
         this.pieceSize = pieceSize;
         this.context = context;
         this.pathNode = pathNode;
+        this.mixedNumbers = mixedNumbers;
     }
 
     void installInputListeners() {
@@ -70,7 +72,7 @@ public abstract class PieceNode extends Stackable {
                 dragStarted();
                 PieceNode.this.moveToFront();
                 setPositionInStack( Option.<Integer>none() );
-                final AnimateToScale activity = new AnimateToScale( 1.0, PieceNode.this, BuildAFractionModule.ANIMATION_TIME );
+                final AnimateToScale activity = new AnimateToScale( mixedNumbers ? 0.6 : 1.0, PieceNode.this, BuildAFractionModule.ANIMATION_TIME );
                 addActivity( activity );
 
                 activity.setDelegate( new PActivityDelegateAdapter() {

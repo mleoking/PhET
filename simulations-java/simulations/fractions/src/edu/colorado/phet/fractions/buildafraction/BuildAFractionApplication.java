@@ -22,7 +22,7 @@ public class BuildAFractionApplication extends PiccoloPhetApplication {
         BooleanProperty collectedMatch = new BooleanProperty( false );
         addModule( new BuildAFractionModule( new BuildAFractionModel( collectedMatch ) ) );
         addModule( new BuildAMixedFractionModule( new BuildAMixedFractionModel( collectedMatch ) ) );
-        addModule( new FreePlayModule( new BuildAMixedFractionModel( collectedMatch ) ) );
+        addModule( new FreePlayModule() );
     }
 
     public static void main( String[] args ) {

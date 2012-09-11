@@ -51,10 +51,12 @@ class SingleContainerNode extends PNode {
     private final PNode dottedLineLayer;
     private final ContainerShapeNode shapeLayer;
     private final ObservableProperty<Integer> number;
+    private final boolean mixedNumbers;
 
-    public SingleContainerNode( final ShapeType shapeType, final ContainerNode parent, final ObservableProperty<Integer> number ) {
+    public SingleContainerNode( final ShapeType shapeType, final ContainerNode parent, final ObservableProperty<Integer> number, final boolean mixedNumbers ) {
         this.parent = parent;
         this.number = number;
+        this.mixedNumbers = mixedNumbers;
         dottedLineLayer = new PNode() {{
             setPickable( false );
             setChildrenPickable( false );
@@ -96,7 +98,7 @@ class SingleContainerNode extends PNode {
                 @Override public void mousePressed( final PInputEvent event ) {
                     super.mousePressed( event );
                     parent.moveToFront();
-                    final AnimateToScale activity = new AnimateToScale( 1.0, parent, BuildAFractionModule.ANIMATION_TIME );
+                    final AnimateToScale activity = new AnimateToScale( mixedNumbers ? 0.6 : 1.0, parent, BuildAFractionModule.ANIMATION_TIME );
                     activity.setDelegate( new PActivityDelegateAdapter() {
                         @Override public void activityFinished( final PActivity activity ) {
                             parent.updateExpansionButtonsEnabled();
