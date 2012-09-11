@@ -149,7 +149,7 @@ class SingleContainerNode extends PNode {
     };
 
     //How far over should a new piece be added in?
-    double getPiecesWidth() {
+    double getPiecesWidthUnscaled() {
         List<PieceNode> children = getPieces();
         return children.length() == 0 ? 0 :
                fj.data.List.iterableList( children ).maximum( FJUtils.ord( new F<PieceNode, Double>() {
@@ -185,7 +185,7 @@ class SingleContainerNode extends PNode {
     public DropLocation getDropLocation( final PieceNode piece, final ShapeType shapeType ) {
         if ( shapeType == ShapeType.BAR ) {
             Vector2D strokeInsets = v( 1, 1 );
-            return new DropLocation( v( getPiecesWidth(), 0 ).minus( strokeInsets ), 0 );
+            return new DropLocation( v( getPiecesWidthUnscaled() * parent.parent.getContainerScale(), 0 ).minus( strokeInsets ), 0 );
         }
         else {
 
