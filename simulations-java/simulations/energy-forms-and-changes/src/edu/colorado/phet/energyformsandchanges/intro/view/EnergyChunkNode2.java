@@ -15,9 +15,13 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -58,11 +62,23 @@ public class EnergyChunkNode2 extends PNode {
         } );
 
         // Draw the energy chunks.
+        Color baseColor = Color.RED;
+        RoundGradientPaint paint = new RoundGradientPaint( WIDTH / 4,
+                                                           -WIDTH / 4,
+                                                           ColorUtils.brighterColor( baseColor, 0.5 ),
+                                                           new Point2D.Double( -WIDTH / 2, WIDTH / 2 ),
+                                                           baseColor );
         PNode body = new PhetPPath( new RoundRectangle2D.Double( -WIDTH / 2, -WIDTH / 2, WIDTH, WIDTH, WIDTH / 4, WIDTH / 4 ),
-                                    Color.PINK,
+                                    paint,
                                     OUTLINE_STROKE,
                                     OUTLINE_STROKE_COLOR );
         addChild( body );
+
+        // Add the label.
+        addChild( new PhetPText( "E", new PhetFont( 20, true ) ) {{
+            setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 );
+            setTextPaint( Color.WHITE );
+        }} );
 
         // Set this node's position when the corresponding model element moves.
         energyChunk.position.addObserver( new VoidFunction1<Vector2D>() {
