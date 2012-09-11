@@ -81,8 +81,6 @@ public class PhotonAbsorptionModel {
         CONFIGURABLE_ATMOSPHERE
     }
 
-    ;
-
     // Minimum and defaults for photon emission periods.  Note that the max is
     // assumed to be infinity.
     public static final double MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET = 400;
