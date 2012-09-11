@@ -297,6 +297,6 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
 
     private ShapeLevel testLevel() {
         return new ShapeLevel( List.list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ),
-                               List.replicate( 3, new MixedFraction( 1, 2, 3 ) ), Color.blue, ShapeType.PIE );
+                               List.replicate( 3, new MixedFraction( 1, 2, 3 ) ), Color.blue, ShapeType.PIE, true );
     }
 }

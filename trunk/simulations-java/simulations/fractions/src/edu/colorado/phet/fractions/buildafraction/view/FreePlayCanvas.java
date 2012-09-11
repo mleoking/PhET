@@ -30,8 +30,8 @@ public class FreePlayCanvas extends AbstractFractionsCanvas {
         setBackground( BuildAFractionCanvas.LIGHT_BLUE );
         final BuildAFractionModel model = new BuildAFractionModel( new BooleanProperty( false ), new ShapeLevelFactory() {
             public ShapeLevel createLevel( final int level ) {
-                final MixedFraction t = MixedFraction.mixedFraction( 0, Fraction.fraction( 1, 2 ) );
-                return new ShapeLevel( List.range( 1, 9 ).append( List.range( 1, 9 ) ), List.list( t, t ), LevelSelectionNode.colors[0], ShapeType.BAR );
+                final MixedFraction t = MixedFraction.mixedFraction( 3, Fraction.fraction( 1, 2 ) );
+                return new ShapeLevel( List.range( 1, 9 ).append( List.range( 1, 9 ) ), List.list( t, t ), LevelSelectionNode.colors[0], ShapeType.PIE, false );
             }
         }, new NumberLevelFactory() {
             public NumberLevel createLevel( final int level ) {

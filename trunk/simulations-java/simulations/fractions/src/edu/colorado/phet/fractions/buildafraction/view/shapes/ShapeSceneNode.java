@@ -48,7 +48,7 @@ import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.or
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType.PIE;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerNode.*;
 import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerShapeNode.*;
-import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceIconNode.TINY_SCALE;
+import static edu.colorado.phet.fractions.buildafraction.view.shapes.PieceIconNode.toolboxScale;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
@@ -78,7 +78,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private static final double CARD_SPACING_DX = 3;
     private static final double CARD_SPACING_DY = CARD_SPACING_DX;
     private final BuildAFractionModel model;
-    private final boolean freePlay;
+    public final boolean freePlay;
     public final int toolboxHeight;
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean freePlay ) {
@@ -122,7 +122,9 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             }
         };
         this.level = model.getShapeLevel( levelIndex );
-        spacing = level.shapeType == ShapeType.BAR ? 140 : 120;
+        spacing = freePlay ?
+                  level.shapeType == ShapeType.BAR ? 104 : 104 :
+                  level.shapeType == ShapeType.BAR ? 140 : 120;
 
         //Create the scoring cells with target patterns
         ArrayList<ShapeSceneCollectionBoxPair> _pairs = new ArrayList<ShapeSceneCollectionBoxPair>();
@@ -165,7 +167,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 final PieceNode piece = level.shapeType == PIE ? new PiePieceNode( pieceDenominator, ShapeSceneNode.this, new PhetPPath( createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) )
                                                                : new BarPieceNode( pieceDenominator, ShapeSceneNode.this, new PhetPPath( createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) );
                 piece.setOffset( getLocation( stackIndex, cardIndex, piece ).toPoint2D() );
-                piece.setInitialScale( TINY_SCALE );
+                piece.setInitialScale( toolboxScale( freePlay ) );
 
                 ShapeSceneNode.this.addChild( piece );
                 if ( bounds == null ) { bounds = piece.getFullBounds(); }
@@ -183,7 +185,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             }
             stack.update();
 
-            final PieceIconNode child = new PieceIconNode( group.head(), level.shapeType );
+            final PieceIconNode child = new PieceIconNode( group.head(), level.shapeType, freePlay );
             final PieceNode firstPiece = pieces.get( 0 );
 
             child.setOffset( level.shapeType == PIE ? new Point2D.Double( firstPiece.getFullBounds().getMaxX() - child.getFullBounds().getWidth(), firstPiece.getYOffset() )
@@ -205,7 +207,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
                 final int sign = level.shapeType == PIE ? -1 : +1;
                 setInitialState( layoutXOffset + INSET + 20 + delta * sign + finalGroupIndex * spacing,
-                                 stageSize.height - INSET - toolboxHeight + 20 + delta, TINY_SCALE );
+                                 stageSize.height - INSET - toolboxHeight + 20 + delta, toolboxScale( freePlay ) );
             }};
             addChild( containerNode );
             containerNodeToolboxLocations.add( new Vector2D( containerNode.getOffset() ) );
@@ -404,7 +406,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             }
             else {
                 containerNode.animateToPositionScaleRotation( v.head().x, v.head().y,
-                                                              TINY_SCALE, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
+                                                              toolboxScale( freePlay ), 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
                 animateToPosition( containerNode, v.head(), new NullDelegate() );
             }
         }

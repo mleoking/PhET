@@ -31,28 +31,30 @@ public class ShapeLevel extends Level {
 
     //This will be used for Mixed numbers in the 2nd tab in the standalone Build a Fraction sim.  Cannot be a constructor because has same erasure
     public static ShapeLevel shapeLevelMixed( final List<Integer> pieces, final List<MixedFraction> targets, Color color, ShapeType shapeType ) {
-        return new ShapeLevel( pieces, targets, color, shapeType );
+        return new ShapeLevel( pieces, targets, color, shapeType, true );
     }
 
     public static ShapeLevel shapeLevel( final List<Integer> pieces, final List<Fraction> targets, Color color, ShapeType shapeType ) {
-        return new ShapeLevel( pieces, targets.map( MixedFraction._toMixedFraction ), color, shapeType );
+        return new ShapeLevel( pieces, targets.map( MixedFraction._toMixedFraction ), color, shapeType, true );
     }
 
-    public ShapeLevel( final List<Integer> pieces, final List<MixedFraction> targets, Color color, ShapeType shapeType ) {
+    public ShapeLevel( final List<Integer> pieces, final List<MixedFraction> targets, Color color, ShapeType shapeType, boolean checkAnswer ) {
         super( targets );
         this.targets = targets;
         this.pieces = pieces.sort( Ord.intOrd );
         this.color = color;
         this.shapeType = shapeType;
 
-        //make sure it can be solved
-        double totalFractionValue = targets.map( _toDouble ).foldLeft( Doubles.add, 0.0 );
-        double totalPiecesValue = pieces.map( new F<Integer, Double>() {
-            @Override public Double f( final Integer integer ) {
-                return 1.0 / integer;
-            }
-        } ).foldLeft( Doubles.add, 0.0 );
-        assert ( totalPiecesValue >= totalFractionValue - 1E-6 );
+        if ( checkAnswer ) {
+            //make sure it can be solved
+            double totalFractionValue = targets.map( _toDouble ).foldLeft( Doubles.add, 0.0 );
+            double totalPiecesValue = pieces.map( new F<Integer, Double>() {
+                @Override public Double f( final Integer integer ) {
+                    return 1.0 / integer;
+                }
+            } ).foldLeft( Doubles.add, 0.0 );
+            assert ( totalPiecesValue >= totalFractionValue - 1E-6 );
+        }
     }
 
     public MixedFraction getTarget( final int i ) { return targets.index( i ); }
