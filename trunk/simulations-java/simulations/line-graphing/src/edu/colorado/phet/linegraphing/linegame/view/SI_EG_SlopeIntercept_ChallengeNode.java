@@ -61,10 +61,10 @@ public class SI_EG_SlopeIntercept_ChallengeNode extends SI_ChallengeNode {
             answerNode.setVisible( false );
 
             // ranges
-            final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange.getMin(), graph.yRange.getMax() ) );
-            final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( graph.xRange.getMin(), graph.xRange.getMax() ) );
+            final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+            final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
             final Property<DoubleRange> x1Range = new Property<DoubleRange>( new DoubleRange( 0, 0 ) ); /* x1 is fixed */
-            final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( graph.yRange.getMin(), graph.yRange.getMax() ) );
+            final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
 
             // line manipulators
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
