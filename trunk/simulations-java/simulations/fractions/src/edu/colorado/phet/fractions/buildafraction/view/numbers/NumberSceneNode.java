@@ -175,20 +175,20 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
 
         double xx = toolboxPositionX;
+
+        //For free play, also create a mixed number graphic
         if ( freePlay ) {
-            for ( int i = 0; i < numRemainingFractionSkeletons; i++ ) {
-                final FractionNode toolboxFractionGraphic = new FractionNode( this, true );
+            final FractionNode toolboxFractionGraphic = new FractionNode( this, true );
 
-                //Put it to the right of the numbers in the toolbox
+            //Put it to the right of the numbers in the toolbox
 
-                toolboxPositionX = xx + 67;
-                toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
-                toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
-                addChild( toolboxFractionGraphic );
-                fractionNodes.add( toolboxFractionGraphic );
+            toolboxPositionX = xx + 67;
+            toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
+            toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
+            addChild( toolboxFractionGraphic );
+            fractionNodes.add( toolboxFractionGraphic );
 
-                toolboxFractionGraphic.moveInFrontOf( toolboxNode );
-            }
+            toolboxFractionGraphic.moveInFrontOf( toolboxNode );
         }
 
         finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
