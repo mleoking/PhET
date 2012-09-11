@@ -111,7 +111,7 @@ public class FreePlayCanvas extends AbstractFractionsCanvas {
         }, this, 18, black, RefreshButtonNode.BUTTON_COLOR ) {{
             setConfirmationEnabled( false );
         }} ) {{
-            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, 175 );
+            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, 150 );
         }} );
     }
 
