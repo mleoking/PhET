@@ -1,3 +1,4 @@
+9/10/12 (temporary?) naming scheme for challenges, encodes: line form, "given" type, "guess" type
 9/10/12 add challenge: given an equation in slope-intercept form, graph the matching line by manipulating 2 arbitrary points
 9/10/12 reorganize the view implementation for matching challenges
 9/10/12 fix: for challenge where y-intercept is manipulated, position of slope shouldn't affect range of y-intercept
