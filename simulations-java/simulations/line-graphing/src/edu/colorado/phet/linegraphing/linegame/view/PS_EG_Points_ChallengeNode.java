@@ -24,13 +24,13 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Given an equation in point-slope form, graph the matching line by manipulating the point and slope.
+ * Given an equation in point-slope form, graph the matching line by manipulating 2 arbitrary points.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
+public class PS_EG_Points_ChallengeNode extends PS_ChallengeNode {
 
-    public PS_EG_PointSlope_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public PS_EG_Points_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
     }
 
@@ -43,7 +43,7 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
     private static class ThisGraphNode extends ChallengeGraphNode {
 
         private final LineNode answerNode;
-        private final LineManipulatorNode pointManipulatorNode, slopeManipulatorNode;
+        private final LineManipulatorNode x1y1ManipulatorNode, x2y2ManipulatorNode;
 
         public ThisGraphNode( final Graph graph,
                               Property<Line> guessLine,
@@ -63,27 +63,23 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
             // ranges
             final Property<DoubleRange> x1Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
             final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
-            final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
-            final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
+            final Property<DoubleRange> x2Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
+            final Property<DoubleRange> y2Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
 
-            // line manipulators
+            // manipulators
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
-
-            // point manipulator
-            pointManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
-            pointManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                             pointManipulatorNode, mvt, guessLine, x1Range, y1Range,
-                                                                             true /* constantSlope */ ) );
-
-            // slope manipulator
-            slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
-            slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                              slopeManipulatorNode, mvt, guessLine, riseRange, runRange ) );
+            x1y1ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
+            x1y1ManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
+                                                                            x1y1ManipulatorNode, mvt, guessLine, x1Range, y1Range,
+                                                                            false /* constantSlope */ ) );
+            x2y2ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X2_Y2 );
+            x2y2ManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
+                                                                             x2y2ManipulatorNode, mvt, guessLine, y2Range, x2Range ) );
 
             // Rendering order
             addChild( guessNodeParent );
-            addChild( pointManipulatorNode );
-            addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
+            addChild( x1y1ManipulatorNode );
+            addChild( x2y2ManipulatorNode );
 
             // Show the user's current guess
             guessLine.addObserver( new VoidFunction1<Line>() {
@@ -96,45 +92,8 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
                     guessNodeParent.addChild( guessNode );
 
                     // move the manipulators
-                    final double y = line.rise + line.y1;
-                    double x;
-                    if ( line.run == 0 ) {
-                        x = 0;
-                    }
-                    else if ( line.rise == 0 ) {
-                        x = line.run;
-                    }
-                    else {
-                        x = line.solveX( y );
-                    }
-                    slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( x, y ) ) );
-                    pointManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
-
-                    // range of the graph axes
-                    final int xMin = graph.xRange.getMin();
-                    final int xMax = graph.xRange.getMax();
-                    final int yMin = graph.yRange.getMin();
-                    final int yMax = graph.yRange.getMax();
-
-                    // x1
-                    final double x1Min = Math.max( xMin, xMin - line.run );
-                    final double x1Max = Math.min( xMax, xMax - line.run );
-                    x1Range.set( new DoubleRange( x1Min, x1Max ) );
-
-                    // y1
-                    final double y1Min = Math.max( yMin, yMin - line.rise );
-                    final double y1Max = Math.min( yMax, yMax - line.rise );
-                    y1Range.set( new DoubleRange( y1Min, y1Max ) );
-
-                    // rise
-                    final double riseMin = yMin - line.y1;
-                    final double riseMax = yMax - line.y1;
-                    riseRange.set( new DoubleRange( riseMin, riseMax ) );
-
-                    // run
-                    final double runMin = xMin - line.x1;
-                    final double runMax = xMax - line.x1;
-                    runRange.set( new DoubleRange( runMin, runMax ) );
+                    x1y1ManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
+                    x2y2ManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x2, line.y2 ) ) );
                 }
             } );
         }
@@ -142,8 +101,8 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
         // Sets the visibility of the correct answer. When answer is visible, manipulators are hidden.
         public void setAnswerVisible( boolean visible ) {
             answerNode.setVisible( visible );
-            pointManipulatorNode.setVisible( !visible );
-            slopeManipulatorNode.setVisible( !visible );
+            x1y1ManipulatorNode.setVisible( !visible );
+            x2y2ManipulatorNode.setVisible( !visible );
         }
     }
 }
