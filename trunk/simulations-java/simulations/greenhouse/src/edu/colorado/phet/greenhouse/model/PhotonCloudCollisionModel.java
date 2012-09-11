@@ -54,7 +54,6 @@ public class PhotonCloudCollisionModel {
 
         photon.setVelocity( vBar * (float) Math.cos( theta ),
                             vBar * (float) Math.sin( theta ) );
-
     }
 
     private static void doCollision( Body bodyA, Body bodyB, MutableVector2D loa, Point2D.Double collisionPt ) {
