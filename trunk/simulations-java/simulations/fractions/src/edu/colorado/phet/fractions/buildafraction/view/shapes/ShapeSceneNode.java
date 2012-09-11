@@ -309,8 +309,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     containerNode.setInTargetCell( true, pair.value.denominator );
                     final PBounds boxBounds = pair.collectionBoxNode.getFullBounds();
                     final PBounds containerBounds = containerNode.getFullBounds();
-                    containerNode.animateToPositionScaleRotation( boxBounds.getCenterX() - containerBounds.getWidth() / 2 * scale,
-                                                                  boxBounds.getCenterY() - containerBounds.getHeight() / 2 * scale + 20, scale, 0,
+                    containerNode.animateToPositionScaleRotation( boxBounds.getCenterX() - containerBounds.getWidth() / 2 * scale / getContainerScale(),
+                                                                  boxBounds.getCenterY() - containerBounds.getHeight() / 2 * scale / getContainerScale() + 20, scale, 0,
                                                                   BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, false ) );
                     pair.collectionBoxNode.setCompletedFraction( containerNode );
                     containerNode.setAllPickable( false );
