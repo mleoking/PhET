@@ -12,4 +12,6 @@ public interface ContainerContext {
     void syncModelFractions();
 
     void containerAdded( ContainerNode containerNode );
+
+    void startDrag( ContainerNode parent );
 }

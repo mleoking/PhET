@@ -1,3 +1,4 @@
+Free play: Made container stacks bottomless
 Free play: Made shape piece stacks bottomless
 Free play: Made number card stacks bottomless
 Free play: Made fraction skeleton stacks bottomless
