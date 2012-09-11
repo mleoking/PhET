@@ -37,8 +37,7 @@ public class PhotonCloudCollisionModel {
         if ( boundingBoxesOverlap && filter.passes( photon.getWavelength() ) ) {
             MutableVector2D loa = getNormalAtPoint( photon.getLocation(), cloud );
             if ( visibleLightFilter.passes( photon.getWavelength() ) ) {
-                doCollision( photon, cloud, loa,
-                             photon.getLocation() );
+                doCollision( photon, cloud, loa, photon.getLocation() );
             }
             if ( irFilter.absorbs( photon.getWavelength() ) ) {
                 doScatter( photon );
