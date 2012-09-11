@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.view;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
@@ -10,18 +9,15 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -32,15 +28,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SI_EG_SlopeIntercept_ChallengeNode extends ChallengeNode {
+public class SI_EG_SlopeIntercept_ChallengeNode extends SI_ChallengeNode {
 
     public SI_EG_SlopeIntercept_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
-    }
-
-    // Creates the equation portion of the view.
-    @Override public EquationNode createEquationNode( Line line, Color color, PhetFont font ) {
-        return new SlopeInterceptEquationFactory().createNode( line.withColor( color ), font );
     }
 
     // Creates the graph portion of the view.
