@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip;
 
 import java.awt.BasicStroke;
@@ -31,18 +31,24 @@ public class ToggleButtonNode extends PNode {
     public static final Color FAINT_GREEN = new Color( 215, 237, 218 );
     public static final Color DEFAULT_BACKGROUND_COLOR = new Color( 242, 242, 242 );
 
+    public static final double DEFAULT_PRESS_AMOUNT_X = 4;
+    public static final double DEFAULT_PRESS_AMOUNT_Y = 6;
+
     public ToggleButtonNode( final PNode node, final ObservableProperty<Boolean> selected, final VoidFunction0 pressed ) {
         this( node, selected, pressed, DEFAULT_BACKGROUND_COLOR, true );
     }
 
     public ToggleButtonNode( final PNode node, final ObservableProperty<Boolean> selected, final VoidFunction0 pressed, final Color pressedInColor, final boolean disableCursorWhenPressedIn ) {
+        this( node, selected, pressed, pressedInColor, disableCursorWhenPressedIn, DEFAULT_PRESS_AMOUNT_X, DEFAULT_PRESS_AMOUNT_Y );
+    }
+
+    public ToggleButtonNode( final PNode node, final ObservableProperty<Boolean> selected, final VoidFunction0 pressed, final Color pressedInColor, final boolean disableCursorWhenPressedIn,
+                             final double pressAmountX, final double pressAmountY ) {
 
         //We have to handle the pickability since the cursor changes, so disable on the target node
         node.setPickable( false );
         node.setChildrenPickable( false );
 
-        final double pressAmountX = 4;
-        final double pressAmountY = 6;
         final PhetPPath hiddenBorder = new PhetPPath( RectangleUtils.expand( node.getFullBounds(), pressAmountX, pressAmountY ), null );
         final RoundRectangle2D.Double shape = new RoundRectangle2D.Double( node.getFullBounds().getMinX(), node.getFullBounds().getMinY(), node.getFullBounds().getWidth(), node.getFullBounds().getHeight(), 20, 20 );
         final PhetPPath buttonBackground = new PhetPPath( shape, DEFAULT_BACKGROUND_COLOR, new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), null );
