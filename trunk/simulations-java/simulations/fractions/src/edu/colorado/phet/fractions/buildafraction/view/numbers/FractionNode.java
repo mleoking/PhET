@@ -136,6 +136,7 @@ public class FractionNode extends RichPNode {
         } );
 
         //Prevent the user from creating improper fractions when in mixed number mode
+
         if ( mixedNumber ) {
             ObservableProperty<Option<Integer>> draggedCard = context.getDraggedCardProperty();
 
@@ -144,7 +145,9 @@ public class FractionNode extends RichPNode {
                 public void apply( final Option<Integer> draggedCard ) {
                     numerator.setEnabled( true );
                     denominator.setEnabled( true );
-                    if ( draggedCard.isSome() ) {
+
+                    final boolean inCollectionBox = context.isInCollectionBox( FractionNode.this );
+                    if ( draggedCard.isSome() && !inCollectionBox && !isComplete() ) {
                         Integer card = draggedCard.some();
                         if ( numerator.numberNode != null && card <= numerator.numberNode.number ) {
                             denominator.setEnabled( false );

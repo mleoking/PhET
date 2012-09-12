@@ -23,4 +23,6 @@ public interface FractionDraggingContext {
     void startDrag( FractionNode fractionNode );
 
     boolean isFreePlay();
+
+    boolean isInCollectionBox( FractionNode fractionNode );
 }
