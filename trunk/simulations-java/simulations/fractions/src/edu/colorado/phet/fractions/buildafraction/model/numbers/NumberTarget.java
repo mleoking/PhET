@@ -100,13 +100,13 @@ public @Data class NumberTarget {
                     @Override public Boolean f( final List<Integer> coefficientSet ) {
 
                         //Only consider solutions that have 4 or less shapes
-                        return toFilledPatterns( coefficientSet, element ).length() <= 4;
+                        return !overflows( coefficientSet ) && toFilledPatterns( coefficientSet, element ).length() <= 4;
                     }
                 } );
 
                 //If it couldn't solve, just use the normal composite rule
                 if ( coefficientSets.length() == 0 ) {
-                    System.out.println( "Couldn't find any solutions for f=" + f );
+                    System.out.println( "Couldn't find any solutions for f=" + f );//Should be rare; I haven't seen it at all after many runs
                     return composite( element ).f( f );
                 }
                 List<Integer> selectedCoefficientSet = Sampling.chooseOne( coefficientSets );
@@ -116,6 +116,22 @@ public @Data class NumberTarget {
         };
     }
 
+    //Make sure no shape is going to request more pieces than it can hold.  This is a modification of toFilledPatterns() which ensures it will be a feasible solution.
+    //Note: Another way to handle this would be to pop out the overflowed shape into multiple shapes, but we also want to constrain the maximum number of
+    //containers and there is probably another good solution anyways.
+    private static boolean overflows( final List<Integer> coefficientSet ) {
+        for ( int i = 0; i < coefficientSet.length(); i++ ) {
+            int denominator = i + 1;
+            int piecesForThisNumerator = coefficientSet.index( i );
+            if ( piecesForThisNumerator > 0 ) {
+                if ( piecesForThisNumerator > denominator ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private static List<FilledPattern> toFilledPatterns( final List<Integer> coefficientSet, final F<MixedFraction, FilledPattern> element ) {
         ArrayList<FilledPattern> filledPatterns = new ArrayList<FilledPattern>();
         for ( int i = 0; i < coefficientSet.length(); i++ ) {
@@ -123,6 +139,9 @@ public @Data class NumberTarget {
             int piecesForThisNumerator = coefficientSet.index( i );
             if ( piecesForThisNumerator > 0 ) {
                 FilledPattern filledPattern = element.f( new MixedFraction( 0, piecesForThisNumerator, denominator ) );
+                if ( piecesForThisNumerator > denominator ) {
+                    throw new RuntimeException( "Not going to work, the representation has more pieces than it can hold.  Will need to be filtered out" );
+                }
                 filledPatterns.add( filledPattern );
             }
         }
