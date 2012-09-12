@@ -61,7 +61,7 @@ public class PS_EG_Points_ChallengeNode extends PS_ChallengeNode {
 
             // (x1,y1) manipulator
             x1y1ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
-            x1y1ManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
+            x1y1ManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.x1y1Manipulator, UserComponentTypes.sprite,
                                                                             x1y1ManipulatorNode, mvt, guessLine,
                                                                             new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
                                                                             new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
@@ -69,7 +69,7 @@ public class PS_EG_Points_ChallengeNode extends PS_ChallengeNode {
 
             // (x2,y2) manipulator
             x2y2ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X2_Y2 );
-            x2y2ManipulatorNode.addInputEventListener( new X2Y2DragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
+            x2y2ManipulatorNode.addInputEventListener( new X2Y2DragHandler( UserComponents.x2y2Manipulator, UserComponentTypes.sprite,
                                                                             x2y2ManipulatorNode, mvt, guessLine,
                                                                             new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
                                                                             new Property<DoubleRange>( new DoubleRange( graph.yRange ) ) ) );
