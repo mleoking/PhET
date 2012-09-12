@@ -438,11 +438,32 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     }
 
     public static void main( String[] args ) {
+        while ( true ) { loop(); }
+    }
+
+    private static void loop() {
         NumberLevel level = new MixedNumbersNumberLevelList().createLevel( 9 );
-        System.out.println( level.targets.map( new F<NumberTarget, Object>() {
-            @Override public Object f( final NumberTarget numberTarget ) {
-                return numberTarget.representation.f( numberTarget.mixedFraction );
+
+        //make sure each problem has a solution (forget dependecies)
+        //The problem illuminated here was solved with NumberTarget.overflows
+        for ( NumberTarget target : level.targets ) {
+            boolean solvable = isSolvable( level, target );
+            System.out.println( "target = " + target.mixedFraction + ", solvable = " + solvable );
+        }
+    }
+
+    private static boolean isSolvable( final NumberLevel level, final NumberTarget target ) {
+        for ( int wholeIndex = 0; wholeIndex < level.numbers.length(); wholeIndex++ ) {
+            for ( int numeratorIndex = 0; numeratorIndex < level.numbers.length(); numeratorIndex++ ) {
+                for ( int denominatorIndex = 0; denominatorIndex < level.numbers.length(); denominatorIndex++ ) {
+                    if ( wholeIndex != numeratorIndex && wholeIndex != denominatorIndex && numeratorIndex != denominatorIndex ) {
+                        MixedFraction value = new MixedFraction( level.numbers.index( wholeIndex ), level.numbers.index( numeratorIndex ), level.numbers.index( denominatorIndex ) );
+                        boolean equals = value.approxEquals( target.mixedFraction.toFraction() );
+                        if ( equals ) { return true; }
+                    }
+                }
             }
-        } ) );
+        }
+        return false;
     }
 }
