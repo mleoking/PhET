@@ -1,3 +1,4 @@
+Free Play: Switched initial positions left<->right of card vs container to match the toolboxes
 Free Play: Moved non-mixed fraction skeleton to the left
 # 1.01.12 (67906) Sep 11, 2012
 Build a Fraction: Numbers: Fixed: Number cards disappear when dropped in the play area

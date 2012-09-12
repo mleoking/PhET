@@ -176,7 +176,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
 
         fractionNode.setToolboxPosition( toolboxPositionX, toolboxPositionY );
-        centerOfScreen = new Vector2D( freePlay ? 550 : levelReadoutTitle.getFullBounds().getCenterX() - fractionNode.getFullWidth() / 2 + 28, 350 - fractionNode.getFullHeight() / 2 );
+        centerOfScreen = new Vector2D( freePlay ? 300 : levelReadoutTitle.getFullBounds().getCenterX() - fractionNode.getFullWidth() / 2 + 28, 350 - fractionNode.getFullHeight() / 2 );
         fractionNode.setOffset( centerOfScreen.toPoint2D() );
         fractionNode.moveInFrontOf( toolboxNode );
     }
