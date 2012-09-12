@@ -99,8 +99,6 @@ public class SI_EG_Points_ChallengeNode extends SI_ChallengeNode {
         // Sets the visibility of the correct answer. When answer is visible, manipulators are hidden.
         public void setAnswerVisible( boolean visible ) {
             answerNode.setVisible( visible );
-            x1y1ManipulatorNode.setVisible( !visible );
-            x2y2ManipulatorNode.setVisible( !visible );
         }
     }
 }
