@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Given an equation in slope-intercept form, graph the matching line by manipulating the slope.
+ * Given an equation in slope-intercept form, graph the line by manipulating the slope.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
