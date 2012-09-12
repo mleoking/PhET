@@ -1,3 +1,4 @@
+9/11/12 cleanup challenge nodes
 9/11/12 add challenge: given an equation in point-slope form, graph the matching line by manipulating 2 arbitrary points
 9/11/12 add challenge: given an equation in point-slope form, graph the matching line by manipulating point and slope
 9/11/12 add convenience constructor for creating Line with a default color

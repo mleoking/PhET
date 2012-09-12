@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.view;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -66,12 +64,15 @@ public class PS_EG_Points_ChallengeNode extends PS_ChallengeNode {
             final Property<DoubleRange> x2Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
             final Property<DoubleRange> y2Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
 
-            // manipulators
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
+
+            // (x1,y1) manipulator
             x1y1ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
             x1y1ManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
                                                                             x1y1ManipulatorNode, mvt, guessLine, x1Range, y1Range,
                                                                             false /* constantSlope */ ) );
+
+            // (x2,y2) manipulator
             x2y2ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X2_Y2 );
             x2y2ManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                              x2y2ManipulatorNode, mvt, guessLine, y2Range, x2Range ) );
@@ -92,8 +93,8 @@ public class PS_EG_Points_ChallengeNode extends PS_ChallengeNode {
                     guessNodeParent.addChild( guessNode );
 
                     // move the manipulators
-                    x1y1ManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
-                    x2y2ManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x2, line.y2 ) ) );
+                    x1y1ManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
+                    x2y2ManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
                 }
             } );
         }

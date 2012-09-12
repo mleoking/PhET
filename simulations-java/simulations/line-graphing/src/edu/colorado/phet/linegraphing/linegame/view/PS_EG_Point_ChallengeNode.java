@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.view;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -18,7 +16,6 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -84,7 +81,7 @@ public class PS_EG_Point_ChallengeNode extends PS_ChallengeNode {
                     guessNodeParent.addChild( guessNode );
 
                     // move the manipulator
-                    pointManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
+                    pointManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
                 }
             } );
         }
