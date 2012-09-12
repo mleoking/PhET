@@ -217,7 +217,7 @@ public abstract class ChallengeNode extends PhetPNode {
     public static abstract class MakeTheEquationChallengeNode extends ChallengeNode {
 
         public MakeTheEquationChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-            super( model, audioPlayer, challengeSize, true, Strings.MAKE_THE_EQUATION );
+            super( model, audioPlayer, challengeSize, false, Strings.MAKE_THE_EQUATION );
         }
     }
 
