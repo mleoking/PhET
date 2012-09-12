@@ -50,7 +50,7 @@ public class Line {
     }
 
     public static Line createPointSlope( double x1, double y1, double rise, double run ) {
-        return createPointSlope( x1, y1, x1 + run, y1 + rise, DEFAULT_COLOR );
+        return createPointSlope( x1, y1, rise, run, DEFAULT_COLOR );
     }
 
     /*
@@ -100,7 +100,7 @@ public class Line {
 
     // Returns true if 2 points on the specified line are also on this line.
     public boolean same( Line line ) {
-        return onLine( line.x1, line.y1 ) && onLine( line.x1 + run, line.y1 + rise );
+        return onLine( line.x1, line.y1 ) && onLine( line.x2, line.y2 );
     }
 
     /*
