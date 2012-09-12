@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Portion of the scenegraph that corresponds to the "settings" game phase.
+ * Portion of the scenegraph that corresponds to the "settings" game phase. (See GamePhase.SETTINGS)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
