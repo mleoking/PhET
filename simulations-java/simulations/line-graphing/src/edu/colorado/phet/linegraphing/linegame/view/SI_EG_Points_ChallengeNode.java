@@ -18,7 +18,6 @@ import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.common.view.X2Y2DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -40,7 +39,7 @@ public class SI_EG_Points_ChallengeNode extends SI_ChallengeNode {
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends ChallengeGraphNode {
+    private static class ThisGraphNode extends SI_ChallengeGraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode x1y1ManipulatorNode, x2y2ManipulatorNode;
@@ -55,7 +54,7 @@ public class SI_EG_Points_ChallengeNode extends SI_ChallengeNode {
             final PNode guessNodeParent = new PComposite();
 
             // the correct answer, initially hidden
-            answerNode = new SlopeInterceptLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
+            answerNode = createAnswerLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
@@ -88,7 +87,7 @@ public class SI_EG_Points_ChallengeNode extends SI_ChallengeNode {
 
                     // draw the line
                     guessNodeParent.removeAllChildren();
-                    LineNode guessNode = new PointSlopeLineNode( line, graph, mvt );
+                    LineNode guessNode = createGuessLineNode( line, graph, mvt );
                     guessNode.setEquationVisible( false );
                     guessNodeParent.addChild( guessNode );
 
@@ -97,6 +96,11 @@ public class SI_EG_Points_ChallengeNode extends SI_ChallengeNode {
                     x2y2ManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
                 }
             } );
+        }
+
+        // Guess has to be in point-slope form, since a guess with 2 arbitrary points won't conform to slope-intercept form.
+        @Override public LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
+            return new PointSlopeLineNode( line, graph, mvt );
         }
 
         // Sets the visibility of the correct answer. When answer is visible, manipulators are hidden.

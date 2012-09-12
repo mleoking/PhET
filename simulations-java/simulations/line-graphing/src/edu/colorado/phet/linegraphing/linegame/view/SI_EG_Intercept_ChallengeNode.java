@@ -16,7 +16,6 @@ import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -38,7 +37,7 @@ public class SI_EG_Intercept_ChallengeNode extends SI_ChallengeNode {
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends ChallengeGraphNode {
+    private static class ThisGraphNode extends SI_ChallengeGraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode interceptManipulatorNode;
@@ -53,7 +52,7 @@ public class SI_EG_Intercept_ChallengeNode extends SI_ChallengeNode {
             final PNode guessNodeParent = new PComposite();
 
             // the correct answer, initially hidden
-            answerNode = new SlopeInterceptLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
+            answerNode = createAnswerLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
@@ -76,7 +75,7 @@ public class SI_EG_Intercept_ChallengeNode extends SI_ChallengeNode {
 
                     // draw the line
                     guessNodeParent.removeAllChildren();
-                    LineNode guessNode = new SlopeInterceptLineNode( line, graph, mvt );
+                    LineNode guessNode = createGuessLineNode( line, graph, mvt );
                     guessNode.setEquationVisible( false );
                     guessNodeParent.addChild( guessNode );
 
