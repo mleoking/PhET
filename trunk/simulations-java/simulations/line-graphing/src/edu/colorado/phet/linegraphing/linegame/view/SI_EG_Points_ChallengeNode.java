@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.view;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -91,8 +89,8 @@ public class SI_EG_Points_ChallengeNode extends SI_ChallengeNode {
                     guessNodeParent.addChild( guessNode );
 
                     // move the manipulators
-                    x1y1ManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
-                    x2y2ManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x2, line.y2 ) ) );
+                    x1y1ManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
+                    x2y2ManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
                 }
             } );
         }
