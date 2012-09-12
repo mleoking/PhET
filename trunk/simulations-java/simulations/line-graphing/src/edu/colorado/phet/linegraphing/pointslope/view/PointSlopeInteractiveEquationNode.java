@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -26,6 +25,7 @@ import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.DynamicValueNode;
+import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
@@ -41,7 +41,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointSlopeInteractiveEquationNode extends PhetPNode {
+public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
@@ -63,9 +63,9 @@ public class PointSlopeInteractiveEquationNode extends PhetPNode {
                                               Property<DoubleRange> runRange,
                                               Property<DoubleRange> x1Range,
                                               Property<DoubleRange> y1Range,
-                                              boolean variablePoint,
-                                              boolean variableSlope ) {
-        this( interactiveLine, riseRange, runRange, x1Range, y1Range, variablePoint, variableSlope,
+                                              boolean interactivePoint,
+                                              boolean interactiveSlope ) {
+        this( interactiveLine, riseRange, runRange, x1Range, y1Range, interactivePoint, interactiveSlope,
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
@@ -74,8 +74,8 @@ public class PointSlopeInteractiveEquationNode extends PhetPNode {
                                                Property<DoubleRange> runRange,
                                                Property<DoubleRange> x1Range,
                                                Property<DoubleRange> y1Range,
-                                               final boolean variablePoint,
-                                               final boolean variableSlope,
+                                               final boolean interactivePoint,
+                                               final boolean ineractiveSlope,
                                                PhetFont interactiveFont,
                                                PhetFont staticFont,
                                                Color staticColor ) {
@@ -85,51 +85,24 @@ public class PointSlopeInteractiveEquationNode extends PhetPNode {
         this.x1 = new Property<Double>( interactiveLine.get().x1 );
         this.y1 = new Property<Double>( interactiveLine.get().y1 );
 
-        //TODO same as in SlopeInteractiveEquationNode
-        // determine the max width of the rise and run spinners, based on the extents of their range
-        double maxSlopeWidth;
-        if ( variableSlope ) {
-            PNode maxRiseNode = new RiseSpinnerNode( UserComponents.riseSpinner,
-                                                     new Property<Double>( riseRange.get().getMax() ), new Property<Double>( runRange.get().getMax() ), riseRange,
-                                                     new SlopeColors(), interactiveFont, FORMAT );
-            PNode minRiseNode = new RiseSpinnerNode( UserComponents.riseSpinner,
-                                                     new Property<Double>( riseRange.get().getMin() ), new Property<Double>( runRange.get().getMax() ), riseRange,
-                                                     new SlopeColors(), interactiveFont, FORMAT );
-            double maxRiseWidth = Math.max( maxRiseNode.getFullBoundsReference().getWidth(), minRiseNode.getFullBoundsReference().getWidth() );
-            PNode maxRunNode = new RunSpinnerNode( UserComponents.riseSpinner,
-                                                   new Property<Double>( riseRange.get().getMin() ), new Property<Double>( runRange.get().getMax() ), runRange,
-                                                   new SlopeColors(), interactiveFont, FORMAT );
-            PNode minRunNode = new RunSpinnerNode( UserComponents.riseSpinner,
-                                                   new Property<Double>( riseRange.get().getMin() ), new Property<Double>( runRange.get().getMin() ), runRange,
-                                                   new SlopeColors(), interactiveFont, FORMAT );
-            double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
-            maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
-        }
-        else {
-            PNode minRiseNode = new DynamicValueNode( new Property<Double>( riseRange.get().getMin() ), interactiveFont, staticColor );
-            PNode maxRiseNode = new DynamicValueNode( new Property<Double>( riseRange.get().getMax() ), interactiveFont, staticColor );
-            double maxRiseWidth = Math.max( maxRiseNode.getFullBoundsReference().getWidth(), minRiseNode.getFullBoundsReference().getWidth() );
-            PNode minRunNode = new DynamicValueNode( new Property<Double>( runRange.get().getMin() ), interactiveFont, staticColor );
-            PNode maxRunNode = new DynamicValueNode( new Property<Double>( runRange.get().getMax() ), interactiveFont, staticColor );
-            double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
-            maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
-        }
+        // Determine the max width of the rise and run components.
+        double maxSlopeWidth = computeSlopeComponentMaxWidth( riseRange, runRange, interactiveFont, FORMAT, ineractiveSlope );
 
         // nodes: (y-y1) = m(x-x1)
         final PNode yLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         final PNode yNode = new PhetPText( "y", staticFont, staticColor );
         final PText y1SignNode = new PhetPText( "-", staticFont, staticColor );
         final PNode y1Node;
-        if ( variablePoint ) {
+        if ( interactivePoint ) {
             y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, this.y1, y1Range, new PointColors(), interactiveFont, FORMAT ) );
         }
         else {
-            y1Node = new DynamicValueNode( y1, interactiveFont, staticColor, true );
+            y1Node = new DynamicValueNode( y1, interactiveFont, staticColor, true ); // displayed as absolute value
         }
         final PNode yRightParenNode = new PhetPText( ")", staticFont, staticColor );
         final PNode equalsNode = new PhetPText( "=", staticFont, staticColor );
         final PNode riseNode, runNode;
-        if ( variableSlope ) {
+        if ( ineractiveSlope ) {
             riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, this.run, riseRange, new SlopeColors(), interactiveFont, FORMAT ) );
             runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.rise, this.run, runRange, new SlopeColors(), interactiveFont, FORMAT ) );
         }
@@ -142,11 +115,11 @@ public class PointSlopeInteractiveEquationNode extends PhetPNode {
         final PNode xNode = new PhetPText( "x", staticFont, staticColor );
         final PText x1SignNode = new PhetPText( "-", staticFont, staticColor );
         final PNode x1Node;
-        if ( variablePoint ) {
+        if ( interactivePoint ) {
             x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, this.x1, x1Range, new PointColors(), interactiveFont, FORMAT ) );
         }
         else {
-            x1Node = new DynamicValueNode( x1, interactiveFont, staticColor, true );
+            x1Node = new DynamicValueNode( x1, interactiveFont, staticColor, true ); // displayed as absolute value
         }
         final PNode xRightParenNode = new PhetPText( ")", staticFont, staticColor );
 
@@ -195,8 +168,11 @@ public class PointSlopeInteractiveEquationNode extends PhetPNode {
                 }
                 updatingControls = false;
 
-                // change the operator to account for the signs of the point components
-                if ( !variablePoint ) {
+                /*
+                 * Change the operator to account for the signs of the point components.
+                 * We're doing this because x1 and y1 are displayed as absolute values when they are not interactive.
+                 */
+                if ( !interactivePoint ) {
                     x1SignNode.setText( line.x1 >= 0 ? "-" : "+" );
                     y1SignNode.setText( line.y1 >= 0 ? "-" : "+" );
                 }
