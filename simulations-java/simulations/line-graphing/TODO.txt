@@ -12,6 +12,7 @@ HIGH
   SI_EG_Slope_Challenge
   SI_EG_SlopeIntercept_Challenge
 
+- assert violation in Line constructor when dragging one point on top of another point
 - example of each game challenge
 - random creation of challenges, subject to constraints tbd
 
