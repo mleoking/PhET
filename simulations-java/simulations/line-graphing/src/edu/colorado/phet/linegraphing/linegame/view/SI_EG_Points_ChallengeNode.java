@@ -14,8 +14,8 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
-import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
+import edu.colorado.phet.linegraphing.common.view.X2Y2DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Given an equation in slope-intercept form, graph the matching line by manipulating 2 arbitrary points.
+ * Given an equation in slope-intercept form, graph the line by manipulating 2 arbitrary points.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -59,10 +59,6 @@ public class SI_EG_Points_ChallengeNode extends SI_ChallengeNode {
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
-            // dynamic ranges
-            final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
-            final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
-
             // manipulators
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
             x1y1ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
@@ -72,10 +68,10 @@ public class SI_EG_Points_ChallengeNode extends SI_ChallengeNode {
                                                                             new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
                                                                             false /* constantSlope */ ) );
             x2y2ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X2_Y2 );
-            x2y2ManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                             x2y2ManipulatorNode, mvt, guessLine,
-                                                                             riseRange,
-                                                                             runRange ) );
+            x2y2ManipulatorNode.addInputEventListener( new X2Y2DragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
+                                                                            x2y2ManipulatorNode, mvt, guessLine,
+                                                                            new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
+                                                                            new Property<DoubleRange>( new DoubleRange( graph.yRange ) ) ) );
 
             // Rendering order
             addChild( answerNode );
@@ -96,25 +92,6 @@ public class SI_EG_Points_ChallengeNode extends SI_ChallengeNode {
                     // move the manipulators
                     x1y1ManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
                     x2y2ManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
-
-                    //TODO this was copied from LineFormsModel constructor
-                    // range of the graph axes
-                    final int xMin = graph.xRange.getMin();
-                    final int xMax = graph.xRange.getMax();
-                    final int yMin = graph.yRange.getMin();
-                    final int yMax = graph.yRange.getMax();
-
-                    //TODO this was copied from LineFormsModel constructor
-                    // rise
-                    final double riseMin = yMin - line.y1;
-                    final double riseMax = yMax - line.y1;
-                    riseRange.set( new DoubleRange( riseMin, riseMax ) );
-
-                    //TODO this was copied from LineFormsModel constructor
-                    // run
-                    final double runMin = xMin - line.x1;
-                    final double runMax = xMax - line.x1;
-                    runRange.set( new DoubleRange( runMin, runMax ) );
                 }
             } );
         }
