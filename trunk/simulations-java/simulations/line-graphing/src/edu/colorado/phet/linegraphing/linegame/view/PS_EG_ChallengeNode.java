@@ -34,9 +34,9 @@ public abstract class PS_EG_ChallengeNode extends GraphTheLineChallengeNode {
     }
 
     // Graph for all challenges that use slope-intercept form.
-    public static abstract class PS_ChallengeGraphNode extends ChallengeGraphNode {
+    public static abstract class PS_EG_ChallengeGraphNode extends ChallengeGraphNode {
 
-        public PS_ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
+        public PS_EG_ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
             super( graph, mvt );
         }
 

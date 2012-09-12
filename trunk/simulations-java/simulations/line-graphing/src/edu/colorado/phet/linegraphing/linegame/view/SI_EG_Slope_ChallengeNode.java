@@ -40,7 +40,7 @@ public class SI_EG_Slope_ChallengeNode extends SI_EG_ChallengeNode {
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends SI_ChallengeGraphNode {
+    private static class ThisGraphNode extends SI_EG_ChallengeGraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode slopeManipulatorNode;

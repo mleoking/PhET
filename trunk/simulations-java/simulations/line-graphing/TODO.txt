@@ -7,9 +7,11 @@ DESIGN
 - revisit the placement algorithm for equations on graphed lines
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 - when user fails at a challenge and we show answer, should they be able to change things to experiment further?
+- when user fails at "Make the Equation" challenge, we show correct equation. Anything else? Plot incorrect line? Put manipulators on correct/incorrect line? ...
 
 HIGH
 - example of each "Make the Equation" game challenge
+- in "Show Answer" for "Make the Equation", show the answer as a separate read-only equation below the interactive equation
 - random creation of challenges, subject to constraints tbd
 
 MEDIUM
