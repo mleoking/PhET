@@ -23,8 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
-import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
-import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkNode;
+import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.Cloud;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.Sun;
 import edu.umd.cs.piccolo.PNode;
@@ -50,22 +49,8 @@ public class SunNode extends PositionableFadableModelElementNode {
         final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), sunRadius, 1000, 40, Color.YELLOW );
         addChild( lightRays );
 
-        // TODO: Temp - add the energy chunks.
-        final PNode energyChunkLayer = new PNode();
-        canvas.addWorldChild( energyChunkLayer ); // Goes directly on canvas so that it can handle its own positioning.
-        sun.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
-            public void apply( final EnergyChunk addedEnergyChunk ) {
-                final EnergyChunkNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
-                energyChunkLayer.addChild( energyChunkNode );
-                sun.energyChunkList.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
-                    public void apply( EnergyChunk removedEnergyChunk ) {
-                        if ( removedEnergyChunk == addedEnergyChunk ) {
-                            energyChunkLayer.removeChild( energyChunkNode );
-                        }
-                    }
-                } );
-            }
-        } );
+        // Add the energy chunks.
+        canvas.addWorldChild( new EnergyChunkLayer( sun.energyChunkList, mvt ) );
 
         // Add the sun.
         PNode sunNode = new PhetPPath( new Ellipse2D.Double( -sunRadius, -sunRadius, sunRadius * 2, sunRadius * 2 ) ) {{
