@@ -8,6 +8,8 @@ DESIGN
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 
 HIGH
+- configurable interactive slope-intercept equation
+- configurable interactive point-slope equation
 - example of each "Make the Equation" game challenge
 - random creation of challenges, subject to constraints tbd
 
