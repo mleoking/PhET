@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
 

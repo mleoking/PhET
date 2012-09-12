@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.energyformsandchanges.intro.model;
+package edu.colorado.phet.energyformsandchanges.common.model;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.energyformsandchanges.intro.model.FadeState;
 
 /**
  * Class that represents a chunk of energy in the view.
@@ -39,16 +40,20 @@ public class EnergyChunk {
     // Fade state, so that we know which way it is going.
     private FadeState fadeState = FadeState.FULLY_FADED_IN;
 
+    // Energy type.  This can change during the life of the energy chunk.
+    private Property<EnergyType> energyType = new Property<EnergyType>( null );
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public EnergyChunk( ConstantDtClock clock, double x, double y, BooleanProperty visibilityControl, boolean fadeIn ) {
-        this( clock, new Vector2D( x, y ), visibilityControl, fadeIn );
+    public EnergyChunk( ConstantDtClock clock, EnergyType initialEnergyType, double x, double y, BooleanProperty visibilityControl, boolean fadeIn ) {
+        this( clock, initialEnergyType, new Vector2D( x, y ), visibilityControl, fadeIn );
     }
 
-    public EnergyChunk( ConstantDtClock clock, Vector2D initialPosition, BooleanProperty visibilityControl, boolean fadeIn ) {
+    public EnergyChunk( ConstantDtClock clock, EnergyType initialEnergyType, Vector2D initialPosition, BooleanProperty visibilityControl, boolean fadeIn ) {
         this.position = new Property<Vector2D>( initialPosition );
+        this.energyType.set( initialEnergyType );
         this.visible = visibilityControl;
         if ( fadeIn ) {
             fadeState = FadeState.FADING_IN;

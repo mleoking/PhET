@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 
 /**
  * This class represents a "slice" within a 2D container that contains a set of

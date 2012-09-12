@@ -22,7 +22,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -113,7 +114,7 @@ public class EnergyChunkNode2 extends PNode {
                 new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        canvas.getLayer().addChild( new EnergyChunkNode2( new EnergyChunk( new ConstantDtClock( 30 ), 0, 0, new BooleanProperty( true ), false ), mvt ) );
+        canvas.getLayer().addChild( new EnergyChunkNode2( new EnergyChunk( new ConstantDtClock( 30 ), EnergyType.THERMAL, 0, 0, new BooleanProperty( true ), false ), mvt ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();

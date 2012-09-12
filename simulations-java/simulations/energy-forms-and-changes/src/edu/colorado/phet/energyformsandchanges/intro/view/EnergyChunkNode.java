@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
-import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

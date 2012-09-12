@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER;
 import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.MAX_HEAT_EXCHANGE_TIME_STEP;
@@ -296,7 +298,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         Rectangle2D energyChunkBounds = getThermalContactArea().getBounds();
         while ( getNumEnergyChunks() < targetNumChunks ) {
             // Add a chunk at a random location in the block.
-            addEnergyChunk( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
+            addEnergyChunk( new EnergyChunk( clock, EnergyType.THERMAL, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
         }
         // Distribute the energy chunks within the container.
         for ( int i = 0; i < 1000; i++ ) {

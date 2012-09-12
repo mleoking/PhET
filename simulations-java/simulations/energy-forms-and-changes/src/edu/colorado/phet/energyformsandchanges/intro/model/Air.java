@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.MAX_HEAT_EXCHANGE_TIME_STEP;
@@ -150,7 +152,7 @@ public class Air implements ThermalEnergyContainer {
 
     public EnergyChunk requestEnergyChunk( Vector2D point ) {
         // Create a new chunk at the top of the air above the specified point.
-        return new EnergyChunk( clock, point.getX(), SIZE.getHeight(), energyChunksVisible, false );
+        return new EnergyChunk( clock, EnergyType.THERMAL, point.getX(), SIZE.getHeight(), energyChunksVisible, false );
     }
 
     public Vector2D getCenterPoint() {

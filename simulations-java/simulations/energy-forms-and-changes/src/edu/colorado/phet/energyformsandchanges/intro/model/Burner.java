@@ -17,6 +17,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 /**
  * Model element that represents a burner in the simulation.  The burner can
@@ -172,7 +174,7 @@ public class Burner extends ModelElement {
 
         if ( closestEnergyChunk == null && ( heatCoolLevel.get() > 0 || getEnergyChunkCountForAir() > 0 ) ) {
             // Create an energy chunk.
-            closestEnergyChunk = new EnergyChunk( clock, getEnergyChunkStartEndPoint(), energyChunksVisible, true );
+            closestEnergyChunk = new EnergyChunk( clock, EnergyType.THERMAL, getEnergyChunkStartEndPoint(), energyChunksVisible, true );
         }
 
         if ( closestEnergyChunk != null ) {
