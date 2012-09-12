@@ -1,3 +1,5 @@
+# 0.00.26 (67947) Sep 12, 2012
+9/12/12 demonstrate complete set of example challanges for "Graph the Line"
 9/12/12 increase width of fraction line used in static equations
 9/12/12 use more interesting point-slope lines for sample "Graph the Line" challenges
 9/12/12 extract base class for interactive equations
