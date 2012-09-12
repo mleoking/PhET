@@ -14,7 +14,7 @@ import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * Portion of the scenegraph that corresponds to the "results" game phase.
+ * Portion of the scenegraph that corresponds to the "results" game phase. (See GamePhase.RESULTS)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -40,14 +40,14 @@ class ResultsNode extends PhetPNode {
 
                     // game results
                     final GameOverNode gameOverNode = new GameOverNode( model.settings.level.get(),
-                                                                 model.results.score.get(),
-                                                                 model.getPerfectScore(),
-                                                                 new DefaultDecimalFormat( "0" ),
-                                                                 model.timer.time.get(),
-                                                                 model.results.getBestTime( model.settings.level.get() ),
-                                                                 model.results.isNewBestTime,
-                                                                 model.settings.timerEnabled.get(),
-                                                                 LGColors.GAME_INSTRUCTION_COLORS );
+                                                                        model.results.score.get(),
+                                                                        model.getPerfectScore(),
+                                                                        new DefaultDecimalFormat( "0" ),
+                                                                        model.timer.time.get(),
+                                                                        model.results.getBestTime( model.settings.level.get() ),
+                                                                        model.results.isNewBestTime,
+                                                                        model.settings.timerEnabled.get(),
+                                                                        LGColors.GAME_INSTRUCTION_COLORS );
                     gameOverNode.scale( 1.5 );
                     addChild( gameOverNode );
                     gameOverNode.setOffset( ( stageSize.getWidth() - gameOverNode.getFullBoundsReference().getWidth() ) / 2,

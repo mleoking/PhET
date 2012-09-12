@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Portion of the scenegraph that corresponds to the "play" game phase.
+ * Portion of the scenegraph that corresponds to the "play" game phase. (See GamePhase.PLAY)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
