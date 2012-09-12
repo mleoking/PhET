@@ -80,7 +80,8 @@ public class MixedNumbersLevelSelectionNode extends AbstractLevelSelectionNode {
     }
 
     private static Pattern getPattern( final int level ) {
-        return level <= 5 ? Pattern.polygon( 80, level ) :
+        return level <= 4 ? Pattern.polygon( 80, level ) :
+               level <= 5 ? Pattern.polygon( 72, level ) :
                level == 6 ? Pattern.sixFlower() :
                level == 7 ? Pattern.ringOfHexagons() :
                level == 8 ? Pattern.ninjaStar() :
