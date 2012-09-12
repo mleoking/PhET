@@ -174,7 +174,7 @@ public class Burner extends ModelElement {
 
         if ( closestEnergyChunk == null && ( heatCoolLevel.get() > 0 || getEnergyChunkCountForAir() > 0 ) ) {
             // Create an energy chunk.
-            closestEnergyChunk = new EnergyChunk( clock, EnergyType.THERMAL, getEnergyChunkStartEndPoint(), energyChunksVisible, true );
+            closestEnergyChunk = new EnergyChunk( EnergyType.THERMAL, getEnergyChunkStartEndPoint(), energyChunksVisible );
         }
 
         if ( closestEnergyChunk != null ) {

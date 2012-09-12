@@ -152,7 +152,7 @@ public class Air implements ThermalEnergyContainer {
 
     public EnergyChunk requestEnergyChunk( Vector2D point ) {
         // Create a new chunk at the top of the air above the specified point.
-        return new EnergyChunk( clock, EnergyType.THERMAL, point.getX(), SIZE.getHeight(), energyChunksVisible, false );
+        return new EnergyChunk( EnergyType.THERMAL, point.getX(), SIZE.getHeight(), energyChunksVisible );
     }
 
     public Vector2D getCenterPoint() {

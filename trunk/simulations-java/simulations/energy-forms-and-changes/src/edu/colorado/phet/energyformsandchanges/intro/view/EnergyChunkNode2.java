@@ -14,7 +14,6 @@ import java.util.Map;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -130,7 +129,7 @@ public class EnergyChunkNode2 extends PNode {
                 new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        canvas.getLayer().addChild( new EnergyChunkNode2( new EnergyChunk( new ConstantDtClock( 30 ), EnergyType.ELECTRICAL, 0, 0, new BooleanProperty( true ), false ), mvt ) );
+        canvas.getLayer().addChild( new EnergyChunkNode2( new EnergyChunk( EnergyType.ELECTRICAL, 0, 0, new BooleanProperty( true ) ), mvt ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();

@@ -75,7 +75,7 @@ public class ConfigurableHeatCapacityBlock extends Block {
                         extractClosestEnergyChunk( getCenterPoint() );
                     }
                     else if ( getEnergyChunkBalance() < 0 ) {
-                        addEnergyChunk( new EnergyChunk( clock, EnergyType.THERMAL, getCenterPoint(), energyChunksVisible, false ) );
+                        addEnergyChunk( new EnergyChunk( EnergyType.THERMAL, getCenterPoint(), energyChunksVisible ) );
                     }
                 }
             }
