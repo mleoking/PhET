@@ -66,15 +66,16 @@ public class SI_EG_Slope_ChallengeNode extends SI_ChallengeNode {
             interceptPointNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
             interceptPointNode.setOffset( mvt.modelToView( new Point2D.Double( 0, guessLine.get().y1 ) ) );
 
-            // ranges
+            // dynamic ranges
             final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
-            final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
 
             // interactivity for slope manipulator
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
             slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
             slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                              slopeManipulatorNode, mvt, guessLine, riseRange, runRange ) );
+                                                                              slopeManipulatorNode, mvt, guessLine,
+                                                                              riseRange,
+                                                                              new Property<DoubleRange>( new DoubleRange( graph.xRange ) ) ) );
             // Rendering order
             addChild( guessNodeParent );
             addChild( interceptPointNode );
@@ -91,18 +92,7 @@ public class SI_EG_Slope_ChallengeNode extends SI_ChallengeNode {
                     guessNodeParent.addChild( guessNode );
 
                     // move the manipulator
-                    final double y = line.rise + line.y1;
-                    double x;
-                    if ( line.run == 0 ) {
-                        x = 0;
-                    }
-                    else if ( line.rise == 0 ) {
-                        x = line.run;
-                    }
-                    else {
-                        x = line.solveX( y );
-                    }
-                    slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( x, y ) ) );
+                    slopeManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
 
                     //TODO this was copied from LineFormsModel constructor
                     // adjust the rise range
