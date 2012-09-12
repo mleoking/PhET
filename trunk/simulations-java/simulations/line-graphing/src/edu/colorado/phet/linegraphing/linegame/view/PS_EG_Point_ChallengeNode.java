@@ -16,7 +16,6 @@ import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -38,7 +37,7 @@ public class PS_EG_Point_ChallengeNode extends PS_ChallengeNode {
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends ChallengeGraphNode {
+    private static class ThisGraphNode extends PS_ChallengeGraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode pointManipulatorNode;
@@ -53,7 +52,7 @@ public class PS_EG_Point_ChallengeNode extends PS_ChallengeNode {
             final PNode guessNodeParent = new PComposite();
 
             // the correct answer, initially hidden
-            answerNode = new PointSlopeLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
+            answerNode = createAnswerLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
@@ -77,7 +76,7 @@ public class PS_EG_Point_ChallengeNode extends PS_ChallengeNode {
 
                     // draw the line
                     guessNodeParent.removeAllChildren();
-                    LineNode guessNode = new PointSlopeLineNode( line, graph, mvt );
+                    LineNode guessNode = createGuessLineNode( line, graph, mvt );
                     guessNode.setEquationVisible( false );
                     guessNodeParent.addChild( guessNode );
 

@@ -24,6 +24,7 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
+import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
@@ -31,8 +32,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
+//TODO this description should change if this is adapted to "Make the Equation" challenges.
+
 /**
- * Base class for matching challenges where we are given an equation and must graph the line.
+ * Base class for challenges "Graph the Line" challenges, where we are given an equation and must graph the line.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -45,6 +48,13 @@ public abstract class ChallengeNode extends PhetPNode {
             super( graph, mvt );
         }
 
+        // Creates the node that corresponds to the "answer" line.
+        public abstract LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt );
+
+        // Creates the node that corresponds to the "guess" line.
+        public abstract LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt );
+
+        // Changes the visibility of the "answer" line.
         public abstract void setAnswerVisible( boolean visible );
     }
 
