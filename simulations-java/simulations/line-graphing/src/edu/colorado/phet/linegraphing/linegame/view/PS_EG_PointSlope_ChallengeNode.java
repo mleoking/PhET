@@ -137,8 +137,6 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
         // Sets the visibility of the correct answer. When answer is visible, manipulators are hidden.
         public void setAnswerVisible( boolean visible ) {
             answerNode.setVisible( visible );
-            pointManipulatorNode.setVisible( !visible );
-            slopeManipulatorNode.setVisible( !visible );
         }
     }
 }

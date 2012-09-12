@@ -1,3 +1,4 @@
+9/11/12 keep manipulators visible when showing correct answer
 9/11/12 add a drag handler for (x2,y2), use it instead of slope drag handler in "2 arbitrary points" challenges
 9/11/12 fix: prevent arbitrary points from being dragged on top of each other, creating undefined line
 9/11/12 fix: adjust range of rise and run dynamically for (x2,y2)
