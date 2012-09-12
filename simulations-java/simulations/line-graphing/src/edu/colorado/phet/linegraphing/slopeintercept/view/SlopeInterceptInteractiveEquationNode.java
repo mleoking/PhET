@@ -10,7 +10,6 @@ import java.text.NumberFormat;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -26,6 +25,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.common.view.DynamicValueNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
@@ -98,11 +98,11 @@ public class SlopeInterceptInteractiveEquationNode extends PhetPNode {
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }
         else {
-            PNode minRiseNode = new DynamicTextNode( new Property<Double>( riseRange.get().getMin() ), interactiveFont, staticColor );
-            PNode maxRiseNode = new DynamicTextNode( new Property<Double>( riseRange.get().getMax() ), interactiveFont, staticColor );
+            PNode minRiseNode = new DynamicValueNode( new Property<Double>( riseRange.get().getMin() ), interactiveFont, staticColor );
+            PNode maxRiseNode = new DynamicValueNode( new Property<Double>( riseRange.get().getMax() ), interactiveFont, staticColor );
             double maxRiseWidth = Math.max( maxRiseNode.getFullBoundsReference().getWidth(), minRiseNode.getFullBoundsReference().getWidth() );
-            PNode minRunNode = new DynamicTextNode( new Property<Double>( runRange.get().getMin() ), interactiveFont, staticColor );
-            PNode maxRunNode = new DynamicTextNode( new Property<Double>( runRange.get().getMax() ), interactiveFont, staticColor );
+            PNode minRunNode = new DynamicValueNode( new Property<Double>( runRange.get().getMin() ), interactiveFont, staticColor );
+            PNode maxRunNode = new DynamicValueNode( new Property<Double>( runRange.get().getMax() ), interactiveFont, staticColor );
             double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }
@@ -118,8 +118,8 @@ public class SlopeInterceptInteractiveEquationNode extends PhetPNode {
                                                               interactiveFont, FORMAT ) );
         }
         else {
-            riseNode = new DynamicTextNode( rise, interactiveFont, staticColor );
-            runNode = new DynamicTextNode( run, interactiveFont, staticColor );
+            riseNode = new DynamicValueNode( rise, interactiveFont, staticColor );
+            runNode = new DynamicValueNode( run, interactiveFont, staticColor );
         }
         final PNode lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ), new BasicStroke( 3f ), staticColor );
         PNode xNode = new PhetPText( "x", staticFont, staticColor );
@@ -129,7 +129,7 @@ public class SlopeInterceptInteractiveEquationNode extends PhetPNode {
             interceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, this.yIntercept, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
         }
         else {
-            interceptNode = new DynamicTextNode( yIntercept, interactiveFont, staticColor );
+            interceptNode = new DynamicValueNode( yIntercept, interactiveFont, staticColor );
         }
 
         // rendering order
@@ -207,25 +207,6 @@ public class SlopeInterceptInteractiveEquationNode extends PhetPNode {
                 undefinedSlopeIndicator.setVisible( line.run == 0 );
             }
         } );
-    }
-
-    //TODO use this in PointSlopeInteractiveEquationNode
-    // Text node that stays synchronized with a value property.
-    private static class DynamicTextNode extends PhetPText {
-        public DynamicTextNode( Property<Double> value, PhetFont font, Color color ) {
-            super( toIntString( value.get() ), font, color );
-            value.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double value ) {
-                    setText( toIntString( value ) );
-                }
-            } );
-        }
-    }
-
-    //TODO copied from EquationFactory
-    // Converts a double to an integer string, using nearest-neighbor rounding.
-    protected static String toIntString( double d ) {
-        return String.valueOf( MathUtil.roundHalfUp( d ) );
     }
 
     // test
