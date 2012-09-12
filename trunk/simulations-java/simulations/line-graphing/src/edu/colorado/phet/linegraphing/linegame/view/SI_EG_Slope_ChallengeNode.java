@@ -79,7 +79,7 @@ public class SI_EG_Slope_ChallengeNode extends SI_ChallengeNode {
             // Rendering order
             addChild( guessNodeParent );
             addChild( interceptPointNode );
-            addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
+            addChild( slopeManipulatorNode );
 
             // Show the user's current guess
             guessLine.addObserver( new VoidFunction1<Line>() {

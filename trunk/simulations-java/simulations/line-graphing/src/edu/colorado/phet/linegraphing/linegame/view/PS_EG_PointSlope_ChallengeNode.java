@@ -60,7 +60,7 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
             addChild( answerNode );
             answerNode.setVisible( false );
 
-            // ranges
+            // dynamic ranges
             final Property<DoubleRange> x1Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
             final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
             final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
@@ -83,7 +83,7 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
             // Rendering order
             addChild( guessNodeParent );
             addChild( pointManipulatorNode );
-            addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
+            addChild( slopeManipulatorNode );
 
             // Show the user's current guess
             guessLine.addObserver( new VoidFunction1<Line>() {
@@ -96,41 +96,35 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
                     guessNodeParent.addChild( guessNode );
 
                     // move the manipulators
-                    final double y = line.rise + line.y1;
-                    double x;
-                    if ( line.run == 0 ) {
-                        x = 0;
-                    }
-                    else if ( line.rise == 0 ) {
-                        x = line.run;
-                    }
-                    else {
-                        x = line.solveX( y );
-                    }
-                    slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( x, y ) ) );
-                    pointManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
+                    pointManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
+                    slopeManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
 
+                    //TODO this was copied from LineFormsModel constructor
                     // range of the graph axes
                     final int xMin = graph.xRange.getMin();
                     final int xMax = graph.xRange.getMax();
                     final int yMin = graph.yRange.getMin();
                     final int yMax = graph.yRange.getMax();
 
+                    //TODO this was copied from LineFormsModel constructor
                     // x1
                     final double x1Min = Math.max( xMin, xMin - line.run );
                     final double x1Max = Math.min( xMax, xMax - line.run );
                     x1Range.set( new DoubleRange( x1Min, x1Max ) );
 
+                    //TODO this was copied from LineFormsModel constructor
                     // y1
                     final double y1Min = Math.max( yMin, yMin - line.rise );
                     final double y1Max = Math.min( yMax, yMax - line.rise );
                     y1Range.set( new DoubleRange( y1Min, y1Max ) );
 
+                    //TODO this was copied from LineFormsModel constructor
                     // rise
                     final double riseMin = yMin - line.y1;
                     final double riseMax = yMax - line.y1;
                     riseRange.set( new DoubleRange( riseMin, riseMax ) );
 
+                    //TODO this was copied from LineFormsModel constructor
                     // run
                     final double runMin = xMin - line.x1;
                     final double runMax = xMax - line.x1;
