@@ -1,3 +1,4 @@
+9/12/12 increase width of fraction line used in static equations
 9/12/12 use more interesting point-slope lines for sample "Graph the Line" challenges
 9/12/12 extract base class for interactive equations
 9/12/12 adapt point-slope interactive equation so that specific parts of it can be made interactive (point, slope, both)
