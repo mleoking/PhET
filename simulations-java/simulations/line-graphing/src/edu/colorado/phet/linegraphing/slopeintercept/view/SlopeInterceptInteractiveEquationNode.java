@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -50,7 +51,16 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
                                                   Property<DoubleRange> riseRange,
                                                   Property<DoubleRange> runRange,
                                                   Property<DoubleRange> yInterceptRange ) {
-        this( interactiveLine, riseRange, runRange, yInterceptRange,
+        this( interactiveLine, riseRange, runRange, yInterceptRange, true, true );
+    }
+
+    public SlopeInterceptInteractiveEquationNode( Property<Line> interactiveLine,
+                                                  Property<DoubleRange> riseRange,
+                                                  Property<DoubleRange> runRange,
+                                                  Property<DoubleRange> yInterceptRange,
+                                                  boolean variableSlope,
+                                                  boolean variableIntercept ) {
+        this( interactiveLine, riseRange, runRange, yInterceptRange, variableSlope, variableIntercept,
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
@@ -58,6 +68,8 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
                                                    Property<DoubleRange> riseRange,
                                                    Property<DoubleRange> runRange,
                                                    Property<DoubleRange> yInterceptRange,
+                                                   final boolean variableSlope,
+                                                   boolean variableIntercept,
                                                    PhetFont interactiveFont,
                                                    PhetFont staticFont,
                                                    Color staticColor ) {
@@ -66,9 +78,9 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
         this.run = new Property<Double>( interactiveLine.get().run );
         this.yIntercept = new Property<Double>( interactiveLine.get().y1 );
 
-        // determine the max width of the rise and run spinners, based on the extents of their range
+        // determine the max width of the rise and run values, based on the extents of their range
         double maxSlopeWidth;
-        {
+        if ( variableSlope ) {
             PNode maxRiseNode = new RiseSpinnerNode( UserComponents.riseSpinner,
                                                      new Property<Double>( riseRange.get().getMax() ), new Property<Double>( runRange.get().getMax() ), riseRange,
                                                      new SlopeColors(), interactiveFont, FORMAT );
@@ -85,18 +97,40 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
             double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }
+        else {
+            PNode minRiseNode = new DynamicTextNode( new Property<Double>( riseRange.get().getMin() ), interactiveFont, staticColor );
+            PNode maxRiseNode = new DynamicTextNode( new Property<Double>( riseRange.get().getMax() ), interactiveFont, staticColor );
+            double maxRiseWidth = Math.max( maxRiseNode.getFullBoundsReference().getWidth(), minRiseNode.getFullBoundsReference().getWidth() );
+            PNode minRunNode = new DynamicTextNode( new Property<Double>( runRange.get().getMin() ), interactiveFont, staticColor );
+            PNode maxRunNode = new DynamicTextNode( new Property<Double>( runRange.get().getMax() ), interactiveFont, staticColor );
+            double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
+            maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
+        }
 
         // nodes: y = mx + b
         PNode yNode = new PhetPText( "y", staticFont, staticColor );
         PNode equalsNode = new PhetPText( "=", staticFont, staticColor );
-        PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, this.run, riseRange, new SlopeColors(),
-                                                                  interactiveFont, FORMAT ) );
-        PNode runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.rise, this.run, runRange, new SlopeColors(),
+        final PNode riseNode, runNode;
+        if ( variableSlope ) {
+            riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, this.run, riseRange, new SlopeColors(),
                                                                 interactiveFont, FORMAT ) );
-        PNode lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ), new BasicStroke( 3f ), staticColor );
+            runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.rise, this.run, runRange, new SlopeColors(),
+                                                              interactiveFont, FORMAT ) );
+        }
+        else {
+            riseNode = new DynamicTextNode( rise, interactiveFont, staticColor );
+            runNode = new DynamicTextNode( run, interactiveFont, staticColor );
+        }
+        final PNode lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ), new BasicStroke( 3f ), staticColor );
         PNode xNode = new PhetPText( "x", staticFont, staticColor );
         PNode interceptSignNode = new PhetPText( "+", staticFont, staticColor );
-        PNode interceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, this.yIntercept, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
+        PNode interceptNode;
+        if ( variableIntercept ) {
+            interceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, this.yIntercept, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
+        }
+        else {
+            interceptNode = new DynamicTextNode( yIntercept, interactiveFont, staticColor );
+        }
 
         // rendering order
         {
@@ -119,9 +153,9 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
                                   yNode.getYOffset() );
             lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
                                 equalsNode.getFullBoundsReference().getCenterY() + 2 );
-            riseNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - riseNode.getFullBoundsReference().getWidth(),
+            riseNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
                                 lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
-            runNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - runNode.getFullBoundsReference().getWidth(),
+            runNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
                                lineNode.getFullBoundsReference().getMinY() + ySpacing );
             xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + xSpacing,
                              yNode.getYOffset() );
@@ -161,30 +195,65 @@ class SlopeInterceptInteractiveEquationNode extends PhetPNode {
                 }
                 updatingControls = false;
 
+                // center align rise and run, if they are not interactive
+                if ( !variableSlope ) {
+                    riseNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
+                                        riseNode.getYOffset() );
+                    runNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
+                                       runNode.getYOffset() );
+                }
+
                 // Make the "bad equation" indicator visible for line with undefined slope.
                 undefinedSlopeIndicator.setVisible( line.run == 0 );
             }
         } );
     }
 
+    //TODO use this in PointSlopeInteractiveEquationNode
+    // Text node that stays synchronized with a value property.
+    private static class DynamicTextNode extends PhetPText {
+        public DynamicTextNode( Property<Double> value, PhetFont font, Color color ) {
+            super( toIntString( value.get() ), font, color );
+            value.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double value ) {
+                    setText( toIntString( value ) );
+                }
+            } );
+        }
+    }
+
+    //TODO copied from EquationFactory
+    // Converts a double to an integer string, using nearest-neighbor rounding.
+    protected static String toIntString( double d ) {
+        return String.valueOf( MathUtil.roundHalfUp( d ) );
+    }
+
     // test
     public static void main( String[] args ) {
 
         // model
-        Property<Line> line = new Property<Line>( Line.createSlopeIntercept( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
         DoubleRange range = new DoubleRange( -10, 10 );
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );
         Property<DoubleRange> yInterceptRange = new Property<DoubleRange>( range );
+        Property<Line> line = new Property<Line>( Line.createSlopeIntercept( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
 
-        // equation
-        SlopeInterceptInteractiveEquationNode equationNode = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange );
-        equationNode.setOffset( 100, 100 );
+        // equations
+        SlopeInterceptInteractiveEquationNode equationNode1 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, true, true );
+        SlopeInterceptInteractiveEquationNode equationNode2 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, false, true );
+        SlopeInterceptInteractiveEquationNode equationNode3 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, true, false );
 
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( new Dimension( 600, 400 ) );
-        canvas.getLayer().addChild( equationNode );
+        canvas.getLayer().addChild( equationNode1 );
+        canvas.getLayer().addChild( equationNode2 );
+        canvas.getLayer().addChild( equationNode3 );
+
+        // layout
+        equationNode1.setOffset( 100, 50 );
+        equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + 40 );
+        equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + 60 );
 
         // frame
         JFrame frame = new JFrame();

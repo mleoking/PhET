@@ -6,9 +6,9 @@ DESIGN
 - play area layout feels unbalanced for game challenges
 - revisit the placement algorithm for equations on graphed lines
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
+- when user fails at a challenge and we show answer, should they be able to change things to experiment further?
 
 HIGH
-- configurable interactive slope-intercept equation
 - configurable interactive point-slope equation
 - example of each "Make the Equation" game challenge
 - random creation of challenges, subject to constraints tbd
