@@ -9,7 +9,6 @@ DESIGN
 - when user fails at a challenge and we show answer, should they be able to change things to experiment further?
 
 HIGH
-- configurable interactive point-slope equation
 - example of each "Make the Equation" game challenge
 - random creation of challenges, subject to constraints tbd
 
