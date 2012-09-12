@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.linegame.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -58,8 +59,7 @@ public class SI_EG_Slope_ChallengeNode extends SI_ChallengeNode {
             // the correct answer, initially hidden
             answerNode = new SlopeInterceptLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
             answerNode.setEquationVisible( false );
-            addChild( answerNode );
-            answerNode.setVisible( false );
+            answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
             // plotted point for intercept
             final double pointDiameter = mvt.modelToViewDeltaX( GameConstants.POINT_DIAMETER );
@@ -77,6 +77,7 @@ public class SI_EG_Slope_ChallengeNode extends SI_ChallengeNode {
                                                                               riseRange,
                                                                               new Property<DoubleRange>( new DoubleRange( graph.xRange ) ) ) );
             // Rendering order
+            addChild( answerNode );
             addChild( guessNodeParent );
             addChild( interceptPointNode );
             addChild( slopeManipulatorNode );
