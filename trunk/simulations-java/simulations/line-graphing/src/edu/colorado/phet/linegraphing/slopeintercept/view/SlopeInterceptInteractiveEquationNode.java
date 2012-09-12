@@ -40,7 +40,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptInteractiveEquationNode extends PhetPNode {
+public class SlopeInterceptInteractiveEquationNode extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
