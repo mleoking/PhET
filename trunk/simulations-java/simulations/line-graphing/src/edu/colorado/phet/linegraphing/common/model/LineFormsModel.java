@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -18,6 +17,7 @@ import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 
 /**
  * Base class model for the "Slope-Intercept" and "Point-Slope" modules.
+ * Note that slope-intercept is a specialization of point-slope form, having x1 fixed at zero.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -33,19 +33,14 @@ public class LineFormsModel implements Resettable {
     public final ObservableList<Line> standardLines; // standard lines (eg, y=x) that are available for viewing
     public final PointTool pointTool1, pointTool2; // tools for measuring points on the graph
 
-    /*
-     * Creates a model in point-slope form: (y - y1) = m(x - x1)
-     */
-    public static LineFormsModel createPointSlope() {
+    // Creates the model for the "Point-Slope" tab.
+    public static LineFormsModel createPointSlopeModel() {
         return new LineFormsModel( Line.createPointSlope( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ),
                                    new DoubleRange( LGConstants.X_AXIS_RANGE ) /* x1 is variable */ );
     }
 
-    /*
-     * Creates a model in slope-intercept form: y = mx + b
-     * Note that slope-intercept is a specialization of point-slope form, having x1 fixed at zero.
-     */
-    public static LineFormsModel createSlopeIntercept() {
+    // Creates the model for the "Slope-Intercept" tab.
+    public static LineFormsModel createSlopeInterceptModel() {
         return new LineFormsModel( Line.createSlopeIntercept( 2, 3, 1, LGColors.INTERACTIVE_LINE ),
                                    new DoubleRange( 0, 0 ) /* x1 is fixed at zero */ );
     }

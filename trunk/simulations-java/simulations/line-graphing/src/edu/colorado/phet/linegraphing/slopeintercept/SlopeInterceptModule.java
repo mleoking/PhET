@@ -17,6 +17,6 @@ public class SlopeInterceptModule extends LGModule {
 
     public SlopeInterceptModule() {
         super( UserComponents.slopeInterceptTab, Strings.TAB_SLOPE_INTERCEPT );
-        setSimulationPanel( new SlopeInterceptCanvas( LineFormsModel.createSlopeIntercept(), new LineFormsViewProperties() ) );
+        setSimulationPanel( new SlopeInterceptCanvas( LineFormsModel.createSlopeInterceptModel(), new LineFormsViewProperties() ) );
     }
 }

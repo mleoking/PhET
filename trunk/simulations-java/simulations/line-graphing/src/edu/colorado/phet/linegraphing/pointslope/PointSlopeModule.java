@@ -17,6 +17,6 @@ public class PointSlopeModule extends LGModule {
 
     public PointSlopeModule() {
         super( UserComponents.pointSlopeTab, Strings.TAB_POINT_SLOPE );
-        setSimulationPanel( new PointSlopeCanvas( LineFormsModel.createPointSlope(), new LineFormsViewProperties() ) );
+        setSimulationPanel( new PointSlopeCanvas( LineFormsModel.createPointSlopeModel(), new LineFormsViewProperties() ) );
     }
 }
