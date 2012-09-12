@@ -1,3 +1,4 @@
+9/11/12 bugfix in Line.createPointSlope
 9/11/12 show answers in game if "dev" flag is enabled
 9/11/12 adjust rendering order of answer and guess in challenges
 9/11/12 cleanup challenge nodes
