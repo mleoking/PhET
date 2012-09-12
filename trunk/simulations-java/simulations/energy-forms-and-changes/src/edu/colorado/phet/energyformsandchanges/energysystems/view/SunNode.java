@@ -24,9 +24,9 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkNode;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.Cloud;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.Sun;
-import edu.colorado.phet.energyformsandchanges.intro.view.EnergyChunkNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

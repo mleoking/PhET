@@ -17,7 +17,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.view.stove.HeaterCoolerWithLimitsNode;
 import edu.colorado.phet.energyformsandchanges.intro.model.Burner;
-import edu.colorado.phet.energyformsandchanges.intro.view.EnergyChunkNode;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.energyformsandchanges.common.view.stove.HeaterCoolerWithLimitsNode.HeatCoolMode;
