@@ -170,7 +170,7 @@ public class LineGameModel {
     }
 
     private void initChallenges() {
-        //TODO create different types of challenges, randomized for level
+        //TODO replace with random challenge generation
         int index = 0;
         if ( settings.level.get() == 1 ) {
             challenges[index++] = new SI_EG_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), mvtGraphTheLine );
