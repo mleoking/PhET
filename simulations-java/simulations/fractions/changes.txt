@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Numbers: fractions and fraction skeletons animate back to the left if dropped to the right of the collection boxes
 Build a Mixed Fraction: Fixed: the smiley face does not appear centered in the play area when completing a level
 Build a Mixed Fraction: Shapes: Reduced level 5 pentagon icon to fit in the button better
 # 1.01.13 (67911) Sep 11, 2012

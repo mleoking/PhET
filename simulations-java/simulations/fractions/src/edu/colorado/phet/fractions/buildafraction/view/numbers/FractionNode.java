@@ -347,7 +347,14 @@ public class FractionNode extends RichPNode {
     public void animateToCenterOfScreen() {
         final double x = context.getCenterOfScreen().x;
         final double y = context.getCenterOfScreen().y;
-        animateToPositionScaleRotation( x, y, 1.0, 0, 1000 ).setDelegate( new DisablePickingWhileAnimating( this, true ) );
+        animateToPositionScaleRotation( x, y, 1.0, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( this, true ) );
+    }
+
+    //Don't go to the exact center of screen, or it is likely to overlap another one
+    public void animateNearCenterOfScreen() {
+        final double x = context.getCenterOfScreen().x + ( Math.random() * 2 - 1 ) * 75;
+        final double y = context.getCenterOfScreen().y + ( Math.random() * 2 - 1 ) * 75;
+        animateToPositionScaleRotation( x, y, 1.0, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( this, true ) );
     }
 
     //Return true if nothing is in top and nothing is in bottom
