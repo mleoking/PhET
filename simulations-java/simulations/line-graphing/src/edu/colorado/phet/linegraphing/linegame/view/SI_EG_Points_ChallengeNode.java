@@ -59,14 +59,17 @@ public class SI_EG_Points_ChallengeNode extends SI_ChallengeNode {
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
-            // manipulators
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
+
+            // (x1,y1) manipulator
             x1y1ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
             x1y1ManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
                                                                             x1y1ManipulatorNode, mvt, guessLine,
                                                                             new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
                                                                             new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
                                                                             false /* constantSlope */ ) );
+
+            // (x2,y2) manipulator
             x2y2ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X2_Y2 );
             x2y2ManipulatorNode.addInputEventListener( new X2Y2DragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                             x2y2ManipulatorNode, mvt, guessLine,

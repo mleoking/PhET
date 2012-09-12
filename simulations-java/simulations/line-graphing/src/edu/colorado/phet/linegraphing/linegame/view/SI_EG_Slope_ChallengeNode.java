@@ -45,7 +45,7 @@ public class SI_EG_Slope_ChallengeNode extends SI_ChallengeNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode slopeManipulatorNode;
-        private final PNode interceptPointNode;
+        private final PNode interceptNode;
 
         public ThisGraphNode( final Graph graph,
                               Property<Line> guessLine,
@@ -61,15 +61,15 @@ public class SI_EG_Slope_ChallengeNode extends SI_ChallengeNode {
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
-            // plotted point for intercept
+            // intercept
             final double pointDiameter = mvt.modelToViewDeltaX( GameConstants.POINT_DIAMETER );
-            interceptPointNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
-            interceptPointNode.setOffset( mvt.modelToView( new Point2D.Double( 0, guessLine.get().y1 ) ) );
+            interceptNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
+            interceptNode.setOffset( mvt.modelToView( new Point2D.Double( 0, guessLine.get().y1 ) ) );
 
             // dynamic ranges
             final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
 
-            // interactivity for slope manipulator
+            // slope manipulator
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
             slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
             slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
@@ -79,7 +79,7 @@ public class SI_EG_Slope_ChallengeNode extends SI_ChallengeNode {
             // Rendering order
             addChild( answerNode );
             addChild( guessNodeParent );
-            addChild( interceptPointNode );
+            addChild( interceptNode );
             addChild( slopeManipulatorNode );
 
             // Show the user's current guess
