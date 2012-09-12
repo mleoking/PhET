@@ -12,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 /**
  * Class that represents a block whose specific heat can be changed.
@@ -73,7 +75,7 @@ public class ConfigurableHeatCapacityBlock extends Block {
                         extractClosestEnergyChunk( getCenterPoint() );
                     }
                     else if ( getEnergyChunkBalance() < 0 ) {
-                        addEnergyChunk( new EnergyChunk( clock, getCenterPoint(), energyChunksVisible, false ) );
+                        addEnergyChunk( new EnergyChunk( clock, EnergyType.THERMAL, getCenterPoint(), energyChunksVisible, false ) );
                     }
                 }
             }

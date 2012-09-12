@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 /**
  * A class that contains static methods for redistributing a set of energy
@@ -382,7 +384,7 @@ public class EnergyChunkDistributor {
     public static void main( String[] args ) {
         Shape enclosingShape = new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 );
         List<EnergyChunk> energyChunkList = new ArrayList<EnergyChunk>();
-        energyChunkList.add( new EnergyChunk( new ConstantDtClock( 30 ), 0.05, 0, new BooleanProperty( true ), false ) );
+        energyChunkList.add( new EnergyChunk( new ConstantDtClock( 30 ), EnergyType.THERMAL, 0.05, 0, new BooleanProperty( true ), false ) );
         for ( int i = 0; i < 100; i++ ) {
             EnergyChunkDistributor.updatePositions( energyChunkList, enclosingShape, 0.033 );
             System.out.println( " Pos: " + energyChunkList.get( 0 ).position );

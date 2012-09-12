@@ -18,6 +18,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 /**
  * Model element that represents a beaker in the model.
@@ -174,7 +176,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
         Rectangle2D initialChunkBounds = getSliceBounds();
         while ( getNumEnergyChunks() < targetNumChunks ) {
             // Add a chunk at a random location in the beaker.
-            addEnergyChunkToNextSlice( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( initialChunkBounds ), energyChunksVisible, false ) );
+            addEnergyChunkToNextSlice( new EnergyChunk( clock, EnergyType.THERMAL, EnergyChunkDistributor.generateRandomLocation( initialChunkBounds ), energyChunksVisible, false ) );
         }
     }
 

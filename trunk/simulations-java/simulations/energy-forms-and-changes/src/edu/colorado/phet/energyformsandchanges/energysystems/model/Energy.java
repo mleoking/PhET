@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
+
 /**
  * Class the represents an amount and type of energy as well as other
  * attributes that are specific to the energy type.
