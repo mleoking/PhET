@@ -1,3 +1,4 @@
+9/11/12 i18n of challenge titles
 9/11/12 adapt challenge node base class so that it works for both "Graph the Line" and "Make the Equation" challenges
 9/11/12 add sim-sharing UserComponent values for (x1,y1) and (x2,y2) manipulators
 9/11/12 factor out interface for creating nodes for "answer" and "guess" lines
