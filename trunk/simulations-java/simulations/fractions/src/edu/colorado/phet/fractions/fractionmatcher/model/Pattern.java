@@ -139,8 +139,8 @@ public class Pattern {
     }
 
     public static Pattern horizontalBars( int numBars ) {
-        final int width = 70;
-        final int sliceHeight = width / numBars;
+        final double width = 70;
+        final double sliceHeight = width / (double) numBars;
         return new Pattern( range( 0, numBars ).map( new F<Integer, Shape>() {
             @Override public Shape f( final Integer index ) {
                 return new Rectangle2D.Double( 0, index * sliceHeight, width, sliceHeight );
@@ -149,8 +149,8 @@ public class Pattern {
     }
 
     public static Pattern verticalBars( final int numBars ) {
-        final int height = 70;
-        final int sliceWidth = height / numBars;
+        final double height = 70;
+        final double sliceWidth = height / (double) numBars;
         return new Pattern( range( 0, numBars ).map( new F<Integer, Shape>() {
             @Override public Shape f( final Integer index ) {
                 return new Rectangle2D.Double( index * sliceWidth, 0, sliceWidth, height );
