@@ -316,7 +316,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
         //If it didn't hit a fraction, send back to its starting place--the user is not allowed to have free floating numbers in the play area
         if ( !hitFraction ) {
-            numberCardNode.animateToTopOfStack( true );
+            numberCardNode.animateToTopOfStack( isFreePlay() );
         }
 
         draggedCardProperty.set( Option.<Integer>none() );
