@@ -128,20 +128,6 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     }
 
     protected void finishCreatingUI( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final ActionListener goToNextLevel, final VoidFunction0 _resampleLevel, boolean freePlay ) {
-        final HTMLImageButtonNode nextButton = new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), BUTTON_COLOR ) {{
-            setUserComponent( Components.nextButton );
-            addActionListener( goToNextLevel );
-        }};
-        faceNodeDialog = new VBox( new FaceNode( 200 ), model.isLastLevel( levelIndex ) ? new PNode() : nextButton ) {{
-            setOffset( stageSize.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
-        }};
-
-        faceNodeDialog.setTransparency( 0 );
-        faceNodeDialog.setVisible( false );
-        faceNodeDialog.setPickable( false );
-        faceNodeDialog.setChildrenPickable( false );
-
-        addChild( faceNodeDialog );
 
         double minScoreCellX = pairs.map( new F<T, Double>() {
             @Override public Double f( final T target ) {
@@ -167,6 +153,21 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
                 setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, levelReadoutTitle.getMaxY() + INSET );
             }} );
         }
+
+        final HTMLImageButtonNode nextButton = new HTMLImageButtonNode( Strings.NEXT, new PhetFont( 20, true ), BUTTON_COLOR ) {{
+            setUserComponent( Components.nextButton );
+            addActionListener( goToNextLevel );
+        }};
+        faceNodeDialog = new VBox( new FaceNode( 200 ), model.isLastLevel( levelIndex ) ? new PNode() : nextButton ) {{
+            setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
+        }};
+
+        faceNodeDialog.setTransparency( 0 );
+        faceNodeDialog.setVisible( false );
+        faceNodeDialog.setPickable( false );
+        faceNodeDialog.setChildrenPickable( false );
+
+        addChild( faceNodeDialog );
     }
 
     protected abstract void reset();
