@@ -240,7 +240,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         double freePlayYOffset = freePlay ? STAGE_SIZE.height - toolboxHeight - INSET * 3 - 100 : 0;
         final double y = ( level.shapeType == PIE ? 200 : 250 ) + freePlayYOffset;
 
-        return new Vector2D( freePlay ? 200 : levelReadoutTitle.getCenterX() - offset * getContainerScale(), y );
+        return new Vector2D( freePlay ? 480 : levelReadoutTitle.getCenterX() - offset * getContainerScale(), y );
     }
 
     protected void reset() {
