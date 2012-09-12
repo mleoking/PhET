@@ -63,7 +63,8 @@ public class X1Y1DragHandler extends LineManipulatorDragHandler {
             // Keep slope constant, change (x1,y1) and (x2,y2).
             line.set( Line.createPointSlope( x1, y1, line.get().rise, line.get().run, line.get().color ) );
         }
-        else {
+        // Don't allow points to be the same, this would result in slope=0/0 (undefined line.)
+        else if ( !( x1 == line.get().x2 && y1 == line.get().y2 ) ) {
             // Keep (x2,y2) constant, change (x1,y1) and slope.
             line.set( new Line( x1, y1, line.get().x2, line.get().y2, line.get().color ) );
         }
