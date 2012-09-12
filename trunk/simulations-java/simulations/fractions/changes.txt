@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Fixed: Number cards disappear when dropped in the play area
 Free play: Fixed: "not allowed" sign appears in completed fractions
 Free play: Fixed: Sometimes shapes create an odd clipping region when animating back to the toolbox
 Free play: Fixed: When clicking on a number card lots, it fills up with duplicated cards
