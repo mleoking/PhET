@@ -70,6 +70,13 @@ public class EnergyChunkLegend extends PNode {
             constraints.insets.left = 5;
             addChild( new PhetPText( "Light", LEGEND_ENTRY_FONT ), constraints );
 
+            constraints.gridy++;
+            constraints.gridx = 0;
+            constraints.insets.left = 0;
+            addChild( new PImage( EnergyFormsAndChangesResources.Images.E_CHEM_OUTLINE_BLACK ), constraints );
+            constraints.gridx++;
+            constraints.insets.left = 5;
+            addChild( new PhetPText( "Chemical", LEGEND_ENTRY_FONT ), constraints );
         }};
 
         // Create the control panel.
