@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
@@ -32,6 +34,16 @@ public abstract class EnergySystemElement extends PositionableFadableModelElemen
     protected EnergySystemElement( Image iconImage, List<ModelElementImage> images ) {
         this.iconImage = iconImage;
         this.imageList.addAll( images );
+
+        // Move all energy chunks with this element as it moves.
+        getObservablePosition().addObserver( new ChangeObserver<Vector2D>() {
+            public void update( Vector2D newPosition, Vector2D oldPosition ) {
+                Vector2D deltaPosition = newPosition.minus( oldPosition );
+                for ( EnergyChunk energyChunk : energyChunkList ) {
+                    energyChunk.translate( deltaPosition );
+                }
+            }
+        } );
     }
 
     public List<ModelElementImage> getImageList() {
