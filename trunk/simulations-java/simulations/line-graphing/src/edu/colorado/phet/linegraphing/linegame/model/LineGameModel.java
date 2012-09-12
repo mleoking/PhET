@@ -179,10 +179,10 @@ public class LineGameModel {
             challenges[index++] = new SI_EG_Points_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), mvtGraphTheLine );
         }
         else if ( settings.level.get() == 2 ) {
-            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( -1, -3, 1, 2 ), mvtGraphTheLine );
-            challenges[index++] = new PS_EG_Point_Challenge( Line.createPointSlope( -1, -3, 1, 2 ), mvtGraphTheLine );
-            challenges[index++] = new PS_EG_PointSlope_Challenge( Line.createPointSlope( -1, -3, 1, 2 ), mvtGraphTheLine );
-            challenges[index++] = new PS_EG_Points_Challenge( Line.createPointSlope( -1, -3, 1, 2 ), mvtGraphTheLine );
+            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), mvtGraphTheLine );
+            challenges[index++] = new PS_EG_Point_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), mvtGraphTheLine );
+            challenges[index++] = new PS_EG_PointSlope_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), mvtGraphTheLine );
+            challenges[index++] = new PS_EG_Points_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), mvtGraphTheLine );
         }
         assert ( challenges.length == CHALLENGES_PER_GAME );
         challengeIndex = 0;

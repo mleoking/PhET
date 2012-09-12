@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class PS_EG_Slope_Challenge extends Challenge {
 
     public PS_EG_Slope_Challenge( Line answer, ModelViewTransform mvt ) {
-        super( answer, Line.createPointSlope( answer.x1, answer.y1, 1, 3 ), mvt );
+        super( answer, Line.createPointSlope( answer.x1, answer.y1, 1, 1 ), mvt );
     }
 
     @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
