@@ -8,10 +8,11 @@ DESIGN
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 
 HIGH
-- example of each game challenge
+- example of each "Make the Equation" game challenge
 - random creation of challenges, subject to constraints tbd
 
 MEDIUM
+- factor out duplication in ChallengeNode subclasses
 
 LOW
 
