@@ -8,6 +8,8 @@ DESIGN
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 - when user fails at a challenge and we show answer, should they be able to change things to experiment further?
 - when user fails at "Make the Equation" challenge, we show correct equation. Anything else? Plot incorrect line? Put manipulators on correct/incorrect line? ...
+- more challenges?
+- rules for generating random challenges and initial guess
 
 HIGH
 - example of each "Make the Equation" game challenge
