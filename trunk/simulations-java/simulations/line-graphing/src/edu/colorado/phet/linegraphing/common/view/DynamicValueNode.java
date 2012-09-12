@@ -19,16 +19,24 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 public class DynamicValueNode extends PhetPText {
 
     public DynamicValueNode( Property<Double> value, PhetFont font, Color color ) {
-        super( toIntString( value.get() ), font, color );
+        this( value, font, color, false );
+    }
+
+    public DynamicValueNode( Property<Double> value, PhetFont font, Color color, final boolean absoluteValue ) {
+        super( toIntString( value.get(), absoluteValue ), font, color );
         value.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
-                setText( toIntString( value ) );
+                setText( toIntString( value, absoluteValue ) );
             }
         } );
     }
 
     // Converts a double to an integer string, using nearest-neighbor rounding.
-    protected static String toIntString( double d ) {
-        return String.valueOf( MathUtil.roundHalfUp( d ) );
+    protected static String toIntString( double d, boolean absoluteValue ) {
+        int i = MathUtil.roundHalfUp( d );
+        if ( absoluteValue ) {
+            i = Math.abs( i );
+        }
+        return String.valueOf( i );
     }
 }
