@@ -443,8 +443,14 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
     }
 
-    public boolean isFreePlay() {
-        return freePlay;
+    public boolean isFreePlay() { return freePlay; }
+
+    public boolean isInCollectionBox( final FractionNode fractionNode ) {
+        return pairs.exists( new F<NumberSceneCollectionBoxPair, Boolean>() {
+            @Override public Boolean f( final NumberSceneCollectionBoxPair p ) {
+                return p.getCollectionBoxNode().isCompleted() && p.getCollectionBoxNode().getCompletedFraction() == fractionNode;
+            }
+        } );
     }
 
     public Vector2D getLocation( final int stackIndex, final int cardIndex, NumberCardNode cardNode ) {

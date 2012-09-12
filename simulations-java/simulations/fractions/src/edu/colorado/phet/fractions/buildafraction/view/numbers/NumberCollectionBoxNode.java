@@ -106,4 +106,6 @@ public class NumberCollectionBoxNode extends CollectionBoxNode {
     }
 
     public boolean isCompleted() { return completed; }
+
+    public FractionNode getCompletedFraction() { return this.fractionGraphic; }
 }
