@@ -72,7 +72,7 @@ public class SI_EG_SlopeIntercept_ChallengeNode extends SI_ChallengeNode {
                                                                               riseRange,
                                                                               new Property<DoubleRange>( new DoubleRange( graph.xRange ) ) ) );
 
-            // point (y-intercept) manipulator
+            // point (y intercept) manipulator
             interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
             interceptManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
                                                                                  interceptManipulatorNode, mvt, guessLine,

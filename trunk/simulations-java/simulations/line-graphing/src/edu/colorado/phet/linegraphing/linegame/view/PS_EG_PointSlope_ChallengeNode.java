@@ -66,7 +66,6 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
             final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
             final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
 
-            // line manipulators
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
 
             // point manipulator

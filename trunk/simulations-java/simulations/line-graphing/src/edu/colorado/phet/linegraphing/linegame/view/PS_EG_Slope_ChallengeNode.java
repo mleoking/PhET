@@ -61,7 +61,7 @@ public class PS_EG_Slope_ChallengeNode extends PS_ChallengeNode {
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
-            // plotted point
+            // point
             final double pointDiameter = mvt.modelToViewDeltaX( GameConstants.POINT_DIAMETER );
             pointNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
             pointNode.setOffset( mvt.modelToView( new Point2D.Double( guessLine.get().x1, guessLine.get().y1 ) ) );
