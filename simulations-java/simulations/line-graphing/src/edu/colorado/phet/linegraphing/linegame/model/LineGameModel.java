@@ -80,7 +80,7 @@ public class LineGameModel {
 
         final double mvtScale = GRID_VIEW_UNITS / Math.max( xRange.getLength(), yRange.getLength() ); // view units / model units
         mvtGraphTheLine = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 700, 300 ), mvtScale, -mvtScale ); // graph on right, y inverted
-        mvtMakeTheEquation = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 200, 300 ), mvtScale, -mvtScale ); // graph on left, y inverted
+        mvtMakeTheEquation = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 300, 300 ), mvtScale, -mvtScale ); // graph on left, y inverted
 
         settings = new GameSettings( LEVELS_RANGE, true /* soundEnabled */, true /* timerEnabled */ );
         timer = new GameTimer();

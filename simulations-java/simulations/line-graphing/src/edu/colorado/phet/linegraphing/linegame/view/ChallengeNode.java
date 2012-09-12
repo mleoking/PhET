@@ -32,35 +32,16 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
-//TODO this description should change if this is adapted to "Make the Equation" challenges.
-
 /**
- * Base class for challenges "Graph the Line" challenges, where we are given an equation and must graph the line.
+ * Base class for the view portion of challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class ChallengeNode extends PhetPNode {
 
-    // Base class for the graph node in all challenges.
-    public static abstract class ChallengeGraphNode extends GraphNode {
+    public ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize, boolean equationOnLeft, String title ) {
 
-        public ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
-            super( graph, mvt );
-        }
-
-        // Creates the node that corresponds to the "answer" line.
-        public abstract LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt );
-
-        // Creates the node that corresponds to the "guess" line.
-        public abstract LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt );
-
-        // Changes the visibility of the "answer" line.
-        public abstract void setAnswerVisible( boolean visible );
-    }
-
-    public ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-
-        PNode titleNode = new PhetPText( "Graph the Line", GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR ); //TODO i18n
+        PNode titleNode = new PhetPText( title, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 
         final EquationNode equationNode = createEquationNode( model.challenge.get().answer, GameConstants.ANSWER_COLOR, GameConstants.EQUATION_FONT );
 
@@ -116,9 +97,16 @@ public abstract class ChallengeNode extends PhetPNode {
             // title centered at top
             titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
                                  10 );
-            // equation centered in left half of challenge space
-            equationNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
-                                    ( challengeSize.getHeight() / 2 ) - ( equationNode.getFullBoundsReference().getHeight() / 2 ) );
+            if ( equationOnLeft ) {
+                // equation centered in left half of challenge space
+                equationNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
+                                        ( challengeSize.getHeight() / 2 ) - ( equationNode.getFullBoundsReference().getHeight() / 2 ) );
+            }
+            else {
+                // equation centered in right half of challenge space
+                equationNode.setOffset( ( 0.75 * challengeSize.getWidth() ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
+                                        ( challengeSize.getHeight() / 2 ) - ( equationNode.getFullBoundsReference().getHeight() / 2 ) );
+            }
             // graphNode is positioned automatically based on mvt's origin offset.
             // buttons centered at bottom of challenge space
             final double ySpacing = 15;
@@ -216,4 +204,37 @@ public abstract class ChallengeNode extends PhetPNode {
 
     // Creates the graph portion of the view.
     public abstract ChallengeGraphNode createChallengeGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
+
+    // Base class for "Graph the Line" challenges.
+    public static abstract class GraphTheLineChallengeNode extends ChallengeNode {
+
+        public GraphTheLineChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+            super( model, audioPlayer, challengeSize, true, Strings.GRAPH_THE_LINE );
+        }
+    }
+
+    // Base class for "Make the Equation" challenges.
+    public static abstract class MakeTheEquationChallengeNode extends ChallengeNode {
+
+        public MakeTheEquationChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+            super( model, audioPlayer, challengeSize, true, Strings.MAKE_THE_EQUATION );
+        }
+    }
+
+    // Base class for the graph node in all challenges.
+    public static abstract class ChallengeGraphNode extends GraphNode {
+
+        public ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
+            super( graph, mvt );
+        }
+
+        // Creates the node that corresponds to the "answer" line.
+        public abstract LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt );
+
+        // Creates the node that corresponds to the "guess" line.
+        public abstract LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt );
+
+        // Changes the visibility of the "answer" line.
+        public abstract void setAnswerVisible( boolean visible );
+    }
 }
