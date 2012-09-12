@@ -9,7 +9,7 @@ package edu.colorado.phet.energyformsandchanges.energysystems.model;
  */
 public class Energy {
 
-    public final Type type;
+    public final EnergyType type;
     public final double amount; // In Joules.
     public final double direction; // In radians.  Only relevant for some energy types.  Zero is to the right, pi/2 is up, and so forth.
 
@@ -19,7 +19,7 @@ public class Energy {
      * @param type   Energy type.
      * @param amount Amount of energy, in joules.
      */
-    public Energy( Type type, double amount ) {
+    public Energy( EnergyType type, double amount ) {
         this( type, amount, 0 );
 
     }
@@ -33,11 +33,10 @@ public class Energy {
      *                  all energy types.  Zero indicates to the right, PI/2
      *                  is up, and so forth.
      */
-    public Energy( Type type, double amount, double direction ) {
+    public Energy( EnergyType type, double amount, double direction ) {
         this.type = type;
         this.amount = amount;
         this.direction = direction;
     }
 
-    enum Type {THERMAL, ELECTRICAL, MECHANICAL, SOLAR}
 }

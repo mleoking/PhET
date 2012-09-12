@@ -70,7 +70,7 @@ public class TeaPot extends EnergySource {
                                                     MAX_ENERGY_PRODUCTION_RATE ) ); // Analogous to velocity.
             }
         }
-        return new Energy( Energy.Type.MECHANICAL, energyProductionRate.get() * dt, Math.PI / 2 );
+        return new Energy( EnergyType.MECHANICAL, energyProductionRate.get() * dt, Math.PI / 2 );
     }
 
     @Override public void deactivate() {

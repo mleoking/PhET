@@ -57,7 +57,7 @@ public class Sun extends EnergySource {
 
     @Override public Energy stepInTime( double dt ) {
         double energyProduced = active ? ENERGY_PRODUCTION_RATE * ( 1 - cloudiness.get() ) * dt : 0;
-        return new Energy( Energy.Type.SOLAR, energyProduced );
+        return new Energy( EnergyType.SOLAR, energyProduced );
     }
 
     @Override public IUserComponent getUserComponent() {
