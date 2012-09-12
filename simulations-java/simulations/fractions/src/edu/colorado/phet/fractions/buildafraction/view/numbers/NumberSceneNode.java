@@ -39,6 +39,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
+import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 import static fj.Ord.doubleOrd;
 import static fj.data.Option.some;
 import static java.awt.Color.darkGray;
@@ -121,7 +122,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         fractionNode.setScale( 1.0 );
 
         double extentX = LEFT_RIGHT_INSET * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON + fractionNode.getFullBounds().getWidth();
-        if ( freePlay ) { extentX = extentX + 73; }
+        if ( freePlay ) { extentX = STAGE_SIZE.width - INSET * 2; }
 
         //Create the toolbox node
         final double finalExtentX = extentX;
@@ -165,13 +166,11 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             toolboxPositionY = c.getToolboxPositionY();
         }
 
-        double offsetX = toolboxPositionX;
-
         //For free play, also create a mixed number graphic
         if ( freePlay ) {
+            this.offsetX = toolboxNode.getMaxX() - 200;
             toolboxPositionX = addMixedFractionGraphicFreePlay( toolboxPositionY, offsetX );
             this.toolboxPositionY = toolboxPositionY;
-            this.offsetX = offsetX;
         }
 
         finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
@@ -469,7 +468,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             stackOffset += stack.head().toString().length() < 2 ? singleDigitCardSize.width : doubleDigitCardSize.width;
             stackOffset += SPACE_BETWEEN_STACKS;
         }
-        return stackOffset;
+        return stackOffset + ( isFreePlay() ? 66 : 0 );
     }
 
     private class CreateNonMixedFractionGraphicFreePlay {
@@ -492,8 +491,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
             //Put it to the right of the numbers in the toolbox
 
-            toolboxPositionX = toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth();
-            if ( freePlay ) { toolboxPositionX = toolboxPositionX - 108; }
+            toolboxPositionX = freePlay ? toolboxNode.getMinX() + 23 : toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth();
             toolboxPositionY = toolboxNode.getCenterY() - toolboxFractionGraphic.getFullBounds().getHeight() / 2;
             toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
             toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
