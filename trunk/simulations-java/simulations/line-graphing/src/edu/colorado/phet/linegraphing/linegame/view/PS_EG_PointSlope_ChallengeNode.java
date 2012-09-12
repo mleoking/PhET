@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.linegame.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -57,8 +58,7 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
             // the correct answer, initially hidden
             answerNode = new PointSlopeLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
             answerNode.setEquationVisible( false );
-            addChild( answerNode );
-            answerNode.setVisible( false );
+            answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
             // dynamic ranges
             final Property<DoubleRange> x1Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
@@ -81,6 +81,7 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_ChallengeNode {
                                                                               slopeManipulatorNode, mvt, guessLine, riseRange, runRange ) );
 
             // Rendering order
+            addChild( answerNode );
             addChild( guessNodeParent );
             addChild( pointManipulatorNode );
             addChild( slopeManipulatorNode );
