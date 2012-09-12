@@ -12,39 +12,40 @@ import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode.GraphTheLineChallengeNode;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationFactory;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class for all challenges that use point-slope form.
+ * Base class for all challenges that use slope-intercept form.
+ * Naming convention: SI=Slope-Intercept, EG=given Equation, make Graph
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class PS_ChallengeNode extends GraphTheLineChallengeNode {
+public abstract class SI_EG_ChallengeNode extends GraphTheLineChallengeNode {
 
-    public PS_ChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public SI_EG_ChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
     }
 
     // Creates the equation portion of the view.
     @Override public EquationNode createEquationNode( Line line, Color color, PhetFont font ) {
-        return new PointSlopeEquationFactory().createNode( line.withColor( color ), font );
+        return new SlopeInterceptEquationFactory().createNode( line.withColor( color ), font );
     }
 
     // Graph for all challenges that use slope-intercept form.
-    public static abstract class PS_ChallengeGraphNode extends ChallengeGraphNode {
+    public static abstract class SI_ChallengeGraphNode extends ChallengeGraphNode {
 
-        public PS_ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
+        public SI_ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
             super( graph, mvt );
         }
 
         @Override public LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-            return new PointSlopeLineNode( line.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
+            return new SlopeInterceptLineNode( line.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
         }
 
         @Override public LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-            return new PointSlopeLineNode( line, graph, mvt );
+            return new SlopeInterceptLineNode( line, graph, mvt );
         }
     }
 }

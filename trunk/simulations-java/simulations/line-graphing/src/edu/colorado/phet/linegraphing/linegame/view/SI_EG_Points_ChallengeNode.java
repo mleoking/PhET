@@ -27,7 +27,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SI_EG_Points_ChallengeNode extends SI_ChallengeNode {
+public class SI_EG_Points_ChallengeNode extends SI_EG_ChallengeNode {
 
     public SI_EG_Points_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
