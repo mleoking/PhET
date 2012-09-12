@@ -36,7 +36,7 @@ public class FaucetAndWater extends EnergySource {
     }
 
     @Override public Energy stepInTime( double dt ) {
-        return new Energy( Energy.Type.MECHANICAL, MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() * dt, -Math.PI / 2 );
+        return new Energy( EnergyType.MECHANICAL, MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() * dt, -Math.PI / 2 );
     }
 
     @Override public void deactivate() {

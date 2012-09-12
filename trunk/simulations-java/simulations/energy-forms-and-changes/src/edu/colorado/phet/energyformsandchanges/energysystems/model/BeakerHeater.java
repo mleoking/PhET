@@ -41,7 +41,7 @@ public class BeakerHeater extends EnergyUser {
     }
 
     @Override public void stepInTime( double dt, Energy incomingEnergy ) {
-        if ( active && incomingEnergy.type == Energy.Type.ELECTRICAL ) {
+        if ( active && incomingEnergy.type == EnergyType.ELECTRICAL ) {
             heatProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / ENERGY_TO_FULLY_ACTIVATE, 1 ) );
         }
         else {
