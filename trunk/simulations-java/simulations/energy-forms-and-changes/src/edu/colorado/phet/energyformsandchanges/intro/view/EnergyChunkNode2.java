@@ -8,6 +8,8 @@ import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 
@@ -15,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -38,6 +41,15 @@ public class EnergyChunkNode2 extends PNode {
     private static final double Z_DISTANCE_WHERE_FULLY_FADED = 0.1; // In meters.
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 2 );
     private static final Color OUTLINE_STROKE_COLOR = Color.BLACK;
+
+    private static final Map<EnergyType, Color> mapEnergyTypeToColor = new HashMap<EnergyType, Color>() {{
+        // TODO: If we end up using these, these color will need adjustment.
+        put( EnergyType.THERMAL, PhetColorScheme.RED_COLORBLIND );
+        put( EnergyType.ELECTRICAL, Color.YELLOW );
+        put( EnergyType.MECHANICAL, Color.GRAY );
+        put( EnergyType.SOLAR, Color.YELLOW );
+        put( EnergyType.CHEMICAL, Color.GREEN );
+    }};
 
     public EnergyChunkNode2( final EnergyChunk energyChunk, final ModelViewTransform mvt ) {
 
@@ -63,22 +75,26 @@ public class EnergyChunkNode2 extends PNode {
         } );
 
         // Draw the energy chunks.
-        Color baseColor = Color.RED;
-        RoundGradientPaint paint = new RoundGradientPaint( WIDTH / 4,
-                                                           -WIDTH / 4,
-                                                           ColorUtils.brighterColor( baseColor, 0.5 ),
-                                                           new Point2D.Double( -WIDTH / 2, WIDTH / 2 ),
-                                                           baseColor );
-        PNode body = new PhetPPath( new RoundRectangle2D.Double( -WIDTH / 2, -WIDTH / 2, WIDTH, WIDTH, WIDTH / 4, WIDTH / 4 ),
-                                    paint,
-                                    OUTLINE_STROKE,
-                                    OUTLINE_STROKE_COLOR );
+        final PNode body = new PhetPPath( new RoundRectangle2D.Double( -WIDTH / 2, -WIDTH / 2, WIDTH, WIDTH, WIDTH / 4, WIDTH / 4 ), OUTLINE_STROKE, OUTLINE_STROKE_COLOR );
         addChild( body );
+
+        // Monitor the energy type and set the color appropriately.
+        energyChunk.energyType.addObserver( new VoidFunction1<EnergyType>() {
+            public void apply( EnergyType energyType ) {
+                Color baseColor = mapEnergyTypeToColor.get( energyType );
+                RoundGradientPaint paint = new RoundGradientPaint( WIDTH / 4,
+                                                                   -WIDTH / 4,
+                                                                   ColorUtils.brighterColor( baseColor, 0.5 ),
+                                                                   new Point2D.Double( -WIDTH / 2, WIDTH / 2 ),
+                                                                   baseColor );
+                body.setPaint( paint );
+            }
+        } );
 
         // Add the label.
         addChild( new PhetPText( "E", new PhetFont( 20, true ) ) {{
             setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 );
-            setTextPaint( Color.WHITE );
+            setTextPaint( Color.BLACK );
         }} );
 
         // Set this node's position when the corresponding model element moves.
@@ -114,7 +130,7 @@ public class EnergyChunkNode2 extends PNode {
                 new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        canvas.getLayer().addChild( new EnergyChunkNode2( new EnergyChunk( new ConstantDtClock( 30 ), EnergyType.THERMAL, 0, 0, new BooleanProperty( true ), false ), mvt ) );
+        canvas.getLayer().addChild( new EnergyChunkNode2( new EnergyChunk( new ConstantDtClock( 30 ), EnergyType.ELECTRICAL, 0, 0, new BooleanProperty( true ), false ), mvt ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();
