@@ -3,14 +3,18 @@ package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 /**
@@ -23,6 +27,9 @@ public class Sun extends EnergySource {
 
     public static final double RADIUS = 0.02; // In meters, apparent size, not (obviously) actual size.
     public static final Vector2D OFFSET_TO_CENTER_OF_SUN = new Vector2D( -0.05, 0.12 );
+    public static final double ENERGY_CHUNK_VELOCITY = 0.001; // Meters/sec, obviously not to scale.
+    public static final double ENERGY_CHUNK_EMISSION_PERIOD = 0.25; // In seconds.
+    private static final Random RAND = new Random();
 
     // Clouds that can potentially block the sun's rays.  The positions are
     // set so that they appear between the sun and the solar panel, and must
@@ -40,9 +47,10 @@ public class Sun extends EnergySource {
     // Energy production per square meter of the Earth's surface.
     private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
 
+    private double energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
+
     //TODO: This, and all image lists, should be removed once the prototypes have all been replaced.
-    private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-    }};
+    private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>();
 
     protected Sun() {
         super( EnergyFormsAndChangesResources.Images.SUN_ICON, IMAGE_LIST );
@@ -54,9 +62,33 @@ public class Sun extends EnergySource {
                 }
             }
         } );
+
+        // TODO: Temp.
+        energyChunkList.add( new EnergyChunk( new ConstantDtClock( 30 ), EnergyType.SOLAR, 0, 0.1, new BooleanProperty( true ), false ) );
     }
 
     @Override public Energy stepInTime( double dt ) {
+
+        Vector2D sunPosition = getPosition().plus( OFFSET_TO_CENTER_OF_SUN );
+
+        // See if it is time to emit an energy chunk.
+        energyChunkEmissionCountdownTimer -= dt;
+        if ( energyChunkEmissionCountdownTimer <= 0 ) {
+            // Create a new chunk and start it on its way.
+            Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 ) );
+            EnergyChunk energyChunk = new EnergyChunk( new ConstantDtClock( 30 ), EnergyType.SOLAR, initialPosition.x, initialPosition.y, new BooleanProperty( true ), false );
+            energyChunkList.add( energyChunk );
+            energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
+            System.out.println( "Added a chunk" );
+        }
+
+        // Move all the energy chunks away from the sun.
+        for ( EnergyChunk energyChunk : energyChunkList ) {
+            double direction = energyChunk.position.get().minus( sunPosition ).getAngle();
+            energyChunk.translate( new Vector2D( ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( direction ) );
+        }
+
+        // Produce the energy.
         double energyProduced = active ? ENERGY_PRODUCTION_RATE * ( 1 - cloudiness.get() ) * dt : 0;
         return new Energy( EnergyType.SOLAR, energyProduced );
     }
