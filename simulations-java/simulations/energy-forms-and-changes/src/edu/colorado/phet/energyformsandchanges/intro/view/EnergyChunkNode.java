@@ -55,7 +55,7 @@ public class EnergyChunkNode extends PNode {
             }
         } );
 
-        // Add the image that represents this energy chunk.
+        // Monitor the energy type and make the image match it.
         energyChunk.energyType.addObserver( new VoidFunction1<EnergyType>() {
             public void apply( EnergyType energyType ) {
                 removeAllChildren();
