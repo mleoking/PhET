@@ -167,7 +167,7 @@ public class SlopeInterceptInteractiveEquationNode extends PhetPNode {
                                      xNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
         }
 
-        // bad equation indicator, added after everything else
+        // undefined-slope indicator, added after everything else
         final PNode undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
         addChild( undefinedSlopeIndicator );
         undefinedSlopeIndicator.setOffset( getFullBoundsReference().getCenterX() - ( undefinedSlopeIndicator.getFullBoundsReference().getWidth() / 2 ),
@@ -205,7 +205,7 @@ public class SlopeInterceptInteractiveEquationNode extends PhetPNode {
                                        runNode.getYOffset() );
                 }
 
-                // Make the "bad equation" indicator visible for line with undefined slope.
+                // Make the undefined-slope indicator visible for line with undefined slope.
                 undefinedSlopeIndicator.setVisible( line.run == 0 );
             }
         } );
