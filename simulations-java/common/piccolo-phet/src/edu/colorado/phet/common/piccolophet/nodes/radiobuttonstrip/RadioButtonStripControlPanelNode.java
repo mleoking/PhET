@@ -45,13 +45,24 @@ public class RadioButtonStripControlPanelNode<T> extends ControlPanelNode {
         this( selected, elements, buttonPadding, new Color( 230, 230, 230 ), new BasicStroke( 2 ), new Color( 102, 102, 102 ), ControlPanelNode.DEFAULT_INSET );
     }
 
-    public RadioButtonStripControlPanelNode( SettableProperty<T> selected, List<Element<T>> elements, int buttonPadding, Color backgroundColor, BasicStroke outlineStroke, Color strokeColor, int controlPanelInset ) {
+    public RadioButtonStripControlPanelNode( SettableProperty<T> selected, List<Element<T>> elements, int buttonPadding,
+                                             Color backgroundColor, BasicStroke outlineStroke, Color strokeColor, int controlPanelInset ) {
         super( new RadioButtonStripNode<T>( selected, elements, buttonPadding ), backgroundColor, outlineStroke, strokeColor, controlPanelInset );
+    }
+
+    public RadioButtonStripControlPanelNode( SettableProperty<T> selected, List<Element<T>> elements, int buttonPadding,
+                                             Color backgroundColor, BasicStroke outlineStroke, Color strokeColor, int controlPanelInset,
+                                             final double pressAmountX, final double pressAmountY ) {
+        super( new RadioButtonStripNode<T>( selected, elements, buttonPadding, pressAmountX, pressAmountY ), backgroundColor, outlineStroke, strokeColor, controlPanelInset );
     }
 
     //Inner class enables us to wrap the parent in ControlPanelNode.  Public in case clients want to use it without the control panel exterior decoration.
     public static class RadioButtonStripNode<T> extends PNode {
         public RadioButtonStripNode( final SettableProperty<T> selected, final List<Element<T>> elements, int padding ) {
+            this( selected, elements, padding, ToggleButtonNode.DEFAULT_PRESS_AMOUNT_X, ToggleButtonNode.DEFAULT_PRESS_AMOUNT_Y );
+        }
+
+        public RadioButtonStripNode( final SettableProperty<T> selected, final List<Element<T>> elements, int padding, final double pressAmountX, final double pressAmountY ) {
 
             double maxWidth = 0;
             double maxHeight = 0;
@@ -85,7 +96,7 @@ public class RadioButtonStripControlPanelNode<T> extends ControlPanelNode {
                             SimSharingManager.sendUserMessage( element.component, UserComponentTypes.button, UserActions.pressed );
                             selected.set( element.value );
                         }
-                    } ) );
+                    }, ToggleButtonNode.DEFAULT_BACKGROUND_COLOR, true, pressAmountX, pressAmountY ) );
                 }
             }};
             addChild( representationLayer );

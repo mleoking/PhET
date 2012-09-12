@@ -99,11 +99,7 @@ public class FreePlayCanvas extends AbstractFractionsCanvas {
         } );
 
 
-        RadioButtonStripControlPanelNode<ShapeType> representations = new RadioButtonStripControlPanelNode<ShapeType>( selectedShapeType, elements, 3 ) {{
-            background.setPaint( Color.white );
-            background.setStroke( new BasicStroke( 1 ) );
-            background.setStrokePaint( Color.black );
-        }};
+        RadioButtonStripControlPanelNode<ShapeType> representations = new RadioButtonStripControlPanelNode<ShapeType>( selectedShapeType, elements, 3, Color.white, new BasicStroke( 1 ), Color.black, 8, 2, 3 );
         addChild( new VBox( representations, new ResetAllButtonNode( new Resettable() {
             public void reset() {
                 context2.resetFreePlayCanvas();
