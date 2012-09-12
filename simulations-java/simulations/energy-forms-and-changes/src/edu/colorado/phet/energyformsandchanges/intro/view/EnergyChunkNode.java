@@ -2,12 +2,15 @@
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
 import java.awt.Image;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -20,6 +23,14 @@ public class EnergyChunkNode extends PNode {
 
     private static final double WIDTH = 24; // In screen coords, which is close to pixels.
     private static final double Z_DISTANCE_WHERE_FULLY_FADED = 0.1; // In meters.
+
+    private static final Map<EnergyType, Image> mapEnergyTypeToImage = new HashMap<EnergyType, Image>() {{
+        put( EnergyType.THERMAL, EnergyFormsAndChangesResources.Images.ENERGY_CHUNKS_WHITE_SEMIBOLD );
+        put( EnergyType.ELECTRICAL, EnergyFormsAndChangesResources.Images.E_ELECTRIC_OUTLINE_BLACK );
+        put( EnergyType.MECHANICAL, EnergyFormsAndChangesResources.Images.E_MECH_OUTLINE_BLACK );
+        put( EnergyType.SOLAR, EnergyFormsAndChangesResources.Images.E_LIGHT_OUTLINE_BLACK );
+        put( EnergyType.CHEMICAL, EnergyFormsAndChangesResources.Images.E_CHEM_OUTLINE_BLACK );
+    }};
 
     public EnergyChunkNode( final EnergyChunk energyChunk, final ModelViewTransform mvt ) {
 
@@ -45,12 +56,17 @@ public class EnergyChunkNode extends PNode {
         } );
 
         // Add the image that represents this energy chunk.
-        Image imageSource;
-        imageSource = EnergyFormsAndChangesResources.Images.ENERGY_CHUNKS_WHITE_SEMIBOLD;
-        PImage image = new PImage( imageSource );
-        image.setScale( WIDTH / image.getFullBoundsReference().width );
-        image.setOffset( -image.getFullBoundsReference().width / 2, -image.getFullBoundsReference().height / 2 );
-        addChild( image );
+        energyChunk.energyType.addObserver( new VoidFunction1<EnergyType>() {
+            public void apply( EnergyType energyType ) {
+                removeAllChildren();
+                Image imageSource;
+                imageSource = mapEnergyTypeToImage.get( energyType );
+                PImage image = new PImage( imageSource );
+                image.setScale( WIDTH / image.getFullBoundsReference().width );
+                image.setOffset( -image.getFullBoundsReference().width / 2, -image.getFullBoundsReference().height / 2 );
+                addChild( image );
+            }
+        } );
 
         // Set this node's position when the corresponding model element moves.
         energyChunk.position.addObserver( new VoidFunction1<Vector2D>() {

@@ -41,7 +41,7 @@ public class EnergyChunk {
     private FadeState fadeState = FadeState.FULLY_FADED_IN;
 
     // Energy type.  This can change during the life of the energy chunk.
-    private Property<EnergyType> energyType = new Property<EnergyType>( null );
+    public Property<EnergyType> energyType = new Property<EnergyType>( null );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
