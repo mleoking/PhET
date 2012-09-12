@@ -1,3 +1,4 @@
+9/12/12 extract base class for interactive equations
 9/12/12 adapt point-slope interactive equation so that specific parts of it can be made interactive (point, slope, both)
 9/12/12 extract text node that synchronizes with model value
 9/12/12 adapt slope-intercept interactive equation so that specific parts of it can be made interactive (slope, intercept, both)
