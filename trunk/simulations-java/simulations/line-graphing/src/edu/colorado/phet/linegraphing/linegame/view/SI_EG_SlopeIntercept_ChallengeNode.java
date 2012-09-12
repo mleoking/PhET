@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.view;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -60,24 +58,26 @@ public class SI_EG_SlopeIntercept_ChallengeNode extends SI_ChallengeNode {
             addChild( answerNode );
             answerNode.setVisible( false );
 
-            // ranges
+            // dynamic ranges
             final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
-            final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
-            final Property<DoubleRange> x1Range = new Property<DoubleRange>( new DoubleRange( 0, 0 ) ); /* x1 is fixed */
             final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
 
             // line manipulators
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
 
-            // interactivity for slope manipulator
+            // slope manipulator
             slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
             slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                              slopeManipulatorNode, mvt, guessLine, riseRange, runRange ) );
+                                                                              slopeManipulatorNode, mvt, guessLine,
+                                                                              riseRange,
+                                                                              new Property<DoubleRange>( new DoubleRange( graph.xRange ) ) ) );
 
-            // interactivity for point (intercept) manipulator
+            // point (y-intercept) manipulator
             interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
             interceptManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                                 interceptManipulatorNode, mvt, guessLine, x1Range, y1Range,
+                                                                                 interceptManipulatorNode, mvt, guessLine,
+                                                                                 new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), /* x1 is fixed */
+                                                                                 y1Range,
                                                                                  true /* constantSlope */ ) );
             // Rendering order
             addChild( guessNodeParent );
@@ -95,19 +95,8 @@ public class SI_EG_SlopeIntercept_ChallengeNode extends SI_ChallengeNode {
                     guessNodeParent.addChild( guessNode );
 
                     // move the manipulators
-                    final double y = line.rise + line.y1;
-                    double x;
-                    if ( line.run == 0 ) {
-                        x = 0;
-                    }
-                    else if ( line.rise == 0 ) {
-                        x = line.run;
-                    }
-                    else {
-                        x = line.solveX( y );
-                    }
-                    slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( x, y ) ) );
-                    interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( 0, line.y1 ) ) );
+                    slopeManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
+                    interceptManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
 
                     //TODO this was copied from LineFormsModel constructor, apply strategy pattern
                     // adjust the rise range
