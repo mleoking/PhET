@@ -37,7 +37,7 @@ public class PS_EG_Point_ChallengeNode extends PS_EG_ChallengeNode {
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends PS_ChallengeGraphNode {
+    private static class ThisGraphNode extends PS_EG_ChallengeGraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode pointManipulatorNode;
