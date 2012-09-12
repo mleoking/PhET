@@ -30,8 +30,8 @@ public class LGResources {
         public static final String TRY_AGAIN = COMMON_RESOURCE.getLocalizedString( "Games.tryAgain" );
         public static final String SHOW_ANSWER = COMMON_RESOURCE.getLocalizedString( "Games.showAnswer" );
         public static final String NEXT = COMMON_RESOURCE.getLocalizedString( "Games.next" );
-        public static final String GRAPH_THE_LINE = COMMON_RESOURCE.getLocalizedString( "graphTheLine" );
-        public static final String MAKE_THE_EQUATION = COMMON_RESOURCE.getLocalizedString( "makeTheEquation" );
+        public static final String GRAPH_THE_LINE = RESOURCES.getLocalizedString( "graphTheLine" );
+        public static final String MAKE_THE_EQUATION = RESOURCES.getLocalizedString( "makeTheEquation" );
 
         public static final String SYMBOL_X = RESOURCES.getLocalizedString( "symbol.x" );
         public static final String SYMBOL_X1 = RESOURCES.getLocalizedString( "symbol.x1" );
