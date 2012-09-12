@@ -133,7 +133,8 @@ public @Data class NumberTarget {
         }
         List<Integer> den = iterableList( usedDenominators );
         return containsOnly( den, list( 1, 2, 4, 8 ) ) ||
-               containsOnly( den, list( 1, 3, 6 ) );
+               containsOnly( den, list( 1, 3, 6 ) ) ||
+               containsOnly( den, list( 1, 2, 6 ) );
     }
 
     //See if all items from the denominator list are also in the list of required matches
