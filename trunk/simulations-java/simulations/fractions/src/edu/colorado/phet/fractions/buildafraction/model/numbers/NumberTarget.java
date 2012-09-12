@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.numbers;
 
+import fj.Equal;
 import fj.F;
 import fj.data.List;
 import lombok.Data;
@@ -15,8 +16,7 @@ import edu.colorado.phet.fractions.common.util.Sampling;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.shuffle;
-import static fj.data.List.iterableList;
-import static fj.data.List.nil;
+import static fj.data.List.*;
 
 /**
  * Target the user tries to create when creating numbers to match a given picture.
@@ -100,7 +100,8 @@ public @Data class NumberTarget {
                     @Override public Boolean f( final List<Integer> coefficientSet ) {
 
                         //Only consider solutions that have 4 or less shapes
-                        return !overflows( coefficientSet ) && toFilledPatterns( coefficientSet, element ).length() <= 4;
+                        return !overflows( coefficientSet ) && toFilledPatterns( coefficientSet, element ).length() <= 4 &&
+                               compatibleSizes( coefficientSet );
                     }
                 } );
 
@@ -114,6 +115,34 @@ public @Data class NumberTarget {
                 return toFilledPatterns( selectedCoefficientSet, element );
             }
         };
+    }
+
+    //the pieces that needed to be added together should be of compatible sizes, for instance 1/3's and 1/6's, not 1/5's and 1/4's
+    private static boolean compatibleSizes( final List<Integer> coefficientSet ) {
+        /*compatible sets:
+        1/1, 1/2, 1/4, 1/8
+        1/1, 1/3, 1/6
+        */
+        ArrayList<Integer> usedDenominators = new ArrayList<Integer>();
+        for ( int i = 0; i < coefficientSet.length(); i++ ) {
+            int denominator = i + 1;
+            int piecesForThisNumerator = coefficientSet.index( i );
+            if ( piecesForThisNumerator > 0 ) {
+                usedDenominators.add( denominator );
+            }
+        }
+        List<Integer> den = iterableList( usedDenominators );
+        return containsOnly( den, list( 1, 2, 4, 8 ) ) ||
+               containsOnly( den, list( 1, 3, 6 ) );
+    }
+
+    //See if all items from the denominator list are also in the list of required matches
+    private static boolean containsOnly( final List<Integer> denominators, final List<Integer> match ) {
+        return denominators.filter( new F<Integer, Boolean>() {
+            @Override public Boolean f( final Integer integer ) {
+                return match.elementIndex( Equal.intEqual, integer ).isSome();
+            }
+        } ).length() == denominators.length();
     }
 
     //Make sure no shape is going to request more pieces than it can hold.  This is a modification of toFilledPatterns() which ensures it will be a feasible solution.
