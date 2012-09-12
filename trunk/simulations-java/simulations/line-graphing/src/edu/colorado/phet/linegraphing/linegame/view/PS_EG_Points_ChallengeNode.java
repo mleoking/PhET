@@ -58,24 +58,24 @@ public class PS_EG_Points_ChallengeNode extends PS_ChallengeNode {
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
-            // ranges
-            final Property<DoubleRange> x1Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
-            final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
-            final Property<DoubleRange> x2Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
-            final Property<DoubleRange> y2Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+            // dynamic ranges
+            final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+            final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
 
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
 
             // (x1,y1) manipulator
             x1y1ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
             x1y1ManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                            x1y1ManipulatorNode, mvt, guessLine, x1Range, y1Range,
+                                                                            x1y1ManipulatorNode, mvt, guessLine,
+                                                                            new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
+                                                                            new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
                                                                             false /* constantSlope */ ) );
 
             // (x2,y2) manipulator
             x2y2ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X2_Y2 );
             x2y2ManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                             x2y2ManipulatorNode, mvt, guessLine, y2Range, x2Range ) );
+                                                                             x2y2ManipulatorNode, mvt, guessLine, riseRange, runRange ) );
 
             // Rendering order
             addChild( answerNode );
@@ -96,6 +96,25 @@ public class PS_EG_Points_ChallengeNode extends PS_ChallengeNode {
                     // move the manipulators
                     x1y1ManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
                     x2y2ManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
+
+                    //TODO this was copied from LineFormsModel constructor
+                    // range of the graph axes
+                    final int xMin = graph.xRange.getMin();
+                    final int xMax = graph.xRange.getMax();
+                    final int yMin = graph.yRange.getMin();
+                    final int yMax = graph.yRange.getMax();
+
+                    //TODO this was copied from LineFormsModel constructor
+                    // rise
+                    final double riseMin = yMin - line.y1;
+                    final double riseMax = yMax - line.y1;
+                    riseRange.set( new DoubleRange( riseMin, riseMax ) );
+
+                    //TODO this was copied from LineFormsModel constructor
+                    // run
+                    final double runMin = xMin - line.x1;
+                    final double runMax = xMax - line.x1;
+                    runRange.set( new DoubleRange( runMin, runMax ) );
                 }
             } );
         }

@@ -1,3 +1,5 @@
+9/11/12 fix: prevent arbitrary points from being dragged on top of each other, creating undefined line
+9/11/12 fix: adjust range of rise and run dynamically for (x2,y2)
 9/11/12 bugfix in Line.createPointSlope
 9/11/12 show answers in game if "dev" flag is enabled
 9/11/12 adjust rendering order of answer and guess in challenges

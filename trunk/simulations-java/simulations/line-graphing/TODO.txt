@@ -8,7 +8,6 @@ DESIGN
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 
 HIGH
-- assert violation in Line constructor when dragging one point on top of another point
 - example of each game challenge
 - random creation of challenges, subject to constraints tbd
 
