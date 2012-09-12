@@ -131,11 +131,11 @@ class FractionCardNode extends RichPNode {
                     }
                 }
 
-                //If no match, and is overlapping a score cell, send back to play area
+                //If no match, and is overlapping a score cell or too far to the right, send back to play area
                 if ( !locked ) {
                     boolean hitWrongOne = false;
                     for ( NumberCollectionBoxNode scoreCell : scoreCells ) {
-                        if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) ) {
+                        if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) || cardShapeNode.getGlobalBounds().getMaxX() > numberSceneNode.minimumCollectionBoxX() ) {
                             hitWrongOne = true;
                         }
                     }

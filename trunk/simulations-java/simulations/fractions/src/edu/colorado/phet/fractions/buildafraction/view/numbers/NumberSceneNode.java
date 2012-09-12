@@ -288,6 +288,18 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         if ( toolboxNode.getGlobalFullBounds().intersects( fractionNode.getGlobalFullBounds() ) && fractionNode.isEmpty() ) {
             fractionNode.animateToToolbox();
         }
+
+        if ( fractionNode.getGlobalFullBounds().getMaxX() > minimumCollectionBoxX() ) {
+            fractionNode.animateNearCenterOfScreen();
+        }
+    }
+
+    public double minimumCollectionBoxX() {
+        return pairs.map( new F<NumberSceneCollectionBoxPair, Double>() {
+            @Override public Double f( final NumberSceneCollectionBoxPair n ) {
+                return n.collectionBoxNode.getGlobalFullBounds().getMinX();
+            }
+        } ).minimum( doubleOrd );
     }
 
     public void endDrag( final NumberCardNode numberCardNode ) {
