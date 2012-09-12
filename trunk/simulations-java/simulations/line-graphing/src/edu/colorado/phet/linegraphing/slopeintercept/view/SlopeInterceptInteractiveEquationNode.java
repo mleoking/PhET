@@ -169,9 +169,9 @@ public class SlopeInterceptInteractiveEquationNode extends PhetPNode {
 
         // undefined-slope indicator, added after everything else
         final PNode undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
-        addChild( undefinedSlopeIndicator );
         undefinedSlopeIndicator.setOffset( getFullBoundsReference().getCenterX() - ( undefinedSlopeIndicator.getFullBoundsReference().getWidth() / 2 ),
                                            lineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + 2 );
+        addChild( undefinedSlopeIndicator );
 
         // sync the model with the controls
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
