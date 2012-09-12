@@ -8,11 +8,11 @@ DESIGN
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 
 HIGH
+- manipulators should remain visible during "Show Answer"
 - example of each game challenge
 - random creation of challenges, subject to constraints tbd
 
 MEDIUM
-- verify that manipulators are not interactive when invisible in game
 
 LOW
 
