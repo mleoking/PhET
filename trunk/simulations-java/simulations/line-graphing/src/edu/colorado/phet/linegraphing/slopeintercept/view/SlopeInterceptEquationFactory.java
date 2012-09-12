@@ -180,7 +180,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             PText slopeSignNode = new PhetPText( slopeIsPositive ? "" : "-", font, line.color );
             PText riseNode = new PhetPText( toIntString( Math.abs( line.rise ) ), font, line.color );
             PText runNode = new PhetPText( toIntString( Math.abs( line.run ) ), font, line.color );
-            PPath lineNode = new PhetPPath( new Line2D.Double( 0, 0, Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), 0 ), new BasicStroke( 1f ), line.color );
+            PPath lineNode = new PhetPPath( new Line2D.Double( 0, 0, Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), 0 ), new BasicStroke( FRACTION_LINE_WIDTH ), line.color );
             PText xNode = new PhetPText( Strings.SYMBOL_X, font, line.color );
             PText interceptSignNode = new PhetPText( line.y1 > 0 ? "+" : "-", font, line.color );
             PText interceptNode = new PhetPText( toIntString( Math.abs( line.y1 ) ), font, line.color );

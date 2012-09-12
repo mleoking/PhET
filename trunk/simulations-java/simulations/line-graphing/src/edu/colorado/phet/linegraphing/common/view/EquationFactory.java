@@ -20,6 +20,9 @@ public abstract class EquationFactory {
     protected static final double X_SPACING = 3;
     protected static final double Y_SPACING = 0;
 
+    // Width of the line used in the slope fraction (rise/run)
+    protected static final float FRACTION_LINE_WIDTH = 2f;
+
     // Subclasses implement this to create the equation in the correct form.
     public abstract EquationNode createNode( Line line, PhetFont font );
 
