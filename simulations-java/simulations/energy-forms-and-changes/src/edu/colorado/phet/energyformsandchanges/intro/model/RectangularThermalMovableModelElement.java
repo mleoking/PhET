@@ -298,7 +298,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         Rectangle2D energyChunkBounds = getThermalContactArea().getBounds();
         while ( getNumEnergyChunks() < targetNumChunks ) {
             // Add a chunk at a random location in the block.
-            addEnergyChunk( new EnergyChunk( clock, EnergyType.THERMAL, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
+            addEnergyChunk( new EnergyChunk( EnergyType.THERMAL, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible ) );
         }
         // Distribute the energy chunks within the container.
         for ( int i = 0; i < 1000; i++ ) {

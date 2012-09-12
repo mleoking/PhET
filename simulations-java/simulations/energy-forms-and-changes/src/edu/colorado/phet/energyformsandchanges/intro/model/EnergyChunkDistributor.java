@@ -11,7 +11,6 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
@@ -384,7 +383,7 @@ public class EnergyChunkDistributor {
     public static void main( String[] args ) {
         Shape enclosingShape = new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 );
         List<EnergyChunk> energyChunkList = new ArrayList<EnergyChunk>();
-        energyChunkList.add( new EnergyChunk( new ConstantDtClock( 30 ), EnergyType.THERMAL, 0.05, 0, new BooleanProperty( true ), false ) );
+        energyChunkList.add( new EnergyChunk( EnergyType.THERMAL, 0.05, 0, new BooleanProperty( true ) ) );
         for ( int i = 0; i < 100; i++ ) {
             EnergyChunkDistributor.updatePositions( energyChunkList, enclosingShape, 0.033 );
             System.out.println( " Pos: " + energyChunkList.get( 0 ).position );

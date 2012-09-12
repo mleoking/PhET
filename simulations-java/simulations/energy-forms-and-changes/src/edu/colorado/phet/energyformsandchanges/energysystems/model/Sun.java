@@ -7,7 +7,6 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -64,7 +63,7 @@ public class Sun extends EnergySource {
         } );
 
         // TODO: Temp.
-        energyChunkList.add( new EnergyChunk( new ConstantDtClock( 30 ), EnergyType.SOLAR, 0, 0.1, new BooleanProperty( true ), false ) );
+        energyChunkList.add( new EnergyChunk( EnergyType.SOLAR, 0, 0.1, new BooleanProperty( true ) ) );
     }
 
     @Override public Energy stepInTime( double dt ) {
@@ -76,10 +75,9 @@ public class Sun extends EnergySource {
         if ( energyChunkEmissionCountdownTimer <= 0 ) {
             // Create a new chunk and start it on its way.
             Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 ) );
-            EnergyChunk energyChunk = new EnergyChunk( new ConstantDtClock( 30 ), EnergyType.SOLAR, initialPosition.x, initialPosition.y, new BooleanProperty( true ), false );
+            EnergyChunk energyChunk = new EnergyChunk( EnergyType.SOLAR, initialPosition.x, initialPosition.y, new BooleanProperty( true ) );
             energyChunkList.add( energyChunk );
             energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
-            System.out.println( "Added a chunk" );
         }
 
         // Move all the energy chunks away from the sun.

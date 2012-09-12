@@ -176,7 +176,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
         Rectangle2D initialChunkBounds = getSliceBounds();
         while ( getNumEnergyChunks() < targetNumChunks ) {
             // Add a chunk at a random location in the beaker.
-            addEnergyChunkToNextSlice( new EnergyChunk( clock, EnergyType.THERMAL, EnergyChunkDistributor.generateRandomLocation( initialChunkBounds ), energyChunksVisible, false ) );
+            addEnergyChunkToNextSlice( new EnergyChunk( EnergyType.THERMAL, EnergyChunkDistributor.generateRandomLocation( initialChunkBounds ), energyChunksVisible ) );
         }
     }
 
