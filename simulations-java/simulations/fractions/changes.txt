@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Fixed: Fixed: the bottom floating panel is going slightly off screen with bars
 Build a Fraction: Shapes: Fixed: When targets are collected, the light-gray dotted divisions do not show up for all containers, usually the first one or 2 are missing them.
 Build a Fraction: Shapes: Made bar shape even more taller and less wide
 # 1.01.14 (67926) Sep 12, 2012

@@ -69,7 +69,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private final F<PieceIconNode, Double> _minX = FNode._minX();
     private final F<ContainerNode, Double> _maxX = FNode._maxX();
 
-    private final int spacing;
+    private final double distanceBetweenStacks;
     private final double layoutXOffset;
     private final ShapeLevel level;
     private final ArrayList<Vector2D> containerNodeToolboxLocations = new ArrayList<Vector2D>();
@@ -120,9 +120,9 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             }
         };
         this.level = model.getShapeLevel( levelIndex );
-        spacing = freePlay ?
-                  level.shapeType == ShapeType.BAR ? 104 : 104 :
-                  level.shapeType == ShapeType.BAR ? 140 : 120;
+        distanceBetweenStacks = freePlay ?
+                                level.shapeType == ShapeType.BAR ? 104 : 104 :
+                                level.shapeType == ShapeType.BAR ? 140 * 0.85 : 120;
 
         //Create the scoring cells with target patterns
         ArrayList<ShapeSceneCollectionBoxPair> _pairs = new ArrayList<ShapeSceneCollectionBoxPair>();
@@ -149,7 +149,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         //Pieces in the toolbar that the user can drag
         List<List<Integer>> groups = level.pieces.group( intEqual );
         int numGroups = groups.length();
-        layoutXOffset = ( 6 - numGroups ) * spacing / 4 + ( level.shapeType == ShapeType.BAR ? 0 : 45 ) + ( toolboxOffset.isSome() ? toolboxOffset.some() : 0.0 );
+        layoutXOffset = ( 6 - numGroups ) * distanceBetweenStacks / 4 + ( level.shapeType == ShapeType.BAR ? 0 : 45 ) + ( toolboxOffset.isSome() ? toolboxOffset.some() : 0.0 );
 
         toolboxHeight = ( level.shapeType == ShapeType.BAR ? 100 : 140 ) + 5;
         if ( freePlay && level.shapeType == PIE ) { toolboxHeight = toolboxHeight - 25; }
@@ -210,7 +210,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             final double delta = getCardOffsetWithinStack( numInGroup, i );
             final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
                 final int sign = level.shapeType == PIE ? -1 : +1;
-                setInitialState( layoutXOffset + INSET + 20 + delta * sign + finalGroupIndex * spacing,
+                setInitialState( layoutXOffset + INSET + 20 + delta * sign + finalGroupIndex * distanceBetweenStacks,
                                  stageSize.height - INSET - toolboxHeight + 20 + delta, toolboxScale( freePlay ) );
             }};
             addChild( containerNode );
@@ -656,12 +656,12 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     public Vector2D getLocation( final int stackIndex, final int cardIndex, final PieceNode card ) {
         int sign = level.shapeType == PIE ? -1 : +1;
         List<List<Integer>> groups = level.pieces.group( intEqual );
-        double delta = getCardOffsetWithinStack( groups.index( stackIndex ).length(), cardIndex );
+        double deltaWithinStack = getCardOffsetWithinStack( groups.index( stackIndex ).length(), cardIndex );
         int yOffset = level.shapeType == ShapeType.BAR ? 25 : 0;
         if ( isFreePlay() && level.shapeType == PIE ) {
             yOffset = yOffset + 12;
         }
-        return new Vector2D( layoutXOffset + 30 + delta * sign + stackIndex * spacing,
+        return new Vector2D( layoutXOffset + 30 + deltaWithinStack * sign + stackIndex * distanceBetweenStacks,
                              STAGE_SIZE.height - 117 - CARD_SPACING_DY * cardIndex + yOffset );
     }
 
