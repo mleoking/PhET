@@ -67,32 +67,37 @@ public class Sun extends EnergySource {
     @Override public Energy stepInTime( double dt ) {
 
         Vector2D sunPosition = getPosition().plus( OFFSET_TO_CENTER_OF_SUN );
+        double energyProduced = 0;
 
-        // See if it is time to emit an energy chunk.
-        energyChunkEmissionCountdownTimer -= dt;
-        if ( energyChunkEmissionCountdownTimer <= 0 ) {
-            // Create a new chunk and start it on its way.
-            Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 ) );
-            EnergyChunk energyChunk = new EnergyChunk( EnergyType.SOLAR, initialPosition.x, initialPosition.y, new BooleanProperty( true ) );
-            energyChunkList.add( energyChunk );
-            energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
-        }
-
-        // See if any energy chunks should be removed.
-        for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
-            if ( energyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CENTER_OF_SUN ) ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {
-                energyChunkList.remove( energyChunk );
+        if ( active ) {
+            // See if it is time to emit an energy chunk.
+            energyChunkEmissionCountdownTimer -= dt;
+            if ( energyChunkEmissionCountdownTimer <= 0 ) {
+                // Create a new chunk and start it on its way.
+                Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 ) );
+                EnergyChunk energyChunk = new EnergyChunk( EnergyType.SOLAR, initialPosition.x, initialPosition.y, new BooleanProperty( true ) );
+                energyChunkList.add( energyChunk );
+                energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
             }
-        }
 
-        // Move all the energy chunks away from the sun.
-        for ( EnergyChunk energyChunk : energyChunkList ) {
-            double direction = energyChunk.position.get().minus( sunPosition ).getAngle();
-            energyChunk.translate( new Vector2D( ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( direction ) );
+            // See if any energy chunks should be removed.
+            for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
+                if ( energyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CENTER_OF_SUN ) ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {
+                    energyChunkList.remove( energyChunk );
+                }
+            }
+
+            // Move all the energy chunks away from the sun.
+            for ( EnergyChunk energyChunk : energyChunkList ) {
+                double direction = energyChunk.position.get().minus( sunPosition ).getAngle();
+                energyChunk.translate( new Vector2D( ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( direction ) );
+            }
+
+            // Calculate the amount of energy produced.
+            energyProduced = ENERGY_PRODUCTION_RATE * ( 1 - cloudiness.get() ) * dt;
         }
 
         // Produce the energy.
-        double energyProduced = active ? ENERGY_PRODUCTION_RATE * ( 1 - cloudiness.get() ) * dt : 0;
         return new Energy( EnergyType.SOLAR, energyProduced );
     }
 
