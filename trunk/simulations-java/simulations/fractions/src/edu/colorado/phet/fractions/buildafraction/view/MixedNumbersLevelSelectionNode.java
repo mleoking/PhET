@@ -108,25 +108,5 @@ public class MixedNumbersLevelSelectionNode extends AbstractLevelSelectionNode {
         return level == 1 ?
                MixedFractionNode.wholeNumberNode( level ) :
                new MixedFractionNode( new MixedFraction( level, 1, level ) );
-
-        //Leaving "card background" here until I get feedback on level icon look
-//        return new PNode() {{
-//            PNode node = new MixedFractionNode( new MixedFraction( level, 1, level ) );
-//            Size2D size = new Size2D( node.getFullBounds().getWidth() + 5, node.getFullBounds().getHeight() + 5 );
-//            PNode cardShape = new PhetPPath( new RoundRectangle2D.Double( 0, 0, size.width, size.height, 10, 10 ), Color.white, new BasicStroke( 1 ), Color.black );
-//            addChild( cardShape );
-//            node.centerFullBoundsOnPoint( cardShape.getFullBounds().getCenterX(), cardShape.getFullBounds().getCenterY() );
-//            addChild( node );
-//        }};
-//        return new PNode() {{
-//            for ( int i = 0; i < level; i++ ) {
-//                NumberCardNode card = new NumberCardNode( new Dimension2DDouble( level < 10 ? 60 : 70, 75 ), level, new NumberDragContext() {
-//                    public void endDrag( final NumberCardNode draggableNumberNode ) {
-//                    }
-//                } );
-//                addChild( card );
-//                card.setOffset( i * 4, i * 4 );
-//            }
-//        }};
     }
 }
