@@ -496,7 +496,11 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         else { return Option.none(); }
     }
 
-    public double getContainerScale() { return isMixedNumbers() ? 0.6 : 1.0; }
+    public double getContainerScale() {
+        final double smaller = 0.6 * 1.15;
+        return isFreePlay() ? smaller :
+               isMixedNumbers() ? smaller : 1.0;
+    }
 
     public boolean isFreePlay() {
         return freePlay;
