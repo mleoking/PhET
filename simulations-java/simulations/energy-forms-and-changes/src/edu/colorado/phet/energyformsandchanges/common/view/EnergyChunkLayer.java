@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.common.view;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.umd.cs.piccolo.PNode;
 
@@ -21,13 +22,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class EnergyChunkLayer extends PNode {
 
-    public EnergyChunkLayer( final ObservableList<EnergyChunk> energyChunkList, PNode parentNode, final ModelViewTransform mvt ) {
-
-//        parentNode.addPropertyChangeListener( "transform", new PropertyChangeListener() {
-//            public void propertyChange( PropertyChangeEvent evt ) {
-//                setGlobalTranslation( new Point2D.Double( 0, 0 ) );
-//            }
-//        } );
+    public EnergyChunkLayer( final ObservableList<EnergyChunk> energyChunkList, PhetPCanvas canvas, final ModelViewTransform mvt ) {
 
         // Add energy chunk nodes as children as the energy chunks come in to
         // existence in the model.

@@ -7,8 +7,8 @@ import java.awt.Font;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -52,10 +52,12 @@ public class SunNode extends PositionableFadableModelElementNode {
 
         // Add the energy chunks.
 //        canvas.addWorldChild( new EnergyChunkLayer( sun.energyChunkList, this, mvt ) );
-        final EnergyChunkLayer energyChunkLayer = new EnergyChunkLayer( sun.energyChunkList, this, mvt );
-        sun.getObservablePosition().addObserver( new SimpleObserver() {
-            public void update() {
-                energyChunkLayer.setGlobalTranslation( new Point2D.Double( 0, 0 ) );
+        final EnergyChunkLayer energyChunkLayer = new EnergyChunkLayer( sun.energyChunkList, canvas, mvt );
+        sun.getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D position ) {
+                System.out.println( "position = " + position );
+                energyChunkLayer.setOffset( -mvt.modelToViewX( position.x ),
+                                            -mvt.modelToViewY( position.y ) );
             }
         } );
 
