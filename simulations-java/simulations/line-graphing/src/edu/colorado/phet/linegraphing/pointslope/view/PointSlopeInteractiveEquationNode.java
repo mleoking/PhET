@@ -48,13 +48,13 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
     private final Property<Double> rise, run, x1, y1; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
-    // Constructor that makes both point and slope interactive.
+    // Constructor that makes x1, y1, and slope interactive.
     public PointSlopeInteractiveEquationNode( Property<Line> interactiveLine,
                                               Property<DoubleRange> riseRange,
                                               Property<DoubleRange> runRange,
                                               Property<DoubleRange> x1Range,
                                               Property<DoubleRange> y1Range ) {
-        this( interactiveLine, riseRange, runRange, x1Range, y1Range, true, true );
+        this( interactiveLine, riseRange, runRange, x1Range, y1Range, true, true, true );
     }
 
     // Constructor that allows you to specify which parts of the equation are interactive.
@@ -63,9 +63,10 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                                               Property<DoubleRange> runRange,
                                               Property<DoubleRange> x1Range,
                                               Property<DoubleRange> y1Range,
-                                              boolean interactivePoint,
+                                              boolean interactiveX1,
+                                              boolean interactiveY1,
                                               boolean interactiveSlope ) {
-        this( interactiveLine, riseRange, runRange, x1Range, y1Range, interactivePoint, interactiveSlope,
+        this( interactiveLine, riseRange, runRange, x1Range, y1Range, interactiveX1, interactiveY1, interactiveSlope,
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
@@ -74,8 +75,9 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                                                Property<DoubleRange> runRange,
                                                Property<DoubleRange> x1Range,
                                                Property<DoubleRange> y1Range,
-                                               final boolean interactivePoint,
-                                               final boolean ineractiveSlope,
+                                               final boolean interactiveX1,
+                                               final boolean interactiveY1,
+                                               final boolean interactiveSlope,
                                                PhetFont interactiveFont,
                                                PhetFont staticFont,
                                                Color staticColor ) {
@@ -86,14 +88,14 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         this.y1 = new Property<Double>( interactiveLine.get().y1 );
 
         // Determine the max width of the rise and run components.
-        double maxSlopeWidth = computeSlopeComponentMaxWidth( riseRange, runRange, interactiveFont, FORMAT, ineractiveSlope );
+        double maxSlopeWidth = computeSlopeComponentMaxWidth( riseRange, runRange, interactiveFont, FORMAT, interactiveSlope );
 
         // nodes: (y-y1) = m(x-x1)
         final PNode yLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         final PNode yNode = new PhetPText( "y", staticFont, staticColor );
         final PText y1SignNode = new PhetPText( "-", staticFont, staticColor );
         final PNode y1Node;
-        if ( interactivePoint ) {
+        if ( interactiveY1 ) {
             y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, this.y1, y1Range, new PointColors(), interactiveFont, FORMAT ) );
         }
         else {
@@ -102,7 +104,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         final PNode yRightParenNode = new PhetPText( ")", staticFont, staticColor );
         final PNode equalsNode = new PhetPText( "=", staticFont, staticColor );
         final PNode riseNode, runNode;
-        if ( ineractiveSlope ) {
+        if ( interactiveSlope ) {
             riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, this.run, riseRange, new SlopeColors(), interactiveFont, FORMAT ) );
             runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.rise, this.run, runRange, new SlopeColors(), interactiveFont, FORMAT ) );
         }
@@ -115,7 +117,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         final PNode xNode = new PhetPText( "x", staticFont, staticColor );
         final PText x1SignNode = new PhetPText( "-", staticFont, staticColor );
         final PNode x1Node;
-        if ( interactivePoint ) {
+        if ( interactiveX1 ) {
             x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, this.x1, x1Range, new PointColors(), interactiveFont, FORMAT ) );
         }
         else {
@@ -172,8 +174,10 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                  * Change the operator to account for the signs of the point components.
                  * We're doing this because x1 and y1 are displayed as absolute values when they are not interactive.
                  */
-                if ( !interactivePoint ) {
+                if ( !interactiveX1 ) {
                     x1SignNode.setText( line.x1 >= 0 ? "-" : "+" );
+                }
+                if ( !interactiveY1 ) {
                     y1SignNode.setText( line.y1 >= 0 ? "-" : "+" );
                 }
 
@@ -238,22 +242,29 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         Property<DoubleRange> x1Range = new Property<DoubleRange>( range );
         Property<DoubleRange> y1Range = new Property<DoubleRange>( range );
 
+        //TODO add other cases
         // equation
-        PointSlopeInteractiveEquationNode equationNode1 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, true );
-        PointSlopeInteractiveEquationNode equationNode2 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, false, true );
-        PointSlopeInteractiveEquationNode equationNode3 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, false );
+        PointSlopeInteractiveEquationNode equationNode1 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, true, true );
+        PointSlopeInteractiveEquationNode equationNode2 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, false, false, true );
+        PointSlopeInteractiveEquationNode equationNode3 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, true, false );
+        PointSlopeInteractiveEquationNode equationNode4 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, false, false );
+        PointSlopeInteractiveEquationNode equationNode5 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, false, true, false );
 
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 600, 400 ) );
+        canvas.setPreferredSize( new Dimension( 600, 650 ) );
         canvas.getLayer().addChild( equationNode1 );
         canvas.getLayer().addChild( equationNode2 );
         canvas.getLayer().addChild( equationNode3 );
+        canvas.getLayer().addChild( equationNode4 );
+        canvas.getLayer().addChild( equationNode5 );
 
         // layout
         equationNode1.setOffset( 100, 50 );
         equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + 40 );
         equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + 60 );
+        equationNode4.setOffset( equationNode1.getXOffset(), equationNode3.getFullBoundsReference().getMaxY() + 60 );
+        equationNode5.setOffset( equationNode1.getXOffset(), equationNode4.getFullBoundsReference().getMaxY() + 60 );
 
         // frame
         JFrame frame = new JFrame();

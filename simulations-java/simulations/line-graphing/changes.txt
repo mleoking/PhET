@@ -1,3 +1,4 @@
+9/12/12 add ability to make x1 and y1 interactive (or not) independently in point-slope interactive equation
 # 0.00.26 (67947) Sep 12, 2012
 9/12/12 demonstrate complete set of example challanges for "Graph the Line"
 9/12/12 increase width of fraction line used in static equations

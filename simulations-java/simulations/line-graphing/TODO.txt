@@ -9,6 +9,8 @@ DESIGN
 - Game: when user fails at a challenge and we show answer, should they be able to change things to experiment further?
 - Game: more challenges?
 - Game: rules for generating random challenges and initial guess
+- Game: do we need "x=#" equations? hope not...
+- Game: Graph the Line: equations are not reduced, I think that's the correct thing to do, but wanted to check. We'll have slopes like -4/-2.
 - Game: Make the Equation: when user fails a challenge, we show correct equation. Show anything else? Plot incorrect line? Put manipulators on correct/incorrect line? ...
 - Game: Make the Equation: should non-interactive parts of equation be reduced? which parts? how?
 
