@@ -80,7 +80,7 @@ public class Sun extends EnergySource {
 
         // See if any energy chunks should be removed.
         for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
-            if ( energyChunk.position.get().distance( OFFSET_TO_CENTER_OF_SUN ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {
+            if ( energyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CENTER_OF_SUN ) ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {
                 energyChunkList.remove( energyChunk );
             }
         }
