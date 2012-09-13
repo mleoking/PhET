@@ -163,8 +163,8 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                 // Atomically synchronize the controls.
                 updatingControls = true;
                 {
-                    rise.set( line.rise );
-                    run.set( line.run );
+                    rise.set( interactiveSlope ? line.rise : line.simplified().rise );
+                    run.set( interactiveSlope ? line.run : line.simplified().run );
                     x1.set( line.x1 );
                     y1.set( line.y1 );
                 }
@@ -242,29 +242,32 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         Property<DoubleRange> x1Range = new Property<DoubleRange>( range );
         Property<DoubleRange> y1Range = new Property<DoubleRange>( range );
 
-        //TODO add other cases
         // equation
         PointSlopeInteractiveEquationNode equationNode1 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, true, true );
         PointSlopeInteractiveEquationNode equationNode2 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, false, false, true );
         PointSlopeInteractiveEquationNode equationNode3 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, true, false );
         PointSlopeInteractiveEquationNode equationNode4 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, false, false );
         PointSlopeInteractiveEquationNode equationNode5 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, false, true, false );
+        PointSlopeInteractiveEquationNode equationNode6 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, false, false, false );
 
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 600, 650 ) );
+        canvas.setPreferredSize( new Dimension( 600, 750 ) );
         canvas.getLayer().addChild( equationNode1 );
         canvas.getLayer().addChild( equationNode2 );
         canvas.getLayer().addChild( equationNode3 );
         canvas.getLayer().addChild( equationNode4 );
         canvas.getLayer().addChild( equationNode5 );
+        canvas.getLayer().addChild( equationNode6 );
 
         // layout
+        final int ySpacing = 60;
         equationNode1.setOffset( 100, 50 );
-        equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + 40 );
-        equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + 60 );
-        equationNode4.setOffset( equationNode1.getXOffset(), equationNode3.getFullBoundsReference().getMaxY() + 60 );
-        equationNode5.setOffset( equationNode1.getXOffset(), equationNode4.getFullBoundsReference().getMaxY() + 60 );
+        equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + ySpacing );
+        equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + ySpacing );
+        equationNode4.setOffset( equationNode1.getXOffset(), equationNode3.getFullBoundsReference().getMaxY() + ySpacing );
+        equationNode5.setOffset( equationNode1.getXOffset(), equationNode4.getFullBoundsReference().getMaxY() + ySpacing );
+        equationNode6.setOffset( equationNode1.getXOffset(), equationNode5.getFullBoundsReference().getMaxY() + ySpacing );
 
         // frame
         JFrame frame = new JFrame();
