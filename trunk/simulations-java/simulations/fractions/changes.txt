@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Made bar shape even more taller and less wide
 # 1.01.14 (67926) Sep 12, 2012
 Free Play: Reduced the drop shadow on the radio buttons to half
 Build a Mixed Fraction: Numbers: Levels 9-10 require fractions to be divisible by each other
