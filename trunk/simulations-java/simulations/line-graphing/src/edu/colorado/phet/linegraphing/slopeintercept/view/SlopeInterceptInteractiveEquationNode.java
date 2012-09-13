@@ -156,9 +156,15 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                     operatorNode.setText( line.y1 >= 0 ? "+" : "-" );
                 }
 
-                // Hide non-interactive intercept if it's zero.
-                operatorNode.setVisible( interactiveIntercept || line.y1 != 0 );
-                interceptNode.setVisible( operatorNode.getVisible() );
+                // Remove non-interactive intercept if it's zero.
+                if ( !interactiveIntercept && line.y1 == 0 ) {
+                    removeChild( operatorNode );
+                    removeChild( interceptNode );
+                }
+                else {
+                    addChild( operatorNode );
+                    addChild( interceptNode );
+                }
 
                 // layout
                 {
