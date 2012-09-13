@@ -64,11 +64,15 @@ class SingleContainerNode extends PNode {
                 public void apply( final Integer number ) {
                     removeAllChildren();
 
+                    if ( dottedLineLayer != null ) {
+                        dottedLineLayer.moveToFront();
+                    }
+                    final BasicStroke stroke = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 );
                     if ( shapeType == BAR ) {
                         final double pieceWidth = ContainerShapeNode.rectangleWidth / number;
                         double x = pieceWidth;
                         for ( int i = 0; i < number - 1; i++ ) {
-                            addChild( new PhetPPath( new Line2D.Double( x, 0, x, ContainerShapeNode.rectangleHeight ), new BasicStroke( 1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
+                            addChild( new PhetPPath( new Line2D.Double( x, 0, x, ContainerShapeNode.rectangleHeight ), stroke, Color.lightGray ) );
                             x += pieceWidth;
                         }
                     }
@@ -78,7 +82,7 @@ class SingleContainerNode extends PNode {
                         for ( int i = 0; i < number && number >= 2; i++ ) {
                             Vector2D delta = Vector2D.createPolar( circleDiameter / 2, angle );
                             Vector2D center = new Vector2D( circleDiameter / 2, circleDiameter / 2 );
-                            addChild( new PhetPPath( center.lineTo( center.plus( delta ) ), new BasicStroke( 1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
+                            addChild( new PhetPPath( center.lineTo( center.plus( delta ) ), stroke, Color.lightGray ) );
                             angle += pieceAngle;
                         }
                     }
@@ -207,7 +211,10 @@ class SingleContainerNode extends PNode {
         }
     }
 
-    public void setInTargetCell() { dottedLineLayer.setVisible( true ); }
+    public void setInTargetCell() {
+        dottedLineLayer.setVisible( true );
+        dottedLineLayer.moveToFront();
+    }
 
     //For undo, see if this container has the specified piece.  This is needed because the user could have added or removed more containers and hence dismissed pieces back to the toolbox.
     public boolean containsPiece() { return number.get() > 0; }
