@@ -29,6 +29,7 @@ public class Sun extends EnergySource {
     public static final double ENERGY_CHUNK_VELOCITY = 0.001; // Meters/sec, obviously not to scale.
     public static final double ENERGY_CHUNK_EMISSION_PERIOD = 0.25; // In seconds.
     private static final Random RAND = new Random();
+    private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.2; // In meters.
 
     // Clouds that can potentially block the sun's rays.  The positions are
     // set so that they appear between the sun and the solar panel, and must
@@ -61,9 +62,6 @@ public class Sun extends EnergySource {
                 }
             }
         } );
-
-        // TODO: Temp.
-        energyChunkList.add( new EnergyChunk( EnergyType.SOLAR, 0, 0.1, new BooleanProperty( true ) ) );
     }
 
     @Override public Energy stepInTime( double dt ) {
@@ -78,6 +76,13 @@ public class Sun extends EnergySource {
             EnergyChunk energyChunk = new EnergyChunk( EnergyType.SOLAR, initialPosition.x, initialPosition.y, new BooleanProperty( true ) );
             energyChunkList.add( energyChunk );
             energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
+        }
+
+        // See if any energy chunks should be removed.
+        for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
+            if ( energyChunk.position.get().distance( OFFSET_TO_CENTER_OF_SUN ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {
+                energyChunkList.remove( energyChunk );
+            }
         }
 
         // Move all the energy chunks away from the sun.
