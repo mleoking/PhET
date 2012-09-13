@@ -76,8 +76,8 @@ public class SI_EG_Slope_ChallengeNode extends SI_EG_ChallengeNode {
                                                                               riseRange,
                                                                               new Property<DoubleRange>( new DoubleRange( graph.xRange ) ) ) );
             // Rendering order
-            addChild( answerNode );
             addChild( guessNodeParent );
+            addChild( answerNode );
             addChild( interceptNode );
             addChild( slopeManipulatorNode );
 

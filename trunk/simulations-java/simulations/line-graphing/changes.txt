@@ -1,3 +1,4 @@
+9/13/12 render guess before answer, so that answer is visible when guess==answer
 9/13/12 make challenge interactive when user gets it wrong twice and correct answer is shown
 9/13/12 slope-intercept: show simplified slope if slope is not interactive, hide zero intercept if it's not interactive
 9/13/12 point-slope: show simplified slope if slope is not interactive

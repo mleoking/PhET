@@ -76,8 +76,8 @@ public class PS_EG_Slope_ChallengeNode extends PS_EG_ChallengeNode {
                                                                               riseRange,
                                                                               new Property<DoubleRange>( new DoubleRange( graph.xRange ) ) ) );
             // Rendering order
-            addChild( answerNode );
             addChild( guessNodeParent );
+            addChild( answerNode );
             addChild( pointNode );
             addChild( slopeManipulatorNode );
 

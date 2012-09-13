@@ -79,8 +79,8 @@ public class SI_EG_SlopeIntercept_ChallengeNode extends SI_EG_ChallengeNode {
                                                                                  y1Range,
                                                                                  true /* constantSlope */ ) );
             // Rendering order
-            addChild( answerNode );
             addChild( guessNodeParent );
+            addChild( answerNode );
             addChild( slopeManipulatorNode );
             addChild( interceptManipulatorNode );
 

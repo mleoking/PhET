@@ -65,8 +65,8 @@ public class SI_EG_Intercept_ChallengeNode extends SI_EG_ChallengeNode {
                                                                                  new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
                                                                                  true /* constantSlope */ ) );
             // Rendering order
-            addChild( answerNode );
             addChild( guessNodeParent );
+            addChild( answerNode );
             addChild( interceptManipulatorNode );
 
             // Show the user's current guess
