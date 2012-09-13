@@ -75,8 +75,8 @@ public class PS_EG_Points_ChallengeNode extends PS_EG_ChallengeNode {
                                                                             new Property<DoubleRange>( new DoubleRange( graph.yRange ) ) ) );
 
             // Rendering order
-            addChild( answerNode );
             addChild( guessNodeParent );
+            addChild( answerNode );
             addChild( x1y1ManipulatorNode );
             addChild( x2y2ManipulatorNode );
 

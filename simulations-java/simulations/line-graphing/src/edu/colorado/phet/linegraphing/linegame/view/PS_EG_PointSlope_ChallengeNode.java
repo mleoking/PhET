@@ -77,8 +77,8 @@ public class PS_EG_PointSlope_ChallengeNode extends PS_EG_ChallengeNode {
                                                                               slopeManipulatorNode, mvt, guessLine, riseRange, runRange ) );
 
             // Rendering order
-            addChild( answerNode );
             addChild( guessNodeParent );
+            addChild( answerNode );
             addChild( pointManipulatorNode );
             addChild( slopeManipulatorNode );
 

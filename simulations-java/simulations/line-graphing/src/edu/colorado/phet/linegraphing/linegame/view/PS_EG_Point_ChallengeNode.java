@@ -66,8 +66,8 @@ public class PS_EG_Point_ChallengeNode extends PS_EG_ChallengeNode {
                                                                              true /* constantSlope */ ) );
 
             // Rendering order
-            addChild( answerNode );
             addChild( guessNodeParent );
+            addChild( answerNode );
             addChild( pointManipulatorNode );
 
             // Show the user's current guess
