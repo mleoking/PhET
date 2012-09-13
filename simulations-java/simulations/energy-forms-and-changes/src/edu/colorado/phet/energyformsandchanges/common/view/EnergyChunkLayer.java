@@ -1,10 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.common.view;
 
-import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -27,18 +23,11 @@ public class EnergyChunkLayer extends PNode {
 
     public EnergyChunkLayer( final ObservableList<EnergyChunk> energyChunkList, PNode parentNode, final ModelViewTransform mvt ) {
 
-//        setGlobalTranslation( new Point2D.Double( 0, 0 ) );
-
-        parentNode.addPropertyChangeListener( "transform", new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                System.out.println( "=======================Transform changed=======================" );
-//                setOffset( globalToLocal( new Point2D.Double( 0, 0 ) ) );
-                setGlobalTranslation( new Point2D.Double( 0, 0 ) );
-                System.out.println( "getOffset() = " + getOffset() );
-                System.out.println( "localToGlobal( getOffset() ) = " + localToGlobal( getOffset() ) );
-                System.out.println( "getGlobalTranslation = " + getGlobalTranslation() );
-            }
-        } );
+//        parentNode.addPropertyChangeListener( "transform", new PropertyChangeListener() {
+//            public void propertyChange( PropertyChangeEvent evt ) {
+//                setGlobalTranslation( new Point2D.Double( 0, 0 ) );
+//            }
+//        } );
 
         // Add energy chunk nodes as children as the energy chunks come in to
         // existence in the model.
