@@ -140,7 +140,7 @@ public abstract class ChallengeNode extends PhetPNode {
                 nextButton.setVisible( state == PlayState.NEXT );
 
                 // states in which the graph is interactive
-                graphNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK );
+                graphNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || state == PlayState.NEXT );
                 graphNode.setChildrenPickable( graphNode.getPickable() );
             }
         } );
