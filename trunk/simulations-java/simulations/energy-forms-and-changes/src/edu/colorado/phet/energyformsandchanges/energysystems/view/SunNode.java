@@ -50,7 +50,12 @@ public class SunNode extends PositionableFadableModelElementNode {
         addChild( lightRays );
 
         // Add the energy chunks.
-        canvas.addWorldChild( new EnergyChunkLayer( sun.energyChunkList, mvt ) );
+//        canvas.addWorldChild( new EnergyChunkLayer( sun.energyChunkList, this, mvt ) );
+        final EnergyChunkLayer energyChunkLayer = new EnergyChunkLayer( sun.energyChunkList, this, mvt );
+//        energyChunkLayer.setGlobalTranslation( new Point2D.Double( mvt.modelToViewDeltaX( Sun.OFFSET_TO_CENTER_OF_SUN.x ), 0 ) );
+//        energyChunkLayer.setGlobalTranslation( new Point2D.Double( mvt.modelToViewX( Sun.OFFSET_TO_CENTER_OF_SUN.x ),
+//                                                                   mvt.modelToViewY( Sun.OFFSET_TO_CENTER_OF_SUN.y ) ) );
+        addChild( energyChunkLayer );
 
         // Add the sun.
         PNode sunNode = new PhetPPath( new Ellipse2D.Double( -sunRadius, -sunRadius, sunRadius * 2, sunRadius * 2 ) ) {{

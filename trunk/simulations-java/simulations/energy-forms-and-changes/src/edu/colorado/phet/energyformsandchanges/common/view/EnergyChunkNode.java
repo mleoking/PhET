@@ -85,4 +85,6 @@ public class EnergyChunkNode extends PNode {
         }
         setTransparency( (float) Math.min( existenceStrength, zFadeValue ) );
     }
+
+
 }
