@@ -29,7 +29,7 @@ public class Sun extends EnergySource {
     public static final double ENERGY_CHUNK_VELOCITY = 0.002; // Meters/sec, obviously not to scale.
     public static final double ENERGY_CHUNK_EMISSION_PERIOD = 0.25; // In seconds.
     private static final Random RAND = new Random();
-    private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.2; // In meters.
+    private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.5; // In meters.
 
     // Clouds that can potentially block the sun's rays.  The positions are
     // set so that they appear between the sun and the solar panel, and must
