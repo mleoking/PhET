@@ -33,6 +33,7 @@ import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.Intercep
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeColors;
 import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Interface for manipulating a slope-intercept equation.
@@ -71,7 +72,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                                                    Property<DoubleRange> runRange,
                                                    Property<DoubleRange> yInterceptRange,
                                                    final boolean interactiveSlope,
-                                                   boolean interactiveIntercept,
+                                                   final boolean interactiveIntercept,
                                                    PhetFont interactiveFont,
                                                    PhetFont staticFont,
                                                    Color staticColor ) {
@@ -84,8 +85,8 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         double maxSlopeWidth = computeSlopeComponentMaxWidth( riseRange, runRange, interactiveFont, FORMAT, interactiveSlope );
 
         // nodes: y = mx + b
-        PNode yNode = new PhetPText( "y", staticFont, staticColor );
-        PNode equalsNode = new PhetPText( "=", staticFont, staticColor );
+        final PNode yNode = new PhetPText( "y", staticFont, staticColor );
+        final PNode equalsNode = new PhetPText( "=", staticFont, staticColor );
         final PNode riseNode, runNode;
         if ( interactiveSlope ) {
             riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, this.run, riseRange, new SlopeColors(),
@@ -98,14 +99,14 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
             runNode = new DynamicValueNode( run, interactiveFont, staticColor );
         }
         final PNode lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ), new BasicStroke( 3f ), staticColor );
-        PNode xNode = new PhetPText( "x", staticFont, staticColor );
-        PNode interceptSignNode = new PhetPText( "+", staticFont, staticColor );
-        PNode interceptNode;
+        final PNode xNode = new PhetPText( "x", staticFont, staticColor );
+        final PText operatorNode = new PhetPText( "+", staticFont, staticColor );
+        final PNode interceptNode;
         if ( interactiveIntercept ) {
             interceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, this.yIntercept, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
         }
         else {
-            interceptNode = new DynamicValueNode( yIntercept, interactiveFont, staticColor );
+            interceptNode = new DynamicValueNode( yIntercept, interactiveFont, staticColor, true ); // absolute value
         }
 
         // rendering order
@@ -116,36 +117,9 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
             addChild( lineNode );
             addChild( runNode );
             addChild( xNode );
-            addChild( interceptSignNode );
+            addChild( operatorNode );
             addChild( interceptNode );
         }
-
-        // layout
-        {
-            final double xSpacing = 10;
-            final double ySpacing = 6;
-            yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                  yNode.getYOffset() );
-            lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                equalsNode.getFullBoundsReference().getCenterY() + 2 );
-            riseNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
-                                lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
-            runNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
-                               lineNode.getFullBoundsReference().getMinY() + ySpacing );
-            xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + xSpacing,
-                             yNode.getYOffset() );
-            interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                         xNode.getYOffset() );
-            interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                     xNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
-        }
-
-        // undefined-slope indicator, added after everything else
-        final PNode undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
-        undefinedSlopeIndicator.setOffset( getFullBoundsReference().getCenterX() - ( undefinedSlopeIndicator.getFullBoundsReference().getWidth() / 2 ),
-                                           lineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + 2 );
-        addChild( undefinedSlopeIndicator );
 
         // sync the model with the controls
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
@@ -159,28 +133,66 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
 
         // sync the controls with the model
         interactiveLine.addObserver( new VoidFunction1<Line>() {
+
+            private PNode undefinedSlopeIndicator;
+
             public void apply( Line line ) {
                 assert ( line.x1 == 0 ); // line is in slope-intercept form
 
                 // Atomically synchronize the controls.
                 updatingControls = true;
                 {
-                    rise.set( line.rise );
-                    run.set( line.run );
+                    rise.set( interactiveSlope ? line.rise : line.simplified().rise );
+                    run.set( interactiveSlope ? line.run : line.simplified().run );
                     yIntercept.set( line.y1 );
                 }
                 updatingControls = false;
 
-                // center align rise and run, if they are not interactive
-                if ( !interactiveSlope ) {
-                    riseNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
-                                        riseNode.getYOffset() );
-                    runNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
-                                       runNode.getYOffset() );
+                /*
+                * Change the operator to account for the sign of the intercept.
+                * We're doing this because intercept is displayed as absolute value when they are not interactive.
+                */
+                if ( !interactiveIntercept ) {
+                    operatorNode.setText( line.y1 >= 0 ? "+" : "-" );
                 }
 
-                // Make the undefined-slope indicator visible for line with undefined slope.
-                undefinedSlopeIndicator.setVisible( line.run == 0 );
+                // Hide non-interactive intercept if it's zero.
+                operatorNode.setVisible( interactiveIntercept || line.y1 != 0 );
+                interceptNode.setVisible( operatorNode.getVisible() );
+
+                // layout
+                {
+                    final double xSpacing = 10;
+                    final double ySpacing = 6;
+                    yNode.setOffset( 0, 0 );
+                    equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                          yNode.getYOffset() );
+                    lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                        equalsNode.getFullBoundsReference().getCenterY() + 2 );
+                    riseNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
+                                        lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
+                    runNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
+                                       lineNode.getFullBoundsReference().getMinY() + ySpacing );
+                    xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                     yNode.getYOffset() );
+                    operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                            xNode.getYOffset() );
+                    interceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                             xNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
+                }
+
+                // remove any previous undefined-slope indicator
+                if ( undefinedSlopeIndicator != null ) {
+                    removeChild( undefinedSlopeIndicator );
+                    undefinedSlopeIndicator = null;
+                }
+
+                // undefined-slope indicator, added after layout has been done
+                if ( line.run == 0 ) {
+                    undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
+                    undefinedSlopeIndicator.setOffset( 0, lineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + 2 );
+                    addChild( undefinedSlopeIndicator );
+                }
             }
         } );
     }
@@ -199,18 +211,22 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         SlopeInterceptInteractiveEquationNode equationNode1 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, true, true );
         SlopeInterceptInteractiveEquationNode equationNode2 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, false, true );
         SlopeInterceptInteractiveEquationNode equationNode3 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, true, false );
+        SlopeInterceptInteractiveEquationNode equationNode4 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, false, false );
 
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 600, 400 ) );
+        canvas.setPreferredSize( new Dimension( 600, 650 ) );
         canvas.getLayer().addChild( equationNode1 );
         canvas.getLayer().addChild( equationNode2 );
         canvas.getLayer().addChild( equationNode3 );
+        canvas.getLayer().addChild( equationNode4 );
 
         // layout
+        final int ySpacing = 60;
         equationNode1.setOffset( 100, 50 );
-        equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + 40 );
-        equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + 60 );
+        equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + ySpacing );
+        equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + ySpacing );
+        equationNode4.setOffset( equationNode1.getXOffset(), equationNode3.getFullBoundsReference().getMaxY() + ySpacing );
 
         // frame
         JFrame frame = new JFrame();

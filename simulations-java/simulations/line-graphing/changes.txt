@@ -1,3 +1,4 @@
+9/12/12 slope-intercept: show simplified slope if slope is not interactive, hide zero intercept if it's not interactive
 9/12/12 point-slope: show simplified slope if slope is not interactive
 9/12/12 add ability to make x1 and y1 interactive (or not) independently in point-slope interactive equation
 # 0.00.26 (67947) Sep 12, 2012
