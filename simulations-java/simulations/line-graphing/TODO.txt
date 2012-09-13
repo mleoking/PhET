@@ -11,6 +11,7 @@ DESIGN
 - Game: rules for generating random challenges and initial guess
 
 HIGH
+- interactive nodes are getting complicated, look at approach used in EquationFactory
 - Graph The Line: on "Show Answer", show the equation for incorrect answer, put icons next to equations to indicate correct and incorrect
 - change location of slope sign, vertically center it between "=" and fraction division line, add "vertical offset" parameter to constructors
 - slope-intercept or point-slope with non-interactive slope: reduce X/1 to X, hide 1/1
