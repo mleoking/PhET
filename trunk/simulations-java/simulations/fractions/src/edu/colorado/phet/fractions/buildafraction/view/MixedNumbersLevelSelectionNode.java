@@ -86,7 +86,7 @@ public class MixedNumbersLevelSelectionNode extends AbstractLevelSelectionNode {
                level == 7 ? Pattern.ringOfHexagons() :
                level == 8 ? Pattern.ninjaStar() :
                level == 9 ? Pattern.grid( 3 ) :
-               level == 10 ? Pattern.pie( 10 ) :
+               level == 10 ? Pattern.fivePointStarWithLeaves() :
                null;
     }
 
