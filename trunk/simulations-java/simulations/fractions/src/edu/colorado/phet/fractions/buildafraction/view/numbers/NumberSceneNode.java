@@ -476,6 +476,9 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
                              toolboxNode.getCenterY() - cardNode.getFullBounds().getHeight() / 2 + cardIndex * cardDeltaY );
     }
 
+    public void movedNonStackCardsToFront() {
+    }
+
     //How far over the stack should be in the x-coordinate.
     private double getStackOffset( final int stackIndex ) {
         double stackOffset = 0;

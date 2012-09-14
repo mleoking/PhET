@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
+import fj.Effect;
 import fj.F;
 import fj.P2;
 import fj.data.List;
@@ -663,6 +664,16 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
         return new Vector2D( layoutXOffset + 30 + deltaWithinStack * sign + stackIndex * distanceBetweenStacks,
                              STAGE_SIZE.height - 117 - CARD_SPACING_DY * cardIndex + yOffset );
+    }
+
+    public void movedNonStackCardsToFront() {
+
+        //Fixed: Dotted lines sometimes disappear when dragging a card out of the toolbox
+        getContainerNodes().foreach( new Effect<ContainerNode>() {
+            @Override public void e( final ContainerNode containerNode ) {
+                containerNode.moveDottedLinesToFront();
+            }
+        } );
     }
 
     private double getCardOffsetWithinStack( final int numInGroup, final int cardIndex ) {
