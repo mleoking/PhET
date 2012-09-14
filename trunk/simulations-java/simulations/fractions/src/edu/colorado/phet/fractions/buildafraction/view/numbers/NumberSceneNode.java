@@ -63,7 +63,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private final Vector2D centerOfScreen;
 
     //Make the spacing big enough that tall stacks don't overlap, but not so large that lots of stacks go offscreen
-    private static final double SPACE_BETWEEN_STACKS = 28;
+    private final double spaceBetweenStacks;
     private static final double LEFT_RIGHT_INSET = 20;
     private static final double SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON = 50;
     private Property<Option<Integer>> draggedCardProperty = new Property<Option<Integer>>( Option.<Integer>none() );
@@ -72,6 +72,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
         super( levelIndex, soundEnabled, context, fractionLab );
+        spaceBetweenStacks = fractionLab ? 38 : 28;
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
@@ -478,9 +479,9 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         double stackOffset = 0;
         for ( List<Integer> stack : stacks.take( stackIndex ) ) {
             stackOffset += stack.head().toString().length() < 2 ? singleDigitCardSize.width : doubleDigitCardSize.width;
-            stackOffset += SPACE_BETWEEN_STACKS;
+            stackOffset += spaceBetweenStacks;
         }
-        return stackOffset + ( isFractionLab() ? 66 : 0 );
+        return stackOffset + ( isFractionLab() ? 72 : 0 );
     }
 
     private class CreateNonMixedFractionGraphicFractionLab {

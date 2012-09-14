@@ -1,3 +1,4 @@
+Fraction Lab: Improved layout for numbers in the toolbox
 Build a Mixed Fraction: Numbers: Reduce extra vertical padding on mixed number card
 Fraction Lab: Renamed from "free play" to "fraction lab"
 Build a Mixed Fraction: Numbers: for levels 9-10: make horizontal sets 25% taller
