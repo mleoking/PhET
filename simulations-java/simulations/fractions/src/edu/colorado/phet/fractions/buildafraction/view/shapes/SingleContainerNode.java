@@ -51,12 +51,10 @@ class SingleContainerNode extends PNode {
     private final PNode dottedLineLayer;
     private final ContainerShapeNode shapeLayer;
     private final ObservableProperty<Integer> number;
-    private final boolean mixedNumbers;
 
     public SingleContainerNode( final ShapeType shapeType, final ContainerNode parent, final ObservableProperty<Integer> number, final boolean mixedNumbers ) {
         this.parent = parent;
         this.number = number;
-        this.mixedNumbers = mixedNumbers;
         dottedLineLayer = new PNode() {{
             setPickable( false );
             setChildrenPickable( false );
