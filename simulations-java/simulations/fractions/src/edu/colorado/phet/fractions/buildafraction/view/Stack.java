@@ -57,6 +57,7 @@ public @Data class Stack<T extends Stackable> {
                 card.moveToFront();
             }
         }
+        context.movedNonStackCardsToFront();
     }
 
     @SuppressWarnings("unchecked") private Option<T> getFrontCardInStack() {

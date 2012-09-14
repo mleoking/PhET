@@ -369,4 +369,10 @@ public class ContainerNode extends PNode {
     }
 
     public ContainerNode copy() { return new ContainerNode( parent, context, showIncreaseButton, shapeType, maxNumberOfSingleContainers ); }
+
+    public void moveDottedLinesToFront() {
+        for ( SingleContainerNode node : getSingleContainerNodes() ) {
+            node.moveDottedLineToFront();
+        }
+    }
 }

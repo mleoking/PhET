@@ -226,4 +226,6 @@ class SingleContainerNode extends PNode {
     }
 
     public void addDropLocationToUndoList() { parent.addDropLocation( SingleContainerNode.this ); }
+
+    public void moveDottedLineToFront() { dottedLineLayer.moveToFront(); }
 }

@@ -10,4 +10,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
  */
 public interface StackContext<T extends Stackable> {
     Vector2D getLocation( int stackIndex, int cardIndex, T card );
+
+    void movedNonStackCardsToFront();
 }
