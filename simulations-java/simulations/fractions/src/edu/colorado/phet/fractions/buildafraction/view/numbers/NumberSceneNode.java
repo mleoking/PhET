@@ -70,8 +70,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private double toolboxPositionY;
     private double offsetX;
 
-    @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean freePlay ) {
-        super( levelIndex, soundEnabled, context, freePlay );
+    @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
+        super( levelIndex, soundEnabled, context, fractionLab );
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
@@ -87,7 +87,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         this.rootNode = rootNode;
 
         //Create the scoring cells with target patterns
-        initCollectionBoxes( insetY, getCollectionBoxPairs( model ), freePlay );
+        initCollectionBoxes( insetY, getCollectionBoxPairs( model ), fractionLab );
 
         //Add a piece container toolbox the user can use to get containers
         //Put numbers on cards so you can see how many there are in a stack
@@ -122,7 +122,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         fractionNode.setScale( 1.0 );
 
         double extentX = LEFT_RIGHT_INSET * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON + fractionNode.getFullBounds().getWidth();
-        if ( freePlay ) { extentX = STAGE_SIZE.width - INSET * 2; }
+        if ( fractionLab ) { extentX = STAGE_SIZE.width - INSET * 2; }
 
         //Create the toolbox node
         final double finalExtentX = extentX;
@@ -161,27 +161,27 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         double toolboxPositionX = 0;
         double toolboxPositionY = 0;
         for ( int i = 0; i < numRemainingFractionSkeletons; i++ ) {
-            CreateNonMixedFractionGraphicFreePlay c = new CreateNonMixedFractionGraphicFreePlay( freePlay ).invoke();
+            CreateNonMixedFractionGraphicFractionLab c = new CreateNonMixedFractionGraphicFractionLab( fractionLab ).invoke();
             toolboxPositionX = c.getToolboxPositionX();
             toolboxPositionY = c.getToolboxPositionY();
         }
 
         //For free play, also create a mixed number graphic
-        if ( freePlay ) {
+        if ( fractionLab ) {
             this.offsetX = toolboxNode.getMaxX() - 200;
-            toolboxPositionX = addMixedFractionGraphicFreePlay( toolboxPositionY, offsetX );
+            toolboxPositionX = addMixedFractionGraphicFactionLab( toolboxPositionY, offsetX );
             this.toolboxPositionY = toolboxPositionY;
         }
 
-        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
+        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, fractionLab );
 
         fractionNode.setToolboxPosition( toolboxPositionX, toolboxPositionY );
-        centerOfScreen = new Vector2D( freePlay ? 300 : levelReadoutTitle.getFullBounds().getCenterX() - fractionNode.getFullWidth() / 2 + 28, 350 - fractionNode.getFullHeight() / 2 );
+        centerOfScreen = new Vector2D( fractionLab ? 300 : levelReadoutTitle.getFullBounds().getCenterX() - fractionNode.getFullWidth() / 2 + 28, 350 - fractionNode.getFullHeight() / 2 );
         fractionNode.setOffset( centerOfScreen.toPoint2D() );
         fractionNode.moveInFrontOf( toolboxNode );
     }
 
-    private double addMixedFractionGraphicFreePlay( final double toolboxPositionY, final double offsetX ) {
+    private double addMixedFractionGraphicFactionLab( final double toolboxPositionY, final double offsetX ) {
         final FractionNode toolboxFractionGraphic = new FractionNode( this, true );
 
         //Put it to the right of the numbers in the toolbox
@@ -327,7 +327,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
         //If it didn't hit a fraction, send back to its starting place--the user is not allowed to have free floating numbers in the play area
         if ( !hitFraction ) {
-            numberCardNode.animateToTopOfStack( isFreePlay() );
+            numberCardNode.animateToTopOfStack( isFractionLab() );
         }
 
         draggedCardProperty.set( Option.<Integer>none() );
@@ -335,7 +335,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     public void startDrag( final NumberCardNode node ) {
         draggedCardProperty.set( some( node.number ) );
-        if ( freePlay && !node.animating.get() ) {
+        if ( fractionLab && !node.animating.get() ) {
             NumberCardNode copy = node.copy();
             addChild( copy );
             copy.setGlobalTranslation( node.getGlobalTranslation() );
@@ -448,13 +448,13 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     public ObservableProperty<Option<Integer>> getDraggedCardProperty() { return draggedCardProperty; }
 
     public void startDrag( final FractionNode fractionNode ) {
-        if ( freePlay ) {
-            if ( fractionNode.mixedNumber ) { addMixedFractionGraphicFreePlay( toolboxPositionY, offsetX ); }
-            else {new CreateNonMixedFractionGraphicFreePlay( freePlay ).invoke();}
+        if ( fractionLab ) {
+            if ( fractionNode.mixedNumber ) { addMixedFractionGraphicFactionLab( toolboxPositionY, offsetX ); }
+            else {new CreateNonMixedFractionGraphicFractionLab( fractionLab ).invoke();}
         }
     }
 
-    public boolean isFreePlay() { return freePlay; }
+    public boolean isFractionLab() { return fractionLab; }
 
     public boolean isInCollectionBox( final FractionNode fractionNode ) {
         return pairs.exists( new F<NumberSceneCollectionBoxPair, Boolean>() {
@@ -480,15 +480,15 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             stackOffset += stack.head().toString().length() < 2 ? singleDigitCardSize.width : doubleDigitCardSize.width;
             stackOffset += SPACE_BETWEEN_STACKS;
         }
-        return stackOffset + ( isFreePlay() ? 66 : 0 );
+        return stackOffset + ( isFractionLab() ? 66 : 0 );
     }
 
-    private class CreateNonMixedFractionGraphicFreePlay {
-        private final boolean freePlay;
+    private class CreateNonMixedFractionGraphicFractionLab {
+        private final boolean fractionLab;
         private double toolboxPositionX;
         private double toolboxPositionY;
 
-        public CreateNonMixedFractionGraphicFreePlay( final boolean freePlay ) {this.freePlay = freePlay;}
+        public CreateNonMixedFractionGraphicFractionLab( final boolean fractionLab ) {this.fractionLab = fractionLab;}
 
         public double getToolboxPositionX() {
             return toolboxPositionX;
@@ -498,12 +498,12 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             return toolboxPositionY;
         }
 
-        public CreateNonMixedFractionGraphicFreePlay invoke() {
+        public CreateNonMixedFractionGraphicFractionLab invoke() {
             final FractionNode toolboxFractionGraphic = new FractionNode( NumberSceneNode.this, level.hasMixedNumbers() );
 
             //Put it to the right of the numbers in the toolbox
 
-            toolboxPositionX = freePlay ? toolboxNode.getMinX() + 23 : toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth();
+            toolboxPositionX = fractionLab ? toolboxNode.getMinX() + 23 : toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth();
             toolboxPositionY = toolboxNode.getCenterY() - toolboxFractionGraphic.getFullBounds().getHeight() / 2;
             toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
             toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );

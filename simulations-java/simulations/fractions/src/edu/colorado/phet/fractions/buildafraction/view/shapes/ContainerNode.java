@@ -339,7 +339,7 @@ public class ContainerNode extends PNode {
     public void updateExpansionButtonsEnabled() { increaseDecreaseButton.setEnabled( !isInToolbox() );}
 
     //Identify containers as being in the toolbox if they are shrunken
-    public boolean isInToolbox() { return Math.abs( getScale() - toolboxScale( parent.freePlay ) ) < 1E-6; }
+    public boolean isInToolbox() { return Math.abs( getScale() - toolboxScale( parent.fractionLab ) ) < 1E-6; }
 
     public boolean belongsInToolbox() {return initialY > 500;}
 

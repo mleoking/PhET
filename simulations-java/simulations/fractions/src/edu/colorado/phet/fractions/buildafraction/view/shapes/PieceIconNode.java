@@ -22,9 +22,9 @@ import static edu.colorado.phet.fractions.buildafraction.view.shapes.ContainerSh
  */
 class PieceIconNode extends PNode {
 
-    public static double toolboxScale( boolean freePlay ) { return freePlay ? 0.36 : 0.43; }
+    public static double toolboxScale( boolean fractionLab ) { return fractionLab ? 0.36 : 0.43; }
 
-    public PieceIconNode( int divisions, ShapeType shapeType, boolean freePlay ) {
+    public PieceIconNode( int divisions, ShapeType shapeType, boolean fractionLab ) {
         for ( int i = 0; i < divisions; i++ ) {
             addChild( new PhetPPath( shapeType == ShapeType.BAR ? barShape( divisions, i ) : pieShape( divisions, i ), Color.white, new BasicStroke( 1 ), Color.black ) );
         }
@@ -32,7 +32,7 @@ class PieceIconNode extends PNode {
         addChild( new PhetPPath( shapeType == ShapeType.BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight ) :
                                  new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), new BasicStroke( 2 ), Color.black ) );
 
-        scale( toolboxScale( freePlay ) );
+        scale( toolboxScale( fractionLab ) );
     }
 
     private Shape pieShape( final int divisions, final int i ) {return new CircularShapeFunction( Math.PI * 2 / divisions, circleDiameter / 2 ).createShape( Vector2D.v( circleDiameter / 2, circleDiameter / 2 ), Math.PI * 2 / divisions * i );}
