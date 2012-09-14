@@ -431,7 +431,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         } ) );
     }
 
-    public static final List<PatternMaker> typesForLevels9_10 = list( pie, tallHorizontalBars );
+    public static final List<PatternMaker> typesForLevels9_10 = list( pie, horizontalBar );
 
     private NumberTarget difficultTarget( final MixedFraction mixedFraction, final Color next, final Boolean scattered ) {
         return scattered ?

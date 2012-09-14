@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Increased height for all horizontal bars
 # 1.01.15 (67989) Sep 14, 2012
 Fraction Lab: Fixed: mixed number skeleton node animates left if dropped near right edge of screen
 Fraction Lab: Fixed: initial container node scales to the wrong scale when animating to the center of the screen if dropped in the toolbox
