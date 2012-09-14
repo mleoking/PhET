@@ -10,6 +10,7 @@ import fj.function.Integers;
 import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -273,20 +274,18 @@ public class ContainerNode extends PNode {
         setChildrenPickable( b );
     }
 
-    public void setInitialPosition( final double x, final double y ) {
-        this.initialX = x;
-        this.initialY = y;
-        setOffset( x, y );
-    }
-
-    public void animateHome() {
-        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( this, true ), new PActivityDelegateAdapter() {
+    public void animateToToolboxStack( Point2D point, double scale ) {
+        animateToPositionScaleRotation( point.getX(), point.getY(), scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( this, true ), new PActivityDelegateAdapter() {
             @Override public void activityFinished( final PActivity activity ) {
                 super.activityFinished( activity );
                 updateExpansionButtonsEnabled();
             }
         } ) );
         animateToShowSpinners();
+    }
+
+    public void animateHome() {
+        animateToToolboxStack( new Point2D.Double( initialX, initialY ), initialScale );
     }
 
     public void animateToShowSpinners() {
@@ -341,7 +340,8 @@ public class ContainerNode extends PNode {
     //Identify containers as being in the toolbox if they are shrunken
     public boolean isInToolbox() { return Math.abs( getScale() - toolboxScale( parent.fractionLab ) ) < 1E-6; }
 
-    public boolean belongsInToolbox() {return initialY > 500;}
+    //    public boolean startedInToolbox() {return parent.fractionLab ? initialY < 200 : initialY > 500;}
+    public boolean startedInToolbox() {return initialY > 500;}
 
     public void pieceAdded() {
         if ( !undoButton.getVisible() ) {

@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -348,11 +349,25 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
         //Put the piece back in its starting location, but only if it is empty
         if ( !hit && intersectsToolbox && containerNode.getFractionValue().numerator == 0 ) {
-            if ( containerNode.belongsInToolbox() ) {
-                containerNode.resetNumberOfContainers();
-                containerNode.selectedPieceSize.reset();
+            containerNode.resetNumberOfContainers();
+            containerNode.selectedPieceSize.reset();
+            if ( !containerNode.startedInToolbox() || fractionLab ) {
+                //move on top of stack
+                final List<Point2D> list = getContainerNodesThatStartedInToolbox().map( new F<ContainerNode, Point2D>() {
+                    @Override public Point2D f( final ContainerNode c ) {
+                        return new Point2D.Double( c.initialX, c.initialY );
+                    }
+                } ).sort( FJUtils.ord( new F<Point2D, Double>() {
+                    @Override public Double f( final Point2D p ) {
+                        return p.getX();
+                    }
+                } ) );
+                Point2D location = level.shapeType == PIE ? list.last() : list.head();
+                containerNode.animateToToolboxStack( location, getContainerNodesThatStartedInToolbox().head().initialScale );
             }
-            containerNode.animateHome();
+            else {
+                containerNode.animateHome();
+            }
         }
 
         //Add a new container when the previous one is completed
@@ -410,6 +425,14 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 animateToPosition( containerNode, v.head(), new NullDelegate() );
             }
         }
+    }
+
+    private List<ContainerNode> getContainerNodesThatStartedInToolbox() {
+        return getContainerNodes().filter( new F<ContainerNode, Boolean>() {
+            @Override public Boolean f( final ContainerNode containerNode ) {
+                return containerNode.startedInToolbox();
+            }
+        } );
     }
 
     private List<ContainerNode> getContainerNodesInToolbox() {
