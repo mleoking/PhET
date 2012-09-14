@@ -148,6 +148,17 @@ public class Pattern {
         } ).reverse() );
     }
 
+    //for levels 9-10: make horizontal sets about 25% taller.
+    public static Pattern tallHorizontalBars( int numBars ) {
+        final double width = 70;
+        final double sliceHeight = width / (double) numBars * 1.25;
+        return new Pattern( range( 0, numBars ).map( new F<Integer, Shape>() {
+            @Override public Shape f( final Integer index ) {
+                return new Rectangle2D.Double( 0, index * sliceHeight, width, sliceHeight );
+            }
+        } ).reverse() );
+    }
+
     public static Pattern verticalBars( final int numBars ) {
         final double height = 70;
         final double sliceWidth = height / (double) numBars;
