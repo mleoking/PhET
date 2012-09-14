@@ -1,3 +1,4 @@
+Fraction Lab: For numbers, just go up to 8 to match shapes
 Build a Fraction: Shapes: Increased sizes for shapes in mixed numbers and decreased size for shapes in free play
 Build a Fraction: Shapes: Fixed: When targets are collected, the light-gray dotted divisions do not show up for all containers, usually the first one or 2 are missing them.
 Build a Fraction: Shapes: Made bar shape even more taller and less wide
