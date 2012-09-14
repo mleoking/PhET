@@ -292,7 +292,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             fractionNode.animateToToolbox();
         }
 
-        if ( fractionNode.getGlobalFullBounds().getMaxX() > minimumCollectionBoxX() ) {
+        if ( fractionNode.getGlobalFullBounds().getMaxX() > minimumCollectionBoxX() && !fractionLab ) {
             fractionNode.animateNearCenterOfScreen();
         }
     }
