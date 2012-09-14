@@ -88,11 +88,6 @@ public class NumberLevelList implements NumberLevelFactory {
     };
     public static final PatternMaker horizontalBar = new PatternMaker( "bar", 1, 2, 3, 4, 5, 6, 7, 8 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
-            return Pattern.horizontalBars( fraction.denominator );
-        }
-    };
-    public static final PatternMaker tallHorizontalBars = new PatternMaker( "bar", 1, 2, 3, 4, 5, 6, 7, 8 ) {
-        @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.tallHorizontalBars( fraction.denominator );
         }
     };
