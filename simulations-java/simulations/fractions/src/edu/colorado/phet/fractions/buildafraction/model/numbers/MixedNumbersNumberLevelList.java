@@ -431,10 +431,12 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         } ) );
     }
 
+    public static final List<PatternMaker> typesForLevels9_10 = list( pie, horizontalBar );
+
     private NumberTarget difficultTarget( final MixedFraction mixedFraction, final Color next, final Boolean scattered ) {
         return scattered ?
-               scatteredTarget( mixedFraction, next, chooseOne( universalTypes ).random() ) :
-               target( mixedFraction, next, chooseOne( universalTypes ).random() );
+               scatteredTarget( mixedFraction, next, chooseOne( typesForLevels9_10 ).random() ) :
+               target( mixedFraction, next, chooseOne( typesForLevels9_10 ).random() );
     }
 
     public static void main( String[] args ) {
