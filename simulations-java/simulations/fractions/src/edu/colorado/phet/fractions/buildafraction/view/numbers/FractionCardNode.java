@@ -59,7 +59,7 @@ class FractionCardNode extends RichPNode {
         //Compute the bounds, different depending on whether it is for a mixed number or (im)proper fraction
         final Rectangle2D fractionPartBounds = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
         Rectangle2D borderShape = fractionNode.mixedNumber ?
-                                  fractionPartBounds.createUnion( fractionNode.getWholeNumberNode().getGlobalFullBounds() ) :
+                                  createMixedNumberBorderShape( fractionNode, fractionPartBounds ) :
                                   fractionPartBounds;
 
         borderShape = globalToLocal( borderShape );
@@ -161,6 +161,15 @@ class FractionCardNode extends RichPNode {
 
         addChild( cardShapeNode );
         fractionNode.moveToFront();
+    }
+
+    private Rectangle2D createMixedNumberBorderShape( final FractionNode fractionNode, final Rectangle2D fractionPartBounds ) {
+        final Rectangle2D union = fractionPartBounds.createUnion( fractionNode.getWholeNumberNode().getGlobalFullBounds() );
+
+        //trim the top and bottom so there isn't so much extra space
+        double fractionToTrim = 0.1;
+        double amountToTrim = fractionToTrim * union.getHeight();
+        return new Rectangle2D.Double( union.getX(), union.getY() + amountToTrim, union.getWidth(), union.getHeight() - amountToTrim * 2 );
     }
 
     //Split it apart so the FractionNode is no longer shown on this card.
