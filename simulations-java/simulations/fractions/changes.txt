@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Numbers: for levels 9-10: make horizontal sets 25% taller
 Build a Mixed Fraction: Shapes: Removed vertically-sliced bar shapes
 Build a Fraction: Shapes: Added star icon for level 10
 Fraction Lab: For numbers, just go up to 8 to match shapes
