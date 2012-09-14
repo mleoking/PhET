@@ -126,7 +126,7 @@ public class FreePlayCanvas extends AbstractFractionsCanvas {
         }, new NumberLevelFactory() {
             public NumberLevel createLevel( final int level ) {
                 final NumberTarget t = NumberTarget.target( 1, 2, Color.blue, NumberLevelList.pie.sequential() );
-                return new NumberLevel( List.range( 1, 10 ).append( List.range( 1, 10 ) ), List.list( t, t ) );
+                return new NumberLevel( List.range( 1, 9 ).append( List.range( 1, 9 ) ), List.list( t, t ) );
             }
         }
         );
