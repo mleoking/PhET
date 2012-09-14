@@ -141,8 +141,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         //Layout values sampled manually at runtime
         ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
             Vector2D position = getContainerPosition();
-            setInitialPosition( position.x, position.y );
-            setScale( getContainerScale() );
+            setInitialState( position.x, position.y, getContainerScale() );
         }};
         addChild( firstContainerNode );
 
