@@ -1,3 +1,4 @@
+Fraction Lab: Fixed: initial container node scales to the wrong scale when animating to the center of the screen if dropped in the toolbox
 Fraction Lab: Fixed: initial fraction skeleton goes to the wrong location in the toolbox when dropped there
 Fraction Lab: Fixed initial position of container node in the play area
 Fraction Lab: Improved layout for numbers in the toolbox
