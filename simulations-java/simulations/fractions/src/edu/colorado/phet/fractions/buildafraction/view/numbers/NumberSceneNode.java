@@ -69,6 +69,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private Property<Option<Integer>> draggedCardProperty = new Property<Option<Integer>>( Option.<Integer>none() );
     private double toolboxPositionY;
     private double offsetX;
+    private Vector2D initialToolboxPositionForSkeletons;
 
     @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
         super( levelIndex, soundEnabled, context, fractionLab );
@@ -165,6 +166,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             CreateNonMixedFractionGraphicFractionLab c = new CreateNonMixedFractionGraphicFractionLab( fractionLab ).invoke();
             toolboxPositionX = c.getToolboxPositionX();
             toolboxPositionY = c.getToolboxPositionY();
+            this.initialToolboxPositionForSkeletons = Vector2D.v( toolboxPositionX, toolboxPositionY );
         }
 
         //For free play, also create a mixed number graphic
@@ -176,7 +178,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
         finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, fractionLab );
 
-        fractionNode.setToolboxPosition( toolboxPositionX, toolboxPositionY );
+        fractionNode.setToolboxPosition( initialToolboxPositionForSkeletons.x, initialToolboxPositionForSkeletons.y );
         centerOfScreen = new Vector2D( fractionLab ? 300 : levelReadoutTitle.getFullBounds().getCenterX() - fractionNode.getFullWidth() / 2 + 28, 350 - fractionNode.getFullHeight() / 2 );
         fractionNode.setOffset( centerOfScreen.toPoint2D() );
         fractionNode.moveInFrontOf( toolboxNode );
