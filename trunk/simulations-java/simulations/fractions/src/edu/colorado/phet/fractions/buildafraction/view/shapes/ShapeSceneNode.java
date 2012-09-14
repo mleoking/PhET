@@ -80,15 +80,15 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private final BuildAFractionModel model;
     public int toolboxHeight;
 
-    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean freePlay ) {
-        this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled, freePlay ) ), freePlay );
+    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
+        this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled, fractionLab ) ), fractionLab );
     }
 
     //Create and throw away a new ShapeSceneNode in order to get the layout of the toolbar perfectly centered under the title.
     //Hack alert!  I have concerns that this could lead to difficult to understand code, especially during debugging because 2 ShapeSceneNodes are created for each one displayed.
     //This code was written because everything is in the same layer because nodes must move freely between toolbox, play area and collection boxes.
-    private static double getToolbarOffset( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, final BooleanProperty soundEnabled, boolean freePlay ) {
-        ShapeSceneNode node = new ShapeSceneNode( levelIndex, model, stageSize, context, soundEnabled, Option.<Double>none(), freePlay );
+    private static double getToolbarOffset( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, final BooleanProperty soundEnabled, boolean fractionLab ) {
+        ShapeSceneNode node = new ShapeSceneNode( levelIndex, model, stageSize, context, soundEnabled, Option.<Double>none(), fractionLab );
 
         //Re-layout the toolbox based on the location of the title
         double desiredToolboxCenter = node.levelReadoutTitle.getFullBounds().getCenterX();
@@ -105,8 +105,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     }
 
     @SuppressWarnings("unchecked") private ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset,
-                                                           final boolean freePlay ) {
-        super( levelIndex, soundEnabled, context, freePlay );
+                                                           final boolean fractionLab ) {
+        super( levelIndex, soundEnabled, context, fractionLab );
         this.model = model;
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
@@ -120,7 +120,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             }
         };
         this.level = model.getShapeLevel( levelIndex );
-        distanceBetweenStacks = freePlay ?
+        distanceBetweenStacks = fractionLab ?
                                 level.shapeType == ShapeType.BAR ? 104 : 104 :
                                 level.shapeType == ShapeType.BAR ? 140 * 0.85 : 120;
 
@@ -133,9 +133,9 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             final ShapeCollectionBoxNode cell = new ShapeCollectionBoxNode( this, level.targets.maximum( ord( MixedFraction._toDouble ) ), model.collectedMatch.or( level.matchExists ) );
             _pairs.add( new ShapeSceneCollectionBoxPair( cell, new ZeroOffsetNode( f ), target ) );
         }
-        initCollectionBoxes( insetY, _pairs, freePlay );
+        initCollectionBoxes( insetY, _pairs, fractionLab );
 
-        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, freePlay );
+        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, fractionLab );
 
         //Center the first container node in the play area.
         //Layout values sampled manually at runtime
@@ -152,7 +152,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         layoutXOffset = ( 6 - numGroups ) * distanceBetweenStacks / 4 + ( level.shapeType == ShapeType.BAR ? 0 : 45 ) + ( toolboxOffset.isSome() ? toolboxOffset.some() : 0.0 );
 
         toolboxHeight = ( level.shapeType == ShapeType.BAR ? 100 : 140 ) + 5;
-        if ( freePlay && level.shapeType == PIE ) { toolboxHeight = toolboxHeight - 25; }
+        if ( fractionLab && level.shapeType == PIE ) { toolboxHeight = toolboxHeight - 25; }
 
         for ( P2<List<Integer>, Integer> groupWithIndex : groups.zipIndex() ) {
             int stackIndex = groupWithIndex._2();
@@ -168,7 +168,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 final PieceNode piece = level.shapeType == PIE ? new PiePieceNode( pieceDenominator, ShapeSceneNode.this, new PhetPPath( createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) )
                                                                : new BarPieceNode( pieceDenominator, ShapeSceneNode.this, new PhetPPath( createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) );
                 piece.setOffset( getLocation( stackIndex, cardIndex, piece ).toPoint2D() );
-                piece.setInitialScale( toolboxScale( freePlay ) );
+                piece.setInitialScale( toolboxScale( fractionLab ) );
 
                 ShapeSceneNode.this.addChild( piece );
                 if ( bounds == null ) { bounds = piece.getFullBounds(); }
@@ -186,7 +186,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             }
             stack.update();
 
-            final PieceIconNode child = new PieceIconNode( group.head(), level.shapeType, freePlay );
+            final PieceIconNode child = new PieceIconNode( group.head(), level.shapeType, fractionLab );
             final PieceNode firstPiece = pieces.get( 0 );
 
             child.setOffset( level.shapeType == PIE ? new Point2D.Double( firstPiece.getFullBounds().getMaxX() - child.getFullBounds().getWidth(), firstPiece.getYOffset() )
@@ -196,9 +196,6 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             if ( level.shapeType == PIE && firstPiece.pieceSize == 5 ) {
                 child.translate( 4, 0 );
             }
-//            if ( isFreePlay() ) {
-//                child.translate( 0, 24 );
-//            }
             addChild( child );
             child.moveToBack();
         }
@@ -211,7 +208,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
                 final int sign = level.shapeType == PIE ? -1 : +1;
                 setInitialState( layoutXOffset + INSET + 20 + delta * sign + finalGroupIndex * distanceBetweenStacks,
-                                 stageSize.height - INSET - toolboxHeight + 20 + delta, toolboxScale( freePlay ) );
+                                 stageSize.height - INSET - toolboxHeight + 20 + delta, toolboxScale( fractionLab ) );
             }};
             addChild( containerNode );
             containerNodeToolboxLocations.add( new Vector2D( containerNode.getOffset() ) );
@@ -237,10 +234,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     //Location for a container to move to in the center of the play area
     private Vector2D getContainerPosition() {
         double offset = level.shapeType == PIE ? circleDiameter / 2 : rectangleWidth / 2;
-        double freePlayYOffset = freePlay ? STAGE_SIZE.height - toolboxHeight - INSET * 3 - 100 : 0;
-        final double y = ( level.shapeType == PIE ? 200 : 250 ) + freePlayYOffset;
+        double fractionLabYOffset = fractionLab ? STAGE_SIZE.height - toolboxHeight - INSET * 3 - 100 : 0;
+        final double y = ( level.shapeType == PIE ? 200 : 250 ) + fractionLabYOffset;
 
-        return new Vector2D( freePlay ? 480 : levelReadoutTitle.getCenterX() - offset * getContainerScale(), y );
+        return new Vector2D( fractionLab ? 480 : levelReadoutTitle.getCenterX() - offset * getContainerScale(), y );
     }
 
     protected void reset() {
@@ -327,7 +324,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     hit = true;
                     break;
                 }
-                else if ( intersects && !freePlay ) {
+                else if ( intersects && !fractionLab ) {
                     //move back to the center of the screen, but only if no other container node is already there.
                     if ( getContainerNodesInPlayArea().exists( new F<ContainerNode, Boolean>() {
                         @Override public Boolean f( final ContainerNode containerNode ) {
@@ -409,7 +406,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             }
             else {
                 containerNode.animateToPositionScaleRotation( v.head().x, v.head().y,
-                                                              toolboxScale( freePlay ), 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
+                                                              toolboxScale( fractionLab ), 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( containerNode, true ) );
                 animateToPosition( containerNode, v.head(), new NullDelegate() );
             }
         }
@@ -498,16 +495,16 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
     public double getContainerScale() {
         final double smaller = 0.6 * 1.15;
-        return isFreePlay() ? smaller :
+        return isFractionLab() ? smaller :
                isMixedNumbers() ? smaller : 1.0;
     }
 
-    public boolean isFreePlay() {
-        return freePlay;
+    public boolean isFractionLab() {
+        return fractionLab;
     }
 
     public void startDrag( final PieceNode pieceNode ) {
-        if ( isFreePlay() ) {
+        if ( isFractionLab() ) {
             //create another piece node under this one
             PieceNode copy = pieceNode.copy();
             addChild( copy );
@@ -595,7 +592,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     }
 
     public void startDrag( final ContainerNode parent ) {
-        if ( isFreePlay() && parent.isInToolbox() ) {
+        if ( isFractionLab() && parent.isInToolbox() ) {
             ContainerNode copy = parent.copy();
             copy.setInitialState( parent.initialX, parent.initialY, parent.initialScale );
             addChild( copy );
@@ -608,7 +605,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     //if its right edge is past the left edge of any collection box, move it left
     public void moveContainerNodeAwayFromCollectionBoxes( final ContainerNode containerNode ) {
         double rightSide = containerNode.getGlobalFullBounds().getMaxX();
-        double edge = isFreePlay() ? STAGE_SIZE.width : pairs.map( new F<ShapeSceneCollectionBoxPair, Double>() {
+        double edge = isFractionLab() ? STAGE_SIZE.width : pairs.map( new F<ShapeSceneCollectionBoxPair, Double>() {
             @Override public Double f( final ShapeSceneCollectionBoxPair target ) {
                 return target.getCollectionBoxNode().getGlobalFullBounds().getMinX();
             }
@@ -662,7 +659,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         List<List<Integer>> groups = level.pieces.group( intEqual );
         double deltaWithinStack = getCardOffsetWithinStack( groups.index( stackIndex ).length(), cardIndex );
         int yOffset = level.shapeType == ShapeType.BAR ? 25 : 0;
-        if ( isFreePlay() && level.shapeType == PIE ) {
+        if ( isFractionLab() && level.shapeType == PIE ) {
             yOffset = yOffset + 12;
         }
         return new Vector2D( layoutXOffset + 30 + deltaWithinStack * sign + stackIndex * distanceBetweenStacks,

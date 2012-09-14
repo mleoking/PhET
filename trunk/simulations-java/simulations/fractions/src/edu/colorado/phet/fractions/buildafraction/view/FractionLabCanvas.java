@@ -16,7 +16,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode.Element;
-import edu.colorado.phet.fractions.buildafraction.FreePlayCanvasContext;
+import edu.colorado.phet.fractions.buildafraction.FractionLabCanvasContext;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.model.NumberLevelFactory;
@@ -46,8 +46,8 @@ import static java.awt.Color.black;
  *
  * @author Sam Reid
  */
-public class FreePlayCanvas extends AbstractFractionsCanvas {
-    public FreePlayCanvas( final FreePlayCanvasContext context2 ) {
+public class FractionLabCanvas extends AbstractFractionsCanvas {
+    public FractionLabCanvas( final FractionLabCanvasContext context2 ) {
         setBackground( BuildAFractionCanvas.LIGHT_BLUE );
         final BuildAFractionModel circleModel = createModel( PIE, colors[0] );
 
@@ -102,7 +102,7 @@ public class FreePlayCanvas extends AbstractFractionsCanvas {
         RadioButtonStripControlPanelNode<ShapeType> representations = new RadioButtonStripControlPanelNode<ShapeType>( selectedShapeType, elements, 3, Color.white, new BasicStroke( 1 ), Color.black, 8, 2, 3 );
         addChild( new VBox( representations, new ResetAllButtonNode( new Resettable() {
             public void reset() {
-                context2.resetFreePlayCanvas();
+                context2.resetCanvas();
             }
         }, this, 18, black, RefreshButtonNode.BUTTON_COLOR ) {{
             setConfirmationEnabled( false );

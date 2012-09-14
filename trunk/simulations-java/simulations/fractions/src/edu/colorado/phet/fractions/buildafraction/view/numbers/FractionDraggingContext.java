@@ -22,7 +22,7 @@ public interface FractionDraggingContext {
 
     void startDrag( FractionNode fractionNode );
 
-    boolean isFreePlay();
+    boolean isFractionLab();
 
     boolean isInCollectionBox( FractionNode fractionNode );
 }

@@ -147,7 +147,7 @@ public abstract class PieceNode extends Stackable {
         }
     };
 
-    @SuppressWarnings("unchecked") public void animateToTopOfStack() { stack.animateToTopOfStack( this, context.isFreePlay() ); }
+    @SuppressWarnings("unchecked") public void animateToTopOfStack() { stack.animateToTopOfStack( this, context.isFractionLab() ); }
 
     //Show drop shadow when moving back to toolbox
     public void animateToStackLocation( Vector2D v, final boolean deleteOnArrival ) {

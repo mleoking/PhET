@@ -15,7 +15,7 @@ public interface PieceContext {
 
     double getContainerScale();
 
-    boolean isFreePlay();
+    boolean isFractionLab();
 
     void startDrag( PieceNode pieceNode );
 }

@@ -4,6 +4,6 @@ package edu.colorado.phet.fractions.buildafraction;
 /**
  * @author Sam Reid
  */
-public interface FreePlayCanvasContext {
-    void resetFreePlayCanvas();
+public interface FractionLabCanvasContext {
+    void resetCanvas();
 }

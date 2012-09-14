@@ -51,10 +51,10 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     private final LevelSelectionScreenButton levelSelectionScreenButton;
     protected VBox faceNodeDialog;
     protected PhetPText levelReadoutTitle;
-    public final boolean freePlay;
+    public final boolean fractionLab;
 
-    protected SceneNode( final int levelIndex, BooleanProperty audioEnabled, final SceneContext context, boolean freePlay ) {
-        this.freePlay = freePlay;
+    protected SceneNode( final int levelIndex, BooleanProperty audioEnabled, final SceneContext context, boolean fractionLab ) {
+        this.fractionLab = fractionLab;
         gameAudioPlayer = new GameAudioPlayer( audioEnabled.get() );
         audioEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean enabled ) {
@@ -69,7 +69,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         }, Images.FRACTIONS_BUTTON_BUILD ) {{
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
         }};
-        if ( !freePlay ) {
+        if ( !fractionLab ) {
             addChild( levelSelectionScreenButton );
         }
     }
@@ -88,7 +88,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         sendSystemMessage( buildAFraction, application, allChallengesComplete );
     }
 
-    protected void initCollectionBoxes( final double insetY, final ArrayList<T> _pairs, boolean freePlay ) {
+    protected void initCollectionBoxes( final double insetY, final ArrayList<T> _pairs, boolean fractionLab ) {
         this.pairs = iterableList( _pairs );
 
         List<PNode> patterns = pairs.map( new F<T, PNode>() {
@@ -118,7 +118,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
             pair.getCollectionBoxNode().setOffset( offsetX, offsetY );
             pair.getTargetNode().setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
 
-            if ( !freePlay ) {
+            if ( !fractionLab ) {
                 addChild( pair.getCollectionBoxNode() );
                 addChild( pair.getTargetNode() );
             }
@@ -127,7 +127,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         }
     }
 
-    protected void finishCreatingUI( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final ActionListener goToNextLevel, final VoidFunction0 _resampleLevel, boolean freePlay ) {
+    protected void finishCreatingUI( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final ActionListener goToNextLevel, final VoidFunction0 _resampleLevel, boolean fractionLab ) {
 
         double minScoreCellX = pairs.map( new F<T, Double>() {
             @Override public Double f( final T target ) {
@@ -136,7 +136,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         } ).minimum( doubleOrd );
         levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
         levelReadoutTitle.setOffset( minScoreCellX / 2 - levelReadoutTitle.getFullWidth() / 2, levelSelectionScreenButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
-        if ( !freePlay ) { addChild( levelReadoutTitle ); }
+        if ( !fractionLab ) { addChild( levelReadoutTitle ); }
 
         final TextButtonNode resetButton = new TextButtonNode( Strings.RESET, AbstractFractionsCanvas.CONTROL_FONT, BUTTON_COLOR ) {{
             setUserComponent( Components.resetButton );
@@ -148,7 +148,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         }};
         final RefreshButtonNode refreshButton = new RefreshButtonNode( _resampleLevel );
 
-        if ( !freePlay ) {
+        if ( !fractionLab ) {
             addChild( new HBox( resetButton, refreshButton ) {{
                 setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, levelReadoutTitle.getMaxY() + INSET );
             }} );
