@@ -122,9 +122,11 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             }
         };
         this.level = model.getShapeLevel( levelIndex );
+
+        //Make sure enough room to fit all the stacks in all modes
         distanceBetweenStacks = fractionLab ?
                                 level.shapeType == ShapeType.BAR ? 104 : 104 :
-                                level.shapeType == ShapeType.BAR ? 140 * 0.85 : 120;
+                                level.shapeType == ShapeType.BAR ? 140 * 0.85 - 2 : 106;
 
         //Create the scoring cells with target patterns
         ArrayList<ShapeSceneCollectionBoxPair> _pairs = new ArrayList<ShapeSceneCollectionBoxPair>();
