@@ -231,11 +231,18 @@ public class ContainerNode extends PNode {
             public void activityFinished( final PActivity activity ) {
                 containerLayer.removeChild( last );
                 final SingleContainerNode child = getSingleContainerNodes().last();
-                increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( increaseDecreaseButton, true ) );
+                increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, BuildAFractionModule.ANIMATION_TIME ).
+                        setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( increaseDecreaseButton, true ),
+                                                            new PActivityDelegateAdapter() {
+                                                                @Override public void activityFinished( final PActivity activity ) {
+                                                                    updateExpansionButtonsEnabled();
+                                                                }
+                                                            } ) );
 
                 if ( getSingleContainerNodes().length() <= 1 ) {
                     increaseDecreaseButton.hideDecreaseButton();
                 }
+
             }
         } );
 
@@ -354,7 +361,31 @@ public class ContainerNode extends PNode {
     }
 
     public void resetNumberOfContainers() {
-        for ( int i = 1; i < getSingleContainerNodes().length(); i++ ) {
+        if ( getSingleContainerNodes().length() == 1 ) {
+            return;
+        }
+        else if ( getSingleContainerNodes().length() == 2 ) {
+            removeContainer();
+        }
+        else {
+
+            //if there were more than 2, have to delete them all instantly because chaining the animations would be too complex
+            while ( getSingleContainerNodes().length() > 2 ) {
+                //Container to be removed
+                final SingleContainerNode last = getSingleContainerNodes().last();
+
+                //if any pieces were in the container, send them back to the toolbox.
+                last.undoAll();
+
+                last.setTransparency( 0 );
+
+                containerLayer.removeChild( last );
+                final SingleContainerNode remaining = getSingleContainerNodes().last();
+                increaseDecreaseButton.setOffset( remaining.getFullBounds().getMaxX() + INSET, remaining.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2 );
+                increaseDecreaseButton.setScale( 1.0 );
+            }
+
+            //animate the last one
             removeContainer();
         }
     }

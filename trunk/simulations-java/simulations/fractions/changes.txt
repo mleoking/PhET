@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Fixed: containers do not collapse after being collected then "undo" pressed
 Build a Fraction: Shapes: Allow the user to return the initial shape container to the toolbox for more consistency with the number skeletons
 Build a Fraction: Shapes: Fixed: Dotted lines sometimes disappear when dragging a card out of the toolbox
 Build a Fraction: Numbers: Increased height for all horizontal bars
