@@ -624,6 +624,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             copy.setGlobalScale( parent.getGlobalScale() );
             copy.setGlobalTranslation( parent.getGlobalTranslation() );
             parent.moveToFront();
+            copy.updateExpansionButtonsEnabled();
         }
     }
 
