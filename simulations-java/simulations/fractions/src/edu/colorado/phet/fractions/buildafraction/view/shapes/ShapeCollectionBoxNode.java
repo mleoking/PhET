@@ -33,15 +33,17 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
     public ShapeCollectionBoxNode( final ShapeSceneNode sceneNode, final MixedFraction mixedFraction, final ObservableProperty<Boolean> enabled ) {
         this.sceneNode = sceneNode;
         if ( sceneNode == null ) { throw new RuntimeException( "Null scene" ); }
-        double numberShapes = ceil( mixedFraction.toDouble() );
+        double numberOfShapes = ceil( mixedFraction.toDouble() );
         scaleFactor = sceneNode.isMixedNumbers() ? 0.6 : 1.0;
+
+        double mixedNumbersReductionSize = sceneNode.isMixedNumbers() ? 32 : 0;
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0,
 
                                                                 //room for shape items
-                                                                120 * numberShapes * scaleFactor +
+                                                                120 * numberOfShapes * scaleFactor +
 
                                                                 //spacing between them
-                                                                5 * ( numberShapes - 1 ) / 2 * scaleFactor,
+                                                                5 * ( numberOfShapes - 1 ) / 2 * scaleFactor - mixedNumbersReductionSize,
                                                                 114, ARC, ARC ), BACKGROUND, STROKE, DISABLED_STROKE_PAINT ) {{
 
             if ( !enabled.get() ) {
