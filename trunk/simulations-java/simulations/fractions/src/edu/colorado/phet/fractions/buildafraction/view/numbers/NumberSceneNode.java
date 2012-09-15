@@ -123,7 +123,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         final FractionNode fractionNode = new FractionNode( this, level.hasMixedNumbers() );
         fractionNode.setScale( 1.0 );
 
-        double extentX = LEFT_RIGHT_INSET * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON + fractionNode.getFullBounds().getWidth();
+        double extentX = LEFT_RIGHT_INSET * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON + fractionNode.getFullBounds().getWidth() - 30
+                         - ( level.hasMixedNumbers() ? 30 : 0 );
         if ( fractionLab ) { extentX = STAGE_SIZE.width - INSET * 2; }
 
         //Create the toolbox node
@@ -509,7 +510,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
             //Put it to the right of the numbers in the toolbox
 
-            toolboxPositionX = fractionLab ? toolboxNode.getMinX() + 23 : toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth();
+            toolboxPositionX = fractionLab ? toolboxNode.getMinX() + 23 :
+                               toolboxNode.getMaxX() + 3 - toolboxFractionGraphic.getFullBounds().getWidth();
             toolboxPositionY = toolboxNode.getCenterY() - toolboxFractionGraphic.getFullBounds().getHeight() / 2;
             toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
             toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
