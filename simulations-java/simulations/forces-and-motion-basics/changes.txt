@@ -1,3 +1,4 @@
+Fixed: puller nodes weren't always draggable after "restart"
 Increased cart speed
 leave "restart" button showing after "stop" pressed
 # 0.00.08 (68043) Sep 17, 2012
