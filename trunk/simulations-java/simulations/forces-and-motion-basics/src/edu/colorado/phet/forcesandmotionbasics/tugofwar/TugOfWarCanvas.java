@@ -66,7 +66,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final PImage rope;
     private final double initialRopeX;
 
-    public static enum Mode {GOING, WAITING}
+    public static enum Mode {WAITING, GOING, COMPLETE}
 
     public TugOfWarCanvas( final Context context, final IClock clock ) {
 
@@ -192,7 +192,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             setOffset( stopButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, stopButton.getFullBounds().getMaxY() + INSET );
             mode.addObserver( new VoidFunction1<Mode>() {
                 public void apply( final Mode mode ) {
-                    boolean visible = mode == Mode.GOING;
+                    boolean visible = mode == Mode.GOING || mode == Mode.COMPLETE;
                     setVisible( visible );
                     setPickable( visible );
                     setChildrenPickable( visible );
@@ -222,6 +222,11 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                     cart.stepInTime( dt, acceleration );
                     final double delta = cart.getPosition() - originalCartPosition;
                     moveSystem( delta );
+
+                    //stop when the opposite rope passes the middle of the screen
+                    if ( cart.getPosition() > 180 || cart.getPosition() < -180 ) {
+                        mode.set( Mode.COMPLETE );
+                    }
                 }
             }
         } );
