@@ -340,7 +340,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         }
     }
 
-    private void updateForceArrows() {forcesNode.setForces( mode.get() == Mode.WAITING, getLeftForce(), getRightForce(), showSumOfForces.get(), showValues.get() );}
+    private void updateForceArrows() {forcesNode.setForces( mode.get() == Mode.WAITING || mode.get() == Mode.COMPLETE, getLeftForce(), getRightForce(), showSumOfForces.get(), showValues.get() );}
 
     private double getRightForce() {return redKnots.map( _force ).foldLeft( Doubles.add, 0.0 );}
 
