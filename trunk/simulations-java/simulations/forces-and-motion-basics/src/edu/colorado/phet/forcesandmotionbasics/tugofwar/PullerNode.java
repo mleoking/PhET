@@ -10,10 +10,13 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
+import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.Mode;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PSize;
 import edu.umd.cs.piccolo.PNode;
@@ -45,12 +48,37 @@ public class PullerNode extends PNode {
         }
     };
 
-    public PullerNode( final PColor color, final PSize size, int item, final double scale, Vector2D offset, final PullerContext context ) {
+    public PullerNode( final PColor color, final PSize size, final int item, final double scale, Vector2D offset, final PullerContext context, final ObservableProperty<Mode> mode ) {
         this.color = color;
         this.size = size;
         this.scale = scale;
-        final BufferedImage image = ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );
-        addChild( new PImage( image ) );
+        final BufferedImage standingImage = pullerImage( item );
+        addChild( new PImage( pullerImage( item ) ) {{
+            mode.addObserver( new ChangeObserver<Mode>() {
+                public void update( final Mode newValue, final Mode oldValue ) {
+                    if ( knot != null ) {
+                        final BufferedImage pullingImage = pullerImage( 3 );
+                        setImage( pullingImage );
+
+                        //Padding accounts for the fact that the hand is no longer at the edge of the image when the puller is pulling, because the foot sticks out
+                        double padding = size == PSize.LARGE ? 40 :
+                                         size == PSize.MEDIUM ? 20 :
+                                         size == PSize.SMALL ? 10 :
+                                         Integer.MAX_VALUE;
+                        if ( color == PColor.BLUE ) {
+                            //align bottom right
+                            setOffset( standingImage.getWidth() - pullingImage.getWidth() + padding,
+                                       standingImage.getHeight() - pullingImage.getHeight() );
+                        }
+                        else {
+                            //align bottom left
+                            setOffset( 0 - padding,
+                                       standingImage.getHeight() - pullingImage.getHeight() );
+                        }
+                    }
+                }
+            } );
+        }} );
         setScale( scale );
         setOffset( offset.x, offset.y );
         initialOffset = offset;
@@ -78,11 +106,13 @@ public class PullerNode extends PNode {
         final double w = 10;
         attachmentNode = new PhetPPath( new Ellipse2D.Double( -w / 2, -w / 2, w, w ), new BasicStroke( 2 ), TRANSPARENT ) {{
             setOffset( color == PColor.BLUE ?
-                       image.getWidth() - w / 2 :
-                       w / 2, image.getHeight() - 100 );
+                       standingImage.getWidth() - w / 2 :
+                       w / 2, standingImage.getHeight() - 100 );
         }};
         addChild( attachmentNode );
     }
+
+    private BufferedImage pullerImage( final int item ) {return ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );}
 
     private static String sizeText( final PSize size ) {
         return size == PSize.LARGE ? "lrg_" :
