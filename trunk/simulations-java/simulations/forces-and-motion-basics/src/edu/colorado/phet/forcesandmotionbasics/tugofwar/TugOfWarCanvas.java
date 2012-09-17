@@ -192,7 +192,9 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             setOffset( stopButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, stopButton.getFullBounds().getMaxY() + INSET );
             mode.addObserver( new VoidFunction1<Mode>() {
                 public void apply( final Mode mode ) {
-                    boolean visible = mode == Mode.GOING || mode == Mode.COMPLETE;
+
+                    //leave "restart" button showing after "stop" pressed
+                    boolean visible = mode == Mode.GOING || mode == Mode.COMPLETE || ( mode == Mode.WAITING && Math.abs( cart.getPosition() ) > 1 );
                     setVisible( visible );
                     setPickable( visible );
                     setChildrenPickable( visible );

@@ -1,3 +1,5 @@
+Increased cart speed
+leave "restart" button showing after "stop" pressed
 # 0.00.08 (68043) Sep 17, 2012
 Don't allow dragging if the system is moving or completed
 make the force vectors transparent if in "complete" mode
