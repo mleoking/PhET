@@ -453,9 +453,41 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     public void startDrag( final FractionNode fractionNode ) {
         if ( fractionLab ) {
-            if ( fractionNode.mixedNumber ) { addMixedFractionGraphicFactionLab( toolboxPositionY, offsetX ); }
-            else {new CreateNonMixedFractionGraphicFractionLab( fractionLab ).invoke();}
+            if ( fractionNode.mixedNumber && countMixedFractionNodes() < 4 ) { addMixedFractionGraphicFactionLab( toolboxPositionY, offsetX ); }
+            else if ( countNonMixedFractionNodes() < 4 ) {new CreateNonMixedFractionGraphicFractionLab( fractionLab ).invoke();}
         }
+    }
+
+    private int countNonMixedFractionNodes() {
+        int count = 0;
+        for ( Object _child : getChildrenReference() ) {
+            PNode child = (PNode) _child;
+            if ( child instanceof FractionNode ) {
+                FractionNode f = (FractionNode) child;
+                if ( !f.mixedNumber ) { count++; }
+            }
+            else if ( child instanceof FractionCardNode ) {
+                FractionCardNode fcn = (FractionCardNode) child;
+                if ( !fcn.isMixedNumber() ) { count++; }
+            }
+        }
+        return count;
+    }
+
+    private int countMixedFractionNodes() {
+        int count = 0;
+        for ( Object _child : getChildrenReference() ) {
+            PNode child = (PNode) _child;
+            if ( child instanceof FractionNode ) {
+                FractionNode f = (FractionNode) child;
+                if ( f.mixedNumber ) { count++; }
+            }
+            else if ( child instanceof FractionCardNode ) {
+                FractionCardNode fcn = (FractionCardNode) child;
+                if ( fcn.isMixedNumber() ) { count++; }
+            }
+        }
+        return count;
     }
 
     public boolean isFractionLab() { return fractionLab; }
