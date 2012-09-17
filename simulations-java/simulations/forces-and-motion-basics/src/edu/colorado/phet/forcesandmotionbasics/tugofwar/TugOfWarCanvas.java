@@ -186,6 +186,12 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 }
             } );
         }} );
+
+        mode.addObserver( new VoidFunction1<Mode>() {
+            public void apply( final Mode mode ) {
+                updateForceListeners();
+            }
+        } );
     }
 
     private Point2D getButtonLocation( PNode buttonNode ) {
@@ -225,7 +231,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             pullerNode.animateToPositionScaleRotation( pullerNode.getOffset().getX() + local.getX(), pullerNode.getOffset().getY() + local.getY(), pullerNode.scale, 0, ANIMATION_DURATION );
             attachNode.some().setPullerNode( pullerNode );
             pullerNode.setKnot( attachNode.some() );
-            forcesChanged();
+            updateForceListeners();
         }
         else {
             detach( pullerNode );
@@ -239,13 +245,13 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             node.setPullerNode( null );
         }
         pullerNode.setKnot( null );
-        forcesChanged();
+        updateForceListeners();
     }
 
-    private void forcesChanged() {
+    private void updateForceListeners() {
         double leftForce = -blueKnots.map( _force ).foldLeft( Doubles.add, 0.0 );
         double rightForce = redKnots.map( _force ).foldLeft( Doubles.add, 0.0 );
-        forcesNode.setForces( leftForce, rightForce );
+        forcesNode.setForces( mode.get() == Mode.WAITING, leftForce, rightForce );
 
         for ( VoidFunction0 forceListener : forceListeners ) {
             forceListener.apply();
