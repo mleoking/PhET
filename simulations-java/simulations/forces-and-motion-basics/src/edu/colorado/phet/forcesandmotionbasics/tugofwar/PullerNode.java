@@ -4,6 +4,9 @@ package edu.colorado.phet.forcesandmotionbasics.tugofwar;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
+import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor;
+import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PSize;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -16,7 +19,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class PullerNode extends PNode {
     private final Vector2D initialOffset;
 
-    public PullerNode( BufferedImage image, final double scale, Vector2D offset, PullerContext context ) {
+    public PullerNode( PColor color, PSize size, int item, final double scale, Vector2D offset, PullerContext context ) {
+        BufferedImage image = ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );
         addChild( new PImage( image ) );
         setScale( scale );
         setOffset( offset.x, offset.y );
@@ -37,4 +41,11 @@ public class PullerNode extends PNode {
             }
         } );
     }
+
+    private static String sizeText( final PSize size ) {
+        return size == PSize.LARGE ? "lrg_" :
+               size == PSize.SMALL ? "small_" :
+               "";
+    }
+
 }

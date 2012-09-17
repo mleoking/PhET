@@ -6,7 +6,6 @@ import fj.data.List;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JCheckBox;
 
@@ -20,7 +19,6 @@ import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.forcesandmotionbasics.AbstractForcesAndMotionBasicsCanvas;
-import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -125,20 +123,10 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     }
 
     public static PullerNode puller( PColor color, PSize size, final double scale, final Vector2D v, PullerContext context ) {
-        return new PullerNode( pullerImage( color, size, 0 ), scale, v, context );
+        return new PullerNode( color, size, 0, scale, v, context );
     }
 
-    private static BufferedImage pullerImage( final PColor color, final PSize size, int item ) {
-        return ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );
-    }
+    public static enum PColor {BLUE, RED}
 
-    private static String sizeText( final PSize size ) {
-        return size == LARGE ? "lrg_" :
-               size == SMALL ? "small_" :
-               "";
-    }
-
-    static enum PColor {BLUE, RED}
-
-    static enum PSize {SMALL, MEDIUM, LARGE}
+    public static enum PSize {SMALL, MEDIUM, LARGE}
 }
