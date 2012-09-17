@@ -54,11 +54,9 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final List<KnotNode> redKnots;
     private final ForcesNode forcesNode;
     public final ArrayList<VoidFunction0> forceListeners = new ArrayList<VoidFunction0>();
-    private final PImage cart;
+    private final PImage cartNode;
     private Property<Mode> mode = new Property<Mode>( Mode.WAITING );
-    private static final double CART_WEIGHT = 1;
-    private double cartVelocity = 0;
-    private double cartPosition = 0;
+    private Cart cart = new Cart();
 
     public static enum Mode {GOING, WAITING}
 
@@ -98,12 +96,12 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             setConfirmationEnabled( false );
         }} );
 
-        cart = new PImage( Images.CART );
-        cart.setOffset( STAGE_SIZE.width / 2 - cart.getFullBounds().getWidth() / 2, grassY - cart.getFullBounds().getHeight() + 4 );
+        cartNode = new PImage( Images.CART );
+        cartNode.setOffset( STAGE_SIZE.width / 2 - cartNode.getFullBounds().getWidth() / 2, grassY - cartNode.getFullBounds().getHeight() + 4 );
 
 
         final PImage rope = new PImage( Images.ROPE );
-        rope.setOffset( STAGE_SIZE.width / 2 - rope.getFullBounds().getWidth() / 2, cart.getFullBounds().getCenterY() - rope.getFullBounds().getHeight() / 2 );
+        rope.setOffset( STAGE_SIZE.width / 2 - rope.getFullBounds().getWidth() / 2, cartNode.getFullBounds().getCenterY() - rope.getFullBounds().getHeight() / 2 );
 
         blueKnots = ImageMetrics.blueKnots.map( new F<Double, KnotNode>() {
             @Override public KnotNode f( final Double knotLocation ) {
@@ -119,7 +117,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         addChildren( blueKnots.append( redKnots ) );
 
         addChild( rope );
-        addChild( cart );
+        addChild( cartNode );
 
         final double IMAGE_SCALE = 0.75;
         Vector2D largePosition = Vector2D.v( 88.38995568685374, 488.15361890694203 );
@@ -202,20 +200,17 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 if ( mode.get() == Mode.GOING ) {
-                    double originalCartPosition = cartPosition;
-                    double force = getSumOfForces();
-                    double acceleration = force / CART_WEIGHT;
+                    double originalCartPosition = cart.getPosition();
                     final double dt = clockEvent.getSimulationTimeChange();
-                    cartVelocity = cartVelocity + acceleration * dt;
-                    cartPosition = cartPosition + cartVelocity * dt;
-                    cart.translate( cartPosition - originalCartPosition, 0 );
+                    cart.stepInTime( dt, getSumOfForces() );
+                    cartNode.translate( cart.getPosition() - originalCartPosition, 0 );
                 }
             }
         } );
     }
 
     private Point2D getButtonLocation( PNode buttonNode ) {
-        return new Point2D.Double( STAGE_SIZE.width / 2 - buttonNode.getFullBounds().getWidth() / 2, cart.getFullBounds().getMaxY() + INSET );
+        return new Point2D.Double( STAGE_SIZE.width / 2 - buttonNode.getFullBounds().getWidth() / 2, cartNode.getFullBounds().getMaxY() + INSET );
     }
 
     private Vector2D reflect( final Vector2D position, final double width ) {
