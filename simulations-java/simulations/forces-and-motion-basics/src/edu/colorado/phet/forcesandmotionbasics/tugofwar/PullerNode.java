@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forcesandmotionbasics.tugofwar;
 
+import fj.F;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
@@ -31,6 +33,14 @@ public class PullerNode extends PNode {
     public static final Color TRANSPARENT = new Color( 0, 0, 0, 0 );
     private KnotNode knot;
     public Double force;
+    public static F<PullerNode, Double> _weight = new F<PullerNode, Double>() {
+        @Override public Double f( final PullerNode pullerNode ) {
+            return pullerNode.size == PSize.SMALL ? 10.0 :
+                   pullerNode.size == PSize.MEDIUM ? 20.0 :
+                   pullerNode.size == PSize.LARGE ? 30.0 :
+                   null;
+        }
+    };
 
     public PullerNode( final PColor color, final PSize size, int item, final double scale, Vector2D offset, final PullerContext context ) {
         this.color = color;

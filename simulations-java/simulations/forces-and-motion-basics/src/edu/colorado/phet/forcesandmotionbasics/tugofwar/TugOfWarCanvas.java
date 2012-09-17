@@ -202,7 +202,8 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 if ( mode.get() == Mode.GOING ) {
                     double originalCartPosition = cart.getPosition();
                     final double dt = clockEvent.getSimulationTimeChange();
-                    cart.stepInTime( dt, getSumOfForces() );
+                    double acceleration = getSumOfForces() / ( cart.weight + getAttachedPullers().map( PullerNode._weight ).foldLeft( Doubles.add, 0.0 ) );
+                    cart.stepInTime( dt, acceleration );
                     final double delta = cart.getPosition() - originalCartPosition;
                     cartNode.translate( delta, 0 );
                     rope.translate( delta, 0 );

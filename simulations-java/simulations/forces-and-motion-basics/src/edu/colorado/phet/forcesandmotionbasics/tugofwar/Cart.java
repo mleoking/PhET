@@ -5,7 +5,7 @@ package edu.colorado.phet.forcesandmotionbasics.tugofwar;
  * @author Sam Reid
  */
 public class Cart {
-    private static final double CART_WEIGHT = 1;
+    public final double weight = 1;
     private double velocity = 0;
     private double position = 0;
 
@@ -16,9 +16,7 @@ public class Cart {
         return position;
     }
 
-    public void stepInTime( final double dt, double force ) {
-        double acceleration = force / CART_WEIGHT;
-
+    public void stepInTime( final double dt, double acceleration ) {
         velocity = velocity + acceleration * dt;
         position = position + velocity * dt;
     }
