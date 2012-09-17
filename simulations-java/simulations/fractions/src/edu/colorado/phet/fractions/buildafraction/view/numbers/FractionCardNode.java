@@ -180,4 +180,6 @@ class FractionCardNode extends RichPNode {
         fractionNodeParent.addChild( fractionNode );
         fractionNode.setOffset( location );
     }
+
+    public boolean isMixedNumber() { return fractionNode.mixedNumber; }
 }

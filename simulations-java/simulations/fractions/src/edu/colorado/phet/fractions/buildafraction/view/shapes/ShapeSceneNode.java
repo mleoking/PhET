@@ -617,7 +617,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     }
 
     public void startDrag( final ContainerNode parent ) {
-        if ( isFractionLab() && parent.isInToolbox() ) {
+        if ( isFractionLab() && parent.isInToolbox() && getContainerNodes().length() < 4 ) {
             ContainerNode copy = parent.copy();
             copy.setInitialState( parent.initialX, parent.initialY, parent.initialScale );
             addChild( copy );
