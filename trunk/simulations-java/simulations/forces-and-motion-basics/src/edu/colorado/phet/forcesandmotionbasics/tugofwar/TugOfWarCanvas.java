@@ -31,7 +31,7 @@ import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PS
  * @author Sam Reid
  */
 public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas {
-    public TugOfWarCanvas() {
+    public TugOfWarCanvas( final Context context ) {
 
         setBackground( new Color( 209, 210, 212 ) );
         //use view coordinates since nothing compex happening in model coordinates.
@@ -60,6 +60,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas {
 
         addChild( new ResetAllButtonNode( new Resettable() {
             public void reset() {
+                context.reset();
             }
         }, this, CONTROL_FONT, Color.black, Color.orange ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getMaxY() + INSET );

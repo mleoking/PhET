@@ -7,10 +7,15 @@ import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.U
 /**
  * @author Sam Reid
  */
-public class TugOfWarModule extends SimSharingPiccoloModule {
+public class TugOfWarModule extends SimSharingPiccoloModule implements Context {
     public TugOfWarModule() {
         super( UserComponents.tugOfWarTab, "Tug of War", new ConstantDtClock() );
-        setSimulationPanel( new TugOfWarCanvas() );
+        setSimulationPanel( new TugOfWarCanvas( this ) );
         setClockControlPanel( null );
+    }
+
+    @Override public void reset() {
+        super.reset();
+        setSimulationPanel( new TugOfWarCanvas( this ) );
     }
 }
