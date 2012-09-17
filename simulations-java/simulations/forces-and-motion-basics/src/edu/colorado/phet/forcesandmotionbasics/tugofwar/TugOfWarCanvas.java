@@ -10,6 +10,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -321,8 +323,10 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             Point2D hands = pullerNode.getGlobalAttachmentPoint();
             Point2D knot = attachNode.some().getGlobalFullBounds().getCenter2D();
             Vector2D delta = new Vector2D( hands, knot );
-            Point2D local = pullerNode.getParent().globalToLocal( delta.toPoint2D() );
-            pullerNode.animateToPositionScaleRotation( pullerNode.getOffset().getX() + local.getX(), pullerNode.getOffset().getY() + local.getY(), pullerNode.scale, 0, ANIMATION_DURATION );
+            Dimension2D localDelta = rootNode.globalToLocal( new Dimension2DDouble( delta.x, delta.y ) );
+            pullerNode.animateToPositionScaleRotation( pullerNode.getOffset().getX() + localDelta.getWidth(), pullerNode.getOffset().getY() + localDelta.getHeight(), pullerNode.scale, 0, ANIMATION_DURATION );
+
+            //attach everything
             attachNode.some().setPullerNode( pullerNode );
             pullerNode.setKnot( attachNode.some() );
             updateForceListeners();
