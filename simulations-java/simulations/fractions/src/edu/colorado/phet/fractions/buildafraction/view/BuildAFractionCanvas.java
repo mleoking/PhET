@@ -138,15 +138,11 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     }
 
     public void goToShapeLevel( final int newLevelIndex ) {
-        final PNode newShapeScene = createLevelNode( newLevelIndex, LevelType.SHAPES );
-        levelMap.put( new LevelIdentifier( newLevelIndex, LevelType.SHAPES ), newShapeScene );
-        animateTo( newShapeScene, Direction.RIGHT );
+        animateTo( levelNode( new LevelIdentifier( newLevelIndex, LevelType.SHAPES ) ), Direction.RIGHT );
     }
 
     public void goToNumberLevel( final int newLevelIndex ) {
-        PNode newScene = createLevelNode( newLevelIndex, LevelType.NUMBERS );
-        levelMap.put( new LevelIdentifier( newLevelIndex, LevelType.NUMBERS ), newScene );
-        animateTo( newScene, Direction.RIGHT );
+        animateTo( levelNode( new LevelIdentifier( newLevelIndex, LevelType.NUMBERS ) ), Direction.RIGHT );
     }
 
     public void goToLevelSelectionScreen( final int fromLevelIndex ) {

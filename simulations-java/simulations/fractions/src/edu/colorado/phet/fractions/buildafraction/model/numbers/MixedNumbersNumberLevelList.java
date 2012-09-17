@@ -96,7 +96,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         } );
         add( new Function0<NumberLevel>() {
             public NumberLevel apply() {
-                return withAnyRepresentations( new F<Unit, NumberLevel>() {
+                return withDifferentRepresentations( new F<Unit, NumberLevel>() {
                     @Override public NumberLevel f( final Unit unit ) {
                         return level9();
                     }
@@ -105,7 +105,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         } );
         add( new Function0<NumberLevel>() {
             public NumberLevel apply() {
-                return withAnyRepresentations( new F<Unit, NumberLevel>() {
+                return withDifferentRepresentations( new F<Unit, NumberLevel>() {
                     @Override public NumberLevel f( final Unit unit ) {
                         return level10();
                     }
@@ -117,9 +117,6 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     private void add( final Function0<NumberLevel> level ) { levels.add( level ); }
 
     public NumberLevel createLevel( final int level ) { return levels.get( level ).apply(); }
-
-    //Convenience method so that smaller changes can be made to the constructor
-    private NumberLevel withAnyRepresentations( final F<Unit, NumberLevel> f ) {return f.f( unit() ); }
 
     //Keep sampling from the level until we find a level with two different shape types
     private NumberLevel withDifferentRepresentations( final F<Unit, NumberLevel> f ) {
