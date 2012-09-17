@@ -57,6 +57,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final PImage cartNode;
     private Property<Mode> mode = new Property<Mode>( Mode.WAITING );
     private Cart cart = new Cart();
+    private ArrayList<PullerNode> pullers = new ArrayList<PullerNode>();
 
     public static enum Mode {GOING, WAITING}
 
@@ -124,17 +125,17 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         Vector2D mediumPosition = Vector2D.v( 151.66912850812423, 513.264401772526 );
         Vector2D smallPosition1 = Vector2D.v( 215.9527326440175, 558.463810930576 );
         Vector2D smallPosition2 = Vector2D.v( 263.1610044313148, 559.4682422451999 );
-        final PNode largeRedPuller = puller( BLUE, LARGE, IMAGE_SCALE, largePosition, this );
-        addChild( largeRedPuller );
-        addChild( puller( BLUE, MEDIUM, IMAGE_SCALE, mediumPosition, this ) );
-        addChild( puller( BLUE, SMALL, IMAGE_SCALE, smallPosition1, this ) );
-        addChild( puller( BLUE, SMALL, IMAGE_SCALE, smallPosition2, this ) );
+        final PullerNode largeRedPuller = puller( BLUE, LARGE, IMAGE_SCALE, largePosition );
+        addPuller( largeRedPuller );
+        addPuller( puller( BLUE, MEDIUM, IMAGE_SCALE, mediumPosition ) );
+        addPuller( puller( BLUE, SMALL, IMAGE_SCALE, smallPosition1 ) );
+        addPuller( puller( BLUE, SMALL, IMAGE_SCALE, smallPosition2 ) );
 
         final double offset = largeRedPuller.getFullBounds().getWidth();
-        addChild( puller( RED, LARGE, IMAGE_SCALE, reflect( largePosition, offset ), this ) );
-        addChild( puller( RED, MEDIUM, IMAGE_SCALE, reflect( mediumPosition, offset ), this ) );
-        addChild( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition1, offset ), this ) );
-        addChild( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition2, offset ), this ) );
+        addPuller( puller( RED, LARGE, IMAGE_SCALE, reflect( largePosition, offset ) ) );
+        addPuller( puller( RED, MEDIUM, IMAGE_SCALE, reflect( mediumPosition, offset ) ) );
+        addPuller( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition1, offset ) ) );
+        addPuller( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition2, offset ) ) );
 
         forcesNode = new ForcesNode();
         addChild( forcesNode );
@@ -217,6 +218,11 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         } );
     }
 
+    private void addPuller( final PullerNode puller ) {
+        addChild( puller );
+        pullers.add( puller );
+    }
+
     public List<PullerNode> getAttachedPullers() {
         return blueKnots.append( redKnots ).bind( new F<KnotNode, List<PullerNode>>() {
             @Override public List<PullerNode> f( final KnotNode k ) {
@@ -235,8 +241,8 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         return new Vector2D( newX, position.y );
     }
 
-    public static PullerNode puller( PColor color, PSize size, final double scale, final Vector2D v, PullerContext context ) {
-        return new PullerNode( color, size, 0, scale, v, context );
+    public PullerNode puller( PColor color, PSize size, final double scale, final Vector2D v ) {
+        return new PullerNode( color, size, 0, scale, v, this, mode );
     }
 
     public void drag( final PullerNode pullerNode ) {
