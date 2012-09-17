@@ -5,7 +5,7 @@ package edu.colorado.phet.forcesandmotionbasics.tugofwar;
  * @author Sam Reid
  */
 public class Cart {
-    public final double weight = 1;
+    public final double weight = 1000;       //in newtons, weighs a little more than a big puller
     private double velocity = 0;
     private double position = 0;
 
@@ -17,7 +17,7 @@ public class Cart {
     }
 
     public void stepInTime( double dt, double acceleration ) {
-        dt = dt * 10;//speed up time because the masses of the characters give everything too much momentum
+        dt = dt * 20;//speed up time because the masses of the characters give everything too much momentum
         velocity = velocity + acceleration * dt;
         position = position + velocity * dt;
     }
