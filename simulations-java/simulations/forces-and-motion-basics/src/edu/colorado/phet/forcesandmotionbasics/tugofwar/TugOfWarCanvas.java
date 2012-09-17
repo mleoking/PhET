@@ -1,5 +1,6 @@
 package edu.colorado.phet.forcesandmotionbasics.tugofwar;
 
+import fj.Effect;
 import fj.F;
 import fj.data.List;
 
@@ -11,6 +12,7 @@ import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -25,6 +27,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
+import static edu.colorado.phet.forcesandmotionbasics.tugofwar.KnotNode._free;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor.BLUE;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor.RED;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PSize.*;
@@ -125,6 +128,31 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     public static PullerNode puller( PColor color, PSize size, final double scale, final Vector2D v, PullerContext context ) {
         return new PullerNode( color, size, 0, scale, v, context );
     }
+
+    public void drag( final PullerNode pullerNode ) {
+        //find closest knot node
+        List<KnotNode> knots = pullerNode.color == BLUE ? blueKnots : redKnots;
+        knots.foreach( new Effect<KnotNode>() {
+            @Override public void e( final KnotNode knotNode ) {
+                knotNode.setHighlighted( false );
+            }
+        } );
+        List<KnotNode> free = knots.filter( _free ).filter( new F<KnotNode, Boolean>() {
+            @Override public Boolean f( final KnotNode knotNode ) {
+                return knotPullerDistance( knotNode, pullerNode ) < 80;
+            }
+        } );
+        if ( free.length() > 0 ) {
+            KnotNode closest = free.minimum( FJUtils.ord( new F<KnotNode, Double>() {
+                @Override public Double f( final KnotNode k ) {
+                    return knotPullerDistance( k, pullerNode );
+                }
+            } ) );
+            closest.setHighlighted( true );
+        }
+    }
+
+    private double knotPullerDistance( final KnotNode k, final PullerNode p ) {return k.getGlobalFullBounds().getCenter2D().distance( p.getGlobalAttachmentPoint() );}
 
     public static enum PColor {BLUE, RED}
 

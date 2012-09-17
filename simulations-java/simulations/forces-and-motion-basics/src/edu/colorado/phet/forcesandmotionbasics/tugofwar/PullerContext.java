@@ -5,4 +5,5 @@ package edu.colorado.phet.forcesandmotionbasics.tugofwar;
  * @author Sam Reid
  */
 public interface PullerContext {
+    void drag( PullerNode pullerNode );
 }
