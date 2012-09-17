@@ -50,15 +50,15 @@ public class EnergySystemsModel {
     // TODO temp.
     public final List<ShapeModelElement> shapeModelElementList = new ArrayList<ShapeModelElement>();
 
-    // Energy sources.
-    public final FaucetAndWater faucet = new FaucetAndWater();
-    public final Sun sun = new Sun();
-    public final TeaPot teaPot = new TeaPot();
-    public final Biker bicycleAndRider = new Biker();
-
     // Energy Converters.
     public final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
     public final SolarPanel solarPanel = new SolarPanel();
+
+    // Energy sources.
+    public final FaucetAndWater faucet = new FaucetAndWater();
+    public final Sun sun = new Sun( solarPanel );
+    public final TeaPot teaPot = new TeaPot();
+    public final Biker bicycleAndRider = new Biker();
 
     // Energy users.
     public final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb();
