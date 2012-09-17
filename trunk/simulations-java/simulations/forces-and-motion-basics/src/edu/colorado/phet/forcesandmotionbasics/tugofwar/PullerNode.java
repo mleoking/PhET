@@ -44,8 +44,6 @@ public class PullerNode extends PNode {
             }
 
             @Override public void mouseReleased( final PInputEvent event ) {
-                System.out.println( "PullerNode.mouseReleased" );
-                System.out.println( "getOffset() = " + getOffset() + ", init = " + initialOffset );
                 PullerNode.this.animateToPositionScaleRotation( initialOffset.x, initialOffset.y, scale, 0, TugOfWarCanvas.ANIMATION_DURATION );
             }
         } );
