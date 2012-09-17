@@ -27,6 +27,30 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage GRASS = RESOURCES.getImage( "grass.png" );
         public static final BufferedImage GROUND_TEXTURE = RESOURCES.getImage( "ground-texture.png" );
         public static final BufferedImage MYSTERY_BOX = RESOURCES.getImage( "mystery-box.png" );
+        public static final BufferedImage PULL_FIGURE_BLUE_0 = RESOURCES.getImage( "pull_figure_BLUE_0.png" );
+        public static final BufferedImage PULL_FIGURE_BLUE_1 = RESOURCES.getImage( "pull_figure_BLUE_1.png" );
+        public static final BufferedImage PULL_FIGURE_BLUE_2 = RESOURCES.getImage( "pull_figure_BLUE_2.png" );
+        public static final BufferedImage PULL_FIGURE_BLUE_3 = RESOURCES.getImage( "pull_figure_BLUE_3.png" );
+        public static final BufferedImage PULL_FIGURE_LRG_BLUE_0 = RESOURCES.getImage( "pull_figure_lrg_BLUE_0.png" );
+        public static final BufferedImage PULL_FIGURE_LRG_BLUE_1 = RESOURCES.getImage( "pull_figure_lrg_BLUE_1.png" );
+        public static final BufferedImage PULL_FIGURE_LRG_BLUE_2 = RESOURCES.getImage( "pull_figure_lrg_BLUE_2.png" );
+        public static final BufferedImage PULL_FIGURE_LRG_BLUE_3 = RESOURCES.getImage( "pull_figure_lrg_BLUE_3.png" );
+        public static final BufferedImage PULL_FIGURE_LRG_RED_0 = RESOURCES.getImage( "pull_figure_lrg_RED_0.png" );
+        public static final BufferedImage PULL_FIGURE_LRG_RED_1 = RESOURCES.getImage( "pull_figure_lrg_RED_1.png" );
+        public static final BufferedImage PULL_FIGURE_LRG_RED_2 = RESOURCES.getImage( "pull_figure_lrg_RED_2.png" );
+        public static final BufferedImage PULL_FIGURE_LRG_RED_3 = RESOURCES.getImage( "pull_figure_lrg_RED_3.png" );
+        public static final BufferedImage PULL_FIGURE_RED_0 = RESOURCES.getImage( "pull_figure_RED_0.png" );
+        public static final BufferedImage PULL_FIGURE_RED_1 = RESOURCES.getImage( "pull_figure_RED_1.png" );
+        public static final BufferedImage PULL_FIGURE_RED_2 = RESOURCES.getImage( "pull_figure_RED_2.png" );
+        public static final BufferedImage PULL_FIGURE_RED_3 = RESOURCES.getImage( "pull_figure_RED_3.png" );
+        public static final BufferedImage PULL_FIGURE_SMALL_BLUE_0 = RESOURCES.getImage( "pull_figure_small_BLUE_0.png" );
+        public static final BufferedImage PULL_FIGURE_SMALL_BLUE_1 = RESOURCES.getImage( "pull_figure_small_BLUE_1.png" );
+        public static final BufferedImage PULL_FIGURE_SMALL_BLUE_2 = RESOURCES.getImage( "pull_figure_small_BLUE_2.png" );
+        public static final BufferedImage PULL_FIGURE_SMALL_BLUE_3 = RESOURCES.getImage( "pull_figure_small_BLUE_3.png" );
+        public static final BufferedImage PULL_FIGURE_SMALL_RED_0 = RESOURCES.getImage( "pull_figure_small_RED_0.png" );
+        public static final BufferedImage PULL_FIGURE_SMALL_RED_1 = RESOURCES.getImage( "pull_figure_small_RED_1.png" );
+        public static final BufferedImage PULL_FIGURE_SMALL_RED_2 = RESOURCES.getImage( "pull_figure_small_RED_2.png" );
+        public static final BufferedImage PULL_FIGURE_SMALL_RED_3 = RESOURCES.getImage( "pull_figure_small_RED_3.png" );
         public static final BufferedImage ROPE = RESOURCES.getImage( "rope.png" );
     }
 }
