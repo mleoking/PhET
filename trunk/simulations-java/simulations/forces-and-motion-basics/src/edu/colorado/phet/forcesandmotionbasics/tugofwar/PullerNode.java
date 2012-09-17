@@ -35,9 +35,12 @@ public class PullerNode extends PNode {
     public Double force;
     public static F<PullerNode, Double> _weight = new F<PullerNode, Double>() {
         @Override public Double f( final PullerNode pullerNode ) {
-            return pullerNode.size == PSize.SMALL ? 10.0 :
-                   pullerNode.size == PSize.MEDIUM ? 20.0 :
-                   pullerNode.size == PSize.LARGE ? 30.0 :
+
+            //Average human mass is 76-83 kg, so the average human weight is between 745 and 813 Newtons.
+            //Read more: http://wiki.answers.com/Q/What_does_an_average_human_weigh_in_newtons#ixzz26k003Tsu
+            return pullerNode.size == PSize.SMALL ? 200.0 :
+                   pullerNode.size == PSize.MEDIUM ? 400.0 :
+                   pullerNode.size == PSize.LARGE ? 800.0 :
                    null;
         }
     };
