@@ -18,12 +18,12 @@ public class ForcesNode extends PNode {
 
     public static enum TextLocation {SIDE, TOP}
 
-    public void setForces( boolean transparent, final double leftForce, final double rightForce, final boolean showSumOfForces ) {
+    public void setForces( boolean transparent, final double leftForce, final double rightForce, final boolean showSumOfForces, final Boolean showValues ) {
         removeAllChildren();
-        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 - 2, 200 ), leftForce, "Left Force", new Color( 202, 164, 129 ), TextLocation.SIDE ) );
-        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 + 2, 200 ), rightForce, "Right Force", new Color( 202, 164, 129 ), TextLocation.SIDE ) );
+        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 - 2, 200 ), leftForce, "Left Force", new Color( 202, 164, 129 ), TextLocation.SIDE, showValues ) );
+        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 + 2, 200 ), rightForce, "Right Force", new Color( 202, 164, 129 ), TextLocation.SIDE, showValues ) );
 
-        if ( showSumOfForces ) { addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2, 125 ), leftForce + rightForce, "Sum of Forces", new Color( 143, 205, 154 ), TextLocation.TOP ) ); }
+        if ( showSumOfForces ) { addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2, 125 ), leftForce + rightForce, "Sum of Forces", new Color( 143, 205, 154 ), TextLocation.TOP, showValues ) ); }
 
         addChild( new ForcesNode() );
     }

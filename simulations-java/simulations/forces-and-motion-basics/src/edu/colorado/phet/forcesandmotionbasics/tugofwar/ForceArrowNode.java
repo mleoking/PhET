@@ -3,8 +3,10 @@ package edu.colorado.phet.forcesandmotionbasics.tugofwar;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.ForcesNode.TextLocation;
@@ -17,10 +19,11 @@ import static edu.colorado.phet.forcesandmotionbasics.AbstractForcesAndMotionBas
  * @author Sam Reid
  */
 public class ForceArrowNode extends PNode {
-    public ForceArrowNode( final boolean transparent, final Vector2D tail, final double forceInNewtons, final String name, Color color, final TextLocation textLocation ) {
-        final double value = forceInNewtons * 4;
+    public ForceArrowNode( final boolean transparent, final Vector2D tail, final double forceInNewtons, final String name, Color color, final TextLocation textLocation, final Boolean showValues ) {
+        final double value = forceInNewtons * 5;
         if ( value == 0 ) { return; }
-        final ArrowNode arrowNode = new ArrowNode( tail.toPoint2D(), tail.plus( value, 0 ).toPoint2D(), 30, 40, 20, 2, false );
+        final double arrowScale = 1.2;
+        final ArrowNode arrowNode = new ArrowNode( tail.toPoint2D(), tail.plus( value, 0 ).toPoint2D(), 30 * arrowScale, 40 * arrowScale, 20 * arrowScale, 2, false );
         arrowNode.setPaint( transparent ? new Color( color.getRed(), color.getGreen(), color.getBlue(), 200 ) : color );
         arrowNode.setStroke( transparent ? new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 6, 4 }, 0 ) : new BasicStroke( 1 ) );
         addChild( arrowNode );
@@ -37,5 +40,14 @@ public class ForceArrowNode extends PNode {
                 setOffset( arrowNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, arrowNode.getFullBounds().getY() - getFullBounds().getHeight() - INSET );
             }
         }} );
+
+        if ( showValues ) {
+            addChild( new PhetPText( new DecimalFormat( "0" ).format( Math.abs( forceInNewtons ) ) + "N", new PhetFont( 18, true ) ) {{
+                centerFullBoundsOnPoint( arrowNode.getFullBounds().getCenter2D() );
+                translate( forceInNewtons < 0 ? 5 :
+                           forceInNewtons > 0 ? -5 :
+                           0, 0 );
+            }} );
+        }
     }
 }
