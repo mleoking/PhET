@@ -203,8 +203,23 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                     double originalCartPosition = cart.getPosition();
                     final double dt = clockEvent.getSimulationTimeChange();
                     cart.stepInTime( dt, getSumOfForces() );
-                    cartNode.translate( cart.getPosition() - originalCartPosition, 0 );
+                    final double delta = cart.getPosition() - originalCartPosition;
+                    cartNode.translate( delta, 0 );
+                    rope.translate( delta, 0 );
+                    getAttachedPullers().foreach( new Effect<PullerNode>() {
+                        @Override public void e( final PullerNode pullerNode ) {
+                            pullerNode.translate( delta / pullerNode.getScale(), 0 );
+                        }
+                    } );
                 }
+            }
+        } );
+    }
+
+    public List<PullerNode> getAttachedPullers() {
+        return blueKnots.append( redKnots ).bind( new F<KnotNode, List<PullerNode>>() {
+            @Override public List<PullerNode> f( final KnotNode k ) {
+                return k.getPullerNode() == null ? List.<PullerNode>nil() : List.single( k.getPullerNode() );
             }
         } );
     }
