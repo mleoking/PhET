@@ -1,3 +1,5 @@
+Don't allow dragging if the system is moving or completed
+make the force vectors transparent if in "complete" mode
 # 0.00.07 (68041) Sep 17, 2012
 # 0.00.06 (64706) Jun 6, 2012
 # 0.00.05 (64649) Jun 4, 2012

@@ -114,6 +114,15 @@ public class PullerNode extends PNode {
                        w / 2, standingImage.getHeight() - 100 );
         }};
         addChild( attachmentNode );
+
+        //Don't allow dragging if the system is moving or completed
+        mode.addObserver( new VoidFunction1<Mode>() {
+            public void apply( final Mode mode ) {
+                boolean pickable = mode == Mode.WAITING;
+                setPickable( pickable );
+                setChildrenPickable( pickable );
+            }
+        } );
     }
 
     private BufferedImage pullerImage( final int item ) {return ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );}
