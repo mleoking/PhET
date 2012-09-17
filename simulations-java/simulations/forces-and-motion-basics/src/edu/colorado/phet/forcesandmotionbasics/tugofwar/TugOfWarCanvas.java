@@ -4,6 +4,7 @@ import fj.Effect;
 import fj.F;
 import fj.data.List;
 import fj.data.Option;
+import fj.function.Doubles;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -29,6 +30,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
+import static edu.colorado.phet.forcesandmotionbasics.tugofwar.KnotNode._force;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.KnotNode._free;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor.BLUE;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor.RED;
@@ -37,11 +39,12 @@ import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PS
 /**
  * @author Sam Reid
  */
-public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implements PullerContext {
+public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implements PullerContext, ForcesNodeContext {
 
     public static final long ANIMATION_DURATION = 300;
     private final List<KnotNode> blueKnots;
     private final List<KnotNode> redKnots;
+    private final ForcesNode forcesNode;
 
     public TugOfWarCanvas( final Context context ) {
 
@@ -118,6 +121,9 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         addChild( puller( RED, MEDIUM, IMAGE_SCALE, reflect( mediumPosition, offset ), this ) );
         addChild( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition1, offset ), this ) );
         addChild( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition2, offset ), this ) );
+
+        forcesNode = new ForcesNode();
+        addChild( forcesNode );
     }
 
     private Vector2D reflect( final Vector2D position, final double width ) {
@@ -153,6 +159,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             pullerNode.animateToPositionScaleRotation( pullerNode.getOffset().getX() + local.getX(), pullerNode.getOffset().getY() + local.getY(), pullerNode.scale, 0, ANIMATION_DURATION );
             attachNode.some().setPullerNode( pullerNode );
             pullerNode.setKnot( attachNode.some() );
+            forcesChanged();
         }
         else {
             detach( pullerNode );
@@ -166,6 +173,13 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             node.setPullerNode( null );
         }
         pullerNode.setKnot( null );
+        forcesChanged();
+    }
+
+    private void forcesChanged() {
+        double leftForce = -blueKnots.map( _force ).foldLeft( Doubles.add, 0.0 );
+        double rightForce = redKnots.map( _force ).foldLeft( Doubles.add, 0.0 );
+        forcesNode.setForces( leftForce, rightForce );
     }
 
     public void startDrag( final PullerNode pullerNode ) {

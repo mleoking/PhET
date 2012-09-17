@@ -29,6 +29,11 @@ public class KnotNode extends PNode {
             knotNode.setHighlighted( false );
         }
     };
+    public static F<KnotNode, Double> _force = new F<KnotNode, Double>() {
+        @Override public Double f( final KnotNode knotNode ) {
+            return knotNode.pullerNode == null ? 0 : knotNode.pullerNode.getForce();
+        }
+    };
 
     public KnotNode( final Double knotLocation, final Color color, final Rectangle2D ropeBounds ) {
         this.color = PullerNode.TRANSPARENT;
