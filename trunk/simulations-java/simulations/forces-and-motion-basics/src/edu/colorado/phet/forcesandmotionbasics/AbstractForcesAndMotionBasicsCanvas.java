@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forcesandmotionbasics;
 
+import fj.data.List;
+
 import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -40,6 +42,12 @@ public class AbstractForcesAndMotionBasicsCanvas extends PhetPCanvas {
     }
 
     protected void addChildren( PNode... nodes ) {
+        for ( PNode node : nodes ) {
+            addChild( node );
+        }
+    }
+
+    public void addChildren( List<? extends PNode> nodes ) {
         for ( PNode node : nodes ) {
             addChild( node );
         }

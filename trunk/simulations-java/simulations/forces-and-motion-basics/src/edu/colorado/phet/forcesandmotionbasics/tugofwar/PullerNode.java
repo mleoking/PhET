@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class PullerNode extends PNode {
     private final Vector2D initialOffset;
 
-    public PullerNode( BufferedImage image, final double scale, Vector2D offset ) {
+    public PullerNode( BufferedImage image, final double scale, Vector2D offset, PullerContext context ) {
         addChild( new PImage( image ) );
         setScale( scale );
         setOffset( offset.x, offset.y );
