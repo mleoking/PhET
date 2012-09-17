@@ -237,9 +237,9 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                         }
                     }
                     else {
-                        // adjust fraction line
-                        double width = Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getWidth() );
-                        lineNode.setPathTo( new Line2D.Double( 0, 0, width, 0 ) );
+                        // adjust fraction line width
+                        double lineWidth = Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getWidth() );
+                        lineNode.setPathTo( new Line2D.Double( 0, 0, lineWidth, 0 ) );
 
                         if ( positiveSlope ) {
                             removeChild( slopeMinusSignNode );
