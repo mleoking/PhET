@@ -1,3 +1,4 @@
+Adjusted vertical position of the pullers with respect to the grass
 # 0.00.09 (68047) Sep 17, 2012
 Fixed: puller nodes weren't always draggable after "restart"
 Increased cart speed

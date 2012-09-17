@@ -112,7 +112,11 @@ public class PullerNode extends PNode {
         attachmentNode = new PhetPPath( new Ellipse2D.Double( -w / 2, -w / 2, w, w ), new BasicStroke( 2 ), TRANSPARENT ) {{
             setOffset( color == PColor.BLUE ?
                        standingImage.getWidth() - w / 2 :
-                       w / 2, standingImage.getHeight() - 100 );
+                       w / 2,
+
+                       //Set the vertical attachment point here: determines relative vertical position of the puller feet to the grass
+                       //Should have front foot slightly above the grass and back foot slightly below
+                       standingImage.getHeight() - 100 - 4 );
         }};
         addChild( attachmentNode );
 
