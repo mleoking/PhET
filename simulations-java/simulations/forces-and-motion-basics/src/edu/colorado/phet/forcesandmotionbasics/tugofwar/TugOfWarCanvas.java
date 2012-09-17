@@ -8,9 +8,11 @@ import java.awt.image.BufferedImage;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -45,7 +47,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas {
         grassNode.setOffset( -2, grassY - 2 );
         addChild( grassNode );
 
-        ControlPanelNode controlPanelNode = new ControlPanelNode(
+        final ControlPanelNode controlPanelNode = new ControlPanelNode(
                 new VBox( 2, VBox.LEFT_ALIGNED,
 
                           //Nudge "show" to the right so it will align with checkboxes
@@ -55,6 +57,14 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas {
                 }} ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
         controlPanelNode.setOffset( STAGE_SIZE.width - controlPanelNode.getFullWidth() - INSET, INSET );
         addChild( controlPanelNode );
+
+        addChild( new ResetAllButtonNode( new Resettable() {
+            public void reset() {
+            }
+        }, this, CONTROL_FONT, Color.black, Color.orange ) {{
+            setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getMaxY() + INSET );
+            setConfirmationEnabled( false );
+        }} );
 
         PImage cart = new PImage( Images.CART );
         cart.setOffset( STAGE_SIZE.width / 2 - cart.getFullBounds().getWidth() / 2, grassY - cart.getFullBounds().getHeight() + 4 );

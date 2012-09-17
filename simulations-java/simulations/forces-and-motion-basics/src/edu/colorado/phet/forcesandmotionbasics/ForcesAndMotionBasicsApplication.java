@@ -14,9 +14,6 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
         super( config );
         addModule( new TugOfWarModule() );
         addModule( new ForcesAndMotionBasicsModule( MyMode.mode1 ) );
-        addModule( new ForcesAndMotionBasicsModule( MyMode.mode2 ) );
-        addModule( new ForcesAndMotionBasicsModule( MyMode.mode3 ) );
-        addModule( new ForcesAndMotionBasicsModule( MyMode.mode4 ) );
     }
 
     public static void main( String[] args ) {
