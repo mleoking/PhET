@@ -21,10 +21,12 @@ public class ForcesAndMotionBasicsResources {
     //Images
     public static class Images {
         public static final BufferedImage BRICK_TILE = RESOURCES.getImage( "brick-tile.png" );
+        public static final BufferedImage CART = RESOURCES.getImage( "cart.png" );
         public static final BufferedImage CLOUD1 = RESOURCES.getImage( "cloud1.png" );
         public static final BufferedImage DRAKOONSONNE = RESOURCES.getImage( "DrakoonSonne.png" );
         public static final BufferedImage GRASS = RESOURCES.getImage( "grass.png" );
         public static final BufferedImage GROUND_TEXTURE = RESOURCES.getImage( "ground-texture.png" );
         public static final BufferedImage MYSTERY_BOX = RESOURCES.getImage( "mystery-box.png" );
+        public static final BufferedImage ROPE = RESOURCES.getImage( "rope.png" );
     }
 }
