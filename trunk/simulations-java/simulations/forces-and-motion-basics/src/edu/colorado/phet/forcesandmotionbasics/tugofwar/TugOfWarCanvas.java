@@ -59,6 +59,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     public final ArrayList<VoidFunction0> forceListeners = new ArrayList<VoidFunction0>();
     private final PImage cartNode;
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
+    private final Property<Boolean> showValues = new Property<Boolean>( false );
     private Property<Mode> mode = new Property<Mode>( Mode.WAITING );
     private Cart cart = new Cart();
     private ArrayList<PullerNode> pullers = new ArrayList<PullerNode>();
@@ -86,12 +87,13 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         final JCheckBox sumOfForcesCheckBox = new PropertyCheckBox( null, "Sum of Forces", showSumOfForces ) {{
             setFont( CONTROL_FONT );
         }};
+        final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( CONTROL_FONT );}};
         final ControlPanelNode controlPanelNode = new ControlPanelNode(
                 new VBox( 2, VBox.LEFT_ALIGNED,
 
                           //Nudge "show" to the right so it will align with checkboxes
                           new HBox( 5, new PhetPPath( new Rectangle2D.Double( 0, 0, 0, 0 ) ), new PhetPText( "Show", CONTROL_FONT ) ),
-                          new PSwing( new JCheckBox( "Values" ) {{setFont( CONTROL_FONT );}} ), new PSwing( sumOfForcesCheckBox ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
+                          new PSwing( showValuesCheckBox ), new PSwing( sumOfForcesCheckBox ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
         controlPanelNode.setOffset( STAGE_SIZE.width - controlPanelNode.getFullWidth() - INSET, INSET );
         addChild( controlPanelNode );
 
@@ -233,6 +235,11 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 updateForceArrows();
             }
         } );
+        showValues.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( final Boolean showValues ) {
+                updateForceArrows();
+            }
+        } );
     }
 
     private void moveSystem( final double delta ) {
@@ -328,7 +335,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         }
     }
 
-    private void updateForceArrows() {forcesNode.setForces( mode.get() == Mode.WAITING, getLeftForce(), getRightForce(), showSumOfForces.get() );}
+    private void updateForceArrows() {forcesNode.setForces( mode.get() == Mode.WAITING, getLeftForce(), getRightForce(), showSumOfForces.get(), showValues.get() );}
 
     private double getRightForce() {return redKnots.map( _force ).foldLeft( Doubles.add, 0.0 );}
 
