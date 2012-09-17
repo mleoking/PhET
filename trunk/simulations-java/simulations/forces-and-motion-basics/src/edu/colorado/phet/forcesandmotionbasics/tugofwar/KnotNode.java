@@ -27,10 +27,12 @@ public class KnotNode extends PNode {
         this.color = color;
         double w = 10;
         path = new PhetPPath( new Rectangle2D.Double( -w / 2, -w / 2, w, w ), new BasicStroke( 2 ), color ) {{
-            setOffset( ropeBounds.getX() + knotLocation, ropeBounds.getCenterY() - getFullBounds().getHeight() / 2 );
+            setOffset( ropeBounds.getX() + knotLocation, ropeBounds.getCenterY() - getFullBounds().getHeight() / 2 + 10 );
         }};
         addChild( path );
     }
 
     public void setHighlighted( final boolean highlighted ) { path.setStrokePaint( highlighted ? Color.yellow : color ); }
+
+    public void setPullerNode( final PullerNode pullerNode ) { this.pullerNode = pullerNode; }
 }

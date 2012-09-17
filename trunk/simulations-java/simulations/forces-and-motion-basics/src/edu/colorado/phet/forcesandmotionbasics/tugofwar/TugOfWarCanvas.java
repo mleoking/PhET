@@ -3,9 +3,11 @@ package edu.colorado.phet.forcesandmotionbasics.tugofwar;
 import fj.Effect;
 import fj.F;
 import fj.data.List;
+import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JCheckBox;
@@ -137,6 +139,45 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 knotNode.setHighlighted( false );
             }
         } );
+        Option<KnotNode> attachNode = getAttachNode( pullerNode );
+        attachNode.foreach( new Effect<KnotNode>() {
+            @Override public void e( final KnotNode knotNode ) {
+                knotNode.setHighlighted( true );
+            }
+        } );
+    }
+
+    public void endDrag( final PullerNode pullerNode ) {
+        Option<KnotNode> attachNode = getAttachNode( pullerNode );
+        if ( attachNode.isSome() ) {
+            Point2D hands = pullerNode.getGlobalAttachmentPoint();
+            Point2D knot = attachNode.some().getGlobalFullBounds().getCenter2D();
+            Vector2D delta = new Vector2D( hands, knot );
+            Point2D local = pullerNode.getParent().globalToLocal( delta.toPoint2D() );
+            pullerNode.animateToPositionScaleRotation( pullerNode.getOffset().getX() + local.getX(), pullerNode.getOffset().getY() + local.getY(), pullerNode.scale, 0, ANIMATION_DURATION );
+            attachNode.some().setPullerNode( pullerNode );
+            pullerNode.setKnot( attachNode.some() );
+        }
+        else {
+            detach( pullerNode );
+            pullerNode.animateHome();
+        }
+    }
+
+    private void detach( final PullerNode pullerNode ) {
+        KnotNode node = pullerNode.getKnot();
+        if ( node != null ) {
+            node.setPullerNode( null );
+        }
+        pullerNode.setKnot( null );
+    }
+
+    public void startDrag( final PullerNode pullerNode ) {
+        detach( pullerNode );
+    }
+
+    private Option<KnotNode> getAttachNode( final PullerNode pullerNode ) {
+        List<KnotNode> knots = pullerNode.color == BLUE ? blueKnots : redKnots;
         List<KnotNode> free = knots.filter( _free ).filter( new F<KnotNode, Boolean>() {
             @Override public Boolean f( final KnotNode knotNode ) {
                 return knotPullerDistance( knotNode, pullerNode ) < 80;
@@ -148,8 +189,9 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                     return knotPullerDistance( k, pullerNode );
                 }
             } ) );
-            closest.setHighlighted( true );
+            return Option.some( closest );
         }
+        else { return Option.none(); }
     }
 
     private double knotPullerDistance( final KnotNode k, final PullerNode p ) {return k.getGlobalFullBounds().getCenter2D().distance( p.getGlobalAttachmentPoint() );}

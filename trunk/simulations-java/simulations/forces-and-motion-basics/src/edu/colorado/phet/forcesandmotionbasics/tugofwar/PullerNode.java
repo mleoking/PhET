@@ -9,11 +9,11 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PSize;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -25,26 +25,34 @@ public class PullerNode extends PNode {
     private final Vector2D initialOffset;
     public final PColor color;
     private final PhetPPath attachmentNode;
+    public final double scale;
+    private KnotNode knot;
 
     public PullerNode( final PColor color, final PSize size, int item, final double scale, Vector2D offset, final PullerContext context ) {
         this.color = color;
+        this.scale = scale;
         final BufferedImage image = ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );
         addChild( new PImage( image ) );
         setScale( scale );
         setOffset( offset.x, offset.y );
         initialOffset = offset;
 
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseDragged( final PInputEvent event ) {
-                super.mouseDragged( event );
+        addInputEventListener( new SimSharingDragHandler( null, true ) {
+            @Override protected void startDrag( final PInputEvent event ) {
+                super.startDrag( event );
+                context.startDrag( PullerNode.this );
+            }
+
+            @Override protected void drag( final PInputEvent event ) {
+                super.drag( event );
                 final PDimension delta = event.getDeltaRelativeTo( PullerNode.this.getParent() );
                 PullerNode.this.translate( delta.width / PullerNode.this.getScale(), delta.height / PullerNode.this.getScale() );
-//                System.out.println( event.getPickedNode().getOffset() );
                 context.drag( PullerNode.this );
             }
 
-            @Override public void mouseReleased( final PInputEvent event ) {
-                PullerNode.this.animateToPositionScaleRotation( initialOffset.x, initialOffset.y, scale, 0, TugOfWarCanvas.ANIMATION_DURATION );
+            @Override protected void endDrag( final PInputEvent event ) {
+                super.endDrag( event );
+                context.endDrag( PullerNode.this );
             }
         } );
 
@@ -65,6 +73,18 @@ public class PullerNode extends PNode {
 
     public Point2D getGlobalAttachmentPoint() {
         return attachmentNode.getGlobalFullBounds().getCenter2D();
+    }
+
+    public void animateHome() {
+        animateToPositionScaleRotation( initialOffset.x, initialOffset.y, scale, 0, TugOfWarCanvas.ANIMATION_DURATION );
+    }
+
+    public void setKnot( final KnotNode knot ) {
+        this.knot = knot;
+    }
+
+    public KnotNode getKnot() {
+        return knot;
     }
 
 }
