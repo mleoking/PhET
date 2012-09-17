@@ -10,8 +10,8 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
@@ -54,9 +54,9 @@ public class PullerNode extends PNode {
         this.scale = scale;
         final BufferedImage standingImage = pullerImage( item );
         addChild( new PImage( pullerImage( item ) ) {{
-            mode.addObserver( new ChangeObserver<Mode>() {
-                public void update( final Mode newValue, final Mode oldValue ) {
-                    if ( knot != null ) {
+            mode.addObserver( new VoidFunction1<Mode>() {
+                public void apply( final Mode mode ) {
+                    if ( knot != null && mode == Mode.GOING ) {
                         final BufferedImage pullingImage = pullerImage( 3 );
                         setImage( pullingImage );
 
@@ -75,6 +75,10 @@ public class PullerNode extends PNode {
                             setOffset( 0 - padding,
                                        standingImage.getHeight() - pullingImage.getHeight() );
                         }
+                    }
+                    else if ( mode == Mode.WAITING ) {
+                        setImage( standingImage );
+                        setOffset( 0, 0 );
                     }
                 }
             } );
