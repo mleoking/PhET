@@ -16,12 +16,15 @@ import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -48,6 +51,10 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final List<KnotNode> redKnots;
     private final ForcesNode forcesNode;
     public final ArrayList<VoidFunction0> forceListeners = new ArrayList<VoidFunction0>();
+    private final PImage cart;
+    private Property<Mode> mode = new Property<Mode>( Mode.WAITING );
+
+    public static enum Mode {GOING, WAITING}
 
     public TugOfWarCanvas( final Context context ) {
 
@@ -85,7 +92,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             setConfirmationEnabled( false );
         }} );
 
-        final PImage cart = new PImage( Images.CART );
+        cart = new PImage( Images.CART );
         cart.setOffset( STAGE_SIZE.width / 2 - cart.getFullBounds().getWidth() / 2, grassY - cart.getFullBounds().getHeight() + 4 );
 
 
@@ -128,23 +135,61 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         forcesNode = new ForcesNode();
         addChild( forcesNode );
 
-        addChild( new ImageButtonNodeWithText( Images.GO_BUTTON, "Go!" ) {{
-            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, cart.getFullBounds().getMaxY() + INSET );
+        addChild( new ImageButtonNodeWithText( Images.GO_BUTTON, "Go!", new VoidFunction0() {
+            public void apply() {
+                mode.set( Mode.GOING );
+            }
+        } ) {
+            {
+                setOffset( getButtonLocation( this ) );
 
-            final VoidFunction0 update = new VoidFunction0() {
-                public void apply() {
-                    boolean visible = redKnots.append( blueKnots ).filter( new F<KnotNode, Boolean>() {
-                        @Override public Boolean f( final KnotNode knotNode ) {
-                            return knotNode.getPullerNode() != null;
-                        }
-                    } ).length() > 0;
+                final VoidFunction0 update = new VoidFunction0() {
+                    public void apply() {
+                        boolean visible = redKnots.append( blueKnots ).filter( new F<KnotNode, Boolean>() {
+                            @Override public Boolean f( final KnotNode knotNode ) {
+                                return knotNode.getPullerNode() != null;
+                            }
+                        } ).length() > 0 && mode.get() == Mode.WAITING;
+                        setVisible( visible );
+                        setChildrenPickable( visible );
+                    }
+                };
+                forceListeners.add( update );
+                update.apply();
+            }
+        } );
+
+        final ImageButtonNodeWithText stopButton = new ImageButtonNodeWithText( Images.STOP_BUTTON, "STOP", new VoidFunction0() {
+            public void apply() {
+                mode.set( Mode.WAITING );
+            }
+        } ) {{
+            setOffset( getButtonLocation( this ) );
+            mode.addObserver( new VoidFunction1<Mode>() {
+                public void apply( final Mode mode ) {
+                    boolean visible = mode == Mode.GOING;
                     setVisible( visible );
                     setChildrenPickable( visible );
                 }
-            };
-            forceListeners.add( update );
-            update.apply();
+            } );
+        }};
+        addChild( stopButton );
+
+        addChild( new TextButtonNode( "Restart", CONTROL_FONT, Color.orange ) {{
+            setOffset( stopButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, stopButton.getFullBounds().getMaxY() + INSET );
+            mode.addObserver( new VoidFunction1<Mode>() {
+                public void apply( final Mode mode ) {
+                    boolean visible = mode == Mode.GOING;
+                    setVisible( visible );
+                    setPickable( visible );
+                    setChildrenPickable( visible );
+                }
+            } );
         }} );
+    }
+
+    private Point2D getButtonLocation( PNode buttonNode ) {
+        return new Point2D.Double( STAGE_SIZE.width / 2 - buttonNode.getFullBounds().getWidth() / 2, cart.getFullBounds().getMaxY() + INSET );
     }
 
     private Vector2D reflect( final Vector2D position, final double width ) {
