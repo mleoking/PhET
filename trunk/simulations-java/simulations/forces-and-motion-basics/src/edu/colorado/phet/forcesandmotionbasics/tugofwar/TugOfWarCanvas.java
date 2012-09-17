@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -57,6 +58,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final ForcesNode forcesNode;
     public final ArrayList<VoidFunction0> forceListeners = new ArrayList<VoidFunction0>();
     private final PImage cartNode;
+    private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
     private Property<Mode> mode = new Property<Mode>( Mode.WAITING );
     private Cart cart = new Cart();
     private ArrayList<PullerNode> pullers = new ArrayList<PullerNode>();
@@ -81,14 +83,15 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         grassNode.setOffset( -2, grassY - 2 );
         addChild( grassNode );
 
+        final JCheckBox sumOfForcesCheckBox = new PropertyCheckBox( null, "Sum of Forces", showSumOfForces ) {{
+            setFont( CONTROL_FONT );
+        }};
         final ControlPanelNode controlPanelNode = new ControlPanelNode(
                 new VBox( 2, VBox.LEFT_ALIGNED,
 
                           //Nudge "show" to the right so it will align with checkboxes
                           new HBox( 5, new PhetPPath( new Rectangle2D.Double( 0, 0, 0, 0 ) ), new PhetPText( "Show", CONTROL_FONT ) ),
-                          new PSwing( new JCheckBox( "Values" ) {{setFont( CONTROL_FONT );}} ), new PSwing( new JCheckBox( "Sum of Forces" ) {{
-                    setFont( CONTROL_FONT );
-                }} ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
+                          new PSwing( new JCheckBox( "Values" ) {{setFont( CONTROL_FONT );}} ), new PSwing( sumOfForcesCheckBox ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
         controlPanelNode.setOffset( STAGE_SIZE.width - controlPanelNode.getFullWidth() - INSET, INSET );
         addChild( controlPanelNode );
 
@@ -224,6 +227,12 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         addChild( new CaretNode() {{
             setOffset( STAGE_SIZE.width / 2, grassY + 9 );
         }} );
+
+        showSumOfForces.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( final Boolean showSumOfForces ) {
+                updateForceArrows();
+            }
+        } );
     }
 
     private void moveSystem( final double delta ) {
@@ -312,12 +321,14 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     }
 
     private void updateForceListeners() {
-        forcesNode.setForces( mode.get() == Mode.WAITING, getLeftForce(), getRightForce() );
+        updateForceArrows();
 
         for ( VoidFunction0 forceListener : forceListeners ) {
             forceListener.apply();
         }
     }
+
+    private void updateForceArrows() {forcesNode.setForces( mode.get() == Mode.WAITING, getLeftForce(), getRightForce(), showSumOfForces.get() );}
 
     private double getRightForce() {return redKnots.map( _force ).foldLeft( Doubles.add, 0.0 );}
 
