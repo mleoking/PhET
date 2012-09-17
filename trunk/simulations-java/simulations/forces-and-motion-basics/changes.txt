@@ -1,3 +1,4 @@
+Fixed: Dragging doesn't work when screen resized
 Show "Sum of forces = 0" instead of blank
 Align the images when below the grass.
 Adjusted vertical position of the pullers with respect to the grass
