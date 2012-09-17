@@ -45,4 +45,9 @@ public class ModelElementImage {
     public Vector2D getCenterToCenterOffset() {
         return centerToCenterOffset;
     }
+
+    public double getHeight() {
+        // Height is based on specified width and the aspect ratio of the image.
+        return ( width / (double) image.getWidth() ) * (double) image.getHeight();
+    }
 }
