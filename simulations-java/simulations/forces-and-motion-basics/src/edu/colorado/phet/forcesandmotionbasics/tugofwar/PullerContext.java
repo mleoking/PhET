@@ -6,4 +6,8 @@ package edu.colorado.phet.forcesandmotionbasics.tugofwar;
  */
 public interface PullerContext {
     void drag( PullerNode pullerNode );
+
+    void endDrag( PullerNode pullerNode );
+
+    void startDrag( PullerNode pullerNode );
 }
