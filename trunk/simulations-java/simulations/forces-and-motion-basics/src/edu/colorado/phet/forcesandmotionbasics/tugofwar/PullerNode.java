@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -116,13 +117,23 @@ public class PullerNode extends PNode {
         addChild( attachmentNode );
 
         //Don't allow dragging if the system is moving or completed
-        mode.addObserver( new VoidFunction1<Mode>() {
+        final VoidFunction1<Mode> listener = new VoidFunction1<Mode>() {
             public void apply( final Mode mode ) {
-                boolean pickable = mode == Mode.WAITING;
-                setPickable( pickable );
-                setChildrenPickable( pickable );
+                updatePickable( mode, context );
+            }
+        };
+        mode.addObserver( listener );
+        context.addCartPositionChangeListener( new VoidFunction0() {
+            public void apply() {
+                updatePickable( mode.get(), context );
             }
         } );
+    }
+
+    private void updatePickable( final Mode mode, final PullerContext context ) {
+        boolean pickable = mode == Mode.WAITING && context.cartIsInCenter();
+        setPickable( pickable );
+        setChildrenPickable( pickable );
     }
 
     private BufferedImage pullerImage( final int item ) {return ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );}

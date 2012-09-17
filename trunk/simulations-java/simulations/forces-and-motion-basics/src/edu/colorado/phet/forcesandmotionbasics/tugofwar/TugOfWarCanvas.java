@@ -65,6 +65,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private ArrayList<PullerNode> pullers = new ArrayList<PullerNode>();
     private final PImage rope;
     private final double initialRopeX;
+    private ArrayList<VoidFunction0> cartPositionListeners = new ArrayList<VoidFunction0>();
 
     public static enum Mode {WAITING, GOING, COMPLETE}
 
@@ -194,7 +195,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 public void apply( final Mode mode ) {
 
                     //leave "restart" button showing after "stop" pressed
-                    boolean visible = mode == Mode.GOING || mode == Mode.COMPLETE || ( mode == Mode.WAITING && Math.abs( cart.getPosition() ) > 1 );
+                    boolean visible = mode == Mode.GOING || mode == Mode.COMPLETE || ( mode == Mode.WAITING && !cartIsInCenter() );
                     setVisible( visible );
                     setPickable( visible );
                     setChildrenPickable( visible );
@@ -224,6 +225,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                     cart.stepInTime( dt, acceleration );
                     final double delta = cart.getPosition() - originalCartPosition;
                     moveSystem( delta );
+                    notifyCartPositionListeners();
 
                     //stop when the opposite rope passes the middle of the screen
                     if ( cart.getPosition() > 180 || cart.getPosition() < -180 ) {
@@ -249,6 +251,12 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         } );
     }
 
+    private void notifyCartPositionListeners() {
+        for ( VoidFunction0 listener : cartPositionListeners ) {
+            listener.apply();
+        }
+    }
+
     private void moveSystem( final double delta ) {
         cartNode.translate( delta, 0 );
         rope.translate( delta, 0 );
@@ -261,10 +269,11 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
 
     private void restart() {
         mode.set( Mode.WAITING );
+        cart.restart();
         double ropeOffset = rope.getOffset().getX() - initialRopeX;
         moveSystem( -ropeOffset );
         updateForceListeners();
-        cart.restart();
+        notifyCartPositionListeners();
     }
 
     private void addPuller( final PullerNode puller ) {
@@ -352,6 +361,12 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
 
     public void startDrag( final PullerNode pullerNode ) {
         detach( pullerNode );
+    }
+
+    public boolean cartIsInCenter() { return Math.abs( cart.getPosition() ) < 1;}
+
+    public void addCartPositionChangeListener( final VoidFunction0 voidFunction0 ) {
+        cartPositionListeners.add( voidFunction0 );
     }
 
     private Option<KnotNode> getAttachNode( final PullerNode pullerNode ) {
