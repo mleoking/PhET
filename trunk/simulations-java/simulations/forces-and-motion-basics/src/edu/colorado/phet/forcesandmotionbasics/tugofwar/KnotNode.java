@@ -1,10 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forcesandmotionbasics.tugofwar;
 
+import fj.Effect;
 import fj.F;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -22,12 +24,17 @@ public class KnotNode extends PNode {
     private PullerNode pullerNode;
     private final PhetPPath path;
     private final Color color;
+    public static Effect<KnotNode> _unhighlight = new Effect<KnotNode>() {
+        @Override public void e( final KnotNode knotNode ) {
+            knotNode.setHighlighted( false );
+        }
+    };
 
     public KnotNode( final Double knotLocation, final Color color, final Rectangle2D ropeBounds ) {
-        this.color = color;
-        double w = 10;
-        path = new PhetPPath( new Rectangle2D.Double( -w / 2, -w / 2, w, w ), new BasicStroke( 2 ), color ) {{
-            setOffset( ropeBounds.getX() + knotLocation, ropeBounds.getCenterY() - getFullBounds().getHeight() / 2 + 10 );
+        this.color = PullerNode.TRANSPARENT;
+        double w = 30;
+        path = new PhetPPath( new Ellipse2D.Double( -w / 2, -w / 2, w, w ), new BasicStroke( 2 ), PullerNode.TRANSPARENT ) {{
+            setOffset( ropeBounds.getX() + knotLocation + 1, ropeBounds.getCenterY() - getFullBounds().getHeight() / 2 + 17 );
         }};
         addChild( path );
     }
