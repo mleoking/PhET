@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
@@ -41,6 +42,7 @@ public class PullerNode extends PNode {
         setOffset( offset.x, offset.y );
         initialOffset = offset;
 
+        addInputEventListener( new CursorHandler() );
         addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void startDrag( final PInputEvent event ) {
                 super.startDrag( event );
