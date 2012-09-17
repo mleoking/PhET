@@ -8,6 +8,8 @@ import fj.function.Doubles;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -58,6 +60,8 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private Property<Mode> mode = new Property<Mode>( Mode.WAITING );
     private Cart cart = new Cart();
     private ArrayList<PullerNode> pullers = new ArrayList<PullerNode>();
+    private final PImage rope;
+    private final double initialRopeX;
 
     public static enum Mode {GOING, WAITING}
 
@@ -101,8 +105,9 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         cartNode.setOffset( STAGE_SIZE.width / 2 - cartNode.getFullBounds().getWidth() / 2, grassY - cartNode.getFullBounds().getHeight() + 4 );
 
 
-        final PImage rope = new PImage( Images.ROPE );
-        rope.setOffset( STAGE_SIZE.width / 2 - rope.getFullBounds().getWidth() / 2, cartNode.getFullBounds().getCenterY() - rope.getFullBounds().getHeight() / 2 );
+        rope = new PImage( Images.ROPE );
+        initialRopeX = STAGE_SIZE.width / 2 - rope.getFullBounds().getWidth() / 2;
+        rope.setOffset( initialRopeX, cartNode.getFullBounds().getCenterY() - rope.getFullBounds().getHeight() / 2 );
 
         blueKnots = ImageMetrics.blueKnots.map( new F<Double, KnotNode>() {
             @Override public KnotNode f( final Double knotLocation ) {
@@ -144,25 +149,23 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             public void apply() {
                 mode.set( Mode.GOING );
             }
-        } ) {
-            {
-                setOffset( getButtonLocation( this ) );
+        } ) {{
+            setOffset( getButtonLocation( this ) );
 
-                final VoidFunction0 update = new VoidFunction0() {
-                    public void apply() {
-                        boolean visible = redKnots.append( blueKnots ).filter( new F<KnotNode, Boolean>() {
-                            @Override public Boolean f( final KnotNode knotNode ) {
-                                return knotNode.getPullerNode() != null;
-                            }
-                        } ).length() > 0 && mode.get() == Mode.WAITING;
-                        setVisible( visible );
-                        setChildrenPickable( visible );
-                    }
-                };
-                forceListeners.add( update );
-                update.apply();
-            }
-        } );
+            final VoidFunction0 update = new VoidFunction0() {
+                public void apply() {
+                    boolean visible = redKnots.append( blueKnots ).filter( new F<KnotNode, Boolean>() {
+                        @Override public Boolean f( final KnotNode knotNode ) {
+                            return knotNode.getPullerNode() != null;
+                        }
+                    } ).length() > 0 && mode.get() == Mode.WAITING;
+                    setVisible( visible );
+                    setChildrenPickable( visible );
+                }
+            };
+            forceListeners.add( update );
+            update.apply();
+        }} );
 
         final ImageButtonNodeWithText stopButton = new ImageButtonNodeWithText( Images.STOP_BUTTON, "STOP", new VoidFunction0() {
             public void apply() {
@@ -190,6 +193,11 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                     setChildrenPickable( visible );
                 }
             } );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( final ActionEvent e ) {
+                    restart();
+                }
+            } );
         }} );
 
         mode.addObserver( new VoidFunction1<Mode>() {
@@ -206,16 +214,28 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                     double acceleration = getSumOfForces() / ( cart.weight + getAttachedPullers().map( PullerNode._weight ).foldLeft( Doubles.add, 0.0 ) );
                     cart.stepInTime( dt, acceleration );
                     final double delta = cart.getPosition() - originalCartPosition;
-                    cartNode.translate( delta, 0 );
-                    rope.translate( delta, 0 );
-                    getAttachedPullers().foreach( new Effect<PullerNode>() {
-                        @Override public void e( final PullerNode pullerNode ) {
-                            pullerNode.translate( delta / pullerNode.getScale(), 0 );
-                        }
-                    } );
+                    moveSystem( delta );
                 }
             }
         } );
+    }
+
+    private void moveSystem( final double delta ) {
+        cartNode.translate( delta, 0 );
+        rope.translate( delta, 0 );
+        getAttachedPullers().foreach( new Effect<PullerNode>() {
+            @Override public void e( final PullerNode pullerNode ) {
+                pullerNode.translate( delta / pullerNode.getScale(), 0 );
+            }
+        } );
+    }
+
+    private void restart() {
+        mode.set( Mode.WAITING );
+        double ropeOffset = rope.getOffset().getX() - initialRopeX;
+        moveSystem( -ropeOffset );
+        updateForceListeners();
+        cart.restart();
     }
 
     private void addPuller( final PullerNode puller ) {

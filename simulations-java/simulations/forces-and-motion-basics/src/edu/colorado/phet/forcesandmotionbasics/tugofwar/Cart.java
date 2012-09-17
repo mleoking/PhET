@@ -21,4 +21,9 @@ public class Cart {
         velocity = velocity + acceleration * dt;
         position = position + velocity * dt;
     }
+
+    public void restart() {
+        velocity = 0.0;
+        position = 0.0;
+    }
 }
