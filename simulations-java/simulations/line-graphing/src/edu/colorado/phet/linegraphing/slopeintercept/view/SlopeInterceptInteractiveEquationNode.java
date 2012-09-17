@@ -148,7 +148,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                 }
                 updatingControls = false;
 
-                // rendering order
+                // Start by adding all nodes, then we'll selectively remove some based on the simplified form of the equation.
                 {
                     // rise, run and intercept first, so we can identify problems with other nodes
                     addChild( riseNode );
@@ -179,7 +179,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                                       yNode.getYOffset() );
 
                 /*
-                 * This if-then-else block is deals with the rather complicated task of adapting the layout,
+                 * The next 2 if-then-else blocks deals with the rather complicated task of adapting the layout,
                  * based on which parts of the equation are interactive, and what the non-interactive parts
                  * of the equation should look like when written in simplified form.
                  */
