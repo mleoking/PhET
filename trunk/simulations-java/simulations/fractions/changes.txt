@@ -1,3 +1,4 @@
+Build a Fraction: Keep stars, smiling face and "next" button when coming back to a level that has already been completed
 Build a Fraction: Numbers: Center the fraction skeleton vertically in the play area
 Fraction Lab: Limit number of each container type to 4
 # 1.01.16 (67999) Sep 14, 2012
