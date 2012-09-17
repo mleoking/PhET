@@ -88,7 +88,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         this.y1 = new Property<Double>( interactiveLine.get().y1 );
 
         // Determine the max width of the rise and run components.
-        double maxSlopeWidth = computeSlopeComponentMaxWidth( riseRange, runRange, interactiveFont, FORMAT, interactiveSlope );
+        double maxSlopeSpinnerWidth = computeMaxSlopeSpinnerWidth( riseRange, runRange, interactiveFont, FORMAT );
 
         // nodes: (y-y1) = m(x-x1)
         final PNode yLeftParenNode = new PhetPText( "(", staticFont, staticColor );
@@ -112,7 +112,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
             riseNode = new DynamicValueNode( rise, interactiveFont, staticColor );
             runNode = new DynamicValueNode( run, interactiveFont, staticColor );
         }
-        final PNode lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ), new BasicStroke( 3f ), staticColor );
+        final PNode lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeSpinnerWidth, 0 ), new BasicStroke( 3f ), staticColor );
         final PNode xLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         final PNode xNode = new PhetPText( "x", staticFont, staticColor );
         final PText x1SignNode = new PhetPText( "-", staticFont, staticColor );
