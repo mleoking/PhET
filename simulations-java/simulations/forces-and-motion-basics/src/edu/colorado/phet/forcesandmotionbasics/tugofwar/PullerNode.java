@@ -76,7 +76,7 @@ public class PullerNode extends PNode {
                                        standingImage.getHeight() - pullingImage.getHeight() );
                         }
                     }
-                    else if ( mode == Mode.WAITING ) {
+                    else {
                         setImage( standingImage );
                         setOffset( 0, 0 );
                     }
