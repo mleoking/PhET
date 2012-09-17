@@ -218,6 +218,10 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 }
             }
         } );
+
+        addChild( new CaretNode() {{
+            setOffset( STAGE_SIZE.width / 2, grassY + 9 );
+        }} );
     }
 
     private void moveSystem( final double delta ) {
@@ -252,7 +256,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     }
 
     private Point2D getButtonLocation( PNode buttonNode ) {
-        return new Point2D.Double( STAGE_SIZE.width / 2 - buttonNode.getFullBounds().getWidth() / 2, cartNode.getFullBounds().getMaxY() + INSET );
+        return new Point2D.Double( STAGE_SIZE.width / 2 - buttonNode.getFullBounds().getWidth() / 2, cartNode.getFullBounds().getMaxY() + INSET * 2 );
     }
 
     private Vector2D reflect( final Vector2D position, final double width ) {
