@@ -16,7 +16,8 @@ public class Cart {
         return position;
     }
 
-    public void stepInTime( final double dt, double acceleration ) {
+    public void stepInTime( double dt, double acceleration ) {
+        dt = dt * 10;//speed up time because the masses of the characters give everything too much momentum
         velocity = velocity + acceleration * dt;
         position = position + velocity * dt;
     }
