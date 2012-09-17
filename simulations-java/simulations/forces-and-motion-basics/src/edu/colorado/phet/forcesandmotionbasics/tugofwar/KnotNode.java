@@ -47,4 +47,8 @@ public class KnotNode extends PNode {
     public void setHighlighted( final boolean highlighted ) { path.setStrokePaint( highlighted ? Color.yellow : color ); }
 
     public void setPullerNode( final PullerNode pullerNode ) { this.pullerNode = pullerNode; }
+
+    public PullerNode getPullerNode() {
+        return pullerNode;
+    }
 }

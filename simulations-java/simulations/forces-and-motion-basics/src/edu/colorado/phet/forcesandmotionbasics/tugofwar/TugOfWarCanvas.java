@@ -10,11 +10,13 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -45,6 +47,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final List<KnotNode> blueKnots;
     private final List<KnotNode> redKnots;
     private final ForcesNode forcesNode;
+    public final ArrayList<VoidFunction0> forceListeners = new ArrayList<VoidFunction0>();
 
     public TugOfWarCanvas( final Context context ) {
 
@@ -82,7 +85,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             setConfirmationEnabled( false );
         }} );
 
-        PImage cart = new PImage( Images.CART );
+        final PImage cart = new PImage( Images.CART );
         cart.setOffset( STAGE_SIZE.width / 2 - cart.getFullBounds().getWidth() / 2, grassY - cart.getFullBounds().getHeight() + 4 );
 
 
@@ -124,6 +127,24 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
 
         forcesNode = new ForcesNode();
         addChild( forcesNode );
+
+        addChild( new ImageButtonNodeWithText( Images.GO_BUTTON, "Go!" ) {{
+            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, cart.getFullBounds().getMaxY() + INSET );
+
+            final VoidFunction0 update = new VoidFunction0() {
+                public void apply() {
+                    boolean visible = redKnots.append( blueKnots ).filter( new F<KnotNode, Boolean>() {
+                        @Override public Boolean f( final KnotNode knotNode ) {
+                            return knotNode.getPullerNode() != null;
+                        }
+                    } ).length() > 0;
+                    setVisible( visible );
+                    setChildrenPickable( visible );
+                }
+            };
+            forceListeners.add( update );
+            update.apply();
+        }} );
     }
 
     private Vector2D reflect( final Vector2D position, final double width ) {
@@ -180,6 +201,10 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         double leftForce = -blueKnots.map( _force ).foldLeft( Doubles.add, 0.0 );
         double rightForce = redKnots.map( _force ).foldLeft( Doubles.add, 0.0 );
         forcesNode.setForces( leftForce, rightForce );
+
+        for ( VoidFunction0 forceListener : forceListeners ) {
+            forceListener.apply();
+        }
     }
 
     public void startDrag( final PullerNode pullerNode ) {
