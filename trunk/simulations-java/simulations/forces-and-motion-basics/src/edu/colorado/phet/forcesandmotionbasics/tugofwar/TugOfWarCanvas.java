@@ -41,8 +41,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
-import static edu.colorado.phet.forcesandmotionbasics.tugofwar.KnotNode._force;
-import static edu.colorado.phet.forcesandmotionbasics.tugofwar.KnotNode._free;
+import static edu.colorado.phet.forcesandmotionbasics.tugofwar.KnotNode.*;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor.BLUE;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor.RED;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PSize.*;
@@ -306,7 +305,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     public void drag( final PullerNode pullerNode ) {
         //find closest knot node
         List<KnotNode> knots = pullerNode.color == BLUE ? blueKnots : redKnots;
-        knots.foreach( KnotNode._unhighlight );
+        knots.foreach( _unhighlight );
         Option<KnotNode> attachNode = getAttachNode( pullerNode );
         attachNode.foreach( new Effect<KnotNode>() {
             @Override public void e( final KnotNode knotNode ) {
@@ -316,7 +315,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     }
 
     public void endDrag( final PullerNode pullerNode ) {
-        blueKnots.append( redKnots ).foreach( KnotNode._unhighlight );
+        blueKnots.append( redKnots ).foreach( _unhighlight );
         Option<KnotNode> attachNode = getAttachNode( pullerNode );
         if ( attachNode.isSome() ) {
             Point2D hands = pullerNode.getGlobalAttachmentPoint();
