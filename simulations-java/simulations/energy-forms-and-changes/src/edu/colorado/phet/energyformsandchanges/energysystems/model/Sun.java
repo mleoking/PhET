@@ -24,12 +24,26 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
  */
 public class Sun extends EnergySource {
 
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
     public static final double RADIUS = 0.02; // In meters, apparent size, not (obviously) actual size.
     public static final Vector2D OFFSET_TO_CENTER_OF_SUN = new Vector2D( -0.05, 0.12 );
     public static final double ENERGY_CHUNK_VELOCITY = 0.002; // Meters/sec, obviously not to scale.
     public static final double ENERGY_CHUNK_EMISSION_PERIOD = 0.25; // In seconds.
     private static final Random RAND = new Random();
     private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.5; // In meters.
+
+    // Energy production per square meter of the Earth's surface.
+    private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
+
+    //TODO: This, and all image lists, should be removed once the prototypes have all been replaced.
+    private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>();
+
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
 
     // Clouds that can potentially block the sun's rays.  The positions are
     // set so that they appear between the sun and the solar panel, and must
@@ -44,16 +58,18 @@ public class Sun extends EnergySource {
 
     public final Property<Double> cloudiness = new Property<Double>( 0.0 );
 
-    // Energy production per square meter of the Earth's surface.
-    private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
+    // Solar panel that will, at times, be absorbing the sun's rays.
+    public final SolarPanel solarPanel;
 
     private double energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
 
-    //TODO: This, and all image lists, should be removed once the prototypes have all been replaced.
-    private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>();
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
-    protected Sun() {
+    protected Sun( SolarPanel solarPanel ) {
         super( EnergyFormsAndChangesResources.Images.SUN_ICON, IMAGE_LIST );
+        this.solarPanel = solarPanel;
         cloudiness.addObserver( new VoidFunction1<Double>() {
             public void apply( Double cloudiness ) {
                 for ( int i = 0; i < clouds.size(); i++ ) {
@@ -63,6 +79,10 @@ public class Sun extends EnergySource {
             }
         } );
     }
+
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
 
     @Override public Energy stepInTime( double dt ) {
 
