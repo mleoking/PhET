@@ -4,6 +4,8 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
@@ -86,6 +88,7 @@ public class SunNode extends PositionableFadableModelElementNode {
             } );
         }
 
+        // TODO: Temporary way to make solar panel absorption area, remove when real way is working.
         DoubleGeneralPath solarPanelShape = new DoubleGeneralPath() {{
             double xOrigin = 100;
             double width = 350;
@@ -119,5 +122,11 @@ public class SunNode extends PositionableFadableModelElementNode {
         cloudinessControlPanel.setOffset( -cloudinessControlPanel.getFullBoundsReference().width / 2,
                                           -cloudinessControlPanel.getFullBoundsReference().height / 2 );
         addChild( cloudinessControlPanel );
+
+        // TODO: Temp for prototyping.
+        final Shape solarPanelAbsorptionShape = mvt.modelToView( sun.solarPanel.getAbsorptionShape() );
+        AffineTransform transform = AffineTransform.getTranslateInstance( -mvt.modelToViewDeltaX( sun.getPosition().getX() ),
+                                                                          -mvt.modelToViewDeltaY( sun.getPosition().getY() ) );
+        addChild( new PhetPPath( transform.createTransformedShape( solarPanelAbsorptionShape ), Color.PINK ) );
     }
 }
