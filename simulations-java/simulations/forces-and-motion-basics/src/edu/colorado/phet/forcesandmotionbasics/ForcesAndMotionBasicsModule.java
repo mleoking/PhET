@@ -25,6 +25,5 @@ public class ForcesAndMotionBasicsModule extends Module {
         super.activate();
         canvas.requestFocusInWindow();
         canvas.requestFocus();
-        System.out.println( "ForcesAndMotionBasicsModule.activate" );
     }
 }
