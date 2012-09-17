@@ -25,12 +25,15 @@ public class PullerNode extends PNode {
     private final Vector2D initialOffset;
     public final PColor color;
     private final PhetPPath attachmentNode;
+    private final PSize size;
     public final double scale;
     public static final Color TRANSPARENT = new Color( 0, 0, 0, 0 );
     private KnotNode knot;
+    public Double force;
 
     public PullerNode( final PColor color, final PSize size, int item, final double scale, Vector2D offset, final PullerContext context ) {
         this.color = color;
+        this.size = size;
         this.scale = scale;
         final BufferedImage image = ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );
         addChild( new PImage( image ) );
@@ -86,6 +89,13 @@ public class PullerNode extends PNode {
 
     public KnotNode getKnot() {
         return knot;
+    }
+
+    public double getForce() {
+        return size == PSize.SMALL ? 10 :
+               size == PSize.MEDIUM ? 20 :
+               size == PSize.LARGE ? 30 :
+               Double.NaN;
     }
 
 }
