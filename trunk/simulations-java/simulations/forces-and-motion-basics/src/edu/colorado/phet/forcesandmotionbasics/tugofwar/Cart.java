@@ -6,7 +6,8 @@ package edu.colorado.phet.forcesandmotionbasics.tugofwar;
  */
 public class Cart {
     public final double weight = 1000;       //in newtons, weighs a little more than a big puller
-    private static final double DEBUG_SPEED = 5;
+    public static final boolean dev = false;
+    private static final double DEBUG_SPEED = dev ? 5 : 1;
     private double velocity = 0;
     private double position = 0;
 
