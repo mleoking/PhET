@@ -1,5 +1,8 @@
 package edu.colorado.phet.forcesandmotionbasics.tugofwar;
 
+import fj.F;
+import fj.data.List;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
@@ -31,9 +34,11 @@ import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PS
 /**
  * @author Sam Reid
  */
-public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas {
+public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implements PullerContext {
 
     public static final long ANIMATION_DURATION = 300;
+    private final List<KnotNode> blueKnots;
+    private final List<KnotNode> redKnots;
 
     public TugOfWarCanvas( final Context context ) {
 
@@ -75,7 +80,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas {
         cart.setOffset( STAGE_SIZE.width / 2 - cart.getFullBounds().getWidth() / 2, grassY - cart.getFullBounds().getHeight() + 4 );
 
 
-        PImage rope = new PImage( Images.ROPE );
+        final PImage rope = new PImage( Images.ROPE );
         rope.setOffset( STAGE_SIZE.width / 2 - rope.getFullBounds().getWidth() / 2, cart.getFullBounds().getCenterY() - rope.getFullBounds().getHeight() / 2 );
 
         addChild( rope );
@@ -86,17 +91,31 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas {
         Vector2D mediumPosition = Vector2D.v( 151.66912850812423, 513.264401772526 );
         Vector2D smallPosition1 = Vector2D.v( 215.9527326440175, 558.463810930576 );
         Vector2D smallPosition2 = Vector2D.v( 263.1610044313148, 559.4682422451999 );
-        final PNode largeRedPuller = puller( BLUE, LARGE, IMAGE_SCALE, largePosition );
+        final PNode largeRedPuller = puller( BLUE, LARGE, IMAGE_SCALE, largePosition, this );
         addChild( largeRedPuller );
-        addChild( puller( BLUE, MEDIUM, IMAGE_SCALE, mediumPosition ) );
-        addChild( puller( BLUE, SMALL, IMAGE_SCALE, smallPosition1 ) );
-        addChild( puller( BLUE, SMALL, IMAGE_SCALE, smallPosition2 ) );
+        addChild( puller( BLUE, MEDIUM, IMAGE_SCALE, mediumPosition, this ) );
+        addChild( puller( BLUE, SMALL, IMAGE_SCALE, smallPosition1, this ) );
+        addChild( puller( BLUE, SMALL, IMAGE_SCALE, smallPosition2, this ) );
 
         final double offset = largeRedPuller.getFullBounds().getWidth();
-        addChild( puller( RED, LARGE, IMAGE_SCALE, reflect( largePosition, offset ) ) );
-        addChild( puller( RED, MEDIUM, IMAGE_SCALE, reflect( mediumPosition, offset ) ) );
-        addChild( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition1, offset ) ) );
-        addChild( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition2, offset ) ) );
+        addChild( puller( RED, LARGE, IMAGE_SCALE, reflect( largePosition, offset ), this ) );
+        addChild( puller( RED, MEDIUM, IMAGE_SCALE, reflect( mediumPosition, offset ), this ) );
+        addChild( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition1, offset ), this ) );
+        addChild( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition2, offset ), this ) );
+
+        double w = 10;
+        blueKnots = ImageMetrics.blueKnots.map( new F<Double, KnotNode>() {
+            @Override public KnotNode f( final Double knotLocation ) {
+                return new KnotNode( knotLocation, Color.blue, rope.getFullBounds() );
+            }
+        } );
+        redKnots = ImageMetrics.redKnots.map( new F<Double, KnotNode>() {
+            @Override public KnotNode f( final Double knotLocation ) {
+                return new KnotNode( knotLocation, Color.red, rope.getFullBounds() );
+            }
+        } );
+
+        addChildren( blueKnots.append( redKnots ) );
     }
 
     private Vector2D reflect( final Vector2D position, final double width ) {
@@ -105,12 +124,8 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas {
         return new Vector2D( newX, position.y );
     }
 
-    public static PullerNode puller( PColor color, PSize size, final double scale ) {
-        return puller( color, size, scale, Vector2D.ZERO );
-    }
-
-    public static PullerNode puller( PColor color, PSize size, final double scale, final Vector2D v ) {
-        return new PullerNode( pullerImage( color, size, 0 ), scale, v );
+    public static PullerNode puller( PColor color, PSize size, final double scale, final Vector2D v, PullerContext context ) {
+        return new PullerNode( pullerImage( color, size, 0 ), scale, v, context );
     }
 
     private static BufferedImage pullerImage( final PColor color, final PSize size, int item ) {
