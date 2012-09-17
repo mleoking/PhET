@@ -21,7 +21,11 @@ import static edu.colorado.phet.forcesandmotionbasics.AbstractForcesAndMotionBas
 public class ForceArrowNode extends PNode {
     public ForceArrowNode( final boolean transparent, final Vector2D tail, final double forceInNewtons, final String name, Color color, final TextLocation textLocation, final Boolean showValues ) {
         final double value = forceInNewtons * 5;
-        if ( value == 0 ) { return; }
+        if ( value == 0 && textLocation == TextLocation.SIDE ) { return; }
+        else if ( value == 0 && textLocation == TextLocation.TOP ) {
+            showTextOnly( tail );
+            return;
+        }
         final double arrowScale = 1.2;
         final ArrowNode arrowNode = new ArrowNode( tail.toPoint2D(), tail.plus( value, 0 ).toPoint2D(), 30 * arrowScale, 40 * arrowScale, 20 * arrowScale, 2, false );
         arrowNode.setPaint( transparent ? new Color( color.getRed(), color.getGreen(), color.getBlue(), 200 ) : color );
@@ -49,5 +53,11 @@ public class ForceArrowNode extends PNode {
                            0, 0 );
             }} );
         }
+    }
+
+    private void showTextOnly( final Vector2D tail ) {
+        addChild( new PhetPText( "Sum of Forces = 0", CONTROL_FONT ) {{
+            centerBoundsOnPoint( tail.x, tail.y - 46 );//Fine tune location so that it shows at the same y location as the text would if there were an arrow
+        }} );
     }
 }
