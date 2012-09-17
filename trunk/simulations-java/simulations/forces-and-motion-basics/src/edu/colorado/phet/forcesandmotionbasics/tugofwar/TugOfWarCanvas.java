@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.forcesandmotionbasics.AbstractForcesAndMotionBasicsCanvas;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -31,6 +32,9 @@ import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PS
  * @author Sam Reid
  */
 public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas {
+
+    public static final long ANIMATION_DURATION = 300;
+
     public TugOfWarCanvas( final Context context ) {
 
         setBackground( new Color( 209, 210, 212 ) );
@@ -82,7 +86,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas {
         Vector2D mediumPosition = Vector2D.v( 151.66912850812423, 513.264401772526 );
         Vector2D smallPosition1 = Vector2D.v( 215.9527326440175, 558.463810930576 );
         Vector2D smallPosition2 = Vector2D.v( 263.1610044313148, 559.4682422451999 );
-        final PImage largeRedPuller = puller( BLUE, LARGE, IMAGE_SCALE, largePosition );
+        final PNode largeRedPuller = puller( BLUE, LARGE, IMAGE_SCALE, largePosition );
         addChild( largeRedPuller );
         addChild( puller( BLUE, MEDIUM, IMAGE_SCALE, mediumPosition ) );
         addChild( puller( BLUE, SMALL, IMAGE_SCALE, smallPosition1 ) );
@@ -101,16 +105,12 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas {
         return new Vector2D( newX, position.y );
     }
 
-    public static PImage puller( PColor color, PSize size, final double scale ) {
+    public static PullerNode puller( PColor color, PSize size, final double scale ) {
         return puller( color, size, scale, Vector2D.ZERO );
     }
 
-    public static PImage puller( PColor color, PSize size, final double scale, final Vector2D v ) {
-        return new PImage( pullerImage( color, size, 0 ) ) {{
-            setScale( scale );
-            setOffset( v.x, v.y );
-            addInputEventListener( new DebugDragLocation() );
-        }};
+    public static PullerNode puller( PColor color, PSize size, final double scale, final Vector2D v ) {
+        return new PullerNode( pullerImage( color, size, 0 ), scale, v );
     }
 
     private static BufferedImage pullerImage( final PColor color, final PSize size, int item ) {
