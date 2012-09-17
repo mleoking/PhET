@@ -208,6 +208,8 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
 
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
+
+                //all motion is done through deltas
                 if ( mode.get() == Mode.GOING ) {
                     double originalCartPosition = cart.getPosition();
                     final double dt = clockEvent.getSimulationTimeChange();
