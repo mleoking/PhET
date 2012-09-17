@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Center the fraction skeleton vertically in the play area
 Fraction Lab: Limit number of each container type to 4
 # 1.01.16 (67999) Sep 14, 2012
 Fraction Lab: Fixed: sometimes after dragging a container off the toolbox, the underneath one has buttons enabled (should be disabled)
