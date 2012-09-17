@@ -12,7 +12,7 @@ public class ForcesAndMotionBasicsModule extends Module {
     private final DefaultForcesAndMotionBasicsCanvas canvas;
 
     public ForcesAndMotionBasicsModule( MyMode map ) {
-        super( map.toString(), new ConstantDtClock() );
+        super( "Forces and Friction", new ConstantDtClock() );
         ForcesAndMotionBasicsModel model = new ForcesAndMotionBasicsModel( getClock(), map );
         canvas = new DefaultForcesAndMotionBasicsCanvas( model );
         canvas.requestFocusInWindow();
