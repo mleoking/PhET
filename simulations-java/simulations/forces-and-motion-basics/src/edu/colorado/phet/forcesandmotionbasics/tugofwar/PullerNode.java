@@ -26,6 +26,7 @@ public class PullerNode extends PNode {
     public final PColor color;
     private final PhetPPath attachmentNode;
     public final double scale;
+    public static final Color TRANSPARENT = new Color( 0, 0, 0, 0 );
     private KnotNode knot;
 
     public PullerNode( final PColor color, final PSize size, int item, final double scale, Vector2D offset, final PullerContext context ) {
@@ -57,7 +58,7 @@ public class PullerNode extends PNode {
         } );
 
         final double w = 10;
-        attachmentNode = new PhetPPath( new Ellipse2D.Double( -w / 2, -w / 2, w, w ), new BasicStroke( 2 ), Color.green ) {{
+        attachmentNode = new PhetPPath( new Ellipse2D.Double( -w / 2, -w / 2, w, w ), new BasicStroke( 2 ), TRANSPARENT ) {{
             setOffset( color == PColor.BLUE ?
                        image.getWidth() - w / 2 :
                        w / 2, image.getHeight() - 100 );
