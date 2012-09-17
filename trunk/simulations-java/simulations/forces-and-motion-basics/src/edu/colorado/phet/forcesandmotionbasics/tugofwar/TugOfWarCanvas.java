@@ -16,6 +16,9 @@ import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -53,10 +56,13 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     public final ArrayList<VoidFunction0> forceListeners = new ArrayList<VoidFunction0>();
     private final PImage cart;
     private Property<Mode> mode = new Property<Mode>( Mode.WAITING );
+    private static final double CART_WEIGHT = 1;
+    private double cartVelocity = 0;
+    private double cartPosition = 0;
 
     public static enum Mode {GOING, WAITING}
 
-    public TugOfWarCanvas( final Context context ) {
+    public TugOfWarCanvas( final Context context, final IClock clock ) {
 
         setBackground( new Color( 209, 210, 212 ) );
         //use view coordinates since nothing compex happening in model coordinates.
@@ -192,6 +198,20 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 updateForceListeners();
             }
         } );
+
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
+                if ( mode.get() == Mode.GOING ) {
+                    double originalCartPosition = cartPosition;
+                    double force = getSumOfForces();
+                    double acceleration = force / CART_WEIGHT;
+                    final double dt = clockEvent.getSimulationTimeChange();
+                    cartVelocity = cartVelocity + acceleration * dt;
+                    cartPosition = cartPosition + cartVelocity * dt;
+                    cart.translate( cartPosition - originalCartPosition, 0 );
+                }
+            }
+        } );
     }
 
     private Point2D getButtonLocation( PNode buttonNode ) {
@@ -249,14 +269,18 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     }
 
     private void updateForceListeners() {
-        double leftForce = -blueKnots.map( _force ).foldLeft( Doubles.add, 0.0 );
-        double rightForce = redKnots.map( _force ).foldLeft( Doubles.add, 0.0 );
-        forcesNode.setForces( mode.get() == Mode.WAITING, leftForce, rightForce );
+        forcesNode.setForces( mode.get() == Mode.WAITING, getLeftForce(), getRightForce() );
 
         for ( VoidFunction0 forceListener : forceListeners ) {
             forceListener.apply();
         }
     }
+
+    private double getRightForce() {return redKnots.map( _force ).foldLeft( Doubles.add, 0.0 );}
+
+    private double getLeftForce() {return -blueKnots.map( _force ).foldLeft( Doubles.add, 0.0 );}
+
+    private double getSumOfForces() {return getRightForce() + getLeftForce();}
 
     public void startDrag( final PullerNode pullerNode ) {
         detach( pullerNode );
