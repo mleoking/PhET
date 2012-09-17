@@ -47,9 +47,6 @@ public class EnergySystemsModel {
         add( energyUsersCarousel );
     }};
 
-    // TODO temp.
-    public final List<ShapeModelElement> shapeModelElementList = new ArrayList<ShapeModelElement>();
-
     // Energy Converters.
     public final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
     public final SolarPanel solarPanel = new SolarPanel();
