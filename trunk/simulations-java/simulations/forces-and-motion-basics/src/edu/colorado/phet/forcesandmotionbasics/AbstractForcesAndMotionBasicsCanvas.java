@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class AbstractForcesAndMotionBasicsCanvas extends PhetPCanvas {
-    public static final Font CONTROL_FONT = new PhetFont( 20 );
+    public static final Font CONTROL_FONT = new PhetFont( 17, true );
 
     //Stage where nodes are added and scaled up and down
     public final PNode rootNode;
