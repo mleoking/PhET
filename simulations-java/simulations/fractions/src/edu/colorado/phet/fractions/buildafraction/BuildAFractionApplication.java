@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
-import edu.colorado.phet.fractions.buildafraction.model.BuildAMixedFractionModel;
+import edu.colorado.phet.fractions.buildafraction.model.MixedNumbersModel;
 
 /**
  * "Build a Fraction" PhET Application
@@ -21,7 +21,7 @@ public class BuildAFractionApplication extends PiccoloPhetApplication {
         //Disable the collection boxes unless the user has created a match in that level or collected a match anywhere in the sim (any tab)
         BooleanProperty collectedMatch = new BooleanProperty( false );
         addModule( new BuildAFractionModule( new BuildAFractionModel( collectedMatch ) ) );
-        addModule( new MixedNumbersModule( new BuildAMixedFractionModel( collectedMatch ) ) );
+        addModule( new MixedNumbersModule( new MixedNumbersModel( collectedMatch ) ) );
         addModule( new FractionLabModule() );
     }
 
