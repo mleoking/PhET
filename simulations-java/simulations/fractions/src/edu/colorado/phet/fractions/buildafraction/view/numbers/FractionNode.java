@@ -175,14 +175,15 @@ public class FractionNode extends RichPNode {
         }
 
         //Undo whichever happened last
-        FractionNodePosition element = dropListHistory.last();
-        if ( element == FractionNodePosition.WHOLE ) { undo( whole, wholeCardLocation ); }
-        else if ( element == FractionNodePosition.NUMERATOR ) { undo( numerator, topCardLocation ); }
-        else if ( element == FractionNodePosition.DENOMINATOR ) { undo( denominator, bottomCardLocation ); }
+        if ( dropListHistory.length() > 0 ) {
+            FractionNodePosition element = dropListHistory.last();
+            if ( element == FractionNodePosition.WHOLE ) { undo( whole, wholeCardLocation ); }
+            else if ( element == FractionNodePosition.NUMERATOR ) { undo( numerator, topCardLocation ); }
+            else if ( element == FractionNodePosition.DENOMINATOR ) { undo( denominator, bottomCardLocation ); }
 
-        //Drop the last item
-        dropListHistory = dropListHistory.reverse().drop( 1 ).reverse();
-
+            //Drop the last item
+            dropListHistory = dropListHistory.reverse().drop( 1 ).reverse();
+        }
         undoButton.setVisible( numerator.cardNode != null || denominator.cardNode != null || whole.cardNode != null );
         for ( VoidFunction1<Option<Fraction>> undoListener : undoListeners ) {
             undoListener.apply( value );
