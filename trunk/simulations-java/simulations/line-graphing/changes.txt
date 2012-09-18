@@ -1,3 +1,4 @@
+9/18/12 rework SlopeInterceptEquationFactory: render signs and operators using PPath, parameterize y-offset of slope sign
 9/17/12 rewrite/simplification of layout code in SlopeInterceptInteractiveEquationNode
 9/17/12 handle layout for simplified forms of interactive slope-intercept equation
 9/13/12 render guess before answer, so that answer is visible when guess==answer
