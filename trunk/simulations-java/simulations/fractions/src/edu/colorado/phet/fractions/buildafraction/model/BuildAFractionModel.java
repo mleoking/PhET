@@ -53,6 +53,9 @@ public class BuildAFractionModel {
     //After the user creates their first correct match, all of the collection boxes fade into view
     public final BooleanProperty collectedMatch;
 
+    //Index of the last level, used to decide whether to show the "next" button or not.
+    private static int MAX_LEVEL_INDEX = 9;
+
     public BuildAFractionModel( BooleanProperty collectedMatch ) {
         this( collectedMatch, new ShapeLevelList(), new NumberLevelList() );
     }
@@ -122,8 +125,7 @@ public class BuildAFractionModel {
         collectedMatch.reset();
     }
 
-    //REVIEW might be more maintenance-friendly if 9 were a static constant
-    public boolean isLastLevel( final int levelIndex ) { return levelIndex == 9; }
+    public boolean isLastLevel( final int levelIndex ) { return levelIndex == MAX_LEVEL_INDEX; }
 
     public boolean isMixedNumbers() { return false; }
 }
