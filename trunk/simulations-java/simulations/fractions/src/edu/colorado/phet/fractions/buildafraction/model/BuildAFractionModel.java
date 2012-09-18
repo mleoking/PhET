@@ -32,6 +32,9 @@ public class BuildAFractionModel {
     private final HashMap<Integer, NumberLevel> numberLevels = new HashMap<Integer, NumberLevel>();
     private final HashMap<Integer, ShapeLevel> shapeLevels = new HashMap<Integer, ShapeLevel>();
 
+    public static final int NUMBER_OF_STARS_ON_PAGE_1_LEVELS = 3;
+    public static final int NUMBER_OF_STARS_ON_PAGE_2_LEVELS = 4;
+
     public final F<LevelIdentifier, LevelProgress> gameProgress = new F<LevelIdentifier, LevelProgress>() {
         @Override public LevelProgress f( final LevelIdentifier id ) {
             if ( id.levelType == LevelType.SHAPES && shapeLevels.containsKey( id.getLevelIndex() ) ) {
@@ -42,7 +45,7 @@ public class BuildAFractionModel {
             }
             else {
                 //REVIEW 3 and 4 are apparently the max stars for various levels. Make them static constants, doc why some levels have 3 while others have 4.
-                return new LevelProgress( 0, id.getLevelIndex() <= 4 ? 3 : 4 );
+                return new LevelProgress( 0, id.getLevelIndex() <= 4 ? NUMBER_OF_STARS_ON_PAGE_1_LEVELS : NUMBER_OF_STARS_ON_PAGE_2_LEVELS );
             }
         }
     };
@@ -57,13 +60,12 @@ public class BuildAFractionModel {
     public final BooleanProperty collectedMatch;
 
     //Index of the last level, used to decide whether to show the "next" button or not.
-    private static int MAX_LEVEL_INDEX = 9;
+    private static final int MAX_LEVEL_INDEX = 9;
 
     public BuildAFractionModel( BooleanProperty collectedMatch ) {
         this( collectedMatch, new ShapeLevelList(), new NumberLevelList() );
     }
 
-    //REVIEW either document constructor params, or document corresponding fields
     public BuildAFractionModel( BooleanProperty collectedMatch, ShapeLevelFactory shapeLevelFactory, NumberLevelFactory numberLevelFactory ) {
         this.collectedMatch = collectedMatch;
         this.numberLevelFactory = numberLevelFactory;
