@@ -9,7 +9,7 @@ import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAMixedFractionModel;
 
 /**
- * "Fractions Intro" PhET Application
+ * "Build A Fraction" PhET Application
  *
  * @author Sam Reid
  */
