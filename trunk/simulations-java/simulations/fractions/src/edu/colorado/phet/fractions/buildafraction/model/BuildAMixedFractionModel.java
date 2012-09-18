@@ -6,6 +6,8 @@ import edu.colorado.phet.fractions.buildafraction.model.numbers.MixedNumbersNumb
 import edu.colorado.phet.fractions.buildafraction.model.shapes.MixedNumbersShapeLevelList;
 
 /**
+ * Main model for the "Mixed Numbers" tab of Build a Fraction
+ *
  * @author Sam Reid
  */
 public class BuildAMixedFractionModel extends BuildAFractionModel {

@@ -464,6 +464,7 @@ public class NumberLevelList implements NumberLevelFactory {
         throw new RuntimeException( "Couldn't find a match" );
     }
 
+    //Test to make sure that level 6 has the right number of groups of values
     public static void main( String[] args ) {
         for ( int i = 0; i < 1000; i++ ) {
             NumberLevel level6 = new NumberLevelList().level6();
