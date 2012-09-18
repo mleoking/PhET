@@ -29,10 +29,7 @@ public class BuildAFractionModel {
     //Property that indicates which "page" on the level selection screen the user is looking at
     public final IntegerProperty selectedPage = new IntegerProperty( 0 );
 
-    private final IntegerProperty numberLevel = new IntegerProperty( 0 );
     private final HashMap<Integer, NumberLevel> numberLevels = new HashMap<Integer, NumberLevel>();
-
-    private final IntegerProperty shapeLevel = new IntegerProperty( 0 ); //REVIEW what is a "shape level"?
     private final HashMap<Integer, ShapeLevel> shapeLevels = new HashMap<Integer, ShapeLevel>();
 
     public final F<LevelIdentifier, LevelProgress> gameProgress = new F<LevelIdentifier, LevelProgress>() {
@@ -49,7 +46,11 @@ public class BuildAFractionModel {
             }
         }
     };
+
+    //Creates level instances for the "number" style challenges
     private final NumberLevelFactory numberLevelFactory;
+
+    //Creates level instances for the "shape" style challenges
     private final ShapeLevelFactory shapeLevelFactory;
 
     //After the user creates their first correct match, all of the collection boxes fade into view
@@ -109,13 +110,11 @@ public class BuildAFractionModel {
         selectedPage.reset();
         clock.resetSimulationTime();
 
-        numberLevel.reset();
         for ( NumberLevel level : numberLevels.values() ) {
             level.resetAll();
         }
         numberLevels.clear();
 
-        shapeLevel.reset();
         for ( ShapeLevel level : shapeLevels.values() ) {
             level.resetAll();
         }
