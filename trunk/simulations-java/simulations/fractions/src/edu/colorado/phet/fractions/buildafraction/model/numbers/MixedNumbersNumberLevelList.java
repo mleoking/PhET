@@ -121,7 +121,6 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     public NumberLevel createLevel( final int level ) { return levels.get( level ).apply(); }
 
     //Keep sampling from the level until we find a level with two different shape types
-    //REVIEW describe what happens when we exceed 10 tries, not obvious what f.f(unit()) is.
     private NumberLevel withDifferentRepresentations( final F<Unit, NumberLevel> f ) {
         int count = 0;
         while ( count < 10 ) {
@@ -147,6 +146,8 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
             count++;
             System.out.println( "count = " + count );
         }
+
+        //If it doesn't find a satisfactory level after trying several times, just use the next solution whether or not it satisfies the constraints.
         return f.f( unit() );
     }
 
@@ -455,10 +456,17 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         return false;
     }
 
-    //REVIEW doc
+    //This representation shows a pattern that has a smaller denominator than the original value.
+    //For instance if the value was 3/4, the ScaledRepresentation may show 6/8
     private class ScaledRepresentation extends F<MixedFraction, FilledPattern> {
+
+        //Random seed so that results will be random but reproducible
         private final long seed;
+
+        //Flag for whether it should show as random or sequential
         private final boolean random;
+
+        //A flag to toggle whether it should be scaled or not.
         private final boolean reallyScaleIt;
 
         public ScaledRepresentation( final long seed, final boolean random, final boolean reallyScaleIt ) {
@@ -478,6 +486,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
             return ( random ? patternMaker.random() : patternMaker.sequential() ).f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
         }
 
+        //Equality test used to ensure that different pattern types are used.
         @Override public boolean equals( final Object obj ) {
             if ( obj instanceof ScaledRepresentation ) {
                 ScaledRepresentation sr = (ScaledRepresentation) obj;
