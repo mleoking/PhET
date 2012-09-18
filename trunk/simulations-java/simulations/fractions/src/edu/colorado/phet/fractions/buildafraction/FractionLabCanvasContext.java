@@ -2,7 +2,8 @@
 package edu.colorado.phet.fractions.buildafraction;
 
 /**
- * Context for being able to reset the fraction lab tab, which is done by creating a new canvas and setting it as the simulation panel.
+ * Context for being able to reset the "Fraction Lab" tab,
+ * which is done by creating a new canvas and setting it as the simulation panel.
  *
  * @author Sam Reid
  */

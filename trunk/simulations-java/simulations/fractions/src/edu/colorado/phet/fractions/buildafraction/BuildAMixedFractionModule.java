@@ -7,8 +7,10 @@ import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.fractionsintro.AbstractFractionsModule;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 
+//REVIEW recommend renaming this to MixedNumbersModule
+
 /**
- * Main module for "build a fraction with mixed numbers" tab, which is only visible in the standalone "Build a Fraction" sim.
+ * Main module for "Mixed Numbers" tab, which is only visible in the standalone "Build a Fraction" sim.
  *
  * @author Sam Reid
  */

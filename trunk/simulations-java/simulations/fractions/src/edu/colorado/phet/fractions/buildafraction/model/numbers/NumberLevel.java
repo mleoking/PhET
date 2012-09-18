@@ -17,6 +17,8 @@ import static edu.colorado.phet.fractions.common.math.Fraction.*;
 import static fj.Ord.intOrd;
 import static fj.data.List.list;
 
+//REVIEW which "game"? or does this now apply to the "Build a Fraction" and "Mixed Numbers" tabs of the "Build a Fraction" sim?
+
 /**
  * Level for the build a fraction game.
  *

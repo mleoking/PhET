@@ -30,7 +30,7 @@ import static fj.data.List.iterableList;
 import static fj.data.List.list;
 
 /**
- * List of levels used for the "mixed fractions" tab, for the levels in which number cards are used.
+ * List of levels used for the "Mixed Fractions" tab, for the levels in which number cards are used.
  *
  * @author Sam Reid
  */
@@ -121,6 +121,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     public NumberLevel createLevel( final int level ) { return levels.get( level ).apply(); }
 
     //Keep sampling from the level until we find a level with two different shape types
+    //REVIEW describe what happens when we exceed 10 tries, not obvious what f.f(unit()) is.
     private NumberLevel withDifferentRepresentations( final F<Unit, NumberLevel> f ) {
         int count = 0;
         while ( count < 10 ) {
@@ -149,6 +150,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         return f.f( unit() );
     }
 
+    //REVIEW "as before refreshing" ???
     /*Level 1:
     -- Circles as targets
     -- {1:1/2, 2:1/2, 3:1/4} as the challenges
@@ -165,7 +167,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     /* Level 2:
     -- Circles or Rectangles as targets, but all targets same shape
     -- 1, 2, or 3, as whole number
-    -- Fractional portion from the set {1/2, 1/3, 2/3, ¼, ¾} */
+    -- Fractional portion from the set {1/2, 1/3, 2/3, 1/4, 3/4} */
     private NumberLevel level2() {
         RandomColors3 colors = new RandomColors3();
         final F<MixedFraction, FilledPattern> shape = random.nextBoolean() ? pie.sequential() : horizontalBar.sequential();
@@ -209,7 +211,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     /*Level 4:
     -- All pyramids
     -- 1, 2, or 3, as whole number
-    -- Fractional portion from the set {1/2, 1/3, 2/3, ¼, ¾, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9}*/
+    -- Fractional portion from the set {1/2, 1/3, 2/3, 1/4, 3/4, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9}*/
     private NumberLevel level4() {
         List<MixedFraction> mixedFractions = getMixedFractions( list( 1, 2, 3 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ),
                                                                                        fraction( 1, 4 ), fraction( 3, 4 ),
@@ -305,7 +307,8 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     /**
      * Level 6:
      * --Same as level 5 (now with 4 targets)
-     * --Random fill now possible, so for instance {2:1/4} could be represented by 2 full circles with a partially filled circle in between them.  As in, we do not need to strictly fill from left to right.
+     * --Random fill now possible, so for instance {2:1/4} could be represented by 2 full circles with a partially filled circle in between them.
+     * As in, we do not need to strictly fill from left to right.
      * -- 2 of the representations require simplifying
      */
     NumberLevel level6() {
@@ -331,7 +334,9 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     //Fractions that can be scaled up
     private List<Fraction> expandable() {return parse( "1/2, 1/3, 2/3, 1/4, 3/4" );}
 
-    private List<Fraction> fullListOfFractions() {return parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9" );}
+    private List<Fraction> fullListOfFractions() {
+        return parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9" );
+    }
 
     private F<MixedFraction, FilledPattern> scaleFlowerToSixths() {
         return new F<MixedFraction, FilledPattern>() {
@@ -396,7 +401,8 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
      * Level 9:
      * -- All representations, random fill, and simplifying possible
      * -- Now representations within the targets can have different divisions, do this for 2 of the targets
-     * --So, for instance if {1:3/4} is being represented by circles, the first circle could be divided in ¼’s and the second circle divided in 1/8’s, with pieces randomly distributed between the two circles.
+     * --So, for instance if {1:3/4} is being represented by circles, the first circle could be divided in ¼’s and the second circle divided in 1/8’s,
+     *   with pieces randomly distributed between the two circles.
      */
     NumberLevel level9() { return levelWithSomeScattering( list( true, true, false, false ) ); }
 
@@ -450,6 +456,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         return false;
     }
 
+    //REVIEW doc
     private class ScaledRepresentation extends F<MixedFraction, FilledPattern> {
         private final long seed;
         private final boolean random;
@@ -486,6 +493,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         }
     }
 
+    //REVIEW lots of output form this, but I have no idea how to interpret it, or whether the "test" has succeeded or failed.
     //Test main to make sure that levels are solvable
     public static void main( String[] args ) {
         for ( int i = 0; i < 1000; i++ ) {

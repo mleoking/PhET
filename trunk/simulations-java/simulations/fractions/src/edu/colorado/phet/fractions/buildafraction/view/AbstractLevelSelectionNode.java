@@ -48,10 +48,12 @@ class AbstractLevelSelectionNode extends PNode {
 
     final ResetAllButtonNode resetAllButton;
 
+    //REVIEW doc
     public static @Data class Page {
         public final List<List<LevelInfo>> info;
     }
 
+    //REVIEW doc
     //Rows + Columns
     AbstractLevelSelectionNode( final String title, final List<Page> pages, final LevelSelectionContext context, final IntegerProperty selectedPage ) {
 
@@ -129,6 +131,7 @@ class AbstractLevelSelectionNode extends PNode {
         }} );
     }
 
+    //REVIEW doc
     private VBox toButtonSetNode( final List<List<LevelInfo>> pageLevels, final LevelSelectionContext context ) {
         ArrayList<HBox> boxes = new ArrayList<HBox>();
         for ( List<LevelInfo> list : pageLevels ) {
@@ -144,6 +147,7 @@ class AbstractLevelSelectionNode extends PNode {
         }};
     }
 
+    //REVIEW doc
     private static PNode toLevelIcon( final LevelInfo info, final List<List<LevelInfo>> allLevels, final LevelSelectionContext context ) {
         final List<PNode> nodes = allLevels.bind( new F<List<LevelInfo>, List<PNode>>() {
             @Override public List<PNode> f( final List<LevelInfo> list ) {

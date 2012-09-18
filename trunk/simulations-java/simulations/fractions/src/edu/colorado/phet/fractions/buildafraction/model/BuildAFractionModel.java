@@ -25,12 +25,12 @@ public class BuildAFractionModel {
 
     public final ConstantDtClock clock = new ConstantDtClock();
     public final BooleanProperty audioEnabled = new BooleanProperty( true );
-    public final IntegerProperty selectedPage = new IntegerProperty( 0 );
+    public final IntegerProperty selectedPage = new IntegerProperty( 0 ); //REVIEW what is a "page"?
 
     private final IntegerProperty numberLevel = new IntegerProperty( 0 );
     private final HashMap<Integer, NumberLevel> numberLevels = new HashMap<Integer, NumberLevel>();
 
-    private final IntegerProperty shapeLevel = new IntegerProperty( 0 );
+    private final IntegerProperty shapeLevel = new IntegerProperty( 0 ); //REVIEW what is a "shape level"?
     private final HashMap<Integer, ShapeLevel> shapeLevels = new HashMap<Integer, ShapeLevel>();
 
     public final F<LevelIdentifier, LevelProgress> gameProgress = new F<LevelIdentifier, LevelProgress>() {
@@ -42,6 +42,7 @@ public class BuildAFractionModel {
                 return new LevelProgress( getLevel( id ).filledTargets.get(), getLevel( id ).numTargets );
             }
             else {
+                //REVIEW 3 and 4 are apparently the max stars for various levels. Make them static constants, doc why some levels have 3 while others have 4.
                 return new LevelProgress( 0, id.getLevelIndex() <= 4 ? 3 : 4 );
             }
         }
@@ -56,6 +57,7 @@ public class BuildAFractionModel {
         this( collectedMatch, new ShapeLevelList(), new NumberLevelList() );
     }
 
+    //REVIEW either document constructor params, or document corresponding fields
     public BuildAFractionModel( BooleanProperty collectedMatch, ShapeLevelFactory shapeLevelFactory, NumberLevelFactory numberLevelFactory ) {
         this.collectedMatch = collectedMatch;
         this.numberLevelFactory = numberLevelFactory;
@@ -115,10 +117,12 @@ public class BuildAFractionModel {
         shapeLevels.clear();
         audioEnabled.reset();
 
+        //REVIEW "for both tabs"?... What does that mean? Which tabs, this sim has 3.
         //Resets it for both tabs
         collectedMatch.reset();
     }
 
+    //REVIEW might be more maintenance-friendly if 9 were a static constant
     public boolean isLastLevel( final int levelIndex ) { return levelIndex == 9; }
 
     public boolean isMixedNumbers() { return false; }

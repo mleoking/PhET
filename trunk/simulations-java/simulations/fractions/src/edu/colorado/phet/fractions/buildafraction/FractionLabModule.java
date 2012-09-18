@@ -14,7 +14,7 @@ import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Compo
 import edu.umd.cs.piccolo.activities.PActivity;
 
 /**
- * Main module for "build a fraction with mixed numbers" tab, which is only visible in the standalone "Build a Fraction" sim.
+ * Main module for "Fraction Lab" tab, which is only visible in the standalone "Build a Fraction" sim.
  *
  * @author Sam Reid
  */
