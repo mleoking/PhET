@@ -140,7 +140,7 @@ public class FractionNode extends RichPNode {
         if ( mixedNumber ) {
             ObservableProperty<Option<Integer>> draggedCard = context.getDraggedCardProperty();
 
-            //TODO: Memory leak
+            //Add an observer to the card.  Note that this causes a memory leak, but I think the risk of it causing an out of memory exception is very low
             draggedCard.addObserver( new VoidFunction1<Option<Integer>>() {
                 public void apply( final Option<Integer> draggedCard ) {
                     numerator.setEnabled( true );
