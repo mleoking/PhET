@@ -454,21 +454,11 @@ public class ShapeLevelList implements ShapeLevelFactory {
     //In order to remove the tedium but still require creation of interesting shapes, sort by the number of pieces required to create the fraction
     //and choose one of the solutions with a small number of cards.
     private static List<List<Integer>> selectSolutionsWithSmallNumberOfCards( final List<List<Integer>> lists, int numToTake ) {
-
         List<List<Integer>> sorted = lists.sort( FJUtils.ord( new F<List<Integer>, Double>() {
             @Override public Double f( final List<Integer> list ) {
                 return coefficientsToShapes( single( list ) ).length() + 0.0;
             }
         } ) );
-
-        //For debugging
-//        System.out.println( "Start>>>>>>>>>>>>>>>>>" );
-//        for ( List<Integer> integers : sorted ) {
-//            int count = coefficientsToShapes( single( integers ) ).length();
-//            System.out.println( count );
-//        }
-//        System.out.println( "END<<<<<<<<<<<<<<<<<<<<" );
-
         return sorted.take( numToTake );
     }
 

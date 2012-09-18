@@ -74,7 +74,6 @@ public @Data class NumberTarget {
                 int numerator = fraction.numerator;
                 int denominator = fraction.denominator;
                 while ( numerator > denominator ) {
-//                    System.out.println( "making filled pie with denominator = " + denominator );
                     final FilledPattern elm = element.f( new MixedFraction( 0, denominator, denominator ) );
                     assert elm != null;
                     result = result.snoc( elm );
