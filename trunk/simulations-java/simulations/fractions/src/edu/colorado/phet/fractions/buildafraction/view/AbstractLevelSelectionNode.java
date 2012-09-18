@@ -155,7 +155,8 @@ class AbstractLevelSelectionNode extends PNode {
         final Property<Boolean> selected = new Property<Boolean>( false );
         final PaddedNode centerIcon = new PaddedNode( maxSize, info.icon );
         LevelIconNode node = new LevelIconNode( info.name, centerIcon, info.levelProgress.stars, info.levelProgress.maxStars );
-        ToggleButtonNode button = new ToggleButtonNode( node, selected, new VoidFunction0() {
+
+        return new ToggleButtonNode( node, selected, new VoidFunction0() {
             public void apply() {
                 SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.levelButton, info.levelIdentifier.getLevelType() + ": " + info.name ) );
                 selected.set( true );
@@ -174,8 +175,6 @@ class AbstractLevelSelectionNode extends PNode {
                 }}.start();
             }
         } );
-
-        return button;
     }
 
     //Button icon for a single level, shows the level name, a shape and the progress stars

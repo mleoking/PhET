@@ -178,7 +178,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             this.toolboxPositionY = toolboxPositionY;
         }
 
-        finishCreatingUI( levelIndex, model, AbstractFractionsCanvas.STAGE_SIZE, goToNextLevel, _resampleLevel, fractionLab );
+        finishCreatingUI( levelIndex, model, goToNextLevel, _resampleLevel, fractionLab );
 
         fractionNode.setToolboxPosition( initialToolboxPositionForSkeletons.x, initialToolboxPositionForSkeletons.y );
         centerOfScreen = new Vector2D( fractionLab ? 300 : levelReadoutTitle.getFullBounds().getCenterX() - fractionNode.getFullWidth() / 2 + 28, 350 - fractionNode.getFullHeight() / 2 - ( fractionLab ? 0 : 30 ) );
@@ -186,7 +186,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         fractionNode.moveInFrontOf( toolboxNode );
     }
 
-    private double addMixedFractionGraphicFactionLab( final double toolboxPositionY, final double offsetX ) {
+    private void addMixedFractionGraphicFactionLab( final double toolboxPositionY, final double offsetX ) {
         final FractionNode toolboxFractionGraphic = new FractionNode( this, true );
 
         //Put it to the right of the numbers in the toolbox
@@ -198,7 +198,6 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         fractionNodes.add( toolboxFractionGraphic );
 
         toolboxFractionGraphic.moveInFrontOf( toolboxNode );
-        return toolboxPositionX;
     }
 
     private ArrayList<NumberSceneCollectionBoxPair> getCollectionBoxPairs( final BuildAFractionModel model ) {

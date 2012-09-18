@@ -88,7 +88,9 @@ public class NumberCardNode extends Stackable {
                 } ) );
     }
 
-    public void delete() {
+    @Override protected double getAnimateToScale() { return 1.0; }
+
+    protected void delete() {
         super.delete();
         removeFromParent();
     }

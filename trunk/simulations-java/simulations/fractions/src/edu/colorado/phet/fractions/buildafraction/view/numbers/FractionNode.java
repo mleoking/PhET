@@ -26,7 +26,6 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.SimSharingCanvasBoundedDragHandler;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
-import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.Box.ShapeContainer;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.AnimateToScale;
@@ -78,7 +77,7 @@ public class FractionNode extends RichPNode {
         this.mixedNumber = mixedNumber;
         numerator.box = new ShapeContainer( box() );
         denominator.box = new ShapeContainer( box() );
-        whole.box = new ShapeContainer( box( true, MixedFractionNode.mixedNumberWholeScale ) );
+        whole.box = new ShapeContainer( box( MixedFractionNode.mixedNumberWholeScale ) );
 
         //Size in the toolbox is smaller to keep the toolbox size good
         setScale( SCALE_IN_TOOLBOX );
@@ -232,11 +231,11 @@ public class FractionNode extends RichPNode {
     }
 
     private static PhetPPath box() {
-        return box( true, 1.0 );
+        return box( 1.0 );
     }
 
-    private static PhetPPath box( boolean showOutline, double scale ) {
-        return new PhetPPath( new Rectangle2D.Double( 0, 0, 40 * scale, 50 * scale ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 6 }, 0 ), showOutline ? Color.red : BuildAFractionCanvas.TRANSPARENT );
+    private static PhetPPath box( double scale ) {
+        return new PhetPPath( new Rectangle2D.Double( 0, 0, 40 * scale, 50 * scale ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 6 }, 0 ), Color.red );
     }
 
     public void attachNumber( final PhetPPath box, final NumberCardNode numberCardNode ) {
