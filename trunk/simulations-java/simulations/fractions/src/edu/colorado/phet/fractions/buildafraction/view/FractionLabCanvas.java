@@ -31,6 +31,7 @@ import edu.colorado.phet.fractions.buildafraction.view.shapes.ShapeSceneNode;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType.BAR;
@@ -82,8 +83,8 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
         }};
         addChild( barShapeSceneNode );
 
-        final java.util.List<Element<ShapeType>> elements = Arrays.asList( new Element<ShapeType>( new PhetPPath( createPieSlice( 1 ), colors[0], stroke, black ) {{scale( 0.15 );}}, PIE, null ),
-                                                                           new Element<ShapeType>( new PhetPPath( createRect( 1 ), colors[1], stroke, black ) {{scale( 0.15 );}}, BAR, null ) );
+        final java.util.List<Element<ShapeType>> elements = Arrays.asList( new Element<ShapeType>( new PhetPPath( createPieSlice( 1 ), colors[0], stroke, black ) {{scale( 0.15 );}}, PIE, Components.pieShapeRadioButton ),
+                                                                           new Element<ShapeType>( new PhetPPath( createRect( 1 ), colors[1], stroke, black ) {{scale( 0.15 );}}, BAR, Components.barShapeRadioButton ) );
         final Property<ShapeType> selectedShapeType = new Property<ShapeType>( PIE );
         selectedShapeType.addObserver( new VoidFunction1<ShapeType>() {
             public void apply( final ShapeType shapeType ) {
