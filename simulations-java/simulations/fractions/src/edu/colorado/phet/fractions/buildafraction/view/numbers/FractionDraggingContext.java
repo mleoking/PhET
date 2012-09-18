@@ -7,11 +7,13 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 
 /**
- * Context in which a FractionNode can be dragged.
+ * Context in which a FractionNode can be dragged, mainly deals with interactions between other elements (such as dropping into a toolbox or collection box)
  *
  * @author Sam Reid
  */
 public interface FractionDraggingContext {
+    void startDrag( FractionNode fractionNode );
+
     void endDrag( FractionNode fractionNode );
 
     void updateStacks();
@@ -19,8 +21,6 @@ public interface FractionDraggingContext {
     Vector2D getCenterOfScreen();
 
     ObservableProperty<Option<Integer>> getDraggedCardProperty();
-
-    void startDrag( FractionNode fractionNode );
 
     boolean isFractionLab();
 

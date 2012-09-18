@@ -525,6 +525,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         return stackOffset + ( isFractionLab() ? 72 : 0 );
     }
 
+    //Created with IDEA's "create value method"
     private class CreateNonMixedFractionGraphicFractionLab {
         private final boolean fractionLab;
         private double toolboxPositionX;
