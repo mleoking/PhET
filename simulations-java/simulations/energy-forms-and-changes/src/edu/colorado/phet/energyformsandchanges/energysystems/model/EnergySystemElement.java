@@ -64,7 +64,7 @@ public abstract class EnergySystemElement extends PositionableFadableModelElemen
     }
 
     public void deactivate() {
-        active.set( true );
+        active.set( false );
     }
 
     public ObservableProperty<Boolean> getObservableActiveState() {

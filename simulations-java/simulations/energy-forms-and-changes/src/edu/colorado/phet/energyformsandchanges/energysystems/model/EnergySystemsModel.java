@@ -55,7 +55,7 @@ public class EnergySystemsModel {
     public final FaucetAndWater faucet = new FaucetAndWater();
     public final Sun sun = new Sun( solarPanel );
     public final TeaPot teaPot = new TeaPot();
-    public final Biker bicycleAndRider = new Biker();
+    public final Biker biker = new Biker();
 
     // Energy users.
     public final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb();
@@ -81,7 +81,7 @@ public class EnergySystemsModel {
         energySourcesCarousel.add( faucet );
         energySourcesCarousel.add( sun );
         energySourcesCarousel.add( teaPot );
-        energySourcesCarousel.add( bicycleAndRider );
+        energySourcesCarousel.add( biker );
         energyConvertersCarousel.add( waterPoweredGenerator );
         energyConvertersCarousel.add( solarPanel );
         energyUsersCarousel.add( beakerHeater );
@@ -92,22 +92,14 @@ public class EnergySystemsModel {
         // biker and the generator.
         VoidFunction1<Boolean> beltVisibilityUpdated = new VoidFunction1<Boolean>() {
             public void apply( Boolean isAnimating ) {
-                boolean bikerAndGeneratorSelected = !isAnimating &&
-                                                    energySourcesCarousel.getSelectedElement() instanceof Biker &&
-                                                    energyConvertersCarousel.getSelectedElement() instanceof WaterPoweredGenerator;
+                boolean bikerAndGeneratorSelected = !isAnimating && biker.isActive() && waterPoweredGenerator.isActive();
                 belt.isVisible.set( bikerAndGeneratorSelected );
                 waterPoweredGenerator.directCouplingMode.set( bikerAndGeneratorSelected );
             }
         };
 
-        energySourcesCarousel.getAnimationInProgressProperty().
-
-                addObserver( beltVisibilityUpdated );
-
-        energyConvertersCarousel.getAnimationInProgressProperty().
-
-                addObserver( beltVisibilityUpdated );
-
+        energySourcesCarousel.getAnimationInProgressProperty().addObserver( beltVisibilityUpdated );
+        energyConvertersCarousel.getAnimationInProgressProperty().addObserver( beltVisibilityUpdated );
     }
 
     //-------------------------------------------------------------------------
