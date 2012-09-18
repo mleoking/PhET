@@ -10,6 +10,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
@@ -73,13 +74,19 @@ public class SolarPanel extends EnergyConverter {
      *         can absorb sunlight.
      */
     public Shape getAbsorptionShape() {
-        Rectangle2D panelBounds = new Rectangle2D.Double( -SOLAR_PANEL_IMAGE.getWidth() / 2,
-                                                          -SOLAR_PANEL_IMAGE.getHeight() / 2,
-                                                          SOLAR_PANEL_IMAGE.getWidth(),
-                                                          SOLAR_PANEL_IMAGE.getHeight() );
+        final Rectangle2D panelBounds = new Rectangle2D.Double( -SOLAR_PANEL_IMAGE.getWidth() / 2,
+                                                                -SOLAR_PANEL_IMAGE.getHeight() / 2,
+                                                                SOLAR_PANEL_IMAGE.getWidth(),
+                                                                SOLAR_PANEL_IMAGE.getHeight() );
+        DoubleGeneralPath absorptionShape = new DoubleGeneralPath() {{
+            moveTo( panelBounds.getMinX(), panelBounds.getMinY() );
+            lineTo( panelBounds.getMaxX(), panelBounds.getMaxY() );
+            lineTo( panelBounds.getMaxX(), panelBounds.getMinY() );
+            closePath();
+        }};
         AffineTransform transform = AffineTransform.getTranslateInstance( getPosition().getX() + SOLAR_PANEL_OFFSET.getX(),
                                                                           getPosition().getY() + SOLAR_PANEL_OFFSET.getY() );
-        return transform.createTransformedShape( panelBounds );
+        return transform.createTransformedShape( absorptionShape.getGeneralPath() );
     }
 
     @Override public IUserComponent getUserComponent() {
