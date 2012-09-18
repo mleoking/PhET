@@ -93,7 +93,7 @@ public class NumberCardNode extends Stackable {
         removeFromParent();
     }
 
-    public void setCardShapeVisible( boolean visible ) { cardShape.setVisible( visible ); }
+    public void setCardShapeVisible() { cardShape.setVisible( true ); }
 
     public void addNumberNodeBackIn( final NumberNode numberNode ) {
         addChild( numberNode );
@@ -102,7 +102,7 @@ public class NumberCardNode extends Stackable {
 
     @SuppressWarnings("unchecked") public void animateToTopOfStack( boolean deleteOnArrival ) { stack.animateToTopOfStack( this, deleteOnArrival ); }
 
-    public NumberCardNode copy() {
+    @SuppressWarnings("unchecked") public NumberCardNode copy() {
         final NumberCardNode node = new NumberCardNode( size, number, context );
         node.setStack( stack );
         node.setPositionInStack( getPositionInStack() );

@@ -48,7 +48,7 @@ import static java.awt.Color.black;
  * @author Sam Reid
  */
 public class FractionLabCanvas extends AbstractFractionsCanvas {
-    public FractionLabCanvas( final FractionLabCanvasContext context2 ) {
+    @SuppressWarnings("unchecked") public FractionLabCanvas( final FractionLabCanvasContext context2 ) {
         setBackground( BuildAFractionCanvas.LIGHT_BLUE );
         final BuildAFractionModel circleModel = createModel( PIE, colors[0] );
 
@@ -70,15 +70,15 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
         };
         final BooleanProperty soundEnabled = new BooleanProperty( false );
 
-        NumberSceneNode numberSceneNode = new NumberSceneNode( 0, rootNode, circleModel, STAGE_SIZE, context, soundEnabled, true );
+        NumberSceneNode numberSceneNode = new NumberSceneNode( 0, rootNode, circleModel, context, soundEnabled, true );
         addChild( numberSceneNode );
 
-        final ShapeSceneNode circleShapeSceneNode = new ShapeSceneNode( 0, circleModel, STAGE_SIZE, context, soundEnabled, true ) {{
+        final ShapeSceneNode circleShapeSceneNode = new ShapeSceneNode( 0, circleModel, context, soundEnabled, true ) {{
             translate( 0, -STAGE_SIZE.height + toolboxHeight + INSET * 3 );
         }};
         addChild( circleShapeSceneNode );
 
-        final ShapeSceneNode barShapeSceneNode = new ShapeSceneNode( 0, createModel( BAR, colors[1] ), STAGE_SIZE, context, soundEnabled, true ) {{
+        final ShapeSceneNode barShapeSceneNode = new ShapeSceneNode( 0, createModel( BAR, colors[1] ), context, soundEnabled, true ) {{
             translate( 0, -STAGE_SIZE.height + toolboxHeight + INSET * 3 );
         }};
         addChild( barShapeSceneNode );

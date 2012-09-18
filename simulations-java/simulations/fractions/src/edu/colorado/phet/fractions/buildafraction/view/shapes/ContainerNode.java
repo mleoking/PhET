@@ -136,7 +136,7 @@ public class ContainerNode extends PNode {
             }
         };
         containerLayer = new PNode() {{
-            addChild( new SingleContainerNode( shapeType, ContainerNode.this, selectedPieceSize, parent.isMixedNumbers() ) );
+            addChild( new SingleContainerNode( shapeType, ContainerNode.this, selectedPieceSize ) );
         }};
 
 
@@ -200,7 +200,7 @@ public class ContainerNode extends PNode {
     };
 
     private void addContainer() {
-        final SingleContainerNode child = new SingleContainerNode( shapeType, this, selectedPieceSize, parent.isMixedNumbers() );
+        final SingleContainerNode child = new SingleContainerNode( shapeType, this, selectedPieceSize );
         child.setOffset( containerLayer.getFullBounds().getMaxX() + INSET, containerLayer.getFullBounds().getY() );
         child.setTransparency( 0 );
         containerLayer.addChild( child );
@@ -361,9 +361,10 @@ public class ContainerNode extends PNode {
 
     public void resetNumberOfContainers() {
         if ( getSingleContainerNodes().length() == 1 ) {
-            return;
+            //Nothing to do since already at the default value
         }
         else if ( getSingleContainerNodes().length() == 2 ) {
+            //Remove one container by animation
             removeContainer();
         }
         else {

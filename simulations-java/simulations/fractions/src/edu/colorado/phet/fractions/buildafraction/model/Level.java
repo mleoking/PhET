@@ -21,7 +21,7 @@ public class Level {
     public final Property<List<Fraction>> createdFractions = new Property<List<Fraction>>( List.<Fraction>nil() );
 
     //Targets the user must match, usually 3 or 4 of them
-    public final List<MixedFraction> targets;
+    private final List<MixedFraction> targets;
 
     //For keeping score, the number of the 3 or 4 collection boxes the user has filled
     public final IntegerProperty filledTargets = new IntegerProperty( 0 );

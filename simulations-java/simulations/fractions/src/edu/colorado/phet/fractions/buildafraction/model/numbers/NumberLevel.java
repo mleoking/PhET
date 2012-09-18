@@ -53,13 +53,6 @@ public class NumberLevel extends Level {
                     target( selected.index( 2 ), colors.next(), shape ) ) );
     }
 
-    public NumberLevel( final List<MixedFraction> selected, final RandomColors4 colors, final F<MixedFraction, FilledPattern> shape ) {
-        this( list( target( selected.index( 0 ), colors.next(), shape ),
-                    target( selected.index( 1 ), colors.next(), shape ),
-                    target( selected.index( 2 ), colors.next(), shape ),
-                    target( selected.index( 3 ), colors.next(), shape ) ) );
-    }
-
     //Create a Number Level from the reduced fractions
     public static NumberLevel numberLevelReduced( final List<NumberTarget> targets ) {
         List<Fraction> reduced = targets.map( MixedFraction._fractionPart ).map( _reduce );

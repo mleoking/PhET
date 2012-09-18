@@ -73,13 +73,11 @@ public class FractionNode extends RichPNode {
     //For undo
     private List<FractionNodePosition> dropListHistory = List.nil();
 
-    boolean animatingToCenterOfScreen = false;
-
     public FractionNode( final FractionDraggingContext context, boolean mixedNumber ) {
         this.context = context;
         this.mixedNumber = mixedNumber;
-        numerator.box = new ShapeContainer( box( true ) );
-        denominator.box = new ShapeContainer( box( true ) );
+        numerator.box = new ShapeContainer( box() );
+        denominator.box = new ShapeContainer( box() );
         whole.box = new ShapeContainer( box( true, MixedFractionNode.mixedNumberWholeScale ) );
 
         //Size in the toolbox is smaller to keep the toolbox size good
@@ -166,7 +164,7 @@ public class FractionNode extends RichPNode {
         }
     }
 
-    public void undo() {
+    void undo() {
         setDragRegionPickable( true );
         Option<Fraction> value = isComplete() ? Option.some( getValue() ) : Option.<Fraction>none();
 
@@ -211,7 +209,7 @@ public class FractionNode extends RichPNode {
             box.cardNode.numberNode.setScale( 1.0 );
             box.cardNode.numberNode.setBoldFont( true );
 
-            box.cardNode.setCardShapeVisible( true );
+            box.cardNode.setCardShapeVisible();
             box.cardNode.setAllPickable( true );
             box.box.shape.setVisible( true );
 
@@ -233,8 +231,8 @@ public class FractionNode extends RichPNode {
         }
     }
 
-    private static PhetPPath box( boolean showOutline ) {
-        return box( showOutline, 1.0 );
+    private static PhetPPath box() {
+        return box( true, 1.0 );
     }
 
     private static PhetPPath box( boolean showOutline, double scale ) {
@@ -356,11 +354,9 @@ public class FractionNode extends RichPNode {
         animateToPositionScaleRotation( x, y, 1.0, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( this, true ),
                                                                                                                                 new PActivityDelegateAdapter() {
                                                                                                                                     @Override public void activityStarted( final PActivity activity ) {
-                                                                                                                                        animatingToCenterOfScreen = true;
                                                                                                                                     }
 
                                                                                                                                     @Override public void activityFinished( final PActivity activity ) {
-                                                                                                                                        animatingToCenterOfScreen = false;
                                                                                                                                     }
                                                                                                                                 } ) );
     }

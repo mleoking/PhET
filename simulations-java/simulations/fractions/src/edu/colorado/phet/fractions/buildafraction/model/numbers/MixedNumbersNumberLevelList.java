@@ -36,7 +36,7 @@ import static fj.data.List.list;
  */
 public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     public static final Random random = new Random();
-    private ArrayList<Function0<NumberLevel>> levels = new ArrayList<Function0<NumberLevel>>();
+    private final ArrayList<Function0<NumberLevel>> levels = new ArrayList<Function0<NumberLevel>>();
 
     //Creates the levels for this game. Please enable closure folding to be able to read it.
     public MixedNumbersNumberLevelList() {
@@ -200,9 +200,9 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         List<MixedFraction> targets = choose( 3, mixedFractions );
 
         //Scale so they fit in the flowers which requires a denominator of 6
-        return new NumberLevel( list( target( targets.index( 0 ), colors.next(), scaleToSixths( flower ) ),
-                                      target( targets.index( 1 ), colors.next(), scaleToSixths( flower ) ),
-                                      target( targets.index( 2 ), colors.next(), scaleToSixths( flower ) ) ) );
+        return new NumberLevel( list( target( targets.index( 0 ), colors.next(), scaleFlowerToSixths() ),
+                                      target( targets.index( 1 ), colors.next(), scaleFlowerToSixths() ),
+                                      target( targets.index( 2 ), colors.next(), scaleFlowerToSixths() ) ) );
 
     }
 
@@ -238,7 +238,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     -- 1, 2, or 3, as whole number
     -- Fractional portion from the set {1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9}
     --2 of the representations match cards exactly, 1 of the representations requires simplifying to a solution*/
-    public NumberLevel level5() {
+    NumberLevel level5() {
         List<Integer> wholes = list( 1, 2, 3 );
         List<MixedFraction> mixedFractions = getMixedFractions( wholes, fullListOfFractions() );
         final List<MixedFraction> targets = choose( 2, mixedFractions );
@@ -308,7 +308,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
      * --Random fill now possible, so for instance {2:1/4} could be represented by 2 full circles with a partially filled circle in between them.  As in, we do not need to strictly fill from left to right.
      * -- 2 of the representations require simplifying
      */
-    public NumberLevel level6() {
+    NumberLevel level6() {
         List<Fraction> expandable = expandable();
         List<Integer> wholes = list( 1, 2, 3 );
         List<MixedFraction> mixedFractions = getMixedFractions( wholes, fullListOfFractions() );
@@ -333,14 +333,14 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
 
     private List<Fraction> fullListOfFractions() {return parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6, 1/7, 2/7, 3/7, 4/7, 5/7, 6/7, 1/8, 3/8, 5/8, 7/8, 1/9, 2/9, 4/9, 5/9, 7/9, 8/9" );}
 
-    private F<MixedFraction, FilledPattern> scaleToSixths( final PatternMaker patternMaker ) {
+    private F<MixedFraction, FilledPattern> scaleFlowerToSixths() {
         return new F<MixedFraction, FilledPattern>() {
             @Override public FilledPattern f( final MixedFraction mixedFraction ) {
                 int d = mixedFraction.getFractionPart().denominator;
 
                 //Use the same random seed each time otherwise composite representations might have different shape types for each of its parts
                 Integer scaleFactor = 6 / d;
-                return patternMaker.sequential().f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
+                return NumberLevelList.flower.sequential().f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
             }
         };
     }
@@ -355,7 +355,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
      * -- For instance if the top two representations are {1:1/2}, the first representation could be a full circle and
      * a half circle divided in halves, and the second representation could be a full circle and a half circle divide in fourths.
      */
-    public NumberLevel level7() {
+    NumberLevel level7() {
         List<MixedFraction> fractions = getMixedFractions( list( 1, 2, 3 ), expandable() );
         P2<MixedFraction, MixedFraction> selected = chooseTwo( fractions );
         MixedFraction topOne = selected._1();
@@ -378,7 +378,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
      * --Same as level 6
      * --All 4 representations require simplifying
      */
-    public NumberLevel level8() {
+    NumberLevel level8() {
         List<Fraction> expandable = expandable();
         List<Integer> wholes = list( 1, 2, 3 );
         RandomColors4 colors = new RandomColors4();
@@ -398,14 +398,14 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
      * -- Now representations within the targets can have different divisions, do this for 2 of the targets
      * --So, for instance if {1:3/4} is being represented by circles, the first circle could be divided in ¼’s and the second circle divided in 1/8’s, with pieces randomly distributed between the two circles.
      */
-    public NumberLevel level9() { return levelWithSomeScattering( list( true, true, false, false ) ); }
+    NumberLevel level9() { return levelWithSomeScattering( list( true, true, false, false ) ); }
 
     /*Level 10:
     --Same as level 9, but now all 4 targets can have different internal divisions in representations.*/
-    public NumberLevel level10() { return levelWithSomeScattering( list( true, true, true, true ) ); }
+    NumberLevel level10() { return levelWithSomeScattering( list( true, true, true, true ) ); }
 
     //Shared code for levels 9-10, see their descriptions
-    public NumberLevel levelWithSomeScattering( List<Boolean> scatterList ) {
+    NumberLevel levelWithSomeScattering( List<Boolean> scatterList ) {
         final List<Integer> wholes = list( 1, 2, 3 );
         List<Integer> denominators = rangeInclusive( 2, 8 );
         List<Integer> selectedDenominators = choose( 4, denominators );
@@ -427,27 +427,12 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         } ) );
     }
 
-    public static final List<PatternMaker> typesForLevels9_10 = list( pie, horizontalBar );
+    private static final List<PatternMaker> typesForLevels9_10 = list( pie, horizontalBar );
 
     private NumberTarget difficultTarget( final MixedFraction mixedFraction, final Color next, final Boolean scattered ) {
         return scattered ?
                scatteredTarget( mixedFraction, next, chooseOne( typesForLevels9_10 ).random() ) :
                target( mixedFraction, next, chooseOne( typesForLevels9_10 ).random() );
-    }
-
-    public static void main( String[] args ) {
-        while ( true ) { loop(); }
-    }
-
-    private static void loop() {
-        NumberLevel level = new MixedNumbersNumberLevelList().createLevel( 9 );
-
-        //make sure each problem has a solution (forget dependecies)
-        //The problem illuminated here was solved with NumberTarget.overflows
-        for ( NumberTarget target : level.targets ) {
-            boolean solvable = isSolvable( level, target );
-            System.out.println( "target = " + target.mixedFraction + ", solvable = " + solvable );
-        }
     }
 
     private static boolean isSolvable( final NumberLevel level, final NumberTarget target ) {
@@ -497,6 +482,20 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
             }
             else {
                 return false;
+            }
+        }
+    }
+
+    //Test main to make sure that levels are solvable
+    public static void main( String[] args ) {
+        while ( true ) {
+            NumberLevel level = new MixedNumbersNumberLevelList().createLevel( 9 );
+
+            //make sure each problem has a solution (forget dependecies)
+            //The problem illuminated here was solved with NumberTarget.overflows
+            for ( NumberTarget target : level.targets ) {
+                boolean solvable = isSolvable( level, target );
+                System.out.println( "target = " + target.mixedFraction + ", solvable = " + solvable );
             }
         }
     }

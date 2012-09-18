@@ -52,16 +52,12 @@ public abstract class Stackable<T extends Stackable> extends PNode {
         this.stack = stack;
     }
 
-    public void delete() {
+    protected void delete() {
         stack.cards = stack.cards.filter( new F<T, Boolean>() {
             @Override public Boolean f( final T t ) {
                 return t != Stackable.this;
             }
         } );
         stack.update();
-    }
-
-    public Stack<T> getStack() {
-        return stack;
     }
 }

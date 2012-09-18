@@ -12,7 +12,7 @@ import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Compo
  *
  * @author Sam Reid
  */
-public class BuildAMixedFractionModule extends AbstractFractionsModule {
+class BuildAMixedFractionModule extends AbstractFractionsModule {
     public BuildAMixedFractionModule( BuildAFractionModel model ) {
         super( Components.mixedNumbersTab, Strings.MIXED_NUMBERS, model.clock );
         setSimulationPanel( new BuildAFractionCanvas( model, Strings.BUILD_A_MIXED_FRACTION ) );
