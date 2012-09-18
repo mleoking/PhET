@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.activities.PActivity;
  */
 public class FractionLabModule extends AbstractFractionsModule implements FractionLabCanvasContext {
     public FractionLabModule() {
-        super( Components.fractionLabModule, Strings.FRACTION_LAB, new ConstantDtClock() );
+        super( Components.fractionLabTab, Strings.FRACTION_LAB, new ConstantDtClock() );
         setSimulationPanel( new FractionLabCanvas( this ) );
     }
 
