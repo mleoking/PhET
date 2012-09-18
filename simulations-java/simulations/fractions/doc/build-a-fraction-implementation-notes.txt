@@ -22,6 +22,11 @@ Other levels to use the cards first then come up with challenges that can be obt
 For the shapes mode in order to come up with good challenges we find all possible solutions then sort by number of cards in the solution and choose from one of the smaller solutions,
 so there aren't too many shape cards to move around.
 
+//REVIEW build-a-fraction-model.txt says:
+// "In many cases, a postprocessor is used to guarantee that each of the levels has a wide variety of values and/or pattern types."
+// Where do I find this post-processor, how is it used, etc.?
+
+
 Most of the difficulty of this simulation comes from trying to support so many different scenarios.  Shape containers can be constructed in a variety of different ways,
 and have different initial conditions (starting in play area vs starting in toolbox) and operate at different scales depending on which tab is being used.
 In many cases an analytical solution for layouts was impractical and a heuristic trial and error approach was used to fine tune layouts.

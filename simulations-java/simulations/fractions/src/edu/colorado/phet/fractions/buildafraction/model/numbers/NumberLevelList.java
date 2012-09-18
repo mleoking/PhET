@@ -41,10 +41,12 @@ public class NumberLevelList implements NumberLevelFactory {
 
     public NumberLevel createLevel( final int level ) { return levels.get( level ).apply(); }
 
+    //REVIEW doc
     public static @Data @EqualsAndHashCode(callSuper = false) abstract class PatternMaker extends F<MixedFraction, Pattern> {
         public final String name;
         public final List<Integer> acceptedDenominators;
 
+        //REVIEW doc
         PatternMaker( String name, int... values ) {
             this.name = name;
             List<Integer> c = nil();
@@ -54,10 +56,12 @@ public class NumberLevelList implements NumberLevelFactory {
             acceptedDenominators = c;
         }
 
+        //REVIEW doc
         public F<MixedFraction, FilledPattern> sequential() {
             return new Sequential( this );
         }
 
+        //REVIEW doc
         public F<MixedFraction, FilledPattern> random() {
             return new RandomFill( this );
         }

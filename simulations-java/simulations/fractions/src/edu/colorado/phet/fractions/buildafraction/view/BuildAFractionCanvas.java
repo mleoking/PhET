@@ -21,14 +21,14 @@ import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 
 /**
- * Canvas for the build a fraction tab.  Shows the level selection screen or a particular level.  Provides animation between different scenes.
+ * Canvas for the "Build a Fraction" tab.  Shows the level selection screen or a particular level.  Provides animation between different scenes.
  *
  * @author Sam Reid
  */
 public class BuildAFractionCanvas extends AbstractFractionsCanvas implements LevelSelectionContext, SceneContext {
 
     public static final Paint TRANSPARENT = new Color( 0, 0, 0, 0 );
-    public static final Stroke controlPanelStroke = new BasicStroke( 2 );
+    public static final Stroke controlPanelStroke = new BasicStroke( 2 ); //REVIEW use all caps
 
     private PNode currentScene;
     private final BuildAFractionModel model;
@@ -57,6 +57,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         DOWN
     }
 
+    //REVIEW doc
     private void crossFadeTo( final PNode newNode ) {
         newNode.setTransparency( 0 );
         addChild( newNode );
@@ -72,6 +73,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         currentScene = newNode;
     }
 
+    //REVIEW doc
     private void animateTo( final PNode node, Direction direction ) {
         node.setTransparency( 1 );
         Vector2D nodeOffset = direction == Direction.RIGHT ? new Vector2D( STAGE_SIZE.width, 0 ) :
@@ -123,6 +125,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         crossFadeTo( createLevelSelectionNode() );
     }
 
+    //REVIEW doc
     private AbstractLevelSelectionNode createLevelSelectionNode() {
         return model.isMixedNumbers() ?
                new MixedNumbersLevelSelectionNode( title, this, model.audioEnabled, model.selectedPage, model.gameProgress ) :
@@ -131,25 +134,30 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
     public Component getComponent() { return this; }
 
+    //REVIEW doc
     private PNode createLevelNode( final int levelIndex, final LevelType levelType ) {
         return levelType == LevelType.SHAPES ?
                new ShapeSceneNode( levelIndex, model, this, model.audioEnabled, false ) :
                new NumberSceneNode( levelIndex, rootNode, model, this, model.audioEnabled, false );
     }
 
+    //REVIEW doc
     public void goToShapeLevel( final int newLevelIndex ) {
         animateTo( levelNode( new LevelIdentifier( newLevelIndex, LevelType.SHAPES ) ), Direction.RIGHT );
     }
 
+    //REVIEW doc
     public void goToNumberLevel( final int newLevelIndex ) {
         animateTo( levelNode( new LevelIdentifier( newLevelIndex, LevelType.NUMBERS ) ), Direction.RIGHT );
     }
 
+    //REVIEW doc
     public void goToLevelSelectionScreen( final int fromLevelIndex ) {
         model.selectedPage.set( fromLevelIndex < 5 ? 0 : 1 );
         animateTo( createLevelSelectionNode(), Direction.LEFT );
     }
 
+    //REVIEW doc
     public void resampleShapeLevel( final int levelIndex ) {
         model.resampleShapeLevel( levelIndex );
         final PNode newNode = createLevelNode( levelIndex, LevelType.SHAPES );
@@ -157,6 +165,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         crossFadeTo( newNode );
     }
 
+    //REVIEW doc
     public void resampleNumberLevel( final int levelIndex ) {
         model.resampleNumberLevel( levelIndex );
         final PNode newNode = createLevelNode( levelIndex, LevelType.NUMBERS );

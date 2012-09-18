@@ -8,7 +8,7 @@ import edu.colorado.phet.fractions.fractionsintro.AbstractFractionsModule;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 
 /**
- * Main module for "build a fraction" tab
+ * Main module for "Build a Fraction" tab
  *
  * @author Sam Reid
  */

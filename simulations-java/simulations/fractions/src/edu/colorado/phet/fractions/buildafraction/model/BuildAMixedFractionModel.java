@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.MixedNumbersNumberLevelList;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.MixedNumbersShapeLevelList;
 
+//REVIEW recommend renaming this to MixedNumbersModel
+
 /**
  * Main model for the "Mixed Numbers" tab of Build a Fraction
  *

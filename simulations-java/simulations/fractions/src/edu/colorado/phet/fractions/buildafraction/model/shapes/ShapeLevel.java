@@ -17,6 +17,8 @@ import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction._to
 import static fj.Ord.doubleOrd;
 import static java.lang.Math.ceil;
 
+//REVIEW identical class doc to NumberLevel, is one (or both) incorrect?
+
 /**
  * Level for the build a fraction game.
  *
