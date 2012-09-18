@@ -364,4 +364,9 @@ public class FractionNode extends RichPNode {
                numerator.cardNode == null && denominator.cardNode == null && whole.cardNode == null :
                numerator.cardNode == null && denominator.cardNode == null;
     }
+
+    public void reset() {
+        //undo until completely undone
+        undoAll();
+    }
 }

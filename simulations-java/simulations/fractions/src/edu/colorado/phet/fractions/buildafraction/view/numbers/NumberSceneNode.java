@@ -266,7 +266,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     private void resetFractions( final Property<Boolean> sentOneToPlayArea ) {
         for ( FractionNode fractionNode : fractionNodes ) {
-            fractionNode.undo();
+            fractionNode.reset();
             if ( !sentOneToPlayArea.get() ) {
                 fractionNode.animateToCenterOfScreen();
                 sentOneToPlayArea.set( true );
