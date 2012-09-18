@@ -310,8 +310,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 final boolean occupied = pair.getCollectionBoxNode().isCompleted();
                 if ( intersects && matchesValue && !occupied ) {
 
-                    //TODO: could fine tune layout here based on shape type or mixed vs non-mixed
-                    final double scale = 0.5 * pair.collectionBoxNode.scaleFactor;// * ( isMixedNumbers() ? 1.03 : 1.0 );
+                    final double scale = 0.5 * pair.collectionBoxNode.scaleFactor;
                     containerNode.removeUndoButton();
 
                     //Order dependence: set in target cell first so that layout code will work better afterwards
