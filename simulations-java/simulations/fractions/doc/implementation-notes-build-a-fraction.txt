@@ -1,5 +1,5 @@
 Build a Fraction uses Piccolo-oriented programming instead of functional programming (which is used the rest of the fractions sim).
-More details are available in phet-functional-programming.pdf
+More details regarding the trade-offs and decisions are available in phet-functional-programming.pdf
 
 Nodes are re-used instead of created, which facilitates animation.  Global to local transforms are used to keep nodes in the same place as they move between subtrees.
 
