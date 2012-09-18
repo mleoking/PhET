@@ -278,7 +278,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     //The user finished dragging a container node.  Perhaps they dropped it in a correct or incorrect collection box, or over the toolbox.
     public void endDrag( final ContainerNode containerNode ) {
 
-        //Make the buttons pressable
+        //Make the buttons clickable
         containerNode.updateExpansionButtonsEnabled();
 
         //See if it hits any matching collection boxes
