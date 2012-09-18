@@ -152,7 +152,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         forcesNode = new ForcesNode();
         addChild( forcesNode );
 
-        addChild( new ImageButtonNodeWithText( Images.GO_BUTTON, "Go!", new VoidFunction0() {
+        addChild( new ImageButtonNodeWithText( Images.GO_UP, Images.GO_HOVER, Images.GO_PRESSED, "Go!", new VoidFunction0() {
             public void apply() {
                 mode.set( Mode.GOING );
             }
@@ -174,7 +174,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             update.apply();
         }} );
 
-        final ImageButtonNodeWithText stopButton = new ImageButtonNodeWithText( Images.STOP_BUTTON, "STOP", new VoidFunction0() {
+        final ImageButtonNodeWithText stopButton = new ImageButtonNodeWithText( Images.STOP_UP, Images.STOP_HOVER, Images.STOP_PRESSED, "STOP", new VoidFunction0() {
             public void apply() {
                 mode.set( Mode.WAITING );
             }

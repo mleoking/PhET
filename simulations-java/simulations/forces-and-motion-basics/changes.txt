@@ -1,3 +1,4 @@
+Added new images for buttons
 # 0.00.10 (68055) Sep 17, 2012
 Fixed: Dragging doesn't work when screen resized
 Show "Sum of forces = 0" instead of blank
