@@ -226,7 +226,7 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
                 return choose( 4, getMixedFractions( list( 1, 2, 3 ), parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/5, 2/5, 3/5, 4/5, 1/6, 5/6" ) ) );
             }
         } );
-        return shapeLevelMixed( interestingShapes( targets.map( _toFraction ), 5 ), shuffle( targets ), colors[7], choosePiesOrBars() );
+        return shapeLevelMixed( interestingShapes( targets.map( _toFraction ), 5 ), shuffle( targets ), colors[8], choosePiesOrBars() );
     }
 
     /*Level 10:
@@ -237,7 +237,7 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
                 return choose( 4, getMixedFractions( list( 1, 2, 3 ), parse( "1/2, 1/3, 2/3, 1/4, 3/4, 1/6, 5/6, 1/8, 3/8, 5/8, 7/8" ) ) );
             }
         } );
-        return shapeLevelMixed( interestingShapes( targets.map( _toFraction ), 5 ), shuffle( targets ), colors[7], choosePiesOrBars() );
+        return shapeLevelMixed( interestingShapes( targets.map( _toFraction ), 5 ), shuffle( targets ), colors[9], choosePiesOrBars() );
     }
 
     //Take any of the cards, and subdivide it into smaller cards
