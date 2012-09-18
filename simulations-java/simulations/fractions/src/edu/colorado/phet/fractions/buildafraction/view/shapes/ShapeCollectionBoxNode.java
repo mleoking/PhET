@@ -36,7 +36,7 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
         double numberOfShapes = ceil( mixedFraction.toDouble() );
         scaleFactor = sceneNode.isMixedNumbers() ? 0.6 : 1.0;
 
-        double mixedNumbersReductionSize = sceneNode.isMixedNumbers() ? 32 : 0;
+        double mixedNumbersReductionSize = sceneNode.isMixedNumbers() ? 24 : 0;
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0,
 
                                                                 //room for shape items
