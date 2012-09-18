@@ -62,6 +62,7 @@ public class Distribution<T> {
         return sum;
     }
 
+    //Sample main for testing.
     public static void main( String[] args ) {
         final Distribution<String> distribution = new Distribution<String>() {{
             put( "a", 60 );
@@ -72,7 +73,6 @@ public class Distribution<T> {
         HashMap<String, Integer> counts = new HashMap<String, Integer>();
         for ( int i = 0; i < 10000; i++ ) {
             final String x = distribution.draw();
-//            System.out.println( "distribution.draw() = " + x );
             if ( counts.containsKey( x ) ) {
                 counts.put( x, counts.get( x ) + 1 );
             }

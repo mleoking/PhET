@@ -10,6 +10,8 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.fractions.common.view.RefreshButtonNode.copyWithPadding;
+
 /**
  * Button that allows the user to navigate back to the level selection screen.
  *
@@ -17,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class LevelSelectionScreenButton extends PNode {
     public LevelSelectionScreenButton( final VoidFunction0 pressed, BufferedImage image ) {
-        addChild( new HTMLImageButtonNode( RefreshButtonNode.copyWithPadding( image, 1, 1 ) ) {{
+        addChild( new HTMLImageButtonNode( copyWithPadding( image, 1, 1 ) ) {{
             setBackground( RefreshButtonNode.BUTTON_COLOR );
             setUserComponent( Components.levelSelectionScreenButton );
             addActionListener( new ActionListener() {
