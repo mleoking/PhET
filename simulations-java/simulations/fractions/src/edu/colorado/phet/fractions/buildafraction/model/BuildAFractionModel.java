@@ -48,9 +48,9 @@ public class BuildAFractionModel {
     };
     private final NumberLevelFactory numberLevelFactory;
     private final ShapeLevelFactory shapeLevelFactory;
-    public final BooleanProperty collectedMatch;
 
     //After the user creates their first correct match, all of the collection boxes fade into view
+    public final BooleanProperty collectedMatch;
 
     public BuildAFractionModel( BooleanProperty collectedMatch ) {
         this( collectedMatch, new ShapeLevelList(), new NumberLevelList() );
