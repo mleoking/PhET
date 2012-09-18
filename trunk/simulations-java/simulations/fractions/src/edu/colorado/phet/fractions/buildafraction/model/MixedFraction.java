@@ -19,12 +19,12 @@ public @Data class MixedFraction {
     public final int numerator;
     public final int denominator;
 
-    public static F<MixedFraction, Double> _toDouble = new F<MixedFraction, Double>() {
+    public static final F<MixedFraction, Double> _toDouble = new F<MixedFraction, Double>() {
         @Override public Double f( final MixedFraction mixedFraction ) {
             return mixedFraction.toDouble();
         }
     };
-    public static F<Fraction, MixedFraction> _toMixedFraction = new F<Fraction, MixedFraction>() {
+    public static final F<Fraction, MixedFraction> _toMixedFraction = new F<Fraction, MixedFraction>() {
         @Override public MixedFraction f( final Fraction fraction ) {
             return new MixedFraction( 0, fraction.numerator, fraction.denominator );
         }
@@ -34,27 +34,27 @@ public @Data class MixedFraction {
             return f.toFraction().greaterThanOne();
         }
     };
-    public static F<MixedFraction, Integer> _numerator = new F<MixedFraction, Integer>() {
+    public static final F<MixedFraction, Integer> _numerator = new F<MixedFraction, Integer>() {
         @Override public Integer f( final MixedFraction mixedFraction ) {
             return mixedFraction.numerator;
         }
     };
-    public static F<MixedFraction, Integer> _denominator = new F<MixedFraction, Integer>() {
+    public static final F<MixedFraction, Integer> _denominator = new F<MixedFraction, Integer>() {
         @Override public Integer f( final MixedFraction mixedFraction ) {
             return mixedFraction.denominator;
         }
     };
-    public static F<MixedFraction, Integer> _whole = new F<MixedFraction, Integer>() {
+    public static final F<MixedFraction, Integer> _whole = new F<MixedFraction, Integer>() {
         @Override public Integer f( final MixedFraction mixedFraction ) {
             return mixedFraction.whole;
         }
     };
-    public static F<NumberTarget, Fraction> _fractionPart = new F<NumberTarget, Fraction>() {
+    public static final F<NumberTarget, Fraction> _fractionPart = new F<NumberTarget, Fraction>() {
         @Override public Fraction f( final NumberTarget numberTarget ) {
             return numberTarget.mixedFraction.getFractionPart();
         }
     };
-    public static F<MixedFraction, Fraction> _toFraction = new F<MixedFraction, Fraction>() {
+    public static final F<MixedFraction, Fraction> _toFraction = new F<MixedFraction, Fraction>() {
         @Override public Fraction f( final MixedFraction mixedFraction ) {
             return mixedFraction.toFraction();
         }

@@ -46,7 +46,7 @@ public class BarPieceNode extends PieceNode {
         addChild( 0, barShadowNode );
     }
 
-    @Override public PieceNode copy() {
+    @SuppressWarnings("unchecked") @Override public PieceNode copy() {
         BarPieceNode copy = new BarPieceNode( pieceDenominator, shapeSceneNode, PiePieceNode.copy( shape ) );
         copy.setInitialScale( initialScale );
         copy.setStack( stack );

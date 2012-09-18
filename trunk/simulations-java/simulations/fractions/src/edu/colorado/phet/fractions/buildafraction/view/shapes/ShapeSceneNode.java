@@ -82,8 +82,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private final BuildAFractionModel model;
     public int toolboxHeight;
 
-    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
-        this( levelIndex, model, stageSize, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, stageSize, context, soundEnabled, fractionLab ) ), fractionLab );
+    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
+        this( levelIndex, model, AbstractFractionsCanvas.STAGE_SIZE, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, AbstractFractionsCanvas.STAGE_SIZE, context, soundEnabled, fractionLab ) ), fractionLab );
     }
 
     //Create and throw away a new ShapeSceneNode in order to get the layout of the toolbar perfectly centered under the title.
@@ -278,7 +278,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     //The user finished dragging a container node.  Perhaps they dropped it in a correct or incorrect collection box, or over the toolbox.
     public void endDrag( final ContainerNode containerNode ) {
 
-        //Make the buttons clickable
+        //Enable the buttons
         containerNode.updateExpansionButtonsEnabled();
 
         //See if it hits any matching collection boxes
@@ -303,6 +303,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         boolean skipCollectionBoxes = intersectsToolbox && closerToToolboxCenter;
 
         if ( !skipCollectionBoxes ) {
+
             //Only consider the closest box, otherwise students can overlap many boxes instead of thinking of the correct answer
             for ( ShapeSceneCollectionBoxPair pair : pairs.take( 1 ) ) {
                 final boolean intersects = pair.collectionBoxNode.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );

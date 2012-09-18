@@ -62,7 +62,7 @@ public class PiePieceNode extends PieceNode {
         pieBackground.addChild( 0, pieShadow );
     }
 
-    @Override public PieceNode copy() {
+    @SuppressWarnings("unchecked") @Override public PieceNode copy() {
         PiePieceNode copy = new PiePieceNode( pieceDenominator, shapeSceneNode, copy( shape ) );
         copy.setInitialScale( initialScale );
         copy.setStack( stack );

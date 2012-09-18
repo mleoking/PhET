@@ -52,7 +52,7 @@ class SingleContainerNode extends PNode {
     private final ContainerShapeNode shapeLayer;
     private final ObservableProperty<Integer> number;
 
-    public SingleContainerNode( final ShapeType shapeType, final ContainerNode parent, final ObservableProperty<Integer> number, final boolean mixedNumbers ) {
+    public SingleContainerNode( final ShapeType shapeType, final ContainerNode parent, final ObservableProperty<Integer> number ) {
         this.parent = parent;
         this.number = number;
         dottedLineLayer = new PNode() {{
@@ -87,7 +87,7 @@ class SingleContainerNode extends PNode {
                 }
             } );
         }};
-        shapeLayer = new ContainerShapeNode( number.get(), Color.white, shapeType ) {{
+        shapeLayer = new ContainerShapeNode( number.get(), shapeType ) {{
             //Thicker outer stroke
             addChild( new PhetPPath( shapeType == BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight )
                                                       : new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), Color.white, new BasicStroke( 2 ), Color.black ) );

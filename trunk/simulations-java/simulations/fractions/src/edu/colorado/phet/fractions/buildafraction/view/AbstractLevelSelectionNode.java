@@ -89,7 +89,7 @@ class AbstractLevelSelectionNode extends PNode {
                         PActivity activity = pageNode.animateToTransparency( pageNode.getTransparency(), BuildAFractionModule.ANIMATION_TIME );
                         activity.setDelegate( new PActivityDelegateAdapter() {
                             public void activityFinished( final PActivity activity ) {
-                                pageNode.animateToTransparency( index == selectedPage ? 1 : 0, BuildAFractionModule.ANIMATION_TIME );
+                                pageNode.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
                             }
                         } );
                     }

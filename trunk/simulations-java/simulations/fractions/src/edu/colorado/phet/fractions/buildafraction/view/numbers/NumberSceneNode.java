@@ -38,7 +38,6 @@ import edu.colorado.phet.fractions.buildafraction.view.StackContext;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.STAGE_SIZE;
@@ -64,16 +63,16 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private final List<List<Integer>> stacks;
     private final Vector2D centerOfScreen;
 
-    //Make the spacing big enough that tall stacks don't overlap, but not so large that lots of stacks go offscreen
+    //Make the spacing big enough that tall stacks don't overlap, but not so large that lots of stacks go off-screen
     private final double spaceBetweenStacks;
     private static final double LEFT_RIGHT_INSET = 20;
     private static final double SPACING_BETWEEN_NUMBERS_AND_FRACTION_SKELETON = 50;
-    private Property<Option<Integer>> draggedCardProperty = new Property<Option<Integer>>( Option.<Integer>none() );
+    private final Property<Option<Integer>> draggedCardProperty = new Property<Option<Integer>>( Option.<Integer>none() );
     private double toolboxPositionY;
     private double offsetX;
     private Vector2D initialToolboxPositionForSkeletons;
 
-    @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
+    @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
         super( levelIndex, soundEnabled, context, fractionLab );
         spaceBetweenStacks = fractionLab ? 38 : 28;
         double insetY = 10;
@@ -163,7 +162,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         //Add remaining fraction graphics into the toolbox
         int numRemainingFractionSkeletons = level.targets.length() - 1;
 
-        double toolboxPositionX = 0;
+        double toolboxPositionX;
         double toolboxPositionY = 0;
         for ( int i = 0; i < numRemainingFractionSkeletons; i++ ) {
             CreateNonMixedFractionGraphicFractionLab c = new CreateNonMixedFractionGraphicFractionLab( fractionLab ).invoke();
@@ -175,11 +174,11 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         //For free play, also create a mixed number graphic
         if ( fractionLab ) {
             this.offsetX = toolboxNode.getMaxX() - 200;
-            toolboxPositionX = addMixedFractionGraphicFactionLab( toolboxPositionY, offsetX );
+            addMixedFractionGraphicFactionLab( toolboxPositionY, offsetX );
             this.toolboxPositionY = toolboxPositionY;
         }
 
-        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, fractionLab );
+        finishCreatingUI( levelIndex, model, AbstractFractionsCanvas.STAGE_SIZE, goToNextLevel, _resampleLevel, fractionLab );
 
         fractionNode.setToolboxPosition( initialToolboxPositionForSkeletons.x, initialToolboxPositionForSkeletons.y );
         centerOfScreen = new Vector2D( fractionLab ? 300 : levelReadoutTitle.getFullBounds().getCenterX() - fractionNode.getFullWidth() / 2 + 28, 350 - fractionNode.getFullHeight() / 2 - ( fractionLab ? 0 : 30 ) );
@@ -286,7 +285,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private void resetCollectionBoxes() {
         for ( NumberSceneCollectionBoxPair pair : pairs ) {
             if ( pair.collectionBoxNode.isCompleted() ) {
-                pair.collectionBoxNode.undo( true );
+                pair.collectionBoxNode.undo();
             }
         }
     }

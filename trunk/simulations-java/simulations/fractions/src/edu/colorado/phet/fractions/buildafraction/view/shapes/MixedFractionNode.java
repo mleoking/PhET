@@ -17,7 +17,7 @@ public class MixedFractionNode extends PNode {
 
     //AP: Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
     public static final double mixedNumberWholeScale = 2.4;
-    public static final double fractionSizeScale = 0.3;
+    private static final double fractionSizeScale = 0.3;
 
     public MixedFractionNode( final MixedFraction fraction ) {
         addChild( new HBox( 0,

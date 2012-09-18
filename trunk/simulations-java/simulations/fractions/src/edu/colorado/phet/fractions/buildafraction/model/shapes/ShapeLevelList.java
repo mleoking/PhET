@@ -159,7 +159,7 @@ public class ShapeLevelList implements ShapeLevelFactory {
     }
 
     //Just the exact cards necessary to fit the selected fractions
-    public static List<Integer> straightforwardCards( final List<Fraction> targets ) {
+    private static List<Integer> straightforwardCards( final List<Fraction> targets ) {
         List<Integer> cards = nil();
         for ( Fraction fraction : targets ) {
             for ( int i = 0; i < fraction.numerator; i++ ) {
@@ -169,7 +169,7 @@ public class ShapeLevelList implements ShapeLevelFactory {
         return cards;
     }
 
-    public static List<Integer> createCardsSameNumberEachType( final List<Fraction> selected ) {
+    private static List<Integer> createCardsSameNumberEachType( final List<Fraction> selected ) {
         Integer maxNumerator = selected.map( _numerator ).maximum( Ord.intOrd );
         List<Integer> cards = nil();
         for ( Fraction fraction : selected ) {

@@ -6,7 +6,6 @@ import fj.F;
 import fj.Unit;
 import fj.data.List;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -33,7 +32,7 @@ import static fj.data.List.*;
  */
 public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
 
-    private ArrayList<Function0<ShapeLevel>> levels = new ArrayList<Function0<ShapeLevel>>();
+    private final ArrayList<Function0<ShapeLevel>> levels = new ArrayList<Function0<ShapeLevel>>();
 
     //To avoid big piles, we probably want to do a check so that on any given draw, only a single "3" is drawn for a target whole number.  So there will never be a level where two targets appear with 3 as the whole number.
     public MixedNumbersShapeLevelList() {
@@ -113,7 +112,7 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
     }
 
     //To avoid big piles, we probably want to do a check so that on any given draw, only a single "3" is drawn for a target whole number.  So there will never be a level where two targets appear with 3 as the whole number.
-    public static List<MixedFraction> chooseRestricted( F<Unit, List<MixedFraction>> f ) {
+    private static List<MixedFraction> chooseRestricted( F<Unit, List<MixedFraction>> f ) {
         while ( true ) {
             final List<MixedFraction> solution = f.f( Unit.unit() );
             List<MixedFraction> filtered = solution.filter( new F<MixedFraction, Boolean>() {
@@ -281,7 +280,7 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
     }
 
     //Just the exact cards necessary to fit the selected fractions
-    public static List<Integer> straightforwardCards( final List<MixedFraction> targets ) {
+    private static List<Integer> straightforwardCards( final List<MixedFraction> targets ) {
         List<Integer> cards = nil();
         for ( MixedFraction mixedFraction : targets ) {
             for ( int i = 0; i < mixedFraction.whole; i++ ) {
@@ -293,10 +292,5 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
             }
         }
         return cards;
-    }
-
-    private ShapeLevel testLevel() {
-        return new ShapeLevel( List.list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ),
-                               List.replicate( 3, new MixedFraction( 1, 2, 3 ) ), Color.blue, ShapeType.PIE, true );
     }
 }

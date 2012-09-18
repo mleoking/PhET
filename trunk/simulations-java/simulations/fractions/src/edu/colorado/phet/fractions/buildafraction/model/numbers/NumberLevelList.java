@@ -6,6 +6,7 @@ import fj.F;
 import fj.P2;
 import fj.data.List;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -36,15 +37,15 @@ import static java.awt.Color.orange;
  */
 public class NumberLevelList implements NumberLevelFactory {
     private static final Random random = new Random();
-    private ArrayList<Function0<NumberLevel>> levels = new ArrayList<Function0<NumberLevel>>();
+    private final ArrayList<Function0<NumberLevel>> levels = new ArrayList<Function0<NumberLevel>>();
 
     public NumberLevel createLevel( final int level ) { return levels.get( level ).apply(); }
 
-    public static @Data abstract class PatternMaker extends F<MixedFraction, Pattern> {
+    public static @Data @EqualsAndHashCode(callSuper = false) abstract class PatternMaker extends F<MixedFraction, Pattern> {
         public final String name;
         public final List<Integer> acceptedDenominators;
 
-        protected PatternMaker( String name, int... values ) {
+        PatternMaker( String name, int... values ) {
             this.name = name;
             List<Integer> c = nil();
             for ( int value : values ) {
@@ -63,7 +64,7 @@ public class NumberLevelList implements NumberLevelFactory {
     }
 
     //Used for equality tests, so needs a working equality test
-    public static @Data class Sequential extends F<MixedFraction, FilledPattern> {
+    public static @Data @EqualsAndHashCode(callSuper = false) class Sequential extends F<MixedFraction, FilledPattern> {
         public final PatternMaker patternMaker;
 
         @Override public FilledPattern f( final MixedFraction fraction ) {
@@ -72,7 +73,7 @@ public class NumberLevelList implements NumberLevelFactory {
     }
 
     //Used for equality tests, so needs a working equality test
-    public static @Data class RandomFill extends F<MixedFraction, FilledPattern> {
+    public static @Data @EqualsAndHashCode(callSuper = false) class RandomFill extends F<MixedFraction, FilledPattern> {
         public final PatternMaker patternMaker;
 
         @Override public FilledPattern f( final MixedFraction fraction ) {
@@ -138,7 +139,7 @@ public class NumberLevelList implements NumberLevelFactory {
     };
 
     //Only choose from the universal patterns (that accept all denominators)
-    public static final List<PatternMaker> universalTypes = list( pie, horizontalBar, verticalBar );
+    private static final List<PatternMaker> universalTypes = list( pie, horizontalBar, verticalBar );
 
     public static final List<PatternMaker> allTypes = list( pie, horizontalBar, verticalBar, pyramid1, pyramid4, pyramid9, grid1, grid4, grid9, flower, polygon );
 
@@ -397,7 +398,7 @@ public class NumberLevelList implements NumberLevelFactory {
     -- Representations both less than 1 and greater than 1
     -- All representations possible
     -- No card constraints (as in straightforward matching of number and picture possible)*/
-    public static NumberLevel level10() {
+    private static NumberLevel level10() {
         //Choose 4 different patterns
         List<RepresentationType> types = choose( 4, RepresentationType.all );
 

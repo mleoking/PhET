@@ -16,7 +16,7 @@ public class Box {
     public NumberCardNode cardNode;
     public NumberNode numberNode;
     public PNode parent;
-    public PNode notAllowedIcon = new PImage( Images.NOT_ALLOWED );
+    private final PNode notAllowedIcon = new PImage( Images.NOT_ALLOWED );
 
     public void setEnabled( final boolean enabled ) {
         box.setVisible( enabled );

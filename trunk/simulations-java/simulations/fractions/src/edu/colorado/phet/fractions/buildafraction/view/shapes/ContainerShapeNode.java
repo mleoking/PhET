@@ -26,12 +26,12 @@ public class ContainerShapeNode extends PNode {
 
     public static final double circleDiameter = 100 * scale;
 
-    public ContainerShapeNode( final int number, final Color fill, final ShapeType shapeType ) {
+    public ContainerShapeNode( final int number, final ShapeType shapeType ) {
         final PNode content = new PNode() {{
             for ( int i = 0; i < number; i++ ) {
                 if ( shapeType == ShapeType.BAR ) {
                     final double pieceWidth = rectangleWidth / number;
-                    addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, rectangleHeight ), fill, new BasicStroke( 1 ), Color.black ) );
+                    addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, rectangleHeight ), Color.white, new BasicStroke( 1 ), Color.black ) );
                 }
             }
             //Thicker outer stroke
