@@ -9,7 +9,6 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -67,20 +66,6 @@ public class SolarPanel extends EnergyConverter {
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
     }
 
-    @Override public void activate() {
-        super.activate();
-        ableToAbsorbSunlight.set( true );
-    }
-
-    @Override public void deactivate() {
-        super.deactivate();
-        ableToAbsorbSunlight.set( false );
-    }
-
-    public ObservableProperty<Boolean> getAbleToAbsorbSunlight() {
-        return ableToAbsorbSunlight;
-    }
-
     /**
      * Get the shape of the region that absorbs sunlight.
      *
@@ -93,7 +78,7 @@ public class SolarPanel extends EnergyConverter {
                                                           SOLAR_PANEL_IMAGE.getWidth(),
                                                           SOLAR_PANEL_IMAGE.getHeight() );
         AffineTransform transform = AffineTransform.getTranslateInstance( getPosition().getX() + SOLAR_PANEL_OFFSET.getX(),
-                                                                          getPosition().getY() + SOLAR_PANEL_OFFSET.getX() );
+                                                                          getPosition().getY() + SOLAR_PANEL_OFFSET.getY() );
         return transform.createTransformedShape( panelBounds );
     }
 
