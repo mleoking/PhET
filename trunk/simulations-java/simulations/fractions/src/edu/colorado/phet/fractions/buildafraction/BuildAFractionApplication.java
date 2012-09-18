@@ -21,7 +21,7 @@ public class BuildAFractionApplication extends PiccoloPhetApplication {
         //Disable the collection boxes unless the user has created a match in that level or collected a match anywhere in the sim (any tab)
         BooleanProperty collectedMatch = new BooleanProperty( false );
         addModule( new BuildAFractionModule( new BuildAFractionModel( collectedMatch ) ) );
-        addModule( new BuildAMixedFractionModule( new BuildAMixedFractionModel( collectedMatch ) ) );
+        addModule( new MixedNumbersModule( new BuildAMixedFractionModel( collectedMatch ) ) );
         addModule( new FractionLabModule() );
     }
 
