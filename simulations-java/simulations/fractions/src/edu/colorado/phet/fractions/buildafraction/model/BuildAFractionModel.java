@@ -120,8 +120,7 @@ public class BuildAFractionModel {
         shapeLevels.clear();
         audioEnabled.reset();
 
-        //REVIEW "for both tabs"?... What does that mean? Which tabs, this sim has 3.
-        //Resets it for both tabs
+        //Resets it for both of the collection tabs (tabs 1-2)
         collectedMatch.reset();
     }
 
