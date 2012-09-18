@@ -89,7 +89,7 @@ public class Sun extends EnergySource {
         Vector2D sunPosition = getPosition().plus( OFFSET_TO_CENTER_OF_SUN );
         double energyProduced = 0;
 
-        if ( active ) {
+        if ( isActive() ) {
             // See if it is time to emit an energy chunk.
             energyChunkEmissionCountdownTimer -= dt;
             if ( energyChunkEmissionCountdownTimer <= 0 ) {

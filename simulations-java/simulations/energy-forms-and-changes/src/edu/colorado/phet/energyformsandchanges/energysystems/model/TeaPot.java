@@ -57,7 +57,7 @@ public class TeaPot extends EnergySource {
     //-------------------------------------------------------------------------
 
     @Override public Energy stepInTime( double dt ) {
-        if ( active ) {
+        if ( isActive() ) {
             if ( heatCoolAmount.get() <= 0 && energyProductionRate.get() < COOL_DOWN_COMPLETE_THRESHOLD ) {
                 // Clamp the energy production rate to zero so that it doesn't
                 // trickle on forever.

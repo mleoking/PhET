@@ -32,7 +32,7 @@ public class LightBulb extends EnergyUser {
     }
 
     @Override public void stepInTime( double dt, Energy incomingEnergy ) {
-        if ( active && incomingEnergy.type == EnergyType.ELECTRICAL ) {
+        if ( isActive() && incomingEnergy.type == EnergyType.ELECTRICAL ) {
             litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / energyToFullyLight, 1 ) );
         }
         else {

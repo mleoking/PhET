@@ -113,7 +113,7 @@ public class Biker extends EnergySource {
     //-------------------------------------------------------------------------
 
     @Override public Energy stepInTime( double dt ) {
-        if ( active ) {
+        if ( isActive() ) {
             double angularVelocityDiffFromTarget = targetCrankAngularVelocity.get() - crankAngularVelocity;
             if ( angularVelocityDiffFromTarget != 0 ) {
                 double change = ANGULAR_ACCELERATION * dt;

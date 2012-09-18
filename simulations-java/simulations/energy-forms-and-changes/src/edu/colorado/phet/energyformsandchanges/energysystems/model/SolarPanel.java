@@ -61,8 +61,8 @@ public class SolarPanel extends EnergyConverter {
 
     @Override public Energy stepInTime( double dt, Energy incomingEnergy ) {
         double energyProduced = 0;
-        if ( active && incomingEnergy.type == EnergyType.SOLAR ) {
-            energyProduced = active ? incomingEnergy.amount * CONVERSION_EFFICIENCY : 0;
+        if ( isActive() && incomingEnergy.type == EnergyType.SOLAR ) {
+            energyProduced = incomingEnergy.amount * CONVERSION_EFFICIENCY;
         }
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
     }
