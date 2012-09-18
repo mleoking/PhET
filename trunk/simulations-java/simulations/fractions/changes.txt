@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Shapes: Fixed: Colors for level 9-10 do not match the icons
 Build a Mixed Fraction: Shapes: Fixed: Collection boxes too small on level 2 when using bars and values all 1<x<2
 Build a Mixed Fraction: Numbers: Fixed: Levels 6-8 sometimes use 4 of the same pattern type
 Build a Fraction: Numbers: Fixed: Exception on reset if no numbers have been added to fraction skeletons
