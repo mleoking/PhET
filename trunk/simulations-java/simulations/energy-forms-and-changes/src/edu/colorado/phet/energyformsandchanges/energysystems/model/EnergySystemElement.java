@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
@@ -28,8 +30,9 @@ public abstract class EnergySystemElement extends PositionableFadableModelElemen
     // Image that is used as an icon in the view to represent this element.
     private final Image iconImage;
 
-    // State variable that tracks whether this element is currently active.
-    protected boolean active = false;
+    // State variable that tracks whether this element is currently active,
+    // meaning that it is generating, transforming, and/or consuming energy.
+    private BooleanProperty active = new BooleanProperty( false );
 
     protected EnergySystemElement( Image iconImage, List<ModelElementImage> images ) {
         this.iconImage = iconImage;
@@ -57,10 +60,18 @@ public abstract class EnergySystemElement extends PositionableFadableModelElemen
     public abstract IUserComponent getUserComponent();
 
     public void activate() {
-        active = true;
+        active.set( true );
     }
 
     public void deactivate() {
-        active = false;
+        active.set( true );
+    }
+
+    public ObservableProperty<Boolean> getObservableActiveState() {
+        return active;
+    }
+
+    protected boolean isActive() {
+        return active.get();
     }
 }

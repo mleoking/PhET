@@ -79,7 +79,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
     //-------------------------------------------------------------------------
 
     @Override public Energy stepInTime( double dt, Energy incomingEnergy ) {
-        if ( active ) {
+        if ( isActive() ) {
             if ( directCouplingMode.get() ) {
                 // Treat the wheel as though it is directly coupled to the
                 // energy source, e.g. through a belt or drive shaft.
