@@ -25,7 +25,9 @@ public class BuildAFractionModel {
 
     public final ConstantDtClock clock = new ConstantDtClock();
     public final BooleanProperty audioEnabled = new BooleanProperty( true );
-    public final IntegerProperty selectedPage = new IntegerProperty( 0 ); //REVIEW what is a "page"?
+
+    //Property that indicates which "page" on the level selection screen the user is looking at
+    public final IntegerProperty selectedPage = new IntegerProperty( 0 );
 
     private final IntegerProperty numberLevel = new IntegerProperty( 0 );
     private final HashMap<Integer, NumberLevel> numberLevels = new HashMap<Integer, NumberLevel>();
