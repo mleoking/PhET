@@ -2,6 +2,8 @@ Build a Fraction uses Piccolo-oriented programming instead of functional program
 More details regarding the trade-offs and decisions are available in phet-functional-programming.pdf
 
 Nodes are re-used instead of created, which facilitates animation.  Global to local transforms are used to keep nodes in the same place as they move between subtrees.
+Also, in this sim, nodes in the toolbox (shape pieces, shape containers, number cards and fraction skeletons) are draggable from the toolbox--
+this differs from design of other sims which instead show an icon then create the draggable instance once the mouse is pressed or dragged.
 
 There are 2 types of levels: one in which you build using number cards (see NumberSceneNode), and 1 in which you build using pictures of shape pieces (see ShapeSceneNode).
 
