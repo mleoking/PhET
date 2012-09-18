@@ -75,7 +75,7 @@ public class FractionsIntroSimSharing {
         piece,
         container,
         nextButton, collectionBoxUndoButton,
-        fraction, numberCard, fractionCard, carouselRadioButton, carouselRadioButtonLabel, levelSelectionScreenButton, fractionLabModule,
+        fraction, numberCard, fractionCard, carouselRadioButton, carouselRadioButtonLabel, levelSelectionScreenButton, fractionLabTab,
 
     }
 
