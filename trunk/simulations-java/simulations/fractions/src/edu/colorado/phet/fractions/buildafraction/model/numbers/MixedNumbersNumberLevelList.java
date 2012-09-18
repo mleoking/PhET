@@ -150,12 +150,11 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         return f.f( unit() );
     }
 
-    //REVIEW "as before refreshing" ???
     /*Level 1:
     -- Circles as targets
     -- {1:1/2, 2:1/2, 3:1/4} as the challenges
     --just enough cards to complete targets
-    -- as before refreshing will randomly reorder, recolor
+    --When the user presses "refresh" it should randomly reorder and recolor the targets
     */
     private NumberLevel level1() {
         RandomColors3 colors = new RandomColors3();
