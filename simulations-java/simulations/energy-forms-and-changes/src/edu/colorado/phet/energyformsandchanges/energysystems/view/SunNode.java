@@ -53,7 +53,6 @@ public class SunNode extends PositionableFadableModelElementNode {
         addChild( lightRays );
 
         // Add the energy chunks.
-//        canvas.addWorldChild( new EnergyChunkLayer( sun.energyChunkList, this, mvt ) );
         final EnergyChunkLayer energyChunkLayer = new EnergyChunkLayer( sun.energyChunkList, canvas, mvt );
         sun.getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
             public void apply( Vector2D position ) {
