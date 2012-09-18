@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Return a fraction skeleton to the play area after "reset"
 Build a Fraction: Numbers: Fixed: "Reset" performs "undo" operation for any completed fraction cards
 # 1.01.18 (68085) Sep 17, 2012
 Fraction Lab: Fixed: Containers often have the wrong scale when they are dropped back into the toolbox

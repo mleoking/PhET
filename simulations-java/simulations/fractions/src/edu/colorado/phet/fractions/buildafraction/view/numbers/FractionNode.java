@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
+import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -29,12 +30,14 @@ import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.Box.ShapeContainer;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.AnimateToScale;
+import edu.colorado.phet.fractions.buildafraction.view.shapes.CompositeDelegate;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.MixedFractionNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.UndoButton;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
@@ -69,6 +72,8 @@ public class FractionNode extends RichPNode {
 
     //For undo
     private List<FractionNodePosition> dropListHistory = List.nil();
+
+    boolean animatingToCenterOfScreen = false;
 
     public FractionNode( final FractionDraggingContext context, boolean mixedNumber ) {
         this.context = context;
@@ -348,7 +353,16 @@ public class FractionNode extends RichPNode {
     public void animateToCenterOfScreen() {
         final double x = context.getCenterOfScreen().x;
         final double y = context.getCenterOfScreen().y;
-        animateToPositionScaleRotation( x, y, 1.0, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new DisablePickingWhileAnimating( this, true ) );
+        animateToPositionScaleRotation( x, y, 1.0, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( this, true ),
+                                                                                                                                new PActivityDelegateAdapter() {
+                                                                                                                                    @Override public void activityStarted( final PActivity activity ) {
+                                                                                                                                        animatingToCenterOfScreen = true;
+                                                                                                                                    }
+
+                                                                                                                                    @Override public void activityFinished( final PActivity activity ) {
+                                                                                                                                        animatingToCenterOfScreen = false;
+                                                                                                                                    }
+                                                                                                                                } ) );
     }
 
     //Don't go to the exact center of screen, or it is likely to overlap another one
