@@ -258,6 +258,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     protected void reset() {
         Property<Boolean> sentOneToPlayArea = new Property<Boolean>( false );
+
         //Order is important, have to reset score boxes first or the fractions in the score box will be split and cause exceptions
         resetCollectionBoxes( sentOneToPlayArea );
         resetFractions( sentOneToPlayArea );
@@ -364,7 +365,6 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
     }
 
-    //TODO: this should account for partially complete fractions too
     boolean allIncompleteFractionsInToolbox() {
         for ( FractionNode fractionGraphic : fractionNodes ) {
             if ( !fractionGraphic.isComplete() && !fractionGraphic.isInToolboxPosition() ) {

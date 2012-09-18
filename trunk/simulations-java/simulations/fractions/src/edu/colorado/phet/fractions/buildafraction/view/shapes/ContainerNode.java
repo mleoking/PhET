@@ -347,7 +347,6 @@ public class ContainerNode extends PNode {
     //Identify containers as being in the toolbox if they are shrunken
     public boolean isInToolbox() { return Math.abs( getScale() - toolboxScale( parent.fractionLab ) ) < 1E-6; }
 
-    //    public boolean startedInToolbox() {return parent.fractionLab ? initialY < 200 : initialY > 500;}
     public boolean startedInToolbox() {return initialY > 500;}
 
     public void pieceAdded() {
