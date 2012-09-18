@@ -70,6 +70,8 @@ public class Sun extends EnergySource {
     protected Sun( SolarPanel solarPanel ) {
         super( EnergyFormsAndChangesResources.Images.SUN_ICON, IMAGE_LIST );
         this.solarPanel = solarPanel;
+
+        // Add/remove clouds based on the value of the cloudiness property.
         cloudiness.addObserver( new VoidFunction1<Double>() {
             public void apply( Double cloudiness ) {
                 for ( int i = 0; i < clouds.size(); i++ ) {
@@ -100,9 +102,15 @@ public class Sun extends EnergySource {
                 energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
             }
 
-            // See if any energy chunks should be removed.
+            // Update the energy chunks.
             for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
-                if ( energyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CENTER_OF_SUN ) ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {
+                if ( solarPanel.getAbsorptionShape().contains( energyChunk.position.get().toPoint2D() ) ) {
+                    // This energy chunk was absorbed by the solar panel.
+                    // TODO: For now, just remove the chunk, but eventually it will go out to next element in chain.
+                    energyChunkList.remove( energyChunk );
+                }
+                else if ( energyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CENTER_OF_SUN ) ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {
+                    // This energy chunk is out of visible range, so remove it.
                     energyChunkList.remove( energyChunk );
                 }
             }
