@@ -175,7 +175,7 @@ public abstract class PieceNode extends Stackable {
                 ) );
     }
 
-    public void delete() {
+    protected void delete() {
         super.delete();
         removeFromParent();
     }

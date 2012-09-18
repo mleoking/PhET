@@ -488,10 +488,10 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
 
     //Test main to make sure that levels are solvable
     public static void main( String[] args ) {
-        while ( true ) {
+        for ( int i = 0; i < 1000; i++ ) {
             NumberLevel level = new MixedNumbersNumberLevelList().createLevel( 9 );
 
-            //make sure each problem has a solution (forget dependecies)
+            //make sure each problem has a solution (forget dependencies)
             //The problem illuminated here was solved with NumberTarget.overflows
             for ( NumberTarget target : level.targets ) {
                 boolean solvable = isSolvable( level, target );

@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList;
@@ -25,7 +24,6 @@ import edu.colorado.phet.fractions.buildafraction.view.LevelType;
 public class BuildAFractionModel {
 
     public final ConstantDtClock clock = new ConstantDtClock();
-    private final Property<Scene> selectedScene = new Property<Scene>( Scene.SHAPES );
     public final BooleanProperty audioEnabled = new BooleanProperty( true );
     public final IntegerProperty selectedPage = new IntegerProperty( 0 );
 
@@ -101,7 +99,6 @@ public class BuildAFractionModel {
     }
 
     public void resetAll() {
-        selectedScene.reset();
         selectedPage.reset();
         clock.resetSimulationTime();
 

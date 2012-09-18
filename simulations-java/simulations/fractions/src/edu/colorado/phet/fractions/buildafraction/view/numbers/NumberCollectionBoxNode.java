@@ -84,12 +84,7 @@ public class NumberCollectionBoxNode extends CollectionBoxNode {
             fractionGraphic = null;
 
             cardNode.fractionNode.undoAll();
-            if ( true ) {
-                cardNode.fractionNode.animateToToolbox();
-            }
-            else {
-                cardNode.fractionNode.animateToCenterOfScreen();
-            }
+            cardNode.fractionNode.animateToToolbox();
 
             numberSceneNode.numberCollectionBoxUndone();
             numberSceneNode.updateStacks();

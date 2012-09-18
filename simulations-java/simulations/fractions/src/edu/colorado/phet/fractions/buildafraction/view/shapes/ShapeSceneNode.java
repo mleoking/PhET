@@ -44,7 +44,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.ord;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType.PIE;
@@ -83,14 +82,14 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     public int toolboxHeight;
 
     @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
-        this( levelIndex, model, AbstractFractionsCanvas.STAGE_SIZE, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, AbstractFractionsCanvas.STAGE_SIZE, context, soundEnabled, fractionLab ) ), fractionLab );
+        this( levelIndex, model, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, context, soundEnabled, fractionLab ) ), fractionLab );
     }
 
     //Create and throw away a new ShapeSceneNode in order to get the layout of the toolbar perfectly centered under the title.
     //Hack alert!  I have concerns that this could lead to difficult to understand code, especially during debugging because 2 ShapeSceneNodes are created for each one displayed.
     //This code was written because everything is in the same layer because nodes must move freely between toolbox, play area and collection boxes.
-    private static double getToolbarOffset( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, final BooleanProperty soundEnabled, boolean fractionLab ) {
-        ShapeSceneNode node = new ShapeSceneNode( levelIndex, model, stageSize, context, soundEnabled, Option.<Double>none(), fractionLab );
+    private static double getToolbarOffset( final int levelIndex, final BuildAFractionModel model, final SceneContext context, final BooleanProperty soundEnabled, boolean fractionLab ) {
+        ShapeSceneNode node = new ShapeSceneNode( levelIndex, model, context, soundEnabled, Option.<Double>none(), fractionLab );
 
         //Re-layout the toolbox based on the location of the title
         double desiredToolboxCenter = node.levelReadoutTitle.getFullBounds().getCenterX();
@@ -106,7 +105,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         return delta;
     }
 
-    @SuppressWarnings("unchecked") private ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset,
+    @SuppressWarnings("unchecked") private ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset,
                                                            final boolean fractionLab ) {
         super( levelIndex, soundEnabled, context, fractionLab );
         this.model = model;
@@ -139,7 +138,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
         initCollectionBoxes( insetY, _pairs, fractionLab );
 
-        finishCreatingUI( levelIndex, model, stageSize, goToNextLevel, _resampleLevel, fractionLab );
+        finishCreatingUI( levelIndex, model, goToNextLevel, _resampleLevel, fractionLab );
 
         //Center the first container node in the play area.
         //Layout values sampled manually at runtime
@@ -211,7 +210,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
                 final int sign = level.shapeType == PIE ? -1 : +1;
                 setInitialState( layoutXOffset + INSET + 20 + delta * sign + finalGroupIndex * distanceBetweenStacks,
-                                 stageSize.height - INSET - toolboxHeight + 20 + delta, toolboxScale( fractionLab ) );
+                                 AbstractFractionsCanvas.STAGE_SIZE.height - INSET - toolboxHeight + 20 + delta, toolboxScale( fractionLab ) );
             }};
             addChild( containerNode );
             containerNodeToolboxLocations.add( new Vector2D( containerNode.getOffset() ) );

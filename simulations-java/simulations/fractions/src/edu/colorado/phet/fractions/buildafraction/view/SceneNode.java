@@ -29,7 +29,6 @@ import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendSystemMessage;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes.application;
@@ -127,7 +126,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         }
     }
 
-    protected void finishCreatingUI( final int levelIndex, final BuildAFractionModel model, final PDimension stageSize, final ActionListener goToNextLevel, final VoidFunction0 _resampleLevel, boolean fractionLab ) {
+    protected void finishCreatingUI( final int levelIndex, final BuildAFractionModel model, final ActionListener goToNextLevel, final VoidFunction0 _resampleLevel, boolean fractionLab ) {
 
         double minScoreCellX = pairs.map( new F<T, Double>() {
             @Override public Double f( final T target ) {
@@ -159,7 +158,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
             addActionListener( goToNextLevel );
         }};
         faceNodeDialog = new VBox( new FaceNode( 200 ), model.isLastLevel( levelIndex ) ? new PNode() : nextButton ) {{
-            setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
+            setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
         }};
 
         faceNodeDialog.setTransparency( 0 );
