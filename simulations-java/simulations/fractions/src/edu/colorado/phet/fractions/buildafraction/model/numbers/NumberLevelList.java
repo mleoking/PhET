@@ -31,7 +31,7 @@ import static fj.data.List.*;
 import static java.awt.Color.orange;
 
 /**
- * List of levels for the number games (where the user creates fractions with numbers to match given shapes).
+ * List of levels for when the user is using number cards to create fractions on the "Build a Fraction" tab.  These levels are created on init or during refresh of individual levels.
  *
  * @author Sam Reid
  */

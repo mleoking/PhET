@@ -24,11 +24,8 @@ import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
 import static edu.colorado.phet.fractions.common.util.Sampling.*;
 import static fj.data.List.*;
 
-//REVIEW what is "Build a Fraction: Shapes"?
-//REVIEW I expected this comment to be similar to NumberLevelList, but it's not
-
 /**
- * List of levels for "Build a Fraction: Shapes".  These levels are created on init or during refresh of individual levels.
+ * List of levels for when the user is using shapes to create fractions on the "Build a Fraction" tab.  These levels are created on init or during refresh of individual levels.
  *
  * @author Sam Reid
  */
