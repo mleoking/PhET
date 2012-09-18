@@ -492,9 +492,9 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         }
     }
 
-    //REVIEW lots of output form this, but I have no idea how to interpret it, or whether the "test" has succeeded or failed.
     //Test main to make sure that levels are solvable
     public static void main( String[] args ) {
+        boolean allOK = true;
         for ( int i = 0; i < 1000; i++ ) {
             NumberLevel level = new MixedNumbersNumberLevelList().createLevel( 9 );
 
@@ -503,7 +503,12 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
             for ( NumberTarget target : level.targets ) {
                 boolean solvable = isSolvable( level, target );
                 System.out.println( "target = " + target.mixedFraction + ", solvable = " + solvable );
+                if ( !solvable ) {
+                    System.err.println( "Found non-solvable level." );
+                    allOK = false;
+                }
             }
         }
+        System.out.println( "allOK = " + allOK );
     }
 }
