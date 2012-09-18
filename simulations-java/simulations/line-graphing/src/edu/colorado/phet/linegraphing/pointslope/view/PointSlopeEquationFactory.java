@@ -2,7 +2,9 @@
 package edu.colorado.phet.linegraphing.pointslope.view;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.geom.Line2D;
 import java.text.MessageFormat;
 
@@ -64,17 +66,28 @@ public class PointSlopeEquationFactory extends EquationFactory {
             // y = y1
             PNode yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PNode equalsNode = new PhetPText( "=", font, line.color );
-            PNode y1Node = new PhetPText( toIntString( line.y1 ), font, line.color );
+            PNode y1SignNode = createSignNode( line.y1, line.color );
+            PNode y1Node = new PhetPText( toIntString( Math.abs( line.y1 ) ), font, line.color );
 
             // rendering order
             addChild( yNode );
             addChild( equalsNode );
+            if ( line.y1 < 0 ) {
+                addChild( y1SignNode );
+            }
             addChild( y1Node );
 
             // layout
             yNode.setOffset( 0, 0 );
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
-            y1Node.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            if ( line.y1 < 0 ) {
+                y1SignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                                      equalsNode.getFullBoundsReference().getCenterY() - ( y1SignNode.getFullBoundsReference().getHeight() / 2 ) + SIGN_Y_FUDGE_FACTOR );
+                y1Node.setOffset( y1SignNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            }
+            else {
+                y1Node.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            }
         }
     }
 
@@ -89,20 +102,32 @@ public class PointSlopeEquationFactory extends EquationFactory {
 
             assert ( Math.abs( line.rise ) == Math.abs( line.run ) );
 
-            PNode yNode = new PhetPText( getYText( line.y1 ), font, line.color );
+            final double slope = line.rise / line.run;
+
+            PNode yTermNode = createTermNode( line.y1, Strings.SYMBOL_Y, font, line.color );
             PNode equalsNode = new PhetPText( "=", font, line.color );
-            String slopeText = ( line.rise * line.run >= 0 ) ? "" : "-";
-            PNode xNode = new PhetPText( slopeText + getXText( line.x1 ), font, line.color );
+            PNode slopeSignNode = createSignNode( line.rise / line.run, line.color );
+            PNode xTermNode = createTermNode( line.x1, Strings.SYMBOL_X, font, line.color );
 
             // rendering order
-            addChild( yNode );
+            addChild( yTermNode );
             addChild( equalsNode );
-            addChild( xNode );
+            if ( slope < 0 ) {
+                addChild( slopeSignNode );
+            }
+            addChild( xTermNode );
 
             // layout
-            yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
-            xNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            yTermNode.setOffset( 0, 0 );
+            equalsNode.setOffset( yTermNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+            if ( slope < 0 ) {
+                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_OFFSET );
+                xTermNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+            }
+            else {
+                xTermNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+            }
         }
     }
 
@@ -117,22 +142,35 @@ public class PointSlopeEquationFactory extends EquationFactory {
 
             assert ( Math.abs( line.run ) == 1 );
 
-            PNode yNode = new PhetPText( getYText( line.y1 ), font, line.color );
+            final double slope = line.rise / line.run;
+
+            PNode yTermNode = createTermNode( line.y1, Strings.SYMBOL_Y, font, line.color );
             PNode equalsNode = new PhetPText( "=", font, line.color );
-            PNode slopeNode = new PhetPText( toIntString( line.rise / line.run ), font, line.color );
-            PNode xNode = new PhetPText( getXText( line.x1 ), font, line.color );
+            PNode slopeSignNode = createSignNode( slope, line.color );
+            PNode slopeNode = new PhetPText( toIntString( Math.abs( slope ) ), font, line.color );
+            PNode xTermNode = createTermNode( line.x1, Strings.SYMBOL_X, font, line.color );
 
             // rendering order
-            addChild( yNode );
+            addChild( yTermNode );
             addChild( equalsNode );
+            if ( slope < 0 ) {
+                addChild( slopeSignNode );
+            }
             addChild( slopeNode );
-            addChild( xNode );
+            addChild( xTermNode );
 
             // layout
-            yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
-            slopeNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
-            xNode.setOffset( slopeNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            yTermNode.setOffset( 0, 0 );
+            equalsNode.setOffset( yTermNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+            if ( slope < 0 ) {
+                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_OFFSET );
+                slopeNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+            }
+            else {
+                slopeNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+            }
+            xTermNode.setOffset( slopeNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
         }
     }
 
@@ -145,68 +183,80 @@ public class PointSlopeEquationFactory extends EquationFactory {
 
         public FractionSlopeNode( Line line, PhetFont font ) {
 
-            final boolean slopeIsPositive = ( line.rise * line.run ) >= 0;
+            final double slope = line.rise / line.run;
 
             // y = -(reducedRise/reducedRun)x + b
-            PNode yNode = new PhetPText( getYText( line.y1 ), font, line.color );
+            PNode yTermNode = createTermNode( line.y1, Strings.SYMBOL_Y, font, line.color );
             PNode equalsNode = new PhetPText( "=", font, line.color );
-            PNode slopeSignNode = new PhetPText( slopeIsPositive ? "" : "-", font, line.color );
+            PNode slopeSignNode = createSignNode( slope, line.color );
             PNode riseNode = new PhetPText( toIntString( Math.abs( line.rise ) ), font, line.color );
             PNode runNode = new PhetPText( toIntString( Math.abs( line.run ) ), font, line.color );
-            PNode lineNode = new PhetPPath( new Line2D.Double( 0, 0, Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), 0 ), new BasicStroke( FRACTION_LINE_WIDTH ), line.color );
-            PNode xNode = new PhetPText( getXText( line.x1 ), font, line.color );
+            PNode lineNode = createFractionLineNode( Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), line.color );
+            PNode xTermNode = createTermNode( line.x1, Strings.SYMBOL_X, font, line.color );
 
             // rendering order
-            addChild( yNode );
+            addChild( yTermNode );
             addChild( equalsNode );
-            if ( !slopeIsPositive ) {
+            if ( slope < 0 ) {
                 addChild( slopeSignNode );
             }
             addChild( riseNode );
             addChild( lineNode );
             addChild( runNode );
-            addChild( xNode );
+            addChild( xTermNode );
 
             // layout
-            final double yFudgeFactor = 2; // fudge factor to align fraction dividing line with the center of the equals sign, visually tweaked
-            yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
-            if ( !slopeIsPositive ) {
+            yTermNode.setOffset( 0, 0 );
+            equalsNode.setOffset( yTermNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+            if ( slope < 0 ) {
                 slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                         equalsNode.getYOffset() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + yFudgeFactor );
+                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_OFFSET );
                 lineNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                    equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + yFudgeFactor );
+                                    equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + FRACTION_LINE_Y_FUDGE_FACTOR );
             }
             else {
                 lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                    equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + yFudgeFactor );
+                                    equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + FRACTION_LINE_Y_FUDGE_FACTOR );
             }
             riseNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
                                 lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - Y_SPACING );
             runNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
                                lineNode.getFullBoundsReference().getMaxY() + Y_SPACING );
-            xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                             yNode.getYOffset() );
+            xTermNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                                 yTermNode.getYOffset() );
         }
     }
 
-    // (x-x1)
-    private static String getXText( double x1 ) {
-        if ( x1 == 0 ) {
-            return MessageFormat.format( "{0}", Strings.SYMBOL_X );
+    // Creates the portion of the equation that contains the x or y term.
+    private static PNode createTermNode( double value, String symbol, Font font, Color color ) {
+        if ( value == 0 ) {
+            // x or y
+            return new PhetPText( symbol, font, color );
         }
         else {
-            return MessageFormat.format( "({0}{1}{2})", Strings.SYMBOL_X, x1 < 0 ? "+" : "-", Math.abs( x1 ) );
-        }
-    }
+            // (x-x1) or (y-y1)
+            PNode leftParenNode = new PhetPText( "(", font, color );
+            PNode xNode = new PhetPText( symbol, font, color );
+            PNode operatorNode = createOperatorNode( -value, color ); // flip sign on x1
+            PNode x1Node = new PhetPText( toIntString( Math.abs( value ) ), font, color );
+            PNode rightParenNode = new PhetPText( ")", font, color );
 
-    // (y-y1)
-    private static String getYText( double y1 ) {
-        if ( y1 == 0 ) {
-            return MessageFormat.format( "{0}", Strings.SYMBOL_Y );
-        }
-        else {
-            return MessageFormat.format( "({0}{1}{2})", Strings.SYMBOL_Y, y1 < 0 ? "+" : "-", Math.abs( y1 ) );
+            PNode parentNode = new PNode();
+            parentNode.addChild( leftParenNode );
+            parentNode.addChild( xNode );
+            parentNode.addChild( operatorNode );
+            parentNode.addChild( x1Node );
+            parentNode.addChild( rightParenNode );
+
+            // layout
+            leftParenNode.setOffset( 0, 0 );
+            xNode.setOffset( leftParenNode.getFullBoundsReference().getMaxX() + X_SPACING, leftParenNode.getYOffset() );
+            operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                                    leftParenNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
+            x1Node.setOffset( operatorNode.getFullBoundsReference().getMaxX() + X_SPACING, leftParenNode.getYOffset() );
+            rightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + X_SPACING, leftParenNode.getYOffset() );
+
+            return parentNode;
         }
     }
 
