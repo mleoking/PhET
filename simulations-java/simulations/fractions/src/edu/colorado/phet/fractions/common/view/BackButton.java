@@ -4,7 +4,6 @@ package edu.colorado.phet.fractions.common.view;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -20,9 +19,6 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
  * @author Sam Reid
  */
 public class BackButton extends PNode {
-    public BackButton( final VoidFunction0 pressed ) {
-        this( pressed, new Property<Boolean>( true ) );
-    }
 
     public BackButton( final VoidFunction0 pressed, ObservableProperty<Boolean> enabled ) {
         addChild( new SpinnerButtonNode( rescale( Images.LEFT_BUTTON_UP ), rescale( Images.LEFT_BUTTON_PRESSED ), rescale( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
@@ -35,7 +31,5 @@ public class BackButton extends PNode {
         }, enabled ) );
     }
 
-    public static BufferedImage rescale( final BufferedImage image ) {
-        return multiScaleToWidth( image, 50 );
-    }
+    public static BufferedImage rescale( final BufferedImage image ) { return multiScaleToWidth( image, 50 ); }
 }
