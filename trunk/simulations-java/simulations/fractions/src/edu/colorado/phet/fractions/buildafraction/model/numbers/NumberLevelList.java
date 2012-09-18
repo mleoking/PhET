@@ -46,11 +46,11 @@ public class NumberLevelList implements NumberLevelFactory {
         public final String name;
         public final List<Integer> acceptedDenominators;
 
-        //REVIEW doc
-        PatternMaker( String name, int... values ) {
+        //Creates a pattern maker with the specified name, which can be used to represent the specified denominators
+        PatternMaker( String name, int... denominators ) {
             this.name = name;
             List<Integer> c = nil();
-            for ( int value : values ) {
+            for ( int value : denominators ) {
                 c = c.snoc( value );
             }
             acceptedDenominators = c;
