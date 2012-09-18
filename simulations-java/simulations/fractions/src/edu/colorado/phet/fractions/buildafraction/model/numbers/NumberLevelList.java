@@ -41,7 +41,7 @@ public class NumberLevelList implements NumberLevelFactory {
 
     public NumberLevel createLevel( final int level ) { return levels.get( level ).apply(); }
 
-    //REVIEW doc
+    //A PatternMaker is a function that creates a concrete Pattern instance from a MixedFraction
     public static @Data @EqualsAndHashCode(callSuper = false) abstract class PatternMaker extends F<MixedFraction, Pattern> {
         public final String name;
         public final List<Integer> acceptedDenominators;
@@ -56,15 +56,11 @@ public class NumberLevelList implements NumberLevelFactory {
             acceptedDenominators = c;
         }
 
-        //REVIEW doc
-        public F<MixedFraction, FilledPattern> sequential() {
-            return new Sequential( this );
-        }
+        //Creates a sequentially filled Pattern
+        public F<MixedFraction, FilledPattern> sequential() { return new Sequential( this ); }
 
-        //REVIEW doc
-        public F<MixedFraction, FilledPattern> random() {
-            return new RandomFill( this );
-        }
+        //Creates a randomly filled (scattered) Pattern
+        public F<MixedFraction, FilledPattern> random() { return new RandomFill( this ); }
     }
 
     //Used for equality tests, so needs a working equality test
