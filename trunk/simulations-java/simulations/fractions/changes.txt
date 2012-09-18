@@ -1,3 +1,4 @@
+Build a Mixed Fraction: Numbers: Fixed: Levels 6-8 sometimes use 4 of the same pattern type
 Build a Fraction: Numbers: Fixed: Exception on reset if no numbers have been added to fraction skeletons
 # 1.01.17 (68062) Sep 17, 2012
 Build a Mixed Fraction: Numbers: Require different shape types on levels 9-10

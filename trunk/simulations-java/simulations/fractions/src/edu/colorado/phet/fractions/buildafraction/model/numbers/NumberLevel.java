@@ -9,6 +9,7 @@ import edu.colorado.phet.fractions.buildafraction.model.Level;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
+import edu.colorado.phet.fractions.fractionmatcher.view.PatternType;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget._mixedFraction;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.target;
@@ -83,10 +84,14 @@ public class NumberLevel extends Level {
     }
 
     public boolean hasDifferentShapeTypes() {
-        return targets.map( new F<NumberTarget, Object>() {
-            @Override public Object f( final NumberTarget numberTarget ) {
-                return numberTarget.representation;
+        return getPatternTypes().group( Equal.<PatternType>anyEqual() ).length() > 1;
+    }
+
+    public List<PatternType> getPatternTypes() {
+        return targets.map( new F<NumberTarget, PatternType>() {
+            @Override public PatternType f( final NumberTarget numberTarget ) {
+                return numberTarget.getRepresentation().f( numberTarget.mixedFraction ).type;
             }
-        } ).group( Equal.anyEqual() ).length() > 1;
+        } );
     }
 }

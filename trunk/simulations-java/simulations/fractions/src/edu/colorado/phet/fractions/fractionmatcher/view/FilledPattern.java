@@ -28,13 +28,16 @@ public @Data class FilledPattern {
     //Outline of the entire container
     public final Shape outline;
 
+    //Type for comparisons (to make sure different types are used)
+    public final PatternType type;
+
     //Pattern that fills sequentially (from the left)
     public static FilledPattern sequentialFill( Pattern pattern, final int numFilled ) {
         return new FilledPattern( pattern.shapes.zipIndex().map( new F<P2<Shape, Integer>, P2<Shape, Boolean>>() {
             @Override public P2<Shape, Boolean> f( final P2<Shape, Integer> p ) {
                 return p2( p._1(), p._2() < numFilled );
             }
-        } ), pattern.outline );
+        } ), pattern.outline, pattern.type );
     }
 
     //Pattern that fills randomly.
@@ -47,6 +50,6 @@ public @Data class FilledPattern {
             @Override public P2<Shape, Boolean> f( final P2<Shape, Integer> p ) {
                 return p2( p._1(), elm.toCollection().contains( p._2() ) );
             }
-        } ), pattern.outline );
+        } ), pattern.outline, pattern.type );
     }
 }
