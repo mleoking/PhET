@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
+import edu.colorado.phet.fractions.fractionmatcher.view.PatternType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.PFrame;
 
@@ -45,19 +46,23 @@ public class Pattern {
     //Individual shapes for the pieces of the fraction.
     public final List<Shape> shapes;
 
+    //For comparisons
+    public final PatternType type;
+
     //Create one pattern with the given shapes, uses Area composition to identify the outline (only works right for some shapes)
-    Pattern( final List<Shape> shapes ) {
+    Pattern( final List<Shape> shapes, PatternType type ) {
         this( new Area() {{
             for ( Shape shape : shapes ) {
                 add( new Area( shape ) );
             }
-        }}, shapes );
+        }}, shapes, type );
     }
 
     //Create a pattern with an explicit outline and list of shapes.
-    private Pattern( Shape outline, final List<Shape> shapes ) {
+    private Pattern( Shape outline, final List<Shape> shapes, PatternType type ) {
         this.outline = outline;
         this.shapes = shapes;
+        this.type = type;
     }
 
     //A single square
@@ -74,7 +79,7 @@ public class Pattern {
                     add( AffineTransform.getTranslateInstance( squareLength * i, squareLength * j ).createTransformedShape( interleavedLShapeRightSide( squareLength ) ) );
                 }
             }
-        }} ) );
+        }} ), PatternType.interleavedLShape );
     }
 
     //Left part of the "interleaved L shape"
@@ -94,7 +99,7 @@ public class Pattern {
                 add( letterLShapedDiagonalTopL( cellLength, i * 2, i ) );
                 add( letterLShapedDiagonalBottomL( cellLength, i * 2, i ) );
             }
-        }} ) );
+        }} ), PatternType.letterLShapedDiagonal );
     }
 
     private static Shape letterLShapedDiagonalTopL( final int cellLength, final int x, final int y ) {
@@ -112,7 +117,7 @@ public class Pattern {
                                   pointsToShape( d / 3.0, list( v( 3, 0 ), v( 4, 0 ), v( 4, 3 ), v( 3, 3 ), v( 3, 2 ), v( 2, 2 ), v( 2, 1 ), v( 3, 1 ) ) ),
                                   pointsToShape( d / 3.0, list( v( 4, 3 ), v( 4, 4 ), v( 1, 4 ), v( 1, 3 ), v( 2, 3 ), v( 2, 2 ), v( 3, 2 ), v( 3, 3 ) ) ),
                                   pointsToShape( d / 3.0, list( v( 0, 4 ), v( 0, 1 ), v( 1, 1 ), v( 1, 2 ), v( 2, 2 ), v( 2, 3 ), v( 1, 3 ), v( 1, 4 ) ) )
-        ) );
+        ), PatternType.tetrisPiece );
     }
 
     private static Shape pointsToShape( final double length, final List<Vector2D> v ) {
@@ -135,7 +140,7 @@ public class Pattern {
                 final double y = cos( angle / 2 );
                 return AffineTransform.getRotateInstance( angle * index, 0, 0 ).createTransformedShape( pointsToShape( length, list( v( 0, 0 ), v( x, y ), v( 0, y * 2 ), v( -x, y ) ) ) );
             }
-        } ) );
+        } ), PatternType.sixFlower );
     }
 
     public static Pattern horizontalBars( int numBars ) {
@@ -145,7 +150,7 @@ public class Pattern {
             @Override public Shape f( final Integer index ) {
                 return new Rectangle2D.Double( 0, index * sliceHeight, width, sliceHeight );
             }
-        } ).reverse() );
+        } ).reverse(), PatternType.horizontalBars );
     }
 
     //for levels 9-10: make horizontal sets about 25% taller.
@@ -156,7 +161,7 @@ public class Pattern {
             @Override public Shape f( final Integer index ) {
                 return new Rectangle2D.Double( 0, index * sliceHeight, width, sliceHeight );
             }
-        } ).reverse() );
+        } ).reverse(), PatternType.horizontalBars );
     }
 
     public static Pattern verticalBars( final int numBars ) {
@@ -166,7 +171,7 @@ public class Pattern {
             @Override public Shape f( final Integer index ) {
                 return new Rectangle2D.Double( index * sliceWidth, 0, sliceWidth, height );
             }
-        } ) );
+        } ), PatternType.verticalBars );
     }
 
     public static Pattern pie( int numSlices ) {
@@ -182,7 +187,7 @@ public class Pattern {
             shapes.add( shape );
         }
 
-        return new Pattern( new Ellipse2D.Double( area.x, area.y, area.width, area.height ), iterableList( shapes ) );
+        return new Pattern( new Ellipse2D.Double( area.x, area.y, area.width, area.height ), iterableList( shapes ), PatternType.pie );
     }
 
     //Create a polygon with the specified diameter and number of sides
@@ -209,7 +214,7 @@ public class Pattern {
             outlinePath.lineTo( createPolar( radius, Math.PI / 2 - triAngle / 2 + i * triAngle ) );
         }
         outlinePath.lineTo( startPoint );
-        return new Pattern( outlinePath.getGeneralPath(), shapes );
+        return new Pattern( outlinePath.getGeneralPath(), shapes, PatternType.polygon );
     }
 
     public static class Direction {
@@ -252,7 +257,7 @@ public class Pattern {
                         add( square( i * length, j * length, length ) );
                     }
                 }
-            }} ) );
+            }} ), PatternType.grid );
         }
     }
 
@@ -270,7 +275,7 @@ public class Pattern {
                          plusSign( 2, 3, fun.evaluate( numberPlusSigns ) ),
                          plusSign( 5, 2, fun.evaluate( numberPlusSigns ) ),
                          plusSign( 4, 4, fun.evaluate( numberPlusSigns ) )
-            ).take( numberPlusSigns ) );
+            ).take( numberPlusSigns ), PatternType.plusSigns );
         }
     }
 
@@ -306,14 +311,14 @@ public class Pattern {
         public static Pattern nine() { return nine( DEFAULT_SIZE / 3 ); }
 
         public static Pattern single( double length ) {
-            return new Pattern( List.single( triangle( length, new Vector2D( 0, 0 ), UP ) ) );
+            return new Pattern( List.single( triangle( length, new Vector2D( 0, 0 ), UP ) ), PatternType.singlePyramid );
         }
 
         public static Pattern four( double length ) {
             final double h = getHeight( length );
             return new Pattern( single( length * 2 ).outline, single( length ).shapes.append( list( triangle( length, new Vector2D( -length / 2, h ), UP ),
                                                                                                     triangle( length, new Vector2D( 0, h * 2 ), DOWN ),
-                                                                                                    triangle( length, new Vector2D( length / 2, h ), UP ) ) ) );
+                                                                                                    triangle( length, new Vector2D( length / 2, h ), UP ) ) ), PatternType.fourPyramid );
         }
 
         public static Pattern nine( double length ) {
@@ -322,7 +327,7 @@ public class Pattern {
                                                                                                   triangle( length, new Vector2D( -length / 2, h * 3 ), DOWN ),
                                                                                                   triangle( length, new Vector2D( 0, h * 2 ), UP ),
                                                                                                   triangle( length, new Vector2D( length / 2, h * 3 ), DOWN ),
-                                                                                                  triangle( length, new Vector2D( length, h * 2 ), UP ) ) ) );
+                                                                                                  triangle( length, new Vector2D( length, h * 2 ), UP ) ) ), PatternType.ninePyramid );
         }
     }
 
@@ -336,7 +341,7 @@ public class Pattern {
                                   translate( r * cos( toRadians( 30 ) ), r * sin( toRadians( 30 ) ), hex() ),
                                   translate( r * cos( toRadians( 30 ) ), -r * sin( toRadians( 30 ) ), hex() ),
                                   translate( -r * cos( toRadians( 30 ) ), r * sin( toRadians( 30 ) ), hex() ),
-                                  translate( -r * cos( toRadians( 30 ) ), -r * sin( toRadians( 30 ) ), hex() ) ) );
+                                  translate( -r * cos( toRadians( 30 ) ), -r * sin( toRadians( 30 ) ), hex() ) ), PatternType.ringOfHexagons );
     }
 
     private static Shape hex() {return polygon( 25, 6 ).outline;}
@@ -368,7 +373,7 @@ public class Pattern {
             @Override public Shape f( final Integer integer ) {
                 return tinyTriangle.f( integer );
             }
-        } ) );
+        } ), PatternType.ninjaStar );
     }
 
     public static Pattern fivePointStarWithLeaves() {
@@ -383,7 +388,7 @@ public class Pattern {
                 Shape rightLeaf = AffineTransform.getRotateInstance( angle * index + Math.PI, 0, 0 ).createTransformedShape( pointsToShape( length, list( v( 0, 0 ), v( -x, y ), v( 0, y * 2 ) ) ) );
                 return list( leftLeaf, rightLeaf );
             }
-        } ) );
+        } ), PatternType.fivePointStarWithLeaves );
     }
 
     private static Shape translate( final double dx, final double dy, final Shape outline ) {

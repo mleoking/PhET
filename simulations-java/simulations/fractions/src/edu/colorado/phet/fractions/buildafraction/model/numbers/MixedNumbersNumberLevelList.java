@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.numbers;
 
+import fj.Effect;
 import fj.F;
 import fj.P2;
 import fj.Unit;
@@ -17,6 +18,7 @@ import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.model.NumberLevelFactory;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
+import edu.colorado.phet.fractions.fractionmatcher.view.PatternType;
 
 import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction.mixedFraction;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
@@ -124,14 +126,22 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         while ( count < 10 ) {
             NumberLevel level = f.f( unit() );
             if ( level.hasDifferentShapeTypes() ) {
+                System.out.println( "Has different types, using it" );
+                System.out.println( "level.getShapeTypes():" );
+                level.getPatternTypes().foreach( new Effect<PatternType>() {
+                    @Override public void e( final PatternType patternType ) {
+                        System.out.println( " > " + patternType );
+                    }
+                } );
                 return level;
             }
             else {
-                System.out.println( "level.targets.map( new  ) = " + level.targets.map( new F<NumberTarget, Object>() {
-                    @Override public Object f( final NumberTarget numberTarget ) {
-                        return numberTarget.representation;
+                System.out.println( "Same types: " );
+                level.getPatternTypes().foreach( new Effect<PatternType>() {
+                    @Override public void e( final PatternType patternType ) {
+                        System.out.println( " > " + patternType );
                     }
-                } ) );
+                } );
             }
             count++;
             System.out.println( "count = " + count );
@@ -336,18 +346,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     }
 
     private F<MixedFraction, FilledPattern> scaledRepresentation( final long seed, final boolean random, final boolean reallyScaleIt ) {
-        return new F<MixedFraction, FilledPattern>() {
-            @Override public FilledPattern f( final MixedFraction mixedFraction ) {
-                int d = mixedFraction.getFractionPart().denominator;
-                List<Integer> scaleFactors = reallyScaleIt ? getScaleFactors( d ) : list( 1 );
-
-                //Use the same random seed each time otherwise composite representations might have different shape types for each of its parts
-                Integer scaleFactor = chooseOneWithSeed( seed, scaleFactors );
-                final int denominator = d * scaleFactor;
-                final PatternMaker patternMaker = chooseOneWithSeed( seed, matching( denominator ) );
-                return ( random ? patternMaker.random() : patternMaker.sequential() ).f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
-            }
-        };
+        return new ScaledRepresentation( seed, random, reallyScaleIt );
     }
 
     /**
@@ -464,5 +463,41 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
             }
         }
         return false;
+    }
+
+    private class ScaledRepresentation extends F<MixedFraction, FilledPattern> {
+        private final long seed;
+        private final boolean random;
+        private final boolean reallyScaleIt;
+
+        public ScaledRepresentation( final long seed, final boolean random, final boolean reallyScaleIt ) {
+            this.seed = seed;
+            this.random = random;
+            this.reallyScaleIt = reallyScaleIt;
+        }
+
+        @Override public FilledPattern f( final MixedFraction mixedFraction ) {
+            int d = mixedFraction.getFractionPart().denominator;
+            List<Integer> scaleFactors = reallyScaleIt ? getScaleFactors( d ) : list( 1 );
+
+            //Use the same random seed each time otherwise composite representations might have different shape types for each of its parts
+            Integer scaleFactor = chooseOneWithSeed( seed, scaleFactors );
+            final int denominator = d * scaleFactor;
+            final PatternMaker patternMaker = chooseOneWithSeed( seed, matching( denominator ) );
+            return ( random ? patternMaker.random() : patternMaker.sequential() ).f( mixedFraction.scaleNumeratorAndDenominator( scaleFactor ) );
+        }
+
+        @Override public boolean equals( final Object obj ) {
+            if ( obj instanceof ScaledRepresentation ) {
+                ScaledRepresentation sr = (ScaledRepresentation) obj;
+                MixedFraction mf = mixedFraction( 1, fraction( 2, 3 ) );
+                FilledPattern thisPattern = this.f( mf );
+                FilledPattern thatPattern = sr.f( mf );
+                return thisPattern.type.equals( thatPattern.type );
+            }
+            else {
+                return false;
+            }
+        }
     }
 }
