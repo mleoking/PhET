@@ -32,8 +32,10 @@ public class BuildAFractionModel {
     private final HashMap<Integer, NumberLevel> numberLevels = new HashMap<Integer, NumberLevel>();
     private final HashMap<Integer, ShapeLevel> shapeLevels = new HashMap<Integer, ShapeLevel>();
 
+    //On the first page of the level selection screen, each level has 3 stars.  On the second page, levels have 4 stars each.
     public static final int NUMBER_OF_STARS_ON_PAGE_1_LEVELS = 3;
     public static final int NUMBER_OF_STARS_ON_PAGE_2_LEVELS = 4;
+    public static final int MAX_LEVEL_INDEX_FOR_FIRST_PAGE = 4;
 
     public final F<LevelIdentifier, LevelProgress> gameProgress = new F<LevelIdentifier, LevelProgress>() {
         @Override public LevelProgress f( final LevelIdentifier id ) {
@@ -44,8 +46,7 @@ public class BuildAFractionModel {
                 return new LevelProgress( getLevel( id ).filledTargets.get(), getLevel( id ).numTargets );
             }
             else {
-                //REVIEW 3 and 4 are apparently the max stars for various levels. Make them static constants, doc why some levels have 3 while others have 4.
-                return new LevelProgress( 0, id.getLevelIndex() <= 4 ? NUMBER_OF_STARS_ON_PAGE_1_LEVELS : NUMBER_OF_STARS_ON_PAGE_2_LEVELS );
+                return new LevelProgress( 0, id.getLevelIndex() <= MAX_LEVEL_INDEX_FOR_FIRST_PAGE ? NUMBER_OF_STARS_ON_PAGE_1_LEVELS : NUMBER_OF_STARS_ON_PAGE_2_LEVELS );
             }
         }
     };
