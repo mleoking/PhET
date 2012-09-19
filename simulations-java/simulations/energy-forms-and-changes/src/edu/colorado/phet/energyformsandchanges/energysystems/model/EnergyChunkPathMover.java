@@ -53,4 +53,8 @@ public class EnergyChunkPathMover {
             }
         }
     }
+
+    public boolean isPathFullyTraversed() {
+        return pathFullyTraversed;
+    }
 }
