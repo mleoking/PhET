@@ -23,10 +23,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class InteractiveEquationNode extends PhetPNode {
 
-    // spacing between components in the equation
-    protected static final int X_SPACING = 10;
-    protected static final int Y_SPACING = 6;
-
     /*
     * This controls the vertical offset of the slope's sign.
     * Zero is vertically centered on the equals sign, positive values move it down, negative move it up.
