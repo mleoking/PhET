@@ -17,7 +17,8 @@ NumberLevelList
 MixedNumbersShapeLevelList
 MixedNumbersNumberLevelList
 
-In many cases, a postprocessor is used to guarantee that each of the levels has a wide variety of values and/or pattern types.
+ShapeLevelList declares a postprocessor in the method addWithPostprocessing which resamples from the level until finding one that has a small number of stacks and a small number of cards per stack.
+MixedNumbersNumberLevelList declares a postprocessor in the method withDifferentRepresentations which attempts to find a level with different shape types
 
 Sam Reid
 9-18-2012
