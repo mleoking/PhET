@@ -11,21 +11,16 @@ DESIGN
 - Game: rules for generating random challenges and initial guess
 
 HIGH
+- simplify non-interactive slope in PointSlopeInteractiveEquationNode
 - Graph The Line: on "Show Answer", show the equation for incorrect answer, put icons next to equations to indicate correct and incorrect
-- change location of slope sign, vertically center it between "=" and fraction division line, add "vertical offset" parameter to constructors
-- slope-intercept or point-slope with non-interactive slope: reduce X/1 to X, hide 1/1
-- slope-intercept or point-slope with non-interactive slope: align abs values of slopes, place sign to left of rise
-- slope-intercept or point-slope with non-interactive slope: hide slope and "x" when slope==0
-- point-slope with non-interactive x1: hide x1 if it's zero
-- point-slope with non-interactive y1: hide y1 if it's zero
 - example of each "Make the Equation" game challenge
 - in "Show Answer" for "Make the Equation", show the answer as a separate read-only equation below the interactive equation
-- random creation of challenges, subject to constraints tbd
+- random creation of challenges, subject to constraints tbd (or create a very large set of canned challenges)
 
 MEDIUM
-- use InteractiveEquationNode subclasses to generate non-interactive equations in EquationFactory subclasses, if we can agree that the "look" will be the same
+- use InteractiveEquationNode subclasses to generate non-interactive equations in EquationFactory subclasses, if we can agree that the "look" can be standardized
 - factor out duplication in ChallengeNode subclasses
-- EquationFactory and InteractiveEquationNode subclasses are awfully complicated and will be difficult to maintain. Is there a better way?
+- layout of EquationFactory and InteractiveEquationNode subclasses is complicated and will be difficult to maintain. Is there a better way?
 
 LOW
 
