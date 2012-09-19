@@ -25,7 +25,8 @@ import static edu.colorado.phet.fractions.common.util.Sampling.*;
 import static fj.data.List.*;
 
 /**
- * List of levels for when the user is using shapes to create fractions on the "Build a Fraction" tab.  These levels are created on init or during refresh of individual levels.
+ * List of levels for when the user is using shapes to create fractions on the "Build a Fraction" tab.
+ * These levels are created on init or during refresh of individual levels.
  *
  * @author Sam Reid
  */

@@ -7,7 +7,7 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 
 /**
  * Makes it so a node cannot be disabled while picking.  Note that if the same property is wired up to different activities,
- * they can overwrite the same value and yield an result that is difficult to interpret/use properly.
+ * they can overwrite the same value and yield a result that is difficult to interpret/use properly.
  *
  * @author Sam Reid
  */

@@ -7,7 +7,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * Data structure which handles one of the {whole, numerator or denominator} parts in a FractionNode.  Parts are null until assigned and null if not attached.
+ * Data structure which handles one of the {whole, numerator or denominator} parts in a FractionNode.
+ * Parts are null until assigned and null if not attached.
  *
  * @author Sam Reid
  */
