@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.view.CollectionBoxNode;
-import edu.colorado.phet.fractions.buildafraction.view.shapes.UndoButton;
+import edu.colorado.phet.fractions.buildafraction.view.UndoButton;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 
 import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.CONTROL_PANEL_STROKE;

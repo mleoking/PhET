@@ -42,7 +42,8 @@ import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.container;
 
 /**
- * One circle or bar for adding shapes to. If the fraction can become larger than 1, then more of these are used.
+ * One circle or bar for adding shapes to.  This is a child of ContainerNode, and may have 0-2 siblings.
+ * If the fraction can become larger than 1, then more of these are used.
  *
  * @author Sam Reid
  */
@@ -128,6 +129,7 @@ class SingleContainerNode extends PNode {
 
     }
 
+    //Returns true if the parent is in the toolbox.
     public boolean isInToolbox() { return parent.isInToolbox(); }
 
     //Return true if the piece would overflow this container
@@ -136,16 +138,20 @@ class SingleContainerNode extends PNode {
         return sum.numerator > sum.denominator;
     }
 
+    //Get the value just in this SingleContainerNode
     Fraction getFractionValue() { return sum( getPieces().map( _toFraction ) ); }
 
+    //Function that gets the fraction value.
     public static final F<SingleContainerNode, Fraction> _getFractionValue = new F<SingleContainerNode, Fraction>() {
         @Override public Fraction f( final SingleContainerNode singleContainerNode ) {
             return singleContainerNode.getFractionValue();
         }
     };
 
+    //Gets a list of all the pieces that have been dropped in this SingleContainerNode
     private List<PieceNode> getPieces() {return getChildren( this, PieceNode.class );}
 
+    //Gets the number of pieces that have been dropped in this SingleContainerNode
     public static final F<SingleContainerNode, Integer> _getNumberPieces = new F<SingleContainerNode, Integer>() {
         @Override public Integer f( final SingleContainerNode singleContainerNode ) {
             return singleContainerNode.getPieces().length();
@@ -174,18 +180,21 @@ class SingleContainerNode extends PNode {
         piece.setInContainer( this );
     }
 
+    //Send all pieces back to the toolbox.
     void undoAll() {
         for ( PieceNode child : getPieces() ) {
             parent.parent.undoPieceFromContainer( child );
         }
     }
 
+    //Effect that sends all pieces back to the toolbox.
     public static final Effect<SingleContainerNode> _undoAll = new Effect<SingleContainerNode>() {
         @Override public void e( final SingleContainerNode s ) {
             s.undoAll();
         }
     };
 
+    //Gets the location where a PieceNode should be dropped within this SingleContainerNode.
     public DropLocation getDropLocation( final PieceNode piece, final ShapeType shapeType ) {
         if ( shapeType == ShapeType.BAR ) {
             Vector2D strokeInsets = v( 1, 1 );
@@ -209,7 +218,8 @@ class SingleContainerNode extends PNode {
         }
     }
 
-    public void setInTargetCell() {
+    //The user has dropped the parent ContainerNode in the collection box, so the dotted lines should be shown.
+    public void setInCollectionBox() {
         dottedLineLayer.setVisible( true );
         dottedLineLayer.moveToFront();
     }
@@ -217,6 +227,7 @@ class SingleContainerNode extends PNode {
     //For undo, see if this container has the specified piece.  This is needed because the user could have added or removed more containers and hence dismissed pieces back to the toolbox.
     public boolean containsPiece() { return number.get() > 0; }
 
+    //Undo the last dropped piece, by sending it back to the toolbox.
     public void undoLast() {
         parent.parent.undoPieceFromContainer( getPieces().sort( FJUtils.ord( new F<PieceNode, Double>() {
             @Override public Double f( final PieceNode pieceNode ) {
@@ -225,7 +236,9 @@ class SingleContainerNode extends PNode {
         } ) ).last() );
     }
 
+    //Store the location in the drop list for "undo"
     public void addDropLocationToUndoList() { parent.addDropLocation( SingleContainerNode.this ); }
 
+    //Fix the z-ordering after pieces have been added to its layer.
     public void moveDottedLineToFront() { dottedLineLayer.moveToFront(); }
 }
