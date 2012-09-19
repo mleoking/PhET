@@ -50,7 +50,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     }
 
     /*
-     * Forms when slope is zero.
+     * Forms where slope is zero.
      * y = b
      * y = -b
      */
