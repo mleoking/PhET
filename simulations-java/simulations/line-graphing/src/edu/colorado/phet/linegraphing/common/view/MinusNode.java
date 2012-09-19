@@ -5,6 +5,7 @@ import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Minus sign, created using PPath because PText("-") looks awful on Windows and cannot be accurately centered.
@@ -13,6 +14,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class MinusNode extends PPath {
+
+    public MinusNode( PDimension size, Paint paint ) {
+        this( size.getWidth(), size.getHeight(), paint );
+    }
 
     public MinusNode( double width, double height, Paint paint ) {
         super( new Rectangle2D.Double( 0, 0, width, height ) );

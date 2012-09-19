@@ -5,13 +5,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Line2D;
-import java.text.NumberFormat;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -88,7 +86,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         // nodes: y = -(rise/run)x + -b
         final PNode yNode = new PhetPText( Strings.SYMBOL_Y, staticFont, staticColor );
         final PNode equalsNode = new PhetPText( "=", staticFont, staticColor );
-        final PNode slopeMinusSignNode = new MinusNode( SLOPE_SIGN_LENGTH, SLOPE_SIGN_THICKNESS, staticColor );
+        final PNode slopeMinusSignNode = new MinusNode( SIGN_LINE_SIZE, staticColor );
         final PNode riseNode, runNode;
         if ( interactiveSlope ) {
             riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, this.run, riseRange, new SlopeColors(),
@@ -103,7 +101,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         final PPath lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeSpinnerWidth, 0 ), new BasicStroke( FRACTION_LINE_THICKNESS ), staticColor );
         final PNode xNode = new PhetPText( Strings.SYMBOL_X, staticFont, staticColor );
         final PNode operatorNode = new PNode(); // parent for + or - node
-        final PNode interceptMinusSignNode = new PhetPPath( new Line2D.Double( 0, 0, OPERATOR_LENGTH, 0 ), new BasicStroke( (float) OPERATOR_THICKNESS ), staticColor );
+        final PNode interceptMinusSignNode = new MinusNode( SIGN_LINE_SIZE, staticColor );
         final PNode interceptNode;
         if ( interactiveIntercept ) {
             interceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, this.yIntercept, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
@@ -266,7 +264,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                     removeChild( interceptMinusSignNode );
 
                     // If intercept is interactive, the operator is +
-                    operatorNode.addChild( new PlusNode( OPERATOR_LENGTH, OPERATOR_THICKNESS, staticColor ) );
+                    operatorNode.addChild( new PlusNode( OPERATOR_LINE_SIZE, staticColor ) );
 
                     if ( zeroSlope && !interactiveSlope ) {
                         // y = b
@@ -285,10 +283,10 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                 else {
                     // Set the operator based on the sign of the y intercept.
                     if ( line.y1 >= 0 ) {
-                        operatorNode.addChild( new PlusNode( OPERATOR_LENGTH, OPERATOR_THICKNESS, staticColor ) );
+                        operatorNode.addChild( new PlusNode( OPERATOR_LINE_SIZE, staticColor ) );
                     }
                     else {
-                        operatorNode.addChild( new MinusNode( OPERATOR_LENGTH, OPERATOR_THICKNESS, staticColor ) );
+                        operatorNode.addChild( new MinusNode( OPERATOR_LINE_SIZE, staticColor ) );
                     }
 
                     if ( line.y1 == 0 ) {
