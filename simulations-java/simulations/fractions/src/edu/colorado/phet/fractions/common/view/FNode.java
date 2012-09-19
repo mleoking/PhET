@@ -64,7 +64,7 @@ public class FNode extends RichPNode {
         List<T> list = List.nil();
         for ( Object child : node.getChildrenReference() ) {
             if ( type.isInstance( child ) ) {
-                list = list.snoc( (T) child );
+                list = list.snoc( (T) child ); //unchecked warning
             }
         }
         return list;

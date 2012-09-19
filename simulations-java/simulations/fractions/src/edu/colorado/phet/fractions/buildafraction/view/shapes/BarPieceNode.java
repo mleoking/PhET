@@ -50,9 +50,9 @@ public class BarPieceNode extends PieceNode {
     @SuppressWarnings("unchecked") @Override public PieceNode copy() {
         BarPieceNode copy = new BarPieceNode( pieceDenominator, shapeSceneNode, PiePieceNode.copy( shape ) );
         copy.setInitialScale( initialScale );
-        copy.setStack( stack );
-        stack.cards = stack.cards.snoc( copy );
-        copy.setPositionInStack( getPositionInStack() );
+        copy.setStack( stack ); //unchecked warning
+        stack.cards = stack.cards.snoc( copy ); //unchecked warning
+        copy.setPositionInStack( getPositionInStack() ); //unchecked warning
         return copy;
     }
 

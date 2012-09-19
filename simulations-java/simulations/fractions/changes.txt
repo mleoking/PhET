@@ -1,3 +1,4 @@
+Added "//unchecked warning" for lines that elicit usage of @SuppressWarnings annotation, see #3441
 Addressed IDEA inspection issues
 # 1.01.19 (68089) Sep 18, 2012
 Build a Fraction: Numbers: Return a fraction skeleton to the play area after "reset"

@@ -52,7 +52,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
 
     //List of levels for the first page.
     @SuppressWarnings("unchecked") private static List<List<LevelInfo>> page1( final F<LevelIdentifier, LevelProgress> f ) {
-        return list( list( shapeLevel( 1, Pattern.pie( 1 ), f ),
+        return list( list( shapeLevel( 1, Pattern.pie( 1 ), f ), //unchecked warning
                            shapeLevel( 2, Pattern.verticalBars( 2 ), f ),
                            shapeLevel( 3, f ),
                            shapeLevel( 4, f ),
@@ -66,7 +66,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
 
     //List of levels for the 2nd page.
     @SuppressWarnings("unchecked") private static List<List<LevelInfo>> page2( final F<LevelIdentifier, LevelProgress> f ) {
-        return list( list( shapeLevel( 6, f ),
+        return list( list( shapeLevel( 6, f ), //unchecked warning
                            shapeLevel( 7, f ),
                            shapeLevel( 8, f ),
                            shapeLevel( 9, f ),

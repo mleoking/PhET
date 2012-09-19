@@ -34,8 +34,8 @@ class DenominatorWithSpinner extends FractionNumberNode {
             }
         }, numerator, denominator, maxValue );
 
-        addChild( new SpinnerButtonPanelVBox( sendMessageAndApply( denominatorSpinnerUpButton, ParameterKeys.denominator, denominator, +1 ), denominator.lessThan( maxDenominator ),
-                                              sendMessageAndApply( denominatorSpinnerDownButton, ParameterKeys.denominator, denominator, -1 ), decrementAllowed ) {{
+        addChild( new SpinnerButtonPanelVBox( sendMessageAndApply( denominatorSpinnerUpButton, ParameterKeys.denominator, denominator, +1 ), denominator.lessThan( maxDenominator ), //unchecked warning
+                                              sendMessageAndApply( denominatorSpinnerDownButton, ParameterKeys.denominator, denominator, -1 ), decrementAllowed ) {{ //unchecked warning
             setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth() - OFFSET, biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
     }

@@ -68,9 +68,9 @@ public class PiePieceNode extends PieceNode {
     @SuppressWarnings("unchecked") @Override public PieceNode copy() {
         PiePieceNode copy = new PiePieceNode( pieceDenominator, shapeSceneNode, copy( shape ) );
         copy.setInitialScale( initialScale );
-        copy.setStack( stack );
-        copy.setPositionInStack( getPositionInStack() );
-        stack.cards = stack.cards.snoc( copy );
+        copy.setStack( stack ); //unchecked warning
+        copy.setPositionInStack( getPositionInStack() ); //unchecked warning
+        stack.cards = stack.cards.snoc( copy ); //unchecked warning
         return copy;
     }
 

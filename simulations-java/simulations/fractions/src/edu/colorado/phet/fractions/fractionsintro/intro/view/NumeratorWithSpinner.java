@@ -25,8 +25,8 @@ class NumeratorWithSpinner extends FractionNumberNode {
         //Max numerator will be a function of the denominator
         //n / d <= MAX , so n<=MAX * d
         //Limit the numerator based on the denominator so that the entire number is less than or equal to 6
-        addChild( new SpinnerButtonPanelVBox( sendMessageAndApply( numeratorSpinnerUpButton, ParameterKeys.numerator, numerator, +1 ), numerator.lessThan( denominator.times( max ) ),
-                                              sendMessageAndApply( numeratorSpinnerDownButton, ParameterKeys.numerator, numerator, -1 ), numerator.greaterThanOrEqualTo( MIN_VALUE + 1 )
+        addChild( new SpinnerButtonPanelVBox( sendMessageAndApply( numeratorSpinnerUpButton, ParameterKeys.numerator, numerator, +1 ), numerator.lessThan( denominator.times( max ) ), //unchecked warning
+                                              sendMessageAndApply( numeratorSpinnerDownButton, ParameterKeys.numerator, numerator, -1 ), numerator.greaterThanOrEqualTo( MIN_VALUE + 1 ) //unchecked warning
         ) {{
             setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth() - DenominatorWithSpinner.OFFSET, biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );

@@ -152,7 +152,7 @@ public abstract class PieceNode extends Stackable {
     };
 
     //Animate this piece card to the top of its stack.
-    @SuppressWarnings("unchecked") public void animateToTopOfStack() { stack.animateToTopOfStack( this, context.isFractionLab() ); }
+    @SuppressWarnings("unchecked") public void animateToTopOfStack() { stack.animateToTopOfStack( this, context.isFractionLab() ); } //unchecked warning
 
     //Show drop shadow when moving back to toolbox
     public void animateToStackLocation( Vector2D v, final boolean deleteOnArrival ) {

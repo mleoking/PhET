@@ -161,7 +161,7 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
         } );
         for ( File file : children ) {
             Entry e = loadXStream();
-            Object output = e.function.f( e.input );
+            Object output = e.function.f( e.input ); //unchecked warning
             boolean equals = output.equals( e.output );
             final PrintStream stream = equals ? System.out : System.err;
             stream.println( ( equals ? "pass" : "fail" ) + ", file = " + file.getName() + " function = " + e.function );

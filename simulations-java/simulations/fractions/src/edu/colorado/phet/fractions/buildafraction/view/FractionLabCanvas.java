@@ -84,7 +84,7 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
         }};
         addChild( barShapeSceneNode );
 
-        final java.util.List<Element<ShapeType>> elements = Arrays.asList( new Element<ShapeType>( new PhetPPath( createPieSlice( 1 ), colors[0], stroke, black ) {{
+        final java.util.List<Element<ShapeType>> elements = Arrays.asList( new Element<ShapeType>( new PhetPPath( createPieSlice( 1 ), colors[0], stroke, black ) {{ //unchecked warning
             scale( 0.15 );
         }}, PIE, Components.pieShapeRadioButton ),
                                                                            new Element<ShapeType>( new PhetPPath( createRect( 1 ), colors[1], stroke, black ) {{

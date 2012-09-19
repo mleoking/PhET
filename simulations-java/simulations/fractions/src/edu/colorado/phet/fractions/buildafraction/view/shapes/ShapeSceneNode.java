@@ -81,7 +81,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private final BuildAFractionModel model;
     public int toolboxHeight;
 
-    @SuppressWarnings("unchecked") public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
+    public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
         this( levelIndex, model, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, context, soundEnabled, fractionLab ) ), fractionLab );
     }
 
@@ -105,8 +105,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         return delta;
     }
 
-    @SuppressWarnings("unchecked") private ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset,
-                                                           final boolean fractionLab ) {
+    private ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset,
+                            final boolean fractionLab ) {
         super( levelIndex, soundEnabled, context, fractionLab );
         this.model = model;
         double insetY = 10;

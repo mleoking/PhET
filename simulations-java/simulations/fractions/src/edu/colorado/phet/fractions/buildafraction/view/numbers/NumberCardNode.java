@@ -107,14 +107,14 @@ public class NumberCardNode extends Stackable {
         numberNode.setOffset( cardShape.getCenterX() - numberNode.getFullWidth() / 2, cardShape.getCenterY() - numberNode.getFullHeight() / 2 );
     }
 
-    @SuppressWarnings("unchecked") public void animateToTopOfStack( boolean deleteOnArrival ) { stack.animateToTopOfStack( this, deleteOnArrival ); }
+    @SuppressWarnings("unchecked") public void animateToTopOfStack( boolean deleteOnArrival ) { stack.animateToTopOfStack( this, deleteOnArrival ); } //unchecked warning
 
     //Make a copy of the NumberCardNode, used in the Fractions Lab where there is an infinite supply of cards.
     @SuppressWarnings("unchecked") public NumberCardNode copy() {
         final NumberCardNode node = new NumberCardNode( size, number, context );
-        node.setStack( stack );
-        node.setPositionInStack( getPositionInStack() );
-        stack.cards = stack.cards.snoc( node );
+        node.setStack( stack ); //unchecked warning
+        node.setPositionInStack( getPositionInStack() ); //unchecked warning
+        stack.cards = stack.cards.snoc( node ); //unchecked warning
         return node;
     }
 }
