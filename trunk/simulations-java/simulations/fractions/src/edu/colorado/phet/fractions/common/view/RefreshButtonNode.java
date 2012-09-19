@@ -29,7 +29,7 @@ public class RefreshButtonNode extends PNode {
         return copyWithPadding( image, dw, 0 );
     }
 
-    //REVIEW
+    //Creates a copy of the buffered image but with padding on the left,top,right,bottom so that it will have a similar shape to other button icons
     public static BufferedImage copyWithPadding( BufferedImage image, int dw, int dh ) {
         BufferedImage copy = new BufferedImage( image.getWidth() + dw * 2, image.getHeight() + dh * 2, image.getType() );
         Graphics2D graphics2D = copy.createGraphics();
@@ -38,7 +38,7 @@ public class RefreshButtonNode extends PNode {
         return copy;
     }
 
-    //REVIEW doc
+    //Create a RefreshButtonNode that has the specified callback listener when pressed (should refresh the scene by reloading new challenges).
     public RefreshButtonNode( final VoidFunction0 effect ) {
         final BufferedImage pad = copyWithPadding( BufferedImageUtils.multiScaleToWidth( Images.VIEW_REFRESH, 25 ), 12 );
         addChild( new HTMLImageButtonNode( pad ) {{
