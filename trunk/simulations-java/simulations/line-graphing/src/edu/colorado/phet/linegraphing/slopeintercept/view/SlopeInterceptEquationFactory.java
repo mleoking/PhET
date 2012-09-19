@@ -79,7 +79,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             if ( line.y1 < 0 ) {
                 interceptSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                             equalsNode.getFullBoundsReference().getCenterY() - ( interceptSignNode.getFullBoundsReference().getHeight() / 2 ) + SIGN_Y_FUDGE_FACTOR );
+                                             equalsNode.getFullBoundsReference().getCenterY() - ( interceptSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
                 interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
             }
             else {
@@ -130,7 +130,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             if ( slope < 0 ) {
                 slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SIGN_Y_FUDGE_FACTOR );
+                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
                 xNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             }
             else {
@@ -186,7 +186,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             if ( slope < 0 ) {
                 slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SIGN_Y_FUDGE_FACTOR );
+                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
                 riseNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             }
             else {
@@ -243,7 +243,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             if ( slope < 0 ) {
                 slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
+                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
                 lineNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING,
                                     equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + FRACTION_LINE_Y_FUDGE_FACTOR );
             }
