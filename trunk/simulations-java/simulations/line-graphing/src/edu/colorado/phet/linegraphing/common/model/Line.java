@@ -41,6 +41,10 @@ public class Line {
         this( x1, y1, x2, y2, DEFAULT_COLOR );
     }
 
+    public double getSlope() {
+        return rise / run;
+    }
+
     /*
      * Creates a line using point-slope description: (y - y1) = m(x - x1)
      * Need to use a factory method because params are identical to primary constructor.
