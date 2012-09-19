@@ -295,22 +295,49 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                                     slopeLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
                 runNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
                                    slopeLineNode.getFullBoundsReference().getMinY() + ySpacing );
-                previousNode = runNode;
+                previousNode = slopeLineNode;
             }
             else {
                 // slope is not interactive, so here we put it in the desired form
 
                 // slope properties, used to determine correct form
+                final boolean undefinedSlope = ( line.run == 0 );
                 final boolean zeroSlope = ( line.getSlope() == 0 );
                 final boolean unitySlope = ( Math.abs( line.getSlope() ) == 1 );
                 final boolean integerSlope = ( Math.abs( line.simplified().run ) == 1 );
                 final boolean positiveSlope = ( line.getSlope() > 0 );
+                final boolean fractionalSlope = ( !zeroSlope && !unitySlope && !integerSlope );
 
                 // adjust fraction line width, use max width of rise or run
                 double lineWidth = Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getWidth() );
                 slopeLineNode.setPathTo( new Line2D.Double( 0, 0, lineWidth, 0 ) );
 
-                if ( zeroSlope ) {
+                if ( undefinedSlope || fractionalSlope ) {
+                    if ( positiveSlope ) {
+                        // rise/0
+                        removeChild( slopeMinusSignNode );
+                        slopeLineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                                 equalsNode.getFullBoundsReference().getCenterY() + 2 );
+                        riseNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
+                                            slopeLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
+                        runNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
+                                           slopeLineNode.getFullBoundsReference().getMinY() + ySpacing );
+                    }
+                    else {
+                        // -rise/0
+                        slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                                      equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
+                        slopeLineNode.setOffset( slopeMinusSignNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                                 equalsNode.getFullBoundsReference().getCenterY() + 2 );
+                        riseNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
+                                            slopeLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
+                        runNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
+                                           slopeLineNode.getFullBoundsReference().getMinY() + ySpacing );
+                    }
+                    previousNode = slopeLineNode;
+                }
+                else if ( zeroSlope ) {
+                    // 0
                     removeChild( slopeMinusSignNode );
                     removeChild( slopeLineNode );
                     removeChild( runNode );
@@ -322,11 +349,13 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                     removeChild( slopeLineNode );
                     removeChild( riseNode );
                     removeChild( runNode );
-                    if ( line.getSlope() > 0 ) {
+                    if ( positiveSlope ) {
+                        // nothing
                         removeChild( slopeMinusSignNode );
                         previousNode = equalsNode;
                     }
                     else {
+                        // -
                         slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
                                                       equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
                         previousNode = slopeMinusSignNode;
@@ -335,12 +364,14 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                 else if ( integerSlope ) {
                     removeChild( slopeLineNode );
                     removeChild( runNode );
-                    if ( line.getSlope() > 0 ) {
+                    if ( positiveSlope ) {
+                        // N
                         removeChild( slopeMinusSignNode );
                         riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
                                             yNode.getYOffset() );
                     }
                     else {
+                        // -N
                         slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
                                                       equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
                         riseNode.setOffset( slopeMinusSignNode.getFullBoundsReference().getMaxX() + xSpacing,
@@ -348,27 +379,8 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                     }
                     previousNode = riseNode;
                 }
-                else { // fractional slope
-                    if ( line.getSlope() > 0 ) {
-                        removeChild( slopeMinusSignNode );
-                        slopeLineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                                 equalsNode.getFullBoundsReference().getCenterY() + 2 );
-                        riseNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
-                                            slopeLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
-                        runNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
-                                           slopeLineNode.getFullBoundsReference().getMinY() + ySpacing );
-                    }
-                    else {
-                        slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                                      equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
-                        slopeLineNode.setOffset( slopeMinusSignNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                                 equalsNode.getFullBoundsReference().getCenterY() + 2 );
-                        riseNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
-                                            slopeLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
-                        runNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
-                                           slopeLineNode.getFullBoundsReference().getMinY() + ySpacing );
-                    }
-                    previousNode = slopeLineNode;
+                else {
+                    throw new IllegalStateException( "programming error, didn't handle some slope case" );
                 }
             }
 
@@ -431,7 +443,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         Property<DoubleRange> x1Range = new Property<DoubleRange>( range );
         Property<DoubleRange> y1Range = new Property<DoubleRange>( range );
 
-        // equation
+        // equations, all combinations of interactivity
         PointSlopeInteractiveEquationNode equationNode1 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, true, true );
         PointSlopeInteractiveEquationNode equationNode2 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, false, false, true );
         PointSlopeInteractiveEquationNode equationNode3 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, true, false );
