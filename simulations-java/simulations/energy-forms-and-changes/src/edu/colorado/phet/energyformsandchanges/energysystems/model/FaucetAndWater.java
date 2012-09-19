@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
-import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.TEMP_FAUCET;
@@ -39,10 +38,6 @@ public class FaucetAndWater extends EnergySource {
 
     @Override public Energy stepInTime( double dt ) {
         return new Energy( EnergyType.MECHANICAL, MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() * dt, -Math.PI / 2 );
-    }
-
-    @Override public List<EnergyChunk> extractOutgoingEnergyChunks() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override public void deactivate() {

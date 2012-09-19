@@ -129,10 +129,6 @@ public class Sun extends EnergySource {
         return new Energy( EnergyType.SOLAR, energyProduced );
     }
 
-    @Override public List<EnergyChunk> extractOutgoingEnergyChunks() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     @Override public IUserComponent getUserComponent() {
         return EnergyFormsAndChangesSimSharing.UserComponents.selectSunButton;
     }
