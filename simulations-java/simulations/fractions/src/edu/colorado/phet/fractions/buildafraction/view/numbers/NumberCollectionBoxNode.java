@@ -78,7 +78,7 @@ public class NumberCollectionBoxNode extends CollectionBoxNode {
 
             fractionGraphic.setScale( 1.0 );
             fractionGraphic.undoButton.setVisible( true );
-            FractionCardNode cardNode = new FractionCardNode( fractionGraphic, numberSceneNode.pairs, numberSceneNode );
+            FractionCardNode cardNode = new FractionCardNode( fractionGraphic, numberSceneNode.getCollectionBoxPairs(), numberSceneNode );
             numberSceneNode.addChild( cardNode );
 
             fractionGraphic = null;

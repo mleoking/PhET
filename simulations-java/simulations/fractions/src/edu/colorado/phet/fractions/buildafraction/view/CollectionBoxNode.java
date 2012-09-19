@@ -8,7 +8,8 @@ import java.awt.Stroke;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Base class for shapes and number collection boxes.
+ * Base class for shapes and number collection boxes.  It just serves as a marker parent class (like marker interface)
+ * and static fields for look and feel common to all shapes and number collection boxes.
  *
  * @author Sam Reid
  */
