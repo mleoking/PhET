@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
@@ -102,6 +103,14 @@ public class WaterPoweredGenerator extends EnergyConverter {
             }
         }
         return new Energy( EnergyType.ELECTRICAL, Math.abs( wheelRotationalVelocity * ENERGY_OUTPUT_RATE ) );
+    }
+
+    @Override public List<EnergyChunk> extractOutgoingEnergyChunks() {
+        return new ArrayList<EnergyChunk>();
+    }
+
+    @Override public void injectEnergyChunks( List<EnergyChunk> energyChunks ) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override public void deactivate() {

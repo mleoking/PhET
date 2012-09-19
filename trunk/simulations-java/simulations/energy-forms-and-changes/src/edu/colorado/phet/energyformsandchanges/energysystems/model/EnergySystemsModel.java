@@ -125,5 +125,9 @@ public class EnergySystemsModel {
         Energy energyFromSource = energySourcesCarousel.getSelectedElement().stepInTime( dt );
         Energy energyFromConverter = energyConvertersCarousel.getSelectedElement().stepInTime( dt, energyFromSource );
         energyUsersCarousel.getSelectedElement().stepInTime( dt, energyFromConverter );
+
+        // Transfer energy chunks between the elements.
+        energyConvertersCarousel.getSelectedElement().injectEnergyChunks( energySourcesCarousel.getSelectedElement().extractOutgoingEnergyChunks() );
+        energyUsersCarousel.getSelectedElement().injectEnergyChunks( energyConvertersCarousel.getSelectedElement().extractOutgoingEnergyChunks() );
     }
 }

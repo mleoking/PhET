@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
@@ -69,6 +70,14 @@ public class SolarPanel extends EnergyConverter {
             energyProduced = incomingEnergy.amount * CONVERSION_EFFICIENCY;
         }
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
+    }
+
+    @Override public List<EnergyChunk> extractOutgoingEnergyChunks() {
+        return new ArrayList<EnergyChunk>();
+    }
+
+    @Override public void injectEnergyChunks( List<EnergyChunk> energyChunks ) {
+        //TODO
     }
 
     /**

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
@@ -48,6 +49,10 @@ public class BeakerHeater extends EnergyUser {
         else {
             heatProportion.set( 0.0 );
         }
+    }
+
+    @Override public void injectEnergyChunks( List<EnergyChunk> energyChunks ) {
+        // TODO
     }
 
     @Override public void deactivate() {

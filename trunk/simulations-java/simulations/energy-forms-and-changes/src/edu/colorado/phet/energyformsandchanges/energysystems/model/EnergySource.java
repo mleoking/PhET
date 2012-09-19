@@ -4,6 +4,8 @@ package edu.colorado.phet.energyformsandchanges.energysystems.model;
 import java.awt.Image;
 import java.util.List;
 
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
+
 /**
  * Base class for energy converters, i.e. model elements that take energy from
  * a source and convert it to something else (such as mechanical to electrical)
@@ -24,4 +26,12 @@ public abstract class EnergySource extends EnergySystemElement {
      * @return Amount of energy produced.
      */
     public abstract Energy stepInTime( double dt );
+
+    /**
+     * Get the energy chunks that this source wants to transfer to the next
+     * energy system element.  Reading clears the list.
+     *
+     * @return list of energy chunks to transfer.
+     */
+    public abstract List<EnergyChunk> extractOutgoingEnergyChunks();
 }
