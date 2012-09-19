@@ -9,6 +9,8 @@ import fj.data.Option;
  * @author Sam Reid
  */
 public interface PieceContext {
+    void startDrag( PieceNode pieceNode );
+
     void endDrag( PieceNode piece );
 
     Option<Double> getNextAngle( final PieceNode pieceNode );
@@ -16,6 +18,4 @@ public interface PieceContext {
     double getContainerScale();
 
     boolean isFractionLab();
-
-    void startDrag( PieceNode pieceNode );
 }

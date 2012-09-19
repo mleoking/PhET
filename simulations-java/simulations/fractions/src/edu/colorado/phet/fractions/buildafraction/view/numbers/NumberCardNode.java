@@ -92,13 +92,16 @@ public class NumberCardNode extends Stackable {
     //From Stackable interface: determine what scale the card should be animated to.
     @Override protected double getAnimateToScale() { return 1.0; }
 
+    //For "Fractions Lab", delete a card once it has moved back to its stack
     protected void delete() {
         super.delete();
         removeFromParent();
     }
 
+    //Show or hide the outline of the card shape.
     public void setCardShapeVisible() { cardShape.setVisible( true ); }
 
+    //Adds the NumberNode to this card.
     public void addNumberNodeBackIn( final NumberNode numberNode ) {
         addChild( numberNode );
         numberNode.setOffset( cardShape.getCenterX() - numberNode.getFullWidth() / 2, cardShape.getCenterY() - numberNode.getFullHeight() / 2 );

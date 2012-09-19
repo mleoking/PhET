@@ -14,7 +14,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.C
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Shows the shape for individual SingleContainerNodes.
+ * Shows the shape for individual SingleContainerNodes, whether pie shapes or bar shapes.
  *
  * @author Sam Reid
  */
