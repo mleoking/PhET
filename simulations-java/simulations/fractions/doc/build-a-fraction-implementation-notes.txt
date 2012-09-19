@@ -16,16 +16,14 @@ this differs from design of other sims which instead show an icon then create th
 
 There are 2 types of levels: one in which you build using number cards (see NumberSceneNode), and 1 in which you build using pictures of shape pieces (see ShapeSceneNode).
 
-//REVIEW ShapesLevelList and NumbersLevelList do not exist. And build-a-fraction-model.txt identifies 4 classes. Do you mean ShapeLevelFactory class hierarchy?
-The levels are declared in ShapesLevelList and NumbersLevelList.  Some levels choose the targets first then come up with cards that can be used to solve the challenges.
+The levels are declared in ShapeLevelList and NumberLevelList for the first tab.  For the second tab, the levels are declared in MixedNumbersNumberLevelList and MixedNumbersShapeLevelList.
+Some levels choose the targets first then come up with cards that can be used to solve the challenges.
 Other levels to use the cards first then come up with challenges that can be obtained with those cards.
 For the shapes mode in order to come up with good challenges we find all possible solutions then sort by number of cards in the solution and choose from one of the smaller solutions,
 so there aren't too many shape cards to move around.
 
-//REVIEW build-a-fraction-model.txt says:
-// "In many cases, a postprocessor is used to guarantee that each of the levels has a wide variety of values and/or pattern types."
-// Where do I find this post-processor, how is it used, etc.?
-
+ShapeLevelList declares a postprocessor in the method addWithPostprocessing which resamples from the level until finding one that has a small number of stacks and a small number of cards per stack.
+MixedNumbersNumberLevelList declares a postprocessor in the method withDifferentRepresentations which attempts to find a level with different shape types
 
 Most of the difficulty of this simulation comes from trying to support so many different scenarios.  Shape containers can be constructed in a variety of different ways,
 and have different initial conditions (starting in play area vs starting in toolbox) and operate at different scales depending on which tab is being used.
