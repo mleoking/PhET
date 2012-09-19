@@ -43,9 +43,13 @@ public class SolarPanel extends EnergyConverter {
         add( CONNECTOR_IMAGE );
     }};
 
+    public static final double ENERGY_CHUNK_VELOCITY = 0.03;
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
+
+    private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -61,21 +65,42 @@ public class SolarPanel extends EnergyConverter {
 
     @Override public Energy stepInTime( double dt, Energy incomingEnergy ) {
 
-        // Manage any incoming energy chunks.
-        if ( !incomingEnergyChunks.isEmpty() ) {
-            for ( EnergyChunk incomingEnergyChunk : incomingEnergyChunks ) {
-                if ( incomingEnergyChunk.energyType.get() == EnergyType.SOLAR ) {
-                    // Convert this chunk to electrical energy and add it to
-                    // the list of energy chunks being managed.
-                    incomingEnergyChunk.energyType.set( EnergyType.ELECTRICAL );
-                    energyChunkList.add( incomingEnergyChunk );
+        if ( isActive() ) {
+            // Manage any incoming energy chunks.
+            if ( !incomingEnergyChunks.isEmpty() ) {
+                for ( EnergyChunk incomingEnergyChunk : incomingEnergyChunks ) {
+                    if ( incomingEnergyChunk.energyType.get() == EnergyType.SOLAR ) {
+                        // Convert this chunk to electrical energy and add it to
+                        // the list of energy chunks being managed.
+                        incomingEnergyChunk.energyType.set( EnergyType.ELECTRICAL );
+                        energyChunkList.add( incomingEnergyChunk );
+
+                        // And a "mover" that will move this energy chunk
+                        // through the solar panel and the wire.
+                        List<Vector2D> energyChunkTravelPath = new ArrayList<Vector2D>() {{
+                            add( getPosition() );
+                        }};
+                        energyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, energyChunkTravelPath, ENERGY_CHUNK_VELOCITY ) );
+                    }
+                    else {
+                        // By design, this shouldn't happen, so warn if it does.
+                        System.out.println( getClass().getName() + " - Warning: Ignoring energy chunk with unexpected type, type = " + incomingEnergyChunk.energyType.get().toString() );
+                    }
                 }
-                else {
-                    // By design, this shouldn't happen, so warn if it does.
-                    System.out.println( getClass().getName() + " - Warning: Ignoring energy chunk with unexpected type, type = " + incomingEnergyChunk.energyType.get().toString() );
+                incomingEnergyChunks.clear();
+            }
+
+            // Move the energy chunks that are currently under management.
+            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
+                energyChunkMover.moveAlongPath( dt );
+                if ( energyChunkMover.isPathFullyTraversed() ) {
+                    // The energy chunk has traveled across the panel and the wire,
+                    // so pass it off to the next element in the system.
+                    outgoingEnergyChunks.add( energyChunkMover.energyChunk );
+                    energyChunkList.remove( energyChunkMover.energyChunk );
+                    energyChunkMovers.remove( energyChunkMover );
                 }
             }
-            incomingEnergyChunks.clear();
         }
 
         // Produce the appropriate amount of energy.
