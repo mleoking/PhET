@@ -30,8 +30,8 @@ public abstract class EquationFactory {
 
     // fudge factors for horizontal lines, to vertically center them with equals sign (set by visual inspection)
     protected static final int SLOPE_SIGN_Y_FUDGE_FACTOR = 2;
-    protected static final int OPERATOR_Y_FUDGE_FACTOR = SLOPE_SIGN_Y_FUDGE_FACTOR;
-    protected static final int FRACTION_LINE_Y_FUDGE_FACTOR = SLOPE_SIGN_Y_FUDGE_FACTOR;
+    protected static final int OPERATOR_Y_FUDGE_FACTOR = 2;
+    protected static final int FRACTION_LINE_Y_FUDGE_FACTOR = 2;
 
     // size of the lines used to create + and - operators
     protected static final Dimension OPERATOR_LINE_SIZE = new Dimension( 10, 2 );
