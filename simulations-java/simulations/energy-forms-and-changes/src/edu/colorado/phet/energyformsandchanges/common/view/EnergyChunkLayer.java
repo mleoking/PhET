@@ -1,10 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.common.view;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.umd.cs.piccolo.PNode;
 
@@ -22,7 +23,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class EnergyChunkLayer extends PNode {
 
-    public EnergyChunkLayer( final ObservableList<EnergyChunk> energyChunkList, PhetPCanvas canvas, final ModelViewTransform mvt ) {
+    public EnergyChunkLayer( final ObservableList<EnergyChunk> energyChunkList, ObservableProperty<Vector2D> parentPosition, final ModelViewTransform mvt ) {
 
         // Add energy chunk nodes as children as the energy chunks come in to
         // existence in the model.
@@ -38,6 +39,16 @@ public class EnergyChunkLayer extends PNode {
                         }
                     }
                 } );
+            }
+        } );
+
+        // Since the energy chunk positions are in model coordinates, this node
+        // must maintain a position that is offset from the parent in order to
+        // compensate.
+        parentPosition.addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D position ) {
+                setOffset( -mvt.modelToViewX( position.x ),
+                           -mvt.modelToViewY( position.y ) );
             }
         } );
     }

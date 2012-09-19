@@ -9,7 +9,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -52,15 +51,8 @@ public class SunNode extends PositionableFadableModelElementNode {
         final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), sunRadius, 1000, 40, Color.YELLOW );
         addChild( lightRays );
 
-        // Add the energy chunks.
-        final EnergyChunkLayer energyChunkLayer = new EnergyChunkLayer( sun.energyChunkList, canvas, mvt );
-        sun.getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
-            public void apply( Vector2D position ) {
-                energyChunkLayer.setOffset( -mvt.modelToViewX( position.x ),
-                                            -mvt.modelToViewY( position.y ) );
-            }
-        } );
-        addChild( energyChunkLayer );
+        // Add the energy chunks, which reside on their own layer.
+        addChild( new EnergyChunkLayer( sun.energyChunkList, sun.getObservablePosition(), mvt ) );
 
         // Add the sun.
         PNode sunNode = new PhetPPath( new Ellipse2D.Double( -sunRadius, -sunRadius, sunRadius * 2, sunRadius * 2 ) ) {{
