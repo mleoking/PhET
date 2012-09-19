@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
+import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.DynamicValueNode;
@@ -97,7 +98,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
 
         // nodes: (y-y1) = m(x-x1)
         yLeftParenNode = new PhetPText( "(", staticFont, staticColor );
-        yNode = new PhetPText( "y", staticFont, staticColor );
+        yNode = new PhetPText( Strings.SYMBOL_Y, staticFont, staticColor );
         yOperatorNode = new PhetPText( "-", staticFont, staticColor );
         if ( interactiveY1 ) {
             y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, this.y1, y1Range, new PointColors(), interactiveFont, FORMAT ) );
@@ -118,7 +119,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         }
         slopeLineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeSpinnerWidth, 0 ), new BasicStroke( 3f ), staticColor );
         xLeftParenNode = new PhetPText( "(", staticFont, staticColor );
-        xNode = new PhetPText( "x", staticFont, staticColor );
+        xNode = new PhetPText( Strings.SYMBOL_X, staticFont, staticColor );
         xOperatorNode = new PhetPText( "-", staticFont, staticColor );
         if ( interactiveX1 ) {
             x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, this.x1, x1Range, new PointColors(), interactiveFont, FORMAT ) );
