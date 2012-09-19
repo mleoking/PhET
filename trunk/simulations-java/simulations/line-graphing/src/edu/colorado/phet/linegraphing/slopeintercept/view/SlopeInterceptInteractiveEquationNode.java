@@ -37,7 +37,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * User interface for manipulating a slope-intercept equation.
+ * User interface for manipulating a slope-intercept equation: y = mx + b
+ * <p/>
  * Spinners are used to increment/decrement parts of the equation that are specified as being interactive.
  * Non-interactive parts of the equation are expressed in a form that is typical of how the equation
  * would normally be written.  For example, if the slope is -1, then only the sign is written, not "-1".
