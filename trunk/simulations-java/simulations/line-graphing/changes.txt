@@ -1,3 +1,4 @@
+9/19/12 factor out duplicate code related to slope sign in interactive equations
 9/19/12 fix: handle undefined slope (rise/0) properly in interactive equations
 9/19/12 fix: Line.simplify should do nothing if slope is zero or undefined
 9/19/12 completed the various forms of point-slope equations in PointSlopeInteractiveEquationNode
