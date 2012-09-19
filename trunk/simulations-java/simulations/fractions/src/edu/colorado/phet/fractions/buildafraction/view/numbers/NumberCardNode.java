@@ -75,6 +75,7 @@ public class NumberCardNode extends Stackable {
         addInputEventListener( new CursorHandler() );
     }
 
+    //Animates the card moving back to its location in its stack of cards.
     public void animateToStackLocation( Vector2D v, final boolean deleteOnArrival ) {
         animateToPositionScaleRotation( v.x, v.y, 1, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate(
                 new DisablePickingWhileAnimating( this, true ),
@@ -88,6 +89,7 @@ public class NumberCardNode extends Stackable {
                 } ) );
     }
 
+    //From Stackable interface: determine what scale the card should be animated to.
     @Override protected double getAnimateToScale() { return 1.0; }
 
     protected void delete() {
@@ -104,6 +106,7 @@ public class NumberCardNode extends Stackable {
 
     @SuppressWarnings("unchecked") public void animateToTopOfStack( boolean deleteOnArrival ) { stack.animateToTopOfStack( this, deleteOnArrival ); }
 
+    //Make a copy of the NumberCardNode, used in the Fractions Lab where there is an infinite supply of cards.
     @SuppressWarnings("unchecked") public NumberCardNode copy() {
         final NumberCardNode node = new NumberCardNode( size, number, context );
         node.setStack( stack );

@@ -67,6 +67,7 @@ public class NumberCollectionBoxNode extends CollectionBoxNode {
         addChild( undoButton );
     }
 
+    //Eject the solution from the collection box and back to the toolbox.
     public void undo() {
         if ( completed ) {
             completed = false;

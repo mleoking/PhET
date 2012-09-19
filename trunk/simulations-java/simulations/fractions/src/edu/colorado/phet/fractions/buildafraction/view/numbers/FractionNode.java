@@ -52,11 +52,12 @@ import static java.awt.Color.black;
  */
 public class FractionNode extends RichPNode {
 
-    public final Box numerator = new Box();
-    public final Box denominator = new Box();
     public final Box whole = new Box();//Whole box is only shown and used for mixed numbers
 
+    public final Box numerator = new Box();
     public final PhetPPath divisorLine;
+    public final Box denominator = new Box();
+
     public final UndoButton undoButton;
 
     private final ArrayList<VoidFunction1<Option<Fraction>>> undoListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
@@ -69,7 +70,7 @@ public class FractionNode extends RichPNode {
 
     private final double SCALE_IN_TOOLBOX = 0.7;
 
-    //For undo
+    //Keep track of recent activity so it can be incrementally undone with the "undo" button
     private List<FractionNodePosition> dropListHistory = List.nil();
 
     public FractionNode( final FractionDraggingContext context, boolean mixedNumber ) {
@@ -163,6 +164,7 @@ public class FractionNode extends RichPNode {
         }
     }
 
+    //Send the last piece to the toolbox (First-In-Last-Out)
     void undo() {
         setDragRegionPickable( true );
         Option<Fraction> value = isComplete() ? Option.some( getValue() ) : Option.<Fraction>none();

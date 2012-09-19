@@ -7,7 +7,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * Data structure for handling the whole, numerator and denominator parts in a FractionNode.  Parts are null until assigned and null if not attached.
+ * Data structure which handles one of the {whole, numerator or denominator} parts in a FractionNode.  Parts are null until assigned and null if not attached.
  *
  * @author Sam Reid
  */
@@ -18,6 +18,7 @@ public class Box {
     public PNode parent;
     private final PNode notAllowedIcon = new PImage( Images.NOT_ALLOWED );
 
+    //Sets whether the box is visible and interactive
     public void setEnabled( final boolean enabled ) {
         box.setVisible( enabled );
         if ( !enabled ) {
