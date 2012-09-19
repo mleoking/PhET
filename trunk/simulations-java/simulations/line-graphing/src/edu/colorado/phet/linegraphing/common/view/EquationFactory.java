@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
@@ -13,6 +12,7 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Base class for all factories that create equation nodes for lines.
@@ -34,10 +34,10 @@ public abstract class EquationFactory {
     protected static final int FRACTION_LINE_Y_FUDGE_FACTOR = 2;
 
     // size of the lines used to create + and - operators
-    protected static final Dimension OPERATOR_LINE_SIZE = new Dimension( 10, 2 );
+    protected static final PDimension OPERATOR_LINE_SIZE = new PDimension( 10, 2 );
 
     // size of the lines used to create + and - signs
-    protected static final Dimension SIGN_LINE_SIZE = new Dimension( 10, 2 );
+    protected static final PDimension SIGN_LINE_SIZE = new PDimension( 10, 2 );
 
     // thickness of the fraction divisor line
     protected static final int FRACTION_LINE_THICKNESS = 2;
@@ -72,20 +72,20 @@ public abstract class EquationFactory {
     // Creates a plus or minus sign. Sign is distinct from operator, so that they can have different looks.
     protected static PNode createSignNode( double value, Color color ) {
         if ( value >= 0 ) {
-            return new PlusNode( SIGN_LINE_SIZE.width, SIGN_LINE_SIZE.height, color );
+            return new PlusNode( SIGN_LINE_SIZE, color );
         }
         else {
-            return new MinusNode( SIGN_LINE_SIZE.width, SIGN_LINE_SIZE.height, color );
+            return new MinusNode( SIGN_LINE_SIZE, color );
         }
     }
 
     // Creates a plus or minus operator. Operator is distinct from sign, so that they can have different looks.
     protected static PNode createOperatorNode( double value, Color color ) {
         if ( value >= 0 ) {
-            return new PlusNode( OPERATOR_LINE_SIZE.width, OPERATOR_LINE_SIZE.height, color );
+            return new PlusNode( OPERATOR_LINE_SIZE, color );
         }
         else {
-            return new MinusNode( OPERATOR_LINE_SIZE.width, OPERATOR_LINE_SIZE.height, color );
+            return new MinusNode( OPERATOR_LINE_SIZE, color );
         }
     }
 
