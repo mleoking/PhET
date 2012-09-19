@@ -31,12 +31,16 @@ public class SolarPanel extends EnergyConverter {
     private static final double CONVERSION_EFFICIENCY = 0.3;
 
     private static final Vector2D SOLAR_PANEL_OFFSET = new Vector2D( 0, 0.044 );
-    private static final ModelElementImage SOLAR_PANEL_IMAGE = new ModelElementImage( SOLAR_PANEL, SOLAR_PANEL_OFFSET );
+    public static final ModelElementImage SOLAR_PANEL_IMAGE = new ModelElementImage( SOLAR_PANEL, SOLAR_PANEL_OFFSET );
+    public static final ModelElementImage WIRE_IMAGE = new ModelElementImage( WIRE_BLACK_MIDDLE, new Vector2D( 0.075, -0.04 ) );
+    public static final ModelElementImage BASE_IMAGE = new ModelElementImage( SOLAR_PANEL_BASE, new Vector2D( 0.015, -0.025 ) );
+    public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR, new Vector2D( 0.058, -0.04 ) );
+
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( SOLAR_PANEL_BASE, new Vector2D( 0.015, -0.025 ) ) );
+        add( BASE_IMAGE );
         add( SOLAR_PANEL_IMAGE );
-        add( new ModelElementImage( WIRE_BLACK_MIDDLE, new Vector2D( 0.075, -0.04 ) ) );
-        add( new ModelElementImage( CONNECTOR, new Vector2D( 0.058, -0.04 ) ) );
+        add( WIRE_IMAGE );
+        add( CONNECTOR_IMAGE );
     }};
 
     //-------------------------------------------------------------------------
