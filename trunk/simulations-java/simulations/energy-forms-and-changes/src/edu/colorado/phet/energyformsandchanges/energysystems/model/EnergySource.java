@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
@@ -14,6 +15,8 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
  * @author John Blanco
  */
 public abstract class EnergySource extends EnergySystemElement {
+
+    protected List<EnergyChunk> outgoingEnergyChunks = new ArrayList<EnergyChunk>();
 
     protected EnergySource( Image iconImage, List<ModelElementImage> images ) {
         super( iconImage, images );
@@ -33,5 +36,11 @@ public abstract class EnergySource extends EnergySystemElement {
      *
      * @return list of energy chunks to transfer.
      */
-    public abstract List<EnergyChunk> extractOutgoingEnergyChunks();
+    public List<EnergyChunk> extractOutgoingEnergyChunks() {
+        List<EnergyChunk> retVal = new ArrayList<EnergyChunk>( outgoingEnergyChunks );
+        outgoingEnergyChunks.clear();
+        return retVal;
+    }
+
+    ;
 }
