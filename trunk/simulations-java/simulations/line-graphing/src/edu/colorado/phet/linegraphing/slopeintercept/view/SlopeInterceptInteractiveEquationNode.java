@@ -171,7 +171,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         }
 
         // slope properties
-        final boolean zeroSlope = ( line.rise == 0 );
+        final boolean zeroSlope = ( line.getSlope() == 0 );
         final boolean unitySlope = ( Math.abs( line.getSlope() ) == 1 );
         final boolean integerSlope = ( Math.abs( line.simplified().run ) == 1 );
         final boolean positiveSlope = ( line.getSlope() > 0 );
