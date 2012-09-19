@@ -52,8 +52,9 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
     // Nodes that appear in all possible forms of the equation "(y - y1) = m(x - x1)"
-    private final PNode yLeftParenNode, yNode, yOperatorNode, y1Node, yRightParenNode, y1MinusSignNode, equalsNode;
+    private final PNode yLeftParenNode, yNode, yOperatorNode, y1Node, yRightParenNode, equalsNode;
     private final PNode slopeMinusSignNode, riseNode, runNode, xLeftParenNode, xNode, xOperatorNode, x1Node, xRightParenNode;
+    private final PNode y1MinusSignNode; // for "y = -y1" case
     private final PPath fractionLineNode;
     private PNode undefinedSlopeIndicator;
 
