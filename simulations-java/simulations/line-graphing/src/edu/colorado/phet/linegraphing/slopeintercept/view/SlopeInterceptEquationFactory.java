@@ -42,7 +42,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
         }
     }
 
-    // Verbose form of slope-intercept, not reduced, for debugging.
+    // Verbose form of slope-intercept, not simplified, for debugging.
     private static class VerboseNode extends EquationNode {
         public VerboseNode( Line line, PhetFont font ) {
             addChild( new PhetPText( MessageFormat.format( "y = ({0}/{1})x + {2})", line.rise, line.run, line.y1 ), font, line.color ) );

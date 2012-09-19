@@ -43,7 +43,7 @@ public class PointSlopeEquationFactory extends EquationFactory {
         }
     }
 
-    // Verbose form of point-slope, not reduced, for debugging.
+    // Verbose form of point-slope, not simplified, for debugging.
     private static class VerboseNode extends EquationNode {
         public VerboseNode( Line line, PhetFont font ) {
             addChild( new PhetPText( MessageFormat.format( "(y - {0}) = ({1}/{2})(x - {3})", line.y1, line.rise, line.run, line.x1 ), font, line.color ) );
