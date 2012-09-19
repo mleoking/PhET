@@ -172,9 +172,9 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
 
         // slope properties
         final boolean zeroSlope = ( line.rise == 0 );
-        final boolean unitySlope = ( Math.abs( line.rise / line.run ) == 1 );
+        final boolean unitySlope = ( Math.abs( line.getSlope() ) == 1 );
         final boolean integerSlope = ( Math.abs( line.simplified().run ) == 1 );
-        final boolean positiveSlope = ( line.rise / line.run > 0 );
+        final boolean positiveSlope = ( line.getSlope() > 0 );
 
         // spacing between components of the equation, visually tweaked
         final double xSpacing = 10;
@@ -210,7 +210,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                 removeChild( slopeLineNode );
                 removeChild( riseNode );
                 removeChild( runNode );
-                if ( line.rise / line.run > 0 ) {
+                if ( line.getSlope() > 0 ) {
                     // y = x
                     removeChild( slopeMinusSignNode );
                     xNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing, yNode.getYOffset() );
@@ -225,7 +225,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
             else if ( integerSlope ) {
                 removeChild( slopeLineNode );
                 removeChild( runNode );
-                if ( line.rise / line.run > 0 ) {
+                if ( line.getSlope() > 0 ) {
                     // y = Nx
                     removeChild( slopeMinusSignNode );
                     riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing, yNode.getYOffset() );

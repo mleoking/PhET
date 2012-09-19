@@ -103,12 +103,10 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
 
             assert ( Math.abs( line.rise ) == Math.abs( line.run ) );
 
-            final double slope = ( line.rise / line.run );
-
             // y = x + b
             PNode yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PNode equalsNode = new PhetPText( "=", font, line.color );
-            PNode slopeSignNode = createSignNode( slope, line.color );
+            PNode slopeSignNode = createSignNode( line.getSlope(), line.color );
             PNode xNode = new PhetPText( Strings.SYMBOL_X, font, line.color );
             PNode operatorNode = createOperatorNode( line.y1, line.color );
             PNode interceptNode = new PhetPText( toIntString( Math.abs( line.y1 ) ), font, line.color );
@@ -116,7 +114,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             // rendering order
             addChild( yNode );
             addChild( equalsNode );
-            if ( slope < 0 ) {
+            if ( line.getSlope() < 0 ) {
                 addChild( slopeSignNode );
             }
             addChild( xNode );
@@ -128,7 +126,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             // layout
             yNode.setOffset( 0, 0 );
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
-            if ( slope < 0 ) {
+            if ( line.getSlope() < 0 ) {
                 slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
                 xNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
@@ -157,13 +155,11 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
 
             assert ( Math.abs( line.run ) == 1 );
 
-            final double slope = line.rise / line.run;
-
             // y = rise x + b
             PNode yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PNode equalsNode = new PhetPText( "=", font, line.color );
-            PNode slopeSignNode = createSignNode( slope, line.color );
-            PNode riseNode = new PhetPText( toIntString( Math.abs( slope ) ), font, line.color );
+            PNode slopeSignNode = createSignNode( line.getSlope(), line.color );
+            PNode riseNode = new PhetPText( toIntString( Math.abs( line.getSlope() ) ), font, line.color );
             PNode xNode = new PhetPText( Strings.SYMBOL_X, font, line.color );
             PNode operatorNode = createOperatorNode( line.y1, line.color );
             PNode interceptNode = new PhetPText( toIntString( Math.abs( line.y1 ) ), font, line.color );
@@ -171,7 +167,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             // rendering order
             addChild( yNode );
             addChild( equalsNode );
-            if ( slope < 0 ) {
+            if ( line.getSlope() < 0 ) {
                 addChild( slopeSignNode );
             }
             addChild( riseNode );
@@ -184,7 +180,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             // layout
             yNode.setOffset( 0, 0 );
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
-            if ( slope < 0 ) {
+            if ( line.getSlope() < 0 ) {
                 slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
                 riseNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
@@ -210,12 +206,10 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
 
         public FractionSlopeNode( Line line, PhetFont font ) {
 
-            final double slope = line.rise / line.run;
-
             // y = -(absRise/absRun)x + b
             PNode yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PNode equalsNode = new PhetPText( "=", font, line.color );
-            PNode slopeSignNode = createSignNode( slope, line.color );
+            PNode slopeSignNode = createSignNode( line.getSlope(), line.color );
             PNode riseNode = new PhetPText( toIntString( Math.abs( line.rise ) ), font, line.color );
             PNode runNode = new PhetPText( toIntString( Math.abs( line.run ) ), font, line.color );
             PNode lineNode = createFractionLineNode( Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), line.color );
@@ -226,7 +220,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             // rendering order
             addChild( yNode );
             addChild( equalsNode );
-            if ( slope < 0 ) {
+            if ( line.getSlope() < 0 ) {
                 addChild( slopeSignNode );
             }
             addChild( riseNode );
@@ -241,7 +235,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             // layout
             yNode.setOffset( 0, 0 );
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
-            if ( slope < 0 ) {
+            if ( line.getSlope() < 0 ) {
                 slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
                 lineNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING,

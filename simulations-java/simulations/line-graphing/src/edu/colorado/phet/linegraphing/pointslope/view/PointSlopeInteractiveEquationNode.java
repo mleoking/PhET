@@ -295,8 +295,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                 double lineWidth = Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getWidth() );
                 slopeLineNode.setPathTo( new Line2D.Double( 0, 0, lineWidth, 0 ) );
 
-                final double slope = line.rise / line.run;
-                if ( slope < 0 ) {
+                if ( line.getSlope() < 0 ) {
                     removeChild( slopeMinusSignNode );
                     slopeLineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
                                              equalsNode.getFullBoundsReference().getCenterY() + 2 );
