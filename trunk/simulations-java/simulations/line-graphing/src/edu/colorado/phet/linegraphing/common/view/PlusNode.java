@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Plus sign, created using PPath because PText("+") cannot be accurately centered.
@@ -20,6 +21,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PlusNode extends PPath {
+
+    public PlusNode( PDimension size, Paint paint ) {
+        this( size.getWidth(), size.getHeight(), paint );
+    }
 
     /**
      * Constructor

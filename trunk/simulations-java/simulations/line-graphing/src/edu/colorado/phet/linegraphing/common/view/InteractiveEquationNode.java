@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
+import java.awt.Dimension;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -13,6 +14,7 @@ import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNo
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeColors;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Base class for all interactive equations.
@@ -34,11 +36,14 @@ public class InteractiveEquationNode extends PhetPNode {
     protected static final int FRACTION_LINE_Y_FUDGE_FACTOR = 2;
     protected static final int UNDEFINED_SLOPE_Y_FUDGE_FACTOR = 2;
 
-    protected static final float FRACTION_LINE_THICKNESS = 2f;
-    protected static final int SLOPE_SIGN_LENGTH = 15;
-    protected static final int SLOPE_SIGN_THICKNESS = 3;
-    protected static final int OPERATOR_LENGTH = 15;
-    protected static final int OPERATOR_THICKNESS = 2;
+    // size of the lines used to create + and - operators
+    protected static final PDimension OPERATOR_LINE_SIZE = new PDimension( 15, 2 );
+
+    // size of the lines used to create + and - signs
+    protected static final PDimension SIGN_LINE_SIZE = new PDimension( 15, 3 );
+
+    // thickness of the fraction divisor line
+    protected static final int FRACTION_LINE_THICKNESS = 2;
 
     protected static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 

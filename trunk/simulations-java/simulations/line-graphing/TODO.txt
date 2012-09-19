@@ -11,7 +11,6 @@ DESIGN
 - Game: rules for generating random challenges and initial guess
 
 HIGH
-- interactive nodes are getting complicated, look at approach used in EquationFactory
 - Graph The Line: on "Show Answer", show the equation for incorrect answer, put icons next to equations to indicate correct and incorrect
 - change location of slope sign, vertically center it between "=" and fraction division line, add "vertical offset" parameter to constructors
 - slope-intercept or point-slope with non-interactive slope: reduce X/1 to X, hide 1/1
@@ -19,12 +18,12 @@ HIGH
 - slope-intercept or point-slope with non-interactive slope: hide slope and "x" when slope==0
 - point-slope with non-interactive x1: hide x1 if it's zero
 - point-slope with non-interactive y1: hide y1 if it's zero
-- unify interactive and non-interactive equations (equation factories)
 - example of each "Make the Equation" game challenge
 - in "Show Answer" for "Make the Equation", show the answer as a separate read-only equation below the interactive equation
 - random creation of challenges, subject to constraints tbd
 
 MEDIUM
+- use InteractiveEquationNode subclasses to generate non-interactive equations in EquationFactory subclasses, if we can agree that the "look" will be the same
 - factor out duplication in ChallengeNode subclasses
 
 LOW
