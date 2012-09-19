@@ -231,6 +231,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         toolboxNode.moveToBack();
     }
 
+    //Return true if and only if this level contains mixed numbers.
     public boolean isMixedNumbers() { return model.isMixedNumbers(); }
 
     //Location for a container to move to in the center of the play area
@@ -242,6 +243,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         return new Vector2D( fractionLab ? 485 : title.getCenterX() - offset * getContainerScale(), y );
     }
 
+    //The user pressed the "reset" button and everything should start over on this screen.
     protected void reset() {
         //Eject everything from target containers
         //Split everything
@@ -264,6 +266,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         level.filledTargets.reset();
     }
 
+    //Get all of the piece nodes, whether they be in the toolbox, play area or in a container.
     private List<PieceNode> getPieceNodes() {
         ArrayList<PieceNode> children = new ArrayList<PieceNode>();
         for ( Object child : this.getChildrenReference() ) {
@@ -376,7 +379,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
 
         //Add a new container when the previous one is completed
-        if ( !allTargetsComplete() ) {
+        if ( !allCollectionBoxesFilled() ) {
 
             //If no fraction skeleton in play area, move one there
             final List<ContainerNode> inToolbox = getContainerNodesInToolbox();
@@ -387,7 +390,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             }
         }
 
-        if ( allTargetsComplete() ) {
+        if ( allCollectionBoxesFilled() ) {
             notifyAllCompleted();
 
             faceNodeDialog.setVisible( true );
@@ -396,7 +399,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             faceNodeDialog.setChildrenPickable( true );
             faceNodeDialog.moveToFront();
         }
-        if ( !allTargetsComplete() && hit ) {
+        if ( !allCollectionBoxesFilled() && hit ) {
             notifyOneCompleted();
         }
 
@@ -456,8 +459,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         } );
     }
 
+    //Animate a ContainerNode from the toolbox to the center of the screen when the user fills one collection box and there is no ContainerNode in the play area.
     private void animateToCenterScreen( final ContainerNode containerNode, PActivityDelegate delegate ) { animateToPosition( containerNode, getContainerPosition(), delegate ); }
 
+    //Utility function to animate a ContainerNode to the specified location.
     private void animateToPosition( final ContainerNode containerNode, final Vector2D position, PActivityDelegate delegate ) {
         containerNode.animateToPositionScaleRotation( position.x, position.y,
                                                       getContainerScale(), 0, BuildAFractionModule.ANIMATION_TIME ).
@@ -468,6 +473,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 } ) );
     }
 
+    //The user has dropped a PieceNode, determines whether it has been dropped into a container or if it should go back to the toolbox.
     public void endDrag( final PieceNode piece ) {
         boolean droppedInto = false;
         List<SingleContainerNode> targets = getContainerNodes().bind( _getSingleContainerNodes );
@@ -521,16 +527,16 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         else { return Option.none(); }
     }
 
+    //Determines how large the containers should be rendered.
     public double getContainerScale() {
         final double smaller = 0.6 * 1.15;
         return isFractionLab() ? smaller :
                isMixedNumbers() ? smaller : 1.0;
     }
 
-    public boolean isFractionLab() {
-        return fractionLab;
-    }
+    public boolean isFractionLab() { return fractionLab; }
 
+    //The user started dragging a PieceNode.  In the "Fractions Lab" tab, create a copy to make it seem like there is an endless stack of pieces.
     public void startDrag( final PieceNode pieceNode ) {
         if ( isFractionLab() ) {
             //create another piece node under this one
@@ -542,6 +548,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
     }
 
+    //Location where a piece can be dropped.  The angle is included for pies, it is always 0.0 for bars.
     public @Data static class DropLocation {
         public final Vector2D position;
         public final double angle;
@@ -610,15 +617,15 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         container.addDropLocationToUndoList();
     }
 
-    public void syncModelFractions() {
-        level.createdFractions.set( getUserCreatedFractions() );
-    }
+    //Update the list of user-created fractions for purposes of highlighting collection boxes when the first match is made.
+    public void syncModelFractions() { level.createdFractions.set( getUserCreatedFractions() ); }
 
     //When a container is added to a container node, move it to the left if it overlaps the scoring boxes.
     public void containerAdded( final ContainerNode c ) {
         moveContainerNodeAwayFromCollectionBoxes( c );
     }
 
+    //The user started dragging a ContainerNode.  In the "Fractions Lab" tab, create a copy to give the sense of an endles stack.
     public void startDrag( final ContainerNode parent ) {
         if ( isFractionLab() && parent.isInToolbox() && getContainerNodes().length() < 4 ) {
             ContainerNode copy = parent.copy();
@@ -647,8 +654,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
     }
 
+    //Get all the fractions the user has created in this challeng so far.
     private List<Fraction> getUserCreatedFractions() { return getContainerNodes().filter( not( _isInTargetCell ) ).map( _getFractionValue ); }
 
+    //Remove a single piece from its parent container and animate it back to the top of its stack in the toolbox.
     public void undoPieceFromContainer( final PieceNode piece ) {
         Point2D offset = piece.getGlobalTranslation();
         double scale = piece.getGlobalScale();
@@ -661,9 +670,11 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         piece.animateToTopOfStack();
     }
 
+    //Get all the container nodes in this scene.
     private List<ContainerNode> getContainerNodes() { return getChildren( this, ContainerNode.class ); }
 
-    private boolean allTargetsComplete() {
+    //Determine if the user has filled all the collection boxes.
+    private boolean allCollectionBoxesFilled() {
         return getCollectionBoxPairs().map( new F<ShapeSceneCollectionBoxPair, Boolean>() {
             @Override public Boolean f( final ShapeSceneCollectionBoxPair pair ) {
                 return pair.collectionBoxNode.isCompleted();
@@ -675,6 +686,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         } ).length() == getCollectionBoxPairs().length();
     }
 
+    //When the user pressed "undo" on a collection box, record it in the model and hide the face if it was showing.
     public void collectionBoxUndone() {
         level.filledTargets.decrement();
         faceNodeDialog.animateToTransparency( 0.0f, BuildAFractionModule.ANIMATION_TIME );
@@ -695,6 +707,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                              STAGE_SIZE.height - 117 - CARD_SPACING_DY * cardIndex + yOffset );
     }
 
+    //After pieces finished animating, update the z-ordering so the dotted lines don't appear in front.
     public void movedNonStackCardsToFront() {
 
         //Fixed: Dotted lines sometimes disappear when dragging a card out of the toolbox
@@ -705,11 +718,13 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         } );
     }
 
+    //Determine the location of a card within its stack, for layout
     private double getCardOffsetWithinStack( final int numInGroup, final int cardIndex ) {
         double totalSpacing = -CARD_SPACING_DX * ( numInGroup - 1 );
         return getCardOffsetWithinStack( numInGroup, cardIndex, totalSpacing );
     }
 
+    //Determine the location of a card within its stack, for layout
     private double getCardOffsetWithinStack( final int numInGroup, final int cardIndex, final double totalSpacing ) {
         return numInGroup == 1 ? 0 :
                new LinearFunction( 0, numInGroup - 1, -totalSpacing / 2, +totalSpacing / 2 ).evaluate( cardIndex );

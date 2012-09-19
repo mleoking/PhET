@@ -27,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.DisablePickingWhileAnimating;
+import edu.colorado.phet.fractions.buildafraction.view.UndoButton;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
@@ -339,7 +340,7 @@ public class ContainerNode extends PNode {
         }
 
         for ( SingleContainerNode node : getSingleContainerNodes() ) {
-            node.setInTargetCell();
+            node.setInCollectionBox();
         }
         if ( inTargetCell && targetDenominator > 0 ) {
             selectedPieceSize.set( targetDenominator );
