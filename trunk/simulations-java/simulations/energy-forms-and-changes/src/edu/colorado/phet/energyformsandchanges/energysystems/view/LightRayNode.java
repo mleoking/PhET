@@ -75,7 +75,7 @@ public class LightRayNode extends PNode {
             }
         } );
 
-        // TODO: Could I use a map of points to fade coefficents, then sort the map?
+        // TODO: Could I use a map of points to fade coefficients, then sort the map?
 
         // Add the segments that comprise the line.
         int opacity = 255;
