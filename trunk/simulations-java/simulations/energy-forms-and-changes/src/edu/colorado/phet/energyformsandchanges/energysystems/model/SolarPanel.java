@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
@@ -47,10 +46,6 @@ public class SolarPanel extends EnergyConverter {
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
-
-    // State property for tracking whether sunlight can be absorbed.  Only
-    // true when the solar panel is active.
-    private BooleanProperty ableToAbsorbSunlight = new BooleanProperty( false );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
