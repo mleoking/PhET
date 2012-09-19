@@ -25,11 +25,8 @@ import static edu.colorado.phet.fractions.common.util.Sampling.choose;
 import static edu.colorado.phet.fractions.common.util.Sampling.chooseOne;
 import static fj.data.List.*;
 
-//REVIEW what is "Build a Mixed Fraction: Shapes"? shapes challenges on "Mixed Fractions" tab?
-//REVIEW I expected this comment to be similar to MixedNumbersNumberLevelList, but it's not
-
 /**
- * This class enumerates the different levels for "Build a Mixed Fraction: Shapes"
+ * List of levels used for the "Mixed Fractions" tab, for the levels in which shapes are used.
  *
  * @author Sam Reid
  */

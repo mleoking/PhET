@@ -14,7 +14,7 @@ import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.view.CollectionBoxNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 
-import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
+import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.CONTROL_PANEL_STROKE;
 import static java.lang.Math.ceil;
 
 /**
@@ -82,7 +82,7 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
         if ( completed ) {
             completed = false;
             path.setStrokePaint( Color.darkGray );
-            path.setStroke( controlPanelStroke );
+            path.setStroke( CONTROL_PANEL_STROKE );
             undoButton.setVisible( false );
             undoButton.setPickable( false );
             undoButton.setChildrenPickable( false );
