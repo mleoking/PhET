@@ -33,6 +33,7 @@ import static fj.data.List.list;
 
 /**
  * Screen that shows buttons for each level and stars indicating progress.
+ * This screen is what is shown initially in the "Build a Fraction" tab, and the user can navigate back to it by pressing the LevelSelectionScreenButton.
  *
  * @author Sam Reid
  */
@@ -51,6 +52,7 @@ public class MixedNumbersLevelSelectionNode extends AbstractLevelSelectionNode {
         }} );
     }
 
+    //List of levels for the first page.
     @SuppressWarnings("unchecked") private static List<List<LevelInfo>> page1( final F<LevelIdentifier, LevelProgress> f ) {
         return list( list( shapeLevel( 1, Pattern.pie( 1 ), f ),
                            shapeLevel( 2, Pattern.verticalBars( 2 ), f ),
@@ -64,6 +66,7 @@ public class MixedNumbersLevelSelectionNode extends AbstractLevelSelectionNode {
                            numberLevel( 5, f ) ) );
     }
 
+    //List of levels for the second page.
     @SuppressWarnings("unchecked") private static List<List<LevelInfo>> page2( final F<LevelIdentifier, LevelProgress> f ) {
         return list( list( shapeLevel( 6, f ),
                            shapeLevel( 7, f ),
@@ -77,11 +80,7 @@ public class MixedNumbersLevelSelectionNode extends AbstractLevelSelectionNode {
                            numberLevel( 10, f ) ) );
     }
 
-    private static LevelInfo shapeLevel( final int level, final F<LevelIdentifier, LevelProgress> gameProgress ) {
-        return shapeLevel( level, getPattern( level ), gameProgress );
-    }
-
-    private static Pattern getPattern( final int level ) {
+    private static Pattern getIconPattern( final int level ) {
         return level <= 4 ? Pattern.polygon( 80, level ) :
                level <= 5 ? Pattern.polygon( 72, level ) :
                level == 6 ? Pattern.sixFlower() :
@@ -92,6 +91,12 @@ public class MixedNumbersLevelSelectionNode extends AbstractLevelSelectionNode {
                null;
     }
 
+    //Convenience method for creating a shape LevelInfo
+    private static LevelInfo shapeLevel( final int level, final F<LevelIdentifier, LevelProgress> gameProgress ) {
+        return shapeLevel( level, getIconPattern( level ), gameProgress );
+    }
+
+    //Creates a shape LevelInfo from the specified pattern and progress
     private static LevelInfo shapeLevel( final int level, Pattern pattern, final F<LevelIdentifier, LevelProgress> gameProgress ) {
         return new LevelInfo( new LevelIdentifier( level - 1, SHAPES ), MessageFormat.format( Strings.LEVEL__PATTERN, level ),
                               level == 1 ?
@@ -101,12 +106,14 @@ public class MixedNumbersLevelSelectionNode extends AbstractLevelSelectionNode {
                               gameProgress.f( new LevelIdentifier( level - 1, SHAPES ) ) );
     }
 
+    //Creates a number LevelInfo from the specified pattern and progress
     private static LevelInfo numberLevel( int level, final F<LevelIdentifier, LevelProgress> gameProgress ) {
-        return new LevelInfo( new LevelIdentifier( level - 1, NUMBERS ), MessageFormat.format( Strings.LEVEL__PATTERN, level ), createLevelIcon( level ),
+        return new LevelInfo( new LevelIdentifier( level - 1, NUMBERS ), MessageFormat.format( Strings.LEVEL__PATTERN, level ), createNumberLevelIcon( level ),
                               gameProgress.f( new LevelIdentifier( level - 1, NUMBERS ) ) );
     }
 
-    private static PNode createLevelIcon( final int level ) {
+    //Creates an icon for the specified number level.
+    private static PNode createNumberLevelIcon( final int level ) {
         return level == 1 ?
                MixedFractionNode.wholeNumberNode( level ) :
                new MixedFractionNode( new MixedFraction( level, 1, level ) );

@@ -46,11 +46,24 @@ import static fj.data.List.iterableList;
  * @author Sam Reid
  */
 public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
-    public List<T> pairs;
+
+    //List of ICollectionBoxPairs, that is, the collection box itself as well as the target representation.
+    private List<T> collectionBoxPairs;
+
+    //Button to go back to the level selection screen.
     private final LevelSelectionScreenButton levelSelectionScreenButton;
+
+    //Shows the smiling face and optionally "next" button.
     protected VBox faceNodeDialog;
-    protected PhetPText levelReadoutTitle;
+
+    //Shows the title for the level
+    protected PhetPText title;
+
+    //Flag for whether this is used in the "Fraction Lab" tab.
     public final boolean fractionLab;
+
+    //Plays a ding sound when collection box filled and "ta-da" when all collection boxes filled.
+    private final GameAudioPlayer gameAudioPlayer;
 
     protected SceneNode( final int levelIndex, BooleanProperty audioEnabled, final SceneContext context, boolean fractionLab ) {
         this.fractionLab = fractionLab;
@@ -73,8 +86,6 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         }
     }
 
-    private final GameAudioPlayer gameAudioPlayer;
-
     //Play audio and send simsharing message
     protected void notifyOneCompleted() {
         gameAudioPlayer.correctAnswer();
@@ -87,10 +98,11 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         sendSystemMessage( buildAFraction, application, allChallengesComplete );
     }
 
-    protected void initCollectionBoxes( final double insetY, final ArrayList<T> _pairs, boolean fractionLab ) {
-        this.pairs = iterableList( _pairs );
+    //Lay out and add the collection box nodes and target representations.
+    protected void initCollectionBoxes( final double insetY, final ArrayList<T> pairs, boolean fractionLab ) {
+        this.collectionBoxPairs = iterableList( pairs );
 
-        List<PNode> patterns = pairs.map( new F<T, PNode>() {
+        List<PNode> patterns = collectionBoxPairs.map( new F<T, PNode>() {
             @Override public PNode f( final T pair ) {
                 return pair.getTargetNode();
             }
@@ -109,10 +121,10 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         //Layout for the scoring cells and target patterns
         double separation = 5;
         double rightInset = 10;
-        final PBounds targetCellBounds = pairs.head().getCollectionBoxNode().getFullBounds();
+        final PBounds targetCellBounds = collectionBoxPairs.head().getCollectionBoxNode().getFullBounds();
         double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
         double offsetY = INSET;
-        for ( ICollectionBoxPair pair : pairs ) {
+        for ( ICollectionBoxPair pair : collectionBoxPairs ) {
 
             pair.getCollectionBoxNode().setOffset( offsetX, offsetY );
             pair.getTargetNode().setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
@@ -126,16 +138,17 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         }
     }
 
-    protected void finishCreatingUI( final int levelIndex, final BuildAFractionModel model, final ActionListener goToNextLevel, final VoidFunction0 _resampleLevel, boolean fractionLab ) {
+    //Finish creating the UI, including adding title, refresh button, reset button, etc.
+    protected void init( final int levelIndex, final BuildAFractionModel model, final ActionListener goToNextLevel, final VoidFunction0 _resampleLevel, boolean fractionLab ) {
 
-        double minScoreCellX = pairs.map( new F<T, Double>() {
+        double minScoreCellX = collectionBoxPairs.map( new F<T, Double>() {
             @Override public Double f( final T target ) {
                 return target.getCollectionBoxNode().getFullBounds().getMinX();
             }
         } ).minimum( doubleOrd );
-        levelReadoutTitle = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
-        levelReadoutTitle.setOffset( minScoreCellX / 2 - levelReadoutTitle.getFullWidth() / 2, levelSelectionScreenButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
-        if ( !fractionLab ) { addChild( levelReadoutTitle ); }
+        title = new PhetPText( MessageFormat.format( Strings.LEVEL__PATTERN, levelIndex + 1 ), new PhetFont( 32, true ) );
+        title.setOffset( minScoreCellX / 2 - title.getFullWidth() / 2, levelSelectionScreenButton.getFullBounds().getCenterY() - title.getFullHeight() / 2 );
+        if ( !fractionLab ) { addChild( title ); }
 
         final TextButtonNode resetButton = new TextButtonNode( Strings.RESET, AbstractFractionsCanvas.CONTROL_FONT, BUTTON_COLOR ) {{
             setUserComponent( Components.resetButton );
@@ -149,7 +162,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
 
         if ( !fractionLab ) {
             addChild( new HBox( resetButton, refreshButton ) {{
-                setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, levelReadoutTitle.getMaxY() + INSET );
+                setOffset( title.getCenterX() - getFullBounds().getWidth() / 2, title.getMaxY() + INSET );
             }} );
         }
 
@@ -158,7 +171,7 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
             addActionListener( goToNextLevel );
         }};
         faceNodeDialog = new VBox( new FaceNode( 200 ), model.isLastLevel( levelIndex ) ? new PNode() : nextButton ) {{
-            setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
+            setOffset( title.getCenterX() - getFullBounds().getWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 50 );
         }};
 
         faceNodeDialog.setTransparency( 0 );
@@ -170,4 +183,6 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     }
 
     protected abstract void reset();
+
+    public List<T> getCollectionBoxPairs() { return collectionBoxPairs; }
 }

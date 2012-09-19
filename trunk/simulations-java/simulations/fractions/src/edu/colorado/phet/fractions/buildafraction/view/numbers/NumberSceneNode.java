@@ -178,10 +178,10 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             this.toolboxPositionY = toolboxPositionY;
         }
 
-        finishCreatingUI( levelIndex, model, goToNextLevel, _resampleLevel, fractionLab );
+        init( levelIndex, model, goToNextLevel, _resampleLevel, fractionLab );
 
         fractionNode.setToolboxPosition( initialToolboxPositionForSkeletons.x, initialToolboxPositionForSkeletons.y );
-        centerOfScreen = new Vector2D( fractionLab ? 300 : levelReadoutTitle.getFullBounds().getCenterX() - fractionNode.getFullWidth() / 2 + 28, 350 - fractionNode.getFullHeight() / 2 - ( fractionLab ? 0 : 30 ) );
+        centerOfScreen = new Vector2D( fractionLab ? 300 : title.getFullBounds().getCenterX() - fractionNode.getFullWidth() / 2 + 28, 350 - fractionNode.getFullHeight() / 2 - ( fractionLab ? 0 : 30 ) );
         fractionNode.setOffset( centerOfScreen.toPoint2D() );
         fractionNode.moveInFrontOf( toolboxNode );
     }
@@ -282,7 +282,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     }
 
     private void resetCollectionBoxes() {
-        for ( NumberSceneCollectionBoxPair pair : pairs ) {
+        for ( NumberSceneCollectionBoxPair pair : getCollectionBoxPairs() ) {
             if ( pair.collectionBoxNode.isCompleted() ) {
                 pair.collectionBoxNode.undo();
             }
@@ -303,7 +303,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     }
 
     public double minimumCollectionBoxX() {
-        return pairs.map( new F<NumberSceneCollectionBoxPair, Double>() {
+        return getCollectionBoxPairs().map( new F<NumberSceneCollectionBoxPair, Double>() {
             @Override public Double f( final NumberSceneCollectionBoxPair n ) {
                 return n.collectionBoxNode.getGlobalFullBounds().getMinX();
             }
@@ -362,7 +362,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         if ( fractionGraphic.isComplete() ) {
             level.createdFractions.set( level.createdFractions.get().snoc( fractionGraphic.getValue() ) );
 
-            FractionCardNode fractionCard = new FractionCardNode( fractionGraphic, pairs, this );
+            FractionCardNode fractionCard = new FractionCardNode( fractionGraphic, getCollectionBoxPairs(), this );
             addChild( fractionCard );
             fractionCard.moveInBackOf( fractionGraphic );
         }
@@ -418,11 +418,11 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     }
 
     private boolean allTargetsComplete() {
-        return numCompletedTargets() == pairs.length();
+        return numCompletedTargets() == getCollectionBoxPairs().length();
     }
 
     private int numCompletedTargets() {
-        return pairs.map( new F<NumberSceneCollectionBoxPair, Boolean>() {
+        return getCollectionBoxPairs().map( new F<NumberSceneCollectionBoxPair, Boolean>() {
             @Override public Boolean f( final NumberSceneCollectionBoxPair pair ) {
                 return pair.collectionBoxNode.isCompleted();
             }
@@ -496,7 +496,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     public boolean isFractionLab() { return fractionLab; }
 
     public boolean isInCollectionBox( final FractionNode fractionNode ) {
-        return pairs.exists( new F<NumberSceneCollectionBoxPair, Boolean>() {
+        return getCollectionBoxPairs().exists( new F<NumberSceneCollectionBoxPair, Boolean>() {
             @Override public Boolean f( final NumberSceneCollectionBoxPair p ) {
                 return p.getCollectionBoxNode().isCompleted() && p.getCollectionBoxNode().getCompletedFraction() == fractionNode;
             }

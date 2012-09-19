@@ -92,7 +92,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         ShapeSceneNode node = new ShapeSceneNode( levelIndex, model, context, soundEnabled, Option.<Double>none(), fractionLab );
 
         //Re-layout the toolbox based on the location of the title
-        double desiredToolboxCenter = node.levelReadoutTitle.getFullBounds().getCenterX();
+        double desiredToolboxCenter = node.title.getFullBounds().getCenterX();
         double originalToolboxCenter = node.toolboxNode.getFullBounds().getCenterX();
         double delta = desiredToolboxCenter - originalToolboxCenter;
 
@@ -138,7 +138,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
         initCollectionBoxes( insetY, _pairs, fractionLab );
 
-        finishCreatingUI( levelIndex, model, goToNextLevel, _resampleLevel, fractionLab );
+        init( levelIndex, model, goToNextLevel, _resampleLevel, fractionLab );
 
         //Center the first container node in the play area.
         //Layout values sampled manually at runtime
@@ -239,7 +239,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         double fractionLabYOffset = fractionLab ? STAGE_SIZE.height - toolboxHeight - INSET * 3 - 50 : 0;
         final double y = ( level.shapeType == PIE ? 200 : 250 ) + fractionLabYOffset;
 
-        return new Vector2D( fractionLab ? 485 : levelReadoutTitle.getCenterX() - offset * getContainerScale(), y );
+        return new Vector2D( fractionLab ? 485 : title.getCenterX() - offset * getContainerScale(), y );
     }
 
     protected void reset() {
@@ -254,7 +254,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         }
 
         //Order dependence: have to undo the collection boxes after animating other containers home, so one container will go to the center of the screen, see #3397 comment 15 item 2
-        for ( ShapeSceneCollectionBoxPair targetPair : pairs ) {
+        for ( ShapeSceneCollectionBoxPair targetPair : getCollectionBoxPairs() ) {
             targetPair.collectionBoxNode.undo();
         }
 
@@ -281,7 +281,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         containerNode.updateExpansionButtonsEnabled();
 
         //See if it hits any matching collection boxes
-        List<ShapeSceneCollectionBoxPair> pairs = this.pairs.sort( ord( new F<ShapeSceneCollectionBoxPair, Double>() {
+        List<ShapeSceneCollectionBoxPair> pairs = this.getCollectionBoxPairs().sort( ord( new F<ShapeSceneCollectionBoxPair, Double>() {
             @Override public Double f( final ShapeSceneCollectionBoxPair t ) {
                 return t.collectionBoxNode.getGlobalFullBounds().getCenter2D().distance( containerNode.getGlobalFullBounds().getCenter2D() );
             }
@@ -634,7 +634,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     //if its right edge is past the left edge of any collection box, move it left
     public void moveContainerNodeAwayFromCollectionBoxes( final ContainerNode containerNode ) {
         double rightSide = containerNode.getGlobalFullBounds().getMaxX();
-        double edge = isFractionLab() ? STAGE_SIZE.width : pairs.map( new F<ShapeSceneCollectionBoxPair, Double>() {
+        double edge = isFractionLab() ? STAGE_SIZE.width : getCollectionBoxPairs().map( new F<ShapeSceneCollectionBoxPair, Double>() {
             @Override public Double f( final ShapeSceneCollectionBoxPair target ) {
                 return target.getCollectionBoxNode().getGlobalFullBounds().getMinX();
             }
@@ -664,7 +664,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private List<ContainerNode> getContainerNodes() { return getChildren( this, ContainerNode.class ); }
 
     private boolean allTargetsComplete() {
-        return pairs.map( new F<ShapeSceneCollectionBoxPair, Boolean>() {
+        return getCollectionBoxPairs().map( new F<ShapeSceneCollectionBoxPair, Boolean>() {
             @Override public Boolean f( final ShapeSceneCollectionBoxPair pair ) {
                 return pair.collectionBoxNode.isCompleted();
             }
@@ -672,7 +672,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             @Override public Boolean f( final Boolean b ) {
                 return b;
             }
-        } ).length() == pairs.length();
+        } ).length() == getCollectionBoxPairs().length();
     }
 
     public void collectionBoxUndone() {
