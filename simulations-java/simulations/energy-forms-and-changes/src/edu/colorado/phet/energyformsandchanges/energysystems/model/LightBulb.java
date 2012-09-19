@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
@@ -38,6 +39,10 @@ public class LightBulb extends EnergyUser {
         else {
             litProportion.set( 0.0 );
         }
+    }
+
+    @Override public void injectEnergyChunks( List<EnergyChunk> energyChunks ) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override public void deactivate() {
