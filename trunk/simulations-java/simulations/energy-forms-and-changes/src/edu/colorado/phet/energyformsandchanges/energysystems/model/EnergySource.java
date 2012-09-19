@@ -41,6 +41,4 @@ public abstract class EnergySource extends EnergySystemElement {
         outgoingEnergyChunks.clear();
         return retVal;
     }
-
-    ;
 }
