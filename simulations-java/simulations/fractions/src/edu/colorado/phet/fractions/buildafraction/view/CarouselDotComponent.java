@@ -37,6 +37,7 @@ class CarouselDotComponent extends PNode {
                             new VBox( text( SIX_THROUGH_TEN, selectedPage, 1 ), circle( selectedPage, circleDiameter, 1 ) ) ) );
     }
 
+    //Creates a circle that indicates a particular page.  It is filled if it is the current page, otherwise empty.
     private PhetPPath circle( final IntegerProperty selectedPage, final int circleDiameter, final int index ) {
         return new PhetPPath( new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), new BasicStroke( 2 ), Color.gray ) {{
             selectedPage.addObserver( new VoidFunction1<Integer>() {
@@ -55,8 +56,9 @@ class CarouselDotComponent extends PNode {
         }};
     }
 
-    private PhetPText text( final String s, final IntegerProperty selectedPage, final int index ) {
-        return new PhetPText( s, SettingsOnOffPanel.FONT ) {{
+    //Creates a text node that shows the name of a level above the carousel circrles.
+    private PhetPText text( final String levelName, final IntegerProperty selectedPage, final int index ) {
+        return new PhetPText( levelName, SettingsOnOffPanel.FONT ) {{
             selectedPage.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer integer ) {
                     setTextPaint( integer == index ? Color.black : Color.gray );
