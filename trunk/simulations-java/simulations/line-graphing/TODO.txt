@@ -25,6 +25,7 @@ HIGH
 MEDIUM
 - use InteractiveEquationNode subclasses to generate non-interactive equations in EquationFactory subclasses, if we can agree that the "look" will be the same
 - factor out duplication in ChallengeNode subclasses
+- EquationFactory and InteractiveEquationNode subclasses are awfully complicated and will be difficult to maintain. Is there a better way?
 
 LOW
 
