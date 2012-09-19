@@ -214,7 +214,8 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         final double ySpacing = 6;
 
         if ( line.rise == 0 && !interactiveSlope && !interactiveX1 ) {
-            // special case, slope of zero changes form to "y = y1"
+
+            // in this case, y1 moves to the right side of the equation
             removeChild( yLeftParenNode );
             removeChild( yOperatorNode );
             removeChild( yRightParenNode );
@@ -278,6 +279,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
             equalsNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + xSpacing,
                                   yNode.getYOffset() );
 
+            //TODO reuse slope layout from SlopeInterceptInteractiveEquationNode
             // slope
             if ( interactiveSlope ) {
                 removeChild( slopeMinusSignNode );
