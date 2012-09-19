@@ -15,7 +15,7 @@ import edu.colorado.phet.fractions.buildafraction.view.CollectionBoxNode;
 import edu.colorado.phet.fractions.buildafraction.view.shapes.UndoButton;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 
-import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
+import static edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas.CONTROL_PANEL_STROKE;
 
 /**
  * Node that shows a target scoring cell, where a correct fraction can be collected.
@@ -71,7 +71,7 @@ public class NumberCollectionBoxNode extends CollectionBoxNode {
         if ( completed ) {
             completed = false;
             path.setStrokePaint( Color.darkGray );
-            path.setStroke( controlPanelStroke );
+            path.setStroke( CONTROL_PANEL_STROKE );
             undoButton.setVisible( false );
             undoButton.setPickable( false );
             undoButton.setChildrenPickable( false );

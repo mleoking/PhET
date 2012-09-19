@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 public class BuildAFractionCanvas extends AbstractFractionsCanvas implements LevelSelectionContext, SceneContext {
 
     public static final Paint TRANSPARENT = new Color( 0, 0, 0, 0 );
-    public static final Stroke controlPanelStroke = new BasicStroke( 2 ); //REVIEW use all caps
+    public static final Stroke CONTROL_PANEL_STROKE = new BasicStroke( 2 );
 
     private PNode currentScene;
     private final BuildAFractionModel model;
@@ -57,7 +57,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         DOWN
     }
 
-    //REVIEW doc
+    //Fade out the current node and fade in the newly specified node.
     private void crossFadeTo( final PNode newNode ) {
         newNode.setTransparency( 0 );
         addChild( newNode );
@@ -73,7 +73,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         currentScene = newNode;
     }
 
-    //REVIEW doc
+    //Scroll the main view to show the specified PNode by scrolling the specified direction.
+    //For example, if the user presses the "Level 1" button, it would scroll to the right to show the level
     private void animateTo( final PNode node, Direction direction ) {
         node.setTransparency( 1 );
         Vector2D nodeOffset = direction == Direction.RIGHT ? new Vector2D( STAGE_SIZE.width, 0 ) :
@@ -125,7 +126,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         crossFadeTo( createLevelSelectionNode() );
     }
 
-    //REVIEW doc
+    //Creates the level selection node to be displayed
     private AbstractLevelSelectionNode createLevelSelectionNode() {
         return model.isMixedNumbers() ?
                new MixedNumbersLevelSelectionNode( title, this, model.audioEnabled, model.selectedPage, model.gameProgress ) :
@@ -134,30 +135,30 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
 
     public Component getComponent() { return this; }
 
-    //REVIEW doc
+    //Creates the SceneNode for the specified level and type of level (shapes or numbers)
     private PNode createLevelNode( final int levelIndex, final LevelType levelType ) {
         return levelType == LevelType.SHAPES ?
                new ShapeSceneNode( levelIndex, model, this, model.audioEnabled, false ) :
                new NumberSceneNode( levelIndex, rootNode, model, this, model.audioEnabled, false );
     }
 
-    //REVIEW doc
+    //Animates to the right to show the specified shape level
     public void goToShapeLevel( final int newLevelIndex ) {
         animateTo( levelNode( new LevelIdentifier( newLevelIndex, LevelType.SHAPES ) ), Direction.RIGHT );
     }
 
-    //REVIEW doc
+    //Animates to the right show the specified number level
     public void goToNumberLevel( final int newLevelIndex ) {
         animateTo( levelNode( new LevelIdentifier( newLevelIndex, LevelType.NUMBERS ) ), Direction.RIGHT );
     }
 
-    //REVIEW doc
+    //Animates to show the level selection screen
     public void goToLevelSelectionScreen( final int fromLevelIndex ) {
         model.selectedPage.set( fromLevelIndex < 5 ? 0 : 1 );
         animateTo( createLevelSelectionNode(), Direction.LEFT );
     }
 
-    //REVIEW doc
+    //The user has pressed the "refresh" button on a shape level and the level will be regenerated.
     public void resampleShapeLevel( final int levelIndex ) {
         model.resampleShapeLevel( levelIndex );
         final PNode newNode = createLevelNode( levelIndex, LevelType.SHAPES );
@@ -165,7 +166,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         crossFadeTo( newNode );
     }
 
-    //REVIEW doc
+    //The user has pressed the "refresh" button on a number level and the level will be regenerated.
     public void resampleNumberLevel( final int levelIndex ) {
         model.resampleNumberLevel( levelIndex );
         final PNode newNode = createLevelNode( levelIndex, LevelType.NUMBERS );

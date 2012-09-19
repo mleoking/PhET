@@ -131,7 +131,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         //Create the toolbox node
         final double finalExtentX = extentX;
         toolboxNode = new RichPNode() {{
-            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, finalExtentX, 130, 30, 30 ), Color.white, BuildAFractionCanvas.controlPanelStroke, darkGray );
+            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, finalExtentX, 130, 30, 30 ), Color.white, BuildAFractionCanvas.CONTROL_PANEL_STROKE, darkGray );
             addChild( border );
             final double offsetX = Math.max( ( AbstractFractionsCanvas.STAGE_SIZE.width - 150 ) / 2 - this.getFullWidth() / 2 - 29
                                              - ( level.hasValuesGreaterThanOne() ? 48 : 0 ), INSET );

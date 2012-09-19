@@ -48,14 +48,24 @@ class AbstractLevelSelectionNode extends PNode {
 
     final ResetAllButtonNode resetAllButton;
 
-    //REVIEW doc
+    //A Page shows a grid of level selection buttons, with information about each level, including how many stars the user completed
     public static @Data class Page {
         public final List<List<LevelInfo>> info;
     }
 
-    //REVIEW doc
-    //Rows + Columns
-    AbstractLevelSelectionNode( final String title, final List<Page> pages, final LevelSelectionContext context, final IntegerProperty selectedPage ) {
+    AbstractLevelSelectionNode(
+
+            //Title for the screen
+            final String title,
+
+            //Each of the pages to be displayed on a carousel
+            final List<Page> pages,
+
+            //Context used to start and change levels
+            final LevelSelectionContext context,
+
+            //Represents which page the user is looking at
+            final IntegerProperty selectedPage ) {
 
         //Title text, only shown when the user is choosing a level
         PNode titleText = new PNode() {{
@@ -131,7 +141,7 @@ class AbstractLevelSelectionNode extends PNode {
         }} );
     }
 
-    //REVIEW doc
+    //Convert the given grid of LevelInfo into a grid of PNodes
     private VBox toButtonSetNode( final List<List<LevelInfo>> pageLevels, final LevelSelectionContext context ) {
         ArrayList<HBox> boxes = new ArrayList<HBox>();
         for ( List<LevelInfo> list : pageLevels ) {
@@ -147,7 +157,7 @@ class AbstractLevelSelectionNode extends PNode {
         }};
     }
 
-    //REVIEW doc
+    //Create the level selection button for the given LevelInfo
     private static PNode toLevelIcon( final LevelInfo info, final List<List<LevelInfo>> allLevels, final LevelSelectionContext context ) {
         final List<PNode> nodes = allLevels.bind( new F<List<LevelInfo>, List<PNode>>() {
             @Override public List<PNode> f( final List<LevelInfo> list ) {
