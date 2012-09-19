@@ -1,3 +1,4 @@
+9/18/12 extract layout function for SlopeInterceptInteractiveEquationNode
 9/18/12 use MinusNode for intercept sign, add constructors to MinusNode and PlusNode
 9/18/12 use plus and minus nodes in interactive slope-intercept equation, parameterize y-offset of slope sign
 9/18/12 rework PointSlopeEquationFactory: render signs and operators using PPath, parameterize y-offset of slope sign

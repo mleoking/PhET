@@ -120,24 +120,19 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         };
         lineUpdater.observe( rise, run, yIntercept );
 
-        // sync the controls with the model
-        interactiveLine.addObserver( new VoidFunction1<Line>() {
+        /*
+         * Function that updates the layout to match the desired form of the equation.
+         * This is based on which parts of the equation are interactive, and what the
+         * non-interactive parts of the equation should look like when written in
+         * simplified form.
+         */
+        final VoidFunction1<Line> updateLayout = new VoidFunction1<Line>() {
 
             private PNode undefinedSlopeIndicator;
 
             public void apply( Line line ) {
-                assert ( line.x1 == 0 ); // line is in slope-intercept form
 
-                // Atomically synchronize the controls.
-                updatingControls = true;
-                {
-                    rise.set( interactiveSlope ? line.rise : line.simplified().rise );
-                    run.set( interactiveSlope ? line.run : line.simplified().run );
-                    yIntercept.set( line.y1 );
-                }
-                updatingControls = false;
-
-                // Start by adding all nodes, then we'll selectively remove some based on the simplified form of the equation.
+                // Start by adding all nodes, then we'll selectively remove some nodes based on the desired form of the equation.
                 {
                     // rise, run and intercept first, so we can identify problems with other nodes
                     addChild( riseNode );
@@ -167,11 +162,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                 equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
                                       yNode.getYOffset() );
 
-                /*
-                 * The next 2 if-then-else blocks deals with the rather complicated task of adapting the layout,
-                 * based on which parts of the equation are interactive, and what the non-interactive parts
-                 * of the equation should look like when written in simplified form.
-                 */
+                // Layout the "y = mx" part of the equation
                 if ( interactiveSlope ) {
                     // y = (rise/run)x
                     removeChild( slopeMinusSignNode );
@@ -258,6 +249,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                     }
                 }
 
+                // Layout the "+ b" part of the equation.
                 operatorNode.removeAllChildren();
                 if ( interactiveIntercept ) {
 
@@ -338,19 +330,38 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                     }
                 }
 
-                // remove any previous undefined-slope indicator
+                // Remove any previous undefined-slope indicator (the big "X" that appears over the equation.)
                 if ( undefinedSlopeIndicator != null ) {
                     removeChild( undefinedSlopeIndicator );
                     undefinedSlopeIndicator = null;
                 }
 
-                // undefined-slope indicator, added after layout has been done
+                // Add the undefined-slope indicator after layout has been done, so that it covers the entire equation.
                 if ( line.run == 0 ) {
                     undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
                     undefinedSlopeIndicator.setOffset( 0,
                                                        lineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + UNDEFINED_SLOPE_Y_FUDGE_FACTOR );
                     addChild( undefinedSlopeIndicator );
                 }
+            }
+        };
+
+        // sync the controls and layout with the model
+        interactiveLine.addObserver( new VoidFunction1<Line>() {
+
+            public void apply( Line line ) {
+                assert ( line.x1 == 0 ); // line is in slope-intercept form
+
+                // Atomically synchronize the controls.
+                updatingControls = true;
+                {
+                    rise.set( interactiveSlope ? line.rise : line.simplified().rise );
+                    run.set( interactiveSlope ? line.run : line.simplified().run );
+                    yIntercept.set( line.y1 );
+                }
+                updatingControls = false;
+
+                updateLayout.apply( line );
             }
         } );
     }
