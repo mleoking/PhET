@@ -31,7 +31,7 @@ public abstract class EquationNode extends PhetPNode {
                 ( (PText) child ).setTextPaint( paint );
             }
             else if ( child instanceof PPath ) {
-                ( (PPath) child ).setStrokePaint( paint );
+                ( (PPath) child ).setPaint( paint );
             }
             setPaintDeep( child, paint );
         }
