@@ -105,8 +105,9 @@ public class Sun extends EnergySource {
             // Update the energy chunks.
             for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
                 if ( solarPanel.getAbsorptionShape().contains( energyChunk.position.get().toPoint2D() ) ) {
-                    // This energy chunk was absorbed by the solar panel.
-                    // TODO: For now, just remove the chunk, but eventually it will go out to next element in chain.
+                    // This energy chunk was absorbed by the solar panel, so
+                    // put it on the list of outgoing chunks.
+                    outgoingEnergyChunks.add( energyChunk );
                     energyChunkList.remove( energyChunk );
                 }
                 else if ( energyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CENTER_OF_SUN ) ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {

@@ -65,19 +65,30 @@ public class SolarPanel extends EnergyConverter {
     //-------------------------------------------------------------------------
 
     @Override public Energy stepInTime( double dt, Energy incomingEnergy ) {
+
+        // Manage any incoming energy chunks.
+        if ( !incomingEnergyChunks.isEmpty() ) {
+            for ( EnergyChunk incomingEnergyChunk : incomingEnergyChunks ) {
+                if ( incomingEnergyChunk.energyType.get() == EnergyType.SOLAR ) {
+                    // Convert this chunk to electrical energy and add it to
+                    // the list of energy chunks being managed.
+                    incomingEnergyChunk.energyType.set( EnergyType.ELECTRICAL );
+                    energyChunkList.add( incomingEnergyChunk );
+                }
+                else {
+                    // By design, this shouldn't happen, so warn if it does.
+                    System.out.println( getClass().getName() + " - Warning: Ignoring energy chunk with unexpected type, type = " + incomingEnergyChunk.energyType.get().toString() );
+                }
+            }
+            incomingEnergyChunks.clear();
+        }
+
+        // Produce the appropriate amount of energy.
         double energyProduced = 0;
         if ( isActive() && incomingEnergy.type == EnergyType.SOLAR ) {
             energyProduced = incomingEnergy.amount * CONVERSION_EFFICIENCY;
         }
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
-    }
-
-    @Override public List<EnergyChunk> extractOutgoingEnergyChunks() {
-        return new ArrayList<EnergyChunk>();
-    }
-
-    @Override public void injectEnergyChunks( List<EnergyChunk> energyChunks ) {
-        //TODO
     }
 
     /**
