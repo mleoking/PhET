@@ -49,6 +49,7 @@ public class PiePieceNode extends PieceNode {
         installInputListeners();
     }
 
+    //When the user starts dragging the piece, animate to align with the closest open site in any SingleContainerNdoe
     @Override protected void dragStarted() {
         showShadow();
         final Option<Double> nextAngle = context.getNextAngle( this );
@@ -57,11 +58,13 @@ public class PiePieceNode extends PieceNode {
         }
     }
 
+    //Show a drop shadow while dragging
     protected void showShadow() {
         hideShadow();
         pieBackground.addChild( 0, pieShadow );
     }
 
+    //In "Fractions Lab", create a copy when dragging out of the toolbox to create a sense of an endless supply of pieces.
     @SuppressWarnings("unchecked") @Override public PieceNode copy() {
         PiePieceNode copy = new PiePieceNode( pieceDenominator, shapeSceneNode, copy( shape ) );
         copy.setInitialScale( initialScale );
@@ -71,6 +74,7 @@ public class PiePieceNode extends PieceNode {
         return copy;
     }
 
+    //In "Fractions Lab", create a copy when dragging out of the toolbox to create a sense of an endless supply of pieces.
     public static PhetPPath copy( final PhetPPath shape ) {
         return new PhetPPath( shape.getPathReference(), shape.getPaint(), shape.getStroke(), shape.getStrokePaint() );
     }
@@ -85,16 +89,19 @@ public class PiePieceNode extends PieceNode {
         } );
     }
 
+    //Hide the drop shadow when dropped
     @Override protected void dragEnded() {
         hideShadow();
     }
 
+    //Hide the drop shadow when dropped
     protected void hideShadow() {
         while ( pieBackground.getChildrenReference().contains( pieShadow ) ) {
             pieBackground.removeChild( pieShadow );
         }
     }
 
+    //Animate to the specified angle, to align with the closest empty site in any SingleContainerNode.
     AnimateToAngle animateToAngle( final double angle ) {
         final AnimateToAngle activity = new AnimateToAngle( this, BuildAFractionModule.ANIMATION_TIME, reduceWindingNumber( angle ) );
         addActivity( activity );
@@ -110,6 +117,7 @@ public class PiePieceNode extends PieceNode {
         return originalAngle + delta;
     }
 
+    //Set the angle of the piece
     public void setPieceRotation( final double angle ) {
         final double extent = PI * 2.0 / pieceSize;
         Shape shape = new CircularShapeFunction( extent, circleDiameter / 2 ).createShape( ZERO, angle );
@@ -118,6 +126,7 @@ public class PiePieceNode extends PieceNode {
         this.pieceRotation = angle;
     }
 
+    //Animate this piece back to the top of its stack.
     @Override public void animateToTopOfStack() {
         animateToAngle( 0 );
         super.animateToTopOfStack();

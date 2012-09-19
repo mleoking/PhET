@@ -54,6 +54,7 @@ public abstract class PieceNode extends Stackable {
         this.pathNode = pathNode;
     }
 
+    //Add mouse drag listeners.
     void installInputListeners() {
         addInputEventListener( new CursorHandler() );
 
@@ -111,6 +112,7 @@ public abstract class PieceNode extends Stackable {
         } );
     }
 
+    //For circular pie pieces, rotate to align with the closest open site in any ContainerNode's SingleContainerNodes.
     void rotateTo( final double angle, final PInputEvent event ) {}
 
     //As the object gets bigger, it should move so that it is centered on the mouse.  To compute how to move it, we must rotate it and scale it immediately
@@ -139,14 +141,17 @@ public abstract class PieceNode extends Stackable {
         setScale( s );
     }
 
+    //Get the fraction value represented by this single piece
     public Fraction toFraction() { return new Fraction( 1, pieceSize );}
 
+    //Function that gets the fraction value represented by this single piece
     public static final F<PieceNode, Fraction> _toFraction = new F<PieceNode, Fraction>() {
         @Override public Fraction f( final PieceNode r ) {
             return r.toFraction();
         }
     };
 
+    //Animate this piece card to the top of its stack.
     @SuppressWarnings("unchecked") public void animateToTopOfStack() { stack.animateToTopOfStack( this, context.isFractionLab() ); }
 
     //Show drop shadow when moving back to toolbox

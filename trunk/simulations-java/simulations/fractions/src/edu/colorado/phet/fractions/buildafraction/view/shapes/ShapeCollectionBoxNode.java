@@ -78,6 +78,7 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
         addChild( undoButton );
     }
 
+    //Send the ContainerNode and all of its pieces back to the toolbox.
     public void undo() {
         if ( completed ) {
             completed = false;
@@ -112,6 +113,7 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
         }
     }
 
+    //The user has completed a challenge by dragging a container node into this matching ShapeCollectionBoxNode.
     public void setCompletedFraction( ContainerNode containerNode ) {
         this.containerNode = containerNode;
         path.setStrokePaint( Color.darkGray );

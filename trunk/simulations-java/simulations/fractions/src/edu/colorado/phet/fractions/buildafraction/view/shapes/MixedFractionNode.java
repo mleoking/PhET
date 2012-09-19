@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MixedFractionNode extends PNode {
 
-    //AP: Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
+    //Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
     public static final double mixedNumberWholeScale = 2.4;
     private static final double fractionSizeScale = 0.3;
 
