@@ -114,7 +114,7 @@ public class Line {
      * so simplification is performed only if the rise and run are integer values. Otherwise 'this' is returned.
      */
     public Line simplified() {
-        if ( ( rise == (int) rise ) && ( run == (int) run ) ) { // true if rise and run are integers
+        if ( ( rise == (int) rise ) && ( run == (int) run ) && ( rise != 0 ) && ( run != 0 ) ) { // rise and run are non-zero integers
             final int reducedRise = (int) ( rise / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
             final int reducedRun = (int) ( run / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
             return createPointSlope( x1, y1, reducedRise, reducedRun, color );
