@@ -314,7 +314,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                     containerNode.removeUndoButton();
 
                     //Order dependence: set in target cell first so that layout code will work better afterwards
-                    containerNode.setInTargetCell( true, pair.value.denominator );
+                    containerNode.setInCollectionBox( true, pair.value.denominator );
                     final PBounds boxBounds = pair.collectionBoxNode.getFullBounds();
                     final PBounds containerBounds = containerNode.getFullBounds();
                     containerNode.animateToPositionScaleRotation( boxBounds.getCenterX() - containerBounds.getWidth() / 2 * scale / getContainerScale(),
@@ -478,7 +478,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         } ) );
 
         for ( SingleContainerNode target : containerNodes ) {
-            if ( target.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) && !target.isInToolbox() && !target.willOverflow( piece ) && !target.parent.isInTargetCell() ) {
+            if ( target.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) && !target.isInToolbox() && !target.willOverflow( piece ) && !target.parent.isInCollectionBox() ) {
                 dropInto( piece, target );
                 droppedInto = true;
                 break;
@@ -507,7 +507,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                 } ).
                 filter( new F<SingleContainerNode, Boolean>() {
                     @Override public Boolean f( final SingleContainerNode n ) {
-                        return !n.parent.isInTargetCell();
+                        return !n.parent.isInCollectionBox();
                     }
                 } ).
                 sort( ord( new F<SingleContainerNode, Double>() {

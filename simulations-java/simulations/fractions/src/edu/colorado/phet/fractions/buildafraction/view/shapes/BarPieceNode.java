@@ -46,6 +46,7 @@ public class BarPieceNode extends PieceNode {
         addChild( 0, barShadowNode );
     }
 
+    //For the "Fractions Lab" tab, creates a copy in the toolbox to emulate a seemingly endless supply of bar piece cards.
     @SuppressWarnings("unchecked") @Override public PieceNode copy() {
         BarPieceNode copy = new BarPieceNode( pieceDenominator, shapeSceneNode, PiePieceNode.copy( shape ) );
         copy.setInitialScale( initialScale );

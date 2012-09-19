@@ -7,11 +7,11 @@ package edu.colorado.phet.fractions.buildafraction.view.shapes;
  * @author Sam Reid
  */
 public interface ContainerContext {
+    void startDrag( ContainerNode parent );
+
     void endDrag( ContainerNode containerNode );
 
     void syncModelFractions();
 
     void containerAdded( ContainerNode containerNode );
-
-    void startDrag( ContainerNode parent );
 }
