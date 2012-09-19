@@ -51,8 +51,9 @@ public class PointSlopeEquationFactory extends EquationFactory {
     }
 
     /*
-     * Forms when slope is zero.
+     * Forms where slope is zero.
      * y = y1
+     * y = -y1
      */
     private static class ZeroSlopeNode extends EquationNode {
 
