@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class LightRays extends PNode {
 
-    private static boolean SHOW_RAY_BLOCKING_SHAPES = false;
+    private static boolean SHOW_RAY_BLOCKING_SHAPES = true;
 
     private final List<LightRayNode> lightRayNodes = new ArrayList<LightRayNode>();
 
@@ -50,7 +50,7 @@ public class LightRays extends PNode {
 
         // For debug: Show the ray-blocking shapes.
         if ( SHOW_RAY_BLOCKING_SHAPES ) {
-            addChild( new PhetPPath( lightAbsorbingShape.shape, new BasicStroke( 2 ), Color.PINK ) );
+            addChild( new PhetPPath( lightAbsorbingShape.shape, Color.PINK, new BasicStroke( 2 ), Color.GREEN ) );
         }
     }
 }

@@ -4,15 +4,18 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -85,18 +88,6 @@ public class SunNode extends PositionableFadableModelElementNode {
             } );
         }
 
-        // TODO: Temporary way to make solar panel absorption area, remove when real way is working.
-        DoubleGeneralPath solarPanelShape = new DoubleGeneralPath() {{
-            double xOrigin = 100;
-            double width = 350;
-            double height = 180;
-            moveTo( xOrigin, 0 );
-            lineTo( xOrigin + width, -height );
-            lineTo( xOrigin + width, 0 );
-            closePath();
-        }};
-        lightRays.addLightAbsorbingShape( new LightAbsorbingShape( solarPanelShape.getGeneralPath(), 1 ) );
-
         // Add the control panel for the clouds.
         PNode cloudIcon = new PImage( EnergyFormsAndChangesResources.Images.CLOUD_1 ) {{
             setScale( 0.2 );
@@ -120,10 +111,52 @@ public class SunNode extends PositionableFadableModelElementNode {
                                           -cloudinessControlPanel.getFullBoundsReference().height / 2 );
         addChild( cloudinessControlPanel );
 
+        // Add/remove the absorption area for the solar panel.
+        And sunAndSolarPanelActive = new And( sun.getObservableActiveState(), sun.solarPanel.getObservableActiveState() );
+        sunAndSolarPanelActive.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean bothActive ) {
+                if ( bothActive ) {
+                    // The transforms here are a little tricky, since the
+                    // solar panel's absorption shape is in model space, and
+                    // the light absorbing shapes are in view space and
+                    // relative to the center of the light ray node.
+                    System.out.println( "sun.getPosition() = " + sun.getPosition() );
+                    Vector2D offsetToCenterOfRays = sun.getPosition().plus( Sun.OFFSET_TO_CENTER_OF_SUN );
+//                    AffineTransform offsetCompensationTransform = AffineTransform.getTranslateInstance( offsetToCenterOfRays.x, offsetToCenterOfRays.y );
+                    double xOffset = mvt.modelToViewDeltaX( sun.getPosition().minus( Sun.OFFSET_TO_CENTER_OF_SUN ).getX() );
+                    double yOffset = mvt.modelToViewDeltaY( sun.getPosition().plus( Sun.OFFSET_TO_CENTER_OF_SUN ).getY() );
+                    System.out.println( "xOffset = " + xOffset );
+                    System.out.println( "yOffset = " + yOffset );
+                    AffineTransform offsetCompensationTransform = AffineTransform.getTranslateInstance( xOffset, yOffset );
+                    System.out.println( "offsetToCenterOfRays = " + offsetToCenterOfRays );
+                    Shape uncompensatedAbsorptionShape = mvt.modelToView( sun.solarPanel.getAbsorptionShape() );
+                    Shape compensatedAbsorptionShape = offsetCompensationTransform.createTransformedShape( uncompensatedAbsorptionShape );
+//                    lightRays.addLightAbsorbingShape( new LightAbsorbingShape( compensatedAbsorptionShape, 1 ) );
+
+                    Shape testShape1 = new Rectangle2D.Double( -100, -100, 200, 200 );
+//                    lightRays.addLightAbsorbingShape( new LightAbsorbingShape( testShape1, 1 ) );
+
+                    // Centered in the model, but doesn't end up centered in the view.
+                    Shape testShape2 = mvt.modelToView( new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 ) );
+//                    lightRays.addLightAbsorbingShape( new LightAbsorbingShape( testShape2, 1 ) );
+
+                    Shape testShape3 = mvt.modelToView( new Rectangle2D.Double( -0.1 + sun.getPosition().x, -0.1 + sun.getPosition().y, 0.2, 0.2 ) );
+//                    lightRays.addLightAbsorbingShape( new LightAbsorbingShape( testShape3, 1 ) );
+
+                    PNode testNode = new PhetPPath( mvt.modelToView( sun.solarPanel.getAbsorptionShape() ) );
+                    testNode.setOffset( -mvt.modelToViewX( sun.getPosition().x ),
+                                        -mvt.modelToViewY( sun.getPosition().y ) );
+                    Shape testShape4 = testNode.getFullBounds();
+                    lightRays.addLightAbsorbingShape( new LightAbsorbingShape( testNode.getFullBoundsReference(), 1 ) );
+
+                }
+            }
+        } );
+
         // TODO: Temp for prototyping.
-        final PhetPPath solarEnergyAbsorber = new PhetPPath( mvt.modelToView( sun.solarPanel.getAbsorptionShape() ), Color.PINK );
-        solarEnergyAbsorber.setOffset( -mvt.modelToViewX( sun.getPosition().x ),
-                                       -mvt.modelToViewY( sun.getPosition().y ) );
-        addChild( solarEnergyAbsorber );
+//        final PhetPPath solarEnergyAbsorber = new PhetPPath( mvt.modelToView( sun.solarPanel.getAbsorptionShape() ), Color.PINK );
+//        solarEnergyAbsorber.setOffset( -mvt.modelToViewX( sun.getPosition().x ),
+//                                       -mvt.modelToViewY( sun.getPosition().y ) );
+//        addChild( solarEnergyAbsorber );
     }
 }
