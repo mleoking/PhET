@@ -6,7 +6,6 @@ DESIGN
 - play area layout feels unbalanced for game challenges
 - revisit the placement algorithm for equations on graphed lines
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
-- Game: when user fails at a challenge and we show answer, should they be able to change things to experiment further?
 - Game: more challenges?
 - Game: rules for generating random challenges and initial guess
 
