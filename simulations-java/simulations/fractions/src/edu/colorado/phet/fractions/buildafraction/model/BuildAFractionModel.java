@@ -16,10 +16,8 @@ import edu.colorado.phet.fractions.buildafraction.view.LevelIdentifier;
 import edu.colorado.phet.fractions.buildafraction.view.LevelProgress;
 import edu.colorado.phet.fractions.buildafraction.view.LevelType;
 
-//REVIEW "Fraction Lab" tab also uses this model.
-
 /**
- * Model for the Build a Fraction tab.
+ * Model for the "Build a Fraction" and "Mixed Numbers" tabs--also used in "Fraction Lab" but just as a stub, see FractionLabCanvas
  *
  * @author Sam Reid
  */
