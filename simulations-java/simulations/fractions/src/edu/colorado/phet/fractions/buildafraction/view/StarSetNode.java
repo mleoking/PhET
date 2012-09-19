@@ -20,8 +20,8 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.STAR_4;
 import static fj.data.List.nil;
 
 /**
- * Node that shows the number of stars the user attained.  There are 3 stars for each level and each level is worth 12 points,
- * so each star can show up to 4 points (by filling up from the bottom).
+ * Node that shows the number of stars the user attained.  There are 3 stars for each level and
+ * each level is worth 12 points, so each star can show up to 4 points (by filling up from the bottom).
  *
  * @author Sam Reid
  */

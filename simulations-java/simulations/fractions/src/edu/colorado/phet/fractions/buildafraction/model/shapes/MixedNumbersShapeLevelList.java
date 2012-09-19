@@ -34,7 +34,8 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
 
     private final ArrayList<Function0<ShapeLevel>> levels = new ArrayList<Function0<ShapeLevel>>();
 
-    //To avoid big piles, we probably want to do a check so that on any given draw, only a single "3" is drawn for a target whole number.  So there will never be a level where two targets appear with 3 as the whole number.
+    //To avoid big piles, we probably want to do a check so that on any given draw, only a single "3" is drawn for a target whole number.
+    // So there will never be a level where two targets appear with 3 as the whole number.
     public MixedNumbersShapeLevelList() {
         add( new Function0<ShapeLevel>() {
             public ShapeLevel apply() {

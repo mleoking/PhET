@@ -147,7 +147,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
         animateTo( levelNode( new LevelIdentifier( newLevelIndex, LevelType.SHAPES ) ), Direction.RIGHT );
     }
 
-    //Animates to the right show the specified number level
+    //Animates to the right to show the specified number level
     public void goToNumberLevel( final int newLevelIndex ) {
         animateTo( levelNode( new LevelIdentifier( newLevelIndex, LevelType.NUMBERS ) ), Direction.RIGHT );
     }
