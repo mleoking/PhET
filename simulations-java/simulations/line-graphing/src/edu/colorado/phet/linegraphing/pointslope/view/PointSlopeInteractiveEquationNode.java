@@ -105,7 +105,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         yNode = new PhetPText( Strings.SYMBOL_Y, staticFont, staticColor );
         yOperatorNode = new PNode(); // parent for + or - node
         if ( interactiveY1 ) {
-            y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, this.y1, y1Range, new PointColors(), interactiveFont, FORMAT ) );
+            y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, y1, y1Range, new PointColors(), interactiveFont, FORMAT ) );
         }
         else {
             y1Node = new DynamicValueNode( y1, staticFont, staticColor, true ); // displayed as absolute value
@@ -115,8 +115,8 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         equalsNode = new PhetPText( "=", staticFont, staticColor );
         slopeMinusSignNode = new MinusNode( SIGN_LINE_SIZE, staticColor );
         if ( interactiveSlope ) {
-            riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, this.run, riseRange, new SlopeColors(), interactiveFont, FORMAT ) );
-            runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.rise, this.run, runRange, new SlopeColors(), interactiveFont, FORMAT ) );
+            riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, rise, run, riseRange, new SlopeColors(), interactiveFont, FORMAT ) );
+            runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, rise, run, runRange, new SlopeColors(), interactiveFont, FORMAT ) );
         }
         else {
             riseNode = new DynamicValueNode( rise, staticFont, staticColor, true ); // displayed as absolute value
@@ -127,7 +127,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         xNode = new PhetPText( Strings.SYMBOL_X, staticFont, staticColor );
         xOperatorNode = new PNode(); // parent for + or - node
         if ( interactiveX1 ) {
-            x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, this.x1, x1Range, new PointColors(), interactiveFont, FORMAT ) );
+            x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, x1, x1Range, new PointColors(), interactiveFont, FORMAT ) );
         }
         else {
             x1Node = new DynamicValueNode( x1, staticFont, staticColor, true ); // displayed as absolute value
@@ -220,7 +220,8 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
 
         if ( line.rise == 0 && !interactiveSlope && !interactiveX1 ) {
 
-            // in this case, y1 moves to the right side of the equation
+            // y1 is on the right side of the equation
+
             removeChild( yLeftParenNode );
             removeChild( yOperatorNode );
             removeChild( yRightParenNode );
@@ -252,6 +253,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         }
         else {
             // y1 is on the left side of the equation
+
             removeChild( y1MinusSignNode );
 
             // left side of equation (y term)
