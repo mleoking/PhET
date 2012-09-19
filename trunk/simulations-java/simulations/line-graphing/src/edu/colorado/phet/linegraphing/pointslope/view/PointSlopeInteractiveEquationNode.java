@@ -26,6 +26,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.DynamicValueNode;
 import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
 import edu.colorado.phet.linegraphing.common.view.MinusNode;
+import edu.colorado.phet.linegraphing.common.view.PlusNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
@@ -48,9 +49,8 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
     // Nodes that appear in all possible forms of the equation "(y - y1) = m(x - x1)"
-    private final PNode yLeftParenNode, yNode, y1Node, yRightParenNode, equalsNode;
-    private final PNode slopeMinusSignNode, riseNode, runNode, xLeftParenNode, xNode, x1Node, xRightParenNode;
-    private final PText xOperatorNode, yOperatorNode;
+    private final PNode yLeftParenNode, yNode, yOperatorNode, y1Node, yRightParenNode, equalsNode;
+    private final PNode slopeMinusSignNode, riseNode, runNode, xLeftParenNode, xNode, xOperatorNode, x1Node, xRightParenNode;
     private final PPath slopeLineNode;
     private PNode undefinedSlopeIndicator;
 
@@ -99,7 +99,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         // nodes: (y-y1) = m(x-x1)
         yLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         yNode = new PhetPText( Strings.SYMBOL_Y, staticFont, staticColor );
-        yOperatorNode = new PhetPText( "-", staticFont, staticColor );
+        yOperatorNode = new PNode(); // parent for + or - node
         if ( interactiveY1 ) {
             y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, this.y1, y1Range, new PointColors(), interactiveFont, FORMAT ) );
         }
@@ -120,7 +120,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         slopeLineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeSpinnerWidth, 0 ), new BasicStroke( 3f ), staticColor );
         xLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         xNode = new PhetPText( Strings.SYMBOL_X, staticFont, staticColor );
-        xOperatorNode = new PhetPText( "-", staticFont, staticColor );
+        xOperatorNode = new PNode(); // parent for + or - node
         if ( interactiveX1 ) {
             x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, this.x1, x1Range, new PointColors(), interactiveFont, FORMAT ) );
         }
@@ -139,12 +139,12 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         };
         lineUpdater.observe( rise, run, x1, y1 );
 
-        // sync the controls with the model
+        // sync the controls and layout with the model
         interactiveLine.addObserver( new VoidFunction1<Line>() {
 
             public void apply( Line line ) {
 
-                // Atomically synchronize the controls.
+                // Synchronize the controls atomically.
                 updatingControls = true;
                 {
                     rise.set( interactiveSlope ? line.rise : line.simplified().rise );
@@ -188,52 +188,59 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
             addChild( xRightParenNode );
         }
 
-        /*
-        * Change the operator to account for the signs of the point components.
-        * We're doing this because x1 and y1 are displayed as absolute values when they are not interactive.
-        */
-        if ( !interactiveX1 ) {
-            xOperatorNode.setText( line.x1 >= 0 ? "-" : "+" );
-        }
-        if ( !interactiveY1 ) {
-            yOperatorNode.setText( line.y1 >= 0 ? "-" : "+" );
+        // Change the operators to account for the signs of x1 and y1.
+        {
+            xOperatorNode.removeAllChildren();
+            if ( interactiveX1 || line.x1 >= 0 ) {
+                xOperatorNode.addChild( new MinusNode( SIGN_LINE_SIZE, staticColor ) );
+            }
+            else {
+                xOperatorNode.addChild( new PlusNode( OPERATOR_LINE_SIZE, staticColor ) );
+            }
+
+            yOperatorNode.removeAllChildren();
+            if ( interactiveY1 || line.y1 >= 0 ) {
+                yOperatorNode.addChild( new MinusNode( SIGN_LINE_SIZE, staticColor ) );
+            }
+            else {
+                yOperatorNode.addChild( new PlusNode( OPERATOR_LINE_SIZE, staticColor ) );
+            }
         }
 
-        // layout
-        {
-            final double xSpacing = 5;
-            final double xParenSpacing = 2;
-            final double ySpacing = 6;
-            yLeftParenNode.setOffset( 0, 0 );
-            yNode.setOffset( yLeftParenNode.getFullBoundsReference().getMaxX() + xParenSpacing,
-                             yLeftParenNode.getYOffset() );
-            yOperatorNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                     yNode.getYOffset() );
-            y1Node.setOffset( yOperatorNode.getFullBoundsReference().getMaxX() + xSpacing,
-                              yNode.getFullBoundsReference().getCenterY() - ( y1Node.getFullBoundsReference().getHeight() / 2 ) );
-            yRightParenNode.setOffset( y1Node.getFullBoundsReference().getMaxX() + xParenSpacing,
-                                       yNode.getYOffset() );
-            equalsNode.setOffset( yRightParenNode.getFullBoundsReference().getMaxX() + xSpacing,
+        // spacing between components of the equation, visually tweaked
+        final double xSpacing = 5;
+        final double xParenSpacing = 2;
+        final double ySpacing = 6;
+
+        yLeftParenNode.setOffset( 0, 0 );
+        yNode.setOffset( yLeftParenNode.getFullBoundsReference().getMaxX() + xParenSpacing,
+                         yLeftParenNode.getYOffset() );
+        yOperatorNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                 equalsNode.getFullBoundsReference().getCenterY() - ( yOperatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
+        y1Node.setOffset( yOperatorNode.getFullBoundsReference().getMaxX() + xSpacing,
+                          yNode.getFullBoundsReference().getCenterY() - ( y1Node.getFullBoundsReference().getHeight() / 2 ) );
+        yRightParenNode.setOffset( y1Node.getFullBoundsReference().getMaxX() + xParenSpacing,
+                                   yNode.getYOffset() );
+        equalsNode.setOffset( yRightParenNode.getFullBoundsReference().getMaxX() + xSpacing,
+                              yNode.getYOffset() );
+        slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                      equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getWidth() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
+        slopeLineNode.setOffset( slopeMinusSignNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                 equalsNode.getFullBoundsReference().getCenterY() + 2 );
+        riseNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
+                            slopeLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
+        runNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
+                           slopeLineNode.getFullBoundsReference().getMinY() + ySpacing );
+        xLeftParenNode.setOffset( slopeLineNode.getFullBoundsReference().getMaxX() + xSpacing,
                                   yNode.getYOffset() );
-            slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getWidth() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
-            slopeLineNode.setOffset( slopeMinusSignNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                     equalsNode.getFullBoundsReference().getCenterY() + 2 );
-            riseNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
-                                slopeLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
-            runNode.setOffset( slopeLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
-                               slopeLineNode.getFullBoundsReference().getMinY() + ySpacing );
-            xLeftParenNode.setOffset( slopeLineNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                      yNode.getYOffset() );
-            xNode.setOffset( xLeftParenNode.getFullBoundsReference().getMaxX() + xParenSpacing,
-                             yNode.getYOffset() );
-            xOperatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                     xNode.getYOffset() );
-            x1Node.setOffset( xOperatorNode.getFullBoundsReference().getMaxX() + xSpacing,
-                              xNode.getFullBoundsReference().getCenterY() - ( x1Node.getFullBoundsReference().getHeight() / 2 ) );
-            xRightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + xParenSpacing,
-                                       yNode.getYOffset() );
-        }
+        xNode.setOffset( xLeftParenNode.getFullBoundsReference().getMaxX() + xParenSpacing,
+                         yNode.getYOffset() );
+        xOperatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                 equalsNode.getFullBoundsReference().getCenterY() - ( xOperatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
+        x1Node.setOffset( xOperatorNode.getFullBoundsReference().getMaxX() + xSpacing,
+                          xNode.getFullBoundsReference().getCenterY() - ( x1Node.getFullBoundsReference().getHeight() / 2 ) );
+        xRightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + xParenSpacing,
+                                   yNode.getYOffset() );
 
         // remove any previous undefined-slope indicator
         if ( undefinedSlopeIndicator != null ) {
