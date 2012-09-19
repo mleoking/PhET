@@ -35,8 +35,8 @@ class MaxSpinner extends RichPNode {
                                     }
                                 } );
                             }}, new SpinnerButtonPanelVBox( (int) ( 50.0 / 2.0 ),
-                                                            sendMessageAndApply( maxSpinnerUpButton, max, value, +1 ), value.lessThan( 6 ),
-                                                            sendMessageAndApply( maxSpinnerDownButton, max, value, -1 ), value.greaterThan( 1 ) ) )
+                                                            sendMessageAndApply( maxSpinnerUpButton, max, value, +1 ), value.lessThan( 6 ), //unchecked warning
+                                                            sendMessageAndApply( maxSpinnerDownButton, max, value, -1 ), value.greaterThan( 1 ) ) ) //unchecked warning
         ) );
     }
 }

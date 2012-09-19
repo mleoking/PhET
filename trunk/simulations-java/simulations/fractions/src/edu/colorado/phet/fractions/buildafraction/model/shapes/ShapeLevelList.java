@@ -251,7 +251,7 @@ public class ShapeLevelList implements ShapeLevelFactory {
 
     @SuppressWarnings("unchecked") private ShapeLevel sampleLevel6() {
         //let's implement this my making each solution as na + mb, where a and b are the fractions from pairs above
-        final List<Integer> cardSizes = chooseOne( list( list( 2, 3 ), list( 2, 4 ), list( 3, 4 ), list( 2, 6 ), list( 3, 6 ), list( 4, 8 ), list( 2, 8 ) ) );
+        final List<Integer> cardSizes = chooseOne( list( list( 2, 3 ), list( 2, 4 ), list( 3, 4 ), list( 2, 6 ), list( 3, 6 ), list( 4, 8 ), list( 2, 8 ) ) ); //unchecked warning
 
         List<CoefficientPair> nmPairs = list( new CoefficientPair( 0, 1 ), new CoefficientPair( 1, 0 ),
                                               new CoefficientPair( 1, 1 ), new CoefficientPair( 1, 2 ), new CoefficientPair( 2, 1 ), new CoefficientPair( 2, 2 ),

@@ -26,8 +26,8 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  *
  * @author Sam Reid
  */
-@SuppressWarnings("unchecked") class ScaledUpFractionNode extends RichPNode {
-    public ScaledUpFractionNode( final IntegerProperty numerator, final IntegerProperty denominator, final IntegerProperty scale ) {
+class ScaledUpFractionNode extends RichPNode {
+    @SuppressWarnings("unchecked") public ScaledUpFractionNode( final IntegerProperty numerator, final IntegerProperty denominator, final IntegerProperty scale ) {
         final Times scaledNumerator = scale.times( numerator );
         final Times scaledDenominator = scale.times( denominator );
         final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), Color.black );
@@ -42,8 +42,8 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2 - offset, line.getFullBounds().getY() );
         }} );
 
-        final SpinnerButtonPanelHBox spinnerNode = new SpinnerButtonPanelHBox( sendMessageAndApply( scaledUpFractionSpinnerRightButton, ParameterKeys.scale, scale, +1 ), scale.lessThanOrEqualTo( 2 ),
-                                                                               sendMessageAndApply( scaledUpFractionSpinnerLeftButton, ParameterKeys.scale, scale, -1 ), scale.greaterThanOrEqualTo( 2 ) );
+        final SpinnerButtonPanelHBox spinnerNode = new SpinnerButtonPanelHBox( sendMessageAndApply( scaledUpFractionSpinnerRightButton, ParameterKeys.scale, scale, +1 ), scale.lessThanOrEqualTo( 2 ), //unchecked warning
+                                                                               sendMessageAndApply( scaledUpFractionSpinnerLeftButton, ParameterKeys.scale, scale, -1 ), scale.greaterThanOrEqualTo( 2 ) ); //unchecked warning
         final ZeroOffsetNode spinnerButtonPanel = new ZeroOffsetNode( spinnerNode );
 
         spinnerButtonPanel.setOffset( getMaxX() + 12, getCenterY() / 2 - spinnerButtonPanel.getFullHeight() / 2 );

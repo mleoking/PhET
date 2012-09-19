@@ -40,13 +40,13 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         //Create the icons to show in the control panel.
         //VerticalBarIcon is constructed differently by reusing pre-existing code for getting the shape and aspect ratio correct.
         final RadioButtonStripControlPanelNode<Representation> representationControlPanel =
-                new RadioButtonStripControlPanelNode<Representation>( model.representation, asList(
-                        new Element<Representation>( new PieIcon( model.representation, Colors.CIRCLE_COLOR ), PIE, pieRadioButton ),
-                        new Element<Representation>( new HorizontalBarIcon( model.representation, Colors.HORIZONTAL_SLICE_COLOR ), HORIZONTAL_BAR, horizontalBarRadioButton ),
-                        new Element<Representation>( new VerticalBarIcon( model.factorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ).getNode(), VERTICAL_BAR, verticalBarRadioButton ),
-                        new Element<Representation>( new WaterGlassIcon( model.representation, Colors.CUP_COLOR ), WATER_GLASSES, waterGlassesRadioButton ),
-                        new Element<Representation>( new CakeIcon( model.representation ), CAKE, cakeRadioButton ),
-                        new Element<Representation>( new NumberLineIcon( model.representation ), NUMBER_LINE, numberLineRadioButton ) ), 0 ) {{
+                new RadioButtonStripControlPanelNode<Representation>( model.representation, asList( //unchecked warning
+                                                                                                    new Element<Representation>( new PieIcon( model.representation, Colors.CIRCLE_COLOR ), PIE, pieRadioButton ),
+                                                                                                    new Element<Representation>( new HorizontalBarIcon( model.representation, Colors.HORIZONTAL_SLICE_COLOR ), HORIZONTAL_BAR, horizontalBarRadioButton ),
+                                                                                                    new Element<Representation>( new VerticalBarIcon( model.factorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ).getNode(), VERTICAL_BAR, verticalBarRadioButton ),
+                                                                                                    new Element<Representation>( new WaterGlassIcon( model.representation, Colors.CUP_COLOR ), WATER_GLASSES, waterGlassesRadioButton ),
+                                                                                                    new Element<Representation>( new CakeIcon( model.representation ), CAKE, cakeRadioButton ),
+                                                                                                    new Element<Representation>( new NumberLineIcon( model.representation ), NUMBER_LINE, numberLineRadioButton ) ), 0 ) {{
                     setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth() / 2, INSET );
                 }};
         addChild( representationControlPanel );

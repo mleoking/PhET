@@ -72,7 +72,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     private double offsetX;
     private Vector2D initialToolboxPositionForSkeletons;
 
-    @SuppressWarnings("unchecked") public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
+    public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
         super( levelIndex, soundEnabled, context, fractionLab );
         spaceBetweenStacks = fractionLab ? 38 : 28;
         double insetY = 10;
