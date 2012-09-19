@@ -186,6 +186,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         fractionNode.moveInFrontOf( toolboxNode );
     }
 
+    //For the Fraction Lab tab, add a Mixed Fraction graphic to the toolbox
     private void addMixedFractionGraphicFactionLab( final double toolboxPositionY, final double offsetX ) {
         final FractionNode toolboxFractionGraphic = new FractionNode( this, true );
 
@@ -200,6 +201,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         toolboxFractionGraphic.moveInFrontOf( toolboxNode );
     }
 
+    //Create the NumberSceneCollectionBoxPair for the given level.
     private ArrayList<NumberSceneCollectionBoxPair> getCollectionBoxPairs( final BuildAFractionModel model ) {
         ArrayList<NumberSceneCollectionBoxPair> _pairs = new ArrayList<NumberSceneCollectionBoxPair>();
         for ( int i = 0; i < level.targets.length(); i++ ) {
@@ -256,6 +258,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         return new Dimension2DDouble( maxNumberNodeWidth + 22, maxNumberNodeHeight );
     }
 
+    //Resets the scene
     protected void reset() {
 
         //Order is important, have to reset score boxes first or the fractions in the score box will be split and cause exceptions
@@ -302,6 +305,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
     }
 
+    //Find the leftmost side of the leftmost collection box, for layout and sending back objects to the play area if dropped across the line.
     public double minimumCollectionBoxX() {
         return getCollectionBoxPairs().map( new F<NumberSceneCollectionBoxPair, Double>() {
             @Override public Double f( final NumberSceneCollectionBoxPair n ) {
@@ -310,6 +314,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         } ).minimum( doubleOrd );
     }
 
+    //Called when a NumberCardNode is dropped.  Checks to see if it should be returned to toolbox or added to a fraction.
     public void endDrag( final NumberCardNode numberCardNode ) {
         boolean hitFraction = false;
         for ( FractionNode f : fractionNodes ) {
@@ -341,6 +346,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         draggedCardProperty.set( Option.<Integer>none() );
     }
 
+    //Called when the user starts dragging a number card node, which adds another copy to the toolbox to create a seemingly endless supply.
     public void startDrag( final NumberCardNode node ) {
         draggedCardProperty.set( some( node.number ) );
         if ( fractionLab && !node.animating.get() ) {
@@ -352,6 +358,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
     }
 
+    //Called when a number node is dropped into a fraction, this method turning it into a card if it is complete
     private void numberDroppedOnFraction( final FractionNode fractionGraphic, final NumberCardNode numberCardNode, final PhetPPath box ) {
         centerOnBox( numberCardNode, box );
         box.setVisible( false );
@@ -368,6 +375,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
     }
 
+    //Determine whether the play area is empty of fraction skeletons, so that one can be animated there if necessary.
     boolean allIncompleteFractionsInToolbox() {
         for ( FractionNode fractionGraphic : fractionNodes ) {
             if ( !fractionGraphic.isComplete() && !fractionGraphic.isInToolboxPosition() ) {
@@ -377,12 +385,14 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         return true;
     }
 
+    //Center the NumberCardNode on the specified box when it "snaps in" to a fraction.
     private void centerOnBox( final NumberCardNode numberNode, final PhetPPath box ) {
         Rectangle2D bounds = box.getGlobalFullBounds();
         bounds = rootNode.globalToLocal( bounds );
         numberNode.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getCenterY() );
     }
 
+    //Called when a challenge is completed by dropping a correct fraction into a collection box.
     public void fractionCardNodeDroppedInCollectionBox() {
         level.filledTargets.increment();
 
@@ -433,6 +443,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         } ).length();
     }
 
+    //Called when the user presses "undo" on a collection box.
     public void numberCollectionBoxUndone() {
         level.filledTargets.decrement();
 
@@ -454,6 +465,8 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     public ObservableProperty<Option<Integer>> getDraggedCardProperty() { return draggedCardProperty; }
 
+    //Called when the user starts dragging a fraction node, used to create another fraction node behind it on the toolbox, so there will be
+    //a seemingly endless supply of fraction skeletons.
     public void startDrag( final FractionNode fractionNode ) {
         if ( fractionLab ) {
             if ( fractionNode.mixedNumber && countMixedFractionNodes() < 4 ) { addMixedFractionGraphicFactionLab( toolboxPositionY, offsetX ); }
@@ -461,6 +474,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }
     }
 
+    //Count the number of fraction nodes that do not contain a mixed number.
     private int countNonMixedFractionNodes() {
         int count = 0;
         for ( Object _child : getChildrenReference() ) {
@@ -477,6 +491,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         return count;
     }
 
+    //Count the number of fraction nodes that do contain a mixed number.
     private int countMixedFractionNodes() {
         int count = 0;
         for ( Object _child : getChildrenReference() ) {
@@ -495,6 +510,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     public boolean isFractionLab() { return fractionLab; }
 
+    //Determine whether the FractionNode has been correctly collected in a collection box.
     public boolean isInCollectionBox( final FractionNode fractionNode ) {
         return getCollectionBoxPairs().exists( new F<NumberSceneCollectionBoxPair, Boolean>() {
             @Override public Boolean f( final NumberSceneCollectionBoxPair p ) {
@@ -503,6 +519,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         } );
     }
 
+    //Get the location where a card should be placed given its stack and location in the stack.
     public Vector2D getLocation( final int stackIndex, final int cardIndex, NumberCardNode cardNode ) {
 
         final double cardDeltaX = 4;
@@ -525,7 +542,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         return stackOffset + ( isFractionLab() ? 72 : 0 );
     }
 
-    //Created with IDEA's "create value method"
+    //Created with IDEA's "create value method", used to create and add regular (non-mixed) fraction nodes to the toolbox.
     private class CreateNonMixedFractionGraphicFractionLab {
         private final boolean fractionLab;
         private double toolboxPositionX;
