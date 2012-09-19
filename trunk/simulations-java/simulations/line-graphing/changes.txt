@@ -1,3 +1,4 @@
+9/19/12 completed the various forms of point-slope equations in PointSlopeInteractiveEquationNode
 9/18/12 add Line.getSlope
 9/18/12 PointSlopeInteractiveEquationNode: use MinusNode, move layout to a private method
 9/18/12 convert layout function to a method in SlopeInterceptInteractiveEquationNode, move x-spacing and y-spacing constants to base class

@@ -10,7 +10,6 @@ DESIGN
 - Game: rules for generating random challenges and initial guess
 
 HIGH
-- simplify non-interactive slope in PointSlopeInteractiveEquationNode
 - Graph The Line: on "Show Answer", show the equation for incorrect answer, put icons next to equations to indicate correct and incorrect
 - example of each "Make the Equation" game challenge
 - in "Show Answer" for "Make the Equation", show the answer as a separate read-only equation below the interactive equation
