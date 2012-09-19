@@ -51,7 +51,8 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
     // Nodes that appear in all possible forms of the equation "y = mx + b"
-    private final PNode yNode, equalsNode, slopeMinusSignNode, riseNode, runNode, xNode, operatorNode, interceptMinusSignNode, interceptNode;
+    private final PNode yNode, equalsNode, slopeMinusSignNode, riseNode, runNode, xNode, operatorNode, interceptNode;
+    private final PNode interceptMinusSignNode; // for "y = -b" case
     private final PPath fractionLineNode;
     private PNode undefinedSlopeIndicator;
 
@@ -96,9 +97,9 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         equalsNode = new PhetPText( "=", staticFont, staticColor );
         slopeMinusSignNode = new MinusNode( SIGN_LINE_SIZE, staticColor );
         if ( interactiveSlope ) {
-            riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, this.run, riseRange, new SlopeColors(),
+            riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, rise, run, riseRange, new SlopeColors(),
                                                                 interactiveFont, FORMAT ) );
-            runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.rise, this.run, runRange, new SlopeColors(),
+            runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, rise, run, runRange, new SlopeColors(),
                                                               interactiveFont, FORMAT ) );
         }
         else {
@@ -110,7 +111,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         operatorNode = new PNode(); // parent for + or - node
         interceptMinusSignNode = new MinusNode( SIGN_LINE_SIZE, staticColor );
         if ( interactiveIntercept ) {
-            interceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, this.yIntercept, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
+            interceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, yIntercept, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
         }
         else {
             interceptNode = new DynamicValueNode( yIntercept, staticFont, staticColor, true ); // absolute value
