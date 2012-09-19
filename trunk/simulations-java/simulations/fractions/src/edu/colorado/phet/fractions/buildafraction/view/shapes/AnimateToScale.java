@@ -6,7 +6,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 
 /**
- * Piccolo animation that updates the scale.
+ * Piccolo animation that animates the scale independently of position (and hence is different than PNode.animateTo(x,y,scale...).
+ * Used when animating nodes between toolbox + play area, and from play area into collection boxes.
  *
  * @author Sam Reid
  */

@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 
 /**
- * Piccolo animation that rotates a piece to the specified angle.
+ * Piccolo animation that rotates a piece to the specified angle.  When the user drags a pie piece it will rotate to align with the closest open site.
  *
  * @author Sam Reid
  */

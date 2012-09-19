@@ -95,7 +95,7 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
 
             //Have to start animating back before changing the "target cell" flag, because that flag is used to determine whether it is "inPlayArea" for purposes of choosing location.
             sceneNode.animateContainerNodeToAppropriateLocation( containerNode );
-            containerNode.setInTargetCell( false, 0 );
+            containerNode.setInCollectionBox( false, 0 );
 
             //Send the pieces home
             containerNode.undoAll();

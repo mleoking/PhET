@@ -66,7 +66,7 @@ public class ContainerNode extends PNode {
     public final ContainerContext context;
     private final ShapeType shapeType;
     private final int maxNumberOfSingleContainers;
-    private boolean inTargetCell = false;
+    private boolean inTargetCollectionBox = false;
     private final PNode containerLayer;
     public double initialX;
     public double initialY;
@@ -139,7 +139,6 @@ public class ContainerNode extends PNode {
             addChild( new SingleContainerNode( shapeType, ContainerNode.this, selectedPieceSize ) );
         }};
 
-
         //Property of whether the container node is in the toolbox or not, used for disabling controls when it is in the toolbox.
         BooleanProperty inToolbox = new BooleanProperty( true ) {{
 
@@ -150,8 +149,8 @@ public class ContainerNode extends PNode {
                 }
             } );
         }};
-        leftSpinner = new SpinnerButtonNode( spinnerImage( LEFT_BUTTON_UP_GREEN ), spinnerImage( LEFT_BUTTON_PRESSED_GREEN ), spinnerImage( LEFT_BUTTON_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ).and( Not.not( inToolbox ) ) );
-        rightSpinner = new SpinnerButtonNode( spinnerImage( RIGHT_BUTTON_UP_GREEN ), spinnerImage( RIGHT_BUTTON_PRESSED_GREEN ), spinnerImage( RIGHT_BUTTON_GRAY ), increment, selectedPieceSize.lessThan( 8 ).and( Not.not( inToolbox ) ) );
+        leftSpinner = new SpinnerButtonNode( withSpinnerButtonScale( LEFT_BUTTON_UP_GREEN ), withSpinnerButtonScale( LEFT_BUTTON_PRESSED_GREEN ), withSpinnerButtonScale( LEFT_BUTTON_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ).and( Not.not( inToolbox ) ) );
+        rightSpinner = new SpinnerButtonNode( withSpinnerButtonScale( RIGHT_BUTTON_UP_GREEN ), withSpinnerButtonScale( RIGHT_BUTTON_PRESSED_GREEN ), withSpinnerButtonScale( RIGHT_BUTTON_GRAY ), increment, selectedPieceSize.lessThan( 8 ).and( Not.not( inToolbox ) ) );
         addChild( new VBox( containerLayer,
                             new HBox( leftSpinner, rightSpinner ) ) );
 
@@ -187,18 +186,22 @@ public class ContainerNode extends PNode {
     //If the user removed a SingleContainerNode for the piece that was going to be "undone" then ignore it and go to the next one.
     private boolean containsSite( final DropLocation site ) { return getSingleContainerNode( site.container ).isSome() && getSingleContainerNode( site.container ).some().containsPiece(); }
 
+    //Get the specified SingleContainerNode, if it exists.
     private Option<SingleContainerNode> getSingleContainerNode( final int container ) {
         return getSingleContainerNodes().length() <= container ? Option.<SingleContainerNode>none() : Option.some( getSingleContainerNodes().index( container ) );
     }
 
+    //Get a list of the child SingleContainerNodes
     List<SingleContainerNode> getSingleContainerNodes() {return getSingleContainers(); }
 
+    //Function that gets the SingleContainerNodes.
     public static final F<ContainerNode, List<SingleContainerNode>> _getSingleContainerNodes = new F<ContainerNode, List<SingleContainerNode>>() {
         @Override public List<SingleContainerNode> f( final ContainerNode c ) {
             return c.getSingleContainerNodes();
         }
     };
 
+    //Adds a new SingleContainerNode child to this ContainerNode
     private void addContainer() {
         final SingleContainerNode child = new SingleContainerNode( shapeType, this, selectedPieceSize );
         child.setOffset( containerLayer.getFullBounds().getMaxX() + INSET, containerLayer.getFullBounds().getY() );
@@ -249,20 +252,24 @@ public class ContainerNode extends PNode {
         increaseDecreaseButton.showIncreaseButton();
     }
 
-    private static BufferedImage spinnerImage( final BufferedImage image ) { return multiScaleToWidth( image, 50 ); }
+    //Scale down the image to the size used for spiner buttons
+    private static BufferedImage withSpinnerButtonScale( final BufferedImage image ) { return multiScaleToWidth( image, 50 ); }
 
+    //Function to determine whether the ContainerNode has been correctly collected in the collection box
     public static final F<ContainerNode, Boolean> _isInTargetCell = new F<ContainerNode, Boolean>() {
         @Override public Boolean f( final ContainerNode containerNode ) {
-            return containerNode.isInTargetCell();
+            return containerNode.isInCollectionBox();
         }
     };
 
+    //Function to determine the fraction value in the ContainerNode based on its current population of pieces.
     public static final F<ContainerNode, Fraction> _getFractionValue = new F<ContainerNode, Fraction>() {
         @Override public Fraction f( final ContainerNode containerNode ) {
             return containerNode.getFractionValue();
         }
     };
 
+    //Send all the pieces back to the toolbox.
     public void undoAll() {
         getSingleContainers().foreach( _undoAll );
         PInterpolatingActivity activity = undoButton.animateToTransparency( 0, BuildAFractionModule.ANIMATION_TIME );
@@ -281,6 +288,7 @@ public class ContainerNode extends PNode {
         setChildrenPickable( b );
     }
 
+    //Animate back to its stack in the toolbox.
     public void animateToToolboxStack( Point2D point, double scale ) {
         animateToPositionScaleRotation( point.getX(), point.getY(), scale, 0, BuildAFractionModule.ANIMATION_TIME ).setDelegate( new CompositeDelegate( new DisablePickingWhileAnimating( this, true ), new PActivityDelegateAdapter() {
             @Override public void activityFinished( final PActivity activity ) {
@@ -291,30 +299,35 @@ public class ContainerNode extends PNode {
         animateToShowSpinners();
     }
 
+    //Animate back to its starting location, whether it was the toolbox or center of the screen.
     public void animateHome() {
         animateToToolboxStack( new Point2D.Double( initialX, initialY ), initialScale );
     }
 
+    //Restore the spinners now that the ContainerNode is no longer in the collection box
     public void animateToShowSpinners() {
         leftSpinner.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
         rightSpinner.animateToTransparency( 1, BuildAFractionModule.ANIMATION_TIME );
     }
 
-    public Fraction getFractionValue() {
-        return sum( getSingleContainers().map( SingleContainerNode._getFractionValue ) );
-    }
+    //Get the value represented by the population of pieces in this ContainerNode
+    public Fraction getFractionValue() { return sum( getSingleContainers().map( SingleContainerNode._getFractionValue ) ); }
 
+    //Get the individual SingleContainerNodes making up this ContainerNode
     private List<SingleContainerNode> getSingleContainers() {return getChildren( containerLayer, SingleContainerNode.class );}
 
     //Get rid of it because it disrupts the layout when dropping into the scoring cell.
     public void removeUndoButton() { removeChild( undoButton ); }
 
+    //Add the undo button after coming out of the collection box.
     public void addBackUndoButton() { addChild( undoButton ); }
 
-    public Boolean isInTargetCell() {return inTargetCell;}
+    //Find whether this ContainerNode has been collected in the appropriate collection box.
+    public Boolean isInCollectionBox() {return inTargetCollectionBox;}
 
-    public void setInTargetCell( final boolean inTargetCell, int targetDenominator ) {
-        this.inTargetCell = inTargetCell;
+    //Set whether this ContainerNode is collected in an appropriate collection box.
+    public void setInCollectionBox( final boolean inTargetCell, int targetDenominator ) {
+        this.inTargetCollectionBox = inTargetCell;
         leftSpinner.animateToTransparency( inTargetCell ? 0 : 1, BuildAFractionModule.ANIMATION_TIME );
         rightSpinner.animateToTransparency( inTargetCell ? 0 : 1, BuildAFractionModule.ANIMATION_TIME );
 
@@ -333,6 +346,7 @@ public class ContainerNode extends PNode {
         }
     }
 
+    //Store the initial conditions for purposes of resetting
     public void setInitialState( final double x, final double y, final double scale ) {
         this.initialX = x;
         this.initialY = y;
@@ -342,13 +356,16 @@ public class ContainerNode extends PNode {
         updateExpansionButtonsEnabled();
     }
 
+    //Enable the increase/decrease divisions button if this is not in the toolbox
     public void updateExpansionButtonsEnabled() { increaseDecreaseButton.setEnabled( !isInToolbox() );}
 
     //Identify containers as being in the toolbox if they are shrunken
     public boolean isInToolbox() { return Math.abs( getScale() - toolboxScale( parent.fractionLab ) ) < 1E-6; }
 
+    //Determine whether this ContainerNode started in the toolbox
     public boolean startedInToolbox() {return initialY > 500;}
 
+    //Called when the user added a piece to this ContainerNode, shows the "undo" button if it was hidden before because now there is something to undo.
     public void pieceAdded() {
         if ( !undoButton.getVisible() ) {
             undoButton.setVisible( true );
@@ -359,6 +376,7 @@ public class ContainerNode extends PNode {
         }
     }
 
+    //Eliminates containers until there is only 1
     public void resetNumberOfContainers() {
         if ( getSingleContainerNodes().length() == 1 ) {
             //Nothing to do since already at the default value
@@ -390,17 +408,19 @@ public class ContainerNode extends PNode {
         }
     }
 
-    public Boolean isInPlayArea() {
-        return !isInTargetCell() && !isInToolbox();
-    }
+    //Determine whether this ContainerNode is in the play area.
+    public Boolean isInPlayArea() { return !isInCollectionBox() && !isInToolbox(); }
 
+    //Store a user dropped piece for purposes of "undo"
     public void addDropLocation( final SingleContainerNode singleContainerNode ) {
         int index = getSingleContainerNodes().elementIndex( Equal.<SingleContainerNode>anyEqual(), singleContainerNode ).some();
         dropLocationList = dropLocationList.snoc( new DropLocation( index ) );
     }
 
+    //On "Fractions Lab" tab, make a copy of this ContainerNode so that it will seem like there is an endless supply
     public ContainerNode copy() { return new ContainerNode( parent, context, showIncreaseButton, shapeType, maxNumberOfSingleContainers ); }
 
+    //Fix the z-ordering of the dotted lines after pieces have been added to this ContainerNode
     public void moveDottedLinesToFront() {
         for ( SingleContainerNode node : getSingleContainerNodes() ) {
             node.moveDottedLineToFront();
