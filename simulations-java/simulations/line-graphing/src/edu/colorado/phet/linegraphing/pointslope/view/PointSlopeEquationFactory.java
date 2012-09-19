@@ -1,11 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.pointslope.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.geom.Line2D;
 import java.text.MessageFormat;
 
 import javax.swing.JFrame;
@@ -13,7 +11,6 @@ import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
@@ -82,7 +79,7 @@ public class PointSlopeEquationFactory extends EquationFactory {
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             if ( line.y1 < 0 ) {
                 y1SignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                      equalsNode.getFullBoundsReference().getCenterY() - ( y1SignNode.getFullBoundsReference().getHeight() / 2 ) + SIGN_Y_FUDGE_FACTOR );
+                                      equalsNode.getFullBoundsReference().getCenterY() - ( y1SignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
                 y1Node.setOffset( y1SignNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             }
             else {
@@ -210,7 +207,7 @@ public class PointSlopeEquationFactory extends EquationFactory {
             equalsNode.setOffset( yTermNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
             if ( slope < 0 ) {
                 slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_OFFSET );
+                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
                 lineNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING,
                                     equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + FRACTION_LINE_Y_FUDGE_FACTOR );
             }
