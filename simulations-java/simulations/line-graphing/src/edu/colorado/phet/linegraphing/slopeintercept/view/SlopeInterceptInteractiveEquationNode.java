@@ -22,10 +22,13 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
+import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.DynamicValueNode;
 import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
+import edu.colorado.phet.linegraphing.common.view.MinusNode;
+import edu.colorado.phet.linegraphing.common.view.PlusNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
@@ -34,7 +37,6 @@ import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeCol
 import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Interface for manipulating a slope-intercept equation.
@@ -43,17 +45,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNode {
-
-    private static final int SLOPE_SIGN_Y_OFFSET_FUDGE_FACTOR = 2;
-    private static final int INTERCEPT_SIGN_Y_OFFSET_FUDGE_FACTOR = 2;
-    private static final int FRACTION_LINE_Y_OFFSET_FUDGE_FACTOR = 2;
-    private static final int UNDEFINED_SLOPE_Y_OFFSET_FUDGE_FACTOR = 2;
-
-    private static final float SLOPE_SIGN_STROKE_WIDTH = 3f;
-    private static final float FRACTION_LINE_STROKE_WIDTH = 2f;
-    private static final int MINUS_SIGN_LENGTH = 15;
-
-    private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private final Property<Double> rise, run, yIntercept; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
@@ -85,7 +76,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                                                    final boolean interactiveIntercept,
                                                    PhetFont interactiveFont,
                                                    PhetFont staticFont,
-                                                   Color staticColor ) {
+                                                   final Color staticColor ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
@@ -95,9 +86,9 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         double maxSlopeSpinnerWidth = computeMaxSlopeSpinnerWidth( riseRange, runRange, interactiveFont, FORMAT );
 
         // nodes: y = -(rise/run)x + -b
-        final PNode yNode = new PhetPText( "y", staticFont, staticColor );
+        final PNode yNode = new PhetPText( Strings.SYMBOL_Y, staticFont, staticColor );
         final PNode equalsNode = new PhetPText( "=", staticFont, staticColor );
-        final PNode slopeMinusSignNode = new PhetPPath( new Line2D.Double( 0, 0, MINUS_SIGN_LENGTH, 0 ), new BasicStroke( SLOPE_SIGN_STROKE_WIDTH ), staticColor );
+        final PNode slopeMinusSignNode = new MinusNode( SLOPE_SIGN_LENGTH, SLOPE_SIGN_THICKNESS, staticColor );
         final PNode riseNode, runNode;
         if ( interactiveSlope ) {
             riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, this.run, riseRange, new SlopeColors(),
@@ -109,10 +100,10 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
             riseNode = new DynamicValueNode( rise, staticFont, staticColor, true );
             runNode = new DynamicValueNode( run, staticFont, staticColor, true );
         }
-        final PPath lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeSpinnerWidth, 0 ), new BasicStroke( FRACTION_LINE_STROKE_WIDTH ), staticColor );
-        final PNode xNode = new PhetPText( "x", staticFont, staticColor );
-        final PText operatorNode = new PhetPText( "+", staticFont, staticColor );
-        final PNode interceptMinusSignNode = new PhetPPath( new Line2D.Double( 0, 0, MINUS_SIGN_LENGTH, 0 ), new BasicStroke( SLOPE_SIGN_STROKE_WIDTH ), staticColor );
+        final PPath lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeSpinnerWidth, 0 ), new BasicStroke( FRACTION_LINE_THICKNESS ), staticColor );
+        final PNode xNode = new PhetPText( Strings.SYMBOL_X, staticFont, staticColor );
+        final PNode operatorNode = new PNode(); // parent for + or - node
+        final PNode interceptMinusSignNode = new PhetPPath( new Line2D.Double( 0, 0, OPERATOR_LENGTH, 0 ), new BasicStroke( (float) OPERATOR_THICKNESS ), staticColor );
         final PNode interceptNode;
         if ( interactiveIntercept ) {
             interceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, this.yIntercept, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
@@ -187,7 +178,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                     // y = (rise/run)x
                     removeChild( slopeMinusSignNode );
                     lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                        equalsNode.getFullBoundsReference().getCenterY() + FRACTION_LINE_Y_OFFSET_FUDGE_FACTOR );
+                                        equalsNode.getFullBoundsReference().getCenterY() + FRACTION_LINE_Y_FUDGE_FACTOR );
                     riseNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
                                         lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
                     runNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
@@ -215,7 +206,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                         else {
                             // y = -x
                             slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_OFFSET_FUDGE_FACTOR );
+                                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
                             xNode.setOffset( slopeMinusSignNode.getFullBoundsReference().getMaxX() + ( xSpacing / 2 ), yNode.getYOffset() );
                         }
                     }
@@ -231,12 +222,14 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                         else {
                             // y = -Nx
                             slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_OFFSET_FUDGE_FACTOR );
+                                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
                             riseNode.setOffset( slopeMinusSignNode.getFullBoundsReference().getMaxX() + ( xSpacing / 2 ), yNode.getYOffset() );
                             xNode.setOffset( riseNode.getFullBoundsReference().getMaxX() + ( xSpacing / 2 ), yNode.getYOffset() );
                         }
                     }
                     else {
+                        // y = -(rise/run)x
+
                         // adjust fraction line width
                         double lineWidth = Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getWidth() );
                         lineNode.setPathTo( new Line2D.Double( 0, 0, lineWidth, 0 ) );
@@ -245,7 +238,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                             removeChild( slopeMinusSignNode );
                             // y = (rise/run)x
                             lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                                equalsNode.getFullBoundsReference().getCenterY() + FRACTION_LINE_Y_OFFSET_FUDGE_FACTOR );
+                                                equalsNode.getFullBoundsReference().getCenterY() + FRACTION_LINE_Y_FUDGE_FACTOR );
                             riseNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
                                                 lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
                             runNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
@@ -255,9 +248,9 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                         else {
                             // y = -(rise/run)x
                             slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_OFFSET_FUDGE_FACTOR );
-                            lineNode.setOffset( slopeMinusSignNode.getFullBoundsReference().getMaxX() + ( xSpacing / 2 ),
-                                                equalsNode.getFullBoundsReference().getCenterY() + FRACTION_LINE_Y_OFFSET_FUDGE_FACTOR );
+                                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
+                            lineNode.setOffset( slopeMinusSignNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                                equalsNode.getFullBoundsReference().getCenterY() + FRACTION_LINE_Y_FUDGE_FACTOR );
                             riseNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
                                                 lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
                             runNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
@@ -267,11 +260,13 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                     }
                 }
 
+                operatorNode.removeAllChildren();
                 if ( interactiveIntercept ) {
 
-                    operatorNode.setText( "+" );
-
                     removeChild( interceptMinusSignNode );
+
+                    // If intercept is interactive, the operator is +
+                    operatorNode.addChild( new PlusNode( OPERATOR_LENGTH, OPERATOR_THICKNESS, staticColor ) );
 
                     if ( zeroSlope && !interactiveSlope ) {
                         // y = b
@@ -282,13 +277,20 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                     else {
                         // y = (rise/run)x + b
                         operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                                yNode.getYOffset() );
+                                                equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
                         interceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + xSpacing,
                                                  yNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
                     }
                 }
                 else {
-                    operatorNode.setText( line.y1 >= 0 ? "+" : "-" );
+                    // Set the operator based on the sign of the y intercept.
+                    if ( line.y1 >= 0 ) {
+                        operatorNode.addChild( new PlusNode( OPERATOR_LENGTH, OPERATOR_THICKNESS, staticColor ) );
+                    }
+                    else {
+                        operatorNode.addChild( new MinusNode( OPERATOR_LENGTH, OPERATOR_THICKNESS, staticColor ) );
+                    }
+
                     if ( line.y1 == 0 ) {
                         removeChild( interceptMinusSignNode );
                         removeChild( operatorNode );
@@ -313,7 +315,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                         else {
                             // y = mx + b
                             operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                                    yNode.getYOffset() );
+                                                    equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
                             interceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + xSpacing,
                                                      yNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
                         }
@@ -323,7 +325,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                             // y = -b
                             removeChild( operatorNode );
                             interceptMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                                              equalsNode.getFullBoundsReference().getCenterY() - ( interceptMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + INTERCEPT_SIGN_Y_OFFSET_FUDGE_FACTOR );
+                                                              equalsNode.getFullBoundsReference().getCenterY() - ( interceptMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
                             interceptNode.setOffset( interceptMinusSignNode.getFullBoundsReference().getMaxX() + ( xSpacing / 2 ),
                                                      yNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
                         }
@@ -331,7 +333,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                             // y = mx - b
                             removeChild( interceptMinusSignNode );
                             operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                                    yNode.getYOffset() );
+                                                    equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
                             interceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + xSpacing,
                                                      yNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
                         }
@@ -348,7 +350,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                 if ( line.run == 0 ) {
                     undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
                     undefinedSlopeIndicator.setOffset( 0,
-                                                       lineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + UNDEFINED_SLOPE_Y_OFFSET_FUDGE_FACTOR );
+                                                       lineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + UNDEFINED_SLOPE_Y_FUDGE_FACTOR );
                     addChild( undefinedSlopeIndicator );
                 }
             }
