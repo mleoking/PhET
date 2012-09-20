@@ -48,9 +48,15 @@ public class LightRays extends PNode {
             lightRayNode.addLightAbsorbingShape( lightAbsorbingShape );
         }
 
-        // For debug: Show the ray-blocking shapes.
+        // For debug: Show the ray-blocking shapes. Note that these don't get removed if shape gets removed.
         if ( SHOW_RAY_BLOCKING_SHAPES ) {
             addChild( new PhetPPath( lightAbsorbingShape.shape, Color.PINK, new BasicStroke( 2 ), Color.GREEN ) );
+        }
+    }
+
+    public void removeLightAbsorbingShape( LightAbsorbingShape lightAbsorbingShape ) {
+        for ( LightRayNode lightRayNode : lightRayNodes ) {
+            lightRayNode.removeLightAbsorbingShape( lightAbsorbingShape );
         }
     }
 }
