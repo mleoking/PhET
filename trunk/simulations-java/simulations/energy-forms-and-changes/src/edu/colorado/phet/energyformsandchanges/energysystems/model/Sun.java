@@ -30,7 +30,7 @@ public class Sun extends EnergySource {
 
     public static final double RADIUS = 0.02; // In meters, apparent size, not (obviously) actual size.
     public static final Vector2D OFFSET_TO_CENTER_OF_SUN = new Vector2D( -0.05, 0.12 );
-    public static final double ENERGY_CHUNK_VELOCITY = 0.002; // Meters/sec, obviously not to scale.
+    public static final double ENERGY_CHUNK_VELOCITY = 0.04; // Meters/sec, obviously not to scale.
     public static final double ENERGY_CHUNK_EMISSION_PERIOD = 0.1; // In seconds.
     private static final Random RAND = new Random();
     private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.5; // In meters.
@@ -95,17 +95,19 @@ public class Sun extends EnergySource {
         double energyProduced = 0;
 
         if ( isActive() ) {
-            // See if it is time to emit an energy chunk.
+            // See if it is time to emit a new energy chunk.
             energyChunkEmissionCountdownTimer -= dt;
             if ( energyChunkEmissionCountdownTimer <= 0 ) {
                 // Create a new chunk and start it on its way.
-                Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 ) );
+                double directionAngle = RAND.nextDouble() * Math.PI * 2;
+                Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( directionAngle ) );
                 EnergyChunk energyChunk = new EnergyChunk( EnergyType.LIGHT, initialPosition.x, initialPosition.y, energyChunksVisible );
+                energyChunk.setVelocity( new Vector2D( ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( directionAngle ) );
                 energyChunkList.add( energyChunk );
                 energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
             }
 
-            // Update the energy chunks.
+            // Check for absorption of energy chunks by the solar panel.
             for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
                 if ( solarPanel.getAbsorptionShape().contains( energyChunk.position.get().toPoint2D() ) ) {
                     // This energy chunk was absorbed by the solar panel, so
@@ -121,8 +123,7 @@ public class Sun extends EnergySource {
 
             // Move all the energy chunks away from the sun.
             for ( EnergyChunk energyChunk : energyChunkList ) {
-                double direction = energyChunk.position.get().minus( sunPosition ).getAngle();
-                energyChunk.translate( new Vector2D( ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( direction ) );
+                energyChunk.translateBasedOnVelocity( dt );
             }
 
             // Calculate the amount of energy produced.
