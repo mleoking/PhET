@@ -57,4 +57,7 @@ public class EFACConstants {
 
     // Model-view transform scale factor for Energy Systems tab.
     public static final double ENERGY_SYSTEMS_MVT_SCALE_FACTOR = 2200;
+
+    // Constants that control the speed of the energy chunks
+    public static final double ELECTRICAL_ENERGY_CHUNK_VELOCITY = 0.04; // In meters/sec.
 }

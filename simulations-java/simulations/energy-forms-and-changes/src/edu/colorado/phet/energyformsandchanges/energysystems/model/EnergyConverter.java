@@ -47,6 +47,4 @@ public abstract class EnergyConverter extends EnergySystemElement {
     public void injectEnergyChunks( List<EnergyChunk> energyChunks ) {
         incomingEnergyChunks.addAll( energyChunks );
     }
-
-    ;
 }

@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
@@ -33,8 +34,19 @@ public class SolarPanel extends EnergyConverter {
     private static final Vector2D SOLAR_PANEL_OFFSET = new Vector2D( 0, 0.044 );
     public static final ModelElementImage SOLAR_PANEL_IMAGE = new ModelElementImage( SOLAR_PANEL, SOLAR_PANEL_OFFSET );
     public static final ModelElementImage WIRE_IMAGE = new ModelElementImage( WIRE_BLACK_MIDDLE, new Vector2D( 0.075, -0.04 ) );
-    public static final ModelElementImage BASE_IMAGE = new ModelElementImage( SOLAR_PANEL_BASE, new Vector2D( 0.015, -0.025 ) );
-    public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR, new Vector2D( 0.058, -0.04 ) );
+    public static final Vector2D BASE_IMAGE_OFFSET = new Vector2D( 0.015, -0.025 );
+    public static final ModelElementImage BASE_IMAGE = new ModelElementImage( SOLAR_PANEL_BASE, BASE_IMAGE_OFFSET );
+    public static final Vector2D CONNECTOR_IMAGE_OFFSET = new Vector2D( 0.058, -0.04 );
+    public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR, CONNECTOR_IMAGE_OFFSET );
+
+    // Constants used for creating the path followed by the energy chunks.
+    // Many of these numbers were empirically determined based on the images,
+    // and will need updating if the images change.
+    private static final Vector2D OFFSET_TO_EC_CONVERGENCE_POINT = new Vector2D( BASE_IMAGE_OFFSET.getX(), 0.01 );
+    private static final Vector2D OFFSET_TO_FIRST_EC_CURVE_POINT = new Vector2D( BASE_IMAGE_OFFSET.getX(), -0.02 );
+    private static final Vector2D OFFSET_TO_SECOND_EC_CURVE_POINT = new Vector2D( BASE_IMAGE_OFFSET.getX() + 0.005, -0.03 );
+    private static final Vector2D OFFSET_TO_THIRD_EC_CURVE_POINT = new Vector2D( BASE_IMAGE_OFFSET.getX() + 0.01, CONNECTOR_IMAGE_OFFSET.getY() );
+    private static final Vector2D OFFSET_TO_LAST_EC_POINT = new Vector2D( CONNECTOR_IMAGE_OFFSET.getX() + 0.01, CONNECTOR_IMAGE_OFFSET.getY() );
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
         add( BASE_IMAGE );
@@ -42,8 +54,6 @@ public class SolarPanel extends EnergyConverter {
         add( WIRE_IMAGE );
         add( CONNECTOR_IMAGE );
     }};
-
-    public static final double ENERGY_CHUNK_VELOCITY = 0.03;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -66,7 +76,7 @@ public class SolarPanel extends EnergyConverter {
     @Override public Energy stepInTime( double dt, Energy incomingEnergy ) {
 
         if ( isActive() ) {
-            // Manage any incoming energy chunks.
+            // Handle any incoming energy chunks.
             if ( !incomingEnergyChunks.isEmpty() ) {
                 for ( EnergyChunk incomingEnergyChunk : incomingEnergyChunks ) {
                     if ( incomingEnergyChunk.energyType.get() == EnergyType.SOLAR ) {
@@ -77,10 +87,9 @@ public class SolarPanel extends EnergyConverter {
 
                         // And a "mover" that will move this energy chunk
                         // through the solar panel and the wire.
-                        List<Vector2D> energyChunkTravelPath = new ArrayList<Vector2D>() {{
-                            add( getPosition() );
-                        }};
-                        energyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, energyChunkTravelPath, ENERGY_CHUNK_VELOCITY ) );
+                        energyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk,
+                                                                         getEnergyChunkPath( getPosition() ),
+                                                                         EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
                     }
                     else {
                         // By design, this shouldn't happen, so warn if it does.
@@ -109,6 +118,16 @@ public class SolarPanel extends EnergyConverter {
             energyProduced = incomingEnergy.amount * CONVERSION_EFFICIENCY;
         }
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
+    }
+
+    private static List<Vector2D> getEnergyChunkPath( final Vector2D panelPosition ) {
+        return new ArrayList<Vector2D>() {{
+            add( panelPosition.plus( OFFSET_TO_EC_CONVERGENCE_POINT ) );
+            add( panelPosition.plus( OFFSET_TO_FIRST_EC_CURVE_POINT ) );
+            add( panelPosition.plus( OFFSET_TO_SECOND_EC_CURVE_POINT ) );
+            add( panelPosition.plus( OFFSET_TO_THIRD_EC_CURVE_POINT ) );
+            add( panelPosition.plus( OFFSET_TO_LAST_EC_POINT ) );
+        }};
     }
 
     /**
