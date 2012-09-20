@@ -34,6 +34,10 @@ public class EnergyChunk {
     public final Property<Vector2D> position;
     public final Property<Double> zPosition = new Property<Double>( 0.0 ); // Used for some simple 3D layering effects.
 
+    // TODO: Note to self - I (jblanco) was not sure if having a velocity here made sense, since in many cases it is not used to position the chunk.  Decide eventually if it's better to keep this externally (in a map or something).
+    // Velocity.  This may or may not be used in positioning the energy chunk.
+    private Vector2D velocity = new Vector2D( 0, 0 ); // In meters/sec.
+
     // Property that controls visibility in view.
     public final BooleanProperty visible;
 
@@ -96,6 +100,22 @@ public class EnergyChunk {
 
     public void translate( Vector2D movement ) {
         position.set( position.get().plus( movement ) );
+    }
+
+    public void translateBasedOnVelocity( double time ) {
+        translate( velocity.times( time ) );
+    }
+
+    public Vector2D getVelocity() {
+        return new Vector2D( velocity );
+    }
+
+    public void setVelocity( double x, double y ) {
+        velocity = new Vector2D( x, y );
+    }
+
+    public void setVelocity( Vector2D newVelocity ) {
+        setVelocity( newVelocity.x, newVelocity.y );
     }
 
     public ObservableProperty<Double> getExistenceStrength() {
