@@ -79,7 +79,7 @@ public class SolarPanel extends EnergyConverter {
             // Handle any incoming energy chunks.
             if ( !incomingEnergyChunks.isEmpty() ) {
                 for ( EnergyChunk incomingEnergyChunk : incomingEnergyChunks ) {
-                    if ( incomingEnergyChunk.energyType.get() == EnergyType.SOLAR ) {
+                    if ( incomingEnergyChunk.energyType.get() == EnergyType.LIGHT ) {
                         // Convert this chunk to electrical energy and add it to
                         // the list of energy chunks being managed.
                         incomingEnergyChunk.energyType.set( EnergyType.ELECTRICAL );
@@ -114,7 +114,7 @@ public class SolarPanel extends EnergyConverter {
 
         // Produce the appropriate amount of energy.
         double energyProduced = 0;
-        if ( isActive() && incomingEnergy.type == EnergyType.SOLAR ) {
+        if ( isActive() && incomingEnergy.type == EnergyType.LIGHT ) {
             energyProduced = incomingEnergy.amount * CONVERSION_EFFICIENCY;
         }
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );

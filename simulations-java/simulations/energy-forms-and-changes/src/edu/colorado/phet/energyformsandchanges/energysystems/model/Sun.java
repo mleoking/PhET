@@ -97,7 +97,7 @@ public class Sun extends EnergySource {
             if ( energyChunkEmissionCountdownTimer <= 0 ) {
                 // Create a new chunk and start it on its way.
                 Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 ) );
-                EnergyChunk energyChunk = new EnergyChunk( EnergyType.SOLAR, initialPosition.x, initialPosition.y, new BooleanProperty( true ) );
+                EnergyChunk energyChunk = new EnergyChunk( EnergyType.LIGHT, initialPosition.x, initialPosition.y, new BooleanProperty( true ) );
                 energyChunkList.add( energyChunk );
                 energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
             }
@@ -127,7 +127,7 @@ public class Sun extends EnergySource {
         }
 
         // Produce the energy.
-        return new Energy( EnergyType.SOLAR, energyProduced );
+        return new Energy( EnergyType.LIGHT, energyProduced );
     }
 
     @Override public IUserComponent getUserComponent() {

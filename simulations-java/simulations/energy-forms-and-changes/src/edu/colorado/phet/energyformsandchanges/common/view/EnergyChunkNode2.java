@@ -46,7 +46,7 @@ public class EnergyChunkNode2 extends PNode {
         put( EnergyType.THERMAL, PhetColorScheme.RED_COLORBLIND );
         put( EnergyType.ELECTRICAL, Color.YELLOW );
         put( EnergyType.MECHANICAL, Color.GRAY );
-        put( EnergyType.SOLAR, Color.YELLOW );
+        put( EnergyType.LIGHT, Color.YELLOW );
         put( EnergyType.CHEMICAL, Color.GREEN );
     }};
 

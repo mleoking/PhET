@@ -28,7 +28,7 @@ public class EnergyChunkNode extends PNode {
         put( EnergyType.THERMAL, EnergyFormsAndChangesResources.Images.ENERGY_CHUNKS_WHITE_SEMIBOLD );
         put( EnergyType.ELECTRICAL, EnergyFormsAndChangesResources.Images.E_ELECTRIC_OUTLINE_BLACK );
         put( EnergyType.MECHANICAL, EnergyFormsAndChangesResources.Images.E_MECH_OUTLINE_BLACK );
-        put( EnergyType.SOLAR, EnergyFormsAndChangesResources.Images.E_LIGHT_OUTLINE_BLACK );
+        put( EnergyType.LIGHT, EnergyFormsAndChangesResources.Images.E_LIGHT_OUTLINE_BLACK );
         put( EnergyType.CHEMICAL, EnergyFormsAndChangesResources.Images.E_CHEM_OUTLINE_BLACK );
     }};
 
