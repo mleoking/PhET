@@ -47,6 +47,12 @@ public class LightRayNode extends PNode {
         } );
     }
 
+    public void removeLightAbsorbingShape( LightAbsorbingShape lightAbsorbingShape ) {
+        lightAbsorbingShape.lightAbsorptionCoefficient.removeAllObservers();
+        lightAbsorbingShapes.remove( lightAbsorbingShape );
+        updateLineSegments();
+    }
+
     private void updateLineSegments() {
         removeAllChildren();
         pointAndFadeCoefficientList.clear();
@@ -183,7 +189,6 @@ public class LightRayNode extends PNode {
 
         return furthestIntersectionPoint;
     }
-
 
     private static List<Vector2D> getRectangleLineIntersectionPoints( Rectangle2D rect, Line2D line ) {
         List<Line2D> linesThatMakeUpRectangle = new ArrayList<Line2D>( 4 );

@@ -103,6 +103,8 @@ public class SunNode extends PositionableFadableModelElementNode {
         // Add/remove the absorption area for the solar panel.
         And sunAndSolarPanelActive = new And( sun.getObservableActiveState(), sun.solarPanel.getObservableActiveState() );
         sunAndSolarPanelActive.addObserver( new VoidFunction1<Boolean>() {
+            private LightAbsorbingShape currentLightAbsorbingShape = null;
+
             public void apply( Boolean bothActive ) {
                 if ( bothActive ) {
                     // The transforms here are a little tricky, since the
@@ -113,7 +115,12 @@ public class SunNode extends PositionableFadableModelElementNode {
                     AffineTransform compensationTransform = AffineTransform.getTranslateInstance( -mvt.modelToViewX( sun.getPosition().x ),
                                                                                                   -mvt.modelToViewY( sun.getPosition().y ) );
                     Shape absorptionShape = compensationTransform.createTransformedShape( transformedButUncompensatedShape );
-                    lightRays.addLightAbsorbingShape( new LightAbsorbingShape( absorptionShape, 1 ) );
+                    currentLightAbsorbingShape = new LightAbsorbingShape( absorptionShape, 1 );
+                    lightRays.addLightAbsorbingShape( currentLightAbsorbingShape );
+                }
+                else if ( currentLightAbsorbingShape != null ) {
+                    lightRays.removeLightAbsorbingShape( currentLightAbsorbingShape );
+                    currentLightAbsorbingShape = null;
                 }
             }
         } );
