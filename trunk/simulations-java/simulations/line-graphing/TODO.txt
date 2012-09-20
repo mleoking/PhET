@@ -11,7 +11,6 @@ DESIGN
 
 HIGH
 - change request: add more space around relational operator in interactive equations
-- bug: Line.same is buggy for 2 arbitrary points, doesn't handle swapping of points
 - instead of constants for operator/sign/fractionLine dimensions, use a percentage of font size
 - Graph The Line: on "Show Answer", show the equation for incorrect answer, put icons next to equations to indicate correct and incorrect
 - example of each "Make the Equation" game challenge
