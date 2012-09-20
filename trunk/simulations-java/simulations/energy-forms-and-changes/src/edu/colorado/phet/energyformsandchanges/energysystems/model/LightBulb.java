@@ -22,6 +22,15 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  */
 public class LightBulb extends EnergyUser {
 
+    // Empirically determined based on images, will need to change if the
+    // images are changed.
+    private static final Vector2D OFFSET_TO_LEFT_SIDE_OF_WIRE_BEND = new Vector2D( -0.02, -0.04 );
+    private static final Vector2D OFFSET_TO_FIRST_WIRE_CURVE_POINT = new Vector2D( -0.01, -0.0375 );
+    private static final Vector2D OFFSET_TO_SECOND_WIRE_CURVE_POINT = new Vector2D( -0.001, -0.025 );
+    private static final Vector2D OFFSET_TO_THIRD_WIRE_CURVE_POINT = new Vector2D( -0.0005, -0.0175 );
+    private static final Vector2D OFFSET_TO_BOTTOM_OF_CONNECTOR = new Vector2D( 0, -0.01 );
+    private static final Vector2D OFFSET_TO_RADIATE_POINT = new Vector2D( 0, 0.063 );
+
     private final double energyToFullyLight; // In joules/sec, a.k.a. watts.
     private final IUserComponent userComponent;
 
@@ -75,7 +84,12 @@ public class LightBulb extends EnergyUser {
 
     private static List<Vector2D> getEnergyChunkPath( final Vector2D centerPosition ) {
         return new ArrayList<Vector2D>() {{
-            add( centerPosition );
+            add( centerPosition.plus( OFFSET_TO_LEFT_SIDE_OF_WIRE_BEND ) );
+            add( centerPosition.plus( OFFSET_TO_FIRST_WIRE_CURVE_POINT ) );
+            add( centerPosition.plus( OFFSET_TO_SECOND_WIRE_CURVE_POINT ) );
+            add( centerPosition.plus( OFFSET_TO_THIRD_WIRE_CURVE_POINT ) );
+            add( centerPosition.plus( OFFSET_TO_BOTTOM_OF_CONNECTOR ) );
+            add( centerPosition.plus( OFFSET_TO_RADIATE_POINT ) );
         }};
     }
 
