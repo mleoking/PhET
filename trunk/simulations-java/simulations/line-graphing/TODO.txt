@@ -10,6 +10,7 @@ DESIGN
 - Game: rules for generating random challenges and initial guess
 
 HIGH
+- change request: replace rise/run brackets with dashed lines with arrow heads on them
 - instead of constants for operator/sign/fractionLine dimensions, use a percentage of font size
 - Graph The Line: on "Show Answer", show the equation for incorrect answer, put icons next to equations to indicate correct and incorrect
 - example of each "Make the Equation" game challenge
