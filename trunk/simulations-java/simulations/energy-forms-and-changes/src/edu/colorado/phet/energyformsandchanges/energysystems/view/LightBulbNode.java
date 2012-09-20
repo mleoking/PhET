@@ -6,6 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.LightBulb;
 import edu.umd.cs.piccolo.PNode;
 
@@ -32,6 +33,9 @@ public class LightBulbNode extends ImageBasedEnergySystemElementNode {
         // Center the light rays on the bulb image.
         lightRays.setOffset( energizedBulb.getFullBoundsReference().getCenterX(),
                              energizedBulb.getFullBoundsReference().getCenterY() - energizedBulb.getFullBoundsReference().getHeight() * 0.10 );
+
+        // Add the layer that will handle the energy chunks.
+        addChild( new EnergyChunkLayer( lightBulb.energyChunkList, lightBulb.getObservablePosition(), mvt ) );
 
         // Update the transparency of the lit bulb based on model element.
         lightBulb.litProportion.addObserver( new VoidFunction1<Double>() {

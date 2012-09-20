@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
@@ -26,6 +27,8 @@ public class LightBulb extends EnergyUser {
 
     public final Property<Double> litProportion = new Property<Double>( 0.0 );
 
+    private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+
     protected LightBulb( IUserComponent userComponent, Image icon, final ModelElementImage offImage, final ModelElementImage onImage, double energyToFullyLight ) {
         super( icon, assembleImageList( offImage, onImage ) );
         this.userComponent = userComponent;
@@ -33,6 +36,35 @@ public class LightBulb extends EnergyUser {
     }
 
     @Override public void stepInTime( double dt, Energy incomingEnergy ) {
+
+        // Handle any incoming energy chunks.
+        if ( !incomingEnergyChunks.isEmpty() ) {
+            for ( EnergyChunk incomingEnergyChunk : incomingEnergyChunks ) {
+                if ( incomingEnergyChunk.energyType.get() == EnergyType.ELECTRICAL ) {
+                    // Add the energy chunk to the list of those under management.
+                    energyChunkList.add( incomingEnergyChunk );
+
+                    // And a "mover" that will move this energy chunk through
+                    // the wire to the bulb.
+                    energyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, getEnergyChunkPath( getPosition() ), EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
+                }
+                else {
+                    // By design, this shouldn't happen, so warn if it does.
+                    System.out.println( getClass().getName() + " - Warning: Ignoring energy chunk with unexpected type, type = " + incomingEnergyChunk.energyType.get().toString() );
+                }
+            }
+            incomingEnergyChunks.clear();
+        }
+
+        // Move the energy chunks that are currently under management.
+        for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
+            energyChunkMover.moveAlongPath( dt );
+            if ( energyChunkMover.isPathFullyTraversed() ) {
+                // TODO
+            }
+        }
+
+        // Set how lit the bulb is.
         if ( isActive() && incomingEnergy.type == EnergyType.ELECTRICAL ) {
             litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / energyToFullyLight, 1 ) );
         }
@@ -41,9 +73,12 @@ public class LightBulb extends EnergyUser {
         }
     }
 
-    @Override public void injectEnergyChunks( List<EnergyChunk> energyChunks ) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    private static List<Vector2D> getEnergyChunkPath( final Vector2D centerPosition ) {
+        return new ArrayList<Vector2D>() {{
+            add( centerPosition );
+        }};
     }
+
 
     @Override public void deactivate() {
         super.deactivate();
