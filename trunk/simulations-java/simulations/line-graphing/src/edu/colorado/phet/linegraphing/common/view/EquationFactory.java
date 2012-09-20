@@ -42,8 +42,13 @@ public abstract class EquationFactory {
     // thickness of the fraction divisor line
     protected static final int FRACTION_LINE_THICKNESS = 2;
 
+    //TODO these should be percentages of the font size
     // spacing between components of an equation (set by visual inspection)
     protected static final double X_SPACING = 3;
+    protected static final double INTEGER_SIGN_X_SPACING = 1.5; // spacing between a sign and the integer to the right of it
+    protected static final double FRACTION_SIGN_X_SPACING = 4; // spacing between a sign and the fraction to the right of it
+    protected static final double RELATIONAL_OPERATOR_X_SPACING = 6; // space around the relational operator (eg, =)
+    protected static final double PAREN_X_SPACING = 2; // space between a parenthesis and the thing it encloses
     protected static final double Y_SPACING = 0;
 
     // Subclasses implement this to create the equation in the correct form.

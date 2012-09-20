@@ -1,3 +1,4 @@
+9/20/12 change request: add more space around relational operator (done for static equations)
 # 0.00.27 (68226) Sep 20, 2012
 9/20/12 demo major (internal) changes to static and interactive equations
 9/19/12 fix: EquationNode.setPathDeep needs to setPaint for PPath nodes, because equations now use filled Rectangle2D exclusively
