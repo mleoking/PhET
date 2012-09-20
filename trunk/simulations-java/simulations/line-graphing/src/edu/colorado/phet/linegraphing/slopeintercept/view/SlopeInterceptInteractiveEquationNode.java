@@ -180,20 +180,24 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         final boolean positiveSlope = ( line.getSlope() > 0 );
         final boolean fractionalSlope = ( !zeroSlope && !unitySlope && !integerSlope );
 
+        //TODO these should be percentages of the font size
         // spacing between components of the equation, visually tweaked
         final double xSpacing = 10;
+        final double integerSignXSpacing = 5;
+        final double fractionSignXSpacing = 10;
+        final double relationalOperatorXSpacing = 15;
         final double ySpacing = 6;
 
         // y =
         yNode.setOffset( 0, 0 );
-        equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
+        equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                               yNode.getYOffset() );
 
         // Layout the "y = mx" part of the equation
         if ( interactiveSlope ) {
             // (rise/run)x
             removeChild( slopeMinusSignNode );
-            fractionLineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
+            fractionLineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                         equalsNode.getFullBoundsReference().getCenterY() + FRACTION_LINE_Y_FUDGE_FACTOR );
             riseNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
                                 fractionLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
@@ -213,14 +217,14 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                 // no sign
                 removeChild( slopeMinusSignNode );
                 previousNode = equalsNode;
-                previousXOffset = xSpacing;
+                previousXOffset = relationalOperatorXSpacing;
             }
             else {
                 // -
-                slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
+                slopeMinusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                               equalsNode.getFullBoundsReference().getCenterY() - ( slopeMinusSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
                 previousNode = slopeMinusSignNode;
-                previousXOffset = xSpacing / 2;
+                previousXOffset = ( fractionalSlope ? fractionSignXSpacing : integerSignXSpacing );
             }
 
             if ( undefinedSlope || fractionalSlope ) {

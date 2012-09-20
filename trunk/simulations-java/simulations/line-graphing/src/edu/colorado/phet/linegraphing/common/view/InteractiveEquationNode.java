@@ -23,6 +23,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class InteractiveEquationNode extends PhetPNode {
 
+    //TODO this should be a percentage of the font size
     /*
     * This controls the vertical offset of the slope's sign.
     * Zero is vertically centered on the equals sign, positive values move it down, negative move it up.
@@ -30,6 +31,7 @@ public class InteractiveEquationNode extends PhetPNode {
     */
     protected static final int SLOPE_SIGN_Y_OFFSET = 0;
 
+    //TODO these should be percentages of the font size
     // fudge factors for horizontal lines, to vertically center them with equals sign (set by visual inspection)
     protected static final int SLOPE_SIGN_Y_FUDGE_FACTOR = 2;
     protected static final int OPERATOR_Y_FUDGE_FACTOR = 2;
