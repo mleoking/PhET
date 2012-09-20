@@ -31,9 +31,9 @@ public class Sun extends EnergySource {
     public static final double RADIUS = 0.02; // In meters, apparent size, not (obviously) actual size.
     public static final Vector2D OFFSET_TO_CENTER_OF_SUN = new Vector2D( -0.05, 0.12 );
     public static final double ENERGY_CHUNK_VELOCITY = 0.002; // Meters/sec, obviously not to scale.
-    public static final double ENERGY_CHUNK_EMISSION_PERIOD = 0.25; // In seconds.
+    public static final double ENERGY_CHUNK_EMISSION_PERIOD = 0.1; // In seconds.
     private static final Random RAND = new Random();
-    private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.3; // In meters.
+    private static final double MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN = 0.5; // In meters.
 
     // Energy production per square meter of the Earth's surface.
     private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
