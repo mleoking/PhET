@@ -53,9 +53,9 @@ public class Sun extends EnergySource {
     public final List<Cloud> clouds = new ArrayList<Cloud>() {{
 //        add( new Cloud( new Vector2D( 0.01, 0.12 ) ) );  // TODO: For testing, immediately to right of sun.
 //        add( new Cloud( new Vector2D( -0.04, 0.07 ) ) );   // TODO: For testing, immediately below the sun.
-        add( new Cloud( new Vector2D( 0.01, 0.11 ), getObservablePosition() ) );
-        add( new Cloud( new Vector2D( 0.02, 0.0925 ), getObservablePosition() ) );
-        add( new Cloud( new Vector2D( -0.01, 0.085 ), getObservablePosition() ) );
+        add( new Cloud( new Vector2D( 0.02, 0.105 ), getObservablePosition() ) );
+        add( new Cloud( new Vector2D( 0.017, 0.0875 ), getObservablePosition() ) );
+        add( new Cloud( new Vector2D( -0.01, 0.08 ), getObservablePosition() ) );
     }};
 
     public final Property<Double> cloudiness = new Property<Double>( 0.0 );
@@ -126,12 +126,14 @@ public class Sun extends EnergySource {
                 }
                 else {
                     for ( Cloud cloud : clouds ) {
-                        if ( cloud.getCloudAbsorptionReflectionShape().contains( energyChunk.position.get().toPoint2D() ) && !energyChunksPassingThroughClouds.contains( energyChunk ) ) {
+                        if ( cloud.getCloudAbsorptionReflectionShape().contains( energyChunk.position.get().toPoint2D() ) &&
+                             !energyChunksPassingThroughClouds.contains( energyChunk ) &&
+                             Math.abs( energyChunk.getVelocity().getAngle() - energyChunk.position.get().minus( sunPosition ).getAngle() ) < Math.PI / 10 ) {
                             // Decide whether this energy chunk should pass
                             // through the clouds or be reflected.
                             if ( RAND.nextDouble() < cloud.existenceStrength.get() ) {
                                 // Reflect the energy chunk.
-                                energyChunk.setVelocity( energyChunk.getVelocity().getRotatedInstance( Math.PI ) );
+                                energyChunk.setVelocity( energyChunk.getVelocity().getRotatedInstance( Math.PI + ( RAND.nextDouble() - 0.5 ) * Math.PI / 2 ) );
                             }
                             else {
                                 // Let is pass through the cloud.
