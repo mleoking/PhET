@@ -17,8 +17,15 @@ import static org.lwjgl.opengl.GL11.glOrtho;
 public class GuiNode extends GLNode {
     private final LWJGLTab tab;
 
+    private final boolean reverse;
+
     public GuiNode( LWJGLTab tab ) {
+        this( tab, true );
+    }
+
+    public GuiNode( LWJGLTab tab, boolean reverse ) {
         this.tab = tab;
+        this.reverse = reverse;
 
         // almost always blends into the background
         requireEnabled( GL_BLEND );
@@ -30,7 +37,12 @@ public class GuiNode extends GLNode {
         // render orthographically to the entire canvas
         glMatrixMode( GL_PROJECTION );
         glLoadIdentity();
-        glOrtho( 0, tab.getCanvasWidth(), tab.getCanvasHeight(), 0, 1, -1 );
+        if ( reverse ) {
+            glOrtho( 0, tab.getCanvasWidth(), tab.getCanvasHeight(), 0, 1, -1 );
+        }
+        else {
+            glOrtho( 0, tab.getCanvasWidth(), 0, tab.getCanvasHeight(), 1, -1 );
+        }
 
         // clear the model-view matrix
         glMatrixMode( GL_MODELVIEW );

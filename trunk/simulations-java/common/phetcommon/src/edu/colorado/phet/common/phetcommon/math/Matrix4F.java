@@ -336,6 +336,8 @@ public @EqualsAndHashCode(callSuper = false) class Matrix4F {
     }
 
     public Matrix4F inverted() {
+        // TODO: optimizations for matrix types!
+
         float determinant = determinant();
 
         if ( determinant != 0 ) {

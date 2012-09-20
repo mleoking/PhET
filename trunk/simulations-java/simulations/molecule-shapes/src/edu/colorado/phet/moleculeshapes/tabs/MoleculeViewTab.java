@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.math.SphereF;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector4F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -37,6 +38,7 @@ import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoSwingNode;
+import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
@@ -176,7 +178,7 @@ public abstract class MoleculeViewTab extends LWJGLTab {
                 loadLighting();
             }
         };
-        readoutLayer = new GuiNode( this );
+        readoutLayer = new GuiNode( this, false );
         guiLayer = new GuiNode( this );
         rootNode.addChild( sceneLayer );
         rootNode.addChild( readoutLayer );
@@ -494,7 +496,31 @@ public abstract class MoleculeViewTab extends LWJGLTab {
     }
 
     public Vector2F getScreenCoordinatesFromViewPoint( Vector3F viewPoint ) {
-        return getScreenCoordinatesFromNormalizedDeviceCoordinates( sceneProjectionTransform.getMatrix().times( sceneModelViewTransform.getMatrix().times( viewPoint ) ) );
+        Vector4F projected = sceneProjectionTransform.getMatrix().times( sceneModelViewTransform.getMatrix().times( new Vector4F( viewPoint ) ) );
+
+        float s = 1 / projected.w;
+
+        // map to normalized device coordinates?
+        float x = projected.x * s;
+        float y = projected.y * s;
+        float z = projected.z * s;
+
+        return getScreenCoordinatesFromNormalizedDeviceCoordinates( new Vector3F( x,y,z ) );
+
+
+//        in[3] = (1.0f / in[3]) * 0.5f;
+//
+//        // Map x, y and z to range 0-1
+//        in[0] = in[0] * in[3] + 0.5f;
+//        in[1] = in[1] * in[3] + 0.5f;
+//        in[2] = in[2] * in[3] + 0.5f;
+//
+//        // Map x,y to viewport
+//        win_pos.put(0, in[0] * viewport.get(viewport.position() + 2) + viewport.get(viewport.position() + 0));
+//        win_pos.put(1, in[1] * viewport.get(viewport.position() + 3) + viewport.get(viewport.position() + 1));
+//        win_pos.put(2, in[2]);
+//
+//        return getScreenCoordinatesFromNormalizedDeviceCoordinates( sceneProjectionTransform.getMatrix().times( sceneModelViewTransform.getMatrix().times( viewPoint ) ) );
     }
 
     public Vector2F getScreenCoordinatesFromNormalizedDeviceCoordinates( Vector3F normalizedDeviceCoordinates ) {
