@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.energysystems.model;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -31,12 +32,17 @@ public class LightBulb extends EnergyUser {
     private static final Vector2D OFFSET_TO_BOTTOM_OF_CONNECTOR = new Vector2D( 0, -0.01 );
     private static final Vector2D OFFSET_TO_RADIATE_POINT = new Vector2D( 0, 0.063 );
 
+    private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
+
+    private static final Random RAND = new Random();
+
     private final double energyToFullyLight; // In joules/sec, a.k.a. watts.
     private final IUserComponent userComponent;
 
     public final Property<Double> litProportion = new Property<Double>( 0.0 );
 
-    private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private List<EnergyChunkPathMover> electricalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private List<EnergyChunkPathMover> lightEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
 
     protected LightBulb( IUserComponent userComponent, Image icon, final ModelElementImage offImage, final ModelElementImage onImage, double energyToFullyLight ) {
         super( icon, assembleImageList( offImage, onImage ) );
@@ -55,7 +61,7 @@ public class LightBulb extends EnergyUser {
 
                     // And a "mover" that will move this energy chunk through
                     // the wire to the bulb.
-                    energyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, getEnergyChunkPath( getPosition() ), EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
+                    electricalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, getEnergyChunkPath( getPosition() ), EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
                 }
                 else {
                     // By design, this shouldn't happen, so warn if it does.
@@ -65,11 +71,27 @@ public class LightBulb extends EnergyUser {
             incomingEnergyChunks.clear();
         }
 
-        // Move the energy chunks that are currently under management.
-        for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
+        // Move the electrical energy chunks that are currently under management.
+        for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( electricalEnergyChunkMovers ) ) {
             energyChunkMover.moveAlongPath( dt );
             if ( energyChunkMover.isPathFullyTraversed() ) {
-                // TODO
+                electricalEnergyChunkMovers.remove( energyChunkMover );
+                // Cause this energy chunk to be radiated from the bulb.
+                energyChunkMover.energyChunk.energyType.set( EnergyType.LIGHT );
+                List<Vector2D> lightPath = new ArrayList<Vector2D>() {{
+                    add( getPosition().plus( OFFSET_TO_RADIATE_POINT ).plus( new Vector2D( RADIATED_ENERGY_CHUNK_MAX_DISTANCE, 0 ).getRotatedInstance( RAND.nextDouble() * 2 * Math.PI ) ) );
+                }};
+                lightEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk, lightPath, EFACConstants.LIGHT_ENERGY_CHUNK_VELOCITY ) );
+            }
+        }
+
+        // Move the light energy chunks.
+        for ( EnergyChunkPathMover lightEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( lightEnergyChunkMovers ) ) {
+            lightEnergyChunkMover.moveAlongPath( dt );
+            if ( lightEnergyChunkMover.isPathFullyTraversed() ) {
+                // Remove the chunk and its mover.
+                energyChunkList.remove( lightEnergyChunkMover.energyChunk );
+                lightEnergyChunkMovers.remove( lightEnergyChunkMover );
             }
         }
 

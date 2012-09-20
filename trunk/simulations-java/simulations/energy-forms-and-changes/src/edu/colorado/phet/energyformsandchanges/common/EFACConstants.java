@@ -60,4 +60,5 @@ public class EFACConstants {
 
     // Constants that control the speed of the energy chunks
     public static final double ELECTRICAL_ENERGY_CHUNK_VELOCITY = 0.04; // In meters/sec.
+    public static final double LIGHT_ENERGY_CHUNK_VELOCITY = 0.04; // In meters/sec.
 }
