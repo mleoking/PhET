@@ -22,6 +22,7 @@ import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
 import static org.lwjgl.opengl.GL11.GL_DIFFUSE;
 import static org.lwjgl.opengl.GL11.GL_FRONT;
 import static org.lwjgl.opengl.GL11.GL_LIGHTING;
+import static org.lwjgl.opengl.GL11.GL_NORMALIZE;
 import static org.lwjgl.opengl.GL11.glColorMaterial;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 
@@ -79,7 +80,7 @@ public class BondNode extends GLNode {
         // transform our position and direction into the local coordinate frame. we will do our computations there
 //        Vector3F click3d = camera.getWorldCoordinates( new Vector2f( 0, 0 ), 0f ).clone();
         Vector3F click3d = transform.inversePosition( Vector3F.ZERO );
-        Vector3F cameraPosition = transform.inversePosition( tab.getCameraRay( 0, 0 ).pos );
+        Vector3F cameraPosition = getGlobalTransform().inversePosition( tab.getCameraRay( 0, 0 ).pos );
 
         // extract our start and end
         final Vector3F start = a.get().to3F();
@@ -169,6 +170,7 @@ public class BondNode extends GLNode {
             requireEnabled( GL_COLOR_MATERIAL );
             requireEnabled( GL_CULL_FACE );
             requireEnabled( GL_LIGHTING );
+            requireEnabled( GL_NORMALIZE );
         }
 
         @Override public void renderSelf( GLOptions options ) {

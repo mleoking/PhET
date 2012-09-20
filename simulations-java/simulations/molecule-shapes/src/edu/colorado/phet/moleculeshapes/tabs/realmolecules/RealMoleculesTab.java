@@ -22,7 +22,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
-import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelActions;
@@ -114,10 +113,6 @@ public class RealMoleculesTab extends MoleculeViewTab {
                 rebuildMolecule( false );
             }
         }, false );
-
-        moleculeNode.addChild( new UnitMarker() {{
-            scale( 20 );
-        }} );
 
         // TODO: control panels!
         /*---------------------------------------------------------------------------*

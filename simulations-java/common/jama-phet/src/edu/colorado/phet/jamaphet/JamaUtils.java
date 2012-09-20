@@ -18,14 +18,14 @@ public class JamaUtils {
     *----------------------------------------------------------------------------*/
 
     public static Matrix rowVector( final Vector2D vector ) {
-        return new Matrix( 2, 1 ) {{
+        return new Matrix( 1, 2 ) {{
             set( 0, 0, vector.getX() );
             set( 0, 1, vector.getY() );
         }};
     }
 
     public static Matrix rowVector( final Vector3D vector ) {
-        return new Matrix( 3, 1 ) {{
+        return new Matrix( 1, 3 ) {{
             set( 0, 0, vector.getX() );
             set( 0, 1, vector.getY() );
             set( 0, 2, vector.getZ() );

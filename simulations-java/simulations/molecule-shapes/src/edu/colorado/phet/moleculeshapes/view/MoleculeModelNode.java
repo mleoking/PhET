@@ -11,9 +11,12 @@ import java.util.Map;
 
 import javax.swing.*;
 
+import org.lwjgl.util.glu.GLU;
+
 import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector4F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
@@ -21,8 +24,10 @@ import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
+import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
@@ -273,11 +278,19 @@ public class MoleculeModelNode extends GLNode {
 
                 // TODO: integrate the labels with the BondAngleNode?
 
-                Vector3F globalCenter = transform.transformPosition( bondAngleNode.getCenter() );
-                Vector3F globalMidpoint = transform.transformPosition( bondAngleNode.getMidpoint() );
+                LWJGLTransform globalTransform = bondAngleNode.getGlobalTransform();
+
+                Vector3F globalCenter = globalTransform.transformPosition( bondAngleNode.getCenter() );
+                Vector3F globalMidpoint = globalTransform.transformPosition( bondAngleNode.getMidpoint() );
+
+//                System.out.println( "globalCenter = " + globalCenter );
+//                System.out.println( "globalCenter = " + globalMidpoint );
 
                 final Vector3F screenCenter = new Vector3F( tab.getScreenCoordinatesFromViewPoint( globalCenter ) );
                 final Vector3F screenMidpoint = new Vector3F( tab.getScreenCoordinatesFromViewPoint( globalMidpoint ) );
+
+//                System.out.println( "screenCenter = " + screenCenter );
+//                System.out.println( "screenMidpoint = " + screenMidpoint );
 
                 // add a slight extension for larger font sizes
                 float extensionFactor = 1.3f * ( ( tab instanceof RealMoleculesTab ) ? 1.1f : 1.05f );
@@ -377,7 +390,6 @@ public class MoleculeModelNode extends GLNode {
 
         public void attach( final String string, final float brightness, final Vector3F displayPoint ) {
             // TODO: after completion, check threads that call this
-            System.out.println( "ReadoutNode.attach: " + LWJGLUtils.isLWJGLRendererThread() );
             float extraSizeFactor = ( tab instanceof MoleculeShapesTab )
                                     ? ( ( (MoleculeShapesTab) tab ).isBasicsVersion() ? 1.2f : 1 )
                                     : 1.5f;
@@ -389,6 +401,7 @@ public class MoleculeModelNode extends GLNode {
             float[] colors = MoleculeShapesColor.BOND_ANGLE_READOUT.get().getRGBColorComponents( null );
             text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
             text.repaint(); // TODO: this should not be necessary, however it fixes the bond angle labels. JME-Piccolo repaint issue?
+            repaint();
 
             transform.set( Matrix4F.translation( displayPoint.minus( getWidth() / 2, getHeight() / 2, 0 ) ) );
 
@@ -399,7 +412,6 @@ public class MoleculeModelNode extends GLNode {
         }
 
         public void detach() {
-            System.out.println( "ReadoutNode.attach: " + LWJGLUtils.isLWJGLRendererThread() );
             LWJGLUtils.invoke( new Runnable() {
                 public void run() {
                     if ( attached ) {
