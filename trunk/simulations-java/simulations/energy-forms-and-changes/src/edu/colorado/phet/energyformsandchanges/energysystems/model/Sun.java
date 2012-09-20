@@ -38,6 +38,8 @@ public class Sun extends EnergySource {
     // Energy production per square meter of the Earth's surface.
     private static final double ENERGY_PRODUCTION_RATE = 1000; // In joules/second per square meter of Earth.
 
+    private final BooleanProperty energyChunksVisible;
+
     //TODO: This, and all image lists, should be removed once the prototypes have all been replaced.
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>();
 
@@ -67,9 +69,10 @@ public class Sun extends EnergySource {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected Sun( SolarPanel solarPanel ) {
+    protected Sun( SolarPanel solarPanel, BooleanProperty energyChunksVisible ) {
         super( EnergyFormsAndChangesResources.Images.SUN_ICON, IMAGE_LIST );
         this.solarPanel = solarPanel;
+        this.energyChunksVisible = energyChunksVisible;
 
         // Add/remove clouds based on the value of the cloudiness property.
         cloudiness.addObserver( new VoidFunction1<Double>() {
@@ -97,7 +100,7 @@ public class Sun extends EnergySource {
             if ( energyChunkEmissionCountdownTimer <= 0 ) {
                 // Create a new chunk and start it on its way.
                 Vector2D initialPosition = sunPosition.plus( new Vector2D( RADIUS / 2, 0 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 ) );
-                EnergyChunk energyChunk = new EnergyChunk( EnergyType.LIGHT, initialPosition.x, initialPosition.y, new BooleanProperty( true ) );
+                EnergyChunk energyChunk = new EnergyChunk( EnergyType.LIGHT, initialPosition.x, initialPosition.y, energyChunksVisible );
                 energyChunkList.add( energyChunk );
                 energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
             }

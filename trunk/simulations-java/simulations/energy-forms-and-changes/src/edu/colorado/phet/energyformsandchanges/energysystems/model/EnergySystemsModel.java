@@ -53,7 +53,7 @@ public class EnergySystemsModel {
 
     // Energy sources.
     public final FaucetAndWater faucet = new FaucetAndWater();
-    public final Sun sun = new Sun( solarPanel );
+    public final Sun sun = new Sun( solarPanel, energyChunksVisible );
     public final TeaPot teaPot = new TeaPot();
     public final Biker biker = new Biker();
 
