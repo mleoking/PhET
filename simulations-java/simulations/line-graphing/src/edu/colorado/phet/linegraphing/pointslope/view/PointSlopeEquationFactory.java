@@ -77,14 +77,14 @@ public class PointSlopeEquationFactory extends EquationFactory {
 
             // layout
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yNode.getYOffset() );
             if ( line.y1 < 0 ) {
-                y1SignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                y1SignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING,
                                       equalsNode.getFullBoundsReference().getCenterY() - ( y1SignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
-                y1Node.setOffset( y1SignNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+                y1Node.setOffset( y1SignNode.getFullBoundsReference().getMaxX() + INTEGER_SIGN_X_SPACING, yNode.getYOffset() );
             }
             else {
-                y1Node.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+                y1Node.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yNode.getYOffset() );
             }
         }
     }
@@ -115,14 +115,14 @@ public class PointSlopeEquationFactory extends EquationFactory {
 
             // layout
             yTermNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yTermNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+            equalsNode.setOffset( yTermNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yTermNode.getYOffset() );
             if ( line.getSlope() < 0 ) {
-                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING,
                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
-                xTermNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+                xTermNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + INTEGER_SIGN_X_SPACING, yTermNode.getYOffset() );
             }
             else {
-                xTermNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+                xTermNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yTermNode.getYOffset() );
             }
         }
     }
@@ -155,14 +155,14 @@ public class PointSlopeEquationFactory extends EquationFactory {
 
             // layout
             yTermNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yTermNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+            equalsNode.setOffset( yTermNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yTermNode.getYOffset() );
             if ( line.getSlope() < 0 ) {
-                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING,
                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
-                slopeNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+                slopeNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + INTEGER_SIGN_X_SPACING, yTermNode.getYOffset() );
             }
             else {
-                slopeNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+                slopeNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yTermNode.getYOffset() );
             }
             xTermNode.setOffset( slopeNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
         }
@@ -199,15 +199,15 @@ public class PointSlopeEquationFactory extends EquationFactory {
 
             // layout
             yTermNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yTermNode.getFullBoundsReference().getMaxX() + X_SPACING, yTermNode.getYOffset() );
+            equalsNode.setOffset( yTermNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yTermNode.getYOffset() );
             if ( line.getSlope() < 0 ) {
-                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING,
                                          equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
-                lineNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                lineNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + FRACTION_SIGN_X_SPACING,
                                     equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + FRACTION_LINE_Y_FUDGE_FACTOR );
             }
             else {
-                lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING,
                                     equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + FRACTION_LINE_Y_FUDGE_FACTOR );
             }
             riseNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
@@ -242,11 +242,11 @@ public class PointSlopeEquationFactory extends EquationFactory {
 
             // layout
             leftParenNode.setOffset( 0, 0 );
-            xNode.setOffset( leftParenNode.getFullBoundsReference().getMaxX() + X_SPACING, leftParenNode.getYOffset() );
+            xNode.setOffset( leftParenNode.getFullBoundsReference().getMaxX() + PAREN_X_SPACING, leftParenNode.getYOffset() );
             operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING,
                                     leftParenNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
             x1Node.setOffset( operatorNode.getFullBoundsReference().getMaxX() + X_SPACING, leftParenNode.getYOffset() );
-            rightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + X_SPACING, leftParenNode.getYOffset() );
+            rightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + PAREN_X_SPACING, leftParenNode.getYOffset() );
 
             return parentNode;
         }
