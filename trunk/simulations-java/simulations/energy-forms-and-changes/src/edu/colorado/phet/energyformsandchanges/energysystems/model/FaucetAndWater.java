@@ -32,6 +32,8 @@ public class FaucetAndWater extends EnergySource {
         add( new ModelElementImage( TEMP_FAUCET, new Vector2D( -0.035, 0.075 ) ) );
     }};
 
+    private double energyChunkEmissionCountdownTimer = Double.POSITIVE_INFINITY;
+
     protected FaucetAndWater() {
         super( EnergyFormsAndChangesResources.Images.FAUCET_ICON, IMAGE_LIST );
     }

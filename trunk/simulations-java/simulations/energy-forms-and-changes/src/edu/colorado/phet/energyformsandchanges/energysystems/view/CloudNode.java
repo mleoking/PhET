@@ -15,10 +15,10 @@ public class CloudNode extends PNode {
 
     public CloudNode( Cloud cloud, final ModelViewTransform mvt ) {
         addChild( new ModelElementImageNode( Cloud.CLOUD_IMAGE, mvt ) {{
-            setScale( 0.5 ); // TODO: Temp until cloud image size updated.
+//            setScale( 0.5 ); // TODO: Temp until cloud image size updated.
         }} );
-        setOffset( mvt.modelToViewDeltaX( cloud.offset.getX() ),
-                   mvt.modelToViewDeltaY( cloud.offset.getY() ) );
+        setOffset( mvt.modelToViewDeltaX( cloud.offsetFromParent.getX() ),
+                   mvt.modelToViewDeltaY( cloud.offsetFromParent.getY() ) );
         cloud.existenceStrength.addObserver( new VoidFunction1<Double>() {
             public void apply( Double existenceStrength ) {
                 setTransparency( existenceStrength.floatValue() );

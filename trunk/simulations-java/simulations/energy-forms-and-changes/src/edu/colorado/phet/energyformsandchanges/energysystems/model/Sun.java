@@ -53,9 +53,9 @@ public class Sun extends EnergySource {
     public final List<Cloud> clouds = new ArrayList<Cloud>() {{
 //        add( new Cloud( new Vector2D( 0.01, 0.12 ) ) );  // TODO: For testing, immediately to right of sun.
 //        add( new Cloud( new Vector2D( -0.04, 0.07 ) ) );   // TODO: For testing, immediately below the sun.
-        add( new Cloud( new Vector2D( 0.01, 0.11 ) ) );
-        add( new Cloud( new Vector2D( 0.02, 0.0925 ) ) );
-        add( new Cloud( new Vector2D( -0.01, 0.085 ) ) );
+        add( new Cloud( new Vector2D( 0.01, 0.11 ), getObservablePosition() ) );
+        add( new Cloud( new Vector2D( 0.02, 0.0925 ), getObservablePosition() ) );
+        add( new Cloud( new Vector2D( -0.01, 0.085 ), getObservablePosition() ) );
     }};
 
     public final Property<Double> cloudiness = new Property<Double>( 0.0 );
@@ -64,6 +64,10 @@ public class Sun extends EnergySource {
     public final SolarPanel solarPanel;
 
     private double energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
+
+    // List of energy chunks that should be allowed to pass through the clouds
+    // without bouncing (i.e. being reflected).
+    private List<EnergyChunk> energyChunksPassingThroughClouds = new ArrayList<EnergyChunk>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -107,7 +111,7 @@ public class Sun extends EnergySource {
                 energyChunkEmissionCountdownTimer = ENERGY_CHUNK_EMISSION_PERIOD;
             }
 
-            // Check for absorption of energy chunks by the solar panel.
+            // Check for bouncing and absorption of the energy chunks.
             for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
                 if ( solarPanel.getAbsorptionShape().contains( energyChunk.position.get().toPoint2D() ) ) {
                     // This energy chunk was absorbed by the solar panel, so
@@ -118,6 +122,23 @@ public class Sun extends EnergySource {
                 else if ( energyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CENTER_OF_SUN ) ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {
                     // This energy chunk is out of visible range, so remove it.
                     energyChunkList.remove( energyChunk );
+                    energyChunksPassingThroughClouds.remove( energyChunk );
+                }
+                else {
+                    for ( Cloud cloud : clouds ) {
+                        if ( cloud.getCloudAbsorptionReflectionShape().contains( energyChunk.position.get().toPoint2D() ) && !energyChunksPassingThroughClouds.contains( energyChunk ) ) {
+                            // Decide whether this energy chunk should pass
+                            // through the clouds or be reflected.
+                            if ( RAND.nextDouble() < cloud.existenceStrength.get() ) {
+                                // Reflect the energy chunk.
+                                energyChunk.setVelocity( energyChunk.getVelocity().getRotatedInstance( Math.PI ) );
+                            }
+                            else {
+                                // Let is pass through the cloud.
+                                energyChunksPassingThroughClouds.add( energyChunk );
+                            }
+                        }
+                    }
                 }
             }
 
