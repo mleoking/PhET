@@ -27,6 +27,14 @@ object SimUseGraphSupport {
     Group("a1", load(files.filter(_.getName.indexOf("_a1_") >= 0)) map toReport) ::
     Group("a2", load(files.filter(_.getName.indexOf("_a2_") >= 0)) map toReport) ::
     Group("a3", load(files.filter(_.getName.indexOf("_a3_") >= 0)) map toReport) :: Nil
+
+    //    //    Group("a1", load(files.filter(_.getName.indexOf("_a1_") >= 0)) map toReport) ::
+    //    //    Group("a2", load(files.filter(_.getName.indexOf("_a2_") >= 0)) map toReport) ::
+    //    //    val filtered = files.filter(_.getName.indexOf("s130_t1p_a3_c3") >= 0)
+    //        val filtered = files.filter(_.getName.indexOf("s152_w1p_a1_c1_2012-01-25_13-16-14_4pkk224opf68l94ngdlooepjfh_c5f2q8mvkmq2sojqtp0ftlh6um") >= 0)
+    //    //    val filtered = files.filter(_.getName.indexOf("s120_t8a_a2_c10") >= 0)
+    //        println("The one we loaded: "+filtered)
+    //        Group("a3", load(filtered) map toReport) :: Nil
   }
 
   def reportLine(group: Group, filtered: List[AcidBaseReport]) {

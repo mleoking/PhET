@@ -17,11 +17,22 @@ object SimUseGraphTimePlots {
     val endTime = minutesToMilliseconds(minute)
     val logStartTime = report.log.startTime
 
-    report.statesWithTransitions.filter(p =>
-                                          p.entry.time - logStartTime >= startTime &&
-                                          p.entry.time - logStartTime < endTime &&
-                                          AcidBaseReport.isAcidBaseClick(report.log, p.entry) && //only consider events classified as a click, such as dragging the slider left
-                                          rule(p)).length
+    val stepsInTime = report.statesWithTransitions.filter(p =>
+                                                            p.entry.time - logStartTime >= startTime &&
+                                                            p.entry.time - logStartTime < endTime)
+
+    //println("Here are all the steps within the 5 minute time frame:")
+    //stepsInTime.map(_.entry).foreach(println)
+
+    val whichAreClicks = stepsInTime.filter(p => AcidBaseReport.isAcidBaseClick(report.log, p.entry))
+    //println("Of those, here are the events counted as clicks:")
+    //whichAreClicks.map(_.entry) foreach println
+
+    val fitsTheRule = whichAreClicks.filter(p => rule(p))
+    //println("Of those, there are the ones that fit the specified rule")
+    //fitsTheRule.map(_.entry).foreach(println)
+
+    fitsTheRule.length
   }
 
   //Get a list of counts for each minute specified above

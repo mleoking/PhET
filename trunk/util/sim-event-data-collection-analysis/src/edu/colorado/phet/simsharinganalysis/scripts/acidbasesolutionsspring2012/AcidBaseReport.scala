@@ -15,14 +15,38 @@ object AcidBaseReport {
   def isAcidBaseClick(log: Log, e: Entry) = {
     e match {
 
+      case x: Entry if completedCircuit(log, x) => true
+      case x: Entry if dunkedPHPaper(log, x) => true
+      case x: Entry if dunkedPHMeter(log, x) => true
       //Starting a slider drag counts as a click
       case Entry(_, "user", _, _, "endDrag", _) => false
       case Entry(_, "user", _, "slider", "startDrag", _) => trueUnlessPreviousLineWasAStartDrag(log, e)
       case Entry(_, "user", _, "slider", "drag", _) => sliderChangedDirection(log, e)
+      case Entry(_, "user", _, "sprite", "drag", _) => false
       case Entry(_, "user", _, _, _, _) => true
       case _ => false
     }
   }
+
+  //If the user completed the circuit, that should count as a click.
+  def completedCircuit(log: Log, c: Entry) = {
+    val index = log indexOf c
+    if ( index == 0 ) {
+      false
+    } else {
+      val userEvents = log.entries.slice(0, index).filter(_.messageType == "user")
+      if ( userEvents.length == 0 ) false
+      else {
+        val p = userEvents.last
+        p.hasParameter("isCircuitCompleted") && p.hasParameter("isCircuitCompleted", "false") &&
+        c.hasParameter("isCircuitCompleted", "true")
+      }
+    }
+  }
+
+  def dunkedPHPaper(log: Log, c: Entry) = c.component == "phPaper" && c.hasParameter("isInSolution", "true")
+
+  def dunkedPHMeter(log: Log, c: Entry) = c.component == "phMeter" && c.hasParameter("isInSolution", "true")
 
   //4 of the log files have duplicate "startDrag" lines within milliseconds of each other.  Filter them out so they don't count as clicks.
   def trueUnlessPreviousLineWasAStartDrag(log: Log, e: Entry) = {
@@ -31,23 +55,60 @@ object AcidBaseReport {
     if ( previousUserEvent.action == "startDrag" ) false else true
   }
 
+  //TODO: could be sped up quite a bit!
+  def previousUserEvent(log: Log, index: Int) = log.entries.slice(0, index).filter(_.messageType == "user").last
+
   //KL: Each time students start dragging should count as one click. But if they change direction during a single drag, I want that to count as more than one click - one for each direction.
-  def sliderChangedDirection(log: Log, e: Entry) = {
+  def sliderChangedDirection(log: Log, _e: Entry): Boolean = {
+    val batch = sliderDragBatchWithPreviousEvent(log, _e).tail
 
+    //if the first event in the batch was a drag, it was a click in the slider track and hence not a slider direction change (counted as a click by the "startDrag" event)
+    if ( batch.head.action == "drag" ) return false
+    if ( batch.length <= 2 ) return false
+
+    //decimate the stream by repeatedly filtering out any adjacent elements with same "value"
+    val decimated = decimate(batch)
+
+    val dragEvents = decimated.filter(_.action == "drag")
+    if ( dragEvents.length == 0 ) return false
+    if ( dragEvents.length == 1 ) return false
+    if ( dragEvents.length == 2 ) return false
+
+    val event = dragEvents(dragEvents.length - 1)
+    val previousEvent1 = dragEvents(dragEvents.length - 2)
+    val previousEvent2 = dragEvents(dragEvents.length - 3)
+
+    val delta1 = previousEvent2("value").toDouble - previousEvent1("value").toDouble
+    val delta2 = previousEvent1("value").toDouble - event("value").toDouble
+
+    val turnDown = getSign(delta1) == 1 && getSign(delta2) == -1
+    val turnUp = getSign(delta1) == -1 && getSign(delta2) == 1
+    turnUp || turnDown
+  }
+
+  //Use "startDrag" as well as "drag" events because both provide "value" parameters
+  def decimate(batch: List[Entry]): List[Entry] = idecimate(batch.filter(e => e.action == "drag" || e.action == "startDrag"))
+
+  def idecimate(batch: List[Entry]): List[Entry] = {
+    if ( batch.length <= 1 ) return batch
+
+    val filtered = batch.zip(batch.tail).filter(entryPair => entryPair._1("value") != entryPair._2("value")).map(_._1) ::: List(batch.last)
+    if ( filtered == batch ) batch else decimate(filtered)
+  }
+
+  //Find all events that count as a slider interaction ending with the specified event
+  //Return the preceding event too so it can easily be checked in context
+  def sliderDragBatchWithPreviousEvent(log: Log, e: Entry): List[Entry] = {
+    if ( e.action != "drag" || e.componentType != "slider" ) return Nil
     val index = log.indexOf(e)
-    val previousEvent1 = log.entries.slice(0, index).filter(_.messageType == "user").last
-    val previousEvent2 = log.entries.slice(0, index - 1).filter(_.messageType == "user").last
-    if ( previousEvent1.action == "drag" && previousEvent2.action == "drag" ) {
-
-      val delta1 = previousEvent2("value").toDouble - previousEvent1("value").toDouble
-      val delta2 = previousEvent1("value").toDouble - e("value").toDouble
-
-      val turnDown = getSign(delta1) == 1 && getSign(delta2) == -1
-      val turnUp = getSign(delta1) == -1 && getSign(delta2) == 1
-      if ( turnDown || turnUp ) true else false
-    }
-    else {
-      false
+    val previousEvents = log.entries.slice(0, index).filter(_.messageType == "user")
+    val eventBeforeStart = previousEvents.reverse.find(e => e.action != "startDrag" && e.action != "drag")
+    if ( !eventBeforeStart.isDefined ) {
+      List(e)
+    } else {
+      val eventBeforeDragInteractionIndex = log.indexOf(eventBeforeStart.get)
+      val dragBatch = log.entries.slice(eventBeforeDragInteractionIndex, index + 1)
+      dragBatch
     }
   }
 
@@ -58,14 +119,14 @@ object AcidBaseReport {
   }
 }
 
-case class StateTransition(start: SimState, entry: Entry, end: SimState) {
+case class StateTransition(log: Log, start: SimState, entry: Entry, end: SimState) {
   def used(component: String): Boolean = entry.messageType == "user" && entry.component == component
 
   def used(radioButton: String, icon: String): Boolean = used(radioButton) || used(icon)
 
   val dunkedPHMeter = entry.component == "phMeter" && entry.hasParameter("isInSolution", "true") && entry.action == "drag"
   val dunkedPHPaper = entry.component == "phPaper" && entry.hasParameter("isInSolution", "true") && entry.action == "drag"
-  val completedCircuit = entry.hasParameter("isCircuitCompleted", "true")
+  val completedCircuit = AcidBaseReport.completedCircuit(log, entry)
 
   def usedAcidControlOn2ndTab(control: String) = start.tab1.acid && start.selectedTab == 1 && entry.messageType == "user" && entry.component == control
 
@@ -109,7 +170,7 @@ class AcidBaseReport(val log: Log) {
     for ( e <- log.entries ) {
       val orig = state
       state = nextState(state, e)
-      states += StateTransition(orig, e, state)
+      states += StateTransition(log, orig, e, state)
     }
     states.toList
   }
