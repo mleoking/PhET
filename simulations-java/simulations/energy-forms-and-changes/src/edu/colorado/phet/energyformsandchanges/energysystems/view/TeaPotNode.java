@@ -89,7 +89,6 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
                     List<Vector2D> cloudStemShapePoints = new ArrayList<Vector2D>() {{
                         double stemBaseWidth = 8; // Empirically chosen
                         Vector2D startingPoint = new Vector2D( 0, heightAndWidth ).plus( new Vector2D( -stemBaseWidth / 2, 0 ).getRotatedInstance( Math.PI / 4 ) );
-//                        Vector2D startingPoint = new Vector2D( 0, heightAndWidth );
                         add( startingPoint );
                         add( startingPoint.plus( new Vector2D( stemBaseWidth, 0 ).getRotatedInstance( Math.PI / 4 ) ) );
                         double stemAngularWidth = Math.PI / 4 * ( 1 + 0.3 * ( RANDOM.nextDouble() - 0.5 ) );
