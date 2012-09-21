@@ -132,8 +132,17 @@ public class Sun extends EnergySource {
                             // Decide whether this energy chunk should pass
                             // through the clouds or be reflected.
                             if ( RAND.nextDouble() < cloud.existenceStrength.get() ) {
-                                // Reflect the energy chunk.
-                                energyChunk.setVelocity( energyChunk.getVelocity().getRotatedInstance( Math.PI + ( RAND.nextDouble() - 0.5 ) * Math.PI / 2 ) );
+                                // Reflect the energy chunk.  It looks a little
+                                // weird if they go back to the sun, so the
+                                // code below tries to avoid that.
+                                double angleTowardsSun = energyChunk.getVelocity().getAngle() + Math.PI;
+                                double reflectionAngle = new Vector2D( cloud.getCenterPosition(), energyChunk.position.get() ).getAngle();
+                                if ( reflectionAngle < angleTowardsSun ) {
+                                    energyChunk.setVelocity( energyChunk.getVelocity().getRotatedInstance( 0.7 * Math.PI + RAND.nextDouble() * Math.PI / 8 ) );
+                                }
+                                else {
+                                    energyChunk.setVelocity( energyChunk.getVelocity().getRotatedInstance( -0.7 * Math.PI - RAND.nextDouble() * Math.PI / 8 ) );
+                                }
                             }
                             else {
                                 // Let is pass through the cloud.

@@ -36,4 +36,9 @@ public class Cloud {
                                      CLOUD_WIDTH,
                                      CLOUD_HEIGHT );
     }
+
+    // Get the center position in model coordinates.
+    public Vector2D getCenterPosition() {
+        return parentPosition.get().plus( offsetFromParent );
+    }
 }
