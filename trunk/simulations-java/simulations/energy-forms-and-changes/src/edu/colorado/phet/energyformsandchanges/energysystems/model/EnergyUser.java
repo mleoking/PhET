@@ -18,8 +18,8 @@ public abstract class EnergyUser extends EnergySystemElement {
 
     protected List<EnergyChunk> incomingEnergyChunks = new ArrayList<EnergyChunk>();
 
-    protected EnergyUser( Image iconImage, List<ModelElementImage> images ) {
-        super( iconImage, images );
+    protected EnergyUser( Image iconImage ) {
+        super( iconImage );
     }
 
     public abstract void stepInTime( double dt, Energy incomingEnergy );

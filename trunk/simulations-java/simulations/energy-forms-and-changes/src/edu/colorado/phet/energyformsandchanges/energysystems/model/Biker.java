@@ -76,12 +76,6 @@ public class Biker extends EnergySource {
         add( new ModelElementImage( BACK_LEG_12, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
     }};
 
-    private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( RIDER_UPPER_BODY_IMAGE );
-        add( REAR_WHEEL_SPOKES_IMAGE );
-        add( FRAME_IMAGE );
-    }};
-
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -98,7 +92,7 @@ public class Biker extends EnergySource {
     //-------------------------------------------------------------------------
 
     public Biker() {
-        super( EnergyFormsAndChangesResources.Images.BICYCLE_ICON, IMAGE_LIST );
+        super( EnergyFormsAndChangesResources.Images.BICYCLE_ICON );
 
         // Monitor target rotation rate for validity.
         targetCrankAngularVelocity.addObserver( new VoidFunction1<Double>() {

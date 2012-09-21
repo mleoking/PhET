@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -12,8 +11,6 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
-
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.TEMP_FAUCET;
 
 /**
  * Class that represents a faucet that can be turned on to provide mechanical
@@ -40,10 +37,6 @@ public class FaucetAndWater extends EnergySource {
     public final Property<Double> flowProportion = new Property<Double>( 0.0 );
     public final BooleanProperty enabled = new BooleanProperty( true );
 
-    private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( TEMP_FAUCET, new Vector2D( -0.035, 0.075 ) ) );
-    }};
-
     private double flowSinceLastChunk = 0;
     private final BooleanProperty energyChunksVisible;
 
@@ -52,7 +45,7 @@ public class FaucetAndWater extends EnergySource {
     //-------------------------------------------------------------------------
 
     protected FaucetAndWater( BooleanProperty energyChunksVisible ) {
-        super( EnergyFormsAndChangesResources.Images.FAUCET_ICON, IMAGE_LIST );
+        super( EnergyFormsAndChangesResources.Images.FAUCET_ICON );
         this.energyChunksVisible = energyChunksVisible;
     }
 
