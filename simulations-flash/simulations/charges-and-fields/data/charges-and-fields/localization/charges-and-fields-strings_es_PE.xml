@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_es_PE.xml created Wed Sep 19 09:50:53 COT 2012 using: charges-and-fields 2.04.00 (52655), translation-utility 2.13.00 (59150) dic 7, 2011--><SimStrings>
+<string key="directionOnly" value="Dirección solamente"/>
+<string key="grid" value="Cuadrícula"/>
+<string key="clearAll" value="Borrar Todo"/>
+<string key="simTitle" value="Cargas y Campos"/>
+<string key="distanceUnit" value="m"/>
+<string key="showNumbers" value="Mostrar valores"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 metro"/>
+<string key="showEField" value="Mostrar campo-E"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="Mostrar alta-res  V"/>
+<string key="EFieldSensors" value="Sensores Campo-E"/>
+<string key="eFieldUnit" value="V/m"/>
+<string key="clear" value="Borrar"/>
+<string key="plot" value="Trazar"/>
+<string key="equipotential" value="Equipotencial"/>
+<string key="angleUnit" value="grados"/>
+<string key="translation.credits" value="Por Héctor R. MALLMA ALVARADO (UNFV)(LIMA-PERÚ) hecmall@hotmail.com; hecmall@outlook.com"/>
+<string key="showLoRes" value="Mostrar baja-res V"/>
+<string key="moreSpeedLessRes" value="Más velocidad/Menos resolución"/>
+<string key="tapeMeasure" value="Cinta métrica"/>
+<string key="voltage" value="voltaje"/>
+</SimStrings>
