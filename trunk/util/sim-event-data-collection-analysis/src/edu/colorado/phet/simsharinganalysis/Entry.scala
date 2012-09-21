@@ -65,6 +65,8 @@ case class Entry(time: Long, //Time on the client computer when message was crea
 
   def hasParameter(key: String, value: String): Boolean = parameters.contains(key) && parameters(key) == value
 
+  def hasParameter(key: String): Boolean = parameters.contains(key)
+
   def hasParameters(e: Entry, pairs: Seq[Pair[String, String]]): Boolean = {
     for ( p <- pairs ) {
       if ( !hasParameter(p._1, p._2) ) {
