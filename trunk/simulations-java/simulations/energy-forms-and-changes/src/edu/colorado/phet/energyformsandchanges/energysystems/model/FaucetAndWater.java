@@ -25,7 +25,7 @@ public class FaucetAndWater extends EnergySource {
 
     public static final Vector2D OFFSET_FROM_CENTER_TO_WATER_ORIGIN = new Vector2D( 0.065, 0.08 );
     private static final double MAX_ENERGY_PRODUCTION_RATE = 200; // In joules/second.
-    private static final double ENERGY_CHUNK_VELOCITY = 0.05; // In meters/second.
+    private static final double ENERGY_CHUNK_VELOCITY = 0.07; // In meters/second.
 
     public final Property<Double> flowProportion = new Property<Double>( 0.0 );
     public final BooleanProperty enabled = new BooleanProperty( true );
@@ -44,21 +44,24 @@ public class FaucetAndWater extends EnergySource {
 
     @Override public Energy stepInTime( double dt ) {
 
-        // Check if time to emit an energy chunk and, if so, do it.
-        energyChunkEmissionCountdownTimer -= dt;
-        if ( energyChunkEmissionCountdownTimer <= 0 ) {
-            energyChunkList.add( new EnergyChunk( EnergyType.MECHANICAL,
-                                                  getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ),
-                                                  new Vector2D( 0, -ENERGY_CHUNK_VELOCITY ),
-                                                  energyChunksVisible ) );
-            energyChunkEmissionCountdownTimer = 0.5;
+        if ( isActive() ) {
+            // Check if time to emit an energy chunk and, if so, do it.
+            energyChunkEmissionCountdownTimer = flowProportion.get() > 0 ? energyChunkEmissionCountdownTimer - dt : energyChunkEmissionCountdownTimer;
+            if ( energyChunkEmissionCountdownTimer <= 0 ) {
+                energyChunkList.add( new EnergyChunk( EnergyType.MECHANICAL,
+                                                      getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ),
+                                                      new Vector2D( 0, -ENERGY_CHUNK_VELOCITY ),
+                                                      energyChunksVisible ) );
+                energyChunkEmissionCountdownTimer = 0.5;
+            }
+
+            // Move the energy chunks.
+            for ( EnergyChunk energyChunk : energyChunkList ) {
+                energyChunk.translateBasedOnVelocity( dt );
+            }
         }
 
-        // Move the energy chunks.
-        for ( EnergyChunk energyChunk : energyChunkList ) {
-            energyChunk.translateBasedOnVelocity( dt );
-        }
-
+        // Generate the appropriate amount of energy.
         return new Energy( EnergyType.MECHANICAL, MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() * dt, -Math.PI / 2 );
     }
 
