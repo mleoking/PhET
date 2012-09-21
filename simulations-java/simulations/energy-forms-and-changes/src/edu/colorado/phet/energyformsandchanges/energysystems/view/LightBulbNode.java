@@ -24,11 +24,12 @@ public class LightBulbNode extends ImageBasedEnergySystemElementNode {
         final LightRays lightRays = new LightRays( new Vector2D( 0, 0 ), 30, 400, 20, Math.PI / 4, Color.YELLOW );
         addChild( lightRays );
 
-        // Add the images.  Assumes that the last image is the energized bulb.
-        for ( int i = 0; i < lightBulb.getImageList().size() - 1; i++ ) {
-            addImageNode( lightBulb.getImageList().get( i ) );
-        }
-        final PNode energizedBulb = addImageNode( lightBulb.getImageList().get( lightBulb.getImageList().size() - 1 ) );
+        // Add the images.
+        addImageNode( LightBulb.WIRE_FLAT_IMAGE );
+        addImageNode( LightBulb.WIRE_CURVE_IMAGE );
+        addImageNode( LightBulb.ELEMENT_BASE_IMAGE );
+        addImageNode( lightBulb.offImage );
+        final PNode energizedBulb = addImageNode( lightBulb.onImage );
 
         // Center the light rays on the bulb image.
         lightRays.setOffset( energizedBulb.getFullBoundsReference().getCenterX(),

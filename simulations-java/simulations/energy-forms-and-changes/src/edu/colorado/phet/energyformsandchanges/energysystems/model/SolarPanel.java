@@ -48,13 +48,6 @@ public class SolarPanel extends EnergyConverter {
     private static final Vector2D OFFSET_TO_THIRD_EC_CURVE_POINT = new Vector2D( BASE_IMAGE_OFFSET.getX() + 0.01, CONNECTOR_IMAGE_OFFSET.getY() );
     private static final Vector2D OFFSET_TO_LAST_EC_POINT = new Vector2D( CONNECTOR_IMAGE_OFFSET.getX() + 0.01, CONNECTOR_IMAGE_OFFSET.getY() );
 
-    private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( BASE_IMAGE );
-        add( SOLAR_PANEL_IMAGE );
-        add( WIRE_IMAGE );
-        add( CONNECTOR_IMAGE );
-    }};
-
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -66,7 +59,7 @@ public class SolarPanel extends EnergyConverter {
     //-------------------------------------------------------------------------
 
     protected SolarPanel() {
-        super( EnergyFormsAndChangesResources.Images.SOLAR_PANEL_ICON, IMAGE_LIST );
+        super( EnergyFormsAndChangesResources.Images.SOLAR_PANEL_ICON );
     }
 
     //-------------------------------------------------------------------------

@@ -40,9 +40,6 @@ public class Sun extends EnergySource {
 
     private final BooleanProperty energyChunksVisible;
 
-    //TODO: This, and all image lists, should be removed once the prototypes have all been replaced.
-    private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>();
-
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -74,7 +71,7 @@ public class Sun extends EnergySource {
     //-------------------------------------------------------------------------
 
     protected Sun( SolarPanel solarPanel, BooleanProperty energyChunksVisible ) {
-        super( EnergyFormsAndChangesResources.Images.SUN_ICON, IMAGE_LIST );
+        super( EnergyFormsAndChangesResources.Images.SUN_ICON );
         this.solarPanel = solarPanel;
         this.energyChunksVisible = energyChunksVisible;
 

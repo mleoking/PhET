@@ -1,9 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -32,10 +29,6 @@ public class TeaPot extends EnergySource {
 
     public static final ModelElementImage TEAPOT_IMAGE = new ModelElementImage( TEAPOT_LARGE, new Vector2D( 0.0, 0.015 ) );
 
-    private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( TEAPOT_IMAGE );
-    }};
-
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -49,7 +42,7 @@ public class TeaPot extends EnergySource {
     //-------------------------------------------------------------------------
 
     protected TeaPot() {
-        super( EnergyFormsAndChangesResources.Images.TEAPOT_ICON, IMAGE_LIST );
+        super( EnergyFormsAndChangesResources.Images.TEAPOT_ICON );
     }
 
     //-------------------------------------------------------------------------

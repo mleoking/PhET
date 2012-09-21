@@ -32,10 +32,16 @@ public class LightBulb extends EnergyUser {
     private static final Vector2D OFFSET_TO_BOTTOM_OF_CONNECTOR = new Vector2D( 0, -0.01 );
     private static final Vector2D OFFSET_TO_RADIATE_POINT = new Vector2D( 0, 0.063 );
 
+    public static final ModelElementImage WIRE_FLAT_IMAGE = new ModelElementImage( WIRE_BLACK_MIDDLE_62, new Vector2D( -0.037, -0.04 ) );
+    public static final ModelElementImage WIRE_CURVE_IMAGE = new ModelElementImage( WIRE_BLACK_RIGHT, new Vector2D( -0.009, -0.016 ) );
+    public static final ModelElementImage ELEMENT_BASE_IMAGE = new ModelElementImage( ELEMENT_BASE, new Vector2D( 0, 0.0 ) );
+
     private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
 
     private static final Random RAND = new Random();
 
+    public final ModelElementImage onImage;
+    public final ModelElementImage offImage;
     private final double energyToFullyLight; // In joules/sec, a.k.a. watts.
     private final IUserComponent userComponent;
 
@@ -45,9 +51,11 @@ public class LightBulb extends EnergyUser {
     private List<EnergyChunkPathMover> lightEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
 
     protected LightBulb( IUserComponent userComponent, Image icon, final ModelElementImage offImage, final ModelElementImage onImage, double energyToFullyLight ) {
-        super( icon, assembleImageList( offImage, onImage ) );
+        super( icon );
         this.userComponent = userComponent;
         this.energyToFullyLight = energyToFullyLight;
+        this.onImage = onImage;
+        this.offImage = offImage;
     }
 
     @Override public void stepInTime( double dt, Energy incomingEnergy ) {
@@ -115,20 +123,9 @@ public class LightBulb extends EnergyUser {
         }};
     }
 
-
     @Override public void deactivate() {
         super.deactivate();
         litProportion.set( 0.0 );
-    }
-
-    static private List<ModelElementImage> assembleImageList( final ModelElementImage offImage, final ModelElementImage onImage ) {
-        return new ArrayList<ModelElementImage>() {{
-            add( new ModelElementImage( WIRE_BLACK_MIDDLE_62, new Vector2D( -0.037, -0.04 ) ) );
-            add( new ModelElementImage( WIRE_BLACK_RIGHT, new Vector2D( -0.009, -0.016 ) ) );
-            add( new ModelElementImage( ELEMENT_BASE, new Vector2D( 0, 0.0 ) ) );
-            add( offImage );
-            add( onImage );
-        }};
     }
 
     @Override public IUserComponent getUserComponent() {

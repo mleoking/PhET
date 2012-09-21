@@ -18,8 +18,8 @@ public abstract class EnergySource extends EnergySystemElement {
 
     protected List<EnergyChunk> outgoingEnergyChunks = new ArrayList<EnergyChunk>();
 
-    protected EnergySource( Image iconImage, List<ModelElementImage> images ) {
-        super( iconImage, images );
+    protected EnergySource( Image iconImage ) {
+        super( iconImage );
     }
 
     /**

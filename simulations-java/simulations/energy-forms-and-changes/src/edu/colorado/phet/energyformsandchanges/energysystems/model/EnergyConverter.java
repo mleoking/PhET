@@ -19,8 +19,8 @@ public abstract class EnergyConverter extends EnergySystemElement {
     protected List<EnergyChunk> incomingEnergyChunks = new ArrayList<EnergyChunk>();
     protected List<EnergyChunk> outgoingEnergyChunks = new ArrayList<EnergyChunk>();
 
-    protected EnergyConverter( Image iconImage, List<ModelElementImage> images ) {
-        super( iconImage, images );
+    protected EnergyConverter( Image iconImage ) {
+        super( iconImage );
     }
 
     public abstract Energy stepInTime( double dt, Energy incomingEnergy );

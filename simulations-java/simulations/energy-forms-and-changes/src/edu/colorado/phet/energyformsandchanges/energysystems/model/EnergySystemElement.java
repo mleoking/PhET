@@ -2,8 +2,6 @@
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
 import java.awt.Image;
-import java.util.ArrayList;
-import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -20,10 +18,6 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
  */
 public abstract class EnergySystemElement extends PositionableFadableModelElement {
 
-    // List of images, if any, that are used in the view to represent this element.
-    // TODO: I think that this can go once each element has its own node, and was basically done for prototyping.
-    private final List<ModelElementImage> imageList = new ArrayList<ModelElementImage>();
-
     // List of energy chunks contained and managed by this energy system element.
     public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
@@ -34,9 +28,8 @@ public abstract class EnergySystemElement extends PositionableFadableModelElemen
     // meaning that it is generating, transforming, and/or consuming energy.
     private BooleanProperty active = new BooleanProperty( false );
 
-    protected EnergySystemElement( Image iconImage, List<ModelElementImage> images ) {
+    protected EnergySystemElement( Image iconImage ) {
         this.iconImage = iconImage;
-        this.imageList.addAll( images );
 
         // Move all energy chunks with this element as it moves.
         getObservablePosition().addObserver( new ChangeObserver<Vector2D>() {
@@ -47,10 +40,6 @@ public abstract class EnergySystemElement extends PositionableFadableModelElemen
                 }
             }
         } );
-    }
-
-    public List<ModelElementImage> getImageList() {
-        return imageList;
     }
 
     public Image getIconImage() {
