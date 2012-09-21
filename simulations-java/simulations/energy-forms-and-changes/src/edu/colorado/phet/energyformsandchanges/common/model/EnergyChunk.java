@@ -62,9 +62,14 @@ public class EnergyChunk {
     }
 
     public EnergyChunk( EnergyType initialEnergyType, Vector2D initialPosition, BooleanProperty visibilityControl ) {
+        this( initialEnergyType, initialPosition, new Vector2D( 0, 0 ), visibilityControl );
+    }
+
+    public EnergyChunk( EnergyType initialEnergyType, Vector2D initialPosition, Vector2D initialVelocity, BooleanProperty visibilityControl ) {
         this.position = new Property<Vector2D>( initialPosition );
         this.energyType.set( initialEnergyType );
         this.visible = visibilityControl;
+        this.velocity = initialVelocity;
     }
 
     //-------------------------------------------------------------------------
