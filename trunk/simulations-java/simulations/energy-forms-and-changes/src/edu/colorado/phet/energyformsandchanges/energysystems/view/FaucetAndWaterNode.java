@@ -12,7 +12,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.FaucetAndWater;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -54,8 +56,12 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
             }
         } );
 
+        // Create the energy chunk layer.
+        PNode energyChunkLayer = new EnergyChunkLayer( faucet.energyChunkList, faucet.getObservablePosition(), mvt );
+
         // Add the nodes in the order that creates the desired layering.
         addChild( waterNode );
         addChild( faucetNode );
+        addChild( energyChunkLayer );
     }
 }
