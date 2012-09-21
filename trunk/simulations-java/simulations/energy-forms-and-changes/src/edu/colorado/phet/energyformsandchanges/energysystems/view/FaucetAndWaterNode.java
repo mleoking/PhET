@@ -61,7 +61,7 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
 
         // Add the nodes in the order that creates the desired layering.
         addChild( waterNode );
-        addChild( faucetNode );
         addChild( energyChunkLayer );
+        addChild( faucetNode );
     }
 }
