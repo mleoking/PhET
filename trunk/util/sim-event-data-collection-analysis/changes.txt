@@ -1,3 +1,4 @@
+# 00.00.49 (68260) Sep 21, 2012
 # 00.00.48 (68258) Sep 21, 2012
 Improved the way clicks are counted in acid base solutions, see AcidBaseReport.isAcidBaseClick
 Updated E,N,P assignments for acid base solution features
