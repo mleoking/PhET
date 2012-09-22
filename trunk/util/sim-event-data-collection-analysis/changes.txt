@@ -1,3 +1,4 @@
+# 00.00.50 (68271) Sep 22, 2012
 Refined rules for what is counted as a "click"
 # 00.00.49 (68260) Sep 21, 2012
 # 00.00.48 (68258) Sep 21, 2012
