@@ -16,11 +16,10 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
-import edu.colorado.phet.lwjglphet.shapes.Quad;
-import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.BondTypeOverlayNode;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
@@ -37,6 +36,13 @@ import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_P
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents.moleculeShapesTab;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
+import static org.lwjgl.opengl.GL11.GL_PROJECTION;
+import static org.lwjgl.opengl.GL11.GL_VIEWPORT_BIT;
+import static org.lwjgl.opengl.GL11.glLoadIdentity;
+import static org.lwjgl.opengl.GL11.glMatrixMode;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+import static org.lwjgl.opengl.GL11.glViewport;
 
 /**
  * Main module for Molecule Shapes
@@ -126,26 +132,50 @@ public class MoleculeShapesTab extends MoleculeViewTab {
         Function2<String, Property<Rectangle2D>, GLNode> createBondOverlayView = new Function2<String, Property<Rectangle2D>, GLNode>() {
             public GLNode apply( String name, final Property<Rectangle2D> rectangle2DProperty ) {
                 return new GuiNode( MoleculeShapesTab.this ) {
+
+                    private LWJGLTransform projectionTransform = new LWJGLTransform();
+
                     {
-                        requireDisabled( GL_DEPTH_TEST );
-                        requireDisabled( GL_BLEND );
+                        requireEnabled( GL_DEPTH_TEST );
+                        requireEnabled( GL_BLEND );
+
+                        // push/pop handling for the viewport calculations
+                        addResetAttrib( GL_VIEWPORT_BIT );
                     }
 
                     @Override protected void preRender( GLOptions options ) {
                         super.preRender( options );
 
+                        // TODO: fix crazy hacks below from the porting. my apologies.
+
+                        Rectangle2D viewportBounds = canvasTransform.getTransformedBounds( rectangle2DProperty.get() );
+
+                        // position the overlay viewport over this region
+                        glViewport( (int) viewportBounds.getMinX(),
+                                    (int) ( getCanvasHeight() - viewportBounds.getMaxY() ),
+                                    (int) viewportBounds.getWidth(),
+                                    (int) viewportBounds.getHeight() );
+
+                        // TODO: adjust positioning here?
+                        glMatrixMode( GL_PROJECTION );
+                        glLoadIdentity();
+                        float fieldOfViewRadians = (float) ( fieldOfViewDegrees / 180f * Math.PI );
+                        float correctedFieldOfViewRadians = (float) Math.atan( Math.tan( fieldOfViewRadians ) ); // like the normal function, without the correction factor
+
+                        Matrix4F perspectiveMatrix = getGluPerspective( correctedFieldOfViewRadians,
+                                                                        (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ),
+                                                                        nearPlane, farPlane );
+                        projectionTransform.set( perspectiveMatrix );
+                        projectionTransform.apply();
+
+                        glMatrixMode( GL_MODELVIEW );
+                        glLoadIdentity();
+                        // extra translation so it looks "behind"
+                        glTranslatef( 0, 0, -45 );
+
                         loadLighting();
                     }
                 };
-//                return createRegularView( name + " Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
-//                                                                                new CanvasTransformedBounds( canvasTransform,
-//                                                                                                             rectangle2DProperty ) ) {
-//                    @Override public void positionMe() {
-//                        setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
-//                        setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
-//                        lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-//                    }
-//                }, RenderPosition.MAIN );
             }
         };
 
@@ -157,23 +187,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
             addCentralAtom( centralAtom );
             addGroup( new PairGroup( Vector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
         }}, this, addSingleBondEnabled ) );
-        guiLayer.addChild( singleBondOverlay );
-        guiLayer.addChild( new MoleculeModelNode( new VSEPRMolecule() {{
-            PairGroup centralAtom = new PairGroup( new Vector3D(), false, false );
-            addCentralAtom( centralAtom );
-            addGroup( new PairGroup( Vector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 1 );
-        }}, new GLNode(), this ) );
-//        guiLayer.addChild( new Quad( 0, 0, 500, 500 ) {
-//            @Override public void renderSelf( GLOptions options ) {
-//                glEnable( GL_LIGHTING );
-//                glEnable( GL_COLOR_MATERIAL );
-//                glColorMaterial( GL11.GL_FRONT, GL11.GL_DIFFUSE );
-//                glColor4f( 0.8f, 0.8f, 0f, 0.5f );
-//                super.renderSelf( options );
-//                glDisable( GL_LIGHTING );
-//                glDisable( GL_COLOR_MATERIAL );
-//            }
-//        } );
+        overlayLayer.addChild( singleBondOverlay );
 
         GLNode doubleBondOverlay = createBondOverlayView.apply( "Double Bond", doubleBondOverlayStageBounds );
         doubleBondOverlay.addChild( new BondTypeOverlayNode( new VSEPRMolecule() {{
@@ -181,6 +195,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
             addCentralAtom( centralAtom );
             addGroup( new PairGroup( Vector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 2 );
         }}, this, addDoubleBondEnabled ) );
+        overlayLayer.addChild( doubleBondOverlay );
 
         GLNode tripleBondOverlay = createBondOverlayView.apply( "Triple Bond", tripleBondOverlayStageBounds );
         tripleBondOverlay.addChild( new BondTypeOverlayNode( new VSEPRMolecule() {{
@@ -188,6 +203,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
             addCentralAtom( centralAtom );
             addGroup( new PairGroup( Vector3D.X_UNIT.times( PairGroup.BONDED_PAIR_DISTANCE ), false, false ), centralAtom, 3 );
         }}, this, addTripleBondEnabled ) );
+        overlayLayer.addChild( tripleBondOverlay );
 
         if ( !isBasicsVersion() ) {
             GLNode lonePairOverlay = createBondOverlayView.apply( "Lone Pair", lonePairOverlayStageBounds );
@@ -196,6 +212,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
                 addCentralAtom( centralAtom );
                 addGroup( new PairGroup( Vector3D.X_UNIT.times( PairGroup.LONE_PAIR_DISTANCE ), true, false ), centralAtom, 0 );
             }}, this, addLonePairEnabled ) );
+            overlayLayer.addChild( lonePairOverlay );
         }
 
         /*---------------------------------------------------------------------------*

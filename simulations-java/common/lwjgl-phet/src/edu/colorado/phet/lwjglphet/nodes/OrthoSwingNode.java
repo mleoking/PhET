@@ -202,8 +202,10 @@ public class OrthoSwingNode extends AbstractSwingGraphicsNode {
         // convert these to stage-offset from the lower-left, since the control panel itself is translated
         double localLeft = localBounds.getMinX() + offsetX;
         double localRight = localBounds.getMaxX() + offsetX;
-        double localTop = getComponentHeight() - localBounds.getMinY() + offsetY; // remember, Y is flipped here
-        double localBottom = getComponentHeight() - localBounds.getMaxY() + offsetY; // remember, Y is flipped here
+//        double localTop = getComponentHeight() - localBounds.getMinY() + offsetY; // remember, Y is flipped here
+//        double localBottom = getComponentHeight() - localBounds.getMaxY() + offsetY; // remember, Y is flipped here
+        double localTop = localBounds.getMaxY() + offsetY; // remember, Y is flipped here
+        double localBottom = localBounds.getMinY() + offsetY; // remember, Y is flipped here
 
         return new PBounds( localLeft, localBottom, localRight - localLeft, localTop - localBottom );
     }
