@@ -112,6 +112,7 @@ public abstract class MoleculeViewTab extends LWJGLTab {
     protected GLNode sceneLayer;
     protected GLNode readoutLayer;
     protected GLNode guiLayer;
+    protected GLNode overlayLayer;
 
     // frustum (camera) properties
     public static final float fieldOfViewDegrees = 45 / 2;
@@ -180,9 +181,11 @@ public abstract class MoleculeViewTab extends LWJGLTab {
         };
         readoutLayer = new GuiNode( this, false );
         guiLayer = new GuiNode( this );
+        overlayLayer = new GuiNode( this  );
         rootNode.addChild( sceneLayer );
         rootNode.addChild( readoutLayer );
         rootNode.addChild( guiLayer );
+        rootNode.addChild( overlayLayer );
 
         // show wireframe while F key is pressed
         keyboardEventNotifier.addUpdateListener(
