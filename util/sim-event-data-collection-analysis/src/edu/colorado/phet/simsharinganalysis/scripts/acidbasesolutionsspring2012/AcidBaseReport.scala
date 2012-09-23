@@ -18,7 +18,6 @@ object AcidBaseReport {
       case x: Entry if completedCircuit(log, x) => true
       case x: Entry if dunkedPHPaper(log, x) => true
       case x: Entry if dunkedPHMeter(log, x) => true
-      case x: Entry if x.hasParameter("interactive", "false") => false
       case Entry(_, "user", _, _, "moved", _) => false
       //Starting a slider drag counts as a click
       case Entry(_, "user", _, _, "endDrag", _) => false
