@@ -67,6 +67,16 @@ object AcidBaseReport {
     if ( batch.head.action == "drag" ) return false
     if ( batch.length <= 2 ) return false
 
+    //Before decimating, check to see if the previous user event had the same value.  If it did, it should not count as a click.
+    //We spotted some trouble cases where decimation would count a duplicate drag event as a "click" because the prior event was removed in decimation
+    val _d = previousUserEvent(log, log.indexOf(_e))
+    if ( ( _d.action == "drag" || _d.action == "startDrag" ) &&
+         ( _e.action == "drag" || _e.action == "startDrag" ) &&
+         _d.hasParameter("value") && _e.hasParameter("value") &&
+         _d("value") == _e("value") ) {
+      return false
+    }
+
     //decimate the stream by repeatedly filtering out any adjacent elements with same "value"
     val decimated = decimate(batch)
 
@@ -100,15 +110,16 @@ object AcidBaseReport {
   //Find all events that count as a slider interaction ending with the specified event
   //Return the preceding event too so it can easily be checked in context
   def sliderDragBatchWithPreviousEvent(log: Log, e: Entry): List[Entry] = {
+    val entries = log.entries.filter(_.messageType == "user")
     if ( e.action != "drag" || e.componentType != "slider" ) return Nil
-    val index = log.indexOf(e)
-    val previousEvents = log.entries.slice(0, index).filter(_.messageType == "user")
+    val index = entries.indexWhere(e eq _)
+    val previousEvents = entries.slice(0, index)
     val eventBeforeStart = previousEvents.reverse.find(e => e.action != "startDrag" && e.action != "drag")
     if ( !eventBeforeStart.isDefined ) {
       List(e)
     } else {
-      val eventBeforeDragInteractionIndex = log.indexOf(eventBeforeStart.get)
-      val dragBatch = log.entries.slice(eventBeforeDragInteractionIndex, index + 1)
+      val eventBeforeDragInteractionIndex = entries.indexWhere(eventBeforeStart.get == _)
+      val dragBatch = entries.slice(eventBeforeDragInteractionIndex, index + 1)
       dragBatch
     }
   }
