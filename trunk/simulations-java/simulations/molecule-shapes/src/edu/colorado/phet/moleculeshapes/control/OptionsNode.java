@@ -23,7 +23,6 @@ public class OptionsNode extends PNode {
 //    };
 
     public OptionsNode( final MoleculeViewTab module, double INNER_WIDTH ) {
-        System.out.println( module + ", " + INNER_WIDTH );
         // enforce the width constraint
 
 //        double INNER_WIDTH = 0;
@@ -100,7 +99,6 @@ public class OptionsNode extends PNode {
             setOffset( 0, y.get() );
         }};
         if ( module.allowTogglingAllLonePairs() ) {
-            System.out.println( "OptionsNode.OptionsNode" );
             checkboxContainer.addChild( showAllLonePairsNode );
             y.set( showAllLonePairsNode.getFullBounds().getMaxY() );
         }
