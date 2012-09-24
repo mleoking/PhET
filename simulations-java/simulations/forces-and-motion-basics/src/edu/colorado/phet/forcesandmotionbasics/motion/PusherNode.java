@@ -21,13 +21,16 @@ public class PusherNode extends PNode {
             public void apply( final Double appliedForce ) {
                 if ( appliedForce == 0 ) {
                     pusher.setImage( Images.PUSHER_STRAIGHT_ON );
+
+                    pusher.setOffset( skateboard.getFullBounds().getX() - pusher.getFullBounds().getWidth() + 0, grassY - pusher.getFullBounds().getHeight() );
                 }
                 else {
                     int index = getImageIndex( appliedForce );
                     pusher.setImage( ForcesAndMotionBasicsResources.RESOURCES.getImage( "pusher_" + index + ".png" ) );
+
+                    //translate right another 15 for crate
+                    pusher.setOffset( skateboard.getFullBounds().getX() - pusher.getFullBounds().getWidth() + 33, grassY - pusher.getFullBounds().getHeight() );
                 }
-                //translate right another 15 for crate
-                pusher.setOffset( skateboard.getFullBounds().getX() - pusher.getFullBounds().getWidth() + 33, grassY - pusher.getFullBounds().getHeight() );
             }
         } );
     }

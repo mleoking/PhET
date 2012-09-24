@@ -1,20 +1,25 @@
 package edu.colorado.phet.forcesandmotionbasics.motion;
 
+import fj.data.List;
+import fj.function.Doubles;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -28,6 +33,8 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.Context;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -42,11 +49,13 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     public static final Color BROWN = new Color( 197, 154, 91 );
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
-    private ArrayList<VoidFunction0> cartPositionListeners = new ArrayList<VoidFunction0>();
     private final PImage skateboard;
+    private final List<StackableNode> stackableNodes;
 
     //TODO: Move to model?
     private final DoubleProperty appliedForce = new DoubleProperty( 0.0 );
+    private final DoubleProperty velocity = new DoubleProperty( 0.0 );
+    private final DoubleProperty position = new DoubleProperty( 0.0 );
 
     public MotionCanvas( final Context context, final IClock clock ) {
 
@@ -60,14 +69,22 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         final int grassY = 425;
         addChild( new SkyNode( createIdentity(), new Rectangle2D.Double( -width / 2, -width / 2 + grassY, width, width / 2 ), grassY, SkyNode.DEFAULT_TOP_COLOR, SkyNode.DEFAULT_BOTTOM_COLOR ) );
 
-        final BufferedImage tile = Images.BRICK_TILE;
-        for ( int i = -10; i < 10; i++ ) {
-            final int finalI = i;
-            addChild( new PImage( tile ) {{
-                scale( 0.4 );
-                setOffset( finalI * tile.getWidth() * getScale() + STAGE_SIZE.getWidth() / 2, grassY );
-            }} );
-        }
+        PNode terrain = new PNode() {{
+            final BufferedImage tile = Images.BRICK_TILE;
+            position.addObserver( new VoidFunction1<Double>() {
+                public void apply( final Double position ) {
+                    removeAllChildren();
+                    for ( int i = -10; i < 10; i++ ) {
+                        final int finalI = i;
+                        addChild( new PImage( tile ) {{
+                            scale( 0.4 );
+                            setOffset( finalI * tile.getWidth() * getScale() + STAGE_SIZE.getWidth() / 2 - position * 100, grassY );
+                        }} );
+                    }
+                }
+            } );
+        }};
+        addChild( terrain );
 
         final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSumOfForces ) {{ setFont( CONTROL_FONT ); }};
         final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( CONTROL_FONT );}};
@@ -108,9 +125,11 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         timeControls.setOffset( STAGE_SIZE.width / 2 - timeControls.getFullWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
         addChild( timeControls );
 
-        StackableNode fridge = new StackableNode( this, Images.FRIDGE );
-        StackableNode crate1 = new StackableNode( this, Images.CRATE );
-        StackableNode crate2 = new StackableNode( this, Images.CRATE );
+        StackableNode fridge = new StackableNode( this, Images.FRIDGE, 200 );
+        StackableNode crate1 = new StackableNode( this, Images.CRATE, 50 );
+        StackableNode crate2 = new StackableNode( this, Images.CRATE, 50 );
+
+        stackableNodes = fj.data.List.list( fridge, crate1, crate2 );
 
         double INTER_OBJECT_SPACING = 10;
         fridge.setInitialOffset( toolbox.getFullBounds().getX() + 10, toolbox.getFullBounds().getCenterY() - fridge.getFullBounds().getHeight() / 2 );
@@ -120,6 +139,22 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( fridge );
         addChild( crate1 );
         addChild( crate2 );
+
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
+                double sumOfForces = appliedForce.get();
+                final double mass = getMassOfObjectsOnSkateboard();
+                if ( mass > 0 ) {
+                    double acceleration = sumOfForces / mass;
+                    velocity.set( velocity.get() + acceleration * clockEvent.getSimulationTimeChange() );
+                    position.set( position.get() + velocity.get() * clockEvent.getSimulationTimeChange() );
+                }
+            }
+        } );
+    }
+
+    private double getMassOfObjectsOnSkateboard() {
+        return stackableNodes.filter( StackableNode._isOnSkateboard ).map( StackableNode._mass ).foldLeft( Doubles.add, 0.0 );
     }
 
     public void stackableNodeDropped( final StackableNode stackableNode ) {
@@ -128,9 +163,14 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         if ( bounds.intersects( stackableNode.getGlobalFullBounds() ) ) {
             PBounds skateboardBounds = skateboard.getGlobalFullBounds();
             Rectangle2D localBounds = stackableNode.getParent().globalToLocal( skateboardBounds );
-            stackableNode.animateToPositionScaleRotation( localBounds.getCenterX() - stackableNode.getFullBounds().getWidth() / 2, localBounds.getY() - stackableNode.getFullBounds().getHeight() + 8, 1, 0, 200 );
+            stackableNode.animateToPositionScaleRotation( localBounds.getCenterX() - stackableNode.getFullBounds().getWidth() / 2, localBounds.getY() - stackableNode.getFullBounds().getHeight() + 8, 1, 0, 200 ).setDelegate( new PActivityDelegateAdapter() {
+                @Override public void activityFinished( final PActivity activity ) {
+                    stackableNode.setOnSkateboard( true );
+                }
+            } );
         }
         else {
+            stackableNode.setOnSkateboard( false );
             stackableNode.animateHome();
         }
     }
