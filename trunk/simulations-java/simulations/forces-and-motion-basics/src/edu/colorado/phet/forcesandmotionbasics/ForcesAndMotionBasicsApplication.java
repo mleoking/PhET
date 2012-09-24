@@ -4,6 +4,7 @@ package edu.colorado.phet.forcesandmotionbasics;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.forcesandmotionbasics.motion.MotionModule;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarModule;
 
 /**
@@ -13,6 +14,7 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
     public ForcesAndMotionBasicsApplication( PhetApplicationConfig config ) {
         super( config );
         addModule( new TugOfWarModule() );
+        addModule( new MotionModule() );
         addModule( new ForcesAndMotionBasicsModule( MyMode.mode1 ) );
     }
 

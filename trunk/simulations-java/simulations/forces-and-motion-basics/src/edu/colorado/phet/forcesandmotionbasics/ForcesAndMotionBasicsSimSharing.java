@@ -7,6 +7,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class ForcesAndMotionBasicsSimSharing {
     public static enum UserComponents implements IUserComponent {
-        tugOfWarTab
+        motionTab, tugOfWarTab
     }
 }

@@ -12,8 +12,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.ForcesNode.TextLocation;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.forcesandmotionbasics.AbstractForcesAndMotionBasicsCanvas.CONTROL_FONT;
-import static edu.colorado.phet.forcesandmotionbasics.AbstractForcesAndMotionBasicsCanvas.INSET;
+import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.CONTROL_FONT;
+import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.INSET;
 
 /**
  * @author Sam Reid

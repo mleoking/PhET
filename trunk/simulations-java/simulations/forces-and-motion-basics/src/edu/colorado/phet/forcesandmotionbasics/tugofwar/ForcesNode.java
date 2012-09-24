@@ -6,7 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.forcesandmotionbasics.AbstractForcesAndMotionBasicsCanvas.STAGE_SIZE;
+import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.STAGE_SIZE;
 
 /**
  * @author Sam Reid
