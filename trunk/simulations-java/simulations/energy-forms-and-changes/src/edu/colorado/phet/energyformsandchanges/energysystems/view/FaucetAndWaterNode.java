@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
-import java.awt.BasicStroke;
 import java.awt.GradientPaint;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
@@ -26,7 +25,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
 
     private static final double FAUCET_NODE_HORIZONTAL_LENGTH = 700; // In screen coords, which are close to pixels.
-    private static final double WATER_NODE_VERTICAL_LENGTH = 700; // In screen coords, which are close to pixels.
 
     public FaucetAndWaterNode( FaucetAndWater faucet, final ModelViewTransform mvt ) {
         super( faucet, mvt );
@@ -41,7 +39,8 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
         faucetNode.setOffset( -faucetNode.getGlobalOutputCenter().getX() + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
                               -faucetNode.getGlobalOutputCenter().getY() + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
         // Create the water.
-        final PPath waterNode = new PhetPPath( new BasicStroke( 1 ), ColorUtils.darkerColor( EFACConstants.WATER_COLOR, 0.5 ) );
+//        final PPath waterNode = new PhetPPath( new BasicStroke( 1 ), ColorUtils.darkerColor( EFACConstants.WATER_COLOR, 0.5 ) );
+        final PPath waterNode = new PhetPPath();
         waterNode.setOffset( -mvt.modelToViewX( 0 ) + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
                              -mvt.modelToViewY( 0 ) + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
 
@@ -57,7 +56,7 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
                                                        (float) waterBounds.getMaxX(),
                                                        (float) waterBounds.getY(),
                                                        ColorUtils.brighterColor( EFACConstants.WATER_COLOR, 0.5 ) ) );
-                waterNode.setVisible( waterNode.getFullBoundsReference().getHeight() > 1 );
+                waterNode.setVisible( waterShapeInView.getBounds2D().getWidth() > 1 );
             }
         } );
 
