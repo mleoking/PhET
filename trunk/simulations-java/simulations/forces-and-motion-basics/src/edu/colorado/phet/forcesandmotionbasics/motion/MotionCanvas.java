@@ -12,6 +12,7 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -43,6 +44,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final Property<Boolean> showValues = new Property<Boolean>( false );
     private ArrayList<VoidFunction0> cartPositionListeners = new ArrayList<VoidFunction0>();
     private final PImage skateboard;
+
+    //TODO: Move to model?
+    private final DoubleProperty appliedForce = new DoubleProperty( 0.0 );
 
     public MotionCanvas( final Context context, final IClock clock ) {
 
@@ -93,7 +97,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         toolbox.setOffset( INSET, STAGE_SIZE.height - INSET - toolbox.getFullBounds().getHeight() );
         addChild( toolbox );
 
-        SliderControl sliderControl = new SliderControl();
+        SliderControl sliderControl = new SliderControl( appliedForce );
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( sliderControl );
 
