@@ -1,5 +1,7 @@
 package edu.colorado.phet.forcesandmotionbasics.motion;
 
+import java.awt.Color;
+
 import javax.swing.JTextField;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -27,6 +29,7 @@ public class SliderControl extends PNode {
                                  addLabel( 50, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
                                  addLabel( 100, new PhetPText( "100", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
 
+                                 setTrackFillPaint( Color.white );
 //                                 addLabel( 50, new PNode() );
 //                                 addLabel( 100, new PNode() );
                              }},
