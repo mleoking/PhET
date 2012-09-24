@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
+import edu.colorado.phet.lwjglphet.utils.GLDisplayList;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -35,6 +36,8 @@ public class ObjMesh extends GLNode {
 
     private boolean hasNormals = false;
     private boolean hasTextures = false;
+
+    private GLDisplayList displayList;
 
     public ObjMesh( InputStream inputStream ) throws IOException {
 
@@ -158,6 +161,34 @@ public class ObjMesh extends GLNode {
                 indexBuffer.put( group.vertex - 1 );
             }
         }
+
+        displayList = new GLDisplayList( new Runnable() {
+            public void run() {
+                positionBuffer.rewind();
+                normalBuffer.rewind();
+                textureBuffer.rewind();
+                indexBuffer.rewind();
+
+                // TODO: seeing a lot of this type of code. refactor away if possible
+                // initialize the needed states
+                glEnableClientState( GL_VERTEX_ARRAY );
+                if ( hasTextures ) {
+                    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+                    glTexCoordPointer( 2, 0, textureBuffer );
+                }
+                if ( hasNormals ) {
+                    glEnableClientState( GL_NORMAL_ARRAY );
+                    glNormalPointer( 0, normalBuffer );
+                }
+                glVertexPointer( 3, 0, positionBuffer );
+
+                glDrawElements( GL_TRIANGLES, indexBuffer );
+
+                glDisableClientState( GL_VERTEX_ARRAY );
+                if ( hasTextures ) { glDisableClientState( GL_TEXTURE_COORD_ARRAY ); }
+                if ( hasNormals ) { glDisableClientState( GL_NORMAL_ARRAY ); }
+            }
+        } );
     }
 
     private static class Group {
@@ -175,36 +206,38 @@ public class ObjMesh extends GLNode {
     @Override protected void preRender( GLOptions options ) {
         super.preRender( options );
 
-        positionBuffer.rewind();
-        normalBuffer.rewind();
-        textureBuffer.rewind();
-        indexBuffer.rewind();
-
-        // TODO: seeing a lot of this type of code. refactor away if possible
-        // initialize the needed states
-        glEnableClientState( GL_VERTEX_ARRAY );
-        if ( options.shouldSendTexture() && hasTextures ) {
-            glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-            glTexCoordPointer( 2, 0, textureBuffer );
-        }
-        if ( options.shouldSendNormals() && hasNormals ) {
-            glEnableClientState( GL_NORMAL_ARRAY );
-            glNormalPointer( 0, normalBuffer );
-        }
-        glVertexPointer( 3, 0, positionBuffer );
+//        positionBuffer.rewind();
+//        normalBuffer.rewind();
+//        textureBuffer.rewind();
+//        indexBuffer.rewind();
+//
+//        // TODO: seeing a lot of this type of code. refactor away if possible
+//        // initialize the needed states
+//        glEnableClientState( GL_VERTEX_ARRAY );
+//        if ( options.shouldSendTexture() && hasTextures ) {
+//            glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+//            glTexCoordPointer( 2, 0, textureBuffer );
+//        }
+//        if ( options.shouldSendNormals() && hasNormals ) {
+//            glEnableClientState( GL_NORMAL_ARRAY );
+//            glNormalPointer( 0, normalBuffer );
+//        }
+//        glVertexPointer( 3, 0, positionBuffer );
     }
 
     @Override public void renderSelf( GLOptions options ) {
         super.renderSelf( options );
 
-        glDrawElements( GL_TRIANGLES, indexBuffer );
+        displayList.run();
+
+//        glDrawElements( GL_TRIANGLES, indexBuffer );
     }
 
     @Override protected void postRender( GLOptions options ) {
         // disable the changed states
-        glDisableClientState( GL_VERTEX_ARRAY );
-        if ( options.shouldSendTexture() && hasTextures ) { glDisableClientState( GL_TEXTURE_COORD_ARRAY ); }
-        if ( options.shouldSendNormals() && hasNormals ) { glDisableClientState( GL_NORMAL_ARRAY ); }
+//        glDisableClientState( GL_VERTEX_ARRAY );
+//        if ( options.shouldSendTexture() && hasTextures ) { glDisableClientState( GL_TEXTURE_COORD_ARRAY ); }
+//        if ( options.shouldSendNormals() && hasNormals ) { glDisableClientState( GL_NORMAL_ARRAY ); }
 
         super.postRender( options );
     }
