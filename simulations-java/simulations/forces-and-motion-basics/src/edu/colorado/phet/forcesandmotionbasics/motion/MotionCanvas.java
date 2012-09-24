@@ -51,6 +51,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final Property<Boolean> showValues = new Property<Boolean>( false );
     private final PImage skateboard;
     private final List<StackableNode> stackableNodes;
+    private final Property<List<StackableNode>> stack = new Property<List<StackableNode>>( List.<StackableNode>nil() );
 
     //TODO: Move to model?
     private final DoubleProperty appliedForce = new DoubleProperty( 0.0 );
@@ -118,16 +119,18 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( sliderControl );
 
-        PusherNode pusherNode = new PusherNode( skateboard, grassY, appliedForce );
+        PusherNode pusherNode = new PusherNode( skateboard, grassY, appliedForce, stack );
         addChild( pusherNode );
 
         HBox timeControls = new HBox( -3, new RewindButton( 60 ), new PlayPauseButton( 70 ), new StepButton( 60 ) );
         timeControls.setOffset( STAGE_SIZE.width / 2 - timeControls.getFullWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
         addChild( timeControls );
 
-        StackableNode fridge = new StackableNode( this, Images.FRIDGE, 200 );
-        StackableNode crate1 = new StackableNode( this, Images.CRATE, 50 );
-        StackableNode crate2 = new StackableNode( this, Images.CRATE, 50 );
+        final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 33;
+        final int CRATE_OFFSET_WITHIN_SKATEBOARD = 48;
+        StackableNode fridge = new StackableNode( this, Images.FRIDGE, 200, FRIDGE_OFFSET_WITHIN_SKATEBOARD );
+        StackableNode crate1 = new StackableNode( this, Images.CRATE, 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
+        StackableNode crate2 = new StackableNode( this, Images.CRATE, 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
 
         stackableNodes = fj.data.List.list( fridge, crate1, crate2 );
 
@@ -166,11 +169,13 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             stackableNode.animateToPositionScaleRotation( localBounds.getCenterX() - stackableNode.getFullBounds().getWidth() / 2, localBounds.getY() - stackableNode.getFullBounds().getHeight() + 8, 1, 0, 200 ).setDelegate( new PActivityDelegateAdapter() {
                 @Override public void activityFinished( final PActivity activity ) {
                     stackableNode.setOnSkateboard( true );
+                    stack.set( List.single( stackableNode ) );
                 }
             } );
         }
         else {
             stackableNode.setOnSkateboard( false );
+            stack.set( List.<StackableNode>nil() );
             stackableNode.animateHome();
         }
     }

@@ -33,9 +33,11 @@ public class StackableNode extends PNode {
             return stackableNode.mass;
         }
     };
+    public final int pusherOffset;
 
-    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass ) {
+    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset ) {
         this.mass = mass;
+        this.pusherOffset = pusherOffset;
         addChild( new PImage( image ) );
         setScale( 0.8 );
         this.initialScale = getScale();
