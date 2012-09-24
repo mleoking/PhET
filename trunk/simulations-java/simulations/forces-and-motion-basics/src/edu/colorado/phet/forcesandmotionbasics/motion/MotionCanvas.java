@@ -28,6 +28,7 @@ import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Im
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.Context;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
@@ -35,12 +36,13 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
 /**
  * @author Sam Reid
  */
-public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas {
+public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements StackableNodeContext {
 
     public static final Color BROWN = new Color( 197, 154, 91 );
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
     private ArrayList<VoidFunction0> cartPositionListeners = new ArrayList<VoidFunction0>();
+    private final PImage skateboard;
 
     public MotionCanvas( final Context context, final IClock clock ) {
 
@@ -83,7 +85,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas {
             setConfirmationEnabled( false );
         }} );
 
-        PImage skateboard = new PImage( Images.SKATEBOARD );
+        skateboard = new PImage( Images.SKATEBOARD );
         skateboard.setOffset( STAGE_SIZE.getWidth() / 2 - skateboard.getFullBounds().getWidth() / 2, grassY - skateboard.getFullBounds().getHeight() );
         addChild( skateboard );
 
@@ -103,5 +105,31 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas {
         HBox timeControls = new HBox( -3, new RewindButton( 60 ), new PlayPauseButton( 70 ), new StepButton( 60 ) );
         timeControls.setOffset( STAGE_SIZE.width / 2 - timeControls.getFullWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
         addChild( timeControls );
+
+        StackableNode fridge = new StackableNode( this, Images.FRIDGE );
+        StackableNode crate1 = new StackableNode( this, Images.CRATE );
+        StackableNode crate2 = new StackableNode( this, Images.CRATE );
+
+        double INTER_OBJECT_SPACING = 10;
+        fridge.setInitialOffset( toolbox.getFullBounds().getX() + 10, toolbox.getFullBounds().getCenterY() - fridge.getFullBounds().getHeight() / 2 );
+        crate1.setInitialOffset( fridge.getFullBounds().getMaxX() + INTER_OBJECT_SPACING, fridge.getFullBounds().getMaxY() - crate1.getFullBounds().getHeight() );
+        crate2.setInitialOffset( crate1.getFullBounds().getMaxX() + INTER_OBJECT_SPACING, fridge.getFullBounds().getMaxY() - crate2.getFullBounds().getHeight() );
+
+        addChild( fridge );
+        addChild( crate1 );
+        addChild( crate2 );
+    }
+
+    public void stackableNodeDropped( final StackableNode stackableNode ) {
+        PBounds bounds = skateboard.getGlobalFullBounds();
+        bounds.add( skateboard.getGlobalFullBounds().getCenterX(), skateboard.getGlobalFullBounds().getMinY() - stackableNode.getGlobalFullBounds().getHeight() );
+        if ( bounds.intersects( stackableNode.getGlobalFullBounds() ) ) {
+            PBounds skateboardBounds = skateboard.getGlobalFullBounds();
+            Rectangle2D localBounds = stackableNode.getParent().globalToLocal( skateboardBounds );
+            stackableNode.animateToPositionScaleRotation( localBounds.getCenterX() - stackableNode.getFullBounds().getWidth() / 2, localBounds.getY() - stackableNode.getFullBounds().getHeight() + 8, 1, 0, 200 );
+        }
+        else {
+            stackableNode.animateHome();
+        }
     }
 }
