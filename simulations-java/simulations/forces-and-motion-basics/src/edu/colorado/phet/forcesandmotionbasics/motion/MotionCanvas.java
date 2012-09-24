@@ -3,6 +3,7 @@ package edu.colorado.phet.forcesandmotionbasics.motion;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -20,6 +21,9 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.Context;
@@ -47,7 +51,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas {
         final int width = 10000;
 
         //Reverse bottom and top because using view coordinates
-        final int grassY = 452;
+        final int grassY = 425;
         addChild( new SkyNode( createIdentity(), new Rectangle2D.Double( -width / 2, -width / 2 + grassY, width, width / 2 ), grassY, SkyNode.DEFAULT_TOP_COLOR, SkyNode.DEFAULT_BOTTOM_COLOR ) );
 
         final BufferedImage tile = Images.BRICK_TILE;
@@ -82,5 +86,22 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas {
         PImage skateboard = new PImage( Images.SKATEBOARD );
         skateboard.setOffset( STAGE_SIZE.getWidth() / 2 - skateboard.getFullBounds().getWidth() / 2, grassY - skateboard.getFullBounds().getHeight() );
         addChild( skateboard );
+
+        PhetPPath toolbox = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 250, 160, 20, 20 ), new Color( 231, 232, 233 ), new BasicStroke( 1 ), Color.black );
+        toolbox.setOffset( INSET, STAGE_SIZE.height - INSET - toolbox.getFullBounds().getHeight() );
+        addChild( toolbox );
+
+        SliderControl sliderControl = new SliderControl();
+        sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
+        addChild( sliderControl );
+
+        PImage pusher = new PImage( Images.PUSHER_STRAIGHT_ON );
+        pusher.scale( 0.8 );
+        pusher.setOffset( skateboard.getFullBounds().getX() - pusher.getFullBounds().getWidth(), grassY - pusher.getFullBounds().getHeight() );
+        addChild( pusher );
+
+        HBox timeControls = new HBox( -3, new RewindButton( 60 ), new PlayPauseButton( 70 ), new StepButton( 60 ) );
+        timeControls.setOffset( STAGE_SIZE.width / 2 - timeControls.getFullWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
+        addChild( timeControls );
     }
 }

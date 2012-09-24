@@ -58,6 +58,7 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage PULL_FIGURE_SMALL_RED_1 = RESOURCES.getImage( "pull_figure_small_RED_1.png" );
         public static final BufferedImage PULL_FIGURE_SMALL_RED_2 = RESOURCES.getImage( "pull_figure_small_RED_2.png" );
         public static final BufferedImage PULL_FIGURE_SMALL_RED_3 = RESOURCES.getImage( "pull_figure_small_RED_3.png" );
+        public static final BufferedImage PUSHER_STRAIGHT_ON = RESOURCES.getImage( "pusher_straight_on.png" );
         public static final BufferedImage ROPE = RESOURCES.getImage( "rope.png" );
         public static final BufferedImage SKATEBOARD = RESOURCES.getImage( "skateboard.png" );
         public static final BufferedImage STOP_BUTTON = RESOURCES.getImage( "stop_button.png" );
