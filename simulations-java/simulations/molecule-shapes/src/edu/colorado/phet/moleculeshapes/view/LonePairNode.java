@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
+import java.io.IOException;
+
 import org.lwjgl.util.glu.Sphere;
 
 import edu.colorado.phet.common.phetcommon.math.Matrix3F;
@@ -10,18 +12,15 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.materials.GLMaterial;
+import edu.colorado.phet.lwjglphet.nodes.GLClone;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
+import edu.colorado.phet.lwjglphet.shapes.ObjMesh;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesResources;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.color4f;
-import static org.lwjgl.opengl.GL11.GL_BLEND;
-import static org.lwjgl.opengl.GL11.GL_COLOR_MATERIAL;
-import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
-import static org.lwjgl.opengl.GL11.GL_DIFFUSE;
-import static org.lwjgl.opengl.GL11.GL_FRONT;
-import static org.lwjgl.opengl.GL11.GL_LIGHTING;
-import static org.lwjgl.opengl.GL11.glColorMaterial;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Displays a lone electron pair in the 3d view
@@ -51,15 +50,12 @@ public class LonePairNode extends GLNode {
             }
         } );
 
-        // make the model a bit bigger
-        scale( 2.5f );
+        addChild( new ElectronDotNode( new Vector3F( 0.3f, 0, 0 ) ) );
+        addChild( new ElectronDotNode( new Vector3F( -0.3f, 0, 0 ) ) );
 
         GLNode model = getGeometry();
         model.setRenderPass( GLOptions.RenderPass.TRANSPARENCY );
         addChild( model );
-
-        addChild( new ElectronDotNode( new Vector3F( 0.3f, 0, 0 ) ) );
-        addChild( new ElectronDotNode( new Vector3F( -0.3f, 0, 0 ) ) );
 
         model.setMaterial( new GLMaterial() {
             @Override public void before( GLOptions options ) {
@@ -86,18 +82,43 @@ public class LonePairNode extends GLNode {
                 else {
                     translate( parentAtom.position.get().to3F() );
                 }
+
+                scale( 2.5f );
             }
         } );
     }
 
+    @Override protected void preRender( GLOptions options ) {
+        super.preRender( options );
+
+        // don't write to the depth buffer
+        // prevention of a weird "wedge" bug where a triangle would disappear from the sector when overlapping other transparent objects
+        glPushAttrib( GL_DEPTH_WRITEMASK );
+        glDepthMask( false );
+    }
+
+    @Override protected void postRender( GLOptions options ) {
+        // probably write to the depth buffer again
+        glPopAttrib();
+
+        super.postRender( options );
+    }
+
     public static GLNode getGeometry() {
-//        if ( lonePairGeometry == null ) {
-//            lonePairGeometry = loadModel( "molecule-shapes/jme3/Models/balloon2.obj" );
-//            TangentBinormalGenerator.generate( lonePairGeometry );
-//        }
+        if ( lonePairGeometry == null ) {
+            try {
+                lonePairGeometry = new ObjMesh( MoleculeShapesResources.RESOURCES.getResourceAsStream( "models/balloon2.obj" ) );
+                lonePairGeometry.setRenderPass( GLOptions.RenderPass.TRANSPARENCY );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+        }
 
         // TODO: return a fresh copy!
-        return new GLNode();
+        return new GLClone( lonePairGeometry ){{
+            setRenderPass( GLOptions.RenderPass.TRANSPARENCY );
+        }};
 //        return lonePairGeometry;
     }
 
