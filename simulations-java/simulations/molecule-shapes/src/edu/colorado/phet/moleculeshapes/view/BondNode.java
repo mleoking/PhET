@@ -43,6 +43,8 @@ public class BondNode extends GLNode {
     private final SingleBondNode[] aBonds;
     private final SingleBondNode[] bBonds;
 
+    private boolean fixedCamera = false;
+
     public BondNode( final Property<Vector3D> a, final Property<Vector3D> b, int bondOrder, float bondRadius,
                      Option<Float> maxLength, final MoleculeViewTab tab ) {
         this( a, b, bondOrder, bondRadius, maxLength, tab, Color.WHITE, Color.WHITE );
@@ -73,6 +75,12 @@ public class BondNode extends GLNode {
         updateView();
     }
 
+    public void setFixedCamera( boolean fixedCamera ) {
+        this.fixedCamera = fixedCamera;
+
+        updateView();
+    }
+
     /**
      * Reposition all of the SingleBondNodes so that they form to make a bond with the correct physical alignment and position
      */
@@ -81,6 +89,9 @@ public class BondNode extends GLNode {
 //        Vector3F click3d = camera.getWorldCoordinates( new Vector2f( 0, 0 ), 0f ).clone();
         Vector3F click3d = transform.inversePosition( Vector3F.ZERO );
         Vector3F cameraPosition = getGlobalTransform().inversePosition( tab.getCameraRay( 0, 0 ).pos );
+        if ( fixedCamera ) {
+            cameraPosition = new Vector3F( 0, 0, 45 );
+        }
 
         // extract our start and end
         final Vector3F start = a.get().to3F();

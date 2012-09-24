@@ -11,12 +11,9 @@ import java.util.Map;
 
 import javax.swing.*;
 
-import org.lwjgl.util.glu.GLU;
-
 import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.common.phetcommon.math.vector.Vector4F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
@@ -27,11 +24,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
-import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.control.BondTypeOverlayNode;
 import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
@@ -210,6 +207,10 @@ public class MoleculeModelNode extends GLNode {
                     MoleculeShapesConstants.MODEL_BOND_RADIUS, // bond radius
                     molecule.getMaximumBondLength(), // max length
                     tab );
+            if ( this instanceof BondTypeOverlayNode ) {
+                // TODO: refactor this?
+                bondNode.setFixedCamera( true );
+            }
             addChild( bondNode );
             bondNodes.add( bondNode );
         }

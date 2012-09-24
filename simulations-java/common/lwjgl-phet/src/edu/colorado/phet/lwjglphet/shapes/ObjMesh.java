@@ -93,7 +93,7 @@ public class ObjMesh extends GLNode {
                         if ( textureMap.containsKey( vertex ) ) {
                             if ( !textureMap.get( vertex ).equals( texture ) ) {
                                 // vertex used with different texture coords
-                                System.out.println( "WARNING: vertex has multiple texture coordinates: " + vertex );
+//                                System.out.println( "WARNING: vertex has multiple texture coordinates: " + vertex );
                             }
                         }
                         else {
@@ -105,7 +105,7 @@ public class ObjMesh extends GLNode {
                         if ( normalMap.containsKey( vertex ) ) {
                             if ( !normalMap.get( vertex ).equals( normal ) ) {
                                 // vertex used with different normals
-                                System.out.println( "WARNING: vertex has multiple normals" );
+//                                System.out.println( "WARNING: vertex has multiple normals" );
                             }
                         }
                         else {
