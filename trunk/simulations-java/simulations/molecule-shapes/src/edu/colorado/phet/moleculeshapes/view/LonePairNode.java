@@ -115,11 +115,17 @@ public class LonePairNode extends GLNode {
             }
         }
 
-        // TODO: return a fresh copy!
-        return new GLClone( lonePairGeometry ){{
+        return new GLClone( lonePairGeometry ) {{
             setRenderPass( GLOptions.RenderPass.TRANSPARENCY );
-        }};
-//        return lonePairGeometry;
+
+            // for the normals
+            requireEnabled( GL_NORMALIZE );
+        }
+
+            @Override protected void renderChildren( GLOptions options ) {
+                super.renderChildren( options );
+            }
+        };
     }
 
     private class ElectronDotNode extends GLNode {
@@ -127,6 +133,9 @@ public class LonePairNode extends GLNode {
             translate( offset.plus( Vector3F.Y_UNIT.times( 2 ) ) );
 
             setRenderPass( GLOptions.RenderPass.TRANSPARENCY );
+
+            // for the normals
+            requireEnabled( GL_NORMALIZE );
         }
 
         @Override public void renderSelf( GLOptions options ) {
