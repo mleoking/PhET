@@ -17,7 +17,7 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  */
 public class Cloud {
 
-    private static final double CLOUD_WIDTH = 0.035; // In meters, though obviously not to scale.
+    private static final double CLOUD_WIDTH = 0.035; // In meters, though obviously not to scale.  Empirically determined.
     public static final ModelElementImage CLOUD_IMAGE = new ModelElementImage( CLOUD_1, CLOUD_WIDTH, new Vector2D( 0, 0 ) );
     private static final double CLOUD_HEIGHT = CLOUD_IMAGE.getHeight(); // In meters, though obviously not to scale.
 
