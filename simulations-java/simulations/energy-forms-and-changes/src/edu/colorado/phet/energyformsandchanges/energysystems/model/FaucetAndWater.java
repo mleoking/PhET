@@ -35,7 +35,6 @@ public class FaucetAndWater extends EnergySource {
     private static final double WATER_FALLING_VELOCITY = 0.07; // In meters/second.
     private static final double FLOW_PER_CHUNK = 0.4;  // Empirically determined to get desired energy chunk emission rate.
     private static final double MAX_WATER_WIDTH = 0.015; // In meters.
-    private static final double MIN_WATER_WIDTH = 1E-20; // In meters, basically means that the water is off.
     private static final double MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER = 0.5; // In meters.
 
     //-------------------------------------------------------------------------
@@ -64,13 +63,9 @@ public class FaucetAndWater extends EnergySource {
         super( EnergyFormsAndChangesResources.Images.FAUCET_ICON );
         this.energyChunksVisible = energyChunksVisible;
 
-        // Set the initial water shape.  By design, there must always be at
-        // least two shape-defining points - one at the top and one at the
-        // bottom.
-        waterShapeDefiningPoints.add( new DistanceWidthPair( MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER, MIN_WATER_WIDTH ) );
-        waterShapeDefiningPoints.add( new DistanceWidthPair( 0, MIN_WATER_WIDTH ) );
         waterShape.set( createWaterShape( waterShapeDefiningPoints ) );
 
+        // TODO: Probably won't need this when updates occurring in stepInTime.
         flowProportion.addObserver( new SimpleObserver() {
             public void update() {
 //                updateWaterShape();
@@ -89,39 +84,7 @@ public class FaucetAndWater extends EnergySource {
             // Update the shape of the water.  This is done here - in the time
             // step method - so that the water appears to fall at the start
             // and end of the flow.
-            for ( DistanceWidthPair waterShapeDefiningPoint : waterShapeDefiningPoints ) {
-                waterShapeDefiningPoint.setDistance( Math.min( waterShapeDefiningPoint.getDistance() + WATER_FALLING_VELOCITY * dt,
-                                                               MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER ) );
-            }
-
-            double waterWidth = Math.max( flowProportion.get() * MAX_WATER_WIDTH, MIN_WATER_WIDTH );
-            // Update the points that define the top of the water shape.
-            if ( waterShapeDefiningPoints.get( 0 ).width == waterWidth &&
-                 waterShapeDefiningPoints.get( waterShapeDefiningPoints.size() - 1 ).width == waterWidth ) {
-                // Flow hasn't changed, so just move the top.
-                waterShapeDefiningPoints.get( waterShapeDefiningPoints.size() - 1 ).setDistance( 0 );
-            }
-            else {
-                // Add another point for the new flow rate.
-                waterShapeDefiningPoints.add( new DistanceWidthPair( 0, waterWidth ) );
-            }
-
-            // Update the points that define the bottom of the water shape.
-            List<DistanceWidthPair> copyOfShapeDefiningPoints = new ArrayList<DistanceWidthPair>( waterShapeDefiningPoints );
-            for ( int i = 0; i < copyOfShapeDefiningPoints.size() - 1; i++ ) {
-                if ( copyOfShapeDefiningPoints.get( i ).distance >= MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER &&
-                     copyOfShapeDefiningPoints.get( i + 1 ).distance >= MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER ) {
-                    // This point is no longer needed.
-                    waterShapeDefiningPoints.remove( copyOfShapeDefiningPoints.get( i ) );
-                }
-            }
-
-            System.out.println( "--------------------------" );
-            System.out.println( "waterShapeDefiningPoints.size() = " + waterShapeDefiningPoints.size() );
-
-            // TODO: Optimize to update only when changes occur.
-            waterShape.set( createWaterShape( waterShapeDefiningPoints ) );
-
+            updateWaterShape( dt );
 
             // Check if time to emit an energy chunk and, if so, do it.
             flowSinceLastChunk += flowProportion.get() * dt;
@@ -150,6 +113,50 @@ public class FaucetAndWater extends EnergySource {
         return new Energy( EnergyType.MECHANICAL, MAX_ENERGY_PRODUCTION_RATE * flowProportion.get() * dt, -Math.PI / 2 );
     }
 
+    private void updateWaterShape( double dt ) {
+
+        // Make the existing shape-defining points fall.
+        for ( DistanceWidthPair waterShapeDefiningPoint : waterShapeDefiningPoints ) {
+            waterShapeDefiningPoint.setDistance( Math.min( waterShapeDefiningPoint.getDistance() + WATER_FALLING_VELOCITY * dt,
+                                                           MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER ) );
+        }
+
+        double waterWidth = flowProportion.get() * MAX_WATER_WIDTH;
+        double previousWaterWidth = waterShapeDefiningPoints.size() > 0 ? waterShapeDefiningPoints.get( waterShapeDefiningPoints.size() - 1 ).getWidth() : 0;
+
+        // Update the points that define the top of the water shape.
+        if ( waterWidth > 0 && previousWaterWidth == 0 ) {
+            // This is the start of a new water blob.  Each water blob must
+            // have a zero-width point at its bottom edge.
+            waterShapeDefiningPoints.add( new DistanceWidthPair( dt * WATER_FALLING_VELOCITY, 0 ) );
+            // Now add point for actual water width.
+            waterShapeDefiningPoints.add( new DistanceWidthPair( 0, waterWidth ) );
+        }
+        else if ( waterWidth == 0 && previousWaterWidth > 0 ) {
+            // This is the end of a water blob.
+            waterShapeDefiningPoints.add( new DistanceWidthPair( 0, waterWidth ) );
+        }
+        else if ( waterWidth > 0 && previousWaterWidth > 0 ) {
+            // This is somewhere in the middle of a blob, so just add a point.
+            waterShapeDefiningPoints.add( new DistanceWidthPair( 0, waterWidth ) );
+        }
+
+        // Update points that are reaching the bottom of the "fall distance".
+        List<DistanceWidthPair> copyOfShapeDefiningPoints = new ArrayList<DistanceWidthPair>( waterShapeDefiningPoints );
+        for ( int i = 0; i < copyOfShapeDefiningPoints.size() - 1; i++ ) {
+            if ( copyOfShapeDefiningPoints.get( i ).distance >= MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER &&
+                 copyOfShapeDefiningPoints.get( i + 1 ).distance >= MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER ) {
+                // This point is no longer needed.
+                waterShapeDefiningPoints.remove( copyOfShapeDefiningPoints.get( i ) );
+                // Set the point at the bottom to have zero width.
+                copyOfShapeDefiningPoints.get( i + 1 ).setWidth( 0 );
+            }
+        }
+
+        // TODO: Optimize to update only when changes occur.
+        waterShape.set( createWaterShape( waterShapeDefiningPoints ) );
+    }
+
     @Override public void deactivate() {
         super.deactivate();
         enabled.set( false );
@@ -175,11 +182,23 @@ public class FaucetAndWater extends EnergySource {
         List<DistanceWidthPair> copyOfDistanceWidthPairs = new ArrayList<DistanceWidthPair>( distanceWidthPairs );
         DoubleGeneralPath path = new DoubleGeneralPath( -copyOfDistanceWidthPairs.get( 0 ).getWidth() / 2, -copyOfDistanceWidthPairs.get( 0 ).getDistance() );
         for ( int i = 1; i < copyOfDistanceWidthPairs.size(); i++ ) {
-            path.lineTo( -copyOfDistanceWidthPairs.get( i ).getWidth() / 2, -copyOfDistanceWidthPairs.get( i ).getDistance() );
+            DistanceWidthPair pair = copyOfDistanceWidthPairs.get( i );
+            if ( pair.getWidth() > 0 ) {
+                path.lineTo( -pair.getWidth() / 2, -pair.getDistance() );
+            }
+            else {
+                path.moveTo( -pair.getWidth() / 2, -pair.getDistance() );
+            }
         }
         Collections.reverse( copyOfDistanceWidthPairs );
         for ( int i = 0; i < copyOfDistanceWidthPairs.size(); i++ ) {
-            path.lineTo( copyOfDistanceWidthPairs.get( i ).getWidth() / 2, -copyOfDistanceWidthPairs.get( i ).getDistance() );
+            DistanceWidthPair pair = copyOfDistanceWidthPairs.get( i );
+            if ( pair.getWidth() > 0 ) {
+                path.lineTo( pair.getWidth() / 2, -pair.getDistance() );
+            }
+            else {
+                path.moveTo( pair.getWidth() / 2, -pair.getDistance() );
+            }
         }
         return path.getGeneralPath();
     }
@@ -199,7 +218,7 @@ public class FaucetAndWater extends EnergySource {
 
     private static class DistanceWidthPair {
         private double distance;
-        private final double width;
+        private double width;
 
         private DistanceWidthPair( double distance, double width ) {
             this.distance = distance;
@@ -216,6 +235,10 @@ public class FaucetAndWater extends EnergySource {
 
         public double getWidth() {
             return width;
+        }
+
+        public void setWidth( double width ) {
+            this.width = width;
         }
     }
 }
