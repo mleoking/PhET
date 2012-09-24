@@ -51,11 +51,11 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas {
         addChild( new SkyNode( createIdentity(), new Rectangle2D.Double( -width / 2, -width / 2 + grassY, width, width / 2 ), grassY, SkyNode.DEFAULT_TOP_COLOR, SkyNode.DEFAULT_BOTTOM_COLOR ) );
 
         final BufferedImage tile = Images.BRICK_TILE;
-        for ( int i = 0; i < 10; i++ ) {
+        for ( int i = -10; i < 10; i++ ) {
             final int finalI = i;
             addChild( new PImage( tile ) {{
                 scale( 0.4 );
-                setOffset( finalI * tile.getWidth() * getScale(), grassY );
+                setOffset( finalI * tile.getWidth() * getScale() + STAGE_SIZE.getWidth() / 2, grassY );
             }} );
         }
 
@@ -78,5 +78,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas {
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getMaxY() + INSET );
             setConfirmationEnabled( false );
         }} );
+
+        PImage skateboard = new PImage( Images.SKATEBOARD );
+        skateboard.setOffset( STAGE_SIZE.getWidth() / 2 - skateboard.getFullBounds().getWidth() / 2, grassY - skateboard.getFullBounds().getHeight() );
+        addChild( skateboard );
     }
 }
