@@ -3,6 +3,7 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
 import java.awt.BasicStroke;
 import java.awt.GradientPaint;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -40,19 +41,23 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
         faucetNode.setOffset( -faucetNode.getGlobalOutputCenter().getX() + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
                               -faucetNode.getGlobalOutputCenter().getY() + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
         // Create the water.
-        final PPath waterNode = new PhetPPath( EFACConstants.WATER_COLOR, new BasicStroke( 1 ), ColorUtils.darkerColor( EFACConstants.WATER_COLOR, 0.5 ) );
-        waterNode.setOffset( mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
-                             mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
+        final PPath waterNode = new PhetPPath( new BasicStroke( 1 ), ColorUtils.darkerColor( EFACConstants.WATER_COLOR, 0.5 ) );
+        waterNode.setOffset( -mvt.modelToViewX( 0 ) + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
+                             -mvt.modelToViewY( 0 ) + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
 
-        // Update the shape of the water based on the flow setting.
-        faucet.flowProportion.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double flowProportion ) {
-                double waterWidth = faucetNode.getGlobalOutputSize().getWidth() * 0.75 * flowProportion;
-                Rectangle2D waterShape = new Rectangle2D.Double( -waterWidth / 2, 0, waterWidth, WATER_NODE_VERTICAL_LENGTH );
-                waterNode.setPathTo( waterShape );
-                waterNode.setPaint( new GradientPaint( (float) waterShape.getX(), (float) waterShape.getY(), ColorUtils.darkerColor( EFACConstants.WATER_COLOR, 0.3 ),
-                                                       (float) waterShape.getMaxX(), (float) waterShape.getY(), ColorUtils.brighterColor( EFACConstants.WATER_COLOR, 0.5 ) ) );
-                waterNode.setVisible( waterWidth > 0 );
+        faucet.waterShape.addObserver( new VoidFunction1<Shape>() {
+            public void apply( Shape waterShape ) {
+
+                Shape waterShapeInView = mvt.modelToView( waterShape );
+                waterNode.setPathTo( waterShapeInView );
+                Rectangle2D waterBounds = waterShapeInView.getBounds2D();
+                waterNode.setPaint( new GradientPaint( (float) waterBounds.getX(),
+                                                       (float) waterBounds.getY(),
+                                                       ColorUtils.darkerColor( EFACConstants.WATER_COLOR, 0.3 ),
+                                                       (float) waterBounds.getMaxX(),
+                                                       (float) waterBounds.getY(),
+                                                       ColorUtils.brighterColor( EFACConstants.WATER_COLOR, 0.5 ) ) );
+                waterNode.setVisible( waterNode.getFullBoundsReference().getHeight() > 1 );
             }
         } );
 
