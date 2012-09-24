@@ -1,5 +1,7 @@
 package edu.colorado.phet.forcesandmotionbasics.motion;
 
+import fj.F;
+
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -18,8 +20,22 @@ public class StackableNode extends PNode {
 
     private Vector2D initialOffset;
     private final double initialScale;
+    private boolean onSkateboard;
+    private final double mass;
 
-    public StackableNode( final StackableNodeContext context, final BufferedImage image ) {
+    public static F<StackableNode, Boolean> _isOnSkateboard = new F<StackableNode, Boolean>() {
+        @Override public Boolean f( final StackableNode stackableNode ) {
+            return stackableNode.onSkateboard;
+        }
+    };
+    public static F<StackableNode, Double> _mass = new F<StackableNode, Double>() {
+        @Override public Double f( final StackableNode stackableNode ) {
+            return stackableNode.mass;
+        }
+    };
+
+    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass ) {
+        this.mass = mass;
         addChild( new PImage( image ) );
         setScale( 0.8 );
         this.initialScale = getScale();
@@ -49,4 +65,6 @@ public class StackableNode extends PNode {
         this.initialOffset = Vector2D.v( x, y );
         setOffset( x, y );
     }
+
+    public void setOnSkateboard( final boolean onSkateboard ) { this.onSkateboard = onSkateboard; }
 }
