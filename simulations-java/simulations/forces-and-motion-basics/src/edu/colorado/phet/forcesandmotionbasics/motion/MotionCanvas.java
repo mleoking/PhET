@@ -101,10 +101,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( sliderControl );
 
-        PImage pusher = new PImage( Images.PUSHER_STRAIGHT_ON );
-        pusher.scale( 0.8 );
-        pusher.setOffset( skateboard.getFullBounds().getX() - pusher.getFullBounds().getWidth(), grassY - pusher.getFullBounds().getHeight() );
-        addChild( pusher );
+        PusherNode pusherNode = new PusherNode( skateboard, grassY, appliedForce );
+        addChild( pusherNode );
 
         HBox timeControls = new HBox( -3, new RewindButton( 60 ), new PlayPauseButton( 70 ), new StepButton( 60 ) );
         timeControls.setOffset( STAGE_SIZE.width / 2 - timeControls.getFullWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
