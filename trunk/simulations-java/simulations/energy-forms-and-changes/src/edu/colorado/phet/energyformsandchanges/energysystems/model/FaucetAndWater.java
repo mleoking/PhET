@@ -63,7 +63,7 @@ public class FaucetAndWater extends EnergySource {
         super( EnergyFormsAndChangesResources.Images.FAUCET_ICON );
         this.energyChunksVisible = energyChunksVisible;
 
-        waterShape.set( createWaterShape( waterShapeDefiningPoints ) );
+        waterShape.set( createWaterShapeFromPoints( waterShapeDefiningPoints ) );
 
         // TODO: Probably won't need this when updates occurring in stepInTime.
         flowProportion.addObserver( new SimpleObserver() {
@@ -154,7 +154,7 @@ public class FaucetAndWater extends EnergySource {
         }
 
         // TODO: Optimize to update only when changes occur.
-        waterShape.set( createWaterShape( waterShapeDefiningPoints ) );
+        waterShape.set( createWaterShapeFromPoints( waterShapeDefiningPoints ) );
     }
 
     @Override public void deactivate() {
@@ -171,36 +171,64 @@ public class FaucetAndWater extends EnergySource {
         return EnergyFormsAndChangesSimSharing.UserComponents.selectFaucetButton;
     }
 
-    private static Shape createWaterShape( List<DistanceWidthPair> distanceWidthPairs ) {
+    private static Shape createWaterShapeFromPoints( List<DistanceWidthPair> distanceWidthPairs ) {
 
         if ( distanceWidthPairs.size() < 2 ) {
-            // Not enough pairs to create a shape, so return a shape this is
+            // Not enough pairs to create a shape, so return a shape that is
             // basically invisible.
             return new Rectangle2D.Double( 0, 0, 1E-7, 1E-7 );
         }
 
-        List<DistanceWidthPair> copyOfDistanceWidthPairs = new ArrayList<DistanceWidthPair>( distanceWidthPairs );
-        DoubleGeneralPath path = new DoubleGeneralPath( -copyOfDistanceWidthPairs.get( 0 ).getWidth() / 2, -copyOfDistanceWidthPairs.get( 0 ).getDistance() );
-        for ( int i = 1; i < copyOfDistanceWidthPairs.size(); i++ ) {
-            DistanceWidthPair pair = copyOfDistanceWidthPairs.get( i );
-            if ( pair.getWidth() > 0 ) {
-                path.lineTo( -pair.getWidth() / 2, -pair.getDistance() );
-            }
-            else {
-                path.moveTo( -pair.getWidth() / 2, -pair.getDistance() );
-            }
-        }
-        Collections.reverse( copyOfDistanceWidthPairs );
-        for ( int i = 0; i < copyOfDistanceWidthPairs.size(); i++ ) {
-            DistanceWidthPair pair = copyOfDistanceWidthPairs.get( i );
-            if ( pair.getWidth() > 0 ) {
-                path.lineTo( pair.getWidth() / 2, -pair.getDistance() );
-            }
-            else {
-                path.moveTo( pair.getWidth() / 2, -pair.getDistance() );
+        DoubleGeneralPath path = new DoubleGeneralPath();
+
+        // Identify individual blobs and add them to the path.
+        int blobCount = 0;
+        List<DistanceWidthPair> blobDefiningPairs = new ArrayList<DistanceWidthPair>();
+        for ( int i = 0; i < distanceWidthPairs.size(); i++ ) {
+            System.out.println( "blob i = " + i );
+            blobDefiningPairs.add( distanceWidthPairs.get( i ) );
+            if ( ( blobDefiningPairs.size() > 1 && distanceWidthPairs.get( i ).getWidth() == 0 ) || i == distanceWidthPairs.size() - 1 ) {
+                // End of blob detected, so add this to the path.
+                System.out.println( "blobCount = " + blobCount );
+                blobCount++;
+                addBlobToPath( blobDefiningPairs, path );
+                blobDefiningPairs.clear();
             }
         }
+
         return path.getGeneralPath();
+    }
+
+    private static void addBlobToPath( List<DistanceWidthPair> distanceWidthPairs, DoubleGeneralPath path ) {
+
+        // Check that the blob is properly formed.
+        if ( distanceWidthPairs.get( 0 ).getWidth() != 0 ) {
+            System.out.println( "Error case bubka" );
+        }
+        assert distanceWidthPairs.size() >= 2;
+        assert distanceWidthPairs.get( 0 ).width == 0;
+
+        List<DistanceWidthPair> copy = new ArrayList<DistanceWidthPair>( distanceWidthPairs );
+        Vector2D startPoint = new Vector2D( -copy.get( 0 ).getWidth() / 2, -copy.get( 0 ).distance );
+        copy.remove( 0 );
+        List<DistanceWidthPair> reverseCopy = new ArrayList<DistanceWidthPair>( copy ) {{
+            Collections.reverse( this );
+        }};
+
+        path.moveTo( startPoint );
+
+        // Add one side of the path.
+        for ( DistanceWidthPair distanceWidthPair : copy ) {
+            path.lineTo( -distanceWidthPair.getWidth() / 2, -distanceWidthPair.getDistance() );
+        }
+
+        // Add the other side of the path.
+        for ( DistanceWidthPair distanceWidthPair : reverseCopy ) {
+            path.lineTo( distanceWidthPair.getWidth() / 2, -distanceWidthPair.getDistance() );
+        }
+
+        // Effective close the blob.
+        path.lineTo( startPoint );
     }
 
     private void updateWaterShape() {
@@ -212,7 +240,7 @@ public class FaucetAndWater extends EnergySource {
             double waterWidth = flowProportion.get() * MAX_WATER_WIDTH;
             waterShapeDefiningPoints.add( new DistanceWidthPair( MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER, waterWidth ) );
             waterShapeDefiningPoints.add( new DistanceWidthPair( 0, waterWidth ) );
-            waterShape.set( createWaterShape( waterShapeDefiningPoints ) );
+            waterShape.set( createWaterShapeFromPoints( waterShapeDefiningPoints ) );
         }
     }
 
