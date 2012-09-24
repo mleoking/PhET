@@ -56,7 +56,7 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
                                                        (float) waterBounds.getMaxX(),
                                                        (float) waterBounds.getY(),
                                                        ColorUtils.brighterColor( EFACConstants.WATER_COLOR, 0.5 ) ) );
-                waterNode.setVisible( waterShapeInView.getBounds2D().getWidth() > 1 );
+//                waterNode.setVisible( waterShapeInView.getBounds2D().getWidth() > 1 );
             }
         } );
 
