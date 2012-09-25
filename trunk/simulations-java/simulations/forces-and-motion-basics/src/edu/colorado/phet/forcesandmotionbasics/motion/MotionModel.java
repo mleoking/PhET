@@ -42,7 +42,15 @@ public class MotionModel {
 
         final double mass = massOfObjectsOnSkateboard.f( Unit.unit() );
         double acceleration = mass != 0 ? sumOfForces / mass : 0.0;
-        velocity.set( velocity.get() + acceleration * dt );
+
+        double newVelocity = velocity.get() + acceleration * dt;
+
+        //friction force should not be able to make the object move backwards
+        if ( MathUtil.getSign( newVelocity ) != MathUtil.getSign( velocity.get() ) && appliedForce == 0 ) {
+            newVelocity = 0.0;
+        }
+
+        velocity.set( newVelocity );
         position.set( position.get() + velocity.get() * dt );
         speed.set( new Some<Double>( Math.abs( velocity.get() ) ) );
     }

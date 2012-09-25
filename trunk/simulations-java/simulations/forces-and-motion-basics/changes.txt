@@ -1,3 +1,4 @@
+Tab 3: Fixed: friction force should not be able to make the object move backwards
 Tab 3: separate arrow tails for friction vs applied
 Tab 3: Added friction to model
 Tab 3: Object has to overcome friction before starting to move
