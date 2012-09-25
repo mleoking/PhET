@@ -45,6 +45,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     // Verbose form of slope-intercept, not simplified, for debugging.
     private static class VerboseNode extends EquationNode {
         public VerboseNode( Line line, PhetFont font ) {
+            super( font.getSize() );
             addChild( new PhetPText( MessageFormat.format( "y = ({0}/{1})x + {2})", line.rise, line.run, line.y1 ), font, line.color ) );
         }
     }
@@ -57,6 +58,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     private static class ZeroSlopeNode extends EquationNode {
 
         public ZeroSlopeNode( Line line, PhetFont font ) {
+            super( font.getSize() );
 
             assert ( line.rise == 0 );
 
@@ -76,14 +78,14 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
 
             // layout
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, yNode.getYOffset() );
             if ( line.y1 < 0 ) {
-                interceptSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING,
-                                             equalsNode.getFullBoundsReference().getCenterY() - ( interceptSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
-                interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + INTEGER_SIGN_X_SPACING, equalsNode.getYOffset() );
+                interceptSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                             equalsNode.getFullBoundsReference().getCenterY() - ( interceptSignNode.getFullBoundsReference().getHeight() / 2 ) + slopeSignYFudgeFactor );
+                interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + integerSignXSpacing, equalsNode.getYOffset() );
             }
             else {
-                interceptNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, equalsNode.getYOffset() );
+                interceptNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, equalsNode.getYOffset() );
             }
         }
     }
@@ -100,6 +102,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     private static class UnitSlopeNode extends EquationNode {
 
         public UnitSlopeNode( Line line, PhetFont font ) {
+            super( font.getSize() );
 
             assert ( Math.abs( line.rise ) == Math.abs( line.run ) );
 
@@ -125,18 +128,18 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
 
             // layout
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, yNode.getYOffset() );
             if ( line.getSlope() < 0 ) {
-                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING,
-                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
-                xNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + INTEGER_SIGN_X_SPACING, yNode.getYOffset() );
+                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + slopeSignYFudgeFactor );
+                xNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + integerSignXSpacing, yNode.getYOffset() );
             }
             else {
-                xNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yNode.getYOffset() );
+                xNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, yNode.getYOffset() );
             }
-            operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                    equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
-            interceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                    equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
+            interceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing, yNode.getYOffset() );
         }
     }
 
@@ -152,6 +155,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     private static class IntegerSlopeNode extends EquationNode {
 
         public IntegerSlopeNode( Line line, PhetFont font ) {
+            super( font.getSize() );
 
             assert ( Math.abs( line.run ) == 1 );
 
@@ -179,19 +183,19 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
 
             // layout
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, yNode.getYOffset() );
             if ( line.getSlope() < 0 ) {
-                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING,
-                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR );
-                riseNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + INTEGER_SIGN_X_SPACING, yNode.getYOffset() );
+                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + slopeSignYFudgeFactor );
+                riseNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + integerSignXSpacing, yNode.getYOffset() );
             }
             else {
-                riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yNode.getYOffset() );
+                riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, yNode.getYOffset() );
             }
-            xNode.setOffset( riseNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
-            operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                    equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
-            interceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            xNode.setOffset( riseNode.getFullBoundsReference().getMaxX() + slopeXSpacing, yNode.getYOffset() );
+            operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                    equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
+            interceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing, yNode.getYOffset() );
         }
     }
 
@@ -205,6 +209,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     private static class FractionSlopeNode extends EquationNode {
 
         public FractionSlopeNode( Line line, PhetFont font ) {
+            super( font.getSize() );
 
             // y = -(absRise/absRun)x + b
             PNode yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
@@ -234,26 +239,26 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
 
             // layout
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING, yNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, yNode.getYOffset() );
             if ( line.getSlope() < 0 ) {
-                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING,
-                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + SLOPE_SIGN_Y_FUDGE_FACTOR + SLOPE_SIGN_Y_OFFSET );
-                lineNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + FRACTION_SIGN_X_SPACING,
-                                    equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + FRACTION_LINE_Y_FUDGE_FACTOR );
+                slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                         equalsNode.getFullBoundsReference().getCenterY() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + slopeSignYFudgeFactor + slopeSignYOffset );
+                lineNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + fractionSignXSpacing,
+                                    equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + fractionLineYFudgeFactor );
             }
             else {
-                lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + RELATIONAL_OPERATOR_X_SPACING,
-                                    equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + FRACTION_LINE_Y_FUDGE_FACTOR );
+                lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                    equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) + fractionLineYFudgeFactor );
             }
             riseNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
-                                lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - Y_SPACING );
+                                lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
             runNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
-                               lineNode.getFullBoundsReference().getMaxY() + Y_SPACING );
-            xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + X_SPACING,
+                               lineNode.getFullBoundsReference().getMaxY() + ySpacing );
+            xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + slopeXSpacing,
                              yNode.getYOffset() );
-            operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                    equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
-            interceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + X_SPACING,
+            operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                    equalsNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
+            interceptNode.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
                                      yNode.getYOffset() );
         }
     }
