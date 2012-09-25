@@ -3,6 +3,7 @@ package edu.colorado.phet.forcesandmotionbasics.common;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -26,7 +27,8 @@ public class ForceArrowNode extends PNode {
             return;
         }
         final double arrowScale = 1.2;
-        final ArrowNode arrowNode = new ArrowNode( tail.toPoint2D(), tail.plus( value, 0 ).toPoint2D(), 30 * arrowScale, 40 * arrowScale, 20 * arrowScale, 0.5, false );
+        final Point2D.Double tipLocation = tail.plus( value, 0 ).toPoint2D();
+        final ArrowNode arrowNode = new ArrowNode( tail.toPoint2D(), tipLocation, 30 * arrowScale, 40 * arrowScale, 20 * arrowScale, 0.5, false );
         arrowNode.setPaint( transparent ? new Color( color.getRed(), color.getGreen(), color.getBlue(), 175 ) : color );
         arrowNode.setStroke( transparent ? new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 6, 4 }, 0 ) : new BasicStroke( 1 ) );
         addChild( arrowNode );
@@ -50,6 +52,11 @@ public class ForceArrowNode extends PNode {
                 translate( forceInNewtons < 0 ? 5 :
                            forceInNewtons > 0 ? -5 :
                            0, 0 );
+
+                //If it doesn't fit in the arrow, just hide it
+//                if ( getFullBounds().getWidth() > arrowNode.getFullBounds().getWidth() / 2 ) {
+//                    setVisible( false );
+//                }
             }} );
         }
     }
