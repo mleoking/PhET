@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--charges-and-fields-strings_sk.xml created Thu Dec 02 17:29:18 CET 2010 using: charges-and-fields 2.04.00 (45798), translation-utility 2.09.00 (44031) sep 14, 2010-->
-<SimStrings>
+<!--charges-and-fields-strings_sk.xml created Sat Sep 22 02:25:54 CEST 2012 using: charges-and-fields 2.04.00 (52655), translation-utility 2.13.00 (59150) dec 8, 2011--><SimStrings>
 <string key="directionOnly" value="len smer"/>
 <string key="grid" value="mriežka                   "/>
 <string key="clearAll" value="zmazať všetko"/>
@@ -18,6 +17,7 @@
 <string key="plot" value="hladina"/>
 <string key="equipotential" value="ekvipoteciálna"/>
 <string key="angleUnit" value=" stupňov"/>
+<string key="translation.credits" value="RNDr. Ľubomír Červený &lt;br&gt; http://www.cerveny.sk"/>
 <string key="showLoRes" value="potenciál nízke r.    "/>
 <string key="moreSpeedLessRes" value="rýchle zobrazenie/menšie roz."/>
 <string key="tapeMeasure" value="meter"/>
