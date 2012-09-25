@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.model;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.games.GameTimer;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -12,9 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGConstants;
-import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
@@ -37,7 +33,6 @@ public class LineGameModel {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( LineGameModel.class.getCanonicalName() );
 
-    private static final int GRID_VIEW_UNITS = 400; // max dimension (width or height) of the grid in the view
     private static final int CHALLENGES_PER_GAME = 4;
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 2 );
@@ -64,15 +59,12 @@ public class LineGameModel {
         NONE // use this value when game is not in the "play" phase
     }
 
-    private final ModelViewTransform mvtGraphTheLine, mvtMakeTheEquation;
-
     public final GameSettings settings;
     public final GameTimer timer;
     public final GameResults results;
     public final Property<GamePhase> phase;
     public final Property<PlayState> state;
 
-    public final Graph graph; // the graph that plots the lines
     public final Property<Challenge> challenge; // the current challenge
     private Challenge[] challenges = new Challenge[CHALLENGES_PER_GAME];
     private int challengeIndex;
@@ -86,17 +78,11 @@ public class LineGameModel {
 
     private LineGameModel( IntegerRange xRange, IntegerRange yRange ) {
 
-        final double mvtScale = GRID_VIEW_UNITS / Math.max( xRange.getLength(), yRange.getLength() ); // view units / model units
-        mvtGraphTheLine = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 700, 300 ), mvtScale, -mvtScale ); // graph on right, y inverted
-        mvtMakeTheEquation = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 300, 300 ), mvtScale, -mvtScale ); // graph on left, y inverted
-
         settings = new GameSettings( LEVELS_RANGE, true /* soundEnabled */, true /* timerEnabled */ );
         timer = new GameTimer();
         results = new GameResults( LEVELS_RANGE );
 
-        graph = new Graph( xRange, yRange );
-
-        challenge = new Property<Challenge>( new GTL_SI_SlopeIntercept_Challenge( Line.createSlopeIntercept( 1, 1, 1 ), mvtGraphTheLine ) ); // initial value is meaningless
+        challenge = new Property<Challenge>( new GTL_SI_SlopeIntercept_Challenge( Line.createSlopeIntercept( 1, 1, 1 ) ) ); // initial value is meaningless
 
         allLines = new ObservableList<Line>();
         this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
@@ -181,16 +167,16 @@ public class LineGameModel {
         //TODO replace with random challenge generation
         int index = 0;
         if ( settings.level.get() == 1 ) {
-            challenges[index++] = new GTL_SI_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), mvtGraphTheLine );
-            challenges[index++] = new GTL_SI_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), mvtGraphTheLine );
-            challenges[index++] = new GTL_SI_SlopeIntercept_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), mvtGraphTheLine );
-            challenges[index++] = new GTL_SI_Points_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), mvtGraphTheLine );
+            challenges[index++] = new GTL_SI_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ) );
+            challenges[index++] = new GTL_SI_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1 ) );
+            challenges[index++] = new GTL_SI_SlopeIntercept_Challenge( Line.createSlopeIntercept( 4, 2, 3 ) );
+            challenges[index++] = new GTL_SI_Points_Challenge( Line.createSlopeIntercept( 3, 3, -3 ) );
         }
         else if ( settings.level.get() == 2 ) {
-            challenges[index++] = new GTL_PS_Slope_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), mvtGraphTheLine );
-            challenges[index++] = new GTL_PS_Point_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), mvtGraphTheLine );
-            challenges[index++] = new GTL_PS_PointSlope_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), mvtGraphTheLine );
-            challenges[index++] = new GTL_PS_Points_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), mvtGraphTheLine );
+            challenges[index++] = new GTL_PS_Slope_Challenge( Line.createPointSlope( 2, 1, 1, 2 ) );
+            challenges[index++] = new GTL_PS_Point_Challenge( Line.createPointSlope( 1, -3, 1, 3 ) );
+            challenges[index++] = new GTL_PS_PointSlope_Challenge( Line.createPointSlope( -2, 1, -4, 3 ) );
+            challenges[index++] = new GTL_PS_Points_Challenge( Line.createPointSlope( 5, 4, 3, 2 ) );
         }
         assert ( challenges.length == CHALLENGES_PER_GAME );
         challengeIndex = 0;

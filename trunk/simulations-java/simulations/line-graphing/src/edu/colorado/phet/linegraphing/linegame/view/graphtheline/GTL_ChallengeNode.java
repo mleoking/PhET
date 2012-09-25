@@ -26,6 +26,7 @@ import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeGraphNode;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.umd.cs.piccolo.PNode;
@@ -39,14 +40,13 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public abstract class GTL_ChallengeNode extends PhetPNode {
 
-    public GTL_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public GTL_ChallengeNode( final LineGameModel model, final GTL_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
         PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 
-        final EquationNode equationNode = createEquationNode( model.challenge.get().answer, GameConstants.ANSWER_COLOR, GameConstants.EQUATION_FONT );
+        final EquationNode equationNode = createEquationNode( challenge.answer, GameConstants.ANSWER_COLOR, GameConstants.EQUATION_FONT );
 
-        final ChallengeGraphNode graphNode = createGraphNode( model.graph, model.challenge.get().guess, model.challenge.get().answer,
-                                                              model.challenge.get().mvt );
+        final ChallengeGraphNode graphNode = createGraphNode( challenge.graph, challenge.guess, challenge.answer, challenge.mvt );
 
         final FaceNode faceNode = new FaceNode( GameConstants.FACE_DIAMETER, GameConstants.FACE_COLOR );
 
@@ -62,8 +62,8 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
 
         // Point tools
         Rectangle2D pointToolDragBounds = new Rectangle2D.Double( 0, 0, challengeSize.getWidth(), challengeSize.getHeight() );
-        PointToolNode pointToolNode1 = new PointToolNode( model.pointTool1, model.challenge.get().mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
-        PointToolNode pointToolNode2 = new PointToolNode( model.pointTool2, model.challenge.get().mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
+        PointToolNode pointToolNode1 = new PointToolNode( model.pointTool1, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
+        PointToolNode pointToolNode2 = new PointToolNode( model.pointTool2, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
 
         // Point tools moveToFront when dragged, so we give them a common parent to preserve rendering order of the reset of the scenegraph.
         PNode pointToolParent = new PNode();
@@ -125,10 +125,10 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
                 // visibility of face
                 faceNode.setVisible( state == PlayState.TRY_AGAIN ||
                                      state == PlayState.SHOW_ANSWER ||
-                                     ( state == PlayState.NEXT && model.challenge.get().isCorrect() ) );
+                                     ( state == PlayState.NEXT && challenge.isCorrect() ) );
 
                 // visibility of points
-                pointsAwardedNode.setVisible( faceNode.getVisible() && model.challenge.get().isCorrect() );
+                pointsAwardedNode.setVisible( faceNode.getVisible() && challenge.isCorrect() );
 
                 // visibility of buttons
                 checkButton.setVisible( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK );
@@ -145,11 +145,11 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
         // "Check" button
         checkButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( model.challenge.get().isCorrect() ) {
+                if ( challenge.isCorrect() ) {
                     faceNode.smile();
                     audioPlayer.correctAnswer();
                     equationNode.setPaintDeep( GameConstants.CORRECT_ANSWER_COLOR );
-                    model.challenge.get().guess.set( model.challenge.get().guess.get().withColor( GameConstants.CORRECT_ANSWER_COLOR ) );
+                    challenge.guess.set( challenge.guess.get().withColor( GameConstants.CORRECT_ANSWER_COLOR ) );
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.results.score.set( model.results.score.get() + points );
                     pointsAwardedNode.setText( MessageFormat.format( Strings.POINTS_AWARDED, String.valueOf( points ) ) );
