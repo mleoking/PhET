@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.pointslope.view;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.model.Graph;
@@ -20,7 +22,7 @@ public class PointSlopeLineNode extends LineNode {
     }
 
     // Creates the line's equation in point-slope form.
-    protected EquationNode createEquationNode( Line line, PhetFont font ) {
-        return new PointSlopeEquationFactory().createSimplifiedNode( line, font );
+    @Override protected EquationNode createEquationNode( Line line, PhetFont font, Color color ) {
+        return new PointSlopeEquationFactory().createSimplifiedNode( line, font, color );
     }
 }

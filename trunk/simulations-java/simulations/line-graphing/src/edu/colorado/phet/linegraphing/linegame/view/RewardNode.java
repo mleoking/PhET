@@ -171,18 +171,16 @@ public class RewardNode extends PhetPNode {
             node = new SlopeInterceptEquationFactory().createNode(
                     Line.createSlopeIntercept( getRandomNonZeroInteger( -20, 20 ),
                                                getRandomNonZeroInteger( -20, 20 ),
-                                               getRandomNonZeroInteger( -20, 20 ),
-                                               color ),
-                    font );
+                                               getRandomNonZeroInteger( -20, 20 ) ),
+                    font, color );
         }
         else {
             node = new PointSlopeEquationFactory().createNode(
                     Line.createPointSlope( getRandomNonZeroInteger( -20, 20 ),
                                            getRandomNonZeroInteger( -20, 20 ),
                                            getRandomNonZeroInteger( -20, 20 ),
-                                           getRandomNonZeroInteger( -20, 20 ),
-                                           color ),
-                    font );
+                                           getRandomNonZeroInteger( -20, 20 ) ),
+                    font, color );
         }
         return new PadBoundsNode( node ).toImage();
     }
