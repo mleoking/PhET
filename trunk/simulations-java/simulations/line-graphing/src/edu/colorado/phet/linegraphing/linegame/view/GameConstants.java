@@ -27,6 +27,6 @@ public class GameConstants {
     public static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     public static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
     public static final double POINT_DIAMETER = 0.5; // diameter of the manipulators, in model units
-    public static final Color POINTS_COLOR = Color.BLACK;
-    public static final PhetFont POINTS_FONT = new PhetFont( Font.BOLD, 36 );
+    public static final Color POINTS_AWARDED_COLOR = Color.BLACK;
+    public static final PhetFont POINTS_AWARDED_FONT = new PhetFont( Font.BOLD, 36 );
 }
