@@ -67,6 +67,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     public static final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 33 - 12;
     public static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 48 - 12;
+    private final PNode forcesNode;
 
     public MotionCanvas( final Context context, final IClock clock ) {
 
@@ -191,7 +192,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             }
         } );
 
-        final PNode forcesNode = new PNode() {{
+        forcesNode = new PNode() {{
             final SimpleObserver updateForces = new SimpleObserver() {
                 public void update() {
                     removeAllChildren();
@@ -255,6 +256,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             stackableNode.translate( dx, dx );
         }
         stackableNode.moveToFront();
+        nodeMovedToFront();
         stackableNode.setOnSkateboard( false );
         stack.set( stack.get().filter( new F<StackableNode, Boolean>() {
             @Override public Boolean f( final StackableNode element ) {
@@ -265,6 +267,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         //Any other objects above it should fall down.
         normalizeStack();
     }
+
+    //Keep the force vector arrows in front of the objects
+    private void nodeMovedToFront() { forcesNode.moveToFront(); }
 
     private void normalizeStack() {
         List<StackableNode> nodes = stack.get();
