@@ -357,7 +357,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                     // N
                     removeChild( fractionLineNode );
                     removeChild( runNode );
-                    riseNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, yNode.getYOffset() );
+                    riseNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + previousXOffset, yNode.getYOffset() );
                     previousNode = riseNode;
                     previousXOffset = slopeXSpacing;
                 }
