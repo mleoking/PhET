@@ -81,7 +81,9 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage HEATER_ELEMENT_OFF = RESOURCES.getImage( "heater_element_off.png" );
         public static final BufferedImage INCANDESCENT = RESOURCES.getImage( "incandescent.png" );
         public static final BufferedImage INCANDESCENT_ICON = RESOURCES.getImage( "incandescent_icon.png" );
+        public static final BufferedImage INCANDESCENT_NARROW = RESOURCES.getImage( "incandescent_narrow.png" );
         public static final BufferedImage INCANDESCENT_ON = RESOURCES.getImage( "incandescent_on.png" );
+        public static final BufferedImage INCANDESCENT_ON_NARROW = RESOURCES.getImage( "incandescent_on_narrow.png" );
         public static final BufferedImage SHELF_LONG = RESOURCES.getImage( "shelf_long.png" );
         public static final BufferedImage SOLAR_PANEL = RESOURCES.getImage( "solar_panel.png" );
         public static final BufferedImage SOLAR_PANEL_BASE = RESOURCES.getImage( "solar_panel_base.png" );
