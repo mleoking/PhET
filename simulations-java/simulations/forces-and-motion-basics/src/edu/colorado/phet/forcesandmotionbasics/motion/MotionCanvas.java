@@ -40,6 +40,7 @@ import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBas
 import edu.colorado.phet.forcesandmotionbasics.common.ForceArrowNode;
 import edu.colorado.phet.forcesandmotionbasics.common.TextLocation;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.Context;
+import edu.colorado.phet.forcesandmotionbasics.tugofwar.ForcesNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -66,11 +67,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final Property<List<StackableNode>> stack = new Property<List<StackableNode>>( List.<StackableNode>nil() );
     private final boolean friction;
 
-    private MotionModel model = new MotionModel( new F<Unit, Double>() {
-        @Override public Double f( final Unit unit ) {
-            return getMassOfObjectsOnSkateboard();
-        }
-    } );
+    private MotionModel model;
 
     public static final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 33 - 12;
     public static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 48 - 12;
@@ -81,6 +78,11 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     public MotionCanvas( final Context context, final IClock clock, final boolean friction ) {
         this.friction = friction;
+        this.model = new MotionModel( friction, new F<Unit, Double>() {
+            @Override public Double f( final Unit unit ) {
+                return getMassOfObjectsOnSkateboard();
+            }
+        } );
 
         setBackground( BROWN );
         //use view coordinates since nothing compex happening in model coordinates.
@@ -249,13 +251,25 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 public void update() {
                     removeAllChildren();
                     if ( showForces.get() ) {
-                        addChild( new ForceArrowNode( false, v( skateboard.getFullBounds().getCenterX(), skateboard.getFullBounds().getCenterY() - 75 ),
-                                                      model.appliedForce.get(), "Applied Force", new Color( 233, 110, 36 ), TextLocation.SIDE, showValues.get(), 0.5 ) );
+                        final double tailY = skateboard.getFullBounds().getCenterY() - 75;
+                        final double centerX = skateboard.getFullBounds().getCenterX();
+                        addChild( new ForceArrowNode( false, v( centerX, tailY ),
+                                                      model.appliedForce.get(), "Applied Force", ForcesNode.APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues.get(), 0.5 ) );
+                        addChild( new ForceArrowNode( false, v( centerX, tailY ),
+                                                      model.frictionForce.get(), "Friction Force", Color.red, TextLocation.SIDE, showValues.get(), 0.5 ) );
+                        if ( friction && showSumOfForces.get() ) {
+                            addChild( new ForceArrowNode( false, v( centerX, tailY - 70 ),
+                                                          model.sumOfForces.get(), "Sum of Forces", ForcesNode.SUM_OF_FORCES_COLOR, TextLocation.TOP, showValues.get(), 0.5 ) );
+                        }
                     }
                 }
             };
             showValues.addObserver( updateForces );
             model.appliedForce.addObserver( updateForces );
+            model.frictionForce.addObserver( updateForces );
+            model.sumOfForces.addObserver( updateForces );
+            showForces.addObserver( updateForces );
+            showSumOfForces.addObserver( updateForces );
         }};
         addChild( forcesNode );
 

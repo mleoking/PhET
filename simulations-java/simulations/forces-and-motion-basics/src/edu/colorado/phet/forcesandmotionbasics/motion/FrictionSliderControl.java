@@ -13,10 +13,12 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class FrictionSliderControl extends PNode {
+    public static final double MAX = 20;
+
     public FrictionSliderControl( final SettableProperty<Double> friction ) {
-        addChild( new VBox( 0, new PhetPText( "Friction", AbstractForcesAndMotionBasicsCanvas.CONTROL_FONT ), new HSliderNode( null, 0, 1.5, VSliderNode.DEFAULT_TRACK_THICKNESS, 150, friction, new BooleanProperty( true ) ) {{
+        addChild( new VBox( 0, new PhetPText( "Friction", AbstractForcesAndMotionBasicsCanvas.CONTROL_FONT ), new HSliderNode( null, 0, MAX, VSliderNode.DEFAULT_TRACK_THICKNESS, 150, friction, new BooleanProperty( true ) ) {{
             addLabel( 0, new PhetPText( "None" ) );
-            addLabel( 1.5, new PhetPText( "Lots" ) );
+            addLabel( MAX, new PhetPText( "Lots" ) );
         }} ) );
     }
 }
