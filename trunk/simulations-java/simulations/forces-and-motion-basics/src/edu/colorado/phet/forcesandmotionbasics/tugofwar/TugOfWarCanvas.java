@@ -78,6 +78,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final ImageButtonNodeWithText stopButton;
     private final ImageButtonNodeWithText goButton;
     private final PNode knotLayer;
+    private final PNode flagLayer;
 
     public static enum Mode {WAITING, GOING, COMPLETE}
 
@@ -255,6 +256,12 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                     //stop when the opposite rope passes the middle of the screen
                     if ( cart.getPosition() > 180 || cart.getPosition() < -180 ) {
                         mode.set( Mode.COMPLETE );
+                        if ( cart.getPosition() > 180 ) {
+                            addFlagNode( new FlagNode( Color.red, "Red Wins!" ) );
+                        }
+                        else {
+                            addFlagNode( new FlagNode( Color.blue, "Blue Wins!" ) );
+                        }
                     }
                 }
             }
@@ -274,6 +281,17 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 updateForceArrows();
             }
         } );
+
+        flagLayer = new PNode();
+        addChild( flagLayer );
+    }
+
+    private void addFlagNode( final FlagNode flagNode ) {
+        flagNode.setTransparency( 0.0f );
+        flagLayer.addChild( flagNode );
+        flagNode.setOffset( STAGE_SIZE.width / 2 - flagNode.getFullBounds().getWidth() / 2, 0 - flagNode.getFullBounds().getHeight() );
+        flagNode.animateToTransparency( 1, 200 );
+        flagNode.animateToPositionScaleRotation( STAGE_SIZE.width / 2 - flagNode.getFullBounds().getWidth() / 2, 10, 1, 0, 200 );
     }
 
     private Shape getBounds( final F<PullerNode, Boolean> color ) {
@@ -312,6 +330,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         moveSystem( -ropeOffset );
         updateForceListeners();
         notifyCartPositionListeners();
+        flagLayer.removeAllChildren();
     }
 
     private void addPuller( final PullerNode puller ) {
