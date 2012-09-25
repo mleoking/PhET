@@ -110,7 +110,7 @@ public class Sun extends EnergySource {
 
             // Check for bouncing and absorption of the energy chunks.
             for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
-                if ( solarPanel.getAbsorptionShape().contains( energyChunk.position.get().toPoint2D() ) ) {
+                if ( solarPanel.isActive() && solarPanel.getAbsorptionShape().contains( energyChunk.position.get().toPoint2D() ) ) {
                     // This energy chunk was absorbed by the solar panel, so
                     // put it on the list of outgoing chunks.
                     outgoingEnergyChunks.add( energyChunk );
