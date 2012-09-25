@@ -1,3 +1,4 @@
+9/25/12 game: move graph and mvt into "Graph the Line" challenge subclass
 9/25/12 game: change naming convention for model and view classes
 9/25/12 game: repackage model & view
 9/25/12 game: class name changes and a bit of monkeying with the view hierarchy

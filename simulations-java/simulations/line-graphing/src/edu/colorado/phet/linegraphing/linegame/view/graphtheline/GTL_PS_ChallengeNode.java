@@ -11,6 +11,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeGraphNode;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationFactory;
@@ -24,8 +25,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public abstract class GTL_PS_ChallengeNode extends GTL_ChallengeNode {
 
-    public GTL_PS_ChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-        super( model, audioPlayer, challengeSize );
+    public GTL_PS_ChallengeNode( LineGameModel model, GTL_Challenge challenge, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+        super( model, challenge, audioPlayer, challengeSize );
     }
 
     // Creates the equation portion of the view.
