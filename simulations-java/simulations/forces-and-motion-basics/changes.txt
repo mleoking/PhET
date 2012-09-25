@@ -1,3 +1,4 @@
+Tab 3: separate arrow tails for friction vs applied
 Tab 3: Added friction to model
 Tab 3: Object has to overcome friction before starting to move
 Tab 3: Show friction force and sum of forces
