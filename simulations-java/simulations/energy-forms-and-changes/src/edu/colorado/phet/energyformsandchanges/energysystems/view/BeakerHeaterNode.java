@@ -17,7 +17,7 @@ public class BeakerHeaterNode extends ImageBasedEnergySystemElementNode {
         super( beakerHeater, mvt );
 
         // Add the images.  Assumes that the last image is the energized heating coil.
-        addImageNode( BeakerHeater.WIRE_MIDDLE_IMAGE );
+        addImageNode( BeakerHeater.WIRE_STRAIGHT_IMAGE );
         addImageNode( BeakerHeater.WIRE_CURVE_IMAGE );
         addImageNode( BeakerHeater.ELEMENT_BASE_IMAGE );
         addImageNode( BeakerHeater.HEATER_ELEMENT_OFF_IMAGE );
