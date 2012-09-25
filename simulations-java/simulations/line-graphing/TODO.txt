@@ -17,7 +17,7 @@ HIGH
 - random creation of challenges, subject to constraints tbd (or create a very large set of canned challenges)
 
 MEDIUM
-- use of Line.color is a bit of a mess, and make it difficult to manage line lists
+- use of Line.color is a bit of a mess, and makes it difficult to manage line lists
 - change request: replace rise/run brackets with dashed lines with arrow heads on them
 - use InteractiveEquationNode subclasses to generate non-interactive equations in EquationFactory subclasses, if we can agree that the "look" can be standardized
 - factor out duplication in ChallengeNode subclasses
