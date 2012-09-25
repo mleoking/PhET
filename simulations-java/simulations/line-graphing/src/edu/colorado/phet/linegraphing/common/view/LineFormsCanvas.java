@@ -74,8 +74,12 @@ public abstract class LineFormsCanvas extends LGCanvas {
             // Create point tool nodes
             PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, model.pointTool1.orientation == Orientation.UP ? upDragBounds : downDragBounds, viewProperties.linesVisible );
             PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, model.pointTool2.orientation == Orientation.UP ? upDragBounds : downDragBounds, viewProperties.linesVisible );
-            addChild( pointTool1 );
-            addChild( pointTool2 );
+
+            // Point tools moveToFront when dragged, so we give them a common parent to preserve rendering order of the reset of the scenegraph.
+            PNode pointToolParent = new PNode();
+            pointToolParent.addChild( pointTool1 );
+            pointToolParent.addChild( pointTool2 );
+            addChild( pointToolParent );
         }
     }
 

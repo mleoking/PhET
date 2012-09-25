@@ -65,6 +65,11 @@ public abstract class ChallengeNode extends PhetPNode {
         PointToolNode pointToolNode1 = new PointToolNode( model.pointTool1, model.challenge.get().mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
         PointToolNode pointToolNode2 = new PointToolNode( model.pointTool2, model.challenge.get().mvt, model.graph, pointToolDragBounds, new BooleanProperty( true ) );
 
+        // Point tools moveToFront when dragged, so we give them a common parent to preserve rendering order of the reset of the scenegraph.
+        PNode pointToolParent = new PNode();
+        pointToolParent.addChild( pointToolNode1 );
+        pointToolParent.addChild( pointToolNode2 );
+
         // non-interactive nodes
         {
             titleNode.setPickable( false );
@@ -86,8 +91,7 @@ public abstract class ChallengeNode extends PhetPNode {
             addChild( tryAgainButton );
             addChild( showAnswerButton );
             addChild( nextButton );
-            addChild( pointToolNode1 );
-            addChild( pointToolNode2 );
+            addChild( pointToolParent );
             addChild( faceNode );
             addChild( pointsAwardedNode );
         }

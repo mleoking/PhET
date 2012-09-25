@@ -1,3 +1,4 @@
+9/25/12 point tools moveToFront when dragged, so we give them a common parent to preserve rendering order of the reset of the scenegraph
 9/24/12 fix spacing between negative slope sign and integer slope value in point-slope interactive equation
 9/24/12 interactive equations: compute dimensions and layout offsets based on font point size
 9/24/12 static equations: compute dimensions and layout offsets based on font point size
