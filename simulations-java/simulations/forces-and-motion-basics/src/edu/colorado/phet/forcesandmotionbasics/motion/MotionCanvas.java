@@ -8,6 +8,7 @@ import fj.function.Doubles;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.TexturePaint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -57,9 +58,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final Property<Boolean> showSpeedometer = new Property<Boolean>( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
     private final Property<Boolean> showForces = new Property<Boolean>( false );
-    private final PImage skateboard;
+    private final PNode skateboard;
     private final List<StackableNode> stackableNodes;
     private final Property<List<StackableNode>> stack = new Property<List<StackableNode>>( List.<StackableNode>nil() );
+    private final boolean friction;
 
     private MotionModel model = new MotionModel( new F<Unit, Double>() {
         @Override public Double f( final Unit unit ) {
@@ -76,6 +78,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final SettableProperty<Double> frictionValue = new Property<Double>( 0.75 );
 
     public MotionCanvas( final Context context, final IClock clock, final boolean friction ) {
+        this.friction = friction;
 
         setBackground( BROWN );
         //use view coordinates since nothing compex happening in model coordinates.
@@ -154,7 +157,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             setConfirmationEnabled( false );
         }} );
 
-        skateboard = new PImage( Images.SKATEBOARD );
+        skateboard = friction ?
+                     new PhetPPath( new Rectangle( 0, 0, Images.SKATEBOARD.getWidth(), 1 ), new Color( 0, 0, 0, 0 ), null, null ) :
+                     new PImage( Images.SKATEBOARD );
         skateboard.setScale( 0.85 );
         skateboard.setOffset( STAGE_SIZE.getWidth() / 2 - skateboard.getFullBounds().getWidth() / 2, grassY - skateboard.getFullBounds().getHeight() );
         addChild( skateboard );
@@ -303,7 +308,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             int index = stackableNodeAndIndex._2();
             final StackableNode stackableNode = stackableNodeAndIndex._1();
             Rectangle2D skateboardBounds = stackableNode.getParent().globalToLocal( skateboard.getGlobalFullBounds() );
-            final double skateboardY = skateboardBounds.getY() + 8;
+            final double skateboardY = skateboardBounds.getY() + ( friction ? 1 : 8 );
             double topY = -nodes.take( index ).map( new F<StackableNode, Double>() {
                 @Override public Double f( final StackableNode n ) {
                     return n.getFullBounds().getHeight();
