@@ -7,9 +7,9 @@ import fj.function.Doubles;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.TexturePaint;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JCheckBox;
 
@@ -80,22 +80,21 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         final int grassY = 425;
         addChild( new SkyNode( createIdentity(), new Rectangle2D.Double( -width / 2, -width / 2 + grassY, width, width / 2 ), grassY, SkyNode.DEFAULT_TOP_COLOR, SkyNode.DEFAULT_BOTTOM_COLOR ) );
 
-        PNode terrain = new PNode() {{
-            final BufferedImage tile = Images.BRICK_TILE;
+        PNode terrain2 = new PNode() {{
             model.position.addObserver( new VoidFunction1<Double>() {
                 public void apply( final Double position ) {
                     removeAllChildren();
-                    for ( int i = -10; i < 10; i++ ) {
-                        final int index = i;
-                        addChild( new PImage( tile ) {{
-                            scale( 0.4 );
-                            setOffset( index * tile.getWidth() * getScale() + STAGE_SIZE.getWidth() / 2 - position * 100, grassY );
-                        }} );
-                    }
+                    //Extend the brick region an extra stage width to the left and right, in case it is a very odd aspect ratio.  (But no support for showing wider than that).
+                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / 0.4, grassY / 0.4, STAGE_SIZE.width * 3 / 0.4, Images.BRICK_TILE.getHeight() );
+                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / 0.4, area.getY(), Images.BRICK_TILE.getWidth(), Images.BRICK_TILE.getHeight() );
+                    PhetPPath path = new PhetPPath( area, new TexturePaint( Images.BRICK_TILE, anchor ) ) {{
+                        scale( 0.4 );
+                    }};
+                    addChild( path );
                 }
             } );
         }};
-        addChild( terrain );
+        addChild( terrain2 );
 
         PNode clouds = new PNode() {{
             model.position.addObserver( new VoidFunction1<Double>() {
