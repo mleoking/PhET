@@ -148,10 +148,12 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         addChild( cartNode );
 
         final double IMAGE_SCALE = 0.75;
-        Vector2D largePosition = Vector2D.v( 88.38995568685374, 488 + 1 );
-        Vector2D mediumPosition = Vector2D.v( 155.66912850812423, 515 + 1 + 1 );
-        Vector2D smallPosition1 = Vector2D.v( 215.9527326440175, 559 - 1 );
-        Vector2D smallPosition2 = Vector2D.v( 263.1610044313148, 559 - 1 );
+        //Move toolboxes so they are vertically centered in the earth
+        double dy = -6;
+        Vector2D largePosition = Vector2D.v( 88.38995568685374, 488 + 1 + dy );
+        Vector2D mediumPosition = Vector2D.v( 155.66912850812423, 515 + 1 + 1 + dy );
+        Vector2D smallPosition1 = Vector2D.v( 215.9527326440175, 559 - 1 + dy );
+        Vector2D smallPosition2 = Vector2D.v( 263.1610044313148, 559 - 1 + dy );
         final PullerNode largeRedPuller = puller( BLUE, LARGE, IMAGE_SCALE, largePosition );
         addPuller( largeRedPuller );
         addPuller( puller( BLUE, MEDIUM, IMAGE_SCALE, mediumPosition ) );

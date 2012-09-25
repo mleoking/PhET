@@ -1,3 +1,4 @@
+Tab 1: Move toolboxes so they are vertically centered in the earth
 # 0.00.14 (68378) Sep 25, 2012
 Tab 1: Fixed: When attaching a puller while the rope is moving, they do not change their pose.
 Tab 1: Show a flag after game complete
