@@ -1,6 +1,10 @@
+2nd tab: Made the water fall (instead of appear instantly) so that the E's don't outrun it.
+2nd tab: Added energy chunks to the water.
 # 0.00.19 (68261) Sep 21, 2012
 9/21/12 Deploying to dev for review
 # 0.00.18 (68257) Sep 21, 2012
+2nd tab: Made energy chunks from sun be converted on solar panel and move to lights.
+2nd tab: Added energy chunks from the sun.
 9/21/12 Deploying to dev for review
 # 0.00.17 (67063) Aug 16, 2012
 8/16/12 Deploying snapshot to dev for review and testing.
