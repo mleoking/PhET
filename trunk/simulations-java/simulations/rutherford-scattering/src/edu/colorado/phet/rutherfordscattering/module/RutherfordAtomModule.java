@@ -153,7 +153,7 @@ public class RutherfordAtomModule extends RSAbstractModule {
         // Animation box
         _animationBoxNode = new AnimationBoxNode( _model, RSConstants.ANIMATION_BOX_SIZE );
 
-        // Length indicator for the box
+        // Length indicator for the box, see #3437
         final double length = 150; // fm
         final String pattern = RSResources.getString( "pattern.nuclearScale" );
         _lengthNode = new BoxLengthNode( RSConstants.ANIMATION_BOX_SIZE.getWidth(), MessageFormat.format( pattern, length ), Color.WHITE );
