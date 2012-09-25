@@ -9,7 +9,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Given an equation in slope-intercept form, graph the line by manipulating intercept.
+ * Given an equation in slope-intercept form, graph the line by manipulating the intercept.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

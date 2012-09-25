@@ -9,7 +9,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Given an equation in point-slope form, graph the line by manipulating slope and intercept.
+ * Given an equation in point-slope form, graph the line by manipulating 2 arbitrary points.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
