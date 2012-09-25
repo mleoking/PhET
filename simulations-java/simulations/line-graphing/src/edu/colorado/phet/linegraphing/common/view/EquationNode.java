@@ -78,7 +78,7 @@ public abstract class EquationNode extends PhetPNode {
                 ( (PText) child ).setTextPaint( paint );
             }
             else if ( child instanceof PPath ) {
-                ( (PPath) child ).setPaint( paint );
+                child.setPaint( paint );
             }
             setPaintDeep( child, paint );
         }
