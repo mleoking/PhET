@@ -55,7 +55,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     public static final Color BROWN = new Color( 197, 154, 91 );
     private final Property<Boolean> showSpeedometer = new Property<Boolean>( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
-    private final Property<Boolean> showArrows = new Property<Boolean>( true );
+    private final Property<Boolean> showForces = new Property<Boolean>( false );
     private final PImage skateboard;
     private final List<StackableNode> stackableNodes;
     private final Property<List<StackableNode>> stack = new Property<List<StackableNode>>( List.<StackableNode>nil() );
@@ -119,14 +119,20 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( clouds );
 
-        final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSpeedometer ) {{ setFont( CONTROL_FONT ); }};
+        final JCheckBox showForcesCheckBox = new PropertyCheckBox( null, "Forces", showForces ) {{setFont( CONTROL_FONT );}};
         final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( CONTROL_FONT );}};
+        showForces.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( final Boolean showForces ) {
+                showValuesCheckBox.setEnabled( showForces );
+            }
+        } );
+        final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSpeedometer ) {{ setFont( CONTROL_FONT ); }};
         final ControlPanelNode controlPanelNode = new ControlPanelNode(
                 new VBox( 2, VBox.LEFT_ALIGNED,
 
                           //Nudge "show" to the right so it will align with checkboxes
                           new HBox( 5, new PhetPPath( new Rectangle2D.Double( 0, 0, 0, 0 ) ), new PhetPText( "Show", CONTROL_FONT ) ),
-                          new PSwing( showValuesCheckBox ), new PSwing( speedCheckBox ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
+                          new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( speedCheckBox ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
         controlPanelNode.setOffset( STAGE_SIZE.width - controlPanelNode.getFullWidth() - INSET, INSET );
         addChild( controlPanelNode );
 
@@ -197,7 +203,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             final SimpleObserver updateForces = new SimpleObserver() {
                 public void update() {
                     removeAllChildren();
-                    if ( showArrows.get() ) {
+                    if ( showForces.get() ) {
                         addChild( new ForceArrowNode( false, v( skateboard.getFullBounds().getCenterX(), skateboard.getFullBounds().getCenterY() - 75 ),
                                                       model.appliedForce.get(), "Applied Force", new Color( 233, 110, 36 ), TextLocation.SIDE, showValues.get(), 0.5 ) );
                     }
