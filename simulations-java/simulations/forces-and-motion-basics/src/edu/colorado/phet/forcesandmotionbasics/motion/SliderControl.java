@@ -36,9 +36,10 @@ import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMo
  */
 public class SliderControl extends PNode {
 
-    public SliderControl( final DoubleProperty appliedForce, final Property<List<StackableNode>> stack ) {
+    public SliderControl( final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction ) {
 
         final Not enabled = Not.not( stack.valueEquals( List.<StackableNode>nil() ) );
+        final String unitsString = friction ? "Newtons (N)" : "Newtons";
         VBox box = new VBox( 5, new EnablePhetPText( "Applied Force", CONTROL_FONT, enabled ),
                              new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForce, enabled ) {{
                                  addLabel( 0, new EnablePhetPText( "0", CONTROL_FONT, enabled ) );
@@ -56,7 +57,7 @@ public class SliderControl extends PNode {
                                      }
                                  } );
                              }},
-                             new HBox( new PhetPText( "Newtons", CONTROL_FONT ) {{setTransparency( 0.0f );}},
+                             new HBox( new PhetPText( unitsString, CONTROL_FONT ) {{setTransparency( 0.0f );}},
                                        new PSwing( new JTextField( 3 ) {
                                            {
                                                setFont( CONTROL_FONT );
@@ -97,7 +98,7 @@ public class SliderControl extends PNode {
                                                }
                                            }
                                        } ),
-                                       new EnablePhetPText( "Newtons", CONTROL_FONT, enabled )
+                                       new EnablePhetPText( unitsString, CONTROL_FONT, enabled )
                              )
         );
 

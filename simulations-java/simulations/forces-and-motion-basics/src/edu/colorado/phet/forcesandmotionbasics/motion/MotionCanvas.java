@@ -168,7 +168,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         toolbox.setOffset( INSET, STAGE_SIZE.height - INSET - toolbox.getFullBounds().getHeight() );
         addChild( toolbox );
 
-        SliderControl sliderControl = new SliderControl( model.appliedForce, stack );
+        SliderControl sliderControl = new SliderControl( model.appliedForce, stack, friction );
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( sliderControl );
 
