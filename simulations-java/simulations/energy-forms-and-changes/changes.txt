@@ -1,3 +1,5 @@
+# 0.00.20 (68458) Sep 25, 2012
+9/25/12 Deploying to dev for review.
 2nd tab: Added preliminary version of energy chunk handling to the beaker heater.
 2nd tab: Changed the way that energy chunks are transferred between elements in order to reduce the visual glitch that was occurring.
 2nd tab: Fixed an issue where the energy chunks from the sun could get absorbed and converted by the solar panel while it is moving.
