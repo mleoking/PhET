@@ -23,8 +23,6 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
-import edu.colorado.phet.linegraphing.common.view.GraphNode;
-import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
@@ -33,20 +31,20 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class for the view portion of challenges.
+ * Base class view for "Graph the Line" challenges (EG = given Equation, make Graph).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class ChallengeNode extends PhetPNode {
+public abstract class EG_ChallengeNode extends PhetPNode {
 
-    public ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize, boolean equationOnLeft, String title ) {
+    public EG_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
-        PNode titleNode = new PhetPText( title, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
+        PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 
         final EquationNode equationNode = createEquationNode( model.challenge.get().answer, GameConstants.ANSWER_COLOR, GameConstants.EQUATION_FONT );
 
-        final ChallengeGraphNode graphNode = createChallengeGraphNode( model.graph, model.challenge.get().guess, model.challenge.get().answer,
-                                                                       model.challenge.get().mvt );
+        final ChallengeGraphNode graphNode = createGraphNode( model.graph, model.challenge.get().guess, model.challenge.get().answer,
+                                                              model.challenge.get().mvt );
 
         final FaceNode faceNode = new FaceNode( GameConstants.FACE_DIAMETER, GameConstants.FACE_COLOR );
 
@@ -101,16 +99,9 @@ public abstract class ChallengeNode extends PhetPNode {
             // title centered at top
             titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
                                  10 );
-            if ( equationOnLeft ) {
-                // equation centered in left half of challenge space
-                equationNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
-                                        ( challengeSize.getHeight() / 2 ) - ( equationNode.getFullBoundsReference().getHeight() / 2 ) );
-            }
-            else {
-                // equation centered in right half of challenge space
-                equationNode.setOffset( ( 0.75 * challengeSize.getWidth() ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
-                                        ( challengeSize.getHeight() / 2 ) - ( equationNode.getFullBoundsReference().getHeight() / 2 ) );
-            }
+            // equation centered in left half of challenge space
+            equationNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
+                                    ( challengeSize.getHeight() / 2 ) - ( equationNode.getFullBoundsReference().getHeight() / 2 ) );
             // graphNode is positioned automatically based on mvt's origin offset.
             // buttons centered at bottom of challenge space
             final double ySpacing = 15;
@@ -207,38 +198,5 @@ public abstract class ChallengeNode extends PhetPNode {
     public abstract EquationNode createEquationNode( Line line, Color color, PhetFont font );
 
     // Creates the graph portion of the view.
-    public abstract ChallengeGraphNode createChallengeGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
-
-    // Base class for "Graph the Line" challenges.
-    public static abstract class GraphTheLineChallengeNode extends ChallengeNode {
-
-        public GraphTheLineChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-            super( model, audioPlayer, challengeSize, true, Strings.GRAPH_THE_LINE );
-        }
-    }
-
-    // Base class for "Make the Equation" challenges.
-    public static abstract class MakeTheEquationChallengeNode extends ChallengeNode {
-
-        public MakeTheEquationChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-            super( model, audioPlayer, challengeSize, false, Strings.MAKE_THE_EQUATION );
-        }
-    }
-
-    // Base class for the graph node in all challenges.
-    public static abstract class ChallengeGraphNode extends GraphNode {
-
-        public ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
-            super( graph, mvt );
-        }
-
-        // Creates the node that corresponds to the "answer" line.
-        public abstract LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt );
-
-        // Creates the node that corresponds to the "guess" line.
-        public abstract LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt );
-
-        // Changes the visibility of the "answer" line.
-        public abstract void setAnswerVisible( boolean visible );
-    }
+    public abstract ChallengeGraphNode createGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
 }

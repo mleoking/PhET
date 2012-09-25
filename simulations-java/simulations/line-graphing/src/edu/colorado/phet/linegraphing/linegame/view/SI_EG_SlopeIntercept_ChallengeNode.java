@@ -33,7 +33,7 @@ public class SI_EG_SlopeIntercept_ChallengeNode extends SI_EG_ChallengeNode {
     }
 
     // Creates the graph portion of the view.
-    @Override public ChallengeGraphNode createChallengeGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
+    @Override public ChallengeGraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
         return new ThisGraphNode( graph, guessLine, answerLine, mvt );
     }
 
