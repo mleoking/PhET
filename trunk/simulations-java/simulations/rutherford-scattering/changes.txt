@@ -1,3 +1,5 @@
+# 1.04.02 (68321) Sep 24, 2012
+9/24/12 #3437, dev version for regression testing
 9/24/12 #3437, i18n of new strings
 # 1.04.01 (68292) Sep 24, 2012
 9/24/12 #3437, label length of boxes (set RSConstants.SHOW_BOX_LENGTH=false to disabled this)
