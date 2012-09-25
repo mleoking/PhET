@@ -140,6 +140,12 @@ public class FaucetAndWater extends EnergySource {
         waterShape.set( createWaterShapeFromPoints( waterShapeDefiningPoints ) );
     }
 
+    @Override public void deactivate() {
+        super.deactivate();
+        waterShapeDefiningPoints.clear();
+        updateWaterShape( 0 );
+    }
+
     @Override public IUserComponent getUserComponent() {
         return EnergyFormsAndChangesSimSharing.UserComponents.selectFaucetButton;
     }
