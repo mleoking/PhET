@@ -32,7 +32,7 @@ public class PS_EG_Point_ChallengeNode extends PS_EG_ChallengeNode {
     }
 
     // Creates the graph portion of the view.
-    @Override public ChallengeGraphNode createChallengeGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
+    @Override public ChallengeGraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
         return new ThisGraphNode( graph, guessLine, answerLine, mvt );
     }
 

@@ -11,7 +11,6 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode.GraphTheLineChallengeNode;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -22,7 +21,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class SI_EG_ChallengeNode extends GraphTheLineChallengeNode {
+public abstract class SI_EG_ChallengeNode extends EG_ChallengeNode {
 
     public SI_EG_ChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
