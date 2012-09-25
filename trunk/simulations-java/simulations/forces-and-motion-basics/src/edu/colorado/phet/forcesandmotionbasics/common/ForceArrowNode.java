@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.forcesandmotionbasics.tugofwar;
+package edu.colorado.phet.forcesandmotionbasics.common;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.forcesandmotionbasics.tugofwar.ForcesNode.TextLocation;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.CONTROL_FONT;
