@@ -34,4 +34,9 @@ public abstract class EnergyUser extends EnergySystemElement {
     public void injectEnergyChunks( List<EnergyChunk> energyChunks ) {
         incomingEnergyChunks.addAll( energyChunks );
     }
+
+    @Override public void deactivate() {
+        super.deactivate();
+        incomingEnergyChunks.clear();
+    }
 }
