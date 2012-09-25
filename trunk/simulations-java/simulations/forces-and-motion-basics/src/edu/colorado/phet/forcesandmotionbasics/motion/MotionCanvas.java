@@ -1,5 +1,7 @@
 package edu.colorado.phet.forcesandmotionbasics.motion;
 
+import fj.F;
+import fj.Unit;
 import fj.data.List;
 import fj.function.Doubles;
 
@@ -16,9 +18,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
-import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -61,11 +60,11 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final Property<List<StackableNode>> stack = new Property<List<StackableNode>>( List.<StackableNode>nil() );
     private final PNode forcesNode;
 
-    //TODO: Move to model?
-    private final DoubleProperty appliedForce = new DoubleProperty( 0.0 );
-    private final DoubleProperty velocity = new DoubleProperty( 0.0 );
-    private final DoubleProperty position = new DoubleProperty( 0.0 );
-    private final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
+    private MotionModel model = new MotionModel( new F<Unit, Double>() {
+        @Override public Double f( final Unit unit ) {
+            return getMassOfObjectsOnSkateboard();
+        }
+    } );
 
     public static final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 33 - 12;
     public static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 48 - 12;
@@ -84,7 +83,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         PNode terrain = new PNode() {{
             final BufferedImage tile = Images.BRICK_TILE;
-            position.addObserver( new VoidFunction1<Double>() {
+            model.position.addObserver( new VoidFunction1<Double>() {
                 public void apply( final Double position ) {
                     removeAllChildren();
                     for ( int i = -10; i < 10; i++ ) {
@@ -101,7 +100,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
 
         PNode clouds = new PNode() {{
-            position.addObserver( new VoidFunction1<Double>() {
+            model.position.addObserver( new VoidFunction1<Double>() {
                 public void apply( final Double position ) {
                     removeAllChildren();
 
@@ -147,11 +146,11 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         toolbox.setOffset( INSET, STAGE_SIZE.height - INSET - toolbox.getFullBounds().getHeight() );
         addChild( toolbox );
 
-        SliderControl sliderControl = new SliderControl( appliedForce, stack );
+        SliderControl sliderControl = new SliderControl( model.appliedForce, stack );
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( sliderControl );
 
-        final PusherNode pusherNode = new PusherNode( skateboard, grassY, appliedForce, stack );
+        final PusherNode pusherNode = new PusherNode( skateboard, grassY, model.appliedForce, stack );
         addChild( pusherNode );
 
         HBox timeControls = new HBox( -3, new RewindButton( 60 ), new PlayPauseButton( 70 ), new StepButton( 60 ) );
@@ -175,22 +174,16 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
-                double sumOfForces = appliedForce.get();
-                final double mass = getMassOfObjectsOnSkateboard();
-                double acceleration = mass != 0 ? sumOfForces / mass : 0.0;
-                final double dt = clockEvent.getSimulationTimeChange();
-                velocity.set( velocity.get() + acceleration * dt );
-                position.set( position.get() + velocity.get() * dt );
-                speed.set( new Some<Double>( Math.abs( velocity.get() ) ) );
+                model.stepInTime( clockEvent.getSimulationTimeChange() );
 
-                if ( appliedForce.get() == 0.0 ) {
-                    final double delta = -velocity.get() * dt * 100;
+                if ( model.appliedForce.get() == 0.0 ) {
+                    final double delta = -model.velocity.get() * clockEvent.getSimulationTimeChange() * 100;
                     pusherNode.setOffset( pusherNode.getOffset().getX() + delta, pusherNode.getOffset().getY() );
                 }
             }
         } );
 
-        appliedForce.addObserver( new VoidFunction1<Double>() {
+        model.appliedForce.addObserver( new VoidFunction1<Double>() {
             public void apply( final Double appliedForce ) {
                 if ( appliedForce != 0.0 ) {
                     pusherNode.setOffset( 0, 0 );
@@ -204,16 +197,16 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     removeAllChildren();
                     if ( showValuesCheckBox.isSelected() ) {
                         addChild( new ForceArrowNode( false, v( skateboard.getFullBounds().getCenterX(), skateboard.getFullBounds().getCenterY() - 75 ),
-                                                      appliedForce.get() / 2, "Applied Force", new Color( 233, 110, 36 ), TextLocation.SIDE, false ) );
+                                                      model.appliedForce.get() / 2, "Applied Force", new Color( 233, 110, 36 ), TextLocation.SIDE, false ) );
                     }
                 }
             };
             showValues.addObserver( updateForces );
-            appliedForce.addObserver( updateForces );
+            model.appliedForce.addObserver( updateForces );
         }};
         addChild( forcesNode );
 
-        SpeedometerNode speedometerNode = new SpeedometerNode( "Speed", 125, speed, 50 ) {{
+        SpeedometerNode speedometerNode = new SpeedometerNode( "Speed", 125, model.speed, 50 ) {{
             showSpeedometer.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( final Boolean show ) {
                     setVisible( show );
