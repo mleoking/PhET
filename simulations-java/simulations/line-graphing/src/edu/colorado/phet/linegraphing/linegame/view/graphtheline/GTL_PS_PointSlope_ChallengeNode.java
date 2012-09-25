@@ -24,13 +24,14 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Given an equation in slope-intercept form, graph the line by manipulating the slope and intercept.
+ * View component for a "Graph the Line" (GTL) challenge.
+ * Given an equation in point-slope (PS) form, graph the line by manipulating the Point and Slope.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SI_EG_SlopeIntercept_ChallengeNode extends SI_EG_ChallengeNode {
+public class GTL_PS_PointSlope_ChallengeNode extends GTL_PS_ChallengeNode {
 
-    public SI_EG_SlopeIntercept_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public GTL_PS_PointSlope_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
     }
 
@@ -40,10 +41,10 @@ public class SI_EG_SlopeIntercept_ChallengeNode extends SI_EG_ChallengeNode {
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends SI_EG_ChallengeGraphNode {
+    private static class ThisGraphNode extends GTL_PS_ChallengeGraphNode {
 
         private final LineNode answerNode;
-        private final LineManipulatorNode slopeManipulatorNode, interceptManipulatorNode;
+        private final LineManipulatorNode pointManipulatorNode, slopeManipulatorNode;
 
         public ThisGraphNode( final Graph graph,
                               Property<Line> guessLine,
@@ -60,31 +61,29 @@ public class SI_EG_SlopeIntercept_ChallengeNode extends SI_EG_ChallengeNode {
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
             // dynamic ranges
-            final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+            final Property<DoubleRange> x1Range = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
             final Property<DoubleRange> y1Range = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+            final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+            final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( graph.xRange ) );
 
-            // line manipulators
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
+
+            // point manipulator
+            pointManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
+            pointManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
+                                                                             pointManipulatorNode, mvt, guessLine, x1Range, y1Range,
+                                                                             true /* constantSlope */ ) );
 
             // slope manipulator
             slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
             slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                              slopeManipulatorNode, mvt, guessLine,
-                                                                              riseRange,
-                                                                              new Property<DoubleRange>( new DoubleRange( graph.xRange ) ) ) );
+                                                                              slopeManipulatorNode, mvt, guessLine, riseRange, runRange ) );
 
-            // point (y intercept) manipulator
-            interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
-            interceptManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                                 interceptManipulatorNode, mvt, guessLine,
-                                                                                 new Property<DoubleRange>( new DoubleRange( 0, 0 ) ), /* x1 is fixed */
-                                                                                 y1Range,
-                                                                                 true /* constantSlope */ ) );
             // Rendering order
             addChild( guessNodeParent );
             addChild( answerNode );
+            addChild( pointManipulatorNode );
             addChild( slopeManipulatorNode );
-            addChild( interceptManipulatorNode );
 
             // Show the user's current guess
             guessLine.addObserver( new VoidFunction1<Line>() {
@@ -97,20 +96,39 @@ public class SI_EG_SlopeIntercept_ChallengeNode extends SI_EG_ChallengeNode {
                     guessNodeParent.addChild( guessNode );
 
                     // move the manipulators
+                    pointManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
                     slopeManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
-                    interceptManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
 
-                    //TODO this was copied from LineFormsModel constructor, apply strategy pattern
-                    // adjust the rise range
-                    final double riseMin = graph.yRange.getMin() - line.y1;
-                    final double riseMax = graph.yRange.getMax() - line.y1;
+                    //TODO this was copied from LineFormsModel constructor
+                    // range of the graph axes
+                    final int xMin = graph.xRange.getMin();
+                    final int xMax = graph.xRange.getMax();
+                    final int yMin = graph.yRange.getMin();
+                    final int yMax = graph.yRange.getMax();
+
+                    //TODO this was copied from LineFormsModel constructor
+                    // x1
+                    final double x1Min = Math.max( xMin, xMin - line.run );
+                    final double x1Max = Math.min( xMax, xMax - line.run );
+                    x1Range.set( new DoubleRange( x1Min, x1Max ) );
+
+                    //TODO this was copied from LineFormsModel constructor
+                    // y1
+                    final double y1Min = Math.max( yMin, yMin - line.rise );
+                    final double y1Max = Math.min( yMax, yMax - line.rise );
+                    y1Range.set( new DoubleRange( y1Min, y1Max ) );
+
+                    //TODO this was copied from LineFormsModel constructor
+                    // rise
+                    final double riseMin = yMin - line.y1;
+                    final double riseMax = yMax - line.y1;
                     riseRange.set( new DoubleRange( riseMin, riseMax ) );
 
-                    //TODO this was copied from LineFormsModel constructor, apply strategy pattern
-                    // adjust the y-intercept range
-                    final double y1Min = ( line.rise >= 0 ) ? graph.yRange.getMin() : graph.yRange.getMin() - line.rise;
-                    final double y1Max = ( line.rise <= 0 ) ? graph.yRange.getMax() : graph.yRange.getMax() - line.rise;
-                    y1Range.set( new DoubleRange( y1Min, y1Max ) );
+                    //TODO this was copied from LineFormsModel constructor
+                    // run
+                    final double runMin = xMin - line.x1;
+                    final double runMax = xMax - line.x1;
+                    runRange.set( new DoubleRange( runMin, runMax ) );
                 }
             } );
         }

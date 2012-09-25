@@ -15,23 +15,22 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
-import edu.colorado.phet.linegraphing.common.view.X2Y2DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeGraphNode;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Given an equation in slope-intercept form, graph the line by manipulating 2 arbitrary points.
+ * View component for a "Graph the Line" (GTL) challenge.
+ * Given an equation in slope-intercept (SI) form, graph the line by manipulating the Intercept.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SI_EG_Points_ChallengeNode extends SI_EG_ChallengeNode {
+public class GTL_SI_Intercept_ChallengeNode extends GTL_SI_ChallengeNode {
 
-    public SI_EG_Points_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public GTL_SI_Intercept_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
     }
 
@@ -41,10 +40,10 @@ public class SI_EG_Points_ChallengeNode extends SI_EG_ChallengeNode {
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends SI_EG_ChallengeGraphNode {
+    private static class ThisGraphNode extends GTL_SI_ChallengeGraphNode {
 
         private final LineNode answerNode;
-        private final LineManipulatorNode x1y1ManipulatorNode, x2y2ManipulatorNode;
+        private final LineManipulatorNode interceptManipulatorNode;
 
         public ThisGraphNode( final Graph graph,
                               Property<Line> guessLine,
@@ -60,28 +59,18 @@ public class SI_EG_Points_ChallengeNode extends SI_EG_ChallengeNode {
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
+            // point (y intercept) manipulator
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
-
-            // (x1,y1) manipulator
-            x1y1ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
-            x1y1ManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.x1y1Manipulator, UserComponentTypes.sprite,
-                                                                            x1y1ManipulatorNode, mvt, guessLine,
-                                                                            new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
-                                                                            new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
-                                                                            false /* constantSlope */ ) );
-
-            // (x2,y2) manipulator
-            x2y2ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X2_Y2 );
-            x2y2ManipulatorNode.addInputEventListener( new X2Y2DragHandler( UserComponents.x2y2Manipulator, UserComponentTypes.sprite,
-                                                                            x2y2ManipulatorNode, mvt, guessLine,
-                                                                            new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
-                                                                            new Property<DoubleRange>( new DoubleRange( graph.yRange ) ) ) );
-
+            interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
+            interceptManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
+                                                                                 interceptManipulatorNode, mvt, guessLine,
+                                                                                 new Property<DoubleRange>( new DoubleRange( 0, 0 ) ),
+                                                                                 new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                                                                 true /* constantSlope */ ) );
             // Rendering order
             addChild( guessNodeParent );
             addChild( answerNode );
-            addChild( x1y1ManipulatorNode );
-            addChild( x2y2ManipulatorNode );
+            addChild( interceptManipulatorNode );
 
             // Show the user's current guess
             guessLine.addObserver( new VoidFunction1<Line>() {
@@ -93,16 +82,10 @@ public class SI_EG_Points_ChallengeNode extends SI_EG_ChallengeNode {
                     guessNode.setEquationVisible( false );
                     guessNodeParent.addChild( guessNode );
 
-                    // move the manipulators
-                    x1y1ManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
-                    x2y2ManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
+                    // move the manipulator
+                    interceptManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
                 }
             } );
-        }
-
-        // Guess has to be in point-slope form, since a guess with 2 arbitrary points won't conform to slope-intercept form.
-        @Override public LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-            return new PointSlopeLineNode( line, graph, mvt );
         }
 
         // Sets the visibility of the correct answer. When answer is visible, manipulators are hidden.

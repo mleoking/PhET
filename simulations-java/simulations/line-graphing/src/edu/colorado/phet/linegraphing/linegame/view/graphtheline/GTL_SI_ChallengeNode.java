@@ -18,14 +18,13 @@ import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class for all challenges that use slope-intercept form.
- * Naming convention: SI=Slope-Intercept, EG=given Equation, make Graph
+ * Base class for "Graph the Line" (GTL) challenges that use slope-intercept (SI) form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class SI_EG_ChallengeNode extends EG_ChallengeNode {
+public abstract class GTL_SI_ChallengeNode extends GTL_ChallengeNode {
 
-    public SI_EG_ChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public GTL_SI_ChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
     }
 
@@ -35,9 +34,9 @@ public abstract class SI_EG_ChallengeNode extends EG_ChallengeNode {
     }
 
     // Graph for all challenges that use slope-intercept form.
-    public static abstract class SI_EG_ChallengeGraphNode extends ChallengeGraphNode {
+    public static abstract class GTL_SI_ChallengeGraphNode extends ChallengeGraphNode {
 
-        public SI_EG_ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
+        public GTL_SI_ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
             super( graph, mvt );
         }
 
