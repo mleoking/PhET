@@ -102,13 +102,15 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 public void apply( final Double position ) {
                     removeAllChildren();
 
-                    for ( int i = -10; i <= 10; i++ ) {
-                        final int finalI = i;
-
-                        addChild( new PImage( Images.CLOUD1 ) {{
-                            scale( 0.6 );
-                            setOffset( finalI * STAGE_SIZE.width * getScale() - position * 10, -50 );
-                        }} );
+                    for ( int i = -20; i <= 20; i++ ) {
+                        final double cloudScale = 0.6;
+                        final double offsetX = i * STAGE_SIZE.width * cloudScale - position * 10;
+                        if ( offsetX > -STAGE_SIZE.width * 2 && offsetX < STAGE_SIZE.width * 3 ) {
+                            addChild( new PImage( Images.CLOUD1 ) {{
+                                scale( cloudScale );
+                                setOffset( offsetX, -50 );
+                            }} );
+                        }
                     }
                 }
             } );
