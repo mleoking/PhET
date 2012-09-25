@@ -18,6 +18,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class PusherNode extends PNode {
+
+    //record the last direction of the push so that the pusher will stand in the right location.  For example:
+    //After pushing left, pusher should stand to the right of the object.
+    //This is initialized to a positive value because the pusher should stand to the left of the skateboard on initialization
+    private double lastNonzeroAppliedForce = 1E-6;
+
     public PusherNode( final PNode skateboard, final double grassY, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack ) {
         final PImage pusher = new PImage( Images.PUSHER_STRAIGHT_ON );
         pusher.scale( 0.8 );
@@ -25,10 +31,19 @@ public class PusherNode extends PNode {
 
         appliedForce.addObserver( new VoidFunction1<Double>() {
             public void apply( final Double appliedForce ) {
+                if ( appliedForce != 0 ) {
+                    lastNonzeroAppliedForce = appliedForce;
+                }
+
                 if ( appliedForce == 0 ) {
                     pusher.setImage( Images.PUSHER_STRAIGHT_ON );
 
-                    pusher.setOffset( skateboard.getFullBounds().getX() - pusher.getFullBounds().getWidth() + 0, grassY - pusher.getFullBounds().getHeight() );
+                    if ( lastNonzeroAppliedForce > 0 ) {
+                        pusher.setOffset( skateboard.getFullBounds().getX() - pusher.getFullBounds().getWidth() + 0, grassY - pusher.getFullBounds().getHeight() );
+                    }
+                    else {
+                        pusher.setOffset( skateboard.getFullBounds().getMaxX(), grassY - pusher.getFullBounds().getHeight() );
+                    }
                 }
                 else {
                     if ( stack.get().length() > 0 ) {
