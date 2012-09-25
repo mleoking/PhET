@@ -1,3 +1,4 @@
+Tab 1: Fixed: When attaching a puller while the rope is moving, they do not change their pose.
 Tab 1: Show a flag after game complete
 Tab 1: Allow addition/removal of pullers after pressing "go"
 Tab 1: Added toolboxes and brown earth
