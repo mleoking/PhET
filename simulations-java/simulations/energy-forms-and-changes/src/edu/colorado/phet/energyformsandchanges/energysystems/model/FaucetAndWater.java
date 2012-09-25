@@ -141,15 +141,10 @@ public class FaucetAndWater extends EnergySource {
             waterShapeDefiningPoints.add( new DistanceWidthPair( 0, waterWidth ) );
         }
 
-        // Update points that are reaching the bottom of the "fall distance".
         List<DistanceWidthPair> copyOfShapeDefiningPoints = new ArrayList<DistanceWidthPair>( waterShapeDefiningPoints );
-        for ( int i = 0; i < copyOfShapeDefiningPoints.size() - 1; i++ ) {
-            if ( copyOfShapeDefiningPoints.get( i ).distance >= MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER &&
-                 copyOfShapeDefiningPoints.get( i + 1 ).distance >= MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER ) {
-                // This point is no longer needed.
-                waterShapeDefiningPoints.remove( copyOfShapeDefiningPoints.get( i ) );
-                // Set the point at the bottom to have zero width.
-                copyOfShapeDefiningPoints.get( i + 1 ).setWidth( 0 );
+        for ( DistanceWidthPair waterShapePoint : copyOfShapeDefiningPoints ) {
+            if ( waterShapePoint.getDistance() >= MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER ) {
+                waterShapeDefiningPoints.remove( waterShapePoint );
             }
         }
 
@@ -185,7 +180,7 @@ public class FaucetAndWater extends EnergySource {
         int blobCount = 0;
         List<DistanceWidthPair> blobDefiningPairs = new ArrayList<DistanceWidthPair>();
         for ( int i = 0; i < distanceWidthPairs.size(); i++ ) {
-            System.out.println( "blob i = " + i );
+            System.out.println( "Point within blob = " + i );
             blobDefiningPairs.add( distanceWidthPairs.get( i ) );
             if ( ( blobDefiningPairs.size() > 1 && distanceWidthPairs.get( i ).getWidth() == 0 ) || i == distanceWidthPairs.size() - 1 ) {
                 // End of blob detected, so add this to the path.
@@ -200,13 +195,6 @@ public class FaucetAndWater extends EnergySource {
     }
 
     private static void addBlobToPath( List<DistanceWidthPair> distanceWidthPairs, DoubleGeneralPath path ) {
-
-        // Check that the blob is properly formed.
-        if ( distanceWidthPairs.get( 0 ).getWidth() != 0 ) {
-            System.out.println( "Error case bubka" );
-        }
-        assert distanceWidthPairs.size() >= 2;
-        assert distanceWidthPairs.get( 0 ).width == 0;
 
         List<DistanceWidthPair> copy = new ArrayList<DistanceWidthPair>( distanceWidthPairs );
         Vector2D startPoint = new Vector2D( -copy.get( 0 ).getWidth() / 2, -copy.get( 0 ).distance );
