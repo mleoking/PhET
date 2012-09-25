@@ -50,7 +50,7 @@ public abstract class ChallengeNode extends PhetPNode {
 
         final FaceNode faceNode = new FaceNode( GameConstants.FACE_DIAMETER, GameConstants.FACE_COLOR );
 
-        final PText pointsNode = new PhetPText( "", GameConstants.POINTS_FONT, GameConstants.POINTS_COLOR );
+        final PText pointsAwardedNode = new PhetPText( "", GameConstants.POINTS_AWARDED_FONT, GameConstants.POINTS_AWARDED_COLOR );
 
         // Buttons
         final Font buttonFont = GameConstants.BUTTON_FONT;
@@ -73,8 +73,8 @@ public abstract class ChallengeNode extends PhetPNode {
             equationNode.setChildrenPickable( false );
             faceNode.setPickable( false );
             faceNode.setChildrenPickable( false );
-            pointsNode.setPickable( false );
-            pointsNode.setChildrenPickable( false );
+            pointsAwardedNode.setPickable( false );
+            pointsAwardedNode.setChildrenPickable( false );
         }
 
         // rendering order
@@ -89,7 +89,7 @@ public abstract class ChallengeNode extends PhetPNode {
             addChild( pointToolNode1 );
             addChild( pointToolNode2 );
             addChild( faceNode );
-            addChild( pointsNode );
+            addChild( pointsAwardedNode );
         }
 
         // layout
@@ -131,7 +131,7 @@ public abstract class ChallengeNode extends PhetPNode {
                                      ( state == PlayState.NEXT && model.challenge.get().isCorrect() ) );
 
                 // visibility of points
-                pointsNode.setVisible( faceNode.getVisible() && model.challenge.get().isCorrect() );
+                pointsAwardedNode.setVisible( faceNode.getVisible() && model.challenge.get().isCorrect() );
 
                 // visibility of buttons
                 checkButton.setVisible( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK );
@@ -155,16 +155,16 @@ public abstract class ChallengeNode extends PhetPNode {
                     model.challenge.get().guess.set( model.challenge.get().guess.get().withColor( GameConstants.CORRECT_ANSWER_COLOR ) );
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.results.score.set( model.results.score.get() + points );
-                    pointsNode.setText( MessageFormat.format( Strings.POINTS_AWARDED, String.valueOf( points ) ) );
+                    pointsAwardedNode.setText( MessageFormat.format( Strings.POINTS_AWARDED, String.valueOf( points ) ) );
                     // center points below face
-                    pointsNode.setOffset( faceNode.getFullBoundsReference().getCenterX() - ( pointsNode.getFullBoundsReference().getWidth() / 2 ),
-                                          faceNode.getFullBoundsReference().getMaxY() + 10 );
+                    pointsAwardedNode.setOffset( faceNode.getFullBoundsReference().getCenterX() - ( pointsAwardedNode.getFullBoundsReference().getWidth() / 2 ),
+                                                 faceNode.getFullBoundsReference().getMaxY() + 10 );
                     model.state.set( PlayState.NEXT );
                 }
                 else {
                     faceNode.frown();
                     audioPlayer.wrongAnswer();
-                    pointsNode.setText( "" );
+                    pointsAwardedNode.setText( "" );
                     if ( model.state.get() == PlayState.FIRST_CHECK ) {
                         model.state.set( PlayState.TRY_AGAIN );
                     }
