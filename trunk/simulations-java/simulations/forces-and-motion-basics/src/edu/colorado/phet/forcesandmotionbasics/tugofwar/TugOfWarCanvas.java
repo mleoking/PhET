@@ -287,7 +287,8 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         flagLayer = new PNode();
         addChild( flagLayer );
 
-        flagLayer.addChild( new FlagNode( Color.blue, "Blue Wins!" ) {{setOffset( 100, 100 );}} );
+        //For testing flags
+//        flagLayer.addChild( new FlagNode( Color.blue, "Blue Wins!" ) {{setOffset( 100, 100 );}} );
     }
 
     private void addFlagNode( final FlagNode flagNode ) {
