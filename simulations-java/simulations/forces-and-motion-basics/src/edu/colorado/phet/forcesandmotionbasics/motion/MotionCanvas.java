@@ -80,7 +80,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         final int grassY = 425;
         addChild( new SkyNode( createIdentity(), new Rectangle2D.Double( -width / 2, -width / 2 + grassY, width, width / 2 ), grassY, SkyNode.DEFAULT_TOP_COLOR, SkyNode.DEFAULT_BOTTOM_COLOR ) );
 
-        PNode terrain2 = new PNode() {{
+        PNode brickLayer = new PNode() {{
             model.position.addObserver( new VoidFunction1<Double>() {
                 public void apply( final Double position ) {
                     removeAllChildren();
@@ -95,7 +95,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 }
             } );
         }};
-        addChild( terrain2 );
+        addChild( brickLayer );
 
         PNode clouds = new PNode() {{
             model.position.addObserver( new VoidFunction1<Double>() {
