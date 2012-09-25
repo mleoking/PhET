@@ -13,12 +13,8 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  */
 public class GameResults {
 
-    // results for the current game
     public final Property<Integer> score; // how many points the user has earned for the current game
-    public boolean isNewBestTime; // is the time for this game a new best time?
-
-    //TODO this doesn't really belong here
-    // results for all games played so far
+    public boolean isNewBestTime; // is the time for the most-recently-completed game a new best time?
     public final HashMap<Integer, Long> bestTimes; // best times, maps level to time in ms
 
     public GameResults( IntegerRange levelsRange ) {
