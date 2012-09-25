@@ -67,8 +67,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final DoubleProperty position = new DoubleProperty( 0.0 );
     private final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
 
-    public static final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 33;
-    public static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 48;
+    public static final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 33 - 12;
+    public static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 48 - 12;
 
     public MotionCanvas( final Context context, final IClock clock ) {
 
@@ -139,6 +139,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }} );
 
         skateboard = new PImage( Images.SKATEBOARD );
+        skateboard.setScale( 0.85 );
         skateboard.setOffset( STAGE_SIZE.getWidth() / 2 - skateboard.getFullBounds().getWidth() / 2, grassY - skateboard.getFullBounds().getHeight() );
         addChild( skateboard );
 
