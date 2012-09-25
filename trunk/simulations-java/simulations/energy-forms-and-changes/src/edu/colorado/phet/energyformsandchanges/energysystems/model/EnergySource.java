@@ -41,4 +41,9 @@ public abstract class EnergySource extends EnergySystemElement {
         outgoingEnergyChunks.clear();
         return retVal;
     }
+
+    @Override public void deactivate() {
+        super.deactivate();
+        outgoingEnergyChunks.clear();
+    }
 }
