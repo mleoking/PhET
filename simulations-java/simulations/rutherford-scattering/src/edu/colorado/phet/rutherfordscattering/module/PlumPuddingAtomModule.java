@@ -149,7 +149,7 @@ public class PlumPuddingAtomModule extends RSAbstractModule {
 
         // Length indicator for the box
         final double length = 300; // pm
-        final String pattern = "{0} pm (atomic scale)";  //TODO i18n
+        final String pattern = RSResources.getString( "pattern.atomicScale" );
         _lengthNode = new BoxLengthNode( RSConstants.ANIMATION_BOX_SIZE.getWidth(), MessageFormat.format( pattern, length ), Color.WHITE );
 
         // Zoom indicator

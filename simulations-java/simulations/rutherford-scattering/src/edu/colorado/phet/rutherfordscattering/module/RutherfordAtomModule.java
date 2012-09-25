@@ -155,7 +155,7 @@ public class RutherfordAtomModule extends RSAbstractModule {
 
         // Length indicator for the box
         final double length = 150; // fm
-        final String pattern = "{0} fm (nuclear scale)";  //TODO i18n
+        final String pattern = RSResources.getString( "pattern.nuclearScale" );
         _lengthNode = new BoxLengthNode( RSConstants.ANIMATION_BOX_SIZE.getWidth(), MessageFormat.format( pattern, length ), Color.WHITE );
 
         // Zoom indicator
