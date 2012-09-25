@@ -49,6 +49,9 @@ import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.BROWN;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
+import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._isOnSkateboard;
+import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._mass;
+import static fj.function.Doubles.add;
 
 /**
  * @author Sam Reid
@@ -292,9 +295,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         } );
     }
 
-    private double getMassOfObjectsOnSkateboard() {
-        return stackableNodes.filter( StackableNode._isOnSkateboard ).map( StackableNode._mass ).foldLeft( Doubles.add, 0.0 );
-    }
+    private double getMassOfObjectsOnSkateboard() { return stackableNodes.filter( _isOnSkateboard ).map( _mass ).foldLeft( add, 0.0 ); }
 
     public void stackableNodeDropped( final StackableNode stackableNode ) {
         PBounds bounds = skateboard.getGlobalFullBounds();
