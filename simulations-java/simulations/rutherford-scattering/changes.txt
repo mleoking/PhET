@@ -1,4 +1,4 @@
-> show the scale difference between the two tabs by labeling the width of the viewport
+> show the scale difference between the two models by labeling the widths of their viewports
 # 1.04.02 (68321) Sep 24, 2012
 9/24/12 #3437, dev version for regression testing
 9/24/12 #3437, i18n of new strings
