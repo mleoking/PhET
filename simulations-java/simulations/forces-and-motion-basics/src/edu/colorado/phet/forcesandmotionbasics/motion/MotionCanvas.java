@@ -128,7 +128,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( sliderControl );
 
-        PusherNode pusherNode = new PusherNode( skateboard, grassY, appliedForce, stack );
+        final PusherNode pusherNode = new PusherNode( skateboard, grassY, appliedForce, stack );
         addChild( pusherNode );
 
         HBox timeControls = new HBox( -3, new RewindButton( 60 ), new PlayPauseButton( 70 ), new StepButton( 60 ) );
@@ -158,9 +158,23 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 final double mass = getMassOfObjectsOnSkateboard();
                 if ( mass > 0 ) {
                     double acceleration = sumOfForces / mass;
-                    velocity.set( velocity.get() + acceleration * clockEvent.getSimulationTimeChange() );
-                    position.set( position.get() + velocity.get() * clockEvent.getSimulationTimeChange() );
+                    final double dt = clockEvent.getSimulationTimeChange();
+                    velocity.set( velocity.get() + acceleration * dt );
+                    position.set( position.get() + velocity.get() * dt );
                     speed.set( new Some<Double>( Math.abs( velocity.get() ) ) );
+
+                    if ( appliedForce.get() == 0.0 ) {
+                        final double delta = -velocity.get() * dt * 100;
+                        pusherNode.setOffset( pusherNode.getOffset().getX() + delta, pusherNode.getOffset().getY() );
+                    }
+                }
+            }
+        } );
+
+        appliedForce.addObserver( new VoidFunction1<Double>() {
+            public void apply( final Double appliedForce ) {
+                if ( appliedForce != 0.0 ) {
+                    pusherNode.setOffset( 0, 0 );
                 }
             }
         } );
