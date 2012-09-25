@@ -32,7 +32,7 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
         // Create the faucet.
         final FaucetNode faucetNode = new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet,
                                                       faucet.flowProportion,
-                                                      faucet.enabled,
+                                                      faucet.getObservableActiveState(),
                                                       FAUCET_NODE_HORIZONTAL_LENGTH,
                                                       false );
         faucetNode.setScale( 0.9 ); // Make it a little smaller than default.  Looks better in this sim.

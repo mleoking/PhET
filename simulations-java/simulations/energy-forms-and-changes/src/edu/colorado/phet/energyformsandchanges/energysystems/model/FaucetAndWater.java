@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -41,16 +40,16 @@ public class FaucetAndWater extends EnergySource {
     // Instance Data
     //-------------------------------------------------------------------------
 
+    // Proportion of full available flow that is occurring.
     public final Property<Double> flowProportion = new Property<Double>( 0.0 );
-    public final BooleanProperty enabled = new BooleanProperty( true );
-
-    // Shape of the water coming from the faucet.  The shape is specified
-    // relative to the water origin.
-    public final Property<Shape> waterShape = new Property<Shape>( null );
 
     // Points, or actually distance-width pairs, that define the shape of the
     // water.
     private final List<DistanceWidthPair> waterShapeDefiningPoints = new ArrayList<DistanceWidthPair>();
+
+    // Shape of the water coming from the faucet.  The shape is specified
+    // relative to the water origin.
+    public final Property<Shape> waterShape = new Property<Shape>( createWaterShapeFromPoints( waterShapeDefiningPoints ) );
 
     private double flowSinceLastChunk = 0;
     private final BooleanProperty energyChunksVisible;
@@ -62,15 +61,6 @@ public class FaucetAndWater extends EnergySource {
     protected FaucetAndWater( BooleanProperty energyChunksVisible ) {
         super( EnergyFormsAndChangesResources.Images.FAUCET_ICON );
         this.energyChunksVisible = energyChunksVisible;
-
-        waterShape.set( createWaterShapeFromPoints( waterShapeDefiningPoints ) );
-
-        // TODO: Probably won't need this when updates occurring in stepInTime.
-        flowProportion.addObserver( new SimpleObserver() {
-            public void update() {
-//                updateWaterShape();
-            }
-        } );
     }
 
     //-------------------------------------------------------------------------
@@ -82,7 +72,7 @@ public class FaucetAndWater extends EnergySource {
         if ( isActive() ) {
 
             // Update the shape of the water.  This is done here - in the time
-            // step method - so that the water appears to fall at the start
+            // step method - so that the water can appear to fall at the start
             // and end of the flow.
             updateWaterShape( dt );
 
@@ -132,15 +122,13 @@ public class FaucetAndWater extends EnergySource {
             // Now add point for actual water width.
             waterShapeDefiningPoints.add( new DistanceWidthPair( 0, waterWidth ) );
         }
-        else if ( waterWidth == 0 && previousWaterWidth > 0 ) {
-            // This is the end of a water blob.
-            waterShapeDefiningPoints.add( new DistanceWidthPair( 0, waterWidth ) );
-        }
-        else if ( waterWidth > 0 && previousWaterWidth > 0 ) {
-            // This is somewhere in the middle of a blob, so just add a point.
+        else if ( previousWaterWidth > 0 ) {
+            // This is either the middle or the end of a water blob, so just
+            // add the next shape-defining point.
             waterShapeDefiningPoints.add( new DistanceWidthPair( 0, waterWidth ) );
         }
 
+        // Remove points that have fallen to the bottom of the fall range.
         List<DistanceWidthPair> copyOfShapeDefiningPoints = new ArrayList<DistanceWidthPair>( waterShapeDefiningPoints );
         for ( DistanceWidthPair waterShapePoint : copyOfShapeDefiningPoints ) {
             if ( waterShapePoint.getDistance() >= MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER ) {
@@ -148,18 +136,8 @@ public class FaucetAndWater extends EnergySource {
             }
         }
 
-        // TODO: Optimize to update only when changes occur.
+        // Create the water shape from the distance-width pairs.
         waterShape.set( createWaterShapeFromPoints( waterShapeDefiningPoints ) );
-    }
-
-    @Override public void deactivate() {
-        super.deactivate();
-        enabled.set( false );
-    }
-
-    @Override public void activate() {
-        super.activate();
-        enabled.set( true );
     }
 
     @Override public IUserComponent getUserComponent() {
@@ -177,15 +155,11 @@ public class FaucetAndWater extends EnergySource {
         DoubleGeneralPath path = new DoubleGeneralPath();
 
         // Identify individual blobs and add them to the path.
-        int blobCount = 0;
         List<DistanceWidthPair> blobDefiningPairs = new ArrayList<DistanceWidthPair>();
         for ( int i = 0; i < distanceWidthPairs.size(); i++ ) {
-            System.out.println( "Point within blob = " + i );
             blobDefiningPairs.add( distanceWidthPairs.get( i ) );
             if ( ( blobDefiningPairs.size() > 1 && distanceWidthPairs.get( i ).getWidth() == 0 ) || i == distanceWidthPairs.size() - 1 ) {
                 // End of blob detected, so add this to the path.
-                System.out.println( "blobCount = " + blobCount );
-                blobCount++;
                 addBlobToPath( blobDefiningPairs, path );
                 blobDefiningPairs.clear();
             }
@@ -219,22 +193,9 @@ public class FaucetAndWater extends EnergySource {
         path.lineTo( startPoint );
     }
 
-    private void updateWaterShape() {
-        if ( flowProportion.get() == 0 ) {
-            waterShape.set( new Rectangle2D.Double( 0, 0, 1E-7, 1E-7 ) );
-        }
-        else {
-            waterShapeDefiningPoints.clear();
-            double waterWidth = flowProportion.get() * MAX_WATER_WIDTH;
-            waterShapeDefiningPoints.add( new DistanceWidthPair( MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER, waterWidth ) );
-            waterShapeDefiningPoints.add( new DistanceWidthPair( 0, waterWidth ) );
-            waterShape.set( createWaterShapeFromPoints( waterShapeDefiningPoints ) );
-        }
-    }
-
     private static class DistanceWidthPair {
         private double distance;
-        private double width;
+        private final double width;
 
         private DistanceWidthPair( double distance, double width ) {
             this.distance = distance;
@@ -251,10 +212,6 @@ public class FaucetAndWater extends EnergySource {
 
         public double getWidth() {
             return width;
-        }
-
-        public void setWidth( double width ) {
-            this.width = width;
         }
     }
 }
