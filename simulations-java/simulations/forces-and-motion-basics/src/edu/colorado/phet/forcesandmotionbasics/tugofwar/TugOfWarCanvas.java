@@ -67,6 +67,8 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final PImage rope;
     private final double initialRopeX;
     private ArrayList<VoidFunction0> cartPositionListeners = new ArrayList<VoidFunction0>();
+    private final ImageButtonNodeWithText stopButton;
+    private final ImageButtonNodeWithText goButton;
 
     public static enum Mode {WAITING, GOING, COMPLETE}
 
@@ -152,9 +154,10 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         forcesNode = new ForcesNode();
         addChild( forcesNode );
 
-        addChild( new ImageButtonNodeWithText( Images.GO_UP, Images.GO_HOVER, Images.GO_PRESSED, "Go!", new VoidFunction0() {
+        goButton = new ImageButtonNodeWithText( Images.GO_UP, Images.GO_HOVER, Images.GO_PRESSED, "Go!", new VoidFunction0() {
             public void apply() {
                 mode.set( Mode.GOING );
+                stopButton.hover();
             }
         } ) {{
             setOffset( getButtonLocation( this ) );
@@ -172,11 +175,13 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             };
             forceListeners.add( update );
             update.apply();
-        }} );
+        }};
+        addChild( goButton );
 
-        final ImageButtonNodeWithText stopButton = new ImageButtonNodeWithText( Images.STOP_UP, Images.STOP_HOVER, Images.STOP_PRESSED, "STOP", new VoidFunction0() {
+        stopButton = new ImageButtonNodeWithText( Images.STOP_UP, Images.STOP_HOVER, Images.STOP_PRESSED, "STOP", new VoidFunction0() {
             public void apply() {
                 mode.set( Mode.WAITING );
+                goButton.hover();
             }
         } ) {{
             setOffset( getButtonLocation( this ) );
