@@ -22,11 +22,12 @@ class SettingsNode extends PhetPNode {
     public SettingsNode( final LineGameModel model, Dimension2D stageSize ) {
 
         // the standard game settings panel
-        PNode panelNode = new PSwing( new GameSettingsPanel( model.settings, new VoidFunction0() {
-            public void apply() {
-                model.phase.set( GamePhase.PLAY );
-            }
-        }, LGColors.GAME_INSTRUCTION_COLORS ) );
+        PNode panelNode = new PSwing( new GameSettingsPanel( model.settings,
+                                                             new VoidFunction0() {
+                                                                 public void apply() {
+                                                                     model.phase.set( GamePhase.PLAY );
+                                                                 }
+                                                             }, LGColors.GAME_INSTRUCTION_COLORS ) );
         panelNode.scale( 1.5 );
         addChild( panelNode );
 
