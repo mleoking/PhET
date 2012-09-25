@@ -1,3 +1,4 @@
+# 1.05.00 (68457) Sep 25, 2012
 > show the scale difference between the two models by labeling the widths of their viewports
 # 1.04.02 (68321) Sep 24, 2012
 9/24/12 #3437, dev version for regression testing
