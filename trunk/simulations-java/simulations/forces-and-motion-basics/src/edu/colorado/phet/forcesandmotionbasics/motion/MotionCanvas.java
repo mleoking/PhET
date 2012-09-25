@@ -55,6 +55,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     public static final Color BROWN = new Color( 197, 154, 91 );
     private final Property<Boolean> showSpeedometer = new Property<Boolean>( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
+    private final Property<Boolean> showArrows = new Property<Boolean>( true );
     private final PImage skateboard;
     private final List<StackableNode> stackableNodes;
     private final Property<List<StackableNode>> stack = new Property<List<StackableNode>>( List.<StackableNode>nil() );
@@ -196,9 +197,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             final SimpleObserver updateForces = new SimpleObserver() {
                 public void update() {
                     removeAllChildren();
-                    if ( showValuesCheckBox.isSelected() ) {
+                    if ( showArrows.get() ) {
                         addChild( new ForceArrowNode( false, v( skateboard.getFullBounds().getCenterX(), skateboard.getFullBounds().getCenterY() - 75 ),
-                                                      model.appliedForce.get() / 2, "Applied Force", new Color( 233, 110, 36 ), TextLocation.SIDE, false ) );
+                                                      model.appliedForce.get(), "Applied Force", new Color( 233, 110, 36 ), TextLocation.SIDE, showValues.get(), 0.5 ) );
                     }
                 }
             };

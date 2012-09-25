@@ -18,8 +18,8 @@ import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMo
  * @author Sam Reid
  */
 public class ForceArrowNode extends PNode {
-    public ForceArrowNode( final boolean transparent, final Vector2D tail, final double forceInNewtons, final String name, Color color, final TextLocation textLocation, final Boolean showValues ) {
-        final double value = forceInNewtons * 5;
+    public ForceArrowNode( final boolean transparent, final Vector2D tail, final double forceInNewtons, final String name, Color color, final TextLocation textLocation, final Boolean showValues, double scaleFactor ) {
+        final double value = forceInNewtons * 5 * scaleFactor;
         if ( value == 0 && textLocation == TextLocation.SIDE ) { return; }
         else if ( value == 0 && textLocation == TextLocation.TOP ) {
             showTextOnly( tail );
