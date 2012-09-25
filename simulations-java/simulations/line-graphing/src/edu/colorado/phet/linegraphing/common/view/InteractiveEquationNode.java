@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
-import java.awt.Dimension;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -23,31 +22,56 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class InteractiveEquationNode extends PhetPNode {
 
-    //TODO this should be a percentage of the font size
+    protected static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
+
+    protected final int pointSize; // point size of the static font used to render the equation
+
     /*
     * This controls the vertical offset of the slope's sign.
     * Zero is vertically centered on the equals sign, positive values move it down, negative move it up.
     * This was created because there was a great deal of discussion and disagreement about where the sign should be placed.
     */
-    protected static final int SLOPE_SIGN_Y_OFFSET = 0;
+    protected final double slopeSignYOffset;
 
-    //TODO these should be percentages of the font size
     // fudge factors for horizontal lines, to vertically center them with equals sign (set by visual inspection)
-    protected static final int SLOPE_SIGN_Y_FUDGE_FACTOR = 2;
-    protected static final int OPERATOR_Y_FUDGE_FACTOR = 2;
-    protected static final int FRACTION_LINE_Y_FUDGE_FACTOR = 2;
-    protected static final int UNDEFINED_SLOPE_Y_FUDGE_FACTOR = 2;
+    protected final double slopeSignYFudgeFactor;
+    protected final double operatorYFudgeFactor;
+    protected final double fractionLineYFudgeFactor;
+    protected final double undefinedSlopeYFudgeFactor;
 
-    // size of the lines used to create + and - operators
-    protected static final PDimension OPERATOR_LINE_SIZE = new PDimension( 15, 2 );
+    protected final float fractionLineThickness; // thickness of the fraction divisor line
+    protected final PDimension operatorLineSize; // size of the lines used to create + and - operators
+    protected final PDimension signLineSize; // size of the lines used to create + and - signs
 
-    // size of the lines used to create + and - signs
-    protected static final PDimension SIGN_LINE_SIZE = new PDimension( 15, 3 );
+    // spacing between components of an equation (set by visual inspection)
+    protected final double integerSignXSpacing; // spacing between a sign and the integer to the right of it
+    protected final double fractionSignXSpacing; // spacing between a sign and the fraction to the right of it
+    protected final double slopeXSpacing; // spacing between the slope and what's to the right of it
+    protected final double operatorXSpacing; // space around an operator (eg, +)
+    protected final double relationalOperatorXSpacing; // space around the relational operator (eg, =)
+    protected final double parenXSpacing; // space between a parenthesis and the thing it encloses
+    protected final double ySpacing; // all y spacing
 
-    // thickness of the fraction divisor line
-    protected static final int FRACTION_LINE_THICKNESS = 2;
+    protected InteractiveEquationNode( int pointSize ) {
+        this.pointSize = pointSize;
 
-    protected static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
+        // Compute dimensions and layout offsets as percentages of the font's point size.
+        slopeSignYOffset = 0;
+        slopeSignYFudgeFactor = 0.07 * pointSize;
+        operatorYFudgeFactor = 0.07 * pointSize;
+        fractionLineYFudgeFactor = 0.07 * pointSize;
+        undefinedSlopeYFudgeFactor = 0.07 * pointSize;
+        fractionLineThickness = 0.07f * pointSize;
+        operatorLineSize = new PDimension( 0.54 * pointSize, 0.07 * pointSize );
+        signLineSize = new PDimension( 0.54 * pointSize, 0.11 * pointSize );
+        integerSignXSpacing = 0.18 * pointSize;
+        fractionSignXSpacing = 0.36 * pointSize;
+        slopeXSpacing = 0.08 * pointSize;
+        operatorXSpacing = 0.25 * pointSize;
+        relationalOperatorXSpacing = 0.35 * pointSize;
+        parenXSpacing = 0.07 * pointSize;
+        ySpacing = 0.21 * pointSize;
+    }
 
     // Gets the max width for the rise and run spinners used in an interactive equation.
     protected static double computeMaxSlopeSpinnerWidth( Property<DoubleRange> riseRange, Property<DoubleRange> runRange, PhetFont font, NumberFormat format ) {
