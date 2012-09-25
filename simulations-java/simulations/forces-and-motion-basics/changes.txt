@@ -1,3 +1,4 @@
+Tab 1: Allow addition/removal of pullers after pressing "go"
 Tab 1: Added toolboxes and brown earth
 # 0.00.13 (68350) Sep 25, 2012
 # 0.00.12 (68335) Sep 25, 2012

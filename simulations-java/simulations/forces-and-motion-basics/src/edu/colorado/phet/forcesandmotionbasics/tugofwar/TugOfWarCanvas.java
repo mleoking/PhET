@@ -77,6 +77,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private ArrayList<VoidFunction0> cartPositionListeners = new ArrayList<VoidFunction0>();
     private final ImageButtonNodeWithText stopButton;
     private final ImageButtonNodeWithText goButton;
+    private final PNode knotLayer;
 
     public static enum Mode {WAITING, GOING, COMPLETE}
 
@@ -137,7 +138,10 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             }
         } );
 
-        addChildren( blueKnots.append( redKnots ) );
+        knotLayer = new PNode() {{
+            addChildren( blueKnots.append( redKnots ).toCollection() );
+        }};
+        addChild( knotLayer );
 
         addChild( rope );
         addChild( cartNode );
@@ -293,6 +297,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private void moveSystem( final double delta ) {
         cartNode.translate( delta, 0 );
         rope.translate( delta, 0 );
+        knotLayer.translate( delta, 0 );
         getAttachedPullers().foreach( new Effect<PullerNode>() {
             @Override public void e( final PullerNode pullerNode ) {
                 pullerNode.translate( delta / pullerNode.getScale(), 0 );
@@ -356,7 +361,10 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             Point2D knot = attachNode.some().getGlobalFullBounds().getCenter2D();
             Vector2D delta = new Vector2D( hands, knot );
             Dimension2D localDelta = rootNode.globalToLocal( new Dimension2DDouble( delta.x, delta.y ) );
-            pullerNode.animateToPositionScaleRotation( pullerNode.getOffset().getX() + localDelta.getWidth(), pullerNode.getOffset().getY() + localDelta.getHeight(), pullerNode.scale, 0, ANIMATION_DURATION );
+            pullerNode.animateToPositionScaleRotation( pullerNode.getOffset().getX() + localDelta.getWidth(), pullerNode.getOffset().getY() + localDelta.getHeight(), pullerNode.scale, 0,
+
+                                                       //if the rope is moving, automatically translate to the right location otherwise the target will be puller arrives
+                                                       mode.get() == Mode.GOING ? 0 : ANIMATION_DURATION );
 
             //attach everything
             attachNode.some().setPullerNode( pullerNode );
