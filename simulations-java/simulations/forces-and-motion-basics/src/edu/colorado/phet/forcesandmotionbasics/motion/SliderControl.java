@@ -18,6 +18,8 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode.DEFAULT_TRACK_THICKNESS;
@@ -40,6 +42,13 @@ public class SliderControl extends PNode {
                                  addLabel( 100, new PhetPText( "100", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
 
                                  setTrackFillPaint( Color.white );
+
+                                 //When dropping the slider thumb, the value should go back to 0.  The user has to hold the thumb to keep applying the force
+                                 addInputEventListener( new PBasicInputEventHandler() {
+                                     @Override public void mouseReleased( final PInputEvent event ) {
+                                         appliedForce.set( 0.0 );
+                                     }
+                                 } );
                              }},
                              new HBox( new PhetPText( "Newtons", CONTROL_FONT ) {{setTransparency( 0.0f );}},
                                        new PSwing( new JTextField( 3 ) {{
