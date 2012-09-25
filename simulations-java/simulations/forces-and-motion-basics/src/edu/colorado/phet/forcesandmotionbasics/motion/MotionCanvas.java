@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
@@ -32,6 +33,8 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
+import edu.colorado.phet.forcesandmotionbasics.common.ForceArrowNode;
+import edu.colorado.phet.forcesandmotionbasics.common.TextLocation;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.Context;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -39,6 +42,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
 
 /**
@@ -57,6 +61,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final DoubleProperty appliedForce = new DoubleProperty( 0.0 );
     private final DoubleProperty velocity = new DoubleProperty( 0.0 );
     private final DoubleProperty position = new DoubleProperty( 0.0 );
+    private final PNode forcesNode;
 
     public MotionCanvas( final Context context, final IClock clock ) {
 
@@ -154,6 +159,21 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 }
             }
         } );
+
+        forcesNode = new PNode() {{
+            final SimpleObserver updateForces = new SimpleObserver() {
+                public void update() {
+                    removeAllChildren();
+                    if ( showValuesCheckBox.isSelected() ) {
+                        addChild( new ForceArrowNode( false, v( skateboard.getFullBounds().getCenterX(), skateboard.getFullBounds().getCenterY() - 75 ),
+                                                      appliedForce.get() / 2, "Applied Force", new Color( 233, 110, 36 ), TextLocation.SIDE, false ) );
+                    }
+                }
+            };
+            showValues.addObserver( updateForces );
+            appliedForce.addObserver( updateForces );
+        }};
+        addChild( forcesNode );
     }
 
     private double getMassOfObjectsOnSkateboard() {
