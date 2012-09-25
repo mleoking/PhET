@@ -30,5 +30,4 @@ public abstract class Challenge {
 
     // Creates the view component for the challenge.
     public abstract PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize );
-
 }

@@ -197,8 +197,8 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
     }
 
     // Creates the equation portion of the view.
-    public abstract EquationNode createEquationNode( Line line, Color color, PhetFont font );
+    protected abstract EquationNode createEquationNode( Line line, Color color, PhetFont font );
 
     // Creates the graph portion of the view.
-    public abstract ChallengeGraphNode createGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
+    protected abstract ChallengeGraphNode createGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
 }
