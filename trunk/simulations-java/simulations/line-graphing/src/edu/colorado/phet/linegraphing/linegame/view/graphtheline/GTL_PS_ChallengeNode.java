@@ -34,19 +34,4 @@ public abstract class GTL_PS_ChallengeNode extends GTL_ChallengeNode {
         return new PointSlopeEquationFactory().createNode( line.withColor( color ), font );
     }
 
-    // Graph for all challenges that use point-slope form.
-    public static abstract class GTL_PS_ChallengeGraphNode extends ChallengeGraphNode {
-
-        public GTL_PS_ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
-            super( graph, mvt );
-        }
-
-        @Override public LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-            return new PointSlopeLineNode( line.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
-        }
-
-        @Override public LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-            return new PointSlopeLineNode( line, graph, mvt );
-        }
-    }
 }
