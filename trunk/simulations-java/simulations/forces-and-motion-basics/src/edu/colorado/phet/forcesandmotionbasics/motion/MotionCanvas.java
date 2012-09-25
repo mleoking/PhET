@@ -67,6 +67,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final PNode forcesNode;
     private final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
 
+    public static final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 33;
+    public static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 48;
+
     public MotionCanvas( final Context context, final IClock clock ) {
 
         setBackground( BROWN );
@@ -135,8 +138,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         timeControls.setOffset( STAGE_SIZE.width / 2 - timeControls.getFullWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
         addChild( timeControls );
 
-        final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 33;
-        final int CRATE_OFFSET_WITHIN_SKATEBOARD = 48;
         StackableNode fridge = new StackableNode( this, Images.FRIDGE, 200, FRIDGE_OFFSET_WITHIN_SKATEBOARD );
         StackableNode crate1 = new StackableNode( this, Images.CRATE, 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
         StackableNode crate2 = new StackableNode( this, Images.CRATE, 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
