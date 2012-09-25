@@ -1,4 +1,6 @@
-2nd tab: Integrated light bulb with narrower filament.
+2nd tab: Separated the energy converter and supporting post for the solar panel and re-layered for better energy chunk behavior.
+2nd tab: Made the water and energy chunks from the faucet fall a little faster.
+2nd tab: Integrated incandescent light bulb image with narrower filament.
 2nd tab: Made the energy chunks emitted by the light bulb go behind the solar panel.
 2nd tab: Made the energy chunks go behind the connectors.
 2nd tab: Made the water fall (instead of appear instantly) so that the E's don't outrun it.

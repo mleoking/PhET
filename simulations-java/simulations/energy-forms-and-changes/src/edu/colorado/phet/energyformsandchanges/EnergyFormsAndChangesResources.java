@@ -87,7 +87,9 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage SHELF_LONG = RESOURCES.getImage( "shelf_long.png" );
         public static final BufferedImage SOLAR_PANEL = RESOURCES.getImage( "solar_panel.png" );
         public static final BufferedImage SOLAR_PANEL_BASE = RESOURCES.getImage( "solar_panel_base.png" );
+        public static final BufferedImage SOLAR_PANEL_GEN = RESOURCES.getImage( "solar_panel_gen.png" );
         public static final BufferedImage SOLAR_PANEL_ICON = RESOURCES.getImage( "solar_panel_icon.png" );
+        public static final BufferedImage SOLAR_PANEL_POST = RESOURCES.getImage( "solar_panel_post.png" );
         public static final BufferedImage SUN_ICON = RESOURCES.getImage( "sun_icon.png" );
         public static final BufferedImage TAB_3_DRAWING = RESOURCES.getImage( "tab-3-drawing.png" );
         public static final BufferedImage TEAPOT = RESOURCES.getImage( "teapot.png" );

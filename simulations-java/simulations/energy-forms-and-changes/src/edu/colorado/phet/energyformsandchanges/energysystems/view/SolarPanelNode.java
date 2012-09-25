@@ -17,9 +17,10 @@ public class SolarPanelNode extends PositionableFadableModelElementNode {
 
         // Add the images and the node that will manage the energy chunks in
         // the order needed for the desired layering.
-        addChild( new ModelElementImageNode( SolarPanel.BASE_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( SolarPanel.POST_IMAGE, mvt ) );
         addChild( new ModelElementImageNode( SolarPanel.SOLAR_PANEL_IMAGE, mvt ) );
         addChild( new EnergyChunkLayer( solarPanel.energyChunkList, solarPanel.getObservablePosition(), mvt ) );
+        addChild( new ModelElementImageNode( SolarPanel.CONVERTER_IMAGE, mvt ) );
         addChild( new ModelElementImageNode( SolarPanel.CONNECTOR_IMAGE, mvt ) );
     }
 }

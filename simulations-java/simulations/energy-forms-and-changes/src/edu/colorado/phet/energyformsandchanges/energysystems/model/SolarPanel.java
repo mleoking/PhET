@@ -33,19 +33,19 @@ public class SolarPanel extends EnergyConverter {
 
     private static final Vector2D SOLAR_PANEL_OFFSET = new Vector2D( 0, 0.044 );
     public static final ModelElementImage SOLAR_PANEL_IMAGE = new ModelElementImage( SOLAR_PANEL, SOLAR_PANEL_OFFSET );
-    public static final ModelElementImage WIRE_IMAGE = new ModelElementImage( WIRE_BLACK_MIDDLE, new Vector2D( 0.075, -0.04 ) );
-    public static final Vector2D BASE_IMAGE_OFFSET = new Vector2D( 0.015, -0.025 );
-    public static final ModelElementImage BASE_IMAGE = new ModelElementImage( SOLAR_PANEL_BASE, BASE_IMAGE_OFFSET );
+    public static final Vector2D CONVERTER_IMAGE_OFFSET = new Vector2D( 0.015, -0.040 );
+    public static final ModelElementImage CONVERTER_IMAGE = new ModelElementImage( SOLAR_PANEL_GEN, CONVERTER_IMAGE_OFFSET );
+    public static final ModelElementImage POST_IMAGE = new ModelElementImage( SOLAR_PANEL_POST, CONVERTER_IMAGE_OFFSET.plus( new Vector2D( 0, 0.04 ) ) );
     public static final Vector2D CONNECTOR_IMAGE_OFFSET = new Vector2D( 0.058, -0.04 );
     public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR, CONNECTOR_IMAGE_OFFSET );
 
     // Constants used for creating the path followed by the energy chunks.
     // Many of these numbers were empirically determined based on the images,
     // and will need updating if the images change.
-    private static final Vector2D OFFSET_TO_EC_CONVERGENCE_POINT = new Vector2D( BASE_IMAGE_OFFSET.getX(), 0.01 );
-    private static final Vector2D OFFSET_TO_FIRST_EC_CURVE_POINT = new Vector2D( BASE_IMAGE_OFFSET.getX(), -0.02 );
-    private static final Vector2D OFFSET_TO_SECOND_EC_CURVE_POINT = new Vector2D( BASE_IMAGE_OFFSET.getX() + 0.005, -0.03 );
-    private static final Vector2D OFFSET_TO_THIRD_EC_CURVE_POINT = new Vector2D( BASE_IMAGE_OFFSET.getX() + 0.01, CONNECTOR_IMAGE_OFFSET.getY() );
+    private static final Vector2D OFFSET_TO_EC_CONVERGENCE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX(), 0.01 );
+    private static final Vector2D OFFSET_TO_FIRST_EC_CURVE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX(), -0.02 );
+    private static final Vector2D OFFSET_TO_SECOND_EC_CURVE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX() + 0.005, -0.03 );
+    private static final Vector2D OFFSET_TO_THIRD_EC_CURVE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX() + 0.01, CONNECTOR_IMAGE_OFFSET.getY() );
     private static final Vector2D OFFSET_TO_LAST_EC_POINT = new Vector2D( CONNECTOR_IMAGE_OFFSET.getX() + 0.01, CONNECTOR_IMAGE_OFFSET.getY() );
 
     //-------------------------------------------------------------------------
