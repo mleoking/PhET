@@ -16,6 +16,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JCheckBox;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -253,9 +254,13 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     if ( showForces.get() ) {
                         final double tailY = skateboard.getFullBounds().getCenterY() - 75;
                         final double centerX = skateboard.getFullBounds().getCenterX();
-                        addChild( new ForceArrowNode( false, v( centerX, tailY ),
+
+                        //separate arrow tails for friction vs applied
+                        final int appliedForceOffsetX = friction && model.frictionForce.get() != 0 ? 3 * MathUtil.getSign( model.appliedForce.get() ) : 0;
+                        addChild( new ForceArrowNode( false, v( centerX + appliedForceOffsetX, tailY ),
                                                       model.appliedForce.get(), "Applied Force", ForcesNode.APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues.get(), 0.5 ) );
-                        addChild( new ForceArrowNode( false, v( centerX, tailY ),
+                        final int frictionForceOffsetX = friction && model.appliedForce.get() != 0 ? 3 * MathUtil.getSign( model.frictionForce.get() ) : 0;
+                        addChild( new ForceArrowNode( false, v( centerX + frictionForceOffsetX, tailY ),
                                                       model.frictionForce.get(), "Friction Force", Color.red, TextLocation.SIDE, showValues.get(), 0.5 ) );
                         if ( friction && showSumOfForces.get() ) {
                             addChild( new ForceArrowNode( false, v( centerX, tailY - 70 ),
