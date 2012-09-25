@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -35,6 +36,7 @@ public class FaucetAndWater extends EnergySource {
     private static final double FLOW_PER_CHUNK = 0.4;  // Empirically determined to get desired energy chunk emission rate.
     private static final double MAX_WATER_WIDTH = 0.015; // In meters.
     private static final double MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER = 0.5; // In meters.
+    private static final Random RAND = new Random();
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -79,8 +81,9 @@ public class FaucetAndWater extends EnergySource {
             // Check if time to emit an energy chunk and, if so, do it.
             flowSinceLastChunk += flowProportion.get() * dt;
             if ( flowSinceLastChunk > FLOW_PER_CHUNK ) {
+                Vector2D initialPosition = getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).plus( ( RAND.nextDouble() - 0.5 ) * flowProportion.get() * MAX_WATER_WIDTH / 2, 0 );
                 energyChunkList.add( new EnergyChunk( EnergyType.MECHANICAL,
-                                                      getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ),
+                                                      initialPosition,
                                                       new Vector2D( 0, -WATER_FALLING_VELOCITY ),
                                                       energyChunksVisible ) );
                 flowSinceLastChunk = 0;
