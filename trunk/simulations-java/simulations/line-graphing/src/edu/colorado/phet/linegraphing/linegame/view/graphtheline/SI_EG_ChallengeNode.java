@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.linegame.view;
+package edu.colorado.phet.linegraphing.linegame.view.graphtheline;
 
 import java.awt.Color;
 
@@ -11,6 +11,8 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
+import edu.colorado.phet.linegraphing.linegame.view.ChallengeGraphNode;
+import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptLineNode;
 import edu.umd.cs.piccolo.util.PDimension;

@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.linegame.view;
+package edu.colorado.phet.linegraphing.linegame.view.graphtheline;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -17,6 +17,8 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
+import edu.colorado.phet.linegraphing.linegame.view.ChallengeGraphNode;
+import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
