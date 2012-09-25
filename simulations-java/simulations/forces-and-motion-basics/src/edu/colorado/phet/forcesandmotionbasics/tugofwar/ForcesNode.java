@@ -17,12 +17,12 @@ public class ForcesNode extends PNode {
     public void setForces( boolean transparent, final double leftForce, final double rightForce, final boolean showSumOfForces, final Boolean showValues ) {
         removeAllChildren();
         final Color forceColor = new Color( 227, 171, 128 );
-        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 - 2, 200 ), leftForce, "Left Force", forceColor, TextLocation.SIDE, showValues, 1.0 ) );
-        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 + 2, 200 ), rightForce, "Right Force", forceColor, TextLocation.SIDE, showValues, 1.0 ) );
+        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 - 2, 225 ), leftForce, "Left Force", forceColor, TextLocation.SIDE, showValues, 1.0 ) );
+        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 + 2, 225 ), rightForce, "Right Force", forceColor, TextLocation.SIDE, showValues, 1.0 ) );
 
         if ( showSumOfForces ) {
             final Color sumOfForcesColor = new Color( 80, 220, 96 );
-            addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2, 125 ), leftForce + rightForce, "Sum of Forces", sumOfForcesColor, TextLocation.TOP, showValues, 1.0 ) );
+            addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2, 150 ), leftForce + rightForce, "Sum of Forces", sumOfForcesColor, TextLocation.TOP, showValues, 1.0 ) );
         }
     }
 }
