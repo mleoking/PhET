@@ -19,10 +19,10 @@ public abstract class ChallengeGraphNode extends GraphNode {
     }
 
     // Creates the node that corresponds to the "answer" line.
-    public abstract LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt );
+    protected abstract LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt );
 
     // Creates the node that corresponds to the "guess" line.
-    public abstract LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt );
+    protected abstract LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt );
 
     // Changes the visibility of the "answer" line.
     public abstract void setAnswerVisible( boolean visible );

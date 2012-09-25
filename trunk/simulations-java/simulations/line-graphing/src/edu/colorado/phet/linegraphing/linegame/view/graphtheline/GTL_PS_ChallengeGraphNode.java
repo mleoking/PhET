@@ -20,11 +20,11 @@ public abstract class GTL_PS_ChallengeGraphNode extends ChallengeGraphNode {
         super( graph, mvt );
     }
 
-    @Override public LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
+    @Override protected LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
         return new PointSlopeLineNode( line.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
     }
 
-    @Override public LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
+    @Override protected LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
         return new PointSlopeLineNode( line, graph, mvt );
     }
 }

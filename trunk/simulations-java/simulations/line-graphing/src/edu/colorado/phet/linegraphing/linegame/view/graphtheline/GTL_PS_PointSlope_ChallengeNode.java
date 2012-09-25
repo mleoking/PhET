@@ -37,7 +37,7 @@ public class GTL_PS_PointSlope_ChallengeNode extends GTL_PS_ChallengeNode {
     }
 
     // Creates the graph portion of the view.
-    @Override public ChallengeGraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
+    @Override protected ChallengeGraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
         return new ThisGraphNode( graph, guessLine, answerLine, mvt );
     }
 

@@ -30,7 +30,7 @@ public abstract class GTL_SI_ChallengeNode extends GTL_ChallengeNode {
     }
 
     // Creates the equation portion of the view.
-    @Override public EquationNode createEquationNode( Line line, Color color, PhetFont font ) {
+    @Override protected EquationNode createEquationNode( Line line, Color color, PhetFont font ) {
         return new SlopeInterceptEquationFactory().createNode( line.withColor( color ), font );
     }
 
