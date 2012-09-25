@@ -114,7 +114,6 @@ public class Sun extends EnergySource {
                     // This energy chunk was absorbed by the solar panel, so
                     // put it on the list of outgoing chunks.
                     outgoingEnergyChunks.add( energyChunk );
-                    energyChunkList.remove( energyChunk );
                 }
                 else if ( energyChunk.position.get().distance( getPosition().plus( OFFSET_TO_CENTER_OF_SUN ) ) > MAX_DISTANCE_OF_E_CHUNKS_FROM_SUN ) {
                     // This energy chunk is out of visible range, so remove it.
