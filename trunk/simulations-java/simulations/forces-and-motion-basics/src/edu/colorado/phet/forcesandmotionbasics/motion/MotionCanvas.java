@@ -59,12 +59,12 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final PImage skateboard;
     private final List<StackableNode> stackableNodes;
     private final Property<List<StackableNode>> stack = new Property<List<StackableNode>>( List.<StackableNode>nil() );
+    private final PNode forcesNode;
 
     //TODO: Move to model?
     private final DoubleProperty appliedForce = new DoubleProperty( 0.0 );
     private final DoubleProperty velocity = new DoubleProperty( 0.0 );
     private final DoubleProperty position = new DoubleProperty( 0.0 );
-    private final PNode forcesNode;
     private final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
 
     public static final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 33;
