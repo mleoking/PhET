@@ -1,10 +1,12 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.linegame.model;
+package edu.colorado.phet.linegraphing.linegame.model.graphtheline;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.linegame.view.PS_EG_PointSlope_ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.model.Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
+import edu.colorado.phet.linegraphing.linegame.view.graphtheline.PS_EG_PointSlope_ChallengeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 

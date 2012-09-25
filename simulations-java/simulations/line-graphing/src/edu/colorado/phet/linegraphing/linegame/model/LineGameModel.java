@@ -18,6 +18,14 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.PS_EG_PointSlope_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.PS_EG_Point_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.PS_EG_Points_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.PS_EG_Slope_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.SI_EG_Intercept_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.SI_EG_Points_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.SI_EG_SlopeIntercept_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.SI_EG_Slope_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 
 /**

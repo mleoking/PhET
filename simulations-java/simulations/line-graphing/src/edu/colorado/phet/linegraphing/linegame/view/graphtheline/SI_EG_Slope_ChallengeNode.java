@@ -1,5 +1,7 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.linegame.view;
+package edu.colorado.phet.linegraphing.linegame.view.graphtheline;
+
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -14,20 +16,23 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
-import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
+import edu.colorado.phet.linegraphing.common.view.PlottedPointNode;
+import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
+import edu.colorado.phet.linegraphing.linegame.view.ChallengeGraphNode;
+import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Given an equation in point-slope form, graph the line by manipulating the point.
+ * Given an equation in slope-intercept form, graph the line by manipulating the slope.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PS_EG_Point_ChallengeNode extends PS_EG_ChallengeNode {
+public class SI_EG_Slope_ChallengeNode extends SI_EG_ChallengeNode {
 
-    public PS_EG_Point_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public SI_EG_Slope_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
     }
 
@@ -37,10 +42,11 @@ public class PS_EG_Point_ChallengeNode extends PS_EG_ChallengeNode {
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends PS_EG_ChallengeGraphNode {
+    private static class ThisGraphNode extends SI_EG_ChallengeGraphNode {
 
         private final LineNode answerNode;
-        private final LineManipulatorNode pointManipulatorNode;
+        private final LineManipulatorNode slopeManipulatorNode;
+        private final PNode interceptNode;
 
         public ThisGraphNode( final Graph graph,
                               Property<Line> guessLine,
@@ -56,19 +62,26 @@ public class PS_EG_Point_ChallengeNode extends PS_EG_ChallengeNode {
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
-            // point manipulator
-            final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
-            pointManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
-            pointManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                             pointManipulatorNode, mvt, guessLine,
-                                                                             new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
-                                                                             new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
-                                                                             true /* constantSlope */ ) );
+            // intercept
+            final double pointDiameter = mvt.modelToViewDeltaX( GameConstants.POINT_DIAMETER );
+            interceptNode = new PlottedPointNode( pointDiameter, LGColors.PLOTTED_POINT );
+            interceptNode.setOffset( mvt.modelToView( new Point2D.Double( 0, guessLine.get().y1 ) ) );
 
+            // dynamic ranges
+            final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( graph.yRange ) );
+
+            // slope manipulator
+            final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
+            slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
+            slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
+                                                                              slopeManipulatorNode, mvt, guessLine,
+                                                                              riseRange,
+                                                                              new Property<DoubleRange>( new DoubleRange( graph.xRange ) ) ) );
             // Rendering order
             addChild( guessNodeParent );
             addChild( answerNode );
-            addChild( pointManipulatorNode );
+            addChild( interceptNode );
+            addChild( slopeManipulatorNode );
 
             // Show the user's current guess
             guessLine.addObserver( new VoidFunction1<Line>() {
@@ -81,7 +94,13 @@ public class PS_EG_Point_ChallengeNode extends PS_EG_ChallengeNode {
                     guessNodeParent.addChild( guessNode );
 
                     // move the manipulator
-                    pointManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
+                    slopeManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
+
+                    //TODO this was copied from LineFormsModel constructor
+                    // adjust the rise range
+                    final double riseMin = graph.yRange.getMin() - line.y1;
+                    final double riseMax = graph.yRange.getMax() - line.y1;
+                    riseRange.set( new DoubleRange( riseMin, riseMax ) );
                 }
             } );
         }
