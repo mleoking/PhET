@@ -23,7 +23,17 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
  */
 public class LightBulb extends EnergyUser {
 
-    // Empirically determined based on images, will need to change if the
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
+    // Images used to represent this element in the view.
+    public static final ModelElementImage WIRE_FLAT_IMAGE = new ModelElementImage( WIRE_BLACK_MIDDLE_62, new Vector2D( -0.037, -0.04 ) );
+    public static final ModelElementImage WIRE_CURVE_IMAGE = new ModelElementImage( WIRE_BLACK_RIGHT, new Vector2D( -0.009, -0.016 ) );
+    public static final ModelElementImage ELEMENT_BASE_IMAGE = new ModelElementImage( ELEMENT_BASE, new Vector2D( 0, 0.0 ) );
+
+    // Offsets need for creating the path followed by the energy chunks.  These
+    // were empirically determined based on images, will need to change if the
     // images are changed.
     private static final Vector2D OFFSET_TO_LEFT_SIDE_OF_WIRE_BEND = new Vector2D( -0.02, -0.04 );
     private static final Vector2D OFFSET_TO_FIRST_WIRE_CURVE_POINT = new Vector2D( -0.01, -0.0375 );
@@ -32,13 +42,13 @@ public class LightBulb extends EnergyUser {
     private static final Vector2D OFFSET_TO_BOTTOM_OF_CONNECTOR = new Vector2D( 0, -0.01 );
     private static final Vector2D OFFSET_TO_RADIATE_POINT = new Vector2D( 0, 0.063 );
 
-    public static final ModelElementImage WIRE_FLAT_IMAGE = new ModelElementImage( WIRE_BLACK_MIDDLE_62, new Vector2D( -0.037, -0.04 ) );
-    public static final ModelElementImage WIRE_CURVE_IMAGE = new ModelElementImage( WIRE_BLACK_RIGHT, new Vector2D( -0.009, -0.016 ) );
-    public static final ModelElementImage ELEMENT_BASE_IMAGE = new ModelElementImage( ELEMENT_BASE, new Vector2D( 0, 0.0 ) );
-
     private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
 
     private static final Random RAND = new Random();
+
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
 
     public final ModelElementImage onImage;
     public final ModelElementImage offImage;
@@ -50,6 +60,10 @@ public class LightBulb extends EnergyUser {
     private List<EnergyChunkPathMover> electricalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private List<EnergyChunkPathMover> lightEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
 
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
+
     protected LightBulb( IUserComponent userComponent, Image icon, final ModelElementImage offImage, final ModelElementImage onImage, double energyToFullyLight ) {
         super( icon );
         this.userComponent = userComponent;
@@ -57,6 +71,10 @@ public class LightBulb extends EnergyUser {
         this.onImage = onImage;
         this.offImage = offImage;
     }
+
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
 
     @Override public void stepInTime( double dt, Energy incomingEnergy ) {
 
