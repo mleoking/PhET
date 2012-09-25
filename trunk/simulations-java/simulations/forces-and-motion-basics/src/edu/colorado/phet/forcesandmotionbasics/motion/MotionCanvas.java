@@ -70,7 +70,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     public static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 48 - 12;
     private final PNode forcesNode;
 
-    public MotionCanvas( final Context context, final IClock clock ) {
+    //Features only for Tab 3: Friction:
+    private final Property<Boolean> showSumOfForces = new Property<Boolean>( true );
+
+    public MotionCanvas( final Context context, final IClock clock, final boolean friction ) {
 
         setBackground( BROWN );
         //use view coordinates since nothing compex happening in model coordinates.
@@ -121,18 +124,22 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         final JCheckBox showForcesCheckBox = new PropertyCheckBox( null, "Forces", showForces ) {{setFont( CONTROL_FONT );}};
         final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( CONTROL_FONT );}};
+        final JCheckBox showSumOfForcesCheckBox = new PropertyCheckBox( null, "Sum of Forces", showSumOfForces ) {{setFont( CONTROL_FONT );}};
         showForces.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean showForces ) {
                 showValuesCheckBox.setEnabled( showForces );
             }
         } );
         final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSpeedometer ) {{ setFont( CONTROL_FONT ); }};
-        final ControlPanelNode controlPanelNode = new ControlPanelNode(
-                new VBox( 2, VBox.LEFT_ALIGNED,
 
-                          //Nudge "show" to the right so it will align with checkboxes
-                          new HBox( 5, new PhetPPath( new Rectangle2D.Double( 0, 0, 0, 0 ) ), new PhetPText( "Show", CONTROL_FONT ) ),
-                          new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( speedCheckBox ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
+        //Nudge "show" to the right so it will align with checkboxes
+        final HBox title = new HBox( 5, new PhetPPath( new Rectangle2D.Double( 0, 0, 0, 0 ) ), new PhetPText( "Show", CONTROL_FONT ) );
+
+        final VBox vbox = friction ?
+                          new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( showSumOfForcesCheckBox ), new PSwing( speedCheckBox ) ) :
+                          new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( speedCheckBox ) );
+
+        final ControlPanelNode controlPanelNode = new ControlPanelNode( vbox, new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
         controlPanelNode.setOffset( STAGE_SIZE.width - controlPanelNode.getFullWidth() - INSET, INSET );
         addChild( controlPanelNode );
 

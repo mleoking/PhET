@@ -9,14 +9,17 @@ import edu.colorado.phet.forcesandmotionbasics.tugofwar.Context;
  * @author Sam Reid
  */
 public class MotionModule extends SimSharingPiccoloModule implements Context {
-    public MotionModule() {
-        super( UserComponents.motionTab, "Motion", new ConstantDtClock() );
-        setSimulationPanel( new MotionCanvas( this, getClock() ) );
+    private final boolean friction;
+
+    public MotionModule( String title, boolean friction ) {
+        super( UserComponents.motionTab, title, new ConstantDtClock() );
+        setSimulationPanel( new MotionCanvas( this, getClock(), friction ) );
         setClockControlPanel( null );
+        this.friction = friction;
     }
 
     @Override public void reset() {
         super.reset();
-        setSimulationPanel( new MotionCanvas( this, getClock() ) );
+        setSimulationPanel( new MotionCanvas( this, getClock(), friction ) );
     }
 }
