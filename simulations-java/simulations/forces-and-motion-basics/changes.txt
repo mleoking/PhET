@@ -1,3 +1,4 @@
+Tab 1: Make flag wave
 Tab 1: Moved the vectors and labels all down by 25px to make room for the flag at the top center
 Tab 1: Made force vector colors slightly brighter and bolder
 Tab 1: Move toolboxes so they are vertically centered in the earth

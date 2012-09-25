@@ -286,6 +286,8 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
 
         flagLayer = new PNode();
         addChild( flagLayer );
+
+        flagLayer.addChild( new FlagNode( Color.blue, "Blue Wins!" ) {{setOffset( 100, 100 );}} );
     }
 
     private void addFlagNode( final FlagNode flagNode ) {
@@ -332,6 +334,12 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         moveSystem( -ropeOffset );
         updateForceListeners();
         notifyCartPositionListeners();
+        for ( Object child : flagLayer.getChildrenReference() ) {
+            if ( child instanceof FlagNode ) {
+                FlagNode flagNode = (FlagNode) child;
+                flagNode.dispose();
+            }
+        }
         flagLayer.removeAllChildren();
     }
 
