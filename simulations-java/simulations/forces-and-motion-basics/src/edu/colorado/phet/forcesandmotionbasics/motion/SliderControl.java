@@ -1,11 +1,16 @@
 package edu.colorado.phet.forcesandmotionbasics.motion;
 
+import fj.data.List;
+
 import java.awt.Color;
+import java.awt.Font;
 import java.text.DecimalFormat;
 
 import javax.swing.JTextField;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Not;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -22,10 +27,13 @@ import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMo
  * @author Sam Reid
  */
 public class SliderControl extends PNode {
-    public SliderControl( final DoubleProperty appliedForce ) {
-        VBox box = new VBox( 5, new PhetPText( "Applied Force", CONTROL_FONT ),
-                             new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForce, new BooleanProperty( true ) ) {{
-                                 addLabel( 0, new PhetPText( "0", CONTROL_FONT ) );
+
+    public SliderControl( final DoubleProperty appliedForce, final Property<List<StackableNode>> stack ) {
+
+        final Not enabled = Not.not( stack.valueEquals( List.<StackableNode>nil() ) );
+        VBox box = new VBox( 5, new EnablePhetPText( "Applied Force", CONTROL_FONT, enabled ),
+                             new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForce, enabled ) {{
+                                 addLabel( 0, new EnablePhetPText( "0", CONTROL_FONT, enabled ) );
                                  addLabel( -50, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
                                  addLabel( -100, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
                                  addLabel( 50, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
@@ -33,17 +41,38 @@ public class SliderControl extends PNode {
 
                                  setTrackFillPaint( Color.white );
                              }},
-                             new HBox( new PhetPText( "Newtons", CONTROL_FONT ) {{setTransparency( 0.0f );}}, new PSwing( new JTextField( 3 ) {{
-                                 setFont( CONTROL_FONT );
-                                 setText( "0" );
-                                 setHorizontalAlignment( JTextField.RIGHT );
-                                 appliedForce.addObserver( new VoidFunction1<Double>() {
-                                     public void apply( final Double value ) {
-                                         setText( new DecimalFormat( "0" ).format( value ) );
-                                     }
-                                 } );
-                             }} ), new PhetPText( "Newtons", CONTROL_FONT ) ) );
+                             new HBox( new PhetPText( "Newtons", CONTROL_FONT ) {{setTransparency( 0.0f );}},
+                                       new PSwing( new JTextField( 3 ) {{
+                                           setFont( CONTROL_FONT );
+                                           setText( "0" );
+                                           setHorizontalAlignment( JTextField.RIGHT );
+                                           appliedForce.addObserver( new VoidFunction1<Double>() {
+                                               public void apply( final Double value ) {
+                                                   setText( new DecimalFormat( "0" ).format( value ) );
+                                               }
+                                           } );
+                                           enabled.addObserver( new VoidFunction1<Boolean>() {
+                                               public void apply( final Boolean enabled ) {
+                                                   setEnabled( enabled );
+                                               }
+                                           } );
+                                       }} ),
+                                       new EnablePhetPText( "Newtons", CONTROL_FONT, enabled )
+                             )
+        );
 
         addChild( box );
+    }
+
+    private class EnablePhetPText extends PhetPText {
+        public EnablePhetPText( final String text, final Font font, ObservableProperty<Boolean> enabled ) {
+            super( text, font );
+
+            enabled.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( final Boolean enabled ) {
+                    setTextPaint( enabled ? Color.black : Color.gray );
+                }
+            } );
+        }
     }
 }
