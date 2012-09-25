@@ -23,9 +23,7 @@ public class MotionModel {
     //Only used in Tab 3 "Friction"
     public final SettableProperty<Double> frictionValue = new Property<Double>( 0.75 );
 
-    public MotionModel( final F<Unit, Double> massOfObjectsOnSkateboard ) {
-        this.massOfObjectsOnSkateboard = massOfObjectsOnSkateboard;
-    }
+    public MotionModel( final F<Unit, Double> massOfObjectsOnSkateboard ) { this.massOfObjectsOnSkateboard = massOfObjectsOnSkateboard; }
 
     public void stepInTime( final double dt ) {
         double sumOfForces = appliedForce.get();
