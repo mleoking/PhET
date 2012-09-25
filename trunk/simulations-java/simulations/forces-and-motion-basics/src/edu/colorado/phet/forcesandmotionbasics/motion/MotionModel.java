@@ -4,6 +4,7 @@ import fj.F;
 import fj.Unit;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -18,6 +19,9 @@ public class MotionModel {
     public final DoubleProperty position = new DoubleProperty( 0.0 );
     public final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
     public final F<Unit, Double> massOfObjectsOnSkateboard;
+
+    //Only used in Tab 3 "Friction"
+    public final SettableProperty<Double> frictionValue = new Property<Double>( 0.75 );
 
     public MotionModel( final F<Unit, Double> massOfObjectsOnSkateboard ) {
         this.massOfObjectsOnSkateboard = massOfObjectsOnSkateboard;

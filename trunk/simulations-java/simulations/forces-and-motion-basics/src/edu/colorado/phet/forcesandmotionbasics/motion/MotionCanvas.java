@@ -21,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -75,7 +74,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     //Features only for Tab 3: Friction:
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( true );
-    private final SettableProperty<Double> frictionValue = new Property<Double>( 0.75 );
 
     public MotionCanvas( final Context context, final IClock clock, final boolean friction ) {
         this.friction = friction;
@@ -90,11 +88,24 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         final int grassY = 425;
         addChild( new SkyNode( createIdentity(), new Rectangle2D.Double( -width / 2, -width / 2 + grassY, width, width / 2 ), grassY, SkyNode.DEFAULT_TOP_COLOR, SkyNode.DEFAULT_BOTTOM_COLOR ) );
 
-        PNode brickLayer = new PNode() {{
-            model.position.addObserver( new VoidFunction1<Double>() {
-                public void apply( final Double position ) {
-                    removeAllChildren();
-                    //Extend the brick region an extra stage width to the left and right, in case it is a very odd aspect ratio.  (But no support for showing wider than that).
+        PNode brickLayer = new PNode() {
+            {
+                model.position.addObserver( new VoidFunction1<Double>() {
+                    public void apply( final Double position ) {
+                        updateBrickLayer( position );
+                    }
+                } );
+                model.frictionValue.addObserver( new VoidFunction1<Double>() {
+                    public void apply( final Double friction ) {
+                        updateBrickLayer( model.position.get() );
+                    }
+                } );
+            }
+
+            private void updateBrickLayer( final Double position ) {
+                removeAllChildren();
+                //Extend the brick region an extra stage width to the left and right, in case it is a very odd aspect ratio.  (But no support for showing wider than that).
+                {
                     final double brickScale = 0.4;
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / brickScale, grassY / brickScale, STAGE_SIZE.width * 3 / brickScale, Images.BRICK_TILE.getHeight() );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / brickScale, area.getY(), Images.BRICK_TILE.getWidth(), Images.BRICK_TILE.getHeight() );
@@ -103,8 +114,20 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     }};
                     addChild( path );
                 }
-            } );
-        }};
+
+                //Show ice overlay
+                if ( friction && model.frictionValue.get() == 0 ) {
+                    final double iceScale = 1;
+                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / iceScale, grassY / iceScale - 1, STAGE_SIZE.width * 3 / iceScale, Images.ICE_OVERLAY.getHeight() );
+                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / iceScale, area.getY(), Images.ICE_OVERLAY.getWidth(), Images.ICE_OVERLAY.getHeight() );
+                    PhetPPath path = new PhetPPath( area, new TexturePaint( Images.ICE_OVERLAY, anchor ) ) {{
+                        scale( iceScale );
+                    }};
+                    path.setTransparency( 0.9f );
+                    addChild( path );
+                }
+            }
+        };
         addChild( brickLayer );
 
         PNode clouds = new PNode() {{
@@ -141,7 +164,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         final HBox title = new HBox( 5, new PhetPPath( new Rectangle2D.Double( 0, 0, 0, 0 ) ), new PhetPText( "Show", CONTROL_FONT ) );
 
         final VBox vbox = friction ?
-                          new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( showSumOfForcesCheckBox ), new PSwing( speedCheckBox ), new FrictionSliderControl( frictionValue ) ) :
+                          new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( showSumOfForcesCheckBox ), new PSwing( speedCheckBox ), new FrictionSliderControl( model.frictionValue ) ) :
                           new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( speedCheckBox ) );
 
         final ControlPanelNode controlPanelNode = new ControlPanelNode( vbox, new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
