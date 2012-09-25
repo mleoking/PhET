@@ -85,10 +85,11 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 public void apply( final Double position ) {
                     removeAllChildren();
                     //Extend the brick region an extra stage width to the left and right, in case it is a very odd aspect ratio.  (But no support for showing wider than that).
-                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / 0.4, grassY / 0.4, STAGE_SIZE.width * 3 / 0.4, Images.BRICK_TILE.getHeight() );
-                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / 0.4, area.getY(), Images.BRICK_TILE.getWidth(), Images.BRICK_TILE.getHeight() );
+                    final double brickScale = 0.4;
+                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / brickScale, grassY / brickScale, STAGE_SIZE.width * 3 / brickScale, Images.BRICK_TILE.getHeight() );
+                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / brickScale, area.getY(), Images.BRICK_TILE.getWidth(), Images.BRICK_TILE.getHeight() );
                     PhetPPath path = new PhetPPath( area, new TexturePaint( Images.BRICK_TILE, anchor ) ) {{
-                        scale( 0.4 );
+                        scale( brickScale );
                     }};
                     addChild( path );
                 }
