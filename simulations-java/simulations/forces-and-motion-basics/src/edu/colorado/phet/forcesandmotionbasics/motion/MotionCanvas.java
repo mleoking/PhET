@@ -8,6 +8,7 @@ import fj.function.Doubles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.TexturePaint;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -226,7 +227,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     public void stackableNodeDropped( final StackableNode stackableNode ) {
         PBounds bounds = skateboard.getGlobalFullBounds();
-        bounds.add( skateboard.getGlobalFullBounds().getCenterX(), skateboard.getGlobalFullBounds().getMinY() - stackableNode.getGlobalFullBounds().getHeight() );
+        bounds.add( skateboard.getGlobalFullBounds().getCenterX(), rootNode.globalToLocal( new Point2D.Double( STAGE_SIZE.width / 2, 0 ) ).getY() );
         if ( bounds.intersects( stackableNode.getGlobalFullBounds() ) ) {
             PBounds skateboardBounds = skateboard.getGlobalFullBounds();
             Rectangle2D localBounds = stackableNode.getParent().globalToLocal( skateboardBounds );
