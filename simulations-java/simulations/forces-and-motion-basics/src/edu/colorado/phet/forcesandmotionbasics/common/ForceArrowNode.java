@@ -27,7 +27,7 @@ public class ForceArrowNode extends PNode {
         }
         final double arrowScale = 1.2;
         final ArrowNode arrowNode = new ArrowNode( tail.toPoint2D(), tail.plus( value, 0 ).toPoint2D(), 30 * arrowScale, 40 * arrowScale, 20 * arrowScale, 0.5, false );
-        arrowNode.setPaint( transparent ? new Color( color.getRed(), color.getGreen(), color.getBlue(), 200 ) : color );
+        arrowNode.setPaint( transparent ? new Color( color.getRed(), color.getGreen(), color.getBlue(), 175 ) : color );
         arrowNode.setStroke( transparent ? new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 6, 4 }, 0 ) : new BasicStroke( 1 ) );
         addChild( arrowNode );
         addChild( new PhetPText( name, CONTROL_FONT ) {{
