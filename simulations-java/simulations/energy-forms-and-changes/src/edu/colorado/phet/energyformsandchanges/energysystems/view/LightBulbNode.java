@@ -24,19 +24,18 @@ public class LightBulbNode extends ImageBasedEnergySystemElementNode {
         final LightRays lightRays = new LightRays( new Vector2D( 0, 0 ), 30, 400, 20, Math.PI / 4, Color.YELLOW );
         addChild( lightRays );
 
-        // Add the images.
+        // Add the images and the layer that will contain the energy chunks.
         addImageNode( LightBulb.WIRE_FLAT_IMAGE );
         addImageNode( LightBulb.WIRE_CURVE_IMAGE );
-        addImageNode( LightBulb.ELEMENT_BASE_IMAGE );
         addImageNode( lightBulb.offImage );
+        addChild( new EnergyChunkLayer( lightBulb.energyChunkList, lightBulb.getObservablePosition(), mvt ) );
+        addImageNode( LightBulb.ELEMENT_BASE_IMAGE );
         final PNode energizedBulb = addImageNode( lightBulb.onImage );
 
         // Center the light rays on the bulb image.
         lightRays.setOffset( energizedBulb.getFullBoundsReference().getCenterX(),
                              energizedBulb.getFullBoundsReference().getCenterY() - energizedBulb.getFullBoundsReference().getHeight() * 0.10 );
 
-        // Add the layer that will handle the energy chunks.
-        addChild( new EnergyChunkLayer( lightBulb.energyChunkList, lightBulb.getObservablePosition(), mvt ) );
 
         // Update the transparency of the lit bulb based on model element.
         lightBulb.litProportion.addObserver( new VoidFunction1<Double>() {
