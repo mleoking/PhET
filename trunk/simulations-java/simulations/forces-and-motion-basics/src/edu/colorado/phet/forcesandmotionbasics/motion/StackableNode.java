@@ -71,4 +71,6 @@ public class StackableNode extends PNode {
     }
 
     public void setOnSkateboard( final boolean onSkateboard ) { this.onSkateboard = onSkateboard; }
+
+    public boolean isOnSkateboard() { return onSkateboard;}
 }

@@ -1,6 +1,7 @@
 package edu.colorado.phet.forcesandmotionbasics.motion;
 
 import fj.F;
+import fj.P2;
 import fj.Unit;
 import fj.data.List;
 import fj.function.Doubles;
@@ -22,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
-import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -40,7 +40,6 @@ import edu.colorado.phet.forcesandmotionbasics.common.ForceArrowNode;
 import edu.colorado.phet.forcesandmotionbasics.common.TextLocation;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.Context;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -216,7 +215,19 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
             //scale up so fonts and stroke thicknesses look good
             scale( 1.25 );
+
             setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10 );
+
+            stack.addObserver( new VoidFunction1<List<StackableNode>>() {
+                public void apply( final List<StackableNode> stackableNodes ) {
+                    if ( stackableNodes.length() >= 3 ) {
+                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - getFullBounds().getWidth(), 10, 1, 0, 200 );
+                    }
+                    else {
+                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10, 1, 0, 200 );
+                    }
+                }
+            } );
         }};
         addChild( speedometerNode );
     }
@@ -229,30 +240,46 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         PBounds bounds = skateboard.getGlobalFullBounds();
         bounds.add( skateboard.getGlobalFullBounds().getCenterX(), rootNode.globalToLocal( new Point2D.Double( STAGE_SIZE.width / 2, 0 ) ).getY() );
         if ( bounds.intersects( stackableNode.getGlobalFullBounds() ) ) {
-            Rectangle2D skateboardBounds = stackableNode.getParent().globalToLocal( skateboard.getGlobalFullBounds() );
-            double topY = stack.get().length() > 0 ? stack.get().last().getFullBounds().getY() : skateboardBounds.getY() + 8;
-            stackableNode.animateToPositionScaleRotation( skateboardBounds.getCenterX() - stackableNode.getFullBounds().getWidth() / 2,
-                                                          topY - stackableNode.getFullBounds().getHeight(), 1, 0, 200 ).setDelegate( new PActivityDelegateAdapter() {
-                @Override public void activityFinished( final PActivity activity ) {
-                    stackableNode.setOnSkateboard( true );
-                    stack.set( stack.get().snoc( stackableNode ) );
-                }
-            } );
+            stackableNode.setOnSkateboard( true );
+            stack.set( stack.get().snoc( stackableNode ) );
+            normalizeStack();
         }
         else {
-            stackableNode.setOnSkateboard( false );
-            stack.set( stack.get().filter( new F<StackableNode, Boolean>() {
-                @Override public Boolean f( final StackableNode element ) {
-                    return element != stackableNode;
-                }
-            } ) );
-
             stackableNode.animateHome();
         }
     }
 
     public void stackableNodePressed( final StackableNode stackableNode ) {
+        if ( stackableNode.isOnSkateboard() ) {
+            final double dx = stackableNode.getFullBounds().getWidth() / 4;
+            stackableNode.translate( dx, dx );
+        }
+        stackableNode.moveToFront();
+        stackableNode.setOnSkateboard( false );
+        stack.set( stack.get().filter( new F<StackableNode, Boolean>() {
+            @Override public Boolean f( final StackableNode element ) {
+                return element != stackableNode;
+            }
+        } ) );
 
-//        System.out.println( "stack = " + stack.get() );
+        //Any other objects above it should fall down.
+        normalizeStack();
+    }
+
+    private void normalizeStack() {
+        List<StackableNode> nodes = stack.get();
+        for ( final P2<StackableNode, Integer> stackableNodeAndIndex : nodes.zipIndex() ) {
+            int index = stackableNodeAndIndex._2();
+            final StackableNode stackableNode = stackableNodeAndIndex._1();
+            Rectangle2D skateboardBounds = stackableNode.getParent().globalToLocal( skateboard.getGlobalFullBounds() );
+            final double skateboardY = skateboardBounds.getY() + 8;
+            double topY = -nodes.take( index ).map( new F<StackableNode, Double>() {
+                @Override public Double f( final StackableNode n ) {
+                    return n.getFullBounds().getHeight();
+                }
+            } ).foldLeft( Doubles.add, 0.0 ) + skateboardY;
+            stackableNode.animateToPositionScaleRotation( skateboardBounds.getCenterX() - stackableNode.getFullBounds().getWidth() / 2,
+                                                          topY - stackableNode.getFullBounds().getHeight(), 1, 0, 200 );
+        }
     }
 }
