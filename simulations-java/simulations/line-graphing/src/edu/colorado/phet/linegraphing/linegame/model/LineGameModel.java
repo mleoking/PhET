@@ -68,6 +68,7 @@ public class LineGameModel {
     public final Property<Challenge> challenge; // the current challenge
     private Challenge[] challenges = new Challenge[CHALLENGES_PER_GAME];
     private int challengeIndex;
+
     public final PointTool pointTool1, pointTool2;
     private final ObservableList<Line> allLines;
 
