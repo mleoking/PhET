@@ -220,9 +220,12 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
+                double strobeSpeed = 9.559393222711847;
+                final boolean exceedsStrobeSpeed = model.speed.get().get() >= strobeSpeed;
+                if ( exceedsStrobeSpeed ) { model.appliedForce.set( 0.0 ); }
                 model.stepInTime( clockEvent.getSimulationTimeChange() );
 
-                if ( model.appliedForce.get() == 0.0 ) {
+                if ( model.appliedForce.get() == 0.0 || exceedsStrobeSpeed ) {
                     final double delta = -model.velocity.get() * clockEvent.getSimulationTimeChange() * 100;
                     pusherNode.setOffset( pusherNode.getOffset().getX() + delta, pusherNode.getOffset().getY() );
                 }
