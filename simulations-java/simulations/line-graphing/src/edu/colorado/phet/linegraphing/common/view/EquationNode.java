@@ -21,38 +21,49 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public abstract class EquationNode extends PhetPNode {
 
-    //TODO all offsets and dimensions should be computed based on the font's point size.
     /*
     * This controls the vertical offset of the slope's sign.
     * Zero is vertically centered on the equals sign, positive values move it down, negative move it up.
     * This was created because there was a great deal of discussion and disagreement about where the sign should be placed.
     */
-    protected static final int SLOPE_SIGN_Y_OFFSET = 0;
+    protected final double slopeSignYOffset;
 
     // fudge factors for horizontal lines, to vertically center them with equals sign (set by visual inspection)
-    protected static final int SLOPE_SIGN_Y_FUDGE_FACTOR = 2;
-    protected static final int OPERATOR_Y_FUDGE_FACTOR = 2;
-    protected static final int FRACTION_LINE_Y_FUDGE_FACTOR = 2;
+    protected final double slopeSignYFudgeFactor;
+    protected final double operatorYFudgeFactor;
+    protected final double fractionLineYFudgeFactor;
 
-    // size of the lines used to create + and - operators
-    protected static final PDimension OPERATOR_LINE_SIZE = new PDimension( 10, 2 );
-
-    // size of the lines used to create + and - signs
-    protected static final PDimension SIGN_LINE_SIZE = new PDimension( 10, 2 );
-
-    // thickness of the fraction divisor line
-    protected static final int FRACTION_LINE_THICKNESS = 2;
+    protected final PDimension operatorLineSize;  // size of the lines used to create + and - operators
+    protected final PDimension signLineSize; // size of the lines used to create + and - signs
+    protected final double fractionLineThickness; // thickness of the fraction divisor line
 
     // spacing between components of an equation (set by visual inspection)
-    protected static final double X_SPACING = 3;
-    protected static final double INTEGER_SIGN_X_SPACING = 1.5; // spacing between a sign and the integer to the right of it
-    protected static final double FRACTION_SIGN_X_SPACING = 4; // spacing between a sign and the fraction to the right of it
-    protected static final double RELATIONAL_OPERATOR_X_SPACING = 6; // space around the relational operator (eg, =)
-    protected static final double PAREN_X_SPACING = 2; // space between a parenthesis and the thing it encloses
-    protected static final double Y_SPACING = 0;
+    protected final double integerSignXSpacing; // spacing between a sign and the integer to the right of it
+    protected final double fractionSignXSpacing; // spacing between a sign and the fraction to the right of it
+    protected final double slopeXSpacing; // spacing between the slope and what's to the right of it
+    protected final double operatorXSpacing; // space around an operator (eg, +)
+    protected final double relationalOperatorXSpacing; // space around the relational operator (eg, =)
+    protected final double parenXSpacing; // space between a parenthesis and the thing it encloses
+    protected final double ySpacing; // all y spacing
 
-    public EquationNode() {
+    public EquationNode( int pointSize ) {
         setPickable( false );
+
+        // Compute dimensions and layout offsets as percentages of the font's point size.
+        slopeSignYOffset = 0;
+        slopeSignYFudgeFactor = 0.08 * pointSize;
+        operatorYFudgeFactor = 0.08 * pointSize;
+        fractionLineYFudgeFactor = 0.08 * pointSize;
+        operatorLineSize = new PDimension( 0.42 * pointSize, 0.08 * pointSize );
+        signLineSize = new PDimension( 0.42 * pointSize, 0.08 * pointSize );
+        fractionLineThickness = 0.08 * pointSize;
+        integerSignXSpacing = 0.0625 * pointSize;
+        fractionSignXSpacing = 0.167 * pointSize;
+        slopeXSpacing = 0.08 * pointSize;
+        operatorXSpacing = 0.25 * pointSize;
+        relationalOperatorXSpacing = 0.25 * pointSize;
+        parenXSpacing = 0.08 * pointSize;
+        ySpacing = 0;
     }
 
     // Changes the color of the equation by doing a deep traversal of this node's descendants.
@@ -76,26 +87,26 @@ public abstract class EquationNode extends PhetPNode {
     // Creates a plus or minus sign. Sign is distinct from operator, so that they can have different looks.
     protected PNode createSignNode( double value, Color color ) {
         if ( value >= 0 ) {
-            return new PlusNode( SIGN_LINE_SIZE, color );
+            return new PlusNode( signLineSize, color );
         }
         else {
-            return new MinusNode( SIGN_LINE_SIZE, color );
+            return new MinusNode( signLineSize, color );
         }
     }
 
     // Creates a plus or minus operator. Operator is distinct from sign, so that they can have different looks.
     protected PNode createOperatorNode( double value, Color color ) {
         if ( value >= 0 ) {
-            return new PlusNode( OPERATOR_LINE_SIZE, color );
+            return new PlusNode( operatorLineSize, color );
         }
         else {
-            return new MinusNode( OPERATOR_LINE_SIZE, color );
+            return new MinusNode( operatorLineSize, color );
         }
     }
 
     // Creates the horizontal line that separates numerator and denominator in a fraction (slope, in our case.)
     protected PNode createFractionLineNode( double width, Color color ) {
-        PPath node = new PPath( new Rectangle2D.Double( 0, 0, width, FRACTION_LINE_THICKNESS ) );
+        PPath node = new PPath( new Rectangle2D.Double( 0, 0, width, fractionLineThickness ) );
         node.setStroke( null );
         node.setPaint( color );
         return node;
@@ -125,11 +136,11 @@ public abstract class EquationNode extends PhetPNode {
 
             // layout
             leftParenNode.setOffset( 0, 0 );
-            xNode.setOffset( leftParenNode.getFullBoundsReference().getMaxX() + PAREN_X_SPACING, leftParenNode.getYOffset() );
-            operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                    leftParenNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
-            x1Node.setOffset( operatorNode.getFullBoundsReference().getMaxX() + X_SPACING, leftParenNode.getYOffset() );
-            rightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + PAREN_X_SPACING, leftParenNode.getYOffset() );
+            xNode.setOffset( leftParenNode.getFullBoundsReference().getMaxX() + parenXSpacing, leftParenNode.getYOffset() );
+            operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                    leftParenNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
+            x1Node.setOffset( operatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing, leftParenNode.getYOffset() );
+            rightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + parenXSpacing, leftParenNode.getYOffset() );
 
             return parentNode;
         }

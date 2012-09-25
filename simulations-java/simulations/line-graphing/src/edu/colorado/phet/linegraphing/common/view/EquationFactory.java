@@ -26,6 +26,7 @@ public abstract class EquationFactory {
     // When slope is undefined, we display "undefined" in place of an equation.
     protected static class UndefinedSlopeNode extends EquationNode {
         public UndefinedSlopeNode( Line line, PhetFont font ) {
+            super( font.getSize() );
             assert ( line.run == 0 );
             setPickable( false );
             addChild( new PhetPText( MessageFormat.format( Strings.SLOPE_UNDEFINED, Strings.SYMBOL_X, line.x1 ), font, line.color ) );
