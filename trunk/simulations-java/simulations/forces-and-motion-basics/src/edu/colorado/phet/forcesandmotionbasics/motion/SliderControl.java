@@ -4,10 +4,16 @@ import fj.data.List;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 
 import javax.swing.JTextField;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -51,21 +57,46 @@ public class SliderControl extends PNode {
                                  } );
                              }},
                              new HBox( new PhetPText( "Newtons", CONTROL_FONT ) {{setTransparency( 0.0f );}},
-                                       new PSwing( new JTextField( 3 ) {{
-                                           setFont( CONTROL_FONT );
-                                           setText( "0" );
-                                           setHorizontalAlignment( JTextField.RIGHT );
-                                           appliedForce.addObserver( new VoidFunction1<Double>() {
-                                               public void apply( final Double value ) {
-                                                   setText( new DecimalFormat( "0" ).format( value ) );
+                                       new PSwing( new JTextField( 3 ) {
+                                           {
+                                               setFont( CONTROL_FONT );
+                                               setText( "0" );
+                                               final DecimalFormat format = new DecimalFormat( "0" );
+                                               setHorizontalAlignment( JTextField.RIGHT );
+                                               appliedForce.addObserver( new VoidFunction1<Double>() {
+                                                   public void apply( final Double value ) {
+                                                       setText( format.format( value ) );
+                                                   }
+                                               } );
+                                               enabled.addObserver( new VoidFunction1<Boolean>() {
+                                                   public void apply( final Boolean enabled ) {
+                                                       setEnabled( enabled );
+                                                   }
+                                               } );
+                                               addActionListener( new ActionListener() {
+                                                   public void actionPerformed( final ActionEvent e ) {
+                                                       updateValueFromText( format );
+                                                   }
+                                               } );
+                                               addFocusListener( new FocusListener() {
+                                                   public void focusGained( final FocusEvent e ) {
+                                                   }
+
+                                                   public void focusLost( final FocusEvent e ) {
+                                                       updateValueFromText( format );
+                                                   }
+                                               } );
+                                           }
+
+                                           private void updateValueFromText( final DecimalFormat format ) {
+                                               try {
+                                                   appliedForce.set( MathUtil.clamp( -100, format.parse( getText() ).doubleValue(), 100 ) );
                                                }
-                                           } );
-                                           enabled.addObserver( new VoidFunction1<Boolean>() {
-                                               public void apply( final Boolean enabled ) {
-                                                   setEnabled( enabled );
+                                               catch ( ParseException e1 ) {
+                                                   setText( format.format( appliedForce.get() ) );
                                                }
-                                           } );
-                                       }} ),
+                                           }
+                                       } ),
                                        new EnablePhetPText( "Newtons", CONTROL_FONT, enabled )
                              )
         );
