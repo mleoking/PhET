@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -72,6 +73,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     //Features only for Tab 3: Friction:
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( true );
+    private final SettableProperty<Double> frictionValue = new Property<Double>( 0.75 );
 
     public MotionCanvas( final Context context, final IClock clock, final boolean friction ) {
 
@@ -136,7 +138,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         final HBox title = new HBox( 5, new PhetPPath( new Rectangle2D.Double( 0, 0, 0, 0 ) ), new PhetPText( "Show", CONTROL_FONT ) );
 
         final VBox vbox = friction ?
-                          new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( showSumOfForcesCheckBox ), new PSwing( speedCheckBox ) ) :
+                          new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( showSumOfForcesCheckBox ), new PSwing( speedCheckBox ), new FrictionSliderControl( frictionValue ) ) :
                           new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( speedCheckBox ) );
 
         final ControlPanelNode controlPanelNode = new ControlPanelNode( vbox, new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
