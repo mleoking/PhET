@@ -99,6 +99,25 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( terrain );
 
+
+        PNode clouds = new PNode() {{
+            position.addObserver( new VoidFunction1<Double>() {
+                public void apply( final Double position ) {
+                    removeAllChildren();
+
+                    for ( int i = -10; i <= 10; i++ ) {
+                        final int finalI = i;
+
+                        addChild( new PImage( Images.CLOUD1 ) {{
+                            scale( 0.6 );
+                            setOffset( finalI * STAGE_SIZE.width * getScale() - position * 10, -50 );
+                        }} );
+                    }
+                }
+            } );
+        }};
+        addChild( clouds );
+
         final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSpeedometer ) {{ setFont( CONTROL_FONT ); }};
         final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( CONTROL_FONT );}};
         final ControlPanelNode controlPanelNode = new ControlPanelNode(
