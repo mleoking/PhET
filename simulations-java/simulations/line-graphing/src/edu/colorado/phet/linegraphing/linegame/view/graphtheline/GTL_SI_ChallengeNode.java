@@ -34,19 +34,4 @@ public abstract class GTL_SI_ChallengeNode extends GTL_ChallengeNode {
         return new SlopeInterceptEquationFactory().createNode( line.withColor( color ), font );
     }
 
-    // Graph for all challenges that use slope-intercept form.
-    public static abstract class GTL_SI_ChallengeGraphNode extends ChallengeGraphNode {
-
-        public GTL_SI_ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
-            super( graph, mvt );
-        }
-
-        @Override public LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-            return new SlopeInterceptLineNode( line.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
-        }
-
-        @Override public LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-            return new SlopeInterceptLineNode( line, graph, mvt );
-        }
-    }
 }
