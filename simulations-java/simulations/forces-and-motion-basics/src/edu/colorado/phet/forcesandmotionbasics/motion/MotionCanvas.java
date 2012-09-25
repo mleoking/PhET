@@ -17,6 +17,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -25,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.SpeedometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -51,7 +54,7 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
 public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements StackableNodeContext {
 
     public static final Color BROWN = new Color( 197, 154, 91 );
-    private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
+    private final Property<Boolean> showSpeedometer = new Property<Boolean>( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
     private final PImage skateboard;
     private final List<StackableNode> stackableNodes;
@@ -62,6 +65,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final DoubleProperty velocity = new DoubleProperty( 0.0 );
     private final DoubleProperty position = new DoubleProperty( 0.0 );
     private final PNode forcesNode;
+    private final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
 
     public MotionCanvas( final Context context, final IClock clock ) {
 
@@ -92,7 +96,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( terrain );
 
-        final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSumOfForces ) {{ setFont( CONTROL_FONT ); }};
+        final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSpeedometer ) {{ setFont( CONTROL_FONT ); }};
         final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( CONTROL_FONT );}};
         final ControlPanelNode controlPanelNode = new ControlPanelNode(
                 new VBox( 2, VBox.LEFT_ALIGNED,
@@ -156,6 +160,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     double acceleration = sumOfForces / mass;
                     velocity.set( velocity.get() + acceleration * clockEvent.getSimulationTimeChange() );
                     position.set( position.get() + velocity.get() * clockEvent.getSimulationTimeChange() );
+                    speed.set( new Some<Double>( Math.abs( velocity.get() ) ) );
                 }
             }
         } );
@@ -174,6 +179,19 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             appliedForce.addObserver( updateForces );
         }};
         addChild( forcesNode );
+
+        SpeedometerNode speedometerNode = new SpeedometerNode( "Speed", 125, speed, 50 ) {{
+            showSpeedometer.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( final Boolean show ) {
+                    setVisible( show );
+                }
+            } );
+
+            //scale up so fonts and stroke thicknesses look good
+            scale( 1.25 );
+            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10 );
+        }};
+        addChild( speedometerNode );
     }
 
     private double getMassOfObjectsOnSkateboard() {
