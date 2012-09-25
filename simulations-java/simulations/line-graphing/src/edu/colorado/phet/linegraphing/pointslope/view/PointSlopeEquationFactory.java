@@ -219,39 +219,6 @@ public class PointSlopeEquationFactory extends EquationFactory {
         }
     }
 
-    // Creates the portion of the equation that contains the x or y term.
-    private static PNode createTermNode( double value, String symbol, Font font, Color color ) {
-        if ( value == 0 ) {
-            // x or y
-            return new PhetPText( symbol, font, color );
-        }
-        else {
-            // (x-x1) or (y-y1)
-            PNode leftParenNode = new PhetPText( "(", font, color );
-            PNode xNode = new PhetPText( symbol, font, color );
-            PNode operatorNode = createOperatorNode( -value, color ); // flip sign on x1
-            PNode x1Node = new PhetPText( toIntString( Math.abs( value ) ), font, color );
-            PNode rightParenNode = new PhetPText( ")", font, color );
-
-            PNode parentNode = new PNode();
-            parentNode.addChild( leftParenNode );
-            parentNode.addChild( xNode );
-            parentNode.addChild( operatorNode );
-            parentNode.addChild( x1Node );
-            parentNode.addChild( rightParenNode );
-
-            // layout
-            leftParenNode.setOffset( 0, 0 );
-            xNode.setOffset( leftParenNode.getFullBoundsReference().getMaxX() + PAREN_X_SPACING, leftParenNode.getYOffset() );
-            operatorNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                    leftParenNode.getFullBoundsReference().getCenterY() - ( operatorNode.getFullBoundsReference().getHeight() / 2 ) + OPERATOR_Y_FUDGE_FACTOR );
-            x1Node.setOffset( operatorNode.getFullBoundsReference().getMaxX() + X_SPACING, leftParenNode.getYOffset() );
-            rightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + PAREN_X_SPACING, leftParenNode.getYOffset() );
-
-            return parentNode;
-        }
-    }
-
     // test
     public static void main( String[] args ) {
 
