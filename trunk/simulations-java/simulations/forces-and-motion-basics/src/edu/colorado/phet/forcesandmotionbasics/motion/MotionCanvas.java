@@ -86,10 +86,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 public void apply( final Double position ) {
                     removeAllChildren();
                     for ( int i = -10; i < 10; i++ ) {
-                        final int finalI = i;
+                        final int index = i;
                         addChild( new PImage( tile ) {{
                             scale( 0.4 );
-                            setOffset( finalI * tile.getWidth() * getScale() + STAGE_SIZE.getWidth() / 2 - position * 100, grassY );
+                            setOffset( index * tile.getWidth() * getScale() + STAGE_SIZE.getWidth() / 2 - position * 100, grassY );
                         }} );
                     }
                 }
