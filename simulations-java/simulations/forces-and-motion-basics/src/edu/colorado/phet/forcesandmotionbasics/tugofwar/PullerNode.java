@@ -23,6 +23,7 @@ import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PSize;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -46,6 +47,21 @@ public class PullerNode extends PNode {
                    pullerNode.size == PSize.MEDIUM ? 400.0 :
                    pullerNode.size == PSize.LARGE ? 800.0 :
                    null;
+        }
+    };
+    public static F<PullerNode, Boolean> _isBlue = new F<PullerNode, Boolean>() {
+        @Override public Boolean f( final PullerNode pullerNode ) {
+            return pullerNode.color == PColor.BLUE;
+        }
+    };
+    public static F<PullerNode, Boolean> _isRed = new F<PullerNode, Boolean>() {
+        @Override public Boolean f( final PullerNode pullerNode ) {
+            return pullerNode.color == PColor.RED;
+        }
+    };
+    public static F<PullerNode, PBounds> _getFullBounds = new F<PullerNode, PBounds>() {
+        @Override public PBounds f( final PullerNode pullerNode ) {
+            return pullerNode.getFullBounds();
         }
     };
 

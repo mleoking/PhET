@@ -2,17 +2,20 @@ package edu.colorado.phet.forcesandmotionbasics.tugofwar;
 
 import fj.Effect;
 import fj.F;
+import fj.F2;
 import fj.data.List;
 import fj.data.Option;
 import fj.function.Doubles;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
@@ -28,6 +31,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -40,10 +44,14 @@ import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Im
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.BROWN;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.KnotNode.*;
+import static edu.colorado.phet.forcesandmotionbasics.tugofwar.PullerNode.*;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor.BLUE;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor.RED;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PSize.*;
@@ -74,7 +82,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
 
     public TugOfWarCanvas( final Context context, final IClock clock ) {
 
-        setBackground( new Color( 209, 210, 212 ) );
+        setBackground( BROWN );
         //use view coordinates since nothing compex happening in model coordinates.
 
         //for a canvas height of 710, the ground is at 452 down from the top
@@ -150,6 +158,13 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         addPuller( puller( RED, MEDIUM, IMAGE_SCALE, reflect( mediumPosition, offset ) ) );
         addPuller( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition1, offset ) ) );
         addPuller( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition2, offset ) ) );
+
+        final PhetPPath blueToolbox = new PhetPPath( getBounds( _isBlue ), TOOLBOX_COLOR, new BasicStroke( 1 ), Color.black );
+        addChild( blueToolbox );
+        final PhetPPath redToolbox = new PhetPPath( getBounds( _isRed ), TOOLBOX_COLOR, new BasicStroke( 1 ), Color.black );
+        addChild( redToolbox );
+        blueToolbox.moveToBack();
+        redToolbox.moveToBack();
 
         forcesNode = new ForcesNode();
         addChild( forcesNode );
@@ -255,6 +270,18 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 updateForceArrows();
             }
         } );
+    }
+
+    private Shape getBounds( final F<PullerNode, Boolean> color ) {
+        final PBounds bounds = List.iterableList( pullers ).filter( color ).map( _getFullBounds ).foldLeft( new F2<PBounds, PBounds, PBounds>() {
+            @Override public PBounds f( final PBounds a, final PBounds b ) {
+                if ( a == null ) { return b; }
+                if ( b == null ) { return a; }
+                return new PBounds( a.createUnion( b ) );
+            }
+        }, null );
+        Rectangle2D expanded = RectangleUtils.expand( bounds, 15, 10 );
+        return new RoundRectangle2D.Double( expanded.getX(), expanded.getY(), expanded.getWidth(), expanded.getHeight(), 20, 20 );
     }
 
     private void notifyCartPositionListeners() {

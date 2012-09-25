@@ -47,13 +47,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.BROWN;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
 
 /**
  * @author Sam Reid
  */
 public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements StackableNodeContext {
 
-    public static final Color BROWN = new Color( 197, 154, 91 );
     private final Property<Boolean> showSpeedometer = new Property<Boolean>( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
     private final Property<Boolean> showForces = new Property<Boolean>( false );
@@ -188,7 +189,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         skateboard.setOffset( STAGE_SIZE.getWidth() / 2 - skateboard.getFullBounds().getWidth() / 2, grassY - skateboard.getFullBounds().getHeight() );
         addChild( skateboard );
 
-        PhetPPath toolbox = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 250, 160, 20, 20 ), new Color( 231, 232, 233 ), new BasicStroke( 1 ), Color.black );
+        PhetPPath toolbox = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 250, 160, 20, 20 ), TOOLBOX_COLOR, new BasicStroke( 1 ), Color.black );
         toolbox.setOffset( INSET, STAGE_SIZE.height - INSET - toolbox.getFullBounds().getHeight() );
         addChild( toolbox );
 
