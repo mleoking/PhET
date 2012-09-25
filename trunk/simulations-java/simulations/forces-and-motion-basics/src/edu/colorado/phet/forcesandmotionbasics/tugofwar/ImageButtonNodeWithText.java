@@ -15,8 +15,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class ImageButtonNodeWithText extends PNode {
+    private final BufferedImage hover;
+    private final PImage imageNode;
+
     public ImageButtonNodeWithText( final BufferedImage up, final BufferedImage hover, final BufferedImage pressed, final String text, final VoidFunction0 effect ) {
-        final PImage imageNode = new PImage( up );
+        this.hover = hover;
+        imageNode = new PImage( up );
         addChild( imageNode );
         final PhetPText textNode = new PhetPText( text );
         textNode.scale( up.getWidth() / textNode.getFullWidth() * 0.65 );
@@ -30,7 +34,7 @@ public class ImageButtonNodeWithText extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseEntered( final PInputEvent event ) {
                 super.mouseEntered( event );
-                imageNode.setImage( hover );
+                hover();
             }
 
             @Override public void mouseExited( final PInputEvent event ) {
@@ -49,4 +53,7 @@ public class ImageButtonNodeWithText extends PNode {
             }
         } );
     }
+
+    //Need to show the highlight any time the mouse is over the object, even if the button was shown when the mouse was already there.
+    public void hover() { imageNode.setImage( hover ); }
 }
