@@ -15,6 +15,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
+import edu.colorado.phet.linegraphing.common.view.X2Y2DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeGraphNode;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
@@ -23,13 +24,14 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Given an equation in point-slope form, graph the line by manipulating the point.
+ * View component for a "Graph the Line" (GTL) challenge.
+ * Given an equation in point-slope (PS) form, graph the line by manipulating 2 arbitrary Points.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PS_EG_Point_ChallengeNode extends PS_EG_ChallengeNode {
+public class GTL_PS_Points_ChallengeNode extends GTL_PS_ChallengeNode {
 
-    public PS_EG_Point_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public GTL_PS_Points_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
     }
 
@@ -39,10 +41,10 @@ public class PS_EG_Point_ChallengeNode extends PS_EG_ChallengeNode {
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends PS_EG_ChallengeGraphNode {
+    private static class ThisGraphNode extends GTL_PS_ChallengeGraphNode {
 
         private final LineNode answerNode;
-        private final LineManipulatorNode pointManipulatorNode;
+        private final LineManipulatorNode x1y1ManipulatorNode, x2y2ManipulatorNode;
 
         public ThisGraphNode( final Graph graph,
                               Property<Line> guessLine,
@@ -58,19 +60,28 @@ public class PS_EG_Point_ChallengeNode extends PS_EG_ChallengeNode {
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
-            // point manipulator
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
-            pointManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
-            pointManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                             pointManipulatorNode, mvt, guessLine,
-                                                                             new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
-                                                                             new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
-                                                                             true /* constantSlope */ ) );
+
+            // (x1,y1) manipulator
+            x1y1ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
+            x1y1ManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.x1y1Manipulator, UserComponentTypes.sprite,
+                                                                            x1y1ManipulatorNode, mvt, guessLine,
+                                                                            new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
+                                                                            new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                                                            false /* constantSlope */ ) );
+
+            // (x2,y2) manipulator
+            x2y2ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X2_Y2 );
+            x2y2ManipulatorNode.addInputEventListener( new X2Y2DragHandler( UserComponents.x2y2Manipulator, UserComponentTypes.sprite,
+                                                                            x2y2ManipulatorNode, mvt, guessLine,
+                                                                            new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
+                                                                            new Property<DoubleRange>( new DoubleRange( graph.yRange ) ) ) );
 
             // Rendering order
             addChild( guessNodeParent );
             addChild( answerNode );
-            addChild( pointManipulatorNode );
+            addChild( x1y1ManipulatorNode );
+            addChild( x2y2ManipulatorNode );
 
             // Show the user's current guess
             guessLine.addObserver( new VoidFunction1<Line>() {
@@ -82,8 +93,9 @@ public class PS_EG_Point_ChallengeNode extends PS_EG_ChallengeNode {
                     guessNode.setEquationVisible( false );
                     guessNodeParent.addChild( guessNode );
 
-                    // move the manipulator
-                    pointManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
+                    // move the manipulators
+                    x1y1ManipulatorNode.setOffset( mvt.modelToView( line.x1, line.y1 ) );
+                    x2y2ManipulatorNode.setOffset( mvt.modelToView( line.x2, line.y2 ) );
                 }
             } );
         }

@@ -33,13 +33,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class view for "Graph the Line" challenges (EG = given Equation, make Graph).
+ * Base class view for "Graph the Line" (GTL) challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class EG_ChallengeNode extends PhetPNode {
+public abstract class GTL_ChallengeNode extends PhetPNode {
 
-    public EG_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public GTL_ChallengeNode( final LineGameModel model, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
         PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 

@@ -6,22 +6,23 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.model.Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
-import edu.colorado.phet.linegraphing.linegame.view.graphtheline.PS_EG_Slope_ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.graphtheline.GTL_PS_PointSlope_ChallengeNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Given an equation in point-slope form, graph the line by manipulating the slope.
+ * Model for a "Graph the Line" (GTL) challenge.
+ * Given an equation in point-slope (PS) form, graph the line by manipulating the Point and Slope.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PS_EG_Slope_Challenge extends Challenge {
+public class GTL_PS_PointSlope_Challenge extends Challenge {
 
-    public PS_EG_Slope_Challenge( Line answer, ModelViewTransform mvt ) {
-        super( answer, Line.createPointSlope( answer.x1, answer.y1, 1, 1 ), mvt );
+    public GTL_PS_PointSlope_Challenge( Line answer, ModelViewTransform mvt ) {
+        super( answer, Line.Y_EQUALS_X_LINE, mvt );
     }
 
     @Override public PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
-        return new PS_EG_Slope_ChallengeNode( model, audioPlayer, challengeSize );
+        return new GTL_PS_PointSlope_ChallengeNode( model, audioPlayer, challengeSize );
     }
 }

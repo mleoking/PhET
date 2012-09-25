@@ -18,14 +18,13 @@ import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class for all challenges that use point-slope form.
- * Naming convention: PS=Point-Slope, EG=given Equation, make Graph
+ * Base class view for "Graph the Line" (GTL) challenges that use point-slope (PS) form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class PS_EG_ChallengeNode extends EG_ChallengeNode {
+public abstract class GTL_PS_ChallengeNode extends GTL_ChallengeNode {
 
-    public PS_EG_ChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public GTL_PS_ChallengeNode( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, audioPlayer, challengeSize );
     }
 
@@ -35,9 +34,9 @@ public abstract class PS_EG_ChallengeNode extends EG_ChallengeNode {
     }
 
     // Graph for all challenges that use slope-intercept form.
-    public static abstract class PS_EG_ChallengeGraphNode extends ChallengeGraphNode {
+    public static abstract class GTL_PS_ChallengeGraphNode extends ChallengeGraphNode {
 
-        public PS_EG_ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
+        public GTL_PS_ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
             super( graph, mvt );
         }
 

@@ -18,14 +18,14 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.PS_EG_PointSlope_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.PS_EG_Point_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.PS_EG_Points_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.PS_EG_Slope_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.SI_EG_Intercept_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.SI_EG_Points_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.SI_EG_SlopeIntercept_Challenge;
-import edu.colorado.phet.linegraphing.linegame.model.graphtheline.SI_EG_Slope_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_PointSlope_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_Point_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_Points_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_Slope_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Intercept_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Points_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_SlopeIntercept_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Slope_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 
 /**
@@ -96,7 +96,7 @@ public class LineGameModel {
 
         graph = new Graph( xRange, yRange );
 
-        challenge = new Property<Challenge>( new SI_EG_SlopeIntercept_Challenge( Line.createSlopeIntercept( 1, 1, 1 ), mvtGraphTheLine ) ); // initial value is meaningless
+        challenge = new Property<Challenge>( new GTL_SI_SlopeIntercept_Challenge( Line.createSlopeIntercept( 1, 1, 1 ), mvtGraphTheLine ) ); // initial value is meaningless
 
         allLines = new ObservableList<Line>();
         this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
@@ -181,16 +181,16 @@ public class LineGameModel {
         //TODO replace with random challenge generation
         int index = 0;
         if ( settings.level.get() == 1 ) {
-            challenges[index++] = new SI_EG_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), mvtGraphTheLine );
-            challenges[index++] = new SI_EG_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), mvtGraphTheLine );
-            challenges[index++] = new SI_EG_SlopeIntercept_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), mvtGraphTheLine );
-            challenges[index++] = new SI_EG_Points_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), mvtGraphTheLine );
+            challenges[index++] = new GTL_SI_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ), mvtGraphTheLine );
+            challenges[index++] = new GTL_SI_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1 ), mvtGraphTheLine );
+            challenges[index++] = new GTL_SI_SlopeIntercept_Challenge( Line.createSlopeIntercept( 4, 2, 3 ), mvtGraphTheLine );
+            challenges[index++] = new GTL_SI_Points_Challenge( Line.createSlopeIntercept( 3, 3, -3 ), mvtGraphTheLine );
         }
         else if ( settings.level.get() == 2 ) {
-            challenges[index++] = new PS_EG_Slope_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), mvtGraphTheLine );
-            challenges[index++] = new PS_EG_Point_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), mvtGraphTheLine );
-            challenges[index++] = new PS_EG_PointSlope_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), mvtGraphTheLine );
-            challenges[index++] = new PS_EG_Points_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), mvtGraphTheLine );
+            challenges[index++] = new GTL_PS_Slope_Challenge( Line.createPointSlope( 2, 1, 1, 2 ), mvtGraphTheLine );
+            challenges[index++] = new GTL_PS_Point_Challenge( Line.createPointSlope( 1, -3, 1, 3 ), mvtGraphTheLine );
+            challenges[index++] = new GTL_PS_PointSlope_Challenge( Line.createPointSlope( -2, 1, -4, 3 ), mvtGraphTheLine );
+            challenges[index++] = new GTL_PS_Points_Challenge( Line.createPointSlope( 5, 4, 3, 2 ), mvtGraphTheLine );
         }
         assert ( challenges.length == CHALLENGES_PER_GAME );
         challengeIndex = 0;
