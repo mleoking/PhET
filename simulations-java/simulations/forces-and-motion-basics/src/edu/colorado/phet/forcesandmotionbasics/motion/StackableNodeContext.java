@@ -6,4 +6,6 @@ package edu.colorado.phet.forcesandmotionbasics.motion;
  */
 public interface StackableNodeContext {
     void stackableNodeDropped( StackableNode stackableNode );
+
+    void stackableNodePressed( StackableNode stackableNode );
 }

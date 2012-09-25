@@ -45,6 +45,8 @@ public class StackableNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
                 addActivity( new AnimateToScale( 1.0, StackableNode.this, 200 ) );
+
+                context.stackableNodePressed( StackableNode.this );
             }
 
             @Override public void mouseDragged( final PInputEvent event ) {

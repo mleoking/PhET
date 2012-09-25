@@ -229,19 +229,30 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         PBounds bounds = skateboard.getGlobalFullBounds();
         bounds.add( skateboard.getGlobalFullBounds().getCenterX(), rootNode.globalToLocal( new Point2D.Double( STAGE_SIZE.width / 2, 0 ) ).getY() );
         if ( bounds.intersects( stackableNode.getGlobalFullBounds() ) ) {
-            PBounds skateboardBounds = skateboard.getGlobalFullBounds();
-            Rectangle2D localBounds = stackableNode.getParent().globalToLocal( skateboardBounds );
-            stackableNode.animateToPositionScaleRotation( localBounds.getCenterX() - stackableNode.getFullBounds().getWidth() / 2, localBounds.getY() - stackableNode.getFullBounds().getHeight() + 8, 1, 0, 200 ).setDelegate( new PActivityDelegateAdapter() {
+            Rectangle2D skateboardBounds = stackableNode.getParent().globalToLocal( skateboard.getGlobalFullBounds() );
+            double topY = stack.get().length() > 0 ? stack.get().last().getFullBounds().getY() : skateboardBounds.getY() + 8;
+            stackableNode.animateToPositionScaleRotation( skateboardBounds.getCenterX() - stackableNode.getFullBounds().getWidth() / 2,
+                                                          topY - stackableNode.getFullBounds().getHeight(), 1, 0, 200 ).setDelegate( new PActivityDelegateAdapter() {
                 @Override public void activityFinished( final PActivity activity ) {
                     stackableNode.setOnSkateboard( true );
-                    stack.set( List.single( stackableNode ) );
+                    stack.set( stack.get().snoc( stackableNode ) );
                 }
             } );
         }
         else {
             stackableNode.setOnSkateboard( false );
-            stack.set( List.<StackableNode>nil() );
+            stack.set( stack.get().filter( new F<StackableNode, Boolean>() {
+                @Override public Boolean f( final StackableNode element ) {
+                    return element != stackableNode;
+                }
+            } ) );
+
             stackableNode.animateHome();
         }
+    }
+
+    public void stackableNodePressed( final StackableNode stackableNode ) {
+
+//        System.out.println( "stack = " + stack.get() );
     }
 }
