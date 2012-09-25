@@ -156,17 +156,15 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 double sumOfForces = appliedForce.get();
                 final double mass = getMassOfObjectsOnSkateboard();
-                if ( mass > 0 ) {
-                    double acceleration = sumOfForces / mass;
-                    final double dt = clockEvent.getSimulationTimeChange();
-                    velocity.set( velocity.get() + acceleration * dt );
-                    position.set( position.get() + velocity.get() * dt );
-                    speed.set( new Some<Double>( Math.abs( velocity.get() ) ) );
+                double acceleration = mass != 0 ? sumOfForces / mass : 0.0;
+                final double dt = clockEvent.getSimulationTimeChange();
+                velocity.set( velocity.get() + acceleration * dt );
+                position.set( position.get() + velocity.get() * dt );
+                speed.set( new Some<Double>( Math.abs( velocity.get() ) ) );
 
-                    if ( appliedForce.get() == 0.0 ) {
-                        final double delta = -velocity.get() * dt * 100;
-                        pusherNode.setOffset( pusherNode.getOffset().getX() + delta, pusherNode.getOffset().getY() );
-                    }
+                if ( appliedForce.get() == 0.0 ) {
+                    final double delta = -velocity.get() * dt * 100;
+                    pusherNode.setOffset( pusherNode.getOffset().getX() + delta, pusherNode.getOffset().getY() );
                 }
             }
         } );
