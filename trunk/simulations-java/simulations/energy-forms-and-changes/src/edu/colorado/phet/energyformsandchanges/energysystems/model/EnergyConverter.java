@@ -33,6 +33,7 @@ public abstract class EnergyConverter extends EnergySystemElement {
      */
     public List<EnergyChunk> extractOutgoingEnergyChunks() {
         List<EnergyChunk> retVal = new ArrayList<EnergyChunk>( outgoingEnergyChunks );
+        energyChunkList.removeAll( outgoingEnergyChunks );
         outgoingEnergyChunks.clear();
         return retVal;
     }
