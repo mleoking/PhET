@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -64,42 +65,45 @@ public class PullerNode extends PNode {
             return pullerNode.getFullBounds();
         }
     };
+    private final SimpleObserver imageUpdater;
 
     public PullerNode( final PColor color, final PSize size, final int item, final double scale, Vector2D offset, final PullerContext context, final ObservableProperty<Mode> mode ) {
         this.color = color;
         this.size = size;
         this.scale = scale;
         final BufferedImage standingImage = pullerImage( item );
-        addChild( new PImage( pullerImage( item ) ) {{
-            mode.addObserver( new VoidFunction1<Mode>() {
-                public void apply( final Mode mode ) {
-                    if ( knot != null && mode == Mode.GOING ) {
-                        final BufferedImage pullingImage = pullerImage( 3 );
-                        setImage( pullingImage );
+        final PImage imageNode = new PImage( pullerImage( item ) );
+        addChild( imageNode );
+        imageUpdater = new SimpleObserver() {
+            public void update() {
+                if ( knot != null && mode.get() == Mode.GOING ) {
+                    final BufferedImage pullingImage = pullerImage( 3 );
+                    imageNode.setImage( pullingImage );
 
-                        //Padding accounts for the fact that the hand is no longer at the edge of the image when the puller is pulling, because the foot sticks out
-                        double padding = size == PSize.LARGE ? 40 :
-                                         size == PSize.MEDIUM ? 20 :
-                                         size == PSize.SMALL ? 10 :
-                                         Integer.MAX_VALUE;
-                        if ( color == PColor.BLUE ) {
-                            //align bottom right
-                            setOffset( standingImage.getWidth() - pullingImage.getWidth() + padding,
-                                       standingImage.getHeight() - pullingImage.getHeight() );
-                        }
-                        else {
-                            //align bottom left
-                            setOffset( 0 - padding,
-                                       standingImage.getHeight() - pullingImage.getHeight() );
-                        }
+                    //Padding accounts for the fact that the hand is no longer at the edge of the image when the puller is pulling, because the foot sticks out
+                    double padding = size == PSize.LARGE ? 40 :
+                                     size == PSize.MEDIUM ? 20 :
+                                     size == PSize.SMALL ? 10 :
+                                     Integer.MAX_VALUE;
+                    if ( color == PColor.BLUE ) {
+                        //align bottom right
+                        imageNode.setOffset( standingImage.getWidth() - pullingImage.getWidth() + padding,
+                                             standingImage.getHeight() - pullingImage.getHeight() );
                     }
                     else {
-                        setImage( standingImage );
-                        setOffset( 0, 0 );
+                        //align bottom left
+                        imageNode.setOffset( 0 - padding,
+                                             standingImage.getHeight() - pullingImage.getHeight() );
                     }
                 }
-            } );
-        }} );
+                else {
+                    imageNode.setImage( standingImage );
+                    imageNode.setOffset( 0, 0 );
+                }
+            }
+        };
+        mode.addObserver( imageUpdater );
+
         setScale( scale );
         setOffset( offset.x, offset.y );
         initialOffset = offset;
@@ -165,21 +169,16 @@ public class PullerNode extends PNode {
                "";
     }
 
-    public Point2D getGlobalAttachmentPoint() {
-        return attachmentNode.getGlobalFullBounds().getCenter2D();
-    }
+    public Point2D getGlobalAttachmentPoint() { return attachmentNode.getGlobalFullBounds().getCenter2D(); }
 
-    public void animateHome() {
-        animateToPositionScaleRotation( initialOffset.x, initialOffset.y, scale, 0, TugOfWarCanvas.ANIMATION_DURATION );
-    }
+    public void animateHome() { animateToPositionScaleRotation( initialOffset.x, initialOffset.y, scale, 0, TugOfWarCanvas.ANIMATION_DURATION ); }
 
     public void setKnot( final KnotNode knot ) {
         this.knot = knot;
+        imageUpdater.update();
     }
 
-    public KnotNode getKnot() {
-        return knot;
-    }
+    public KnotNode getKnot() { return knot; }
 
     public double getForce() {
         return size == PSize.SMALL ? 10 :
