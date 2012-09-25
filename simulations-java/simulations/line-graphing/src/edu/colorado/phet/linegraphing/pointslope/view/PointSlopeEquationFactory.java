@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.pointslope.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.text.MessageFormat;
 
@@ -23,29 +24,29 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PointSlopeEquationFactory extends EquationFactory {
 
-    public EquationNode createNode( Line line, PhetFont font ) {
+    public EquationNode createNode( Line line, PhetFont font, Color color ) {
         if ( line.run == 0 ) {
-            return new UndefinedSlopeNode( line, font );
+            return new UndefinedSlopeNode( line, font, color );
         }
         else if ( line.rise == 0 ) {
-            return new ZeroSlopeNode( line, font );
+            return new ZeroSlopeNode( line, font, color );
         }
         else if ( Math.abs( line.rise ) == Math.abs( line.run ) ) {
-            return new UnitSlopeNode( line, font );
+            return new UnitSlopeNode( line, font, color );
         }
         else if ( Math.abs( line.run ) == 1 ) {
-            return new IntegerSlopeNode( line, font );
+            return new IntegerSlopeNode( line, font, color );
         }
         else {
-            return new FractionSlopeNode( line, font );
+            return new FractionSlopeNode( line, font, color );
         }
     }
 
     // Verbose form of point-slope, not simplified, for debugging.
     private static class VerboseNode extends EquationNode {
-        public VerboseNode( Line line, PhetFont font ) {
+        public VerboseNode( Line line, PhetFont font, Color color ) {
             super( font.getSize() );
-            addChild( new PhetPText( MessageFormat.format( "(y - {0}) = ({1}/{2})(x - {3})", line.y1, line.rise, line.run, line.x1 ), font, line.color ) );
+            addChild( new PhetPText( MessageFormat.format( "(y - {0}) = ({1}/{2})(x - {3})", line.y1, line.rise, line.run, line.x1 ), font, color ) );
         }
     }
 
@@ -56,16 +57,16 @@ public class PointSlopeEquationFactory extends EquationFactory {
      */
     private static class ZeroSlopeNode extends EquationNode {
 
-        public ZeroSlopeNode( Line line, PhetFont font ) {
+        public ZeroSlopeNode( Line line, PhetFont font, Color color ) {
             super( font.getSize() );
 
             assert ( line.rise == 0 );
 
-            // y = y1
-            PNode yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
-            PNode equalsNode = new PhetPText( "=", font, line.color );
-            PNode y1SignNode = createSignNode( line.y1, line.color );
-            PNode y1Node = new PhetPText( toIntString( Math.abs( line.y1 ) ), font, line.color );
+            // nodes
+            PNode yNode = new PhetPText( Strings.SYMBOL_Y, font, color );
+            PNode equalsNode = new PhetPText( "=", font, color );
+            PNode y1SignNode = createSignNode( line.y1, color );
+            PNode y1Node = new PhetPText( toIntString( Math.abs( line.y1 ) ), font, color );
 
             // rendering order
             addChild( yNode );
@@ -96,15 +97,16 @@ public class PointSlopeEquationFactory extends EquationFactory {
      */
     private static class UnitSlopeNode extends EquationNode {
 
-        public UnitSlopeNode( Line line, PhetFont font ) {
+        public UnitSlopeNode( Line line, PhetFont font, Color color ) {
             super( font.getSize() );
 
             assert ( Math.abs( line.rise ) == Math.abs( line.run ) );
 
-            PNode yTermNode = createTermNode( line.y1, Strings.SYMBOL_Y, font, line.color );
-            PNode equalsNode = new PhetPText( "=", font, line.color );
-            PNode slopeSignNode = createSignNode( line.getSlope(), line.color );
-            PNode xTermNode = createTermNode( line.x1, Strings.SYMBOL_X, font, line.color );
+            // nodes
+            PNode yTermNode = createTermNode( line.y1, Strings.SYMBOL_Y, font, color );
+            PNode equalsNode = new PhetPText( "=", font, color );
+            PNode slopeSignNode = createSignNode( line.getSlope(), color );
+            PNode xTermNode = createTermNode( line.x1, Strings.SYMBOL_X, font, color );
 
             // rendering order
             addChild( yTermNode );
@@ -135,16 +137,17 @@ public class PointSlopeEquationFactory extends EquationFactory {
      */
     private static class IntegerSlopeNode extends EquationNode {
 
-        public IntegerSlopeNode( Line line, PhetFont font ) {
+        public IntegerSlopeNode( Line line, PhetFont font, Color color ) {
             super( font.getSize() );
 
             assert ( Math.abs( line.run ) == 1 );
 
-            PNode yTermNode = createTermNode( line.y1, Strings.SYMBOL_Y, font, line.color );
-            PNode equalsNode = new PhetPText( "=", font, line.color );
-            PNode slopeSignNode = createSignNode( line.getSlope(), line.color );
-            PNode slopeNode = new PhetPText( toIntString( Math.abs( line.getSlope() ) ), font, line.color );
-            PNode xTermNode = createTermNode( line.x1, Strings.SYMBOL_X, font, line.color );
+            // nodes
+            PNode yTermNode = createTermNode( line.y1, Strings.SYMBOL_Y, font, color );
+            PNode equalsNode = new PhetPText( "=", font, color );
+            PNode slopeSignNode = createSignNode( line.getSlope(), color );
+            PNode slopeNode = new PhetPText( toIntString( Math.abs( line.getSlope() ) ), font, color );
+            PNode xTermNode = createTermNode( line.x1, Strings.SYMBOL_X, font, color );
 
             // rendering order
             addChild( yTermNode );
@@ -177,17 +180,17 @@ public class PointSlopeEquationFactory extends EquationFactory {
     */
     private static class FractionSlopeNode extends EquationNode {
 
-        public FractionSlopeNode( Line line, PhetFont font ) {
+        public FractionSlopeNode( Line line, PhetFont font, Color color ) {
             super( font.getSize() );
 
-            // y = -(reducedRise/reducedRun)x + b
-            PNode yTermNode = createTermNode( line.y1, Strings.SYMBOL_Y, font, line.color );
-            PNode equalsNode = new PhetPText( "=", font, line.color );
-            PNode slopeSignNode = createSignNode( line.getSlope(), line.color );
-            PNode riseNode = new PhetPText( toIntString( Math.abs( line.rise ) ), font, line.color );
-            PNode runNode = new PhetPText( toIntString( Math.abs( line.run ) ), font, line.color );
-            PNode lineNode = createFractionLineNode( Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), line.color );
-            PNode xTermNode = createTermNode( line.x1, Strings.SYMBOL_X, font, line.color );
+            // nodes
+            PNode yTermNode = createTermNode( line.y1, Strings.SYMBOL_Y, font, color );
+            PNode equalsNode = new PhetPText( "=", font, color );
+            PNode slopeSignNode = createSignNode( line.getSlope(), color );
+            PNode riseNode = new PhetPText( toIntString( Math.abs( line.rise ) ), font, color );
+            PNode runNode = new PhetPText( toIntString( Math.abs( line.run ) ), font, color );
+            PNode lineNode = createFractionLineNode( Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), color );
+            PNode xTermNode = createTermNode( line.x1, Strings.SYMBOL_X, font, color );
 
             // rendering order
             addChild( yTermNode );
@@ -228,17 +231,18 @@ public class PointSlopeEquationFactory extends EquationFactory {
         // factory
         PointSlopeEquationFactory factory = new PointSlopeEquationFactory();
         PhetFont font = new PhetFont( 24 );
+        Color color = Color.BLACK;
 
         // nodes
-        PNode undefinedSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 1, 0 ), font );
-        PNode positiveZeroSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 0, 1 ), font );
-        PNode negativeZeroSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, 0, 1 ), font );
-        PNode positiveUnitSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 3, 3 ), font );
-        PNode negativeUnitSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, -3, 3 ), font );
-        PNode positiveIntegerSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 3, 1 ), font );
-        PNode negativeIntegerSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, -3, 1 ), font );
-        PNode positiveFractionSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 3, 5 ), font );
-        PNode negativeFractionSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, -3, 5 ), font );
+        PNode undefinedSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 1, 0 ), font, color );
+        PNode positiveZeroSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 0, 1 ), font, color );
+        PNode negativeZeroSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, 0, 1 ), font, color );
+        PNode positiveUnitSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 3, 3 ), font, color );
+        PNode negativeUnitSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, -3, 3 ), font, color );
+        PNode positiveIntegerSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 3, 1 ), font, color );
+        PNode negativeIntegerSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, -3, 1 ), font, color );
+        PNode positiveFractionSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 3, 5 ), font, color );
+        PNode negativeFractionSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, -3, 5 ), font, color );
 
         // layout
         final double xOffset = 50;

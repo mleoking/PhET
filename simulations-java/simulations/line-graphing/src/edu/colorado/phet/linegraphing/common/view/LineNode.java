@@ -102,7 +102,7 @@ public abstract class LineNode extends PComposite {
         addChild( equationParentNode );
         equationParentNode.setOffset( tipLocation );
         equationParentNode.setRotation( line.run == 0 ? Math.PI / 2 : -Math.atan( line.getSlope() ) );
-        equationNode = createEquationNode( line, EQUATION_FONT );
+        equationNode = createEquationNode( line, EQUATION_FONT, line.color );
         PNode zeroOffsetNode = new ZeroOffsetNode( equationNode );
         equationParentNode.addChild( zeroOffsetNode );
         if ( line.rise < 0 && line.run > 0 ) {
@@ -117,7 +117,7 @@ public abstract class LineNode extends PComposite {
     }
 
     // Creates the line's equation in the correct form.
-    protected abstract EquationNode createEquationNode( Line line, PhetFont font );
+    protected abstract EquationNode createEquationNode( Line line, PhetFont font, Color color );
 
     public void setEquationVisible( boolean visible ) {
         equationNode.setVisible( visible );
