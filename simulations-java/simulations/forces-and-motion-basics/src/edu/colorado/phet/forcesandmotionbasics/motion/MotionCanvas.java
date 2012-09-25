@@ -97,7 +97,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( terrain );
 
-
         PNode clouds = new PNode() {{
             model.position.addObserver( new VoidFunction1<Double>() {
                 public void apply( final Double position ) {
