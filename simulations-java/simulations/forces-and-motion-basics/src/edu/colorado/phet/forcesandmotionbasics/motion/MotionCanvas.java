@@ -58,7 +58,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final PImage skateboard;
     private final List<StackableNode> stackableNodes;
     private final Property<List<StackableNode>> stack = new Property<List<StackableNode>>( List.<StackableNode>nil() );
-    private final PNode forcesNode;
 
     private MotionModel model = new MotionModel( new F<Unit, Double>() {
         @Override public Double f( final Unit unit ) {
@@ -191,7 +190,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             }
         } );
 
-        forcesNode = new PNode() {{
+        final PNode forcesNode = new PNode() {{
             final SimpleObserver updateForces = new SimpleObserver() {
                 public void update() {
                     removeAllChildren();
