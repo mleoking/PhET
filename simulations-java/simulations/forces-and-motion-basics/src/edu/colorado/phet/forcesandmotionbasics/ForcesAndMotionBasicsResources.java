@@ -21,6 +21,7 @@ public class ForcesAndMotionBasicsResources {
     //Images
     public static class Images {
         public static final BufferedImage BARREL = RESOURCES.getImage( "barrel.png" );
+        public static final BufferedImage BOY_SITTING = RESOURCES.getImage( "boy-sitting.png" );
         public static final BufferedImage BOY_STANDING = RESOURCES.getImage( "boy-standing.png" );
         public static final BufferedImage BRICK_TILE = RESOURCES.getImage( "brick-tile.png" );
         public static final BufferedImage CART = RESOURCES.getImage( "cart.png" );
@@ -28,6 +29,7 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage CRATE = RESOURCES.getImage( "crate.png" );
         public static final BufferedImage DRAKOONSONNE = RESOURCES.getImage( "DrakoonSonne.png" );
         public static final BufferedImage FRIDGE = RESOURCES.getImage( "fridge.png" );
+        public static final BufferedImage GIRL_SITTING = RESOURCES.getImage( "girl-sitting.png" );
         public static final BufferedImage GIRL_STANDING = RESOURCES.getImage( "girl-standing.png" );
         public static final BufferedImage GO_BUTTON = RESOURCES.getImage( "go_button.png" );
         public static final BufferedImage GO_HOVER = RESOURCES.getImage( "go_hover.png" );
