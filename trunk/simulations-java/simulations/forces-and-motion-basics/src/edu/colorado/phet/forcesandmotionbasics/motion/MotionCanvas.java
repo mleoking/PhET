@@ -26,7 +26,6 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleP
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -51,6 +50,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.BROWN;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._isOnSkateboard;
@@ -246,8 +246,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( timeControls );
 
         StackableNode fridge = new StackableNode( this, Images.FRIDGE, 200, FRIDGE_OFFSET_WITHIN_SKATEBOARD );
-        StackableNode crate1 = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
-        StackableNode crate2 = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
+        StackableNode crate1 = new StackableNode( this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
+        StackableNode crate2 = new StackableNode( this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
 
         double INTER_OBJECT_SPACING = 10;
         fridge.setInitialOffset( leftToolbox.getFullBounds().getX() + 10, leftToolbox.getFullBounds().getCenterY() - fridge.getFullBounds().getHeight() / 2 );
@@ -259,10 +259,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( crate2 );
 
         //Weight for humans: http://www.cdc.gov/growthcharts/data/set1clinical/cj41l021.pdf
-        StackableNode boy = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.BOY_SITTING, 100 ), 42, friction ? 38 : 47, true );
-        StackableNode girl = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.GIRL_SITTING, 100 ), 38, friction ? 38 : 47, true );
-        StackableNode trash = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47 );
-        StackableNode gift = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40 );
+        StackableNode boy = new StackableNode( this, multiScaleToHeight( Images.BOY_SITTING, 100 ), 42, friction ? 38 : 47, true, multiScaleToHeight( Images.BOY_STANDING, 170 ) );
+        StackableNode girl = new StackableNode( this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 38, friction ? 38 : 47, true, multiScaleToHeight( Images.GIRL_STANDING, 180 ) );
+        StackableNode trash = new StackableNode( this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47 );
+        StackableNode gift = new StackableNode( this, multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40 );
 
         boy.setInitialOffset( rightToolbox.getFullBounds().getX() + 10, rightToolbox.getFullBounds().getMaxY() - boy.getFullBounds().getHeight() - 10 );
         girl.setInitialOffset( boy.getFullBounds().getMaxX() + 10, rightToolbox.getFullBounds().getMaxY() - girl.getFullBounds().getHeight() - 10 );
@@ -386,7 +386,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         PBounds bounds = skateboard.getGlobalFullBounds();
         bounds.add( skateboard.getGlobalFullBounds().getCenterX(), rootNode.globalToLocal( new Point2D.Double( STAGE_SIZE.width / 2, 0 ) ).getY() );
         if ( bounds.intersects( stackableNode.getGlobalFullBounds() ) ) {
-            stackableNode.setOnSkateboard( true );
+            stackableNode.onSkateboard.set( true );
             stack.set( stack.get().snoc( stackableNode ) );
             normalizeStack();
         }
@@ -396,13 +396,13 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     }
 
     public void stackableNodePressed( final StackableNode stackableNode ) {
-        if ( stackableNode.isOnSkateboard() ) {
+        if ( stackableNode.onSkateboard.get() ) {
             final double dx = stackableNode.getFullBounds().getWidth() / 4;
             stackableNode.translate( dx, dx );
         }
         stackableNode.moveToFront();
         nodeMovedToFront();
-        stackableNode.setOnSkateboard( false );
+        stackableNode.onSkateboard.set( false );
         stack.set( stack.get().filter( new F<StackableNode, Boolean>() {
             @Override public Boolean f( final StackableNode element ) {
                 return element != stackableNode;
