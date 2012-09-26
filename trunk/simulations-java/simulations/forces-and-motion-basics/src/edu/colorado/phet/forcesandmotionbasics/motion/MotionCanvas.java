@@ -260,7 +260,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         //Weight for humans: http://www.cdc.gov/growthcharts/data/set1clinical/cj41l021.pdf
         StackableNode boy = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.BOY_STANDING, 170 ), 42, 50 );
         StackableNode girl = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.GIRL_STANDING, 180 ), 38, 50 );
-        StackableNode trash = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.TRASH_CAN, 150 ), 50, 40 );
+        StackableNode trash = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47 );
         StackableNode gift = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40 );
 
         boy.setInitialOffset( rightToolbox.getFullBounds().getX() + 10, rightToolbox.getFullBounds().getMaxY() - boy.getFullBounds().getHeight() - 10 );
