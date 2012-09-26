@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.materials.GLMaterial;
-import edu.colorado.phet.lwjglphet.nodes.GLClone;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.ObjMesh;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
@@ -30,7 +29,7 @@ public class LonePairNode extends GLNode {
     public final Property<Vector3D> position;
 
     // TODO: lone pair geometry!
-    private static GLNode lonePairGeometry;
+    private static ObjMesh lonePairGeometry;
 
     public LonePairNode( PairGroup pair, final PairGroup parentAtom, final Property<Boolean> showLonePairs ) {
         this.pair = pair;
@@ -104,28 +103,40 @@ public class LonePairNode extends GLNode {
         super.postRender( options );
     }
 
+    public static ObjMesh getMesh() {
+        ensureMeshInitialized();
+
+        return lonePairGeometry;
+    }
+
     public static GLNode getGeometry() {
+        ensureMeshInitialized();
+
+        return new GLNode() {
+            {
+                setRenderPass( GLOptions.RenderPass.TRANSPARENCY );
+
+                // for the normals
+                requireEnabled( GL_NORMALIZE );
+            }
+
+            @Override public void renderSelf( GLOptions options ) {
+                super.renderSelf( options );
+
+                lonePairGeometry.draw();
+            }
+        };
+    }
+
+    private static void ensureMeshInitialized() {
         if ( lonePairGeometry == null ) {
             try {
                 lonePairGeometry = new ObjMesh( MoleculeShapesResources.RESOURCES.getResourceAsStream( "models/balloon2.obj" ) );
-                lonePairGeometry.setRenderPass( GLOptions.RenderPass.TRANSPARENCY );
             }
             catch( IOException e ) {
                 e.printStackTrace();
             }
         }
-
-        return new GLClone( lonePairGeometry ) {{
-            setRenderPass( GLOptions.RenderPass.TRANSPARENCY );
-
-            // for the normals
-            requireEnabled( GL_NORMALIZE );
-        }
-
-            @Override protected void renderChildren( GLOptions options ) {
-                super.renderChildren( options );
-            }
-        };
     }
 
     private class ElectronDotNode extends GLNode {

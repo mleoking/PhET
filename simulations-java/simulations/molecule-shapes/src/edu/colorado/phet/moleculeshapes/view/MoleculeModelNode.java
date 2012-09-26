@@ -12,11 +12,15 @@ import java.util.Map;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.Matrix4F;
+import edu.colorado.phet.common.phetcommon.math.Ray3F;
+import edu.colorado.phet.common.phetcommon.math.SphereF;
+import edu.colorado.phet.common.phetcommon.math.Triangle3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -24,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
+import edu.colorado.phet.lwjglphet.shapes.ObjMesh;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
@@ -103,6 +108,48 @@ public class MoleculeModelNode extends GLNode {
             centerAtomNode = new AtomNode( new Some<PairGroup>( molecule.getCentralAtom() ) );
         }
         addChild( centerAtomNode );
+    }
+
+    public GLNode intersect( Ray3F ray ) {
+        GLNode result = null;
+        float distance = Float.POSITIVE_INFINITY;
+
+        for ( AtomNode atomNode : atomNodes ) {
+            Ray3F transformedRay = atomNode.getGlobalTransform().inverseRay( ray );
+
+            SphereF.SphereIntersectionResult intersection = new SphereF( Vector3F.ZERO, atomNode.getRadius() ).intersect( transformedRay, 0.00001f );
+            if ( intersection != null ) {
+                if ( intersection.distance < distance ) {
+                    distance = intersection.distance;
+                    result = atomNode;
+                }
+            }
+        }
+
+        ObjMesh lonePairMesh = LonePairNode.getMesh();
+
+        for ( LonePairNode lonePairNode : lonePairNodes ) {
+            Ray3F transformedRay = lonePairNode.getGlobalTransform().inverseRay( ray );
+
+            // first check against it's bounding box for computational speed
+            if ( lonePairMesh.getBoundingBox().intersectedBy( transformedRay ) ) {
+
+                // then do the naive "check all the triangles" approach
+                for ( Triangle3F triangle : lonePairMesh.getTriangles() ) {
+                    Option<Triangle3F.TriangleIntersectionResult> triangleIntersectionResults = triangle.intersectWith( transformedRay );
+                    if ( triangleIntersectionResults.isSome() ) {
+                        float myDistance = triangleIntersectionResults.get().point.distance( transformedRay.pos );
+                        if ( myDistance < distance ) {
+                            distance = myDistance;
+                            result = lonePairNode;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
     protected void setScaleOverride( float scaleOverride ) {

@@ -76,13 +76,15 @@ public class AttractorModel {
 
             // position movement for faster convergence
             if ( !pair.isCentralAtom() && aroundCenterAtom ) { // TODO: better way of not moving the center atom?
-                pair.position.set( pair.position.get().plus( delta.times( 2.0 * timeElapsed ) ) );
+                pair.addPosition( delta.times( 2.0 * timeElapsed ) );
+//                pair.position.set( pair.position.get().plus( delta.times( 2.0 * timeElapsed ) ) );
             }
 
             // if we are a terminal lone pair, move us just with this but much more quickly
             if ( !pair.isCentralAtom() && !aroundCenterAtom ) {
 //                pair.position.set( targetLocation );
-                pair.position.set( pair.position.get().plus( delta.times( Math.min( 20.0 * timeElapsed, 1 ) ) ) );
+                pair.addPosition( delta.times( Math.min( 20.0 * timeElapsed, 1 ) ) );
+//                pair.position.set( pair.position.get().plus( delta.times( Math.min( 20.0 * timeElapsed, 1 ) ) ) );
             }
         }
 
@@ -113,10 +115,10 @@ public class AttractorModel {
                 double extraClosePushFactor = MathUtil.clamp( 1, 3 * Math.pow( Math.PI - currentAngle, 2 ) / ( Math.PI * Math.PI ), 3 );
 
                 Vector3D push = dirTowardsA.times( timeFactor
-                                                            * angleDifference
-                                                            * PairGroup.ANGLE_REPULSION_SCALE
-                                                            * ( currentAngle < targetAngle ? 2.0 : 0.5 )
-                                                            * extraClosePushFactor );
+                                                   * angleDifference
+                                                   * PairGroup.ANGLE_REPULSION_SCALE
+                                                   * ( currentAngle < targetAngle ? 2.0 : 0.5 )
+                                                   * extraClosePushFactor );
                 a.addVelocity( push );
                 b.addVelocity( push.negated() );
             }
