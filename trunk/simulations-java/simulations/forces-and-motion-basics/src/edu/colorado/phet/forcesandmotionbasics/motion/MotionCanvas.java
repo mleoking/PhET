@@ -199,9 +199,15 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         skateboard.setOffset( STAGE_SIZE.getWidth() / 2 - skateboard.getFullBounds().getWidth() / 2, grassY - skateboard.getFullBounds().getHeight() );
         addChild( skateboard );
 
-        PhetPPath toolbox = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 250, 160, 20, 20 ), TOOLBOX_COLOR, new BasicStroke( 1 ), Color.black );
-        toolbox.setOffset( INSET, STAGE_SIZE.height - INSET - toolbox.getFullBounds().getHeight() );
-        addChild( toolbox );
+        final RoundRectangle2D.Double toolboxShape = new RoundRectangle2D.Double( 0, 0, 250, 160, 20, 20 );
+        PhetPPath leftToolbox = new PhetPPath( toolboxShape, TOOLBOX_COLOR, new BasicStroke( 1 ), Color.black );
+        final double toolboxY = STAGE_SIZE.height - INSET - leftToolbox.getFullBounds().getHeight();
+        leftToolbox.setOffset( INSET, toolboxY );
+        addChild( leftToolbox );
+
+        PhetPPath rightToolbox = new PhetPPath( toolboxShape, TOOLBOX_COLOR, new BasicStroke( 1 ), Color.black );
+        rightToolbox.setOffset( STAGE_SIZE.width - INSET - rightToolbox.getFullBounds().getWidth(), toolboxY );
+        addChild( rightToolbox );
 
         SliderControl sliderControl = new SliderControl( model.appliedForce, stack, friction );
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
@@ -240,7 +246,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         stackableNodes = fj.data.List.list( fridge, crate1, crate2 );
 
         double INTER_OBJECT_SPACING = 10;
-        fridge.setInitialOffset( toolbox.getFullBounds().getX() + 10, toolbox.getFullBounds().getCenterY() - fridge.getFullBounds().getHeight() / 2 );
+        fridge.setInitialOffset( leftToolbox.getFullBounds().getX() + 10, leftToolbox.getFullBounds().getCenterY() - fridge.getFullBounds().getHeight() / 2 );
         crate1.setInitialOffset( fridge.getFullBounds().getMaxX() + INTER_OBJECT_SPACING, fridge.getFullBounds().getMaxY() - crate1.getFullBounds().getHeight() );
         crate2.setInitialOffset( crate1.getFullBounds().getMaxX() + INTER_OBJECT_SPACING, fridge.getFullBounds().getMaxY() - crate2.getFullBounds().getHeight() );
 
