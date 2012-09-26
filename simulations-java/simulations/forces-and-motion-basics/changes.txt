@@ -1,3 +1,4 @@
+Tab 3: Gray out "sum of forces" checkbox when "forces" not selected
 Tab 2-3: Rescaled speedometer velocity to align with max velocity due to strobe effect
 # 0.00.16 (68476) Sep 26, 2012
 Tab 2-3: Fixed: Speedometer size changes when first object dropped on stack.

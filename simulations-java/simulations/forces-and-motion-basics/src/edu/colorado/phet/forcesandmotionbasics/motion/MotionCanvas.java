@@ -171,6 +171,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         showForces.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean showForces ) {
                 showValuesCheckBox.setEnabled( showForces );
+                showSumOfForcesCheckBox.setEnabled( showForces );
             }
         } );
         final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSpeedometer ) {{ setFont( CONTROL_FONT ); }};
