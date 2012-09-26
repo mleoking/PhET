@@ -1,3 +1,4 @@
+Tab 1: Play a victory sound when a flag is shown
 Tab 1-3: Changed Applied force and Sum of forces colors based on NP recommendation
 Tab 3: Fixed: friction force should not be able to make the object move backwards
 Tab 3: separate arrow tails for friction vs applied
