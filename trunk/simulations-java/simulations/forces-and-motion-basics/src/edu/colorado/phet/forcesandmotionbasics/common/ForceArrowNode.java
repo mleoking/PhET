@@ -49,10 +49,11 @@ public class ForceArrowNode extends PNode {
         }} );
 
         if ( showValues ) {
-            addChild( new PhetPText( new DecimalFormat( "0" ).format( Math.abs( forceInNewtons ) ) + "N", new PhetFont( 18, true ) ) {{
+            addChild( new PhetPText( new DecimalFormat( "0" ).format( Math.abs( forceInNewtons ) ) + "N", new PhetFont( 16, true ) ) {{
                 centerFullBoundsOnPoint( arrowNode.getFullBounds().getCenter2D() );
-                translate( forceInNewtons < 0 ? 5 :
-                           forceInNewtons > 0 ? -5 :
+                double dx = 2;
+                translate( forceInNewtons < 0 ? dx :
+                           forceInNewtons > 0 ? -dx :
                            0, 0 );
 
                 //If it doesn't fit in the arrow, just hide it
