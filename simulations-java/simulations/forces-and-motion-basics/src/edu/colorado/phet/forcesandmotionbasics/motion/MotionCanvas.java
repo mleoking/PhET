@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -243,8 +244,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         StackableNode crate1 = new StackableNode( this, Images.CRATE, 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
         StackableNode crate2 = new StackableNode( this, Images.CRATE, 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
 
-        stackableNodes = fj.data.List.list( fridge, crate1, crate2 );
-
         double INTER_OBJECT_SPACING = 10;
         fridge.setInitialOffset( leftToolbox.getFullBounds().getX() + 10, leftToolbox.getFullBounds().getCenterY() - fridge.getFullBounds().getHeight() / 2 );
         crate1.setInitialOffset( fridge.getFullBounds().getMaxX() + INTER_OBJECT_SPACING, fridge.getFullBounds().getMaxY() - crate1.getFullBounds().getHeight() );
@@ -253,6 +252,23 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( fridge );
         addChild( crate1 );
         addChild( crate2 );
+
+        //Weight for humans: http://www.cdc.gov/growthcharts/data/set1clinical/cj41l021.pdf
+        StackableNode boy = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.BOY_STANDING, 170 ), 42, 50 );
+        StackableNode girl = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.GIRL_STANDING, 180 ), 38, 50 );
+        StackableNode trash = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.TRASH_CAN, 150 ), 50, 40 );
+        StackableNode gift = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40 );
+
+        boy.setInitialOffset( rightToolbox.getFullBounds().getX() + 10, rightToolbox.getFullBounds().getMaxY() - boy.getFullBounds().getHeight() - 10 );
+        girl.setInitialOffset( boy.getFullBounds().getMaxX() + 10, rightToolbox.getFullBounds().getMaxY() - girl.getFullBounds().getHeight() - 10 );
+        trash.setInitialOffset( girl.getFullBounds().getMaxX() + 10, rightToolbox.getFullBounds().getMaxY() - trash.getFullBounds().getHeight() - 10 );
+        gift.setInitialOffset( trash.getFullBounds().getMaxX() + 4, rightToolbox.getFullBounds().getMaxY() - gift.getFullBounds().getHeight() - 10 );
+        addChild( boy );
+        addChild( girl );
+        addChild( trash );
+        addChild( gift );
+
+        stackableNodes = fj.data.List.list( fridge, crate1, crate2, boy, girl, trash, gift );
 
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {

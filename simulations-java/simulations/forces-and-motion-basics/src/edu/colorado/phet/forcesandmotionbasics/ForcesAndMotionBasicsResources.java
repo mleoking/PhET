@@ -20,12 +20,15 @@ public class ForcesAndMotionBasicsResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage BARREL = RESOURCES.getImage( "barrel.png" );
+        public static final BufferedImage BOY_STANDING = RESOURCES.getImage( "boy-standing.png" );
         public static final BufferedImage BRICK_TILE = RESOURCES.getImage( "brick-tile.png" );
         public static final BufferedImage CART = RESOURCES.getImage( "cart.png" );
         public static final BufferedImage CLOUD1 = RESOURCES.getImage( "cloud1.png" );
         public static final BufferedImage CRATE = RESOURCES.getImage( "crate.png" );
         public static final BufferedImage DRAKOONSONNE = RESOURCES.getImage( "DrakoonSonne.png" );
         public static final BufferedImage FRIDGE = RESOURCES.getImage( "fridge.png" );
+        public static final BufferedImage GIRL_STANDING = RESOURCES.getImage( "girl-standing.png" );
         public static final BufferedImage GO_BUTTON = RESOURCES.getImage( "go_button.png" );
         public static final BufferedImage GO_HOVER = RESOURCES.getImage( "go_hover.png" );
         public static final BufferedImage GO_PRESSED = RESOURCES.getImage( "go_pressed.png" );
@@ -34,6 +37,8 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage GROUND_TEXTURE = RESOURCES.getImage( "ground-texture.png" );
         public static final BufferedImage ICE_OVERLAY = RESOURCES.getImage( "ice_overlay.png" );
         public static final BufferedImage MYSTERY_BOX = RESOURCES.getImage( "mystery-box.png" );
+        public static final BufferedImage MYSTERY_OBJECT_01 = RESOURCES.getImage( "mystery-object-01.png" );
+        public static final BufferedImage OLLIE = RESOURCES.getImage( "ollie.gif" );
         public static final BufferedImage PULL_FIGURE_BLUE_0 = RESOURCES.getImage( "pull_figure_BLUE_0.png" );
         public static final BufferedImage PULL_FIGURE_BLUE_1 = RESOURCES.getImage( "pull_figure_BLUE_1.png" );
         public static final BufferedImage PULL_FIGURE_BLUE_2 = RESOURCES.getImage( "pull_figure_BLUE_2.png" );
@@ -80,5 +85,6 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage STOP_HOVER = RESOURCES.getImage( "stop_hover.png" );
         public static final BufferedImage STOP_PRESSED = RESOURCES.getImage( "stop_pressed.png" );
         public static final BufferedImage STOP_UP = RESOURCES.getImage( "stop_up.png" );
+        public static final BufferedImage TRASH_CAN = RESOURCES.getImage( "trash-can.png" );
     }
 }
