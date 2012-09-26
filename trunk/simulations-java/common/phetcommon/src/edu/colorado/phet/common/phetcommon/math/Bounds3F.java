@@ -4,7 +4,7 @@ package edu.colorado.phet.common.phetcommon.math;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 
 /**
- * A bounding box, generalized to a 3D bounding box (cuboid), using floats
+ * An axis-aligned bounding box (AABB), generalized to a 3D bounding box (cuboid), using floats
  */
 public class Bounds3F {
     private final float x;
@@ -97,5 +97,47 @@ public class Bounds3F {
 
     public float getCenterZ() {
         return getCenter().z;
+    }
+
+    public boolean intersectedBy( Ray3F ray ) {
+        // see http://people.csail.mit.edu/amy/papers/box-jgt.pdf
+
+        float tmin, tmax, tymin, tymax, tzmin, tzmax;
+
+        // valid intersection interval
+        float t0 = 0.000001f;
+        float t1 = Float.POSITIVE_INFINITY;
+
+        if ( ray.dir.x >= 0 ) {
+            tmin = ( getMinX() - ray.pos.x ) / ray.dir.x;
+            tmax = ( getMaxX() - ray.pos.x ) / ray.dir.x;
+        }
+        else {
+            tmin = ( getMaxX() - ray.pos.x ) / ray.dir.x;
+            tmax = ( getMinX() - ray.pos.x ) / ray.dir.x;
+        }
+        if ( ray.dir.y >= 0 ) {
+            tymin = ( getMinY() - ray.pos.y ) / ray.dir.y;
+            tymax = ( getMaxY() - ray.pos.y ) / ray.dir.y;
+        }
+        else {
+            tymin = ( getMaxY() - ray.pos.y ) / ray.dir.y;
+            tymax = ( getMinY() - ray.pos.y ) / ray.dir.y;
+        }
+        if ( ( tmin > tymax ) || ( tymin > tmax ) ) { return false; }
+        if ( tymin > tmin ) { tmin = tymin; }
+        if ( tymax < tmax ) { tmax = tymax; }
+        if ( ray.dir.z >= 0 ) {
+            tzmin = ( getMinZ() - ray.pos.z ) / ray.dir.z;
+            tzmax = ( getMaxZ() - ray.pos.z ) / ray.dir.z;
+        }
+        else {
+            tzmin = ( getMaxZ() - ray.pos.z ) / ray.dir.z;
+            tzmax = ( getMinZ() - ray.pos.z ) / ray.dir.z;
+        }
+        if ( ( tmin > tzmax ) || ( tzmin > tmax ) ) { return false; }
+        if ( tzmin > tmin ) { tmin = tzmin; }
+        if ( tzmax < tmax ) { tmax = tzmax; }
+        return ( ( tmin < t1 ) && ( tmax > t0 ) );
     }
 }

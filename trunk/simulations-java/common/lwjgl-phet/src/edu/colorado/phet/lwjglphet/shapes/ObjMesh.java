@@ -16,10 +16,10 @@ import java.util.StringTokenizer;
 
 import org.lwjgl.BufferUtils;
 
+import edu.colorado.phet.common.phetcommon.math.Bounds3F;
+import edu.colorado.phet.common.phetcommon.math.Triangle3F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
-import edu.colorado.phet.lwjglphet.GLOptions;
-import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.utils.GLDisplayList;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -27,7 +27,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Reads in (currently a subset of) .obj files (Wavefront format) into a mesh that can be rendered
  */
-public class ObjMesh extends GLNode {
+public class ObjMesh {
 
     private FloatBuffer positionBuffer;
     private FloatBuffer normalBuffer;
@@ -39,6 +39,9 @@ public class ObjMesh extends GLNode {
 
     private GLDisplayList displayList;
 
+    private List<Triangle3F> triangles = new ArrayList<Triangle3F>();
+    private Bounds3F boundingBox;
+
     public ObjMesh( InputStream inputStream ) throws IOException {
 
         BufferedReader reader = new BufferedReader( new InputStreamReader( inputStream ) );
@@ -46,7 +49,7 @@ public class ObjMesh extends GLNode {
         List<Vector3F> vertices = new ArrayList<Vector3F>();
         List<Vector3F> normals = new ArrayList<Vector3F>();
         List<Vector2F> uvs = new ArrayList<Vector2F>();
-        List<List<Group>> triangles = new ArrayList<List<Group>>();
+        List<List<Group>> tris = new ArrayList<List<Group>>();
 
         Map<Integer, Integer> textureMap = new HashMap<Integer, Integer>();
         Map<Integer, Integer> normalMap = new HashMap<Integer, Integer>();
@@ -117,11 +120,26 @@ public class ObjMesh extends GLNode {
                 }
 
                 if ( groups.size() == 3 ) {
-                    triangles.add( groups );
+                    tris.add( groups );
+                    triangles.add( new Triangle3F(
+                            vertices.get( groups.get( 0 ).vertex - 1 ),
+                            vertices.get( groups.get( 1 ).vertex - 1 ),
+                            vertices.get( groups.get( 2 ).vertex - 1 )
+                    ) );
                 }
                 else if ( groups.size() == 4 ) {
-                    triangles.add( Arrays.asList( groups.get( 0 ), groups.get( 1 ), groups.get( 2 ) ) );
-                    triangles.add( Arrays.asList( groups.get( 0 ), groups.get( 2 ), groups.get( 3 ) ) );
+                    tris.add( Arrays.asList( groups.get( 0 ), groups.get( 1 ), groups.get( 2 ) ) );
+                    triangles.add( new Triangle3F(
+                            vertices.get( groups.get( 0 ).vertex - 1 ),
+                            vertices.get( groups.get( 1 ).vertex - 1 ),
+                            vertices.get( groups.get( 2 ).vertex - 1 )
+                    ) );
+                    tris.add( Arrays.asList( groups.get( 0 ), groups.get( 2 ), groups.get( 3 ) ) );
+                    triangles.add( new Triangle3F(
+                            vertices.get( groups.get( 0 ).vertex - 1 ),
+                            vertices.get( groups.get( 2 ).vertex - 1 ),
+                            vertices.get( groups.get( 3 ).vertex - 1 )
+                    ) );
                 }
                 else {
                     System.out.println( "WARNING: non-triangle or quad face!" );
@@ -139,7 +157,7 @@ public class ObjMesh extends GLNode {
         positionBuffer = BufferUtils.createFloatBuffer( vertices.size() * 3 );
         normalBuffer = BufferUtils.createFloatBuffer( vertices.size() * 3 );
         textureBuffer = BufferUtils.createFloatBuffer( vertices.size() * 2 );
-        indexBuffer = BufferUtils.createIntBuffer( triangles.size() * 3 );
+        indexBuffer = BufferUtils.createIntBuffer( tris.size() * 3 );
 
         for ( int i = 0; i < vertices.size(); i++ ) {
             Vector3F vertex = vertices.get( i );
@@ -156,12 +174,28 @@ public class ObjMesh extends GLNode {
             }
         }
 
-        for ( int i = 0; i < triangles.size(); i++ ) {
-            for ( Group group : triangles.get( i ) ) {
+        for ( int i = 0; i < tris.size(); i++ ) {
+            for ( Group group : tris.get( i ) ) {
                 indexBuffer.put( group.vertex - 1 );
             }
         }
 
+        // compute the bounding box of the points
+        float minX, minY, minZ, maxX, maxY, maxZ;
+        minX = minY = minZ = Float.POSITIVE_INFINITY;
+        maxX = maxY = maxZ = Float.NEGATIVE_INFINITY;
+        for ( Vector3F vertex : vertices ) {
+            minX = Math.min( minX, vertex.x );
+            minY = Math.min( minY, vertex.y );
+            minZ = Math.min( minZ, vertex.z );
+
+            maxX = Math.max( maxX, vertex.x );
+            maxY = Math.max( maxY, vertex.y );
+            maxZ = Math.max( maxZ, vertex.z );
+        }
+        boundingBox = Bounds3F.fromMinMax( minX, maxX, minY, maxY, minZ, maxZ );
+
+        // precompute the display list for faster rendering later
         displayList = new GLDisplayList( new Runnable() {
             public void run() {
                 positionBuffer.rewind();
@@ -191,6 +225,18 @@ public class ObjMesh extends GLNode {
         } );
     }
 
+    public void draw() {
+        displayList.run();
+    }
+
+    public List<Triangle3F> getTriangles() {
+        return triangles;
+    }
+
+    public Bounds3F getBoundingBox() {
+        return boundingBox;
+    }
+
     private static class Group {
         public final int vertex;
         public final int texture;
@@ -201,44 +247,5 @@ public class ObjMesh extends GLNode {
             this.texture = texture;
             this.normal = normal;
         }
-    }
-
-    @Override protected void preRender( GLOptions options ) {
-        super.preRender( options );
-
-//        positionBuffer.rewind();
-//        normalBuffer.rewind();
-//        textureBuffer.rewind();
-//        indexBuffer.rewind();
-//
-//        // TODO: seeing a lot of this type of code. refactor away if possible
-//        // initialize the needed states
-//        glEnableClientState( GL_VERTEX_ARRAY );
-//        if ( options.shouldSendTexture() && hasTextures ) {
-//            glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-//            glTexCoordPointer( 2, 0, textureBuffer );
-//        }
-//        if ( options.shouldSendNormals() && hasNormals ) {
-//            glEnableClientState( GL_NORMAL_ARRAY );
-//            glNormalPointer( 0, normalBuffer );
-//        }
-//        glVertexPointer( 3, 0, positionBuffer );
-    }
-
-    @Override public void renderSelf( GLOptions options ) {
-        super.renderSelf( options );
-
-        displayList.run();
-
-//        glDrawElements( GL_TRIANGLES, indexBuffer );
-    }
-
-    @Override protected void postRender( GLOptions options ) {
-        // disable the changed states
-//        glDisableClientState( GL_VERTEX_ARRAY );
-//        if ( options.shouldSendTexture() && hasTextures ) { glDisableClientState( GL_TEXTURE_COORD_ARRAY ); }
-//        if ( options.shouldSendNormals() && hasNormals ) { glDisableClientState( GL_NORMAL_ARRAY ); }
-
-        super.postRender( options );
     }
 }

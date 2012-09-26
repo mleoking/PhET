@@ -158,6 +158,13 @@ public class PairGroup {
         addVelocity( getRepulsionImpulse( other, timeElapsed, trueLengthsRatioOverride ) );
     }
 
+    public void addPosition( Vector3D positionChange ) {
+        // don't allow position changes if we are dragging it, OR if it is an atom at the origin
+        if ( !userControlled.get() && !isCentralAtom() ) {
+            position.set( position.get().plus( positionChange ) );
+        }
+    }
+
     public void addVelocity( Vector3D velocityChange ) {
         // don't allow velocity changes if we are dragging it, OR if it is an atom at the origin
         if ( !userControlled.get() && !isCentralAtom() ) {

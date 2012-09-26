@@ -38,13 +38,14 @@ import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoSwingNode;
-import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.colorado.phet.moleculeshapes.view.AtomNode;
+import edu.colorado.phet.moleculeshapes.view.LonePairNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeModelNode;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
@@ -181,7 +182,7 @@ public abstract class MoleculeViewTab extends LWJGLTab {
         };
         readoutLayer = new GuiNode( this, false );
         guiLayer = new GuiNode( this );
-        overlayLayer = new GuiNode( this  );
+        overlayLayer = new GuiNode( this );
         rootNode.addChild( sceneLayer );
         rootNode.addChild( readoutLayer );
         rootNode.addChild( guiLayer );
@@ -508,7 +509,7 @@ public abstract class MoleculeViewTab extends LWJGLTab {
         float y = projected.y * s;
         float z = projected.z * s;
 
-        return getScreenCoordinatesFromNormalizedDeviceCoordinates( new Vector3F( x,y,z ) );
+        return getScreenCoordinatesFromNormalizedDeviceCoordinates( new Vector3F( x, y, z ) );
 
 
 //        in[3] = (1.0f / in[3]) * 0.5f;
@@ -569,8 +570,8 @@ public abstract class MoleculeViewTab extends LWJGLTab {
         SphereF sphere = new SphereF( Vector3F.ZERO, finalDistance );
 
         float epsilon = 0.000001f;
-        SphereF.SphereIntersectionResult intersectionResult = sphere.intersect( ray, epsilon );
-        if ( intersectionResult == null ) {
+        List<SphereF.SphereIntersectionResult> intersections = sphere.intersections( ray, epsilon );
+        if ( intersections.isEmpty() ) {
             /*
              * Compute the point where the closest line through the camera and tangent to our bounding sphere intersects the sphere
              * ie, think 2d. we have a unit sphere centered at the origin, and a camera at (d,0). Our tangent point satisfies two
@@ -608,7 +609,7 @@ public abstract class MoleculeViewTab extends LWJGLTab {
         }
         else {
             // pick our desired hitpoint (there are only 2), and return it (now by flipping the ray)
-            return returnCloseHit ? intersectionResult.getHitPoint() : sphere.intersect( new Ray3F( ray.pos.negated(), ray.dir.negated() ), epsilon ).getHitPoint();
+            return returnCloseHit ? intersections.get( 0 ).getHitPoint() : intersections.get( 1 ).getHitPoint();
         }
     }
 
@@ -620,30 +621,29 @@ public abstract class MoleculeViewTab extends LWJGLTab {
      */
     protected PairGroup getElectronPairForTarget( GLNode target ) {
         // TODO: electron pair from target
-//        boolean isAtom = target instanceof AtomNode;
-//        boolean isLonePair = target instanceof LonePairNode;
-//
-//        if ( isAtom ) {
-//            return ( (AtomNode) target ).pair;
-//        }
-//        else if ( isLonePair ) {
-//            if ( !target.getCullHint().equals( CullHint.Always ) ) {
-//                return ( (LonePairNode) target ).pair;
-//            }
-//            else {
-//                return null; // lone pair invisible
-//            }
-//        }
-//        else {
-//            if ( target.getParent() != null ) {
-//                return getElectronPairForTarget( target.getParent() );
-//            }
-//            else {
-//                // failure
-//                return null;
-//            }
-//        }
-        return null;
+        boolean isAtom = target instanceof AtomNode;
+        boolean isLonePair = target instanceof LonePairNode;
+
+        if ( isAtom ) {
+            return ( (AtomNode) target ).pair;
+        }
+        else if ( isLonePair ) {
+            if ( target.isVisible() ) {
+                return ( (LonePairNode) target ).pair;
+            }
+            else {
+                return null; // lone pair invisible
+            }
+        }
+        else {
+            if ( target.getParent() != null ) {
+                return getElectronPairForTarget( target.getParent() );
+            }
+            else {
+                // failure
+                return null;
+            }
+        }
     }
 
     /**
@@ -651,19 +651,20 @@ public abstract class MoleculeViewTab extends LWJGLTab {
      */
     public PairGroup getElectronPairUnderPointer() {
         // TODO: electron pair picking
-//        for ( CollisionResult result : moleculeView.hitsUnderCursor( getInputHandler() ) ) {
-//            PairGroup pair = getElectronPairForTarget( result.getGeometry() );
-//            if ( pair != null ) {
-//                if ( !isRealTab() ) {
-//                    return pair;
-//                }
-//
-//                // don't drag the central atom OR any terminal lone pairs (in real tab)
-//                if ( pair != getMolecule().getCentralAtom() && !getMolecule().getDistantLonePairs().contains( pair ) ) {
-//                    return pair;
-//                }
-//            }
-//        }
+        GLNode node = moleculeNode.intersect( getCameraRay( Mouse.getEventX(), Mouse.getEventY() ) );
+        if ( node != null ) {
+            PairGroup pair = getElectronPairForTarget( node );
+            if ( pair != null ) {
+                if ( !isRealTab() ) {
+                    return pair;
+                }
+
+                // don't drag the central atom OR any terminal lone pairs (in real tab)
+                if ( pair != getMolecule().getCentralAtom() && !getMolecule().getDistantLonePairs().contains( pair ) ) {
+                    return pair;
+                }
+            }
+        }
         return null;
     }
 

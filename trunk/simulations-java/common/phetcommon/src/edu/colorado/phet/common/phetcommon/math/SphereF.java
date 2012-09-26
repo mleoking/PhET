@@ -4,6 +4,10 @@ package edu.colorado.phet.common.phetcommon.math;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 
 /**
@@ -64,6 +68,59 @@ public @EqualsAndHashCode(callSuper = false) @ToString class SphereF {
 
             // close hit, we have out => in
             return new SphereIntersectionResult( ta, hitPositionA, normalA, true );
+        }
+    }
+
+    // Intersections with a 3D ray. Either returns no intersections, or both (with the most applicable one first)
+    public List<SphereIntersectionResult> intersections( Ray3F ray, float epsilon ) {
+        List<SphereIntersectionResult> result = new ArrayList<SphereIntersectionResult>();
+
+        Vector3F raydir = ray.dir;
+        Vector3F pos = ray.pos;
+        Vector3F centerToRay = pos.minus( center );
+
+        // basically, we can use the quadratic equation to solve for both possible hit points (both +- roots are the hit points)
+        float tmp = raydir.dot( centerToRay );
+        float centerToRayDistSq = centerToRay.magnitudeSquared();
+        float det = 4 * tmp * tmp - 4 * ( centerToRayDistSq - radius * radius );
+        if ( det < epsilon ) {
+            // ray misses sphere entirely
+            return result;
+        }
+
+        float base = raydir.dot( center ) - raydir.dot( pos );
+        float sqt = (float) ( Math.sqrt( det ) / 2 );
+
+        // the "first" entry point distance into the sphere. if we are inside the sphere, it is behind us
+        float ta = base - sqt;
+
+        // the "second" entry point distance
+        float tb = base + sqt;
+
+        if ( tb < epsilon ) {
+            // sphere is behind ray, so don't return an intersection
+            return result;
+        }
+
+        Vector3F hitPositionB = ray.pointAtDistance( tb );
+        Vector3F normalB = hitPositionB.minus( center ).normalized();
+
+        Vector3F hitPositionA = ray.pointAtDistance( ta );
+        Vector3F normalA = hitPositionA.minus( center ).normalized();
+
+        SphereIntersectionResult resultB = new SphereIntersectionResult( tb, hitPositionB, normalB.negated(), false );
+        SphereIntersectionResult resultA = new SphereIntersectionResult( ta, hitPositionA, normalA, true );
+        if ( ta < epsilon ) {
+            // we are inside the sphere
+            // in => out
+
+            return Arrays.asList( resultB, resultA );
+        }
+        else {
+            // two possible hits
+
+            // close hit, we have out => in
+            return Arrays.asList( resultA, resultB );
         }
     }
 
