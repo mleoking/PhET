@@ -74,8 +74,12 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     public static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 48 - 12;
     private final PNode forcesNode;
 
+    public static final double typicalDT = 0.033333333333333215;
+
     //Features only for Tab 3: Friction:
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( true );
+    private boolean playing = true;
+    private final PusherNode pusherNode;
 
     public MotionCanvas( final Context context, final IClock clock, final boolean friction ) {
         this.friction = friction;
@@ -203,10 +207,29 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( sliderControl );
 
-        final PusherNode pusherNode = new PusherNode( skateboard, grassY, model.appliedForce, stack );
+        pusherNode = new PusherNode( skateboard, grassY, model.appliedForce, stack );
         addChild( pusherNode );
 
-        HBox timeControls = new HBox( -3, new RewindButton( 60 ), new PlayPauseButton( 70 ), new StepButton( 60 ) );
+        HBox timeControls = new HBox( -3, new RewindButton( 60 ) {{
+            addListener( new Listener() {
+                public void buttonPressed() {
+                    rewind();
+                }
+            } );
+        }}, new PlayPauseButton( 70 ) {{
+            addListener( new Listener() {
+                public void playbackStateChanged() {
+                    MotionCanvas.this.playbackStateChanged( isPlaying() );
+                }
+            } );
+        }}, new StepButton( 60 ) {{
+            addListener( new Listener() {
+                public void buttonPressed() {
+                    step( typicalDT * 5 );
+                }
+            } );
+        }}
+        );
         timeControls.setOffset( STAGE_SIZE.width / 2 - timeControls.getFullWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
         addChild( timeControls );
 
@@ -227,17 +250,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
-                double strobeSpeed = 9.559393222711847;
-                final boolean exceedsStrobeSpeed = model.speed.get().get() >= strobeSpeed;
-                if ( exceedsStrobeSpeed ) { model.appliedForce.set( 0.0 ); }
-                model.stepInTime( clockEvent.getSimulationTimeChange() );
-
-                if ( model.appliedForce.get() == 0.0 || exceedsStrobeSpeed ) {
-                    final double delta = -model.velocity.get() * clockEvent.getSimulationTimeChange() * 100;
-                    pusherNode.setOffset( pusherNode.getOffset().getX() + delta, pusherNode.getOffset().getY() );
-                }
-                if ( exceedsStrobeSpeed ) {
-                    pusherNode.setFallen( true );
+                if ( playing ) {
+                    final double dt = clockEvent.getSimulationTimeChange();
+                    step( dt );
                 }
             }
         } );
@@ -315,6 +330,32 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 }
             }
         } );
+    }
+
+    private void step( double dt ) {
+//        System.out.println( "dt = " + dt );
+        double strobeSpeed = 9.559393222711847;
+        final boolean exceedsStrobeSpeed = model.speed.get().get() >= strobeSpeed;
+        if ( exceedsStrobeSpeed ) { model.appliedForce.set( 0.0 ); }
+        model.stepInTime( dt );
+
+        if ( model.appliedForce.get() == 0.0 || exceedsStrobeSpeed ) {
+            final double delta = -model.velocity.get() * dt * 100;
+            pusherNode.setOffset( pusherNode.getOffset().getX() + delta, pusherNode.getOffset().getY() );
+        }
+        if ( exceedsStrobeSpeed ) {
+            pusherNode.setFallen( true );
+        }
+    }
+
+    private void playbackStateChanged( final boolean playing ) {
+        this.playing = playing;
+    }
+
+    private void rewind() {
+        model.rewind();
+        pusherNode.setFallen( false );
+        pusherNode.setOffset( 0, 0 );
     }
 
     private double getMassOfObjectsOnSkateboard() { return stackableNodes.filter( _isOnSkateboard ).map( _mass ).foldLeft( add, 0.0 ); }
