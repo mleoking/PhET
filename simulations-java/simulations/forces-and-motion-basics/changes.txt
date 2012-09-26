@@ -1,3 +1,4 @@
+Tab 2-3: Rescaled speedometer velocity to align with max velocity due to strobe effect
 # 0.00.16 (68476) Sep 26, 2012
 Tab 2-3: Fixed: Speedometer size changes when first object dropped on stack.
 Tab 2-3: To make sure pusher hands reach the crate: made 20% larger crate, 10% smaller pusher
