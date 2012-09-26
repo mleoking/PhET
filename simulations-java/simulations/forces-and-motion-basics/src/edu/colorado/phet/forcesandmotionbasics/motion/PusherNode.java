@@ -19,18 +19,23 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class PusherNode extends PNode {
 
+    private final VoidFunction1<Double> update;
     //record the last direction of the push so that the pusher will stand in the right location.  For example:
     //After pushing left, pusher should stand to the right of the object.
     //This is initialized to a positive value because the pusher should stand to the left of the skateboard on initialization
     private double lastNonzeroAppliedForce = 1E-6;
+    private final PImage pusher;
+    private final DoubleProperty appliedForce;
 
     public PusherNode( final PNode skateboard, final double grassY, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack ) {
-        final PImage pusher = new PImage( Images.PUSHER_STRAIGHT_ON );
+        this.appliedForce = appliedForce;
+        pusher = new PImage( Images.PUSHER_STRAIGHT_ON );
         pusher.scale( 0.8 );
         addChild( pusher );
 
-        appliedForce.addObserver( new VoidFunction1<Double>() {
+        update = new VoidFunction1<Double>() {
             public void apply( final Double appliedForce ) {
+                pusher.setRotation( 0.0 );
                 if ( appliedForce != 0 ) {
                     lastNonzeroAppliedForce = appliedForce;
                 }
@@ -63,11 +68,22 @@ public class PusherNode extends PNode {
                     }
                 }
             }
-        } );
+        };
+        appliedForce.addObserver( update );
     }
 
     private int getImageIndex( final Double appliedForce ) {
         int maxImageIndex = 14;
         return (int) Math.round( Math.abs( appliedForce ) / 100.0 * ( maxImageIndex - 0.5 ) );
+    }
+
+    //Tab 2-3: Show the pusher as fallen over when strobe speed exceeded
+    public void setFallen( final boolean b ) {
+        update.apply( appliedForce.get() );
+        pusher.setRotation( 0.0 );
+        if ( b ) {
+            pusher.rotateInPlace( Math.PI / 2 );
+            pusher.translate( 135, 0 );
+        }
     }
 }

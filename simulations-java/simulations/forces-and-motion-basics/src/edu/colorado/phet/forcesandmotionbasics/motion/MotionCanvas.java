@@ -236,6 +236,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     final double delta = -model.velocity.get() * clockEvent.getSimulationTimeChange() * 100;
                     pusherNode.setOffset( pusherNode.getOffset().getX() + delta, pusherNode.getOffset().getY() );
                 }
+                if ( exceedsStrobeSpeed ) {
+                    pusherNode.setFallen( true );
+                }
             }
         } );
 
