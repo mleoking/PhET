@@ -5,6 +5,8 @@ import fj.F;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.activities.AnimateToScale;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -34,11 +36,28 @@ public class StackableNode extends PNode {
         }
     };
     public final int pusherOffset;
+    private BufferedImage flippedImage;
 
     public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset ) {
+        this( context, image, mass, pusherOffset, false );
+    }
+
+    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, boolean faceDirectionOfAppliedForce ) {
         this.mass = mass;
         this.pusherOffset = pusherOffset;
-        addChild( new PImage( image ) );
+        this.flippedImage = BufferedImageUtils.flipX( image );
+        addChild( new PImage( image ) {{
+            context.getAppliedForce().addObserver( new VoidFunction1<Double>() {
+                public void apply( final Double appliedForce ) {
+                    if ( appliedForce > 0 ) {
+                        setImage( flippedImage );
+                    }
+                    else if ( appliedForce < 0 ) {
+                        setImage( image );
+                    }
+                }
+            } );
+        }} );
         setScale( 0.8 );
         this.initialScale = getScale();
         addInputEventListener( new CursorHandler() );

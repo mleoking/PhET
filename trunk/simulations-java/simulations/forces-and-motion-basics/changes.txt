@@ -1,3 +1,4 @@
+Tab 2-3: Sitting characters face the direction of the applied force
 # 0.00.17 (68481) Sep 26, 2012
 Tab 2-3: Switched to sitting characters
 Tab 2-3: Made garbage can 2/3 of its original size
