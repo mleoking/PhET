@@ -71,8 +71,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     private MotionModel model;
 
-    public static final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 33 - 12;
-    public static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 48 - 12;
+    public static final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 21;
+    public static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 27;
     private final PNode forcesNode;
 
     public static final double typicalDT = 0.033333333333333215;
@@ -200,7 +200,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         skateboard.setOffset( STAGE_SIZE.getWidth() / 2 - skateboard.getFullBounds().getWidth() / 2, grassY - skateboard.getFullBounds().getHeight() );
         addChild( skateboard );
 
-        final RoundRectangle2D.Double toolboxShape = new RoundRectangle2D.Double( 0, 0, 250, 160, 20, 20 );
+        final RoundRectangle2D.Double toolboxShape = new RoundRectangle2D.Double( 0, 0, 270, 160, 20, 20 );
         PhetPPath leftToolbox = new PhetPPath( toolboxShape, TOOLBOX_COLOR, new BasicStroke( 1 ), Color.black );
         final double toolboxY = STAGE_SIZE.height - INSET - leftToolbox.getFullBounds().getHeight();
         leftToolbox.setOffset( INSET, toolboxY );
@@ -241,8 +241,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( timeControls );
 
         StackableNode fridge = new StackableNode( this, Images.FRIDGE, 200, FRIDGE_OFFSET_WITHIN_SKATEBOARD );
-        StackableNode crate1 = new StackableNode( this, Images.CRATE, 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
-        StackableNode crate2 = new StackableNode( this, Images.CRATE, 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
+        StackableNode crate1 = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
+        StackableNode crate2 = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD );
 
         double INTER_OBJECT_SPACING = 10;
         fridge.setInitialOffset( leftToolbox.getFullBounds().getX() + 10, leftToolbox.getFullBounds().getCenterY() - fridge.getFullBounds().getHeight() / 2 );

@@ -30,7 +30,7 @@ public class PusherNode extends PNode {
     public PusherNode( final PNode skateboard, final double grassY, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack ) {
         this.appliedForce = appliedForce;
         pusher = new PImage( Images.PUSHER_STRAIGHT_ON );
-        pusher.scale( 0.8 );
+        pusher.scale( 0.8 * 0.9 );
         addChild( pusher );
 
         update = new VoidFunction1<Double>() {
