@@ -258,13 +258,13 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                         //separate arrow tails for friction vs applied
                         final int appliedForceOffsetX = friction && model.frictionForce.get() != 0 ? 3 * MathUtil.getSign( model.appliedForce.get() ) : 0;
                         addChild( new ForceArrowNode( false, v( centerX + appliedForceOffsetX, tailY ),
-                                                      model.appliedForce.get(), "Applied Force", ForcesNode.APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues.get(), 0.5 ) );
+                                                      model.appliedForce.get(), "Applied Force", ForcesNode.APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues.get() ) );
                         final int frictionForceOffsetX = friction && model.appliedForce.get() != 0 ? 3 * MathUtil.getSign( model.frictionForce.get() ) : 0;
                         addChild( new ForceArrowNode( false, v( centerX + frictionForceOffsetX, tailY ),
-                                                      model.frictionForce.get(), "Friction Force", Color.red, TextLocation.SIDE, showValues.get(), 0.5 ) );
+                                                      model.frictionForce.get(), "Friction Force", Color.red, TextLocation.SIDE, showValues.get() ) );
                         if ( friction && showSumOfForces.get() ) {
                             addChild( new ForceArrowNode( false, v( centerX, tailY - 70 ),
-                                                          model.sumOfForces.get(), "Sum of Forces", ForcesNode.SUM_OF_FORCES_COLOR, TextLocation.TOP, showValues.get(), 0.5 ) );
+                                                          model.sumOfForces.get(), "Sum of Forces", ForcesNode.SUM_OF_FORCES_COLOR, TextLocation.TOP, showValues.get() ) );
                         }
                     }
                 }
