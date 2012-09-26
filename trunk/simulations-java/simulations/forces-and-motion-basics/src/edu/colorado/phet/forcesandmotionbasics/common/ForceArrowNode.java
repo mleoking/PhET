@@ -22,7 +22,7 @@ public class ForceArrowNode extends PNode {
     public ForceArrowNode( final boolean transparent, final Vector2D tail, final double forceInNewtons, final String name, Color color, final TextLocation textLocation, final Boolean showValues ) {
 
         //Choose a single scale factor that works in all of the tabs.
-        final double value = forceInNewtons * 3;
+        final double value = forceInNewtons * 3.625;
         if ( value == 0 && textLocation == TextLocation.SIDE ) { return; }
         else if ( value == 0 && textLocation == TextLocation.TOP ) {
             showTextOnly( tail );
