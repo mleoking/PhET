@@ -375,6 +375,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         if ( exceedsStrobeSpeedBefore || exceedsStrobeSpeedAfter ) {
             pusherNode.fallen.set( true );
         }
+        else {
+            pusherNode.fallen.set( false );
+        }
     }
 
     private void playbackStateChanged( final boolean playing ) { this.playing = playing; }
