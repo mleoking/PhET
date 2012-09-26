@@ -77,6 +77,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     public static final double typicalDT = 0.033333333333333215;
 
+    //Speed at which the bricks start to look as if they are going backwards
+    public static final double STROBE_SPEED = 9.559393222711847;
+
     //Features only for Tab 3: Friction:
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( true );
     private boolean playing = true;
@@ -175,7 +178,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         //Nudge "show" to the right so it will align with checkboxes
         final HBox title = new HBox( 5, new PhetPPath( new Rectangle2D.Double( 0, 0, 0, 0 ) ), new PhetPText( "Show", CONTROL_FONT ) );
 
-        final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( "Speed", 125, model.speed, 50 ) {{scale( 0.25 );}} );
+        final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( "Speed", 125, model.speed, STROBE_SPEED ) {{scale( 0.25 );}} );
         final VBox vbox = friction ?
                           new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( showSumOfForcesCheckBox ), speedControlPanel, new FrictionSliderControl( model.frictionValue ) ) :
                           new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), speedControlPanel );
@@ -318,7 +321,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( forcesNode );
 
-        SpeedometerNode speedometerNode = new SpeedometerNode( "Speed", 125, model.speed, 50 ) {{
+        SpeedometerNode speedometerNode = new SpeedometerNode( "Speed", 125, model.speed, STROBE_SPEED ) {{
             showSpeedometer.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( final Boolean show ) {
                     setVisible( show );
@@ -355,9 +358,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     }
 
     private void step( double dt ) {
-//        System.out.println( "dt = " + dt );
-        double strobeSpeed = 9.559393222711847;
-        final boolean exceedsStrobeSpeed = model.speed.get().get() >= strobeSpeed;
+        final boolean exceedsStrobeSpeed = model.speed.get().get() >= STROBE_SPEED;
         if ( exceedsStrobeSpeed ) { model.appliedForce.set( 0.0 ); }
         model.stepInTime( dt );
 
