@@ -34,7 +34,7 @@ public class ForceArrowNode extends PNode {
         arrowNode.setPaint( transparent ? new Color( color.getRed(), color.getGreen(), color.getBlue(), 175 ) : color );
         arrowNode.setStroke( transparent ? new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 6, 4 }, 0 ) : new BasicStroke( 1 ) );
         addChild( arrowNode );
-        addChild( new PhetPText( name, CONTROL_FONT ) {{
+        final PhetPText nameNode = new PhetPText( name, CONTROL_FONT ) {{
             if ( textLocation == TextLocation.SIDE ) {
                 if ( value > 0 ) {
                     setOffset( arrowNode.getFullBounds().getMaxX() + INSET, arrowNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
@@ -44,22 +44,24 @@ public class ForceArrowNode extends PNode {
                 }
             }
             else {
-                setOffset( arrowNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, arrowNode.getFullBounds().getY() - getFullBounds().getHeight() - INSET );
+                setOffset( arrowNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, arrowNode.getFullBounds().getY() - getFullBounds().getHeight() - INSET - 2 );
             }
-        }} );
+        }};
+        addChild( nameNode );
 
         if ( showValues ) {
-            addChild( new PhetPText( new DecimalFormat( "0" ).format( Math.abs( forceInNewtons ) ) + "N", new PhetFont( 16, true ) ) {{
+            final String text = new DecimalFormat( "0" ).format( Math.abs( forceInNewtons ) );
+            addChild( new PhetPText( text + "N", new PhetFont( 16, true ) ) {{
                 centerFullBoundsOnPoint( arrowNode.getFullBounds().getCenter2D() );
                 double dx = 2;
                 translate( forceInNewtons < 0 ? dx :
                            forceInNewtons > 0 ? -dx :
                            0, 0 );
 
-                //If it doesn't fit in the arrow, just hide it
-//                if ( getFullBounds().getWidth() > arrowNode.getFullBounds().getWidth() / 2 ) {
-//                    setVisible( false );
-//                }
+                //For single character text (9N and lower), show below the name
+                if ( text.length() <= 1 ) {
+                    setOffset( nameNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, nameNode.getFullBounds().getMaxY() - 3 );
+                }
             }} );
         }
     }
