@@ -1,3 +1,4 @@
+Tab 2-3: Have the characters stand in the toolbox and sit in the play area
 Tab 2-3: fixed: not all objects should face the direction of applied force
 # 0.00.18 (68484) Sep 26, 2012
 Tab 2-3: Sitting characters face the direction of the applied force

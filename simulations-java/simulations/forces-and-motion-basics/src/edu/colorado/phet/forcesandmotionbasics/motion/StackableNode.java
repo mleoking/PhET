@@ -2,9 +2,11 @@ package edu.colorado.phet.forcesandmotionbasics.motion;
 
 import fj.F;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.activities.AnimateToScale;
@@ -22,12 +24,12 @@ public class StackableNode extends PNode {
 
     private Vector2D initialOffset;
     private final double initialScale;
-    private boolean onSkateboard;
+    public final BooleanProperty onSkateboard = new BooleanProperty( false );
     private final double mass;
 
     public static F<StackableNode, Boolean> _isOnSkateboard = new F<StackableNode, Boolean>() {
         @Override public Boolean f( final StackableNode stackableNode ) {
-            return stackableNode.onSkateboard;
+            return stackableNode.onSkateboard.get();
         }
     };
     public static F<StackableNode, Double> _mass = new F<StackableNode, Double>() {
@@ -36,30 +38,60 @@ public class StackableNode extends PNode {
         }
     };
     public final int pusherOffset;
-    private BufferedImage flippedImage;
+    private BufferedImage flippedStackedImage;
+
+    //Remember the last image shown before applied force is set to 0.0 so that the character will keep facing the same direction.
+    private Image lastStackedImage;
 
     public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset ) {
-        this( context, image, mass, pusherOffset, false );
+        this( context, image, mass, pusherOffset, false, image );
     }
 
-    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, final boolean faceDirectionOfAppliedForce ) {
+    public StackableNode( final StackableNodeContext context, final BufferedImage stackedImage, final double mass, final int pusherOffset, final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage ) {
         this.mass = mass;
         this.pusherOffset = pusherOffset;
-        this.flippedImage = BufferedImageUtils.flipX( image );
-        addChild( new PImage( image ) {{
-            if ( faceDirectionOfAppliedForce ) {
-                context.getAppliedForce().addObserver( new VoidFunction1<Double>() {
-                    public void apply( final Double appliedForce ) {
-                        if ( appliedForce > 0 ) {
-                            setImage( flippedImage );
-                        }
-                        else if ( appliedForce < 0 ) {
-                            setImage( image );
-                        }
+        this.flippedStackedImage = BufferedImageUtils.flipX( stackedImage );
+        lastStackedImage = stackedImage;
+        addChild( new PImage( toolboxImage ) {
+            {
+                onSkateboard.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( final Boolean aBoolean ) {
+                        updateImage();
                     }
                 } );
+                if ( faceDirectionOfAppliedForce ) {
+                    context.getAppliedForce().addObserver( new VoidFunction1<Double>() {
+                        public void apply( final Double aDouble ) {
+                            updateImage();
+                        }
+                    } );
+                }
             }
-        }} );
+
+            private void updateImage() {
+                final Image chosenImage = chooseImage();
+                if ( onSkateboard.get() && faceDirectionOfAppliedForce && context.getAppliedForce().get() != 0 ) {
+                    lastStackedImage = chosenImage;
+                }
+                setImage( chosenImage );
+            }
+
+            private Image chooseImage() {
+                if ( !onSkateboard.get() ) {
+                    return toolboxImage;
+                }
+                else {
+                    if ( faceDirectionOfAppliedForce ) {
+                        if ( context.getAppliedForce().get() > 0 ) { return flippedStackedImage; }
+                        else if ( context.getAppliedForce().get() < 0 ) { return stackedImage; }
+                        else { return lastStackedImage;}
+                    }
+                    else {
+                        return stackedImage;
+                    }
+                }
+            }
+        } );
         setScale( 0.8 );
         this.initialScale = getScale();
         addInputEventListener( new CursorHandler() );
@@ -90,8 +122,4 @@ public class StackableNode extends PNode {
         this.initialOffset = Vector2D.v( x, y );
         setOffset( x, y );
     }
-
-    public void setOnSkateboard( final boolean onSkateboard ) { this.onSkateboard = onSkateboard; }
-
-    public boolean isOnSkateboard() { return onSkateboard;}
 }
