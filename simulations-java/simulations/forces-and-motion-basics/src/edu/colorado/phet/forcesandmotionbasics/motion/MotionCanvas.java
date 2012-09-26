@@ -277,8 +277,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 if ( playing ) {
-                    final double dt = clockEvent.getSimulationTimeChange();
-                    step( dt );
+                    step( clockEvent.getSimulationTimeChange() );
                 }
             }
         } );
