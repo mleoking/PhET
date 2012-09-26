@@ -1,3 +1,4 @@
+Tab 2-3: Fixed: Speedometer size changes when first object dropped on stack.
 Tab 2-3: To make sure pusher hands reach the crate: made 20% larger crate, 10% smaller pusher
 Tab 2-3: Added more objects: characters from balancing act, trash can, gift-wrapped present
 Tab 2-3: Added an (empty) toolbox on the right
