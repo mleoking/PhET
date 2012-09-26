@@ -42,21 +42,23 @@ public class StackableNode extends PNode {
         this( context, image, mass, pusherOffset, false );
     }
 
-    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, boolean faceDirectionOfAppliedForce ) {
+    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, final boolean faceDirectionOfAppliedForce ) {
         this.mass = mass;
         this.pusherOffset = pusherOffset;
         this.flippedImage = BufferedImageUtils.flipX( image );
         addChild( new PImage( image ) {{
-            context.getAppliedForce().addObserver( new VoidFunction1<Double>() {
-                public void apply( final Double appliedForce ) {
-                    if ( appliedForce > 0 ) {
-                        setImage( flippedImage );
+            if ( faceDirectionOfAppliedForce ) {
+                context.getAppliedForce().addObserver( new VoidFunction1<Double>() {
+                    public void apply( final Double appliedForce ) {
+                        if ( appliedForce > 0 ) {
+                            setImage( flippedImage );
+                        }
+                        else if ( appliedForce < 0 ) {
+                            setImage( image );
+                        }
                     }
-                    else if ( appliedForce < 0 ) {
-                        setImage( image );
-                    }
-                }
-            } );
+                } );
+            }
         }} );
         setScale( 0.8 );
         this.initialScale = getScale();
