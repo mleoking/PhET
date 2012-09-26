@@ -1,3 +1,4 @@
+# 0.00.18 (68484) Sep 26, 2012
 Tab 2-3: Sitting characters face the direction of the applied force
 # 0.00.17 (68481) Sep 26, 2012
 Tab 2-3: Switched to sitting characters
