@@ -85,6 +85,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( true );
     private boolean playing = true;
     private final PusherNode pusherNode;
+    private final SliderControl sliderControl;
 
     public MotionCanvas( final Context context, final IClock clock, final boolean friction ) {
         this.friction = friction;
@@ -215,7 +216,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         rightToolbox.setOffset( STAGE_SIZE.width - INSET - rightToolbox.getFullBounds().getWidth(), toolboxY );
         addChild( rightToolbox );
 
-        SliderControl sliderControl = new SliderControl( model.appliedForce, stack, friction );
+        sliderControl = new SliderControl( model.appliedForce, stack, friction );
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( sliderControl );
 
@@ -359,16 +360,20 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     }
 
     private void step( double dt ) {
-        final boolean exceedsStrobeSpeed = model.speed.get().get() >= STROBE_SPEED;
-        if ( exceedsStrobeSpeed ) { model.appliedForce.set( 0.0 ); }
+        final boolean exceedsStrobeSpeedBefore = model.speed.get().get() >= STROBE_SPEED;
+        if ( exceedsStrobeSpeedBefore ) { model.appliedForce.set( 0.0 ); }
         model.stepInTime( dt );
+        final boolean exceedsStrobeSpeedAfter = model.speed.get().get() >= STROBE_SPEED;
+        if ( !exceedsStrobeSpeedBefore && exceedsStrobeSpeedAfter ) {
+            sliderControl.releaseMouse();
+        }
 
-        if ( model.appliedForce.get() == 0.0 || exceedsStrobeSpeed ) {
+        if ( model.appliedForce.get() == 0.0 || exceedsStrobeSpeedBefore ) {
             final double delta = -model.velocity.get() * dt * 100;
             pusherNode.setOffset( pusherNode.getOffset().getX() + delta, pusherNode.getOffset().getY() );
         }
-        if ( exceedsStrobeSpeed ) {
-            pusherNode.setFallen( true );
+        if ( exceedsStrobeSpeedBefore || exceedsStrobeSpeedAfter ) {
+            pusherNode.fallen.set( true );
         }
     }
 
@@ -376,7 +381,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     private void rewind() {
         model.rewind();
-        pusherNode.setFallen( false );
+        pusherNode.fallen.set( false );
         pusherNode.setOffset( 0, 0 );
     }
 

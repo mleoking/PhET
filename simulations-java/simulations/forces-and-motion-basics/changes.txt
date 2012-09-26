@@ -1,3 +1,4 @@
+Tab 2-3: Updated image for fallen pusher
 # 0.00.19 (68488) Sep 26, 2012
 Tab 2-3: Have the characters stand in the toolbox and sit in the play area
 Tab 2-3: fixed: not all objects should face the direction of applied force
