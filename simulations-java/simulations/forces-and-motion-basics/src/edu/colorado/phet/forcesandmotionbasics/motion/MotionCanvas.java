@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -258,8 +259,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( crate2 );
 
         //Weight for humans: http://www.cdc.gov/growthcharts/data/set1clinical/cj41l021.pdf
-        StackableNode boy = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.BOY_SITTING, 100 ), 42, 50 );
-        StackableNode girl = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.GIRL_SITTING, 100 ), 38, 50 );
+        StackableNode boy = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.BOY_SITTING, 100 ), 42, friction ? 38 : 47 );
+        StackableNode girl = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.GIRL_SITTING, 100 ), 38, friction ? 38 : 47 );
         StackableNode trash = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47 );
         StackableNode gift = new StackableNode( this, BufferedImageUtils.multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40 );
 
@@ -413,6 +414,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         //Any other objects above it should fall down.
         normalizeStack();
     }
+
+    public DoubleProperty getAppliedForce() { return model.appliedForce; }
 
     //Keep the force vector arrows in front of the objects
     private void nodeMovedToFront() { forcesNode.moveToFront(); }
