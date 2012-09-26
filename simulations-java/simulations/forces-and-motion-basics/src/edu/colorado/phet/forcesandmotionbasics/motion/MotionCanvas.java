@@ -372,9 +372,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }
     }
 
-    private void playbackStateChanged( final boolean playing ) {
-        this.playing = playing;
-    }
+    private void playbackStateChanged( final boolean playing ) { this.playing = playing; }
 
     private void rewind() {
         model.rewind();
