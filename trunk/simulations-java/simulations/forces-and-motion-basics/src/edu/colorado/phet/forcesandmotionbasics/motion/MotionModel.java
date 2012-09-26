@@ -66,4 +66,12 @@ public class MotionModel {
         }
         return -frictionForce;
     }
+
+    public void rewind() {
+        velocity.set( 0.0 );
+        position.set( 0.0 );
+        speed.set( new Some<Double>( 0.0 ) );
+        appliedForce.set( 0.0 );
+        frictionForce.set( 0.0 );
+    }
 }
