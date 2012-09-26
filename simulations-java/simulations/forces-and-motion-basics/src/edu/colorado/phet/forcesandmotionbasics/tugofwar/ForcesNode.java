@@ -15,8 +15,8 @@ import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMo
  */
 public class ForcesNode extends PNode {
 
-    public static final Color APPLIED_FORCE_COLOR = new Color( 227, 171, 128 );
-    public static final Color SUM_OF_FORCES_COLOR = new Color( 80, 220, 96 );
+    public static final Color APPLIED_FORCE_COLOR = new Color( 230, 110, 35 );
+    public static final Color SUM_OF_FORCES_COLOR = new Color( 150, 200, 60 );
 
     public void setForces( boolean transparent, final double leftForce, final double rightForce, final boolean showSumOfForces, final Boolean showValues ) {
         removeAllChildren();
