@@ -333,10 +333,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             stack.addObserver( new VoidFunction1<List<StackableNode>>() {
                 public void apply( final List<StackableNode> stackableNodes ) {
                     if ( stackableNodes.length() >= 3 ) {
-                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - getFullBounds().getWidth(), 10, 1, 0, 200 );
+                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - getFullBounds().getWidth(), 10, 1.25, 0, 200 );
                     }
                     else {
-                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10, 1, 0, 200 );
+                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10, 1.25, 0, 200 );
                     }
                 }
             } );
