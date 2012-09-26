@@ -36,27 +36,30 @@ import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMo
  */
 public class SliderControl extends PNode {
 
+    private final HSliderNode sliderNode;
+
     public SliderControl( final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction ) {
 
         final Not enabled = Not.not( stack.valueEquals( List.<StackableNode>nil() ) );
         final String unitsString = friction ? "Newtons (N)" : "Newtons";
+        sliderNode = new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForce, enabled ) {{
+            addLabel( 0, new EnablePhetPText( "0", CONTROL_FONT, enabled ) );
+            addLabel( -50, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
+            addLabel( -100, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
+            addLabel( 50, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
+            addLabel( 100, new PhetPText( "100", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
+
+            setTrackFillPaint( Color.white );
+
+            //When dropping the slider thumb, the value should go back to 0.  The user has to hold the thumb to keep applying the force
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mouseReleased( final PInputEvent event ) {
+                    appliedForce.set( 0.0 );
+                }
+            } );
+        }};
         VBox box = new VBox( 5, new EnablePhetPText( "Applied Force", CONTROL_FONT, enabled ),
-                             new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForce, enabled ) {{
-                                 addLabel( 0, new EnablePhetPText( "0", CONTROL_FONT, enabled ) );
-                                 addLabel( -50, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
-                                 addLabel( -100, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
-                                 addLabel( 50, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
-                                 addLabel( 100, new PhetPText( "100", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
-
-                                 setTrackFillPaint( Color.white );
-
-                                 //When dropping the slider thumb, the value should go back to 0.  The user has to hold the thumb to keep applying the force
-                                 addInputEventListener( new PBasicInputEventHandler() {
-                                     @Override public void mouseReleased( final PInputEvent event ) {
-                                         appliedForce.set( 0.0 );
-                                     }
-                                 } );
-                             }},
+                             sliderNode,
                              new HBox( new PhetPText( unitsString, CONTROL_FONT ) {{setTransparency( 0.0f );}},
                                        new PSwing( new JTextField( 3 ) {
                                            {
@@ -103,6 +106,10 @@ public class SliderControl extends PNode {
         );
 
         addChild( box );
+    }
+
+    public void releaseMouse() {
+//        sliderNode.
     }
 
     private class EnablePhetPText extends PhetPText {
