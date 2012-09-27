@@ -1,3 +1,4 @@
+Tab 2-3: Limit stack size to 3 things
 Tab 2-3: Removed boy character and replaced with man
 Tab 2-3: Fixed: pusher looks fallen sometimes when he should be standing facing front
 Tab 2-3: Updated image for fallen pusher
