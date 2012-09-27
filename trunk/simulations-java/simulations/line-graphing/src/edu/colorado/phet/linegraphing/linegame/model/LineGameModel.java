@@ -18,7 +18,12 @@ import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_SlopeIn
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Slope_Challenge;
 
 /**
- * Model for the "Line Game" module.
+ * Model for the "Line Game" module. Responsibilities include:
+ * <ul>
+ * <li>creation of challenges</li>
+ * <li>management of game state</li>
+ * <li>management of game results</li>
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
