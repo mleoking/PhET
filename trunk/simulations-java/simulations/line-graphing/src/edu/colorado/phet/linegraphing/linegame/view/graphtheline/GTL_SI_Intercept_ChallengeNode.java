@@ -56,7 +56,7 @@ public class GTL_SI_Intercept_ChallengeNode extends GTL_SI_ChallengeNode {
             final PNode guessNodeParent = new PComposite();
 
             // the correct answer, initially hidden
-            answerNode = createAnswerLineNode( answerLine.withColor( GameConstants.ANSWER_COLOR ), graph, mvt );
+            answerNode = createAnswerLineNode( answerLine, graph, mvt );
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
