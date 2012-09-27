@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.lwjgl.util.glu.Sphere;
 
 import edu.colorado.phet.common.phetcommon.math.Matrix3F;
+import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -71,18 +72,17 @@ public class LonePairNode extends GLNode {
                 Vector3D lonePairOrientation = Vector3D.Y_UNIT;
                 Vector3D offsetFromParentAtom = position.get().minus( parentAtom.position.get() );
                 Vector3D orientation = offsetFromParentAtom.normalized();
-                Matrix3F matrix = Matrix3F.rotateAToB( lonePairOrientation.to3F(), orientation.to3F() );
+                Matrix3F rotationMatrix = Matrix3F.rotateAToB( lonePairOrientation.to3F(), orientation.to3F() );
 
-                transform.set( matrix.toMatrix4f() );
-
+                Vector3F translation;
                 if ( offsetFromParentAtom.magnitude() > PairGroup.LONE_PAIR_DISTANCE ) {
-                    translate( position.get().minus( orientation.times( PairGroup.LONE_PAIR_DISTANCE ) ).to3F() );
+                    translation = position.get().minus( orientation.times( PairGroup.LONE_PAIR_DISTANCE ) ).to3F();
                 }
                 else {
-                    translate( parentAtom.position.get().to3F() );
+                    translation = parentAtom.position.get().to3F();
                 }
 
-                scale( 2.5f );
+                transform.set( Matrix4F.translation( translation ).times( Matrix4F.fromMatrix3f( rotationMatrix ) ).times( Matrix4F.scaling( 2.5f ) ) );
             }
         } );
     }
