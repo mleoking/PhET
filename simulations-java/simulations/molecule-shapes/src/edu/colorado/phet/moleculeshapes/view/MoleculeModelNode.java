@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.math.Matrix4F;
 import edu.colorado.phet.common.phetcommon.math.Ray3F;
 import edu.colorado.phet.common.phetcommon.math.SphereF;
@@ -383,17 +381,6 @@ public class MoleculeModelNode extends GLNode {
     }
 
     public void detachReadouts() {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                LWJGLUtils.invoke( new Runnable() {
-                    public void run() {
-                        for ( ReadoutNode angleReadout : angleReadouts ) {
-                            angleReadout.detach();
-                        }
-                    }
-                } );
-            }
-        } );
         for ( ReadoutNode angleReadout : angleReadouts ) {
             angleReadout.detach();
         }
@@ -460,14 +447,10 @@ public class MoleculeModelNode extends GLNode {
         }
 
         public void detach() {
-            LWJGLUtils.invoke( new Runnable() {
-                public void run() {
-                    if ( attached ) {
-                        attached = false;
-                        readoutLayer.removeChild( ReadoutNode.this );
-                    }
-                }
-            } );
+            if ( attached ) {
+                attached = false;
+                readoutLayer.removeChild( ReadoutNode.this );
+            }
         }
     }
 }

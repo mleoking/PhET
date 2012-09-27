@@ -88,7 +88,8 @@ public class PointArc extends GLNode {
             }
 
             // find a vector that is as orthogonal to both directions as possible
-            Vector3F averageCross = startDir.cross( lastMidpointDir ).plus( lastMidpointDir.cross( endDir ) ).normalized();
+            Vector3F badCross = startDir.cross( lastMidpointDir ).plus( lastMidpointDir.cross( endDir ) );
+            Vector3F averageCross = badCross.magnitude() > 0 ? badCross.normalized() : new Vector3F( 0, 0, 1 );
 
             // find a vector that gives us a balance between startDir and endDir (so our semicircle will balance out at the endpoints)
             Vector3F averagePointDir = startDir.minus( endDir ).normalized();
