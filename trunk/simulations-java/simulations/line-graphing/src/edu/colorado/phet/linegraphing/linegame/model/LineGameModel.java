@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
-import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_PointSlope_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_Point_Challenge;
@@ -65,10 +64,6 @@ public class LineGameModel {
 
     // Default is a graph with uniform quadrants.
     public LineGameModel() {
-        this( LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
-    }
-
-    private LineGameModel( IntegerRange xRange, IntegerRange yRange ) {
 
         settings = new GameSettings( LEVELS_RANGE, true /* soundEnabled */, true /* timerEnabled */ );
         timer = new GameTimer();
