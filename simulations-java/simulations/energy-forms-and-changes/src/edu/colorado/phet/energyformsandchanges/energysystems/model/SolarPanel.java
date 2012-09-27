@@ -33,7 +33,7 @@ public class SolarPanel extends EnergyConverter {
 
     private static final Vector2D SOLAR_PANEL_OFFSET = new Vector2D( 0, 0.044 );
     public static final ModelElementImage SOLAR_PANEL_IMAGE = new ModelElementImage( SOLAR_PANEL, SOLAR_PANEL_OFFSET );
-    public static final Vector2D CONVERTER_IMAGE_OFFSET = new Vector2D( 0.015, -0.040 );
+    public static final Vector2D CONVERTER_IMAGE_OFFSET = new Vector2D( 0.016, -0.040 );
     public static final ModelElementImage CONVERTER_IMAGE = new ModelElementImage( SOLAR_PANEL_GEN, CONVERTER_IMAGE_OFFSET );
     public static final ModelElementImage POST_IMAGE = new ModelElementImage( SOLAR_PANEL_POST, CONVERTER_IMAGE_OFFSET.plus( new Vector2D( 0, 0.04 ) ) );
     public static final Vector2D CONNECTOR_IMAGE_OFFSET = new Vector2D( 0.058, -0.04 );
