@@ -14,6 +14,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -152,5 +153,9 @@ public class RectangleUtils {
 
     public static Rectangle2D compactRectangle2D( Rectangle2D r, double insetX, double insetY ) {
         return new Rectangle2D.Double( r.getX() + insetX, r.getY() + insetY, r.getWidth() - insetX * 2, r.getHeight() - insetY * 2 );
+    }
+
+    public static RoundRectangle2D.Double round( final Rectangle2D rectangle2D, final double arcW, final double arcH ) {
+        return new RoundRectangle2D.Double( rectangle2D.getX(), rectangle2D.getY(), rectangle2D.getWidth(), rectangle2D.getHeight(), arcW, arcH );
     }
 }
