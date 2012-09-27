@@ -260,8 +260,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( crate2 );
 
         //Weight for humans: http://www.cdc.gov/growthcharts/data/set1clinical/cj41l021.pdf
-        StackableNode girl = new StackableNode( this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 38, friction ? 38 : 47, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ) );
-        StackableNode man = new StackableNode( this, multiScaleToHeight( Images.MAN_SITTING, 100 ), 80, friction ? 38 : 47, true, multiScaleToHeight( Images.MAN_STANDING, 200 ) );
+        StackableNode girl = new StackableNode( this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 38, friction ? 38 : 47, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ), false );
+        StackableNode man = new StackableNode( this, multiScaleToHeight( Images.MAN_SITTING, (int) ( 200 / 150.0 * 100.0 ) ), 80, friction ? 38 : 47, true, multiScaleToHeight( Images.MAN_STANDING, 200 ), false );
         StackableNode trash = new StackableNode( this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47 );
         StackableNode gift = new StackableNode( this, multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40 );
 
@@ -397,7 +397,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         if ( bounds.intersects( stackableNode.getGlobalFullBounds() ) &&
 
              //Limit stack size to 3 things
-             stack.get().length() < 3 ) {
+             stack.get().length() < 3 &&
+
+             //Require the topmost item to have a flat top
+             ( stack.get().length() == 0 || stack.get().last().flatTop ) ) {
             stackableNode.onSkateboard.set( true );
             stack.set( stack.get().snoc( stackableNode ) );
             normalizeStack();
