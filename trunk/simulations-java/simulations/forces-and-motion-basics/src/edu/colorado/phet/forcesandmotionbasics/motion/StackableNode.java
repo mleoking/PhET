@@ -2,20 +2,32 @@ package edu.colorado.phet.forcesandmotionbasics.motion;
 
 import fj.F;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.activities.AnimateToScale;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.common.phetcommon.view.util.RectangleUtils.expand;
+import static edu.colorado.phet.common.phetcommon.view.util.RectangleUtils.round;
 
 /**
  * @author Sam Reid
@@ -46,17 +58,18 @@ public class StackableNode extends PNode {
     //Remember the last image shown before applied force is set to 0.0 so that the character will keep facing the same direction.
     private Image lastStackedImage;
 
-    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset ) {
-        this( context, image, mass, pusherOffset, false, image, true );
+    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass ) {
+        this( context, image, mass, pusherOffset, showMass, false, image, true );
     }
 
-    public StackableNode( final StackableNodeContext context, final BufferedImage stackedImage, final double mass, final int pusherOffset, final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage, boolean flatTop ) {
+    public StackableNode( final StackableNodeContext context, final BufferedImage stackedImage, final double mass, final int pusherOffset, final BooleanProperty showMass,
+                          final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage, boolean flatTop ) {
         this.mass = mass;
         this.pusherOffset = pusherOffset;
         this.flatTop = flatTop;
         this.flippedStackedImage = BufferedImageUtils.flipX( stackedImage );
         lastStackedImage = stackedImage;
-        addChild( new PImage( toolboxImage ) {
+        final PImage imageNode = new PImage( toolboxImage ) {
             {
                 onSkateboard.addObserver( new VoidFunction1<Boolean>() {
                     public void apply( final Boolean aBoolean ) {
@@ -95,8 +108,31 @@ public class StackableNode extends PNode {
                     }
                 }
             }
-        } );
+        };
+        addChild( imageNode );
         setScale( 0.8 );
+        final PNode textLabel = new ZeroOffsetNode( new PNode() {{
+            final PhetPText text = new PhetPText( new DecimalFormat( "0" ).format( mass ) + " kg", new PhetFont( 14, true ) );
+            final PhetPPath textBackground = new PhetPPath( round( expand( text.getFullBounds(), 5, 5 ), 20, 20 ), Color.white, new BasicStroke( 1 ), Color.gray );
+            addChild( textBackground );
+            addChild( text );
+
+            showMass.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( final Boolean visible ) {
+                    setVisible( visible );
+                }
+            } );
+        }} );
+        final PropertyChangeListener updateTextLocation = new PropertyChangeListener() {
+            public void propertyChange( final PropertyChangeEvent evt ) {
+                textLabel.setOffset( imageNode.getFullBounds().getCenterX() - textLabel.getFullBounds().getWidth() / 2,
+                                     imageNode.getFullBounds().getHeight() - textLabel.getFullBounds().getHeight() - 2 );
+            }
+        };
+        updateTextLocation.propertyChange( null );
+        imageNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updateTextLocation );
+
+        addChild( textLabel );
         this.initialScale = getScale();
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
