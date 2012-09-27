@@ -44,7 +44,7 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
 
         PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 
-        final EquationNode equationNode = createEquationNode( challenge.answer, GameConstants.EQUATION_FONT, GameConstants.ANSWER_COLOR );
+        final EquationNode equationNode = createEquationNode( challenge.answer, GameConstants.EQUATION_FONT, GameConstants.GIVEN_COLOR );
 
         final ChallengeGraphNode graphNode = createGraphNode( challenge.graph, challenge.guess, challenge.answer, challenge.mvt );
 
@@ -148,8 +148,8 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
                 if ( challenge.isCorrect() ) {
                     faceNode.smile();
                     audioPlayer.correctAnswer();
-                    equationNode.setPaintDeep( GameConstants.CORRECT_ANSWER_COLOR );
-                    challenge.guess.set( challenge.guess.get().withColor( GameConstants.CORRECT_ANSWER_COLOR ) );
+                    equationNode.setPaintDeep( GameConstants.ANSWER_COLOR );
+                    challenge.guess.set( challenge.guess.get().withColor( GameConstants.ANSWER_COLOR ) );
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.results.score.set( model.results.score.get() + points );
                     pointsAwardedNode.setText( MessageFormat.format( Strings.POINTS_AWARDED, String.valueOf( points ) ) );
@@ -184,7 +184,7 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
             public void actionPerformed( ActionEvent e ) {
                 graphNode.setAnswerVisible( true );
                 model.state.set( PlayState.NEXT );
-                equationNode.setPaintDeep( GameConstants.CORRECT_ANSWER_COLOR );
+                equationNode.setPaintDeep( GameConstants.ANSWER_COLOR );
             }
         } );
 
