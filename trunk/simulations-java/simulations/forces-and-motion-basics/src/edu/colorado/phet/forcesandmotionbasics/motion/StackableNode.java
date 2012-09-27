@@ -112,7 +112,7 @@ public class StackableNode extends PNode {
         addChild( imageNode );
         setScale( 0.8 );
         final PNode textLabel = new ZeroOffsetNode( new PNode() {{
-            final PhetPText text = new PhetPText( new DecimalFormat( "0" ).format( mass ) + " kg", new PhetFont( 14, true ) );
+            final PhetPText text = new PhetPText( getMassDisplayString( mass ), new PhetFont( 14, true ) );
             final PhetPPath textBackground = new PhetPPath( round( expand( text.getFullBounds(), 5, 5 ), 20, 20 ), Color.white, new BasicStroke( 1 ), Color.gray );
             addChild( textBackground );
             addChild( text );
@@ -153,6 +153,8 @@ public class StackableNode extends PNode {
             }
         } );
     }
+
+    protected String getMassDisplayString( final double mass ) {return new DecimalFormat( "0" ).format( mass ) + " kg";}
 
     public void animateHome() {
         animateToPositionScaleRotation( initialOffset.x, initialOffset.y, initialScale, 0, 200 );
