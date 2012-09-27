@@ -62,8 +62,8 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
 
         // Point tools
         Rectangle2D pointToolDragBounds = new Rectangle2D.Double( 0, 0, challengeSize.getWidth(), challengeSize.getHeight() );
-        PointToolNode pointToolNode1 = new PointToolNode( model.pointTool1, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
-        PointToolNode pointToolNode2 = new PointToolNode( model.pointTool2, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
+        PointToolNode pointToolNode1 = new PointToolNode( challenge.pointTool1, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
+        PointToolNode pointToolNode2 = new PointToolNode( challenge.pointTool2, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
 
         // Point tools moveToFront when dragged, so we give them a common parent to preserve rendering order of the reset of the scenegraph.
         PNode pointToolParent = new PNode();

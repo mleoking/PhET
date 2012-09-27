@@ -3,17 +3,12 @@ package edu.colorado.phet.linegraphing.linegame.model;
 
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.games.GameTimer;
-import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.model.PointTool;
-import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_PointSlope_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_Point_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_PS_Points_Challenge;
@@ -22,7 +17,6 @@ import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Interce
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Points_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_SlopeIntercept_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Slope_Challenge;
-import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 
 /**
  * Model for the "Line Game" module.
@@ -69,9 +63,6 @@ public class LineGameModel {
     private Challenge[] challenges = new Challenge[CHALLENGES_PER_GAME];
     private int challengeIndex;
 
-    public final PointTool pointTool1, pointTool2;
-    private final ObservableList<Line> allLines;
-
     // Default is a graph with uniform quadrants.
     public LineGameModel() {
         this( LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
@@ -84,10 +75,6 @@ public class LineGameModel {
         results = new GameResults( LEVELS_RANGE );
 
         challenge = new Property<Challenge>( new GTL_SI_SlopeIntercept_Challenge( Line.createSlopeIntercept( 1, 1, 1 ) ) ); // initial value is meaningless
-
-        allLines = new ObservableList<Line>();
-        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
-        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ), Orientation.DOWN, allLines );
 
         phase = new Property<GamePhase>( GamePhase.SETTINGS ) {
 
@@ -131,37 +118,15 @@ public class LineGameModel {
                             // next challenge
                             challenge.set( challenges[challengeIndex] );
                             challengeIndex++;
-                            // reset location of point tools
-                            pointTool1.location.reset();
-                            pointTool2.location.reset();
                         }
                     }
-                    else if ( state == PlayState.NEXT ) {
-                        updateListOfLines();
+                    else if ( state == PlayState.NEXT && !challenge.get().isCorrect() ) {
+                        // user got it wrong, show the answer
+                        challenge.get().setAnswerVisible( true );
                     }
                 }
             } );
         }};
-
-        // When the user's guess changes, update the list of lines.
-        challenge.addObserver( new VoidFunction1<Challenge>() {
-            public void apply( Challenge challenge ) {
-                challenge.guess.addObserver( new SimpleObserver() {
-                    public void update() {
-                        updateListOfLines();
-                    }
-                } );
-            }
-        } );
-    }
-
-    private void updateListOfLines() {
-        allLines.clear();
-        allLines.add( challenge.get().guess.get() );
-        if ( state.get() == PlayState.NEXT && !challenge.get().isCorrect() ) {
-            // user got it wrong and we're showing the correct answer
-            allLines.add( challenge.get().answer.withColor( GameConstants.CORRECT_ANSWER_COLOR ) );
-        }
     }
 
     private void initChallenges() {
