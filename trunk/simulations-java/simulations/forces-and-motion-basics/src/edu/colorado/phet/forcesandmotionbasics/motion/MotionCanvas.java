@@ -28,7 +28,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
@@ -63,6 +62,7 @@ import static fj.function.Doubles.add;
 public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements StackableNodeContext {
 
     private final Property<Boolean> showSpeedometer = new Property<Boolean>( false );
+    private final Property<Boolean> showMasses = new Property<Boolean>( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
     private final Property<Boolean> showForces = new Property<Boolean>( false );
     private final PNode skateboard;
@@ -177,14 +177,15 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             }
         } );
         final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSpeedometer ) {{ setFont( CONTROL_FONT ); }};
+        final JCheckBox massCheckBox = new PropertyCheckBox( null, "Mass", showMasses ) {{ setFont( CONTROL_FONT ); }};
 
         //Nudge "show" to the right so it will align with checkboxes
-        final HBox title = new HBox( 5, new PhetPPath( new Rectangle2D.Double( 0, 0, 0, 0 ) ), new PhetPText( "Show", CONTROL_FONT ) );
+//        final HBox title = new HBox( 5, new PhetPPath( new Rectangle2D.Double( 0, 0, 0, 0 ) ), new PhetPText( "Show", CONTROL_FONT ) );
 
         final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( "Speed", 125, model.speed, STROBE_SPEED ) {{scale( 0.25 );}} );
         final VBox vbox = friction ?
-                          new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( showSumOfForcesCheckBox ), speedControlPanel, new FrictionSliderControl( model.frictionValue ) ) :
-                          new VBox( 2, VBox.LEFT_ALIGNED, title, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), speedControlPanel );
+                          new VBox( 0, VBox.LEFT_ALIGNED, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( showSumOfForcesCheckBox ), speedControlPanel, new PSwing( massCheckBox ), new FrictionSliderControl( model.frictionValue ) ) :
+                          new VBox( 0, VBox.LEFT_ALIGNED, new PSwing( showForcesCheckBox ), new PSwing( showValuesCheckBox ), speedControlPanel, new PSwing( massCheckBox ) );
 
         final ControlPanelNode controlPanelNode = new ControlPanelNode( vbox, new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
         controlPanelNode.setOffset( STAGE_SIZE.width - controlPanelNode.getFullWidth() - INSET, INSET );

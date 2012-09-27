@@ -1,3 +1,4 @@
+Tab 1-3: Removed "Show" from control panel titles
 Tab 2-3: Only allow to stack on items with a flat top
 Tab 2-3: Limit stack size to 3 things
 Tab 2-3: Removed boy character and replaced with man
