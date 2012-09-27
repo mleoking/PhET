@@ -21,7 +21,7 @@ public abstract class GTL_SI_ChallengeGraphNode extends ChallengeGraphNode {
     }
 
     @Override protected LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
-        return new SlopeInterceptLineNode( line.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
+        return new SlopeInterceptLineNode( line.withColor( GameConstants.ANSWER_COLOR ), graph, mvt );
     }
 
     @Override protected LineNode createGuessLineNode( Line line, Graph graph, ModelViewTransform mvt ) {

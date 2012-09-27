@@ -21,9 +21,9 @@ public class GameConstants {
     public static final Font BUTTON_FONT = new PhetFont( Font.BOLD, 22 );
     public static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 40 );
     public static final double FACE_DIAMETER = 240;
-    public static final Color ANSWER_COLOR = Color.BLACK;
     public static final Color GUESS_COLOR = PhetColorScheme.RED_COLORBLIND;
-    public static final Color CORRECT_ANSWER_COLOR = new Color( 0, 200, 0 ); // green
+    public static final Color GIVEN_COLOR = Color.BLACK; // color of the things that's "given" in a challenge
+    public static final Color ANSWER_COLOR = new Color( 0, 200, 0 ); // color of the correct answer
     public static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     public static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
     public static final double POINT_DIAMETER = 0.5; // diameter of the manipulators, in model units

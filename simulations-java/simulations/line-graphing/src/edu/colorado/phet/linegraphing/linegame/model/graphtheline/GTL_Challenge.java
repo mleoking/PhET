@@ -4,9 +4,9 @@ package edu.colorado.phet.linegraphing.linegame.model.graphtheline;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Graph;
@@ -29,6 +29,7 @@ public abstract class GTL_Challenge extends Challenge {
     public final Graph graph; // the graph that plots the lines
     public final PointTool pointTool1, pointTool2;
     private final ObservableList<Line> allLines;
+    private boolean answerVisible;
 
     public GTL_Challenge( Line answer, Line guess ) {
         this( answer, guess, LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
@@ -47,17 +48,24 @@ public abstract class GTL_Challenge extends Challenge {
         this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.65 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
         this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.95 * xRange.getLength() ), yRange.getMin() - 4 ), Orientation.DOWN, allLines );
 
-        this.guess.addObserver( new ChangeObserver<Line>() {
-            public void update( Line newGuess, Line oldGuess ) {
-                allLines.remove( oldGuess );
-                allLines.add( newGuess );
+        this.guess.addObserver( new SimpleObserver() {
+            public void update() {
+                updateLines();
             }
         } );
     }
 
     // Visibility of the answer affects whether it is "seen" by the point tools.
     @Override public void setAnswerVisible( boolean visible ) {
-        if ( visible ) {
+        answerVisible = visible;
+        updateLines();
+    }
+
+    // Updates the list of lines that are visible to the point tools.
+    private void updateLines() {
+        allLines.clear();
+        allLines.add( guess.get() );
+        if ( answerVisible ) {
             allLines.add( answer );
         }
         else {

@@ -56,7 +56,7 @@ public class GTL_PS_Point_ChallengeNode extends GTL_PS_ChallengeNode {
             final PNode guessNodeParent = new PComposite();
 
             // the correct answer, initially hidden
-            answerNode = createAnswerLineNode( answerLine.withColor( GameConstants.CORRECT_ANSWER_COLOR ), graph, mvt );
+            answerNode = createAnswerLineNode( answerLine.withColor( GameConstants.ANSWER_COLOR ), graph, mvt );
             answerNode.setEquationVisible( false );
             answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
 
