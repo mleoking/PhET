@@ -130,13 +130,13 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         rootNode.addChild( faucetAndWaterNode );
         rootNode.addChild( incandescentLightBulbNode );
         rootNode.addChild( fluorescentLightBulbNode );
+        rootNode.addChild( beakerHeaterNode );
         rootNode.addChild( solarPanelNode );
         rootNode.addChild( sunNode );
         rootNode.addChild( waterPoweredGeneratorNode );
         rootNode.addChild( beltNode );
         rootNode.addChild( bikerNode );
         rootNode.addChild( teaPotNode );
-        rootNode.addChild( beakerHeaterNode );
 
         rootNode.addChild( clockControlBackground );
         rootNode.addChild( clockControl );
