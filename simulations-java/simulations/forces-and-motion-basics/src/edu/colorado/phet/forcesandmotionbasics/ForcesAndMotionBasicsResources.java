@@ -38,6 +38,8 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage GRASS = RESOURCES.getImage( "grass.png" );
         public static final BufferedImage GROUND_TEXTURE = RESOURCES.getImage( "ground-texture.png" );
         public static final BufferedImage ICE_OVERLAY = RESOURCES.getImage( "ice_overlay.png" );
+        public static final BufferedImage MAN_SITTING = RESOURCES.getImage( "man-sitting.png" );
+        public static final BufferedImage MAN_STANDING = RESOURCES.getImage( "man-standing.png" );
         public static final BufferedImage MYSTERY_BOX = RESOURCES.getImage( "mystery-box.png" );
         public static final BufferedImage MYSTERY_OBJECT_01 = RESOURCES.getImage( "mystery-object-01.png" );
         public static final BufferedImage OLLIE = RESOURCES.getImage( "ollie.gif" );

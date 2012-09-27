@@ -206,7 +206,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         skateboard.setOffset( STAGE_SIZE.getWidth() / 2 - skateboard.getFullBounds().getWidth() / 2, grassY - skateboard.getFullBounds().getHeight() );
         addChild( skateboard );
 
-        final RoundRectangle2D.Double toolboxShape = new RoundRectangle2D.Double( 0, 0, 270, 160, 20, 20 );
+        final RoundRectangle2D.Double toolboxShape = new RoundRectangle2D.Double( 0, 0, 270, 170, 20, 20 );
         PhetPPath leftToolbox = new PhetPPath( toolboxShape, TOOLBOX_COLOR, new BasicStroke( 1 ), Color.black );
         final double toolboxY = STAGE_SIZE.height - INSET - leftToolbox.getFullBounds().getHeight();
         leftToolbox.setOffset( INSET, toolboxY );
@@ -260,21 +260,22 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( crate2 );
 
         //Weight for humans: http://www.cdc.gov/growthcharts/data/set1clinical/cj41l021.pdf
-        StackableNode boy = new StackableNode( this, multiScaleToHeight( Images.BOY_SITTING, 100 ), 42, friction ? 38 : 47, true, multiScaleToHeight( Images.BOY_STANDING, 170 ) );
-        StackableNode girl = new StackableNode( this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 38, friction ? 38 : 47, true, multiScaleToHeight( Images.GIRL_STANDING, 180 ) );
+        StackableNode girl = new StackableNode( this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 38, friction ? 38 : 47, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ) );
+        StackableNode man = new StackableNode( this, multiScaleToHeight( Images.MAN_SITTING, 100 ), 42, friction ? 38 : 47, true, multiScaleToHeight( Images.MAN_STANDING, 200 ) );
         StackableNode trash = new StackableNode( this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47 );
         StackableNode gift = new StackableNode( this, multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40 );
 
-        boy.setInitialOffset( rightToolbox.getFullBounds().getX() + 10, rightToolbox.getFullBounds().getMaxY() - boy.getFullBounds().getHeight() - 10 );
-        girl.setInitialOffset( boy.getFullBounds().getMaxX() + 10, rightToolbox.getFullBounds().getMaxY() - girl.getFullBounds().getHeight() - 10 );
-        trash.setInitialOffset( girl.getFullBounds().getMaxX() + 10, rightToolbox.getFullBounds().getMaxY() - trash.getFullBounds().getHeight() - 10 );
-        gift.setInitialOffset( trash.getFullBounds().getMaxX() + 4, rightToolbox.getFullBounds().getMaxY() - gift.getFullBounds().getHeight() - 10 );
-        addChild( boy );
+        double spacingX = 18;
+        girl.setInitialOffset( rightToolbox.getFullBounds().getX() + spacingX, rightToolbox.getFullBounds().getMaxY() - girl.getFullBounds().getHeight() - 5 );
+        man.setInitialOffset( girl.getFullBounds().getMaxX() + spacingX, rightToolbox.getFullBounds().getMaxY() - man.getFullBounds().getHeight() - 5 );
+        trash.setInitialOffset( man.getFullBounds().getMaxX() + spacingX, rightToolbox.getFullBounds().getMaxY() - trash.getFullBounds().getHeight() - 5 );
+        gift.setInitialOffset( trash.getFullBounds().getMaxX() + spacingX - 5, rightToolbox.getFullBounds().getMaxY() - gift.getFullBounds().getHeight() - 5 );
         addChild( girl );
+        addChild( man );
         addChild( trash );
         addChild( gift );
 
-        stackableNodes = fj.data.List.list( fridge, crate1, crate2, boy, girl, trash, gift );
+        stackableNodes = fj.data.List.list( fridge, crate1, crate2, man, girl, trash, gift );
 
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
