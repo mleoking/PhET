@@ -38,18 +38,22 @@ public class StackableNode extends PNode {
         }
     };
     public final int pusherOffset;
+
+    //if it has a flat top, it can be stacked upon
+    public final boolean flatTop;
     private BufferedImage flippedStackedImage;
 
     //Remember the last image shown before applied force is set to 0.0 so that the character will keep facing the same direction.
     private Image lastStackedImage;
 
     public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset ) {
-        this( context, image, mass, pusherOffset, false, image );
+        this( context, image, mass, pusherOffset, false, image, true );
     }
 
-    public StackableNode( final StackableNodeContext context, final BufferedImage stackedImage, final double mass, final int pusherOffset, final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage ) {
+    public StackableNode( final StackableNodeContext context, final BufferedImage stackedImage, final double mass, final int pusherOffset, final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage, boolean flatTop ) {
         this.mass = mass;
         this.pusherOffset = pusherOffset;
+        this.flatTop = flatTop;
         this.flippedStackedImage = BufferedImageUtils.flipX( stackedImage );
         lastStackedImage = stackedImage;
         addChild( new PImage( toolboxImage ) {
