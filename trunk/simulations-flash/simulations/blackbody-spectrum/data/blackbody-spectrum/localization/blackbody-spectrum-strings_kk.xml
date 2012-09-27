@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_kk.xml created Wed Sep 26 14:38:30 BDT 2012 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="r" value="R"/>
+<string key="zoomIn" value="үлкейту"/>
+<string key="intensity" value="интенсивтілігі"/>
+<string key="simTitle" value="Қара дене спектрі"/>
+<string key="zoomOut" value="кішірейту"/>
+<string key="clear" value="Тазалау"/>
+<string key="g" value="G"/>
+<string key="sun" value="Күн"/>
+<string key="tempInK" value="Т(К)"/>
+<string key="save" value="сақтау"/>
+<string key="showRuler" value="сызғышты көрсету"/>
+<string key="wavelength" value="толқын ұзындығы"/>
+<string key="b" value="В"/>
+<string key="oven" value="қыздыру"/>
+<string key="earth" value="Жер"/>
+<string key="lightBulb" value="шам"/>
+</SimStrings>
