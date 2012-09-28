@@ -16,6 +16,9 @@ import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Interce
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Points_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_SlopeIntercept_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Slope_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_PS_PointSlope_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_PS_Point_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_PS_Slope_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Intercept_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Slope_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Slope_Intercept_Challenge;
@@ -36,7 +39,7 @@ public class LineGameModel {
 
     private static final int CHALLENGES_PER_GAME = 4;
     private static final int MAX_POINTS_PER_CHALLENGE = 2;
-    private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3 );
+    private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 4 );
 
     // phases of a game, mutually exclusive
     public enum GamePhase {
@@ -152,6 +155,12 @@ public class LineGameModel {
             challenges[index++] = new MTE_SI_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1 ) );
             challenges[index++] = new MTE_SI_Slope_Intercept_Challenge( Line.createSlopeIntercept( 4, 2, 3 ) );
             challenges[index++] = new MTE_SI_Slope_Intercept_Challenge( Line.createSlopeIntercept( 3, 3, -3 ) );
+        }
+        else if ( settings.level.get() == 4 ) {
+            challenges[index++] = new MTE_PS_Slope_Challenge( Line.createPointSlope( 2, 1, 1, 2 ) );
+            challenges[index++] = new MTE_PS_Point_Challenge( Line.createPointSlope( 1, -3, 1, 3 ) );
+            challenges[index++] = new MTE_PS_PointSlope_Challenge( Line.createPointSlope( -2, 1, -4, 3 ) );
+            challenges[index++] = new MTE_PS_PointSlope_Challenge( Line.createPointSlope( 5, 4, 3, 2 ) );
         }
         assert ( challenges.length == CHALLENGES_PER_GAME );
         challengeIndex = 0;

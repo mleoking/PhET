@@ -10,27 +10,28 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptInteractiveEquationNode;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeInteractiveEquationNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * View component for a "Make the Equation" (MTE) challenge.
- * Given a graph of a line in slope-intercept (SI) form, make the equation by changing the Slope and Intercept.
+ * Given a graph of a line in point-slope (PS) form, make the equation by changing the Point and Slope.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MTE_SI_Slope_Intercept_ChallengeNode extends MTE_SI_ChallengeNode {
+public class MTE_PS_Point_Slope_ChallengeNode extends MTE_PS_ChallengeNode {
 
-    public MTE_SI_Slope_Intercept_ChallengeNode( final LineGameModel model, MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public MTE_PS_Point_Slope_ChallengeNode( final LineGameModel model, MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, challenge, audioPlayer, challengeSize );
     }
 
     // Creates the equation portion of the view.
     @Override protected InteractiveEquationNode createEquationNode( Property<Line> line, Graph graph, PhetFont font ) {
-        return new SlopeInterceptInteractiveEquationNode( line,
-                                                          new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
-                                                          new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
-                                                          new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
-                                                          true, true );
+        return new PointSlopeInteractiveEquationNode( line,
+                                                      new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                                      new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
+                                                      new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
+                                                      new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                                      true, true, true );
     }
 }

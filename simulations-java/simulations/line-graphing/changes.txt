@@ -1,3 +1,4 @@
+9/29/12 add "Make the Equation" challenges for point-slope form
 9/29/12 change interface to GTL_ChallengeNode.createGraphNode
 9/29/12 game: modify interface for MTE_GraphNode constructors
 9/28/12 game: create all base classes for MTE challenges, plus one concrete example
