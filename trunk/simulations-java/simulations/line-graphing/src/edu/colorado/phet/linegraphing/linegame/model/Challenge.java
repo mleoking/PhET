@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.linegame.model;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -29,7 +30,7 @@ public abstract class Challenge {
     }
 
     // Creates the view component for the challenge.
-    public abstract PNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize );
+    public abstract ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize );
 
     // Do anything required when the answer is visible.
     public abstract void setAnswerVisible( boolean visible );
