@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.Pair;
 
 import static edu.colorado.phet.forcesandmotionbasics.motion.MotionCanvas.STROBE_SPEED;
 import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
+import static fj.Unit.unit;
 
 /**
  * @author Sam Reid
@@ -44,7 +45,7 @@ public class MotionModel {
 //       };
 
     //Only used in Tab 3 "Friction"
-    public final SettableProperty<Double> frictionValue = new Property<Double>( FrictionSliderControl.MAX / 2 );
+    public final SettableProperty<Double> frictionValue = new Property<Double>( FrictionSliderControl.MAX / 2 );//The coefficient of friction (mu_k = mu_s)
     private Pair<Long, SpeedValue> lastOutOfRange = null;
 
     public MotionModel( boolean friction, final F<Unit, Double> massOfObjectsOnSkateboard ) {
@@ -60,7 +61,7 @@ public class MotionModel {
         this.sumOfForces.set( sumOfForces );
 //        System.out.println( "applied: " + appliedForce + ", friction: " + frictionForce + ", sum = " + sumOfForces );
 
-        final double mass = massOfObjectsOnSkateboard.f( Unit.unit() );
+        final double mass = massOfObjectsOnSkateboard.f( unit() );
         double acceleration = mass != 0 ? sumOfForces / mass : 0.0;
 
         double newVelocity = velocity.get() + acceleration * dt;
@@ -89,12 +90,12 @@ public class MotionModel {
 
     private double getFrictionForce( final double appliedForce ) {
         if ( !friction ) { return 0.0; }
-        double frictionForce = Math.abs( frictionValue.get() ) * MathUtil.getSign( appliedForce );
+        double frictionForce = Math.abs( frictionValue.get() ) * MathUtil.getSign( appliedForce ) * massOfObjectsOnSkateboard.f( unit() );
         if ( Math.abs( velocity.get() ) < 1E-6 && frictionForce > appliedForce ) {
             frictionForce = appliedForce;
         }
         else if ( Math.abs( velocity.get() ) > 1E-6 ) {
-            frictionForce = MathUtil.getSign( velocity.get() ) * frictionValue.get();
+            frictionForce = MathUtil.getSign( velocity.get() ) * frictionValue.get() * massOfObjectsOnSkateboard.f( unit() );
         }
         return -frictionForce;
     }
