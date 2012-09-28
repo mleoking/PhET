@@ -52,7 +52,7 @@ public class EnergySystemsModel {
     public final SolarPanel solarPanel = new SolarPanel();
 
     // Energy sources.
-    public final FaucetAndWater faucet = new FaucetAndWater( energyChunksVisible );
+    public final FaucetAndWater faucet = new FaucetAndWater( energyChunksVisible, waterPoweredGenerator.getObservableActiveState() );
     public final Sun sun = new Sun( solarPanel, energyChunksVisible );
     public final TeaPot teaPot = new TeaPot();
     public final Biker biker = new Biker();

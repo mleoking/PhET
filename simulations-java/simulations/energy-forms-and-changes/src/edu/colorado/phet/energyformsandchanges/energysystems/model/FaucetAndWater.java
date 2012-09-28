@@ -10,6 +10,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -62,13 +63,18 @@ public class FaucetAndWater extends EnergySource {
     private double flowSinceLastChunk = 0;
     private final BooleanProperty energyChunksVisible;
 
+    // Flag that is used to decide whether to pass energy chunks to the next
+    // energy system element.
+    private final ObservableProperty<Boolean> waterPowerableElementInPlace;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected FaucetAndWater( BooleanProperty energyChunksVisible ) {
+    protected FaucetAndWater( BooleanProperty energyChunksVisible, ObservableProperty<Boolean> waterPowerableElementInPlace ) {
         super( EnergyFormsAndChangesResources.Images.FAUCET_ICON );
         this.energyChunksVisible = energyChunksVisible;
+        this.waterPowerableElementInPlace = waterPowerableElementInPlace;
     }
 
     //-------------------------------------------------------------------------
@@ -102,7 +108,9 @@ public class FaucetAndWater extends EnergySource {
                 energyChunk.translateBasedOnVelocity( dt );
 
                 // See if chunk should be transferred to next energy system.
-                if ( ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE.contains( getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).getY() - energyChunk.position.get().y ) ) {
+                if ( waterPowerableElementInPlace.get() &&
+                     ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE.contains( getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).getY() - energyChunk.position.get().y ) ) {
+
                     // Send to the next system.
                     outgoingEnergyChunks.add( energyChunk );
                 }
