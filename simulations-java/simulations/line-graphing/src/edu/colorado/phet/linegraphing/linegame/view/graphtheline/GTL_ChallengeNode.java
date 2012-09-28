@@ -12,7 +12,6 @@ import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -42,7 +41,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 
         // The equation for the answer.
-        final EquationNode answerEquationNode = createEquationNode( challenge.answer, GameConstants.EQUATION_FONT, GameConstants.GIVEN_COLOR );
+        final EquationNode answerEquationNode = createEquationNode( challenge.answer, GameConstants.EQUATION_FONT, challenge.answer.color );
 
         // The equation for the current guess will be a child of this node, to maintain rendering order.
         final PNode guessEquationParent = new PNode();
@@ -167,7 +166,6 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                 if ( challenge.isCorrect() ) {
                     faceNode.smile();
                     audioPlayer.correctAnswer();
-                    answerEquationNode.setPaintDeep( GameConstants.ANSWER_COLOR );
                     challenge.guess.set( challenge.guess.get().withColor( GameConstants.ANSWER_COLOR ) );
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.results.score.set( model.results.score.get() + points );
@@ -203,7 +201,6 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
             public void actionPerformed( ActionEvent e ) {
                 graphNode.setAnswerVisible( true );
                 model.state.set( PlayState.NEXT );
-                answerEquationNode.setPaintDeep( GameConstants.ANSWER_COLOR );
             }
         } );
 
