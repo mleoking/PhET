@@ -1,3 +1,4 @@
+9/28/12 game: create all base classes for MTE challenges, plus one concrete example
 9/28/12 game: when user fails to solve GTL challenge, show equation that corresponds to user's guess
 9/28/12 game: rename base classes for GTL graph nodes
 9/28/12 game: when dev flag is enabled, show the answer as a translucent gray line (for debugging)
