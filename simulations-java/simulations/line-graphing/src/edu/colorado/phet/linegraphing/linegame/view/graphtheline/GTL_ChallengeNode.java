@@ -43,8 +43,10 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
 
         PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 
+        // The equation for the answer.
         final EquationNode answerEquationNode = createEquationNode( challenge.answer, GameConstants.EQUATION_FONT, GameConstants.GIVEN_COLOR );
 
+        // The equation for the current guess will be a child of this node, to maintain rendering order.
         final PNode guessEquationParent = new PNode();
         guessEquationParent.setVisible( false );
 
