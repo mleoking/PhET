@@ -82,11 +82,12 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     //Speed at which the bricks start to look as if they are going backwards
     public static final double STROBE_SPEED = 9.559393222711847;
 
-    //Features only for Tab 3: Friction:
-    private final Property<Boolean> showSumOfForces = new Property<Boolean>( true );
     private boolean playing = true;
     private final PusherNode pusherNode;
     private final SliderControl sliderControl;
+
+    //Features only for Tab 3: Friction:
+    private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
 
     public MotionCanvas( final Context context, final IClock clock, final boolean friction ) {
         this.friction = friction;
