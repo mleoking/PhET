@@ -21,7 +21,8 @@ MEDIUM
 - use of Line.color is a bit of a mess, and makes it difficult to manage line lists
 - change request: replace rise/run brackets with dashed lines with arrow heads on them
 - use InteractiveEquationNode subclasses to generate non-interactive equations in EquationFactory subclasses, if we can agree that the "look" can be standardized
-- factor out duplication in ChallengeNode subclasses
+- sort out duplication in Challenge hierarchy
+- sort out duplication in ChallengeNode hierarchy
 - layout of EquationNode and InteractiveEquationNode subclasses is complicated, contains duplication, and will be difficult to maintain. Is there a better way?
 
 LOW
