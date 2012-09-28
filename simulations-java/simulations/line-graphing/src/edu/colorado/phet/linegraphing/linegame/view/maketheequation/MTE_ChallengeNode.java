@@ -44,10 +44,10 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         PNode titleNode = new PhetPText( Strings.MAKE_THE_EQUATION, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 
         // The equation for the user's guess.
-        final PNode guessEquationNode = createGuessEquationNode( challenge.guess, challenge.graph, GameConstants.EQUATION_FONT );
+        final PNode guessEquationNode = createGuessEquationNode( challenge.guess, challenge.graph, GameConstants.INTERACTIVE_EQUATION_FONT, GameConstants.STATIC_EQUATION_FONT, Color.BLACK );
 
         // The equation for the correct answer
-        final PNode answerEquationNode = createAnswerEquationNode( challenge.answer, GameConstants.EQUATION_FONT, challenge.answer.color );
+        final PNode answerEquationNode = createAnswerEquationNode( challenge.answer, GameConstants.STATIC_EQUATION_FONT, challenge.answer.color );
         answerEquationNode.setVisible( false );
 
         final MTE_GraphNode graphNode = createGraphNode( challenge );
@@ -204,7 +204,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
     }
 
     // Creates the "guess" equation portion of the view.
-    protected abstract InteractiveEquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont font );
+    protected abstract InteractiveEquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor );
 
     // Creates the "answer" equation portion of the view.
     protected abstract EquationNode createAnswerEquationNode( Line line, PhetFont font, Color color );
