@@ -1,6 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -8,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
@@ -46,6 +51,8 @@ public class WaterPoweredGenerator extends EnergyConverter {
 
     private Property<Double> wheelRotationalAngle = new Property<Double>( 0.0 ); // In radians.
     private double wheelRotationalVelocity = 0; // In radians/s.
+    private List<EnergyChunkPathMover> mechanicalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private List<EnergyChunkPathMover> electricalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
 
     // Flag that controls "direct coupling mode", which means that the
     // generator wheel turns at a rate that is directly proportionate to the
@@ -66,6 +73,8 @@ public class WaterPoweredGenerator extends EnergyConverter {
 
     @Override public Energy stepInTime( double dt, Energy incomingEnergy ) {
         if ( isActive() ) {
+
+            // Handle different wheel rotation modes.
             if ( directCouplingMode.get() ) {
                 // Treat the wheel as though it is directly coupled to the
                 // energy source, e.g. through a belt or drive shaft.
@@ -86,8 +95,51 @@ public class WaterPoweredGenerator extends EnergyConverter {
                 wheelRotationalVelocity += angularAcceleration * dt;
                 wheelRotationalAngle.set( wheelRotationalAngle.get() + wheelRotationalVelocity * dt );
             }
+
+            // Handle any incoming energy chunks.
+            if ( !incomingEnergyChunks.isEmpty() ) {
+                for ( EnergyChunk incomingEnergyChunk : new ArrayList<EnergyChunk>( incomingEnergyChunks ) ) {
+                    if ( incomingEnergyChunk.energyType.get() == EnergyType.MECHANICAL ) {
+
+                        energyChunkList.add( incomingEnergyChunk );
+                        incomingEnergyChunks.remove( incomingEnergyChunk );
+
+                        // And a "mover" that will move this energy chunk to
+                        // the center of the wheel.
+                        mechanicalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk,
+                                                                                   getMechanicalEnergyChunkPath( getPosition() ),
+                                                                                   EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
+                    }
+                    else {
+                        // By design, this shouldn't happen, so warn if it does.
+                        System.out.println( getClass().getName() + " - Warning: Ignoring energy chunk with unexpected type, type = " + incomingEnergyChunk.energyType.get().toString() );
+                    }
+                }
+                incomingEnergyChunks.clear();
+            }
+
+            // Move the energy chunks that are currently under management.
+            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( mechanicalEnergyChunkMovers ) ) {
+                energyChunkMover.moveAlongPath( dt );
+                if ( energyChunkMover.isPathFullyTraversed() ) {
+                    // The mechanical energy chunk has traveled to the end of
+                    // its path, so change it to electrical and send it on its
+                    // way.
+                    mechanicalEnergyChunkMovers.remove( energyChunkMover );
+                    energyChunkMover.energyChunk.energyType.set( EnergyType.ELECTRICAL );
+                    // TODO: Just remove for now.
+                    energyChunkList.remove( energyChunkMover.energyChunk );
+                }
+            }
+
         }
         return new Energy( EnergyType.ELECTRICAL, Math.abs( wheelRotationalVelocity * ENERGY_OUTPUT_RATE ) );
+    }
+
+    private static List<Vector2D> getMechanicalEnergyChunkPath( final Vector2D panelPosition ) {
+        return new ArrayList<Vector2D>() {{
+            add( panelPosition );
+        }};
     }
 
     @Override public void deactivate() {

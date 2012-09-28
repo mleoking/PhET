@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.WaterPoweredGenerator;
 import edu.umd.cs.piccolo.PNode;
 
@@ -18,7 +19,7 @@ public class WaterPoweredGeneratorNode extends PositionableFadableModelElementNo
     public WaterPoweredGeneratorNode( final WaterPoweredGenerator generator, final ModelViewTransform mvt ) {
         super( generator, mvt );
 
-        // Create and add the various image nodes.
+        // Create and add the various image nodes and energy chunk layers.
         addChild( new ModelElementImageNode( WaterPoweredGenerator.WIRE_CURVED_IMAGE, mvt ) );
         addChild( new ModelElementImageNode( WaterPoweredGenerator.HOUSING_IMAGE, mvt ) );
         addChild( new ModelElementImageNode( WaterPoweredGenerator.CONNECTOR_IMAGE, mvt ) );
@@ -27,6 +28,7 @@ public class WaterPoweredGeneratorNode extends PositionableFadableModelElementNo
         addChild( new ModelElementImageNode( WaterPoweredGenerator.WHEEL_HUB_IMAGE, mvt ) );
         final PNode wheelTextureNode = new ModelElementImageNode( WaterPoweredGenerator.WHEEL_TEXTURE_IMAGE, mvt );
         addChild( wheelTextureNode );
+        addChild( new EnergyChunkLayer( generator.energyChunkList, generator.getObservablePosition(), mvt ) );
 
         // Update the rotation of the wheel image based on model value.
         final Point2D wheelRotationPoint = new Point2D.Double( paddlesNode.getFullBoundsReference().getCenterX(),
