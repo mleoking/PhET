@@ -155,7 +155,6 @@ public class PullerNode extends PNode {
     }
 
     private void updatePickable( final Mode mode, final PullerContext context ) {
-//        boolean pickable = mode == Mode.WAITING && context.cartIsInCenter();
         boolean pickable = true;
         setPickable( pickable );
         setChildrenPickable( pickable );

@@ -58,7 +58,7 @@ import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PS
 /**
  * @author Sam Reid
  */
-public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implements PullerContext, ForcesNodeContext {
+public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implements PullerContext {
 
     public static final long ANIMATION_DURATION = 300;
     private final List<KnotNode> blueKnots;
@@ -105,7 +105,6 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 new VBox( 2, VBox.LEFT_ALIGNED,
 
                           //Nudge "show" to the right so it will align with checkboxes
-//                          new HBox( 5, new PhetPPath( new Rectangle2D.Double( 0, 0, 0, 0 ) ), new PhetPText( "Show", CONTROL_FONT ) ),
                           new PSwing( showValuesCheckBox ), new PSwing( sumOfForcesCheckBox ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
         controlPanelNode.setOffset( STAGE_SIZE.width - controlPanelNode.getFullWidth() - INSET, INSET );
         addChild( controlPanelNode );
@@ -285,9 +284,6 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
 
         flagLayer = new PNode();
         addChild( flagLayer );
-
-        //For testing flags
-//        flagLayer.addChild( new FlagNode( Color.blue, "Blue Wins!" ) {{setOffset( 100, 100 );}} );
     }
 
     private void addFlagNode( final FlagNode flagNode ) {
