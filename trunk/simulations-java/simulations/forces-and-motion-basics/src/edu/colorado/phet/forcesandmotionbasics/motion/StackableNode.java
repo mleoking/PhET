@@ -62,6 +62,10 @@ public class StackableNode extends PNode {
         this( context, image, mass, pusherOffset, showMass, false, image, true );
     }
 
+    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass, boolean flatTop ) {
+        this( context, image, mass, pusherOffset, showMass, false, image, flatTop );
+    }
+
     public StackableNode( final StackableNodeContext context, final BufferedImage stackedImage, final double mass, final int pusherOffset, final BooleanProperty showMass,
                           final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage, boolean flatTop ) {
         this.mass = mass;
