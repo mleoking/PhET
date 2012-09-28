@@ -128,7 +128,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                 guessEquationParent.removeAllChildren();
                 Color color = challenge.isCorrect() ? GameConstants.ANSWER_COLOR : GameConstants.GUESS_COLOR;
                 guessEquationParent.addChild( createEquationNode( line, GameConstants.EQUATION_FONT, color ) );
-                guessEquationParent.setOffset( answerEquationNode.getFullBoundsReference().getMinX(),
+                guessEquationParent.setOffset( answerEquationNode.getXOffset(),
                                                answerEquationNode.getFullBoundsReference().getMaxY() + 30 );
             }
         } );
@@ -155,7 +155,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                 graphNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || state == PlayState.NEXT );
                 graphNode.setChildrenPickable( graphNode.getPickable() );
 
-                // Should the equation for the user's guess if they didn't succeed at the challenge.
+                // Show the equation for the user's guess if they didn't succeed at the challenge.
                 guessEquationParent.setVisible( state == PlayState.NEXT && !challenge.isCorrect() );
             }
         } );
