@@ -6,6 +6,7 @@ import fj.data.List;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -31,7 +32,7 @@ public class PusherNode extends PNode {
     private BufferedImage pusherFallDownRight = BufferedImageUtils.flipX( Images.PUSHER_FALL_DOWN );
     private BufferedImage pusherFallDownLeft = Images.PUSHER_FALL_DOWN;
 
-    public PusherNode( final PNode skateboard, final double grassY, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, Property<SpeedValue> speedValue ) {
+    public PusherNode( final PNode skateboard, final double grassY, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, ObservableProperty<SpeedValue> speedValue ) {
         this.appliedForce = appliedForce;
         pusher = new PImage( Images.PUSHER_STRAIGHT_ON );
         pusher.scale( 0.8 * 0.9 );

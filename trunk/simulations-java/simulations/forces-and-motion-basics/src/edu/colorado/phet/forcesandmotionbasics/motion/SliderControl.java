@@ -42,7 +42,7 @@ public class SliderControl extends PNode {
 
     private final HSliderNode sliderNode;
 
-    public SliderControl( final Property<SpeedValue> speedValue, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction ) {
+    public SliderControl( final ObservableProperty<SpeedValue> speedValue, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction ) {
 
         final Not enabled = Not.not( stack.valueEquals( List.<StackableNode>nil() ) );
         final String unitsString = friction ? "Newtons (N)" : "Newtons";
