@@ -1,3 +1,4 @@
+9/29/12 game: modify interface for MTE_GraphNode constructors
 9/28/12 game: create all base classes for MTE challenges, plus one concrete example
 9/28/12 game: when user fails to solve GTL challenge, show equation that corresponds to user's guess
 9/28/12 game: rename base classes for GTL graph nodes

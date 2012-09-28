@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -44,9 +45,9 @@ public abstract class MTE_ChallengeNode extends PhetPNode {
         PNode titleNode = new PhetPText( Strings.MAKE_THE_EQUATION, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 
         // The equation for the user's guess.
-        final InteractiveEquationNode guessEquationNode = createEquationNode( challenge.guess, GameConstants.EQUATION_FONT );
+        final InteractiveEquationNode guessEquationNode = createEquationNode( challenge.guess, challenge.graph, GameConstants.EQUATION_FONT );
 
-        final MTE_GraphNode graphNode = createGraphNode( challenge.graph, challenge.guess, challenge.answer, challenge.mvt );
+        final MTE_GraphNode graphNode = createGraphNode( challenge );
 
         final FaceNode faceNode = new FaceNode( GameConstants.FACE_DIAMETER, GameConstants.FACE_COLOR );
 
@@ -193,8 +194,8 @@ public abstract class MTE_ChallengeNode extends PhetPNode {
     }
 
     // Creates the equation portion of the view.
-    protected abstract InteractiveEquationNode createEquationNode( Property<Line> line, PhetFont font );
+    protected abstract InteractiveEquationNode createEquationNode( Property<Line> line, Graph graph, PhetFont font );
 
     // Creates the graph portion of the view.
-    protected abstract MTE_GraphNode createGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
+    protected abstract MTE_GraphNode createGraphNode( MTE_Challenge challenge );
 }
