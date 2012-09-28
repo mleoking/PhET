@@ -45,7 +45,7 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
 
         final EquationNode equationNode = createEquationNode( challenge.answer, GameConstants.EQUATION_FONT, GameConstants.GIVEN_COLOR );
 
-        final GTL_ChallengeGraphNode graphNode = createGraphNode( challenge.graph, challenge.guess, challenge.answer, challenge.mvt );
+        final GTL_GraphNode graphNode = createGraphNode( challenge.graph, challenge.guess, challenge.answer, challenge.mvt );
 
         final FaceNode faceNode = new FaceNode( GameConstants.FACE_DIAMETER, GameConstants.FACE_COLOR );
 
@@ -199,5 +199,5 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
     protected abstract EquationNode createEquationNode( Line line, PhetFont font, Color color );
 
     // Creates the graph portion of the view.
-    protected abstract GTL_ChallengeGraphNode createGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
+    protected abstract GTL_GraphNode createGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
 }

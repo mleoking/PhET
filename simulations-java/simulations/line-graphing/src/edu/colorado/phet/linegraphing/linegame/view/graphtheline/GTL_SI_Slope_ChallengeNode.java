@@ -37,12 +37,12 @@ public class GTL_SI_Slope_ChallengeNode extends GTL_SI_ChallengeNode {
     }
 
     // Creates the graph portion of the view.
-    @Override protected GTL_ChallengeGraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
+    @Override protected GTL_GraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
         return new ThisGraphNode( graph, guessLine, answerLine, mvt );
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends GTL_SI_ChallengeGraphNode {
+    private static class ThisGraphNode extends GTL_SI_GraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode slopeManipulatorNode;
