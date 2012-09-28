@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 
 import static edu.colorado.phet.forcesandmotionbasics.motion.MotionCanvas.STROBE_SPEED;
 import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
@@ -26,10 +27,25 @@ public class MotionModel {
     public final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
     private final boolean friction;
     public final F<Unit, Double> massOfObjectsOnSkateboard;
-    public final Property<SpeedValue> speedValue = new Property<SpeedValue>( WITHIN_ALLOWED_RANGE );
+
+    //Internal value for whether speed is exceeded, always exactly up-to-date
+    public final Property<SpeedValue> _speedValue = new Property<SpeedValue>( WITHIN_ALLOWED_RANGE );
+
+    //Public value for whether a speed should be treated as exceeded.  Once a value is exceeded it is marked as exceeded for 1 second to avoid quirky behavior with slider disabling and re-enabling too quickly
+    public final Property<SpeedValue> speedValue = new Property<SpeedValue>( _speedValue.get() );
+
+//    {
+//           @Override public SpeedValue get() {
+//
+//               //if it was exceeded in either direction within the last second, use that value, otherwise normal.
+//               return lastOutOfRangeValue != null && ( System.currentTimeMillis() - lastOutOfRangeValue._2() < 1000 ) ? lastOutOfRangeValue._1() :
+//                      _speedValue.get();
+//           }
+//       };
 
     //Only used in Tab 3 "Friction"
     public final SettableProperty<Double> frictionValue = new Property<Double>( FrictionSliderControl.MAX / 2 );
+    private Pair<Long, SpeedValue> lastOutOfRange = null;
 
     public MotionModel( boolean friction, final F<Unit, Double> massOfObjectsOnSkateboard ) {
         this.friction = friction;
@@ -61,9 +77,14 @@ public class MotionModel {
         velocity.set( newVelocity );
         position.set( position.get() + velocity.get() * dt );
         speed.set( new Some<Double>( Math.abs( velocity.get() ) ) );
-        speedValue.set( velocity.get() >= STROBE_SPEED ? RIGHT_SPEED_EXCEEDED :
-                        velocity.get() <= -STROBE_SPEED ? LEFT_SPEED_EXCEEDED :
-                        WITHIN_ALLOWED_RANGE );
+        _speedValue.set( velocity.get() >= STROBE_SPEED ? RIGHT_SPEED_EXCEEDED :
+                         velocity.get() <= -STROBE_SPEED ? LEFT_SPEED_EXCEEDED :
+                         WITHIN_ALLOWED_RANGE );
+
+        if ( _speedValue.get() != WITHIN_ALLOWED_RANGE ) {
+            lastOutOfRange = new Pair<Long, SpeedValue>( System.currentTimeMillis(), _speedValue.get() );
+            speedValue.set( _speedValue.get() );
+        }
     }
 
     private double getFrictionForce( final double appliedForce ) {
@@ -84,5 +105,15 @@ public class MotionModel {
         speed.set( new Some<Double>( 0.0 ) );
         appliedForce.set( 0.0 );
         frictionForce.set( 0.0 );
+    }
+
+    //Called whether paused or not.  When a second passes, the slider should gray in, if the speed value is no longer exceeded.
+    public void clockStepped() {
+        if ( lastOutOfRange != null ) {
+            if ( System.currentTimeMillis() - lastOutOfRange._1 > 1000 ) {
+                lastOutOfRange = null;
+                speedValue.set( _speedValue.get() );
+            }
+        }
     }
 }

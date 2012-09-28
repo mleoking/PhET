@@ -288,6 +288,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 if ( playing ) {
                     step( clockEvent.getSimulationTimeChange() );
                 }
+                model.clockStepped();
             }
         } );
 
