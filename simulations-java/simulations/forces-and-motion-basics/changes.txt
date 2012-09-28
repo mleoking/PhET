@@ -1,3 +1,4 @@
+Tab 2-3: Don't allow stacking on garbage can or gift
 Tab 2: Fixed: pusher's hands press into the man by 20px or so
 Tab 3: Made "Sum of Forces" unchecked by default
 Tab 2-3: Brightened the pusher images to help "friction force" text be more readable against the pusher.
