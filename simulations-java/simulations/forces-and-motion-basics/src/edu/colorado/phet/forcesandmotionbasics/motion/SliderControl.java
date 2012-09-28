@@ -133,10 +133,6 @@ public class SliderControl extends PNode {
         addChild( box );
     }
 
-    public void releaseMouse() {
-//        sliderNode.
-    }
-
     private class EnablePhetPText extends PhetPText {
         public EnablePhetPText( final String text, final Font font, ObservableProperty<Boolean> enabled ) {
             super( text, font );

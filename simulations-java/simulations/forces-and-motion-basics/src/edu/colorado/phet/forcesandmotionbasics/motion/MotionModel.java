@@ -54,6 +54,10 @@ public class MotionModel {
             newVelocity = 0.0;
         }
 
+        //Cap at strobe speed.  This is necessary so that a reverse applied force will take effect immediately, without these lines of code the pusher will stutter.
+        if ( newVelocity > STROBE_SPEED ) { newVelocity = STROBE_SPEED; }
+        if ( newVelocity < -STROBE_SPEED ) { newVelocity = -STROBE_SPEED; }
+
         velocity.set( newVelocity );
         position.set( position.get() + velocity.get() * dt );
         speed.set( new Some<Double>( Math.abs( velocity.get() ) ) );

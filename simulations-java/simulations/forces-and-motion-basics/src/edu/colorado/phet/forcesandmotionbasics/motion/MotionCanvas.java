@@ -222,7 +222,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( sliderControl );
 
-        pusherNode = new PusherNode( skateboard, grassY, model.appliedForce, stack );
+        pusherNode = new PusherNode( skateboard, grassY, model.appliedForce, stack, model.speedValue );
         addChild( pusherNode );
 
         HBox timeControls = new HBox( -3, new RewindButton( 60 ) {{
@@ -368,12 +368,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     private void step( double dt ) {
         final boolean exceedsStrobeSpeedBefore = model.speed.get().get() >= STROBE_SPEED;
-        if ( exceedsStrobeSpeedBefore ) { model.appliedForce.set( 0.0 ); }
         model.stepInTime( dt );
         final boolean exceedsStrobeSpeedAfter = model.speed.get().get() >= STROBE_SPEED;
-        if ( !exceedsStrobeSpeedBefore && exceedsStrobeSpeedAfter ) {
-            sliderControl.releaseMouse();
-        }
 
         if ( model.appliedForce.get() == 0.0 || exceedsStrobeSpeedBefore ) {
             final double delta = -model.velocity.get() * dt * 100;
