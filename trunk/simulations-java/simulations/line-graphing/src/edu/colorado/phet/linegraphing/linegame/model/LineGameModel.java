@@ -17,6 +17,8 @@ import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Points_
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_SlopeIntercept_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_SI_Slope_Challenge;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Intercept_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Slope_Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_SI_Slope_Intercept_Challenge;
 
 /**
  * Model for the "Line Game" module. Responsibilities include:
@@ -147,9 +149,9 @@ public class LineGameModel {
         }
         else if ( settings.level.get() == 3 ) {
             challenges[index++] = new MTE_SI_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ) );
-            challenges[index++] = new MTE_SI_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ) );
-            challenges[index++] = new MTE_SI_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ) );
-            challenges[index++] = new MTE_SI_Intercept_Challenge( Line.createSlopeIntercept( 1, 1, -2 ) );
+            challenges[index++] = new MTE_SI_Slope_Challenge( Line.createSlopeIntercept( 5, 1, 1 ) );
+            challenges[index++] = new MTE_SI_Slope_Intercept_Challenge( Line.createSlopeIntercept( 4, 2, 3 ) );
+            challenges[index++] = new MTE_SI_Slope_Intercept_Challenge( Line.createSlopeIntercept( 3, 3, -3 ) );
         }
         assert ( challenges.length == CHALLENGES_PER_GAME );
         challengeIndex = 0;

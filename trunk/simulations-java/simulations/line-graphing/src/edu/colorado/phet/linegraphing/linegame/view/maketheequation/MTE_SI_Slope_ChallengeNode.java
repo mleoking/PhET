@@ -15,13 +15,13 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * View component for a "Make the Equation" (MTE) challenge.
- * Given an equation in slope-intercept (SI) form, make the equation by changing the Intercept.
+ * Given an equation in slope-intercept (SI) form, make the equation by changing the Slope.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MTE_SI_Intercept_ChallengeNode extends MTE_SI_ChallengeNode {
+public class MTE_SI_Slope_ChallengeNode extends MTE_SI_ChallengeNode {
 
-    public MTE_SI_Intercept_ChallengeNode( final LineGameModel model, MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public MTE_SI_Slope_ChallengeNode( final LineGameModel model, MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, challenge, audioPlayer, challengeSize );
     }
 
@@ -31,6 +31,6 @@ public class MTE_SI_Intercept_ChallengeNode extends MTE_SI_ChallengeNode {
                                                           new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
                                                           new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
                                                           new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
-                                                          false, true );
+                                                          true, false );
     }
 }
