@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Model for a "Make the Equation" (MTE) challenge.
- * Given an equation in slope-intercept (SI) form, make the equation by changing the Slope and Intercept.
+ * Given a graph of a line in slope-intercept (SI) form, make the equation by changing the Slope and Intercept.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
