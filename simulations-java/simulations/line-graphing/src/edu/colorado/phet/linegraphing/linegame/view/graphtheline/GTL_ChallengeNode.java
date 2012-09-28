@@ -10,9 +10,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
@@ -20,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
-import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
@@ -50,7 +47,7 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
         final PNode guessEquationParent = new PNode();
         guessEquationParent.setVisible( false );
 
-        final GTL_GraphNode graphNode = createGraphNode( challenge.graph, challenge.guess, challenge.answer, challenge.mvt );
+        final GTL_GraphNode graphNode = createGraphNode( challenge );
 
         final FaceNode faceNode = new FaceNode( GameConstants.FACE_DIAMETER, GameConstants.FACE_COLOR );
 
@@ -221,5 +218,5 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
     protected abstract EquationNode createEquationNode( Line line, PhetFont font, Color color );
 
     // Creates the graph portion of the view.
-    protected abstract GTL_GraphNode createGraphNode( final Graph graph, Property<Line> guessLine, Line answerLine, final ModelViewTransform mvt );
+    protected abstract GTL_GraphNode createGraphNode( GTL_Challenge challenge );
 }
