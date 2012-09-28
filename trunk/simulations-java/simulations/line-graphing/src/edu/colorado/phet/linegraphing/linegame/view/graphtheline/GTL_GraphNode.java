@@ -9,6 +9,7 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
+import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
 
 /**
  * Base class for the graph node in all "Graph the Line" (GTL) challenges.
@@ -17,12 +18,12 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
  */
 public abstract class GTL_GraphNode extends GraphNode {
 
-    public GTL_GraphNode( Graph graph, Line answerLine, ModelViewTransform mvt ) {
-        super( graph, mvt );
+    public GTL_GraphNode( GTL_Challenge challenge ) {
+        super( challenge.graph, challenge.mvt );
 
         // To reduce brain damage during development, show the answer as a translucent gray line.
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            LineNode answerNode = createAnswerLineNode( answerLine.withColor( new Color( 0, 0, 0, 25 ) ), graph, mvt );
+            LineNode answerNode = createAnswerLineNode( challenge.answer.withColor( new Color( 0, 0, 0, 25 ) ), challenge.graph, challenge.mvt );
             answerNode.setEquationVisible( false );
             addChild( answerNode );
         }
