@@ -455,7 +455,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             int index = stackableNodeAndIndex._2();
             final StackableNode stackableNode = stackableNodeAndIndex._1();
             Rectangle2D skateboardBounds = stackableNode.getParent().globalToLocal( skateboard.getGlobalFullBounds() );
-            final double skateboardY = skateboardBounds.getY() + ( friction ? 1 : 8 );
+            final double skateboardY = skateboardBounds.getY() + ( friction ? 1 : 6 );
             double topY = -nodes.take( index ).map( new F<StackableNode, Double>() {
                 @Override public Double f( final StackableNode n ) {
                     return n.getFullBounds().getHeight();
