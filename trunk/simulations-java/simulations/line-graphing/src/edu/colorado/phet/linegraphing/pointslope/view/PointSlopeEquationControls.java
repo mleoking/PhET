@@ -22,6 +22,6 @@ class PointSlopeEquationControls extends EquationControls {
                model.savedLines,
                viewProperties.interactiveEquationVisible,
                viewProperties.linesVisible,
-               new PointSlopeInteractiveEquationNode( model.interactiveLine, model.riseRange, model.runRange, model.x1Range, model.y1Range ) );
+               new PointSlopeInteractiveEquationNode( model.interactiveLine, model.x1Range, model.y1Range, model.riseRange, model.runRange ) );
     }
 }

@@ -60,19 +60,15 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
 
     // Constructor that makes x1, y1, and slope interactive.
     public PointSlopeInteractiveEquationNode( Property<Line> interactiveLine,
-                                              Property<DoubleRange> riseRange,
-                                              Property<DoubleRange> runRange,
-                                              Property<DoubleRange> x1Range,
-                                              Property<DoubleRange> y1Range ) {
-        this( interactiveLine, riseRange, runRange, x1Range, y1Range, true, true, true );
+                                              Property<DoubleRange> x1Range, Property<DoubleRange> y1Range,
+                                              Property<DoubleRange> riseRange, Property<DoubleRange> runRange ) {
+        this( interactiveLine, x1Range, y1Range, riseRange, runRange, true, true, true );
     }
 
     // Constructor that allows you to specify which parts of the equation are interactive.
     public PointSlopeInteractiveEquationNode( Property<Line> interactiveLine,
-                                              Property<DoubleRange> riseRange,
-                                              Property<DoubleRange> runRange,
-                                              Property<DoubleRange> x1Range,
-                                              Property<DoubleRange> y1Range,
+                                              Property<DoubleRange> x1Range, Property<DoubleRange> y1Range,
+                                              Property<DoubleRange> riseRange, Property<DoubleRange> runRange,
                                               boolean interactiveX1,
                                               boolean interactiveY1,
                                               boolean interactiveSlope ) {
@@ -427,12 +423,12 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         Property<DoubleRange> y1Range = new Property<DoubleRange>( range );
 
         // equations, all combinations of interactivity
-        PointSlopeInteractiveEquationNode equationNode1 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, true, true );
-        PointSlopeInteractiveEquationNode equationNode2 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, false, false, true );
-        PointSlopeInteractiveEquationNode equationNode3 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, true, false );
-        PointSlopeInteractiveEquationNode equationNode4 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, true, false, false );
-        PointSlopeInteractiveEquationNode equationNode5 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, false, true, false );
-        PointSlopeInteractiveEquationNode equationNode6 = new PointSlopeInteractiveEquationNode( line, riseRange, runRange, x1Range, y1Range, false, false, false );
+        PointSlopeInteractiveEquationNode equationNode1 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, true );
+        PointSlopeInteractiveEquationNode equationNode2 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, true );
+        PointSlopeInteractiveEquationNode equationNode3 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, false );
+        PointSlopeInteractiveEquationNode equationNode4 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, false, false );
+        PointSlopeInteractiveEquationNode equationNode5 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, true, false );
+        PointSlopeInteractiveEquationNode equationNode6 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, false );
 
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();
