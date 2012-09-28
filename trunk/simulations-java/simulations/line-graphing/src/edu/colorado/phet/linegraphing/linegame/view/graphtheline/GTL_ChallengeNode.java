@@ -41,7 +41,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 
         // The equation for the answer.
-        final EquationNode answerEquationNode = createEquationNode( challenge.answer, GameConstants.EQUATION_FONT, challenge.answer.color );
+        final EquationNode answerEquationNode = createEquationNode( challenge.answer, GameConstants.STATIC_EQUATION_FONT, challenge.answer.color );
 
         // The equation for the current guess will be a child of this node, to maintain rendering order.
         final PNode guessEquationParent = new PNode();
@@ -127,7 +127,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
             public void apply( Line line ) {
                 guessEquationParent.removeAllChildren();
                 Color color = challenge.isCorrect() ? GameConstants.ANSWER_COLOR : GameConstants.GUESS_COLOR;
-                guessEquationParent.addChild( createEquationNode( line, GameConstants.EQUATION_FONT, color ) );
+                guessEquationParent.addChild( createEquationNode( line, GameConstants.STATIC_EQUATION_FONT, color ) );
                 guessEquationParent.setOffset( answerEquationNode.getXOffset(),
                                                answerEquationNode.getFullBoundsReference().getMaxY() + 30 );
             }

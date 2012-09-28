@@ -76,17 +76,17 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
-    private PointSlopeInteractiveEquationNode( final Property<Line> interactiveLine,
-                                               Property<DoubleRange> riseRange,
-                                               Property<DoubleRange> runRange,
-                                               Property<DoubleRange> x1Range,
-                                               Property<DoubleRange> y1Range,
-                                               final boolean interactiveX1,
-                                               final boolean interactiveY1,
-                                               final boolean interactiveSlope,
-                                               PhetFont interactiveFont,
-                                               PhetFont staticFont,
-                                               final Color staticColor ) {
+    public PointSlopeInteractiveEquationNode( final Property<Line> interactiveLine,
+                                              Property<DoubleRange> riseRange,
+                                              Property<DoubleRange> runRange,
+                                              Property<DoubleRange> x1Range,
+                                              Property<DoubleRange> y1Range,
+                                              final boolean interactiveX1,
+                                              final boolean interactiveY1,
+                                              final boolean interactiveSlope,
+                                              PhetFont interactiveFont,
+                                              PhetFont staticFont,
+                                              final Color staticColor ) {
         super( staticFont.getSize() );
 
         this.rise = new Property<Double>( interactiveLine.get().rise );

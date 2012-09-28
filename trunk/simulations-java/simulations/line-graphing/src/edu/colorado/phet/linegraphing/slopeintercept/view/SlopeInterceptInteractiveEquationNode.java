@@ -75,15 +75,15 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
-    private SlopeInterceptInteractiveEquationNode( final Property<Line> interactiveLine,
-                                                   Property<DoubleRange> riseRange,
-                                                   Property<DoubleRange> runRange,
-                                                   Property<DoubleRange> yInterceptRange,
-                                                   final boolean interactiveSlope,
-                                                   final boolean interactiveIntercept,
-                                                   PhetFont interactiveFont,
-                                                   PhetFont staticFont,
-                                                   final Color staticColor ) {
+    public SlopeInterceptInteractiveEquationNode( final Property<Line> interactiveLine,
+                                                  Property<DoubleRange> riseRange,
+                                                  Property<DoubleRange> runRange,
+                                                  Property<DoubleRange> yInterceptRange,
+                                                  final boolean interactiveSlope,
+                                                  final boolean interactiveIntercept,
+                                                  PhetFont interactiveFont,
+                                                  PhetFont staticFont,
+                                                  final Color staticColor ) {
         super( staticFont.getSize() );
 
         this.rise = new Property<Double>( interactiveLine.get().rise );

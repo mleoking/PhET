@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.view.maketheequation;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -26,12 +28,13 @@ public class MTE_PS_Slope_ChallengeNode extends MTE_PS_ChallengeNode {
     }
 
     // Creates the equation portion of the view.
-    @Override protected InteractiveEquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont font ) {
+    @Override protected InteractiveEquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor ) {
         return new PointSlopeInteractiveEquationNode( line,
                                                       new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
                                                       new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
                                                       new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
                                                       new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
-                                                      false, false, true );
+                                                      false, false, true,
+                                                      interactiveFont, staticFont, staticColor );
     }
 }
