@@ -185,8 +185,13 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( "Speed", 125, model.speed, STROBE_SPEED ) {{scale( 0.25 );}} );
         final VBox vbox = friction ?
-                          new VBox( 0, VBox.LEFT_ALIGNED, new PSwing( showForcesCheckBox ), indent( showValuesCheckBox ), indent( showSumOfForcesCheckBox ), speedControlPanel, new PSwing( massCheckBox ), new FrictionSliderControl( model.frictionValue ) ) :
-                          new VBox( 0, VBox.LEFT_ALIGNED, new PSwing( showForcesCheckBox ), indent( showValuesCheckBox ), speedControlPanel, new PSwing( massCheckBox ) );
+                          new VBox( 0, VBox.LEFT_ALIGNED, new PSwing( showForcesCheckBox ), indent( showValuesCheckBox ), indent( showSumOfForcesCheckBox ),
+                                    speedControlPanel,
+                                    new PSwing( massCheckBox ),
+                                    new FrictionSliderControl( model.frictionValue ) ) :
+                          new VBox( 0, VBox.LEFT_ALIGNED, new PSwing( showForcesCheckBox ), indent( showValuesCheckBox ),
+                                    speedControlPanel,
+                                    new PSwing( massCheckBox ) );
 
         final ControlPanelNode controlPanelNode = new ControlPanelNode( vbox, new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
         controlPanelNode.setOffset( STAGE_SIZE.width - controlPanelNode.getFullWidth() - INSET, INSET );
