@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -272,8 +273,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         StackableNode man = new StackableNode( this, multiScaleToHeight( Images.MAN_SITTING, (int) ( 200 / 150.0 * 100.0 ) ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ), false );
         StackableNode trash = new StackableNode( this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47, showMasses, false );
         StackableNode gift = new StackableNode( this, multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40, showMasses, false ) {
-            @Override protected String getMassDisplayString( final double mass ) {
-                return "?";
+            @Override protected Pair<Integer, String> getMassDisplayString( final double mass ) {
+
+                //Add some padding on either side of the "?" for the gift to make it easier to read
+                return new Pair<Integer, String>( 12, "?" );
             }
         };
 
