@@ -1,3 +1,4 @@
+9/29/12 fix which lines are "seen" by the point tools for "Make the Equation" challenges
 9/29/12 change signature of PointSlopeInteractiveEquationNode constructors so that "point" params are before "slope" params
 9/29/12 add "Make the Equation" challenges for point-slope form
 9/29/12 change interface to GTL_ChallengeNode.createGraphNode

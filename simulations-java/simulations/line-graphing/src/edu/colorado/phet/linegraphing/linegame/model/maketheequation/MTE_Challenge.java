@@ -44,7 +44,7 @@ public abstract class MTE_Challenge extends Challenge {
         graph = new Graph( xRange, yRange );
 
         allLines = new ObservableList<Line>();
-        allLines.add( guess );
+        allLines.add( answer );
         this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.05 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
         this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.35 * xRange.getLength() ), yRange.getMin() - 4 ), Orientation.DOWN, allLines );
 
@@ -55,7 +55,7 @@ public abstract class MTE_Challenge extends Challenge {
         } );
     }
 
-    // Visibility of the answer affects whether it is "seen" by the point tools.
+    // Visibility of the answer affects whether the user's guess is "seen" by the point tools.
     @Override public void setAnswerVisible( boolean visible ) {
         answerVisible = visible;
         updateLines();
@@ -64,12 +64,12 @@ public abstract class MTE_Challenge extends Challenge {
     // Updates the list of lines that are visible to the point tools.
     private void updateLines() {
         allLines.clear();
-        allLines.add( guess.get() );
+        allLines.add( answer );
         if ( answerVisible ) {
-            allLines.add( answer );
+            allLines.add( guess.get() );
         }
         else {
-            allLines.remove( answer );
+            allLines.remove( guess.get() );
         }
     }
 }
