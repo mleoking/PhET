@@ -13,6 +13,7 @@ DESIGN
 - Game: do we need point-slope challenges where only 1 component of point (x1 or y1) is interactive?
 
 HIGH
+- interactive equations look smaller than static equations for the same font
 - random creation of challenges, subject to constraints tbd (or create a very large set of canned challenges)
 
 MEDIUM
