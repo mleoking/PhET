@@ -1,3 +1,4 @@
+Tab 2-3: Gray out the part of the slider that is inaccessible
 Tab 2-3: Fixed: Correctly show fallen pusher when velocity exceeded
 Tab 2-3: Clamp slider knob when value exceeded
 # 0.00.20 (68501) Sep 27, 2012
