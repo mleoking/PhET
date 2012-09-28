@@ -112,8 +112,8 @@ public class StackableNode extends PNode {
         addChild( imageNode );
         setScale( 0.8 );
         final PNode textLabel = new ZeroOffsetNode( new PNode() {{
-            final PhetPText text = new PhetPText( getMassDisplayString( mass ), new PhetFont( 14, true ) );
-            final PhetPPath textBackground = new PhetPPath( round( expand( text.getFullBounds(), 5, 5 ), 20, 20 ), Color.white, new BasicStroke( 1 ), Color.gray );
+            final PhetPText text = new PhetPText( getMassDisplayString( mass ), new PhetFont( 18, true ) );
+            final PhetPPath textBackground = new PhetPPath( round( expand( text.getFullBounds(), 3, 3 ), 18, 18 ), Color.white, new BasicStroke( 1 ), Color.gray );
             addChild( textBackground );
             addChild( text );
 

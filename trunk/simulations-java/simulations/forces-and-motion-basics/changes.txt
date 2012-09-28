@@ -1,3 +1,5 @@
+Tab 2-3: Increased font size and look for mass readouts
+Tab 2-3: Rounded off object masses
 Tab 1: Changed "Restart" to "Return"
 Tab 2-3: Gray out the inaccessible part of the slider for at least 1 second, to prevent flickering behavior especially on Tab 3
 Tab 2-3: Gray out the part of the slider that is inaccessible
