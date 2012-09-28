@@ -196,4 +196,6 @@ public class VSliderNode extends SliderNode {
             setDefaultCloseOperation( EXIT_ON_CLOSE );
         }}.setVisible( true );
     }
+
+    public PhetPPath getTrackNode() { return trackNode; }
 }

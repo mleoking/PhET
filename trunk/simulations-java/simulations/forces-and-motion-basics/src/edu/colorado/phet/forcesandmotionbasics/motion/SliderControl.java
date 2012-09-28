@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
@@ -20,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -31,8 +33,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode.DEFAULT_TRACK_THICKNESS;
 import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.CONTROL_FONT;
-import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.RIGHT_SPEED_EXCEEDED;
-import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.WITHIN_ALLOWED_RANGE;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
 
 /**
  * @author Sam Reid
@@ -68,13 +69,36 @@ public class SliderControl extends PNode {
         };
 
         sliderNode = new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForceSliderModel, enabled ) {{
-            addLabel( 0, new EnablePhetPText( "0", CONTROL_FONT, enabled ) );
-            addLabel( -50, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
-            addLabel( -100, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
-            addLabel( 50, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
-            addLabel( 100, new PhetPText( "100", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
+            PhetPPath tick1 = addLabel( -100, dummyLabel() );
+            PhetPPath tick2 = addLabel( -50, dummyLabel() );
+            PhetPPath tick3 = addLabel( 0, new EnablePhetPText( "0", CONTROL_FONT, enabled ) );
+            PhetPPath tick4 = addLabel( 50, dummyLabel() );
+            PhetPPath tick5 = addLabel( 100, dummyLabel() );
+
+            //Gray out the ticks if the speed is exceeded.
+            speedValue.addObserver( grayIf( tick1, LEFT_SPEED_EXCEEDED ) );
+            speedValue.addObserver( grayIf( tick2, LEFT_SPEED_EXCEEDED ) );
+            speedValue.addObserver( grayIf( tick4, RIGHT_SPEED_EXCEEDED ) );
+            speedValue.addObserver( grayIf( tick5, RIGHT_SPEED_EXCEEDED ) );
 
             setTrackFillPaint( Color.white );
+
+            //Gray out the half of the track that is unavailable
+            //Note the metrics are rotated since it is an HSliderNode wrapping a VSliderNode.
+            getTrackNode().addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, getTrackNode().getFullBounds().getWidth(), getTrackNode().getFullBounds().getHeight() / 2 ), Color.lightGray ) {{
+                speedValue.addObserver( new VoidFunction1<SpeedValue>() {
+                    public void apply( final SpeedValue speedValue ) {
+                        setVisible( speedValue == RIGHT_SPEED_EXCEEDED );
+                    }
+                } );
+            }} );
+            getTrackNode().addChild( new PhetPPath( new Rectangle2D.Double( 0, getTrackNode().getFullBounds().getHeight() / 2, getTrackNode().getFullBounds().getWidth(), getTrackNode().getFullBounds().getHeight() / 2 ), Color.lightGray ) {{
+                speedValue.addObserver( new VoidFunction1<SpeedValue>() {
+                    public void apply( final SpeedValue speedValue ) {
+                        setVisible( speedValue == LEFT_SPEED_EXCEEDED );
+                    }
+                } );
+            }} );
 
             //When dropping the slider thumb, the value should go back to 0.  The user has to hold the thumb to keep applying the force
             addInputEventListener( new PBasicInputEventHandler() {
@@ -131,6 +155,16 @@ public class SliderControl extends PNode {
         );
 
         addChild( box );
+    }
+
+    private PhetPText dummyLabel() {return new PhetPText( "a", CONTROL_FONT ) {{ setTransparency( 0.0f ); }};}
+
+    private VoidFunction1<SpeedValue> grayIf( final PhetPPath path, final SpeedValue value ) {
+        return new VoidFunction1<SpeedValue>() {
+            public void apply( final SpeedValue speedValue ) {
+                path.setStrokePaint( speedValue == value ? Color.gray : Color.black );
+            }
+        };
     }
 
     private class EnablePhetPText extends PhetPText {

@@ -70,8 +70,10 @@ public class HSliderNode extends SliderNode {
         node.setTrackFillPaint( paint );
     }
 
-    //Adds a label to the slider node
-    public void addLabel( double value, PNode labelNode ) {
+    public PhetPPath getTrackNode() { return node.getTrackNode();}
+
+    //Adds a label to the slider node and return the created tick
+    public PhetPPath addLabel( double value, PNode labelNode ) {
 
         //Wrap in a zero offset node for rotating the label
         //Wrap in another layer for setting the offset independently of the rotation
@@ -95,6 +97,8 @@ public class HSliderNode extends SliderNode {
         tickMark.moveToBack();
 
         node.adjustOrigin();
+
+        return tickMark;
     }
 
     public static void main( String[] args ) {
