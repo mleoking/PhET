@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
 
-import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -78,7 +78,6 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final ImageButtonNodeWithText goButton;
     private final PNode knotLayer;
     private final PNode flagLayer;
-    private GameAudioPlayer gameAudioPlayer = new GameAudioPlayer( true );
 
     public static enum Mode {WAITING, GOING, COMPLETE}
 
@@ -297,7 +296,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         flagNode.setOffset( STAGE_SIZE.width / 2 - flagNode.getFullBounds().getWidth() / 2, 0 - flagNode.getFullBounds().getHeight() );
         flagNode.animateToTransparency( 1, 200 );
         flagNode.animateToPositionScaleRotation( STAGE_SIZE.width / 2 - flagNode.getFullBounds().getWidth() / 2, 10, 1, 0, 200 );
-        gameAudioPlayer.gameOverPerfectScore();
+        new PhetAudioClip( "forces-and-motion-basics/audio/golf-clap.wav" ).play();
     }
 
     private Shape getBounds( final F<PullerNode, Boolean> color ) {

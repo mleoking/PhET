@@ -1,3 +1,4 @@
+Tab 1: Added golf clap audio
 # 0.00.22 (68548) Sep 28, 2012
 Tab 2-3: Add some padding on either side of the "?" for the gift to make it easier to read
 Tab 2-3: Don't allow stacking on garbage can or gift
