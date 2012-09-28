@@ -217,7 +217,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         }};
         addChild( stopButton );
 
-        addChild( new TextButtonNode( "Restart", CONTROL_FONT, Color.orange ) {{
+        addChild( new TextButtonNode( "Return", CONTROL_FONT, Color.orange ) {{
             setOffset( stopButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, stopButton.getFullBounds().getMaxY() + INSET );
             mode.addObserver( new VoidFunction1<Mode>() {
                 public void apply( final Mode mode ) {
