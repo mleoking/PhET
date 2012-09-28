@@ -1,0 +1,38 @@
+// Copyright 2002-2012, University of Colorado
+package edu.colorado.phet.linegraphing.linegame.view.maketheequation;
+
+import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
+import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
+import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptInteractiveEquationNode;
+import edu.umd.cs.piccolo.util.PDimension;
+
+/**
+ * View component for a "Make the Equation" (MTE) challenge.
+ * Given an equation in slope-intercept (SI) form, make the equation by changing the Intercept.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class MTE_SI_Intercept_ChallengeNode extends MTE_SI_ChallengeNode {
+
+    //TODO: these should come from somewhere else
+    private static final Property<DoubleRange> RISE_RANGE = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
+    private static final Property<DoubleRange> RUN_RANGE = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
+    private static final Property<DoubleRange> Y_INTERCEPT_RANGE = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
+
+    public MTE_SI_Intercept_ChallengeNode( final LineGameModel model, MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+        super( model, challenge, audioPlayer, challengeSize );
+    }
+
+    // Creates the equation portion of the view.
+    @Override protected InteractiveEquationNode createEquationNode( Property<Line> line, PhetFont font ) {
+        return new SlopeInterceptInteractiveEquationNode( line, RISE_RANGE, RUN_RANGE, Y_INTERCEPT_RANGE, false, true );
+    }
+}
