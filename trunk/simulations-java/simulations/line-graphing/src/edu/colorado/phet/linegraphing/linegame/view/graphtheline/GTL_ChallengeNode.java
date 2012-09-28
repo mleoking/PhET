@@ -43,7 +43,10 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
 
         PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 
-        final EquationNode equationNode = createEquationNode( challenge.answer, GameConstants.EQUATION_FONT, GameConstants.GIVEN_COLOR );
+        final EquationNode answerEquationNode = createEquationNode( challenge.answer, GameConstants.EQUATION_FONT, GameConstants.GIVEN_COLOR );
+
+        final PNode guessEquationParent = new PNode();
+        guessEquationParent.setVisible( false );
 
         final GTL_GraphNode graphNode = createGraphNode( challenge.graph, challenge.guess, challenge.answer, challenge.mvt );
 
@@ -73,8 +76,10 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
         {
             titleNode.setPickable( false );
             titleNode.setChildrenPickable( false );
-            equationNode.setPickable( false );
-            equationNode.setChildrenPickable( false );
+            answerEquationNode.setPickable( false );
+            answerEquationNode.setChildrenPickable( false );
+            guessEquationParent.setPickable( false );
+            guessEquationParent.setChildrenPickable( false );
             faceNode.setPickable( false );
             faceNode.setChildrenPickable( false );
             pointsAwardedNode.setPickable( false );
@@ -84,7 +89,8 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
         // rendering order
         {
             addChild( titleNode );
-            addChild( equationNode );
+            addChild( answerEquationNode );
+            addChild( guessEquationParent );
             addChild( graphNode );
             addChild( checkButton );
             addChild( tryAgainButton );
@@ -101,8 +107,8 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
             titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
                                  10 );
             // equation centered in left half of challenge space
-            equationNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
-                                    ( challengeSize.getHeight() / 2 ) - ( equationNode.getFullBoundsReference().getHeight() / 2 ) );
+            answerEquationNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( answerEquationNode.getFullBoundsReference().getWidth() / 2 ),
+                                          ( challengeSize.getHeight() / 2 ) - ( answerEquationNode.getFullBoundsReference().getHeight() / 2 ) );
             // graphNode is positioned automatically based on mvt's origin offset.
             // buttons centered at bottom of challenge space
             final double ySpacing = 15;
@@ -116,6 +122,17 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
             faceNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( faceNode.getFullBoundsReference().getWidth() / 2 ),
                                 ( challengeSize.getHeight() / 2 ) - ( faceNode.getFullBoundsReference().getHeight() / 2 ) );
         }
+
+        // Function that keeps the guess equation updated as the user manipulates the line.
+        challenge.guess.addObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
+                guessEquationParent.removeAllChildren();
+                Color color = challenge.isCorrect() ? GameConstants.ANSWER_COLOR : GameConstants.GUESS_COLOR;
+                guessEquationParent.addChild( createEquationNode( line, GameConstants.EQUATION_FONT, color ) );
+                guessEquationParent.setOffset( answerEquationNode.getFullBoundsReference().getMinX(),
+                                               answerEquationNode.getFullBoundsReference().getMaxY() + 30 );
+            }
+        } );
 
         // state changes
         model.state.addObserver( new VoidFunction1<PlayState>() {
@@ -138,6 +155,9 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
                 // states in which the graph is interactive
                 graphNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || state == PlayState.NEXT );
                 graphNode.setChildrenPickable( graphNode.getPickable() );
+
+                // Should the equation for the user's guess if they didn't succeed at the challenge.
+                guessEquationParent.setVisible( state == PlayState.NEXT && !challenge.isCorrect() );
             }
         } );
 
@@ -147,7 +167,7 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
                 if ( challenge.isCorrect() ) {
                     faceNode.smile();
                     audioPlayer.correctAnswer();
-                    equationNode.setPaintDeep( GameConstants.ANSWER_COLOR );
+                    answerEquationNode.setPaintDeep( GameConstants.ANSWER_COLOR );
                     challenge.guess.set( challenge.guess.get().withColor( GameConstants.ANSWER_COLOR ) );
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.results.score.set( model.results.score.get() + points );
@@ -183,7 +203,7 @@ public abstract class GTL_ChallengeNode extends PhetPNode {
             public void actionPerformed( ActionEvent e ) {
                 graphNode.setAnswerVisible( true );
                 model.state.set( PlayState.NEXT );
-                equationNode.setPaintDeep( GameConstants.ANSWER_COLOR );
+                answerEquationNode.setPaintDeep( GameConstants.ANSWER_COLOR );
             }
         } );
 
