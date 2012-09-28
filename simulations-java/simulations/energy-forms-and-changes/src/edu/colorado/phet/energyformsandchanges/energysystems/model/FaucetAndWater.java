@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -37,6 +38,7 @@ public class FaucetAndWater extends EnergySource {
     private static final double MAX_WATER_WIDTH = 0.015; // In meters.
     private static final double MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER = 0.5; // In meters.
     private static final Random RAND = new Random();
+    private static final DoubleRange ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE = new DoubleRange( 0.07, 0.09 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -52,6 +54,10 @@ public class FaucetAndWater extends EnergySource {
     // Shape of the water coming from the faucet.  The shape is specified
     // relative to the water origin.
     public final Property<Shape> waterShape = new Property<Shape>( createWaterShapeFromPoints( waterShapeDefiningPoints ) );
+
+    // List of chunks that are not being transferred to the next energy system
+    // element.
+    public final List<EnergyChunk> exemptFromTransferEnergyChunks = new ArrayList<EnergyChunk>();
 
     private double flowSinceLastChunk = 0;
     private final BooleanProperty energyChunksVisible;
@@ -94,6 +100,12 @@ public class FaucetAndWater extends EnergySource {
 
                 // Make the chunk fall.
                 energyChunk.translateBasedOnVelocity( dt );
+
+                // See if chunk should be transferred to next energy system.
+                if ( ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE.contains( getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).getY() - energyChunk.position.get().y ) ) {
+                    // Send to the next system.
+                    outgoingEnergyChunks.add( energyChunk );
+                }
 
                 // Remove it if it is out of visible range.
                 if ( getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).distance( energyChunk.position.get() ) > MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER ) {
