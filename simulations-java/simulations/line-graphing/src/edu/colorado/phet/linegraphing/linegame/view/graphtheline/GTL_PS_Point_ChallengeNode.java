@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.linegame.view.graphtheline;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -17,7 +16,6 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
-import edu.colorado.phet.linegraphing.linegame.view.ChallengeGraphNode;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -36,7 +34,7 @@ public class GTL_PS_Point_ChallengeNode extends GTL_PS_ChallengeNode {
     }
 
     // Creates the graph portion of the view.
-    @Override protected ChallengeGraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
+    @Override protected GTL_ChallengeGraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
         return new ThisGraphNode( graph, guessLine, answerLine, mvt );
     }
 
@@ -50,7 +48,7 @@ public class GTL_PS_Point_ChallengeNode extends GTL_PS_ChallengeNode {
                               Property<Line> guessLine,
                               Line answerLine,
                               final ModelViewTransform mvt ) {
-            super( graph, mvt );
+            super( graph, answerLine, mvt );
 
             // parent for the guess node, to maintain rendering order
             final PNode guessNodeParent = new PComposite();
@@ -58,7 +56,7 @@ public class GTL_PS_Point_ChallengeNode extends GTL_PS_ChallengeNode {
             // the correct answer, initially hidden
             answerNode = createAnswerLineNode( answerLine, graph, mvt );
             answerNode.setEquationVisible( false );
-            answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
+            answerNode.setVisible( false );
 
             // point manipulator
             final double manipulatorDiameter = mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
