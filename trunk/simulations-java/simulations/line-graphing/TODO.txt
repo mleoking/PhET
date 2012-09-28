@@ -7,10 +7,10 @@ DESIGN
 - revisit the placement algorithm for equations on graphed lines
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 - Game: more challenges?
-- Game: rules for generating random challenges and initial guess
+- Game: rules for generating random challenges
 - Game: GTL: should the guess equation be in simplified form, or correspond to exactly what the manipulators are set to?
 - Game: GTL: how should the equations (answer vs guess) be labeled?
-- Game: do we need point-slope challenges where only 1 component of point is interactive? (x1 or y1)
+- Game: do we need point-slope challenges where only 1 component of point (x1 or y1) is interactive?
 
 HIGH
 - for MTE challenges, graphed line should be black until matched
