@@ -35,12 +35,12 @@ public class GTL_PS_Points_ChallengeNode extends GTL_PS_ChallengeNode {
     }
 
     // Creates the graph portion of the view.
-    @Override protected GTL_ChallengeGraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
+    @Override protected GTL_GraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
         return new ThisGraphNode( graph, guessLine, answerLine, mvt );
     }
 
     // Graph for this challenge
-    private static class ThisGraphNode extends GTL_PS_ChallengeGraphNode {
+    private static class ThisGraphNode extends GTL_PS_GraphNode {
 
         private final LineNode answerNode;
         private final LineManipulatorNode x1y1ManipulatorNode, x2y2ManipulatorNode;

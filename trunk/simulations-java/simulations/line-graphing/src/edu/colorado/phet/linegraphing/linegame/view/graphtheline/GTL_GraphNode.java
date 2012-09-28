@@ -15,9 +15,9 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class GTL_ChallengeGraphNode extends GraphNode {
+public abstract class GTL_GraphNode extends GraphNode {
 
-    public GTL_ChallengeGraphNode( Graph graph, Line answerLine, ModelViewTransform mvt ) {
+    public GTL_GraphNode( Graph graph, Line answerLine, ModelViewTransform mvt ) {
         super( graph, mvt );
 
         // To reduce brain damage during development, show the answer as a translucent gray line.

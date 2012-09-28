@@ -1,3 +1,4 @@
+9/28/12 game: rename base classes for GTL graph nodes
 9/28/12 game: when dev flag is enabled, show the answer as a translucent gray line (for debugging)
 9/27/12 game: fix color displayed by point tools
 9/27/12 game: move point tools from model container to challenge
