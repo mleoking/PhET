@@ -11,11 +11,8 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -23,6 +20,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
@@ -46,7 +44,11 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         PNode titleNode = new PhetPText( Strings.MAKE_THE_EQUATION, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
 
         // The equation for the user's guess.
-        final InteractiveEquationNode guessEquationNode = createEquationNode( challenge.guess, challenge.graph, GameConstants.EQUATION_FONT );
+        final PNode guessEquationNode = createGuessEquationNode( challenge.guess, challenge.graph, GameConstants.EQUATION_FONT );
+
+        // The equation for the correct answer
+        final PNode answerEquationNode = createAnswerEquationNode( challenge.answer, GameConstants.EQUATION_FONT, challenge.answer.color );
+        answerEquationNode.setVisible( false );
 
         final MTE_GraphNode graphNode = createGraphNode( challenge );
 
@@ -86,6 +88,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         {
             addChild( titleNode );
             addChild( guessEquationNode );
+            addChild( answerEquationNode );
             addChild( graphNode );
             addChild( checkButton );
             addChild( tryAgainButton );
@@ -101,9 +104,12 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
             // title centered at top
             titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
                                  10 );
-            // equation centered in right half of challenge space
+            // guess equation centered in right half of challenge space
             guessEquationNode.setOffset( ( 0.75 * challengeSize.getWidth() ) - ( guessEquationNode.getFullBoundsReference().getWidth() / 2 ),
                                          ( challengeSize.getHeight() / 2 ) - ( guessEquationNode.getFullBoundsReference().getHeight() / 2 ) );
+            // answer below guess
+            answerEquationNode.setOffset( guessEquationNode.getXOffset(),
+                                          guessEquationNode.getFullBoundsReference().getMaxY() + 30 );
             // graphNode is positioned automatically based on mvt's origin offset.
             // buttons centered at bottom of challenge space
             final double ySpacing = 15;
@@ -139,6 +145,9 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
                 // states in which the equation is interactive
                 guessEquationNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || state == PlayState.NEXT );
                 guessEquationNode.setChildrenPickable( guessEquationNode.getPickable() );
+
+                // Show the equation for the user's guess if they didn't succeed at the challenge.
+                answerEquationNode.setVisible( state == PlayState.NEXT && !challenge.isCorrect() );
             }
         } );
 
@@ -194,8 +203,11 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         } );
     }
 
-    // Creates the equation portion of the view.
-    protected abstract InteractiveEquationNode createEquationNode( Property<Line> line, Graph graph, PhetFont font );
+    // Creates the "guess" equation portion of the view.
+    protected abstract InteractiveEquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont font );
+
+    // Creates the "answer" equation portion of the view.
+    protected abstract EquationNode createAnswerEquationNode( Line line, PhetFont font, Color color );
 
     // Creates the graph portion of the view.
     protected abstract MTE_GraphNode createGraphNode( MTE_Challenge challenge );

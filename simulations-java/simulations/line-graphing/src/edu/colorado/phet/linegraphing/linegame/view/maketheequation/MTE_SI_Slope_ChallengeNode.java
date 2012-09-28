@@ -26,7 +26,7 @@ public class MTE_SI_Slope_ChallengeNode extends MTE_SI_ChallengeNode {
     }
 
     // Creates the equation portion of the view.
-    @Override protected InteractiveEquationNode createEquationNode( Property<Line> line, Graph graph, PhetFont font ) {
+    @Override protected InteractiveEquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont font ) {
         return new SlopeInterceptInteractiveEquationNode( line,
                                                           new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
                                                           new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
