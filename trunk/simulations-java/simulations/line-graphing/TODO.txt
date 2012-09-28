@@ -24,6 +24,8 @@ MEDIUM
 - layout of EquationNode and InteractiveEquationNode subclasses is complicated, contains duplication, and will be difficult to maintain. Is there a better way?
 
 LOW
+- dynamic range manipulation in various GTL_SI_GraphNode subclasses is copied from LineFormsModel
+- move GameConstants to LGConstants?
 
 DEVELOPER CONTROLS
 - replay the current Game challenge
