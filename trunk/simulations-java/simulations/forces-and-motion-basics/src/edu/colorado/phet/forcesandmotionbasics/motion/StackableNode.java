@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -116,8 +117,9 @@ public class StackableNode extends PNode {
         addChild( imageNode );
         setScale( 0.8 );
         final PNode textLabel = new ZeroOffsetNode( new PNode() {{
-            final PhetPText text = new PhetPText( getMassDisplayString( mass ), new PhetFont( 18, true ) );
-            final PhetPPath textBackground = new PhetPPath( round( expand( text.getFullBounds(), 3, 3 ), 18, 18 ), Color.white, new BasicStroke( 1 ), Color.gray );
+            final Pair<Integer, String> massDisplayString = getMassDisplayString( mass );
+            final PhetPText text = new PhetPText( massDisplayString._2, new PhetFont( 18, true ) );
+            final PhetPPath textBackground = new PhetPPath( round( expand( text.getFullBounds(), 3 + massDisplayString._1, 3 ), 18, 18 ), Color.white, new BasicStroke( 1 ), Color.gray );
             addChild( textBackground );
             addChild( text );
 
@@ -158,7 +160,7 @@ public class StackableNode extends PNode {
         } );
     }
 
-    protected String getMassDisplayString( final double mass ) {return new DecimalFormat( "0" ).format( mass ) + " kg";}
+    protected Pair<Integer, String> getMassDisplayString( final double mass ) {return new Pair<Integer, String>( 0, new DecimalFormat( "0" ).format( mass ) + " kg" );}
 
     public void animateHome() {
         animateToPositionScaleRotation( initialOffset.x, initialOffset.y, initialScale, 0, 200 );
