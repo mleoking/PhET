@@ -35,15 +35,6 @@ public class MotionModel {
     //Public value for whether a speed should be treated as exceeded.  Once a value is exceeded it is marked as exceeded for 1 second to avoid quirky behavior with slider disabling and re-enabling too quickly
     public final Property<SpeedValue> speedValue = new Property<SpeedValue>( _speedValue.get() );
 
-//    {
-//           @Override public SpeedValue get() {
-//
-//               //if it was exceeded in either direction within the last second, use that value, otherwise normal.
-//               return lastOutOfRangeValue != null && ( System.currentTimeMillis() - lastOutOfRangeValue._2() < 1000 ) ? lastOutOfRangeValue._1() :
-//                      _speedValue.get();
-//           }
-//       };
-
     //Only used in Tab 3 "Friction"
     public final SettableProperty<Double> frictionValue = new Property<Double>( FrictionSliderControl.MAX / 2 );//The coefficient of friction (mu_k = mu_s)
     private Pair<Long, SpeedValue> lastOutOfRange = null;
@@ -59,7 +50,6 @@ public class MotionModel {
         this.frictionForce.set( frictionForce );
         double sumOfForces = frictionForce + appliedForce;
         this.sumOfForces.set( sumOfForces );
-//        System.out.println( "applied: " + appliedForce + ", friction: " + frictionForce + ", sum = " + sumOfForces );
 
         final double mass = massOfObjectsOnSkateboard.f( unit() );
         double acceleration = mass != 0 ? sumOfForces / mass : 0.0;
