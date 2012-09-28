@@ -24,6 +24,7 @@ import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
+import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -34,7 +35,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class GTL_ChallengeNode extends PhetPNode {
+public abstract class GTL_ChallengeNode extends ChallengeNode {
 
     public GTL_ChallengeNode( final LineGameModel model, final GTL_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
