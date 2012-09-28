@@ -4,7 +4,6 @@ package edu.colorado.phet.linegraphing.linegame.view.graphtheline;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -20,7 +19,6 @@ import edu.colorado.phet.linegraphing.common.view.PlottedPointNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
-import edu.colorado.phet.linegraphing.linegame.view.ChallengeGraphNode;
 import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -39,7 +37,7 @@ public class GTL_SI_Slope_ChallengeNode extends GTL_SI_ChallengeNode {
     }
 
     // Creates the graph portion of the view.
-    @Override protected ChallengeGraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
+    @Override protected GTL_ChallengeGraphNode createGraphNode( Graph graph, Property<Line> guessLine, Line answerLine, ModelViewTransform mvt ) {
         return new ThisGraphNode( graph, guessLine, answerLine, mvt );
     }
 
@@ -54,7 +52,7 @@ public class GTL_SI_Slope_ChallengeNode extends GTL_SI_ChallengeNode {
                               Property<Line> guessLine,
                               Line answerLine,
                               final ModelViewTransform mvt ) {
-            super( graph, mvt );
+            super( graph, answerLine, mvt );
 
             // parent for the guess node, to maintain rendering order
             final PNode guessNodeParent = new PComposite();
@@ -62,7 +60,7 @@ public class GTL_SI_Slope_ChallengeNode extends GTL_SI_ChallengeNode {
             // the correct answer, initially hidden
             answerNode = createAnswerLineNode( answerLine, graph, mvt );
             answerNode.setEquationVisible( false );
-            answerNode.setVisible( false || PhetApplication.getInstance().isDeveloperControlsEnabled() );
+            answerNode.setVisible( false );
 
             // intercept
             final double pointDiameter = mvt.modelToViewDeltaX( GameConstants.POINT_DIAMETER );

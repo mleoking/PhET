@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
-import edu.colorado.phet.linegraphing.linegame.view.ChallengeGraphNode;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 
 /**
@@ -13,10 +12,10 @@ import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class GTL_PS_ChallengeGraphNode extends ChallengeGraphNode {
+public abstract class GTL_PS_ChallengeGraphNode extends GTL_ChallengeGraphNode {
 
-    public GTL_PS_ChallengeGraphNode( Graph graph, ModelViewTransform mvt ) {
-        super( graph, mvt );
+    public GTL_PS_ChallengeGraphNode( Graph graph, Line answerLine, ModelViewTransform mvt ) {
+        super( graph, answerLine, mvt );
     }
 
     @Override protected LineNode createAnswerLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
