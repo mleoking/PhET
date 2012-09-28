@@ -1,3 +1,4 @@
+Tab 2-3: indent force-related items, like "values" and "sum of forces"
 Tab 2-3: Increased font size and look for mass readouts
 Tab 2-3: Rounded off object masses
 Tab 1: Changed "Restart" to "Return"
