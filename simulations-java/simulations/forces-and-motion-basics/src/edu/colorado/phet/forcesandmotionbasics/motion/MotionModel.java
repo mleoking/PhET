@@ -10,6 +10,9 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleP
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 
+import static edu.colorado.phet.forcesandmotionbasics.motion.MotionCanvas.STROBE_SPEED;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
+
 /**
  * @author Sam Reid
  */
@@ -23,6 +26,7 @@ public class MotionModel {
     public final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
     private final boolean friction;
     public final F<Unit, Double> massOfObjectsOnSkateboard;
+    public final Property<SpeedValue> speedValue = new Property<SpeedValue>( WITHIN_ALLOWED_RANGE );
 
     //Only used in Tab 3 "Friction"
     public final SettableProperty<Double> frictionValue = new Property<Double>( FrictionSliderControl.MAX / 2 );
@@ -53,6 +57,9 @@ public class MotionModel {
         velocity.set( newVelocity );
         position.set( position.get() + velocity.get() * dt );
         speed.set( new Some<Double>( Math.abs( velocity.get() ) ) );
+        speedValue.set( velocity.get() >= STROBE_SPEED ? RIGHT_SPEED_EXCEEDED :
+                        velocity.get() <= -STROBE_SPEED ? LEFT_SPEED_EXCEEDED :
+                        WITHIN_ALLOWED_RANGE );
     }
 
     private double getFrictionForce( final double appliedForce ) {

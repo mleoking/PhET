@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -30,6 +31,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode.DEFAULT_TRACK_THICKNESS;
 import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.CONTROL_FONT;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.RIGHT_SPEED_EXCEEDED;
+import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.WITHIN_ALLOWED_RANGE;
 
 /**
  * @author Sam Reid
@@ -38,11 +41,33 @@ public class SliderControl extends PNode {
 
     private final HSliderNode sliderNode;
 
-    public SliderControl( final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction ) {
+    public SliderControl( final Property<SpeedValue> speedValue, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction ) {
 
         final Not enabled = Not.not( stack.valueEquals( List.<StackableNode>nil() ) );
         final String unitsString = friction ? "Newtons (N)" : "Newtons";
-        sliderNode = new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForce, enabled ) {{
+
+        SettableProperty<Double> appliedForceSliderModel = new SettableProperty<Double>( appliedForce.get() ) {
+            @Override public void set( final Double value ) {
+                if ( speedValue.get() == WITHIN_ALLOWED_RANGE ) { appliedForce.set( value ); }
+                else if ( speedValue.get() == RIGHT_SPEED_EXCEEDED ) { appliedForce.set( MathUtil.clamp( -100, value, 0 ) ); }
+                else { appliedForce.set( MathUtil.clamp( 0, value, 100 ) ); }
+                notifyIfChanged();
+            }
+
+            @Override public Double get() { return appliedForce.get(); }
+
+            {
+                speedValue.addObserver( new VoidFunction1<SpeedValue>() {
+                    public void apply( final SpeedValue speedValue ) {
+
+                        //Pass the current value through the filter in case it now needs to be clamped.
+                        set( get() );
+                    }
+                } );
+            }
+        };
+
+        sliderNode = new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForceSliderModel, enabled ) {{
             addLabel( 0, new EnablePhetPText( "0", CONTROL_FONT, enabled ) );
             addLabel( -50, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
             addLabel( -100, new PhetPText( "a", CONTROL_FONT ) {{setTransparency( 0.0f );}} );
