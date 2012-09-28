@@ -10,9 +10,10 @@ DESIGN
 - Game: rules for generating random challenges and initial guess
 - Game: GTL: should the guess equation be in simplified form, or correspond to exactly what the manipulators are set to?
 - Game: GTL: how should the equations (answer vs guess) be labeled?
+- Game: do we need point-slope challenges where only 1 component of point is interactive? (x1 or y1)
 
 HIGH
-- example of each "Make the Equation" game challenge
+- for MTE challenges, graphed line should be black until matched
 - in "Show Answer" for "Make the Equation", show the answer as a separate read-only equation below the interactive equation
 - random creation of challenges, subject to constraints tbd (or create a very large set of canned challenges)
 
