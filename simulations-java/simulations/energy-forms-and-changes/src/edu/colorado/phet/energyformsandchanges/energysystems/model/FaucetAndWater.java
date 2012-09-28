@@ -38,7 +38,7 @@ public class FaucetAndWater extends EnergySource {
     private static final double MAX_WATER_WIDTH = 0.015; // In meters.
     private static final double MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER = 0.5; // In meters.
     private static final Random RAND = new Random();
-    private static final DoubleRange ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE = new DoubleRange( 0.07, 0.09 );
+    private static final DoubleRange ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE = new DoubleRange( 0.05, 0.06 );
 
     //-------------------------------------------------------------------------
     // Instance Data
