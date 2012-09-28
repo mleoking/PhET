@@ -11,7 +11,6 @@ import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeInteractiveEquationNode;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptInteractiveEquationNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -29,10 +28,10 @@ public class MTE_PS_Point_ChallengeNode extends MTE_PS_ChallengeNode {
     // Creates the equation portion of the view.
     @Override protected InteractiveEquationNode createEquationNode( Property<Line> line, Graph graph, PhetFont font ) {
         return new PointSlopeInteractiveEquationNode( line,
-                                                      new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
-                                                      new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
                                                       new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
                                                       new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                                      new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                                      new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
                                                       true, true, false );
     }
 }
