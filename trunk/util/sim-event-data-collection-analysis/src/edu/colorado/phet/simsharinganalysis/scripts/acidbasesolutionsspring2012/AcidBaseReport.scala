@@ -15,6 +15,7 @@ object AcidBaseReport {
   def isAcidBaseClick(log: Log, e: Entry) = {
     e match {
 
+      case Entry(_, "user", _, _, "textFieldCorrected", _) => false //Do not count text field corrections as events
       case x: Entry if completedCircuit(log, x) => true
       case x: Entry if dunkedPHPaper(log, x) => true
       case x: Entry if dunkedPHMeter(log, x) => true
