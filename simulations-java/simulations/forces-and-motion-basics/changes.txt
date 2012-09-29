@@ -1,3 +1,4 @@
+# 0.00.23 (68587) Sep 28, 2012
 Tab 2-3: make it so rock doesn't overlap the character on startup
 Tab 2-3: Fixed: The force slider does not snap back to zero. The force does go to zero, but the handle doesn't snap back
 Tab 2-3: Added rocks to the background
