@@ -69,6 +69,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final PImage cartNode;
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
+    private final Property<Boolean> sound = new Property<Boolean>( true );
     private Property<Mode> mode = new Property<Mode>( Mode.WAITING );
     private Cart cart = new Cart();
     private ArrayList<PullerNode> pullers = new ArrayList<PullerNode>();
@@ -98,15 +99,14 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         grassNode.setOffset( -2, grassY - 2 );
         addChild( grassNode );
 
-        final JCheckBox sumOfForcesCheckBox = new PropertyCheckBox( null, "Sum of Forces", showSumOfForces ) {{
-            setFont( CONTROL_FONT );
-        }};
+        final JCheckBox sumOfForcesCheckBox = new PropertyCheckBox( null, "Sum of Forces", showSumOfForces ) {{ setFont( CONTROL_FONT ); }};
         final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( CONTROL_FONT );}};
+        final JCheckBox soundCheckBox = new PropertyCheckBox( null, "Sound", sound ) {{setFont( CONTROL_FONT );}};
         final ControlPanelNode controlPanelNode = new ControlPanelNode(
                 new VBox( 2, VBox.LEFT_ALIGNED,
 
                           //Nudge "show" to the right so it will align with checkboxes
-                          new PSwing( showValuesCheckBox ), new PSwing( sumOfForcesCheckBox ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
+                          new PSwing( showValuesCheckBox ), new PSwing( sumOfForcesCheckBox ), new PSwing( soundCheckBox ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
         controlPanelNode.setOffset( STAGE_SIZE.width - controlPanelNode.getFullWidth() - INSET, INSET );
         addChild( controlPanelNode );
 
@@ -295,7 +295,9 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         flagNode.setOffset( STAGE_SIZE.width / 2 - flagNode.getFullBounds().getWidth() / 2, 0 - flagNode.getFullBounds().getHeight() );
         flagNode.animateToTransparency( 1, 200 );
         flagNode.animateToPositionScaleRotation( STAGE_SIZE.width / 2 - flagNode.getFullBounds().getWidth() / 2, 10, 1, 0, 200 );
-        new PhetAudioClip( "forces-and-motion-basics/audio/golf-clap.wav" ).play();
+        if ( sound.get() ) {
+            new PhetAudioClip( "forces-and-motion-basics/audio/golf-clap.wav" ).play();
+        }
     }
 
     private Shape getBounds( final F<PullerNode, Boolean> color ) {
