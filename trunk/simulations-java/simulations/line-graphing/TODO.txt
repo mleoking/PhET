@@ -11,6 +11,7 @@ DESIGN
 - Game: GTL: should the guess equation be in simplified form, or correspond to exactly what the manipulators are set to?
 - Game: GTL: how should the equations (answer vs guess) be labeled?
 - Game: do we need point-slope challenges where only 1 component of point (x1 or y1) is interactive?
+- Game: MTE: for failed challenge, should point and slope be plotted when answer is shown?
 
 HIGH
 - random creation of challenges, subject to constraints tbd (or create a very large set of canned challenges)
