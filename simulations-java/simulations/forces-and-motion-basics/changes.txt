@@ -1,3 +1,4 @@
+Tab 2-3: Added rocks to the background
 Tab 1: Added a sound checkbox
 Tab 1: Fixed: Return button should disappear after being pressed
 Tab 2: Moved up objects so they sit on the skateboard without overlapping it too much
