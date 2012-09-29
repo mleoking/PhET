@@ -58,24 +58,6 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
     private final PPath fractionLineNode;
     private PNode undefinedSlopeIndicator;
 
-    // Constructor that makes x1, y1, and slope interactive.
-    public PointSlopeInteractiveEquationNode( Property<Line> interactiveLine,
-                                              Property<DoubleRange> x1Range, Property<DoubleRange> y1Range,
-                                              Property<DoubleRange> riseRange, Property<DoubleRange> runRange ) {
-        this( interactiveLine, x1Range, y1Range, riseRange, runRange, true, true, true );
-    }
-
-    // Constructor that allows you to specify which parts of the equation are interactive.
-    public PointSlopeInteractiveEquationNode( Property<Line> interactiveLine,
-                                              Property<DoubleRange> x1Range, Property<DoubleRange> y1Range,
-                                              Property<DoubleRange> riseRange, Property<DoubleRange> runRange,
-                                              boolean interactiveX1,
-                                              boolean interactiveY1,
-                                              boolean interactiveSlope ) {
-        this( interactiveLine, riseRange, runRange, x1Range, y1Range, interactiveX1, interactiveY1, interactiveSlope,
-              LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
-    }
-
     public PointSlopeInteractiveEquationNode( final Property<Line> interactiveLine,
                                               Property<DoubleRange> riseRange,
                                               Property<DoubleRange> runRange,
@@ -421,14 +403,17 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );
         Property<DoubleRange> x1Range = new Property<DoubleRange>( range );
         Property<DoubleRange> y1Range = new Property<DoubleRange>( range );
+        PhetFont interactiveFont = LGConstants.INTERACTIVE_EQUATION_FONT;
+        PhetFont staticFont = LGConstants.STATIC_EQUATION_FONT;
+        Color staticColor = LGColors.STATIC_EQUATION_ELEMENT;
 
         // equations, all combinations of interactivity
-        PointSlopeInteractiveEquationNode equationNode1 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, true );
-        PointSlopeInteractiveEquationNode equationNode2 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, true );
-        PointSlopeInteractiveEquationNode equationNode3 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, false );
-        PointSlopeInteractiveEquationNode equationNode4 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, false, false );
-        PointSlopeInteractiveEquationNode equationNode5 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, true, false );
-        PointSlopeInteractiveEquationNode equationNode6 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, false );
+        PointSlopeInteractiveEquationNode equationNode1 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, true, interactiveFont, staticFont, staticColor );
+        PointSlopeInteractiveEquationNode equationNode2 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, true, interactiveFont, staticFont, staticColor );
+        PointSlopeInteractiveEquationNode equationNode3 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, false, interactiveFont, staticFont, staticColor );
+        PointSlopeInteractiveEquationNode equationNode4 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, false, false, interactiveFont, staticFont, staticColor );
+        PointSlopeInteractiveEquationNode equationNode5 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, true, false, interactiveFont, staticFont, staticColor );
+        PointSlopeInteractiveEquationNode equationNode6 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, false, interactiveFont, staticFont, staticColor );
 
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();

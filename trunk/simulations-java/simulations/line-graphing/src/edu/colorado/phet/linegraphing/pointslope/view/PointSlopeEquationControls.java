@@ -3,6 +3,8 @@ package edu.colorado.phet.linegraphing.pointslope.view;
 
 import java.text.MessageFormat;
 
+import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
@@ -22,6 +24,9 @@ class PointSlopeEquationControls extends EquationControls {
                model.savedLines,
                viewProperties.interactiveEquationVisible,
                viewProperties.linesVisible,
-               new PointSlopeInteractiveEquationNode( model.interactiveLine, model.x1Range, model.y1Range, model.riseRange, model.runRange ) );
+               new PointSlopeInteractiveEquationNode( model.interactiveLine, model.x1Range, model.y1Range, model.riseRange, model.runRange,
+                                                      true, true, true,
+                                                      LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT,
+                                                      LGColors.STATIC_EQUATION_ELEMENT ) );
     }
 }
