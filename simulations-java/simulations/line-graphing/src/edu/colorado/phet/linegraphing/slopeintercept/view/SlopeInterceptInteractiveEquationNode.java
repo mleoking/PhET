@@ -56,25 +56,6 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
     private final PPath fractionLineNode;
     private PNode undefinedSlopeIndicator;
 
-    // Constructor that makes both slope and intercept interactive.
-    public SlopeInterceptInteractiveEquationNode( Property<Line> interactiveLine,
-                                                  Property<DoubleRange> riseRange,
-                                                  Property<DoubleRange> runRange,
-                                                  Property<DoubleRange> yInterceptRange ) {
-        this( interactiveLine, riseRange, runRange, yInterceptRange, true, true );
-    }
-
-    // Constructor that allows you to specify which parts of the equation are interactive.
-    public SlopeInterceptInteractiveEquationNode( Property<Line> interactiveLine,
-                                                  Property<DoubleRange> riseRange,
-                                                  Property<DoubleRange> runRange,
-                                                  Property<DoubleRange> yInterceptRange,
-                                                  boolean interactiveSlope,
-                                                  boolean interactiveIntercept ) {
-        this( interactiveLine, riseRange, runRange, yInterceptRange, interactiveSlope, interactiveIntercept,
-              LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
-    }
-
     public SlopeInterceptInteractiveEquationNode( final Property<Line> interactiveLine,
                                                   Property<DoubleRange> riseRange,
                                                   Property<DoubleRange> runRange,
@@ -357,17 +338,20 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
     public static void main( String[] args ) {
 
         // model
+        Property<Line> line = new Property<Line>( Line.createSlopeIntercept( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
         DoubleRange range = new DoubleRange( -10, 10 );
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );
         Property<DoubleRange> yInterceptRange = new Property<DoubleRange>( range );
-        Property<Line> line = new Property<Line>( Line.createSlopeIntercept( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
+        PhetFont interactiveFont = LGConstants.INTERACTIVE_EQUATION_FONT;
+        PhetFont staticFont = LGConstants.STATIC_EQUATION_FONT;
+        Color staticColor = LGColors.STATIC_EQUATION_ELEMENT;
 
         // equations, all combinations of interactivity
-        SlopeInterceptInteractiveEquationNode equationNode1 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, true, true );
-        SlopeInterceptInteractiveEquationNode equationNode2 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, false, true );
-        SlopeInterceptInteractiveEquationNode equationNode3 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, true, false );
-        SlopeInterceptInteractiveEquationNode equationNode4 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, false, false );
+        SlopeInterceptInteractiveEquationNode equationNode1 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, true, true, interactiveFont, staticFont, staticColor );
+        SlopeInterceptInteractiveEquationNode equationNode2 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, false, true, interactiveFont, staticFont, staticColor );
+        SlopeInterceptInteractiveEquationNode equationNode3 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, true, false, interactiveFont, staticFont, staticColor );
+        SlopeInterceptInteractiveEquationNode equationNode4 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, false, false, interactiveFont, staticFont, staticColor );
 
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();
