@@ -1,3 +1,4 @@
+Tab 2-3: Fixed: The force slider does not snap back to zero. The force does go to zero, but the handle doesn't snap back
 Tab 2-3: Added rocks to the background
 Tab 1: Added a sound checkbox
 Tab 1: Fixed: Return button should disappear after being pressed

@@ -47,7 +47,7 @@ public class SliderControl extends PNode {
         final Not enabled = Not.not( stack.valueEquals( List.<StackableNode>nil() ) );
         final String unitsString = friction ? "Newtons (N)" : "Newtons";
 
-        SettableProperty<Double> appliedForceSliderModel = new SettableProperty<Double>( appliedForce.get() ) {
+        final SettableProperty<Double> appliedForceSliderModel = new SettableProperty<Double>( appliedForce.get() ) {
             @Override public void set( final Double value ) {
                 if ( speedValue.get() == WITHIN_ALLOWED_RANGE ) { appliedForce.set( value ); }
                 else if ( speedValue.get() == RIGHT_SPEED_EXCEEDED ) { appliedForce.set( MathUtil.clamp( -100, value, 0 ) ); }
@@ -104,6 +104,7 @@ public class SliderControl extends PNode {
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mouseReleased( final PInputEvent event ) {
                     appliedForce.set( 0.0 );
+                    appliedForceSliderModel.set( 0.0 );
                 }
             } );
         }};
