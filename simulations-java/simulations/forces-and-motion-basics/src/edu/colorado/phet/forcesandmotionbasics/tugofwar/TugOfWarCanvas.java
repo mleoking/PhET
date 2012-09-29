@@ -27,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils;
@@ -217,16 +218,18 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
 
         addChild( new TextButtonNode( "Return", CONTROL_FONT, Color.orange ) {{
             setOffset( stopButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, stopButton.getFullBounds().getMaxY() + INSET );
-            mode.addObserver( new VoidFunction1<Mode>() {
-                public void apply( final Mode mode ) {
-
+            final SimpleObserver update = new SimpleObserver() {
+                public void update() {
                     //leave "restart" button showing after "stop" pressed
-                    boolean visible = mode == Mode.GOING || mode == Mode.COMPLETE || ( mode == Mode.WAITING && !cartIsInCenter() );
+                    Mode m = mode.get();
+                    boolean visible = m == Mode.GOING || m == Mode.COMPLETE || ( m == Mode.WAITING && !cartIsInCenter() );
                     setVisible( visible );
                     setPickable( visible );
                     setChildrenPickable( visible );
                 }
-            } );
+            };
+            mode.addObserver( update );
+            cart.position.addObserver( update );
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     restart();
