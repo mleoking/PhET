@@ -137,6 +137,17 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
             private void updateBrickLayer( final Double position ) {
                 removeAllChildren();
+
+                //Show rocks as additional texture
+                {
+                    final double scale = 0.5;
+                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale + 4 - rocksOverlay.getHeight(), STAGE_SIZE.width * 3 / scale, rocksOverlay.getHeight() );
+                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale, area.getY() - 1, rocksOverlay.getWidth(), rocksOverlay.getHeight() );
+                    PhetPPath path = new PhetPPath( area, new TexturePaint( rocksOverlay, anchor ) ) {{ scale( scale ); }};
+                    path.setTransparency( 0.9f );
+                    addChild( path );
+                }
+
                 //Extend the brick region an extra stage width to the left and right, in case it is a very odd aspect ratio.  (But no support for showing wider than that).
                 {
                     final double brickScale = 0.4;
@@ -154,16 +165,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / iceScale, grassY / iceScale - 1, STAGE_SIZE.width * 3 / iceScale, Images.ICE_OVERLAY.getHeight() );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / iceScale, area.getY(), Images.ICE_OVERLAY.getWidth(), Images.ICE_OVERLAY.getHeight() );
                     PhetPPath path = new PhetPPath( area, new TexturePaint( Images.ICE_OVERLAY, anchor ) ) {{ scale( iceScale ); }};
-                    path.setTransparency( 0.9f );
-                    addChild( path );
-                }
-
-                //Show rocks as additional texture
-                {
-                    final double scale = 0.5;
-                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale + 2 - rocksOverlay.getHeight(), STAGE_SIZE.width * 3 / scale, rocksOverlay.getHeight() );
-                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale, area.getY(), rocksOverlay.getWidth(), rocksOverlay.getHeight() );
-                    PhetPPath path = new PhetPPath( area, new TexturePaint( rocksOverlay, anchor ) ) {{ scale( scale ); }};
                     path.setTransparency( 0.9f );
                     addChild( path );
                 }
