@@ -84,6 +84,8 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage PUSHER_9 = RESOURCES.getImage( "pusher_9.png" );
         public static final BufferedImage PUSHER_FALL_DOWN = RESOURCES.getImage( "pusher_fall_down.png" );
         public static final BufferedImage PUSHER_STRAIGHT_ON = RESOURCES.getImage( "pusher_straight_on.png" );
+        public static final BufferedImage ROCK_BROWN = RESOURCES.getImage( "rock_brown.png" );
+        public static final BufferedImage ROCK_GRAY = RESOURCES.getImage( "rock_gray.png" );
         public static final BufferedImage ROPE = RESOURCES.getImage( "rope.png" );
         public static final BufferedImage SKATEBOARD = RESOURCES.getImage( "skateboard.png" );
         public static final BufferedImage STOP_BUTTON = RESOURCES.getImage( "stop_button.png" );
