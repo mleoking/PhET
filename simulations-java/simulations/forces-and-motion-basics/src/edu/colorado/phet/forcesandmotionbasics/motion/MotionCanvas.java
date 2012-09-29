@@ -142,7 +142,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 {
                     final double scale = 0.5;
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale + 4 - rocksOverlay.getHeight(), STAGE_SIZE.width * 3 / scale, rocksOverlay.getHeight() );
-                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale, area.getY() - 1, rocksOverlay.getWidth(), rocksOverlay.getHeight() );
+                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale - 200, area.getY() - 1, rocksOverlay.getWidth(), rocksOverlay.getHeight() );
                     PhetPPath path = new PhetPPath( area, new TexturePaint( rocksOverlay, anchor ) ) {{ scale( scale ); }};
                     path.setTransparency( 0.9f );
                     addChild( path );
