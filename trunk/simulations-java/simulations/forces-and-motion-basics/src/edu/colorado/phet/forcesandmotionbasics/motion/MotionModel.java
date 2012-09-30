@@ -47,7 +47,6 @@ public class MotionModel {
     public void stepInTime( final double dt ) {
         double appliedForce = this.appliedForce.get();
         double frictionForce = getFrictionForce( appliedForce );
-        System.out.println( "appliedForce = " + appliedForce + ", frictionForce = " + frictionForce + ", velocity = " + velocity.get() );
         this.frictionForce.set( frictionForce );
         double sumOfForces = frictionForce + appliedForce;
         this.sumOfForces.set( sumOfForces );
@@ -88,11 +87,9 @@ public class MotionModel {
         //Friction force only applies above this velocity
         final double velocityThreshold = 1E-12;
         if ( Math.abs( velocity.get() ) <= velocityThreshold && frictionForce > appliedForce ) {
-            System.out.println( "A" );
             frictionForce = appliedForce;
         }
         else if ( Math.abs( velocity.get() ) > velocityThreshold ) {
-            System.out.println( "B" );
             frictionForce = MathUtil.getSign( velocity.get() ) * frictionValue.get() * massOfObjectsOnSkateboard.f( unit() );
         }
         return -frictionForce;
