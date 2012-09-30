@@ -145,6 +145,7 @@ public class SliderControl extends PNode {
                                            private void updateValueFromText( final DecimalFormat format ) {
                                                try {
                                                    appliedForce.set( MathUtil.clamp( -100, format.parse( getText() ).doubleValue(), 100 ) );
+                                                   appliedForceSliderModel.set( appliedForce.get() );
                                                }
                                                catch ( ParseException e1 ) {
                                                    setText( format.format( appliedForce.get() ) );

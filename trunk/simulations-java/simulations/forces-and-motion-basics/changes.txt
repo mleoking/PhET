@@ -1,3 +1,4 @@
+Tab 2-3: Fixed: When entering text, the slider knob doesn't move
 # 0.00.24 (68590) Sep 29, 2012
 Tab 2-3: Moved rocks underground and randomized size and locations
 # 0.00.23 (68587) Sep 28, 2012
