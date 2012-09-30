@@ -1,3 +1,4 @@
+Tab 3: Reduced coefficient of friction so that the fridge can be moved at the default setting
 Tab 2-3: Fixed: When entering text, the slider knob doesn't move
 # 0.00.24 (68590) Sep 29, 2012
 Tab 2-3: Moved rocks underground and randomized size and locations
