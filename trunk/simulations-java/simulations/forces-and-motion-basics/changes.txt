@@ -1,3 +1,4 @@
+# 0.00.25 (68600) Sep 29, 2012
 Tab 3: Fixed: The fallen pusher doesn't always stay fallen long enough
 Tab 3: Update the friction force while changing mass or slider value while paused
 Tab 3: Fixed: Force arrows flicker when friction > applied force for a moving object
