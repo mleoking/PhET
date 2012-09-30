@@ -47,6 +47,7 @@ public class MotionModel {
     public void stepInTime( final double dt ) {
         double appliedForce = this.appliedForce.get();
         double frictionForce = getFrictionForce( appliedForce );
+        System.out.println( "appliedForce = " + appliedForce + ", frictionForce = " + frictionForce + ", velocity = " + velocity.get() );
         this.frictionForce.set( frictionForce );
         double sumOfForces = frictionForce + appliedForce;
         this.sumOfForces.set( sumOfForces );
@@ -57,7 +58,9 @@ public class MotionModel {
         double newVelocity = velocity.get() + acceleration * dt;
 
         //friction force should not be able to make the object move backwards
-        if ( MathUtil.getSign( newVelocity ) != MathUtil.getSign( velocity.get() ) && appliedForce == 0 ) {
+        //Also make sure velocity goes exactly to zero when the pusher is pushing so that the friction force will be correctly computed
+        //Without this logic, it was causing flickering arrows because the velocity was flipping sign and the friction force was flipping direction
+        if ( MathUtil.getSign( newVelocity ) != MathUtil.getSign( velocity.get() ) ) {
             newVelocity = 0.0;
         }
 
@@ -81,10 +84,15 @@ public class MotionModel {
     private double getFrictionForce( final double appliedForce ) {
         if ( !friction ) { return 0.0; }
         double frictionForce = Math.abs( frictionValue.get() ) * MathUtil.getSign( appliedForce ) * massOfObjectsOnSkateboard.f( unit() );
-        if ( Math.abs( velocity.get() ) < 1E-6 && frictionForce > appliedForce ) {
+
+        //Friction force only applies above this velocity
+        final double velocityThreshold = 1E-12;
+        if ( Math.abs( velocity.get() ) <= velocityThreshold && frictionForce > appliedForce ) {
+            System.out.println( "A" );
             frictionForce = appliedForce;
         }
-        else if ( Math.abs( velocity.get() ) > 1E-6 ) {
+        else if ( Math.abs( velocity.get() ) > velocityThreshold ) {
+            System.out.println( "B" );
             frictionForce = MathUtil.getSign( velocity.get() ) * frictionValue.get() * massOfObjectsOnSkateboard.f( unit() );
         }
         return -frictionForce;
