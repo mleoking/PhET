@@ -2,7 +2,6 @@ package edu.colorado.phet.forcesandmotionbasics.motion;
 
 import fj.F;
 import fj.P2;
-import fj.Unit;
 import fj.data.List;
 import fj.function.Doubles;
 
@@ -26,9 +25,11 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -95,11 +96,12 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     public MotionCanvas( final Context context, final IClock clock, final boolean friction ) {
         this.friction = friction;
-        this.model = new MotionModel( friction, new F<Unit, Double>() {
-            @Override public Double f( final Unit unit ) {
+        final CompositeDoubleProperty massOfObjectsOnSkateboard = new CompositeDoubleProperty( new Function0<Double>() {
+            public Double apply() {
                 return getMassOfObjectsOnSkateboard();
             }
-        } );
+        }, stack );
+        this.model = new MotionModel( friction, massOfObjectsOnSkateboard );
 
         setBackground( BROWN );
         //use view coordinates since nothing compex happening in model coordinates.
@@ -426,7 +428,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         pusherNode.setOffset( 0, 0 );
     }
 
-    private double getMassOfObjectsOnSkateboard() { return stackableNodes.filter( _isOnSkateboard ).map( _mass ).foldLeft( add, 0.0 ); }
+    //Get the mass of the stack, returning 0.0 if the stack not yet initialized (for auto callback in constructor)
+    private double getMassOfObjectsOnSkateboard() { return stackableNodes == null ? 0.0 : stackableNodes.filter( _isOnSkateboard ).map( _mass ).foldLeft( add, 0.0 ); }
 
     public void stackableNodeDropped( final StackableNode stackableNode ) {
         PBounds bounds = skateboard.getGlobalFullBounds();
