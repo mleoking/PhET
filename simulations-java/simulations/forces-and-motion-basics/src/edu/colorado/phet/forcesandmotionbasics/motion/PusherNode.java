@@ -45,7 +45,6 @@ public class PusherNode extends PNode {
                     lastNonzeroAppliedForce = appliedForce;
                 }
 
-                System.out.println( "appliedForce = " + appliedForce + ", fallen = " + fallen.get() );
                 if ( appliedForce == 0 ) {
                     pusher.setImage( fallen.get() ? ( lastNonzeroAppliedForce > 0 ? pusherFallDownRight : pusherFallDownLeft ) :
                                      Images.PUSHER_STRAIGHT_ON );
