@@ -31,7 +31,6 @@ import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -112,13 +111,16 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         final int grassY = 425;
         addChild( new SkyNode( createIdentity(), new Rectangle2D.Double( -width / 2, -width / 2 + grassY, width, width / 2 ), grassY, SkyNode.DEFAULT_TOP_COLOR, SkyNode.DEFAULT_BOTTOM_COLOR ) );
 
-        final BufferedImage brownRock = BufferedImageUtils.multiScaleToHeight( Images.ROCK_BROWN, 100 );
-        final BufferedImage grayRock = BufferedImageUtils.multiScaleToHeight( Images.ROCK_GRAY, 100 );
-        final BufferedImage rocksOverlay = new BufferedImage( 1500, Math.max( brownRock.getHeight(), grayRock.getHeight() ), BufferedImage.TYPE_INT_ARGB_PRE );
+        final BufferedImage brownRock = multiScaleToHeight( Images.ROCK_BROWN, 100 );
+        final BufferedImage largeBrownRock = multiScaleToHeight( Images.ROCK_BROWN, 180 );
+        final BufferedImage grayRock = multiScaleToHeight( Images.ROCK_GRAY, 100 );
+        final BufferedImage largeGrayRock = multiScaleToHeight( Images.ROCK_GRAY, 150 );
+        final BufferedImage rocksOverlay = new BufferedImage( 1500, 600, BufferedImage.TYPE_INT_ARGB_PRE );
         Graphics2D g2 = rocksOverlay.createGraphics();
         g2.drawRenderedImage( brownRock, AffineTransform.getTranslateInstance( 0, 0 ) );
-        g2.drawRenderedImage( grayRock, AffineTransform.getTranslateInstance( 200, 0 ) );
-        g2.drawRenderedImage( grayRock, AffineTransform.getTranslateInstance( 800, 0 ) );
+        g2.drawRenderedImage( grayRock, AffineTransform.getTranslateInstance( 200, 200 ) );
+        g2.drawRenderedImage( largeGrayRock, AffineTransform.getTranslateInstance( 600, 50 ) );
+        g2.drawRenderedImage( largeBrownRock, AffineTransform.getTranslateInstance( 1200, 300 ) );
         g2.dispose();
 
         PNode brickLayer = new PNode() {
@@ -141,7 +143,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 //Show rocks as additional texture
                 {
                     final double scale = 0.5;
-                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale + 4 - rocksOverlay.getHeight(), STAGE_SIZE.width * 3 / scale, rocksOverlay.getHeight() );
+                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale + Images.BRICK_TILE.getHeight(), STAGE_SIZE.width * 3 / scale, rocksOverlay.getHeight() );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale - 200, area.getY() - 1, rocksOverlay.getWidth(), rocksOverlay.getHeight() );
                     PhetPPath path = new PhetPPath( area, new TexturePaint( rocksOverlay, anchor ) ) {{ scale( scale ); }};
                     path.setTransparency( 0.9f );
