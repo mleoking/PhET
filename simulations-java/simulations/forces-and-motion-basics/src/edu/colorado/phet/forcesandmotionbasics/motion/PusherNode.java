@@ -24,24 +24,23 @@ import static java.lang.Math.round;
  */
 public class PusherNode extends PNode {
 
-    private final SimpleObserver update;
     //record the last direction of the push so that the pusher will stand in the right location.  For example:
     //After pushing left, pusher should stand to the right of the object.
     //This is initialized to a positive value because the pusher should stand to the left of the skateboard on initialization
     private double lastNonzeroAppliedForce = 1E-6;
     private final PImage pusher;
     private final DoubleProperty appliedForce;
-    public final BooleanProperty fallen = new BooleanProperty( false );
+
     private BufferedImage pusherFallDownRight = flipX( Images.PUSHER_FALL_DOWN );
     private BufferedImage pusherFallDownLeft = Images.PUSHER_FALL_DOWN;
 
-    public PusherNode( final PNode skateboard, final double grassY, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, ObservableProperty<SpeedValue> speedValue ) {
+    public PusherNode( final BooleanProperty fallen, final PNode skateboard, final double grassY, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final ObservableProperty<SpeedValue> speedValue ) {
         this.appliedForce = appliedForce;
         pusher = new PImage( PUSHER_STRAIGHT_ON );
         pusher.scale( 0.8 * 0.9 );
         addChild( pusher );
 
-        update = new SimpleObserver() {
+        final SimpleObserver update = new SimpleObserver() {
             public void update() {
                 double appliedForce = PusherNode.this.appliedForce.get();
                 if ( appliedForce != 0 ) {

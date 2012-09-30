@@ -1,6 +1,7 @@
 package edu.colorado.phet.forcesandmotionbasics.motion;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -26,6 +27,7 @@ public class MotionModel {
     public final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
     private final boolean friction;
     public final ObservableProperty<Double> massOfObjectsOnSkateboard;
+    public final BooleanProperty fallen = new BooleanProperty( false );
 
     //Internal value for whether speed is exceeded, always exactly up-to-date
     public final Property<SpeedValue> _speedValue = new Property<SpeedValue>( WITHIN_ALLOWED_RANGE );

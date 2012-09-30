@@ -252,7 +252,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( sliderControl );
 
-        pusherNode = new PusherNode( skateboard, grassY, model.appliedForce, stack, model.speedValue );
+        pusherNode = new PusherNode( model.fallen, skateboard, grassY, model.appliedForce, stack, model.speedValue );
         addChild( pusherNode );
 
         HBox timeControls = new HBox( -3, new RewindButton( 60 ) {{
@@ -413,10 +413,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             pusherNode.setOffset( pusherNode.getOffset().getX() + delta, pusherNode.getOffset().getY() );
         }
         if ( exceedsStrobeSpeedBefore || exceedsStrobeSpeedAfter ) {
-            pusherNode.fallen.set( true );
+            model.fallen.set( true );
         }
         else {
-            pusherNode.fallen.set( false );
+            model.fallen.set( false );
         }
     }
 
@@ -424,7 +424,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     private void rewind() {
         model.rewind();
-        pusherNode.fallen.set( false );
+        model.fallen.set( false );
         pusherNode.setOffset( 0, 0 );
     }
 
