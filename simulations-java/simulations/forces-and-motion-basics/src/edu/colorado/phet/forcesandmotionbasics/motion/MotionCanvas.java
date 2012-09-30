@@ -412,7 +412,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             final double delta = -model.velocity.get() * dt * 100;
             pusherNode.setOffset( pusherNode.getOffset().getX() + delta, pusherNode.getOffset().getY() );
         }
-        if ( exceedsStrobeSpeedBefore || exceedsStrobeSpeedAfter ) {
+
+        //Show the pusher as fallen if they have exceeded the speed threshold within 1 second, or if the applied force is zero and fallen flag is set (which means instantaneous exceed of threshold in previous time step)
+        if ( exceedsStrobeSpeedBefore || exceedsStrobeSpeedAfter || ( friction && model.speedValue.get() != SpeedValue.WITHIN_ALLOWED_RANGE ) ) {
             model.fallen.set( true );
         }
         else {
