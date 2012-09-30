@@ -1,19 +1,17 @@
 package edu.colorado.phet.forcesandmotionbasics.motion;
 
-import fj.F;
-import fj.Unit;
-
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.Pair;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 
 import static edu.colorado.phet.forcesandmotionbasics.motion.MotionCanvas.STROBE_SPEED;
 import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
-import static fj.Unit.unit;
 
 /**
  * @author Sam Reid
@@ -27,7 +25,7 @@ public class MotionModel {
     public final DoubleProperty position = new DoubleProperty( 0.0 );
     public final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
     private final boolean friction;
-    public final F<Unit, Double> massOfObjectsOnSkateboard;
+    public final ObservableProperty<Double> massOfObjectsOnSkateboard;
 
     //Internal value for whether speed is exceeded, always exactly up-to-date
     public final Property<SpeedValue> _speedValue = new Property<SpeedValue>( WITHIN_ALLOWED_RANGE );
@@ -39,19 +37,20 @@ public class MotionModel {
     public final SettableProperty<Double> frictionValue = new Property<Double>( FrictionSliderControl.MAX / 2 );//The coefficient of friction (mu_k = mu_s)
     private Pair<Long, SpeedValue> lastOutOfRange = null;
 
-    public MotionModel( boolean friction, final F<Unit, Double> massOfObjectsOnSkateboard ) {
+    public MotionModel( boolean friction, ObservableProperty<Double> massOfObjectsOnSkateboard ) {
         this.friction = friction;
         this.massOfObjectsOnSkateboard = massOfObjectsOnSkateboard;
+        new RichSimpleObserver() {
+            @Override public void update() {
+                updateForces();
+            }
+        }.observe( frictionValue, massOfObjectsOnSkateboard );
     }
 
     public void stepInTime( final double dt ) {
-        double appliedForce = this.appliedForce.get();
-        double frictionForce = getFrictionForce( appliedForce );
-        this.frictionForce.set( frictionForce );
-        double sumOfForces = frictionForce + appliedForce;
-        this.sumOfForces.set( sumOfForces );
+        double sumOfForces = updateForces();
 
-        final double mass = massOfObjectsOnSkateboard.f( unit() );
+        final double mass = massOfObjectsOnSkateboard.get();
         double acceleration = mass != 0 ? sumOfForces / mass : 0.0;
 
         double newVelocity = velocity.get() + acceleration * dt;
@@ -80,9 +79,20 @@ public class MotionModel {
         }
     }
 
+    //The first part of stepInTime is to compute and set the forces.  But this is factored out because the forces must also be updated
+    //When the user changes the friction force or mass while the sim is paused.
+    public double updateForces() {
+        double appliedForce = this.appliedForce.get();
+        double frictionForce = getFrictionForce( appliedForce );
+        this.frictionForce.set( frictionForce );
+        double sumOfForces = frictionForce + appliedForce;
+        this.sumOfForces.set( sumOfForces );
+        return sumOfForces;
+    }
+
     private double getFrictionForce( final double appliedForce ) {
         if ( !friction ) { return 0.0; }
-        double frictionForce = Math.abs( frictionValue.get() ) * MathUtil.getSign( appliedForce ) * massOfObjectsOnSkateboard.f( unit() );
+        double frictionForce = Math.abs( frictionValue.get() ) * MathUtil.getSign( appliedForce ) * massOfObjectsOnSkateboard.get();
 
         //Friction force only applies above this velocity
         final double velocityThreshold = 1E-12;
@@ -90,7 +100,7 @@ public class MotionModel {
             frictionForce = appliedForce;
         }
         else if ( Math.abs( velocity.get() ) > velocityThreshold ) {
-            frictionForce = MathUtil.getSign( velocity.get() ) * frictionValue.get() * massOfObjectsOnSkateboard.f( unit() );
+            frictionForce = MathUtil.getSign( velocity.get() ) * frictionValue.get() * massOfObjectsOnSkateboard.get();
         }
         return -frictionForce;
     }
