@@ -10,11 +10,14 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images.PUSHER_STRAIGHT_ON;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.RESOURCES;
+import static java.lang.Math.round;
 
 /**
  * @author Sam Reid
@@ -29,12 +32,12 @@ public class PusherNode extends PNode {
     private final PImage pusher;
     private final DoubleProperty appliedForce;
     public final BooleanProperty fallen = new BooleanProperty( false );
-    private BufferedImage pusherFallDownRight = BufferedImageUtils.flipX( Images.PUSHER_FALL_DOWN );
+    private BufferedImage pusherFallDownRight = flipX( Images.PUSHER_FALL_DOWN );
     private BufferedImage pusherFallDownLeft = Images.PUSHER_FALL_DOWN;
 
     public PusherNode( final PNode skateboard, final double grassY, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, ObservableProperty<SpeedValue> speedValue ) {
         this.appliedForce = appliedForce;
-        pusher = new PImage( Images.PUSHER_STRAIGHT_ON );
+        pusher = new PImage( PUSHER_STRAIGHT_ON );
         pusher.scale( 0.8 * 0.9 );
         addChild( pusher );
 
@@ -47,7 +50,7 @@ public class PusherNode extends PNode {
 
                 if ( appliedForce == 0 ) {
                     pusher.setImage( fallen.get() ? ( lastNonzeroAppliedForce > 0 ? pusherFallDownRight : pusherFallDownLeft ) :
-                                     Images.PUSHER_STRAIGHT_ON );
+                                     PUSHER_STRAIGHT_ON );
 
                     if ( lastNonzeroAppliedForce > 0 ) {
                         pusher.setOffset( skateboard.getFullBounds().getX() - pusher.getFullBounds().getWidth() + 0, grassY - pusher.getFullBounds().getHeight() );
@@ -59,7 +62,7 @@ public class PusherNode extends PNode {
                 else {
                     if ( stack.get().length() > 0 ) {
                         final int offset = stack.get().index( 0 ).pusherOffset;
-                        final BufferedImage image = ForcesAndMotionBasicsResources.RESOURCES.getImage( "pusher_" + getImageIndex( appliedForce ) + ".png" );
+                        final BufferedImage image = RESOURCES.getImage( "pusher_" + getImageIndex( appliedForce ) + ".png" );
                         if ( appliedForce > 0 ) {
                             pusher.setImage( image );
                             //translate right another 15 for crate
@@ -68,7 +71,7 @@ public class PusherNode extends PNode {
                         else {
 
                             //TODO: cache this buffered image op
-                            pusher.setImage( BufferedImageUtils.flipX( image ) );
+                            pusher.setImage( flipX( image ) );
                             pusher.setOffset( skateboard.getFullBounds().getMaxX() - offset, grassY - pusher.getFullBounds().getHeight() );
                         }
                     }
@@ -82,6 +85,6 @@ public class PusherNode extends PNode {
 
     private int getImageIndex( final Double appliedForce ) {
         int maxImageIndex = 14;
-        return (int) Math.round( Math.abs( appliedForce ) / 100.0 * ( maxImageIndex - 0.5 ) );
+        return (int) round( Math.abs( appliedForce ) / 100.0 * ( maxImageIndex - 0.5 ) );
     }
 }
