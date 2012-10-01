@@ -1,3 +1,4 @@
+Tab 2-3: Moved "Masses" check box above "Speed" checkbox
 Tab 2-3: Added mountains back in
 # 0.00.29 (68619) Oct 1, 2012
 Tab 2-3: Temporarily removed mountains
