@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forcesandmotionbasics.common;
 
-import fj.data.List;
-
 import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -11,10 +9,14 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Abstract canvas class, used in all of the tabs.
+ *
  * @author Sam Reid
  */
 public class AbstractForcesAndMotionBasicsCanvas extends PhetPCanvas {
-    public static final Font CONTROL_FONT = new PhetFont( 17, true );
+
+    //Font used for most of the labels and controls
+    public static final Font DEFAULT_FONT = new PhetFont( 17, true );
 
     //Stage where nodes are added and scaled up and down
     public final PNode rootNode;
@@ -37,19 +39,5 @@ public class AbstractForcesAndMotionBasicsCanvas extends PhetPCanvas {
         setBorder( null );
     }
 
-    protected void addChild( PNode node ) {
-        rootNode.addChild( node );
-    }
-
-    protected void addChildren( PNode... nodes ) {
-        for ( PNode node : nodes ) {
-            addChild( node );
-        }
-    }
-
-    public void addChildren( List<? extends PNode> nodes ) {
-        for ( PNode node : nodes ) {
-            addChild( node );
-        }
-    }
+    protected void addChild( PNode node ) { rootNode.addChild( node ); }
 }

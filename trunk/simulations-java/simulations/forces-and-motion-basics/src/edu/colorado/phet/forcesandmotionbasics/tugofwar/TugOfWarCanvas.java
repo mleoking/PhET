@@ -99,9 +99,9 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         grassNode.setOffset( -2, grassY - 2 );
         addChild( grassNode );
 
-        final JCheckBox sumOfForcesCheckBox = new PropertyCheckBox( null, "Sum of Forces", showSumOfForces ) {{ setFont( CONTROL_FONT ); }};
-        final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( CONTROL_FONT );}};
-        final JCheckBox soundCheckBox = new PropertyCheckBox( null, "Sound", sound ) {{setFont( CONTROL_FONT );}};
+        final JCheckBox sumOfForcesCheckBox = new PropertyCheckBox( null, "Sum of Forces", showSumOfForces ) {{ setFont( DEFAULT_FONT ); }};
+        final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox soundCheckBox = new PropertyCheckBox( null, "Sound", sound ) {{setFont( DEFAULT_FONT );}};
         final ControlPanelNode controlPanelNode = new ControlPanelNode(
                 new VBox( 2, VBox.LEFT_ALIGNED,
 
@@ -114,7 +114,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
             public void reset() {
                 context.reset();
             }
-        }, this, CONTROL_FONT, Color.black, Color.orange ) {{
+        }, this, DEFAULT_FONT, Color.black, Color.orange ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getMaxY() + INSET );
             setConfirmationEnabled( false );
         }} );
@@ -216,7 +216,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         }};
         addChild( stopButton );
 
-        addChild( new TextButtonNode( "Return", CONTROL_FONT, Color.orange ) {{
+        addChild( new TextButtonNode( "Return", DEFAULT_FONT, Color.orange ) {{
             setOffset( stopButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, stopButton.getFullBounds().getMaxY() + INSET );
             final SimpleObserver update = new SimpleObserver() {
                 public void update() {

@@ -16,7 +16,7 @@ public class FrictionSliderControl extends PNode {
     public static final double MAX = 0.5;
 
     public FrictionSliderControl( final SettableProperty<Double> friction ) {
-        addChild( new VBox( 0, new PhetPText( "Friction", AbstractForcesAndMotionBasicsCanvas.CONTROL_FONT ), new HSliderNode( null, 0, MAX, VSliderNode.DEFAULT_TRACK_THICKNESS, 150, friction, new BooleanProperty( true ) ) {{
+        addChild( new VBox( 0, new PhetPText( "Friction", AbstractForcesAndMotionBasicsCanvas.DEFAULT_FONT ), new HSliderNode( null, 0, MAX, VSliderNode.DEFAULT_TRACK_THICKNESS, 150, friction, new BooleanProperty( true ) ) {{
             addLabel( 0, new PhetPText( "None" ) );
             addLabel( MAX, new PhetPText( "Lots" ) );
         }} ) );

@@ -12,10 +12,14 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.CONTROL_FONT;
+import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.DEFAULT_FONT;
 import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.INSET;
 
 /**
+ * Draws a force arrow node, including an arrow and text for the label and optionally the value (such as 50N).
+ * This class is immutable and is regenerated if any dependencies change.
+ * It is non-interactive, just a display.
+ *
  * @author Sam Reid
  */
 public class ForceArrowNode extends PNode {
@@ -34,7 +38,7 @@ public class ForceArrowNode extends PNode {
         arrowNode.setPaint( transparent ? new Color( color.getRed(), color.getGreen(), color.getBlue(), 175 ) : color );
         arrowNode.setStroke( transparent ? new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 6, 4 }, 0 ) : new BasicStroke( 1 ) );
         addChild( arrowNode );
-        final PhetPText nameNode = new PhetPText( name, CONTROL_FONT ) {{
+        final PhetPText nameNode = new PhetPText( name, DEFAULT_FONT ) {{
             if ( textLocation == TextLocation.SIDE ) {
                 if ( value > 0 ) {
                     setOffset( arrowNode.getFullBounds().getMaxX() + INSET, arrowNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
@@ -67,7 +71,7 @@ public class ForceArrowNode extends PNode {
     }
 
     private void showTextOnly( final Vector2D tail ) {
-        addChild( new PhetPText( "Sum of Forces = 0", CONTROL_FONT ) {{
+        addChild( new PhetPText( "Sum of Forces = 0", DEFAULT_FONT ) {{
             centerBoundsOnPoint( tail.x, tail.y - 46 );//Fine tune location so that it shows at the same y location as the text would if there were an arrow
         }} );
     }
