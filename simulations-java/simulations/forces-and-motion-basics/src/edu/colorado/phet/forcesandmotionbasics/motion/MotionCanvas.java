@@ -131,17 +131,17 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             {
                 model.position.addObserver( new VoidFunction1<Double>() {
                     public void apply( final Double position ) {
-                        updateBrickLayer( position );
+                        updateBackgroundLayer( position );
                     }
                 } );
                 model.frictionValue.addObserver( new VoidFunction1<Double>() {
                     public void apply( final Double friction ) {
-                        updateBrickLayer( model.position.get() );
+                        updateBackgroundLayer( model.position.get() );
                     }
                 } );
             }
 
-            private void updateBrickLayer( final Double position ) {
+            private void updateBackgroundLayer( final Double position ) {
                 removeAllChildren();
 
                 //Show rocks as additional texture
