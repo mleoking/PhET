@@ -13,9 +13,9 @@ import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
+import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
-import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -60,7 +60,7 @@ public class GTL_PS_PointSlope_ChallengeNode extends GTL_PS_ChallengeNode {
             final Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( challenge.graph.yRange ) );
             final Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( challenge.graph.xRange ) );
 
-            final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( GameConstants.MANIPULATOR_DIAMETER );
+            final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( LineGameConstants.MANIPULATOR_DIAMETER );
 
             // point manipulator
             pointManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );

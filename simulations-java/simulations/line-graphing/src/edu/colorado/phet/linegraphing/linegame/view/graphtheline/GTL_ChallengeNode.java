@@ -20,11 +20,11 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
+import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -38,10 +38,10 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
 
     public GTL_ChallengeNode( final LineGameModel model, final GTL_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
-        PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, GameConstants.TITLE_FONT, GameConstants.TITLE_COLOR );
+        PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
 
         // The equation for the answer.
-        final EquationNode answerEquationNode = createEquationNode( challenge.answer, GameConstants.STATIC_EQUATION_FONT, challenge.answer.color );
+        final EquationNode answerEquationNode = createEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color );
 
         // The equation for the current guess will be a child of this node, to maintain rendering order.
         final PNode guessEquationParent = new PNode();
@@ -49,12 +49,12 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
 
         final GTL_GraphNode graphNode = createGraphNode( challenge );
 
-        final FaceNode faceNode = new FaceNode( GameConstants.FACE_DIAMETER, GameConstants.FACE_COLOR );
+        final FaceNode faceNode = new FaceNode( LineGameConstants.FACE_DIAMETER, LineGameConstants.FACE_COLOR );
 
-        final PText pointsAwardedNode = new PhetPText( "", GameConstants.POINTS_AWARDED_FONT, GameConstants.POINTS_AWARDED_COLOR );
+        final PText pointsAwardedNode = new PhetPText( "", LineGameConstants.POINTS_AWARDED_FONT, LineGameConstants.POINTS_AWARDED_COLOR );
 
         // Buttons
-        final Font buttonFont = GameConstants.BUTTON_FONT;
+        final Font buttonFont = LineGameConstants.BUTTON_FONT;
         final Color buttonForeground = LGColors.GAME_INSTRUCTION_COLORS;
         final TextButtonNode checkButton = new TextButtonNode( Strings.CHECK, buttonFont, buttonForeground );
         final TextButtonNode tryAgainButton = new TextButtonNode( Strings.TRY_AGAIN, buttonFont, buttonForeground );
@@ -65,8 +65,8 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         Rectangle2D pointToolDragBounds = new Rectangle2D.Double( 0, 0, challengeSize.getWidth(), challengeSize.getHeight() );
         PointToolNode pointToolNode1 = new PointToolNode( challenge.pointTool1, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
         PointToolNode pointToolNode2 = new PointToolNode( challenge.pointTool2, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
-        pointToolNode1.scale( GameConstants.POINT_TOOL_SCALE );
-        pointToolNode2.scale( GameConstants.POINT_TOOL_SCALE );
+        pointToolNode1.scale( LineGameConstants.POINT_TOOL_SCALE );
+        pointToolNode2.scale( LineGameConstants.POINT_TOOL_SCALE );
 
         // Point tools moveToFront when dragged, so we give them a common parent to preserve rendering order of the reset of the scenegraph.
         PNode pointToolParent = new PNode();
@@ -128,8 +128,8 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         challenge.guess.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
                 guessEquationParent.removeAllChildren();
-                Color color = challenge.isCorrect() ? GameConstants.ANSWER_COLOR : GameConstants.GUESS_COLOR;
-                guessEquationParent.addChild( createEquationNode( line, GameConstants.STATIC_EQUATION_FONT, color ) );
+                Color color = challenge.isCorrect() ? LineGameConstants.ANSWER_COLOR : LineGameConstants.GUESS_COLOR;
+                guessEquationParent.addChild( createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, color ) );
                 guessEquationParent.setOffset( answerEquationNode.getXOffset(),
                                                answerEquationNode.getFullBoundsReference().getMaxY() + 30 );
             }
@@ -168,7 +168,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                 if ( challenge.isCorrect() ) {
                     faceNode.smile();
                     audioPlayer.correctAnswer();
-                    challenge.guess.set( challenge.guess.get().withColor( GameConstants.ANSWER_COLOR ) );
+                    challenge.guess.set( challenge.guess.get().withColor( LineGameConstants.ANSWER_COLOR ) );
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.results.score.set( model.results.score.get() + points );
                     pointsAwardedNode.setText( MessageFormat.format( Strings.POINTS_AWARDED, String.valueOf( points ) ) );

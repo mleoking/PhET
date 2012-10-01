@@ -1,3 +1,4 @@
+10/1/12 move LineGameConstants to correct package
 10/1/12 game: make button font larger
 10/1/12 game: change color of plotted (non-interactive) points to gray
 10/1/12 game: make point tools smaller
