@@ -41,6 +41,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -101,9 +102,9 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         grassNode.setOffset( -2, grassY - 2 );
         addChild( grassNode );
 
-        final JCheckBox sumOfForcesCheckBox = new PropertyCheckBox( null, "Sum of Forces", showSumOfForces ) {{ setFont( DEFAULT_FONT ); }};
-        final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( DEFAULT_FONT );}};
-        final JCheckBox soundCheckBox = new PropertyCheckBox( null, "Sound", sound ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox sumOfForcesCheckBox = new PropertyCheckBox( null, Strings.SUM_OF_FORCES, showSumOfForces ) {{ setFont( DEFAULT_FONT ); }};
+        final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, Strings.VALUES, showValues ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox soundCheckBox = new PropertyCheckBox( null, Strings.SOUND, sound ) {{setFont( DEFAULT_FONT );}};
         final ControlPanelNode controlPanelNode = new ControlPanelNode(
                 new VBox( 2, VBox.LEFT_ALIGNED,
 
@@ -177,7 +178,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         forcesNode = new ForcesNode();
         addChild( forcesNode );
 
-        goButton = new ImageButtonNodeWithText( Images.GO_UP, Images.GO_HOVER, Images.GO_PRESSED, "Go!", new VoidFunction0() {
+        goButton = new ImageButtonNodeWithText( Images.GO_UP, Images.GO_HOVER, Images.GO_PRESSED, Strings.GO, new VoidFunction0() {
             public void apply() {
                 mode.set( Mode.GOING );
                 stopButton.hover();
@@ -201,7 +202,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         }};
         addChild( goButton );
 
-        stopButton = new ImageButtonNodeWithText( Images.STOP_UP, Images.STOP_HOVER, Images.STOP_PRESSED, "STOP", new VoidFunction0() {
+        stopButton = new ImageButtonNodeWithText( Images.STOP_UP, Images.STOP_HOVER, Images.STOP_PRESSED, Strings.STOP, new VoidFunction0() {
             public void apply() {
                 mode.set( Mode.WAITING );
                 goButton.hover();
@@ -218,7 +219,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         }};
         addChild( stopButton );
 
-        addChild( new TextButtonNode( "Return", DEFAULT_FONT, Color.orange ) {{
+        addChild( new TextButtonNode( Strings.RETURN, DEFAULT_FONT, Color.orange ) {{
             setOffset( stopButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, stopButton.getFullBounds().getMaxY() + INSET );
             final SimpleObserver update = new SimpleObserver() {
                 public void update() {
@@ -262,10 +263,10 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                     if ( cart.getPosition() > 180 || cart.getPosition() < -180 ) {
                         mode.set( Mode.COMPLETE );
                         if ( cart.getPosition() > 180 ) {
-                            addFlagNode( new FlagNode( Color.red, "Red Wins!" ) );
+                            addFlagNode( new FlagNode( Color.red, Strings.RED_WINS ) );
                         }
                         else {
-                            addFlagNode( new FlagNode( Color.blue, "Blue Wins!" ) );
+                            addFlagNode( new FlagNode( Color.blue, Strings.BLUE_WINS ) );
                         }
                     }
                 }

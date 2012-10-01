@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -21,6 +22,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -163,7 +165,10 @@ class StackableNode extends PNode {
         } );
     }
 
-    Pair<Integer, String> getMassDisplayString( final double mass ) {return new Pair<Integer, String>( 0, new DecimalFormat( "0" ).format( mass ) + " kg" );}
+    Pair<Integer, String> getMassDisplayString( final double mass ) {
+        final String text = new DecimalFormat( "0" ).format( mass );
+        return new Pair<Integer, String>( 0, new MessageFormat( Strings.MASS_DISPLAY__PATTERN ).format( new Object[] { text } ) );
+    }
 
     public void animateHome() {
         animateToPositionScaleRotation( initialOffset.x, initialOffset.y, initialScale, 0, 200 );

@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -46,7 +47,7 @@ class SliderControl extends PNode {
     public SliderControl( final ObservableProperty<SpeedValue> speedValue, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction ) {
 
         final Not enabled = Not.not( stack.valueEquals( List.<StackableNode>nil() ) );
-        final String unitsString = friction ? "Newtons (N)" : "Newtons";
+        final String unitsString = friction ? Strings.NEWTONS__N : Strings.NEWTONS;
 
         final SettableProperty<Double> appliedForceSliderModel = new SettableProperty<Double>( appliedForce.get() ) {
             @Override public void set( final Double value ) {
@@ -109,7 +110,7 @@ class SliderControl extends PNode {
                 }
             } );
         }};
-        VBox box = new VBox( 5, new EnablePhetPText( "Applied Force", DEFAULT_FONT, enabled ),
+        VBox box = new VBox( 5, new EnablePhetPText( Strings.APPLIED_FORCE, DEFAULT_FONT, enabled ),
                              sliderNode,
                              new HBox( new PhetPText( unitsString, DEFAULT_FONT ) {{setTransparency( 0.0f );}},
                                        new PSwing( new JTextField( 3 ) {

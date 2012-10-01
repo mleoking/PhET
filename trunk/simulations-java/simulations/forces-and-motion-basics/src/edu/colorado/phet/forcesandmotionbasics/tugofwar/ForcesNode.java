@@ -4,6 +4,7 @@ package edu.colorado.phet.forcesandmotionbasics.tugofwar;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.colorado.phet.forcesandmotionbasics.common.ForceArrowNode;
 import edu.colorado.phet.forcesandmotionbasics.common.TextLocation;
 import edu.umd.cs.piccolo.PNode;
@@ -22,11 +23,11 @@ public class ForcesNode extends PNode {
 
     public void setForces( boolean transparent, final double leftForce, final double rightForce, final boolean showSumOfForces, final Boolean showValues ) {
         removeAllChildren();
-        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 - 2, 225 ), leftForce, "Left Force", APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues ) );
-        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 + 2, 225 ), rightForce, "Right Force", APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues ) );
+        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 - 2, 225 ), leftForce, Strings.LEFT_FORCE, APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues ) );
+        addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2 + 2, 225 ), rightForce, Strings.RIGHT_FORCE, APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues ) );
 
         if ( showSumOfForces ) {
-            addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2, 150 ), leftForce + rightForce, "Sum of Forces", SUM_OF_FORCES_COLOR, TextLocation.TOP, showValues ) );
+            addChild( new ForceArrowNode( transparent, Vector2D.v( STAGE_SIZE.width / 2, 150 ), leftForce + rightForce, Strings.SUM_OF_FORCES, SUM_OF_FORCES_COLOR, TextLocation.TOP, showValues ) );
         }
     }
 }

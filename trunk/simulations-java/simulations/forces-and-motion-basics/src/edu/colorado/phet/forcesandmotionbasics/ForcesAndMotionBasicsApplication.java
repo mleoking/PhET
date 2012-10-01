@@ -6,6 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.colorado.phet.forcesandmotionbasics.motion.MotionModule;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarModule;
 
@@ -22,11 +23,11 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
     public ForcesAndMotionBasicsApplication( PhetApplicationConfig config ) {
         super( config );
         addModule( new TugOfWarModule() );
-        addModule( new MotionModule( "Motion", false ) );
-        addModule( new MotionModule( "Friction", true ) );
+        addModule( new MotionModule( Strings.MOTION, false ) );
+        addModule( new MotionModule( Strings.FRICTION, true ) );
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, "forces-and-motion-basics", ForcesAndMotionBasicsApplication.class );
+        new PhetApplicationLauncher().launchSim( args, ForcesAndMotionBasicsResources.PROJECT_NAME, ForcesAndMotionBasicsApplication.class );
     }
 }

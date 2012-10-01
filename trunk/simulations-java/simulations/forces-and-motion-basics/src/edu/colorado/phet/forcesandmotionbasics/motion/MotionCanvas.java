@@ -43,6 +43,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.colorado.phet.forcesandmotionbasics.common.ForceArrowNode;
 import edu.colorado.phet.forcesandmotionbasics.common.TextLocation;
@@ -220,20 +221,20 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( clouds );
 
-        final JCheckBox showForcesCheckBox = new PropertyCheckBox( null, "Forces", showForces ) {{setFont( DEFAULT_FONT );}};
-        final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( DEFAULT_FONT );}};
-        final JCheckBox showSumOfForcesCheckBox = new PropertyCheckBox( null, "Sum of Forces", showSumOfForces ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox showForcesCheckBox = new PropertyCheckBox( null, Strings.FORCES, showForces ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, Strings.VALUES, showValues ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox showSumOfForcesCheckBox = new PropertyCheckBox( null, Strings.SUM_OF_FORCES, showSumOfForces ) {{setFont( DEFAULT_FONT );}};
         showForces.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean showForces ) {
                 showValuesCheckBox.setEnabled( showForces );
                 showSumOfForcesCheckBox.setEnabled( showForces );
             }
         } );
-        final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSpeedometer ) {{ setFont( DEFAULT_FONT ); }};
+        final JCheckBox speedCheckBox = new PropertyCheckBox( null, Strings.SPEED, showSpeedometer ) {{ setFont( DEFAULT_FONT ); }};
         final BooleanProperty showMasses = new BooleanProperty( false );
-        final JCheckBox massCheckBox = new PropertyCheckBox( null, "Masses", showMasses ) {{ setFont( DEFAULT_FONT ); }};
+        final JCheckBox massCheckBox = new PropertyCheckBox( null, Strings.MASSES, showMasses ) {{ setFont( DEFAULT_FONT ); }};
 
-        final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( "Speed", 125, model.speed, STROBE_SPEED ) {{scale( 0.25 );}} );
+        final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( Strings.SPEED, 125, model.speed, STROBE_SPEED ) {{scale( 0.25 );}} );
         final VBox vbox = friction ?
                           new VBox( 0, VBox.LEFT_ALIGNED, new PSwing( showForcesCheckBox ), indent( showValuesCheckBox ), indent( showSumOfForcesCheckBox ),
                                     new PSwing( massCheckBox ),
@@ -369,15 +370,15 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                         //separate arrow tails for friction vs applied
                         final int appliedForceOffsetX = friction && model.frictionForce.get() != 0 ? 3 * MathUtil.getSign( model.appliedForce.get() ) : 0;
                         final ForceArrowNode appliedForceArrowNode = new ForceArrowNode( false, v( centerX + appliedForceOffsetX, tailY ),
-                                                                                         model.appliedForce.get(), "Applied Force", ForcesNode.APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues.get() );
+                                                                                         model.appliedForce.get(), Strings.APPLIED_FORCE, ForcesNode.APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues.get() );
                         addChild( appliedForceArrowNode );
 
                         final int frictionForceOffsetX = friction ? 3 * MathUtil.getSign( model.frictionForce.get() ) : 0;
                         addChild( new ForceArrowNode( false, v( centerX + frictionForceOffsetX, tailY ),
-                                                      model.frictionForce.get(), "Friction Force", Color.red, TextLocation.SIDE, showValues.get(), some( appliedForceArrowNode ) ) );
+                                                      model.frictionForce.get(), Strings.FRICTION_FORCE, Color.red, TextLocation.SIDE, showValues.get(), some( appliedForceArrowNode ) ) );
                         if ( friction && showSumOfForces.get() ) {
                             addChild( new ForceArrowNode( false, v( centerX, tailY - 70 ),
-                                                          model.sumOfForces.get(), "Sum of Forces", ForcesNode.SUM_OF_FORCES_COLOR, TextLocation.TOP, showValues.get() ) );
+                                                          model.sumOfForces.get(), Strings.SUM_OF_FORCES, ForcesNode.SUM_OF_FORCES_COLOR, TextLocation.TOP, showValues.get() ) );
                         }
                     }
                 }
@@ -391,7 +392,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( forcesNode );
 
-        SpeedometerNode speedometerNode = new SpeedometerNode( "Speed", 125, model.speed, STROBE_SPEED ) {{
+        SpeedometerNode speedometerNode = new SpeedometerNode( Strings.SPEED, 125, model.speed, STROBE_SPEED ) {{
             showSpeedometer.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( final Boolean show ) {
                     setVisible( show );
