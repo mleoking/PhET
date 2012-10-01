@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
+import edu.colorado.phet.linegraphing.common.model.LineParameterRange;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
@@ -93,36 +94,11 @@ public class GTL_PS_PointSlope_ChallengeNode extends GTL_PS_ChallengeNode {
                     pointManipulatorNode.setOffset( challenge.mvt.modelToView( line.x1, line.y1 ) );
                     slopeManipulatorNode.setOffset( challenge.mvt.modelToView( line.x2, line.y2 ) );
 
-                    //TODO this was copied from LineFormsModel constructor
-                    // range of the graph axes
-                    final int xMin = challenge.graph.xRange.getMin();
-                    final int xMax = challenge.graph.xRange.getMax();
-                    final int yMin = challenge.graph.yRange.getMin();
-                    final int yMax = challenge.graph.yRange.getMax();
-
-                    //TODO this was copied from LineFormsModel constructor
-                    // x1
-                    final double x1Min = Math.max( xMin, xMin - line.run );
-                    final double x1Max = Math.min( xMax, xMax - line.run );
-                    x1Range.set( new DoubleRange( x1Min, x1Max ) );
-
-                    //TODO this was copied from LineFormsModel constructor
-                    // y1
-                    final double y1Min = Math.max( yMin, yMin - line.rise );
-                    final double y1Max = Math.min( yMax, yMax - line.rise );
-                    y1Range.set( new DoubleRange( y1Min, y1Max ) );
-
-                    //TODO this was copied from LineFormsModel constructor
-                    // rise
-                    final double riseMin = yMin - line.y1;
-                    final double riseMax = yMax - line.y1;
-                    riseRange.set( new DoubleRange( riseMin, riseMax ) );
-
-                    //TODO this was copied from LineFormsModel constructor
-                    // run
-                    final double runMin = xMin - line.x1;
-                    final double runMax = xMax - line.x1;
-                    runRange.set( new DoubleRange( runMin, runMax ) );
+                    // adjust ranges
+                    x1Range.set( LineParameterRange.x1( line, challenge.graph ) );
+                    y1Range.set( LineParameterRange.y1( line, challenge.graph ) );
+                    riseRange.set( LineParameterRange.rise( line, challenge.graph ) );
+                    runRange.set( LineParameterRange.run( line, challenge.graph ) );
                 }
             } );
         }
