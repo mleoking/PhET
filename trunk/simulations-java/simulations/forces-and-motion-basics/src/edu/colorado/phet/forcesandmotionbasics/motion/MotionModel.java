@@ -21,7 +21,7 @@ import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
  *
  * @author Sam Reid
  */
-public class MotionModel {
+class MotionModel {
 
     public final DoubleProperty appliedForce = new DoubleProperty( 0.0 );
     public final DoubleProperty frictionForce = new DoubleProperty( 0.0 );
@@ -30,11 +30,11 @@ public class MotionModel {
     public final DoubleProperty position = new DoubleProperty( 0.0 );
     public final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
     private final boolean friction;
-    public final ObservableProperty<Double> massOfObjectsOnSkateboard;
+    private final ObservableProperty<Double> massOfObjectsOnSkateboard;
     public final BooleanProperty fallen = new BooleanProperty( false );
 
     //Internal value for whether speed is exceeded, always exactly up-to-date
-    public final Property<SpeedValue> _speedValue = new Property<SpeedValue>( WITHIN_ALLOWED_RANGE );
+    private final Property<SpeedValue> _speedValue = new Property<SpeedValue>( WITHIN_ALLOWED_RANGE );
 
     //Public value for whether a speed should be treated as exceeded.  Once a value is exceeded it is marked as exceeded for 1 second to avoid quirky behavior with slider disabling and re-enabling too quickly
     public final Property<SpeedValue> speedValue = new Property<SpeedValue>( _speedValue.get() );
@@ -87,7 +87,7 @@ public class MotionModel {
 
     //The first part of stepInTime is to compute and set the forces.  But this is factored out because the forces must also be updated
     //When the user changes the friction force or mass while the sim is paused.
-    public double updateForces() {
+    double updateForces() {
         double appliedForce = this.appliedForce.get();
         double frictionForce = getFrictionForce( appliedForce );
         this.frictionForce.set( frictionForce );

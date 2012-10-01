@@ -67,17 +67,17 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final List<KnotNode> blueKnots;
     private final List<KnotNode> redKnots;
     private final ForcesNode forcesNode;
-    public final ArrayList<VoidFunction0> forceListeners = new ArrayList<VoidFunction0>();
+    private final ArrayList<VoidFunction0> forceListeners = new ArrayList<VoidFunction0>();
     private final PImage cartNode;
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
     private final Property<Boolean> sound = new Property<Boolean>( true );
-    private Property<Mode> mode = new Property<Mode>( Mode.WAITING );
-    private Cart cart = new Cart();
-    private ArrayList<PullerNode> pullers = new ArrayList<PullerNode>();
+    private final Property<Mode> mode = new Property<Mode>( Mode.WAITING );
+    private final Cart cart = new Cart();
+    private final ArrayList<PullerNode> pullers = new ArrayList<PullerNode>();
     private final PImage rope;
     private final double initialRopeX;
-    private ArrayList<VoidFunction0> cartPositionListeners = new ArrayList<VoidFunction0>();
+    private final ArrayList<VoidFunction0> cartPositionListeners = new ArrayList<VoidFunction0>();
     private final ImageButtonNodeWithText stopButton;
     private final ImageButtonNodeWithText goButton;
     private final PNode knotLayer;
@@ -352,7 +352,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         pullers.add( puller );
     }
 
-    public List<PullerNode> getAttachedPullers() {
+    List<PullerNode> getAttachedPullers() {
         return blueKnots.append( redKnots ).bind( new F<KnotNode, List<PullerNode>>() {
             @Override public List<PullerNode> f( final KnotNode k ) {
                 return k.getPullerNode() == null ? List.<PullerNode>nil() : List.single( k.getPullerNode() );
@@ -370,7 +370,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         return new Vector2D( newX, position.y );
     }
 
-    public PullerNode puller( PColor color, PSize size, final double scale, final Vector2D offset ) {
+    PullerNode puller( PColor color, PSize size, final double scale, final Vector2D offset ) {
         return new PullerNode( color, size, 0, scale, offset, this, mode );
     }
 

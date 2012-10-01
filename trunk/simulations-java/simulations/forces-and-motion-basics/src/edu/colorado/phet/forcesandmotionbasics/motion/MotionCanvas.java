@@ -69,7 +69,6 @@ import static fj.function.Doubles.add;
 public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements StackableNodeContext {
 
     private final Property<Boolean> showSpeedometer = new Property<Boolean>( false );
-    private final BooleanProperty showMasses = new BooleanProperty( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
     private final Property<Boolean> showForces = new Property<Boolean>( false );
     private final PNode skateboard;
@@ -77,20 +76,19 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final Property<List<StackableNode>> stack = new Property<List<StackableNode>>( List.<StackableNode>nil() );
     private final boolean friction;
 
-    private MotionModel model;
+    private final MotionModel model;
 
-    public static final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 21;
-    public static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 27;
+    private static final int FRIDGE_OFFSET_WITHIN_SKATEBOARD = 21;
+    private static final int CRATE_OFFSET_WITHIN_SKATEBOARD = 27;
     private final PNode forcesNode;
 
-    public static final double typicalDT = 0.033333333333333215;
+    private static final double typicalDT = 0.033333333333333215;
 
     //Speed at which the bricks start to look as if they are going backwards
     public static final double STROBE_SPEED = 9.559393222711847;
 
     private boolean playing = true;
     private final PusherNode pusherNode;
-    private final SliderControl sliderControl;
 
     //Features only for Tab 3: Friction:
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
@@ -210,6 +208,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             }
         } );
         final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSpeedometer ) {{ setFont( DEFAULT_FONT ); }};
+        final BooleanProperty showMasses = new BooleanProperty( false );
         final JCheckBox massCheckBox = new PropertyCheckBox( null, "Masses", showMasses ) {{ setFont( DEFAULT_FONT ); }};
 
         final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( "Speed", 125, model.speed, STROBE_SPEED ) {{scale( 0.25 );}} );
@@ -252,7 +251,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         rightToolbox.setOffset( STAGE_SIZE.width - INSET - rightToolbox.getFullBounds().getWidth(), toolboxY );
         addChild( rightToolbox );
 
-        sliderControl = new SliderControl( model.speedValue, model.appliedForce, stack, friction );
+        final SliderControl sliderControl = new SliderControl( model.speedValue, model.appliedForce, stack, friction );
         sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( sliderControl );
 

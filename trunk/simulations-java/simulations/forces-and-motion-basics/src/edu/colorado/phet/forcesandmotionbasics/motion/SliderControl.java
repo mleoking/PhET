@@ -41,9 +41,7 @@ import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
  *
  * @author Sam Reid
  */
-public class SliderControl extends PNode {
-
-    private final HSliderNode sliderNode;
+class SliderControl extends PNode {
 
     public SliderControl( final ObservableProperty<SpeedValue> speedValue, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction ) {
 
@@ -71,10 +69,10 @@ public class SliderControl extends PNode {
             }
         };
 
-        sliderNode = new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForceSliderModel, enabled ) {{
+        final HSliderNode sliderNode = new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForceSliderModel, enabled ) {{
             PhetPPath tick1 = addLabel( -100, dummyLabel() );
             PhetPPath tick2 = addLabel( -50, dummyLabel() );
-            PhetPPath tick3 = addLabel( 0, new EnablePhetPText( "0", DEFAULT_FONT, enabled ) );
+            addLabel( 0, new EnablePhetPText( "0", DEFAULT_FONT, enabled ) );
             PhetPPath tick4 = addLabel( 50, dummyLabel() );
             PhetPPath tick5 = addLabel( 100, dummyLabel() );
 

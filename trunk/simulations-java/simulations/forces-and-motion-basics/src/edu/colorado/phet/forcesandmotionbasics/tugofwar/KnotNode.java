@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class KnotNode extends PNode {
-    public static F<KnotNode, Boolean> _free = new F<KnotNode, Boolean>() {
+    public static final F<KnotNode, Boolean> _free = new F<KnotNode, Boolean>() {
         @Override public Boolean f( final KnotNode knotNode ) {
             return knotNode.pullerNode == null;
         }
@@ -27,12 +27,12 @@ public class KnotNode extends PNode {
     private PullerNode pullerNode;
     private final PhetPPath path;
     private final Color color;
-    public static Effect<KnotNode> _removeHighlight = new Effect<KnotNode>() {
+    public static final Effect<KnotNode> _removeHighlight = new Effect<KnotNode>() {
         @Override public void e( final KnotNode knotNode ) {
             knotNode.setHighlighted( false );
         }
     };
-    public static F<KnotNode, Double> _force = new F<KnotNode, Double>() {
+    public static final F<KnotNode, Double> _force = new F<KnotNode, Double>() {
         @Override public Double f( final KnotNode knotNode ) {
             return knotNode.pullerNode == null ? 0 : knotNode.pullerNode.getForce();
         }

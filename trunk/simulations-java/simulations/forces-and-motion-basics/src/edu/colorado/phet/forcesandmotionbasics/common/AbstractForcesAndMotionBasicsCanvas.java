@@ -19,7 +19,7 @@ public class AbstractForcesAndMotionBasicsCanvas extends PhetPCanvas {
     public static final Font DEFAULT_FONT = new PhetFont( 17, true );
 
     //Stage where nodes are added and scaled up and down
-    public final PNode rootNode;
+    protected final PNode rootNode;
 
     //Size for the stage, should have the right aspect ratio since it will always be visible
     //The dimension was determined by running on Windows and inspecting the dimension of the canvas after menubar and tabs are added
@@ -28,7 +28,7 @@ public class AbstractForcesAndMotionBasicsCanvas extends PhetPCanvas {
     //Default inset between edges, etc.
     public static final double INSET = 10;
 
-    public AbstractForcesAndMotionBasicsCanvas() {
+    protected AbstractForcesAndMotionBasicsCanvas() {
 
         setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
 

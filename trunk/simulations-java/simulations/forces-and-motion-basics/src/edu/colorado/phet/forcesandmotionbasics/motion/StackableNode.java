@@ -36,19 +36,19 @@ import static edu.colorado.phet.common.phetcommon.view.util.RectangleUtils.round
  *
  * @author Sam Reid
  */
-public class StackableNode extends PNode {
+class StackableNode extends PNode {
 
     private Vector2D initialOffset;
     private final double initialScale;
     public final BooleanProperty onSkateboard = new BooleanProperty( false );
     private final double mass;
 
-    public static F<StackableNode, Boolean> _isOnSkateboard = new F<StackableNode, Boolean>() {
+    public static final F<StackableNode, Boolean> _isOnSkateboard = new F<StackableNode, Boolean>() {
         @Override public Boolean f( final StackableNode stackableNode ) {
             return stackableNode.onSkateboard.get();
         }
     };
-    public static F<StackableNode, Double> _mass = new F<StackableNode, Double>() {
+    public static final F<StackableNode, Double> _mass = new F<StackableNode, Double>() {
         @Override public Double f( final StackableNode stackableNode ) {
             return stackableNode.mass;
         }
@@ -57,7 +57,7 @@ public class StackableNode extends PNode {
 
     //if it has a flat top, it can be stacked upon
     public final boolean flatTop;
-    private BufferedImage flippedStackedImage;
+    private final BufferedImage flippedStackedImage;
 
     //Remember the last image shown before applied force is set to 0.0 so that the character will keep facing the same direction.
     private Image lastStackedImage;
@@ -163,7 +163,7 @@ public class StackableNode extends PNode {
         } );
     }
 
-    protected Pair<Integer, String> getMassDisplayString( final double mass ) {return new Pair<Integer, String>( 0, new DecimalFormat( "0" ).format( mass ) + " kg" );}
+    Pair<Integer, String> getMassDisplayString( final double mass ) {return new Pair<Integer, String>( 0, new DecimalFormat( "0" ).format( mass ) + " kg" );}
 
     public void animateHome() {
         animateToPositionScaleRotation( initialOffset.x, initialOffset.y, initialScale, 0, 200 );

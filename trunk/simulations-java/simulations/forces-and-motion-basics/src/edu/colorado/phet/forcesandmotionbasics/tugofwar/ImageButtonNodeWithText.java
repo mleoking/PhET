@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Sam Reid
  */
-public class ImageButtonNodeWithText extends PNode {
+class ImageButtonNodeWithText extends PNode {
     private final BufferedImage hover;
     private final PImage imageNode;
 
