@@ -1,3 +1,4 @@
+# 1.03.00 (68629) Oct 1, 2012
 # 1.02.01 (68622) Oct 1, 2012
 > Fixed: Sometimes the sim freezes when pressing "reset all"
 Changed initialization and reset behavior in attempt to fix #3298
