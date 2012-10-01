@@ -155,7 +155,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 removeAllChildren();
 
                 //Show rocks as additional texture
-                boolean showRocks = true;
+                boolean showRocks = false;
                 if ( showRocks ) {
                     final double scale = 0.5;
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale + Images.BRICK_TILE.getHeight() - 22, STAGE_SIZE.width * 3 / scale, rocksOverlay.getHeight() );

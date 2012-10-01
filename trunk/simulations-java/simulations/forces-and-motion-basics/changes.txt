@@ -1,3 +1,4 @@
+Tab 2-3: Removed the rocks
 Tab 3: Made it so that the friction vector does not move its tail end to the center
 # 0.00.31 (68632) Oct 1, 2012
 Tab 2: Fixed: when you apply force to slow the skateboard down and then let go, the little figure goes behind whatever is on the skateboard but in front of the skateboard itself
