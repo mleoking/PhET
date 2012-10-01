@@ -18,7 +18,7 @@ public class GameConstants {
 
     public static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 40 );
     public static final Color TITLE_COLOR = Color.BLACK;
-    public static final Font BUTTON_FONT = new PhetFont( Font.BOLD, 22 );
+    public static final Font BUTTON_FONT = new PhetFont( Font.BOLD, 30 );
     public static final PhetFont INTERACTIVE_EQUATION_FONT = new PhetFont( Font.BOLD, 32 );
     public static final PhetFont STATIC_EQUATION_FONT = new PhetFont( Font.PLAIN, INTERACTIVE_EQUATION_FONT.getSize() );
     public static final double FACE_DIAMETER = 240;
