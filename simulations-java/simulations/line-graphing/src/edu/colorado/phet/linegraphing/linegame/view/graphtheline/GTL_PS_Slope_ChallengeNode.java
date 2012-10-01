@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
+import edu.colorado.phet.linegraphing.common.model.LineParameterRange;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
@@ -71,7 +72,7 @@ public class GTL_PS_Slope_ChallengeNode extends GTL_PS_ChallengeNode {
             slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                               slopeManipulatorNode, challenge.mvt, challenge.guess,
                                                                               riseRange,
-                                                                              new Property<DoubleRange>( new DoubleRange( challenge.graph.xRange ) ) ) );
+                                                                              new Property<DoubleRange>( new DoubleRange( LineParameterRange.run( challenge.answer, challenge.graph ) ) ) ) );
             // Rendering order
             addChild( guessNodeParent );
             addChild( answerNode );
@@ -91,11 +92,8 @@ public class GTL_PS_Slope_ChallengeNode extends GTL_PS_ChallengeNode {
                     // move the manipulator
                     slopeManipulatorNode.setOffset( challenge.mvt.modelToView( line.x2, line.y2 ) );
 
-                    //TODO this was copied from LineFormsModel constructor
-                    // adjust the rise range
-                    final double riseMin = challenge.graph.yRange.getMin() - line.y1;
-                    final double riseMax = challenge.graph.yRange.getMax() - line.y1;
-                    riseRange.set( new DoubleRange( riseMin, riseMax ) );
+                    // adjust range
+                    riseRange.set( LineParameterRange.rise( line, challenge.graph ) );
                 }
             } );
         }

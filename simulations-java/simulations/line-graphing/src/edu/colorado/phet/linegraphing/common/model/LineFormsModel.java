@@ -113,34 +113,13 @@ public class LineFormsModel implements Resettable {
         // Dynamically adjust ranges so that variables are constrained to the bounds of the graph.
         this.interactiveLine.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
-
-                // range of the graph axes
-                final int xMin = graph.xRange.getMin();
-                final int xMax = graph.xRange.getMax();
-                final int yMin = graph.yRange.getMin();
-                final int yMax = graph.yRange.getMax();
-
                 // x1 should not be changed for slope-intercept form.
                 if ( !( LineFormsModel.this.x1Range.get().getMin() == 0d && LineFormsModel.this.x1Range.get().getMax() == 0d ) ) {
-                    final double x1Min = Math.max( xMin, xMin - line.run );
-                    final double x1Max = Math.min( xMax, xMax - line.run );
-                    LineFormsModel.this.x1Range.set( new DoubleRange( x1Min, x1Max ) );
+                    LineFormsModel.this.x1Range.set( LineParameterRange.x1( line, graph ) );
                 }
-
-                // y1
-                final double y1Min = Math.max( yMin, yMin - line.rise );
-                final double y1Max = Math.min( yMax, yMax - line.rise );
-                LineFormsModel.this.y1Range.set( new DoubleRange( y1Min, y1Max ) );
-
-                // rise
-                final double riseMin = yMin - line.y1;
-                final double riseMax = yMax - line.y1;
-                LineFormsModel.this.riseRange.set( new DoubleRange( riseMin, riseMax ) );
-
-                // run
-                final double runMin = xMin - line.x1;
-                final double runMax = xMax - line.x1;
-                LineFormsModel.this.runRange.set( new DoubleRange( runMin, runMax ) );
+                LineFormsModel.this.y1Range.set( LineParameterRange.y1( line, graph ) );
+                LineFormsModel.this.riseRange.set( LineParameterRange.rise( line, graph ) );
+                LineFormsModel.this.runRange.set( LineParameterRange.run( line, graph ) );
             }
         } );
     }

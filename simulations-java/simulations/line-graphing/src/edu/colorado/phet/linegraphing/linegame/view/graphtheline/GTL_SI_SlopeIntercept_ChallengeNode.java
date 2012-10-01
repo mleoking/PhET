@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
+import edu.colorado.phet.linegraphing.common.model.LineParameterRange;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
@@ -95,17 +96,9 @@ public class GTL_SI_SlopeIntercept_ChallengeNode extends GTL_SI_ChallengeNode {
                     slopeManipulatorNode.setOffset( challenge.mvt.modelToView( line.x2, line.y2 ) );
                     interceptManipulatorNode.setOffset( challenge.mvt.modelToView( line.x1, line.y1 ) );
 
-                    //TODO this was copied from LineFormsModel constructor, apply strategy pattern
-                    // adjust the rise range
-                    final double riseMin = challenge.graph.yRange.getMin() - line.y1;
-                    final double riseMax = challenge.graph.yRange.getMax() - line.y1;
-                    riseRange.set( new DoubleRange( riseMin, riseMax ) );
-
-                    //TODO this was copied from LineFormsModel constructor, apply strategy pattern
-                    // adjust the y-intercept range
-                    final double y1Min = ( line.rise >= 0 ) ? challenge.graph.yRange.getMin() : challenge.graph.yRange.getMin() - line.rise;
-                    final double y1Max = ( line.rise <= 0 ) ? challenge.graph.yRange.getMax() : challenge.graph.yRange.getMax() - line.rise;
-                    y1Range.set( new DoubleRange( y1Min, y1Max ) );
+                    // adjust ranges
+                    riseRange.set( LineParameterRange.rise( line, challenge.graph ) );
+                    y1Range.set( LineParameterRange.y1( line, challenge.graph ) );
                 }
             } );
         }
