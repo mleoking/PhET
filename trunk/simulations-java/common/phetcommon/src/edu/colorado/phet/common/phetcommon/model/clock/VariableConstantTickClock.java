@@ -1,13 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.phetcommon.model.clock;
 
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
@@ -150,5 +141,9 @@ public class VariableConstantTickClock implements IClock, ClockListener {
 
     public boolean containsClockListener( ClockListener clockListener ) {
         return wrappedClock.containsClockListener( clockListener );
+    }
+
+    public void removeAllClockListeners() {
+        clockEventChannel.removeAllListeners();
     }
 }
