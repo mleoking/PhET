@@ -30,7 +30,6 @@ MEDIUM
 
 LOW
 - repackage in anticipating of having 3 sims in this project
-- move GameConstants to LGConstants?
 
 DEVELOPER CONTROLS
 - replay the current Game challenge
