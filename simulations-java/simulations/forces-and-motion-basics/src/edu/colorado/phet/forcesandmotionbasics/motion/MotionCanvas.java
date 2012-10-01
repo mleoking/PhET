@@ -261,7 +261,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                      new PImage( Images.SKATEBOARD );
         skateboard.setScale( 0.85 );
         skateboard.setOffset( STAGE_SIZE.getWidth() / 2 - skateboard.getFullBounds().getWidth() / 2, grassY - skateboard.getFullBounds().getHeight() );
-        addChild( skateboard );
 
         final RoundRectangle2D.Double toolboxShape = new RoundRectangle2D.Double( 0, 0, 270, 170, 20, 20 );
         PhetPPath leftToolbox = new PhetPPath( toolboxShape, TOOLBOX_COLOR, new BasicStroke( 1 ), Color.black );
@@ -279,6 +278,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         pusherNode = new PusherNode( model.fallen, skateboard, grassY, model.appliedForce, stack, model.speedValue );
         addChild( pusherNode );
+
+        addChild( skateboard );
 
         HBox timeControls = new HBox( -3, new RewindButton( 60 ) {{
             addListener( new Listener() {
