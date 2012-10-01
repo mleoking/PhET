@@ -63,6 +63,8 @@ import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._mass
 import static fj.function.Doubles.add;
 
 /**
+ * Canvas for tab 2 "Motion" and tab 3 "Friction", shows everything as piccolo nodes (including the control panels).
+ *
  * @author Sam Reid
  */
 public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements StackableNodeContext {
@@ -94,7 +96,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     //Features only for Tab 3: Friction:
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
 
-    public MotionCanvas( final Context context, final IClock clock, final boolean friction ) {
+    public MotionCanvas( final Context context, final IClock clock,
+
+                         //True if tab 3 "friction"
+                         final boolean friction ) {
         this.friction = friction;
         final CompositeDoubleProperty massOfObjectsOnSkateboard = new CompositeDoubleProperty( new Function0<Double>() {
             public Double apply() {

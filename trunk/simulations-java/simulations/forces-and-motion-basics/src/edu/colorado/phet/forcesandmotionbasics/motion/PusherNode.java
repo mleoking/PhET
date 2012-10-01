@@ -20,6 +20,10 @@ import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResou
 import static java.lang.Math.round;
 
 /**
+ * Node for tabs 2-3 that represents the character that pushes the object.  He is non-interactive, just an animated display.
+ * This class is complex because the pusher has several modes depending on the model: standing, pushing, fallen (each in both directions).
+ * Pushing has several degrees of gradation to show a stronger push.
+ *
  * @author Sam Reid
  */
 public class PusherNode extends PNode {

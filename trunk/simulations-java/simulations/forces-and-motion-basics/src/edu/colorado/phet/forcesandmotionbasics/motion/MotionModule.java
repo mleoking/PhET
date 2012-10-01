@@ -6,6 +6,9 @@ import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.U
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.Context;
 
 /**
+ * Module for tab 2 "Motion" and tab 3 "Friction".  The model is created and maintained within MotionCanvas to make it simple to recerate on reset.
+ * Reset is implemented as throwing away the old model and view, and creating new ones.
+ *
  * @author Sam Reid
  */
 public class MotionModule extends SimSharingPiccoloModule implements Context {

@@ -4,6 +4,8 @@ package edu.colorado.phet.forcesandmotionbasics.motion;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 
 /**
+ * Interface used by StackableNode and implemented by MotionCanvas, to decrease coupling between the two.
+ *
  * @author Sam Reid
  */
 public interface StackableNodeContext {

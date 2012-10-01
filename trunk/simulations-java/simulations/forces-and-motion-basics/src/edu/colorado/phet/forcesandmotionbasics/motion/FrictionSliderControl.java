@@ -5,20 +5,24 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
-import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
-import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode.DEFAULT_TRACK_THICKNESS;
+import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.DEFAULT_FONT;
+
 /**
+ * Control shown in the control panel of the 3rb tab "friction" for changing the coefficient of friction.
+ *
  * @author Sam Reid
  */
 public class FrictionSliderControl extends PNode {
     public static final double MAX = 0.5;
 
     public FrictionSliderControl( final SettableProperty<Double> friction ) {
-        addChild( new VBox( 0, new PhetPText( "Friction", AbstractForcesAndMotionBasicsCanvas.DEFAULT_FONT ), new HSliderNode( null, 0, MAX, VSliderNode.DEFAULT_TRACK_THICKNESS, 150, friction, new BooleanProperty( true ) ) {{
-            addLabel( 0, new PhetPText( "None" ) );
-            addLabel( MAX, new PhetPText( "Lots" ) );
-        }} ) );
+        addChild( new VBox( 0, new PhetPText( "Friction", DEFAULT_FONT ),
+                            new HSliderNode( null, 0, MAX, DEFAULT_TRACK_THICKNESS, 150, friction, new BooleanProperty( true ) ) {{
+                                addLabel( 0, new PhetPText( "None" ) );
+                                addLabel( MAX, new PhetPText( "Lots" ) );
+                            }} ) );
     }
 }
