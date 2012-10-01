@@ -4,9 +4,8 @@ package edu.colorado.phet.linegraphing.linegame.model;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
-import edu.colorado.phet.linegraphing.linegame.view.GameConstants;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -20,8 +19,8 @@ public abstract class Challenge {
     public final Property<Line> guess; // the user's current guess
 
     public Challenge( Line answer, Line guess ) {
-        this.answer = answer.withColor( GameConstants.ANSWER_COLOR );
-        this.guess = new Property<Line>( guess.withColor( GameConstants.GUESS_COLOR ) );
+        this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );
+        this.guess = new Property<Line>( guess.withColor( LineGameConstants.GUESS_COLOR ) );
     }
 
     // Correct if the guess and answer are descriptions of the same line.
