@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
@@ -44,6 +45,12 @@ public class WaterPoweredGenerator extends EnergyConverter {
     public static final ModelElementImage WIRE_CURVED_IMAGE = new ModelElementImage( WIRE_BLACK_LEFT, new Vector2D( 0.0185, -0.015 ) ); // Offset empirically determined for optimal look.
     private static final double WHEEL_RADIUS = WHEEL_HUB_IMAGE.getWidth() / 2;
 
+    // Offsets used to create the paths followed by the energy chunks.
+    private static final Vector2D START_OF_WIRE_CURVE_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.01, -0.05 );
+    private static final Vector2D WIRE_CURVE_POINT_1_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.015, -0.06 );
+    private static final Vector2D WIRE_CURVE_POINT_2_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.03, -0.07 );
+    private static final Vector2D END_OF_WIRE_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.07, -0.07 );
+
     private static final double ENERGY_OUTPUT_RATE = 10; // In joules / (radians / sec)
 
     //-------------------------------------------------------------------------
@@ -59,6 +66,10 @@ public class WaterPoweredGenerator extends EnergyConverter {
     // generator wheel turns at a rate that is directly proportionate to the
     // incoming energy, with no rotational inertia.
     public BooleanProperty directCouplingMode = new BooleanProperty( false );
+
+    // The electrical energy chunks are kept on a separate list to support
+    // placing them on a different layer in the view.
+    public ObservableList<EnergyChunk> electricalEnergyChunks = new ObservableList<EnergyChunk>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -108,7 +119,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
                         // And a "mover" that will move this energy chunk to
                         // the center of the wheel.
                         mechanicalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk,
-                                                                                   getMechanicalEnergyChunkPath( getPosition() ),
+                                                                                   createMechanicalEnergyChunkPath( getPosition() ),
                                                                                    EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
                     }
                     else {
@@ -119,7 +130,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
                 incomingEnergyChunks.clear();
             }
 
-            // Move the energy chunks that are currently under management.
+            // Move the mechanical energy chunks and update their state.
             for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( mechanicalEnergyChunkMovers ) ) {
                 energyChunkMover.moveAlongPath( dt );
                 if ( energyChunkMover.isPathFullyTraversed() ) {
@@ -127,19 +138,43 @@ public class WaterPoweredGenerator extends EnergyConverter {
                     // its path, so change it to electrical and send it on its
                     // way.
                     mechanicalEnergyChunkMovers.remove( energyChunkMover );
-                    energyChunkMover.energyChunk.energyType.set( EnergyType.ELECTRICAL );
-                    // TODO: Just remove for now.
                     energyChunkList.remove( energyChunkMover.energyChunk );
+                    energyChunkMover.energyChunk.energyType.set( EnergyType.ELECTRICAL );
+                    electricalEnergyChunks.add( energyChunkMover.energyChunk );
+                    electricalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
+                                                                               createElectricalEnergyChunkPath( getPosition() ),
+                                                                               EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
                 }
             }
 
+            // Move the electrical energy chunks and update their state.
+            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( electricalEnergyChunkMovers ) ) {
+                energyChunkMover.moveAlongPath( dt );
+                if ( energyChunkMover.isPathFullyTraversed() ) {
+                    // The electrical energy chunk has traveled to the end of
+                    // its path, so transfer it to the next energy system.
+                    electricalEnergyChunkMovers.remove( energyChunkMover );
+                    outgoingEnergyChunks.add( energyChunkMover.energyChunk );
+                }
+            }
         }
+
+        // Produce the appropriate amount of energy.
         return new Energy( EnergyType.ELECTRICAL, Math.abs( wheelRotationalVelocity * ENERGY_OUTPUT_RATE ) );
     }
 
-    private static List<Vector2D> getMechanicalEnergyChunkPath( final Vector2D panelPosition ) {
+    private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D panelPosition ) {
         return new ArrayList<Vector2D>() {{
             add( panelPosition.plus( WHEEL_CENTER_OFFSET ) );
+        }};
+    }
+
+    private static List<Vector2D> createElectricalEnergyChunkPath( final Vector2D panelPosition ) {
+        return new ArrayList<Vector2D>() {{
+            add( panelPosition.plus( START_OF_WIRE_CURVE_OFFSET ) );
+            add( panelPosition.plus( WIRE_CURVE_POINT_1_OFFSET ) );
+            add( panelPosition.plus( WIRE_CURVE_POINT_2_OFFSET ) );
+            add( panelPosition.plus( END_OF_WIRE_OFFSET ) );
         }};
     }
 
@@ -150,6 +185,14 @@ public class WaterPoweredGenerator extends EnergyConverter {
 
     public ObservableProperty<Double> getWheelRotationalAngle() {
         return wheelRotationalAngle;
+    }
+
+    // Have to override, since outgoing chunks are on a separate list.
+    @Override public List<EnergyChunk> extractOutgoingEnergyChunks() {
+        List<EnergyChunk> retVal = new ArrayList<EnergyChunk>( outgoingEnergyChunks );
+        electricalEnergyChunkMovers.removeAll( outgoingEnergyChunks );
+        outgoingEnergyChunks.clear();
+        return retVal;
     }
 
     @Override public IUserComponent getUserComponent() {
