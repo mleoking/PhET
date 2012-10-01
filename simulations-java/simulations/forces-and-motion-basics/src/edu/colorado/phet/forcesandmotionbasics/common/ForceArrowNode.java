@@ -7,11 +7,13 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.getSign;
@@ -73,7 +75,7 @@ public class ForceArrowNode extends PNode {
 
         if ( showValues ) {
             final String text = new DecimalFormat( "0" ).format( Math.abs( forceInNewtons ) );
-            valueNode = new PhetPText( text + "N", new PhetFont( 16, true ) ) {{
+            valueNode = new PhetPText( new MessageFormat( Strings.FORCE_READOUT__PATTERN ).format( text ), new PhetFont( 16, true ) ) {{
                 centerFullBoundsOnPoint( arrowNode.getFullBounds().getCenter2D() );
                 double dx = 2;
                 translate( forceInNewtons < 0 ? dx :
@@ -94,7 +96,7 @@ public class ForceArrowNode extends PNode {
     }
 
     private void showTextOnly( final Vector2D tail ) {
-        addChild( new PhetPText( "Sum of Forces = 0", DEFAULT_FONT ) {{
+        addChild( new PhetPText( Strings.SUM_OF_FORCES_EQUALS_ZERO, DEFAULT_FONT ) {{
             centerBoundsOnPoint( tail.x, tail.y - 46 );//Fine tune location so that it shows at the same y location as the text would if there were an arrow
         }} );
     }
