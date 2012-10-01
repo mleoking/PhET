@@ -8,7 +8,7 @@ import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -47,7 +47,7 @@ class ResultsNode extends PhetPNode {
                                                                         model.results.getBestTime( model.settings.level.get() ),
                                                                         model.results.isNewBestTime,
                                                                         model.settings.timerEnabled.get(),
-                                                                        LGColors.GAME_INSTRUCTION_COLORS );
+                                                                        LineGameConstants.BUTTON_COLOR );
                     gameOverNode.scale( 1.5 );
                     addChild( gameOverNode );
                     gameOverNode.setOffset( ( stageSize.getWidth() - gameOverNode.getFullBoundsReference().getWidth() ) / 2,

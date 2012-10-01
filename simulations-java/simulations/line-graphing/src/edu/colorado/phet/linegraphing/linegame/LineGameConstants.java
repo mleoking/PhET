@@ -27,6 +27,7 @@ public class LineGameConstants {
     public static final Color GUESS_COLOR = PhetColorScheme.RED_COLORBLIND;
     public static final Color FACE_COLOR = new Color( 255, 255, 0, 180 ); // translucent yellow
     public static final Color POINTS_AWARDED_COLOR = Color.BLACK;
+    public static final Color BUTTON_COLOR = Color.YELLOW;
 
     // sizes
     public static final double FACE_DIAMETER = 240;

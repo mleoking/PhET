@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
@@ -55,7 +54,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
 
         // Buttons
         final Font buttonFont = LineGameConstants.BUTTON_FONT;
-        final Color buttonForeground = LGColors.GAME_INSTRUCTION_COLORS;
+        final Color buttonForeground = LineGameConstants.BUTTON_COLOR;
         final TextButtonNode checkButton = new TextButtonNode( Strings.CHECK, buttonFont, buttonForeground );
         final TextButtonNode tryAgainButton = new TextButtonNode( Strings.TRY_AGAIN, buttonFont, buttonForeground );
         final TextButtonNode showAnswerButton = new TextButtonNode( Strings.SHOW_ANSWER, buttonFont, buttonForeground );

@@ -7,6 +7,7 @@ import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
 import edu.umd.cs.piccolo.PNode;
@@ -27,7 +28,8 @@ class SettingsNode extends PhetPNode {
                                                                  public void apply() {
                                                                      model.phase.set( GamePhase.PLAY );
                                                                  }
-                                                             }, LGColors.GAME_INSTRUCTION_COLORS ) );
+                                                             },
+                                                             LineGameConstants.BUTTON_COLOR ) );
         panelNode.scale( 1.5 );
         addChild( panelNode );
 
