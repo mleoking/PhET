@@ -1,3 +1,4 @@
+Tab 2-3: Temorarily removed mountains
 # 0.00.28 (68614) Oct 1, 2012
 Tab 2-3: Moved all rocks to above the toolboxes
 # 0.00.27 (68612) Oct 1, 2012

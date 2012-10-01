@@ -165,7 +165,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 }
 
                 //Show mountains as additional texture
-                {
+                boolean showMountains = false;
+                if ( showMountains ) {
                     final double scale = 0.25;
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale - mountains.getHeight(), STAGE_SIZE.width * 3 / scale, mountains.getHeight() );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale / 50.0 + 150, area.getY() - 1, mountains.getWidth(), mountains.getHeight() );
