@@ -1,3 +1,4 @@
+Changed initialization and reset behavior in attempt to fix #3298
 Wavelength control layout adjustments related to fix #3327
 More tools tab: Fixed: Speed sensor resizes when readout changes
 # 1.02.00 (63000) Apr 3, 2012

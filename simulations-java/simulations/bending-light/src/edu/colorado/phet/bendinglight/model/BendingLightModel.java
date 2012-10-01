@@ -71,19 +71,18 @@ public abstract class BendingLightModel implements ResetModel {
     private final ArrayList<VoidFunction0> modelUpdateListeners = new ArrayList<VoidFunction0>();
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
-    public BendingLightModel( double laserAngle, boolean topLeftQuadrant, final double laserDistanceFromPivot ) {
+    public BendingLightModel( final ConstantDtClock clock, double laserAngle, boolean topLeftQuadrant, final double laserDistanceFromPivot ) {
         laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
 
         //When the clock ticks, notify the rays that the time changed so they can animate in wave mode
-        this.clock = new ConstantDtClock( 20, DEFAULT_DT ) {{
-            addClockListener( new ClockAdapter() {
-                public void simulationTimeChanged( ClockEvent clockEvent ) {
-                    for ( LightRay ray : rays ) {
-                        ray.setTime( getSimulationTime() );
-                    }
+        this.clock = clock;
+        clock.addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                for ( LightRay ray : rays ) {
+                    ray.setTime( clock.getSimulationTime() );
                 }
-            } );
-        }};
+            }
+        } );
 
         //Update the model when any dependent properties change
         new RichSimpleObserver() {

@@ -3,6 +3,7 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -23,8 +24,8 @@ public class MoreToolsModel extends IntroModel {
     };
     public final WaveSensor waveSensor = new WaveSensor( getClock(), waveValueGetter, waveValueGetter );
 
-    public MoreToolsModel() {
-        super( GLASS );//on this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent bend
+    public MoreToolsModel( ConstantDtClock clock ) {
+        super( clock, GLASS );//on this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent bend
 
         //Update the velocity sensor value when anything relevant in the model changes
         final VoidFunction0 updateReading = new VoidFunction0() {

@@ -14,6 +14,7 @@ import edu.colorado.phet.bendinglight.model.ProtractorModel;
 import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -44,8 +45,8 @@ public class PrismBreakModel extends BendingLightModel {
         }
     };
 
-    public PrismBreakModel() {
-        super( PI, false, DEFAULT_LASER_DISTANCE_FROM_PIVOT * 0.9 );
+    public PrismBreakModel( ConstantDtClock clock ) {
+        super( clock, PI, false, DEFAULT_LASER_DISTANCE_FROM_PIVOT * 0.9 );
         //Recompute the model when any dependencies change
         new RichSimpleObserver() {
             public void update() {
