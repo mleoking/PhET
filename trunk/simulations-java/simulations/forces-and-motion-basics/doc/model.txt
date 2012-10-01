@@ -1,0 +1,4 @@
+Tab 1: Tug of War
+
+The model is very simple, based on Newton's 2nd Law: Sum of forces = sum of masses * acceleration.
+Then euler updates are used to compute the velocity and position changes.
