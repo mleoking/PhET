@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -48,7 +49,6 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
 
         // The equation for the correct answer
         final PNode answerEquationNode = createAnswerEquationNode( challenge.answer, GameConstants.STATIC_EQUATION_FONT, challenge.answer.color );
-        answerEquationNode.setVisible( false );
 
         final MTE_GraphNode graphNode = createGraphNode( challenge );
 
@@ -122,6 +122,13 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
             // face centered in the challenge space
             faceNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( faceNode.getFullBoundsReference().getWidth() / 2 ),
                                 ( challengeSize.getHeight() / 2 ) - ( faceNode.getFullBoundsReference().getHeight() / 2 ) );
+        }
+
+        // To reduce brain damage during development, show the answer equation in translucent gray.
+        if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+            PNode devAnswerNode = createAnswerEquationNode( challenge.answer, GameConstants.STATIC_EQUATION_FONT, new Color( 0, 0, 0, 25 ) );
+            devAnswerNode.setOffset( answerEquationNode.getOffset() );
+            addChild( devAnswerNode );
         }
 
         // state changes
