@@ -311,8 +311,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         double INTER_OBJECT_SPACING = 10;
         fridge.setInitialOffset( leftToolbox.getFullBounds().getX() + 10, leftToolbox.getFullBounds().getCenterY() - fridge.getFullBounds().getHeight() / 2 );
-        crate1.setInitialOffset( fridge.getFullBounds().getMaxX() + INTER_OBJECT_SPACING, fridge.getFullBounds().getMaxY() - crate1.getFullBounds().getHeight() );
-        crate2.setInitialOffset( crate1.getFullBounds().getMaxX() + INTER_OBJECT_SPACING, fridge.getFullBounds().getMaxY() - crate2.getFullBounds().getHeight() );
+        crate1.setInitialOffset( fridge.getObjectMaxX() + INTER_OBJECT_SPACING, fridge.getFullBounds().getMaxY() - crate1.getFullBounds().getHeight() );
+        crate2.setInitialOffset( crate1.getObjectMaxX() + INTER_OBJECT_SPACING, fridge.getFullBounds().getMaxY() - crate2.getFullBounds().getHeight() );
 
         addChild( fridge );
         addChild( crate1 );
@@ -332,9 +332,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         double spacingX = 18;
         girl.setInitialOffset( rightToolbox.getFullBounds().getX() + spacingX, rightToolbox.getFullBounds().getMaxY() - girl.getFullBounds().getHeight() - 5 );
-        man.setInitialOffset( girl.getFullBounds().getMaxX() + spacingX, rightToolbox.getFullBounds().getMaxY() - man.getFullBounds().getHeight() - 5 );
-        trash.setInitialOffset( man.getFullBounds().getMaxX() + spacingX, rightToolbox.getFullBounds().getMaxY() - trash.getFullBounds().getHeight() - 5 );
-        gift.setInitialOffset( trash.getFullBounds().getMaxX() + spacingX - 5, rightToolbox.getFullBounds().getMaxY() - gift.getFullBounds().getHeight() - 5 );
+        man.setInitialOffset( girl.getObjectMaxX() + spacingX, rightToolbox.getFullBounds().getMaxY() - man.getFullBounds().getHeight() - 5 );
+        trash.setInitialOffset( man.getObjectMaxX() + spacingX, rightToolbox.getFullBounds().getMaxY() - trash.getFullBounds().getHeight() - 5 );
+        gift.setInitialOffset( trash.getObjectMaxX() + spacingX - 5, rightToolbox.getFullBounds().getMaxY() - gift.getFullBounds().getHeight() - 5 );
         addChild( girl );
         addChild( man );
         addChild( trash );
@@ -520,7 +520,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     return n.getFullBounds().getHeight();
                 }
             } ).foldLeft( Doubles.add, 0.0 ) + skateboardY;
-            stackableNode.animateToPositionScaleRotation( skateboardBounds.getCenterX() - stackableNode.getFullBounds().getWidth() / 2,
+            stackableNode.animateToPositionScaleRotation( skateboardBounds.getCenterX() - stackableNode.getFullBounds().getWidth() / 2 + stackableNode.getInset(),
                                                           topY - stackableNode.getFullBounds().getHeight(), 1, 0, 200 );
         }
     }

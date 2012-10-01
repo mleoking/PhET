@@ -1,3 +1,4 @@
+Accommodate larger text for other languages
 Resize "Blue Wins!" and "Red Wins!" text if it is too big in other languages
 Tab 1-3: Added internationalization
 # 0.00.32 (68636) Oct 1, 2012
