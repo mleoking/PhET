@@ -1,3 +1,4 @@
+# 1.02.01 (68622) Oct 1, 2012
 Changed initialization and reset behavior in attempt to fix #3298
 Wavelength control layout adjustments related to fix #3327
 More tools tab: Fixed: Speed sensor resizes when readout changes
