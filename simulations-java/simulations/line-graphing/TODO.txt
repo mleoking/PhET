@@ -36,15 +36,6 @@ DEVELOPER CONTROLS
 - "resample" to change the challenges for the current Game level
 - provide (or specify) a fixed set of challenges for Game testing
 
-GAME CHALLENGES
-Do each of these for "Make the Equation"
-- slope-intercept form + slope variable (plot intercept)
-- slope-intercept form + intercept variable
-- slope-intercept form + slope variable + intercept variable
-- point-slope form + point variable
-- point-slope form + slope variable (plot point)
-- point-slope form + point variable + slope variable
-
 DATA COLLECTION
 - instrument Game
 
