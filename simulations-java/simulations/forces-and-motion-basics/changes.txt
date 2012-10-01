@@ -1,3 +1,4 @@
+# 0.00.27 (68612) Oct 1, 2012
 Tab 2-3: Added mountains
 # 0.00.26 (68607) Oct 1, 2012
 Tab 3: Fixed: No longer can move object to the left.  Flicker is happening there too.
