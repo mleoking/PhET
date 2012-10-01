@@ -35,6 +35,7 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage ICE_OVERLAY = RESOURCES.getImage( "ice_overlay.png" );
         public static final BufferedImage MAN_SITTING = RESOURCES.getImage( "man-sitting.png" );
         public static final BufferedImage MAN_STANDING = RESOURCES.getImage( "man-standing.png" );
+        public static final BufferedImage MOUNTAINS = RESOURCES.getImage( "mountains.png" );
         public static final BufferedImage MYSTERY_OBJECT_01 = RESOURCES.getImage( "mystery-object-01.png" );
         public static final BufferedImage PULL_FIGURE_BLUE_0 = RESOURCES.getImage( "pull_figure_BLUE_0.png" );
         public static final BufferedImage PULL_FIGURE_BLUE_1 = RESOURCES.getImage( "pull_figure_BLUE_1.png" );
