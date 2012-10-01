@@ -196,17 +196,17 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( clouds );
 
-        final JCheckBox showForcesCheckBox = new PropertyCheckBox( null, "Forces", showForces ) {{setFont( CONTROL_FONT );}};
-        final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( CONTROL_FONT );}};
-        final JCheckBox showSumOfForcesCheckBox = new PropertyCheckBox( null, "Sum of Forces", showSumOfForces ) {{setFont( CONTROL_FONT );}};
+        final JCheckBox showForcesCheckBox = new PropertyCheckBox( null, "Forces", showForces ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, "Values", showValues ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox showSumOfForcesCheckBox = new PropertyCheckBox( null, "Sum of Forces", showSumOfForces ) {{setFont( DEFAULT_FONT );}};
         showForces.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean showForces ) {
                 showValuesCheckBox.setEnabled( showForces );
                 showSumOfForcesCheckBox.setEnabled( showForces );
             }
         } );
-        final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSpeedometer ) {{ setFont( CONTROL_FONT ); }};
-        final JCheckBox massCheckBox = new PropertyCheckBox( null, "Masses", showMasses ) {{ setFont( CONTROL_FONT ); }};
+        final JCheckBox speedCheckBox = new PropertyCheckBox( null, "Speed", showSpeedometer ) {{ setFont( DEFAULT_FONT ); }};
+        final JCheckBox massCheckBox = new PropertyCheckBox( null, "Masses", showMasses ) {{ setFont( DEFAULT_FONT ); }};
 
         final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( "Speed", 125, model.speed, STROBE_SPEED ) {{scale( 0.25 );}} );
         final VBox vbox = friction ?
@@ -226,7 +226,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             public void reset() {
                 context.reset();
             }
-        }, this, CONTROL_FONT, Color.black, Color.orange ) {{
+        }, this, DEFAULT_FONT, Color.black, Color.orange ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getMaxY() + INSET );
             setConfirmationEnabled( false );
         }} );

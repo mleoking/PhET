@@ -32,7 +32,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode.DEFAULT_TRACK_THICKNESS;
-import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.CONTROL_FONT;
+import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.DEFAULT_FONT;
 import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
 
 /**
@@ -71,7 +71,7 @@ public class SliderControl extends PNode {
         sliderNode = new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForceSliderModel, enabled ) {{
             PhetPPath tick1 = addLabel( -100, dummyLabel() );
             PhetPPath tick2 = addLabel( -50, dummyLabel() );
-            PhetPPath tick3 = addLabel( 0, new EnablePhetPText( "0", CONTROL_FONT, enabled ) );
+            PhetPPath tick3 = addLabel( 0, new EnablePhetPText( "0", DEFAULT_FONT, enabled ) );
             PhetPPath tick4 = addLabel( 50, dummyLabel() );
             PhetPPath tick5 = addLabel( 100, dummyLabel() );
 
@@ -108,12 +108,12 @@ public class SliderControl extends PNode {
                 }
             } );
         }};
-        VBox box = new VBox( 5, new EnablePhetPText( "Applied Force", CONTROL_FONT, enabled ),
+        VBox box = new VBox( 5, new EnablePhetPText( "Applied Force", DEFAULT_FONT, enabled ),
                              sliderNode,
-                             new HBox( new PhetPText( unitsString, CONTROL_FONT ) {{setTransparency( 0.0f );}},
+                             new HBox( new PhetPText( unitsString, DEFAULT_FONT ) {{setTransparency( 0.0f );}},
                                        new PSwing( new JTextField( 3 ) {
                                            {
-                                               setFont( CONTROL_FONT );
+                                               setFont( DEFAULT_FONT );
                                                setText( "0" );
                                                final DecimalFormat format = new DecimalFormat( "0" );
                                                setHorizontalAlignment( JTextField.RIGHT );
@@ -152,14 +152,14 @@ public class SliderControl extends PNode {
                                                }
                                            }
                                        } ),
-                                       new EnablePhetPText( unitsString, CONTROL_FONT, enabled )
+                                       new EnablePhetPText( unitsString, DEFAULT_FONT, enabled )
                              )
         );
 
         addChild( box );
     }
 
-    private PhetPText dummyLabel() {return new PhetPText( "a", CONTROL_FONT ) {{ setTransparency( 0.0f ); }};}
+    private PhetPText dummyLabel() {return new PhetPText( "a", DEFAULT_FONT ) {{ setTransparency( 0.0f ); }};}
 
     private VoidFunction1<SpeedValue> grayIf( final PhetPPath path, final SpeedValue value ) {
         return new VoidFunction1<SpeedValue>() {
