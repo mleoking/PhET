@@ -1,15 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forcesandmotionbasics.common;
 
-import fj.data.List;
 import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -17,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.common.phetcommon.math.MathUtil.getSign;
 import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.DEFAULT_FONT;
 import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.INSET;
 
@@ -29,6 +27,7 @@ import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMo
  */
 public class ForceArrowNode extends PNode {
 
+    private final double forceInNewtons;
     public PhetPText nameNode;
     private PhetPText valueNode;
 
@@ -37,6 +36,7 @@ public class ForceArrowNode extends PNode {
     }
 
     public ForceArrowNode( final boolean transparent, final Vector2D tail, final double forceInNewtons, final String name, Color color, final TextLocation textLocation, final boolean showValues, final Option<ForceArrowNode> other ) {
+        this.forceInNewtons = forceInNewtons;
 
         //Choose a single scale factor that works in all of the tabs.
         final double value = forceInNewtons * 3.625;
@@ -68,7 +68,7 @@ public class ForceArrowNode extends PNode {
 
         //If the text intersects, move the name down to avoid intersection.
         if ( intersectsAny( other ) ) {
-            nameNode.translate( 0, 40 );
+            nameNode.setOffset( arrowNode.getFullBounds().getCenterX() - nameNode.getFullBounds().getWidth() / 2, arrowNode.getFullBounds().getMaxY() + INSET - 2 );
         }
 
         if ( showValues ) {
@@ -90,27 +90,7 @@ public class ForceArrowNode extends PNode {
     }
 
     private boolean intersectsAny( final Option<ForceArrowNode> other ) {
-        if ( !other.isSome() ) { return false; }
-        boolean intersect = false;
-        for ( Rectangle2D otherTextRectangle : other.some().getTextRectangles() ) {
-            for ( Rectangle2D myTextRectangle : getTextRectangles() ) {
-                if ( otherTextRectangle.intersects( myTextRectangle ) ) {
-                    intersect = true;
-                }
-            }
-        }
-        return intersect;
-    }
-
-    private List<Rectangle2D> getTextRectangles() {
-        ArrayList<Rectangle2D> list = new ArrayList<Rectangle2D>();
-        if ( valueNode != null ) {
-            list.add( valueNode.getGlobalFullBounds() );
-        }
-        if ( nameNode != null ) {
-            list.add( nameNode.getGlobalFullBounds() );
-        }
-        return List.iterableList( list );
+        return other.isSome() && getSign( forceInNewtons ) == getSign( other.some().forceInNewtons );
     }
 
     private void showTextOnly( final Vector2D tail ) {
