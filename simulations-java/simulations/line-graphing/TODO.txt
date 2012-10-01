@@ -13,7 +13,9 @@ DESIGN
 - Game: do we need point-slope challenges where only 1 component of point (x1 or y1) is interactive?
 - Game: for failed challenge, should point and slope be plotted when answer is shown?
 - Game: for correct MTE challenge, should point and slope be plotted?
-- Game: interactive equations have color-coded spinners, but there's nothing color-coded in the graph (and green is overloaded: correct answer vs slope)
+- Game: interactive equations have color-coded spinners, but there's nothing color-coded in the graph
+- Game: green is overloaded: correct answer vs slope
+- Game: yellow is overloaded: face/buttons vs intercept
 - Game: what if the user's answer is correct, but not simplified? penalty? answer and guess show different equations but are both green?
 
 HIGH
