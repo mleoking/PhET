@@ -1,3 +1,4 @@
+10/1/12 game fix: use point-slope line factory when manipulating 2 arbitrary points, since y intercept may be non-integer
 10/1/12 move LineGameConstants to correct package
 10/1/12 game: make button font larger
 10/1/12 game: change color of plotted (non-interactive) points to gray
