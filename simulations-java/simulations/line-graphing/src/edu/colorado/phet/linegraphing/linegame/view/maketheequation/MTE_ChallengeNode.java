@@ -68,6 +68,8 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         Rectangle2D pointToolDragBounds = new Rectangle2D.Double( 0, 0, challengeSize.getWidth(), challengeSize.getHeight() );
         PointToolNode pointToolNode1 = new PointToolNode( challenge.pointTool1, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
         PointToolNode pointToolNode2 = new PointToolNode( challenge.pointTool2, challenge.mvt, challenge.graph, pointToolDragBounds, new BooleanProperty( true ) );
+        pointToolNode1.scale( GameConstants.POINT_TOOL_SCALE );
+        pointToolNode2.scale( GameConstants.POINT_TOOL_SCALE );
 
         // Point tools moveToFront when dragged, so we give them a common parent to preserve rendering order of the reset of the scenegraph.
         PNode pointToolParent = new PNode();

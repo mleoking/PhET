@@ -1,3 +1,4 @@
+10/1/12 game: make point tools smaller
 10/1/12 game: move initial location of point tools down slightly for "Make the Equation" challenges
 10/1/12 game: if dev flag is true, show answer for "Make the Equation" challenges
 9/29/12 collapse interactive equations to a single constructor
