@@ -1,16 +1,20 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.view.graphtheline;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
@@ -18,6 +22,7 @@ import edu.colorado.phet.linegraphing.common.view.X2Y2DragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationFactory;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -33,6 +38,15 @@ public class GTL_SI_Points_ChallengeNode extends GTL_SI_ChallengeNode {
 
     public GTL_SI_Points_ChallengeNode( final LineGameModel model, GTL_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         super( model, challenge, audioPlayer, challengeSize );
+    }
+
+    /*
+     * Creates the equation portion of the view.
+     * When manipulating 2 arbitrary points, we need to use a PointSlopeEquationFactory since
+     * the y intercept may be at a non-integer value.
+     */
+    @Override protected EquationNode createEquationNode( Line line, PhetFont font, Color color ) {
+        return new PointSlopeEquationFactory().createNode( line, font, color );
     }
 
     // Creates the graph portion of the view.
