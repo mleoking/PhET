@@ -53,6 +53,10 @@ class MotionModel {
         }.observe( frictionValue, massOfObjectsOnSkateboard );
     }
 
+    public static enum Sign {
+        POSITIVE, NEGATIVE, ZERO
+    }
+
     public void stepInTime( final double dt ) {
         double sumOfForces = updateForces();
 
@@ -64,13 +68,15 @@ class MotionModel {
         //friction force should not be able to make the object move backwards
         //Also make sure velocity goes exactly to zero when the pusher is pushing so that the friction force will be correctly computed
         //Without this logic, it was causing flickering arrows because the velocity was flipping sign and the friction force was flipping direction
-        if ( MathUtil.getSign( newVelocity ) != MathUtil.getSign( velocity.get() ) ) {
+        if ( changedDirection( newVelocity, velocity.get() ) ) {
             newVelocity = 0.0;
         }
 
         //Cap at strobe speed.  This is necessary so that a reverse applied force will take effect immediately, without these lines of code the pusher will stutter.
         if ( newVelocity > STROBE_SPEED ) { newVelocity = STROBE_SPEED; }
         if ( newVelocity < -STROBE_SPEED ) { newVelocity = -STROBE_SPEED; }
+
+//        System.out.println( "sumOfForces = " + sumOfForces + ", ff = " + frictionForce.get() + ", af = " + appliedForce.get() + ", accel = " + acceleration + ", newVelocity = " + newVelocity );
 
         velocity.set( newVelocity );
         position.set( position.get() + velocity.get() * dt );
@@ -83,6 +89,18 @@ class MotionModel {
             lastOutOfRange = new Pair<Long, SpeedValue>( System.currentTimeMillis(), _speedValue.get() );
             speedValue.set( _speedValue.get() );
         }
+    }
+
+    private boolean changedDirection( final double a, final double b ) {
+        return ( sign( a ) == Sign.NEGATIVE && sign( b ) == Sign.POSITIVE )
+               ||
+               ( sign( b ) == Sign.NEGATIVE && sign( a ) == Sign.POSITIVE );
+    }
+
+    private Sign sign( final Double value ) {
+        return value < 0 ? Sign.NEGATIVE :
+               value > 0 ? Sign.POSITIVE :
+               Sign.ZERO;
     }
 
     //The first part of stepInTime is to compute and set the forces.  But this is factored out because the forces must also be updated
@@ -102,7 +120,7 @@ class MotionModel {
 
         //Friction force only applies above this velocity
         final double velocityThreshold = 1E-12;
-        if ( Math.abs( velocity.get() ) <= velocityThreshold && frictionForce > appliedForce ) {
+        if ( Math.abs( velocity.get() ) <= velocityThreshold && Math.abs( frictionForce ) > Math.abs( appliedForce ) ) {
             frictionForce = appliedForce;
         }
         else if ( Math.abs( velocity.get() ) > velocityThreshold ) {
