@@ -57,12 +57,14 @@ class StackableNode extends PNode {
     };
     public final int pusherOffset;
 
+    private final BufferedImage toolboxImage;
     //if it has a flat top, it can be stacked upon
     public final boolean flatTop;
     private final BufferedImage flippedStackedImage;
 
     //Remember the last image shown before applied force is set to 0.0 so that the character will keep facing the same direction.
     private Image lastStackedImage;
+    private PNode textLabel;
 
     public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass ) {
         this( context, image, mass, pusherOffset, showMass, false, image, true );
@@ -76,6 +78,7 @@ class StackableNode extends PNode {
                           final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage, boolean flatTop ) {
         this.mass = mass;
         this.pusherOffset = pusherOffset;
+        this.toolboxImage = toolboxImage;
         this.flatTop = flatTop;
         this.flippedStackedImage = BufferedImageUtils.flipX( stackedImage );
         lastStackedImage = stackedImage;
@@ -121,7 +124,7 @@ class StackableNode extends PNode {
         };
         addChild( imageNode );
         setScale( 0.8 );
-        final PNode textLabel = new ZeroOffsetNode( new PNode() {{
+        textLabel = new ZeroOffsetNode( new PNode() {{
             final Pair<Integer, String> massDisplayString = getMassDisplayString( mass );
             final PhetPText text = new PhetPText( massDisplayString._2, new PhetFont( 18, true ) );
             final PhetPPath textBackground = new PhetPPath( round( expand( text.getFullBounds(), 3 + massDisplayString._1, 3 ), 18, 18 ), Color.white, new BasicStroke( 1 ), Color.gray );
@@ -177,5 +180,16 @@ class StackableNode extends PNode {
     public void setInitialOffset( final double x, final double y ) {
         this.initialOffset = Vector2D.v( x, y );
         setOffset( x, y );
+    }
+
+    //Return the width of the image part of the object (not including the width of the text overlays) for layout
+    public double getObjectMaxX() { return getOffset().getX() + toolboxImage.getWidth() * getScale(); }
+
+    //The text label may go to the left of the object, factor it out when centering on the skateboard
+    public double getInset() {
+        if ( textLabel.getOffset().getX() < 0 ) {
+            return Math.abs( textLabel.getOffset().getX() );
+        }
+        else { return 0; }
     }
 }
