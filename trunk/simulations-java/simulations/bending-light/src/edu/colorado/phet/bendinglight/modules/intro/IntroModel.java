@@ -14,6 +14,7 @@ import edu.colorado.phet.bendinglight.model.MediumColorFactory;
 import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -33,8 +34,8 @@ public class IntroModel extends BendingLightModel {
                                                                                 AIR, MediumColorFactory.getColor( AIR.getIndexOfRefractionForRedLight() ) ) );
     public final Property<Medium> bottomMedium;
 
-    public IntroModel( MediumState bottomMediumState ) {
-        super( PI * 3 / 4, true, DEFAULT_LASER_DISTANCE_FROM_PIVOT );
+    public IntroModel( ConstantDtClock clock, MediumState bottomMediumState ) {
+        super( clock, PI * 3 / 4, true, DEFAULT_LASER_DISTANCE_FROM_PIVOT );
         this.bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), bottomMediumState, MediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
 
         //Update the model when top or bottom mediums change
