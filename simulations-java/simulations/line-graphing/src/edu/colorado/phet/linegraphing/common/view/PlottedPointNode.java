@@ -13,7 +13,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
  */
 public class PlottedPointNode extends ShadedSphereNode {
 
-    //TODO should this have a different "look" than LineManipulatorNode?
     public PlottedPointNode( double diameter, Color fillColor ) {
         super( diameter, fillColor, Color.WHITE, fillColor.darker().darker(), false /* convertToImage */ );
         setStrokeAndPaint( new BasicStroke( 1f ), fillColor.darker().darker() );
