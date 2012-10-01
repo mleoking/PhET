@@ -75,7 +75,7 @@ public class ForceArrowNode extends PNode {
 
         if ( showValues ) {
             final String text = new DecimalFormat( "0" ).format( Math.abs( forceInNewtons ) );
-            valueNode = new PhetPText( new MessageFormat( Strings.FORCE_READOUT__PATTERN ).format( text ), new PhetFont( 16, true ) ) {{
+            valueNode = new PhetPText( new MessageFormat( Strings.FORCE_READOUT__PATTERN ).format( new Object[] { text } ), new PhetFont( 16, true ) ) {{
                 centerFullBoundsOnPoint( arrowNode.getFullBounds().getCenter2D() );
                 double dx = 2;
                 translate( forceInNewtons < 0 ? dx :
