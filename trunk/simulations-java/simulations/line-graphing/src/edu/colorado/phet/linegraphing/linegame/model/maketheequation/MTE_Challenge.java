@@ -45,8 +45,8 @@ public abstract class MTE_Challenge extends Challenge {
 
         allLines = new ObservableList<Line>();
         allLines.add( answer );
-        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.05 * xRange.getLength() ), yRange.getMin() - 1 ), Orientation.UP, allLines );
-        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.35 * xRange.getLength() ), yRange.getMin() - 4 ), Orientation.DOWN, allLines );
+        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.05 * xRange.getLength() ), yRange.getMin() - 1.5 ), Orientation.UP, allLines );
+        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.35 * xRange.getLength() ), yRange.getMin() - 4.5 ), Orientation.DOWN, allLines );
 
         this.guess.addObserver( new SimpleObserver() {
             public void update() {
