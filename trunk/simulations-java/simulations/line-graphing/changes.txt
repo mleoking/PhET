@@ -1,3 +1,4 @@
+10/1/12 game: if dev flag is true, show answer for "Make the Equation" challenges
 9/29/12 collapse interactive equations to a single constructor
 9/29/12 use same font sizes for answer & guess equations in game
 9/29/12 show correct answer for failed "Make the Equation" challenges
