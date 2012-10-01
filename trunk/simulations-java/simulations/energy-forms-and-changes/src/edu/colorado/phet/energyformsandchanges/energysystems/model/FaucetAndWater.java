@@ -67,6 +67,9 @@ public class FaucetAndWater extends EnergySource {
     // energy system element.
     private final ObservableProperty<Boolean> waterPowerableElementInPlace;
 
+    // Flag for whether next chunk should be transferred or kept.
+    private boolean transferNextAvailableChunk = true;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -107,17 +110,32 @@ public class FaucetAndWater extends EnergySource {
                 // Make the chunk fall.
                 energyChunk.translateBasedOnVelocity( dt );
 
-                // See if chunk should be transferred to next energy system.
+                // See if chunk is in the location where it can be transferred
+                // to the next energy system.
                 if ( waterPowerableElementInPlace.get() &&
-                     ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE.contains( getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).getY() - energyChunk.position.get().y ) ) {
+                     ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE.contains( getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).getY() - energyChunk.position.get().y ) &&
+                     !exemptFromTransferEnergyChunks.contains( energyChunk ) ) {
 
-                    // Send to the next system.
-                    outgoingEnergyChunks.add( energyChunk );
+                    if ( transferNextAvailableChunk ) {
+                        // Send this chunk to the next energy system.
+                        outgoingEnergyChunks.add( energyChunk );
+
+                        // Alternate sending or keeping chunks.
+                        transferNextAvailableChunk = false;
+                    }
+                    else {
+                        // Don't transfer this chunk.
+                        exemptFromTransferEnergyChunks.add( energyChunk );
+
+                        // Set up to transfer the next one.
+                        transferNextAvailableChunk = true;
+                    }
                 }
 
                 // Remove it if it is out of visible range.
                 if ( getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).distance( energyChunk.position.get() ) > MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER ) {
                     energyChunkList.remove( energyChunk );
+                    exemptFromTransferEnergyChunks.remove( energyChunk );
                 }
             }
         }
@@ -166,6 +184,7 @@ public class FaucetAndWater extends EnergySource {
     @Override public void deactivate() {
         super.deactivate();
         waterShapeDefiningPoints.clear();
+        exemptFromTransferEnergyChunks.clear();
         updateWaterShape( 0 );
     }
 
