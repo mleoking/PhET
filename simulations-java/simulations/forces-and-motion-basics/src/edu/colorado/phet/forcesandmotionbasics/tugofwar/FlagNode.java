@@ -27,8 +27,12 @@ class FlagNode extends PNode {
         addChild( p );
         final PhetPText textNode = new PhetPText( text, new PhetFont( 32, true ) ) {{
             setTextPaint( Color.white );
-            centerFullBoundsOnPoint( p.getFullBounds().getCenterX(), p.getFullBounds().getCenterY() );
         }};
+
+        //Shrink to fit within the flag
+        double width = textNode.getFullWidth();
+        if ( width > 165 ) { textNode.scale( 165.0 / width ); }
+        textNode.centerFullBoundsOnPoint( p.getFullBounds().getCenterX(), p.getFullBounds().getCenterY() );
         addChild( textNode );
 
         timer = new Timer( 20, new ActionListener() {
