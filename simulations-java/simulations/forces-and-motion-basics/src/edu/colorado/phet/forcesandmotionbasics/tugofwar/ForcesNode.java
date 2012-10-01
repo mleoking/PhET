@@ -11,6 +11,8 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas.STAGE_SIZE;
 
 /**
+ * Shows the left, right and sum of forces, along with their labels and (optionally) values.
+ *
  * @author Sam Reid
  */
 public class ForcesNode extends PNode {

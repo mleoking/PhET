@@ -57,6 +57,8 @@ import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PC
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PSize.*;
 
 /**
+ * Canvas for the tab 1 "Tug of War" tab.  Shows all user interface components, including PullerNodes, the rope, etc.
+ *
  * @author Sam Reid
  */
 public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implements PullerContext {
@@ -83,7 +85,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
 
     public static enum Mode {WAITING, GOING, COMPLETE}
 
-    public TugOfWarCanvas( final Context context, final IClock clock ) {
+    public TugOfWarCanvas( final Resettable moduleContext, final IClock clock ) {
 
         setBackground( BROWN );
         //use view coordinates since nothing compex happening in model coordinates.
@@ -112,7 +114,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
 
         addChild( new ResetAllButtonNode( new Resettable() {
             public void reset() {
-                context.reset();
+                moduleContext.reset();
             }
         }, this, DEFAULT_FONT, Color.black, Color.orange ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getMaxY() + INSET );
@@ -127,14 +129,14 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         initialRopeX = STAGE_SIZE.width / 2 - rope.getFullBounds().getWidth() / 2;
         rope.setOffset( initialRopeX, cartNode.getFullBounds().getCenterY() - rope.getFullBounds().getHeight() / 2 );
 
-        blueKnots = ImageMetrics.blueKnots.map( new F<Double, KnotNode>() {
+        blueKnots = RopeImageMetrics.blueKnots.map( new F<Double, KnotNode>() {
             @Override public KnotNode f( final Double knotLocation ) {
-                return new KnotNode( knotLocation, Color.blue, rope.getFullBounds() );
+                return new KnotNode( knotLocation, rope.getFullBounds() );
             }
         } );
-        redKnots = ImageMetrics.redKnots.map( new F<Double, KnotNode>() {
+        redKnots = RopeImageMetrics.redKnots.map( new F<Double, KnotNode>() {
             @Override public KnotNode f( final Double knotLocation ) {
-                return new KnotNode( knotLocation, Color.red, rope.getFullBounds() );
+                return new KnotNode( knotLocation, rope.getFullBounds() );
             }
         } );
 
@@ -375,7 +377,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     public void drag( final PullerNode pullerNode ) {
         //find closest knot node
         List<KnotNode> knots = pullerNode.color == BLUE ? blueKnots : redKnots;
-        knots.foreach( _unhighlight );
+        knots.foreach( _removeHighlight );
         Option<KnotNode> attachNode = getAttachNode( pullerNode );
         attachNode.foreach( new Effect<KnotNode>() {
             @Override public void e( final KnotNode knotNode ) {
@@ -385,7 +387,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     }
 
     public void endDrag( final PullerNode pullerNode ) {
-        blueKnots.append( redKnots ).foreach( _unhighlight );
+        blueKnots.append( redKnots ).foreach( _removeHighlight );
         Option<KnotNode> attachNode = getAttachNode( pullerNode );
         if ( attachNode.isSome() ) {
             Point2D hands = pullerNode.getGlobalAttachmentPoint();

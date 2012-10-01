@@ -10,6 +10,8 @@ import edu.colorado.phet.forcesandmotionbasics.motion.MotionModule;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarModule;
 
 /**
+ * PhET Application for "Forces and Motion: Basics", which has 3 tabs: "Tug of War", "Motion" and "Friction"
+ *
  * @author Sam Reid
  */
 public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
