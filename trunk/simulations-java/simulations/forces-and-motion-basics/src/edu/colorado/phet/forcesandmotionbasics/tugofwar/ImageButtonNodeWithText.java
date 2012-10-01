@@ -12,6 +12,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
+ * Piccolo node used to show the "Go!" and "Stop" buttons in the center of the play area, used to start and stop the tug-of-war game.
+ *
  * @author Sam Reid
  */
 public class ImageButtonNodeWithText extends PNode {

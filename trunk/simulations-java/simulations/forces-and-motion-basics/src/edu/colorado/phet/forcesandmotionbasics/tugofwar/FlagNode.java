@@ -14,17 +14,18 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Flag that appears at the top of the screen when one team has won the tug-of-war.  It waves in the wind and says "Red Wins" or "Blue Wins"
+ *
  * @author Sam Reid
  */
 public class FlagNode extends PNode {
 
     private final Timer timer;
-    private final PhetPText textNode;
 
     public FlagNode( Color color, final String text ) {
         final PhetPPath p = new PhetPPath( createPath(), color, new BasicStroke( 2 ), Color.black );
         addChild( p );
-        textNode = new PhetPText( text, new PhetFont( 32, true ) ) {{
+        final PhetPText textNode = new PhetPText( text, new PhetFont( 32, true ) ) {{
             setTextPaint( Color.white );
             centerFullBoundsOnPoint( p.getFullBounds().getCenterX(), p.getFullBounds().getCenterY() );
         }};

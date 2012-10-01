@@ -13,6 +13,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Node that represents a single knot on the rope.  The knots are rendered with the rope image, but this node shows the highlighted circle behind it
+ * when it is a drop target.
+ *
  * @author Sam Reid
  */
 public class KnotNode extends PNode {
@@ -24,7 +27,7 @@ public class KnotNode extends PNode {
     private PullerNode pullerNode;
     private final PhetPPath path;
     private final Color color;
-    public static Effect<KnotNode> _unhighlight = new Effect<KnotNode>() {
+    public static Effect<KnotNode> _removeHighlight = new Effect<KnotNode>() {
         @Override public void e( final KnotNode knotNode ) {
             knotNode.setHighlighted( false );
         }
@@ -35,7 +38,7 @@ public class KnotNode extends PNode {
         }
     };
 
-    public KnotNode( final Double knotLocation, final Color color, final Rectangle2D ropeBounds ) {
+    public KnotNode( final Double knotLocation, final Rectangle2D ropeBounds ) {
         this.color = PullerNode.TRANSPARENT;
         double w = 30;
         path = new PhetPPath( new Ellipse2D.Double( -w / 2, -w / 2, w, w ), new BasicStroke( 2 ), PullerNode.TRANSPARENT ) {{
@@ -48,7 +51,5 @@ public class KnotNode extends PNode {
 
     public void setPullerNode( final PullerNode pullerNode ) { this.pullerNode = pullerNode; }
 
-    public PullerNode getPullerNode() {
-        return pullerNode;
-    }
+    public PullerNode getPullerNode() { return pullerNode; }
 }

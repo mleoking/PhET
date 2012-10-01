@@ -46,7 +46,6 @@ import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Im
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.colorado.phet.forcesandmotionbasics.common.ForceArrowNode;
 import edu.colorado.phet.forcesandmotionbasics.common.TextLocation;
-import edu.colorado.phet.forcesandmotionbasics.tugofwar.Context;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.ForcesNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -96,7 +95,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     //Features only for Tab 3: Friction:
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
 
-    public MotionCanvas( final Context context, final IClock clock,
+    public MotionCanvas( final Resettable moduleContext, final IClock clock,
 
                          //True if tab 3 "friction"
                          final boolean friction ) {
@@ -229,7 +228,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         addChild( new ResetAllButtonNode( new Resettable() {
             public void reset() {
-                context.reset();
+                moduleContext.reset();
             }
         }, this, DEFAULT_FONT, Color.black, Color.orange ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getMaxY() + INSET );

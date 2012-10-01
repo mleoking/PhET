@@ -28,6 +28,8 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Represent all of the red and blue team puller figures that start in the toolbox and can be dragged to the rope.
+ *
  * @author Sam Reid
  */
 public class PullerNode extends PNode {

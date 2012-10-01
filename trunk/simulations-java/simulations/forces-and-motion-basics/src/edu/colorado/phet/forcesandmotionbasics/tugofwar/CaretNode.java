@@ -14,6 +14,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Shows a small caret ^ under the center of the play area, to indicate the line that must be crossed in order for one team to win.
+ *
  * @author Sam Reid
  */
 public class CaretNode extends PNode {
