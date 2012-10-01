@@ -21,6 +21,7 @@ public class WaterPoweredGeneratorNode extends PositionableFadableModelElementNo
 
         // Create and add the various image nodes and energy chunk layers.
         addChild( new ModelElementImageNode( WaterPoweredGenerator.WIRE_CURVED_IMAGE, mvt ) );
+        addChild( new EnergyChunkLayer( generator.electricalEnergyChunks, generator.getObservablePosition(), mvt ) );
         addChild( new ModelElementImageNode( WaterPoweredGenerator.HOUSING_IMAGE, mvt ) );
         addChild( new ModelElementImageNode( WaterPoweredGenerator.CONNECTOR_IMAGE, mvt ) );
         final PNode paddlesNode = new ModelElementImageNode( WaterPoweredGenerator.WHEEL_PADDLES_IMAGE, mvt );
