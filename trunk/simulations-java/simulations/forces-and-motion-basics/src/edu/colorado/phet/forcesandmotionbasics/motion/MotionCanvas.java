@@ -127,6 +127,11 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         g2.drawRenderedImage( largeBrownRock, AffineTransform.getTranslateInstance( 1200, 270 ) );
         g2.dispose();
 
+        final BufferedImage mountains = new BufferedImage( 3250, Images.MOUNTAINS.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+        Graphics2D mountainGraphics = mountains.createGraphics();
+        mountainGraphics.drawRenderedImage( Images.MOUNTAINS, new AffineTransform() );
+        mountainGraphics.dispose();
+
         PNode brickLayer = new PNode() {
             {
                 model.position.addObserver( new VoidFunction1<Double>() {
@@ -145,12 +150,23 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 removeAllChildren();
 
                 //Show rocks as additional texture
-                {
+                boolean showRocks = false;
+                if ( showRocks ) {
                     final double scale = 0.5;
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale + Images.BRICK_TILE.getHeight() - 20, STAGE_SIZE.width * 3 / scale, rocksOverlay.getHeight() );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale - 200, area.getY() - 1, rocksOverlay.getWidth(), rocksOverlay.getHeight() );
                     PhetPPath path = new PhetPPath( area, new TexturePaint( rocksOverlay, anchor ) ) {{ scale( scale ); }};
                     path.setTransparency( 0.7f );
+                    addChild( path );
+                }
+
+                //Show mountains as additional texture
+                {
+                    final double scale = 0.25;
+                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale - mountains.getHeight(), STAGE_SIZE.width * 3 / scale, mountains.getHeight() );
+                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale / 50.0 + 150, area.getY() - 1, mountains.getWidth(), mountains.getHeight() );
+                    PhetPPath path = new PhetPPath( area, new TexturePaint( mountains, anchor ) ) {{ scale( scale ); }};
+                    path.setTransparency( 0.6f );
                     addChild( path );
                 }
 
