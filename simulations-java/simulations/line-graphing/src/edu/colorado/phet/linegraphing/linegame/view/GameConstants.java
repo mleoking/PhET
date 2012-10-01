@@ -29,5 +29,5 @@ public class GameConstants {
     public static final double POINT_DIAMETER = 0.5; // diameter of the manipulators, in model units
     public static final Color POINTS_AWARDED_COLOR = Color.BLACK;
     public static final PhetFont POINTS_AWARDED_FONT = new PhetFont( Font.BOLD, 36 );
-    public static final double POINT_TOOL_SCALE = 0.75;
+    public static final double POINT_TOOL_SCALE = 0.80;
 }
