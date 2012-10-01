@@ -1,3 +1,4 @@
+# 0.00.30 (68627) Oct 1, 2012
 Tab 2-3: Move the force arrow text when it intersects
 Tab 2-3: Moved "Masses" check box above "Speed" checkbox
 Tab 2-3: Added mountains back in
