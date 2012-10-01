@@ -62,6 +62,7 @@ import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResou
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images.ROCK_GRAY;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._isOnSkateboard;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._mass;
+import static fj.data.Option.some;
 import static fj.function.Doubles.add;
 import static java.awt.geom.AffineTransform.getTranslateInstance;
 
@@ -366,11 +367,13 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
                         //separate arrow tails for friction vs applied
                         final int appliedForceOffsetX = friction && model.frictionForce.get() != 0 ? 3 * MathUtil.getSign( model.appliedForce.get() ) : 0;
-                        addChild( new ForceArrowNode( false, v( centerX + appliedForceOffsetX, tailY ),
-                                                      model.appliedForce.get(), "Applied Force", ForcesNode.APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues.get() ) );
+                        final ForceArrowNode appliedForceArrowNode = new ForceArrowNode( false, v( centerX + appliedForceOffsetX, tailY ),
+                                                                                         model.appliedForce.get(), "Applied Force", ForcesNode.APPLIED_FORCE_COLOR, TextLocation.SIDE, showValues.get() );
+                        addChild( appliedForceArrowNode );
+
                         final int frictionForceOffsetX = friction && model.appliedForce.get() != 0 ? 3 * MathUtil.getSign( model.frictionForce.get() ) : 0;
                         addChild( new ForceArrowNode( false, v( centerX + frictionForceOffsetX, tailY ),
-                                                      model.frictionForce.get(), "Friction Force", Color.red, TextLocation.SIDE, showValues.get() ) );
+                                                      model.frictionForce.get(), "Friction Force", Color.red, TextLocation.SIDE, showValues.get(), some( appliedForceArrowNode ) ) );
                         if ( friction && showSumOfForces.get() ) {
                             addChild( new ForceArrowNode( false, v( centerX, tailY - 70 ),
                                                           model.sumOfForces.get(), "Sum of Forces", ForcesNode.SUM_OF_FORCES_COLOR, TextLocation.TOP, showValues.get() ) );

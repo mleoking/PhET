@@ -1,10 +1,15 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forcesandmotionbasics.common;
 
+import fj.data.List;
+import fj.data.Option;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -23,7 +28,15 @@ import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMo
  * @author Sam Reid
  */
 public class ForceArrowNode extends PNode {
+
+    public PhetPText nameNode;
+    private PhetPText valueNode;
+
     public ForceArrowNode( final boolean transparent, final Vector2D tail, final double forceInNewtons, final String name, Color color, final TextLocation textLocation, final boolean showValues ) {
+        this( transparent, tail, forceInNewtons, name, color, textLocation, showValues, Option.<ForceArrowNode>none() );
+    }
+
+    public ForceArrowNode( final boolean transparent, final Vector2D tail, final double forceInNewtons, final String name, Color color, final TextLocation textLocation, final boolean showValues, final Option<ForceArrowNode> other ) {
 
         //Choose a single scale factor that works in all of the tabs.
         final double value = forceInNewtons * 3.625;
@@ -38,7 +51,7 @@ public class ForceArrowNode extends PNode {
         arrowNode.setPaint( transparent ? new Color( color.getRed(), color.getGreen(), color.getBlue(), 175 ) : color );
         arrowNode.setStroke( transparent ? new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 6, 4 }, 0 ) : new BasicStroke( 1 ) );
         addChild( arrowNode );
-        final PhetPText nameNode = new PhetPText( name, DEFAULT_FONT ) {{
+        nameNode = new PhetPText( name, DEFAULT_FONT ) {{
             if ( textLocation == TextLocation.SIDE ) {
                 if ( value > 0 ) {
                     setOffset( arrowNode.getFullBounds().getMaxX() + INSET, arrowNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
@@ -53,9 +66,14 @@ public class ForceArrowNode extends PNode {
         }};
         addChild( nameNode );
 
+        //If the text intersects, move the name down to avoid intersection.
+        if ( intersectsAny( other ) ) {
+            nameNode.translate( 0, 40 );
+        }
+
         if ( showValues ) {
             final String text = new DecimalFormat( "0" ).format( Math.abs( forceInNewtons ) );
-            addChild( new PhetPText( text + "N", new PhetFont( 16, true ) ) {{
+            valueNode = new PhetPText( text + "N", new PhetFont( 16, true ) ) {{
                 centerFullBoundsOnPoint( arrowNode.getFullBounds().getCenter2D() );
                 double dx = 2;
                 translate( forceInNewtons < 0 ? dx :
@@ -66,8 +84,33 @@ public class ForceArrowNode extends PNode {
                 if ( text.length() <= 1 ) {
                     setOffset( nameNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, nameNode.getFullBounds().getMaxY() - 3 );
                 }
-            }} );
+            }};
+            addChild( valueNode );
         }
+    }
+
+    private boolean intersectsAny( final Option<ForceArrowNode> other ) {
+        if ( !other.isSome() ) { return false; }
+        boolean intersect = false;
+        for ( Rectangle2D otherTextRectangle : other.some().getTextRectangles() ) {
+            for ( Rectangle2D myTextRectangle : getTextRectangles() ) {
+                if ( otherTextRectangle.intersects( myTextRectangle ) ) {
+                    intersect = true;
+                }
+            }
+        }
+        return intersect;
+    }
+
+    private List<Rectangle2D> getTextRectangles() {
+        ArrayList<Rectangle2D> list = new ArrayList<Rectangle2D>();
+        if ( valueNode != null ) {
+            list.add( valueNode.getGlobalFullBounds() );
+        }
+        if ( nameNode != null ) {
+            list.add( nameNode.getGlobalFullBounds() );
+        }
+        return List.iterableList( list );
     }
 
     private void showTextOnly( final Vector2D tail ) {
