@@ -1,3 +1,4 @@
+# 0.00.26 (68607) Oct 1, 2012
 Tab 3: Fixed: No longer can move object to the left.  Flicker is happening there too.
 Tab 2-3: Made rocks smaller and more faded out
 # 0.00.25 (68600) Sep 29, 2012
