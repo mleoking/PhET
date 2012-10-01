@@ -36,6 +36,9 @@ import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMo
 import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
 
 /**
+ * Set of controls (featuring a slider) used to view and set the applied force.  If the user releases the knob, the force should go back to zero.
+ * If the user types in a value, the value should stay set until the maximum speed is exceeded.
+ *
  * @author Sam Reid
  */
 public class SliderControl extends PNode {

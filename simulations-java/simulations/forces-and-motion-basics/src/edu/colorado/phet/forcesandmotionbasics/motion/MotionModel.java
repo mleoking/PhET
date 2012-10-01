@@ -15,6 +15,10 @@ import static edu.colorado.phet.forcesandmotionbasics.motion.MotionCanvas.STROBE
 import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
 
 /**
+ * Model for tab 2 "Motion" and tab 3 "Friction", mutable values for the forces, position, velocity, etc.
+ * Acceleration is computed dynamically from the sum of forces.
+ * The mass is modeled in MotionCanvas.  The MotionCanvas also creates this model.
+ *
  * @author Sam Reid
  */
 public class MotionModel {

@@ -31,6 +31,9 @@ import static edu.colorado.phet.common.phetcommon.view.util.RectangleUtils.expan
 import static edu.colorado.phet.common.phetcommon.view.util.RectangleUtils.round;
 
 /**
+ * For tabs 2-3, this represents an object that starts in the toolbox and can be dropped in the center of the play area.
+ * Some objects can have others stacked upon them.  All objects can be stacked on something else.
+ *
  * @author Sam Reid
  */
 public class StackableNode extends PNode {
