@@ -18,10 +18,11 @@ public class DevTestGameRewardMenuItem extends JMenuItem {
 
     public DevTestGameRewardMenuItem() {
         super( "Test game reward..." );
-        addActionListener( new ActionListener() { 
+        addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
+                //NOTE: This creates a main frame that, when closed, exits the sim.  OK for dev.
                 RewardNode.main( new String[] { } );
             }
-        }); 
+        } );
     }
 }
