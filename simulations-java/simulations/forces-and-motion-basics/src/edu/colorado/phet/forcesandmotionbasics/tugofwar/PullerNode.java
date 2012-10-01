@@ -40,8 +40,8 @@ public class PullerNode extends PNode {
     public final double scale;
     public static final Color TRANSPARENT = new Color( 0, 0, 0, 0 );
     private KnotNode knot;
-    public Double force;
-    public static F<PullerNode, Double> _weight = new F<PullerNode, Double>() {
+    private double force;
+    public static final F<PullerNode, Double> _weight = new F<PullerNode, Double>() {
         @Override public Double f( final PullerNode pullerNode ) {
 
             //Average human mass is 76-83 kg, so the average human weight is between 745 and 813 Newtons.
@@ -52,17 +52,17 @@ public class PullerNode extends PNode {
                    null;
         }
     };
-    public static F<PullerNode, Boolean> _isBlue = new F<PullerNode, Boolean>() {
+    public static final F<PullerNode, Boolean> _isBlue = new F<PullerNode, Boolean>() {
         @Override public Boolean f( final PullerNode pullerNode ) {
             return pullerNode.color == PColor.BLUE;
         }
     };
-    public static F<PullerNode, Boolean> _isRed = new F<PullerNode, Boolean>() {
+    public static final F<PullerNode, Boolean> _isRed = new F<PullerNode, Boolean>() {
         @Override public Boolean f( final PullerNode pullerNode ) {
             return pullerNode.color == PColor.RED;
         }
     };
-    public static F<PullerNode, PBounds> _getFullBounds = new F<PullerNode, PBounds>() {
+    public static final F<PullerNode, PBounds> _getFullBounds = new F<PullerNode, PBounds>() {
         @Override public PBounds f( final PullerNode pullerNode ) {
             return pullerNode.getFullBounds();
         }
@@ -145,18 +145,18 @@ public class PullerNode extends PNode {
         //Don't allow dragging if the system is moving or completed
         final VoidFunction1<Mode> listener = new VoidFunction1<Mode>() {
             public void apply( final Mode mode ) {
-                updatePickable( mode, context );
+                updatePickable();
             }
         };
         mode.addObserver( listener );
         context.addCartPositionChangeListener( new VoidFunction0() {
             public void apply() {
-                updatePickable( mode.get(), context );
+                updatePickable();
             }
         } );
     }
 
-    private void updatePickable( final Mode mode, final PullerContext context ) {
+    private void updatePickable() {
         boolean pickable = true;
         setPickable( pickable );
         setChildrenPickable( pickable );

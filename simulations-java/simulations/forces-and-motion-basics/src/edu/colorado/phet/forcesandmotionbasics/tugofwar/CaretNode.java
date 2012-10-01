@@ -18,12 +18,12 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class CaretNode extends PNode {
+class CaretNode extends PNode {
     public CaretNode() {
         addChild( new PhetPPath( createUnclosedShapeFromPoints( List.list( Vector2D.v( -10, 10 ), Vector2D.v( 0, 0 ), Vector2D.v( 10, 10 ) ) ), new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ), Color.black ) );
     }
 
-    public static Shape createUnclosedShapeFromPoints( Iterable<Vector2D> points ) {
+    private static Shape createUnclosedShapeFromPoints( Iterable<Vector2D> points ) {
         Iterator<Vector2D> iterator = points.iterator();
         DoubleGeneralPath path = new DoubleGeneralPath( iterator.next() );
         while ( iterator.hasNext() ) {

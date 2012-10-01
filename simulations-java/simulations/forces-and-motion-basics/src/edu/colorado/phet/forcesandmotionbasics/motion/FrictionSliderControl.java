@@ -15,7 +15,7 @@ import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMo
  *
  * @author Sam Reid
  */
-public class FrictionSliderControl extends PNode {
+class FrictionSliderControl extends PNode {
     public static final double MAX = 0.5;
 
     public FrictionSliderControl( final SettableProperty<Double> friction ) {

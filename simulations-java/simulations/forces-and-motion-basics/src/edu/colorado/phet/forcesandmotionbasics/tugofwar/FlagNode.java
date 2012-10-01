@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class FlagNode extends PNode {
+class FlagNode extends PNode {
 
     private final Timer timer;
 
