@@ -56,6 +56,11 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.isSelected;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.button;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
@@ -63,6 +68,7 @@ import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsAppli
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images.ROCK_BROWN;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images.ROCK_GRAY;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.speedCheckBoxIcon;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._isOnSkateboard;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._mass;
 import static fj.data.Option.some;
@@ -240,6 +246,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             scale( 0.25 );
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( final PInputEvent event ) {
+                    sendUserMessage( speedCheckBoxIcon, button, pressed, parameterSet( isSelected, !showSpeedometer.get() ) );
                     showSpeedometer.toggle();
                 }
             } );
