@@ -1,3 +1,4 @@
+Tab 2-3: Made it so that clicking on the speedometer icon in the control panel toggles the checkbox as well
 # 0.00.33 (68646) Oct 1, 2012
 Accommodate larger text for other languages
 Resize "Blue Wins!" and "Red Wins!" text if it is too big in other languages

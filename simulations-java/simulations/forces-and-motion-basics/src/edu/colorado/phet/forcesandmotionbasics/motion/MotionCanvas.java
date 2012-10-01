@@ -49,6 +49,8 @@ import edu.colorado.phet.forcesandmotionbasics.common.ForceArrowNode;
 import edu.colorado.phet.forcesandmotionbasics.common.TextLocation;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.ForcesNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -74,7 +76,7 @@ import static java.awt.geom.AffineTransform.getTranslateInstance;
  */
 public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements StackableNodeContext {
 
-    private final Property<Boolean> showSpeedometer = new Property<Boolean>( false );
+    private final BooleanProperty showSpeedometer = new BooleanProperty( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
     private final Property<Boolean> showForces = new Property<Boolean>( false );
     private final PNode skateboard;
@@ -234,7 +236,14 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         final BooleanProperty showMasses = new BooleanProperty( false );
         final JCheckBox massCheckBox = new PropertyCheckBox( null, Strings.MASSES, showMasses ) {{ setFont( DEFAULT_FONT ); }};
 
-        final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( Strings.SPEED, 125, model.speed, STROBE_SPEED ) {{scale( 0.25 );}} );
+        final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( Strings.SPEED, 125, model.speed, STROBE_SPEED ) {{
+            scale( 0.25 );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( final PInputEvent event ) {
+                    showSpeedometer.toggle();
+                }
+            } );
+        }} );
         final VBox vbox = friction ?
                           new VBox( 0, VBox.LEFT_ALIGNED, new PSwing( showForcesCheckBox ), indent( showValuesCheckBox ), indent( showSumOfForcesCheckBox ),
                                     new PSwing( massCheckBox ),
