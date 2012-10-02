@@ -27,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -157,17 +158,17 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         Vector2D mediumPosition = Vector2D.v( 155.66912850812423, 515 + 1 + 1 + dy );
         Vector2D smallPosition1 = Vector2D.v( 215.9527326440175, 559 - 1 + dy );
         Vector2D smallPosition2 = Vector2D.v( 263.1610044313148, 559 - 1 + dy );
-        final PullerNode largeRedPuller = puller( BLUE, LARGE, IMAGE_SCALE, largePosition );
+        final PullerNode largeRedPuller = puller( UserComponents.largeBluePuller, BLUE, LARGE, IMAGE_SCALE, largePosition );
         addPuller( largeRedPuller );
-        addPuller( puller( BLUE, MEDIUM, IMAGE_SCALE, mediumPosition ) );
-        addPuller( puller( BLUE, SMALL, IMAGE_SCALE, smallPosition1 ) );
-        addPuller( puller( BLUE, SMALL, IMAGE_SCALE, smallPosition2 ) );
+        addPuller( puller( UserComponents.mediumBluePuller, BLUE, MEDIUM, IMAGE_SCALE, mediumPosition ) );
+        addPuller( puller( UserComponents.smallBluePuller1, BLUE, SMALL, IMAGE_SCALE, smallPosition1 ) );
+        addPuller( puller( UserComponents.smallBluePuller2, BLUE, SMALL, IMAGE_SCALE, smallPosition2 ) );
 
         final double offset = largeRedPuller.getFullBounds().getWidth();
-        addPuller( puller( RED, LARGE, IMAGE_SCALE, reflect( largePosition, offset ) ) );
-        addPuller( puller( RED, MEDIUM, IMAGE_SCALE, reflect( mediumPosition, offset ) ) );
-        addPuller( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition1, offset ) ) );
-        addPuller( puller( RED, SMALL, IMAGE_SCALE, reflect( smallPosition2, offset ) ) );
+        addPuller( puller( UserComponents.largeRedPuller, RED, LARGE, IMAGE_SCALE, reflect( largePosition, offset ) ) );
+        addPuller( puller( UserComponents.mediumRedPuller, RED, MEDIUM, IMAGE_SCALE, reflect( mediumPosition, offset ) ) );
+        addPuller( puller( UserComponents.smallRedPuller1, RED, SMALL, IMAGE_SCALE, reflect( smallPosition1, offset ) ) );
+        addPuller( puller( UserComponents.smallRedPuller2, RED, SMALL, IMAGE_SCALE, reflect( smallPosition2, offset ) ) );
 
         final PhetPPath blueToolbox = new PhetPPath( getBounds( _isBlue ), TOOLBOX_COLOR, new BasicStroke( 1 ), Color.black );
         addChild( blueToolbox );
@@ -373,8 +374,8 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         return new Vector2D( newX, position.y );
     }
 
-    PullerNode puller( PColor color, PSize size, final double scale, final Vector2D offset ) {
-        return new PullerNode( color, size, 0, scale, offset, this, mode );
+    PullerNode puller( IUserComponent component, PColor color, PSize size, final double scale, final Vector2D offset ) {
+        return new PullerNode( component, color, size, 0, scale, offset, this, mode );
     }
 
     public void drag( final PullerNode pullerNode ) {
