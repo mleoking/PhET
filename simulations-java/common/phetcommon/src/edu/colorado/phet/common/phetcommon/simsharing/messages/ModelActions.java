@@ -7,4 +7,5 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  * @author Sam Reid
  */
 public enum ModelActions implements IModelAction {
+    changed
 }
