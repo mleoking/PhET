@@ -31,7 +31,6 @@ public class ForceArrowNode extends PNode {
 
     private final double forceInNewtons;
     public PhetPText nameNode;
-    private PhetPText valueNode;
 
     public ForceArrowNode( final boolean transparent, final Vector2D tail, final double forceInNewtons, final String name, Color color, final TextLocation textLocation, final boolean showValues ) {
         this( transparent, tail, forceInNewtons, name, color, textLocation, showValues, Option.<ForceArrowNode>none() );
@@ -75,7 +74,7 @@ public class ForceArrowNode extends PNode {
 
         if ( showValues ) {
             final String text = new DecimalFormat( "0" ).format( Math.abs( forceInNewtons ) );
-            valueNode = new PhetPText( new MessageFormat( Strings.FORCE_READOUT__PATTERN ).format( new Object[] { text } ), new PhetFont( 16, true ) ) {{
+            final PhetPText valueNode = new PhetPText( new MessageFormat( Strings.FORCE_READOUT__PATTERN ).format( new Object[] { text } ), new PhetFont( 16, true ) ) {{
                 centerFullBoundsOnPoint( arrowNode.getFullBounds().getCenter2D() );
                 double dx = 2;
                 translate( forceInNewtons < 0 ? dx :
