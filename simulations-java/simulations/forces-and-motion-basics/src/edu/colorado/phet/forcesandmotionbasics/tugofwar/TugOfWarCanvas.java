@@ -43,6 +43,7 @@ import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ParameterKeys;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -52,12 +53,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendModelMessage;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelActions.changed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelActions.ended;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes.modelElement;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.BROWN;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ModelComponents.forceModel;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ModelComponents.tugOfWarGame;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ParameterKeys.sumOfForces;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.KnotNode.*;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.PullerNode.*;
@@ -271,10 +274,10 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                     if ( cart.getPosition() > 180 || cart.getPosition() < -180 ) {
                         mode.set( Mode.COMPLETE );
                         if ( cart.getPosition() > 180 ) {
-                            addFlagNode( new FlagNode( Color.red, Strings.RED_WINS ) );
+                            addFlagNode( new FlagNode( Color.red, Strings.RED_WINS ), "red" );
                         }
                         else {
-                            addFlagNode( new FlagNode( Color.blue, Strings.BLUE_WINS ) );
+                            addFlagNode( new FlagNode( Color.blue, Strings.BLUE_WINS ), "blue" );
                         }
                     }
                 }
@@ -300,7 +303,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         addChild( flagLayer );
     }
 
-    private void addFlagNode( final FlagNode flagNode ) {
+    private void addFlagNode( final FlagNode flagNode, String simSharingMessageText ) {
         flagNode.setTransparency( 0.0f );
         flagLayer.addChild( flagNode );
         flagNode.setOffset( STAGE_SIZE.width / 2 - flagNode.getFullBounds().getWidth() / 2, 0 - flagNode.getFullBounds().getHeight() );
@@ -309,6 +312,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         if ( sound.get() ) {
             new PhetAudioClip( "forces-and-motion-basics/audio/golf-clap.wav" ).play();
         }
+        sendModelMessage( tugOfWarGame, modelElement, ended, parameterSet( ParameterKeys.winningTeam, simSharingMessageText ) );
     }
 
     private Shape getBounds( final F<PullerNode, Boolean> color ) {
