@@ -39,8 +39,7 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
         faucetNode.setOffset( -faucetNode.getGlobalOutputCenter().getX() + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
                               -faucetNode.getGlobalOutputCenter().getY() + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
         // Create the water.
-//        final PPath waterNode = new PhetPPath( new BasicStroke( 1 ), ColorUtils.darkerColor( EFACConstants.WATER_COLOR, 0.5 ) );
-        final PPath waterNode = new PhetPPath();
+        final PPath waterNode = new PhetPPath( EFACConstants.WATER_COLOR );
         waterNode.setOffset( -mvt.modelToViewX( 0 ) + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
                              -mvt.modelToViewY( 0 ) + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
 
@@ -56,7 +55,6 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
                                                        (float) waterBounds.getMaxX(),
                                                        (float) waterBounds.getY(),
                                                        ColorUtils.brighterColor( EFACConstants.WATER_COLOR, 0.5 ) ) );
-//                waterNode.setVisible( waterShapeInView.getBounds2D().getWidth() > 1 );
             }
         } );
 
