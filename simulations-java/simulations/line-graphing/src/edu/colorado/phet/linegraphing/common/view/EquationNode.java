@@ -55,8 +55,8 @@ public abstract class EquationNode extends PhetPNode {
         operatorYFudgeFactor = 0.08 * pointSize;
         fractionLineYFudgeFactor = 0.08 * pointSize;
         operatorLineSize = new PDimension( 0.42 * pointSize, 0.08 * pointSize );
-        signLineSize = new PDimension( 0.42 * pointSize, 0.08 * pointSize );
-        fractionLineThickness = 0.08 * pointSize;
+        signLineSize = new PDimension( 0.42 * pointSize, 0.1 * pointSize );
+        fractionLineThickness = 0.06 * pointSize;
         integerSignXSpacing = 0.0625 * pointSize;
         fractionSignXSpacing = 0.167 * pointSize;
         slopeXSpacing = 0.08 * pointSize;
