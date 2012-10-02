@@ -61,6 +61,7 @@ object AcidBaseReport {
   def previousUserEvent(log: Log, index: Int) = log.entries.slice(0, index).filter(_.messageType == "user").last
 
   //KL: Each time students start dragging should count as one click. But if they change direction during a single drag, I want that to count as more than one click - one for each direction.
+  //JC: Note: May need to revisit - slider direction changes that occur in a batch starting with a click in the slider track are not counted.
   def sliderChangedDirection(log: Log, _e: Entry): Boolean = {
     val batch = sliderDragBatchWithPreviousEvent(log, _e).tail
 
