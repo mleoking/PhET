@@ -16,10 +16,10 @@ public class ForcesAndMotionBasicsSimSharing {
     }
 
     public static enum ModelComponents implements IModelComponent {
-        forceModel
+        forceModel, tugOfWarGame
     }
 
     public static enum ParameterKeys implements IParameterKey {
-        sumOfForces
+        winningTeam, sumOfForces
     }
 }
