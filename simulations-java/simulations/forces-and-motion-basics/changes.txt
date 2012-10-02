@@ -1,3 +1,4 @@
+# 0.00.34 (68674) Oct 1, 2012
 Tab 2-3: If the user changes the applied force slider using the knob while paused, the value won't reset when unpaused
 Added sim sharing messages
 Tab 2-3: Made it so that clicking on the speedometer icon in the control panel toggles the checkbox as well
