@@ -3,6 +3,8 @@ package edu.colorado.phet.forcesandmotionbasics.tugofwar;
 
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -20,7 +22,7 @@ class ImageButtonNodeWithText extends PNode {
     private final BufferedImage hover;
     private final PImage imageNode;
 
-    public ImageButtonNodeWithText( final BufferedImage up, final BufferedImage hover, final BufferedImage pressed, final String text, final VoidFunction0 effect ) {
+    public ImageButtonNodeWithText( final IUserComponent component, final BufferedImage up, final BufferedImage hover, final BufferedImage pressed, final String text, final VoidFunction0 effect ) {
         this.hover = hover;
         imageNode = new PImage( up );
         addChild( imageNode );
@@ -50,6 +52,8 @@ class ImageButtonNodeWithText extends PNode {
 
             @Override public void mouseReleased( final PInputEvent event ) {
                 super.mouseReleased( event );
+
+                SimSharingManager.sendButtonPressed( component );
                 effect.apply();
                 imageNode.setImage( up );
             }

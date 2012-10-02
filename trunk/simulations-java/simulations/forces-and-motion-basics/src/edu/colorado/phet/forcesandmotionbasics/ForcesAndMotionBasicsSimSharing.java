@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class ForcesAndMotionBasicsSimSharing {
     public static enum UserComponents implements IUserComponent {
-        motionTab, tugOfWarTab,
-        speedCheckBoxIcon
+        tugOfWarTab, motionTab, frictionTab,
+        massCheckBox, valuesCheckBox, sumOfForcesCheckBox, speedCheckBox, forcesCheckBox, soundCheckBox, goButton, stopButton, returnButton, speedCheckBoxIcon
     }
 }
