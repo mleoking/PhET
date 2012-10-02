@@ -58,11 +58,7 @@ class StackableNode extends PNode {
         }
     };
     public final int pusherOffset;
-
     private final BufferedImage toolboxImage;
-
-    //if it has a flat top, it can be stacked upon
-    public final boolean flatTop;
     private final BufferedImage flippedStackedImage;
 
     //Remember the last image shown before applied force is set to 0.0 so that the character will keep facing the same direction.
@@ -70,20 +66,15 @@ class StackableNode extends PNode {
     private PNode textLabel;
 
     public StackableNode( IUserComponent component, final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass ) {
-        this( component, context, image, mass, pusherOffset, showMass, false, image, true );
-    }
-
-    public StackableNode( IUserComponent component, final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass, boolean flatTop ) {
-        this( component, context, image, mass, pusherOffset, showMass, false, image, flatTop );
+        this( component, context, image, mass, pusherOffset, showMass, false, image );
     }
 
     public StackableNode( IUserComponent component, final StackableNodeContext context, final BufferedImage stackedImage, final double mass, final int pusherOffset, final BooleanProperty showMass,
-                          final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage, boolean flatTop ) {
+                          final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage ) {
         this.component = component;
         this.mass = mass;
         this.pusherOffset = pusherOffset;
         this.toolboxImage = toolboxImage;
-        this.flatTop = flatTop;
         this.flippedStackedImage = BufferedImageUtils.flipX( stackedImage );
         lastStackedImage = stackedImage;
         final PImage imageNode = new PImage( toolboxImage ) {

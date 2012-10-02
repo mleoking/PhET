@@ -342,10 +342,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( crate2 );
 
         //Weight for humans (but remember to round off the values to nearest 10 to make it easier to read): http://www.cdc.gov/growthcharts/data/set1clinical/cj41l021.pdf
-        StackableNode girl = new StackableNode( UserComponents.girl, this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 40, friction ? 38 : 47, showMasses, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ), false );
-        StackableNode man = new StackableNode( UserComponents.man, this, multiScaleToHeight( Images.MAN_SITTING, (int) ( 200 / 150.0 * 100.0 ) ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ), false );
-        StackableNode trash = new StackableNode( UserComponents.trash, this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47, showMasses, false );
-        StackableNode gift = new StackableNode( UserComponents.gift, this, multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40, showMasses, false ) {
+        StackableNode girl = new StackableNode( UserComponents.girl, this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 40, friction ? 38 : 47, showMasses, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ) );
+        StackableNode man = new StackableNode( UserComponents.man, this, multiScaleToHeight( Images.MAN_SITTING, (int) ( 200 / 150.0 * 100.0 ) ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ) );
+        StackableNode trash = new StackableNode( UserComponents.trash, this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47, showMasses );
+        StackableNode gift = new StackableNode( UserComponents.gift, this, multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40, showMasses ) {
             @Override protected Pair<Integer, String> getMassDisplayString( final double mass ) {
 
                 //Add some padding on either side of the "?" for the gift to make it easier to read
@@ -510,10 +510,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         if ( bounds.intersects( stackableNode.getGlobalFullBounds() ) &&
 
              //Limit stack size to 3 things
-             stack.get().length() < 3 &&
+             stack.get().length() < 3 ) {
 
-             //Require the topmost item to have a flat top
-             ( stack.get().length() == 0 || stack.get().last().flatTop ) ) {
             stackableNode.onSkateboard.set( true );
             stack.set( stack.get().snoc( stackableNode ) );
             normalizeStack();

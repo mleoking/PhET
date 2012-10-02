@@ -1,3 +1,4 @@
+Tab 2-3: Allow stacking any objects on each other
 # 0.00.34 (68674) Oct 1, 2012
 Tab 2-3: If the user changes the applied force slider using the knob while paused, the value won't reset when unpaused
 Added sim sharing messages
