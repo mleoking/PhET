@@ -105,7 +105,7 @@ public class BeakerHeater extends EnergyUser {
                 // Cause this energy chunk to be radiated from the bulb.
                 energyChunkMover.energyChunk.energyType.set( EnergyType.THERMAL );
                 List<Vector2D> lightPath = new ArrayList<Vector2D>() {{
-                    add( getPosition().plus( OFFSET_TO_RADIATE_POINT ).plus( new Vector2D( RADIATED_ENERGY_CHUNK_MAX_DISTANCE, 0 ).getRotatedInstance( RAND.nextDouble() * 2 * Math.PI ) ) );
+                    add( getPosition().plus( OFFSET_TO_RADIATE_POINT ).plus( new Vector2D( 0, RADIATED_ENERGY_CHUNK_MAX_DISTANCE ).getRotatedInstance( ( RAND.nextDouble() - 0.5 ) * ( Math.PI / 2 ) ) ) );
                 }};
                 thermalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk, lightPath, EFACConstants.LIGHT_ENERGY_CHUNK_VELOCITY ) );
             }
