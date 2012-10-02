@@ -14,8 +14,8 @@ import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.U
 public class MotionModule extends SimSharingPiccoloModule implements Resettable {
     private final boolean friction;
 
-    public MotionModule( String title, boolean friction ) {
-        super( UserComponents.motionTab, title, new ConstantDtClock() );
+    public MotionModule( UserComponents component, String title, boolean friction ) {
+        super( component, title, new ConstantDtClock() );
         setSimulationPanel( new MotionCanvas( this, getClock(), friction ) );
         setClockControlPanel( null );
         this.friction = friction;

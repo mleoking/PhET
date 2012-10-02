@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.forcesandmotionbasics.motion.MotionModule;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarModule;
 
@@ -23,8 +24,8 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
     public ForcesAndMotionBasicsApplication( PhetApplicationConfig config ) {
         super( config );
         addModule( new TugOfWarModule() );
-        addModule( new MotionModule( Strings.MOTION, false ) );
-        addModule( new MotionModule( Strings.FRICTION, true ) );
+        addModule( new MotionModule( UserComponents.motionTab, Strings.MOTION, false ) );
+        addModule( new MotionModule( UserComponents.frictionTab, Strings.FRICTION, true ) );
     }
 
     public static void main( String[] args ) {

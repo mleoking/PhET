@@ -44,6 +44,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.colorado.phet.forcesandmotionbasics.common.ForceArrowNode;
 import edu.colorado.phet.forcesandmotionbasics.common.TextLocation;
@@ -229,18 +230,18 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( clouds );
 
-        final JCheckBox showForcesCheckBox = new PropertyCheckBox( null, Strings.FORCES, showForces ) {{setFont( DEFAULT_FONT );}};
-        final JCheckBox showValuesCheckBox = new PropertyCheckBox( null, Strings.VALUES, showValues ) {{setFont( DEFAULT_FONT );}};
-        final JCheckBox showSumOfForcesCheckBox = new PropertyCheckBox( null, Strings.SUM_OF_FORCES, showSumOfForces ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox showForcesCheckBox = new PropertyCheckBox( UserComponents.forcesCheckBox, Strings.FORCES, showForces ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox showValuesCheckBox = new PropertyCheckBox( UserComponents.valuesCheckBox, Strings.VALUES, showValues ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox showSumOfForcesCheckBox = new PropertyCheckBox( UserComponents.sumOfForcesCheckBox, Strings.SUM_OF_FORCES, showSumOfForces ) {{setFont( DEFAULT_FONT );}};
         showForces.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean showForces ) {
                 showValuesCheckBox.setEnabled( showForces );
                 showSumOfForcesCheckBox.setEnabled( showForces );
             }
         } );
-        final JCheckBox speedCheckBox = new PropertyCheckBox( null, Strings.SPEED, showSpeedometer ) {{ setFont( DEFAULT_FONT ); }};
+        final JCheckBox speedCheckBox = new PropertyCheckBox( UserComponents.speedCheckBox, Strings.SPEED, showSpeedometer ) {{ setFont( DEFAULT_FONT ); }};
         final BooleanProperty showMasses = new BooleanProperty( false );
-        final JCheckBox massCheckBox = new PropertyCheckBox( null, Strings.MASSES, showMasses ) {{ setFont( DEFAULT_FONT ); }};
+        final JCheckBox massCheckBox = new PropertyCheckBox( UserComponents.massCheckBox, Strings.MASSES, showMasses ) {{ setFont( DEFAULT_FONT ); }};
 
         final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( Strings.SPEED, 125, model.speed, STROBE_SPEED ) {{
             scale( 0.25 );
