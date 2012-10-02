@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -40,7 +41,6 @@ public class PullerNode extends PNode {
     public final double scale;
     public static final Color TRANSPARENT = new Color( 0, 0, 0, 0 );
     private KnotNode knot;
-    private double force;
     public static final F<PullerNode, Double> _weight = new F<PullerNode, Double>() {
         @Override public Double f( final PullerNode pullerNode ) {
 
@@ -69,7 +69,7 @@ public class PullerNode extends PNode {
     };
     private final SimpleObserver imageUpdater;
 
-    public PullerNode( final PColor color, final PSize size, final int item, final double scale, Vector2D offset, final PullerContext context, final ObservableProperty<Mode> mode ) {
+    public PullerNode( final IUserComponent component, final PColor color, final PSize size, final int item, final double scale, Vector2D offset, final PullerContext context, final ObservableProperty<Mode> mode ) {
         this.color = color;
         this.size = size;
         this.scale = scale;
@@ -111,7 +111,7 @@ public class PullerNode extends PNode {
         initialOffset = offset;
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new SimSharingDragHandler( null, true ) {
+        addInputEventListener( new SimSharingDragHandler( component, true ) {
             @Override protected void startDrag( final PInputEvent event ) {
                 super.startDrag( event );
                 context.startDrag( PullerNode.this );
