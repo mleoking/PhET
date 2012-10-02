@@ -20,6 +20,10 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -27,6 +31,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ParameterKeys;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -147,7 +152,9 @@ class AppliedForceSliderControl extends PNode {
 
                                            private void updateValueFromText( final DecimalFormat format ) {
                                                try {
-                                                   appliedForce.set( MathUtil.clamp( -100, format.parse( getText() ).doubleValue(), 100 ) );
+                                                   final double value = MathUtil.clamp( -100, format.parse( getText() ).doubleValue(), 100 );
+                                                   SimSharingManager.sendUserMessage( UserComponents.appliedForceTextField, UserComponentTypes.textField, UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.appliedForce, value ) );
+                                                   appliedForce.set( value );
                                                    appliedForceSliderModel.set( appliedForce.get() );
                                                }
                                                catch ( ParseException e1 ) {

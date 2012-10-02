@@ -457,6 +457,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         } );
     }
 
+    //Avoid an empty string in a parameter value by listing the ground or skateboard first
     private String stackToString( final List<StackableNode> stackableNodes ) {
         return stackableNodes.foldLeft( new F2<String, StackableNode, String>() {
             @Override public String f( final String s, final StackableNode stackableNode ) {
