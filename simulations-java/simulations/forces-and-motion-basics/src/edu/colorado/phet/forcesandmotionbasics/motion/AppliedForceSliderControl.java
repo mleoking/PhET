@@ -27,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -42,9 +43,9 @@ import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
  *
  * @author Sam Reid
  */
-class SliderControl extends PNode {
+class AppliedForceSliderControl extends PNode {
 
-    public SliderControl( final ObservableProperty<SpeedValue> speedValue, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction ) {
+    public AppliedForceSliderControl( final ObservableProperty<SpeedValue> speedValue, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction ) {
 
         final Not enabled = Not.not( stack.valueEquals( List.<StackableNode>nil() ) );
         final String unitsString = friction ? Strings.NEWTONS__N : Strings.NEWTONS;
@@ -70,7 +71,7 @@ class SliderControl extends PNode {
             }
         };
 
-        final HSliderNode sliderNode = new HSliderNode( null, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForceSliderModel, enabled ) {{
+        final HSliderNode sliderNode = new HSliderNode( UserComponents.appliedForceSliderKnob, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForceSliderModel, enabled ) {{
             PhetPPath tick1 = addLabel( -100, dummyLabel() );
             PhetPPath tick2 = addLabel( -50, dummyLabel() );
             addLabel( 0, new EnablePhetPText( "0", DEFAULT_FONT, enabled ) );
