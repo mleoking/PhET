@@ -108,7 +108,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     //Speed at which the bricks start to look as if they are going backwards
     public static final double STROBE_SPEED = 9.559393222711847;
 
-    private boolean playing = true;
+    public final BooleanProperty playing = new BooleanProperty( true );
     private final PusherNode pusherNode;
 
     //Features only for Tab 3: Friction:
@@ -296,7 +296,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         rightToolbox.setOffset( STAGE_SIZE.width - INSET - rightToolbox.getFullBounds().getWidth(), toolboxY );
         addChild( rightToolbox );
 
-        final AppliedForceSliderControl appliedForceSliderControl = new AppliedForceSliderControl( model.speedValue, model.appliedForce, stack, friction );
+        final AppliedForceSliderControl appliedForceSliderControl = new AppliedForceSliderControl( model.speedValue, model.appliedForce, stack, friction, playing );
         appliedForceSliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - appliedForceSliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( appliedForceSliderControl );
 
@@ -367,7 +367,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
-                if ( playing ) {
+                if ( playing.get() ) {
                     step( clockEvent.getSimulationTimeChange() );
                 }
                 model.clockStepped();
@@ -493,7 +493,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }
     }
 
-    private void playbackStateChanged( final boolean playing ) { this.playing = playing; }
+    private void playbackStateChanged( final boolean playing ) { this.playing.set( playing ); }
 
     private void rewind() {
         model.rewind();

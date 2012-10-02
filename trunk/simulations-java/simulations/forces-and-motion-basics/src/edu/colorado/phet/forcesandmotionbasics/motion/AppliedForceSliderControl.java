@@ -15,6 +15,7 @@ import java.text.ParseException;
 import javax.swing.JTextField;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -50,7 +51,7 @@ import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
  */
 class AppliedForceSliderControl extends PNode {
 
-    public AppliedForceSliderControl( final ObservableProperty<SpeedValue> speedValue, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction ) {
+    public AppliedForceSliderControl( final ObservableProperty<SpeedValue> speedValue, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction, final BooleanProperty playing ) {
 
         final Not enabled = Not.not( stack.valueEquals( List.<StackableNode>nil() ) );
         final String unitsString = friction ? Strings.NEWTONS__N : Strings.NEWTONS;
@@ -108,11 +109,14 @@ class AppliedForceSliderControl extends PNode {
                 } );
             }} );
 
-            //When dropping the slider thumb, the value should go back to 0.  The user has to hold the thumb to keep applying the force
+            //When playing: When dropping the slider thumb, the value should go back to 0.  The user has to hold the thumb to keep applying the force
+            //When paused: The user can set a value and it will stay (just as they can always set a value with the text box)
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mouseReleased( final PInputEvent event ) {
-                    appliedForce.set( 0.0 );
-                    appliedForceSliderModel.set( 0.0 );
+                    if ( playing.get() ) {
+                        appliedForce.set( 0.0 );
+                        appliedForceSliderModel.set( 0.0 );
+                    }
                 }
             } );
         }};
