@@ -60,6 +60,7 @@ class StackableNode extends PNode {
     public final int pusherOffset;
 
     private final BufferedImage toolboxImage;
+
     //if it has a flat top, it can be stacked upon
     public final boolean flatTop;
     private final BufferedImage flippedStackedImage;

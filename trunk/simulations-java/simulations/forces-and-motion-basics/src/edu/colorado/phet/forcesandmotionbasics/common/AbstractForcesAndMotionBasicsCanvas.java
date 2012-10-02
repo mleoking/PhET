@@ -10,6 +10,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Abstract canvas class, used in all of the tabs.
+ * Contains most of the functionality in #3423 "migrate duplicate canvas subclasses to common code"
  *
  * @author Sam Reid
  */
