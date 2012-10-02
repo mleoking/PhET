@@ -190,7 +190,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
     // Have to override, since outgoing chunks are on a separate list.
     @Override public List<EnergyChunk> extractOutgoingEnergyChunks() {
         List<EnergyChunk> retVal = new ArrayList<EnergyChunk>( outgoingEnergyChunks );
-        electricalEnergyChunkMovers.removeAll( outgoingEnergyChunks );
+        electricalEnergyChunks.removeAll( outgoingEnergyChunks );
         outgoingEnergyChunks.clear();
         return retVal;
     }
