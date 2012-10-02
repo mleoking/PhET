@@ -50,9 +50,15 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendModelMessage;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelActions.changed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes.modelElement;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.BROWN;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ModelComponents.forceModel;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ParameterKeys.sumOfForces;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.KnotNode.*;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.PullerNode.*;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor.BLUE;
@@ -126,7 +132,6 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
 
         cartNode = new PImage( Images.CART );
         cartNode.setOffset( STAGE_SIZE.width / 2 - cartNode.getFullBounds().getWidth() / 2, grassY - cartNode.getFullBounds().getHeight() + 4 );
-
 
         rope = new PImage( Images.ROPE );
         initialRopeX = STAGE_SIZE.width / 2 - rope.getFullBounds().getWidth() / 2;
@@ -429,6 +434,8 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         for ( VoidFunction0 forceListener : forceListeners ) {
             forceListener.apply();
         }
+
+        sendModelMessage( forceModel, modelElement, changed, parameterSet( sumOfForces, getSumOfForces() ) );
     }
 
     private void updateForceArrows() {forcesNode.setForces( mode.get() == Mode.WAITING || mode.get() == Mode.COMPLETE, getLeftForce(), getRightForce(), showSumOfForces.get(), showValues.get() );}
