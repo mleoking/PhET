@@ -45,8 +45,8 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage CLOUD_SMALL = RESOURCES.getImage( "cloud_small.png" );
         public static final BufferedImage CONNECTOR = RESOURCES.getImage( "connector.png" );
         public static final BufferedImage ELEMENT_BASE = RESOURCES.getImage( "element_base.png" );
-        public static final BufferedImage ELEMENT_BASE_BOTTOM = RESOURCES.getImage( "element_base_bottom.png" );
-        public static final BufferedImage ELEMENT_BASE_TOP = RESOURCES.getImage( "element_base_top.png" );
+        public static final BufferedImage ELEMENT_BASE_BACK = RESOURCES.getImage( "element_base_back.png" );
+        public static final BufferedImage ELEMENT_BASE_FRONT = RESOURCES.getImage( "element_base_front.png" );
         public static final BufferedImage ENERGY_CHUNKS_WHITE_SEMIBOLD = RESOURCES.getImage( "energy-chunks-white-semibold.png" );
         public static final BufferedImage ENERGY_CHUNKS_WHITE = RESOURCES.getImage( "energy-chunks-white.png" );
         public static final BufferedImage E_CHEM_OUTLINE_BLACK = RESOURCES.getImage( "E_chem_outline_black.png" );
