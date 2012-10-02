@@ -21,10 +21,11 @@ public class BeakerHeaterNode extends ImageBasedEnergySystemElementNode {
         // layer that will contain the energy chunks.
         addImageNode( BeakerHeater.WIRE_STRAIGHT_IMAGE );
         addImageNode( BeakerHeater.WIRE_CURVE_IMAGE );
-        addChild( new EnergyChunkLayer( beakerHeater.energyChunkList, beakerHeater.getObservablePosition(), mvt ) );
-        addImageNode( BeakerHeater.ELEMENT_BASE_IMAGE );
+        addImageNode( BeakerHeater.ELEMENT_BASE_BACK_IMAGE );
         addImageNode( BeakerHeater.HEATER_ELEMENT_OFF_IMAGE );
         final PImage energizedCoil = addImageNode( BeakerHeater.HEATER_ELEMENT_ON_IMAGE );
+        addChild( new EnergyChunkLayer( beakerHeater.energyChunkList, beakerHeater.getObservablePosition(), mvt ) );
+        addImageNode( BeakerHeater.ELEMENT_BASE_FRONT_IMAGE );
 
         // Update the transparency of the lit bulb based on model element.
         beakerHeater.heatProportion.addObserver( new VoidFunction1<Double>() {

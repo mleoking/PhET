@@ -33,7 +33,8 @@ public class BeakerHeater extends EnergyUser {
     private static final Vector2D HEATER_ELEMENT_OFFSET = new Vector2D( -0.002, 0.022 );
     public static final ModelElementImage WIRE_STRAIGHT_IMAGE = new ModelElementImage( WIRE_BLACK_86, new Vector2D( -0.042, -0.04 ) );
     public static final ModelElementImage WIRE_CURVE_IMAGE = new ModelElementImage( WIRE_BLACK_RIGHT, new Vector2D( -0.009, -0.016 ) );
-    public static final ModelElementImage ELEMENT_BASE_IMAGE = new ModelElementImage( ELEMENT_BASE, new Vector2D( 0, 0 ) );
+    public static final ModelElementImage ELEMENT_BASE_BACK_IMAGE = new ModelElementImage( ELEMENT_BASE_TOP, new Vector2D( 0, 0 ) );
+    public static final ModelElementImage ELEMENT_BASE_FRONT_IMAGE = new ModelElementImage( ELEMENT_BASE_BOTTOM, new Vector2D( 0, 0.0005 ) );
     public static final ModelElementImage HEATER_ELEMENT_OFF_IMAGE = new ModelElementImage( HEATER_ELEMENT_OFF, HEATER_ELEMENT_OFFSET );
     public static final ModelElementImage HEATER_ELEMENT_ON_IMAGE = new ModelElementImage( HEATER_ELEMENT, HEATER_ELEMENT_OFFSET );
 
