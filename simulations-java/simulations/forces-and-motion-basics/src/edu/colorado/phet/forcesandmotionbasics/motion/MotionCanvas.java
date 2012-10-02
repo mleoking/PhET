@@ -1,6 +1,7 @@
 package edu.colorado.phet.forcesandmotionbasics.motion;
 
 import fj.F;
+import fj.F2;
 import fj.P2;
 import fj.data.List;
 import fj.function.Doubles;
@@ -27,6 +28,8 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -44,6 +47,8 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ModelComponents;
+import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ParameterKeys;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMotionBasicsCanvas;
 import edu.colorado.phet.forcesandmotionbasics.common.ForceArrowNode;
@@ -57,6 +62,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendModelMessage;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.isSelected;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
@@ -322,9 +328,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         timeControls.setOffset( STAGE_SIZE.width / 2 - timeControls.getFullWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
         addChild( timeControls );
 
-        StackableNode fridge = new StackableNode( this, Images.FRIDGE, 200, FRIDGE_OFFSET_WITHIN_SKATEBOARD, showMasses );
-        StackableNode crate1 = new StackableNode( this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD, showMasses );
-        StackableNode crate2 = new StackableNode( this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD, showMasses );
+        StackableNode fridge = new StackableNode( UserComponents.fridge, this, Images.FRIDGE, 200, FRIDGE_OFFSET_WITHIN_SKATEBOARD, showMasses );
+        StackableNode crate1 = new StackableNode( UserComponents.crate1, this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD, showMasses );
+        StackableNode crate2 = new StackableNode( UserComponents.crate2, this, multiScaleToHeight( Images.CRATE, (int) ( 75 * 1.2 ) ), 50, CRATE_OFFSET_WITHIN_SKATEBOARD, showMasses );
 
         double INTER_OBJECT_SPACING = 10;
         fridge.setInitialOffset( leftToolbox.getFullBounds().getX() + 10, leftToolbox.getFullBounds().getCenterY() - fridge.getFullBounds().getHeight() / 2 );
@@ -336,10 +342,10 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( crate2 );
 
         //Weight for humans (but remember to round off the values to nearest 10 to make it easier to read): http://www.cdc.gov/growthcharts/data/set1clinical/cj41l021.pdf
-        StackableNode girl = new StackableNode( this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 40, friction ? 38 : 47, showMasses, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ), false );
-        StackableNode man = new StackableNode( this, multiScaleToHeight( Images.MAN_SITTING, (int) ( 200 / 150.0 * 100.0 ) ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ), false );
-        StackableNode trash = new StackableNode( this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47, showMasses, false );
-        StackableNode gift = new StackableNode( this, multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40, showMasses, false ) {
+        StackableNode girl = new StackableNode( UserComponents.girl, this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 40, friction ? 38 : 47, showMasses, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ), false );
+        StackableNode man = new StackableNode( UserComponents.man, this, multiScaleToHeight( Images.MAN_SITTING, (int) ( 200 / 150.0 * 100.0 ) ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ), false );
+        StackableNode trash = new StackableNode( UserComponents.trash, this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47, showMasses, false );
+        StackableNode gift = new StackableNode( UserComponents.gift, this, multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40, showMasses, false ) {
             @Override protected Pair<Integer, String> getMassDisplayString( final double mass ) {
 
                 //Add some padding on either side of the "?" for the gift to make it easier to read
@@ -443,6 +449,20 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 }
             }
         } );
+
+        stack.addObserver( new VoidFunction1<List<StackableNode>>() {
+            public void apply( final List<StackableNode> stackableNodes ) {
+                sendModelMessage( ModelComponents.stack, ModelComponentTypes.modelElement, ModelActions.changed, parameterSet( ParameterKeys.mass, getMassOfObjectsOnSkateboard() ).with( ParameterKeys.items, stackToString( stackableNodes ) ) );
+            }
+        } );
+    }
+
+    private String stackToString( final List<StackableNode> stackableNodes ) {
+        return stackableNodes.foldLeft( new F2<String, StackableNode, String>() {
+            @Override public String f( final String s, final StackableNode stackableNode ) {
+                return s + ", " + stackableNode.component.toString();
+            }
+        }, friction ? "ground" : "skateboard" );
     }
 
     private void rock( final Graphics2D g2, final BufferedImage im, final int x, final int y, final int width ) {

@@ -13,6 +13,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -22,9 +23,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -43,6 +44,7 @@ class StackableNode extends PNode {
     private Vector2D initialOffset;
     private final double initialScale;
     public final BooleanProperty onSkateboard = new BooleanProperty( false );
+    public final IUserComponent component;
     private final double mass;
 
     public static final F<StackableNode, Boolean> _isOnSkateboard = new F<StackableNode, Boolean>() {
@@ -66,16 +68,17 @@ class StackableNode extends PNode {
     private Image lastStackedImage;
     private PNode textLabel;
 
-    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass ) {
-        this( context, image, mass, pusherOffset, showMass, false, image, true );
+    public StackableNode( IUserComponent component, final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass ) {
+        this( component, context, image, mass, pusherOffset, showMass, false, image, true );
     }
 
-    public StackableNode( final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass, boolean flatTop ) {
-        this( context, image, mass, pusherOffset, showMass, false, image, flatTop );
+    public StackableNode( IUserComponent component, final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass, boolean flatTop ) {
+        this( component, context, image, mass, pusherOffset, showMass, false, image, flatTop );
     }
 
-    public StackableNode( final StackableNodeContext context, final BufferedImage stackedImage, final double mass, final int pusherOffset, final BooleanProperty showMass,
+    public StackableNode( IUserComponent component, final StackableNodeContext context, final BufferedImage stackedImage, final double mass, final int pusherOffset, final BooleanProperty showMass,
                           final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage, boolean flatTop ) {
+        this.component = component;
         this.mass = mass;
         this.pusherOffset = pusherOffset;
         this.toolboxImage = toolboxImage;
@@ -149,20 +152,21 @@ class StackableNode extends PNode {
         addChild( textLabel );
         this.initialScale = getScale();
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mousePressed( final PInputEvent event ) {
+        addInputEventListener( new SimSharingDragHandler( component, true ) {
+            @Override protected void startDrag( final PInputEvent event ) {
+                super.startDrag( event );
                 addActivity( new AnimateToScale( 1.0, StackableNode.this, 200 ) );
-
                 context.stackableNodePressed( StackableNode.this );
             }
 
-            @Override public void mouseDragged( final PInputEvent event ) {
+            @Override protected void drag( final PInputEvent event ) {
+                super.drag( event );
                 final PDimension delta = event.getDeltaRelativeTo( StackableNode.this.getParent() );
                 translate( delta.width, delta.height );
             }
 
-            @Override public void mouseReleased( final PInputEvent event ) {
-                super.mouseReleased( event );
+            @Override protected void endDrag( final PInputEvent event ) {
+                super.endDrag( event );
                 context.stackableNodeDropped( StackableNode.this );
             }
         } );
