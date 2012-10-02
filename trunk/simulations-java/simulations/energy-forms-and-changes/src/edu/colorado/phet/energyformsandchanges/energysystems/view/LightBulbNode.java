@@ -27,9 +27,10 @@ public class LightBulbNode extends ImageBasedEnergySystemElementNode {
         // Add the images and the layer that will contain the energy chunks.
         addImageNode( LightBulb.WIRE_FLAT_IMAGE );
         addImageNode( LightBulb.WIRE_CURVE_IMAGE );
-        addImageNode( lightBulb.offImage );
+        addImageNode( LightBulb.ELEMENT_BASE_BACK_IMAGE );
         addChild( new EnergyChunkLayer( lightBulb.energyChunkList, lightBulb.getObservablePosition(), mvt ) );
-        addImageNode( LightBulb.ELEMENT_BASE_IMAGE );
+        addImageNode( LightBulb.ELEMENT_BASE_FRONT_IMAGE );
+        addImageNode( lightBulb.offImage );
         final PNode energizedBulb = addImageNode( lightBulb.onImage );
 
         // Center the light rays on the bulb image.

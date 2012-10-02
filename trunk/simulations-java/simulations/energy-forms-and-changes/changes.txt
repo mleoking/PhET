@@ -1,3 +1,5 @@
+2nd tab: Integrated split base connector for better layering of burner and light bulbs.
+2nd tab: Made energy chunks radiate from heater element in upward direction only.
 2nd tab: Made energy chunks radiate from light bulb in upward direction only.
 2nd tab: Added flow of energy through the water-powered generator.
 2nd tab: Improved the flow of the E's through the solar panel converter.
