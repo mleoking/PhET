@@ -290,9 +290,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         rightToolbox.setOffset( STAGE_SIZE.width - INSET - rightToolbox.getFullBounds().getWidth(), toolboxY );
         addChild( rightToolbox );
 
-        final SliderControl sliderControl = new SliderControl( model.speedValue, model.appliedForce, stack, friction );
-        sliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - sliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
-        addChild( sliderControl );
+        final AppliedForceSliderControl appliedForceSliderControl = new AppliedForceSliderControl( model.speedValue, model.appliedForce, stack, friction );
+        appliedForceSliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - appliedForceSliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
+        addChild( appliedForceSliderControl );
 
         pusherNode = new PusherNode( model.fallen, skateboard, grassY, model.appliedForce, stack, model.speedValue );
         addChild( pusherNode );
