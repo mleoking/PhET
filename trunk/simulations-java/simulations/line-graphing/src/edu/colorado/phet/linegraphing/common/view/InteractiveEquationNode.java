@@ -61,7 +61,7 @@ public class InteractiveEquationNode extends PhetPNode {
         operatorYFudgeFactor = 0.07 * pointSize;
         fractionLineYFudgeFactor = 0.07 * pointSize;
         undefinedSlopeYFudgeFactor = 0.07 * pointSize;
-        fractionLineThickness = 0.07f * pointSize;
+        fractionLineThickness = 0.06f * pointSize;
         operatorLineSize = new PDimension( 0.54 * pointSize, 0.07 * pointSize );
         signLineSize = new PDimension( 0.54 * pointSize, 0.11 * pointSize );
         integerSignXSpacing = 0.18 * pointSize;

@@ -1,3 +1,4 @@
+10/2/12 tweak thickness of minus sign and fraction line
 # 0.00.28 (68663) Oct 1, 2012
 10/1/12 demo complete set of challenges for "Make the Equation"
 10/1/12 consolidate methods for computing the ranges of line parameters
