@@ -2,7 +2,6 @@
 var canvas;
 var context;
 
-var rootNode = null;
 var globals = {
     MAX_FRICTION:1.5, friction:0
 };
@@ -26,16 +25,16 @@ function rectangularNode( width, height ) {
 
         //flag for consumed
         return that.selected;
-    }
+    };
     that.onTouchEnd = function ( point ) {
         that.selected = false;
-    }
+    };
     that.onTouchMove = function ( point ) {
         if ( that.selected ) {
             that.x = point.x + that.objectTouchPoint.x - that.initTouchPoint.x;
             that.y = point.y + that.objectTouchPoint.y - that.initTouchPoint.y;
         }
-    }
+    };
     return that;
 }
 
@@ -98,191 +97,6 @@ function imageNode( string, x, y ) {
     return that;
 }
 
-function massNode( string, _x, _y, _mass ) {
-    var that = imageNode( string, _x, _y );
-    that.initX = _x;
-    that.initY = _y;
-    that.mass = _mass;
-    that.spring = null;
-    that.velocity = 0;
-
-    // Override onTouchStart.
-    var superOnTouchStart = that.onTouchStart;
-    that.onTouchStart = function ( point ) {
-        superOnTouchStart.apply( that, new Array( point ) );
-        if ( that.selected ) {
-            if ( that.spring != null ) {
-                // Detach from the spring.
-                that.spring.mass = null;
-                that.spring = null;
-            }
-        }
-    }
-
-    // Override onTouchStart.
-    var superOnTouchEnd = that.onTouchEnd;
-    that.onTouchEnd = function ( point ) {
-        if ( that.selected ) {
-            superOnTouchEnd.apply( that, new Array( point ) );
-            var centerX = that.x + that.width / 2;
-            for ( var i = 0; i < globals.springs.length; i++ ) {
-                var spring = globals.springs[i];
-                if ( new Point2D( centerX, that.y ).distance( spring.attachmentPoint ) < 50 ) {
-                    // Attach to this spring.
-                    if ( spring.mass == null ) {
-                        that.attachToPoint( spring.attachmentPoint );
-                        that.spring = spring;
-                        spring.mass = that;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    // Set the position so that the "hook" on the weight is at the given location.
-    that.attachToPoint = function ( point ) {
-        that.x = point.x - that.width / 2;
-        that.y = point.y - 5; // Tweak alert - this is about the width of the hook on each mass.
-    }
-
-    return that;
-}
-
-function vbox( args ) {
-    var that = compositeNode( args.children );
-    that.x = args.x;
-    that.y = args.y;
-
-    function vertical( components, spacing ) {
-        components[0].x = 0;
-        components[0].y = 0;
-        for ( var i = 1; i < components.length; i++ ) {
-            var prev = components[i - 1];
-            var c = components[i];
-            c.y = prev.y + prev.height + spacing;
-            c.x = prev.x;
-
-            if ( isNaN( c.y ) ) {
-                console.log( "not a number" );
-            }
-        }
-    }
-
-    vertical( args.children, 10 );
-
-    //compute width and height
-    that.width = 0;
-    that.height = args.children[args.children.length - 1].y + args.children[args.children.length - 1].height;
-    for ( var i = 0; i < args.children.length; i++ ) {
-        var obj = args.children[i];
-        that.width = Math.max( obj.width, that.width );
-    }
-
-    return that;
-}
-
-//Varargs variant for creating vbox at 0,0
-function vbox00() {
-    var array = new Array();
-    for ( var i = 0; i < arguments.length; i++ ) {
-        array.push( arguments[i] );
-    }
-    return vbox( {children:array, x:0, y:0} );
-}
-
-//Varargs variant for creating hbox at 0,0
-function hbox00() {
-    var array = new Array();
-    for ( var i = 0; i < arguments.length; i++ ) {
-        array.push( arguments[i] );
-    }
-    return hbox( {children:array, x:0, y:0} );
-}
-
-function hbox( args ) {
-    var that = compositeNode( args.children );
-    that.x = args.x;
-    that.y = args.y;
-
-    function horizontal( components, spacing ) {
-        components[0].x = 0;
-        components[0].y = 0;
-        for ( var i = 1; i < components.length; i++ ) {
-            var prev = components[i - 1];
-            var c = components[i];
-            c.x = prev.x + prev.width + spacing;
-            c.y = prev.y;
-        }
-    }
-
-    horizontal( args.children, 10 );
-    if ( isNaN( that.y ) ) {
-        console.log( "not a number" );
-    }
-
-    //compute width and height
-    that.height = 0;
-    that.width = args.children[args.children.length - 1].x + args.children[args.children.length - 1].width;
-    for ( var i = 0; i < args.children.length; i++ ) {
-        var obj = args.children[i];
-        that.height = Math.max( obj.height, that.height );
-    }
-
-    console.log( "hbox height = " + that.height );
-
-    return that;
-}
-
-function compositeNode( children ) {
-    var that = {
-        x:0,
-        y:0
-    };
-
-    that.onTouchEnd = function ( point ) {
-        var relativePoint = {x:point.x - that.x, y:point.y - that.y};
-        for ( var i = 0; i < children.length; i++ ) {
-            children[i].onTouchEnd( relativePoint );
-        }
-    };
-    that.onTouchMove = function ( point ) {
-        var relativePoint = {x:point.x - that.x, y:point.y - that.y};
-        for ( var i = 0; i < children.length; i++ ) {
-            children[i].onTouchMove( relativePoint );
-        }
-    };
-
-    //Define these methods outside of initial that declaration so we can refer to that. (Maybe a better way to do that)
-    that.onTouchStart = function ( point ) {
-
-        var relativePoint = {x:point.x - that.x, y:point.y - that.y};
-        //Reverse order so things in front will consume the event
-        for ( var i = children.length - 1; i >= 0; i-- ) {
-            var consumed = children[i].onTouchStart( relativePoint );
-            if ( consumed ) {
-
-                var child = children[i];
-
-                //Move to front (i.e. end of list) by default
-                children.splice( i, 1 );
-                children.push( child );
-
-                break;
-            }
-        }
-    }
-    that.draw = function ( context ) {
-        context.save();
-        context.translate( that.x, that.y );
-        for ( var i = 0; i < children.length; i++ ) {
-            children[i].draw( context );
-        }
-        context.restore();
-    };
-    return that;
-}
-
 // Hook up the initialization function.
 $( document ).ready( function () {
     init();
@@ -291,16 +105,6 @@ $( document ).ready( function () {
 // Hook up event handler for window resize.
 $( window ).resize( resizer );
 
-
-//Non-interactive spacer for layouts
-function spacer() {
-    var that = rectangularNode( 30, 30 );
-    that.draw = function ( context ) {
-    }
-    that.onTouchStart = function ( point ) {
-    }
-    return that;
-}
 
 // Initialize the canvas, context,
 function init() {
@@ -330,41 +134,24 @@ function init() {
             false
     );
 
-    globals.springs = [];
-    var springSpacing = 180;
-    var springOffset = 200;
-    globals.springs.push( spring( "1", springOffset ) );
-    globals.springs.push( spring( "2", springOffset + springSpacing * 1 ) );
-    globals.springs.push( spring( "3", springOffset + springSpacing * 2 ) );
-
     globals.masses = [];
 
     function labeledCheckBox( label ) {
         return hbox00( checkbox( 0, 0 ), textNode( label ) );
     }
 
-//    var stopwatchCheckBox = labeledCheckBox( "Stopwatch" );
-//    var soundCheckBox = labeledCheckBox( "Sound" );
-    var frictionSlider = vbox00( textNode( "friction" ) );
     var resetButton = new ResetButton( new Point2D( 740, 530 ), "orange" );
-
-//    var oneTwoThree = hbox00( labeledCheckBox( "1" ), labeledCheckBox( "2" ), labeledCheckBox( "3" ) );
-//    var showEnergyBox = vbox00( textNode( "Show Energy of" ), oneTwoThree, labeledCheckBox( "No show" ) );
 
     var rootNodeComponents = new Array();
     for ( var i = 0; i < globals.masses.length; i++ ) {
         rootNodeComponents.push( globals.masses[i] );
     }
-    rootNodeComponents.push( vbox( {children:new Array( frictionSlider ), x:700, y:100} ) );
     rootNodeComponents.push( resetButton );
-//    rootNodeComponents.push( imageNode( "resources/ruler.png", 12, 51 ) );
 
-    //Add to the nodes for rendering
-    for ( var i = 0; i < globals.springs.length; i++ ) {
-        rootNodeComponents.push( globals.springs[i] );
-    }
-
-    rootNode = compositeNode( rootNodeComponents );
+    shakerImage = loadImage( "resources/shaker.png" );
+    shakerImage.onload = function () {
+        draw();
+    };
 
     // Do the initial drawing, events will cause subsequent updates.
     resizer();
@@ -407,9 +194,16 @@ function clearBackground() {
 function draw() {
     updateCanvasSize();
     clearBackground();
-    if ( rootNode != null ) {
-        rootNode.draw( context );
-    }
+
+    context.save();
+    context.translate( 400, 200 );
+    context.rotate( -Math.PI / 4 );
+    context.drawImage( shakerImage, 0, 0 );
+    context.restore();
+
+//    if ( rootNode != null ) {
+//        rootNode.draw( context );
+//    }
 }
 
 var updateCanvasSize = function () {
@@ -459,16 +253,28 @@ function onWindowDeviceOrientation( event ) {
 }
 
 function onTouchStart( location ) {
-    rootNode.onTouchStart( location );
+//    rootNode.onTouchStart( location );
 }
 
 function onDrag( location ) {
-    rootNode.onTouchMove( location );
+    //see if the shaker image hits this point
+    var point = new Point2D( location.x, location.y );
+    point = point.plus( -400, -200 );
+    point = point.rotate( Math.PI / 4 );
+    var inside = point.x > 0 && point.x < shakerImage.width && point.y > 0 && point.y < shakerImage.height;
+    console.log( "inside = " + inside + ", transformed point = " + point.x + ", " + point.y );
+    if ( inside ) {
+        canvas.style.cursor = "pointer";
+    }
+    else {
+        canvas.style.cursor = "";
+    }
+
     draw();
 }
 
 function onTouchEnd( point ) {
-    rootNode.onTouchEnd( point );
+//    rootNode.onTouchEnd( point );
     draw();
 }
 
@@ -483,13 +289,6 @@ function animate() {
 
     //http://animaljoy.com/?p=254
     // insert your code to update your animation here
-
-    for ( i = 0; i < globals.springs.length; i++ ) {
-        if ( globals.springs[i].mass == null ) {
-            globals.springs[i].attachmentPoint.y = globals.springs[i].initialLength;
-        }
-//        globals.springs[i].attachmentPoint.y = 300 + 100 * Math.sin( 6 * count / 100.0 );
-    }
 
     for ( var i = 0; i < globals.masses.length; i++ ) {
         var mass = globals.masses[i];
@@ -543,46 +342,6 @@ if ( !window.requestAnimationFrame ) {
     })();
 }
 
-function spring( name, x ) {
-    var that = rectangularNode( 0, 0 );
-    that.initialLength = 250;
-    that.k = 100;
-    that.name = name;
-    that.anchor = new Point2D( x, 50 );
-    that.attachmentPoint = new Point2D( x, that.initialLength );
-    that.color = '#f00';
-    that.mass = null;
-    that.draw = function ( context ) {
-        context.beginPath();
-        context.strokeStyle = that.color;
-        context.lineWidth = 4;
-        context.beginPath();
-        context.moveTo( this.anchor.x, this.anchor.y );
-        const numZigs = 10;
-        const zigHeight = -(this.attachmentPoint.y - this.anchor.y) / numZigs / 2;
-        //    javascript: console.log( "zig Height = " + zigHeight );
-
-        var pt = new Point2D( this.anchor.x, this.anchor.y );
-        for ( var i = 0; i < numZigs; i++ ) {
-            var pt2 = new Point2D( pt.x + 10, pt.y - zigHeight );
-            var pt3 = new Point2D( pt2.x - 10, pt2.y - zigHeight );
-            context.lineTo( pt2.x, pt2.y );
-            context.lineTo( pt3.x, pt3.y );
-            pt = pt3;
-        }
-        context.stroke();
-        context.closePath();
-
-        const textHeight = 32;
-        context.font = textHeight + "px sans-serif";
-        const defaultTextAlign = context.textAlign;
-        context.textAlign = "center";
-        context.fillText( this.name, this.anchor.x, this.anchor.y - 40, 1000 );
-        context.textAlign = defaultTextAlign;
-    }
-    return that;
-}
-
 function Point2D( x, y ) {
     // Instance Fields or Data Members
     this.x = x;
@@ -591,29 +350,39 @@ function Point2D( x, y ) {
 
 Point2D.prototype.toString = function () {
     return this.x + ", " + this.y;
-}
+};
 
 Point2D.prototype.setComponents = function ( x, y ) {
     this.x = x;
     this.y = y;
-}
+};
 
 Point2D.prototype.minus = function ( pt ) {
     return new Point2D( this.x - pt.x, this.y - pt.y );
-}
+};
+
+Point2D.prototype.plus = function ( dx, dy ) {
+    return new Point2D( this.x + dx, this.y + dy );
+};
+
+Point2D.prototype.rotate = function ( angle ) {
+    var currentAngle = Math.atan2( this.y, this.x );
+    var newAngle = currentAngle + angle;
+    var dist = this.distance( new Point2D( 0, 0 ) );
+    return new Point2D( Math.cos( newAngle ) * dist, Math.sin( newAngle ) * dist );
+};
 
 Point2D.prototype.minus = function ( pt ) {
     return new Point2D( this.x + pt.x, this.y + pt.y );
-}
+};
 
 Point2D.prototype.set = function ( point2D ) {
     this.setComponents( point2D.x, point2D.y );
-}
+};
 
 Point2D.prototype.distance = function ( point2D ) {
     return ( Math.sqrt( Math.pow( this.x - point2D.x, 2 ) + Math.pow( this.y - point2D.y, 2 ) ) );
-}
-
+};
 
 function sliderTrack() {
     var that = rectangularNode( 250, 5 );
@@ -663,7 +432,7 @@ function checkbox( x, y ) {
             context.stroke();
             context.closePath();
         }
-    }
+    };
 
     that.onTouchStart = function ( point ) {
 
@@ -673,7 +442,7 @@ function checkbox( x, y ) {
             this.checkboxSelected = !this.checkboxSelected;
             draw();
         }
-    }
+    };
     return that;
 }
 
@@ -718,35 +487,6 @@ function roundRect( ctx, x, y, width, height, radius, fill, stroke ) {
     }
 }
 
-function clamp( min, value, max ) {
-    var minClamp = Math.min( value, max );
-    var maxClamp = Math.max( min, minClamp );
-    return maxClamp;
-}
-
-//function slider() {
-//    var track = sliderTrack();
-//    track.onTouchmove = function ( point ) {
-//    };
-////    var knob = imageNode( "resources/bonniemsliderthumb.png", 0, 0 );
-//    var that = compositeNode( new Array( track, knob ) );
-//
-//    knob.onTouchMove = function ( point ) {
-//        if ( knob.selected ) {
-//            knob.x = clamp( 0, point.x + knob.objectTouchPoint.x - knob.initTouchPoint.x, track.width );
-//            track.knobX = knob.x;
-//            globals.friction = knob.x * globals.MAX_FRICTION / 250;
-//            console.log( "friction: " + globals.friction );
-//        }
-//    };
-//
-//    //compute width and height
-//    that.width = track.width;
-//    that.height = knob.height;
-//    return that;
-//}
-
-
 //-----------------------------------------------------------------------------
 // Reset button class
 //-----------------------------------------------------------------------------
@@ -782,41 +522,41 @@ ResetButton.prototype.draw = function ( context ) {
     context.textBaseline = 'top';
     context.textAlign = 'left';
     context.fillText( 'Reset', xPos + 5, yPos + 5 );
-}
+};
 
 ResetButton.prototype.onTouchStart = function ( pt ) {
     if ( this.containsPoint( pt ) ) {
         this.pressed = true;
         reset();
     }
-}
+};
 
 ResetButton.prototype.onTouchEnd = function ( pt ) {
     this.pressed = false;
-}
+};
 ResetButton.prototype.onTouchMove = function ( pt ) {
     this.pressed = false;
-}
+};
 
 ResetButton.prototype.press = function () {
     this.pressed = true;
     reset();
-}
+};
 
 ResetButton.prototype.unPress = function ( context ) {
     this.pressed = false;
-}
+};
 
 ResetButton.prototype.setLocationComponents = function ( x, y ) {
     this.location.x = x;
     this.location.y = y;
-}
+};
 
 ResetButton.prototype.setLocation = function ( location ) {
     this.setLocationComponents( location.x, location.y );
-}
+};
 
 ResetButton.prototype.containsPoint = function ( point ) {
     return point.x > this.location.x && point.x < this.location.x + this.width &&
            point.y > this.location.y && point.y < this.location.y + this.height;
-}
+};
