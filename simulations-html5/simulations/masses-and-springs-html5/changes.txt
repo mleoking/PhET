@@ -1,2 +1,3 @@
+# null.null.00 (68707) Oct 3, 2012
 get rid of all other controls except for friction slider
 added reset button (not wired up)
