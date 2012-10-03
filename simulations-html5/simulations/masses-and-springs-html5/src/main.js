@@ -624,7 +624,7 @@ function sliderTrack() {
     var that = rectangularNode( 250, 5 );
     that.knobX = 0;
     that.image = new Image();
-    that.image.src = "resources/bonniemslider.png";
+    that.image.src = "../resources/bonniemslider.png";
 
     that.draw = function ( context ) {
         //draw gray bar
@@ -733,7 +733,7 @@ function slider() {
     var track = sliderTrack();
     track.onTouchmove = function ( point ) {
     };
-    var knob = imageNode( "resources/bonniemsliderthumb.png", 0, 0 );
+    var knob = imageNode( "../resources/bonniemsliderthumb.png", 0, 0 );
     var that = compositeNode( new Array( track, knob ) );
 
     knob.onTouchMove = function ( point ) {
