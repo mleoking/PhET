@@ -197,7 +197,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         backLayer.addChild( thermometerToolBox );
 
         // Add the thermometers.
-        for ( Thermometer thermometer : model.getThermometers() ) {
+        for ( Thermometer thermometer : model.thermometers ) {
             thermometerToolBox.putThermometerInOpenSpot( thermometer );
             // Add one thermometer node to the front layer and one to the back,
             // and control the visibility based on whether the thermometer is
@@ -286,7 +286,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         model.reset();
         normalSimSpeed.reset();
         // Put the thermometers in the tool box.
-        for ( Thermometer thermometer : model.getThermometers() ) {
+        for ( Thermometer thermometer : model.thermometers ) {
             thermometerToolBox.putThermometerInOpenSpot( thermometer );
         }
     }
@@ -294,7 +294,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     // Class that defines the thermometer tool box.
     private static class ThermometerToolBox extends PNode {
 
-        private static final int NUM_THERMOMETERS_SUPPORTED = 2;
+        private static final int NUM_THERMOMETERS_SUPPORTED = EFACIntroModel.NUM_THERMOMETERS;
 
         private final EFACIntroModel model;
         private final ModelViewTransform mvt;
@@ -316,9 +316,9 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             double yPos = getFullBoundsReference().getMaxY() - 40;
             boolean openLocationFound = false;
             for ( int i = 0; i < NUM_THERMOMETERS_SUPPORTED && !openLocationFound; i++ ) {
-                xPos = getFullBoundsReference().width / NUM_THERMOMETERS_SUPPORTED * i + 20;
+                xPos = getFullBoundsReference().width / NUM_THERMOMETERS_SUPPORTED * i + 15;
                 openLocationFound = true;
-                for ( Thermometer modelThermometer : model.getThermometers() ) {
+                for ( Thermometer modelThermometer : model.thermometers ) {
                     if ( modelThermometer.position.get().distance( new Vector2D( mvt.viewToModel( xPos, yPos ) ) ) < 1E-3 ) {
                         openLocationFound = false;
                         break;
