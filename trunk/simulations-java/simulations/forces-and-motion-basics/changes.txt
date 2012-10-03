@@ -1,3 +1,4 @@
+# 0.00.36 (68696) Oct 2, 2012
 Tab 2-3: Moved gift ribbon to the side
 Tab 2-3: Characters raise their hands when something can be stacked on them
 # 0.00.35 (68679) Oct 2, 2012
