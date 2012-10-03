@@ -43,6 +43,8 @@ public class EFACIntroModel {
     // system below which energy can be exchanged with air.
     private static final double MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE = 0.5; // In degrees C, empirically determined.
 
+    public static final int NUM_THERMOMETERS = 3;
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -60,8 +62,7 @@ public class EFACIntroModel {
     private final Beaker beaker;
 
     // Thermometers.
-    private final Thermometer thermometer1;
-    private final Thermometer thermometer2;
+    public final List<Thermometer> thermometers = new ArrayList<Thermometer>();
 
     // Air.
     private final Air air;
@@ -115,8 +116,9 @@ public class EFACIntroModel {
 
         // Add the thermometers.  Set initial position to be off screen.
         // Subsequent initialization will put them into the thermometer box.
-        thermometer1 = new Thermometer( this, new Vector2D( 100, 100 ) );
-        thermometer2 = new Thermometer( this, new Vector2D( 100, 100 ) );
+        for ( int i = 0; i < NUM_THERMOMETERS; i++ ) {
+            thermometers.add( new Thermometer( this, new Vector2D( 100, 100 ) ) );
+        }
     }
 
     //-------------------------------------------------------------------------
@@ -134,8 +136,9 @@ public class EFACIntroModel {
         ironBlock.reset();
         brick.reset();
         beaker.reset();
-        thermometer1.reset();
-        thermometer2.reset();
+        for ( Thermometer thermometer : thermometers ) {
+            thermometer.reset();
+        }
     }
 
     /**
@@ -556,10 +559,6 @@ public class EFACIntroModel {
     // Returns true if surface s1's center is above surface s2.
     private boolean isDirectlyAbove( HorizontalSurface s1, HorizontalSurface s2 ) {
         return s2.xRange.contains( s1.getCenterX() ) && s1.yPos > s2.yPos;
-    }
-
-    public List<Thermometer> getThermometers() {
-        return Arrays.asList( thermometer1, thermometer2 );
     }
 
     /**
