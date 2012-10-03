@@ -3,23 +3,16 @@ package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.geom.Line2D;
-
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
@@ -332,47 +325,5 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                                                fractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + undefinedSlopeYFudgeFactor );
             addChild( undefinedSlopeIndicator );
         }
-    }
-
-    // test
-    public static void main( String[] args ) {
-
-        // model
-        Property<Line> line = new Property<Line>( Line.createSlopeIntercept( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
-        DoubleRange range = new DoubleRange( -10, 10 );
-        Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
-        Property<DoubleRange> runRange = new Property<DoubleRange>( range );
-        Property<DoubleRange> yInterceptRange = new Property<DoubleRange>( range );
-        PhetFont interactiveFont = LGConstants.INTERACTIVE_EQUATION_FONT;
-        PhetFont staticFont = LGConstants.STATIC_EQUATION_FONT;
-        Color staticColor = LGColors.STATIC_EQUATION_ELEMENT;
-
-        // equations, all combinations of interactivity
-        SlopeInterceptInteractiveEquationNode equationNode1 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, true, true, interactiveFont, staticFont, staticColor );
-        SlopeInterceptInteractiveEquationNode equationNode2 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, false, true, interactiveFont, staticFont, staticColor );
-        SlopeInterceptInteractiveEquationNode equationNode3 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, true, false, interactiveFont, staticFont, staticColor );
-        SlopeInterceptInteractiveEquationNode equationNode4 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, yInterceptRange, false, false, interactiveFont, staticFont, staticColor );
-
-        // canvas
-        PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 600, 650 ) );
-        canvas.getLayer().addChild( equationNode1 );
-        canvas.getLayer().addChild( equationNode2 );
-        canvas.getLayer().addChild( equationNode3 );
-        canvas.getLayer().addChild( equationNode4 );
-
-        // layout
-        final int ySpacing = 60;
-        equationNode1.setOffset( 100, 50 );
-        equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + ySpacing );
-        equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + ySpacing );
-        equationNode4.setOffset( equationNode1.getXOffset(), equationNode3.getFullBoundsReference().getMaxY() + ySpacing );
-
-        // frame
-        JFrame frame = new JFrame();
-        frame.setContentPane( canvas );
-        frame.pack();
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        frame.setVisible( true );
     }
 }

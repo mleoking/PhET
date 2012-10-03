@@ -3,23 +3,16 @@ package edu.colorado.phet.linegraphing.pointslope.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.geom.Line2D;
-
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
@@ -391,54 +384,5 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
             undefinedSlopeIndicator.setOffset( 0, fractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + 2 );
             addChild( undefinedSlopeIndicator );
         }
-    }
-
-    // test
-    public static void main( String[] args ) {
-
-        // model
-        Property<Line> line = new Property<Line>( Line.createPointSlope( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ) );
-        DoubleRange range = new DoubleRange( -10, 10 );
-        Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
-        Property<DoubleRange> runRange = new Property<DoubleRange>( range );
-        Property<DoubleRange> x1Range = new Property<DoubleRange>( range );
-        Property<DoubleRange> y1Range = new Property<DoubleRange>( range );
-        PhetFont interactiveFont = LGConstants.INTERACTIVE_EQUATION_FONT;
-        PhetFont staticFont = LGConstants.STATIC_EQUATION_FONT;
-        Color staticColor = LGColors.STATIC_EQUATION_ELEMENT;
-
-        // equations, all combinations of interactivity
-        PointSlopeInteractiveEquationNode equationNode1 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, true, interactiveFont, staticFont, staticColor );
-        PointSlopeInteractiveEquationNode equationNode2 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, true, interactiveFont, staticFont, staticColor );
-        PointSlopeInteractiveEquationNode equationNode3 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, false, interactiveFont, staticFont, staticColor );
-        PointSlopeInteractiveEquationNode equationNode4 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, false, false, interactiveFont, staticFont, staticColor );
-        PointSlopeInteractiveEquationNode equationNode5 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, true, false, interactiveFont, staticFont, staticColor );
-        PointSlopeInteractiveEquationNode equationNode6 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, false, interactiveFont, staticFont, staticColor );
-
-        // canvas
-        PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 600, 750 ) );
-        canvas.getLayer().addChild( equationNode1 );
-        canvas.getLayer().addChild( equationNode2 );
-        canvas.getLayer().addChild( equationNode3 );
-        canvas.getLayer().addChild( equationNode4 );
-        canvas.getLayer().addChild( equationNode5 );
-        canvas.getLayer().addChild( equationNode6 );
-
-        // layout
-        final int ySpacing = 60;
-        equationNode1.setOffset( 100, 50 );
-        equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + ySpacing );
-        equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + ySpacing );
-        equationNode4.setOffset( equationNode1.getXOffset(), equationNode3.getFullBoundsReference().getMaxY() + ySpacing );
-        equationNode5.setOffset( equationNode1.getXOffset(), equationNode4.getFullBoundsReference().getMaxY() + ySpacing );
-        equationNode6.setOffset( equationNode1.getXOffset(), equationNode5.getFullBoundsReference().getMaxY() + ySpacing );
-
-        // frame
-        JFrame frame = new JFrame();
-        frame.setContentPane( canvas );
-        frame.pack();
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        frame.setVisible( true );
     }
 }
