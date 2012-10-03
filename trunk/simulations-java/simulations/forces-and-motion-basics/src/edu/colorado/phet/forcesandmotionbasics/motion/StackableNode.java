@@ -11,10 +11,12 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.Pair;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -61,22 +63,26 @@ class StackableNode extends PNode {
     private final BufferedImage toolboxImage;
     private final BufferedImage flippedStackedImage;
 
-    //Remember the last image shown before applied force is set to 0.0 so that the character will keep facing the same direction.
-    private Image lastStackedImage;
+    //Remember the direction for the last image shown before applied force is set to 0.0 so that the character will keep facing the same direction.
+    private double lastSign;
     private PNode textLabel;
+    private final BufferedImage flippedHandsUpImage;
 
     public StackableNode( IUserComponent component, final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass ) {
-        this( component, context, image, mass, pusherOffset, showMass, false, image );
+        this( component, context, image, mass, pusherOffset, showMass, false, image, image );
     }
 
     public StackableNode( IUserComponent component, final StackableNodeContext context, final BufferedImage stackedImage, final double mass, final int pusherOffset, final BooleanProperty showMass,
-                          final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage ) {
+                          final boolean faceDirectionOfAppliedForce, final BufferedImage toolboxImage,
+
+                          //Show this image when something else is being dragged and this node will be shown underneath.  For the girl and man who will hold up the objects.
+                          final BufferedImage handsUpImage ) {
         this.component = component;
         this.mass = mass;
         this.pusherOffset = pusherOffset;
         this.toolboxImage = toolboxImage;
         this.flippedStackedImage = BufferedImageUtils.flipX( stackedImage );
-        lastStackedImage = stackedImage;
+        this.flippedHandsUpImage = BufferedImageUtils.flipX( handsUpImage );
         final PImage imageNode = new PImage( toolboxImage ) {
             {
                 onSkateboard.addObserver( new VoidFunction1<Boolean>() {
@@ -91,12 +97,19 @@ class StackableNode extends PNode {
                         }
                     } );
                 }
+                final SimpleObserver updater = new SimpleObserver() {
+                    public void update() {
+                        updateImage();
+                    }
+                };
+                context.getUserIsDraggingSomething().addObserver( updater );
+                context.addStackChangeListener( updater );
             }
 
             private void updateImage() {
                 final Image chosenImage = chooseImage();
                 if ( onSkateboard.get() && faceDirectionOfAppliedForce && context.getAppliedForce().get() != 0 ) {
-                    lastStackedImage = chosenImage;
+                    lastSign = MathUtil.getSign( context.getAppliedForce().get() );
                 }
                 setImage( chosenImage );
             }
@@ -107,9 +120,13 @@ class StackableNode extends PNode {
                 }
                 else {
                     if ( faceDirectionOfAppliedForce ) {
-                        if ( context.getAppliedForce().get() > 0 ) { return flippedStackedImage; }
-                        else if ( context.getAppliedForce().get() < 0 ) { return stackedImage; }
-                        else { return lastStackedImage;}
+                        final boolean handsUp = ( context.getUserIsDraggingSomething().get() && context.getStackSize() < 3 ) || context.isInStackButNotInTop( StackableNode.this );
+                        if ( context.getAppliedForce().get() > 0 ) { return handsUp ? flippedHandsUpImage : flippedStackedImage; }
+                        else if ( context.getAppliedForce().get() < 0 ) { return handsUp ? handsUpImage : stackedImage; }
+                        else {
+                            if ( lastSign > 0 ) { return handsUp ? flippedHandsUpImage : flippedStackedImage; }
+                            else { return handsUp ? handsUpImage : stackedImage; }
+                        }
                     }
                     else {
                         return stackedImage;
