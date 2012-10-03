@@ -30,7 +30,7 @@ import static edu.colorado.phet.forcesandmotionbasics.common.AbstractForcesAndMo
 public class ForceArrowNode extends PNode {
 
     private final double forceInNewtons;
-    private PhetPText nameNode; //REVIEW: Can this be private?
+    private PhetPText nameNode;
 
     public ForceArrowNode( final boolean transparent, final Vector2D tail, final double forceInNewtons, final String name, Color color, final TextLocation textLocation, final boolean showValues ) {
         this( transparent, tail, forceInNewtons, name, color, textLocation, showValues, Option.<ForceArrowNode>none() );
