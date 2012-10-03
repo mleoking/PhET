@@ -113,7 +113,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     //Features only for Tab 3: Friction:
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
-    private BooleanProperty dragging = new BooleanProperty( false ); //REVIEW: Suggest final modifier.
+    private final BooleanProperty dragging = new BooleanProperty( false );
 
     public MotionCanvas( final Resettable moduleContext, final IClock clock,
 
@@ -172,8 +172,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 removeAllChildren();
 
                 //Show rocks as additional texture
-                //REVIEW: Prototype code, should remove or document that it is
-                //being left during interviews.  Mark with TODO.
+                //TODO: Prototype code, being left during interviews.
                 boolean showRocks = false;
                 if ( showRocks ) {
                     final double scale = 0.5;
@@ -187,8 +186,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 }
 
                 //Show mountains as additional texture
-                //REVIEW: Prototype code, should remove or document that it is
-                //being left during interviews.  Mark with TODO.
+                //TODO: Prototype code, being left during interviews.
                 boolean showMountains = true;
                 if ( showMountains ) {
                     final double scale = 0.25;
