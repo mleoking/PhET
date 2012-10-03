@@ -172,13 +172,11 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         Vector2D mediumPosition = Vector2D.v( 155.66912850812423, 515 + 1 + 1 + dy );
         Vector2D smallPosition1 = Vector2D.v( 215.9527326440175, 559 - 1 + dy );
         Vector2D smallPosition2 = Vector2D.v( 263.1610044313148, 559 - 1 + dy );
-        //REVIEW: Why is the color a parameter?  Seems like the position is
-        //everything needed to determine the image. As it is, this creates the
-        //illusion to a developer that the color can be changed if desired.
-        //I tried changing it in a couple of places, and it doesn't work.
+
+        //Blue characters on the left, right characters on the right.  Color is specified with an enum flag instead of by the location of the characters.
         final PullerNode largeBluePuller = puller( UserComponents.largeBluePuller, BLUE, LARGE, IMAGE_SCALE, largePosition );
         addPuller( largeBluePuller );
-        addPuller( puller( UserComponents.mediumBluePuller, BLUE, MEDIUM, IMAGE_SCALE, mediumPosition ) );
+        addPuller( puller( UserComponents.mediumBluePuller, RED, MEDIUM, IMAGE_SCALE, mediumPosition ) );
         addPuller( puller( UserComponents.smallBluePuller1, BLUE, SMALL, IMAGE_SCALE, smallPosition1 ) );
         addPuller( puller( UserComponents.smallBluePuller2, BLUE, SMALL, IMAGE_SCALE, smallPosition2 ) );
 
