@@ -65,7 +65,7 @@ class StackableNode extends PNode {
 
     //Remember the direction for the last image shown before applied force is set to 0.0 so that the character will keep facing the same direction.
     private double lastSign;
-    private PNode textLabel; //REVIEW: Suggest final modifier.
+    private final PNode textLabel;
     private final BufferedImage flippedHandsUpImage;
 
     public StackableNode( IUserComponent component, final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass ) {

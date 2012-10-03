@@ -64,9 +64,9 @@ import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSh
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ParameterKeys.sumOfForces;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.KnotNode.*;
 import static edu.colorado.phet.forcesandmotionbasics.tugofwar.PullerNode.*;
-import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor.BLUE;
-import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor.RED;
-import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PSize.*;
+import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PullerColor.BLUE;
+import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PullerColor.RED;
+import static edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PullerSize.*;
 
 /**
  * Canvas for the tab 1 "Tug of War" tab.  Shows all user interface components, including PullerNodes, the rope, etc.
@@ -247,7 +247,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 public void update() {
                     //leave "restart" button showing after "stop" pressed
                     Mode m = mode.get();
-                    boolean visible = m == Mode.GOING || m == Mode.COMPLETE || ( m == Mode.WAITING && !cartIsInCenter() );
+                    boolean visible = m == Mode.GOING || m == Mode.COMPLETE || ( m == Mode.WAITING && !isCartInCenter() );
                     setVisible( visible );
                     setPickable( visible );
                     setChildrenPickable( visible );
@@ -394,7 +394,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         return new Vector2D( newX, position.y );
     }
 
-    PullerNode puller( IUserComponent component, PColor color, PSize size, final double scale, final Vector2D offset ) {
+    PullerNode puller( IUserComponent component, PullerColor color, PullerSize size, final double scale, final Vector2D offset ) {
         return new PullerNode( component, color, size, 0, scale, offset, this, mode );
     }
 
@@ -471,7 +471,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         detach( pullerNode );
     }
 
-    public boolean cartIsInCenter() {
+    public boolean isCartInCenter() {
         return Math.abs( cart.getPosition() ) < 1;
     }
 
@@ -501,11 +501,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         return k.getGlobalFullBounds().getCenter2D().distance( p.getGlobalAttachmentPoint() );
     }
 
-    //REVIEW: These look like Piccolo class names when seen in the code.  Are
-    //PullerColor and PullerSize really too verbose?
-    public static enum PColor {
-        BLUE, RED
-    }
+    public static enum PullerColor {BLUE, RED}
 
-    public static enum PSize {SMALL, MEDIUM, LARGE}
+    public static enum PullerSize {SMALL, MEDIUM, LARGE}
 }

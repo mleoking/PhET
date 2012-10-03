@@ -20,8 +20,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources;
 import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.Mode;
-import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PColor;
-import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PSize;
+import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PullerColor;
+import edu.colorado.phet.forcesandmotionbasics.tugofwar.TugOfWarCanvas.PullerSize;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -35,31 +35,32 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class PullerNode extends PNode {
     private final Vector2D initialOffset;
-    public final PColor color;
+    public final PullerColor color;
     private final PhetPPath attachmentNode;
-    private final PSize size;
+    private final PullerSize size;
     public final double scale;
     public static final Color TRANSPARENT = new Color( 0, 0, 0, 0 );
+    private final int LAST_PULLER_IMAGE_INDEX = 3;
     private KnotNode knot;
     public static final F<PullerNode, Double> _weight = new F<PullerNode, Double>() {
         @Override public Double f( final PullerNode pullerNode ) {
 
             //Average human mass is 76-83 kg, so the average human weight is between 745 and 813 Newtons.
             //Read more: http://wiki.answers.com/Q/What_does_an_average_human_weigh_in_newtons#ixzz26k003Tsu
-            return pullerNode.size == PSize.SMALL ? 200.0 :
-                   pullerNode.size == PSize.MEDIUM ? 400.0 :
-                   pullerNode.size == PSize.LARGE ? 800.0 :
+            return pullerNode.size == PullerSize.SMALL ? 200.0 :
+                   pullerNode.size == PullerSize.MEDIUM ? 400.0 :
+                   pullerNode.size == PullerSize.LARGE ? 800.0 :
                    null;
         }
     };
     public static final F<PullerNode, Boolean> _isBlue = new F<PullerNode, Boolean>() {
         @Override public Boolean f( final PullerNode pullerNode ) {
-            return pullerNode.color == PColor.BLUE;
+            return pullerNode.color == PullerColor.BLUE;
         }
     };
     public static final F<PullerNode, Boolean> _isRed = new F<PullerNode, Boolean>() {
         @Override public Boolean f( final PullerNode pullerNode ) {
-            return pullerNode.color == PColor.RED;
+            return pullerNode.color == PullerColor.RED;
         }
     };
     public static final F<PullerNode, PBounds> _getFullBounds = new F<PullerNode, PBounds>() {
@@ -72,7 +73,7 @@ public class PullerNode extends PNode {
     //REVIEW: Why have "item" (which is a vague name anyway) as a parameter if
     //puller nodes are always created in a standing position (i.e. item is
     //always 0)?
-    public PullerNode( final IUserComponent component, final PColor color, final PSize size, final int item, final double scale, Vector2D offset, final PullerContext context, final ObservableProperty<Mode> mode ) {
+    public PullerNode( final IUserComponent component, final PullerColor color, final PullerSize size, final int item, final double scale, Vector2D offset, final PullerContext context, final ObservableProperty<Mode> mode ) {
         this.color = color;
         this.size = size;
         this.scale = scale;
@@ -82,15 +83,15 @@ public class PullerNode extends PNode {
         imageUpdater = new SimpleObserver() {
             public void update() {
                 if ( knot != null && mode.get() == Mode.GOING ) {
-                    final BufferedImage pullingImage = pullerImage( 3 ); //REVIEW: Would be clearer if 3 were a constant, like "LAST_PULLER_IMAGE".
+                    final BufferedImage pullingImage = pullerImage( LAST_PULLER_IMAGE_INDEX );
                     imageNode.setImage( pullingImage );
 
                     //Padding accounts for the fact that the hand is no longer at the edge of the image when the puller is pulling, because the foot sticks out
-                    double padding = size == PSize.LARGE ? 40 :
-                                     size == PSize.MEDIUM ? 20 :
-                                     size == PSize.SMALL ? 10 :
+                    double padding = size == PullerSize.LARGE ? 40 :
+                                     size == PullerSize.MEDIUM ? 20 :
+                                     size == PullerSize.SMALL ? 10 :
                                      Integer.MAX_VALUE;
-                    if ( color == PColor.BLUE ) {
+                    if ( color == PullerColor.BLUE ) {
                         //align bottom right
                         imageNode.setOffset( standingImage.getWidth() - pullingImage.getWidth() + padding,
                                              standingImage.getHeight() - pullingImage.getHeight() );
@@ -135,7 +136,7 @@ public class PullerNode extends PNode {
 
         final double w = 10;
         attachmentNode = new PhetPPath( new Ellipse2D.Double( -w / 2, -w / 2, w, w ), new BasicStroke( 2 ), TRANSPARENT ) {{
-            setOffset( color == PColor.BLUE ?
+            setOffset( color == PullerColor.BLUE ?
                        standingImage.getWidth() - w / 2 :
                        w / 2,
 
@@ -172,9 +173,9 @@ public class PullerNode extends PNode {
         return ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );
     }
 
-    private static String sizeText( final PSize size ) {
-        return size == PSize.LARGE ? "lrg_" :
-               size == PSize.SMALL ? "small_" :
+    private static String sizeText( final PullerSize size ) {
+        return size == PullerSize.LARGE ? "lrg_" :
+               size == PullerSize.SMALL ? "small_" :
                "";
     }
 
@@ -194,9 +195,9 @@ public class PullerNode extends PNode {
     public KnotNode getKnot() { return knot; }
 
     public double getForce() {
-        return size == PSize.SMALL ? 10 :
-               size == PSize.MEDIUM ? 20 :
-               size == PSize.LARGE ? 30 :
+        return size == PullerSize.SMALL ? 10 :
+               size == PullerSize.MEDIUM ? 20 :
+               size == PullerSize.LARGE ? 30 :
                Double.NaN;
     }
 
