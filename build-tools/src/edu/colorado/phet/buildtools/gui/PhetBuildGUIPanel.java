@@ -14,10 +14,12 @@ import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.gui.panels.FlashSimulationPanel;
 import edu.colorado.phet.buildtools.gui.panels.FlexSimulationPanel;
+import edu.colorado.phet.buildtools.gui.panels.HTML5ProjectPanel;
 import edu.colorado.phet.buildtools.gui.panels.JavaSimulationPanel;
 import edu.colorado.phet.buildtools.gui.panels.MiscJavaPanel;
 import edu.colorado.phet.buildtools.gui.panels.StatisticsPanel;
 import edu.colorado.phet.buildtools.gui.panels.WebsitePanel;
+import edu.colorado.phet.buildtools.html5.HTML5Project;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.WebsiteProject;
@@ -78,6 +80,10 @@ public class PhetBuildGUIPanel extends JSplitPane {
                 }
                 else if ( project instanceof JavaProject ) {
                     projectPanel = new MiscJavaPanel( trunk, (JavaProject) project, project.isTestable() );
+                    setRightComponent( projectPanel );
+                }
+                else if ( project instanceof HTML5Project ) {
+                    projectPanel = new HTML5ProjectPanel( trunk, (HTML5Project) project );
                     setRightComponent( projectPanel );
                 }
                 else {
