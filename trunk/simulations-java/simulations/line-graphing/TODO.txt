@@ -20,7 +20,7 @@ DESIGN
 
 HIGH
 - use EquationNode.createSignNode, createOperatorNode, createFractionLineNode in interactive equations (as in static equations)
-- have separate spacing for fraction vs integer slope, this is a bit big for integer slopes (static and interactive equations, see slopeXSpacing field)
+- have separate spacing for fraction vs integer slope, this is a bit big for integer slopes (see EquationNode.slopeXSpacing field)
 - random creation of challenges, subject to constraints tbd (or create a very large set of canned challenges)
 
 MEDIUM
