@@ -1,3 +1,4 @@
+10/3/12 Added recursive support for deploy file uploads
 10/3/12 Initial support for HTML5 apps
 7/11/12 added back sim title for generation of HTML, see #3329
 7/2/12 added generation of interviews.jnlp file, #3329

@@ -322,7 +322,12 @@ public class BuildScript {
     }
 
     private boolean uploadProject( AuthenticationInfo authenticationInfo, String remotePathDir, String host ) {
-        // if the directory does not exist on the server, it will be created.
+
+        File[] f = project.getDeployDir().listFiles(); //TODO: should handle recursive for future use (if we ever want to support nested directories)
+        return uploadFiles( authenticationInfo, remotePathDir, host, f );
+    }
+
+    private boolean uploadFiles( final AuthenticationInfo authenticationInfo, final String remotePathDir, final String host, final File[] f ) {// if the directory does not exist on the server, it will be created.
         boolean success = SshUtils.executeCommand( "mkdir -p -m 775 " + remotePathDir, host, authenticationInfo );
         if ( !success ) {
             System.out.println( "Warning: failed to create or verify the existence of the deploy directory" );
@@ -332,10 +337,12 @@ public class BuildScript {
         //for some reason, the securechannelfacade fails with a "server didn't expect this file" error
         //the failure is on tigercat, but scf works properly on spot
         //but our code works on both; therefore there is probably a problem with the handshaking in securechannelfacade
-        File[] f = project.getDeployDir().listFiles(); //TODO: should handle recursive for future use (if we ever want to support nested directories)
         for ( File fileToUpload : f ) {
             if ( fileToUpload.getName().startsWith( "." ) ) {
                 //ignore
+            }
+            else if ( fileToUpload.isDirectory() ) {
+                uploadFiles( authenticationInfo, remotePathDir + "/" + fileToUpload.getName(), host, fileToUpload.listFiles() );
             }
             else {
                 //server.getHost(), authenticationInfo.getUsername(), authenticationInfo.getPassword()
