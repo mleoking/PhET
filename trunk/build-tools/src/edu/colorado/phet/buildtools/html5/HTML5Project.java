@@ -50,7 +50,7 @@ public class HTML5Project extends PhetProject {
     }
 
     @Override public boolean build() throws Exception {
-        return false;
+        return true;
     }
 
     @Override public String getListDisplayName() {
