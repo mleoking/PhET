@@ -1,5 +1,8 @@
 All units are in SI unless stated otherwise in the code.
 
+There are several image sequences that are loaded with dynamically created strings--hence the images will appear unused in the ForcesAndMotionBasicsResources.java file,
+even though the images are used.
+
 Tab 1: Tug of War
 
 The most important class for this tab is TugOfWarCanvas.  All of the physics and model is implemented in this class, because it is very simple.
