@@ -395,7 +395,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     }
 
     PullerNode puller( IUserComponent component, PullerColor color, PullerSize size, final double scale, final Vector2D offset ) {
-        return new PullerNode( component, color, size, 0, scale, offset, this, mode );
+        return new PullerNode( component, color, size, scale, offset, this, mode );
     }
 
     public void drag( final PullerNode pullerNode ) {

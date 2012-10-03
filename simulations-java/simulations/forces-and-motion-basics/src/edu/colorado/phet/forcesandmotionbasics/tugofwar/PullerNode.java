@@ -70,15 +70,12 @@ public class PullerNode extends PNode {
     };
     private final SimpleObserver imageUpdater;
 
-    //REVIEW: Why have "item" (which is a vague name anyway) as a parameter if
-    //puller nodes are always created in a standing position (i.e. item is
-    //always 0)?
-    public PullerNode( final IUserComponent component, final PullerColor color, final PullerSize size, final int item, final double scale, Vector2D offset, final PullerContext context, final ObservableProperty<Mode> mode ) {
+    public PullerNode( final IUserComponent component, final PullerColor color, final PullerSize size, final double scale, Vector2D offset, final PullerContext context, final ObservableProperty<Mode> mode ) {
         this.color = color;
         this.size = size;
         this.scale = scale;
-        final BufferedImage standingImage = pullerImage( item );
-        final PImage imageNode = new PImage( pullerImage( item ) );
+        final BufferedImage standingImage = pullerImage( 0 );
+        final PImage imageNode = new PImage( pullerImage( 0 ) );
         addChild( imageNode );
         imageUpdater = new SimpleObserver() {
             public void update() {
