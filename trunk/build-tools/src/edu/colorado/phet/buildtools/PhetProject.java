@@ -25,6 +25,7 @@ import java.util.StringTokenizer;
 
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
+import edu.colorado.phet.buildtools.html5.HTML5Project;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
@@ -579,6 +580,7 @@ public abstract class PhetProject {
         projects.addAll( Arrays.asList( JavaSimulationProject.getJavaSimulations( trunk ) ) );
         projects.addAll( Arrays.asList( FlashSimulationProject.getFlashProjects( trunk ) ) );
         projects.addAll( Arrays.asList( FlexSimulationProject.getFlexProjects( trunk ) ) );
+        projects.addAll( Arrays.asList( HTML5Project.getProjects( trunk ) ) );
 
         try {
             projects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
