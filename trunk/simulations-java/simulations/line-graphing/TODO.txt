@@ -20,7 +20,6 @@ DESIGN
 
 HIGH
 - have separate spacing for fraction vs integer slope, this is a bit big for integer slopes (static and interactive equations, see slopeXSpacing field)
-- extract one set of spacing & fudge constants, used by both static & dynamic equations
 - random creation of challenges, subject to constraints tbd (or create a very large set of canned challenges)
 
 MEDIUM
