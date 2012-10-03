@@ -46,7 +46,7 @@ public class HTML5Project extends PhetProject {
     }
 
     @Override public String getLaunchFileSuffix() {
-        return null;
+        return "html";
     }
 
     @Override public boolean build() throws Exception {
