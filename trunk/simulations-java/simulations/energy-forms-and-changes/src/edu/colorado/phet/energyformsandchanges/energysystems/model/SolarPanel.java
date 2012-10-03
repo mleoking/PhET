@@ -114,6 +114,11 @@ public class SolarPanel extends EnergyConverter {
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
     }
 
+    @Override public void deactivate() {
+        super.deactivate();
+        energyChunkMovers.clear();
+    }
+
     private static List<Vector2D> getEnergyChunkPath( final Vector2D panelPosition ) {
         return new ArrayList<Vector2D>() {{
             add( panelPosition.plus( OFFSET_TO_EC_CONVERGENCE_POINT ) );
