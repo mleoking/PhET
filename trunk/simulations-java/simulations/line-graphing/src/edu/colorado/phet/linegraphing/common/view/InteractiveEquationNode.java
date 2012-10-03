@@ -50,6 +50,7 @@ public class InteractiveEquationNode extends PhetPNode {
     protected final double operatorXSpacing; // space around an operator (eg, +)
     protected final double relationalOperatorXSpacing; // space around the relational operator (eg, =)
     protected final double parenXSpacing; // space between a parenthesis and the thing it encloses
+    protected final double spinnersYSpacing; // y spacing between spinners and fraction line
     protected final double ySpacing; // all y spacing
 
     protected InteractiveEquationNode( int pointSize ) {
@@ -66,11 +67,12 @@ public class InteractiveEquationNode extends PhetPNode {
         signLineSize = new PDimension( 0.54 * pointSize, 0.11 * pointSize );
         integerSignXSpacing = 0.18 * pointSize;
         fractionSignXSpacing = 0.36 * pointSize;
-        slopeXSpacing = 0.08 * pointSize;
+        slopeXSpacing = 0.15 * pointSize;
         operatorXSpacing = 0.25 * pointSize;
         relationalOperatorXSpacing = 0.35 * pointSize;
         parenXSpacing = 0.07 * pointSize;
-        ySpacing = 0.21 * pointSize;
+        ySpacing = 0.1 * pointSize;
+        spinnersYSpacing = 0.2 * pointSize;
     }
 
     // Gets the max width for the rise and run spinners used in an interactive equation.

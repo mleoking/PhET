@@ -19,6 +19,9 @@ DESIGN
 - Game: what if the user's answer is correct, but not simplified? penalty? answer and guess show different equations but are both green? [no penalty]
 
 HIGH
+- have separate spacing for fraction vs integer slope, this is a bit big for integer slopes (static and interactive equations, see slopeXSpacing field)
+- extract one set of spacing & fudge constants, used by both static & dynamic equations
+- put together 1 mondo line-testing app, so we can see both forms, static & interactive
 - random creation of challenges, subject to constraints tbd (or create a very large set of canned challenges)
 
 MEDIUM

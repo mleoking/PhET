@@ -218,7 +218,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
             PNode slopeSignNode = createSignNode( line.getSlope(), color );
             PNode riseNode = new PhetPText( toIntString( Math.abs( line.rise ) ), font, color );
             PNode runNode = new PhetPText( toIntString( Math.abs( line.run ) ), font, color );
-            PNode lineNode = createFractionLineNode( Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), color );
+            PNode lineNode = createFractionLineNode( Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getWidth() ), color );
             PNode xNode = new PhetPText( Strings.SYMBOL_X, font, color );
             PNode operatorNode = createOperatorNode( line.y1, color );
             PNode interceptNode = new PhetPText( toIntString( Math.abs( line.y1 ) ), font, color );
@@ -269,7 +269,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
 
         // factory
         SlopeInterceptEquationFactory factory = new SlopeInterceptEquationFactory();
-        PhetFont font = new PhetFont( 24 );
+        PhetFont font = new PhetFont( 28 );
         Color color = Color.BLACK;
 
         // nodes
