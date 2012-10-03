@@ -50,6 +50,7 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage CLOUD1 = RESOURCES.getImage( "cloud1.png" );
         public static final BufferedImage CRATE = RESOURCES.getImage( "crate.png" );
         public static final BufferedImage FRIDGE = RESOURCES.getImage( "fridge.png" );
+        public static final BufferedImage GIRL_HOLDING = RESOURCES.getImage( "girl-holding.png" );
         public static final BufferedImage GIRL_SITTING = RESOURCES.getImage( "girl-sitting.png" );
         public static final BufferedImage GIRL_STANDING = RESOURCES.getImage( "girl-standing.png" );
         public static final BufferedImage GO_HOVER = RESOURCES.getImage( "go_hover.png" );
@@ -57,6 +58,7 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage GO_UP = RESOURCES.getImage( "go_up.png" );
         public static final BufferedImage GRASS = RESOURCES.getImage( "grass.png" );
         public static final BufferedImage ICE_OVERLAY = RESOURCES.getImage( "ice_overlay.png" );
+        public static final BufferedImage MAN_HOLDING = RESOURCES.getImage( "man-holding.png" );
         public static final BufferedImage MAN_SITTING = RESOURCES.getImage( "man-sitting.png" );
         public static final BufferedImage MAN_STANDING = RESOURCES.getImage( "man-standing.png" );
         public static final BufferedImage MOUNTAINS = RESOURCES.getImage( "mountains.png" );

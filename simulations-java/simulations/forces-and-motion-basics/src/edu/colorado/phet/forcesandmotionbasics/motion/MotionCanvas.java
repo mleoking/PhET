@@ -113,6 +113,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     //Features only for Tab 3: Friction:
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
+    private BooleanProperty dragging = new BooleanProperty( false );
 
     public MotionCanvas( final Resettable moduleContext, final IClock clock,
 
@@ -342,8 +343,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         addChild( crate2 );
 
         //Weight for humans (but remember to round off the values to nearest 10 to make it easier to read): http://www.cdc.gov/growthcharts/data/set1clinical/cj41l021.pdf
-        StackableNode girl = new StackableNode( UserComponents.girl, this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 40, friction ? 38 : 47, showMasses, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ) );
-        StackableNode man = new StackableNode( UserComponents.man, this, multiScaleToHeight( Images.MAN_SITTING, (int) ( 200 / 150.0 * 100.0 ) ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ) );
+        StackableNode girl = new StackableNode( UserComponents.girl, this, multiScaleToHeight( Images.GIRL_SITTING, 100 ), 40, friction ? 38 : 47, showMasses, true, multiScaleToHeight( Images.GIRL_STANDING, 150 ), multiScaleToHeight( Images.GIRL_HOLDING, 100 ) );
+        final int manHeight = (int) ( 200 / 150.0 * 100.0 );
+        StackableNode man = new StackableNode( UserComponents.man, this, multiScaleToHeight( Images.MAN_SITTING, manHeight ), 80, 38, showMasses, true, multiScaleToHeight( Images.MAN_STANDING, 200 ), multiScaleToHeight( Images.MAN_HOLDING, manHeight ) );
         StackableNode trash = new StackableNode( UserComponents.trash, this, multiScaleToHeight( Images.TRASH_CAN, (int) ( 150 * 2.0 / 3.0 ) ), 50, 47, showMasses );
         StackableNode gift = new StackableNode( UserComponents.gift, this, multiScaleToHeight( Images.MYSTERY_OBJECT_01, 80 ), 50, 40, showMasses ) {
             @Override protected Pair<Integer, String> getMassDisplayString( final double mass ) {
@@ -519,9 +521,11 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         else {
             stackableNode.animateHome();
         }
+        dragging.set( false );
     }
 
     public void stackableNodePressed( final StackableNode stackableNode ) {
+        dragging.set( true );
         if ( stackableNode.onSkateboard.get() ) {
             final double dx = stackableNode.getFullBounds().getWidth() / 4;
             stackableNode.translate( dx, dx );
@@ -540,6 +544,20 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     }
 
     public DoubleProperty getAppliedForce() { return model.appliedForce; }
+
+    public BooleanProperty getUserIsDraggingSomething() { return dragging; }
+
+    public boolean isInStackButNotInTop( final StackableNode s ) {
+        return stack.get().reverse().tail().exists( new F<StackableNode, Boolean>() {
+            @Override public Boolean f( final StackableNode stackableNode ) {
+                return stackableNode == s;
+            }
+        } );
+    }
+
+    public void addStackChangeListener( final SimpleObserver observer ) { stack.addObserver( observer ); }
+
+    public int getStackSize() { return stack.get().length(); }
 
     //Keep the force vector arrows in front of the objects
     private void nodeMovedToFront() { forcesNode.moveToFront(); }
