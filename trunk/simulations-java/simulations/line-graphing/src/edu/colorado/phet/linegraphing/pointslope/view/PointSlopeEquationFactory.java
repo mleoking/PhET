@@ -184,7 +184,7 @@ public class PointSlopeEquationFactory extends EquationFactory {
             PNode slopeSignNode = createSignNode( line.getSlope(), color );
             PNode riseNode = new PhetPText( toIntString( Math.abs( line.rise ) ), font, color );
             PNode runNode = new PhetPText( toIntString( Math.abs( line.run ) ), font, color );
-            PNode lineNode = createFractionLineNode( Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), color );
+            PNode lineNode = createFractionLineNode( Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getWidth() ), color );
             PNode xTermNode = createTermNode( line.x1, Strings.SYMBOL_X, font, color );
 
             // rendering order
