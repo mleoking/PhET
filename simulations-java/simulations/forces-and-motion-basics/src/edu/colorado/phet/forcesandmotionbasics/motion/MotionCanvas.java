@@ -108,7 +108,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     //Speed at which the bricks start to look as if they are going backwards
     public static final double STROBE_SPEED = 9.559393222711847;
 
-    public final BooleanProperty playing = new BooleanProperty( true ); //REVIEW: Can this be private?
+    private final BooleanProperty playing = new BooleanProperty( true );
     private final PusherNode pusherNode;
 
     //Features only for Tab 3: Friction:
