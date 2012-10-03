@@ -163,11 +163,8 @@ public class PullerNode extends PNode {
         setChildrenPickable( pickable );
     }
 
-    //REVIEW: "item" is awfully vague, and it took me a while to figure out
-    // that it was the index into the leaning animation sequence.  I would
-    // suggest renaming and/or documenting to make this clearer.
-    private BufferedImage pullerImage( final int item ) {
-        return ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );
+    private BufferedImage pullerImage( final int imageIndex ) {
+        return ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + imageIndex + ".png" );
     }
 
     private static String sizeText( final PullerSize size ) {
