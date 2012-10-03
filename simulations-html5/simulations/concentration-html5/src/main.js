@@ -224,7 +224,7 @@ function onDocumentMouseUp( event ) {
 }
 
 function onDocumentMouseMove( event ) {
-    onMove( {x:event.clientX, y:event.clientY} );
+    onTouchMove( {x:event.clientX, y:event.clientY} );
 }
 
 function onDocumentTouchStart( event ) {
@@ -241,7 +241,7 @@ function onDocumentTouchMove( event ) {
 
         //in the  the event handler to prevent the event from being propagated to the browser and causing unwanted scrolling events.
         event.preventDefault();
-        onMove( {x:event.touches[0].pageX, y:event.touches[0].pageY} );
+        onTouchMove( {x:event.touches[0].pageX, y:event.touches[0].pageY} );
     }
 }
 
@@ -262,7 +262,7 @@ function onTouchStart( location ) {
     }
 }
 
-function onMove( location ) {
+function onTouchMove( location ) {
     //see if the shaker image hits this point
     var point = new Point2D( location.x, location.y );
 
@@ -276,7 +276,8 @@ function onMove( location ) {
     if ( globals.shakerNode != null && globals.shakerNode.pressed == true ) {
         var delta = new Point2D( location.x - globals.lastPoint.x, location.y - globals.lastPoint.y );
         console.log( "delta.x= " + delta + ", delta.y=" + delta.y );
-        globals.shakerNode.translate( delta.x, delta.y );
+//        globals.shakerNode.translate( delta.x, delta.y );
+        globals.shakerNode.offset = new Point2D( location.x, location.y );
     }
 
     draw();
