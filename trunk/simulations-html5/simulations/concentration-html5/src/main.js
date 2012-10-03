@@ -129,17 +129,10 @@ function init() {
         return hbox00( checkbox( 0, 0 ), textNode( label ) );
     }
 
-    var resetButton = new ResetButton( new Point2D( 740, 530 ), "orange" );
-
-    var rootNodeComponents = new Array();
-    for ( var i = 0; i < globals.masses.length; i++ ) {
-        rootNodeComponents.push( globals.masses[i] );
-    }
-    rootNodeComponents.push( resetButton );
-
     var shakerImage = new Image();
     shakerImage.onload = function () {
         globals.shakerNode = imageNode( shakerImage, 400, 200, -Math.PI / 4 );
+        console.log( "loaded image" );
     };
     shakerImage.src = "resources/shaker.png";
 
@@ -197,7 +190,9 @@ function draw() {
     context.font = '28px sans-serif';
     context.textBaseline = 'top';
     context.textAlign = 'left';
-    context.fillText( "x = " + globals.shakerNode.offset.x + ", y = " + globals.shakerNode.offset.y, 100, 100 );
+    if ( globals.shakerNode != null ) {
+        context.fillText( "x = " + globals.shakerNode.offset.x + ", y = " + globals.shakerNode.offset.y, 100, 100 );
+    }
 
     context.restore();
 
@@ -274,8 +269,8 @@ function onTouchMove( location ) {
     }
 
     if ( globals.shakerNode != null && globals.shakerNode.pressed == true ) {
-        var delta = new Point2D( location.x - globals.lastPoint.x, location.y - globals.lastPoint.y );
-        console.log( "delta.x= " + delta + ", delta.y=" + delta.y );
+//        var delta = new Point2D( location.x - globals.lastPoint.x, location.y - globals.lastPoint.y );
+//        console.log( "delta.x= " + delta + ", delta.y=" + delta.y );
 //        globals.shakerNode.translate( delta.x, delta.y );
         globals.shakerNode.offset = new Point2D( location.x, location.y );
     }
@@ -397,181 +392,4 @@ Point2D.prototype.set = function ( point2D ) {
 
 Point2D.prototype.distance = function ( point2D ) {
     return ( Math.sqrt( Math.pow( this.x - point2D.x, 2 ) + Math.pow( this.y - point2D.y, 2 ) ) );
-};
-
-function sliderTrack() {
-    var that = rectangularNode( 250, 5 );
-    that.knobX = 0;
-    that.image = new Image();
-//    that.image.src = "resources/bonniemslider.png";
-
-    that.draw = function ( context ) {
-        //draw gray bar
-        context.drawImage( that.image, 20, 24, 1, 9, that.x + 9, that.y + 8, that.width - 18, 9 );
-
-        //draw right cap
-        context.drawImage( that.image, 10, 24, 9, 9, that.x + that.width - 9, that.y + 8, 9, 9 );
-
-        // draw left cap
-        context.drawImage( that.image, 0, 24, 9, 9, that.x, that.y + 8, 9, 9 );
-
-        // draw blue bar
-        if ( that.knobX > 9 ) {
-            context.drawImage( that.image, 22, 24, 1, 9, that.x + 9, that.y + 8, that.knobX, 9 );
-        }
-    };
-    return that;
-}
-
-function checkbox( x, y ) {
-    var that = rectangularNode( 30, 30 );
-    that.x = x;
-    that.y = y;
-    that.checkboxSelected = true;
-    that.draw = function ( context ) {
-        context.fillStyle = '#fff';
-        context.strokeStyle = '#88e';
-        context.lineWidth = 2;
-        roundRect( context, this.x, this.y, this.width, this.height, 7, true, true )
-
-        context.strokeStyle = '#000';
-        context.lineWidth = 4;
-        if ( this.checkboxSelected ) {
-            context.beginPath();
-            context.beginPath();
-            context.strokeStyle = '#222';
-            context.moveTo( this.x + 5, this.y + 5 );
-            context.lineTo( this.x + this.width - 5, this.y + this.width - 5 );
-            context.moveTo( this.x + this.width - 5, this.y + 5 );
-            context.lineTo( this.x + 5, this.y + this.height - 5 );
-            context.stroke();
-            context.closePath();
-        }
-    };
-
-    that.onTouchStart = function ( point ) {
-
-        //todo factor out
-        var contains = point.x >= that.x && point.x <= that.x + that.width && point.y >= that.y && point.y <= that.y + that.height;
-        if ( contains ) {
-            this.checkboxSelected = !this.checkboxSelected;
-            draw();
-        }
-    };
-    return that;
-}
-
-/**
- * Draws a rounded rectangle using the current state of the canvas.
- * If you omit the last three params, it will draw a rectangle
- * outline with a 5 pixel border radius
- * @param {CanvasRenderingContext2D} ctx
- * @param {Number} x The top left x coordinate
- * @param {Number} y The top left y coordinate
- * @param {Number} width The width of the rectangle
- * @param {Number} height The height of the rectangle
- * @param {Number} radius The corner radius. Defaults to 5;
- * @param {Boolean} fill Whether to fill the rectangle. Defaults to false.
- * @param {Boolean} stroke Whether to stroke the rectangle. Defaults to true.
- *
- * @author http://js-bits.blogspot.com/2010/07/canvas-rounded-corner-rectangles.html
- */
-function roundRect( ctx, x, y, width, height, radius, fill, stroke ) {
-    if ( typeof stroke == "undefined" ) {
-        stroke = true;
-    }
-    if ( typeof radius === "undefined" ) {
-        radius = 5;
-    }
-    ctx.beginPath();
-    ctx.moveTo( x + radius, y );
-    ctx.lineTo( x + width - radius, y );
-    ctx.quadraticCurveTo( x + width, y, x + width, y + radius );
-    ctx.lineTo( x + width, y + height - radius );
-    ctx.quadraticCurveTo( x + width, y + height, x + width - radius, y + height );
-    ctx.lineTo( x + radius, y + height );
-    ctx.quadraticCurveTo( x, y + height, x, y + height - radius );
-    ctx.lineTo( x, y + radius );
-    ctx.quadraticCurveTo( x, y, x + radius, y );
-    ctx.closePath();
-    if ( stroke ) {
-        ctx.stroke();
-    }
-    if ( fill ) {
-        ctx.fill();
-    }
-}
-
-//-----------------------------------------------------------------------------
-// Reset button class
-//-----------------------------------------------------------------------------
-
-function ResetButton( initialLocation, color ) {
-    this.location = initialLocation;
-    this.width = 90;
-    this.height = 40;
-    this.color = color;
-    this.pressed = false;
-}
-
-ResetButton.prototype.draw = function ( context ) {
-    var xPos = this.location.x;
-    var yPos = this.location.y;
-    var gradient = context.createLinearGradient( xPos, yPos, xPos, yPos + this.height );
-    if ( !this.pressed ) {
-        gradient.addColorStop( 0, "white" );
-        gradient.addColorStop( 1, this.color );
-    }
-    else {
-        gradient.addColorStop( 0, this.color );
-    }
-    // Draw box that defines button outline.
-    context.strokeStyle = '#222'; // Gray
-    context.lineWidth = 1;
-    context.strokeRect( xPos, yPos, this.width, this.height );
-    context.fillStyle = gradient;
-    context.fillRect( xPos, yPos, this.width, this.height );
-    // Put text on the box.
-    context.fillStyle = '#000';
-    context.font = '28px sans-serif';
-    context.textBaseline = 'top';
-    context.textAlign = 'left';
-    context.fillText( 'Reset', xPos + 5, yPos + 5 );
-};
-
-ResetButton.prototype.onTouchStart = function ( pt ) {
-    if ( this.containsPoint( pt ) ) {
-        this.pressed = true;
-        reset();
-    }
-};
-
-ResetButton.prototype.onTouchEnd = function ( pt ) {
-    this.pressed = false;
-};
-ResetButton.prototype.onTouchMove = function ( pt ) {
-    this.pressed = false;
-};
-
-ResetButton.prototype.press = function () {
-    this.pressed = true;
-    reset();
-};
-
-ResetButton.prototype.unPress = function ( context ) {
-    this.pressed = false;
-};
-
-ResetButton.prototype.setLocationComponents = function ( x, y ) {
-    this.location.x = x;
-    this.location.y = y;
-};
-
-ResetButton.prototype.setLocation = function ( location ) {
-    this.setLocationComponents( location.x, location.y );
-};
-
-ResetButton.prototype.containsPoint = function ( point ) {
-    return point.x > this.location.x && point.x < this.location.x + this.width &&
-           point.y > this.location.y && point.y < this.location.y + this.height;
 };
