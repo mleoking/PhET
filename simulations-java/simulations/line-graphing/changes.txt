@@ -1,3 +1,4 @@
+10/3/12 rename EquationNode to StaticEquationNode
 10/3/12 create a single main for testing all equations, so we can everything in one place (slope-intercept vs point-slope, static vs interactive, etc.)
 10/2/12 more tweaking of line rendering parameters (spacing, thickness, etc) with AP
 10/2/12 change color of user's guess from red to black in game

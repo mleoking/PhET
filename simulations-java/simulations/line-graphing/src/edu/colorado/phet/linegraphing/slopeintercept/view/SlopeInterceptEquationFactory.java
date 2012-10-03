@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationFactory;
-import edu.colorado.phet.linegraphing.common.view.EquationNode;
+import edu.colorado.phet.linegraphing.common.view.StaticEquationNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class SlopeInterceptEquationFactory extends EquationFactory {
 
-    public EquationNode createNode( Line line, PhetFont font, Color color ) {
+    public StaticEquationNode createNode( Line line, PhetFont font, Color color ) {
         assert ( line.x1 == 0 ); // line is in slope-intercept form
         if ( line.run == 0 ) {
             return new UndefinedSlopeNode( line, font, color );
@@ -39,7 +39,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     }
 
     // Verbose form of slope-intercept, not simplified, for debugging.
-    private static class VerboseNode extends EquationNode {
+    private static class VerboseNode extends StaticEquationNode {
         public VerboseNode( Line line, PhetFont font, Color color ) {
             super( font.getSize() );
             addChild( new PhetPText( MessageFormat.format( "y = ({0}/{1})x + {2})", line.rise, line.run, line.y1 ), font, color ) );
@@ -51,7 +51,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
      * y = b
      * y = -b
      */
-    private static class ZeroSlopeNode extends EquationNode {
+    private static class ZeroSlopeNode extends StaticEquationNode {
 
         public ZeroSlopeNode( Line line, PhetFont font, Color color ) {
             super( font.getSize() );
@@ -95,7 +95,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
      * y = -x + b
      * y = -x - b
     */
-    private static class UnitSlopeNode extends EquationNode {
+    private static class UnitSlopeNode extends StaticEquationNode {
 
         public UnitSlopeNode( Line line, PhetFont font, Color color ) {
             super( font.getSize() );
@@ -148,7 +148,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
      * y = -mx + b
      * y = -mx - b
      */
-    private static class IntegerSlopeNode extends EquationNode {
+    private static class IntegerSlopeNode extends StaticEquationNode {
 
         public IntegerSlopeNode( Line line, PhetFont font, Color color ) {
             super( font.getSize() );
@@ -202,7 +202,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
     * y = -(rise/run) x + b
     * y = -(rise/run) x - b
     */
-    private static class FractionSlopeNode extends EquationNode {
+    private static class FractionSlopeNode extends StaticEquationNode {
 
         public FractionSlopeNode( Line line, PhetFont font, Color color ) {
             super( font.getSize() );
