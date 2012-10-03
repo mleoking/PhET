@@ -192,9 +192,19 @@ function draw() {
     }
     context.restore();
 
+    context.save();
+    context.fillStyle = '#000';
+    context.font = '28px sans-serif';
+    context.textBaseline = 'top';
+    context.textAlign = 'left';
+    context.fillText( "x = " + globals.shakerNode.offset.x + ", y = " + globals.shakerNode.offset.y, 100, 100 );
+
+    context.restore();
+
 //    if ( rootNode != null ) {
 //        rootNode.draw( context );
 //    }
+
 }
 
 var updateCanvasSize = function () {
@@ -264,7 +274,9 @@ function onMove( location ) {
     }
 
     if ( globals.shakerNode != null && globals.shakerNode.pressed == true ) {
-        globals.shakerNode.translate( location.x - globals.lastPoint.x, location.y - globals.lastPoint.y );
+        var delta = new Point2D( location.x - globals.lastPoint.x, location.y - globals.lastPoint.y );
+        console.log( "delta.x= " + delta + ", delta.y=" + delta.y );
+        globals.shakerNode.translate( delta.x, delta.y );
     }
 
     draw();
