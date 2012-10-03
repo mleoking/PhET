@@ -17,15 +17,15 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 public abstract class EquationFactory {
 
     // Subclasses implement this to create the equation in the correct form.
-    public abstract EquationNode createNode( Line line, PhetFont font, Color color );
+    public abstract StaticEquationNode createNode( Line line, PhetFont font, Color color );
 
     // Convenience method that simplifies the line before creating the equation.
-    public EquationNode createSimplifiedNode( Line line, PhetFont font, Color color ) {
+    public StaticEquationNode createSimplifiedNode( Line line, PhetFont font, Color color ) {
         return createNode( line.simplified(), font, color );
     }
 
     // When slope is undefined, we display "undefined" in place of an equation.
-    protected static class UndefinedSlopeNode extends EquationNode {
+    protected static class UndefinedSlopeNode extends StaticEquationNode {
         public UndefinedSlopeNode( Line line, PhetFont font, Color color ) {
             super( font.getSize() );
             assert ( line.run == 0 );

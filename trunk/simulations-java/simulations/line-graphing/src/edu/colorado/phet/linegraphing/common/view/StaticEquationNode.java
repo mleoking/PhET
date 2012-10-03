@@ -15,11 +15,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class for all equation nodes.
+ * Base class for all static equation nodes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class EquationNode extends PhetPNode {
+public abstract class StaticEquationNode extends PhetPNode {
 
     /*
     * This controls the vertical offset of the slope's sign.
@@ -46,7 +46,7 @@ public abstract class EquationNode extends PhetPNode {
     protected final double parenXSpacing; // space between a parenthesis and the thing it encloses
     protected final double ySpacing; // all y spacing
 
-    public EquationNode( int pointSize ) {
+    public StaticEquationNode( int pointSize ) {
         setPickable( false );
 
         // Compute dimensions and layout offsets as percentages of the font's point size.
