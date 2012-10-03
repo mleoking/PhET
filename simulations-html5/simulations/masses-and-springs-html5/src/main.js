@@ -337,12 +337,12 @@ function init() {
     globals.springs.push( spring( "2", springOffset + springSpacing * 1 ) );
     globals.springs.push( spring( "3", springOffset + springSpacing * 2 ) );
 
-    globals.masses = new Array( massNode( "resources/red-mass.png", 134, 396, 300 ),
-                                massNode( "resources/green-mass.png", 240, 477, 70 ),
-                                massNode( "resources/gold-mass.png", 306, 441, 160 ),
-                                massNode( "resources/gram-50.png", 607, 490, 50),
-                                massNode( "resources/gram-100.png", 422, 462, 100 ),
-                                massNode( "resources/gram-250.png", 495, 413, 250 ) )
+    globals.masses = new Array( massNode( "../resources/red-mass.png", 134, 396, 300 ),
+                                massNode( "../resources/green-mass.png", 240, 477, 70 ),
+                                massNode( "../resources/gold-mass.png", 306, 441, 160 ),
+                                massNode( "../resources/gram-50.png", 607, 490, 50 ),
+                                massNode( "../resources/gram-100.png", 422, 462, 100 ),
+                                massNode( "../resources/gram-250.png", 495, 413, 250 ) )
 
     function labeledCheckBox( label ) {
         return hbox00( checkbox( 0, 0 ), textNode( label ) );
@@ -362,7 +362,7 @@ function init() {
     }
     rootNodeComponents.push( vbox( {children:new Array( frictionSlider ), x:700, y:100} ) );
     rootNodeComponents.push( resetButton );
-    rootNodeComponents.push( imageNode( "resources/ruler.png", 12, 51 ) );
+    rootNodeComponents.push( imageNode( "../resources/ruler.png", 12, 51 ) );
 
     //Add to the nodes for rendering
     for ( var i = 0; i < globals.springs.length; i++ ) {
@@ -381,13 +381,13 @@ function init() {
 // Handler for window resize events.
 function resizer() {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight ? window.innerHeight : $(window).height();
-    console.log("resize event, width = " + canvas.width + ", height = " + canvas.height );
+    canvas.height = window.innerHeight ? window.innerHeight : $( window ).height();
+    console.log( "resize event, width = " + canvas.width + ", height = " + canvas.height );
     draw();
 }
 
 // Reset the sim to the initial state.
-function reset(){
+function reset() {
     for ( var i = 0; i < globals.masses.length; i++ ) {
         var mass = globals.masses[i];
         mass.spring = null;
@@ -417,7 +417,7 @@ function draw() {
     }
 }
 
-var updateCanvasSize = function() {
+var updateCanvasSize = function () {
     if ( window.innerWidth != canvas.width || window.innerHeight != canvas.height ) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight ? window.innerHeight : $( window ).height(); // Workaround for iPad issues.
@@ -490,7 +490,7 @@ function animate() {
     // insert your code to update your animation here
 
     for ( i = 0; i < globals.springs.length; i++ ) {
-        if (globals.springs[i].mass==null){
+        if ( globals.springs[i].mass == null ) {
             globals.springs[i].attachmentPoint.y = globals.springs[i].initialLength;
         }
 //        globals.springs[i].attachmentPoint.y = 300 + 100 * Math.sin( 6 * count / 100.0 );
@@ -510,7 +510,7 @@ function animate() {
             }
             else {
                 // Mass is attached to spring, so update its velocity and position.
-                var delta = mass.mass*9.8/mass.spring.k;
+                var delta = mass.mass * 9.8 / mass.spring.k;
                 //console.log("delta: "+delta);
                 var equilibriumPoint = mass.spring.initialLength + (delta);
                 var displacement = mass.y - equilibriumPoint;
@@ -537,7 +537,7 @@ function animate() {
  */
 
 if ( !window.requestAnimationFrame ) {
-    window.requestAnimationFrame = ( function () {
+    window.requestAnimationFrame = (function () {
         return window.webkitRequestAnimationFrame ||
                window.mozRequestAnimationFrame ||
                window.oRequestAnimationFrame ||
@@ -545,7 +545,7 @@ if ( !window.requestAnimationFrame ) {
                function ( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
                    window.setTimeout( callback, 1000 / 60 );
                };
-    } )();
+    })();
 }
 
 function spring( name, x ) {
@@ -740,8 +740,8 @@ function slider() {
         if ( knob.selected ) {
             knob.x = clamp( 0, point.x + knob.objectTouchPoint.x - knob.initTouchPoint.x, track.width );
             track.knobX = knob.x;
-            globals.friction = knob.x*globals.MAX_FRICTION/250;
-            console.log("friction: "+globals.friction);
+            globals.friction = knob.x * globals.MAX_FRICTION / 250;
+            console.log( "friction: " + globals.friction );
         }
     };
 
