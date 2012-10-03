@@ -6,10 +6,25 @@ var globals = {
     MAX_FRICTION:1.5, friction:0
 };
 
-function loadImage( string ) {
-    var image = new Image();
-    image.src = string;
-    return image;
+//Should be used with a fully loaded image.
+function imageNode( _image, x, y, angle ) {
+    var that = {image:_image};
+    that.offset = new Point2D( x, y );
+    that.angle = angle;
+    that.draw = function ( ctx ) {
+        context.translate( that.offset.x, that.offset.y );
+        context.rotate( that.angle );
+        context.drawImage( _image, 0, 0 );
+    };
+    that.contains = function ( point ) {
+        point = point.plus( -that.offset.x, -that.offset.y );
+        point = point.rotate( -that.angle );
+        return point.x > 0 && point.x < that.image.width && point.y > 0 && point.y < that.image.height;
+    };
+    that.translate = function ( dx, dy ) {
+        that.offset = new Point2D( that.offset.x + dx, that.offset.y + dy );
+    };
+    return that;
 }
 
 //Uses width and height for bounds checking
@@ -71,32 +86,6 @@ function textNode( string ) {
     return that;
 }
 
-function imageNode( string, x, y ) {
-    var image = loadImage( string );
-
-    var that = rectangularNode( image.width, image.height );
-    that.x = x;
-    that.y = y;
-    that.image = image;
-    that.image.onload = function () {
-        that.width = that.image.width;
-        that.height = that.image.height;
-        draw();
-    };
-    that.draw = function ( context ) {
-        context.drawImage( image, that.x, that.y );
-
-        //For debugging
-//        if ( that.selected ) {
-//            context.fillStyle = '#00f';
-//            context.font = '30px sans-serif';
-//            context.textBaseline = 'top';
-//            context.fillText( 'dragging', that.x, that.y );
-//        }
-    };
-    return that;
-}
-
 // Hook up the initialization function.
 $( document ).ready( function () {
     init();
@@ -148,10 +137,11 @@ function init() {
     }
     rootNodeComponents.push( resetButton );
 
-    shakerImage = loadImage( "resources/shaker.png" );
+    var shakerImage = new Image();
     shakerImage.onload = function () {
-        draw();
+        globals.shakerNode = imageNode( shakerImage, 400, 200, -Math.PI / 4 );
     };
+    shakerImage.src = "resources/shaker.png";
 
     // Do the initial drawing, events will cause subsequent updates.
     resizer();
@@ -196,9 +186,10 @@ function draw() {
     clearBackground();
 
     context.save();
-    context.translate( 400, 200 );
-    context.rotate( -Math.PI / 4 );
-    context.drawImage( shakerImage, 0, 0 );
+//    console.log( "shakernode = " + globals.shakerNode );
+    if ( globals.shakerNode != null ) {
+        globals.shakerNode.draw( context );
+    }
     context.restore();
 
 //    if ( rootNode != null ) {
@@ -223,7 +214,7 @@ function onDocumentMouseUp( event ) {
 }
 
 function onDocumentMouseMove( event ) {
-    onDrag( {x:event.clientX, y:event.clientY} );
+    onMove( {x:event.clientX, y:event.clientY} );
 }
 
 function onDocumentTouchStart( event ) {
@@ -240,7 +231,7 @@ function onDocumentTouchMove( event ) {
 
         //in the  the event handler to prevent the event from being propagated to the browser and causing unwanted scrolling events.
         event.preventDefault();
-        onDrag( {x:event.touches[0].pageX, y:event.touches[0].pageY} );
+        onMove( {x:event.touches[0].pageX, y:event.touches[0].pageY} );
     }
 }
 
@@ -254,26 +245,37 @@ function onWindowDeviceOrientation( event ) {
 
 function onTouchStart( location ) {
 //    rootNode.onTouchStart( location );
+    globals.pressed = true;
+    if ( globals.shakerNode != null && globals.shakerNode.contains( new Point2D( location.x, location.y ) ) ) {
+        globals.shakerNode.pressed = true;
+        globals.lastPoint = new Point2D( location.x, location.y );
+    }
 }
 
-function onDrag( location ) {
+function onMove( location ) {
     //see if the shaker image hits this point
     var point = new Point2D( location.x, location.y );
-    point = point.plus( -400, -200 );
-    point = point.rotate( Math.PI / 4 );
-    var inside = point.x > 0 && point.x < shakerImage.width && point.y > 0 && point.y < shakerImage.height;
-    console.log( "inside = " + inside + ", transformed point = " + point.x + ", " + point.y );
-    if ( inside ) {
+
+    if ( globals.shakerNode != null && globals.shakerNode.contains( point ) ) {
         canvas.style.cursor = "pointer";
     }
     else {
         canvas.style.cursor = "";
     }
 
+    if ( globals.shakerNode != null && globals.shakerNode.pressed == true ) {
+        globals.shakerNode.translate( location.x - globals.lastPoint.x, location.y - globals.lastPoint.y );
+    }
+
     draw();
+    globals.lastPoint = new Point2D( location.x, location.y );
 }
 
 function onTouchEnd( point ) {
+    globals.pressed = false;
+    if ( globals.shakerNode != null ) {
+        globals.shakerNode.pressed = false;
+    }
 //    rootNode.onTouchEnd( point );
     draw();
 }
