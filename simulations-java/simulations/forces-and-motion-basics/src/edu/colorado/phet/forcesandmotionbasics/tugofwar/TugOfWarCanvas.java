@@ -176,7 +176,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         //Blue characters on the left, right characters on the right.  Color is specified with an enum flag instead of by the location of the characters.
         final PullerNode largeBluePuller = puller( UserComponents.largeBluePuller, BLUE, LARGE, IMAGE_SCALE, largePosition );
         addPuller( largeBluePuller );
-        addPuller( puller( UserComponents.mediumBluePuller, RED, MEDIUM, IMAGE_SCALE, mediumPosition ) );
+        addPuller( puller( UserComponents.mediumBluePuller, BLUE, MEDIUM, IMAGE_SCALE, mediumPosition ) );
         addPuller( puller( UserComponents.smallBluePuller1, BLUE, SMALL, IMAGE_SCALE, smallPosition1 ) );
         addPuller( puller( UserComponents.smallBluePuller2, BLUE, SMALL, IMAGE_SCALE, smallPosition2 ) );
 
