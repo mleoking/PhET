@@ -18,7 +18,7 @@ public class HTML5Project extends PhetProject {
     }
 
     @Override public Simulation getSimulation( final String simulationName, final Locale locale ) {
-        return null;
+        return new Simulation( simulationName, simulationName, "<javascript>", new String[0], false );
     }
 
     @Override public Locale[] getLocales() {
