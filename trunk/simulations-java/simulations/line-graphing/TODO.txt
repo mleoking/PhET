@@ -19,6 +19,7 @@ DESIGN
 - Game: what if the user's answer is correct, but not simplified? penalty? answer and guess show different equations but are both green? [no penalty]
 
 HIGH
+- use EquationNode.createSignNode, createOperatorNode, createFractionLineNode in interactive equations (as in static equations)
 - have separate spacing for fraction vs integer slope, this is a bit big for integer slopes (static and interactive equations, see slopeXSpacing field)
 - random creation of challenges, subject to constraints tbd (or create a very large set of canned challenges)
 
