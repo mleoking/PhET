@@ -1,16 +1,14 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.pointslope.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
@@ -94,7 +92,10 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
             riseNode = new DynamicValueNode( rise, staticFont, staticColor, true ); // displayed as absolute value
             runNode = new DynamicValueNode( run, staticFont, staticColor, true ); // displayed as absolute value
         }
-        fractionLineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeSpinnerWidth, 0 ), new BasicStroke( fractionLineThickness ), staticColor );
+        fractionLineNode = new PPath( new Rectangle2D.Double( 0, 0, maxSlopeSpinnerWidth, fractionLineThickness ) ) {{
+            setStroke( null );
+            setPaint( staticColor );
+        }};
         xLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         xNode = new PhetPText( Strings.SYMBOL_X, staticFont, staticColor );
         xOperatorNode = new PNode(); // parent for + or - node
@@ -170,7 +171,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         {
             xOperatorNode.removeAllChildren();
             if ( interactiveX1 || line.x1 >= 0 ) {
-                xOperatorNode.addChild( new MinusNode( signLineSize, staticColor ) );
+                xOperatorNode.addChild( new MinusNode( operatorLineSize, staticColor ) );
             }
             else {
                 xOperatorNode.addChild( new PlusNode( operatorLineSize, staticColor ) );
@@ -178,7 +179,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
 
             yOperatorNode.removeAllChildren();
             if ( interactiveY1 || line.y1 >= 0 ) {
-                yOperatorNode.addChild( new MinusNode( signLineSize, staticColor ) );
+                yOperatorNode.addChild( new MinusNode( operatorLineSize, staticColor ) );
             }
             else {
                 yOperatorNode.addChild( new PlusNode( operatorLineSize, staticColor ) );
@@ -281,7 +282,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
 
                 // adjust fraction line width, use max width of rise or run
                 double lineWidth = Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getWidth() );
-                fractionLineNode.setPathTo( new Line2D.Double( 0, 0, lineWidth, 0 ) );
+                fractionLineNode.setPathTo( new Rectangle2D.Double( 0, 0, lineWidth, fractionLineThickness ) );
 
                 // decide whether to include the slope minus sign
                 if ( positiveSlope ) {

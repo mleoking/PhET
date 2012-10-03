@@ -4,7 +4,6 @@ package edu.colorado.phet.linegraphing.common.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Paint;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -40,34 +39,6 @@ public abstract class StaticEquationNode extends EquationNode {
             }
             setPaintDeep( child, paint );
         }
-    }
-
-    // Creates a plus or minus sign. Sign is distinct from operator, so that they can have different looks.
-    protected PNode createSignNode( double value, Color color ) {
-        if ( value >= 0 ) {
-            return new PlusNode( signLineSize, color );
-        }
-        else {
-            return new MinusNode( signLineSize, color );
-        }
-    }
-
-    // Creates a plus or minus operator. Operator is distinct from sign, so that they can have different looks.
-    protected PNode createOperatorNode( double value, Color color ) {
-        if ( value >= 0 ) {
-            return new PlusNode( operatorLineSize, color );
-        }
-        else {
-            return new MinusNode( operatorLineSize, color );
-        }
-    }
-
-    // Creates the horizontal line that separates numerator and denominator in a fraction (slope, in our case.)
-    protected PNode createFractionLineNode( double width, Color color ) {
-        PPath node = new PPath( new Rectangle2D.Double( 0, 0, width, fractionLineThickness ) );
-        node.setStroke( null );
-        node.setPaint( color );
-        return node;
     }
 
     //TODO This should probably be in a subclass, since it's specific to point-slope form.

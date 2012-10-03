@@ -1,16 +1,14 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.slopeintercept.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
@@ -81,7 +79,10 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
             riseNode = new DynamicValueNode( rise, staticFont, staticColor, true );
             runNode = new DynamicValueNode( run, staticFont, staticColor, true );
         }
-        fractionLineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeSpinnerWidth, 0 ), new BasicStroke( fractionLineThickness ), staticColor );
+        fractionLineNode = new PPath( new Rectangle2D.Double( 0, 0, maxSlopeSpinnerWidth, fractionLineThickness ) ) {{
+            setStroke( null );
+            setPaint( staticColor );
+        }};
         xNode = new PhetPText( Strings.SYMBOL_X, staticFont, staticColor );
         operatorNode = new PNode(); // parent for + or - node
         interceptMinusSignNode = new MinusNode( signLineSize, staticColor );
@@ -175,7 +176,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         else {
             // adjust fraction line width
             double lineWidth = Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getWidth() );
-            fractionLineNode.setPathTo( new Line2D.Double( 0, 0, lineWidth, 0 ) );
+            fractionLineNode.setPathTo( new Rectangle2D.Double( 0, 0, lineWidth, fractionLineThickness ) );
 
             // decide whether to include the slope minus sign
             PNode previousNode;
