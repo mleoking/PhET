@@ -2,14 +2,9 @@
 package edu.colorado.phet.linegraphing.pointslope.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.text.MessageFormat;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
@@ -223,58 +218,5 @@ public class PointSlopeEquationFactory extends EquationFactory {
             xTermNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + slopeXSpacing,
                                  yTermNode.getYOffset() );
         }
-    }
-
-    // test
-    public static void main( String[] args ) {
-
-        // factory
-        PointSlopeEquationFactory factory = new PointSlopeEquationFactory();
-        PhetFont font = new PhetFont( 24 );
-        Color color = Color.BLACK;
-
-        // nodes
-        PNode undefinedSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 1, 0 ), font, color );
-        PNode positiveZeroSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 0, 1 ), font, color );
-        PNode negativeZeroSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, 0, 1 ), font, color );
-        PNode positiveUnitSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 3, 3 ), font, color );
-        PNode negativeUnitSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, -3, 3 ), font, color );
-        PNode positiveIntegerSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 3, 1 ), font, color );
-        PNode negativeIntegerSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, -3, 1 ), font, color );
-        PNode positiveFractionSlopeNode = factory.createNode( Line.createPointSlope( 1, 2, 3, 5 ), font, color );
-        PNode negativeFractionSlopeNode = factory.createNode( Line.createPointSlope( -1, -2, -3, 5 ), font, color );
-
-        // layout
-        final double xOffset = 50;
-        final double ySpacing = 15;
-        undefinedSlopeNode.setOffset( xOffset, 50 );
-        positiveZeroSlopeNode.setOffset( xOffset, undefinedSlopeNode.getFullBoundsReference().getMaxY() + ySpacing );
-        negativeZeroSlopeNode.setOffset( xOffset, positiveZeroSlopeNode.getFullBoundsReference().getMaxY() + ySpacing );
-        positiveUnitSlopeNode.setOffset( xOffset, negativeZeroSlopeNode.getFullBoundsReference().getMaxY() + ySpacing );
-        negativeUnitSlopeNode.setOffset( xOffset, positiveUnitSlopeNode.getFullBoundsReference().getMaxY() + ySpacing );
-        positiveIntegerSlopeNode.setOffset( xOffset, negativeUnitSlopeNode.getFullBoundsReference().getMaxY() + ySpacing );
-        negativeIntegerSlopeNode.setOffset( xOffset, positiveIntegerSlopeNode.getFullBoundsReference().getMaxY() + ySpacing );
-        positiveFractionSlopeNode.setOffset( xOffset, negativeIntegerSlopeNode.getFullBoundsReference().getMaxY() + ySpacing );
-        negativeFractionSlopeNode.setOffset( xOffset, positiveFractionSlopeNode.getFullBoundsReference().getMaxY() + ySpacing );
-
-        // canvas
-        PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 800, 600 ) );
-        canvas.getLayer().addChild( undefinedSlopeNode );
-        canvas.getLayer().addChild( positiveZeroSlopeNode );
-        canvas.getLayer().addChild( negativeZeroSlopeNode );
-        canvas.getLayer().addChild( positiveUnitSlopeNode );
-        canvas.getLayer().addChild( negativeUnitSlopeNode );
-        canvas.getLayer().addChild( positiveIntegerSlopeNode );
-        canvas.getLayer().addChild( negativeIntegerSlopeNode );
-        canvas.getLayer().addChild( positiveFractionSlopeNode );
-        canvas.getLayer().addChild( negativeFractionSlopeNode );
-
-        // frame
-        JFrame frame = new JFrame();
-        frame.setContentPane( canvas );
-        frame.pack();
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        frame.setVisible( true );
     }
 }
