@@ -1,3 +1,5 @@
+2nd tab: Made energy chunks be removed from the generator when it is swapped out.
+1st tab: Added a third thermometer.
 2nd tab: Incorporated new generator background image with clearer window for viewing electric energy chunks.
 2nd tab: Integrated split base connector for better layering of burner and light bulbs.
 2nd tab: Made energy chunks radiate from heater element in upward direction only.
