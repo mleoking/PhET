@@ -253,6 +253,7 @@ function onTouchStart( location ) {
     globals.pressed = true;
     if ( globals.shakerNode != null && globals.shakerNode.contains( new Point2D( location.x, location.y ) ) ) {
         globals.shakerNode.pressed = true;
+        globals.shakerNode.relativePressPoint = new Point2D( globals.shakerNode.offset.x - location.x, globals.shakerNode.offset.y - location.y );
         globals.lastPoint = new Point2D( location.x, location.y );
     }
 }
@@ -277,7 +278,7 @@ function onTouchMove( location ) {
 //        var delta = new Point2D( location.x - globals.lastPoint.x, location.y - globals.lastPoint.y );
 //        console.log( "delta.x= " + delta + ", delta.y=" + delta.y );
 //        globals.shakerNode.translate( delta.x, delta.y );
-        globals.shakerNode.offset = new Point2D( location.x, location.y );
+        globals.shakerNode.offset = new Point2D( location.x + globals.shakerNode.relativePressPoint.x, location.y + globals.shakerNode.relativePressPoint.y );
     }
 
     draw();
