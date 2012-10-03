@@ -7,6 +7,7 @@ import java.util.Locale;
 
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 public class HTML5Project extends PhetProject {
     public HTML5Project( File projectRoot ) throws IOException {
@@ -50,6 +51,8 @@ public class HTML5Project extends PhetProject {
     }
 
     @Override public boolean build() throws Exception {
+        //Copy everything from source to destination
+        FileUtils.copyRecursive( getSourceRoots()[0], getDeployDir() );
         return true;
     }
 
