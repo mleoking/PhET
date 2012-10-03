@@ -337,12 +337,12 @@ function init() {
     globals.springs.push( spring( "2", springOffset + springSpacing * 1 ) );
     globals.springs.push( spring( "3", springOffset + springSpacing * 2 ) );
 
-    globals.masses = new Array( massNode( "../resources/red-mass.png", 134, 396, 300 ),
-                                massNode( "../resources/green-mass.png", 240, 477, 70 ),
-                                massNode( "../resources/gold-mass.png", 306, 441, 160 ),
-                                massNode( "../resources/gram-50.png", 607, 490, 50 ),
-                                massNode( "../resources/gram-100.png", 422, 462, 100 ),
-                                massNode( "../resources/gram-250.png", 495, 413, 250 ) )
+    globals.masses = new Array( massNode( "resources/red-mass.png", 134, 396, 300 ),
+                                massNode( "resources/green-mass.png", 240, 477, 70 ),
+                                massNode( "resources/gold-mass.png", 306, 441, 160 ),
+                                massNode( "resources/gram-50.png", 607, 490, 50 ),
+                                massNode( "resources/gram-100.png", 422, 462, 100 ),
+                                massNode( "resources/gram-250.png", 495, 413, 250 ) )
 
     function labeledCheckBox( label ) {
         return hbox00( checkbox( 0, 0 ), textNode( label ) );
@@ -362,7 +362,7 @@ function init() {
     }
     rootNodeComponents.push( vbox( {children:new Array( frictionSlider ), x:700, y:100} ) );
     rootNodeComponents.push( resetButton );
-    rootNodeComponents.push( imageNode( "../resources/ruler.png", 12, 51 ) );
+    rootNodeComponents.push( imageNode( "resources/ruler.png", 12, 51 ) );
 
     //Add to the nodes for rendering
     for ( var i = 0; i < globals.springs.length; i++ ) {
@@ -624,7 +624,7 @@ function sliderTrack() {
     var that = rectangularNode( 250, 5 );
     that.knobX = 0;
     that.image = new Image();
-    that.image.src = "../resources/bonniemslider.png";
+    that.image.src = "resources/bonniemslider.png";
 
     that.draw = function ( context ) {
         //draw gray bar
@@ -733,7 +733,7 @@ function slider() {
     var track = sliderTrack();
     track.onTouchmove = function ( point ) {
     };
-    var knob = imageNode( "../resources/bonniemsliderthumb.png", 0, 0 );
+    var knob = imageNode( "resources/bonniemsliderthumb.png", 0, 0 );
     var that = compositeNode( new Array( track, knob ) );
 
     knob.onTouchMove = function ( point ) {
