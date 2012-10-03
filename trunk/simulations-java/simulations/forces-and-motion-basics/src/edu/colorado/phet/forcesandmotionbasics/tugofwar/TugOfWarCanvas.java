@@ -176,14 +176,14 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         //everything needed to determine the image. As it is, this creates the
         //illusion to a developer that the color can be changed if desired.
         //I tried changing it in a couple of places, and it doesn't work.
-        final PullerNode largeRedPuller = puller( UserComponents.largeBluePuller, BLUE, LARGE, IMAGE_SCALE, largePosition );
+        final PullerNode largeBluePuller = puller( UserComponents.largeBluePuller, BLUE, LARGE, IMAGE_SCALE, largePosition );
         //REVIEW: Should variable above be largeBluePuller?
-        addPuller( largeRedPuller );
+        addPuller( largeBluePuller );
         addPuller( puller( UserComponents.mediumBluePuller, BLUE, MEDIUM, IMAGE_SCALE, mediumPosition ) );
         addPuller( puller( UserComponents.smallBluePuller1, BLUE, SMALL, IMAGE_SCALE, smallPosition1 ) );
         addPuller( puller( UserComponents.smallBluePuller2, BLUE, SMALL, IMAGE_SCALE, smallPosition2 ) );
 
-        final double offset = largeRedPuller.getFullBounds().getWidth();
+        final double offset = largeBluePuller.getFullBounds().getWidth();
         addPuller( puller( UserComponents.largeRedPuller, RED, LARGE, IMAGE_SCALE, reflect( largePosition, offset ) ) );
         addPuller( puller( UserComponents.mediumRedPuller, RED, MEDIUM, IMAGE_SCALE, reflect( mediumPosition, offset ) ) );
         addPuller( puller( UserComponents.smallRedPuller1, RED, SMALL, IMAGE_SCALE, reflect( smallPosition1, offset ) ) );
