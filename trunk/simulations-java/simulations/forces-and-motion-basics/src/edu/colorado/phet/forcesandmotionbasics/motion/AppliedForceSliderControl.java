@@ -1,3 +1,4 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forcesandmotionbasics.motion;
 
 import fj.data.List;
@@ -58,8 +59,12 @@ class AppliedForceSliderControl extends PNode {
 
         final SettableProperty<Double> appliedForceSliderModel = new SettableProperty<Double>( appliedForce.get() ) {
             @Override public void set( final Double value ) {
-                if ( speedValue.get() == WITHIN_ALLOWED_RANGE ) { appliedForce.set( value ); }
-                else if ( speedValue.get() == RIGHT_SPEED_EXCEEDED ) { appliedForce.set( MathUtil.clamp( -100, value, 0 ) ); }
+                if ( speedValue.get() == WITHIN_ALLOWED_RANGE ) {
+                    appliedForce.set( value );
+                }
+                else if ( speedValue.get() == RIGHT_SPEED_EXCEEDED ) {
+                    appliedForce.set( MathUtil.clamp( -100, value, 0 ) );
+                }
                 else { appliedForce.set( MathUtil.clamp( 0, value, 100 ) ); }
                 notifyIfChanged();
             }
@@ -122,7 +127,9 @@ class AppliedForceSliderControl extends PNode {
         }};
         VBox box = new VBox( 5, new EnablePhetPText( Strings.APPLIED_FORCE, DEFAULT_FONT, enabled ),
                              sliderNode,
-                             new HBox( new PhetPText( unitsString, DEFAULT_FONT ) {{setTransparency( 0.0f );}},
+                             new HBox( new PhetPText( unitsString, DEFAULT_FONT ) {{
+                                 setTransparency( 0.0f );
+                             }},
                                        new PSwing( new JTextField( 3 ) {
                                            {
                                                setFont( DEFAULT_FONT );
@@ -173,7 +180,11 @@ class AppliedForceSliderControl extends PNode {
         addChild( box );
     }
 
-    private PhetPText dummyLabel() {return new PhetPText( "a", DEFAULT_FONT ) {{ setTransparency( 0.0f ); }};}
+    private PhetPText dummyLabel() {
+        return new PhetPText( "a", DEFAULT_FONT ) {{
+            setTransparency( 0.0f );
+        }};
+    }
 
     private VoidFunction1<SpeedValue> grayIf( final PhetPPath path, final SpeedValue value ) {
         return new VoidFunction1<SpeedValue>() {

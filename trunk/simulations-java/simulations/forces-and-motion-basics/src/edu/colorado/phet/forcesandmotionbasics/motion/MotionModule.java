@@ -6,7 +6,7 @@ import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents;
 
 /**
- * Module for tab 2 "Motion" and tab 3 "Friction".  The model is created and maintained within MotionCanvas to make it simple to recerate on reset.
+ * Module for tab 2 "Motion" and tab 3 "Friction".  The model is created and maintained within MotionCanvas to make it simple to recreate on reset.
  * Reset is implemented as throwing away the old model and view, and creating new ones.
  *
  * @author Sam Reid
