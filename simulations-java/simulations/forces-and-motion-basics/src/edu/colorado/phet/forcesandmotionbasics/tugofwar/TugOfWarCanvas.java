@@ -177,7 +177,6 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         //illusion to a developer that the color can be changed if desired.
         //I tried changing it in a couple of places, and it doesn't work.
         final PullerNode largeBluePuller = puller( UserComponents.largeBluePuller, BLUE, LARGE, IMAGE_SCALE, largePosition );
-        //REVIEW: Should variable above be largeBluePuller?
         addPuller( largeBluePuller );
         addPuller( puller( UserComponents.mediumBluePuller, BLUE, MEDIUM, IMAGE_SCALE, mediumPosition ) );
         addPuller( puller( UserComponents.smallBluePuller1, BLUE, SMALL, IMAGE_SCALE, smallPosition1 ) );
