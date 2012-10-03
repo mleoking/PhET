@@ -139,11 +139,14 @@ class MotionModel {
 
     //Called whether paused or not.  When a second passes, the slider should gray in, if the speed value is no longer exceeded.
     public void clockStepped() {
-        if ( lastOutOfRange != null ) {
-            if ( System.currentTimeMillis() - lastOutOfRange._1 > 1000 ) {
-                lastOutOfRange = null;
-                speedValue.set( _speedValue.get() );
-            }
+        final boolean a = lastOutOfRange != null && System.currentTimeMillis() - lastOutOfRange._1 > 1000;
+
+        //When manipulating the slider when paused, can get into a situation where the grayed out part of the slider doesn't gray in, even when it is supposed to
+        //This is a workaround for that bug
+        final boolean b = _speedValue.get() == WITHIN_ALLOWED_RANGE && lastOutOfRange == null;
+        if ( a || b ) {
+            lastOutOfRange = null;
+            speedValue.set( _speedValue.get() );
         }
     }
 }

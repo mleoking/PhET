@@ -68,13 +68,13 @@ class PusherNode extends PNode {
                         final BufferedImage image = RESOURCES.getImage( "pusher_" + getImageIndex( appliedForce ) + ".png" );
                         if ( appliedForce > 0 ) {
                             pusher.setImage( image );
+
                             //translate right another 15 for crate
                             pusher.setOffset( skateboard.getFullBounds().getX() - pusher.getFullBounds().getWidth() + offset, grassY - pusher.getFullBounds().getHeight() );
                         }
                         else {
 
-                            //TODO: cache this buffered image op
-                            pusher.setImage( flipX( image ) );
+                            pusher.setImage( flipX( image ) );//Could be sped up if necessary
                             pusher.setOffset( skateboard.getFullBounds().getMaxX() - offset, grassY - pusher.getFullBounds().getHeight() );
                         }
                     }
