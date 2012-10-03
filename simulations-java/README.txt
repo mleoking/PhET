@@ -19,10 +19,6 @@ contrib :
 
 docs :
     Documents that are applicable to all Java-based PhET simulations.
-    
-ide:
-    Files that are useful for configuring various IDEs (Integrated Development Environments),
-    such as Eclipse and IntelliJ IDEA.
 
 simulations:
     Source code and related resources for the Java-based simulations.
