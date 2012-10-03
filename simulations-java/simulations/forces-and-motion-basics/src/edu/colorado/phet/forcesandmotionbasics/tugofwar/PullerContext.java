@@ -15,8 +15,7 @@ public interface PullerContext {
 
     void startDrag( PullerNode pullerNode );
 
-    //REVIEW: isCartInCenter would be more conventional.
-    boolean cartIsInCenter();
+    boolean isCartInCenter();
 
     void addCartPositionChangeListener( VoidFunction0 voidFunction0 );
 }
