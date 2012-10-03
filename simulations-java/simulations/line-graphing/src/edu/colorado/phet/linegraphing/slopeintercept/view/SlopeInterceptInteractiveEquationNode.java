@@ -174,9 +174,9 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
             fractionLineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                         equalsNode.getFullBoundsReference().getCenterY() + fractionLineYFudgeFactor );
             riseNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
-                                fractionLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
+                                fractionLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - spinnersYSpacing );
             runNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
-                               fractionLineNode.getFullBoundsReference().getMinY() + ySpacing );
+                               fractionLineNode.getFullBoundsReference().getMinY() + spinnersYSpacing );
             xNode.setOffset( fractionLineNode.getFullBoundsReference().getMaxX() + slopeXSpacing, yNode.getYOffset() );
         }
         else {

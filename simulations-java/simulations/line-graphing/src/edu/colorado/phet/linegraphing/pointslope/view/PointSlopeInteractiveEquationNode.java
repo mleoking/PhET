@@ -101,7 +101,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
             riseNode = new DynamicValueNode( rise, staticFont, staticColor, true ); // displayed as absolute value
             runNode = new DynamicValueNode( run, staticFont, staticColor, true ); // displayed as absolute value
         }
-        fractionLineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeSpinnerWidth, 0 ), new BasicStroke( 3f ), staticColor );
+        fractionLineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeSpinnerWidth, 0 ), new BasicStroke( fractionLineThickness ), staticColor );
         xLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         xNode = new PhetPText( Strings.SYMBOL_X, staticFont, staticColor );
         xOperatorNode = new PNode(); // parent for + or - node
@@ -270,9 +270,9 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                 fractionLineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                             equalsNode.getFullBoundsReference().getCenterY() + 2 );
                 riseNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
-                                    fractionLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
+                                    fractionLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - spinnersYSpacing );
                 runNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
-                                   fractionLineNode.getFullBoundsReference().getMinY() + ySpacing );
+                                   fractionLineNode.getFullBoundsReference().getMinY() + spinnersYSpacing );
                 previousNode = fractionLineNode;
             }
             else {
