@@ -108,12 +108,12 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     //Speed at which the bricks start to look as if they are going backwards
     public static final double STROBE_SPEED = 9.559393222711847;
 
-    public final BooleanProperty playing = new BooleanProperty( true );
+    public final BooleanProperty playing = new BooleanProperty( true ); //REVIEW: Can this be private?
     private final PusherNode pusherNode;
 
     //Features only for Tab 3: Friction:
     private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
-    private BooleanProperty dragging = new BooleanProperty( false );
+    private BooleanProperty dragging = new BooleanProperty( false ); //REVIEW: Suggest final modifier.
 
     public MotionCanvas( final Resettable moduleContext, final IClock clock,
 
@@ -172,23 +172,31 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 removeAllChildren();
 
                 //Show rocks as additional texture
+                //REVIEW: Prototype code, should remove or document that it is
+                //being left during interviews.  Mark with TODO.
                 boolean showRocks = false;
                 if ( showRocks ) {
                     final double scale = 0.5;
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale + Images.BRICK_TILE.getHeight() - 22, STAGE_SIZE.width * 3 / scale, rocksOverlay.getHeight() );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale, area.getY() - 1, rocksOverlay.getWidth(), rocksOverlay.getHeight() );
-                    PhetPPath path = new PhetPPath( area, new TexturePaint( rocksOverlay, anchor ) ) {{ scale( scale ); }};
+                    PhetPPath path = new PhetPPath( area, new TexturePaint( rocksOverlay, anchor ) ) {{
+                        scale( scale );
+                    }};
                     path.setTransparency( 0.7f );
                     addChild( path );
                 }
 
                 //Show mountains as additional texture
+                //REVIEW: Prototype code, should remove or document that it is
+                //being left during interviews.  Mark with TODO.
                 boolean showMountains = true;
                 if ( showMountains ) {
                     final double scale = 0.25;
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale - mountains.getHeight(), STAGE_SIZE.width * 3 / scale, mountains.getHeight() );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale / 50.0 + 150, area.getY() - 1, mountains.getWidth(), mountains.getHeight() );
-                    PhetPPath path = new PhetPPath( area, new TexturePaint( mountains, anchor ) ) {{ scale( scale ); }};
+                    PhetPPath path = new PhetPPath( area, new TexturePaint( mountains, anchor ) ) {{
+                        scale( scale );
+                    }};
                     path.setTransparency( 0.6f );
                     addChild( path );
                 }
@@ -209,7 +217,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     final double iceScale = 1;
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / iceScale, grassY / iceScale - 1, STAGE_SIZE.width * 3 / iceScale, Images.ICE_OVERLAY.getHeight() );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / iceScale, area.getY(), Images.ICE_OVERLAY.getWidth(), Images.ICE_OVERLAY.getHeight() );
-                    PhetPPath path = new PhetPPath( area, new TexturePaint( Images.ICE_OVERLAY, anchor ) ) {{ scale( iceScale ); }};
+                    PhetPPath path = new PhetPPath( area, new TexturePaint( Images.ICE_OVERLAY, anchor ) ) {{
+                        scale( iceScale );
+                    }};
                     path.setTransparency( 0.9f );
                     addChild( path );
                 }
@@ -237,18 +247,28 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( clouds );
 
-        final JCheckBox showForcesCheckBox = new PropertyCheckBox( UserComponents.forcesCheckBox, Strings.FORCES, showForces ) {{setFont( DEFAULT_FONT );}};
-        final JCheckBox showValuesCheckBox = new PropertyCheckBox( UserComponents.valuesCheckBox, Strings.VALUES, showValues ) {{setFont( DEFAULT_FONT );}};
-        final JCheckBox showSumOfForcesCheckBox = new PropertyCheckBox( UserComponents.sumOfForcesCheckBox, Strings.SUM_OF_FORCES, showSumOfForces ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox showForcesCheckBox = new PropertyCheckBox( UserComponents.forcesCheckBox, Strings.FORCES, showForces ) {{
+            setFont( DEFAULT_FONT );
+        }};
+        final JCheckBox showValuesCheckBox = new PropertyCheckBox( UserComponents.valuesCheckBox, Strings.VALUES, showValues ) {{
+            setFont( DEFAULT_FONT );
+        }};
+        final JCheckBox showSumOfForcesCheckBox = new PropertyCheckBox( UserComponents.sumOfForcesCheckBox, Strings.SUM_OF_FORCES, showSumOfForces ) {{
+            setFont( DEFAULT_FONT );
+        }};
         showForces.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean showForces ) {
                 showValuesCheckBox.setEnabled( showForces );
                 showSumOfForcesCheckBox.setEnabled( showForces );
             }
         } );
-        final JCheckBox speedCheckBox = new PropertyCheckBox( UserComponents.speedCheckBox, Strings.SPEED, showSpeedometer ) {{ setFont( DEFAULT_FONT ); }};
+        final JCheckBox speedCheckBox = new PropertyCheckBox( UserComponents.speedCheckBox, Strings.SPEED, showSpeedometer ) {{
+            setFont( DEFAULT_FONT );
+        }};
         final BooleanProperty showMasses = new BooleanProperty( false );
-        final JCheckBox massCheckBox = new PropertyCheckBox( UserComponents.massCheckBox, Strings.MASSES, showMasses ) {{ setFont( DEFAULT_FONT ); }};
+        final JCheckBox massCheckBox = new PropertyCheckBox( UserComponents.massCheckBox, Strings.MASSES, showMasses ) {{
+            setFont( DEFAULT_FONT );
+        }};
 
         final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( Strings.SPEED, 125, model.speed, STROBE_SPEED ) {{
             scale( 0.25 );
@@ -495,7 +515,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }
     }
 
-    private void playbackStateChanged( final boolean playing ) { this.playing.set( playing ); }
+    private void playbackStateChanged( final boolean playing ) {
+        this.playing.set( playing );
+    }
 
     private void rewind() {
         model.rewind();
@@ -504,7 +526,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     }
 
     //Get the mass of the stack, returning 0.0 if the stack not yet initialized (for auto callback in constructor)
-    private double getMassOfObjectsOnSkateboard() { return stackableNodes == null ? 0.0 : stackableNodes.filter( _isOnSkateboard ).map( _mass ).foldLeft( add, 0.0 ); }
+    private double getMassOfObjectsOnSkateboard() {
+        return stackableNodes == null ? 0.0 : stackableNodes.filter( _isOnSkateboard ).map( _mass ).foldLeft( add, 0.0 );
+    }
 
     public void stackableNodeDropped( final StackableNode stackableNode ) {
         PBounds bounds = skateboard.getGlobalFullBounds();
@@ -555,7 +579,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         } );
     }
 
-    public void addStackChangeListener( final SimpleObserver observer ) { stack.addObserver( observer ); }
+    public void addStackChangeListener( final SimpleObserver observer ) {
+        stack.addObserver( observer );
+    }
 
     public int getStackSize() { return stack.get().length(); }
 

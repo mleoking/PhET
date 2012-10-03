@@ -62,6 +62,7 @@ public class ForcesAndMotionBasicsResources {
         public static final BufferedImage MAN_SITTING = RESOURCES.getImage( "man-sitting.png" );
         public static final BufferedImage MAN_STANDING = RESOURCES.getImage( "man-standing.png" );
         public static final BufferedImage MOUNTAINS = RESOURCES.getImage( "mountains.png" );
+        //REVIEW: Lots of resources that are showing up as unused in IntelliJ.  If they are really unused, they (including the images) should be removed from project.
         public static final BufferedImage MYSTERY_OBJECT_01 = RESOURCES.getImage( "mystery-object-01.png" );
         public static final BufferedImage PULL_FIGURE_BLUE_0 = RESOURCES.getImage( "pull_figure_BLUE_0.png" );
         public static final BufferedImage PULL_FIGURE_BLUE_1 = RESOURCES.getImage( "pull_figure_BLUE_1.png" );

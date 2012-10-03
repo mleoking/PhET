@@ -113,9 +113,15 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         grassNode.setOffset( -2, grassY - 2 );
         addChild( grassNode );
 
-        final JCheckBox sumOfForcesCheckBox = new PropertyCheckBox( UserComponents.sumOfForcesCheckBox, Strings.SUM_OF_FORCES, showSumOfForces ) {{ setFont( DEFAULT_FONT ); }};
-        final JCheckBox showValuesCheckBox = new PropertyCheckBox( UserComponents.valuesCheckBox, Strings.VALUES, showValues ) {{setFont( DEFAULT_FONT );}};
-        final JCheckBox soundCheckBox = new PropertyCheckBox( UserComponents.soundCheckBox, Strings.SOUND, sound ) {{setFont( DEFAULT_FONT );}};
+        final JCheckBox sumOfForcesCheckBox = new PropertyCheckBox( UserComponents.sumOfForcesCheckBox, Strings.SUM_OF_FORCES, showSumOfForces ) {{
+            setFont( DEFAULT_FONT );
+        }};
+        final JCheckBox showValuesCheckBox = new PropertyCheckBox( UserComponents.valuesCheckBox, Strings.VALUES, showValues ) {{
+            setFont( DEFAULT_FONT );
+        }};
+        final JCheckBox soundCheckBox = new PropertyCheckBox( UserComponents.soundCheckBox, Strings.SOUND, sound ) {{
+            setFont( DEFAULT_FONT );
+        }};
         final ControlPanelNode controlPanelNode = new ControlPanelNode(
                 new VBox( 2, VBox.LEFT_ALIGNED,
 
@@ -166,7 +172,12 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         Vector2D mediumPosition = Vector2D.v( 155.66912850812423, 515 + 1 + 1 + dy );
         Vector2D smallPosition1 = Vector2D.v( 215.9527326440175, 559 - 1 + dy );
         Vector2D smallPosition2 = Vector2D.v( 263.1610044313148, 559 - 1 + dy );
+        //REVIEW: Why is the color a parameter?  Seems like the position is
+        //everything needed to determine the image. As it is, this creates the
+        //illusion to a developer that the color can be changed if desired.
+        //I tried changing it in a couple of places, and it doesn't work.
         final PullerNode largeRedPuller = puller( UserComponents.largeBluePuller, BLUE, LARGE, IMAGE_SCALE, largePosition );
+        //REVIEW: Should variable above be largeBluePuller?
         addPuller( largeRedPuller );
         addPuller( puller( UserComponents.mediumBluePuller, BLUE, MEDIUM, IMAGE_SCALE, mediumPosition ) );
         addPuller( puller( UserComponents.smallBluePuller1, BLUE, SMALL, IMAGE_SCALE, smallPosition1 ) );
@@ -442,11 +453,17 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         sendModelMessage( forceModel, modelElement, changed, parameterSet( sumOfForces, getSumOfForces() ) );
     }
 
-    private void updateForceArrows() {forcesNode.setForces( mode.get() == Mode.WAITING || mode.get() == Mode.COMPLETE, getLeftForce(), getRightForce(), showSumOfForces.get(), showValues.get() );}
+    private void updateForceArrows() {
+        forcesNode.setForces( mode.get() == Mode.WAITING || mode.get() == Mode.COMPLETE, getLeftForce(), getRightForce(), showSumOfForces.get(), showValues.get() );
+    }
 
-    private double getRightForce() {return redKnots.map( _force ).foldLeft( Doubles.add, 0.0 );}
+    private double getRightForce() {
+        return redKnots.map( _force ).foldLeft( Doubles.add, 0.0 );
+    }
 
-    private double getLeftForce() {return -blueKnots.map( _force ).foldLeft( Doubles.add, 0.0 );}
+    private double getLeftForce() {
+        return -blueKnots.map( _force ).foldLeft( Doubles.add, 0.0 );
+    }
 
     private double getSumOfForces() {return getRightForce() + getLeftForce();}
 
@@ -454,7 +471,9 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         detach( pullerNode );
     }
 
-    public boolean cartIsInCenter() { return Math.abs( cart.getPosition() ) < 1;}
+    public boolean cartIsInCenter() {
+        return Math.abs( cart.getPosition() ) < 1;
+    }
 
     public void addCartPositionChangeListener( final VoidFunction0 voidFunction0 ) {
         cartPositionListeners.add( voidFunction0 );
@@ -478,9 +497,15 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         else { return Option.none(); }
     }
 
-    private double knotPullerDistance( final KnotNode k, final PullerNode p ) {return k.getGlobalFullBounds().getCenter2D().distance( p.getGlobalAttachmentPoint() );}
+    private double knotPullerDistance( final KnotNode k, final PullerNode p ) {
+        return k.getGlobalFullBounds().getCenter2D().distance( p.getGlobalAttachmentPoint() );
+    }
 
-    public static enum PColor {BLUE, RED}
+    //REVIEW: These look like Piccolo class names when seen in the code.  Are
+    //PullerColor and PullerSize really too verbose?
+    public static enum PColor {
+        BLUE, RED
+    }
 
     public static enum PSize {SMALL, MEDIUM, LARGE}
 }

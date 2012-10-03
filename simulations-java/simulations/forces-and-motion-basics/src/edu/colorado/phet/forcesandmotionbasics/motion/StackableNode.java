@@ -65,7 +65,7 @@ class StackableNode extends PNode {
 
     //Remember the direction for the last image shown before applied force is set to 0.0 so that the character will keep facing the same direction.
     private double lastSign;
-    private PNode textLabel;
+    private PNode textLabel; //REVIEW: Suggest final modifier.
     private final BufferedImage flippedHandsUpImage;
 
     public StackableNode( IUserComponent component, final StackableNodeContext context, final BufferedImage image, final double mass, final int pusherOffset, BooleanProperty showMass ) {
@@ -121,11 +121,19 @@ class StackableNode extends PNode {
                 else {
                     if ( faceDirectionOfAppliedForce ) {
                         final boolean handsUp = ( context.getUserIsDraggingSomething().get() && context.getStackSize() < 3 ) || context.isInStackButNotInTop( StackableNode.this );
-                        if ( context.getAppliedForce().get() > 0 ) { return handsUp ? flippedHandsUpImage : flippedStackedImage; }
-                        else if ( context.getAppliedForce().get() < 0 ) { return handsUp ? handsUpImage : stackedImage; }
+                        if ( context.getAppliedForce().get() > 0 ) {
+                            return handsUp ? flippedHandsUpImage : flippedStackedImage;
+                        }
+                        else if ( context.getAppliedForce().get() < 0 ) {
+                            return handsUp ? handsUpImage : stackedImage;
+                        }
                         else {
-                            if ( lastSign > 0 ) { return handsUp ? flippedHandsUpImage : flippedStackedImage; }
-                            else { return handsUp ? handsUpImage : stackedImage; }
+                            if ( lastSign > 0 ) {
+                                return handsUp ? flippedHandsUpImage : flippedStackedImage;
+                            }
+                            else {
+                                return handsUp ? handsUpImage : stackedImage;
+                            }
                         }
                     }
                     else {
@@ -196,7 +204,9 @@ class StackableNode extends PNode {
     }
 
     //Return the width of the image part of the object (not including the width of the text overlays) for layout
-    public double getObjectMaxX() { return getOffset().getX() + toolboxImage.getWidth() * getScale(); }
+    public double getObjectMaxX() {
+        return getOffset().getX() + toolboxImage.getWidth() * getScale();
+    }
 
     //The text label may go to the left of the object, factor it out when centering on the skateboard
     public double getInset() {

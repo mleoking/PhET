@@ -69,6 +69,9 @@ public class PullerNode extends PNode {
     };
     private final SimpleObserver imageUpdater;
 
+    //REVIEW: Why have "item" (which is a vague name anyway) as a parameter if
+    //puller nodes are always created in a standing position (i.e. item is
+    //always 0)?
     public PullerNode( final IUserComponent component, final PColor color, final PSize size, final int item, final double scale, Vector2D offset, final PullerContext context, final ObservableProperty<Mode> mode ) {
         this.color = color;
         this.size = size;
@@ -79,7 +82,7 @@ public class PullerNode extends PNode {
         imageUpdater = new SimpleObserver() {
             public void update() {
                 if ( knot != null && mode.get() == Mode.GOING ) {
-                    final BufferedImage pullingImage = pullerImage( 3 );
+                    final BufferedImage pullingImage = pullerImage( 3 ); //REVIEW: Would be clearer if 3 were a constant, like "LAST_PULLER_IMAGE".
                     imageNode.setImage( pullingImage );
 
                     //Padding accounts for the fact that the hand is no longer at the edge of the image when the puller is pulling, because the foot sticks out
@@ -162,7 +165,12 @@ public class PullerNode extends PNode {
         setChildrenPickable( pickable );
     }
 
-    private BufferedImage pullerImage( final int item ) {return ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );}
+    //REVIEW: "item" is awfully vague, and it took me a while to figure out
+    // that it was the index into the leaning animation sequence.  I would
+    // suggest renaming and/or documenting to make this clearer.
+    private BufferedImage pullerImage( final int item ) {
+        return ForcesAndMotionBasicsResources.RESOURCES.getImage( "pull_figure_" + sizeText( size ) + color.name() + "_" + item + ".png" );
+    }
 
     private static String sizeText( final PSize size ) {
         return size == PSize.LARGE ? "lrg_" :
@@ -170,9 +178,13 @@ public class PullerNode extends PNode {
                "";
     }
 
-    public Point2D getGlobalAttachmentPoint() { return attachmentNode.getGlobalFullBounds().getCenter2D(); }
+    public Point2D getGlobalAttachmentPoint() {
+        return attachmentNode.getGlobalFullBounds().getCenter2D();
+    }
 
-    public void animateHome() { animateToPositionScaleRotation( initialOffset.x, initialOffset.y, scale, 0, TugOfWarCanvas.ANIMATION_DURATION ); }
+    public void animateHome() {
+        animateToPositionScaleRotation( initialOffset.x, initialOffset.y, scale, 0, TugOfWarCanvas.ANIMATION_DURATION );
+    }
 
     public void setKnot( final KnotNode knot ) {
         this.knot = knot;
