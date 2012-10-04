@@ -124,7 +124,7 @@ public class ControlPanel extends Canvas {
             setStyle( "borderStyle", "solid" )
             setStyle( "borderColor", 0x00ff00 );  //0x009900
             setStyle( "cornerRadius", 10 );
-            setStyle( "borderThickness", 5 );
+            setStyle( "borderThickness", 3 );
             setStyle( "paddingTop", 15 );
             setStyle( "paddingBottom", 5 );
             setStyle( "paddingRight", 5 );
