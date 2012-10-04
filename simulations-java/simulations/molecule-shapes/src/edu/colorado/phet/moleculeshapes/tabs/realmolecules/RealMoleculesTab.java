@@ -129,6 +129,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
             updateOnEvent( beforeFrameRender );
         }};
         guiLayer.addChild( controlPanel );
+        guiNodes.add( controlPanel );
         controlPanel.onResize.addUpdateListener(
                 new UpdateListener() {
                     public void update() {
@@ -181,13 +182,15 @@ public class RealMoleculesTab extends MoleculeViewTab {
                 }} );
             }};
 
-            guiLayer.addChild( new OrthoPiccoloNode( realModelSelectionNode, this, canvasTransform,
-                                                     new Property<Vector2D>( new Vector2D(
-                                                             ( (int) ( getStageSize().width - realModelSelectionNode.getFullBounds().getWidth() - controlPanelNode.getFullBounds().getWidth() ) / 2 ),
-                                                             ( (int) ( OUTSIDE_PADDING ) )
-                                                     ) ), mouseEventNotifier ) {{
+            OrthoPiccoloNode realModelSelectionOrthoNode = new OrthoPiccoloNode( realModelSelectionNode, this, canvasTransform,
+                                                          new Property<Vector2D>( new Vector2D(
+                                                                  ( (int) ( getStageSize().width - realModelSelectionNode.getFullBounds().getWidth() - controlPanelNode.getFullBounds().getWidth() ) / 2 ),
+                                                                  ( (int) ( OUTSIDE_PADDING ) )
+                                                          ) ), mouseEventNotifier ) {{
                 updateOnEvent( beforeFrameRender );
-            }} );
+            }};
+            guiLayer.addChild( realModelSelectionOrthoNode );
+            guiNodes.add( realModelSelectionOrthoNode );
         }
 
         /*---------------------------------------------------------------------------*
@@ -205,6 +208,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
             updateOnEvent( beforeFrameRender );
         }};
         guiLayer.addChild( namePanel );
+        guiNodes.add( namePanel );
     }
 
     public void switchToMolecule( RealMoleculeShape selectedRealMolecule ) {
