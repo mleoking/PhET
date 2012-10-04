@@ -115,17 +115,23 @@ public class GeometryNameNode extends PNode {
         * visibility listeners
         *----------------------------------------------------------------------------*/
 
+        // listener will run things in the Swing thread
         showMolecularShapeName.addObserver( new SimpleObserver() {
             public void update() {
-                updateMolecularText();
+                updateMolecularText( true );
             }
-        } );
+        }, false );
+        // but execute it now since we are being initialized
+        updateMolecularText( false );
 
+        // listener will run things in the Swing thread
         showElectronShapeName.addObserver( new SimpleObserver() {
             public void update() {
-                updateElectronText();
+                updateElectronText( false );
             }
-        } );
+        }, false );
+        // but execute it now since we are being initialized
+        updateElectronText( true );
 
         /*---------------------------------------------------------------------------*
         * change listeners
@@ -133,8 +139,8 @@ public class GeometryNameNode extends PNode {
 
         final VoidFunction1<Bond<PairGroup>> updateFunction = new VoidFunction1<Bond<PairGroup>>() {
             public void apply( Bond<PairGroup> bond ) {
-                updateMolecularText();
-                updateElectronText();
+                updateMolecularText( true );
+                updateElectronText( true );
             }
         };
         ChangeObserver<Molecule> onMoleculeChange = new ChangeObserver<Molecule>() {
@@ -143,8 +149,8 @@ public class GeometryNameNode extends PNode {
                     oldValue.onBondChanged.removeListener( updateFunction );
                 }
                 newValue.onBondChanged.addListener( updateFunction );
-                updateMolecularText();
-                updateElectronText();
+                updateMolecularText( true );
+                updateElectronText( true );
             }
         };
         molecule.addObserver( onMoleculeChange );
@@ -153,11 +159,11 @@ public class GeometryNameNode extends PNode {
         onMoleculeChange.update( molecule.get(), null );
     }
 
-    public void updateMolecularText() {
+    private void updateMolecularText( boolean useSwingThread ) {
         final String name = molecule.get().getCentralVseprConfiguration().name;
         final boolean visible = showMolecularShapeName.get();
 
-        SwingUtilities.invokeLater( new Runnable() {
+        Runnable runnable = new Runnable() {
             public void run() {
                 // remove old readout
                 if ( molecularText != null ) {
@@ -171,17 +177,24 @@ public class GeometryNameNode extends PNode {
 
                 addChild( molecularText );
             }
-        } );
+        };
+
+        if ( useSwingThread ) {
+            SwingUtilities.invokeLater( runnable );
+        }
+        else {
+            runnable.run();
+        }
     }
 
-    public void updateElectronText() {
+    private void updateElectronText( boolean useSwingThread ) {
         if ( !showElectronGeometry ) {
             return;
         }
         final String name = molecule.get().getCentralVseprConfiguration().geometry.name;
         final boolean visible = showElectronShapeName.get();
 
-        SwingUtilities.invokeLater( new Runnable() {
+        Runnable runnable = new Runnable() {
             public void run() {
                 if ( electronText != null ) {
                     removeChild( electronText );
@@ -195,7 +208,13 @@ public class GeometryNameNode extends PNode {
 
                 addChild( electronText );
             }
-        } );
+        };
+        if ( useSwingThread ) {
+            SwingUtilities.invokeLater( runnable );
+        }
+        else {
+            runnable.run();
+        }
     }
 
     private static PText getTextLabel( final String label, final Property<Color> color ) {
