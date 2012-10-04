@@ -219,7 +219,7 @@ function onDocumentMouseUp( event ) {
 }
 
 function onDocumentMouseMove( event ) {
-    onTouchMove( {x:event.clientX, y:event.clientY} );
+//    onTouchMove( {x:event.clientX, y:event.clientY} );
 }
 
 function onDocumentTouchStart( event ) {
