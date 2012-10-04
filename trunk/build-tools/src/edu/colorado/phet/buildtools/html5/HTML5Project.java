@@ -2,6 +2,7 @@ package edu.colorado.phet.buildtools.html5;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -9,9 +10,9 @@ import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
-import com.google.javascript.jscomp.CompilationLevel;
-import com.google.javascript.jscomp.CompilerOptions;
-import com.google.javascript.jscomp.JSSourceFile;
+//import com.google.javascript.jscomp.CompilationLevel;
+//import com.google.javascript.jscomp.CompilerOptions;
+//import com.google.javascript.jscomp.JSSourceFile;
 
 public class HTML5Project extends PhetProject {
     public HTML5Project( File projectRoot ) throws IOException {
@@ -56,8 +57,33 @@ public class HTML5Project extends PhetProject {
 
     @Override public boolean build() throws Exception {
         //Copy everything from source to destination
-        FileUtils.copyRecursive( getSourceRoots()[0], getDeployDir() );
+//        FileUtils.copyRecursive( getSourceRoots()[0], getDeployDir() );
+//        File[] sourceRoots = getSourceRoots();
+//        String text = "";
+//        for ( File sourceRoot : sourceRoots ) {
+//            text = text + "\n\n" + loadAllText( sourceRoot );
+//        }
+//        String compiled = compile( text );
+//        FileUtils.writeString( new File(getDeployDir(),getName()+"-compiled.js") );
         return true;
+    }
+
+    private String loadAllText( final File f ) throws IOException {
+        if ( f.isFile() ) {
+            return FileUtils.loadFileAsString( f );
+        }
+        else {
+            File[] files = f.listFiles( new FilenameFilter() {
+                @Override public boolean accept( final File dir, final String name ) {
+                    return name.endsWith( ".js" );
+                }
+            } );
+            String text = "";
+            for ( File sourceRoot : files ) {
+                text = text + "\n\n" + loadAllText( sourceRoot );
+            }
+            return text;
+        }
     }
 
     @Override public String getListDisplayName() {
@@ -78,26 +104,27 @@ public class HTML5Project extends PhetProject {
      * @return The compiled version of the code.
      */
     public static String compile( String code ) {
-        com.google.javascript.jscomp.Compiler compiler = new com.google.javascript.jscomp.Compiler();
-
-        CompilerOptions options = new CompilerOptions();
-        // Advanced mode is used here, but additional options could be set, too.
-        CompilationLevel.ADVANCED_OPTIMIZATIONS.setOptionsForCompilationLevel( options );
-
-        // To get the complete set of externs, the logic in
-        // CompilerRunner.getDefaultExterns() should be used here.
-        JSSourceFile extern = JSSourceFile.fromCode( "externs.js", "function alert(x) {}" );
-
-        // The dummy input name "input.js" is used here so that any warnings or
-        // errors will cite line numbers in terms of input.js.
-        JSSourceFile input = JSSourceFile.fromCode( "input.js", code );
-
-        // compile() returns a Result, but it is not needed here.
-        compiler.compile( extern, input, options );
-
-        // The compiler is responsible for generating the compiled code; it is not
-        // accessible via the Result.
-        return compiler.toSource();
+        return code;
+//        com.google.javascript.jscomp.Compiler compiler = new com.google.javascript.jscomp.Compiler();
+//
+//        CompilerOptions options = new CompilerOptions();
+//        // Advanced mode is used here, but additional options could be set, too.
+//        CompilationLevel.ADVANCED_OPTIMIZATIONS.setOptionsForCompilationLevel( options );
+//
+//        // To get the complete set of externs, the logic in
+//        // CompilerRunner.getDefaultExterns() should be used here.
+//        JSSourceFile extern = JSSourceFile.fromCode( "externs.js", "function alert(x) {}" );
+//
+//        // The dummy input name "input.js" is used here so that any warnings or
+//        // errors will cite line numbers in terms of input.js.
+//        JSSourceFile input = JSSourceFile.fromCode( "input.js", code );
+//
+//        // compile() returns a Result, but it is not needed here.
+//        compiler.compile( extern, input, options );
+//
+//        // The compiler is responsible for generating the compiled code; it is not
+//        // accessible via the Result.
+//        return compiler.toSource();
     }
 
     public static void main( String[] args ) {
