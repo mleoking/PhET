@@ -1,3 +1,5 @@
+# 1.00.24 (68780) Oct 4, 2012
+10/4/12 Out-of-bounds recenters charge, no change in motionType
 # 1.00.23 (66826) Aug 10, 2012
 8/10/12 Linear motion speed control has finite acceleration.
 # 1.00.22 (66766) Aug 9, 2012
