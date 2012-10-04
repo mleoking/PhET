@@ -1,4 +1,4 @@
-//The Model for Collision Lab
+﻿//The Model for Collision Lab
 package edu.colorado.phet.collisionlab.model {
 
 import edu.colorado.phet.collisionlab.constants.CLConstants;
@@ -456,43 +456,44 @@ public class Model {
     }
 
     //if ball beyond reflecting border, then translate to back to edge and reflect
+	//Updated 10/04/2012 to correctly process collisions with corners
     public function checkAndProcessWallCollision( index: int, x: Number, y: Number, vX: Number, vY: Number ): void {
         var wallHit: Boolean = false;
-        if ( this.borderOn ) {
+		    if ( this.borderOn ) {
             var radius: Number = this.ball_arr[index].getRadius();
             var onePlusDelta: Number = 1.000001;
             if ( (x + radius) > this.borderWidth ) {
                 this.setX( index, this.borderWidth - onePlusDelta * radius );
                 this.setVX( index, -e * vX );   //ball_arr[i].velocity.setX(-e*vX);
                 wallHit = true;
-            }
+            }//end if
             else {
                 if ( (x - radius) < 0 ) {
                     this.setX( index, onePlusDelta * radius );
                     this.setVX( index, -e * vX ); //ball_arr[i].velocity.setX(-e*vX);
                     wallHit = true;
-                }
-                else {
-                    if ( (y + radius) > this.borderHeight / 2 ) {
-                        this.setY( index, this.borderHeight / 2 - onePlusDelta * radius );
-                        this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
-                        wallHit = true;
-                    }
-                    else {
-                        if ( (y - radius) < -this.borderHeight / 2 ) {
-                            this.setY( index, -this.borderHeight / 2 + onePlusDelta * radius );
-                            this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
-                            wallHit = true;
-                        }
-                    }
-                }
-            }
+                }// end if
+			}//end else
+
+            if ( (y + radius) > this.borderHeight / 2 ) {
+                this.setY( index, this.borderHeight / 2 - onePlusDelta * radius );
+                this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
+                wallHit = true;
+             } //end if
+             else {
+                  if ( (y - radius) < -this.borderHeight / 2 ) {
+                      this.setY( index, -this.borderHeight / 2 + onePlusDelta * radius );
+                      this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
+                      wallHit = true;
+                  }//end if
+            }//end else
+
             if ( wallHit ) {
                 //trace("wall hit at time t = " + this.time);
                 this.nbrCollisionsInThisTimeStep += 1;
                 this.playClickSound();
                 this.colliding = true;
-            }
+            }//end if
         }//end if(borderOn)
     }//end of checkWallAndProcessCollision()
 
