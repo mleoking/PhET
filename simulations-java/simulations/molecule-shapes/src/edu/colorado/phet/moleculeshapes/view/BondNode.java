@@ -145,8 +145,6 @@ public class BondNode extends GLNode {
         final Vector3F colorOffset = towardsEnd.times( length / 4 );
 
         for ( int i = 0; i < bondOrder; i++ ) {
-            // luckily, JME3's transform applies in the convenient "scale then rotation then translate", so our code is compact
-
             aBonds[i].transform.set(
                     Matrix4F.translation( bondCenter.plus( offsets[i] ).minus( colorOffset ) )
 

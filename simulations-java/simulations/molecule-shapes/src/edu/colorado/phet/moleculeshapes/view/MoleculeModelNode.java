@@ -129,7 +129,7 @@ public class MoleculeModelNode extends GLNode {
         for ( LonePairNode lonePairNode : lonePairNodes ) {
             Ray3F transformedRay = lonePairNode.getGlobalTransform().inverseRay( ray );
 
-            // first check against it's bounding box for computational speed
+            // first check against its bounding box for computational speed
             if ( lonePairMesh.getBoundingBox().intersectedBy( transformedRay ) ) {
 
                 // then do the naive "check all the triangles" approach
