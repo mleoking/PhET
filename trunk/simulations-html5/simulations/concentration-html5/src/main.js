@@ -108,10 +108,24 @@ function init() {
     // TODO: Work with JO to "jquery-ize".
     document.onmousedown = onDocumentMouseDown;
     document.onmouseup = onDocumentMouseUp;
-    document.onmousemove = onDocumentMouseMove;
+//    document.onmousemove = onDocumentMouseMove;
+
+    var touchFromJQueryEvent = function ( evt ) {
+        return evt.originalEvent.targetTouches[0];
+    };
+
+    $( canvas ).bind( "mousemove", function ( evt ) {
+        evt.preventDefault();
+        onTouchMove( {x:evt.pageX, y:evt.pageY} );
+    } );
+    $( canvas ).bind( "touchmove", function ( evt ) {
+        evt.preventDefault();
+        var touch = touchFromJQueryEvent( evt );
+        onTouchMove( {x:touch.pageX, y:touch.pageY } );
+    } );
 
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-    document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+//    document.addEventListener( 'touchmove', onDocumentTouchMove, false );
     document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 
     // Disable elastic scrolling.  This is specific to iOS.
@@ -218,9 +232,9 @@ function onDocumentMouseUp( event ) {
     onTouchEnd( {x:event.clientX, y:event.clientY} );
 }
 
-function onDocumentMouseMove( event ) {
-    onTouchMove( {x:event.clientX, y:event.clientY} );
-}
+//function onDocumentMouseMove( event ) {
+//    onTouchMove( {x:event.clientX, y:event.clientY} );
+//}
 
 function onDocumentTouchStart( event ) {
     if ( event.touches.length == 1 ) {
@@ -231,14 +245,14 @@ function onDocumentTouchStart( event ) {
     }
 }
 
-function onDocumentTouchMove( event ) {
-    if ( event.touches.length == 1 ) {
-
-        //in the  the event handler to prevent the event from being propagated to the browser and causing unwanted scrolling events.
-        event.preventDefault();
-        onTouchMove( {x:event.touches[0].pageX, y:event.touches[0].pageY} );
-    }
-}
+//function onDocumentTouchMove( event ) {
+//    if ( event.touches.length == 1 ) {
+//
+//        //in the  the event handler to prevent the event from being propagated to the browser and causing unwanted scrolling events.
+//        event.preventDefault();
+//        onTouchMove( {x:event.touches[0].pageX, y:event.touches[0].pageY} );
+//    }
+//}
 
 function onDocumentTouchEnd( event ) {
     onTouchEnd( {x:event.clientX, y:event.clientY} );
