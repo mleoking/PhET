@@ -255,7 +255,8 @@ public class ChargeView extends Sprite {
         this.chargeGraphic.y = this.stageH/2 - this.myFieldModel.yC;
         if( myFieldModel.outOfBounds ){
             myFieldModel.outOfBounds = false;
-            myMainView.myControlPanel.resetAll();
+            //myMainView.myControlPanel.resetAll();
+            myMainView.myControlPanel.recenterCharge();
         }
     }
 

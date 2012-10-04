@@ -124,7 +124,7 @@ public class ControlPanel extends Canvas {
             setStyle( "borderStyle", "solid" )
             setStyle( "borderColor", 0x00ff00 );  //0x009900
             setStyle( "cornerRadius", 10 );
-            setStyle( "borderThickness", 4 );
+            setStyle( "borderThickness", 5 );
             setStyle( "paddingTop", 15 );
             setStyle( "paddingBottom", 5 );
             setStyle( "paddingRight", 5 );
@@ -215,9 +215,14 @@ public class ControlPanel extends Canvas {
         amplitudeSlider.removeReadout();
         frequencySlider.setLabelText( frequency_str );
         frequencySlider.removeReadout();
+        //
+        // speedSlider.switchLabelAndReadoutPositions();
         speedSlider.setLabelText( speed_str );
         speedSlider.setUnitsText( c_str );
         speedSlider.setReadoutPrecision( 2 );
+        speedSlider.alignReadoutTextRight();
+        speedSlider.setReadoutBackgroundColor( 0x000000 );    //set text background black
+        speedSlider.setReadoutTextColor( 0xffffff );
         speedSlider.setTextColor( 0xffffff );
         speedSlider.drawKnob( 0x00ff00, 0x009900 );
         speedSlider.drawLargeInvisibleHitArea();
@@ -340,6 +345,12 @@ public class ControlPanel extends Canvas {
         this.closeShowVelocityPanel();
         this.setVisibilityOfControls();
         this.setDefaultRadioButton();
+    }
+
+    public function recenterCharge():void{
+        this.myFieldModel.paused = false;
+        this.playPauseButton.paused = false;
+        this.myFieldModel.centerCharge();
     }
 
     //restart() used in linear motion mode

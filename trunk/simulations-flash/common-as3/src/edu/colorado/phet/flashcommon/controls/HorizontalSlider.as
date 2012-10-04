@@ -140,6 +140,19 @@ public class HorizontalSlider extends Sprite {
         this.units_txt.setTextFormat( this.tFormat2 );
     }
 
+    public function setReadoutBackgroundColor( color: uint): void{
+        this.readout_txt.backgroundColor = color;
+    }
+
+    public function setReadoutTextColor( color: uint ):void{
+        this.readout_txt.textColor = color;
+    }
+
+    public function alignReadoutTextRight():void{
+        this.tFormat2.align = TextFormatAlign.RIGHT;
+        this.readout_txt.defaultTextFormat = tFormat2;
+    }
+
     public function setLabelText( label_str: String ): void {
         this.label_txt.text = label_str;
         this.label_txt.setTextFormat( this.tFormat1 );
@@ -148,7 +161,7 @@ public class HorizontalSlider extends Sprite {
 
     public function setUnitsText( str:String ):void{
         this.units_str = str;
-        this.units_txt.text = " " + this.units_str;
+        this.units_txt.text = "" + this.units_str;
     }
 
     public function restrictInput( allowedCharacters:String ):void{
