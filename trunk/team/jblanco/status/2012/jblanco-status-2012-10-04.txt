@@ -1,0 +1,69 @@
+PhET Progress Report, J. Blanco, 10-04-2012
+
+PhET Weekly Progress Report
+John Blanco
+October 4th, 2012
+
+Time period covered: September 20th through October 3rd.  This is a two week period due to a cancelled status meeting.
+
+Energy Forms and Changes - 22.0 hrs
+
+o	Hooked up energy chunk visibility to check box.
+o	Made E's emitted by sun bounce off the clouds.
+o	Made solar panel deactivate and pass sun rays when swapped out.
+o	Added energy chunks to the water when running from faucet.
+o	Animated the falling of the water from the faucet.
+o	Improved layering of nodes so that energy chunks are occluded in some places (such as behind connectors).
+o	Added first cut of energy chunk handling to beaker heater.
+o	Made energy chunks flow through the water-powered generator.
+o	Added a 3rd thermometer to the first tab.
+o	Met with Noah P to review and discuss energy chunk behavior.
+o	Published several versions for review.
+
+Greenhouse - 1.0 hrs
+
+o	Responded to further questions from Sara Harris of UBC about the nature of the model.
+
+Gene Expression Basics - 1.0 hrs
+
+o	Discussed the Sim Completion Checklist with Ariel P.
+
+Forces and Motion Basics - 3.0 hrs
+
+o	Tested and commented on pre-release versions.
+o	Code review.
+
+Tablet Investigation - 38.0 hrs
+
+o	Wrote up initial version of Technical Specification for Masses and Springs project in HTML5.
+o	Worked with JO to get Competentum the source code for Masses and Springs.
+o	Research Safari 5 and 6 with respect to HTML5 compatibility.
+o	Set up and had introductory conversation with Jeff Lin and Paul Cantrell of Bust Out Solutions.
+o	Let Victory Productions and Projective Labs know that we are working with other vendors.
+o	Worked (with Kathy P, Oliver N, and CU administration) on refining contract for agreement with Competentum for porting of Masses and Springs.
+o	Contacted ASSETT office about possible support for porting of sims to HTML5.
+o	Worked with Sam R to provide Google with the information needed from PhET for setting up an OER Developer Conference.
+o	Multiple email exchanges with vendors about rates, terms, working relationships.
+o	Met with Kathy P to discuss and plan short-term HTML5 development plan.
+o	Started ball rolling with pilot efforts with Bust Out Solutions and Quick Left.
+
+Customer Support - 1.0 hrs
+
+o	Helped a high school teacher who needed to download latest simulations for their school.
+o	Sent a message to the Oregon Virtual School District folks about new simulations being available, and reminding them about the availability of meta-data from our web site.
+
+Miscellaneous - 1.0 hrs
+
+o	Responded to Anne Gold about a possible collaboration with Ceres.
+
+Meetings, Email, and Other Administrative Overhead - 9.0 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Checked that SVN mirror on phet-server is working and up to date.
+o	Normal Unfuddle ticket overhead.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays -  0 hrs
+
+o	Will be out on Friday, October 19th.
