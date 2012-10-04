@@ -277,9 +277,9 @@ function onTouchMove( location ) {
     var point = new Point2D( location.x, location.y );
 
     //Testing to see if this spurious value can be avoided, problematic on ipad and android but not on desktop
-    if ( point.x === 0 && point.y === 0 ) {
-        return;
-    }
+//    if ( point.x === 0 && point.y === 0 ) {
+//        return;
+//    }
 
     if ( globals.shakerNode != null && globals.shakerNode.contains( point ) ) {
         canvas.style.cursor = "pointer";
