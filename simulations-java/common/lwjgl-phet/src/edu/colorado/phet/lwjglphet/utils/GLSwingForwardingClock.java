@@ -90,6 +90,10 @@ public class GLSwingForwardingClock implements IClock {
         clock.removeClockListener( swingToGLListenerMap.get( clockListener ) );
     }
 
+    public void removeAllClockListeners() {
+        clock.removeAllClockListeners();
+    }
+
     public void resetSimulationTime() {
         clock.resetSimulationTime();
     }
