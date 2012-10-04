@@ -277,7 +277,7 @@ public class FieldModel {
     public function centerCharge():void{
         this._xC = 0;
         this._yC = 0;
-        _motionType = _MANUAL_WITH_FRICTION;
+        //_motionType = _MANUAL_WITH_FRICTION;        //maintain current motionType
         this.delTPhoton = delTPhotonDefault;
         this._vX = 0;
         this._vY = 0;
