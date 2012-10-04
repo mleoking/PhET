@@ -224,6 +224,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
             updateOnEvent( beforeFrameRender );
         }};
         guiLayer.addChild( controlPanel );
+        guiNodes.add( controlPanel );
         controlPanel.onResize.addUpdateListener(
                 new UpdateListener() {
                     public void update() {
@@ -251,6 +252,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
             }, true );
         }};
         guiLayer.addChild( namePanel );
+        guiNodes.add( namePanel );
     }
 
     @Override public void updateState( final float tpf ) {
