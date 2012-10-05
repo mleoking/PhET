@@ -1,3 +1,4 @@
+10/5/12 interactive equations: if nothing is interactive and slope is undefined, display "x={0} (slope undefined)"
 10/3/12 fix rendering of operators and fraction line in interactive equations
 10/3/12 consolidate equation layout metrics in a base class, used by all equation renderers
 10/3/12 rename EquationNode to StaticEquationNode

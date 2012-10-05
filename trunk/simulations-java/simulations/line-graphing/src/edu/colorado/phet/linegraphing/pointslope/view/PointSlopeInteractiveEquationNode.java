@@ -58,7 +58,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                                               final boolean interactiveY1,
                                               final boolean interactiveSlope,
                                               PhetFont interactiveFont,
-                                              PhetFont staticFont,
+                                              final PhetFont staticFont,
                                               final Color staticColor ) {
         super( staticFont.getSize() );
 
@@ -133,7 +133,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
                 updatingControls = false;
 
                 // Update the layout
-                updateLayout( line, interactiveX1, interactiveY1, interactiveSlope, staticColor );
+                updateLayout( line, interactiveX1, interactiveY1, interactiveSlope, staticFont, staticColor );
             }
         } );
     }
@@ -143,10 +143,16 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
      * This is based on which parts of the equation are interactive, and what the
      * non-interactive parts of the equation should look like when written in simplified form.
      */
-    private void updateLayout( Line line, boolean interactiveX1, boolean interactiveY1, boolean interactiveSlope, Color staticColor ) {
+    private void updateLayout( Line line, boolean interactiveX1, boolean interactiveY1, boolean interactiveSlope, PhetFont staticFont, Color staticColor ) {
 
         // Start by adding all nodes, then we'll selectively remove some nodes based on the desired form of the equation.
-        {
+        removeAllChildren();
+        if ( !line.isSlopeDefined() && !interactiveX1 && !interactiveY1 && !interactiveSlope ) {
+            // slope is undefined and nothing is interactive
+            addChild( new UndefinedSlopeNode( line, staticFont, staticColor ) );
+            return;
+        }
+        else {
             // nodes that may be interactive first, so we can more easily identify layout problems
             addChild( y1Node );
             addChild( x1Node );
@@ -380,7 +386,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
         }
 
         // undefined-slope indicator, added after layout has been done
-        if ( line.run == 0 ) {
+        if ( !line.isSlopeDefined() ) {
             undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
             undefinedSlopeIndicator.setOffset( 0, fractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + 2 );
             addChild( undefinedSlopeIndicator );

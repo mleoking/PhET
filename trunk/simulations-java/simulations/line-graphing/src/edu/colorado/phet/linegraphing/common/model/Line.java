@@ -45,6 +45,10 @@ public class Line {
         return rise / run;
     }
 
+    public boolean isSlopeDefined() {
+        return run != 0;
+    }
+
     /*
      * Creates a line using point-slope description: (y - y1) = m(x - x1)
      * Need to use a factory method because params are identical to primary constructor.
