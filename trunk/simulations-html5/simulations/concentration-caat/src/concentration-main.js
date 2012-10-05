@@ -12,6 +12,25 @@
                 setBackgroundImage( director.getImage( 'shaker' ), true ).setRotation( -Math.PI / 4 );
         shaker.enableDrag();
         scene.addChild( shaker );
+
+        scene.createTimer( 0, 1000, function ( scene_time, timer_time, timertask_instance ) {   // timeout
+                               timertask_instance.reset( scene_time );
+
+                               var w = 20;
+                               scene.addChild(
+                                       new CAAT.Actor().
+                                               setBounds(
+                                               (director.width * Math.random()) >> 0,
+                                               (director.height * Math.random()) >> 0,
+                                               w,
+                                               w ).
+                                               setFillStyle( 'rgb(' + 255 + ',' + 0 + ',' + 0 + ')' )
+                               );
+                           },
+                           function ( scene_time, timer_time, timertask_instance ) {   // tick
+                           },
+                           function ( scene_time, timer_time, timertask_instance ) {   // cancel
+                           } )
     }
 
     /**
