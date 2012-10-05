@@ -66,11 +66,41 @@
         var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 752, 520 );
 
         var rootNode = new CAAT.ActorContainer().setSize( director.width, director.height );
+
+        var slider = new CAAT.ActorContainer().setSize( director.width / 6, director.height / 4 );
+
+        var knob = new CAAT.Actor().setBackgroundImage( director.getImage( 'slider-knob' ), true ).setPosition( 90, 34 );
+        knob.enableDrag();
+        knob.mouseDrag = function ( mouseEvent ) {
+
+            var pt = knob.modelToView( new CAAT.Point( mouseEvent.x, mouseEvent.y ) );
+            knob.parent.viewToModel( pt );
+
+            if ( knob.__d_ax === -1 || this.__d_ay === -1 ) {
+                knob.__d_ax = pt.x;
+                knob.__d_ay = +1;
+                knob.__relativeTouchPoint = knob.x - pt.x;
+            }
+
+            var knobX = pt.x + knob.__relativeTouchPoint;
+            if ( knobX > 177 ) {
+                knobX = 177;
+            }
+            if ( knobX < 90 ) {
+                knobX = 90;
+            }
+            knob.x = knobX;
+        };
+
+        slider.addChild( knob );
+
         rootNode.addChild( fluid );
         rootNode.addChild( beaker );
         rootNode.addChild( topFaucetPipe );
         rootNode.addChild( topFaucet );
         rootNode.addChild( shaker );
+
+        rootNode.addChild( slider );
 
         rootNode.addChild( bottomFaucet );
         scene.addChild( rootNode );
@@ -93,6 +123,7 @@
                                timertask_instance.reset( scene_time );
 
 //                               console.log( topFaucetPipe.x + ", " + topFaucetPipe.y );
+//                               console.log( knob.x + ", " + knob.y );
 
                                if ( shaker.y != shaker.lastY ) {
                                    var w = 20;
@@ -122,6 +153,7 @@
                                    }
                                }
                                shaker.lastY = shaker.y;
+//                               knob.y = 100;
                            },
                            function ( scene_time, timer_time, timertask_instance ) {   // tick
                            },
@@ -153,7 +185,8 @@
                         [
                             {id:'shaker', url:'resources/shaker.png'},
                             {id:'faucet_front', url:'resources/faucet_front.png'},
-                            {id:'faucet_pipe_long', url:'resources/faucet_pipe_long.png'}
+                            {id:'faucet_pipe_long', url:'resources/faucet_pipe_long.png'},
+                            {id:'slider-knob', url:'resources/slider-knob.png'}
                         ],
 
                         /*
