@@ -67,7 +67,7 @@
                 distance = 1;
             }
 
-            var source = {red:200, green:200, blue:200};
+            var source = {red:200, green:200, blue:255};
             var destination = {red:255, green:0, blue:0};
             var relative = {
                 red:interpolate( 0, source.red, 1, destination.red, distance ),
