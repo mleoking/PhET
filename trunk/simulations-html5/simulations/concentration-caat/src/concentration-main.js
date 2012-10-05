@@ -16,18 +16,6 @@
         shaker.enableDrag();
         shaker.lastY = shaker.y;
 
-//        var p = new CAAT.Path().beginPath( 0, 0 );
-//        p.addLineTo( 100, 100, "#000" );
-//        p.endPath().setInteractive( false );
-//
-//        var pathActor = new CAAT.PathActor().setPath( p );
-//        pathActor.setSize( director.width, director.height );
-////        pathActor.setStrokeStyle();
-//        pathActor.setLineWidth(10);
-////        pathActor.showBoundingBox(true);
-//        scene.addChild( pathActor );
-//
-
         var beaker = new CAAT.Actor().setSize( director.width, director.height );
 
         var lipWidth = 40;
