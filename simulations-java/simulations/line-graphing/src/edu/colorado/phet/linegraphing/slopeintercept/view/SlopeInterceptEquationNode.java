@@ -16,7 +16,7 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.DynamicValueNode;
-import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.MinusNode;
 import edu.colorado.phet.linegraphing.common.view.PlusNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
@@ -29,7 +29,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * User interface for manipulating a slope-intercept equation: y = mx + b
+ * Renderer for slope-intercept equations, with optional interactivity of slope and intercept.
+ * General slope-intercept form is: y = mx + b
  * <p/>
  * Spinners are used to increment/decrement parts of the equation that are specified as being interactive.
  * Non-interactive parts of the equation are expressed in a form that is typical of how the equation
@@ -37,7 +38,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNode {
+public class SlopeInterceptEquationNode extends EquationNode {
 
     private final Property<Double> rise, run, yIntercept; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
@@ -49,7 +50,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
     private PNode undefinedSlopeIndicator;
 
     // Constructor for a static line.
-    public SlopeInterceptInteractiveEquationNode( Line line, PhetFont font, Color color ) {
+    public SlopeInterceptEquationNode( Line line, PhetFont font, Color color ) {
         this( new Property<Line>( line.simplified() ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
@@ -58,15 +59,15 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
               font, font, color );
     }
 
-    public SlopeInterceptInteractiveEquationNode( final Property<Line> interactiveLine,
-                                                  Property<DoubleRange> riseRange,
-                                                  Property<DoubleRange> runRange,
-                                                  Property<DoubleRange> yInterceptRange,
-                                                  final boolean interactiveSlope,
-                                                  final boolean interactiveIntercept,
-                                                  PhetFont interactiveFont,
-                                                  final PhetFont staticFont,
-                                                  final Color staticColor ) {
+    public SlopeInterceptEquationNode( final Property<Line> interactiveLine,
+                                       Property<DoubleRange> riseRange,
+                                       Property<DoubleRange> runRange,
+                                       Property<DoubleRange> yInterceptRange,
+                                       final boolean interactiveSlope,
+                                       final boolean interactiveIntercept,
+                                       PhetFont interactiveFont,
+                                       final PhetFont staticFont,
+                                       final Color staticColor ) {
         super( staticFont.getSize() );
 
         this.rise = new Property<Double>( interactiveLine.get().rise );

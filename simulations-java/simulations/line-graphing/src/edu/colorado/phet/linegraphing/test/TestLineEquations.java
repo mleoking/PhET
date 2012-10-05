@@ -14,8 +14,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeInteractiveEquationNode;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptInteractiveEquationNode;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -47,10 +47,10 @@ public class TestLineEquations {
             Property<Line> line = new Property<Line>( Line.createSlopeIntercept( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
 
             // equations, all combinations of interactivity
-            SlopeInterceptInteractiveEquationNode equationNode1 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, y1Range, true, true, interactiveFont, staticFont, staticColor );
-            SlopeInterceptInteractiveEquationNode equationNode2 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, y1Range, true, false, interactiveFont, staticFont, staticColor );
-            SlopeInterceptInteractiveEquationNode equationNode3 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, y1Range, false, true, interactiveFont, staticFont, staticColor );
-            SlopeInterceptInteractiveEquationNode equationNode4 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, y1Range, false, false, interactiveFont, staticFont, staticColor );
+            SlopeInterceptEquationNode equationNode1 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, true, true, interactiveFont, staticFont, staticColor );
+            SlopeInterceptEquationNode equationNode2 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, true, false, interactiveFont, staticFont, staticColor );
+            SlopeInterceptEquationNode equationNode3 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, false, true, interactiveFont, staticFont, staticColor );
+            SlopeInterceptEquationNode equationNode4 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, false, false, interactiveFont, staticFont, staticColor );
 
             // rendering order
             slopeInterceptParent.addChild( equationNode1 );
@@ -72,12 +72,12 @@ public class TestLineEquations {
             Property<Line> line = new Property<Line>( Line.createPointSlope( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ) );
 
             // equations, all combinations of interactivity
-            PointSlopeInteractiveEquationNode equationNode1 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, true, interactiveFont, staticFont, staticColor );
-            PointSlopeInteractiveEquationNode equationNode2 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, true, interactiveFont, staticFont, staticColor );
-            PointSlopeInteractiveEquationNode equationNode3 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, false, interactiveFont, staticFont, staticColor );
-            PointSlopeInteractiveEquationNode equationNode4 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, true, false, false, interactiveFont, staticFont, staticColor );
-            PointSlopeInteractiveEquationNode equationNode5 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, true, false, interactiveFont, staticFont, staticColor );
-            PointSlopeInteractiveEquationNode equationNode6 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, false, interactiveFont, staticFont, staticColor );
+            PointSlopeEquationNode equationNode1 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, true, interactiveFont, staticFont, staticColor );
+            PointSlopeEquationNode equationNode2 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, true, interactiveFont, staticFont, staticColor );
+            PointSlopeEquationNode equationNode3 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, true, true, false, interactiveFont, staticFont, staticColor );
+            PointSlopeEquationNode equationNode4 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, true, false, false, interactiveFont, staticFont, staticColor );
+            PointSlopeEquationNode equationNode5 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, false, true, false, interactiveFont, staticFont, staticColor );
+            PointSlopeEquationNode equationNode6 = new PointSlopeEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, false, interactiveFont, staticFont, staticColor );
 
             // rendering order
             pointSlopeParent.addChild( equationNode1 );

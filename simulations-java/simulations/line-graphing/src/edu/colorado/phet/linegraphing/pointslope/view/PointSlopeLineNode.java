@@ -23,6 +23,6 @@ public class PointSlopeLineNode extends LineNode {
 
     // Creates the line's equation in point-slope form.
     @Override protected EquationNode createEquationNode( Line line, PhetFont font, Color color ) {
-        return new PointSlopeInteractiveEquationNode( line, font, color );
+        return new PointSlopeEquationNode( line, font, color );
     }
 }

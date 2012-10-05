@@ -45,8 +45,8 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeInteractiveEquationNode;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptInteractiveEquationNode;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -168,14 +168,14 @@ public class RewardNode extends PhetPNode {
         final PhetFont font = new PhetFont( Font.BOLD, 24 );
         PNode node;
         if ( useSlopeInterceptForm ) {
-            node = new SlopeInterceptInteractiveEquationNode(
+            node = new SlopeInterceptEquationNode(
                     Line.createSlopeIntercept( getRandomNonZeroInteger( -20, 20 ),
                                                getRandomNonZeroInteger( -20, 20 ),
                                                getRandomNonZeroInteger( -20, 20 ) ),
                     font, color );
         }
         else {
-            node = new PointSlopeInteractiveEquationNode(
+            node = new PointSlopeEquationNode(
                     Line.createPointSlope( getRandomNonZeroInteger( -20, 20 ),
                                            getRandomNonZeroInteger( -20, 20 ),
                                            getRandomNonZeroInteger( -20, 20 ),

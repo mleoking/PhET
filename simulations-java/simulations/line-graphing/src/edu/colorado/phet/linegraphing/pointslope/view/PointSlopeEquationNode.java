@@ -16,7 +16,7 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.DynamicValueNode;
-import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.MinusNode;
 import edu.colorado.phet.linegraphing.common.view.PlusNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
@@ -29,16 +29,16 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * User interface for manipulating a point-slope equation: (y - y1) = m(x - x1)
+ * Renderer for point-slope equations, with optional interactivity of point and slope.
+ * General point-slope form is: (y - y1) = m(x - x1)
  * <p/>
  * Spinners are used to increment/decrement parts of the equation that are specified as being interactive.
  * Non-interactive parts of the equation are expressed in a form that is typical of how the equation
- * would normally be written.  For example, if y1 is zero, then the right side of the equation is written
- * as "y" instead of "(y - y1)".
+ * would normally be written. For example, if the slope is -1, then only the sign is written, not "-1".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
+public class PointSlopeEquationNode extends EquationNode {
 
     private final Property<Double> rise, run, x1, y1; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
@@ -51,7 +51,7 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
     private PNode undefinedSlopeIndicator;
 
     // Constructor for a static line.
-    public PointSlopeInteractiveEquationNode( Line line, PhetFont font, Color color ) {
+    public PointSlopeEquationNode( Line line, PhetFont font, Color color ) {
         this( new Property<Line>( line.simplified() ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
@@ -61,17 +61,17 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
               font, font, color );
     }
 
-    public PointSlopeInteractiveEquationNode( final Property<Line> interactiveLine,
-                                              Property<DoubleRange> riseRange,
-                                              Property<DoubleRange> runRange,
-                                              Property<DoubleRange> x1Range,
-                                              Property<DoubleRange> y1Range,
-                                              final boolean interactiveX1,
-                                              final boolean interactiveY1,
-                                              final boolean interactiveSlope,
-                                              PhetFont interactiveFont,
-                                              final PhetFont staticFont,
-                                              final Color staticColor ) {
+    public PointSlopeEquationNode( final Property<Line> interactiveLine,
+                                   Property<DoubleRange> riseRange,
+                                   Property<DoubleRange> runRange,
+                                   Property<DoubleRange> x1Range,
+                                   Property<DoubleRange> y1Range,
+                                   final boolean interactiveX1,
+                                   final boolean interactiveY1,
+                                   final boolean interactiveSlope,
+                                   PhetFont interactiveFont,
+                                   final PhetFont staticFont,
+                                   final Color staticColor ) {
         super( staticFont.getSize() );
 
         this.rise = new Property<Double>( interactiveLine.get().rise );

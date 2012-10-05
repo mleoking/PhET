@@ -1,3 +1,4 @@
+10/5/12 flatten EquationNode hierarchy, rename subclasses
 10/5/12 delete EquationFactory hierarchy, replace usages with EquationNode instantiations [68857]
 10/5/12 merge implementations of equations [68855]
 10/5/12 interactive equations: if nothing is interactive and slope is undefined, display "x={0} (slope undefined)"

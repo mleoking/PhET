@@ -24,6 +24,6 @@ public class SlopeInterceptLineNode extends LineNode {
 
     // Creates the line's equation in slope-intercept form.
     protected EquationNode createEquationNode( Line line, PhetFont font, Color color ) {
-        return new SlopeInterceptInteractiveEquationNode( line, font, color );
+        return new SlopeInterceptEquationNode( line, font, color );
     }
 }
