@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestLineEquations {
+public class TestEquationNodes {
 
     public static void main( String[] args ) {
 
@@ -107,7 +107,7 @@ public class TestLineEquations {
         pointSlopeParent.setOffset( slopeInterceptParent.getFullBoundsReference().getMaxX() + xSpacing, slopeInterceptParent.getYOffset() );
 
         // frame
-        JFrame frame = new JFrame( TestLineEquations.class.getName() );
+        JFrame frame = new JFrame( TestEquationNodes.class.getName() );
         frame.setContentPane( canvas );
         frame.pack();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
