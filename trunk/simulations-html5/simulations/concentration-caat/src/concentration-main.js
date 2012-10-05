@@ -9,7 +9,7 @@
         var scene = director.createScene();
 
         var shaker = new CAAT.Actor().
-                setBackgroundImage( director.getImage( 'shaker' ), true );
+                setBackgroundImage( director.getImage( 'shaker' ), true ).setRotation( -Math.PI / 4 );
         shaker.enableDrag();
         scene.addChild( shaker );
     }
