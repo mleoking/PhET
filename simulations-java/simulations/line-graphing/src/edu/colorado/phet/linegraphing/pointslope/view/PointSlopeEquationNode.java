@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.pointslope.view;
 
 import java.awt.Color;
-import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -403,9 +402,5 @@ public class PointSlopeEquationNode extends EquationNode {
             undefinedSlopeIndicator.setOffset( 0, fractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + 2 );
             addChild( undefinedSlopeIndicator );
         }
-    }
-
-    @Override public void setPaintDeep( Paint paint ) {
-        //TODO
     }
 }
