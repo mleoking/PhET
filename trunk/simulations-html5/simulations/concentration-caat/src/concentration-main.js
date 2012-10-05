@@ -1,5 +1,30 @@
 (function () {
 
+    function createButton( director ) {
+        var actor = new CAAT.Actor().
+                setSize( 80, 40 ).
+                setPosition( 1024 - 80 - 40, 768 - 40 );
+
+        actor.paint = function ( director, time ) {
+
+            var ctx = director.ctx;
+            ctx.save();
+
+            ctx.fillStyle = this.pointed ? '#f3f' : 'orange';
+            ctx.fillRect( 0, 0, this.width, this.height );
+
+            ctx.strokeStyle = this.pointed ? 'gray' : 'black';
+            ctx.strokeRect( 0, 0, this.width, this.height );
+
+            ctx.restore();
+
+            ctx.font = '18px sans-serif';
+            ctx.fillStyle = 'black';
+            ctx.fillText( 'Reset All', 3, 28 );
+        };
+
+        return actor;
+    }
 
     function interpolate( x0, y0, x1, y1, x ) {
         return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
@@ -136,6 +161,11 @@
         rootNode.addChild( slider );
 
         rootNode.addChild( bottomFaucet );
+        var resetAllButton = createButton( director );
+        resetAllButton.mouseClick = function ( e ) {
+            document.location.reload( true );
+        };
+        rootNode.addChild( resetAllButton );
         scene.addChild( rootNode );
 
         //This resize strategy is buggy on ipad if you change orientation more than once
@@ -212,7 +242,6 @@
                                    }
                                }
                                shaker.lastY = shaker.y;
-//                               knob.y = 100;
                            },
                            function ( scene_time, timer_time, timertask_instance ) {   // tick
                            },
