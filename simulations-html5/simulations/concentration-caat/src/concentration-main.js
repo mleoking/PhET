@@ -14,6 +14,7 @@
         var shaker = new CAAT.Actor().
                 setBackgroundImage( director.getImage( 'shaker' ), true ).setRotation( -Math.PI / 4 );
         shaker.enableDrag();
+        shaker.lastY = shaker.y;
         scene.addChild( shaker );
 
         var crystals = [];
@@ -26,20 +27,19 @@
             return this.push.apply( this, rest );
         };
 
-        scene.createTimer( 0, 30, function ( scene_time, timer_time, timertask_instance ) {   // timeout
+        scene.createTimer( 0, 30,
+                           function ( scene_time, timer_time, timertask_instance ) {   // timeout
                                timertask_instance.reset( scene_time );
 
-                               var w = 20;
-                               var crystal = new CAAT.Actor().
-                                       setBounds(
-                                       shaker.x + 20 + Math.random() * 50,
-                                       shaker.y + 140 + Math.random() * 20,
-                                       w,
-                                       w ).
-                                       setFillStyle( 'rgb(' + 255 + ',' + 0 + ',' + 0 + ')' );
-                               crystal.velocity = 0;
-                               scene.addChild( crystal );
-                               crystals.push( crystal );
+                               if ( shaker.y != shaker.lastY ) {
+                                   var w = 20;
+                                   var crystal = new CAAT.Actor().
+                                           setBounds( shaker.x + 20 + Math.random() * 50, shaker.y + 140 + Math.random() * 20, w, w ).
+                                           setFillStyle( 'rgb(' + 255 + ',' + 0 + ',' + 0 + ')' );
+                                   crystal.velocity = 0;
+                                   scene.addChild( crystal );
+                                   crystals.push( crystal );
+                               }
 
                                for ( var index = 0; index < crystals.length; index++ ) {
                                    crystals[index].velocity = crystals[index].velocity + 1;
@@ -54,6 +54,7 @@
                                        i--;
                                    }
                                }
+                               shaker.lastY = shaker.y;
                            },
                            function ( scene_time, timer_time, timertask_instance ) {   // tick
                            },
