@@ -1,59 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport"
-          content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="white">
-    <title>Concentration</title>
-    <script type="text/javascript" src="contrib/jquery-1.5.1.min.js"></script>
-    <script type="text/javascript" src="main.js"></script>
-
-    <style type="text/css">
-        html, body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: #fff;
-        }
-
-        #canvas {
-            position: absolute;
-        }
-
-        #topleftui {
-            position: absolute;
-            left: 0;
-            top: 0;
-            color: white;
-            background-color: #222;
-            padding: 0.25em;
-            font-size: 12px;
-        }
-
-        #topleftui label:not(:first-child) {
-            padding-left: 1em;
-        }
-
-    </style>
+    <title></title>
 </head>
+<body>
+<script type="text/javascript" src="contrib/caat.js"></script>
+<script type="text/javascript" src="concentration.js"></script>
+<script type="text/javascript">
+    (function () {
 
-<body id="home">
+        /**
+         * This function will be called to let you define new scenes that will be
+         * shown after the splash screen.
+         * @param director
+         */
+        function createScenes( director ) {
+            var scene = director.createScene();
 
-<!--Couldn't get this working yet.-->
-<!--<button style="width:65px;height:65px" onClick="window.location.reload()"><b>Reload the Page!</b></button>-->
-<!---->
-<!--<a href="javascript:location.reload(true)">Refresh this page</a>-->
+            for ( var i = 0; i < 30; i++ ) {
+                var w = 30 + (100 * Math.random()) >> 0;
+                var r = (255 * Math.random()) >> 0;
+                var g = (255 * Math.random()) >> 0;
+                var b = (255 * Math.random()) >> 0;
+                scene.addChild(
+                        new CAAT.Actor().
+                                setBounds(
+                                (director.width * Math.random()) >> 0,
+                                (director.height * Math.random()) >> 0,
+                                w,
+                                w ).
+                                setFillStyle( 'rgb(' + r + ',' + g + ',' + b + ')' )
+                );
+            }
+        }
 
-<canvas id="canvas" width="1024" height="768">
-    Fallback content
-</canvas>
+        ;
 
-<div id="debugging" style="position: absolute; top: 0; left: 0; color: #000;">
-    This is a debugging area
-</div>
+        /**
+         * Startup it all up when the document is ready.
+         * Change for your favorite frameworks initialization code.
+         */
+        window.addEventListener(
+                'load',
+                function () {
+                    CAAT.modules.initialization.init(
+                            /* canvas will be 800x600 pixels */
+                            window.innerWidth, window.innerHeight,
 
+                            /* and will be added to the end of document. set an id of a canvas or div element */
+                            undefined,
+
+                            /*
+                             load these images and set them up for non splash scenes.
+                             image elements must be of the form:
+                             {id:'<unique string id>',    url:'<url to image>'}
+
+                             No images can be set too.
+                             */
+                            [
+                            ],
+
+                            /*
+                             onEndSplash callback function.
+                             Create your scenes on this method.
+                             */
+                            createScenes
+
+                    );
+                },
+                false );
+    })();
+</script>
 </body>
 </html>
