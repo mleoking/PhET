@@ -22,10 +22,12 @@
                             w ).
                             setFillStyle( 'rgb(' + r + ',' + g + ',' + b + ')' )
             );
+            scene.addChild(
+                    new CAAT.Actor().
+                            setBackgroundImage( director.getImage( 'shaker' ), true )
+            );
         }
     }
-
-    ;
 
     /**
      * Startup it all up when the document is ready.
@@ -49,6 +51,7 @@
                          No images can be set too.
                          */
                         [
+                            {id:'shaker', url:'resources/shaker.png'}
                         ],
 
                         /*
