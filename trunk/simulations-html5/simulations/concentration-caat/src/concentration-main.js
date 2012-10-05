@@ -180,7 +180,18 @@
             var min = Math.min( sx, sy );
             rootNode.setScaleAnchored( min, min, 0, 0 );
         };
-        director.enableResizeEvents( CAAT.Director.prototype.RESIZE_BOTH, onResizeCallback );
+
+        //http://stackoverflow.com/questions/7814984/detect-ios5-within-mobile-safari-javascript-preferred
+        // this helps detect minor versions such as 5_0_1
+        //TODO: would be nice to get resizing working properly on ios
+        if ( navigator.userAgent.match( /OS 5(_\d)+ like Mac OS X/i ) || navigator.userAgent.match( /OS 6(_\d)+ like Mac OS X/i ) ) {
+//            document.write( "You have iOS 5 or 6!" );
+        }
+        else {
+            director.enableResizeEvents( CAAT.Director.prototype.RESIZE_BOTH, onResizeCallback );
+        }
+
+        //causes buggy behavior on ipad in safari
         onResizeCallback( director, director.width, director.height );
 
         //TODO: Center content in the window
