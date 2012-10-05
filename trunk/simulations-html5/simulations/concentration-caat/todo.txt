@@ -1,1 +1,3 @@
 show a frame rate readout
+pinch to zoom on the frame
+respect size of target window

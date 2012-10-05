@@ -62,17 +62,17 @@
         };
 
         var topFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 100, 50 );
-        var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 761, 520 );
+        var topFaucetPipe = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_pipe_long' ), true ).setPosition( -292, 82 );
+        var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 752, 520 );
 
         var rootNode = new CAAT.ActorContainer().setSize( director.width, director.height );
         rootNode.addChild( fluid );
         rootNode.addChild( beaker );
-
+        rootNode.addChild( topFaucetPipe );
         rootNode.addChild( topFaucet );
         rootNode.addChild( shaker );
 
         rootNode.addChild( bottomFaucet );
-
         scene.addChild( rootNode );
 
         //Scale down where necessary on smaller screens
@@ -92,7 +92,7 @@
                            function ( scene_time, timer_time, timertask_instance ) {   // timeout
                                timertask_instance.reset( scene_time );
 
-//                               console.log( bottomFaucet.x + ", " + bottomFaucet.y );
+//                               console.log( topFaucetPipe.x + ", " + topFaucetPipe.y );
 
                                if ( shaker.y != shaker.lastY ) {
                                    var w = 20;
@@ -152,7 +152,8 @@
                          */
                         [
                             {id:'shaker', url:'resources/shaker.png'},
-                            {id:'faucet_front', url:'resources/faucet_front.png'}
+                            {id:'faucet_front', url:'resources/faucet_front.png'},
+                            {id:'faucet_pipe_long', url:'resources/faucet_pipe_long.png'}
                         ],
 
                         /*
