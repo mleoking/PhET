@@ -9,7 +9,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptInteractiveEquationNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -25,7 +25,7 @@ public abstract class GTL_SI_ChallengeNode extends GTL_ChallengeNode {
 
     // Creates the equation portion of the view.
     @Override protected EquationNode createEquationNode( Line line, PhetFont font, Color color ) {
-        return new SlopeInterceptInteractiveEquationNode( line, font, color );
+        return new SlopeInterceptEquationNode( line, font, color );
     }
 
 }

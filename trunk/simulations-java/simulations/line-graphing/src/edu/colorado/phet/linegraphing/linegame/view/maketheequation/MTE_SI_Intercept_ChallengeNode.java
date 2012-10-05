@@ -9,10 +9,10 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptInteractiveEquationNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -28,12 +28,12 @@ public class MTE_SI_Intercept_ChallengeNode extends MTE_SI_ChallengeNode {
     }
 
     // Creates the equation portion of the view.
-    @Override protected InteractiveEquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor ) {
-        return new SlopeInterceptInteractiveEquationNode( line,
-                                                          new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
-                                                          new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
-                                                          new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
-                                                          false, true,
-                                                          interactiveFont, staticFont, staticColor );
+    @Override protected EquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor ) {
+        return new SlopeInterceptEquationNode( line,
+                                               new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                               new Property<DoubleRange>( new DoubleRange( graph.xRange ) ),
+                                               new Property<DoubleRange>( new DoubleRange( graph.yRange ) ),
+                                               false, true,
+                                               interactiveFont, staticFont, staticColor );
     }
 }

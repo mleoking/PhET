@@ -21,7 +21,6 @@ import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
-import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
@@ -212,7 +211,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
     }
 
     // Creates the "guess" equation portion of the view.
-    protected abstract InteractiveEquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor );
+    protected abstract EquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor );
 
     // Creates the "answer" equation portion of the view.
     protected abstract EquationNode createAnswerEquationNode( Line line, PhetFont font, Color color );

@@ -24,9 +24,9 @@ class SlopeInterceptEquationControls extends EquationControls {
                model.savedLines,
                viewProperties.interactiveEquationVisible,
                viewProperties.linesVisible,
-               new SlopeInterceptInteractiveEquationNode( model.interactiveLine, model.riseRange, model.runRange, model.y1Range,
-                                                          true, true,
-                                                          LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT,
-                                                          LGColors.STATIC_EQUATION_ELEMENT ) );
+               new SlopeInterceptEquationNode( model.interactiveLine, model.riseRange, model.runRange, model.y1Range,
+                                               true, true,
+                                               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT,
+                                               LGColors.STATIC_EQUATION_ELEMENT ) );
     }
 }
