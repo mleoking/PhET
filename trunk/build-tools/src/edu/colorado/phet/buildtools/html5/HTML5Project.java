@@ -56,8 +56,14 @@ public class HTML5Project extends PhetProject {
     }
 
     @Override public boolean build() throws Exception {
+
+        //TODO: Clear deploy dir?
+
         //Copy everything from source to destination
-//        FileUtils.copyRecursive( getSourceRoots()[0], getDeployDir() );
+        for ( File sourceRoot : getSourceRoots() ) {
+            FileUtils.copyRecursive( sourceRoot, getDeployDir() );
+        }
+
 //        File[] sourceRoots = getSourceRoots();
 //        String text = "";
 //        for ( File sourceRoot : sourceRoots ) {
