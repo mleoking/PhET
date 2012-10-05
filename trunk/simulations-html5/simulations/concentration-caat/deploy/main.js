@@ -98,12 +98,6 @@ $( window ).resize( resizer );
 // Initialize the canvas, context,
 function init() {
 
-    var debuggingArea = $( '#debugging' );
-    debuggingArea[0].onselectstart = function () {
-        return false;
-    };
-    debuggingArea.html( "This is using jQuery to set it " );
-
     // Initialize references to the HTML5 canvas and its context.
     canvas = $( '#canvas' )[0];
     if ( canvas.getContext ) {
