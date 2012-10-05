@@ -64,9 +64,7 @@
         var topFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 100, 50 );
         var topFaucetPipe = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_pipe_long' ), true ).setPosition( -292, 82 );
         var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 752, 520 );
-
         var rootNode = new CAAT.ActorContainer().setSize( director.width, director.height );
-
         var slider = new CAAT.ActorContainer().setSize( director.width / 6, director.height / 4 );
 
         var knob = new CAAT.Actor().setBackgroundImage( director.getImage( 'slider-knob' ), true ).setPosition( 90, 34 );
@@ -136,6 +134,15 @@
                                        crystal.velocity = 0;
                                        rootNode.addChild( crystal );
                                        crystals.push( crystal );
+                                   }
+                               }
+
+                               var sliderAmount = (knob.x - 90) / 177.0;
+                               if ( sliderAmount > 0 ) {
+                                   //add fluid
+                                   fluidHeight = fluidHeight + 1 * sliderAmount * 4;
+                                   if ( fluidHeight > beakerHeight ) {
+                                       fluidHeight = beakerHeight;
                                    }
                                }
 
