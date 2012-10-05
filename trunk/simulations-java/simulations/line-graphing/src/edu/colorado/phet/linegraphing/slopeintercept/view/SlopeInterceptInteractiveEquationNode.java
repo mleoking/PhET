@@ -50,7 +50,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
 
     // Constructor for a static line.
     public SlopeInterceptInteractiveEquationNode( Line line, PhetFont font, Color color ) {
-        this( new Property<Line>( line ),
+        this( new Property<Line>( line.simplified() ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),

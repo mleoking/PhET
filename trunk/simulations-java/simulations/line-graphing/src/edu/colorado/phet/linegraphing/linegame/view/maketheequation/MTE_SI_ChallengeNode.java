@@ -9,7 +9,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptInteractiveEquationNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -24,7 +24,7 @@ public abstract class MTE_SI_ChallengeNode extends MTE_ChallengeNode {
     }
 
     @Override protected EquationNode createAnswerEquationNode( Line line, PhetFont font, Color color ) {
-        return new SlopeInterceptEquationFactory().createNode( line, font, color );
+        return new SlopeInterceptInteractiveEquationNode( line, font, color );
     }
 
     // Creates the graph portion of the view.

@@ -22,7 +22,7 @@ import edu.colorado.phet.linegraphing.common.view.X2Y2DragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationFactory;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeInteractiveEquationNode;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeLineNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -46,7 +46,7 @@ public class GTL_SI_Points_ChallengeNode extends GTL_SI_ChallengeNode {
      * the y intercept may be at a non-integer value.
      */
     @Override protected EquationNode createEquationNode( Line line, PhetFont font, Color color ) {
-        return new PointSlopeEquationFactory().createNode( line, font, color );
+        return new PointSlopeInteractiveEquationNode( line, font, color );
     }
 
     // Creates the graph portion of the view.
