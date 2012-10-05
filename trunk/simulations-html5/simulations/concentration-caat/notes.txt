@@ -1,0 +1,1 @@
+Cocoon-js would not run on android with caat.js in a contrib/ directory

@@ -96,13 +96,14 @@ CAAT.modules.initialization.init = function ( width, height, runHere, imagesURL,
                      * curtains.
                      * just perform a director.setScene(0) to play first director's scene.
                      */
-                    director.easeIn(
-                            0,
-                            CAAT.Scene.prototype.EASE_SCALE,
-                            2000,
-                            false,
-                            CAAT.Actor.prototype.ANCHOR_CENTER,
-                            new CAAT.Interpolator().createElasticOutInterpolator( 2.5, .4 ) );
+//                    director.easeIn(
+//                            0,
+//                            CAAT.Scene.prototype.EASE_ROTATION,
+//                            1000,
+//                            false,
+//                            CAAT.Actor.prototype.ANCHOR_CENTER,
+//                            new CAAT.Interpolator().createElasticOutInterpolator( 2.5, .4 ) );
+                    director.setScene( 0 );
 
                     CAAT.loop( 60 );
 

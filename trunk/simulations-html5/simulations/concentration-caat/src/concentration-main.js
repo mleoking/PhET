@@ -8,7 +8,11 @@
     function createScenes( director ) {
         var scene = director.createScene();
 
-        for ( var i = 0; i < 30; i++ ) {
+        var shaker = new CAAT.Actor().
+                setBackgroundImage( director.getImage( 'shaker' ), true );
+        shaker.enableDrag();
+        scene.addChild( shaker );
+        for ( var i = 0; i < 2; i++ ) {
             var w = 30 + (100 * Math.random()) >> 0;
             var r = (255 * Math.random()) >> 0;
             var g = (255 * Math.random()) >> 0;
@@ -21,10 +25,6 @@
                             w,
                             w ).
                             setFillStyle( 'rgb(' + r + ',' + g + ',' + b + ')' )
-            );
-            scene.addChild(
-                    new CAAT.Actor().
-                            setBackgroundImage( director.getImage( 'shaker' ), true )
             );
         }
     }
