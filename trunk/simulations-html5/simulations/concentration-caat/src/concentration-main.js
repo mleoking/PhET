@@ -74,9 +74,8 @@
                 green:interpolate( 0, source.green, 1, destination.green, distance ),
                 blue:interpolate( 0, source.blue, 1, destination.blue, distance )};
 
-            var fillyStyle = 'rgb(' + Math.round( relative.red ) + ',' + Math.round( relative.green ) + ',' + Math.round( relative.blue ) + ')';
-            ctx.fillStyle = fillyStyle;
-//            console.log( "hello" + fillyStyle );
+            var fillStyleString = 'rgb(' + Math.round( relative.red ) + ',' + Math.round( relative.green ) + ',' + Math.round( relative.blue ) + ')';
+            ctx.fillStyle = fillStyleString;
             ctx.fillRect( beakerX, beakerMaxY - fluidHeight, beakerWidth, fluidHeight );
 
             ctx.restore();
