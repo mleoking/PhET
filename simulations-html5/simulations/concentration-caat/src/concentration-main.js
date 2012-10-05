@@ -15,6 +15,51 @@
                 setBackgroundImage( director.getImage( 'shaker' ), true ).setRotation( -Math.PI / 4 );
         shaker.enableDrag();
         shaker.lastY = shaker.y;
+
+//        var p = new CAAT.Path().beginPath( 0, 0 );
+//        p.addLineTo( 100, 100, "#000" );
+//        p.endPath().setInteractive( false );
+//
+//        var pathActor = new CAAT.PathActor().setPath( p );
+//        pathActor.setSize( director.width, director.height );
+////        pathActor.setStrokeStyle();
+//        pathActor.setLineWidth(10);
+////        pathActor.showBoundingBox(true);
+//        scene.addChild( pathActor );
+//
+
+        var actor = new CAAT.Actor().setSize( director.width, director.height );
+
+        var lipWidth = 40;
+        var beakerX = 150;
+        var beakerY = 200;
+        var beakerHeight = 400;
+        var beakerWidth = 600;
+        var beakerMaxY = beakerY + beakerHeight;
+
+        actor.paint = function ( director, time ) {
+
+            var ctx = director.ctx;
+            ctx.save();
+
+            ctx.strokeStyle = 'black';
+            ctx.beginPath();
+            ctx.moveTo( beakerX - lipWidth, beakerY - lipWidth );
+            ctx.lineTo( beakerX, beakerY );
+            ctx.lineTo( beakerX, beakerMaxY );
+            ctx.lineTo( beakerX + beakerWidth, beakerMaxY );
+            ctx.lineTo( beakerX + beakerWidth, beakerMaxY );
+            ctx.lineTo( beakerX + beakerWidth, beakerY );
+            ctx.lineTo( beakerX + beakerWidth + lipWidth, beakerY - lipWidth );
+
+            ctx.lineWidth = 6;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            ctx.restore();
+        };
+        scene.addChild( actor );
         scene.addChild( shaker );
 
         var crystals = [];
@@ -48,7 +93,7 @@
 
                                for ( var i = 0; i < crystals.length; i++ ) {
                                    var c = crystals[i];
-                                   if ( c.y > window.innerHeight - 100 ) {
+                                   if ( c.y + c.height > beakerMaxY ) {
                                        crystals.splice( i, 1 );
                                        scene.removeChild( c );
                                        i--;
