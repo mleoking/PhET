@@ -12,21 +12,6 @@
                 setBackgroundImage( director.getImage( 'shaker' ), true );
         shaker.enableDrag();
         scene.addChild( shaker );
-        for ( var i = 0; i < 2; i++ ) {
-            var w = 30 + (100 * Math.random()) >> 0;
-            var r = (255 * Math.random()) >> 0;
-            var g = (255 * Math.random()) >> 0;
-            var b = (255 * Math.random()) >> 0;
-            scene.addChild(
-                    new CAAT.Actor().
-                            setBounds(
-                            (director.width * Math.random()) >> 0,
-                            (director.height * Math.random()) >> 0,
-                            w,
-                            w ).
-                            setFillStyle( 'rgb(' + r + ',' + g + ',' + b + ')' )
-            );
-        }
     }
 
     /**
