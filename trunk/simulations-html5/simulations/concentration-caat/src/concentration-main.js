@@ -1,5 +1,10 @@
 (function () {
 
+
+    function interpolate( x0, y0, x1, y1, x ) {
+        return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
+    }
+
     /**
      * This function will be called to let you define new scenes that will be
      * shown after the splash screen.
@@ -51,11 +56,27 @@
         };
         var fluid = new CAAT.Actor().setSize( director.width, director.height );
         var fluidHeight = beakerHeight / 2;
+
+        var absorbedCrystals = 0;
         fluid.paint = function ( director, time ) {
             var ctx = director.ctx;
             ctx.save();
 
-            ctx.fillStyle = 'orange';
+            var distance = absorbedCrystals / 100;
+            if ( distance > 1 ) {
+                distance = 1;
+            }
+
+            var source = {red:200, green:200, blue:200};
+            var destination = {red:255, green:0, blue:0};
+            var relative = {
+                red:interpolate( 0, source.red, 1, destination.red, distance ),
+                green:interpolate( 0, source.green, 1, destination.green, distance ),
+                blue:interpolate( 0, source.blue, 1, destination.blue, distance )};
+
+            var fillyStyle = 'rgb(' + Math.round( relative.red ) + ',' + Math.round( relative.green ) + ',' + Math.round( relative.blue ) + ')';
+            ctx.fillStyle = fillyStyle;
+//            console.log( "hello" + fillyStyle );
             ctx.fillRect( beakerX, beakerMaxY - fluidHeight, beakerWidth, fluidHeight );
 
             ctx.restore();
@@ -66,6 +87,7 @@
         var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 752, 520 );
         var rootNode = new CAAT.ActorContainer().setSize( director.width, director.height );
         var slider = new CAAT.ActorContainer().setSize( director.width / 6, director.height / 4 );
+
 
         var knob = new CAAT.Actor().setBackgroundImage( director.getImage( 'slider-knob' ), true ).setPosition( 90, 34 );
         knob.enableDrag();
@@ -157,6 +179,7 @@
                                        crystals.splice( i, 1 );
                                        rootNode.removeChild( c );
                                        i--;
+                                       absorbedCrystals++;
                                    }
                                }
                                shaker.lastY = shaker.y;
