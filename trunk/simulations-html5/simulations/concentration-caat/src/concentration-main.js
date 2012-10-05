@@ -64,13 +64,19 @@
         var topFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 100, 50 );
         var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 761, 520 );
 
-        scene.addChild( fluid );
-        scene.addChild( beaker );
+        var rootNode = new CAAT.ActorContainer().setSize( director.width, director.height );
+        rootNode.addChild( fluid );
+        rootNode.addChild( beaker );
 
-        scene.addChild( topFaucet );
-        scene.addChild( shaker );
+        rootNode.addChild( topFaucet );
+        rootNode.addChild( shaker );
 
-        scene.addChild( bottomFaucet );
+        rootNode.addChild( bottomFaucet );
+
+        scene.addChild( rootNode );
+
+        //Scale down where necessary on smaller screens
+        rootNode.setScale( 1.0, 1.0 );
 
         var crystals = [];
 
@@ -97,7 +103,7 @@
                                                setBounds( x, y, w, w ).
                                                setFillStyle( 'rgb(' + 255 + ',' + 0 + ',' + 0 + ')' );
                                        crystal.velocity = 0;
-                                       scene.addChild( crystal );
+                                       rootNode.addChild( crystal );
                                        crystals.push( crystal );
                                    }
                                }
@@ -111,7 +117,7 @@
                                    var c = crystals[i];
                                    if ( c.y + c.height > beakerMaxY - fluidHeight ) {
                                        crystals.splice( i, 1 );
-                                       scene.removeChild( c );
+                                       rootNode.removeChild( c );
                                        i--;
                                    }
                                }
