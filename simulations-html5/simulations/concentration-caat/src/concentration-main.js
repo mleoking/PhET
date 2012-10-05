@@ -41,10 +41,9 @@
                                scene.addChild( crystal );
                                crystals.push( crystal );
 
-                               for ( var i = 0; i < crystals.length; i++ ) {
-                                   var c = crystals[i];
-                                   c.velocity = c.velocity + 1;
-                                   c.setPosition( c.x, c.y + c.velocity );
+                               for ( var index = 0; index < crystals.length; index++ ) {
+                                   crystals[index].velocity = crystals[index].velocity + 1;
+                                   crystals[index].setPosition( crystals[index].x, crystals[index].y + crystals[index].velocity );
                                }
 
                                for ( var i = 0; i < crystals.length; i++ ) {
