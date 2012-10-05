@@ -112,7 +112,7 @@
         var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 752, 520 );
         var rootNode = new CAAT.ActorContainer().setSize( director.width, director.height );
         rootNode.setPosition( 0, 0 );
-        var slider = new CAAT.ActorContainer().setSize( director.width / 6, director.height / 4 );
+//        var slider = new CAAT.ActorContainer().setSize( director.width, director.height );
 
         var knob = new CAAT.Actor().setBackgroundImage( director.getImage( 'slider-knob' ), true ).setPosition( 90, 34 );
         knob.enableDrag();
@@ -137,7 +137,7 @@
             knob.x = knobX;
         };
 
-        slider.addChild( knob );
+//        slider.addChild( knob );
 
         var border = new CAAT.Actor().setSize( director.width, director.height );
 
@@ -152,16 +152,14 @@
         };
 
         rootNode.addChild( border );
-
         rootNode.addChild( fluid );
         rootNode.addChild( beaker );
         rootNode.addChild( topFaucetPipe );
         rootNode.addChild( topFaucet );
         rootNode.addChild( shaker );
-
-        rootNode.addChild( slider );
-
+        rootNode.addChild( knob );
         rootNode.addChild( bottomFaucet );
+
         var resetAllButton = createButton( director );
         resetAllButton.mouseClick = function ( e ) {
             document.location.reload( true );
