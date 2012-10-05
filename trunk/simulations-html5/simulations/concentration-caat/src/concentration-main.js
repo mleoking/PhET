@@ -78,6 +78,28 @@
 
             ctx.restore();
         };
+
+        var topFlowingWater = new CAAT.Actor().setSize( director.width, director.height );
+        var topFlowAmount = 0.0;
+
+        topFlowingWater.paint = function ( director, time ) {
+            var ctx = director.ctx;
+            ctx.save();
+
+            var distance = absorbedCrystals / 100;
+            if ( distance > 1 ) {
+                distance = 1;
+            }
+            var water = {red:200, green:200, blue:255};
+            ctx.fillStyle = 'rgb(' + Math.round( water.red ) + ',' + Math.round( water.green ) + ',' + Math.round( water.blue ) + ')';
+
+            if ( topFlowAmount > 0.1 ) {
+                ctx.fillRect( beakerX + 7, 180, 50 * topFlowAmount, beakerHeight - fluidHeight + 50 );
+            }
+
+            ctx.restore();
+        };
+
         var fluid = new CAAT.Actor().setSize( director.width, director.height );
         var fluidHeight = beakerHeight / 2;
 
@@ -112,7 +134,9 @@
         rootNode.setPosition( 0, 0 );
 //        var slider = new CAAT.ActorContainer().setSize( director.width, director.height );
 
-        var knob = new CAAT.Actor().setBackgroundImage( director.getImage( 'slider-knob' ), true ).setPosition( 90, 34 );
+        var KNOB_MIN_X = 90;
+        var knob = new CAAT.Actor().setBackgroundImage( director.getImage( 'slider-knob' ), true ).setPosition( KNOB_MIN_X, 34 );
+        knob.x = KNOB_MIN_X;
         knob.enableDrag();
         knob.mouseDrag = function ( mouseEvent ) {
 
@@ -129,8 +153,8 @@
             if ( knobX > 177 ) {
                 knobX = 177;
             }
-            if ( knobX < 90 ) {
-                knobX = 90;
+            if ( knobX < KNOB_MIN_X ) {
+                knobX = KNOB_MIN_X;
             }
             knob.x = knobX;
         };
@@ -150,6 +174,7 @@
         rootNode.addChild( border );
         rootNode.addChild( fluid );
         rootNode.addChild( beaker );
+        rootNode.addChild( topFlowingWater );
         rootNode.addChild( topFaucetPipe );
         rootNode.addChild( topFaucet );
         rootNode.addChild( shaker );
@@ -225,7 +250,7 @@
                                    }
                                }
 
-                               var sliderAmount = (knob.x - 90) / 177.0;
+                               var sliderAmount = (knob.x - 90) / (177.0 - 90);
                                if ( sliderAmount > 0 ) {
                                    //add fluid
                                    fluidHeight = fluidHeight + 1 * sliderAmount * 4;
@@ -233,6 +258,7 @@
                                        fluidHeight = beakerHeight;
                                    }
                                }
+                               topFlowAmount = sliderAmount;
 
                                for ( var index = 0; index < crystals.length; index++ ) {
                                    crystals[index].velocity = crystals[index].velocity + 1;
