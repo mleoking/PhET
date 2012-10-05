@@ -13,7 +13,7 @@ DESIGN
 
 HIGH
 - rewrite slope tool (see new design in 10/5 notes)
-- use EquationNode.createSignNode, createOperatorNode, createFractionLineNode in interactive equations (as in static equations)
+- use EquationNode.createSignNode, createOperatorNode, createFractionLineNode in subclasses
 - add support for fractional y-intercept in equations
 - have separate spacing for fraction vs integer slope, this is a bit big for integer slopes (see EquationNode.slopeXSpacing field)
 - choose different color for intercept and slope manipulators
