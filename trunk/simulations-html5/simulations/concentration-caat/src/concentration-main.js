@@ -85,8 +85,8 @@
         var topFaucetPipe = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_pipe_long' ), true ).setPosition( -292, 82 );
         var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 752, 520 );
         var rootNode = new CAAT.ActorContainer().setSize( director.width, director.height );
+        rootNode.setPosition( 0, 0 );
         var slider = new CAAT.ActorContainer().setSize( director.width / 6, director.height / 4 );
-
 
         var knob = new CAAT.Actor().setBackgroundImage( director.getImage( 'slider-knob' ), true ).setPosition( 90, 34 );
         knob.enableDrag();
@@ -113,6 +113,20 @@
 
         slider.addChild( knob );
 
+        var border = new CAAT.Actor().setSize( director.width, director.height );
+
+        border.paint = function ( director, time ) {
+            var ctx = director.ctx;
+            ctx.save();
+
+            ctx.strokeStyle = 'orange';
+            ctx.strokeRect( 0, 0, 1024, 768 );
+
+            ctx.restore();
+        };
+
+        rootNode.addChild( border );
+
         rootNode.addChild( fluid );
         rootNode.addChild( beaker );
         rootNode.addChild( topFaucetPipe );
@@ -124,8 +138,24 @@
         rootNode.addChild( bottomFaucet );
         scene.addChild( rootNode );
 
-        //Scale down where necessary on smaller screens
-        rootNode.setScale( 1.0, 1.0 );
+        //This resize strategy is buggy on ipad if you change orientation more than once
+        //{function(director{CAAT.Director}, width{integer}, height{integer})}
+        var onResizeCallback = function ( director, width, height ) {
+            //Scale up or down to fit the screen
+            var designWidth = 1024;
+            var designHeight = 768;
+            var windowWidth = director.width;
+            var windowHeight = director.height;
+            var sx = windowWidth / designWidth;
+            var sy = windowHeight / designHeight;
+            var min = Math.min( sx, sy );
+            rootNode.setScaleAnchored( min, min, 0, 0 );
+        };
+        director.enableResizeEvents( CAAT.Director.prototype.RESIZE_BOTH, onResizeCallback );
+        onResizeCallback( director, director.width, director.height );
+
+        //TODO: Center content in the window
+//        rootNode.setPosition( director.width / 2 - designWidth / 2, director.height / 2 - designHeight / 2 );
 
         var crystals = [];
 
