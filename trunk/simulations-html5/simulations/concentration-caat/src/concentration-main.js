@@ -23,6 +23,7 @@
         var beakerY = 200;
         var beakerHeight = 400;
         var beakerWidth = 600;
+        var beakerMaxX = beakerX + beakerWidth;
         var beakerMaxY = beakerY + beakerHeight;
 
         beaker.paint = function ( director, time ) {
@@ -78,12 +79,16 @@
 
                                if ( shaker.y != shaker.lastY ) {
                                    var w = 20;
-                                   var crystal = new CAAT.Actor().
-                                           setBounds( shaker.x + 20 + Math.random() * 50, shaker.y + 140 + Math.random() * 20, w, w ).
-                                           setFillStyle( 'rgb(' + 255 + ',' + 0 + ',' + 0 + ')' );
-                                   crystal.velocity = 0;
-                                   scene.addChild( crystal );
-                                   crystals.push( crystal );
+                                   var x = shaker.x + 20 + Math.random() * 50;
+                                   var y = shaker.y + 140 + Math.random() * 20;
+                                   if ( x > beakerX && x < beakerMaxX ) {
+                                       var crystal = new CAAT.Actor().
+                                               setBounds( x, y, w, w ).
+                                               setFillStyle( 'rgb(' + 255 + ',' + 0 + ',' + 0 + ')' );
+                                       crystal.velocity = 0;
+                                       scene.addChild( crystal );
+                                       crystals.push( crystal );
+                                   }
                                }
 
                                for ( var index = 0; index < crystals.length; index++ ) {
