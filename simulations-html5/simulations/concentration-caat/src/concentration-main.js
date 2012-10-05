@@ -32,17 +32,19 @@
                                var w = 20;
                                var crystal = new CAAT.Actor().
                                        setBounds(
-                                       shaker.x + 50,
-                                       shaker.y + 150,
+                                       shaker.x + 20 + Math.random() * 50,
+                                       shaker.y + 140 + Math.random() * 20,
                                        w,
                                        w ).
                                        setFillStyle( 'rgb(' + 255 + ',' + 0 + ',' + 0 + ')' );
+                               crystal.velocity = 0;
                                scene.addChild( crystal );
                                crystals.push( crystal );
 
                                for ( var i = 0; i < crystals.length; i++ ) {
                                    var c = crystals[i];
-                                   c.setPosition( c.x, c.y + 10 );
+                                   c.velocity = c.velocity + 1;
+                                   c.setPosition( c.x, c.y + c.velocity );
                                }
 
                                for ( var i = 0; i < crystals.length; i++ ) {
