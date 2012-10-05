@@ -1,3 +1,4 @@
+10/5/12 merge implementations of equations
 10/5/12 interactive equations: if nothing is interactive and slope is undefined, display "x={0} (slope undefined)"
 10/5/12 add Line.isSlopeDefined
 10/3/12 fix rendering of operators and fraction line in interactive equations

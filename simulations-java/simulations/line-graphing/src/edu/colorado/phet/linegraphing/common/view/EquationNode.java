@@ -2,6 +2,7 @@
 package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -21,7 +22,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EquationNode extends PhetPNode {
+public abstract class EquationNode extends PhetPNode {
 
     protected static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
@@ -114,4 +115,7 @@ public class EquationNode extends PhetPNode {
             addChild( new PhetPText( MessageFormat.format( Strings.SLOPE_UNDEFINED, Strings.SYMBOL_X, line.x1 ), font, color ) );
         }
     }
+
+    // Changes the paint of the equation by doing a deep traversal of this node's descendants.
+    public abstract void setPaintDeep( Paint paint );
 }

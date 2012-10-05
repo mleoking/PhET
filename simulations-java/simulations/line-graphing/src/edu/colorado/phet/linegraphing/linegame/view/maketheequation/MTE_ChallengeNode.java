@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.StaticEquationNode;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.InteractiveEquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
@@ -215,7 +215,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
     protected abstract InteractiveEquationNode createGuessEquationNode( Property<Line> line, Graph graph, PhetFont interactiveFont, PhetFont staticFont, Color staticColor );
 
     // Creates the "answer" equation portion of the view.
-    protected abstract StaticEquationNode createAnswerEquationNode( Line line, PhetFont font, Color color );
+    protected abstract EquationNode createAnswerEquationNode( Line line, PhetFont font, Color color );
 
     // Creates the graph portion of the view.
     protected abstract MTE_GraphNode createGraphNode( MTE_Challenge challenge );

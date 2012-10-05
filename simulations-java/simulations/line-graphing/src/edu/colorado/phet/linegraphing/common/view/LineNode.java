@@ -31,7 +31,7 @@ public abstract class LineNode extends PComposite {
 
     public final Line line;
     private final DoubleArrowNode arrowNode;
-    private final StaticEquationNode equationNode;
+    private final EquationNode equationNode;
 
     /**
      * Constructor
@@ -117,7 +117,7 @@ public abstract class LineNode extends PComposite {
     }
 
     // Creates the line's equation in the correct form.
-    protected abstract StaticEquationNode createEquationNode( Line line, PhetFont font, Color color );
+    protected abstract EquationNode createEquationNode( Line line, PhetFont font, Color color );
 
     public void setEquationVisible( boolean visible ) {
         equationNode.setVisible( visible );
