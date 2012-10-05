@@ -1,11 +1,7 @@
 package edu.colorado.phet.buildtools.html5;
 
-import scala.actors.threadpool.Arrays;
-
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.apache.tools.ant.Location;
 import org.apache.tools.ant.Project;
@@ -37,8 +33,9 @@ public class AutoZip {
                         try {
                             runTask( root );
                         }
-                        catch ( IOException e1 ) {
+                        catch ( Exception e1 ) {
                             e1.printStackTrace();
+                            lastModified = 0;
                         }
                         System.out.println();
                         System.out.println( "Finished task" );
@@ -71,6 +68,10 @@ public class AutoZip {
         }
 //        FileUtils.zip( getAllFiles( root ), autozip );
 
+        zipit( root, autozip );
+    }
+
+    private static void zipit( final File root, final File autozip ) {
         Zip zip = new Zip();
         zip.setBasedir( root );
         zip.setDestFile( autozip );
@@ -79,23 +80,6 @@ public class AutoZip {
         zip.setOwningTarget( new Target() );
         zip.init();
         zip.execute();
-    }
-
-    private static File[] getAllFiles( final File root ) {
-        if ( root.isFile() ) {
-            return new File[] { root };
-        }
-        else {
-            ArrayList<File> files = new ArrayList<File>();
-            for ( File file : root.listFiles( new FilenameFilter() {
-                public boolean accept( final File dir, final String name ) {
-                    return !name.toLowerCase().equals( ".svn" );
-                }
-            } ) ) {
-                files.addAll( Arrays.asList( getAllFiles( file ) ) );
-            }
-            return files.toArray( new File[files.size()] );
-        }
     }
 
     private static long lastModified( final File root ) {
