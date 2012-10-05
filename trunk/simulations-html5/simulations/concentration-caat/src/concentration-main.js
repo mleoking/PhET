@@ -14,6 +14,7 @@
         var shaker = new CAAT.Actor().
                 setBackgroundImage( director.getImage( 'shaker' ), true ).setRotation( -Math.PI / 4 );
         shaker.enableDrag();
+        shaker.x = 389;
         shaker.lastY = shaker.y;
 
         var beaker = new CAAT.Actor().setSize( director.width, director.height );
@@ -59,9 +60,17 @@
 
             ctx.restore();
         };
+
+        var topFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 100, 50 );
+        var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 761, 520 );
+
         scene.addChild( fluid );
         scene.addChild( beaker );
+
+        scene.addChild( topFaucet );
         scene.addChild( shaker );
+
+        scene.addChild( bottomFaucet );
 
         var crystals = [];
 
@@ -76,6 +85,8 @@
         scene.createTimer( 0, 30,
                            function ( scene_time, timer_time, timertask_instance ) {   // timeout
                                timertask_instance.reset( scene_time );
+
+//                               console.log( bottomFaucet.x + ", " + bottomFaucet.y );
 
                                if ( shaker.y != shaker.lastY ) {
                                    var w = 20;
@@ -134,7 +145,8 @@
                          No images can be set too.
                          */
                         [
-                            {id:'shaker', url:'resources/shaker.png'}
+                            {id:'shaker', url:'resources/shaker.png'},
+                            {id:'faucet_front', url:'resources/faucet_front.png'}
                         ],
 
                         /*
