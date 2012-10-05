@@ -47,6 +47,18 @@
 
             ctx.restore();
         };
+        var fluid = new CAAT.Actor().setSize( director.width, director.height );
+        var fluidHeight = beakerHeight / 2;
+        fluid.paint = function ( director, time ) {
+            var ctx = director.ctx;
+            ctx.save();
+
+            ctx.fillStyle = 'orange';
+            ctx.fillRect( beakerX, beakerMaxY - fluidHeight, beakerWidth, fluidHeight );
+
+            ctx.restore();
+        };
+        scene.addChild( fluid );
         scene.addChild( beaker );
         scene.addChild( shaker );
 
@@ -81,7 +93,7 @@
 
                                for ( var i = 0; i < crystals.length; i++ ) {
                                    var c = crystals[i];
-                                   if ( c.y + c.height > beakerMaxY ) {
+                                   if ( c.y + c.height > beakerMaxY - fluidHeight ) {
                                        crystals.splice( i, 1 );
                                        scene.removeChild( c );
                                        i--;
