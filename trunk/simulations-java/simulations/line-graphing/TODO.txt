@@ -12,7 +12,6 @@ DESIGN
 - Game: define levels and challenges
 
 HIGH
-- implement EquationNode.setPaintDeep so that highlighting of static equations works properly
 - show (y - 0) = m(x - 0)
 - combine implementations for static and interactive equations
 - rewrite slope tool (see new design in 10/5 notes)

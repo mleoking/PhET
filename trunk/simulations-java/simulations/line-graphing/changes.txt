@@ -1,3 +1,5 @@
+10/5/12 implement EquationNode.setPaintDeep so that highlighting of static equations works properly
+10/5/12 delete obsolete StaticEquationNode base class
 10/5/12 rename TestEquationNodes
 10/5/12 flatten EquationNode hierarchy, rename subclasses [68859]
 10/5/12 delete EquationFactory hierarchy, replace usages with EquationNode instantiations [68857]
