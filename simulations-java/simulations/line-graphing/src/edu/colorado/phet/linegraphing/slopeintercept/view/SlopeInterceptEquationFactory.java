@@ -21,7 +21,7 @@ public class SlopeInterceptEquationFactory extends EquationFactory {
 
     public StaticEquationNode createNode( Line line, PhetFont font, Color color ) {
         assert ( line.x1 == 0 ); // line is in slope-intercept form
-        if ( line.run == 0 ) {
+        if ( !line.isSlopeDefined() ) {
             return new UndefinedSlopeNode( line, font, color );
         }
         else if ( line.rise == 0 ) {

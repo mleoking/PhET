@@ -54,7 +54,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                                                   final boolean interactiveSlope,
                                                   final boolean interactiveIntercept,
                                                   PhetFont interactiveFont,
-                                                  PhetFont staticFont,
+                                                  final PhetFont staticFont,
                                                   final Color staticColor ) {
         super( staticFont.getSize() );
 
@@ -119,7 +119,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                 updatingControls = false;
 
                 // Update the layout.
-                updateLayout( line, interactiveSlope, interactiveIntercept, staticColor );
+                updateLayout( line, interactiveSlope, interactiveIntercept, staticFont, staticColor );
             }
         } );
     }
@@ -129,10 +129,16 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
      * This is based on which parts of the equation are interactive, and what the
      * non-interactive parts of the equation should look like when written in simplified form.
      */
-    private void updateLayout( Line line, boolean interactiveSlope, boolean interactiveIntercept, Color staticColor ) {
+    private void updateLayout( Line line, boolean interactiveSlope, boolean interactiveIntercept, PhetFont staticFont, Color staticColor ) {
 
         // Start by adding all nodes, then we'll selectively remove some nodes based on the desired form of the equation.
-        {
+        removeAllChildren();
+        if ( !line.isSlopeDefined() && !interactiveSlope && !interactiveIntercept ) {
+            // slope is undefined and nothing is interactive
+            addChild( new UndefinedSlopeNode( line, staticFont, staticColor ) );
+            return;
+        }
+        else {
             // nodes that may be interactive first, so we can more easily identify layout problems
             addChild( riseNode );
             addChild( runNode );
@@ -145,7 +151,6 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
             addChild( xNode );
             addChild( operatorNode );
             addChild( interceptMinusSignNode );
-
         }
 
         // slope properties
@@ -320,7 +325,7 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
         }
 
         // Add the undefined-slope indicator after layout has been done, so that it covers the entire equation.
-        if ( line.run == 0 ) {
+        if ( !line.isSlopeDefined() ) {
             undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
             undefinedSlopeIndicator.setOffset( 0,
                                                fractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + undefinedSlopeYFudgeFactor );

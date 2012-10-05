@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
 public class PointSlopeEquationFactory extends EquationFactory {
 
     public StaticEquationNode createNode( Line line, PhetFont font, Color color ) {
-        if ( line.run == 0 ) {
+        if ( !line.isSlopeDefined() ) {
             return new UndefinedSlopeNode( line, font, color );
         }
         else if ( line.rise == 0 ) {

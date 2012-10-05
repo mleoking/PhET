@@ -3,10 +3,15 @@ package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.linegraphing.common.LGResources.Strings;
+import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -98,5 +103,15 @@ public class EquationNode extends PhetPNode {
         node.setStroke( null );
         node.setPaint( color );
         return node;
+    }
+
+    // When slope is undefined, we display "undefined" in place of an equation.
+    protected static class UndefinedSlopeNode extends StaticEquationNode {
+        public UndefinedSlopeNode( Line line, PhetFont font, Color color ) {
+            super( font.getSize() );
+            assert ( !line.isSlopeDefined() );
+            setPickable( false );
+            addChild( new PhetPText( MessageFormat.format( Strings.SLOPE_UNDEFINED, Strings.SYMBOL_X, line.x1 ), font, color ) );
+        }
     }
 }
