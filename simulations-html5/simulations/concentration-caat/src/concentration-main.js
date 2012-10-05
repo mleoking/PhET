@@ -137,8 +137,6 @@
             knob.x = knobX;
         };
 
-//        slider.addChild( knob );
-
         var border = new CAAT.Actor().setSize( director.width, director.height );
 
         border.paint = function ( director, time ) {
