@@ -8,6 +8,9 @@
     function createScenes( director ) {
         var scene = director.createScene();
 
+        //Set background to white
+        scene.fillStyle = 'rgb(255,255,255)';
+
         var shaker = new CAAT.Actor().
                 setBackgroundImage( director.getImage( 'shaker' ), true ).setRotation( -Math.PI / 4 );
         shaker.enableDrag();
