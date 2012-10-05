@@ -3,7 +3,8 @@
     function createButton( director ) {
         var actor = new CAAT.Actor().
                 setSize( 80, 40 ).
-                setPosition( 1024 - 80 - 40, 768 - 40 );
+//                setPosition( 1024 - 80 - 40, 768 - 40 );
+                setPosition( 0, 0 );
 
         actor.paint = function ( director, time ) {
 
