@@ -28,7 +28,7 @@
 //        scene.addChild( pathActor );
 //
 
-        var actor = new CAAT.Actor().setSize( director.width, director.height );
+        var beaker = new CAAT.Actor().setSize( director.width, director.height );
 
         var lipWidth = 40;
         var beakerX = 150;
@@ -37,7 +37,7 @@
         var beakerWidth = 600;
         var beakerMaxY = beakerY + beakerHeight;
 
-        actor.paint = function ( director, time ) {
+        beaker.paint = function ( director, time ) {
 
             var ctx = director.ctx;
             ctx.save();
@@ -59,7 +59,7 @@
 
             ctx.restore();
         };
-        scene.addChild( actor );
+        scene.addChild( beaker );
         scene.addChild( shaker );
 
         var crystals = [];
