@@ -6,24 +6,26 @@ DESIGN
 - play area layout feels unbalanced for game challenges
 - revisit the placement algorithm for equations on graphed lines
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
-- Game: more challenges?
-- Game: rules for generating random challenges
-- Game: GTL: should the guess equation be in simplified form, or correspond to exactly what the manipulators are set to? [simpified]
-- Game: GTL: how should the equations (answer vs guess) be labeled? [see notes]
-- Game: do we need point-slope challenges where only 1 component of point (x1 or y1) is interactive? [probably yes]
-- Game: for failed challenge, should point and slope be plotted when answer is shown?  [OPEN, discuss with Karnina]
-- Game: for correct MTE challenge, should point and slope be plotted? [no]
-- Game: green is overloaded: correct answer vs slope [change in first 2 tabs]
-- Game: yellow is overloaded: face/buttons vs intercept [change in first 2 tabs]
-- Game: color coding on interactive equations is not relevant here, and conflicts with other uses of green and yellow [leave as is, change slope & intercept colors]
-- Game: what if the user's answer is correct, but not simplified? penalty? answer and guess show different equations but are both green? [no penalty]
+- Game: Place Points challenge
+- Game: Parallel Line(s) challenge
+- Game: Perpendicular Line(s) challenge
+- Game: define levels and challenges
 
 HIGH
+- rewrite slope tool (see new design in 10/5 notes)
 - use EquationNode.createSignNode, createOperatorNode, createFractionLineNode in interactive equations (as in static equations)
+- add support for fractional y-intercept in equations
 - have separate spacing for fraction vs integer slope, this is a bit big for integer slopes (see EquationNode.slopeXSpacing field)
-- random creation of challenges, subject to constraints tbd (or create a very large set of canned challenges)
+- choose different color for intercept and slope manipulators
+- "given equation" and "your equation" boxes, with check or X icons (icons outside boxes, on side towards graph)
+- simplify lines in equation code
+- add "verbose" mode to equation code, in case we want to show exactly what is in model
+- query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up
+- add more space between "(" and slope spinners in interactive equations
+- move "=" up a bit, it OK on Mac, but too low on Win, compromise
 
 MEDIUM
+- random creation of challenges, subject to constraints tbd (or create a very large set of canned challenges)
 - use of Line.color is a bit of a mess, and makes it difficult to manage line lists
 - change request: replace rise/run brackets with dashed lines with arrow heads on them
 - sort out duplication in Challenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
