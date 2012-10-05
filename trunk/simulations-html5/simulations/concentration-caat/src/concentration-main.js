@@ -16,19 +16,43 @@
         shaker.enableDrag();
         scene.addChild( shaker );
 
+        var crystals = [];
+
+        // Array Remove - By John Resig (MIT Licensed)
+        //http://stackoverflow.com/questions/500606/javascript-array-delete-elements
+        Array.prototype.remove = function ( from, to ) {
+            var rest = this.slice( (to || from) + 1 || this.length );
+            this.length = from < 0 ? this.length + from : from;
+            return this.push.apply( this, rest );
+        };
+
         scene.createTimer( 0, 30, function ( scene_time, timer_time, timertask_instance ) {   // timeout
                                timertask_instance.reset( scene_time );
 
                                var w = 20;
-                               scene.addChild(
-                                       new CAAT.Actor().
-                                               setBounds(
-                                               shaker.x + 50,
-                                               shaker.y + 150,
-                                               w,
-                                               w ).
-                                               setFillStyle( 'rgb(' + 255 + ',' + 0 + ',' + 0 + ')' )
-                               );
+                               var crystal = new CAAT.Actor().
+                                       setBounds(
+                                       shaker.x + 50,
+                                       shaker.y + 150,
+                                       w,
+                                       w ).
+                                       setFillStyle( 'rgb(' + 255 + ',' + 0 + ',' + 0 + ')' );
+                               scene.addChild( crystal );
+                               crystals.push( crystal );
+
+                               for ( var i = 0; i < crystals.length; i++ ) {
+                                   var c = crystals[i];
+                                   c.setPosition( c.x, c.y + 10 );
+                               }
+
+                               for ( var i = 0; i < crystals.length; i++ ) {
+                                   var c = crystals[i];
+                                   if ( c.y > window.innerHeight - 100 ) {
+                                       crystals.splice( i, 1 );
+                                       scene.removeChild( c );
+                                       i--;
+                                   }
+                               }
                            },
                            function ( scene_time, timer_time, timertask_instance ) {   // tick
                            },
