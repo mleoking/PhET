@@ -1,3 +1,4 @@
+10/5/12 render zero point coordinates, eg "(y - 0) = m(x - 0)"
 10/5/12 implement EquationNode.setPaintDeep so that highlighting of static equations works properly
 10/5/12 delete obsolete StaticEquationNode base class
 10/5/12 rename TestEquationNodes

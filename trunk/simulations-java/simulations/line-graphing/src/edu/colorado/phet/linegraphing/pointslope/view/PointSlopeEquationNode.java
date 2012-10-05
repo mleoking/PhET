@@ -244,37 +244,23 @@ public class PointSlopeEquationNode extends EquationNode {
             // left side of equation (y term)
             PNode previousNode;
             double previousXOffset = 0;
-            if ( line.y1 == 0 && !interactiveY1 ) {
-                // y
-                removeChild( yLeftParenNode );
-                removeChild( yOperatorNode );
-                removeChild( y1Node );
-                removeChild( yRightParenNode );
-                removeChild( y1MinusSignNode );
-                yNode.setOffset( 0, 0 );
-                previousNode = yNode;
-            }
-            else {
-                removeChild( y1MinusSignNode );
-                // (y - y1)
-                yLeftParenNode.setOffset( 0, 0 );
-                yNode.setOffset( yLeftParenNode.getFullBoundsReference().getMaxX() + parenXSpacing,
-                                 yLeftParenNode.getYOffset() );
-                yOperatorNode.setOffset( yNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
-                                         equalsNode.getFullBoundsReference().getCenterY() - ( yOperatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
-                y1Node.setOffset( yOperatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
-                                  yNode.getFullBoundsReference().getCenterY() - ( y1Node.getFullBoundsReference().getHeight() / 2 ) );
-                yRightParenNode.setOffset( y1Node.getFullBoundsReference().getMaxX() + parenXSpacing,
-                                           yNode.getYOffset() );
-                previousNode = yRightParenNode;
-            }
+            removeChild( y1MinusSignNode );
+            // (y - y1)
+            yLeftParenNode.setOffset( 0, 0 );
+            yNode.setOffset( yLeftParenNode.getFullBoundsReference().getMaxX() + parenXSpacing,
+                             yLeftParenNode.getYOffset() );
+            yOperatorNode.setOffset( yNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                     equalsNode.getFullBoundsReference().getCenterY() - ( yOperatorNode.getFullBoundsReference().getHeight() / 2 ) + operatorYFudgeFactor );
+            y1Node.setOffset( yOperatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                              yNode.getFullBoundsReference().getCenterY() - ( y1Node.getFullBoundsReference().getHeight() / 2 ) );
+            yRightParenNode.setOffset( y1Node.getFullBoundsReference().getMaxX() + parenXSpacing,
+                                       yNode.getYOffset() );
 
             // =
-            equalsNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+            equalsNode.setOffset( yRightParenNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                   yNode.getYOffset() );
 
             // slope
-            previousNode = null; // so that we get a NullPointerException instead of a silent layout error
             if ( interactiveSlope ) {
                 // (rise/run), where rise and run are spinners, and the sign is integrated into the spinners
                 removeChild( slopeMinusSignNode );
@@ -356,7 +342,7 @@ public class PointSlopeEquationNode extends EquationNode {
             }
 
             // x term
-            if ( interactiveX1 || ( line.rise != 0 && line.x1 != 0 ) ) {
+            if ( interactiveX1 || line.rise != 0 ) {
                 // (x - x1)
                 xLeftParenNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + previousXOffset,
                                           yNode.getYOffset() );
@@ -376,14 +362,6 @@ public class PointSlopeEquationNode extends EquationNode {
                 removeChild( xOperatorNode );
                 removeChild( x1Node );
                 removeChild( xRightParenNode );
-            }
-            else if ( line.x1 == 0 ) {
-                // x
-                removeChild( xLeftParenNode );
-                removeChild( xOperatorNode );
-                removeChild( x1Node );
-                removeChild( xRightParenNode );
-                xNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + previousXOffset, yNode.getYOffset() );
             }
             else {
                 throw new IllegalStateException( "programming error, didn't handle some x-term case" );
