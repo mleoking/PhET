@@ -2,9 +2,7 @@
 
     function createButton( director ) {
         var actor = new CAAT.Actor().
-                setSize( 80, 40 ).
-                setPosition( 1024 - 80 - 40 - 100, 768 - 40 );
-//                setPosition( 0, 0 );
+                setSize( 80, 40 );
 
         actor.paint = function ( director, time ) {
 
@@ -159,6 +157,7 @@
         rootNode.addChild( bottomFaucet );
 
         var resetAllButton = createButton( director );
+        resetAllButton.setPosition( 1024 - 80 - 40 - 100, 768 - 40 );
         resetAllButton.mouseClick = function ( e ) {
             document.location.reload( true );
         };
