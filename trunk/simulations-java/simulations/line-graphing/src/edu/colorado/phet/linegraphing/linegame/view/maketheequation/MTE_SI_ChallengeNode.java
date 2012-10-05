@@ -6,7 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.StaticEquationNode;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
@@ -23,7 +23,7 @@ public abstract class MTE_SI_ChallengeNode extends MTE_ChallengeNode {
         super( model, challenge, audioPlayer, challengeSize );
     }
 
-    @Override protected StaticEquationNode createAnswerEquationNode( Line line, PhetFont font, Color color ) {
+    @Override protected EquationNode createAnswerEquationNode( Line line, PhetFont font, Color color ) {
         return new SlopeInterceptEquationFactory().createNode( line, font, color );
     }
 

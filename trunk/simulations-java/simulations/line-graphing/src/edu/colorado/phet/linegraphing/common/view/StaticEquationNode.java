@@ -28,7 +28,7 @@ public abstract class StaticEquationNode extends EquationNode {
         setPaintDeep( this, paint );
     }
 
-    public static void setPaintDeep( PNode node, Paint paint ) {
+    private static void setPaintDeep( PNode node, Paint paint ) {
         for ( int i = 0; i < node.getChildrenCount(); i++ ) {
             PNode child = node.getChild( i );
             if ( child instanceof PText ) {

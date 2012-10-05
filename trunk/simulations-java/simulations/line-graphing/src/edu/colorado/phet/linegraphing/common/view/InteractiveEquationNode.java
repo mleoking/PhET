@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class InteractiveEquationNode extends EquationNode {
+public abstract class InteractiveEquationNode extends EquationNode {
 
     protected InteractiveEquationNode( int pointSize ) {
         super( pointSize );

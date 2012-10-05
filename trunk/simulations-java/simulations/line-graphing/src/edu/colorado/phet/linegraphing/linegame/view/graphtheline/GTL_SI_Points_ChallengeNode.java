@@ -14,7 +14,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.StaticEquationNode;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
@@ -45,7 +45,7 @@ public class GTL_SI_Points_ChallengeNode extends GTL_SI_ChallengeNode {
      * When manipulating 2 arbitrary points, we need to use a PointSlopeEquationFactory since
      * the y intercept may be at a non-integer value.
      */
-    @Override protected StaticEquationNode createEquationNode( Line line, PhetFont font, Color color ) {
+    @Override protected EquationNode createEquationNode( Line line, PhetFont font, Color color ) {
         return new PointSlopeEquationFactory().createNode( line, font, color );
     }
 

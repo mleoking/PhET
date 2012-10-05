@@ -2,6 +2,7 @@
 package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -46,6 +47,16 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
     private final PNode interceptMinusSignNode; // for "y = -b" case
     private final PPath fractionLineNode;
     private PNode undefinedSlopeIndicator;
+
+    // Constructor for a static line.
+    public SlopeInterceptInteractiveEquationNode( Line line, PhetFont font, Color color ) {
+        this( new Property<Line>( line ),
+              new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
+              new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
+              new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
+              false, false,
+              font, font, color );
+    }
 
     public SlopeInterceptInteractiveEquationNode( final Property<Line> interactiveLine,
                                                   Property<DoubleRange> riseRange,
@@ -331,5 +342,9 @@ public class SlopeInterceptInteractiveEquationNode extends InteractiveEquationNo
                                                fractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + undefinedSlopeYFudgeFactor );
             addChild( undefinedSlopeIndicator );
         }
+    }
+
+    @Override public void setPaintDeep( Paint paint ) {
+        //TODO
     }
 }

@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.StaticEquationNode;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
@@ -40,7 +40,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
 
         // The equation for the answer.
-        final StaticEquationNode answerEquationNode = createEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color );
+        final EquationNode answerEquationNode = createEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color );
 
         // The equation for the current guess will be a child of this node, to maintain rendering order.
         final PNode guessEquationParent = new PNode();
@@ -214,7 +214,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
     }
 
     // Creates the equation portion of the view.
-    protected abstract StaticEquationNode createEquationNode( Line line, PhetFont font, Color color );
+    protected abstract EquationNode createEquationNode( Line line, PhetFont font, Color color );
 
     // Creates the graph portion of the view.
     protected abstract GTL_GraphNode createGraphNode( GTL_Challenge challenge );

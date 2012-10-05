@@ -2,6 +2,7 @@
 package edu.colorado.phet.linegraphing.pointslope.view;
 
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -48,6 +49,17 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
     private final PNode y1MinusSignNode; // for "y = -y1" case
     private final PPath fractionLineNode;
     private PNode undefinedSlopeIndicator;
+
+    // Constructor for a static line.
+    public PointSlopeInteractiveEquationNode( Line line, PhetFont font, Color color ) {
+        this( new Property<Line>( line ),
+              new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
+              new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
+              new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
+              new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
+              false, false, false,
+              font, font, color );
+    }
 
     public PointSlopeInteractiveEquationNode( final Property<Line> interactiveLine,
                                               Property<DoubleRange> riseRange,
@@ -391,5 +403,9 @@ public class PointSlopeInteractiveEquationNode extends InteractiveEquationNode {
             undefinedSlopeIndicator.setOffset( 0, fractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + 2 );
             addChild( undefinedSlopeIndicator );
         }
+    }
+
+    @Override public void setPaintDeep( Paint paint ) {
+        //TODO
     }
 }

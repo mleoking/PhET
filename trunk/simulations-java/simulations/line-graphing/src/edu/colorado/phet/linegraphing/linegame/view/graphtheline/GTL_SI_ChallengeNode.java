@@ -6,6 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.StaticEquationNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
@@ -24,7 +25,7 @@ public abstract class GTL_SI_ChallengeNode extends GTL_ChallengeNode {
     }
 
     // Creates the equation portion of the view.
-    @Override protected StaticEquationNode createEquationNode( Line line, PhetFont font, Color color ) {
+    @Override protected EquationNode createEquationNode( Line line, PhetFont font, Color color ) {
         return new SlopeInterceptEquationFactory().createNode( line, font, color );
     }
 
