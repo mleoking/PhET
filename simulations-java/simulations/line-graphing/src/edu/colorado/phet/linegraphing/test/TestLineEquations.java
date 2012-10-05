@@ -10,17 +10,13 @@ import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationFactory;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeInteractiveEquationNode;
-import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptInteractiveEquationNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Tests simplification and rendering of equations.
@@ -41,6 +37,9 @@ public class TestLineEquations {
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );
 
+        final int xSpacing = 150;
+        final int ySpacing = 60;
+
         // slope-intercept tests
         PNode slopeInterceptParent = new PNode();
         {
@@ -53,34 +52,17 @@ public class TestLineEquations {
             SlopeInterceptInteractiveEquationNode equationNode3 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, y1Range, false, true, interactiveFont, staticFont, staticColor );
             SlopeInterceptInteractiveEquationNode equationNode4 = new SlopeInterceptInteractiveEquationNode( line, riseRange, runRange, y1Range, false, false, interactiveFont, staticFont, staticColor );
 
-            // static equation will be a child of this node
-            final PNode staticParent = new PComposite();
-
             // rendering order
             slopeInterceptParent.addChild( equationNode1 );
             slopeInterceptParent.addChild( equationNode2 );
             slopeInterceptParent.addChild( equationNode3 );
             slopeInterceptParent.addChild( equationNode4 );
-            slopeInterceptParent.addChild( staticParent );
 
             // layout
-            final double ySpacing = 60;
             equationNode1.setOffset( 0, 0 );
             equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + ySpacing );
             equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + ySpacing );
             equationNode4.setOffset( equationNode1.getXOffset(), equationNode3.getFullBoundsReference().getMaxY() + ySpacing );
-            staticParent.setOffset( equationNode1.getXOffset(), equationNode4.getFullBoundsReference().getMaxY() + ySpacing );
-
-            // update the static line
-            line.addObserver( new VoidFunction1<Line>() {
-
-                final SlopeInterceptEquationFactory factory = new SlopeInterceptEquationFactory();
-
-                public void apply( Line line ) {
-                    staticParent.removeAllChildren();
-                    staticParent.addChild( factory.createNode( line.simplified(), staticFont, staticColor ) );
-                }
-            } );
         }
 
         // point-slope tests
@@ -97,9 +79,6 @@ public class TestLineEquations {
             PointSlopeInteractiveEquationNode equationNode5 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, true, false, interactiveFont, staticFont, staticColor );
             PointSlopeInteractiveEquationNode equationNode6 = new PointSlopeInteractiveEquationNode( line, x1Range, y1Range, riseRange, runRange, false, false, false, interactiveFont, staticFont, staticColor );
 
-            // static equation will be a child of this node
-            final PNode staticParent = new PComposite();
-
             // rendering order
             pointSlopeParent.addChild( equationNode1 );
             pointSlopeParent.addChild( equationNode2 );
@@ -107,28 +86,14 @@ public class TestLineEquations {
             pointSlopeParent.addChild( equationNode4 );
             pointSlopeParent.addChild( equationNode5 );
             pointSlopeParent.addChild( equationNode6 );
-            pointSlopeParent.addChild( staticParent );
 
             // layout
-            final double ySpacing = 45;
             equationNode1.setOffset( 0, 0 );
             equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + ySpacing );
             equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + ySpacing );
             equationNode4.setOffset( equationNode1.getXOffset(), equationNode3.getFullBoundsReference().getMaxY() + ySpacing );
             equationNode5.setOffset( equationNode1.getXOffset(), equationNode4.getFullBoundsReference().getMaxY() + ySpacing );
             equationNode6.setOffset( equationNode1.getXOffset(), equationNode5.getFullBoundsReference().getMaxY() + ySpacing );
-            staticParent.setOffset( equationNode1.getXOffset(), equationNode6.getFullBoundsReference().getMaxY() + ySpacing );
-
-            // update the static line
-            line.addObserver( new VoidFunction1<Line>() {
-
-                final PointSlopeEquationFactory factory = new PointSlopeEquationFactory();
-
-                public void apply( Line line ) {
-                    staticParent.removeAllChildren();
-                    staticParent.addChild( factory.createNode( line.simplified(), staticFont, staticColor ) );
-                }
-            } );
         }
 
         // canvas
@@ -139,7 +104,7 @@ public class TestLineEquations {
 
         // layout
         slopeInterceptParent.setOffset( 100, 50 );
-        pointSlopeParent.setOffset( slopeInterceptParent.getFullBoundsReference().getMaxX() + 150, slopeInterceptParent.getYOffset() );
+        pointSlopeParent.setOffset( slopeInterceptParent.getFullBoundsReference().getMaxX() + xSpacing, slopeInterceptParent.getYOffset() );
 
         // frame
         JFrame frame = new JFrame( TestLineEquations.class.getName() );

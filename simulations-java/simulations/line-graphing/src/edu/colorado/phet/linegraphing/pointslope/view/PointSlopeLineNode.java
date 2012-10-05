@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
-import edu.colorado.phet.linegraphing.common.view.StaticEquationNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 
 /**
@@ -24,6 +23,6 @@ public class PointSlopeLineNode extends LineNode {
 
     // Creates the line's equation in point-slope form.
     @Override protected EquationNode createEquationNode( Line line, PhetFont font, Color color ) {
-        return new PointSlopeEquationFactory().createSimplifiedNode( line, font, color );
+        return new PointSlopeInteractiveEquationNode( line, font, color );
     }
 }
