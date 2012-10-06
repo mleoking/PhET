@@ -18,7 +18,7 @@ HIGH
 - query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up (including "x={0} (slope undefined)")
 
 MEDIUM
-- move things to EquationNode base class, eg adding UndefinedSlopeIndicatorNode
+- move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
 - sort out duplication in Challenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
 - layout of EquationNode subclasses is complicated. Is there a better way?
 
