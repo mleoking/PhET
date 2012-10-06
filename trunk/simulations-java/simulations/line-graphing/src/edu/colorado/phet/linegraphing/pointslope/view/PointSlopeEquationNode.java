@@ -47,7 +47,6 @@ public class PointSlopeEquationNode extends EquationNode {
     private final PNode slopeMinusSignNode, riseNode, runNode, xLeftParenNode, xNode, xOperatorNode, x1Node, xRightParenNode;
     private final PNode y1MinusSignNode; // for "y = -y1" case
     private final PPath fractionLineNode;
-    private PNode undefinedSlopeIndicator;
 
     // Constructor for a static line. Note that static lines are automatically simplified.
     public PointSlopeEquationNode( Line line, PhetFont font, Color color ) {
@@ -369,16 +368,10 @@ public class PointSlopeEquationNode extends EquationNode {
             }
         }
 
-        // remove any previous undefined-slope indicator
-        if ( undefinedSlopeIndicator != null ) {
-            removeChild( undefinedSlopeIndicator );
-            undefinedSlopeIndicator = null;
-        }
-
         // undefined-slope indicator, added after layout has been done
         if ( !line.isSlopeDefined() ) {
-            undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
-            undefinedSlopeIndicator.setOffset( 0, fractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + 2 );
+            PNode undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
+            undefinedSlopeIndicator.setOffset( 0, fractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + undefinedSlopeYFudgeFactor );
             addChild( undefinedSlopeIndicator );
         }
     }
