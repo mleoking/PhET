@@ -32,9 +32,8 @@
         return knob;
     }
 
-    function createButton( director ) {
-        var actor = new CAAT.Actor().
-                setSize( 80, 40 );
+    function createButton( director, text, width ) {
+        var actor = new CAAT.Actor().setSize( width, 40 );
 
         actor.paint = function ( director, time ) {
 
@@ -47,11 +46,11 @@
             ctx.strokeStyle = this.pointed ? 'gray' : 'black';
             ctx.strokeRect( 0, 0, this.width, this.height );
 
-            ctx.restore();
-
             ctx.font = '18px sans-serif';
             ctx.fillStyle = 'black';
-            ctx.fillText( 'Reset All', 3, 28 );
+            ctx.fillText( text, 3, 28 );
+
+            ctx.restore();
         };
 
         return actor;
@@ -266,7 +265,7 @@
         rootNode.addChild( bottomKnob );
 
 
-        var resetAllButton = createButton( director );
+        var resetAllButton = createButton( director, "Reset All", 80 );
         resetAllButton.setPosition( 1024 - 80 - 40 - 100, 768 - 40 );
         resetAllButton.mouseClick = function ( e ) {
             document.location.reload( true );
@@ -281,6 +280,12 @@
         var oneHalfLiterLabel = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "1/2 L" ).calcTextSize( director ).
                 setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 224, 186 + 200 );
         rootNode.addChild( oneHalfLiterLabel );
+
+        var removeSoluteButton = createButton( director, "Remove Solute", 130 ).setLocation( 589, 641 );
+        removeSoluteButton.mouseClick = function ( e ) {
+            absorbedCrystals = 0;
+        };
+        rootNode.addChild( removeSoluteButton );
 
         scene.addChild( rootNode );
 
@@ -334,6 +339,7 @@
 //                               console.log( bottomFlowingWater.x + ", " + bottomFlowingWater.y );
 //                               console.log( evaporationControlPanel.x + ", " + evaporationControlPanel.y );
 //                               console.log( oneLiterLabel.x + ", " + oneLiterLabel.y );
+//                               console.log( removeSoluteButton.x + ", " + removeSoluteButton.y );
 
                                if ( shaker.y != shaker.lastY ) {
                                    var w = 20;
