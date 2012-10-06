@@ -247,7 +247,7 @@
 
 //                               console.log( topFaucetPipe.x + ", " + topFaucetPipe.y );
 //                               console.log( knob.x + ", " + knob.y );
-                               console.log( bottomKnob.x + ", " + bottomKnob.y );
+//                               console.log( bottomKnob.x + ", " + bottomKnob.y );
 
                                if ( shaker.y != shaker.lastY ) {
                                    var w = 20;
@@ -271,6 +271,15 @@
                                    }
                                }
                                topFlowAmount = topKnob.getValue();
+
+                               if ( bottomKnob.getValue() > 0 ) {
+                                   //remove fluid
+                                   fluidHeight = fluidHeight - bottomKnob.getValue() * 4;
+                                   if ( fluidHeight < 0 ) {
+                                       fluidHeight = 0;
+                                   }
+                               }
+                               bottomFlowAmount = bottomKnob.getValue();
 
                                for ( var index = 0; index < crystals.length; index++ ) {
                                    crystals[index].velocity = crystals[index].velocity + 1;
