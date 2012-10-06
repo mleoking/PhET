@@ -357,13 +357,12 @@
         rootNode.addChild( bottomFaucet );
         rootNode.addChild( bottomKnob );
 
-
         var resetAllButton = createButton( director, "Reset All", 80, 'orange' );
-        resetAllButton.setPosition( 1024 - 80 - 40 - 100, 768 - 40 );
+        resetAllButton.setPosition( 1024 - resetAllButton.width - 10, 768 - resetAllButton.height - 10 );
         resetAllButton.mouseClick = function ( e ) {
             document.location.reload( true );
         };
-        rootNode.addChild( resetAllButton );
+
         rootNode.addChild( evaporationControlPanel );
         rootNode.addChild( soluteControlPanel );
 
@@ -380,6 +379,7 @@
             absorbedCrystals = 0;
         };
         rootNode.addChild( removeSoluteButton );
+        rootNode.addChild( resetAllButton );
         scene.addChild( rootNode );
 
         //This resize strategy is buggy on ipad if you change orientation more than once
