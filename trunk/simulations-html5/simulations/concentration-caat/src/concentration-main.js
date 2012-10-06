@@ -313,8 +313,16 @@
             popup.addChild( createSquareAndTextNode( 'blue', 'Copper sulfate' ).setLocation( 2, 6 * 32 + 2 ) );
             popup.addChild( createSquareAndTextNode( 'purple', 'Potassium permanganate' ).setLocation( 2, 7 * 32 + 2 ) );
             popup.setLocation( 640, 66 );
+            var inTree = false;
             comboBox.mouseClick = function ( e ) {
-                rootNode.addChild( popup );
+                if ( !inTree ) {
+                    rootNode.addChild( popup );
+                    inTree = true;
+                }
+                else {
+                    rootNode.removeChild( popup );
+                    inTree = false;
+                }
             };
             return container;
         }
