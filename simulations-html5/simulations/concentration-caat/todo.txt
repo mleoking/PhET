@@ -1,5 +1,6 @@
 show a frame rate readout
 pinch to zoom on the frame
 respect size of target window
-integrate withC:\Users\Sam\Desktop\CAAT\documentation\debug\debug_template.html
+integrate with C:\Users\Sam\Desktop\CAAT\documentation\debug\debug_template.html, this will show frame rate
 try webgl renderer?
+center in target window
