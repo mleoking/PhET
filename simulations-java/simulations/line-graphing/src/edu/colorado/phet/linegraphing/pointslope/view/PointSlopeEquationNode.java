@@ -270,7 +270,7 @@ public class PointSlopeEquationNode extends EquationNode {
                 runNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
                                    fractionLineNode.getFullBoundsReference().getMinY() + spinnersYSpacing );
                 previousNode = fractionLineNode;
-                previousXOffset = slopeXSpacing;
+                previousXOffset = fractionalSlopeXSpacing;
             }
             else {
                 // slope is not interactive, so here we put it in the desired form
@@ -311,7 +311,7 @@ public class PointSlopeEquationNode extends EquationNode {
                     runNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
                                        fractionLineNode.getFullBoundsReference().getMinY() + ySpacing );
                     previousNode = fractionLineNode;
-                    previousXOffset = slopeXSpacing;
+                    previousXOffset = fractionalSlopeXSpacing;
                 }
                 else if ( zeroSlope ) {
                     // 0
@@ -320,7 +320,7 @@ public class PointSlopeEquationNode extends EquationNode {
                     removeChild( runNode );
                     riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, yNode.getYOffset() );
                     previousNode = riseNode;
-                    previousXOffset = slopeXSpacing;
+                    previousXOffset = integerSlopeXSpacing;
                 }
                 else if ( unitySlope ) {
                     // no slope term
@@ -334,7 +334,7 @@ public class PointSlopeEquationNode extends EquationNode {
                     removeChild( runNode );
                     riseNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + previousXOffset, yNode.getYOffset() );
                     previousNode = riseNode;
-                    previousXOffset = slopeXSpacing;
+                    previousXOffset = integerSlopeXSpacing;
                 }
                 else {
                     throw new IllegalStateException( "programming error, didn't handle some slope case" );

@@ -55,7 +55,7 @@ public abstract class EquationNode extends PhetPNode {
     // spacing between components of an equation (set by visual inspection)
     protected final double integerSignXSpacing; // spacing between a sign and the integer to the right of it
     protected final double fractionSignXSpacing; // spacing between a sign and the fraction to the right of it
-    protected final double slopeXSpacing; // spacing between the slope and what's to the right of it
+    protected final double integerSlopeXSpacing, fractionalSlopeXSpacing; // spacing between the slope and what's to the right of it
     protected final double operatorXSpacing; // space around an operator (eg, +)
     protected final double relationalOperatorXSpacing; // space around the relational operator (eg, =)
     protected final double parenXSpacing; // space between a parenthesis and the thing it encloses
@@ -77,7 +77,8 @@ public abstract class EquationNode extends PhetPNode {
         signLineSize = new PDimension( 0.54 * pointSize, 0.11 * pointSize );
         integerSignXSpacing = 0.18 * pointSize;
         fractionSignXSpacing = 0.36 * pointSize;
-        slopeXSpacing = 0.15 * pointSize; //TODO have separate spacing for fraction vs integer slope, this is a bit big for integer slopes
+        integerSlopeXSpacing = 0.04 * pointSize;
+        fractionalSlopeXSpacing = 0.15 * pointSize;
         operatorXSpacing = 0.25 * pointSize;
         relationalOperatorXSpacing = 0.35 * pointSize;
         parenXSpacing = 0.07 * pointSize;
