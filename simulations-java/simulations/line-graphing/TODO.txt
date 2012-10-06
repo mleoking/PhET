@@ -17,7 +17,6 @@ HIGH
 - add support for fractional y-intercept in equations
 - "given equation" and "your equation" boxes, with check or X icons (icons outside boxes, on side towards graph)
 - simplify lines in equation code
-- add "verbose" mode to equation code, in case we want to show exactly what is in model
 - query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up (including "x={0} (slope undefined)")
 
 MEDIUM
@@ -26,6 +25,7 @@ MEDIUM
 - layout of EquationNode subclasses is complicated. Is there a better way?
 
 LOW
+- add "verbose" mode to equation code, in case we want to show exactly what is in model
 - use of Line.color is a bit of a mess, and makes it difficult to manage line lists
 - repackage in anticipating of having 3 sims in this project
 
