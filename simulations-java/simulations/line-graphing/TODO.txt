@@ -13,7 +13,7 @@ DESIGN
 
 HIGH
 - rewrite slope tool (see new design in 10/5 notes)
-- add support for fractional y-intercept in equations
+- add support for fractional y-intercept in equations (only when y-intercept is non-interactive)
 - "given equation" and "your equation" boxes, with check or X icons (icons outside boxes, on side towards graph)
 - query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up (including "x={0} (slope undefined)")
 
