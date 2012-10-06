@@ -140,7 +140,7 @@
             var water = {red:200, green:200, blue:255};
             ctx.fillStyle = 'rgb(' + Math.round( water.red ) + ',' + Math.round( water.green ) + ',' + Math.round( water.blue ) + ')';
 
-            if ( topFlowAmount > 0.1 ) {
+            if ( topFlowAmount > 0.1 && fluidHeight < beakerHeight ) {
                 ctx.fillRect( beakerX + 7, 180, 50 * topFlowAmount, beakerHeight - fluidHeight + 20 );
             }
 
