@@ -6,7 +6,7 @@ DESIGN
 - play area layout feels unbalanced for game challenges
 - revisit the placement algorithm for equations on graphed lines
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
-- Game: Place Points challenge
+- Game: Place N Points challenge
 - Game: Parallel Line(s) challenge
 - Game: Perpendicular Line(s) challenge
 - Game: define levels and challenges
