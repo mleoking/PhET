@@ -200,9 +200,40 @@
 
         rootNode.addChild( border );
         rootNode.addChild( fluid );
-        rootNode.addChild( beaker );
+        function createTick( fraction, extentX ) {
+            var tick = new CAAT.Actor().setSize( director.width, director.height );
+            tick.paint = function ( director, time ) {
+                var ctx = director.ctx;
+                ctx.save();
+
+                ctx.strokeStyle = 'black';
+                ctx.beginPath();
+                ctx.moveTo( beakerX, beakerMaxY - fraction * beakerHeight );
+                ctx.lineTo( beakerX + extentX, beakerMaxY - fraction * beakerHeight );
+
+                ctx.lineWidth = 4;
+                ctx.stroke();
+
+                ctx.restore();
+            };
+            return tick;
+        }
+
         rootNode.addChild( bottomFlowingWater );
         rootNode.addChild( topFlowingWater );
+
+        rootNode.addChild( createTick( 0.1, 30 ) );
+        rootNode.addChild( createTick( 0.2, 30 ) );
+        rootNode.addChild( createTick( 0.3, 30 ) );
+        rootNode.addChild( createTick( 0.4, 30 ) );
+        rootNode.addChild( createTick( 0.5, 60 ) );
+        rootNode.addChild( createTick( 0.6, 30 ) );
+        rootNode.addChild( createTick( 0.7, 30 ) );
+        rootNode.addChild( createTick( 0.8, 30 ) );
+        rootNode.addChild( createTick( 0.9, 30 ) );
+        rootNode.addChild( createTick( 1.0, 60 ) );
+        rootNode.addChild( beaker );
+
         rootNode.addChild( topFaucetPipe );
         rootNode.addChild( topFaucet );
         rootNode.addChild( shaker );
