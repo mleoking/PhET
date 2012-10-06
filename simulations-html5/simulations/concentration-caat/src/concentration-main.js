@@ -252,6 +252,7 @@
         rootNode.addChild( createTick( 0.9, 30 ) );
         rootNode.addChild( createTick( 1.0, 60 ) );//TODO: show label
 
+
         rootNode.addChild( beaker );
 
         rootNode.addChild( topFaucetPipe );
@@ -270,6 +271,15 @@
         };
         rootNode.addChild( resetAllButton );
         rootNode.addChild( evaporationControlPanel );
+
+        var oneLiterLabel = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "1 L" ).calcTextSize( director ).
+                setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 224, 186 );
+        rootNode.addChild( oneLiterLabel );
+
+        var oneHalfLiterLabel = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "1/2 L" ).calcTextSize( director ).
+                setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 224, 186 + 200 );
+        rootNode.addChild( oneHalfLiterLabel );
+
         scene.addChild( rootNode );
 
         //This resize strategy is buggy on ipad if you change orientation more than once
@@ -321,6 +331,8 @@
 //                               console.log( bottomKnob.x + ", " + bottomKnob.y );
 //                               console.log( bottomFlowingWater.x + ", " + bottomFlowingWater.y );
 //                               console.log( evaporationControlPanel.x + ", " + evaporationControlPanel.y );
+
+                               console.log( oneLiterLabel.x + ", " + oneLiterLabel.y );
 
                                if ( shaker.y != shaker.lastY ) {
                                    var w = 20;
