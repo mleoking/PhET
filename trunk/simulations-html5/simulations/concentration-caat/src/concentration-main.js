@@ -32,7 +32,7 @@
         return knob;
     }
 
-    function createButton( director, text, width ) {
+    function createButton( director, text, width, background ) {
         var actor = new CAAT.Actor().setSize( width, 40 );
 
         actor.paint = function ( director, time ) {
@@ -40,7 +40,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            ctx.fillStyle = this.pointed ? '#f3f' : 'orange';
+            ctx.fillStyle = this.pointed ? '#f3f' : background;
             ctx.fillRect( 0, 0, this.width, this.height );
 
             ctx.strokeStyle = this.pointed ? 'gray' : 'black';
@@ -265,7 +265,7 @@
         rootNode.addChild( bottomKnob );
 
 
-        var resetAllButton = createButton( director, "Reset All", 80 );
+        var resetAllButton = createButton( director, "Reset All", 80, 'orange' );
         resetAllButton.setPosition( 1024 - 80 - 40 - 100, 768 - 40 );
         resetAllButton.mouseClick = function ( e ) {
             document.location.reload( true );
@@ -281,7 +281,7 @@
                 setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 224, 186 + 200 );
         rootNode.addChild( oneHalfLiterLabel );
 
-        var removeSoluteButton = createButton( director, "Remove Solute", 130 ).setLocation( 589, 641 );
+        var removeSoluteButton = createButton( director, "Remove Solute", 130, 'rgb(240,240,240)' ).setLocation( 589, 641 );
         removeSoluteButton.mouseClick = function ( e ) {
             absorbedCrystals = 0;
         };
