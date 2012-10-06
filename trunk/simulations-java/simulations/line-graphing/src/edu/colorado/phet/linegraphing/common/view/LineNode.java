@@ -105,8 +105,8 @@ public abstract class LineNode extends PComposite {
         equationNode = createEquationNode( line, EQUATION_FONT, line.color );
         PNode zeroOffsetNode = new ZeroOffsetNode( equationNode );
         equationParentNode.addChild( zeroOffsetNode );
-        if ( line.rise < 0 && line.run > 0 ) {
-            // quadrant 4: put equation below the line, so that it isn't occluded by the rise/run brackets
+        if ( line.rise > 0 && line.run > 0 ) {
+            // quadrant 1: put equation below the line, so that it isn't occluded by the rise/run brackets
             zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12, 5 );
         }
         else {
