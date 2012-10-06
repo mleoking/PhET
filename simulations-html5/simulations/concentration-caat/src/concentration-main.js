@@ -286,7 +286,6 @@
             absorbedCrystals = 0;
         };
         rootNode.addChild( removeSoluteButton );
-
         scene.addChild( rootNode );
 
         //This resize strategy is buggy on ipad if you change orientation more than once
