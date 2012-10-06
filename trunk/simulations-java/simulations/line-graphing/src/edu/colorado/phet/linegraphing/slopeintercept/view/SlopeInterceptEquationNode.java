@@ -186,7 +186,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
                                 fractionLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - spinnersYSpacing );
             runNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
                                fractionLineNode.getFullBoundsReference().getMinY() + spinnersYSpacing );
-            xNode.setOffset( fractionLineNode.getFullBoundsReference().getMaxX() + slopeXSpacing, yNode.getYOffset() );
+            xNode.setOffset( fractionLineNode.getFullBoundsReference().getMaxX() + fractionalSlopeXSpacing, yNode.getYOffset() );
         }
         else {
             // adjust fraction line width
@@ -218,7 +218,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
                                     fractionLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
                 runNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
                                    fractionLineNode.getFullBoundsReference().getMinY() + ySpacing );
-                xNode.setOffset( fractionLineNode.getFullBoundsReference().getMaxX() + slopeXSpacing, yNode.getYOffset() );
+                xNode.setOffset( fractionLineNode.getFullBoundsReference().getMaxX() + fractionalSlopeXSpacing, yNode.getYOffset() );
             }
             else if ( zeroSlope ) {
                 // no x term
@@ -240,7 +240,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
                 removeChild( fractionLineNode );
                 removeChild( runNode );
                 riseNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + previousXOffset, yNode.getYOffset() );
-                xNode.setOffset( riseNode.getFullBoundsReference().getMaxX() + slopeXSpacing, yNode.getYOffset() );
+                xNode.setOffset( riseNode.getFullBoundsReference().getMaxX() + integerSlopeXSpacing, yNode.getYOffset() );
             }
             else {
                 throw new IllegalStateException( "programming error, didn't handle some slope case" );
@@ -259,7 +259,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
             if ( zeroSlope && !interactiveSlope ) {
                 // y = b
                 removeChild( operatorNode );
-                interceptNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + slopeXSpacing,
+                interceptNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                          yNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
             }
             else {
