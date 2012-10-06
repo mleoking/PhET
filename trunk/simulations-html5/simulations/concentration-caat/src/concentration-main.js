@@ -235,20 +235,50 @@
         }
 
         function createSoluteControlPanel() {
-            var background = new CAAT.ShapeActor().setSize( 300, 100 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' );
+            var background = new CAAT.ShapeActor().setSize( 300, 120 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' );
             var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Solute:" ).calcTextSize( director ).
                     setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
             var container = new CAAT.ActorContainer().setLocation( 700, 20 );
             container.setSize( background.width, background.height );
             container.addChild( background );
-            container.addChild( text.setLocation( 2, 2 ) );
-            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( "Solid" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 60, 55 ) );
-            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( "Solution" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 180, 55 ) );
-            var solidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'black' ).setLocation( 5, 62 + 6 - 30 + 5 );
+            container.addChild( text.setLocation( 2, 4 + 8 ) );
+            var offsetY = 20;
+            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( "Solid" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 60, 55 + offsetY ) );
+            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( "Solution" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 180, 55 + offsetY ) );
+            var solidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'black' ).setLocation( 5, 62 + 6 - 30 + 5 + offsetY );
             container.addChild( solidCircle );
-            var fluidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'white' ).setLocation( 5 + 180 - 60, 62 + 6 - 30 + 5 );
+            var fluidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'white' ).setLocation( 5 + 180 - 60, 62 + 6 - 30 + 5 + offsetY );
             container.addChild( fluidCircle );
+
+            var comboBox = new CAAT.ShapeActor().setSize( 190, 40 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'white' ).setStrokeStyle( 'black' ).setLocation( 100, 5 );
+            container.addChild( comboBox );
+
+            var square = new CAAT.ShapeActor().setSize( 30, 30 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'red' );
+            comboBox.addChild( square.setLocation( 5, 5 ) );
+            comboBox.addChild( new CAAT.TextActor().setFont( "24px sans-serif" ).setText( "Drink Mix" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 40, 5 ) );
+            var buttonBox = new CAAT.ShapeActor().setSize( 30, 30 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' ).setLocation( comboBox.width - 30 - 5, 5 );
+            comboBox.addChild( buttonBox );
+            var triangle = new CAAT.Actor().setSize( 30, 30 ).setLocation( 10, 10 );
+            triangle.paint = function ( director, time ) {
+                var ctx = director.ctx;
+                ctx.save();
+                ctx.strokeStyle = 'gray';
+                ctx.beginPath();
+                ctx.moveTo( 0, 0 );
+                ctx.lineTo( 10, 0 );
+                ctx.lineTo( 5, 10 );
+                ctx.closePath();
+
+                ctx.lineWidth = 6;
+                ctx.lineJoin = 'square';
+                ctx.lineCap = 'square';
+                ctx.stroke();
+
+                ctx.restore();
+            };
+
+            buttonBox.addChild( triangle );
 
             solidCircle.mouseClick = function ( e ) {
                 solidCircle.setFillStyle( 'black' );
