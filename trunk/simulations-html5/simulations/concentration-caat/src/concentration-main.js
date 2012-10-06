@@ -331,8 +331,7 @@
 //                               console.log( bottomKnob.x + ", " + bottomKnob.y );
 //                               console.log( bottomFlowingWater.x + ", " + bottomFlowingWater.y );
 //                               console.log( evaporationControlPanel.x + ", " + evaporationControlPanel.y );
-
-                               console.log( oneLiterLabel.x + ", " + oneLiterLabel.y );
+//                               console.log( oneLiterLabel.x + ", " + oneLiterLabel.y );
 
                                if ( shaker.y != shaker.lastY ) {
                                    var w = 20;
