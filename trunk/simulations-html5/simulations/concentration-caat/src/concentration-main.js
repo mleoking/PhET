@@ -226,12 +226,12 @@
         rootNode.addChild( createTick( 0.2, 30 ) );
         rootNode.addChild( createTick( 0.3, 30 ) );
         rootNode.addChild( createTick( 0.4, 30 ) );
-        rootNode.addChild( createTick( 0.5, 60 ) );
+        rootNode.addChild( createTick( 0.5, 60 ) );//TODO: show label
         rootNode.addChild( createTick( 0.6, 30 ) );
         rootNode.addChild( createTick( 0.7, 30 ) );
         rootNode.addChild( createTick( 0.8, 30 ) );
         rootNode.addChild( createTick( 0.9, 30 ) );
-        rootNode.addChild( createTick( 1.0, 60 ) );
+        rootNode.addChild( createTick( 1.0, 60 ) );//TODO: show label
         rootNode.addChild( beaker );
 
         rootNode.addChild( topFaucetPipe );
