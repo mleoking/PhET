@@ -234,8 +234,6 @@
         }
 
         var evaporationControlPanel = createEvaporationControlPanel();
-        evaporationControlPanel.enableDrag();
-
 
         rootNode.addChild( border );
         rootNode.addChild( fluid );
