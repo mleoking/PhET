@@ -1,3 +1,4 @@
+10/5/12 delete unnecessary field for undefined-slope indicator
 10/5/12 fix spacing between slope spinners and "(" in point-slope equations
 10/5/12 add TestEquationNodes to build.properties to facilitate cross-platform layout comparisons
 10/5/12 render zero point coordinates, eg "(y - 0) = m(x - 0)" [68863]
