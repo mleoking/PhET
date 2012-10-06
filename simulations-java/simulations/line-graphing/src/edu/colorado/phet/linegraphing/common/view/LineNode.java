@@ -105,12 +105,13 @@ public abstract class LineNode extends PComposite {
         equationNode = createEquationNode( line, EQUATION_FONT, line.color );
         PNode zeroOffsetNode = new ZeroOffsetNode( equationNode );
         equationParentNode.addChild( zeroOffsetNode );
-        if ( line.rise > 0 && line.run > 0 ) {
-            // quadrant 1: put equation below the line, so that it isn't occluded by the rise/run brackets
+        // put equation where it won't interfere with rise/run brackets
+        if ( line.rise > 0 ) {
+            // equation below the line
             zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12, 5 );
         }
         else {
-            // all other quadrants: put equation above the line
+            // equation above the line
             zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12,
                                       -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
         }
