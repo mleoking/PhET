@@ -216,17 +216,17 @@ public abstract class LineFormsGraphNode extends GraphNode {
         if ( line.run != 0 ) {
 
             // run bracket
-            final Direction runDirection = line.rise >= 0 ? Direction.UP : Direction.DOWN;
+            final Direction runDirection = line.rise >= 0 ? Direction.DOWN : Direction.UP;
             final RiseRunBracketNode runBracketNode = new RiseRunBracketNode( runDirection, mvt.modelToViewDeltaX( line.run ), line.run );
             bracketsParentNode.addChild( runBracketNode );
-            runBracketNode.setOffset( mvt.modelToViewX( line.x1 ), mvt.modelToViewY( line.y1 ) );
+            runBracketNode.setOffset( mvt.modelToViewX( line.x1 ), mvt.modelToViewY( line.y1 + line.rise ) );
 
             // rise bracket
             if ( line.rise != 0 ) {
-                final Direction riseDirection = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
+                final Direction riseDirection = line.run > 0 ? Direction.RIGHT : Direction.LEFT;
                 final RiseRunBracketNode riseBracket = new RiseRunBracketNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), line.rise );
                 bracketsParentNode.addChild( riseBracket );
-                riseBracket.setOffset( mvt.modelToViewX( line.x1 + line.run ), mvt.modelToViewY( line.y1 ) );
+                riseBracket.setOffset( mvt.modelToViewX( line.x1 ), mvt.modelToViewY( line.y1 ) );
             }
         }
 
