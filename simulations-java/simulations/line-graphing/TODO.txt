@@ -4,7 +4,7 @@ DEADLINES
 
 DESIGN
 - play area layout feels unbalanced for game challenges
-- revisit the placement algorithm for equations on graphed lines
+- revisit the placement algorithm for equations on graphed lines, should it be on same end of line as slope manipulator?
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 - Game: Place N Points challenge
 - Game: Parallel Line(s) challenge
