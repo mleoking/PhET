@@ -3,9 +3,6 @@ package edu.colorado.phet.linegraphing.common;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
-
 /**
  * Colors used throughout this project.
  *
@@ -14,13 +11,13 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 public class LGColors {
 
     public static final Color CANVAS = new Color( 255, 255, 225 );
-    public static final Color INTERACTIVE_LINE = PhetColorScheme.RED_COLORBLIND;
-    public static final Color SAVED_LINE_NORMAL = Color.GRAY;
-    public static final Color SAVED_LINE_HIGHLIGHT = new Color( 0, 190, 0 );
-    public static final Color Y_EQUALS_X = new Color( 0, 0, 255 );
-    public static final Color Y_EQUALS_NEGATIVE_X = new Color( 0, 178, 178 );
-    public static final Color SLOPE = new Color( 120, 245, 3 );
-    public static final Color INTERCEPT = new Color( 255, 255, 0 );
+    public static final Color INTERACTIVE_LINE = Color.BLACK;
+    public static final Color SAVED_LINE_NORMAL = new Color( 160, 160, 160 );
+    public static final Color SAVED_LINE_HIGHLIGHT = new Color( 0, 0, 255 );
+    public static final Color Y_EQUALS_X = new Color( 16, 178, 15 );
+    public static final Color Y_EQUALS_NEGATIVE_X = Y_EQUALS_X;
+    public static final Color SLOPE = new Color( 49, 204, 255 );
+    public static final Color INTERCEPT = new Color( 255, 200, 0 );
     public static final Color POINT_X1_Y1 = new Color( 255, 125, 255 );
     public static final Color POINT_X2_Y2 = POINT_X1_Y1;
     public static final Color SAVE_LINE_BUTTON = Color.WHITE;
