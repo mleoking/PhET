@@ -1,3 +1,4 @@
+10/5/12 factor out method for creating shape of fraction division line
 10/5/12 fix location of equation on graphed line so that it's always on the opposite side of the line from the slope tool
 10/5/12 change color scheme to avoid overloading of yellow and green
 10/5/12 instantiate some colors in LGColors to take advantage of IDEA's color editor

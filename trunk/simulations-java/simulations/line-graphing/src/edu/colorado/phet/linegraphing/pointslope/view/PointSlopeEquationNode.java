@@ -102,7 +102,7 @@ public class PointSlopeEquationNode extends EquationNode {
             riseNode = new DynamicValueNode( rise, staticFont, staticColor, true ); // displayed as absolute value
             runNode = new DynamicValueNode( run, staticFont, staticColor, true ); // displayed as absolute value
         }
-        fractionLineNode = new PPath( new Rectangle2D.Double( 0, 0, maxSlopeSpinnerWidth, fractionLineThickness ) ) {{
+        fractionLineNode = new PPath( createFractionLineShape( maxSlopeSpinnerWidth ) ) {{
             setStroke( null );
             setPaint( staticColor );
         }};
@@ -285,7 +285,7 @@ public class PointSlopeEquationNode extends EquationNode {
 
                 // adjust fraction line width, use max width of rise or run
                 double lineWidth = Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getWidth() );
-                fractionLineNode.setPathTo( new Rectangle2D.Double( 0, 0, lineWidth, fractionLineThickness ) );
+                fractionLineNode.setPathTo( createFractionLineShape( lineWidth ) );
 
                 // decide whether to include the slope minus sign
                 if ( positiveSlope ) {
