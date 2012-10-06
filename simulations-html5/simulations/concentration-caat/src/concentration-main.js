@@ -254,11 +254,24 @@
             var comboBox = new CAAT.ShapeActor().setSize( 190, 40 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'white' ).setStrokeStyle( 'black' ).setLocation( 100, 5 );
             container.addChild( comboBox );
 
-            var square = new CAAT.ShapeActor().setSize( 30, 30 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'red' );
-            comboBox.addChild( square.setLocation( 5, 5 ) );
-            comboBox.addChild( new CAAT.TextActor().setFont( "24px sans-serif" ).setText( "Drink Mix" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 40, 5 ) );
+            function createSquareAndTextNode( color, text ) {
+                var square = new CAAT.ShapeActor().setSize( 30, 30 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( color );
+                var entryText = new CAAT.TextActor().setFont( "24px sans-serif" ).setText( text ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 40, 5 ).enableEvents( false );
+                var container = new CAAT.ActorContainer().setSize( 400, 30 );
+                square.enableEvents( false );
+                entryText.enableEvents( false );
+                container.addChild( square );
+                container.addChild( entryText );
+                container.enableEvents( false );
+                return container;
+            }
+
+            var node = createSquareAndTextNode( 'red', "Drink Mix" );
+            comboBox.addChild( node.setLocation( 5, 5 ) );
+
             var buttonBox = new CAAT.ShapeActor().setSize( 30, 30 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' ).setLocation( comboBox.width - 30 - 5, 5 );
             comboBox.addChild( buttonBox );
+
             var triangle = new CAAT.Actor().setSize( 30, 30 ).setLocation( 10, 10 );
             triangle.paint = function ( director, time ) {
                 var ctx = director.ctx;
@@ -287,6 +300,21 @@
             fluidCircle.mouseClick = function ( e ) {
                 solidCircle.setFillStyle( 'white' );
                 fluidCircle.setFillStyle( 'black' );
+            };
+
+            buttonBox.enableEvents( false );
+            var popup = new CAAT.ShapeActor().setSize( 350, 260 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'white' ).setStrokeStyle( 'black' );
+            popup.addChild( createSquareAndTextNode( 'red', 'Drink Mix' ).setLocation( 2, 0 * 32 + 2 ) );
+            popup.addChild( createSquareAndTextNode( 'red', 'Cobalt (II) nitrate' ).setLocation( 2, 1 * 32 + 2 ) );
+            popup.addChild( createSquareAndTextNode( 'pink', 'Cobalt chloride' ).setLocation( 2, 2 * 32 + 2 ) );
+            popup.addChild( createSquareAndTextNode( 'orange', 'Potassium dichromate' ).setLocation( 2, 3 * 32 + 2 ) );
+            popup.addChild( createSquareAndTextNode( 'yellow', 'Potassium chromate' ).setLocation( 2, 4 * 32 + 2 ) );
+            popup.addChild( createSquareAndTextNode( 'green', 'Nickel (II) chloride' ).setLocation( 2, 5 * 32 + 2 ) );
+            popup.addChild( createSquareAndTextNode( 'blue', 'Copper sulfate' ).setLocation( 2, 6 * 32 + 2 ) );
+            popup.addChild( createSquareAndTextNode( 'purple', 'Potassium permanganate' ).setLocation( 2, 7 * 32 + 2 ) );
+            popup.setLocation( 640, 66 );
+            comboBox.mouseClick = function ( e ) {
+                rootNode.addChild( popup );
             };
             return container;
         }
