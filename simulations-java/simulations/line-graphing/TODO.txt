@@ -13,7 +13,6 @@ DESIGN
 
 HIGH
 - rewrite slope tool (see new design in 10/5 notes)
-- use EquationNode.createSignNode, createOperatorNode, createFractionLineNode in subclasses
 - add support for fractional y-intercept in equations
 - "given equation" and "your equation" boxes, with check or X icons (icons outside boxes, on side towards graph)
 - simplify lines in equation code

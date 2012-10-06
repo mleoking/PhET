@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.Color;
 import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -86,32 +87,9 @@ public abstract class EquationNode extends PhetPNode {
         spinnersYSpacing = 0.2 * pointSize;
     }
 
-    // Creates a plus or minus sign. Sign is distinct from operator, so that they can have different looks.
-    protected PNode createSignNode( double value, Color color ) {
-        if ( value >= 0 ) {
-            return new PlusNode( signLineSize, color );
-        }
-        else {
-            return new MinusNode( signLineSize, color );
-        }
-    }
-
-    // Creates a plus or minus operator. Operator is distinct from sign, so that they can have different looks.
-    protected PNode createOperatorNode( double value, Color color ) {
-        if ( value >= 0 ) {
-            return new PlusNode( operatorLineSize, color );
-        }
-        else {
-            return new MinusNode( operatorLineSize, color );
-        }
-    }
-
-    // Creates the horizontal line that separates numerator and denominator in a fraction (slope, in our case.)
-    protected PNode createFractionLineNode( double width, Color color ) {
-        PPath node = new PPath( new Rectangle2D.Double( 0, 0, width, fractionLineThickness ) );
-        node.setStroke( null );
-        node.setPaint( color );
-        return node;
+    // Creates the shape for the fraction division line.
+    protected Shape createFractionLineShape( double length ) {
+        return new Rectangle2D.Double( 0, 0, length, fractionLineThickness );
     }
 
     // Gets the max width for the rise and run spinners used in an interactive equation.
