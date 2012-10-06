@@ -22,7 +22,6 @@ HIGH
 - add "verbose" mode to equation code, in case we want to show exactly what is in model
 - query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up
 - add more space between "(" and slope spinners in interactive equations
-- move "=" up a bit, it's OK on Mac, but too low on Win, compromise
 
 MEDIUM
 - sort out duplication in Challenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)

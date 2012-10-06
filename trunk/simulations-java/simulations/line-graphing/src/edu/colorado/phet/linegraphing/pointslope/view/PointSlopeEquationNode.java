@@ -49,7 +49,7 @@ public class PointSlopeEquationNode extends EquationNode {
     private final PPath fractionLineNode;
     private PNode undefinedSlopeIndicator;
 
-    // Constructor for a static line.
+    // Constructor for a static line. Note that static lines are automatically simplified.
     public PointSlopeEquationNode( Line line, PhetFont font, Color color ) {
         this( new Property<Line>( line.simplified() ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
