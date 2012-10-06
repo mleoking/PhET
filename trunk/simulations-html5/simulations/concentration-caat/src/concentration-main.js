@@ -111,6 +111,8 @@
             ctx.restore();
         };
 
+        //TODO: factor this out for reuse in the bottom faucet
+//        var topFlowingWater = createFlowingWater( director.width, director.height, );
         var topFlowingWater = new CAAT.Actor().setSize( director.width, director.height );
         var topFlowAmount = 0.0;
 
@@ -118,10 +120,6 @@
             var ctx = director.ctx;
             ctx.save();
 
-            var distance = absorbedCrystals / 100;
-            if ( distance > 1 ) {
-                distance = 1;
-            }
             var water = {red:200, green:200, blue:255};
             ctx.fillStyle = 'rgb(' + Math.round( water.red ) + ',' + Math.round( water.green ) + ',' + Math.round( water.blue ) + ')';
 
