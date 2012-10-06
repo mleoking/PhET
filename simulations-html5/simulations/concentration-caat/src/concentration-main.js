@@ -234,7 +234,35 @@
             return container;
         }
 
+        function createSoluteControlPanel() {
+            var background = new CAAT.ShapeActor().setSize( 300, 100 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' );
+            var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Solute:" ).calcTextSize( director ).
+                    setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
+
+            var container = new CAAT.ActorContainer().setLocation( 700, 20 );
+            container.setSize( background.width, background.height );
+            container.addChild( background );
+            container.addChild( text.setLocation( 2, 2 ) );
+            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( "Solid" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 60, 55 ) );
+            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( "Solution" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 180, 55 ) );
+            var solidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'black' ).setLocation( 5, 62 + 6 - 30 + 5 );
+            container.addChild( solidCircle );
+            var fluidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'white' ).setLocation( 5 + 180 - 60, 62 + 6 - 30 + 5 );
+            container.addChild( fluidCircle );
+
+            solidCircle.mouseClick = function ( e ) {
+                solidCircle.setFillStyle( 'black' );
+                fluidCircle.setFillStyle( 'white' );
+            };
+            fluidCircle.mouseClick = function ( e ) {
+                solidCircle.setFillStyle( 'white' );
+                fluidCircle.setFillStyle( 'black' );
+            };
+            return container;
+        }
+
         var evaporationControlPanel = createEvaporationControlPanel();
+        var soluteControlPanel = createSoluteControlPanel();
 
         rootNode.addChild( border );
         rootNode.addChild( fluid );
@@ -252,7 +280,6 @@
         rootNode.addChild( createTick( 0.8, 30 ) );
         rootNode.addChild( createTick( 0.9, 30 ) );
         rootNode.addChild( createTick( 1.0, 60 ) );//TODO: show label
-
 
         rootNode.addChild( beaker );
 
@@ -272,6 +299,7 @@
         };
         rootNode.addChild( resetAllButton );
         rootNode.addChild( evaporationControlPanel );
+        rootNode.addChild( soluteControlPanel );
 
         var oneLiterLabel = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "1 L" ).calcTextSize( director ).
                 setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 224, 186 );
