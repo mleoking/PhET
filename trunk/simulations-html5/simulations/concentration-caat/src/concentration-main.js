@@ -217,7 +217,7 @@
         }
 
         function createEvaporationControlPanel() {
-            var background = new CAAT.ShapeActor().setSize( 400, 100 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' );
+            var background = new CAAT.ShapeActor().setSize( 400, 100 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' ).setStrokeStyle( 'black' );
             var sliderTrack = new CAAT.ShapeActor().setSize( 200, 4 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(255,255,255)' ).setStrokeStyle( 'rgb(0,0,0)' );
             var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Evaporation" ).calcTextSize( director ).
                     setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
@@ -235,7 +235,7 @@
         }
 
         function createSoluteControlPanel() {
-            var background = new CAAT.ShapeActor().setSize( 300, 120 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' );
+            var background = new CAAT.ShapeActor().setSize( 300, 120 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' ).setStrokeStyle( 'black' );
             var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Solute:" ).calcTextSize( director ).
                     setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
