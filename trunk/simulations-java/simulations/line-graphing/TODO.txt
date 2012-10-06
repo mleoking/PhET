@@ -20,7 +20,7 @@ HIGH
 - "given equation" and "your equation" boxes, with check or X icons (icons outside boxes, on side towards graph)
 - simplify lines in equation code
 - add "verbose" mode to equation code, in case we want to show exactly what is in model
-- query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up
+- query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up (including "x={0} (slope undefined)")
 
 MEDIUM
 - sort out duplication in Challenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
