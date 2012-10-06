@@ -230,6 +230,8 @@
             var evaporationKnob = createKnob( director.getImage( 'slider-knob' ), 150, 25, 350 );
             container.addChild( sliderTrack.setPosition( 150 + 10, 25 + evaporationKnob.height / 2 ) );
             container.addChild( evaporationKnob );
+
+            container.evaporationKnob = evaporationKnob;
             return container;
         }
 
@@ -380,6 +382,15 @@
                                    }
                                }
                                shaker.lastY = shaker.y;
+
+                               var evaporationValue = evaporationControlPanel.evaporationKnob.getValue();
+                               if ( evaporationValue > 0 ) {
+                                   //remove fluid
+                                   fluidHeight = fluidHeight - evaporationControlPanel.evaporationKnob.getValue() * 4;
+                                   if ( fluidHeight < 0 ) {
+                                       fluidHeight = 0;
+                                   }
+                               }
                            },
                            function ( scene_time, timer_time, timertask_instance ) {   // tick
                            },
