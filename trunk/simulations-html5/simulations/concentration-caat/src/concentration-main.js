@@ -219,14 +219,17 @@
 
         function createEvaporationControlPanel() {
             var background = new CAAT.ShapeActor().setSize( 400, 100 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' );
+            var sliderTrack = new CAAT.ShapeActor().setSize( 200, 4 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(255,255,255)' ).setStrokeStyle( 'rgb(0,0,0)' );
             var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Evaporation" ).calcTextSize( director ).
                     setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
-            var container = new CAAT.ActorContainer().setLocation( 175, 612 ).enableDrag();
+            var container = new CAAT.ActorContainer().setLocation( 175, 612 );
+            container.setSize( director.width, director.height );
             container.addChild( background );
-            container.addChild( text.setLocation( 0, 0 ) );
-            var evapKnob = createKnob( director.getImage( 'slider-knob' ), 150, 5, 200 );
-            container.addChild( evapKnob );
+            container.addChild( text.setLocation( 2, 30 ) );
+            var evaporationKnob = createKnob( director.getImage( 'slider-knob' ), 150, 25, 350 );
+            container.addChild( sliderTrack.setPosition( 150 + 10, 25 + evaporationKnob.height / 2 ) );
+            container.addChild( evaporationKnob );
             return container;
         }
 
