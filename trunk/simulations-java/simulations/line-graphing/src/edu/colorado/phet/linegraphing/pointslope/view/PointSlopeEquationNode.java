@@ -271,6 +271,7 @@ public class PointSlopeEquationNode extends EquationNode {
                 runNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
                                    fractionLineNode.getFullBoundsReference().getMinY() + spinnersYSpacing );
                 previousNode = fractionLineNode;
+                previousXOffset = slopeXSpacing;
             }
             else {
                 // slope is not interactive, so here we put it in the desired form
