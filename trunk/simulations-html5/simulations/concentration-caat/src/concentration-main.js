@@ -61,6 +61,26 @@
         return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
     }
 
+    function getColor( distance ) {
+        var source = {red:200, green:200, blue:255};
+        var destination = {red:255, green:0, blue:0};
+        var relative = {
+            red:interpolate( 0, source.red, 1, destination.red, distance ),
+            green:interpolate( 0, source.green, 1, destination.green, distance ),
+            blue:interpolate( 0, source.blue, 1, destination.blue, distance )};
+
+        var fillStyleString = 'rgb(' + Math.round( relative.red ) + ',' + Math.round( relative.green ) + ',' + Math.round( relative.blue ) + ')';
+        return fillStyleString;
+    }
+
+    function getFractionTowardSaturation( absorbedCrystals ) {
+        var distance = absorbedCrystals / 100;
+        if ( distance > 1 ) {
+            distance = 1;
+        }
+        return distance;
+    }
+
     /**
      * This function will be called to let you define new scenes that will be
      * shown after the splash screen.
@@ -111,11 +131,8 @@
             ctx.restore();
         };
 
-        //TODO: factor this out for reuse in the bottom faucet
-//        var topFlowingWater = createFlowingWater( director.width, director.height, );
         var topFlowingWater = new CAAT.Actor().setSize( director.width, director.height );
         var topFlowAmount = 0.0;
-
         topFlowingWater.paint = function ( director, time ) {
             var ctx = director.ctx;
             ctx.save();
@@ -130,6 +147,22 @@
             ctx.restore();
         };
 
+        var bottomFlowingWater = new CAAT.Actor().setSize( director.width, director.height );
+        bottomFlowingWater.enableDrag();
+        var bottomFlowAmount = 0.0;
+
+        bottomFlowingWater.paint = function ( director, time ) {
+            var ctx = director.ctx;
+            ctx.save();
+
+            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ) );
+
+            if ( bottomFlowAmount > 0.1 && fluidHeight > 0 ) {
+                ctx.fillRect( beakerMaxX + 60, beakerMaxY + 50, 50 * bottomFlowAmount, 800 );
+            }
+            ctx.restore();
+        };
+
         var fluid = new CAAT.Actor().setSize( director.width, director.height );
         var fluidHeight = beakerHeight / 2;
 
@@ -138,20 +171,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            var distance = absorbedCrystals / 100;
-            if ( distance > 1 ) {
-                distance = 1;
-            }
-
-            var source = {red:200, green:200, blue:255};
-            var destination = {red:255, green:0, blue:0};
-            var relative = {
-                red:interpolate( 0, source.red, 1, destination.red, distance ),
-                green:interpolate( 0, source.green, 1, destination.green, distance ),
-                blue:interpolate( 0, source.blue, 1, destination.blue, distance )};
-
-            var fillStyleString = 'rgb(' + Math.round( relative.red ) + ',' + Math.round( relative.green ) + ',' + Math.round( relative.blue ) + ')';
-            ctx.fillStyle = fillStyleString;
+            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ) );
             ctx.fillRect( beakerX, beakerMaxY - fluidHeight, beakerWidth, fluidHeight );
 
             ctx.restore();
@@ -181,6 +201,7 @@
         rootNode.addChild( border );
         rootNode.addChild( fluid );
         rootNode.addChild( beaker );
+        rootNode.addChild( bottomFlowingWater );
         rootNode.addChild( topFlowingWater );
         rootNode.addChild( topFaucetPipe );
         rootNode.addChild( topFaucet );
@@ -246,6 +267,7 @@
 //                               console.log( topFaucetPipe.x + ", " + topFaucetPipe.y );
 //                               console.log( knob.x + ", " + knob.y );
 //                               console.log( bottomKnob.x + ", " + bottomKnob.y );
+//                               console.log( bottomFlowingWater.x + ", " + bottomFlowingWater.y );
 
                                if ( shaker.y != shaker.lastY ) {
                                    var w = 20;
