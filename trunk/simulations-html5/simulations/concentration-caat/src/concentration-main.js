@@ -24,6 +24,11 @@
             }
             knob.x = knobX;
         };
+
+        //Returns a value between 0 and 1
+        knob.getValue = function () {
+            return (knob.x - minX) / (maxX - minX);
+        };
         return knob;
     }
 
@@ -159,11 +164,9 @@
         var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 752, 520 );
         var rootNode = new CAAT.ActorContainer().setSize( director.width, director.height );
         rootNode.setPosition( 0, 0 );
-//        var slider = new CAAT.ActorContainer().setSize( director.width, director.height );
 
         var topKnob = createKnob( director.getImage( 'slider-knob' ), 90, 34, 177 );
         var bottomKnob = createKnob( director.getImage( 'slider-knob' ), 738, 498, 738 + (177 - 90) );
-//        bottomKnob.enableDrag();
 
         var border = new CAAT.Actor().setSize( director.width, director.height );
 
@@ -260,15 +263,14 @@
                                    }
                                }
 
-                               var sliderAmount = (topKnob.x - 90) / (177.0 - 90);
-                               if ( sliderAmount > 0 ) {
+                               if ( topKnob.getValue() > 0 ) {
                                    //add fluid
-                                   fluidHeight = fluidHeight + 1 * sliderAmount * 4;
+                                   fluidHeight = fluidHeight + topKnob.getValue() * 4;
                                    if ( fluidHeight > beakerHeight ) {
                                        fluidHeight = beakerHeight;
                                    }
                                }
-                               topFlowAmount = sliderAmount;
+                               topFlowAmount = topKnob.getValue();
 
                                for ( var index = 0; index < crystals.length; index++ ) {
                                    crystals[index].velocity = crystals[index].velocity + 1;
