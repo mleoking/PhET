@@ -1,5 +1,32 @@
 (function () {
 
+    function createKnob( image, minX, y, maxX ) {
+        var knob = new CAAT.Actor().setBackgroundImage( image, true ).setPosition( minX, y );
+        knob.x = minX;
+        knob.enableDrag();
+        knob.mouseDrag = function ( mouseEvent ) {
+
+            var pt = knob.modelToView( new CAAT.Point( mouseEvent.x, mouseEvent.y ) );
+            knob.parent.viewToModel( pt );
+
+            if ( knob.__d_ax === -1 || this.__d_ay === -1 ) {
+                knob.__d_ax = pt.x;
+                knob.__d_ay = +1;
+                knob.__relativeTouchPoint = knob.x - pt.x;
+            }
+
+            var knobX = pt.x + knob.__relativeTouchPoint;
+            if ( knobX > maxX ) {
+                knobX = maxX;
+            }
+            if ( knobX < minX ) {
+                knobX = minX;
+            }
+            knob.x = knobX;
+        };
+        return knob;
+    }
+
     function createButton( director ) {
         var actor = new CAAT.Actor().
                 setSize( 80, 40 );
@@ -134,30 +161,9 @@
         rootNode.setPosition( 0, 0 );
 //        var slider = new CAAT.ActorContainer().setSize( director.width, director.height );
 
-        var KNOB_MIN_X = 90;
-        var knob = new CAAT.Actor().setBackgroundImage( director.getImage( 'slider-knob' ), true ).setPosition( KNOB_MIN_X, 34 );
-        knob.x = KNOB_MIN_X;
-        knob.enableDrag();
-        knob.mouseDrag = function ( mouseEvent ) {
-
-            var pt = knob.modelToView( new CAAT.Point( mouseEvent.x, mouseEvent.y ) );
-            knob.parent.viewToModel( pt );
-
-            if ( knob.__d_ax === -1 || this.__d_ay === -1 ) {
-                knob.__d_ax = pt.x;
-                knob.__d_ay = +1;
-                knob.__relativeTouchPoint = knob.x - pt.x;
-            }
-
-            var knobX = pt.x + knob.__relativeTouchPoint;
-            if ( knobX > 177 ) {
-                knobX = 177;
-            }
-            if ( knobX < KNOB_MIN_X ) {
-                knobX = KNOB_MIN_X;
-            }
-            knob.x = knobX;
-        };
+        var topKnob = createKnob( director.getImage( 'slider-knob' ), 90, 34, 177 );
+        var bottomKnob = createKnob( director.getImage( 'slider-knob' ), 738, 498, 738 + (177 - 90) );
+//        bottomKnob.enableDrag();
 
         var border = new CAAT.Actor().setSize( director.width, director.height );
 
@@ -178,8 +184,11 @@
         rootNode.addChild( topFaucetPipe );
         rootNode.addChild( topFaucet );
         rootNode.addChild( shaker );
-        rootNode.addChild( knob );
+        rootNode.addChild( topKnob );
+
         rootNode.addChild( bottomFaucet );
+        rootNode.addChild( bottomKnob );
+
 
         var resetAllButton = createButton( director );
         resetAllButton.setPosition( 1024 - 80 - 40 - 100, 768 - 40 );
@@ -235,6 +244,7 @@
 
 //                               console.log( topFaucetPipe.x + ", " + topFaucetPipe.y );
 //                               console.log( knob.x + ", " + knob.y );
+                               console.log( bottomKnob.x + ", " + bottomKnob.y );
 
                                if ( shaker.y != shaker.lastY ) {
                                    var w = 20;
@@ -250,7 +260,7 @@
                                    }
                                }
 
-                               var sliderAmount = (knob.x - 90) / (177.0 - 90);
+                               var sliderAmount = (topKnob.x - 90) / (177.0 - 90);
                                if ( sliderAmount > 0 ) {
                                    //add fluid
                                    fluidHeight = fluidHeight + 1 * sliderAmount * 4;
