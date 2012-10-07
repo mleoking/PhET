@@ -489,7 +489,7 @@
 
                                for ( var index = 0; index < crystals.length; index++ ) {
                                    crystals[index].velocity = crystals[index].velocity + 1;
-                                   crystals[index].setPosition( crystals[index].x, crystals[index].y + crystals[index].velocity );
+                                   crystals[index].setPosition( crystals[index].x - 2, crystals[index].y + crystals[index].velocity );
                                }
 
                                for ( var i = 0; i < crystals.length; i++ ) {
