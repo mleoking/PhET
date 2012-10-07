@@ -162,7 +162,7 @@
             ctx.restore();
         };
 
-        var fluid = new CAAT.Actor().setSize( director.width, director.height );
+        var fluid = new CAAT.Actor().setSize( director.width, director.height ).enableEvents( false );
         var fluidHeight = beakerHeight / 2;
 
         var absorbedCrystals = 0;
@@ -396,7 +396,7 @@
             var sx = windowWidth / designWidth;
             var sy = windowHeight / designHeight;
             var min = Math.min( sx, sy );
-//            rootNode.setScaleAnchored( min, min, 0, 0 );
+            rootNode.setScaleAnchored( min, min, 0, 0 );
         };
 
         //http://stackoverflow.com/questions/7814984/detect-ios5-within-mobile-safari-javascript-preferred
@@ -519,7 +519,7 @@
 //            var string = "scale = " + ev.scale + ", x = " + ev.position.x + ", centerx = " + centerX;
 //            console.log( string );
 //            rootNode.setLocation( 0, 0 );
-            rootNode.setScaleAnchored( ev.scale, ev.scale, 0, 0 );
+            rootNode.setScaleAnchored( ev.scale, ev.scale, ev.position.x / 1024, ev.position.y / 768 );
             rootNode.centerAt( ev.position.x, ev.position.y );
 //            rootNode.setScale( ev.scale, ev.scale );
             debugOutput.setText( string );
