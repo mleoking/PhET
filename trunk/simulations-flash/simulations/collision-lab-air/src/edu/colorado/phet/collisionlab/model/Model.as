@@ -456,6 +456,7 @@ public class Model {
     }
 
     //if ball beyond reflecting border, then translate to back to edge and reflect
+    //Updated 10/04/2012 to correctly process collisions with corners
     public function checkAndProcessWallCollision( index: int, x: Number, y: Number, vX: Number, vY: Number ): void {
         var wallHit: Boolean = false;
         if ( this.borderOn ) {
@@ -465,34 +466,34 @@ public class Model {
                 this.setX( index, this.borderWidth - onePlusDelta * radius );
                 this.setVX( index, -e * vX );   //ball_arr[i].velocity.setX(-e*vX);
                 wallHit = true;
-            }
+            }//end if
             else {
                 if ( (x - radius) < 0 ) {
                     this.setX( index, onePlusDelta * radius );
                     this.setVX( index, -e * vX ); //ball_arr[i].velocity.setX(-e*vX);
                     wallHit = true;
-                }
-                else {
-                    if ( (y + radius) > this.borderHeight / 2 ) {
-                        this.setY( index, this.borderHeight / 2 - onePlusDelta * radius );
-                        this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
-                        wallHit = true;
-                    }
-                    else {
-                        if ( (y - radius) < -this.borderHeight / 2 ) {
-                            this.setY( index, -this.borderHeight / 2 + onePlusDelta * radius );
-                            this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
-                            wallHit = true;
-                        }
-                    }
-                }
-            }
+                }// end if
+            }//end else
+
+            if ( (y + radius) > this.borderHeight / 2 ) {
+                this.setY( index, this.borderHeight / 2 - onePlusDelta * radius );
+                this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
+                wallHit = true;
+            } //end if
+            else {
+                if ( (y - radius) < -this.borderHeight / 2 ) {
+                    this.setY( index, -this.borderHeight / 2 + onePlusDelta * radius );
+                    this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
+                    wallHit = true;
+                }//end if
+            }//end else
+
             if ( wallHit ) {
                 //trace("wall hit at time t = " + this.time);
                 this.nbrCollisionsInThisTimeStep += 1;
                 this.playClickSound();
                 this.colliding = true;
-            }
+            }//end if
         }//end if(borderOn)
     }//end of checkWallAndProcessCollision()
 
@@ -578,30 +579,25 @@ public class Model {
         }//end if(borderOn)
     }//end checkWallCollisionAndSeparate()
 
-    public function checkWallCollision( i: int, x: Number, y: Number ): String {
-        var collidedWithWall: String = "No";
+    public function checkWallCollision( i: int, x: Number, y: Number ): Array {
+        var result: Array = [false,false,false,false]; // left, right, up, down
         if ( this.borderOn ) {
             var radius: Number = this.ball_arr[i].getRadius();
             if ( (x + radius) > this.borderWidth ) {
-                collidedWithWall = "R";  //collided with Right Wall
+                result[1] = true; // collided with right wall
             }
-            else {
-                if ( (x - radius) < 0 ) {
-                    collidedWithWall = "L";  //collided with Left Wall
-                }
-                else {
-                    if ( (y + radius) > this.borderHeight / 2 ) {
-                        collidedWithWall = "T";  //collided with Top Wall
-                    }
-                    else {
-                        if ( (y - radius) < -this.borderHeight / 2 ) {
-                            collidedWithWall = "B";  //collided with Bottom Wall
-                        }
-                    }
-                }
+            if ( (x - radius) < 0 ) {
+                result[0] = true; //collided with Left Wall
+            }
+            if ( (y + radius) > this.borderHeight / 2 ) {
+                result[2] = true; //collided with Top Wall
+            }
+            if ( (y - radius) < -this.borderHeight / 2 ) {
+                result[3] = true; //collided with Bottom Wall
             }
         }//end if(borderOn)
-        return collidedWithWall;
+//        return collidedWithWall;
+        return result;
     }//end checkWallCollision
 
     public function collideBalls( i: int, j: int ): void {
@@ -701,25 +697,27 @@ public class Model {
             var delYBall1: Number = -m2 * OL * delY / (delR * (m1 + m2));
             var delXBall2: Number = m1 * OL * delX / (delR * (m1 + m2));
             var delYBall2: Number = m1 * OL * delY / (delR * (m1 + m2));
-            var iHitWall: String = this.checkWallCollision( i, x1 + delXBall1, y1 + delYBall1 );
-            var jHitWall: String = this.checkWallCollision( j, x2 + delXBall2, y2 + delYBall2 );
+            var iHitWall: Array = this.checkWallCollision( i, x1 + delXBall1, y1 + delYBall1 );
+            var jHitWall: Array = this.checkWallCollision( j, x2 + delXBall2, y2 + delYBall2 );
             //trace("Ball "+ balliNbr+ " hit wall "+ iHitWall + ".  Ball " + balljNbr +" hit wall " + jHitWall);
             var wallXOffset: Number = 0;  //translate both balls away from colliding wall
             var wallYOffset: Number = 0;
-            if ( iHitWall == "T" || jHitWall == "T" ) {
-                wallYOffset = -(R1 + R2);
+
+            // left, right, up, down
+            if ( iHitWall[2] || jHitWall[2] ) {
+                wallYOffset = -(R1 + R2)/2;
             }
             else {
-                if ( iHitWall == "B" || jHitWall == "B" ) {
-                    wallYOffset = R1 + R2;
+                if ( iHitWall[3] || jHitWall[3] ) {
+                    wallYOffset = (R1 + R2)/2;
                 }
             }
-            if ( iHitWall == "L" || jHitWall == "L" ) {
-                wallXOffset = R1 + R2;
+            if ( iHitWall[0] || jHitWall[0] ) {
+                wallXOffset = (R1 + R2)/2;
             }
             else {
-                if ( iHitWall == "R" || jHitWall == "R" ) {
-                    wallXOffset = -(R1 + R2);
+                if ( iHitWall[1] || jHitWall[1] ) {
+                    wallXOffset = -(R1 + R2)/2;
                 }
             }
             //trace("calling setXY() from separateBalls(i,j)");
