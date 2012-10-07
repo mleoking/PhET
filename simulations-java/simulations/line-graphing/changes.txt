@@ -1,3 +1,5 @@
+10/7/12 copy X and check-mark images from balancing-chemical-equations
+10/7/12 delete vestigial entries in images/license.txt
 10/5/12 factor out method for creating shape of fraction division line
 10/5/12 fix location of equation on graphed line so that it's always on the opposite side of the line from the slope tool
 10/5/12 change color scheme to avoid overloading of yellow and green
