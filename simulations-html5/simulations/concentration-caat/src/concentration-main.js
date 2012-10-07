@@ -286,7 +286,7 @@
             container.addChild( comboBox );
 
             function createSquareAndTextNode( color, text ) {
-                var square = new CAAT.ShapeActor().setSize( 30, 30 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( color );
+                var square = rectangleNode( 30, 30, color, 1, 'gray' );
                 var entryText = new CAAT.TextActor().setFont( "24px sans-serif" ).setText( text ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 40, 5 ).enableEvents( false );
                 var container = new CAAT.ActorContainer().setSize( 400, 30 );
                 square.enableEvents( false );
