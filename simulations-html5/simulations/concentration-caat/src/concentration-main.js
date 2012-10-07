@@ -1,5 +1,32 @@
 (function () {
 
+    //Seems to be some bugs with CAAT.ShapeActor when running in CocoonJS, so we have our own implementation.
+    function rectangleNode( width, height, fillStyle, strokeThickness, strokeStyle ) {
+        var background = new CAAT.Actor().setSize( width, height );
+        background.paint = function ( director, time ) {
+            var ctx = director.ctx;
+            ctx.save();
+            ctx.strokeStyle = strokeStyle;
+            ctx.beginPath();
+            ctx.moveTo( 0, 0 );
+            ctx.lineTo( width, 0 );
+            ctx.lineTo( width, height );
+            ctx.lineTo( 0, height );
+            ctx.lineTo( 0, 0 );
+            ctx.closePath();
+
+            ctx.lineWidth = strokeThickness;
+            ctx.lineJoin = 'square';
+            ctx.lineCap = 'square';
+
+            ctx.fillStyle = fillStyle;
+            ctx.fillRect( 0, 0, background.width, background.height );
+            ctx.stroke();
+            ctx.restore();
+        };
+        return background;
+    }
+
     function createKnob( image, minX, y, maxX ) {
         var knob = new CAAT.Actor().setBackgroundImage( image, true ).setPosition( minX, y );
         knob.x = minX;
@@ -101,13 +128,10 @@
         //Set background to white
         scene.fillStyle = 'rgb(255,255,255)';
 
-        var shaker = new CAAT.Actor().
-                setBackgroundImage( director.getImage( 'shaker' ), true ).setRotation( -Math.PI / 4 );
+        var shaker = new CAAT.Actor().setBackgroundImage( director.getImage( 'shaker' ), true ).setRotation( -Math.PI / 4 );
         shaker.enableDrag();
         shaker.x = 389;
         shaker.lastY = shaker.y;
-
-        var beaker = new CAAT.Actor().setSize( director.width, director.height );
 
         var lipWidth = 40;
         var beakerX = 150;
@@ -116,21 +140,19 @@
         var beakerWidth = 600;
         var beakerMaxX = beakerX + beakerWidth;
         var beakerMaxY = beakerY + beakerHeight;
-
+        var beaker = new CAAT.Actor().setSize( beakerWidth + lipWidth * 2, beakerHeight + lipWidth ).setLocation( beakerX - lipWidth, beakerY - lipWidth );
         beaker.paint = function ( director, time ) {
-
             var ctx = director.ctx;
-            ctx.save();
 
+            ctx.save();
             ctx.strokeStyle = 'black';
             ctx.beginPath();
-            ctx.moveTo( beakerX - lipWidth, beakerY - lipWidth );
-            ctx.lineTo( beakerX, beakerY );
-            ctx.lineTo( beakerX, beakerMaxY );
-            ctx.lineTo( beakerX + beakerWidth, beakerMaxY );
-            ctx.lineTo( beakerX + beakerWidth, beakerMaxY );
-            ctx.lineTo( beakerX + beakerWidth, beakerY );
-            ctx.lineTo( beakerX + beakerWidth + lipWidth, beakerY - lipWidth );
+            ctx.moveTo( 0, 0 );
+            ctx.lineTo( lipWidth, lipWidth );
+            ctx.lineTo( lipWidth, lipWidth + beakerHeight );
+            ctx.lineTo( lipWidth + beakerWidth, lipWidth + beakerHeight );
+            ctx.lineTo( lipWidth + beakerWidth, lipWidth );
+            ctx.lineTo( lipWidth + beakerWidth + lipWidth, 0 );
 
             ctx.lineWidth = 6;
             ctx.lineJoin = 'round';
@@ -227,13 +249,12 @@
         }
 
         function createEvaporationControlPanel() {
-            var background = new CAAT.ShapeActor().setSize( 400, 100 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' ).setStrokeStyle( 'black' );
-            var sliderTrack = new CAAT.ShapeActor().setSize( 200, 4 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(255,255,255)' ).setStrokeStyle( 'rgb(0,0,0)' );
-            var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Evaporation" ).calcTextSize( director ).
-                    setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
+            var background = rectangleNode( 400, 100, 'rgb(240,240,240)', 2, 'gray' );
+            var sliderTrack = rectangleNode( 200, 4, 'white', 1, 'black' );
+            var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Evaporation" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
             var container = new CAAT.ActorContainer().setLocation( 175, 612 );
-            container.setSize( director.width, director.height );
+            container.setSize( background.width, background.height );
             container.addChild( background );
             container.addChild( text.setLocation( 2, 30 ) );
             var evaporationKnob = createKnob( director.getImage( 'slider-knob' ), 150, 25, 350 );
@@ -245,7 +266,7 @@
         }
 
         function createSoluteControlPanel() {
-            var background = new CAAT.ShapeActor().setSize( 300, 120 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' ).setStrokeStyle( 'black' );
+            var background = rectangleNode( 300, 120, 'rgb(220,220,220)', 1, 'black' );
             var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Solute:" ).calcTextSize( director ).
                     setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
@@ -350,12 +371,12 @@
         rootNode.addChild( createTick( 0.2, 30 ) );
         rootNode.addChild( createTick( 0.3, 30 ) );
         rootNode.addChild( createTick( 0.4, 30 ) );
-        rootNode.addChild( createTick( 0.5, 60 ) );//TODO: show label
+        rootNode.addChild( createTick( 0.5, 60 ) );
         rootNode.addChild( createTick( 0.6, 30 ) );
         rootNode.addChild( createTick( 0.7, 30 ) );
         rootNode.addChild( createTick( 0.8, 30 ) );
         rootNode.addChild( createTick( 0.9, 30 ) );
-        rootNode.addChild( createTick( 1.0, 60 ) );//TODO: show label
+        rootNode.addChild( createTick( 1.0, 60 ) );
 
         rootNode.addChild( beaker );
 
@@ -366,12 +387,6 @@
 
         rootNode.addChild( bottomFaucet );
         rootNode.addChild( bottomKnob );
-
-        var resetAllButton = createButton( director, "Reset All", 80, 'orange' );
-        resetAllButton.setPosition( 1024 - resetAllButton.width - 10, 768 - resetAllButton.height - 10 );
-        resetAllButton.mouseClick = function ( e ) {
-            document.location.reload( true );
-        };
 
         rootNode.addChild( evaporationControlPanel );
         rootNode.addChild( soluteControlPanel );
@@ -389,6 +404,12 @@
             absorbedCrystals = 0;
         };
         rootNode.addChild( removeSoluteButton );
+
+        var resetAllButton = createButton( director, "Reset All", 80, 'orange' );
+        resetAllButton.setPosition( 1024 - resetAllButton.width - 10, 768 - resetAllButton.height - 10 );
+        resetAllButton.mouseClick = function ( e ) {
+            document.location.reload( true );
+        };
         rootNode.addChild( resetAllButton );
 
         var debugOutput = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "<debug output>" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).setPosition( 0, 0 );
@@ -400,7 +421,6 @@
         var concentrationMeterProbe = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-probe' ), true ).setPosition( 760, 425 );
         concentrationMeterProbe.enableDrag();
         rootNode.addChild( concentrationMeterProbe );
-
 
         scene.addChild( rootNode );
 
