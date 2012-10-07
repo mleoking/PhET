@@ -1,0 +1,206 @@
+// Copyright 2002-2012, University of Colorado
+package edu.colorado.phet.linegraphing.common.view;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
+import java.text.NumberFormat;
+
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PComposite;
+
+//TODO add dimensional delimiters at ends of arrow, 1 grid unit long
+//TODO offset arrows by 1/2 grid unit
+//TODO render this node before line manipulators in LineFormsGraphNode
+//TODO fix arrow tips, they look a bit off (or switch to common-code arrows?)
+//TODO delete RiseRunBracketNode
+
+/**
+ * Slope indicator that the design team referred to as the "slope tool".
+ * Drawn in the global coordinate frame of the view.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class SlopeToolNode extends PComposite {
+
+    // delimiters
+
+    // values
+    private static final int VALUE_X_SPACING = 4;
+    private static final int VALUE_Y_SPACING = 4;
+
+    public SlopeToolNode( Property<Line> line, final ModelViewTransform mvt, final double manipulatorDiameter ) {
+
+        // not interactive
+        setPickable( false );
+        setChildrenPickable( false );
+
+        line.addObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
+                update( line, manipulatorDiameter, mvt );
+            }
+        } );
+    }
+
+    private void update( Line line, double manipulatorDiameter, ModelViewTransform mvt ) {
+
+        removeAllChildren();
+
+        // Show nothing for horizontal or vertical lines.
+        if ( line.rise == 0 || line.run == 0 ) {
+            return;
+        }
+
+        // view coordinates
+        final double gridXSpacing = mvt.modelToViewDeltaX( 1 );
+        final double gridYSpacing = mvt.modelToViewDeltaY( 1 );
+        Point2D p1View = mvt.modelToView( line.x1, line.y1 );
+        Point2D p2View = mvt.modelToView( line.x2, line.y2 );
+
+        // nodes
+        PNode riseLineNode = new ArrowNode( p1View.getX(), p1View.getY(), p1View.getX(), p2View.getY() );
+        PNode runLineNode = new ArrowNode( p1View.getX(), p2View.getY(), p2View.getX(), p2View.getY() );
+        PNode riseValueNode = new AbsoluteValueNode( line.rise );
+        PNode runValueNode = new AbsoluteValueNode( line.run );
+
+        // rendering order
+        addChild( riseLineNode );
+        addChild( runLineNode );
+        addChild( riseValueNode );
+        addChild( runValueNode );
+
+        // layout
+        final double riseValueXOffset;
+        if ( line.run > 0 ) {
+            // value to left of line
+            riseValueXOffset = riseLineNode.getFullBoundsReference().getMinX() - riseValueNode.getFullBoundsReference().getWidth() - VALUE_X_SPACING;
+        }
+        else {
+            // value to right of line
+            riseValueXOffset = riseLineNode.getFullBoundsReference().getMaxX() + VALUE_X_SPACING;
+        }
+        final double riseValueYOffset = riseLineNode.getFullBoundsReference().getCenterY() - ( riseValueNode.getFullBoundsReference().getHeight() / 2 );
+        riseValueNode.setOffset( riseValueXOffset, riseValueYOffset );
+
+        final double runValueXOffset = runLineNode.getFullBoundsReference().getCenterX() - ( runValueNode.getFullBoundsReference().getWidth() / 2 );
+        final double runValueYOffset;
+        if ( line.rise > 0 ) {
+            // value above line
+            runValueYOffset = runLineNode.getFullBoundsReference().getMinY() - riseValueNode.getFullBoundsReference().getHeight() - VALUE_Y_SPACING;
+        }
+        else {
+            // value below line
+            runValueYOffset = runLineNode.getFullBoundsReference().getMaxY() + VALUE_Y_SPACING;
+        }
+        runValueNode.setOffset( runValueXOffset, runValueYOffset );
+    }
+
+    // Absolute value on a rectangular background with rounded corners.
+    private static class AbsoluteValueNode extends PComposite {
+
+        private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
+        private static final PhetFont FONT = new PhetFont( Font.BOLD, 16 );
+        private static final Color TEXT_COLOR = Color.BLACK;
+        private static final Color BACKGROUND_COLOR = ColorUtils.createColor( LGColors.SLOPE, 150 );
+        private static final double X_MARGIN = 6;
+        private static final double Y_MARGIN = 3;
+
+        public AbsoluteValueNode( double value ) {
+
+            PNode textNode = new PhetPText( FORMAT.format( Math.abs( value ) ), FONT, TEXT_COLOR );
+
+            // background for the label
+            final RoundRectangle2D.Double backgroundShape = new RoundRectangle2D.Double( 0, 0,
+                                                                                         textNode.getFullBoundsReference().getWidth() + ( 2 * X_MARGIN ),
+                                                                                         textNode.getFullBoundsReference().getHeight() + ( 2 * Y_MARGIN ),
+                                                                                         5, 5 );
+
+            // Put an opaque background behind a translucent background, so that we can vary the saturation of the slope color using the alpha channel.
+            PPath opaqueBackgroundNode = new PPath( backgroundShape );
+            opaqueBackgroundNode.setPaint( Color.WHITE );
+            opaqueBackgroundNode.setStroke( null );
+
+            PPath translucentBackgroundNode = new PPath( backgroundShape );
+            translucentBackgroundNode.setPaint( BACKGROUND_COLOR );
+            translucentBackgroundNode.setStroke( null );
+
+            // rendering order
+            addChild( opaqueBackgroundNode );
+            addChild( translucentBackgroundNode );
+            addChild( textNode );
+
+            // layout
+            textNode.setOffset( X_MARGIN, Y_MARGIN );
+        }
+    }
+
+    // Can't use common-code ArrowNode because we want a different tip style.
+    private static class ArrowNode extends PComposite {
+
+        private static final Stroke STROKE = new BasicStroke( 1f );
+        private static final Color COLOR = Color.BLACK;
+        private static final PDimension TIP_SIZE = new PDimension( 5, 8 );
+
+        public ArrowNode( double tailX, double tailY, double tipX, double tipY ) {
+
+            // nodes
+            PNode lineNode = new PhetPPath( new Line2D.Double( tailX, tailY, tipX, tipY ), STROKE, COLOR );
+            DoubleGeneralPath tipPath = new DoubleGeneralPath();
+            if ( tailX == tipX ) {
+                // vertical arrow
+                if ( tipY > tailY ) {
+                    // pointing down
+                    tipPath.moveTo( tipX - ( TIP_SIZE.getWidth() / 2 ), tipY - TIP_SIZE.getHeight() );
+                    tipPath.lineTo( tipX, tipY );
+                    tipPath.lineTo( tipX + ( TIP_SIZE.getWidth() / 2 ), tipY - TIP_SIZE.getHeight() );
+                }
+                else {
+                    // pointing up
+                    tipPath.moveTo( tipX - ( TIP_SIZE.getWidth() / 2 ), tipY + TIP_SIZE.getHeight() );
+                    tipPath.lineTo( tipX, tipY );
+                    tipPath.lineTo( tipX + ( TIP_SIZE.getWidth() / 2 ), tipY + TIP_SIZE.getHeight() );
+                }
+            }
+            else if ( tailY == tipY ) {
+                // horizontal arrow
+                if ( tailX > tipX ) {
+                    // pointing left
+                    tipPath.moveTo( tipX + TIP_SIZE.getHeight(), tipY - ( TIP_SIZE.getWidth() / 2 ) );
+                    tipPath.lineTo( tipX, tipY );
+                    tipPath.lineTo( tipX + TIP_SIZE.getHeight(), tipY + ( TIP_SIZE.getWidth() / 2 ) );
+                }
+                else {
+                    // pointing right
+                    tipPath.moveTo( tipX - TIP_SIZE.getHeight(), tipY - ( TIP_SIZE.getWidth() / 2 ) );
+                    tipPath.lineTo( tipX, tipY );
+                    tipPath.lineTo( tipX - TIP_SIZE.getHeight(), tipY + ( TIP_SIZE.getWidth() / 2 ) );
+                }
+            }
+            else {
+                throw new UnsupportedOperationException( "this implementation supports only horizontal and vertical arrows" );
+            }
+            PNode tipNode = new PhetPPath( tipPath.getGeneralPath(), STROKE, COLOR );
+
+            // rendering order
+            addChild( tipNode );
+            addChild( lineNode );
+        }
+    }
+}

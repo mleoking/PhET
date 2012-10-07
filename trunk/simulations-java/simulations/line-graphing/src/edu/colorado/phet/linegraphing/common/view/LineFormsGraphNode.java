@@ -14,7 +14,6 @@ import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
-import edu.colorado.phet.linegraphing.common.view.RiseRunBracketNode.Direction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -36,7 +35,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
     private final LineFormsModel model;
     private final LineFormsViewProperties viewProperties;
     private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
-    private final PNode interactiveLineParentNode, bracketsParentNode;
+    private final PNode interactiveLineParentNode, slopeToolNode;
     private final LineManipulatorNode pointManipulator, slopeManipulatorNode;
     private LineNode interactiveLineNode;
 
@@ -62,11 +61,11 @@ public abstract class LineFormsGraphNode extends GraphNode {
         savedLinesParentNode = new PNode();
         interactiveLineParentNode = new PComposite();
 
-        // Rise and run brackets for the interactive line
-        bracketsParentNode = new PComposite();
-
-        // Manipulators for the interactive line
+        // Diameter of manipulators, in view coordinate frame.
         final double manipulatorDiameter = model.mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
+
+        // Slope tool
+        slopeToolNode = new SlopeToolNode( model.interactiveLine, model.mvt, manipulatorDiameter );
 
         // interactivity for point (x1,y1) manipulator
         pointManipulator = new LineManipulatorNode( manipulatorDiameter, pointManipulatorColor );
@@ -82,9 +81,9 @@ public abstract class LineFormsGraphNode extends GraphNode {
         addChild( interactiveLineParentNode );
         addChild( savedLinesParentNode );
         addChild( standardLinesParentNode );
-        addChild( bracketsParentNode );
         addChild( pointManipulator );
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
+        addChild( slopeToolNode ); //TODO move behind manipulators
 
         // Add/remove standard lines
         model.standardLines.addElementAddedObserver( new VoidFunction1<Line>() {
@@ -190,10 +189,8 @@ public abstract class LineFormsGraphNode extends GraphNode {
         savedLinesParentNode.setVisible( linesVisible );
         standardLinesParentNode.setVisible( linesVisible );
 
-        // slope brackets
-        if ( bracketsParentNode != null ) {
-            bracketsParentNode.setVisible( slopeVisible && linesVisible && interactiveLineVisible );
-        }
+        // slope tool
+        slopeToolNode.setVisible( slopeVisible && linesVisible && interactiveLineVisible );
 
         // Hide the manipulators at appropriate times (when dragging or based on visibility of lines).
         pointManipulator.setVisible( linesVisible && interactiveLineVisible );
@@ -210,25 +207,6 @@ public abstract class LineFormsGraphNode extends GraphNode {
         interactiveLineNode = createLineNode( line, model.graph, mvt );
         interactiveLineNode.setEquationVisible( viewProperties.interactiveEquationVisible.get() );
         interactiveLineParentNode.addChild( interactiveLineNode );
-
-        // replace the rise/run brackets
-        bracketsParentNode.removeAllChildren();
-        if ( line.run != 0 ) {
-
-            // run bracket
-            final Direction runDirection = line.rise >= 0 ? Direction.DOWN : Direction.UP;
-            final RiseRunBracketNode runBracketNode = new RiseRunBracketNode( runDirection, mvt.modelToViewDeltaX( line.run ), line.run );
-            bracketsParentNode.addChild( runBracketNode );
-            runBracketNode.setOffset( mvt.modelToViewX( line.x1 ), mvt.modelToViewY( line.y1 + line.rise ) );
-
-            // rise bracket
-            if ( line.rise != 0 ) {
-                final Direction riseDirection = line.run > 0 ? Direction.RIGHT : Direction.LEFT;
-                final RiseRunBracketNode riseBracket = new RiseRunBracketNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), line.rise );
-                bracketsParentNode.addChild( riseBracket );
-                riseBracket.setOffset( mvt.modelToViewX( line.x1 ), mvt.modelToViewY( line.y1 ) );
-            }
-        }
 
         // move the manipulators
         pointManipulator.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
