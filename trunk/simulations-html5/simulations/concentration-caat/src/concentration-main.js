@@ -392,7 +392,16 @@
         rootNode.addChild( resetAllButton );
 
         var debugOutput = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "<debug output>" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).setPosition( 0, 0 );
-        rootNode.addChild( debugOutput );
+//        rootNode.addChild( debugOutput );
+
+        var concentrationMeterBody = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-body' ), true ).setPosition( 785, 280 );
+        rootNode.addChild( concentrationMeterBody );
+
+        var concentrationMeterProbe = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-probe' ), true ).setPosition( 760, 425 );
+        concentrationMeterProbe.enableDrag();
+        rootNode.addChild( concentrationMeterProbe );
+
+
         scene.addChild( rootNode );
 
         //This resize strategy is buggy on ipad if you change orientation more than once
@@ -560,7 +569,9 @@
                             {id:'shaker', url:'resources/shaker.png'},
                             {id:'faucet_front', url:'resources/faucet_front.png'},
                             {id:'faucet_pipe_long', url:'resources/faucet_pipe_long.png'},
-                            {id:'slider-knob', url:'resources/slider-knob.png'}
+                            {id:'slider-knob', url:'resources/slider-knob.png'},
+                            {id:'concentration-meter-body', url:'resources/concentration-meter-body.png'},
+                            {id:'concentration-meter-probe', url:'resources/concentration-meter-probe.png'}
                         ],
 
                         /*
