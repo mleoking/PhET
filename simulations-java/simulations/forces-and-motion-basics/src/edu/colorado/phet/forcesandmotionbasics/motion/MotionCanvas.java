@@ -342,6 +342,13 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     step( typicalDT * 5 );
                 }
             } );
+
+            //Only enable the step button when the sim is paused
+            playing.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( final Boolean playing ) {
+                    setEnabled( !playing );
+                }
+            } );
         }}
         );
         timeControls.setOffset( STAGE_SIZE.width / 2 - timeControls.getFullWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
