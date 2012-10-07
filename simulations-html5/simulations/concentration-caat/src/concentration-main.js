@@ -95,8 +95,7 @@
             green:interpolate( 0, source.green, 1, destination.green, distance ),
             blue:interpolate( 0, source.blue, 1, destination.blue, distance )};
 
-        var fillStyleString = 'rgb(' + Math.round( relative.red ) + ',' + Math.round( relative.green ) + ',' + Math.round( relative.blue ) + ')';
-        return fillStyleString;
+        return 'rgb(' + Math.round( relative.red ) + ',' + Math.round( relative.green ) + ',' + Math.round( relative.blue ) + ')';
     }
 
     function getFractionTowardSaturation( absorbedCrystals ) {
@@ -113,8 +112,7 @@
 
     function isAndroid() {
         var ua = navigator.userAgent.toLowerCase();
-        var isAndroid = ua.indexOf( "android" ) > -1;
-        return isAndroid;
+        return ua.indexOf( "android" ) > -1;
     }
 
     /**
