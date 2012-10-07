@@ -380,6 +380,9 @@
         };
         rootNode.addChild( removeSoluteButton );
         rootNode.addChild( resetAllButton );
+
+        var debugOutput = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "<debug output>" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).setPosition( 0, 0 );
+        rootNode.addChild( debugOutput );
         scene.addChild( rootNode );
 
         //This resize strategy is buggy on ipad if you change orientation more than once
@@ -393,7 +396,7 @@
             var sx = windowWidth / designWidth;
             var sy = windowHeight / designHeight;
             var min = Math.min( sx, sy );
-            rootNode.setScaleAnchored( min, min, 0, 0 );
+//            rootNode.setScaleAnchored( min, min, 0, 0 );
         };
 
         //http://stackoverflow.com/questions/7814984/detect-ios5-within-mobile-safari-javascript-preferred
@@ -494,7 +497,35 @@
                            function ( scene_time, timer_time, timertask_instance ) {   // tick
                            },
                            function ( scene_time, timer_time, timertask_instance ) {   // cancel
-                           } )
+                           } );
+
+        //Pinch to zoom in on different parts of the sim, mainly to make up for shortcomings in the user interface on smaller devices.
+        //        var canvasElement = document.getElementById( "canvas" );
+        var canvasElement = document.getElementsByTagName( 'canvas' )[0];
+        console.log( "ce = " + canvasElement );
+        var hammer = new Hammer( canvasElement );
+        console.log( "hammer = " + hammer );
+        hammer.ontap = function ( ev ) {
+            console.log( "tap" );
+        };
+//
+//                originalEvent   : event,
+//                position:_pos.center,
+//                scale:calculateScale( _pos.start, _pos.move ),
+//                rotation :  calculateRotation( _pos.start, _pos.move )
+        hammer.ontransformstart = function ( ev ) {
+        };
+        hammer.ontransform = function ( ev ) {
+//            var string = "scale = " + ev.scale + ", x = " + ev.position.x + ", centerx = " + centerX;
+//            console.log( string );
+//            rootNode.setLocation( 0, 0 );
+            rootNode.setScaleAnchored( ev.scale, ev.scale, 0, 0 );
+            rootNode.centerAt( ev.position.x, ev.position.y );
+//            rootNode.setScale( ev.scale, ev.scale );
+            debugOutput.setText( string );
+        };
+        hammer.ontransformend = function ( ev ) {
+        };
     }
 
     /**
@@ -505,7 +536,6 @@
             'load',
             function () {
                 CAAT.modules.initialization.init(
-                        /* canvas will be 800x600 pixels */
                         window.innerWidth, window.innerHeight,
 
                         /* and will be added to the end of document. set an id of a canvas or div element */
