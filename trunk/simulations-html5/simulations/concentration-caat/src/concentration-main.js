@@ -80,6 +80,16 @@
         return distance;
     }
 
+    function isIOS() {
+        return navigator.userAgent.match( /OS 5(_\d)+ like Mac OS X/i ) || navigator.userAgent.match( /OS 6(_\d)+ like Mac OS X/i );
+    }
+
+    function isAndroid() {
+        var ua = navigator.userAgent.toLowerCase();
+        var isAndroid = ua.indexOf( "android" ) > -1;
+        return isAndroid;
+    }
+
     /**
      * This function will be called to let you define new scenes that will be
      * shown after the splash screen.
@@ -402,7 +412,7 @@
         //http://stackoverflow.com/questions/7814984/detect-ios5-within-mobile-safari-javascript-preferred
         // this helps detect minor versions such as 5_0_1
         //TODO: would be nice to get resizing working properly on ios
-        if ( navigator.userAgent.match( /OS 5(_\d)+ like Mac OS X/i ) || navigator.userAgent.match( /OS 6(_\d)+ like Mac OS X/i ) ) {
+        if ( isIOS() ) {
 //            document.write( "You have iOS 5 or 6!" );
         }
         else {
@@ -499,33 +509,31 @@
                            function ( scene_time, timer_time, timertask_instance ) {   // cancel
                            } );
 
-        //Pinch to zoom in on different parts of the sim, mainly to make up for shortcomings in the user interface on smaller devices.
-        //        var canvasElement = document.getElementById( "canvas" );
-        var canvasElement = document.getElementsByTagName( 'canvas' )[0];
-        console.log( "ce = " + canvasElement );
-        var hammer = new Hammer( canvasElement );
-        console.log( "hammer = " + hammer );
-        hammer.ontap = function ( ev ) {
-            console.log( "tap" );
-        };
-//
+
+        //This breaks Win7/Chrome interaction, so only enable on ios + android
+        if ( isAndroid() || isIOS() ) {
+            //Pinch to zoom in on different parts of the sim, mainly to make up for shortcomings in the user interface on smaller devices.
+            //        var canvasElement = document.getElementById( "canvas" );
+            var canvasElement = document.getElementsByTagName( 'canvas' )[0];
+            var hammer = new Hammer( canvasElement );
 //                originalEvent   : event,
 //                position:_pos.center,
 //                scale:calculateScale( _pos.start, _pos.move ),
 //                rotation :  calculateRotation( _pos.start, _pos.move )
-        hammer.ontransformstart = function ( ev ) {
-        };
-        hammer.ontransform = function ( ev ) {
+//        hammer.ontransformstart = function ( ev ) {
+//        };
+            hammer.ontransform = function ( ev ) {
 //            var string = "scale = " + ev.scale + ", x = " + ev.position.x + ", centerx = " + centerX;
 //            console.log( string );
 //            rootNode.setLocation( 0, 0 );
-            rootNode.setScaleAnchored( ev.scale, ev.scale, ev.position.x / 1024, ev.position.y / 768 );
-            rootNode.centerAt( ev.position.x, ev.position.y );
+                rootNode.setScaleAnchored( ev.scale, ev.scale, ev.position.x / 1024, ev.position.y / 768 );
+                rootNode.centerAt( ev.position.x, ev.position.y );
 //            rootNode.setScale( ev.scale, ev.scale );
-            debugOutput.setText( string );
-        };
-        hammer.ontransformend = function ( ev ) {
-        };
+                debugOutput.setText( string );
+            };
+//        hammer.ontransformend = function ( ev ) {
+//        };
+        }
     }
 
     /**
