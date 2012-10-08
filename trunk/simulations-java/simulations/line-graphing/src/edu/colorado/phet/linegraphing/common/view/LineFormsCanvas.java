@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineFormsCanvas extends LGCanvas {
+public abstract class LineFormsCanvas extends CenteredStageCanvas {
 
     private final LineFormsViewProperties visibility;
 
@@ -30,6 +30,7 @@ public abstract class LineFormsCanvas extends LGCanvas {
      * @param equationControls
      */
     public LineFormsCanvas( LineFormsModel model, LineFormsViewProperties viewProperties, PNode graphNode, PNode equationControls ) {
+        setBackground( LGColors.CANVAS );
 
         this.visibility = viewProperties;
 
