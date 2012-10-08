@@ -20,6 +20,6 @@ public class IncandescentLightBulb extends LightBulb {
     private static final double ENERGY_TO_FULLY_LIGHT = 30; // In joules/sec, a.k.a. watts.
 
     protected IncandescentLightBulb() {
-        super( selectIncandescentLightBulbButton, INCANDESCENT_ICON, NON_ENERGIZED_BULB, ENERGIZED_BULB, ENERGY_TO_FULLY_LIGHT );
+        super( selectIncandescentLightBulbButton, INCANDESCENT_ICON, ENERGY_TO_FULLY_LIGHT );
     }
 }

@@ -15,13 +15,15 @@ public class FluorescentLightBulb extends LightBulb {
 
     private static final Vector2D IMAGE_OFFSET = new Vector2D( 0, 0.04 );
 
-    public static final ModelElementImage NON_ENERGIZED_BULB = new ModelElementImage( FLUORESCENT, IMAGE_OFFSET );
+    public static final ModelElementImage BACK_OFF = new ModelElementImage( FLUORESCENT_BACK, IMAGE_OFFSET );
+    public static final ModelElementImage BACK_ON = new ModelElementImage( FLUORESCENT_ON_BACK, IMAGE_OFFSET );
 
-    public static final ModelElementImage ENERGIZED_BULB = new ModelElementImage( FLUORESCENT_ON, IMAGE_OFFSET );
+    public static final ModelElementImage FRONT_OFF = new ModelElementImage( FLUORESCENT_FRONT, IMAGE_OFFSET );
+    public static final ModelElementImage FRONT_ON = new ModelElementImage( FLUORESCENT_ON_FRONT, IMAGE_OFFSET );
 
     private static final double ENERGY_TO_FULLY_LIGHT = 20; // In joules/sec, a.k.a. watts.
 
     protected FluorescentLightBulb() {
-        super( selectFluorescentLightBulbButton, FLUORESCENT_ICON, NON_ENERGIZED_BULB, ENERGIZED_BULB, ENERGY_TO_FULLY_LIGHT );
+        super( selectFluorescentLightBulbButton, FLUORESCENT_ICON, ENERGY_TO_FULLY_LIGHT );
     }
 }

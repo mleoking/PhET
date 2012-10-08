@@ -7,17 +7,18 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
+import edu.colorado.phet.energyformsandchanges.energysystems.model.IncandescentLightBulb;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.LightBulb;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Piccolo node that represents the light bulb in the view.
+ * Piccolo node that represents the incandescent light bulb in the view.
  *
  * @author John Blanco
  */
-public class LightBulbNode extends ImageBasedEnergySystemElementNode {
+public class IncandescentLightBulbNode extends ImageBasedEnergySystemElementNode {
 
-    public LightBulbNode( final LightBulb lightBulb, final ModelViewTransform mvt ) {
+    public IncandescentLightBulbNode( final IncandescentLightBulb lightBulb, final ModelViewTransform mvt ) {
         super( lightBulb, mvt );
 
         // Add the light rays.
@@ -30,13 +31,12 @@ public class LightBulbNode extends ImageBasedEnergySystemElementNode {
         addImageNode( LightBulb.ELEMENT_BASE_BACK_IMAGE );
         addChild( new EnergyChunkLayer( lightBulb.energyChunkList, lightBulb.getObservablePosition(), mvt ) );
         addImageNode( LightBulb.ELEMENT_BASE_FRONT_IMAGE );
-        addImageNode( lightBulb.offImage );
-        final PNode energizedBulb = addImageNode( lightBulb.onImage );
+        addImageNode( IncandescentLightBulb.NON_ENERGIZED_BULB );
+        final PNode energizedBulb = addImageNode( IncandescentLightBulb.ENERGIZED_BULB );
 
         // Center the light rays on the bulb image.
         lightRays.setOffset( energizedBulb.getFullBoundsReference().getCenterX(),
                              energizedBulb.getFullBoundsReference().getCenterY() - energizedBulb.getFullBoundsReference().getHeight() * 0.10 );
-
 
         // Update the transparency of the lit bulb based on model element.
         lightBulb.litProportion.addObserver( new VoidFunction1<Double>() {

@@ -51,8 +51,6 @@ public class LightBulb extends EnergyUser {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    public final ModelElementImage onImage;
-    public final ModelElementImage offImage;
     private final double energyToFullyLight; // In joules/sec, a.k.a. watts.
     private final IUserComponent userComponent;
 
@@ -65,12 +63,10 @@ public class LightBulb extends EnergyUser {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected LightBulb( IUserComponent userComponent, Image icon, final ModelElementImage offImage, final ModelElementImage onImage, double energyToFullyLight ) {
+    protected LightBulb( IUserComponent userComponent, Image icon, double energyToFullyLight ) {
         super( icon );
         this.userComponent = userComponent;
         this.energyToFullyLight = energyToFullyLight;
-        this.onImage = onImage;
-        this.offImage = offImage;
     }
 
     //-------------------------------------------------------------------------
