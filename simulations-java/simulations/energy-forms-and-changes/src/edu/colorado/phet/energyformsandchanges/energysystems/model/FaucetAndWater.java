@@ -184,8 +184,12 @@ public class FaucetAndWater extends EnergySource {
     @Override public void deactivate() {
         super.deactivate();
         waterShapeDefiningPoints.clear();
-        exemptFromTransferEnergyChunks.clear();
         updateWaterShape( 0 );
+    }
+
+    @Override public void clearEnergyChunks() {
+        super.clearEnergyChunks();
+        exemptFromTransferEnergyChunks.clear();
     }
 
     @Override public IUserComponent getUserComponent() {

@@ -114,8 +114,8 @@ public class SolarPanel extends EnergyConverter {
         return new Energy( EnergyType.ELECTRICAL, energyProduced, 0 );
     }
 
-    @Override public void deactivate() {
-        super.deactivate();
+    @Override public void clearEnergyChunks() {
+        super.clearEnergyChunks();
         energyChunkMovers.clear();
     }
 
