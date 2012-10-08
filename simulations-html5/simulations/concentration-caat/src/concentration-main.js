@@ -417,17 +417,47 @@
         var debugOutput = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "<debug output>" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).setPosition( 0, 0 );
 //        rootNode.addChild( debugOutput );
 
-        var concentrationMeterBody = new CAAT.ActorContainer().setPosition( 785, 280 ).setSize( 10000, 10000 ).enableEvents( false );
-        concentrationMeterBody.addChild( new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-body' ), true ) );
+        var concentrationMeterBodyImage = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-body' ), true );
+        var concentrationMeterBody = new CAAT.ActorContainer().setPosition( 785, 280 ).enableEvents( false ).setSize( concentrationMeterBodyImage.width, concentrationMeterBodyImage.height );
+        concentrationMeterBody.addChild( concentrationMeterBodyImage );
         concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Concentration" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 20, 10 ) );
         concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "(mol/L)" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 60, 35 ) );
         concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "-" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 100, 80 ) );
-        rootNode.addChild( concentrationMeterBody );
 
         var concentrationMeterProbe = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-probe' ), true ).setPosition( 760, 425 );
         concentrationMeterProbe.enableDrag();
-        rootNode.addChild( concentrationMeterProbe );
 
+        //Uses the same cubic curve defined in Java implementation of ConcentrationMeterNode.WireNode
+        var wireNode = new CAAT.Actor().setSize( director.width * 10, director.width * 10 ).enableEvents( false );
+        wireNode.paint = function ( director, time ) {
+
+            var ctx = director.ctx;
+            ctx.save();
+            ctx.strokeStyle = 'gray';
+            ctx.beginPath();
+
+            var bodyConnectionX = concentrationMeterBody.x + concentrationMeterBody.width / 2;
+            var bodyConnectionY = concentrationMeterBody.y + concentrationMeterBody.height;
+
+            var c1OffsetX = bodyConnectionX + 0;
+            var c1OffsetY = bodyConnectionY + (concentrationMeterBody.x + concentrationMeterBody.width / 2 - concentrationMeterProbe.x) / 4;
+            var c2OffsetX = concentrationMeterProbe.x + concentrationMeterProbe.width + 0;
+            var c2OffsetY = concentrationMeterProbe.y + concentrationMeterProbe.height / 2 + 0;
+            ctx.moveTo( bodyConnectionX, bodyConnectionY );
+            ctx.bezierCurveTo( c1OffsetX, c1OffsetY, c2OffsetX, c2OffsetY, concentrationMeterProbe.x + concentrationMeterProbe.width, concentrationMeterProbe.y + concentrationMeterProbe.height / 2 );
+
+            ctx.lineWidth = 6;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+
+            ctx.stroke();
+            ctx.restore();
+        };
+
+
+        rootNode.addChild( concentrationMeterBody );
+        rootNode.addChild( concentrationMeterProbe );
+        rootNode.addChild( wireNode );
         scene.addChild( rootNode );
 
         //This resize strategy is buggy on ipad if you change orientation more than once
