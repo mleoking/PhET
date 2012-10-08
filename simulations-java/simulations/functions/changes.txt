@@ -1,3 +1,4 @@
+10/7/12 #3423, replaced AbstractFunctionsCanvas with CenteredStageCanvas
 # 0.00.05 (67912) Sep 12, 2012
 # 0.00.04 (67516) Aug 29, 2012
 # 0.00.03 (67514) Aug 29, 2012

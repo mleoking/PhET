@@ -1,3 +1,4 @@
+10/7/12 #3423, added CenteredStageCanvas
 9/23/12 Moved AnimateToScale from fractions to piccolo-phet for reuse in Forces and Motion Basics
 9/2/12 Factored out method for creating a (row) node for each feature, renamed Element => Feature, added docs, see #3425
 9/2/12 Documented inner class Element, see #3425
