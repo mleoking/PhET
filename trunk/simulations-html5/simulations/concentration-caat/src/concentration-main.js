@@ -213,6 +213,7 @@
         //WORKAROUND: On android Chrome, this size had to be extended for unknown reasons.  It worked fine everywhere else just to use the director's width and height.
         //Luckily this did not seem to disrupt the behavior on other systems too much.
         //Maybe caused by android having a default zoom factor and window.innerWidth mismatching with director.width?
+        //This seemed to be relevant: http://tripleodeon.com/2011/12/first-understand-your-screen/
         var rootNode = new CAAT.ActorContainer().setSize( director.width * 10, director.height * 10 );
 
         var topKnob = createKnob( director.getImage( 'slider-knob' ), 90, 34, 177 );
