@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
@@ -18,12 +19,18 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class IncandescentLightBulbNode extends ImageBasedEnergySystemElementNode {
 
-    public IncandescentLightBulbNode( final IncandescentLightBulb lightBulb, final ModelViewTransform mvt ) {
+    public IncandescentLightBulbNode( final IncandescentLightBulb lightBulb, final ModelViewTransform mvt, ObservableProperty<Boolean> energyChunksVisible ) {
         super( lightBulb, mvt );
 
         // Add the light rays.
         final LightRays lightRays = new LightRays( new Vector2D( 0, 0 ), 30, 400, 20, Math.PI / 4, Color.YELLOW );
         addChild( lightRays );
+        energyChunksVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean energyChunksVisible ) {
+                // Only show the light rays when the energy chunks are not shown.
+                lightRays.setVisible( !energyChunksVisible );
+            }
+        } );
 
         // Add the images and the layer that will contain the energy chunks.
         addImageNode( LightBulb.WIRE_FLAT_IMAGE );
