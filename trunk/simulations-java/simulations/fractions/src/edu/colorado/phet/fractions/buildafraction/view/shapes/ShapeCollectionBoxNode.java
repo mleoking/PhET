@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.shapes;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
@@ -83,7 +82,6 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
     public void undo() {
         if ( completed ) {
             completed = false;
-            path.setStrokePaint( Color.darkGray );
             path.setStroke( CONTROL_PANEL_STROKE );
             undoButton.setVisible( false );
             undoButton.setPickable( false );
@@ -117,7 +115,6 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
     //The user has completed a challenge by dragging a container node into this matching ShapeCollectionBoxNode.
     public void setCompletedFraction( ContainerNode containerNode ) {
         this.containerNode = containerNode;
-        path.setStrokePaint( Color.darkGray );
         this.completed = true;
         undoButton.setVisible( true );
         undoButton.setPickable( true );

@@ -1,3 +1,4 @@
+Tabs 1-2: keep collection box borders always blue after fading in, don't change to gray when something dropped in or "undo" pressed
 Added "//unchecked warning" for lines that elicit usage of @SuppressWarnings annotation, see #3441
 Addressed IDEA inspection issues
 # 1.01.19 (68089) Sep 18, 2012
