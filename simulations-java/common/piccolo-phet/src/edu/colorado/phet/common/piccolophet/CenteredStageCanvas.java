@@ -75,21 +75,21 @@ public class CenteredStageCanvas extends PhetPCanvas implements Resettable {
     }
 
     public Rectangle2D getStageBounds() {
-        return new Rectangle2D.Double( -rootNode.getXOffset(), -rootNode.getYOffset(), stageSize.getWidth(), stageSize.getHeight() );
+        return new Rectangle2D.Double( -rootNode.getXOffset(), -rootNode.getYOffset(), getStageWidth(), getStageHeight() );
     }
 
     // Centers the root node on the stage.
     public void centerRootNodeOnStage() {
-        rootNode.setOffset( ( ( stageSize.getWidth() - rootNode.getFullBoundsReference().getWidth() ) / 2 ) - PNodeLayoutUtils.getOriginXOffset( rootNode ),
-                            ( ( stageSize.getHeight() - rootNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeLayoutUtils.getOriginYOffset( rootNode ) );
+        rootNode.setOffset( ( ( getStageWidth() - rootNode.getFullBoundsReference().getWidth() ) / 2 ) - PNodeLayoutUtils.getOriginXOffset( rootNode ),
+                            ( ( getStageHeight() - rootNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeLayoutUtils.getOriginYOffset( rootNode ) );
     }
 
     // Scales the root node to fit in the bounds of the stage.
     public void scaleRootNodeToFitStage() {
-        double xScale = stageSize.getWidth() / rootNode.getFullBoundsReference().getWidth();
-        double yScale = stageSize.getHeight() / rootNode.getFullBoundsReference().getHeight();
+        double xScale = getStageWidth() / rootNode.getFullBoundsReference().getWidth();
+        double yScale = getStageHeight() / rootNode.getFullBoundsReference().getHeight();
         if ( xScale < 1 || yScale < 1 ) {
-            double scale = Math.min( xScale, yScale );
+            final double scale = Math.min( xScale, yScale );
             LOGGER.info( "rootNode won't fit in the play area, scaling rootNode by " + scale + " for " + getClass().getName() );
             rootNode.scale( scale );
         }
