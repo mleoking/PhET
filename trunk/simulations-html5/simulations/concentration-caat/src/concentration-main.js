@@ -255,7 +255,7 @@
             var sliderTrack = rectangleNode( 200, 4, 'white', 1, 'black' );
             var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Evaporation" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
-            var container = new CAAT.ActorContainer().setLocation( 175, 612 );
+            var container = new CAAT.ActorContainer().setPosition( 175, 612 );
             container.setSize( background.width, background.height );
             container.addChild( background );
             container.addChild( text.setLocation( 2, 30 ) );
@@ -417,7 +417,11 @@
         var debugOutput = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "<debug output>" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).setPosition( 0, 0 );
 //        rootNode.addChild( debugOutput );
 
-        var concentrationMeterBody = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-body' ), true ).setPosition( 785, 280 );
+        var concentrationMeterBody = new CAAT.ActorContainer().setPosition( 785, 280 ).setSize( 10000, 10000 ).enableEvents( false );
+        concentrationMeterBody.addChild( new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-body' ), true ) );
+        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Concentration" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 20, 10 ) );
+        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "(mol/L)" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 60, 35 ) );
+        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "-" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 100, 80 ) );
         rootNode.addChild( concentrationMeterBody );
 
         var concentrationMeterProbe = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-probe' ), true ).setPosition( 760, 425 );
