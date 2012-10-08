@@ -420,8 +420,8 @@
         var concentrationMeterBodyImage = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-body' ), true );
         var concentrationMeterBody = new CAAT.ActorContainer().setPosition( 785, 280 ).enableEvents( false ).setSize( concentrationMeterBodyImage.width, concentrationMeterBodyImage.height );
         concentrationMeterBody.addChild( concentrationMeterBodyImage );
-        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Concentration" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 20, 10 ) );
-        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "(mol/L)" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 60, 35 ) );
+        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Concentration" ).calcTextSize( director ).setTextFillStyle( 'white' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 20, 10 ) );
+        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "(mol/L)" ).calcTextSize( director ).setTextFillStyle( 'white' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 60, 35 ) );
         concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "-" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 100, 80 ) );
 
         var concentrationMeterProbe = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-probe' ), true ).setPosition( 760, 425 );
