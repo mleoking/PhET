@@ -81,7 +81,7 @@ public class SlopeToolNode extends PComposite {
             riseValueNode = new AbsoluteValueNode( line.rise );
             final double xOffset = offsetFactor * gridXSpacing;
             final double riseDelimiterLength = delimiterLengthFactor * gridXSpacing;
-            final double tipFudgeY = ( line.rise > 0 ) ? 2 : -2;
+            final double tipFudgeY = ( line.rise > 0 ) ? 1 : -1;
             final double arrowX;
             if ( line.run > 0 ) {
                 // value to left of line
@@ -107,7 +107,7 @@ public class SlopeToolNode extends PComposite {
             runValueNode = new AbsoluteValueNode( line.run );
             final double yOffset = offsetFactor * gridYSpacing;
             final double runDelimiterLength = delimiterLengthFactor * gridYSpacing;
-            final double tipFudgeX = ( line.run > 0 ) ? -2 : 2;
+            final double tipFudgeX = ( line.run > 0 ) ? -1 : 1;
             final double arrowY;
             if ( line.rise > 0 ) {
                 // value above line
@@ -180,7 +180,7 @@ public class SlopeToolNode extends PComposite {
     // Can't use common-code ArrowNode because we want a different tip style.
     private static class ArrowNode extends PComposite {
 
-        private static final Stroke STROKE = new BasicStroke( 1f );
+        private static final Stroke STROKE = new BasicStroke( 0.5f );
         private static final Color COLOR = Color.BLACK;
         private static final PDimension TIP_SIZE = new PDimension( 6, 8 ); // use even-number dimensions, or tips will look asymmetrical due to rounding
 
@@ -233,12 +233,12 @@ public class SlopeToolNode extends PComposite {
     // Delimiter line that is at the end of a length line in a dimensional drawing.
     private static class DimensionalDelimiterNode extends PPath {
 
-        private static final Stroke STROKE = new BasicStroke( 1f );
+        private static final Stroke STROKE = new BasicStroke( 0.5f );
         private static final Color COLOR = Color.BLACK;
 
         public DimensionalDelimiterNode( double x1, double y1, double x2, double y2 ) {
             setStroke( STROKE );
-            setPaint( COLOR );
+            setStrokePaint( COLOR );
             setPathTo( new Line2D.Double( x1, y1, x2, y2 ) );
         }
     }
