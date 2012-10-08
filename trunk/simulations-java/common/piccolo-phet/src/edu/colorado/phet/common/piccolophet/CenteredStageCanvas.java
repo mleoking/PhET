@@ -30,11 +30,12 @@ public class CenteredStageCanvas extends PhetPCanvas implements Resettable {
     private final PNode rootNode;
     private final Dimension2D stageSize;
 
-    // Uses a default stage size that seems to be good for most sims.
+    // Constructs a canvas with a default stage size that seems to be good for most sims.
     public CenteredStageCanvas() {
         this( CenteredStage.DEFAULT_STAGE_SIZE );
     }
 
+    // Constructs a canvas with a specified stage size.
     public CenteredStageCanvas( Dimension2D stageSize ) {
 
         this.stageSize = stageSize;
@@ -60,8 +61,17 @@ public class CenteredStageCanvas extends PhetPCanvas implements Resettable {
         rootNode.removeChild( node );
     }
 
+    // Gets the stage size. Dimension2D is mutable, so this returns a copy.
     public Dimension2D getStageSize() {
-        return stageSize;
+        return new PDimension( stageSize );
+    }
+
+    public double getStageWidth() {
+        return stageSize.getWidth();
+    }
+
+    public double getStageHeight() {
+        return stageSize.getHeight();
     }
 
     public Rectangle2D getStageBounds() {
