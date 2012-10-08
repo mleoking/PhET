@@ -1,3 +1,4 @@
+10/8/12 slope tool: use a lighter stroke, fix delimiter paint bug
 10/8/12 slope tool: add dimensional delimiters at ends of arrow, offset from grid lines, create new icon for control panel
 10/8/12 render slope tool behind line manipulators
 10/8/12 fix arrow tips on slope tool, they looked a bit off due to rounding error
