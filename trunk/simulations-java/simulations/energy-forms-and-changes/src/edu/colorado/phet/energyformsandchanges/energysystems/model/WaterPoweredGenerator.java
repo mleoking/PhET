@@ -41,7 +41,8 @@ public class WaterPoweredGenerator extends EnergyConverter {
     public static final ModelElementImage WHEEL_PADDLES_IMAGE = new ModelElementImage( GENERATOR_WHEEL_PADDLES_SHORT, WHEEL_CENTER_OFFSET );
     public static final ModelElementImage WHEEL_TEXTURE_IMAGE = new ModelElementImage( GENERATOR_WHEEL_TEXTURE, WHEEL_CENTER_OFFSET );
     public static final ModelElementImage WHEEL_HUB_IMAGE = new ModelElementImage( GENERATOR_WHEEL_HUB, WHEEL_CENTER_OFFSET );
-    public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR, new Vector2D( 0.057, -0.04 ) ); // Offset empirically determined for optimal look.
+    private static final Vector2D CONNECTOR_OFFSET = new Vector2D( 0.057, -0.04 );
+    public static final ModelElementImage CONNECTOR_IMAGE = new ModelElementImage( CONNECTOR, CONNECTOR_OFFSET ); // Offset empirically determined for optimal look.
     public static final ModelElementImage WIRE_CURVED_IMAGE = new ModelElementImage( WIRE_BLACK_LEFT, new Vector2D( 0.0185, -0.015 ) ); // Offset empirically determined for optimal look.
     private static final double WHEEL_RADIUS = WHEEL_HUB_IMAGE.getWidth() / 2;
 
@@ -49,7 +50,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
     private static final Vector2D START_OF_WIRE_CURVE_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.01, -0.05 );
     private static final Vector2D WIRE_CURVE_POINT_1_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.015, -0.06 );
     private static final Vector2D WIRE_CURVE_POINT_2_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.03, -0.07 );
-    private static final Vector2D END_OF_WIRE_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.07, -0.07 );
+    private static final Vector2D CENTER_OF_CONNECTOR_OFFSET = CONNECTOR_OFFSET;
 
     private static final double ENERGY_OUTPUT_RATE = 10; // In joules / (radians / sec)
 
@@ -174,7 +175,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
             add( panelPosition.plus( START_OF_WIRE_CURVE_OFFSET ) );
             add( panelPosition.plus( WIRE_CURVE_POINT_1_OFFSET ) );
             add( panelPosition.plus( WIRE_CURVE_POINT_2_OFFSET ) );
-            add( panelPosition.plus( END_OF_WIRE_OFFSET ) );
+            add( panelPosition.plus( CENTER_OF_CONNECTOR_OFFSET ) );
         }};
     }
 

@@ -43,11 +43,11 @@ public class SolarPanel extends EnergyConverter {
     // Constants used for creating the path followed by the energy chunks.
     // Many of these numbers were empirically determined based on the images,
     // and will need updating if the images change.
-    private static final Vector2D OFFSET_TO_EC_CONVERGENCE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX(), 0.01 );
-    private static final Vector2D OFFSET_TO_FIRST_EC_CURVE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX(), -0.025 );
-    private static final Vector2D OFFSET_TO_SECOND_EC_CURVE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX() + 0.005, -0.033 );
-    private static final Vector2D OFFSET_TO_THIRD_EC_CURVE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX() + 0.015, CONNECTOR_IMAGE_OFFSET.getY() );
-    private static final Vector2D OFFSET_TO_LAST_EC_POINT = new Vector2D( CONNECTOR_IMAGE_OFFSET.getX() + 0.01, CONNECTOR_IMAGE_OFFSET.getY() );
+    private static final Vector2D OFFSET_TO_CONVERGENCE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX(), 0.01 );
+    private static final Vector2D OFFSET_TO_FIRST_CURVE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX(), -0.025 );
+    private static final Vector2D OFFSET_TO_SECOND_CURVE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX() + 0.005, -0.033 );
+    private static final Vector2D OFFSET_TO_THIRD_CURVE_POINT = new Vector2D( CONVERTER_IMAGE_OFFSET.getX() + 0.015, CONNECTOR_IMAGE_OFFSET.getY() );
+    private static final Vector2D OFFSET_TO_CONNECTOR_CENTER = CONNECTOR_IMAGE_OFFSET;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -121,11 +121,11 @@ public class SolarPanel extends EnergyConverter {
 
     private static List<Vector2D> getEnergyChunkPath( final Vector2D panelPosition ) {
         return new ArrayList<Vector2D>() {{
-            add( panelPosition.plus( OFFSET_TO_EC_CONVERGENCE_POINT ) );
-            add( panelPosition.plus( OFFSET_TO_FIRST_EC_CURVE_POINT ) );
-            add( panelPosition.plus( OFFSET_TO_SECOND_EC_CURVE_POINT ) );
-            add( panelPosition.plus( OFFSET_TO_THIRD_EC_CURVE_POINT ) );
-            add( panelPosition.plus( OFFSET_TO_LAST_EC_POINT ) );
+            add( panelPosition.plus( OFFSET_TO_CONVERGENCE_POINT ) );
+            add( panelPosition.plus( OFFSET_TO_FIRST_CURVE_POINT ) );
+            add( panelPosition.plus( OFFSET_TO_SECOND_CURVE_POINT ) );
+            add( panelPosition.plus( OFFSET_TO_THIRD_CURVE_POINT ) );
+            add( panelPosition.plus( OFFSET_TO_CONNECTOR_CENTER ) );
         }};
     }
 
