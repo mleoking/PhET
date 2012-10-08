@@ -209,7 +209,10 @@
         var topFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 100, 50 );
         var topFaucetPipe = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_pipe_long' ), true ).setPosition( -292, 82 );
         var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 752, 520 );
-        var rootNode = new CAAT.ActorContainer().setSize( director.width, director.height );
+
+        //WORKAROUND: On android Chrome, this size had to be extended for unknown reasons.  It worked fine everywhere else just to use the director's width and height.
+        //Luckily this did not seem to disrupt the behavior on other systems too much.
+        var rootNode = new CAAT.ActorContainer().setSize( director.width * 10, director.height * 10 );
         rootNode.setPosition( 0, 0 );
 
         var topKnob = createKnob( director.getImage( 'slider-knob' ), 90, 34, 177 );
@@ -268,7 +271,7 @@
             var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Solute:" ).calcTextSize( director ).
                     setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
-            var container = new CAAT.ActorContainer().setLocation( 700, 20 );
+            var container = new CAAT.ActorContainer().setPosition( 700, 20 );
             container.setSize( background.width, background.height );
             container.addChild( background );
             container.addChild( text.setLocation( 2, 4 + 8 ) );
