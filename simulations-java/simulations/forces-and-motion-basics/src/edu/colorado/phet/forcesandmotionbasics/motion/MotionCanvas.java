@@ -602,11 +602,11 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             final double skateboardY = skateboardBounds.getY() + ( friction ? 1 : 6 );
             double topY = -nodes.take( index ).map( new F<StackableNode, Double>() {
                 @Override public Double f( final StackableNode n ) {
-                    return n.getFullBounds().getHeight();
+                    return n.getFullScaleHeight();
                 }
             } ).foldLeft( Doubles.add, 0.0 ) + skateboardY;
-            stackableNode.animateToPositionScaleRotation( skateboardBounds.getCenterX() - stackableNode.getFullBounds().getWidth() / 2 + stackableNode.getInset(),
-                                                          topY - stackableNode.getFullBounds().getHeight(), 1, 0, 200 );
+            stackableNode.animateToPositionScaleRotation( skateboardBounds.getCenterX() - stackableNode.getFullScaleWidth() / 2 + stackableNode.getInset(),
+                                                          topY - stackableNode.getFullScaleHeight(), 1, 0, 200 );
         }
     }
 }
