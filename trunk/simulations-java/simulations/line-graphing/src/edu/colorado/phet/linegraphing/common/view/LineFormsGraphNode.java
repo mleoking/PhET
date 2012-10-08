@@ -81,9 +81,9 @@ public abstract class LineFormsGraphNode extends GraphNode {
         addChild( interactiveLineParentNode );
         addChild( savedLinesParentNode );
         addChild( standardLinesParentNode );
+        addChild( slopeToolNode );
         addChild( pointManipulator );
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
-        addChild( slopeToolNode ); //TODO move behind manipulators
 
         // Add/remove standard lines
         model.standardLines.addElementAddedObserver( new VoidFunction1<Line>() {

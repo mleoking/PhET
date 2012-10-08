@@ -10,6 +10,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.NumberFormat;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -17,19 +20,16 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
-
-//TODO add dimensional delimiters at ends of arrow, 1 grid unit long
-//TODO offset arrows by 1/2 grid unit
-//TODO render this node before line manipulators in LineFormsGraphNode
-//TODO delete RiseRunBracketNode
 
 /**
  * Slope indicator that the design team referred to as the "slope tool".
@@ -73,42 +73,69 @@ public class SlopeToolNode extends PComposite {
         Point2D p1View = mvt.modelToView( line.x1, line.y1 );
         Point2D p2View = mvt.modelToView( line.x2, line.y2 );
 
-        // nodes
-        PNode riseLineNode = new ArrowNode( p1View.getX(), p1View.getY(), p1View.getX(), p2View.getY() );
-        PNode runLineNode = new ArrowNode( p1View.getX(), p2View.getY(), p2View.getX(), p2View.getY() );
-        PNode riseValueNode = new AbsoluteValueNode( line.rise );
-        PNode runValueNode = new AbsoluteValueNode( line.run );
+        // rise
+        final double offsetFactor = 0.6;
+        final double delimiterLengthFactor = 0.5;
+        final PNode riseLineNode, riseTailDelimiterNode, riseTipDelimiterNode, riseValueNode;
+        {
+            riseValueNode = new AbsoluteValueNode( line.rise );
+            final double xOffset = offsetFactor * gridXSpacing;
+            final double riseDelimiterLength = delimiterLengthFactor * gridXSpacing;
+            final double tipFudgeY = ( line.rise > 0 ) ? 2 : -2;
+            final double arrowX;
+            if ( line.run > 0 ) {
+                // value to left of line
+                arrowX = p1View.getX() - xOffset;
+                riseLineNode = new ArrowNode( arrowX, p1View.getY(), arrowX, p2View.getY() + tipFudgeY );
+                riseValueNode.setOffset( riseLineNode.getFullBoundsReference().getMinX() - riseValueNode.getFullBoundsReference().getWidth() - VALUE_X_SPACING,
+                                         riseLineNode.getFullBoundsReference().getCenterY() - ( riseValueNode.getFullBoundsReference().getHeight() / 2 ) );
+            }
+            else {
+                // value to right of line
+                arrowX = p1View.getX() + xOffset;
+                riseLineNode = new ArrowNode( arrowX, p1View.getY(), arrowX, p2View.getY() + tipFudgeY );
+                riseValueNode.setOffset( riseLineNode.getFullBoundsReference().getMaxX() + VALUE_X_SPACING,
+                                         riseLineNode.getFullBoundsReference().getCenterY() - ( riseValueNode.getFullBoundsReference().getHeight() / 2 ) );
+            }
+            riseTailDelimiterNode = new DimensionalDelimiterNode( arrowX - ( riseDelimiterLength / 2 ), p1View.getY(), arrowX + ( riseDelimiterLength / 2 ), p1View.getY() );
+            riseTipDelimiterNode = new DimensionalDelimiterNode( arrowX - ( riseDelimiterLength / 2 ), p2View.getY(), arrowX + ( riseDelimiterLength / 2 ), p2View.getY() );
+        }
+
+        // run
+        final PNode runLineNode, runTailDelimiterNode, runTipDelimiterNode, runValueNode;
+        {
+            runValueNode = new AbsoluteValueNode( line.run );
+            final double yOffset = offsetFactor * gridYSpacing;
+            final double runDelimiterLength = delimiterLengthFactor * gridYSpacing;
+            final double tipFudgeX = ( line.run > 0 ) ? -2 : 2;
+            final double arrowY;
+            if ( line.rise > 0 ) {
+                // value above line
+                arrowY = p2View.getY() + yOffset;
+                runLineNode = new ArrowNode( p1View.getX(), arrowY, p2View.getX() + tipFudgeX, arrowY );
+                runValueNode.setOffset( runLineNode.getFullBoundsReference().getCenterX() - ( runValueNode.getFullBoundsReference().getWidth() / 2 ),
+                                        runLineNode.getFullBoundsReference().getMinY() - riseValueNode.getFullBoundsReference().getHeight() - VALUE_Y_SPACING );
+            }
+            else {
+                // value below line
+                arrowY = p2View.getY() - yOffset;
+                runLineNode = new ArrowNode( p1View.getX(), arrowY, p2View.getX() + tipFudgeX, arrowY );
+                runValueNode.setOffset( runLineNode.getFullBoundsReference().getCenterX() - ( runValueNode.getFullBoundsReference().getWidth() / 2 ),
+                                        runLineNode.getFullBoundsReference().getMaxY() + VALUE_Y_SPACING );
+            }
+            runTailDelimiterNode = new DimensionalDelimiterNode( p1View.getX(), arrowY - ( runDelimiterLength / 2 ), p1View.getX(), arrowY + ( runDelimiterLength / 2 ) );
+            runTipDelimiterNode = new DimensionalDelimiterNode( p2View.getX(), arrowY - ( runDelimiterLength / 2 ), p2View.getX(), arrowY + ( runDelimiterLength / 2 ) );
+        }
 
         // rendering order
+        addChild( riseTailDelimiterNode );
+        addChild( riseTipDelimiterNode );
         addChild( riseLineNode );
+        addChild( runTailDelimiterNode );
+        addChild( runTipDelimiterNode );
         addChild( runLineNode );
         addChild( riseValueNode );
         addChild( runValueNode );
-
-        // layout
-        final double riseValueXOffset;
-        if ( line.run > 0 ) {
-            // value to left of line
-            riseValueXOffset = riseLineNode.getFullBoundsReference().getMinX() - riseValueNode.getFullBoundsReference().getWidth() - VALUE_X_SPACING;
-        }
-        else {
-            // value to right of line
-            riseValueXOffset = riseLineNode.getFullBoundsReference().getMaxX() + VALUE_X_SPACING;
-        }
-        final double riseValueYOffset = riseLineNode.getFullBoundsReference().getCenterY() - ( riseValueNode.getFullBoundsReference().getHeight() / 2 );
-        riseValueNode.setOffset( riseValueXOffset, riseValueYOffset );
-
-        final double runValueXOffset = runLineNode.getFullBoundsReference().getCenterX() - ( runValueNode.getFullBoundsReference().getWidth() / 2 );
-        final double runValueYOffset;
-        if ( line.rise > 0 ) {
-            // value above line
-            runValueYOffset = runLineNode.getFullBoundsReference().getMinY() - riseValueNode.getFullBoundsReference().getHeight() - VALUE_Y_SPACING;
-        }
-        else {
-            // value below line
-            runValueYOffset = runLineNode.getFullBoundsReference().getMaxY() + VALUE_Y_SPACING;
-        }
-        runValueNode.setOffset( runValueXOffset, runValueYOffset );
     }
 
     // Absolute value on a rectangular background with rounded corners.
@@ -201,5 +228,41 @@ public class SlopeToolNode extends PComposite {
             addChild( tipNode );
             addChild( lineNode );
         }
+    }
+
+    // Delimiter line that is at the end of a length line in a dimensional drawing.
+    private static class DimensionalDelimiterNode extends PPath {
+
+        private static final Stroke STROKE = new BasicStroke( 1f );
+        private static final Color COLOR = Color.BLACK;
+
+        public DimensionalDelimiterNode( double x1, double y1, double x2, double y2 ) {
+            setStroke( STROKE );
+            setPaint( COLOR );
+            setPathTo( new Line2D.Double( x1, y1, x2, y2 ) );
+        }
+    }
+
+    // Return an icon that represents this feature.
+    public static Icon createIcon( double width ) {
+
+        PNode parentNode = new PadBoundsNode();
+
+        LineFormsModel model = LineFormsModel.createSlopeInterceptModel();
+        model.interactiveLine.set( Line.createSlopeIntercept( 1, 2, 0 ) ); // bigger values will make slope tool look smaller in icon
+
+        // slope tool
+        SlopeToolNode slopeToolNode = new SlopeToolNode( model.interactiveLine, model.mvt, 6 );
+        parentNode.addChild( slopeToolNode );
+
+        // dashed line where the line would be, tweaked visually
+        PPath lineNode = new PPath( new Line2D.Double( slopeToolNode.getFullBoundsReference().getMinX() + ( 0.4 * slopeToolNode.getFullBoundsReference().getWidth() ), slopeToolNode.getFullBoundsReference().getMaxY(),
+                                                       slopeToolNode.getFullBoundsReference().getMaxX(), slopeToolNode.getFullBoundsReference().getMinY() + ( 0.5 * slopeToolNode.getFullBoundsReference().getHeight() ) ) );
+        lineNode.setStroke( new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 6, 6 }, 0 ) );
+        parentNode.addChild( lineNode );
+
+        // scale and convert to image
+        parentNode.scale( width / parentNode.getFullBoundsReference().getWidth() );
+        return new ImageIcon( parentNode.toImage() );
     }
 }
