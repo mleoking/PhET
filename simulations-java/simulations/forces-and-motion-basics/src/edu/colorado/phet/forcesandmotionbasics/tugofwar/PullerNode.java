@@ -79,7 +79,7 @@ public class PullerNode extends PNode {
         addChild( imageNode );
         imageUpdater = new SimpleObserver() {
             public void update() {
-                if ( knot != null && mode.get() == Mode.GOING ) {
+                if ( knot != null && ( mode.get() == Mode.GOING || mode.get() == Mode.PAUSED ) ) {
                     final BufferedImage pullingImage = pullerImage( LAST_PULLER_IMAGE_INDEX );
                     imageNode.setImage( pullingImage );
 

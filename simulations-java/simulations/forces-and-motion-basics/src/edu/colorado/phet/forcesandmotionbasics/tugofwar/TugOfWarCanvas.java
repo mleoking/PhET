@@ -90,12 +90,12 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     private final PImage rope;
     private final double initialRopeX;
     private final ArrayList<VoidFunction0> cartPositionListeners = new ArrayList<VoidFunction0>();
-    private final ImageButtonNodeWithText stopButton;
+    private final ImageButtonNodeWithText pauseButton;
     private final ImageButtonNodeWithText goButton;
     private final PNode knotLayer;
     private final PNode flagLayer;
 
-    public static enum Mode {WAITING, GOING, COMPLETE}
+    public static enum Mode {WAITING, GOING, PAUSED, COMPLETE}
 
     public TugOfWarCanvas( final Resettable moduleContext, final IClock clock ) {
 
@@ -199,7 +199,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         goButton = new ImageButtonNodeWithText( UserComponents.goButton, Images.GO_UP, Images.GO_HOVER, Images.GO_PRESSED, Strings.GO, new VoidFunction0() {
             public void apply() {
                 mode.set( Mode.GOING );
-                stopButton.hover();
+                pauseButton.hover();
             }
         } ) {{
             setOffset( getButtonLocation( this ) );
@@ -210,7 +210,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                         @Override public Boolean f( final KnotNode knotNode ) {
                             return knotNode.getPullerNode() != null;
                         }
-                    } ).length() > 0 && mode.get() == Mode.WAITING;
+                    } ).length() > 0 && ( mode.get() == Mode.WAITING || mode.get() == Mode.PAUSED );
                     setVisible( visible );
                     setChildrenPickable( visible );
                 }
@@ -220,9 +220,9 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         }};
         addChild( goButton );
 
-        stopButton = new ImageButtonNodeWithText( UserComponents.stopButton, Images.STOP_UP, Images.STOP_HOVER, Images.STOP_PRESSED, Strings.PAUSE, new VoidFunction0() {
+        pauseButton = new ImageButtonNodeWithText( UserComponents.stopButton, Images.STOP_UP, Images.STOP_HOVER, Images.STOP_PRESSED, Strings.PAUSE, new VoidFunction0() {
             public void apply() {
-                mode.set( Mode.WAITING );
+                mode.set( Mode.PAUSED );
                 goButton.hover();
             }
         } ) {{
@@ -235,16 +235,16 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 }
             } );
         }};
-        addChild( stopButton );
+        addChild( pauseButton );
 
         addChild( new TextButtonNode( Strings.RETURN, DEFAULT_FONT, Color.orange ) {{
             setUserComponent( UserComponents.returnButton );
-            setOffset( stopButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, stopButton.getFullBounds().getMaxY() + INSET );
+            setOffset( pauseButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, pauseButton.getFullBounds().getMaxY() + INSET );
             final SimpleObserver update = new SimpleObserver() {
                 public void update() {
                     //leave "restart" button showing after "stop" pressed
                     Mode m = mode.get();
-                    boolean visible = m == Mode.GOING || m == Mode.COMPLETE || ( m == Mode.WAITING && !isCartInCenter() );
+                    boolean visible = m == Mode.GOING || m == Mode.COMPLETE || ( m == Mode.WAITING && !isCartInCenter() ) || m == Mode.PAUSED;
                     setVisible( visible );
                     setPickable( visible );
                     setChildrenPickable( visible );
@@ -451,7 +451,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
     }
 
     private void updateForceArrows() {
-        forcesNode.setForces( mode.get() == Mode.WAITING || mode.get() == Mode.COMPLETE, getLeftForce(), getRightForce(), showSumOfForces.get(), showValues.get() );
+        forcesNode.setForces( mode.get() == Mode.PAUSED || mode.get() == Mode.WAITING || mode.get() == Mode.COMPLETE, getLeftForce(), getRightForce(), showSumOfForces.get(), showValues.get() );
     }
 
     private double getRightForce() {
