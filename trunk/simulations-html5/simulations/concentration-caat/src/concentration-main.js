@@ -589,7 +589,8 @@
 
 
         //This breaks Win7/Chrome interaction, so only enable on ios + android
-        if ( isAndroid() || isIOS() ) {
+        var allowPinchToZoomOnMobile = false;//Needs to be rewritten to work with stage centering strategy
+        if ( isAndroid() || isIOS() && allowPinchToZoomOnMobile ) {
             //Pinch to zoom in on different parts of the sim, mainly to make up for shortcomings in the user interface on smaller devices.
             //        var canvasElement = document.getElementById( "canvas" );
             var canvasElement = document.getElementsByTagName( 'canvas' )[0];
