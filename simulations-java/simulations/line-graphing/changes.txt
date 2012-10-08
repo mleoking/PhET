@@ -1,4 +1,4 @@
-10/7/12 fix arrow tips on slope tool, they looked a bit off due to rounding error
+10/8/12 fix arrow tips on slope tool, they looked a bit off due to rounding error
 10/7/12 #3423, migrate CenteredStageCanvas to piccolo-phet
 10/7/12 #3423, generalize and rename CenteredStageCanvas, in preparation for migration to piccolo-phet
 10/7/12 intermediate step in implementation of new slope tool
