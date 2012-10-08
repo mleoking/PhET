@@ -31,12 +31,12 @@ public class ForcesAndMotionBasicsResources {
         public static final String NEWTONS = RESOURCES.getLocalizedString( "newtons" );
         public static final String NEWTONS__N = RESOURCES.getLocalizedString( "newtons.n" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
+        public static final String PAUSE = RESOURCES.getLocalizedString( "pause" );
         public static final String RED_WINS = RESOURCES.getLocalizedString( "redWins" );
         public static final String RETURN = RESOURCES.getLocalizedString( "return" );
         public static final String RIGHT_FORCE = RESOURCES.getLocalizedString( "rightForce" );
         public static final String SOUND = RESOURCES.getLocalizedString( "sound" );
         public static final String SPEED = RESOURCES.getLocalizedString( "speed" );
-        public static final String STOP = RESOURCES.getLocalizedString( "stop" );
         public static final String SUM_OF_FORCES = RESOURCES.getLocalizedString( "sumOfForces" );
         public static final String SUM_OF_FORCES_EQUALS_ZERO = RESOURCES.getLocalizedString( "sumOfForcesEqualsZero" );
         public static final String TUG_OF_WAR = RESOURCES.getLocalizedString( "tugOfWar" );
