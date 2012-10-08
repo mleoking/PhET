@@ -16,6 +16,7 @@ HIGH
 - query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up (including "x={0} (slope undefined)")
 
 MEDIUM
+- get rid of EquationNode.setPaintDeep and LineNode.updateColor, make LineNode immutable, use a new instance when its color changes
 - add support for fractional y-intercept in equations (only when y-intercept is non-interactive)
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
 - sort out duplication in Challenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
