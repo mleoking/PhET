@@ -215,4 +215,9 @@ class StackableNode extends PNode {
         }
         else { return 0; }
     }
+
+    //Use the full scale height for computing layout on the stack, otherwise if it is still AnimateToScale'ing then it could appear sunken into the skateboard or previous object
+    public double getFullScaleHeight() { return getFullBounds().getHeight() / getScale(); }
+
+    public double getFullScaleWidth() { return getFullBounds().getWidth() / getScale(); }
 }
