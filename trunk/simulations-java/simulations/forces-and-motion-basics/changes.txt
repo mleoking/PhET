@@ -1,3 +1,4 @@
+Tab 2: Show pusher as standing if he is in the way of the skateboard
 # 0.00.38 (68974) Oct 8, 2012
 Tab 1: Make pullers stay in pulling position when paused
 Tab 1: Changed "stop" to "pause"
