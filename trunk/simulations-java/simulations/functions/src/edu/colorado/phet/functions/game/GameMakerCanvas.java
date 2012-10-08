@@ -3,15 +3,15 @@ package edu.colorado.phet.functions.game;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.piccolophet.CenteredStageCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
-import edu.colorado.phet.functions.buildafunction.AbstractFunctionsCanvas;
 import edu.colorado.phet.functions.buildafunction.BuildAFunctionCanvas;
 import edu.colorado.phet.functions.buildafunction.BuildAFunctionScene;
 
 /**
  * @author Sam Reid
  */
-public class GameMakerCanvas extends AbstractFunctionsCanvas {
+public class GameMakerCanvas extends CenteredStageCanvas {
     public GameMakerCanvas() {
         setBackground( BuildAFunctionCanvas.BACKGROUND_COLOR );
         final PlayAreaNode playAreaNode = new PlayAreaNode();

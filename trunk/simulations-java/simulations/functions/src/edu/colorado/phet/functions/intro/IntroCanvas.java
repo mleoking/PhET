@@ -24,7 +24,7 @@ public class IntroCanvas extends ChallengeProgressionCanvas implements ValueCont
         this.scenes = scenes;
 
         addChild( new NavigationBar( level ) {{
-            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 4 );
+            setOffset( getStageSize().getWidth() / 2 - getFullBounds().getWidth() / 2, 4 );
         }} );
 
         scene = scenes.index( level.get() ).f( this );
@@ -41,7 +41,7 @@ public class IntroCanvas extends ChallengeProgressionCanvas implements ValueCont
     @Override protected int getLevelCount() { return scenes.length();}
 
     @Override protected void finishAnimation( final PNode newScene ) {
-        scene.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, ANIMATION_DELAY ).setDelegate( new PActivityDelegate() {
+        scene.animateToPositionScaleRotation( -getStageSize().getWidth(), 0, 1, 0, ANIMATION_DELAY ).setDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
             }
 
