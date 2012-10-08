@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.buildtools.RevisionStrategy.DynamicRevisionStrategy;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
+import edu.colorado.phet.buildtools.html5.HTML5Project;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.preprocessor.ResourceGenerator;
@@ -413,6 +414,10 @@ public class BuildScript {
                 s += title;
                 if ( project instanceof FlashSimulationProject ) {
                     s += " : <a href=\"" + mainLaunchFile + "\">dev</a>";
+                }
+                else if ( project instanceof HTML5Project ) {
+                    //Omits _en suffix for now because no i18n support and main html file doesn't have "_en" in it.//TODO: i18n suffixes will need to be added
+                    s += " : <a href=\"" + project.getSimulationNames()[i] + "." + project.getLaunchFileSuffix() + "\">dev</a>";
                 }
                 else {
                     /*
