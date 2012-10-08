@@ -1,3 +1,4 @@
+10/7/12 #3423, generalize and rename CenteredStageCanvas, in preparation for migration to piccolo-phet
 10/7/12 intermediate step in implementation of new slope tool
 10/7/12 copy X and check-mark images from balancing-chemical-equations
 10/7/12 delete vestigial entries in images/license.txt
