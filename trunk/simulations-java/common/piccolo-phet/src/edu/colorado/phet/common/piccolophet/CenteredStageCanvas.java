@@ -50,9 +50,14 @@ public class CenteredStageCanvas extends PhetPCanvas implements Resettable {
         addWorldChild( rootNode );
     }
 
-    // Adds a child node to the root node.
+    // Adds a child to the root node.
     public void addChild( PNode node ) {
         rootNode.addChild( node );
+    }
+
+    // Removes a child from the root node.
+    public void removeChild( PNode node ) {
+        rootNode.removeChild( node );
     }
 
     public Dimension2D getStageSize() {
