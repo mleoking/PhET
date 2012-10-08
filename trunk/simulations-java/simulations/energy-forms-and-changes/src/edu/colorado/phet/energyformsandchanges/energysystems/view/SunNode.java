@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -41,7 +42,7 @@ public class SunNode extends PositionableFadableModelElementNode {
     private static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( 16, true );
     private static final Font CONTROL_PANEL_LABEL_FONT_FONT = new PhetFont( 14, false );
 
-    public SunNode( final Sun sun, final ModelViewTransform mvt ) {
+    public SunNode( final Sun sun, final ModelViewTransform mvt, ObservableProperty<Boolean> energyChunksVisible ) {
         super( sun, mvt );
 
         final double sunRadius = mvt.modelToViewDeltaX( Sun.RADIUS );
@@ -49,6 +50,12 @@ public class SunNode extends PositionableFadableModelElementNode {
         // Add the rays of sunlight.
         final LightRays lightRays = new LightRays( mvt.modelToViewDelta( Sun.OFFSET_TO_CENTER_OF_SUN ), sunRadius, 1000, 40, Color.YELLOW );
         addChild( lightRays );
+        energyChunksVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean energyChunksVisible ) {
+                // Only show the rays then the energy chunks are not shown.
+                lightRays.setVisible( !energyChunksVisible );
+            }
+        } );
 
         // Add the energy chunks, which reside on their own layer.
         addChild( new EnergyChunkLayer( sun.energyChunkList, sun.getObservablePosition(), mvt ) );
