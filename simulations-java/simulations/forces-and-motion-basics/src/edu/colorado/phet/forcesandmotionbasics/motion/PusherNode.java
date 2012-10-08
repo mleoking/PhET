@@ -5,10 +5,12 @@ import fj.data.List;
 
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.umd.cs.piccolo.PNode;
@@ -38,7 +40,7 @@ class PusherNode extends PNode {
     private final BufferedImage pusherFallDownRight = flipX( Images.PUSHER_FALL_DOWN );
     private final BufferedImage pusherFallDownLeft = Images.PUSHER_FALL_DOWN;
 
-    public PusherNode( final BooleanProperty fallen, final PNode skateboard, final double grassY, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final ObservableProperty<SpeedValue> speedValue ) {
+    public PusherNode( final BooleanProperty fallen, final PNode skateboard, final double grassY, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final ObservableProperty<SpeedValue> speedValue, final Property<Option<Double>> speed ) {
         this.appliedForce = appliedForce;
         pusher = new PImage( PUSHER_STRAIGHT_ON );
         pusher.scale( 0.8 * 0.9 );
@@ -50,15 +52,24 @@ class PusherNode extends PNode {
                 if ( appliedForce != 0 ) {
                     lastNonzeroAppliedForce = appliedForce;
                 }
+                boolean behindSkateboard = MathUtil.getSign( lastNonzeroAppliedForce ) == MathUtil.getSign( speed.get().get() );
 
                 if ( appliedForce == 0 ) {
-                    pusher.setImage( fallen.get() ? ( lastNonzeroAppliedForce > 0 ? pusherFallDownRight : pusherFallDownLeft ) :
-                                     PUSHER_STRAIGHT_ON );
+                    if ( behindSkateboard ) {
+                        pusher.setImage( fallen.get() ? ( lastNonzeroAppliedForce > 0 ? pusherFallDownRight : pusherFallDownLeft ) :
+                                         PUSHER_STRAIGHT_ON );
 
-                    if ( lastNonzeroAppliedForce > 0 ) {
-                        pusher.setOffset( skateboard.getFullBounds().getX() - pusher.getFullBounds().getWidth() + 0, grassY - pusher.getFullBounds().getHeight() );
+                        if ( lastNonzeroAppliedForce > 0 ) {
+                            pusher.setOffset( skateboard.getFullBounds().getX() - pusher.getFullBounds().getWidth() + 0, grassY - pusher.getFullBounds().getHeight() );
+                        }
+                        else {
+                            pusher.setOffset( skateboard.getFullBounds().getMaxX(), grassY - pusher.getFullBounds().getHeight() );
+                        }
                     }
+
+                    //If standing where the skateboard is moving, don't show as fallen because it could let students repeatedly run over the character and be distracting
                     else {
+                        pusher.setImage( PUSHER_STRAIGHT_ON );
                         pusher.setOffset( skateboard.getFullBounds().getMaxX(), grassY - pusher.getFullBounds().getHeight() );
                     }
                 }
