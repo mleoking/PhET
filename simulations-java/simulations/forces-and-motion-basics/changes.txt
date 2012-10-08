@@ -1,3 +1,4 @@
+Tab 2-3: Fixed: Pusher can push into blocks if you: Apply force until pusher falls down > pause sim > move force slider into white area > press play.
 # 0.00.40 (68980) Oct 8, 2012
 Tab 2-3: Prevent objects from sinking into the skateboard or previous object if moved quickly onto the stack
 # 0.00.39 (68978) Oct 8, 2012

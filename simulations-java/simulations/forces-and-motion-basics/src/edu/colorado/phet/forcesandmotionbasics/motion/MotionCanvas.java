@@ -319,7 +319,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         appliedForceSliderControl.setOffset( STAGE_SIZE.getWidth() / 2 - appliedForceSliderControl.getFullBounds().getWidth() / 2, grassY + 50 );
         addChild( appliedForceSliderControl );
 
-        pusherNode = new PusherNode( model.fallen, skateboard, grassY, model.appliedForce, stack, model.speedValue, model.speed );
+        pusherNode = new PusherNode( model.fallen, skateboard, grassY, model.appliedForce, stack, model.speedValue, model.speed, playing );
         addChild( pusherNode );
 
         addChild( skateboard );
@@ -398,14 +398,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     step( clockEvent.getSimulationTimeChange() );
                 }
                 model.clockStepped();
-            }
-        } );
-
-        model.appliedForce.addObserver( new VoidFunction1<Double>() {
-            public void apply( final Double appliedForce ) {
-                if ( appliedForce != 0.0 ) {
-                    pusherNode.setOffset( 0, 0 );
-                }
             }
         } );
 
