@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
  */
 public class MPColors {
 
+    public static final Color CANVAS = new Color( 180, 205, 255 ); // light blue
+
     // Molecule components
     public static final Color ATOM_A = new Color( 255, 255, 90 );
     public static final Color ATOM_B = Color.GREEN;

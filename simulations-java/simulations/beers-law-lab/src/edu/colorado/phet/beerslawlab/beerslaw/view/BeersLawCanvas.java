@@ -6,11 +6,11 @@ import java.awt.Frame;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawModel;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
-import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.common.view.DebugLocationNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.piccolophet.CenteredStageCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -19,11 +19,12 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeersLawCanvas extends BLLCanvas implements Resettable {
+public class BeersLawCanvas extends CenteredStageCanvas {
 
     private final WavelengthControlNode wavelengthControlNode;
 
     public BeersLawCanvas( final BeersLawModel model, Frame parentFrame ) {
+        setBackground( Color.WHITE );
 
         // Nodes
         PNode lightNode = new LightNode( model.light, model.mvt );
