@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -42,7 +41,7 @@ public class SunNode extends PositionableFadableModelElementNode {
     private static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( 16, true );
     private static final Font CONTROL_PANEL_LABEL_FONT_FONT = new PhetFont( 14, false );
 
-    public SunNode( final Sun sun, PhetPCanvas canvas, final ModelViewTransform mvt ) {
+    public SunNode( final Sun sun, final ModelViewTransform mvt ) {
         super( sun, mvt );
 
         final double sunRadius = mvt.modelToViewDeltaX( Sun.RADIUS );
