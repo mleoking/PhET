@@ -75,55 +75,58 @@ public class LightBulb extends EnergyUser {
 
     @Override public void stepInTime( double dt, Energy incomingEnergy ) {
 
-        // Handle any incoming energy chunks.
-        if ( !incomingEnergyChunks.isEmpty() ) {
-            for ( EnergyChunk incomingEnergyChunk : incomingEnergyChunks ) {
-                if ( incomingEnergyChunk.energyType.get() == EnergyType.ELECTRICAL ) {
-                    // Add the energy chunk to the list of those under management.
-                    energyChunkList.add( incomingEnergyChunk );
+        if ( isActive() ) {
+            // Handle any incoming energy chunks.
+            if ( !incomingEnergyChunks.isEmpty() ) {
+                for ( EnergyChunk incomingEnergyChunk : incomingEnergyChunks ) {
+                    if ( incomingEnergyChunk.energyType.get() == EnergyType.ELECTRICAL ) {
 
-                    // And a "mover" that will move this energy chunk through
-                    // the wire to the bulb.
-                    electricalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, getEnergyChunkPath( getPosition() ), EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
+                        // Add the energy chunk to the list of those under management.
+                        energyChunkList.add( incomingEnergyChunk );
+
+                        // And a "mover" that will move this energy chunk through
+                        // the wire to the bulb.
+                        electricalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, getEnergyChunkPath( getPosition() ), EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
+                    }
+                    else {
+                        // By design, this shouldn't happen, so warn if it does.
+                        System.out.println( getClass().getName() + " - Warning: Ignoring energy chunk with unexpected type, type = " + incomingEnergyChunk.energyType.get().toString() );
+                    }
                 }
-                else {
-                    // By design, this shouldn't happen, so warn if it does.
-                    System.out.println( getClass().getName() + " - Warning: Ignoring energy chunk with unexpected type, type = " + incomingEnergyChunk.energyType.get().toString() );
+                incomingEnergyChunks.clear();
+            }
+
+            // Move the electrical energy chunks that are currently under management.
+            for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( electricalEnergyChunkMovers ) ) {
+                energyChunkMover.moveAlongPath( dt );
+                if ( energyChunkMover.isPathFullyTraversed() ) {
+                    electricalEnergyChunkMovers.remove( energyChunkMover );
+                    // Cause this energy chunk to be radiated from the bulb.
+                    energyChunkMover.energyChunk.energyType.set( EnergyType.LIGHT );
+                    List<Vector2D> lightPath = new ArrayList<Vector2D>() {{
+                        add( getPosition().plus( OFFSET_TO_RADIATE_POINT ).plus( new Vector2D( 0, RADIATED_ENERGY_CHUNK_MAX_DISTANCE ).getRotatedInstance( ( RAND.nextDouble() - 0.5 ) * ( Math.PI / 2 ) ) ) );
+                    }};
+                    lightEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk, lightPath, EFACConstants.LIGHT_ENERGY_CHUNK_VELOCITY ) );
                 }
             }
-            incomingEnergyChunks.clear();
-        }
 
-        // Move the electrical energy chunks that are currently under management.
-        for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( electricalEnergyChunkMovers ) ) {
-            energyChunkMover.moveAlongPath( dt );
-            if ( energyChunkMover.isPathFullyTraversed() ) {
-                electricalEnergyChunkMovers.remove( energyChunkMover );
-                // Cause this energy chunk to be radiated from the bulb.
-                energyChunkMover.energyChunk.energyType.set( EnergyType.LIGHT );
-                List<Vector2D> lightPath = new ArrayList<Vector2D>() {{
-                    add( getPosition().plus( OFFSET_TO_RADIATE_POINT ).plus( new Vector2D( 0, RADIATED_ENERGY_CHUNK_MAX_DISTANCE ).getRotatedInstance( ( RAND.nextDouble() - 0.5 ) * ( Math.PI / 2 ) ) ) );
-                }};
-                lightEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk, lightPath, EFACConstants.LIGHT_ENERGY_CHUNK_VELOCITY ) );
+            // Move the light energy chunks.
+            for ( EnergyChunkPathMover lightEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( lightEnergyChunkMovers ) ) {
+                lightEnergyChunkMover.moveAlongPath( dt );
+                if ( lightEnergyChunkMover.isPathFullyTraversed() ) {
+                    // Remove the chunk and its mover.
+                    energyChunkList.remove( lightEnergyChunkMover.energyChunk );
+                    lightEnergyChunkMovers.remove( lightEnergyChunkMover );
+                }
             }
-        }
 
-        // Move the light energy chunks.
-        for ( EnergyChunkPathMover lightEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( lightEnergyChunkMovers ) ) {
-            lightEnergyChunkMover.moveAlongPath( dt );
-            if ( lightEnergyChunkMover.isPathFullyTraversed() ) {
-                // Remove the chunk and its mover.
-                energyChunkList.remove( lightEnergyChunkMover.energyChunk );
-                lightEnergyChunkMovers.remove( lightEnergyChunkMover );
+            // Set how lit the bulb is.
+            if ( isActive() && incomingEnergy.type == EnergyType.ELECTRICAL ) {
+                litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / energyToFullyLight, 1 ) );
             }
-        }
-
-        // Set how lit the bulb is.
-        if ( isActive() && incomingEnergy.type == EnergyType.ELECTRICAL ) {
-            litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / energyToFullyLight, 1 ) );
-        }
-        else {
-            litProportion.set( 0.0 );
+            else {
+                litProportion.set( 0.0 );
+            }
         }
     }
 
