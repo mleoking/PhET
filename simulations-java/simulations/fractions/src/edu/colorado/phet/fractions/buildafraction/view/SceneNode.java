@@ -66,8 +66,12 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     //Plays a ding sound when collection box filled and "ta-da" when all collection boxes filled.
     private final GameAudioPlayer gameAudioPlayer;
 
+    //Index of the current level
+    public final int levelIndex;
+
     protected SceneNode( final int levelIndex, BooleanProperty audioEnabled, final SceneContext context, boolean fractionLab ) {
         this.fractionLab = fractionLab;
+        this.levelIndex = levelIndex;
         gameAudioPlayer = new GameAudioPlayer( audioEnabled.get() );
         audioEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean enabled ) {

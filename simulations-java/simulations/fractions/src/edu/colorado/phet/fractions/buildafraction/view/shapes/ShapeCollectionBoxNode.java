@@ -49,15 +49,19 @@ public class ShapeCollectionBoxNode extends CollectionBoxNode {
             if ( !enabled.get() ) {
                 setTransparency( FADED_OUT );
             }
+
+            //Fade in if in the scene graph, or immediately set the transparency if out of the scene graph (for example if the user started a level and then came back to it).
             enabled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( final Boolean matched ) {
                     if ( matched ) {
                         setStrokePaint( ENABLED_STROKE_PAINT );
-                        animateToTransparency( 1f, FADE_TIME );
+                        if ( getRoot() == null ) { setTransparency( 1f ); }
+                        else { animateToTransparency( 1f, FADE_TIME ); }
                     }
                     else {
                         setStrokePaint( DISABLED_STROKE_PAINT );
-                        animateToTransparency( FADED_OUT, FADE_TIME );
+                        if ( getRoot() == null ) {setTransparency( FADED_OUT );}
+                        else { animateToTransparency( FADED_OUT, FADE_TIME ); }
                     }
                 }
             } );
