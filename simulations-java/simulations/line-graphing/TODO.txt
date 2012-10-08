@@ -12,7 +12,6 @@ DESIGN
 - Game: define levels and challenges
 
 HIGH
-- rewrite slope tool (see TODO items at top of SlopeToolNode)
 - "given equation" and "your equation" boxes, with check or X icons (icons outside boxes, on side towards graph)
 - query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up (including "x={0} (slope undefined)")
 
