@@ -3,3 +3,4 @@ show a frame rate readout (could be done with debug template)
     integrate with C:\Users\Sam\Desktop\CAAT\documentation\debug\debug_template.html, this will show frame rate
 pinch to zoom on the frame
     working on mobile but a bit buggy
+an object dragged out of the stage bounds cannot be retrieved (mouse events don't originate from there, will probably have to change the rootNode bounds)
