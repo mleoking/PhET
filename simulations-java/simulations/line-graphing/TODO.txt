@@ -23,6 +23,7 @@ MEDIUM
 - layout of EquationNode subclasses is complicated. Is there a better way?
 
 LOW
+- delete RiseRunBracketNode
 - review usages of Line.simplified
 - add "verbose" mode to equation code, in case we want to show exactly what is in model
 - use of Line.color is a bit of a mess, and makes it difficult to manage line lists
