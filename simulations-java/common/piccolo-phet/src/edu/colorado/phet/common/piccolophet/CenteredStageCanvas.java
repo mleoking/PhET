@@ -32,7 +32,7 @@ public class CenteredStageCanvas extends PhetPCanvas implements Resettable {
 
     // Uses a default stage size that seems to be good for most sims.
     public CenteredStageCanvas() {
-        this( new PDimension( 1008, 679 ) );
+        this( CenteredStage.DEFAULT_STAGE_SIZE );
     }
 
     public CenteredStageCanvas( Dimension2D stageSize ) {
