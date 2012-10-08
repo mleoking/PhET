@@ -220,7 +220,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         }};
         addChild( goButton );
 
-        stopButton = new ImageButtonNodeWithText( UserComponents.stopButton, Images.STOP_UP, Images.STOP_HOVER, Images.STOP_PRESSED, Strings.STOP, new VoidFunction0() {
+        stopButton = new ImageButtonNodeWithText( UserComponents.stopButton, Images.STOP_UP, Images.STOP_HOVER, Images.STOP_PRESSED, Strings.PAUSE, new VoidFunction0() {
             public void apply() {
                 mode.set( Mode.WAITING );
                 goButton.hover();
