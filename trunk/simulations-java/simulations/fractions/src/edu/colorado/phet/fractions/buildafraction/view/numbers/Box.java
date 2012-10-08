@@ -22,12 +22,16 @@ public class Box {
     //Sets whether the box is visible and interactive
     public void setEnabled( final boolean enabled ) {
         box.setVisible( enabled );
-        if ( !enabled ) {
-            box.getParent().addChild( notAllowedIcon );
-            notAllowedIcon.centerFullBoundsOnPoint( box.getFullBoundsReference().getCenterX(), box.getFullBoundsReference().getCenterY() );
-        }
-        else if ( box.getParent().getChildrenReference().indexOf( notAllowedIcon ) > 0 ) {
-            box.getParent().removeChild( notAllowedIcon );
+
+        //Show a "not allowed" sign but only if the spot isn't filled with a number
+        if ( cardNode == null ) {
+            if ( !enabled ) {
+                box.getParent().addChild( notAllowedIcon );
+                notAllowedIcon.centerFullBoundsOnPoint( box.getFullBoundsReference().getCenterX(), box.getFullBoundsReference().getCenterY() );
+            }
+            else if ( box.getParent().getChildrenReference().indexOf( notAllowedIcon ) > 0 ) {
+                box.getParent().removeChild( notAllowedIcon );
+            }
         }
     }
 

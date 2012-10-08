@@ -1,3 +1,4 @@
+Tab 2: Fixed: Don't show the red "not allowed" sign if a number is already there
 Tabs 1-2: Fixed: collection boxes don't fade in on an opened but inactive level
 Tabs 1-2: keep collection box borders always blue after fading in, don't change to gray when something dropped in or "undo" pressed
 Added "//unchecked warning" for lines that elicit usage of @SuppressWarnings annotation, see #3441
