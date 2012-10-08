@@ -212,8 +212,8 @@
 
         //WORKAROUND: On android Chrome, this size had to be extended for unknown reasons.  It worked fine everywhere else just to use the director's width and height.
         //Luckily this did not seem to disrupt the behavior on other systems too much.
+        //Maybe caused by android having a default zoom factor and window.innerWidth mismatching with director.width?
         var rootNode = new CAAT.ActorContainer().setSize( director.width * 10, director.height * 10 );
-        rootNode.setPosition( 0, 0 );
 
         var topKnob = createKnob( director.getImage( 'slider-knob' ), 90, 34, 177 );
         var bottomKnob = createKnob( director.getImage( 'slider-knob' ), 738, 498, 738 + (177 - 90) );
@@ -437,6 +437,17 @@
             var sy = windowHeight / designHeight;
             var min = Math.min( sx, sy );
             rootNode.setScaleAnchored( min, min, 0, 0 );
+
+            var innerWidth = window.innerWidth;
+            var innerHeight = window.innerHeight;
+
+            //Center on available bounds
+            if ( sy == min ) {
+                rootNode.setPosition( windowWidth / 2 - designWidth * min / 2, 0 );
+            }
+            else {
+                rootNode.setPosition( 0, windowHeight / 2 - designHeight * min / 2 );
+            }
         };
 
         //http://stackoverflow.com/questions/7814984/detect-ios5-within-mobile-safari-javascript-preferred
