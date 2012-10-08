@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.piccolophet.CenteredStageCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;

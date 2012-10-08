@@ -5,7 +5,7 @@ import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.view.CenteredStageCanvas;
+import edu.colorado.phet.common.piccolophet.CenteredStageCanvas;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
 import edu.umd.cs.piccolo.PNode;
