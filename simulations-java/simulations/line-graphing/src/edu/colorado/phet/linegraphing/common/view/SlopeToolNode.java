@@ -29,7 +29,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 //TODO add dimensional delimiters at ends of arrow, 1 grid unit long
 //TODO offset arrows by 1/2 grid unit
 //TODO render this node before line manipulators in LineFormsGraphNode
-//TODO fix arrow tips, they look a bit off (or switch to common-code arrows?)
 //TODO delete RiseRunBracketNode
 
 /**
@@ -156,7 +155,7 @@ public class SlopeToolNode extends PComposite {
 
         private static final Stroke STROKE = new BasicStroke( 1f );
         private static final Color COLOR = Color.BLACK;
-        private static final PDimension TIP_SIZE = new PDimension( 5, 8 );
+        private static final PDimension TIP_SIZE = new PDimension( 6, 8 ); // use even-number dimensions, or tips will look asymmetrical due to rounding
 
         public ArrowNode( double tailX, double tailY, double tipX, double tipY ) {
 
