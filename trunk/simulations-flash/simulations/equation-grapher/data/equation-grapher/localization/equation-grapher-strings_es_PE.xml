@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_es_PE.xml created Thu Oct 04 17:08:12 COT 2012 using: equation-grapher 2.02.00 (52283), translation-utility 2.13.00 (59150) dic 7, 2011--><SimStrings>
+<string key="showYEq" value="Mostrar y ="/>
+<string key="erase" value="Borrar"/>
+<string key="save" value="Guardar"/>
+<string key="zero" value="Cero"/>
+<string key="simTitle" value="Graficador de Ecuaciones"/>
+<string key="translation.credits" value="Por Héctor R. MALLMA ALVARADO (UNFV)(LIMA-PERÚ) hecmall@hotmail.com; hecmall@outlook.com"/>
+</SimStrings>
