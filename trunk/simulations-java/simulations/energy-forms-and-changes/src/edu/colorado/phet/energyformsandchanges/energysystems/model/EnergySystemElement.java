@@ -55,8 +55,8 @@ public abstract class EnergySystemElement extends PositionableFadableModelElemen
     public void deactivate() {
         active.set( false );
 
-        // All energy chunks should go away when an energy system element is deactivated.
-        energyChunkList.clear();
+        // All energy chunks go away when an energy system element is deactivated.
+        clearEnergyChunks();
     }
 
     public ObservableProperty<Boolean> getObservableActiveState() {
@@ -65,5 +65,12 @@ public abstract class EnergySystemElement extends PositionableFadableModelElemen
 
     protected boolean isActive() {
         return active.get();
+    }
+
+    /**
+     * Remove all energy chunks being managed by this energy system element.
+     */
+    public void clearEnergyChunks() {
+        energyChunkList.clear();
     }
 }

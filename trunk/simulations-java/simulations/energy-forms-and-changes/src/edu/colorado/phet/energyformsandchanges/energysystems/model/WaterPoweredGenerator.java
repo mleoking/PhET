@@ -180,10 +180,14 @@ public class WaterPoweredGenerator extends EnergyConverter {
 
     @Override public void deactivate() {
         super.deactivate();
+        wheelRotationalVelocity = 0;
+    }
+
+    @Override public void clearEnergyChunks() {
+        super.clearEnergyChunks();
         electricalEnergyChunks.clear();
         electricalEnergyChunkMovers.clear();
         mechanicalEnergyChunkMovers.clear();
-        wheelRotationalVelocity = 0;
     }
 
     public ObservableProperty<Double> getWheelRotationalAngle() {

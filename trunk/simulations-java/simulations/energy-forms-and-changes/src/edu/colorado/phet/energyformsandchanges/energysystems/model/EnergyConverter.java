@@ -49,8 +49,8 @@ public abstract class EnergyConverter extends EnergySystemElement {
         incomingEnergyChunks.addAll( energyChunks );
     }
 
-    @Override public void deactivate() {
-        super.deactivate();
+    @Override public void clearEnergyChunks() {
+        super.clearEnergyChunks();
         incomingEnergyChunks.clear();
         outgoingEnergyChunks.clear();
     }
