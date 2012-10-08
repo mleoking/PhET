@@ -44,4 +44,3 @@ LOOSE ENDS
 - code review
 
 MIGRATE TO COMMON
-- #3423, migrate LGCanvas to common as "StageCanvas", reuse in other sims
