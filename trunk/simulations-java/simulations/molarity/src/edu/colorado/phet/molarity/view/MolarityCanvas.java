@@ -9,6 +9,7 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.CenteredStageCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
@@ -24,12 +25,13 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MolarityCanvas extends AbstractMolarityCanvas {
+public class MolarityCanvas extends CenteredStageCanvas {
 
     // switches between quantitative (true) and qualitative (false) views
     private final Property<Boolean> valuesVisible = new Property<Boolean>( false );
 
     public MolarityCanvas( final MolarityModel model, Frame parentFrame ) {
+        setBackground( Color.WHITE );
 
         // beaker, with solution and precipitate inside of it
         final BeakerNode beakerNode = new BeakerNode( UserComponents.solutionBeaker,

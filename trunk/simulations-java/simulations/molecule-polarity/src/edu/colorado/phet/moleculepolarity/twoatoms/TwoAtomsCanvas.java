@@ -5,10 +5,10 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.CenteredStageCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
-import edu.colorado.phet.moleculepolarity.MPSimSharing;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
@@ -21,7 +21,6 @@ import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondCharacterNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.DipoleNode;
-import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.SurfaceColorKeyNode.ElectronDensityColorKeyNode;
@@ -35,9 +34,10 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TwoAtomsCanvas extends MPCanvas {
+public class TwoAtomsCanvas extends CenteredStageCanvas {
 
     public TwoAtomsCanvas( TwoAtomsModel model, final ViewProperties viewProperties, Frame parentFrame ) {
+        setBackground( MPColors.CANVAS );
 
         // nodes
         final DiatomicMoleculeNode moleculeNode = new DiatomicMoleculeNode( model.molecule );
