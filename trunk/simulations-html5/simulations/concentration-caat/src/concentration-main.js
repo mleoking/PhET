@@ -336,15 +336,18 @@
             };
 
             buttonBox.enableEvents( false );
-            var popup = new CAAT.ShapeActor().setSize( 350, 260 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'white' ).setStrokeStyle( 'black' );
-            popup.addChild( createSquareAndTextNode( 'red', 'Drink Mix' ).setLocation( 2, 0 * 32 + 2 ) );
-            popup.addChild( createSquareAndTextNode( 'red', 'Cobalt (II) nitrate' ).setLocation( 2, 1 * 32 + 2 ) );
-            popup.addChild( createSquareAndTextNode( 'pink', 'Cobalt chloride' ).setLocation( 2, 2 * 32 + 2 ) );
-            popup.addChild( createSquareAndTextNode( 'orange', 'Potassium dichromate' ).setLocation( 2, 3 * 32 + 2 ) );
-            popup.addChild( createSquareAndTextNode( 'yellow', 'Potassium chromate' ).setLocation( 2, 4 * 32 + 2 ) );
-            popup.addChild( createSquareAndTextNode( 'green', 'Nickel (II) chloride' ).setLocation( 2, 5 * 32 + 2 ) );
-            popup.addChild( createSquareAndTextNode( 'blue', 'Copper sulfate' ).setLocation( 2, 6 * 32 + 2 ) );
-            popup.addChild( createSquareAndTextNode( 'purple', 'Potassium permanganate' ).setLocation( 2, 7 * 32 + 2 ) );
+            var popup = new CAAT.ShapeActor().setSize( 350, 355 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'white' ).setStrokeStyle( 'black' );
+            var popupItemOffsetY = 2;
+            var itemSpacing = 15;
+            var itemSize = 30 + itemSpacing;
+            popup.addChild( createSquareAndTextNode( 'red', 'Drink Mix' ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'red', 'Cobalt (II) nitrate' ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'pink', 'Cobalt chloride' ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'orange', 'Potassium dichromate' ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'yellow', 'Potassium chromate' ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'green', 'Nickel (II) chloride' ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'blue', 'Copper sulfate' ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'purple', 'Potassium permanganate' ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
             popup.setLocation( 640, 66 );
             var inTree = false;
             comboBox.mouseClick = function ( e ) {
