@@ -84,12 +84,9 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
         }};
         addChild( barShapeSceneNode );
 
-        final java.util.List<Element<ShapeType>> elements = Arrays.asList( new Element<ShapeType>( new PhetPPath( createPieSlice( 1 ), colors[0], stroke, black ) {{ //unchecked warning
-            scale( 0.15 );
-        }}, PIE, Components.pieShapeRadioButton ),
-                                                                           new Element<ShapeType>( new PhetPPath( createRect( 1 ), colors[1], stroke, black ) {{
-                                                                               scale( 0.15 );
-                                                                           }}, BAR, Components.barShapeRadioButton ) );
+        //unchecked warning
+        final java.util.List<Element<ShapeType>> elements = Arrays.asList( new Element<ShapeType>( new PhetPPath( createPieSlice( 1 ), colors[0], stroke, black ) {{scale( 0.15 );}}, PIE, Components.pieShapeRadioButton ),
+                                                                           new Element<ShapeType>( new PhetPPath( createRect( 1 ), colors[1], stroke, black ) {{scale( 0.15 );}}, BAR, Components.barShapeRadioButton ) );
         final Property<ShapeType> selectedShapeType = new Property<ShapeType>( PIE );
         selectedShapeType.addObserver( new VoidFunction1<ShapeType>() {
             public void apply( final ShapeType shapeType ) {
