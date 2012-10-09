@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.energyformsandchanges.intro.model.FadeState;
@@ -39,7 +38,7 @@ public class EnergyChunk {
     private Vector2D velocity = new Vector2D( 0, 0 ); // In meters/sec.
 
     // Property that controls visibility in view.
-    public final BooleanProperty visible;
+    public final ObservableProperty<Boolean> visible;
 
     // Strength of existence, used for fading in and out.  Range is from 0 to 1.
     private final Property<Double> existenceStrength = new Property<Double>( 1.0 );
@@ -57,15 +56,15 @@ public class EnergyChunk {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public EnergyChunk( EnergyType initialEnergyType, double x, double y, BooleanProperty visibilityControl ) {
+    public EnergyChunk( EnergyType initialEnergyType, double x, double y, ObservableProperty<Boolean> visibilityControl ) {
         this( initialEnergyType, new Vector2D( x, y ), visibilityControl );
     }
 
-    public EnergyChunk( EnergyType initialEnergyType, Vector2D initialPosition, BooleanProperty visibilityControl ) {
+    public EnergyChunk( EnergyType initialEnergyType, Vector2D initialPosition, ObservableProperty<Boolean> visibilityControl ) {
         this( initialEnergyType, initialPosition, new Vector2D( 0, 0 ), visibilityControl );
     }
 
-    public EnergyChunk( EnergyType initialEnergyType, Vector2D initialPosition, Vector2D initialVelocity, BooleanProperty visibilityControl ) {
+    public EnergyChunk( EnergyType initialEnergyType, Vector2D initialPosition, Vector2D initialVelocity, ObservableProperty<Boolean> visibilityControl ) {
         this.position = new Property<Vector2D>( initialPosition );
         this.energyType.set( initialEnergyType );
         this.visible = visibilityControl;

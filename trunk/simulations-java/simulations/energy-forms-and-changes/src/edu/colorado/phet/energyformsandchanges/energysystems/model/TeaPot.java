@@ -49,13 +49,15 @@ public class TeaPot extends EnergySource {
     public final Property<Double> heatCoolAmount = new Property<Double>( 0.0 );
     private Property<Double> energyProductionRate = new Property<Double>( 0.0 );
     private double energyProducedSinceLastChunk = 0;
+    private ObservableProperty<Boolean> energyChunksVisible;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected TeaPot() {
+    public TeaPot( BooleanProperty energyChunksVisible ) {
         super( EnergyFormsAndChangesResources.Images.TEAPOT_ICON );
+        this.energyChunksVisible = energyChunksVisible;
     }
 
     //-------------------------------------------------------------------------
@@ -82,7 +84,7 @@ public class TeaPot extends EnergySource {
             energyProducedSinceLastChunk += energyProductionRate.get() * dt;
             if ( energyProducedSinceLastChunk > ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT ) {
                 // It's time, so emit one.
-                EnergyChunk energyChunk = new EnergyChunk( EnergyType.MECHANICAL, getPosition().plus( ENERGY_CHUNK_EXIT_POINT ), new BooleanProperty( true ) );
+                EnergyChunk energyChunk = new EnergyChunk( EnergyType.MECHANICAL, getPosition().plus( ENERGY_CHUNK_EXIT_POINT ), energyChunksVisible );
                 energyChunk.setVelocity( new Vector2D( EFACConstants.ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( Math.PI / 4 ) );
                 energyChunkList.add( energyChunk );
                 energyProducedSinceLastChunk -= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT;
