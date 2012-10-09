@@ -74,14 +74,10 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
         NumberSceneNode numberSceneNode = new NumberSceneNode( 0, rootNode, circleModel, context, soundEnabled, true );
         addChild( numberSceneNode );
 
-        final ShapeSceneNode circleShapeSceneNode = new ShapeSceneNode( 0, circleModel, context, soundEnabled, true ) {{
-            translate( 0, -STAGE_SIZE.height + toolboxHeight + INSET * 3 );
-        }};
+        final ShapeSceneNode circleShapeSceneNode = new ShapeSceneNode( 0, circleModel, context, soundEnabled, true ) {{translate( 0, -STAGE_SIZE.height + toolboxHeight + INSET * 3 );}};
         addChild( circleShapeSceneNode );
 
-        final ShapeSceneNode barShapeSceneNode = new ShapeSceneNode( 0, createModel( BAR, colors[1] ), context, soundEnabled, true ) {{
-            translate( 0, -STAGE_SIZE.height + toolboxHeight + INSET * 3 );
-        }};
+        final ShapeSceneNode barShapeSceneNode = new ShapeSceneNode( 0, createModel( BAR, colors[1] ), context, soundEnabled, true ) {{translate( 0, -STAGE_SIZE.height + toolboxHeight + INSET * 3 );}};
         addChild( barShapeSceneNode );
 
         //unchecked warning
