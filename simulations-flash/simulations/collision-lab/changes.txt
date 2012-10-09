@@ -1,3 +1,5 @@
+# 2.00.03 (69059) Oct 9, 2012
+10/9/12 Bug fix: ball cannot penetrate corner of barrier.
 # 2.00.02 (67037) Aug 15, 2012
 # 2.00.01 (67036) Aug 15, 2012
 8/15/12 > Changed "Sticky" and "Bouncy" to "Inelastic" and "Elastic"
