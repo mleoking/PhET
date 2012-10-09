@@ -546,6 +546,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             copy.setGlobalScale( pieceNode.getGlobalScale() );
             copy.setGlobalTranslation( pieceNode.getGlobalTranslation() );
         }
+        fireInteractionEvent();
     }
 
     //Location where a piece can be dropped.  The angle is included for pies, it is always 0.0 for bars.
@@ -636,6 +637,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             parent.moveToFront();
             copy.updateExpansionButtonsEnabled();
         }
+        fireInteractionEvent();
     }
 
     //if its right edge is past the left edge of any collection box, move it left

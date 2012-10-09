@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -69,6 +70,9 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     //Index of the current level
     public final int levelIndex;
 
+    //When dragging an object, move to front for fraction lab
+    private ArrayList<SimpleObserver> interactionHandlers = new ArrayList<SimpleObserver>();
+
     protected SceneNode( final int levelIndex, BooleanProperty audioEnabled, final SceneContext context, boolean fractionLab ) {
         this.fractionLab = fractionLab;
         this.levelIndex = levelIndex;
@@ -101,6 +105,10 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     protected void notifyAllCompleted() {
         gameAudioPlayer.gameOverPerfectScore();
         sendSystemMessage( buildAFraction, application, allChallengesComplete );
+    }
+
+    public void addInteractionHandler( final SimpleObserver simpleObserver ) {
+        this.interactionHandlers.add( simpleObserver );
     }
 
     //Lay out and add the collection box nodes and target representations.
@@ -190,4 +198,18 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
     protected abstract void reset();
 
     public List<T> getCollectionBoxPairs() { return collectionBoxPairs; }
+
+    public void fireInteractionEvent() {
+        for ( SimpleObserver interactionHandler : interactionHandlers ) {
+            interactionHandler.update();
+        }
+    }
+
+    public void moveToFrontDuringInteraction() {
+        addInteractionHandler( new SimpleObserver() {
+            public void update() {
+                moveToFront();
+            }
+        } );
+    }
 }
