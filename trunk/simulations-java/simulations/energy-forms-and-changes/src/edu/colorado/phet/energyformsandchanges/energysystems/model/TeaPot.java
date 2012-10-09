@@ -2,12 +2,14 @@
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
@@ -40,7 +42,7 @@ public class TeaPot extends EnergySource {
     private static final double COOL_DOWN_COMPLETE_THRESHOLD = 30; // In joules/second
     public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 100; // In joules, but empirically determined.
     public static final double MAX_ENERGY_CHUNK_DISTANCE = 0.5; // In meters.
-    public static final double ENERGY_CHUNK_TRANSFER_DISTANCE = 0.12;
+    private static final DoubleRange ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE = new DoubleRange( 0.12, 0.15 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -51,6 +53,14 @@ public class TeaPot extends EnergySource {
     private double energyProducedSinceLastChunk = 0;
     private ObservableProperty<Boolean> energyChunksVisible;
     private ObservableProperty<Boolean> steamPowerableElementInPlace;
+
+    // List of chunks that are not being transferred to the next energy system
+    // element.
+    public final List<EnergyChunk> exemptFromTransferEnergyChunks = new ArrayList<EnergyChunk>();
+
+    // Flag for whether next chunk should be transferred or kept, used to
+    // alternate transfer with non-transfer.
+    private boolean transferNextAvailableChunk = true;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -95,9 +105,27 @@ public class TeaPot extends EnergySource {
             // Move all energy chunks that are under this element's control.
             for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
                 energyChunk.translateBasedOnVelocity( dt );
-                if ( getPosition().distance( energyChunk.position.get() ) > ENERGY_CHUNK_TRANSFER_DISTANCE && steamPowerableElementInPlace.get() ) {
-                    // Transfer the energy chunk to the next energy system.
-                    outgoingEnergyChunks.add( energyChunk );
+
+                // See if chunk is in the location where it can be transferred
+                // to the next energy system.
+                if ( steamPowerableElementInPlace.get() &&
+                     ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE.contains( getPosition().distance( energyChunk.position.get() ) ) &&
+                     !exemptFromTransferEnergyChunks.contains( energyChunk ) ) {
+
+                    if ( transferNextAvailableChunk ) {
+                        // Send this chunk to the next energy system.
+                        outgoingEnergyChunks.add( energyChunk );
+
+                        // Alternate sending or keeping chunks.
+                        transferNextAvailableChunk = false;
+                    }
+                    else {
+                        // Don't transfer this chunk.
+                        exemptFromTransferEnergyChunks.add( energyChunk );
+
+                        // Set up to transfer the next one.
+                        transferNextAvailableChunk = true;
+                    }
                 }
                 else if ( getPosition().distance( energyChunk.position.get() ) > MAX_ENERGY_CHUNK_DISTANCE ) {
                     // Time to remove this chunk.
@@ -113,6 +141,11 @@ public class TeaPot extends EnergySource {
         heatCoolAmount.reset();
         energyProductionRate.reset();
         energyProducedSinceLastChunk = 0;
+    }
+
+    @Override public void clearEnergyChunks() {
+        super.clearEnergyChunks();
+        exemptFromTransferEnergyChunks.clear();
     }
 
     @Override public IUserComponent getUserComponent() {
