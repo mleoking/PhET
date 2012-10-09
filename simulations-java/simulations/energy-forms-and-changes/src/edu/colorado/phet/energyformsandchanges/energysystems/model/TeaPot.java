@@ -50,14 +50,16 @@ public class TeaPot extends EnergySource {
     private Property<Double> energyProductionRate = new Property<Double>( 0.0 );
     private double energyProducedSinceLastChunk = 0;
     private ObservableProperty<Boolean> energyChunksVisible;
+    private ObservableProperty<Boolean> steamPowerableElementInPlace;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public TeaPot( BooleanProperty energyChunksVisible ) {
+    public TeaPot( BooleanProperty energyChunksVisible, ObservableProperty<Boolean> steamPowerableElementInPlace ) {
         super( EnergyFormsAndChangesResources.Images.TEAPOT_ICON );
         this.energyChunksVisible = energyChunksVisible;
+        this.steamPowerableElementInPlace = steamPowerableElementInPlace;
     }
 
     //-------------------------------------------------------------------------
@@ -93,7 +95,7 @@ public class TeaPot extends EnergySource {
             // Move all energy chunks that are under this element's control.
             for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
                 energyChunk.translateBasedOnVelocity( dt );
-                if ( getPosition().distance( energyChunk.position.get() ) > ENERGY_CHUNK_TRANSFER_DISTANCE ) {
+                if ( getPosition().distance( energyChunk.position.get() ) > ENERGY_CHUNK_TRANSFER_DISTANCE && steamPowerableElementInPlace.get() ) {
                     // Transfer the energy chunk to the next energy system.
                     outgoingEnergyChunks.add( energyChunk );
                 }
