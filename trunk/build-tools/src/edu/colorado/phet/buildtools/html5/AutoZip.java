@@ -57,18 +57,18 @@ public class AutoZip {
         } ).start();
     }
 
-    private static void runTask( final File root ) throws IOException {
-        final File autozip = new File( root.getParentFile(), "autozip.zip" );
+    private static void runTask( final File sourceRoot ) throws IOException {
+        final File destination = new File( sourceRoot.getParentFile(), "autozip.zip" );
 
-        if ( autozip.exists() ) {
-            boolean deleted = autozip.delete();
+        if ( destination.exists() ) {
+            boolean deleted = destination.delete();
             if ( !deleted ) {
                 throw new RuntimeException( "errored" );
             }
         }
 //        FileUtils.zip( getAllFiles( root ), autozip );
 
-        zipit( root, autozip );
+        zipit( sourceRoot, destination );
     }
 
     private static void zipit( final File root, final File autozip ) {
