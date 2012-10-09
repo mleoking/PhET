@@ -50,8 +50,9 @@ public class BondNode extends GLNode {
         this( a, b, bondOrder, bondRadius, maxLength, tab, Color.WHITE, Color.WHITE );
     }
 
-    public BondNode( final Property<Vector3D> a, final Property<Vector3D> b, int bondOrder, float bondRadius,
-                     Option<Float> maxLength, final MoleculeViewTab tab, Color aColor, Color bColor ) {
+    // currently only called from above
+    private BondNode( final Property<Vector3D> a, final Property<Vector3D> b, int bondOrder, float bondRadius,
+                      Option<Float> maxLength, final MoleculeViewTab tab, Color aColor, Color bColor ) {
         this.a = a;
         this.b = b;
         this.bondOrder = bondOrder;
