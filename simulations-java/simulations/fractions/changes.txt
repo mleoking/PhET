@@ -1,3 +1,4 @@
+# 1.01.21 (69019) Oct 9, 2012
 Tab 3: Move scene to front during interaction to make it so cards cannot be dragged behind a toolbox
 Tab 1-2: Shapes: Fixed: "undo" button doesn't work sometimes after collection, reset and adding 2+ pieces to the main container
 # 1.01.20 (68983) Oct 8, 2012
