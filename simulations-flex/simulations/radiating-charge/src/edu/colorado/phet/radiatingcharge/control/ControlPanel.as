@@ -37,7 +37,7 @@ public class ControlPanel extends Canvas {
     private var myFieldModel:FieldModel;
     private var background:VBox;
     private var firstPanel: VBox;            //main control panel, contains radio buttons for motion type
-    private var secondPanel: VBox;
+    private var secondPanel: VBox;           //unused currently
     private var playPauseButton: PlayPauseButton;
 //    private var pauseButton:NiceButton2;
     private var stopButton:NiceButton2;
@@ -49,7 +49,7 @@ public class ControlPanel extends Canvas {
 
     private var radioGroupVBox: VBox;        //inside main control panel
 
-    private var presetMotion_nrbg: NiceRadioButtonGroup;
+    private var presetMotion_nrbg: NiceRadioButtonGroup;      //Flex component radio button are too inflexible and buggy for use
     private var manualNoFricton_nrb: NiceRadioButton;
     private var manualWithFricton_nrb: NiceRadioButton;
     private var linear_nrb: NiceRadioButton;
@@ -379,13 +379,12 @@ public class ControlPanel extends Canvas {
         }else if( choice == 1 ){
         }else if( choice == 2 ){
             if( isNaN(this.speedSlider.getVal()) ){
-                //this.myFieldModel.setBeta( 0.5 );
                 this.speedSlider.setSliderWithoutAction( 0.5 );
             }
-        }else if( choice == 3 ){
+        }else if( choice == 3 ){      //sinusoidal motion
             this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
             this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-        }else if( choice == 4 ){
+        }else if( choice == 4 ){      //circular motion
             this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
             this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
         }else if( choice == 5 ){
@@ -455,7 +454,7 @@ public class ControlPanel extends Canvas {
             speedSlider_UI.includeInLayout = true;
             restartButton_UI.includeInLayout = true;
             speedSlider.setSliderWithoutAction( myFieldModel.getBeta() );
-        } else if( choice == 3 || choice == 4 ){   //sinusoidal or circular or sawtooth
+        } else if( choice == 3 || choice == 4 ){   //sinusoidal
             selectedMotionControlsVBox.setStyle( "verticalGap" , 0 );
             selectedMotionControlsVBox.visible = true;
             amplitudeSlider_UI.visible = true;
@@ -465,6 +464,18 @@ public class ControlPanel extends Canvas {
             frequencySlider_UI.includeInLayout = true;
             amplitudeSlider.setSliderWithoutAction( myFieldModel.amplitude );
             frequencySlider.setSliderWithoutAction( myFieldModel.frequency );
+//        }else if( choice == 4 ){ //circular
+//            selectedMotionControlsVBox.setStyle( "verticalGap" , 0 );
+//            selectedMotionControlsVBox.visible = true;
+//            amplitudeSlider_UI.visible = true;
+//            frequencySlider_UI.visible = true;
+//            selectedMotionControlsVBox.includeInLayout = true;
+//            amplitudeSlider_UI.includeInLayout = true;
+//            frequencySlider_UI.includeInLayout = true;
+//            myFieldModel.setFrequency( 1.2 );
+//            myFieldModel.amplitude = 9;
+//            amplitudeSlider.setSliderWithoutAction( myFieldModel.amplitude );
+//            frequencySlider.setSliderWithoutAction( myFieldModel.frequency );
         } else if( choice == 5 ){ //bump
             selectedMotionControlsVBox.setStyle( "verticalGap" , 0 );
             selectedMotionControlsVBox.visible = true;

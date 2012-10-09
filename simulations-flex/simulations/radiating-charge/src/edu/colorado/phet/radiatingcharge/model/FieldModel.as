@@ -155,8 +155,8 @@ public class FieldModel {
     }
 
     public function initializeAmplitudeAndFrequency():void{
-        this._amplitude = 5;
-        this._frequency = 2;
+        this._amplitude = 9;
+        this._frequency = 1.2;
         this.updateViews();
     }
 
@@ -215,6 +215,7 @@ public class FieldModel {
 
     public function set amplitude( ampli:Number ):void{
         this._amplitude = ampli;
+        this.updateViews();
     }
     
     public function get frequency():Number{
@@ -225,6 +226,7 @@ public class FieldModel {
         var oldF:Number = this._frequency;
         this._frequency = freq;
         this.phi += 2*Math.PI*this._t*( oldF - _frequency );
+        this.updateViews();
     }
 
 
@@ -352,11 +354,12 @@ public class FieldModel {
             this.setTEqualZero();
             this.initializeFieldLines();
         }else if( choice == BUMP ){   //bump
-            this.initializeFieldLines();
             _xC = 0;
             _yC = 0;
             _vX = 0;
             _vY = 0;
+            this.initializeFieldLines();
+            this.setTEqualZero();
             tBump = this._t;
             this._bumpDuration = this.myMainView.myControlPanel.durationSlider.getVal();
         }else if( choice == 6 ){  //randomWalk, CURRENTLY NOT USED
