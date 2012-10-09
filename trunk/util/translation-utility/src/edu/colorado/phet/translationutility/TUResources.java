@@ -100,16 +100,6 @@ public class TUResources {
     }
 
     /**
-     * Gets the names of the preferred fonts for a specified language code.
-     *
-     * @param locale
-     * @return String[], possibly null
-     */
-    public static String[] getPreferredFontNames( Locale locale ) {
-        return PhetCommonResources.getPreferredFontNames( locale );
-    }
-
-    /**
      * Gets the tmp directory name.
      *
      * @return
