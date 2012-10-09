@@ -184,7 +184,7 @@ object NewParser {
       allComponents ++= used
     }
 
-    println("All")
+    println("[==============All Components for selected tabs===============]")
     val componentSet = allComponents.toSet
     componentSet.map(_.toString).toList.sorted.foreach(println)
 
@@ -193,6 +193,7 @@ object NewParser {
     val formatter = new DecimalFormat("0.00")
     println()
 
+    println("[=======================chart==================]")
     println("group\tcomponents used during\"play only\" time")
     for ( log <- logs.sortBy(_.id) ) {
       val elements = getStates(log)
