@@ -343,6 +343,7 @@ public class ControlPanel extends Canvas {
         this.myFieldModel.centerCharge();
         this.myFieldModel.initializeAmplitudeAndFrequency();
         this.closeShowVelocityPanel();
+        this.myFieldModel.setTypeOfMotion( 0 );    //default is manual mode
         this.setVisibilityOfControls();
         this.setDefaultRadioButton();
     }
