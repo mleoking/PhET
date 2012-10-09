@@ -1,3 +1,4 @@
+# 0.00.29 (69040) Oct 9, 2012
 10/9/12 demo various change requests
 10/8/12 slope tool: use a lighter stroke, fix delimiter paint bug
 10/8/12 slope tool: add dimensional delimiters at ends of arrow, offset from grid lines, create new icon for control panel
