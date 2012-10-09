@@ -1,3 +1,4 @@
+# 1.03.09 (69002) Oct 8, 2012
 Fixed JNLP launching issue.
 Fixed 1-frame bond delay
 # 1.03.08 (68999) Oct 8, 2012
