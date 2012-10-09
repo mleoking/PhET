@@ -356,6 +356,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             copy.setGlobalScale( node.getGlobalScale() );
             copy.moveToFront();
         }
+        fireInteractionEvent();
     }
 
     //Called when a number node is dropped into a fraction, this method turning it into a card if it is complete
@@ -472,6 +473,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
             if ( fractionNode.mixedNumber && countMixedFractionNodes() < 4 ) { addMixedFractionGraphicFactionLab( toolboxPositionY, offsetX ); }
             else if ( countNonMixedFractionNodes() < 4 ) {new CreateNonMixedFractionGraphicFractionLab( fractionLab ).invoke();}
         }
+        fireInteractionEvent();
     }
 
     //Count the number of fraction nodes that do not contain a mixed number.
