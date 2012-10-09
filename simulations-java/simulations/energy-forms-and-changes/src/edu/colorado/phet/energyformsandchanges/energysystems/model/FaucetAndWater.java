@@ -67,7 +67,8 @@ public class FaucetAndWater extends EnergySource {
     // energy system element.
     private final ObservableProperty<Boolean> waterPowerableElementInPlace;
 
-    // Flag for whether next chunk should be transferred or kept.
+    // Flag for whether next chunk should be transferred or kept, used to
+    // alternate transfer with non-transfer.
     private boolean transferNextAvailableChunk = true;
 
     //-------------------------------------------------------------------------
