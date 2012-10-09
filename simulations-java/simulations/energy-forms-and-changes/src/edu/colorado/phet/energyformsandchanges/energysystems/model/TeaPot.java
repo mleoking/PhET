@@ -27,11 +27,17 @@ public class TeaPot extends EnergySource {
     // Class Data
     //-------------------------------------------------------------------------
 
+    public static final Vector2D TEAPOT_OFFSET = new Vector2D( 0.0, 0.015 );
+    // Images used in representing this energy system element in the view.
+    public static final ModelElementImage TEAPOT_IMAGE = new ModelElementImage( TEAPOT_LARGE, TEAPOT_OFFSET );
+
+    // Offsets and constants used for energy paths.
+    public static final Vector2D ENERGY_CHUNK_EXIT_POINT = TEAPOT_OFFSET.plus( new Vector2D( TEAPOT_IMAGE.getWidth() / 2, TEAPOT_IMAGE.getHeight() / 2 ).plus( -0.006, -0.01 ) );
+
     public static final double MAX_ENERGY_PRODUCTION_RATE = 200; // In joules/second
     private static final double MAX_ENERGY_CHANGE_RATE = 20; // In joules/second
     private static final double COOLING_CONSTANT = 0.1; // Controls rate at which tea pot cools down, empirically determined.
     private static final double COOL_DOWN_COMPLETE_THRESHOLD = 30; // In joules/second
-    public static final ModelElementImage TEAPOT_IMAGE = new ModelElementImage( TEAPOT_LARGE, new Vector2D( 0.0, 0.015 ) );
     public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 100; // In joules, but empirically determined.
     public static final double MAX_ENERGY_CHUNK_DISTANCE = 0.5; // In meters.
 
@@ -68,13 +74,14 @@ public class TeaPot extends EnergySource {
                 // Clamp the energy production rate to zero so that it doesn't
                 // trickle on forever.
                 energyProductionRate.set( 0.0 );
+                energyProducedSinceLastChunk = 0;
             }
 
             // See if it's time to emit a new energy chunk.
             energyProducedSinceLastChunk += energyProductionRate.get() * dt;
             if ( energyProducedSinceLastChunk > ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT ) {
                 // It's time, so emit one.
-                EnergyChunk energyChunk = new EnergyChunk( EnergyType.MECHANICAL, getPosition(), new BooleanProperty( true ) );
+                EnergyChunk energyChunk = new EnergyChunk( EnergyType.MECHANICAL, getPosition().plus( ENERGY_CHUNK_EXIT_POINT ), new BooleanProperty( true ) );
                 energyChunk.setVelocity( new Vector2D( EFACConstants.ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( Math.PI / 4 ) );
                 energyChunkList.add( energyChunk );
                 energyProducedSinceLastChunk -= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT;
