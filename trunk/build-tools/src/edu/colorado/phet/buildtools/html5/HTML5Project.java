@@ -64,6 +64,9 @@ public class HTML5Project extends PhetProject {
             FileUtils.copyRecursive( sourceRoot, getDeployDir() );
         }
 
+        //Create zip and add to deploy directory for use with Ludei cloud compiler
+        AutoZip.deleteOldZipAndCreateNewZip( getSourceRoots()[0], new File( getDeployDir(), "autozip.zip" ) );
+
 //        File[] sourceRoots = getSourceRoots();
 //        String text = "";
 //        for ( File sourceRoot : sourceRoots ) {
