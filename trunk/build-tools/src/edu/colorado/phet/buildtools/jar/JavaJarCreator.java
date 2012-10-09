@@ -45,7 +45,7 @@ public class JavaJarCreator extends JarCreator {
     * Any files written here must also be excluded via getCopyExclusions.
     */
     protected void writeJarEntries( JarOutputStream jarOutputStream, String projectName, Locale locale, String header ) throws IOException {
-        // add jar-lanucher.properties, after changing locale
+        // add jar-launcher.properties, after changing locale
         jarLauncherProperties.setProperty( "language", locale.getLanguage() );
         String country = locale.getCountry();
         if ( country != null && country.length() > 0 ) {
