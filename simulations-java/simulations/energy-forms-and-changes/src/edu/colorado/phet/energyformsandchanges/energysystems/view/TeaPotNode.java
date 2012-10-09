@@ -70,6 +70,7 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
         addChild( heaterNode );
         addChild( burnerStandNode );
         addChild( steamNode );
+        addChild( energyChunkLayer );
         addChild( teaPotImageNode );
     }
 
