@@ -26,6 +26,8 @@
 
     </resources>
 
+    @ADDITIONAL.RESOURCES@
+
     @SECURITY@
 
     <application-desc main-class="@PROJECT.MAINCLASS@">
