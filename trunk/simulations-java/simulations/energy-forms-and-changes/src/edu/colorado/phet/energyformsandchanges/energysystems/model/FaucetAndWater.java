@@ -95,13 +95,13 @@ public class FaucetAndWater extends EnergySource {
 
             // Check if time to emit an energy chunk and, if so, do it.
             flowSinceLastChunk += flowProportion.get() * dt;
-            if ( flowSinceLastChunk > FLOW_PER_CHUNK ) {
+            if ( flowSinceLastChunk >= FLOW_PER_CHUNK ) {
                 Vector2D initialPosition = getPosition().plus( OFFSET_FROM_CENTER_TO_WATER_ORIGIN ).plus( ( RAND.nextDouble() - 0.5 ) * flowProportion.get() * MAX_WATER_WIDTH / 2, 0 );
                 energyChunkList.add( new EnergyChunk( EnergyType.MECHANICAL,
                                                       initialPosition,
                                                       new Vector2D( 0, -WATER_FALLING_VELOCITY ),
                                                       energyChunksVisible ) );
-                flowSinceLastChunk = 0;
+                flowSinceLastChunk = flowSinceLastChunk - FLOW_PER_CHUNK;
             }
 
             // Update energy chunk positions.
