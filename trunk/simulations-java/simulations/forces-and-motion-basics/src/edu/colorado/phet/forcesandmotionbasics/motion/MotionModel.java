@@ -50,7 +50,7 @@ class MotionModel {
             @Override public void update() {
                 updateForces();
             }
-        }.observe( frictionValue, massOfObjectsOnSkateboard );
+        }.observe( frictionValue, massOfObjectsOnSkateboard, appliedForce );
     }
 
     public static enum Sign {
