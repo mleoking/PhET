@@ -40,6 +40,7 @@ public class TeaPot extends EnergySource {
     private static final double COOL_DOWN_COMPLETE_THRESHOLD = 30; // In joules/second
     public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 100; // In joules, but empirically determined.
     public static final double MAX_ENERGY_CHUNK_DISTANCE = 0.5; // In meters.
+    public static final double ENERGY_CHUNK_TRANSFER_DISTANCE = 0.12;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -90,7 +91,11 @@ public class TeaPot extends EnergySource {
             // Move all energy chunks that are under this element's control.
             for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
                 energyChunk.translateBasedOnVelocity( dt );
-                if ( getPosition().distance( energyChunk.position.get() ) > MAX_ENERGY_CHUNK_DISTANCE ) {
+                if ( getPosition().distance( energyChunk.position.get() ) > ENERGY_CHUNK_TRANSFER_DISTANCE ) {
+                    // Transfer the energy chunk to the next energy system.
+                    outgoingEnergyChunks.add( energyChunk );
+                }
+                else if ( getPosition().distance( energyChunk.position.get() ) > MAX_ENERGY_CHUNK_DISTANCE ) {
                     // Time to remove this chunk.
                     energyChunkList.remove( energyChunk );
                 }
