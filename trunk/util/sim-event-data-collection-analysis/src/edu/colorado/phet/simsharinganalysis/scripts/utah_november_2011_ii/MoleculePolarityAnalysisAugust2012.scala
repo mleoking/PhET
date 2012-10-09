@@ -125,7 +125,7 @@ object NewParser {
                                p.toString != "Three Atoms: buttonNode: Reset All" &&
                                p.toString != "Two Atoms: buttonNode: Reset All"
 
-                               //Uncomment this line to make a plot for just the last tab
+                               //Uncomment this line to make a plot for just one tab
                                && p.toString.startsWith(tabNames(0))
     )
   }
@@ -203,30 +203,32 @@ object NewParser {
     println()
 
     //Print line plots.  How many controls each team used as a function of time
-    //    val columns = startPlayTime to endPlayTime by 5000
+    println("[========================Line plots of how many controls each team used as a function of time===============]")
+    val columns = startPlayTime to endPlayTime by 5000
 
     //    println("start time = " + startPlayTime)
     //    println("end time = " + endPlayTime)
     //    println("first few columns = " + columns.take(3))
-    //
+
     //    def timeToServerTime(seconds: Long) = {
     //      //      new Date(seconds*1000 + startPlayTime)
     //      seconds * 1000L + startPlayTime
     //    }
 
-    //    print("time(millis)\t" + columns.mkString("\t") + "\n")
-    //    for ( log <- logs.sortBy(_.id) ) {
-    //
-    //      print(log.id + "\t" + columns.map(endTimeForHistogram => {
-    //        val elements = getStates(log)
-    //        val entriesUsedInPlayTime = getUsedComponents(elements, e =>
-    //          e.serverTime >= startPlayTime &&
-    //          e.serverTime <= endTimeForHistogram)
-    //        entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0
-    //      }).mkString("\t"))
-    //      println()
-    //    }
+    print("time(millis)\t" + columns.mkString("\t") + "\n")
+    for ( log <- logs.sortBy(_.id) ) {
 
+      print(log.id + "\t" + columns.map(endTimeForHistogram => {
+        val elements = getStates(log)
+        val entriesUsedInPlayTime = getUsedComponents(elements, e =>
+          e.serverTime >= startPlayTime &&
+          e.serverTime <= endTimeForHistogram)
+        entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0
+      }).mkString("\t"))
+      println()
+    }
+
+    println("[========================For each computer, what actions were not used for each tab===============]")
     //EM: For each computer, can you list out what actions were not used, for each tab?
     println("Session\tActions Not Used")
     for ( log <- logs.sortBy(_.id) ) {
