@@ -52,15 +52,13 @@ class SingleContainerNode extends PNode {
     public final ContainerNode parent;
     private final PNode dottedLineLayer;
     private final ContainerShapeNode shapeLayer;
-    private final ObservableProperty<Integer> number;
 
-    public SingleContainerNode( final ShapeType shapeType, final ContainerNode parent, final ObservableProperty<Integer> number ) {
+    public SingleContainerNode( final ShapeType shapeType, final ContainerNode parent, final ObservableProperty<Integer> selectedPieceSize ) {
         this.parent = parent;
-        this.number = number;
         dottedLineLayer = new PNode() {{
             setPickable( false );
             setChildrenPickable( false );
-            number.addObserver( new VoidFunction1<Integer>() {
+            selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer number ) {
                     removeAllChildren();
 
@@ -89,7 +87,7 @@ class SingleContainerNode extends PNode {
                 }
             } );
         }};
-        shapeLayer = new ContainerShapeNode( number.get(), shapeType ) {{
+        shapeLayer = new ContainerShapeNode( selectedPieceSize.get(), shapeType ) {{
             //Thicker outer stroke
             addChild( new PhetPPath( shapeType == BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight )
                                                       : new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), Color.white, new BasicStroke( 2 ), Color.black ) );
@@ -225,8 +223,8 @@ class SingleContainerNode extends PNode {
         dottedLineLayer.moveToFront();
     }
 
-    //For undo, see if this container has the specified piece.  This is needed because the user could have added or removed more containers and hence dismissed pieces back to the toolbox.
-    public boolean containsPiece() { return number.get() > 0; }
+    //For undo, see if this container has a piece.  This is needed because the user could have added or removed more containers and hence dismissed pieces back to the toolbox.
+    public boolean containsPiece() { return getFractionValue().numerator > 0; }
 
     //Undo the last dropped piece, by sending it back to the toolbox.
     public void undoLast() {
