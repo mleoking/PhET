@@ -4,3 +4,6 @@ show a frame rate readout (could be done with debug template)
 pinch to zoom on the frame
     working on mobile but a bit buggy
 an object dragged out of the stage bounds cannot be retrieved (mouse events don't originate from there, will probably have to change the rootNode bounds)
+pinch to zoom
+internationaliation (make it part of the sim?)
+larger hit areas for slider knobs or other things, to make it useful on Nexus 7 and/or phones.
