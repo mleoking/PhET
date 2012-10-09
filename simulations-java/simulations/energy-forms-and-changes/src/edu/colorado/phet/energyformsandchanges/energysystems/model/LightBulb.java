@@ -86,7 +86,7 @@ public class LightBulb extends EnergyUser {
 
                         // And a "mover" that will move this energy chunk through
                         // the wire to the bulb.
-                        electricalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, getEnergyChunkPath( getPosition() ), EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
+                        electricalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, getEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                     }
                     else {
                         // By design, this shouldn't happen, so warn if it does.
@@ -106,7 +106,7 @@ public class LightBulb extends EnergyUser {
                     List<Vector2D> lightPath = new ArrayList<Vector2D>() {{
                         add( getPosition().plus( OFFSET_TO_RADIATE_POINT ).plus( new Vector2D( 0, RADIATED_ENERGY_CHUNK_MAX_DISTANCE ).getRotatedInstance( ( RAND.nextDouble() - 0.5 ) * ( Math.PI / 2 ) ) ) );
                     }};
-                    lightEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk, lightPath, EFACConstants.LIGHT_ENERGY_CHUNK_VELOCITY ) );
+                    lightEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk, lightPath, EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                 }
             }
 

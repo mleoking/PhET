@@ -121,7 +121,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
                         // the center of the wheel.
                         mechanicalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk,
                                                                                    createMechanicalEnergyChunkPath( getPosition() ),
-                                                                                   EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
+                                                                                   EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                     }
                     else {
                         // By design, this shouldn't happen, so warn if it does.
@@ -144,7 +144,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
                     electricalEnergyChunks.add( energyChunkMover.energyChunk );
                     electricalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
                                                                                createElectricalEnergyChunkPath( getPosition() ),
-                                                                               EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
+                                                                               EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                 }
             }
 
