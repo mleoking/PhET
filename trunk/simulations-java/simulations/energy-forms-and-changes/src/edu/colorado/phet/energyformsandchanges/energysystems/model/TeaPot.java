@@ -50,7 +50,7 @@ public class TeaPot extends EnergySource {
 
     public final Property<Double> heatCoolAmount = new Property<Double>( 0.0 );
     private Property<Double> energyProductionRate = new Property<Double>( 0.0 );
-    private double energyProducedSinceLastChunk = 0;
+    private double energyProducedSinceLastChunk = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT / 2;
     private ObservableProperty<Boolean> energyChunksVisible;
     private ObservableProperty<Boolean> steamPowerableElementInPlace;
 
@@ -89,7 +89,7 @@ public class TeaPot extends EnergySource {
                 // Clamp the energy production rate to zero so that it doesn't
                 // trickle on forever.
                 energyProductionRate.set( 0.0 );
-                energyProducedSinceLastChunk = 0;
+                energyProducedSinceLastChunk = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT / 2;
             }
 
             // See if it's time to emit a new energy chunk.
@@ -140,7 +140,7 @@ public class TeaPot extends EnergySource {
         super.deactivate();
         heatCoolAmount.reset();
         energyProductionRate.reset();
-        energyProducedSinceLastChunk = 0;
+        energyProducedSinceLastChunk = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT / 2;
     }
 
     @Override public void clearEnergyChunks() {
