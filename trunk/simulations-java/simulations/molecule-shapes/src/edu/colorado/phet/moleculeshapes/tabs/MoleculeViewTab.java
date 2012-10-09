@@ -293,6 +293,14 @@ public abstract class MoleculeViewTab extends LWJGLTab {
 
         timeChangeNotifier.updateListeners();
 
+        // walk through all of the mouse events that occurred
+        while ( Mouse.next() ) {
+            mouseEventNotifier.updateListeners();
+        }
+        while ( Keyboard.next() ) {
+            keyboardEventNotifier.updateListeners();
+        }
+
         updateState( timeElapsed );
 
         // force updating of matrices before the callbacks are run, so we have correct ray picking
@@ -307,14 +315,6 @@ public abstract class MoleculeViewTab extends LWJGLTab {
         // reset the modelview matrix
         glMatrixMode( GL_MODELVIEW );
         glLoadIdentity();
-
-        // walk through all of the mouse events that occurred
-        while ( Mouse.next() ) {
-            mouseEventNotifier.updateListeners();
-        }
-        while ( Keyboard.next() ) {
-            keyboardEventNotifier.updateListeners();
-        }
 
         GLOptions options = new GLOptions();
 
