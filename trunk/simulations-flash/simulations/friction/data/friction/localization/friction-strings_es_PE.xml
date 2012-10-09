@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_es_PE.xml created Mon Oct 08 10:20:44 COT 2012 using: friction 2.03.00 (51676), translation-utility 2.13.00 (59150) dic 7, 2011--><SimStrings>
+<string key="rubYellowAtoms" value="Frote los átomos amarillos \ncontra los verdes."/>
+<string key="physics" value="Física"/>
+<string key="reset" value="Reiniciar"/>
+<string key="simTitle" value="Fricción"/>
+<string key="translation.credits" value="Por Héctor R. MALLMA ALVARADO (UNFV)(LIMA-PERÚ) hecmall@hotmail.com; hecmall@outlook.com"/>
+<string key="chemistry" value="Química"/>
+</SimStrings>
