@@ -9,6 +9,7 @@ import fj.function.Doubles;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.TexturePaint;
 import java.awt.geom.AffineTransform;
@@ -35,6 +36,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -154,7 +156,15 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         mountainGraphics.drawRenderedImage( Images.MOUNTAINS, new AffineTransform() );
         mountainGraphics.dispose();
 
-        PNode brickLayer = new PNode() {
+        PNode clouds = new PNode() {{
+            addChild( new HBox( 245, new PImage( Images.CLOUD1 ) {{
+                scale( 0.6 );
+            }}, new PhetPPath( new Rectangle2D.Double( 0, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) {{setVisible( false );}}
+            ) );
+        }};
+        final Image cloudTexture = clouds.toImage();
+
+        PNode terrainLayer = new PNode() {
             {
                 model.position.addObserver( new VoidFunction1<Double>() {
                     public void apply( final Double position ) {
@@ -221,29 +231,16 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     path.setTransparency( 0.9f );
                     addChild( path );
                 }
+
+                //Show clouds
+                {
+                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width, -50, STAGE_SIZE.width * 3, cloudTexture.getHeight( null ) );
+                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 10, area.getY(), cloudTexture.getWidth( null ), cloudTexture.getHeight( null ) );
+                    addChild( new PhetPPath( area, new TexturePaint( BufferedImageUtils.toBufferedImage( cloudTexture ), anchor ) ) );
+                }
             }
         };
-        addChild( brickLayer );
-
-        PNode clouds = new PNode() {{
-            model.position.addObserver( new VoidFunction1<Double>() {
-                public void apply( final Double position ) {
-                    removeAllChildren();
-
-                    for ( int i = -20; i <= 20; i++ ) {
-                        final double cloudScale = 0.6;
-                        final double offsetX = i * STAGE_SIZE.width * cloudScale - position * 10;
-                        if ( offsetX > -STAGE_SIZE.width * 2 && offsetX < STAGE_SIZE.width * 3 ) {
-                            addChild( new PImage( Images.CLOUD1 ) {{
-                                scale( cloudScale );
-                                setOffset( offsetX, -50 );
-                            }} );
-                        }
-                    }
-                }
-            } );
-        }};
-        addChild( clouds );
+        addChild( terrainLayer );
 
         final JCheckBox showForcesCheckBox = new PropertyCheckBox( UserComponents.forcesCheckBox, Strings.FORCES, showForces ) {{
             setFont( DEFAULT_FONT );
