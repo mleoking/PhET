@@ -1,3 +1,5 @@
+# 2.35.03 (69022) Oct 9, 2012
+10/9/12 testing to see if test-java-project.properties looks OK
 # 2.35.02 (68783) Oct 4, 2012
 10/4/12 test deploy
 # 2.35.01 (68291) Sep 24, 2012
