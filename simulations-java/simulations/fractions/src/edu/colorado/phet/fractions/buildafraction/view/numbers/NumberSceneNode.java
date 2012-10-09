@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import javax.swing.Timer;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -74,7 +75,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
     public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
         super( levelIndex, soundEnabled, context, fractionLab );
-        spaceBetweenStacks = fractionLab ? 38 : 28;
+
         double insetY = 10;
         final ActionListener goToNextLevel = new ActionListener() {
             public void actionPerformed( final ActionEvent e ) {
@@ -109,6 +110,11 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
                 return integer.toString().length() >= 2;
             }
         } );
+
+        //Macintosh fonts are wider by default, so shrink the spacing so there will be enough room on fraction lab
+        LinearFunction linearFunction = new LinearFunction( 58, 68, 38, 31 );
+        final double fractionLabSpacing = ( linearFunction.evaluate( singleDigitCardSize.width ) );
+        spaceBetweenStacks = fractionLab ? fractionLabSpacing : 28;
 
         //Create a stack of cards for each unique number
         List<List<NumberCardNode>> cardNodes = stacks.map( new F<List<Integer>, List<NumberCardNode>>() {
@@ -232,7 +238,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     }
 
     //Find the max size of each number node, so we can create a consistent card size
-    private Dimension2DDouble getCardSize( final List<List<Integer>> stacks, final F<Integer, Boolean> match ) {
+    private static Dimension2DDouble getCardSize( final List<List<Integer>> stacks, final F<Integer, Boolean> match ) {
         List<NumberNode> prototypes = stacks.map( new F<List<Integer>, NumberNode>() {
             @Override public NumberNode f( final List<Integer> integers ) {
                 return new NumberNode( integers.head() );
