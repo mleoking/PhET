@@ -68,10 +68,10 @@ public class AutoZip {
         }
 //        FileUtils.zip( getAllFiles( root ), autozip );
 
-        zipit( sourceRoot, destination );
+        zip( sourceRoot, destination );
     }
 
-    private static void zipit( final File root, final File autozip ) {
+    private static void zip( final File root, final File autozip ) {
         Zip zip = new Zip();
         zip.setBasedir( root );
         zip.setDestFile( autozip );
