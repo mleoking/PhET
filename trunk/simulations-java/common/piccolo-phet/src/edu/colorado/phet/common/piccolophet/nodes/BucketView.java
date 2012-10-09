@@ -22,8 +22,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  * of "faux 3D" look, where it is tipped slightly so that the hole at the top
  * can be seen and there is shading on the outer portion.  It does NOT extend
  * a PNode, because it has a front and back that must be placed on different
- * layers in order to allow objects to look as though they are in the buckets,
- * so the API allows users to obtain the front and back layers separately.
+ * layers in order to allow objects to look as though they are in the bucket.
+ * The API allows users to obtain the front and back layers separately.
  *
  * @author John Blanco
  * @author Jonathan Olson
