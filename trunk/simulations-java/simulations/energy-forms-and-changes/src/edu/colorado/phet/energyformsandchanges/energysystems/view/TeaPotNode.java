@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.nodes.HeaterCoolerNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
+import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.TeaPot;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -57,6 +58,9 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
                                                               burnerStandWidth,
                                                               burnerStandHeight );
         PNode burnerStandNode = new BurnerStandNode( burnerStandRect, burnerStandWidth * 0.2 );
+
+        // Create the layer that will contain and manage the energy chunks.
+        PNode energyChunkLayer = new EnergyChunkLayer( teaPot.energyChunkList, teaPot.getObservablePosition(), mvt );
 
         // Do the layout.
         heaterNode.setOffset( burnerStandRect.getCenterX() - heaterNode.getFullBoundsReference().width / 2,
