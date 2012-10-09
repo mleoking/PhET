@@ -1,3 +1,5 @@
+# 1.00.25 (69057) Oct 9, 2012
+10/9/12 Minor bug fix.
 # 1.00.24 (68780) Oct 4, 2012
 10/4/12 Out-of-bounds recenters charge, no change in motionType
 # 1.00.23 (66826) Aug 10, 2012
