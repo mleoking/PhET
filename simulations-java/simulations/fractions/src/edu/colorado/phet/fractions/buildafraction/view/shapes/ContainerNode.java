@@ -78,7 +78,7 @@ public class ContainerNode extends PNode {
     private final boolean showIncreaseButton;
 
     //For incremental undo
-    private List<DropLocation> dropLocationList = List.nil();
+    private List<Integer> dropLocationList = List.nil();
 
     public ContainerNode( final ShapeSceneNode parent, final ContainerContext context, boolean showIncreaseButton, final ShapeType shapeType, int maxNumberOfSingleContainers ) {
         this.parent = parent;
@@ -164,20 +164,21 @@ public class ContainerNode extends PNode {
 
     //Undo button was pressed, just eject the most recently added item
     private void undoLast() {
+
         //If only one piece left, clear the list and call undo all (so the undo button will disappear)
         if ( getSingleContainerNodes().map( _getNumberPieces ).foldLeft( Integers.add, 0 ) == 1 ) {
             undoAll();
             dropLocationList = List.nil();
         }
         else {
-            dropLocationList = dropLocationList.filter( new F<DropLocation, Boolean>() {
-                @Override public Boolean f( final DropLocation dropLocation ) {
-                    return containsSite( dropLocation );
+            dropLocationList = dropLocationList.filter( new F<Integer, Boolean>() {
+                @Override public Boolean f( final Integer containerIndex ) {
+                    return containsSite( containerIndex );
                 }
             } );
             if ( dropLocationList.length() == 0 ) { return; }
-            DropLocation undoSite = dropLocationList.last();
-            getSingleContainerNode( undoSite.container ).some().undoLast();
+            Integer undoSite = dropLocationList.last();
+            getSingleContainerNode( undoSite ).some().undoLast();
             dropLocationList = dropLocationList.reverse().tail().reverse();//Remove last item from queue
 
             context.syncModelFractions();
@@ -185,7 +186,10 @@ public class ContainerNode extends PNode {
     }
 
     //If the user removed a SingleContainerNode for the piece that was going to be "undone" then ignore it and go to the next one.
-    private boolean containsSite( final DropLocation site ) { return getSingleContainerNode( site.container ).isSome() && getSingleContainerNode( site.container ).some().containsPiece(); }
+    private boolean containsSite( int containerIndex ) {
+        final Option<SingleContainerNode> containerNode = getSingleContainerNode( containerIndex );
+        return containerNode.isSome() && containerNode.some().containsPiece();
+    }
 
     //Get the specified SingleContainerNode, if it exists.
     private Option<SingleContainerNode> getSingleContainerNode( final int container ) {
@@ -415,7 +419,7 @@ public class ContainerNode extends PNode {
     //Store a user dropped piece for purposes of "undo"
     public void addDropLocation( final SingleContainerNode singleContainerNode ) {
         int index = getSingleContainerNodes().elementIndex( Equal.<SingleContainerNode>anyEqual(), singleContainerNode ).some();
-        dropLocationList = dropLocationList.snoc( new DropLocation( index ) );
+        dropLocationList = dropLocationList.snoc( index );
     }
 
     //On "Fractions Lab" tab, make a copy of this ContainerNode so that it will seem like there is an endless supply

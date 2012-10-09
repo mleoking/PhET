@@ -1,3 +1,4 @@
+Tab 1-2: Shapes: Fixed: "undo" button doesn't work sometimes after collection, reset and adding 2+ pieces to the main container
 # 1.01.20 (68983) Oct 8, 2012
 Tab 2: Fixed: Don't show the red "not allowed" sign if a number is already there
 Tabs 1-2: Fixed: collection boxes don't fade in on an opened but inactive level
