@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
@@ -74,7 +75,7 @@ public class TeaPot extends EnergySource {
             if ( energyProducedSinceLastChunk > ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT ) {
                 // It's time, so emit one.
                 EnergyChunk energyChunk = new EnergyChunk( EnergyType.MECHANICAL, getPosition(), new BooleanProperty( true ) );
-                energyChunk.setVelocity( new Vector2D( 0.1, 0.1 ) );
+                energyChunk.setVelocity( new Vector2D( EFACConstants.ENERGY_CHUNK_VELOCITY, 0 ).getRotatedInstance( Math.PI / 4 ) );
                 energyChunkList.add( energyChunk );
                 energyProducedSinceLastChunk -= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT;
             }

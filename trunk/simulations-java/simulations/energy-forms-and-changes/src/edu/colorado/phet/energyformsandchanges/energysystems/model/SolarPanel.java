@@ -83,7 +83,7 @@ public class SolarPanel extends EnergyConverter {
                         // through the solar panel and the wire.
                         energyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk,
                                                                          getEnergyChunkPath( getPosition() ),
-                                                                         EFACConstants.ELECTRICAL_ENERGY_CHUNK_VELOCITY ) );
+                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                     }
                     else {
                         // By design, this shouldn't happen, so warn if it does.

@@ -59,6 +59,5 @@ public class EFACConstants {
     public static final double ENERGY_SYSTEMS_MVT_SCALE_FACTOR = 2200;
 
     // Constants that control the speed of the energy chunks
-    public static final double ELECTRICAL_ENERGY_CHUNK_VELOCITY = 0.04; // In meters/sec.
-    public static final double LIGHT_ENERGY_CHUNK_VELOCITY = 0.04; // In meters/sec.
+    public static final double ENERGY_CHUNK_VELOCITY = 0.04; // In meters/sec.
 }
