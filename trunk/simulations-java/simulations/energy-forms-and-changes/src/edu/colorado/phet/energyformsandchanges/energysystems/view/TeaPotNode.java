@@ -17,13 +17,13 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
-import edu.colorado.phet.common.piccolophet.nodes.HeaterCoolerNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerStandNode;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.TeaPot;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Piccolo node that represents a teapot with a burner beneath it in the view.
@@ -37,9 +37,10 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
 
         // Create the burner.
         // TODO: i18n
-        PNode heaterNode = new HeaterCoolerNode( teaPot.heatCoolAmount, "Heat", "Cool" ) {{
-            setScale( 0.5 );
-        }};
+//        PNode heaterNode = new HeaterCoolerNode( teaPot.heatCoolAmount, "Heat", "Cool" ) {{
+//            setScale( 0.5 );
+//        }};
+        HeaterCoolerView heaterCooler = new HeaterCoolerView( teaPot.heatCoolAmount, "Heat", "Cool" );
 
         // Create the tea pot.
         final PNode teaPotImageNode = new ModelElementImageNode( TeaPot.TEAPOT_IMAGE, mvt );
@@ -63,14 +64,18 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
         PNode energyChunkLayer = new EnergyChunkLayer( teaPot.energyChunkList, teaPot.getObservablePosition(), mvt );
 
         // Do the layout.
-        heaterNode.setOffset( burnerStandRect.getCenterX() - heaterNode.getFullBoundsReference().width / 2,
-                              burnerStandRect.getMaxY() - heaterNode.getFullBoundsReference().getHeight() + 15 );
+//        heaterNode.setOffset( burnerStandRect.getCenterX() - heaterNode.getFullBoundsReference().width / 2,
+//                              burnerStandRect.getMaxY() - heaterNode.getFullBoundsReference().getHeight() + 15 );
+        PBounds heaterCoolerBounds = heaterCooler.getFrontNode().getFullBoundsReference();
+        heaterCooler.setOffset( burnerStandRect.getCenterX() - heaterCoolerBounds.width / 2,
+                                burnerStandRect.getMaxY() - heaterCoolerBounds.getHeight() + 15 );
 
         // Add the nodes in the appropriate order for the desired layering affect.
-        addChild( heaterNode );
+        addChild( heaterCooler.getHoleNode() );
         addChild( burnerStandNode );
         addChild( steamNode );
         addChild( energyChunkLayer );
+        addChild( heaterCooler.getFrontNode() );
         addChild( teaPotImageNode );
     }
 
