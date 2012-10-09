@@ -1,3 +1,5 @@
+# 2.14.00 (69019) Oct 9, 2012
+10/9/12 > added preferred fonts for Armenian
 # 2.13.02 (68928) Oct 7, 2012
 10/7/12 #3450, added additional preferred fonts for Armenian to phetcommon-fonts.properties
 # 2.13.01 (68788) Oct 4, 2012
