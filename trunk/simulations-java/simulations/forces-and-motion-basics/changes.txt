@@ -1,3 +1,4 @@
+# 0.00.43 (69006) Oct 8, 2012
 Tab 2-3: Made clouds repeat indefinitely
 # 0.00.42 (69004) Oct 8, 2012
 Tab 2-3: Fixed: Sum of forces doesn't update when paused and changing the applied force
