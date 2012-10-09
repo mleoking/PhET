@@ -60,14 +60,16 @@ public class AutoZip {
     private static void runTask( final File sourceRoot ) throws IOException {
         final File destination = new File( sourceRoot.getParentFile(), "autozip.zip" );
 
+        deleteOldZipAndCreateNewZip( sourceRoot, destination );
+    }
+
+    public static void deleteOldZipAndCreateNewZip( final File sourceRoot, final File destination ) {
         if ( destination.exists() ) {
             boolean deleted = destination.delete();
             if ( !deleted ) {
                 throw new RuntimeException( "errored" );
             }
         }
-//        FileUtils.zip( getAllFiles( root ), autozip );
-
         zip( sourceRoot, destination );
     }
 
