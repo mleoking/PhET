@@ -112,7 +112,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         } );
 
         //Macintosh fonts are wider by default, so shrink the spacing so there will be enough room on fraction lab
-        LinearFunction linearFunction = new LinearFunction( 58, 68, 38, 31 );
+        LinearFunction linearFunction = new LinearFunction( 58, 68, 38, 28 );
         final double fractionLabSpacing = ( linearFunction.evaluate( singleDigitCardSize.width ) );
         spaceBetweenStacks = fractionLab ? fractionLabSpacing : 28;
 
