@@ -1,3 +1,4 @@
+Tab 1: Numbers Level 3: if 5/6 does not appear as a target, remove the 5's pile
 # 1.01.27 (69079) Oct 10, 2012
 Tab 2: Shapes Level 4: Subdivide into 3 parts for one of the problems to encourage diversity
 # 1.01.26 (69077) Oct 10, 2012
