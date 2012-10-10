@@ -32,7 +32,6 @@ import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.common.view.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType.BAR;
 import static edu.colorado.phet.fractions.buildafraction.model.shapes.ShapeType.PIE;
@@ -117,10 +116,8 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
     }
 
     //Make a node visible and pickable together
-    private void setEnabled( final PNode node, final boolean enabled ) {
-        node.setVisible( enabled );
-        node.setPickable( enabled );
-        node.setChildPaintInvalid( enabled );
+    private void setEnabled( final SceneNode<?> node, final boolean enabled ) {
+        node.setToolbarEnabled( enabled );
     }
 
     //Create a model for the given shape type and color.

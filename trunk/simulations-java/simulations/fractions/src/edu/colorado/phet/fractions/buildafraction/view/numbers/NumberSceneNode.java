@@ -283,6 +283,10 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
         }}.start();
     }
 
+    //Never called, can be no-op
+    @Override public void setToolbarEnabled( final boolean enabled ) {
+    }
+
     private void resetFractions() {
         for ( FractionNode fractionNode : fractionNodes ) {
             fractionNode.reset();
