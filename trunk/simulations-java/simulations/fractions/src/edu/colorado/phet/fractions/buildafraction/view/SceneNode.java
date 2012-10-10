@@ -213,5 +213,6 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
         } );
     }
 
+    //Tab 3: When changing representations, keep the old representation on the screen, so you can see both red circles and blue boxes (but only one toolbox at a time)
     public abstract void setToolbarEnabled( final boolean enabled );
 }
