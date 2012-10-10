@@ -366,6 +366,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
                         return p.getX();
                     }
                 } ) );
+                System.out.println( "list = " + list );
                 Point2D location = level.shapeType == PIE ? list.last() : list.head();
                 containerNode.animateToToolboxStack( location, getContainerNodesThatStartedInToolbox().map( new F<ContainerNode, Double>() {
                     @Override public Double f( final ContainerNode containerNode ) {

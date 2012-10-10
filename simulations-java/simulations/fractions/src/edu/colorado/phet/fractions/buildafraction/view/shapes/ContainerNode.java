@@ -368,7 +368,9 @@ public class ContainerNode extends PNode {
     public boolean isInToolbox() { return Math.abs( getScale() - toolboxScale( parent.fractionLab ) ) < 1E-6; }
 
     //Determine whether this ContainerNode started in the toolbox
-    public boolean startedInToolbox() {return initialY > 500;}
+    public boolean startedInToolbox() {
+        return context.isFractionLab() ? initialY < 600 : initialY > 500;
+    }
 
     //Called when the user added a piece to this ContainerNode, shows the "undo" button if it was hidden before because now there is something to undo.
     public void pieceAdded() {
