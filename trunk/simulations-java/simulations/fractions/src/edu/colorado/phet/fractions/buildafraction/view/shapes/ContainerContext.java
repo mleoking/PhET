@@ -14,4 +14,6 @@ public interface ContainerContext {
     void syncModelFractions();
 
     void containerAdded( ContainerNode containerNode );
+
+    boolean isFractionLab();
 }
