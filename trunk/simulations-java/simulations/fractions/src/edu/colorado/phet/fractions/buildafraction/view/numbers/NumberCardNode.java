@@ -5,11 +5,13 @@ import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -43,7 +45,13 @@ public class NumberCardNode extends Stackable {
         this.number = number;
         this.size = size;
         this.context = context;
-        cardShape = new PhetPPath( new RoundRectangle2D.Double( 0, 0, size.width, size.height, 10, 10 ), Color.white, new BasicStroke( 1 ), Color.black );
+        cardShape = new PhetPPath( new RoundRectangle2D.Double( 0, 0, size.width, size.height, 10, 10 ), Color.white, new BasicStroke( 1 ), Color.black ) {
+
+            //Get rid of "trail" of black lines on Mac.  I could not reproduce the problem but KH could
+            @Override public Rectangle2D getPathBoundsWithStroke() {
+                return RectangleUtils.expand( super.getPathBoundsWithStroke(), 1, 1 );
+            }
+        };
         addChild( cardShape );
         numberNode = new NumberNode( number ) {{
             centerFullBoundsOnPoint( size.width / 2, size.height / 2 );
