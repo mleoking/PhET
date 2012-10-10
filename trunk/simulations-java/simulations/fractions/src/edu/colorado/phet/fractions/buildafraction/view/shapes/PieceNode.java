@@ -65,6 +65,10 @@ public abstract class PieceNode extends Stackable {
             }
 
             @Override public void mousePressed( final PInputEvent event ) {
+
+                //See #3460 drop shadow bug
+                if ( !event.isLeftMouseButton() ) { return; }
+
                 //This node gets reparented, so only send mouse events if it is traveling freely (i.e. not in a container)
                 if ( container != null ) { return; }
                 super.mousePressed( event );
@@ -85,6 +89,9 @@ public abstract class PieceNode extends Stackable {
             }
 
             @Override public void mouseDragged( final PInputEvent event ) {
+                //See #3460 drop shadow bug
+                if ( !event.isLeftMouseButton() ) { return; }
+
                 //This node gets reparented, so only send mouse events if it is traveling freely (i.e. not in a container)
                 if ( container != null ) { return; }
                 super.mouseDragged( event );
@@ -102,6 +109,10 @@ public abstract class PieceNode extends Stackable {
             }
 
             @Override public void mouseReleased( final PInputEvent event ) {
+                //See #3460 drop shadow bug
+                if ( !event.isLeftMouseButton() ) {
+                    return;
+                }
                 //This node gets reparented, so only send mouse events if it is traveling freely (i.e. not in a container)
                 if ( container != null ) { return; }
                 super.mouseReleased( event );
