@@ -1,3 +1,4 @@
+Tab 2: Shapes level 4: increase diversity of shapes while minimizing the stack sizes and guaranteeing a correct solution
 # 1.01.28 (69081) Oct 10, 2012
 Tab 1: Numbers Level 3: if 5/6 does not appear as a target, remove the 5's pile
 # 1.01.27 (69079) Oct 10, 2012
