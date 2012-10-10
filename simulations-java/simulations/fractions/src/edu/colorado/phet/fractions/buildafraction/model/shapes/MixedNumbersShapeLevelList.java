@@ -144,7 +144,7 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
     -- a few extra pieces to allow multiple pathways to a solution*/
     private ShapeLevel level4() {
         List<MixedFraction> targets = replicate( 3, chooseOne( getMixedFractions( list( 1, 2 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 4 ), fraction( 3, 4 ) ) ) ) );
-        return shapeLevelMixed( substituteSubdividedCards( substituteSubdividedCards( straightforwardCards( targets ), 1 ), 2 ), shuffle( targets ), colors[3], choosePiesOrBars() );
+        return shapeLevelMixed( substituteSubdividedCards( substituteSubdividedCards3( straightforwardCards( targets ), 1 ), 1 ), shuffle( targets ), colors[3], choosePiesOrBars() );
     }
 
     /*Level 5:
@@ -275,6 +275,26 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
 
         //Split into two smaller cards that add to the same thing
         List<Integer> subdivided = list( oneToSubdivide * 2, oneToSubdivide * 2 );
+
+        //Add the new cards.
+        return integers.delete( oneToSubdivide, Equal.intEqual ).append( subdivided );
+    }
+
+    //Take any of the cards, and subdivide it into smaller cards
+    private List<Integer> substituteSubdividedCards3( final List<Integer> integers, final int smallestPieceToSubdivide ) {
+
+        //Find cards that can be divided into smaller cards
+        List<Integer> allowed = integers.filter( new F<Integer, Boolean>() {
+            @Override public Boolean f( final Integer integer ) {
+                return integer <= smallestPieceToSubdivide;
+            }
+        } );
+
+        //Choose one to subdivide
+        Integer oneToSubdivide = chooseOne( allowed );
+
+        //Split into three smaller cards that add to the same thing
+        List<Integer> subdivided = list( oneToSubdivide * 3, oneToSubdivide * 3, oneToSubdivide * 3 );
 
         //Add the new cards.
         return integers.delete( oneToSubdivide, Equal.intEqual ).append( subdivided );
