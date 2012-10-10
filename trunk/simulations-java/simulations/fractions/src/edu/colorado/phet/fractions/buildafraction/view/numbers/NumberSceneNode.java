@@ -14,8 +14,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
-import javax.swing.Timer;
-
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -273,14 +271,14 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
 
         //After all cards have gone back to the toolbox, bring one to the center of the screen
         //This introduces a timing dependency and could fail on machines that aren't able to finish the animation before the timer expires
-        new Timer( 1200, new ActionListener() {
-            public void actionPerformed( final ActionEvent e ) {
-                fractionNodes.get( 0 ).animateToCenterOfScreen();
-            }
-        } ) {{
-            setRepeats( false );
-            setInitialDelay( 1200 );
-        }}.start();
+//        new Timer( 1200, new ActionListener() {
+//            public void actionPerformed( final ActionEvent e ) {
+//                fractionNodes.get( 0 ).animateToCenterOfScreen();
+//            }
+//        } ) {{
+//            setRepeats( false );
+//            setInitialDelay( 1200 );
+//        }}.start();
     }
 
     //Never called, can be no-op
@@ -288,16 +286,23 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     }
 
     private void resetFractions() {
+        boolean start = true;
         for ( FractionNode fractionNode : fractionNodes ) {
             fractionNode.reset();
-            fractionNode.animateToToolbox();
+            if ( start ) {
+                fractionNode.animateToCenterOfScreen();
+            }
+            else {
+                fractionNode.animateToToolbox();
+            }
+            start = false;
         }
     }
 
     private void resetCollectionBoxes() {
         for ( NumberSceneCollectionBoxPair pair : getCollectionBoxPairs() ) {
             if ( pair.collectionBoxNode.isCompleted() ) {
-                pair.collectionBoxNode.undo();
+                pair.collectionBoxNode.undo( false );
             }
         }
     }

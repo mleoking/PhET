@@ -57,7 +57,7 @@ public class NumberCollectionBoxNode extends CollectionBoxNode {
             setOffset( -1, -1 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
-                    undo();
+                    undo( true );
                 }
             } );
         }};
@@ -67,7 +67,7 @@ public class NumberCollectionBoxNode extends CollectionBoxNode {
     }
 
     //Eject the solution from the collection box and back to the toolbox.
-    public void undo() {
+    public void undo( boolean animateToToolbox ) {
         if ( completed ) {
             completed = false;
             path.setStroke( CONTROL_PANEL_STROKE );
@@ -83,7 +83,10 @@ public class NumberCollectionBoxNode extends CollectionBoxNode {
             fractionGraphic = null;
 
             cardNode.fractionNode.undoAll();
-            cardNode.fractionNode.animateToToolbox();
+
+            if ( animateToToolbox ) {
+                cardNode.fractionNode.animateToToolbox();
+            }
 
             numberSceneNode.numberCollectionBoxUndone();
             numberSceneNode.updateStacks();
