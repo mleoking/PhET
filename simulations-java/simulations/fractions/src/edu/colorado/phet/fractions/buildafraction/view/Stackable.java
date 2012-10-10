@@ -38,9 +38,9 @@ public abstract class Stackable<T extends Stackable> extends PNode {
 
     protected abstract double getAnimateToScale();
 
-    public boolean isAtStackIndex( Integer site ) {
-        return positionInStack.isSome() && positionInStack.some().equals( site );
-    }
+    public boolean isInStack() { return positionInStack.isSome(); }
+
+    public boolean isAtStackIndex( Integer site ) { return positionInStack.isSome() && positionInStack.some().equals( site ); }
 
     public void setStack( final Stack<T> stack ) {
         assert this.stack == null;

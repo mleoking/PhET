@@ -212,4 +212,6 @@ public abstract class SceneNode<T extends ICollectionBoxPair> extends PNode {
             }
         } );
     }
+
+    public abstract void setToolbarEnabled( final boolean enabled );
 }

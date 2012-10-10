@@ -266,6 +266,32 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         level.filledTargets.reset();
     }
 
+    @Override public void setToolbarEnabled( final boolean enabled ) {
+        toolboxNode.setVisible( enabled );
+        toolboxNode.setPickable( enabled );
+        toolboxNode.setChildrenPickable( enabled );
+
+        for ( PieceNode pieceNode : getPieceNodes() ) {
+            if ( pieceNode.isInStack() ) {
+                pieceNode.setVisible( enabled );
+                pieceNode.setPickable( enabled );
+                pieceNode.setChildrenPickable( enabled );
+            }
+        }
+
+        for ( ContainerNode containerNode : getContainerNodesInToolbox() ) {
+            containerNode.setVisible( enabled );
+            containerNode.setPickable( enabled );
+            containerNode.setChildrenPickable( enabled );
+        }
+
+        for ( PieceIconNode pieceIconNode : getPieceIconNodes() ) {
+            pieceIconNode.setVisible( enabled );
+            pieceIconNode.setPickable( enabled );
+            pieceIconNode.setChildrenPickable( enabled );
+        }
+    }
+
     //Get all of the piece nodes, whether they be in the toolbox, play area or in a container.
     private List<PieceNode> getPieceNodes() {
         ArrayList<PieceNode> children = new ArrayList<PieceNode>();
@@ -451,6 +477,8 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
             }
         } );
     }
+
+    private List<PieceIconNode> getPieceIconNodes() { return getChildren( this, PieceIconNode.class ); }
 
     private List<ContainerNode> getContainerNodesInPlayArea() {
         return getContainerNodes().filter( new F<ContainerNode, Boolean>() {

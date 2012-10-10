@@ -1,3 +1,4 @@
+Tab 3: When changing representations, keep the old representation on the screen, so you can see both red circles and blue boxes (but only one toolbox at a time)
 Tab 3: Fixed: reset all-> bars -> drop a bar from toolbox slightly down and left, and it will shrink and fly into the play area
 # 1.01.22 (69045) Oct 9, 2012
 Tab 3: Adjust spacing between cards based on the widths of the cards, to provide better support for different fonts such as the default OSX font
