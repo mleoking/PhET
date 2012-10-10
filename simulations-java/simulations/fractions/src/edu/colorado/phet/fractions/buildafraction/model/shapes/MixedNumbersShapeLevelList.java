@@ -54,6 +54,13 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
         } );
         add( new Function0<ShapeLevel>() {
             public ShapeLevel apply() {
+                for ( int i = 0; i < 100; i++ ) {
+                    ShapeLevel level = level4();
+                    if ( level.getNumberOfCardsInHighestStack() <= 6 ) {
+                        return level;
+                    }
+                }
+                //Give up after too many failures
                 return level4();
             }
         } );
@@ -144,7 +151,34 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
     -- a few extra pieces to allow multiple pathways to a solution*/
     private ShapeLevel level4() {
         List<MixedFraction> targets = replicate( 3, chooseOne( getMixedFractions( list( 1, 2 ), list( fraction( 1, 2 ), fraction( 1, 3 ), fraction( 2, 3 ), fraction( 1, 4 ), fraction( 3, 4 ) ) ) ) );
-        return shapeLevelMixed( substituteSubdividedCards( substituteSubdividedCards3( straightforwardCards( targets ), 1 ), 1 ), shuffle( targets ), colors[3], choosePiesOrBars() );
+        List<Integer> cards = substituteSubdividedCards( substituteSubdividedCards3( straightforwardCards( targets ), 1 ), 1 );
+
+        while ( count( cards, 2 ) > 5 ) {
+            cards = substituteSubdividedCardsExact( cards, 2 );
+        }
+        while ( count( cards, 3 ) > 5 ) {
+            cards = substituteSubdividedCardsExact( cards, 3 );
+        }
+        while ( count( cards, 4 ) > 6 ) {
+            cards = substituteSubdividedCardsExact( cards, 4 );
+        }
+
+        //if there are more than 4 1/2 cards, subdivide one into 1/4 cards.
+        //if there are more than 4 1/3 cards, subdivide one into 1/6 cards.
+//        cards = cards.filter( new F<Integer, Boolean>() {
+//            @Override public Boolean f( final Integer integer ) {
+//                return integer == 2;
+//            }
+//        } ).length() > 4 ? ;
+        return shapeLevelMixed( cards, shuffle( targets ), colors[3], choosePiesOrBars() );
+    }
+
+    private int count( final List<Integer> cards, final int i ) {
+        return cards.filter( new F<Integer, Boolean>() {
+            @Override public Boolean f( final Integer integer ) {
+                return integer == i;
+            }
+        } ).length();
     }
 
     /*Level 5:
@@ -267,6 +301,25 @@ public class MixedNumbersShapeLevelList implements ShapeLevelFactory {
         List<Integer> allowed = integers.filter( new F<Integer, Boolean>() {
             @Override public Boolean f( final Integer integer ) {
                 return integer <= smallestPieceToSubdivide;
+            }
+        } );
+
+        //Choose one to subdivide
+        Integer oneToSubdivide = chooseOne( allowed );
+
+        //Split into two smaller cards that add to the same thing
+        List<Integer> subdivided = list( oneToSubdivide * 2, oneToSubdivide * 2 );
+
+        //Add the new cards.
+        return integers.delete( oneToSubdivide, Equal.intEqual ).append( subdivided );
+    }
+
+    private List<Integer> substituteSubdividedCardsExact( final List<Integer> integers, final int pieceToSubdivide ) {
+
+        //Find cards that can be divided into smaller cards
+        List<Integer> allowed = integers.filter( new F<Integer, Boolean>() {
+            @Override public Boolean f( final Integer integer ) {
+                return integer <= pieceToSubdivide;
             }
         } );
 
