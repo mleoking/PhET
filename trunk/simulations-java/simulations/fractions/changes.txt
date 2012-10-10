@@ -1,3 +1,4 @@
+# 1.01.26 (69077) Oct 10, 2012
 Tab 1: Numbers Level 3: Removed 7's and 8's piles
 # 1.01.25 (69075) Oct 10, 2012
 Tab 1-3: Expand bounds around number and fraction cards to avoid leaving a "trail" of black lines
