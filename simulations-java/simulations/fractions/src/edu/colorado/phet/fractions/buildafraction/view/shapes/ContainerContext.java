@@ -16,4 +16,6 @@ public interface ContainerContext {
     void containerAdded( ContainerNode containerNode );
 
     boolean isFractionLab();
+
+    void containerNodeAnimationToToolboxFinished( ContainerNode containerNode );
 }
