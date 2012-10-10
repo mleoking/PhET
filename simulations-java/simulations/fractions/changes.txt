@@ -1,3 +1,4 @@
+Tab 1-2: Fixed: Clicking on a fraction skeleton while it is animating to the toolbox causes buggy behavior
 # 1.01.24 (69072) Oct 10, 2012
 Tab 1-2: Resolved #3460 drop shadow bug
 # 1.01.23 (69070) Oct 9, 2012

@@ -346,7 +346,7 @@ public class FractionNode extends RichPNode {
     }
 
     public void animateToToolbox() {
-        animateToPositionScaleRotation( toolboxPositionX, toolboxPositionY, SCALE_IN_TOOLBOX, 0, 1000 );
+        animateToPositionScaleRotation( toolboxPositionX, toolboxPositionY, SCALE_IN_TOOLBOX, 0, 1000 ).setDelegate( new DisablePickingWhileAnimating( this, true ) );
     }
 
     public void animateToCenterOfScreen() {
