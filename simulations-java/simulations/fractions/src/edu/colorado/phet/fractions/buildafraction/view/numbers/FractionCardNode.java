@@ -65,8 +65,15 @@ class FractionCardNode extends RichPNode {
         borderShape = globalToLocal( borderShape );
         borderShape = RectangleUtils.expand( borderShape, 10, 2 );
 
-        final PhetPPath cardShapeNode = new PhetPPath( new RoundRectangle2D.Double( borderShape.getX(), borderShape.getY(), borderShape.getWidth(), borderShape.getHeight(), 10, 10 ),
-                                                       Color.white, new BasicStroke( 1 ), Color.black );
+        final RoundRectangle2D.Double cardShape = new RoundRectangle2D.Double( borderShape.getX(), borderShape.getY(), borderShape.getWidth(), borderShape.getHeight(), 10, 10 );
+        final PhetPPath cardShapeNode = new PhetPPath( cardShape,
+                                                       Color.white, new BasicStroke( 1 ), Color.black ) {
+
+            //Get rid of "trail" of black lines on Mac.  I could not reproduce the problem but KH could
+            @Override public Rectangle2D getPathBoundsWithStroke() {
+                return RectangleUtils.expand( super.getPathBoundsWithStroke(), 1, 1 );
+            }
+        };
         cardShapeNode.addInputEventListener( new CursorHandler() );
 
         cardShapeNode.addInputEventListener( new SimSharingCanvasBoundedDragHandler( chain( fractionCard, FractionCardNode.this.hashCode() ), FractionCardNode.this ) {
