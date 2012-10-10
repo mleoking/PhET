@@ -7,3 +7,7 @@ an object dragged out of the stage bounds cannot be retrieved (mouse events don'
 pinch to zoom
 internationaliation (make it part of the sim?)
 larger hit areas for slider knobs or other things, to make it useful on Nexus 7 and/or phones.
+Implement combo box picker (or something better)
+I can move the concentration meter 'target' fairly easily, but the meter doesn't read anything (probably not coded yet?)
+Can’t see any solute when you 'evaporate' all of the liquid.
+For parsing properties files: https://github.com/Xavi-/node-properties-parser
