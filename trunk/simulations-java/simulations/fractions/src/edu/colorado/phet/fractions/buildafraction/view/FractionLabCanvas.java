@@ -73,13 +73,13 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
         final NumberSceneNode numberSceneNode = new NumberSceneNode( 0, rootNode, circleModel, context, soundEnabled, true ) {{moveToFrontDuringInteraction();}};
         addChild( numberSceneNode );
 
-        final ShapeSceneNode circleShapeSceneNode = new ShapeSceneNode( 0, circleModel, context, soundEnabled, true ) {{
+        final ShapeSceneNode circleShapeSceneNode = new ShapeSceneNode( 0, circleModel, context, soundEnabled, true, true ) {{
             translate( 0, -STAGE_SIZE.height + toolboxHeight + INSET * 3 );
             moveToFrontDuringInteraction();
         }};
         addChild( circleShapeSceneNode );
 
-        final ShapeSceneNode barShapeSceneNode = new ShapeSceneNode( 0, createModel( BAR, colors[1] ), context, soundEnabled, true ) {{
+        final ShapeSceneNode barShapeSceneNode = new ShapeSceneNode( 0, createModel( BAR, colors[1] ), context, soundEnabled, true, false ) {{
             translate( 0, -STAGE_SIZE.height + toolboxHeight + INSET * 3 );
             moveToFrontDuringInteraction();
         }};
@@ -117,7 +117,7 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
 
     //Make a node visible and pickable together
     private void setEnabled( final SceneNode<?> node, final boolean enabled ) {
-        node.setToolbarEnabled( enabled );
+        node.setToolboxEnabled( enabled );
     }
 
     //Create a model for the given shape type and color.

@@ -138,7 +138,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Lev
     //Creates the SceneNode for the specified level and type of level (shapes or numbers)
     private PNode createLevelNode( final int levelIndex, final LevelType levelType ) {
         return levelType == LevelType.SHAPES ?
-               new ShapeSceneNode( levelIndex, model, this, model.audioEnabled, false ) :
+               new ShapeSceneNode( levelIndex, model, this, model.audioEnabled, false, true ) :
                new NumberSceneNode( levelIndex, rootNode, model, this, model.audioEnabled, false );
     }
 

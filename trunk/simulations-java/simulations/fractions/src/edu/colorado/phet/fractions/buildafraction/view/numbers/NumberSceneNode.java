@@ -284,7 +284,7 @@ public class NumberSceneNode extends SceneNode<NumberSceneCollectionBoxPair> imp
     }
 
     //Never called, can be no-op
-    @Override public void setToolbarEnabled( final boolean enabled ) {
+    @Override public void setToolboxEnabled( final boolean enabled ) {
     }
 
     private void resetFractions() {

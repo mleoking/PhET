@@ -299,6 +299,7 @@ public class ContainerNode extends PNode {
             @Override public void activityFinished( final PActivity activity ) {
                 super.activityFinished( activity );
                 updateExpansionButtonsEnabled();
+                context.containerNodeAnimationToToolboxFinished( ContainerNode.this );
             }
         } ) );
         animateToShowSpinners();

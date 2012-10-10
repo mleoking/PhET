@@ -80,16 +80,17 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     private static final double CARD_SPACING_DY = CARD_SPACING_DX;
     private final BuildAFractionModel model;
     public int toolboxHeight;
+    private boolean toolboxEnabled = true;
 
-    public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab ) {
-        this( levelIndex, model, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, context, soundEnabled, fractionLab ) ), fractionLab );
+    public ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, boolean fractionLab, final boolean showContainerNodeOnStartup ) {
+        this( levelIndex, model, context, soundEnabled, Option.some( getToolbarOffset( levelIndex, model, context, soundEnabled, fractionLab, showContainerNodeOnStartup ) ), fractionLab, showContainerNodeOnStartup );
     }
 
     //Create and throw away a new ShapeSceneNode in order to get the layout of the toolbar perfectly centered under the title.
     //Hack alert!  I have concerns that this could lead to difficult to understand code, especially during debugging because 2 ShapeSceneNodes are created for each one displayed.
     //This code was written because everything is in the same layer because nodes must move freely between toolbox, play area and collection boxes.
-    private static double getToolbarOffset( final int levelIndex, final BuildAFractionModel model, final SceneContext context, final BooleanProperty soundEnabled, boolean fractionLab ) {
-        ShapeSceneNode node = new ShapeSceneNode( levelIndex, model, context, soundEnabled, Option.<Double>none(), fractionLab );
+    private static double getToolbarOffset( final int levelIndex, final BuildAFractionModel model, final SceneContext context, final BooleanProperty soundEnabled, boolean fractionLab, final boolean showContainerNodeOnStartup ) {
+        ShapeSceneNode node = new ShapeSceneNode( levelIndex, model, context, soundEnabled, Option.<Double>none(), fractionLab, showContainerNodeOnStartup );
 
         //Re-layout the toolbox based on the location of the title
         double desiredToolboxCenter = node.title.getFullBounds().getCenterX();
@@ -106,7 +107,7 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     }
 
     private ShapeSceneNode( final int levelIndex, final BuildAFractionModel model, final SceneContext context, BooleanProperty soundEnabled, Option<Double> toolboxOffset,
-                            final boolean fractionLab ) {
+                            final boolean fractionLab, final boolean showContainerNodeOnStartup ) {
         super( levelIndex, soundEnabled, context, fractionLab );
         this.model = model;
         double insetY = 10;
@@ -142,11 +143,13 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
 
         //Center the first container node in the play area.
         //Layout values sampled manually at runtime
-        ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
-            Vector2D position = getContainerPosition();
-            setInitialState( position.x, position.y, getContainerScale() );
-        }};
-        addChild( firstContainerNode );
+        if ( showContainerNodeOnStartup ) {
+            ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType, level.getMaxNumberOfSingleContainers() ) {{
+                Vector2D position = getContainerPosition();
+                setInitialState( position.x, position.y, getContainerScale() );
+            }};
+            addChild( firstContainerNode );
+        }
 
         //Pieces in the toolbar that the user can drag
         List<List<Integer>> groups = level.pieces.group( intEqual );
@@ -266,7 +269,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
         level.filledTargets.reset();
     }
 
-    @Override public void setToolbarEnabled( final boolean enabled ) {
+    @Override public void setToolboxEnabled( final boolean enabled ) {
+
+        //Note, this method cannot bail early if the value is the same, since this is used to update state after animation.
+        this.toolboxEnabled = enabled;
         toolboxNode.setVisible( enabled );
         toolboxNode.setPickable( enabled );
         toolboxNode.setChildrenPickable( enabled );
@@ -564,6 +570,10 @@ public class ShapeSceneNode extends SceneNode<ShapeSceneCollectionBoxPair> imple
     }
 
     public boolean isFractionLab() { return fractionLab; }
+
+    public void containerNodeAnimationToToolboxFinished( final ContainerNode containerNode ) {
+        setToolboxEnabled( toolboxEnabled );
+    }
 
     //The user started dragging a PieceNode.  In the "Fractions Lab" tab, create a copy to make it seem like there is an endless stack of pieces.
     public void startDrag( final PieceNode pieceNode ) {
