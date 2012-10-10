@@ -15,17 +15,17 @@ import flash.utils.getTimer;
 
 import mx.rpc.AbstractInvoker;
 
-//model of radiating E-field from a moving point charge
+//model of E-field radiating from a moving point charge
 public class FieldModel {
 
     public var views_arr:Array;     //views associated with this model
-    public var myMainView:MainView;
+    public var myMainView:MainView; //communications hub for model-view-controller
 
-    private var c:Number;           //speed of light in pixels per second, charge cannot move faster than c
-    private var _xC:Number;         //x-position of charge in pixels
-    private var _yC:Number;         //y-position of charge in pixels
-    private var _vX:Number;         //x-component of charge velocity
-    private var _vY:Number;         //y-component of charge velocity
+    private var c: Number;          //speed of light in pixels per second, charge cannot move faster than c
+    private var _xC: Number;        //x-position of charge in pixels
+    private var _yC: Number;        //y-position of charge in pixels
+    private var _vX: Number;        //x-component of charge velocity
+    private var _vY: Number;        //y-component of charge velocity
     private var aX: Number;         //x-component of charge acceleration
     private var aY: Number;         //y-component of charge acceleration
     private var vXInit:Number;      //x-comp of velocity when starting to brake stopping charge
@@ -33,7 +33,7 @@ public class FieldModel {
     private var _v:Number;          //speed of charge
     private var _v0:Number;         //speed of charge at previous time step (needed to compute acceleration)
     private var _vTarget:Number;    //set speed for linear motion
-    private var _aC:Number;          //classical acceleration of charge = delta-v/delta-t
+    private var _aC:Number;         //classical acceleration of charge = delta-v/delta-t
     private var gamma:Number;       //gamma factor
     private var fX:Number;          //x-component of force on charge
     private var fY:Number;          //y-component of force on charge
@@ -50,6 +50,7 @@ public class FieldModel {
     private var theta_arr:Array;    //angles of rest frame rays (in rads)
     private var sin_arr:Array;      //sines of angles of the rays,
     private var _fieldLine_arr:Array;  //array of field lines
+    private var testCounter: int;   //for testing only
     private var flag:Boolean;       //for testing only
 
     //types of motion
@@ -69,12 +70,13 @@ public class FieldModel {
     private var _outOfBounds:Boolean;   //true if charge is a ways off-screen
 
     private var _t:Number;              //time in seconds
-    //private var tLastStep:Number;       //time of last screendraw
-    //private var elapsedTime:Number;     //elapsed time since previous screen draw
+    private var tLastStep:Number;       //time of last screendraw
+    private var clockTime: Number;
+    private var elapsedTime:Number;     //elapsed time since previous screen draw
     private var _tLastPhoton: Number;	//time of previous Photon emission
     private var tRate: Number;	        //1 = real time; 0.25 = 1/4 of real time, etc.
     private var dt: Number;  	        //current time step in seconds used in time-based animation
-    //private var dtDefault: Number;      //default time step in seconds
+    private var dtDefault: Number;      //default time step in seconds
     private var delTPhoton:Number;      //time in sec between photon emission events, depends on acceleration
     private var delTPhotonDefault: Number;   //default time between photon emission events
     private var stepsPerFrame:int;      //number of algorithm steps between screen draws
@@ -104,8 +106,8 @@ public class FieldModel {
 
     private function initialize():void{
         for(var i:int = 0; i < this._nbrFieldLines; i++ ){
-           this.theta_arr[i] = i*2*Math.PI/this._nbrFieldLines;
-           this.cos_arr[i] = Math.cos( theta_arr[i] ) ;
+           this.theta_arr[i] = i*2*Math.PI/this._nbrFieldLines;    //angle between static field line and horizontal, measured CCW
+           this.cos_arr[i] = Math.cos( theta_arr[i] ) ;            //array of cosines and sines to try to speed up the code.
            this.sin_arr[i] = Math.sin( theta_arr[i] ) ;
         }
         this._xC = 0; //place charge at origin, which is at center of stage
@@ -119,7 +121,8 @@ public class FieldModel {
         }
 
         this._motionType = _MANUAL_WITH_FRICTION;
-        this.c = this.stageW/4;     //n seconds to cross height of stage
+        var n: Number = 4;
+        this.c = this.stageW/n;     //n seconds to cross width of stage
         this.k = 10;                //spring constant
         this.m = 1;                 //mass
 
@@ -140,8 +143,11 @@ public class FieldModel {
         this._paused = false;
         this._outOfBounds = false;
         this._t = 0;
+        this.testCounter = 0;
+        this.clockTime = getTimer();
+        this.tLastStep = getTimer();
         this._tLastPhoton = 0;
-        //this.dtDefault = 0.006;
+        this.dtDefault = 0.006;
         this.dt = 0.006;
         this.delTPhotonDefault = 0.02;
         this.delTPhoton = delTPhotonDefault;
@@ -335,7 +341,7 @@ public class FieldModel {
         this._motionType = choice;
         //trace("FieldModel.setTypeOfMotion() called. choice = " + choice );
         this.delTPhoton = delTPhotonDefault;  //default values, changed for linear motion = const velocity motion
-        this.stepsPerFrame = 4;
+        //this.stepsPerFrame = 4;
         if( choice == _MANUAL_WITH_FRICTION ){
             //do nothing
         }else if( choice == _MANUAL_NO_FRICTION ){
@@ -656,15 +662,21 @@ public class FieldModel {
     }//end stoppingStep();
 
     private function reDrawScreen( evt: TimerEvent ):void{
-//        var currentTime:Number = this._t;
-//        this._t = getTimer();
-//        dt = _t - tLastStep;
+        var currentTime:Number = this._t;
+        this.clockTime = getTimer();
+        elapsedTime = clockTime - tLastStep;
+        this.tLastStep = clockTime;
+        testCounter += 1;
+        if( testCounter >= 20 ){
+            trace( elapsedTime );
+            testCounter = 0;
+        }
 //        if(dt > 0.05 ){
 //            dt = dtDefault;
 //        }
-        //dt = elapsedTime;
-        //this.tLastStep = currentTime;
-        //this.dt = dtDefault;
+//        dt = elapsedTime;
+//        this.tLastStep = currentTime;
+//        this.dt = dtDefault;
 
         for(var s:int = 0; s < stepsPerFrame; s++ ) {
             this._t += this.dt;
