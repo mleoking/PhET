@@ -569,7 +569,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     public void stackableNodeDropped( final StackableNode stackableNode ) {
         PBounds bounds = skateboard.getGlobalFullBounds();
         bounds.add( skateboard.getGlobalFullBounds().getCenterX(), rootNode.globalToLocal( new Point2D.Double( STAGE_SIZE.width / 2, 0 ) ).getY() );
-        if ( bounds.intersects( stackableNode.getGlobalFullBounds() ) &&
+        if ( stackableNode.getGlobalFullBounds().getMinY() < skateboard.getGlobalFullBounds().getMaxY() &&
 
              //Limit stack size to 3 things
              stack.get().length() < 3 ) {
