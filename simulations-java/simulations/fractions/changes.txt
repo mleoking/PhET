@@ -1,3 +1,4 @@
+Tab 2: More work to reduce the drop shadow bug #3460
 Fraction Matcher: Added reset all button
 # 1.01.30 (69096) Oct 10, 2012
 Fraction Matcher, Fractions Intro, Build a Fraction: Made audio on/off checkboxes apply to the entire sim, not allowing different values for each tab
