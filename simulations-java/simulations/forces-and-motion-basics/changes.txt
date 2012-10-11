@@ -1,3 +1,4 @@
+Tab 1: Extend the grass even when the window is at an extremely wide aspect ratio
 Tab 2-3: Removed icon for "sum of forces" checkbox
 Tab 2-3: Added arrow icons next to force and sum of forces checkboxes
 Tab 2-3: Removed the rewind button
