@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.activities.AnimateToScale;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -24,6 +25,7 @@ import edu.colorado.phet.fractions.buildafraction.view.UpdateAnimatingFlag;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.piece;
@@ -37,6 +39,7 @@ import static java.awt.geom.AffineTransform.getTranslateInstance;
  */
 public abstract class PieceNode extends Stackable {
     public final Integer pieceSize;
+    private static final PBounds TEMP_REPAINT_BOUNDS = new PBounds();
     double initialScale = Double.NaN;
     final PieceContext context;
     final PhetPPath pathNode;
@@ -232,4 +235,10 @@ public abstract class PieceNode extends Stackable {
     }
 
     public abstract PieceNode copy();
+
+    //Workaround for dirty rectangle problem
+    @Override public void repaint() {
+        TEMP_REPAINT_BOUNDS.setRect( RectangleUtils.expand( getFullBoundsReference(), 2, 2 ) );
+        repaintFrom( TEMP_REPAINT_BOUNDS, this );
+    }
 }
