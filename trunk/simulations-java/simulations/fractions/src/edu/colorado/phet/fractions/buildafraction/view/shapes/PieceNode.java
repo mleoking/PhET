@@ -68,6 +68,7 @@ public abstract class PieceNode extends Stackable {
 
                 //See #3460 drop shadow bug
                 if ( !event.isLeftMouseButton() ) { return; }
+                if ( getNumberOfActiveActivities() > 0 ) {return;}
 
                 //This node gets reparented, so only send mouse events if it is traveling freely (i.e. not in a container)
                 if ( container != null ) { return; }
@@ -110,9 +111,8 @@ public abstract class PieceNode extends Stackable {
 
             @Override public void mouseReleased( final PInputEvent event ) {
                 //See #3460 drop shadow bug
-                if ( !event.isLeftMouseButton() ) {
-                    return;
-                }
+                if ( !event.isLeftMouseButton() ) { return; }
+
                 //This node gets reparented, so only send mouse events if it is traveling freely (i.e. not in a container)
                 if ( container != null ) { return; }
                 super.mouseReleased( event );
@@ -122,6 +122,14 @@ public abstract class PieceNode extends Stackable {
                 dragEnded();
             }
         } );
+    }
+
+    private int getNumberOfActiveActivities() {
+        int numberActiveActivities = 0;
+        for ( PActivity activity : activities ) {
+            if ( activity.isStepping() ) { numberActiveActivities++; }
+        }
+        return numberActiveActivities;
     }
 
     //For circular pie pieces, rotate to align with the closest open site in any ContainerNode's SingleContainerNodes.
