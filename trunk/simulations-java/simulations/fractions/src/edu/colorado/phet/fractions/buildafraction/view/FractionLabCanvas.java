@@ -122,7 +122,7 @@ public class FractionLabCanvas extends AbstractFractionsCanvas {
 
     //Create a model for the given shape type and color.
     private BuildAFractionModel createModel( final ShapeType shapeType, final Color color ) {
-        return new BuildAFractionModel( new BooleanProperty( false ), new ShapeLevelFactory() {
+        return new BuildAFractionModel( new BooleanProperty( false ), new BooleanProperty( false ), new ShapeLevelFactory() {
             public ShapeLevel createLevel( final int level ) {
                 final MixedFraction t = MixedFraction.mixedFraction( 3, Fraction.fraction( 1, 2 ) );
                 return new ShapeLevel( List.range( 1, 9 ).append( List.range( 1, 9 ) ), List.list( t, t ), color, shapeType, false );

@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.games.GameConstants;
 import edu.colorado.phet.common.games.GameSettings;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -41,7 +42,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  * @author Sam Reid
  */
 class StartScreen extends PNode {
-    public StartScreen( final MatchingGameModel model, final String title, final List<PNode> patterns ) {
+    public StartScreen( final MatchingGameModel model, final String title, final List<PNode> patterns, final BooleanProperty audioEnabled ) {
 
         //Animation when shown
         model.choosingSettings.addObserver( new VoidFunction1<Boolean>() {
@@ -64,7 +65,17 @@ class StartScreen extends PNode {
         setOffset( 0, 0 );
 
         //Game settings
-        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), true, false );
+        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), audioEnabled.get(), false );
+        audioEnabled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( final Boolean b ) {
+                gameSettings.soundEnabled.set( b );
+            }
+        } );
+        gameSettings.soundEnabled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( final Boolean b ) {
+                audioEnabled.set( b );
+            }
+        } );
 
         //Function invoked when the user pushes a level button to start the game.
         final VoidFunction0 startGame = new VoidFunction0() {
