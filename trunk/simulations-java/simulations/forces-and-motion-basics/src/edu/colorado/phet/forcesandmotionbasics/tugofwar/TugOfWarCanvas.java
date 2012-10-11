@@ -40,6 +40,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
@@ -109,8 +110,13 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
         final int grassY = 452;
         addChild( new SkyNode( createIdentity(), new Rectangle2D.Double( -width / 2, -width / 2 + grassY, width, width / 2 ), grassY, SkyNode.DEFAULT_TOP_COLOR, SkyNode.DEFAULT_BOTTOM_COLOR ) );
 
-        final PImage grassNode = new PImage( Images.GRASS );
-        grassNode.setOffset( -2, grassY - 2 );
+        final PNode grassNode = new HBox(
+
+                //Align so the "seam" is in the middle
+                -4,
+
+                new PImage( Images.GRASS ), new PImage( Images.GRASS ), new PImage( Images.GRASS ) );
+        grassNode.setOffset( -grassNode.getFullBounds().getWidth() / 2, grassY - 2 );
         addChild( grassNode );
 
         final JCheckBox sumOfForcesCheckBox = new PropertyCheckBox( UserComponents.sumOfForcesCheckBox, Strings.SUM_OF_FORCES, showSumOfForces ) {{
