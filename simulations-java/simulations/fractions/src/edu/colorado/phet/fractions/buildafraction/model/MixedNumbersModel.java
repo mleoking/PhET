@@ -11,8 +11,8 @@ import edu.colorado.phet.fractions.buildafraction.model.shapes.MixedNumbersShape
  * @author Sam Reid
  */
 public class MixedNumbersModel extends BuildAFractionModel {
-    public MixedNumbersModel( BooleanProperty collectedMatch ) {
-        super( collectedMatch, new MixedNumbersShapeLevelList(), new MixedNumbersNumberLevelList() );
+    public MixedNumbersModel( BooleanProperty collectedMatch, BooleanProperty audioEnabled ) {
+        super( collectedMatch, audioEnabled, new MixedNumbersShapeLevelList(), new MixedNumbersNumberLevelList() );
     }
 
     @Override public boolean isMixedNumbers() { return true; }

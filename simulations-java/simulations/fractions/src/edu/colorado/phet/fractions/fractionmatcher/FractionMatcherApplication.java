@@ -3,6 +3,7 @@ package edu.colorado.phet.fractions.fractionmatcher;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.FractionsResources;
 
@@ -16,8 +17,9 @@ public class FractionMatcherApplication extends PiccoloPhetApplication {
     public FractionMatcherApplication( PhetApplicationConfig config ) {
         super( config );
 
-        addModule( new MatchingGameModule( config.isDev() ) );
-        addModule( new MixedNumbersMatchingGameModule( config.isDev() ) );
+        final BooleanProperty audioEnabled = new BooleanProperty( true );
+        addModule( new MatchingGameModule( config.isDev(), audioEnabled ) );
+        addModule( new MixedNumbersMatchingGameModule( config.isDev(), audioEnabled ) );
     }
 
     public static void main( String[] args ) {

@@ -24,7 +24,7 @@ import edu.colorado.phet.fractions.buildafraction.view.LevelType;
 public class BuildAFractionModel {
 
     public final ConstantDtClock clock = new ConstantDtClock();
-    public final BooleanProperty audioEnabled = new BooleanProperty( true );
+    public final BooleanProperty audioEnabled;
 
     //Property that indicates which "page" on the level selection screen the user is looking at
     public final IntegerProperty selectedPage = new IntegerProperty( 0 );
@@ -63,11 +63,12 @@ public class BuildAFractionModel {
     //Index of the last level, used to decide whether to show the "next" button or not.
     private static final int MAX_LEVEL_INDEX = 9;
 
-    public BuildAFractionModel( BooleanProperty collectedMatch ) {
-        this( collectedMatch, new ShapeLevelList(), new NumberLevelList() );
+    public BuildAFractionModel( BooleanProperty collectedMatch, final BooleanProperty audioEnabled ) {
+        this( collectedMatch, audioEnabled, new ShapeLevelList(), new NumberLevelList() );
     }
 
-    public BuildAFractionModel( BooleanProperty collectedMatch, ShapeLevelFactory shapeLevelFactory, NumberLevelFactory numberLevelFactory ) {
+    public BuildAFractionModel( BooleanProperty collectedMatch, BooleanProperty audioEnabled, ShapeLevelFactory shapeLevelFactory, NumberLevelFactory numberLevelFactory ) {
+        this.audioEnabled = audioEnabled;
         this.collectedMatch = collectedMatch;
         this.numberLevelFactory = numberLevelFactory;
         this.shapeLevelFactory = shapeLevelFactory;

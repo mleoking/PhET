@@ -36,9 +36,10 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
         //Another way to do this would be to pass a FunctionInvoker to all the modules
         recordRegressionData = config.hasCommandLineArg( "-recordRegressionData" );
         addModule( new FractionsIntroModule() );
-        addModule( new BuildAFractionModule( new BuildAFractionModel( new BooleanProperty( false ) ) ) );
+        final BooleanProperty audioEnabled = new BooleanProperty( true );
+        addModule( new BuildAFractionModule( new BuildAFractionModel( new BooleanProperty( false ), audioEnabled ) ) );
         addModule( new EqualityLabModule() );
-        addModule( new MatchingGameModule( config.isDev() ) );
+        addModule( new MatchingGameModule( config.isDev(), audioEnabled ) );
 
         //Add developer menu items for debugging performance, see #3314
 
