@@ -87,7 +87,9 @@ public class Biker extends EnergySource {
     // Offsets used for creating energy chunk paths.  These need to be
     // coordinated with the images.
     private static final Vector2D BIKER_BUTTOCKS_OFFSET = new Vector2D( 0.02, 0.04 );
-    private static final Vector2D BIKE_CRANK_OFFSET = new Vector2D( 0, 0 );
+    private static final Vector2D BIKE_CRANK_OFFSET = new Vector2D( 0.005, -0.01 );
+    private static final Vector2D BOTTOM_OF_BACK_WHEEL_OFFSET = new Vector2D( 0.03, -0.03 );
+    private static final Vector2D NEXT_ENERGY_SYSTEM_OFFSET = new Vector2D( 0.12, -0.01 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -160,9 +162,23 @@ public class Biker extends EnergySource {
             for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( energyChunkMovers ) ) {
                 energyChunkMover.moveAlongPath( dt );
                 if ( energyChunkMover.isPathFullyTraversed() ) {
-                    // TODO: For now, just remove.
-                    energyChunkList.remove( energyChunkMover.energyChunk );
-                    energyChunkMovers.remove( energyChunkMover );
+                    if ( energyChunkMover.energyChunk.energyType.get() == EnergyType.CHEMICAL ) {
+
+                        // Turn this into mechanical energy.
+                        energyChunkMover.energyChunk.energyType.set( EnergyType.MECHANICAL );
+                        energyChunkMovers.remove( energyChunkMover );
+
+                        // Add new mover for the mechanical energy chunk.
+                        energyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
+                                                                         createMechanicalEnergyChunkPath( getPosition() ),
+                                                                         EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                    }
+                    else {
+                        // Must be mechanical.  Pass this on to the next energy
+                        // system.
+                        outgoingEnergyChunks.add( energyChunkMover.energyChunk );
+                        energyChunkMovers.remove( energyChunkMover );
+                    }
                 }
             }
         }
@@ -203,6 +219,13 @@ public class Biker extends EnergySource {
         return new ArrayList<Vector2D>() {{
             add( panelPosition.plus( BIKER_BUTTOCKS_OFFSET ) );
             add( panelPosition.plus( BIKE_CRANK_OFFSET ) );
+        }};
+    }
+
+    private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D panelPosition ) {
+        return new ArrayList<Vector2D>() {{
+            add( panelPosition.plus( BOTTOM_OF_BACK_WHEEL_OFFSET ) );
+            add( panelPosition.plus( NEXT_ENERGY_SYSTEM_OFFSET ) );
         }};
     }
 
