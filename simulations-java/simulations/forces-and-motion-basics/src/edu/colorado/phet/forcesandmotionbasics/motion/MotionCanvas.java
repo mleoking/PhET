@@ -45,7 +45,6 @@ import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
@@ -321,19 +320,25 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         addChild( skateboard );
 
-        HBox timeControls = new HBox( -3, new RewindButton( 60 ) {{
-            addListener( new Listener() {
-                public void buttonPressed() {
-                    rewind();
-                }
-            } );
-        }}, new PlayPauseButton( 70 ) {{
+        final PlayPauseButton playPauseButton = new PlayPauseButton( 70 ) {{
             addListener( new Listener() {
                 public void playbackStateChanged() {
                     MotionCanvas.this.playbackStateChanged( isPlaying() );
                 }
             } );
-        }}, new StepButton( 60 ) {{
+        }};
+        HBox timeControls = new HBox( -3,
+
+
+//        new RewindButton( 60 ) {{
+//            addListener( new Listener() {
+//                public void buttonPressed() {
+//                    rewind();
+//                }
+//            } );
+//        }},
+
+                                      playPauseButton, new StepButton( 60 ) {{
             addListener( new Listener() {
                 public void buttonPressed() {
                     step( typicalDT * 5 );
@@ -348,7 +353,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             } );
         }}
         );
-        timeControls.setOffset( STAGE_SIZE.width / 2 - timeControls.getFullWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
+        timeControls.setOffset( STAGE_SIZE.width / 2 - playPauseButton.getFullBounds().getWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
         addChild( timeControls );
 
         StackableNode fridge = new StackableNode( UserComponents.fridge, this, Images.FRIDGE, 200, FRIDGE_OFFSET_WITHIN_SKATEBOARD, showMasses );
@@ -517,11 +522,11 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         this.playing.set( playing );
     }
 
-    private void rewind() {
-        model.rewind();
-        model.fallen.set( false );
-        pusherNode.setOffset( 0, 0 );
-    }
+//    private void rewind() {
+//        model.rewind();
+//        model.fallen.set( false );
+//        pusherNode.setOffset( 0, 0 );
+//    }
 
     //Get the mass of the stack, returning 0.0 if the stack not yet initialized (for auto callback in constructor)
     private double getMassOfObjectsOnSkateboard() {

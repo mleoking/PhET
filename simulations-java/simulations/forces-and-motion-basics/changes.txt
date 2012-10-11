@@ -1,3 +1,4 @@
+Tab 2-3: Removed the rewind button
 Tab 3: Stop the background motion if all items removed from the stack
 # 0.00.43 (69006) Oct 8, 2012
 Tab 2-3: Made clouds repeat indefinitely
