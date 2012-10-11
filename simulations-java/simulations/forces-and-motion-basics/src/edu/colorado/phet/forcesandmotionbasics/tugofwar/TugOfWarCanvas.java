@@ -132,7 +132,7 @@ public class TugOfWarCanvas extends AbstractForcesAndMotionBasicsCanvas implemen
                 new VBox( 2, VBox.LEFT_ALIGNED,
 
                           //Nudge "show" to the right so it will align with checkboxes
-                          new PSwing( showValuesCheckBox ), new PSwing( sumOfForcesCheckBox ), new PSwing( soundCheckBox ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
+                          new PSwing( sumOfForcesCheckBox ), new PSwing( showValuesCheckBox ), new PSwing( soundCheckBox ) ), new Color( 227, 233, 128 ), new BasicStroke( 2 ), Color.black );
         controlPanelNode.setOffset( STAGE_SIZE.width - controlPanelNode.getFullWidth() - INSET, INSET );
         addChild( controlPanelNode );
 
