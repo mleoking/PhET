@@ -76,6 +76,7 @@ public class HSliderNode extends SliderNode {
     public PhetPPath addLabel( double value, PNode labelNode ) {return addLabel( value, labelNode, 15, 8 );}
 
     //Adds a label to the slider node and return the created tick
+    //Note: the usage of this method and esp. the last two parameters is subject to change
     public PhetPPath addLabel( double value, PNode labelNode, double tickLength, double tickOffset ) {
 
         //Wrap in a zero offset node for rotating the label
