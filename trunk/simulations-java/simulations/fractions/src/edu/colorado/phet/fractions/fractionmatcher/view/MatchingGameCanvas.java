@@ -5,6 +5,7 @@ import fj.data.List;
 
 import java.util.HashMap;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas;
@@ -21,10 +22,10 @@ import edu.umd.cs.piccolo.PNode;
 public class MatchingGameCanvas extends AbstractFractionsCanvas {
     private final HashMap<Integer, GameNode> levelNodes = new HashMap<Integer, GameNode>();
 
-    public MatchingGameCanvas( final boolean dev, final MatchingGameModel model, String title, final List<PNode> patterns, BooleanProperty audioEnabled ) {
+    public MatchingGameCanvas( final boolean dev, final MatchingGameModel model, String title, final List<PNode> patterns, BooleanProperty audioEnabled, Resettable resettable ) {
 
         //Show the start screen when the user is choosing a level.
-        addChild( new StartScreen( model, title, patterns, audioEnabled ) );
+        addChild( new StartScreen( model, title, patterns, audioEnabled, resettable ) );
 
         addChild( new PNode() {{
             model.addLevelStartedListener( new VoidFunction1<Integer>() {
