@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.fractionmatcher.view;
 import fj.data.List;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
@@ -12,6 +13,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.games.GameConstants;
 import edu.colorado.phet.common.games.GameSettings;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -21,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.activities.PActivityDelegateAdapter;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel;
 import edu.colorado.phet.common.piccolophet.nodes.controlpanel.SettingsOnOffPanel.Feature;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -31,8 +34,7 @@ import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
-import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.INSET;
-import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.STAGE_SIZE;
+import static edu.colorado.phet.fractions.common.view.AbstractFractionsCanvas.*;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.soundRadioButton;
 import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.timerRadioButton;
 
@@ -42,7 +44,7 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharin
  * @author Sam Reid
  */
 class StartScreen extends PNode {
-    public StartScreen( final MatchingGameModel model, final String title, final List<PNode> patterns, final BooleanProperty audioEnabled ) {
+    public StartScreen( final MatchingGameModel model, final String title, final List<PNode> patterns, final BooleanProperty audioEnabled, final Resettable resettable ) {
 
         //Animation when shown
         model.choosingSettings.addObserver( new VoidFunction1<Boolean>() {
@@ -111,7 +113,12 @@ class StartScreen extends PNode {
 
         addChild( new SettingsOnOffPanel( List.list( new Feature( new PImage( stopwatchOffIcon ), new PImage( stopwatchIcon ), gameSettings.timerEnabled, timerRadioButton ),
                                                      new Feature( new PImage( soundOffIcon ), new PImage( soundIcon ), gameSettings.soundEnabled, soundRadioButton ) ) ) {{
+            setOffset( INSET, STAGE_SIZE.height - getFullBounds().getHeight() - INSET );
+        }} );
+
+        addChild( new ResetAllButtonNode( resettable, null, CONTROL_FONT, Color.black, Color.orange ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, STAGE_SIZE.height - getFullBounds().getHeight() - INSET );
+            setConfirmationEnabled( false );
         }} );
     }
 

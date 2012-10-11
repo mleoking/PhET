@@ -13,7 +13,6 @@ import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
@@ -50,19 +49,6 @@ public class MatchingGameModel {
     //State of the game, including position of all objects.
     public final Property<MatchingGameState> state;
 
-    //Clock that runs the sim.
-    public final Clock clock = new ConstantDtClock( 60.0 ) {{
-        addClockListener( new ClockAdapter() {
-            @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
-                SwingUtilities.invokeLater( new Runnable() {
-                    public void run() {
-                        state.set( state.get().stepInTime( clockEvent.getSimulationTimeChange() ) );
-                    }
-                } );
-            }
-        } );
-    }};
-
     //Public interface for observable properties on the sequence of immutable model states
     //This is meant to be read with IDEA's closure folding feature, so that each declaration takes one line
     public final ObservableProperty<Double> leftScaleValue;
@@ -94,6 +80,7 @@ public class MatchingGameModel {
     private final HashMap<Integer, MatchingGameState> savedGames = new HashMap<Integer, MatchingGameState>();
     private final ArrayList<VoidFunction0> refreshListeners = new ArrayList<VoidFunction0>();
     private final ArrayList<VoidFunction1<Integer>> levelStartedListeners = new ArrayList<VoidFunction1<Integer>>();
+    public final Clock clock;
 
     private ObservableProperty<Double> doubleProperty( final F<MatchingGameState, Double> f ) {
         return new CompositeDoubleProperty( new Function0<Double>() {
@@ -119,7 +106,17 @@ public class MatchingGameModel {
         }, state );
     }
 
-    public MatchingGameModel( AbstractLevelFactory levelFactory ) {
+    public MatchingGameModel( Clock clock, AbstractLevelFactory levelFactory ) {
+        this.clock = clock;
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        state.set( state.get().stepInTime( clockEvent.getSimulationTimeChange() ) );
+                    }
+                } );
+            }
+        } );
         this.levelFactory = levelFactory;
         this.state = new Property<MatchingGameState>( initialState( levelFactory ) ) {{
             addObserver( new ChangeObserver<MatchingGameState>() {

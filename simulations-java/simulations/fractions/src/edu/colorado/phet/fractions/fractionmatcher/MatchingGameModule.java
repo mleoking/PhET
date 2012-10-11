@@ -3,6 +3,7 @@ package edu.colorado.phet.fractions.fractionmatcher;
 
 import javax.swing.JComponent;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
@@ -19,16 +20,32 @@ import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Compo
  * @author Sam Reid
  */
 public class MatchingGameModule extends AbstractFractionsModule {
+    private final boolean dev;
+    private final BooleanProperty audioEnabled;
+    private MatchingGameModel model;
+
     public MatchingGameModule( boolean dev, BooleanProperty audioEnabled ) {
-        this( dev, new MatchingGameModel( new IntroLevelFactory() ), audioEnabled );
+        this( dev, new MatchingGameModel( new ConstantDtClock( 60.0 ), new IntroLevelFactory() ), audioEnabled );
     }
 
     private MatchingGameModule( boolean dev, MatchingGameModel model, BooleanProperty audioEnabled ) {
         super( Components.matchingGameTab, Strings.MATCHING_GAME, model.clock );
-        setSimulationPanel( new MatchingGameCanvas( dev, model, Strings.FRACTION_MATCHER, LevelSelectionNode.properIcons, audioEnabled ) );
+        setSimulationPanel( new MatchingGameCanvas( dev, model, Strings.FRACTION_MATCHER, LevelSelectionNode.properIcons, audioEnabled, this ) );
+        this.dev = dev;
+        this.audioEnabled = audioEnabled;
+        this.model = model;
     }
 
     @Override protected JComponent createClockControlPanel( final IClock clock ) {
         return null;
+    }
+
+    @Override public void reset() {
+        super.reset();
+        this.model.clock.removeAllClockListeners();
+        final MatchingGameModel newModel = new MatchingGameModel( model.clock, new IntroLevelFactory() );
+        this.model = newModel;
+        setSimulationPanel( new MatchingGameCanvas( dev, newModel, Strings.FRACTION_MATCHER, LevelSelectionNode.properIcons, audioEnabled, this ) );
+        audioEnabled.reset();
     }
 }
