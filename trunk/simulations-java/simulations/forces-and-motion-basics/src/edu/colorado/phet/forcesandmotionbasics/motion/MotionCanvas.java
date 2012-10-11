@@ -458,10 +458,14 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         //If the user removes all the objects, the applied forces should be set to zero.
         //Necessary because the user can apply a constant force by using the text box
+        //In the friction tab, also stop the background motion
         stack.addObserver( new VoidFunction1<List<StackableNode>>() {
             public void apply( final List<StackableNode> stackableNodes ) {
                 if ( stackableNodes.length() == 0 ) {
                     model.appliedForce.set( 0.0 );
+                    if ( friction ) {
+                        model.velocity.set( 0.0 );
+                    }
                 }
             }
         } );
