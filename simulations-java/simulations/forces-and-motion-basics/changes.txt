@@ -1,3 +1,4 @@
+Tab 2-3: Dropping an object above ground moves it to the center
 # 0.00.45 (69094) Oct 10, 2012
 Tab 2: Background motion stops when all items removed from skateboard
 # 0.00.44 (69092) Oct 10, 2012
