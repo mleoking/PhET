@@ -87,4 +87,12 @@ public class NumberLevel extends Level {
             }
         } );
     }
+
+    public List<NumberTarget> getTargetsThatHaveShapesWithDifferentNumerators() {
+        return targets.filter( new F<NumberTarget, Boolean>() {
+            @Override public Boolean f( final NumberTarget t ) {
+                return t.hasMixedDivisions();
+            }
+        } );
+    }
 }

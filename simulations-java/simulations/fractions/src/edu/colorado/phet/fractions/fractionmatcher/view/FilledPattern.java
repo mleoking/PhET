@@ -52,4 +52,13 @@ public @Data class FilledPattern {
             }
         } ), pattern.outline, pattern.type );
     }
+
+    public Boolean isCompletelyFilled() {
+        final List<P2<Shape, Boolean>> filledShapes = shapes.filter( new F<P2<Shape, Boolean>, Boolean>() {
+            @Override public Boolean f( final P2<Shape, Boolean> shapeBooleanP2 ) {
+                return shapeBooleanP2._2();
+            }
+        } );
+        return filledShapes.length() == shapes.length();
+    }
 }
