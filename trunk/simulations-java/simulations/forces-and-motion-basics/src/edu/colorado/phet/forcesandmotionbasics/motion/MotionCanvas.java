@@ -78,7 +78,8 @@ import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsAppli
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images.ROCK_BROWN;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images.ROCK_GRAY;
-import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.*;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.showForcesCheckBoxIcon;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.speedCheckBoxIcon;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._isOnSkateboard;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._mass;
 import static fj.data.Option.some;
@@ -289,18 +290,20 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             addInputEventListener( new CursorHandler() );
         }} );
 
-        final PNode showSumOfForcesPanel = new HBox( 15, new PSwing( showSumOfForcesCheckBox ), new ForceArrowNode( false, ZERO, 20, "", ForcesNode.SUM_OF_FORCES_COLOR, TextLocation.SIDE, false ) {{
-            scale( 0.4 );
-            setPickable( true );
-            setChildrenPickable( true );
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mousePressed( final PInputEvent event ) {
-                    sendUserMessage( showSumOfForcesCheckBoxIcon, button, pressed, parameterSet( isSelected, !showSumOfForces.get() ) );
-                    showSumOfForces.toggle();
-                }
-            } );
-            addInputEventListener( new CursorHandler() );
-        }} );
+        final PNode showSumOfForcesPanel = new HBox( 15, new PSwing( showSumOfForcesCheckBox )
+//                , new ForceArrowNode( false, ZERO, 20, "", ForcesNode.SUM_OF_FORCES_COLOR, TextLocation.SIDE, false ) {{
+//            scale( 0.4 );
+//            setPickable( true );
+//            setChildrenPickable( true );
+//            addInputEventListener( new PBasicInputEventHandler() {
+//                @Override public void mousePressed( final PInputEvent event ) {
+//                    sendUserMessage( showSumOfForcesCheckBoxIcon, button, pressed, parameterSet( isSelected, !showSumOfForces.get() ) );
+//                    showSumOfForces.toggle();
+//                }
+//            } );
+//            addInputEventListener( new CursorHandler() );
+//        }}
+        );
         final VBox vbox = friction ?
                           new VBox( 0, VBox.LEFT_ALIGNED, showForcesPanel, indent( showValuesCheckBox ), indent( showSumOfForcesPanel ),
                                     new PSwing( massCheckBox ),

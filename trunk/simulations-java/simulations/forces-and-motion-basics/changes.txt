@@ -1,3 +1,4 @@
+Tab 2-3: Removed icon for "sum of forces" checkbox
 Tab 2-3: Added arrow icons next to force and sum of forces checkboxes
 Tab 2-3: Removed the rewind button
 Tab 3: Stop the background motion if all items removed from the stack
