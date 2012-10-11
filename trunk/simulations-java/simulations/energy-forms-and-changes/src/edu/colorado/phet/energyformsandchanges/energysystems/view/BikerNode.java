@@ -12,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.Biker;
 import edu.umd.cs.piccolo.PNode;
 
@@ -33,6 +34,7 @@ public class BikerNode extends PositionableFadableModelElementNode {
         addChild( new ModelElementImageNode( Biker.FRAME_IMAGE, mvt ) );
         PNode frontLegRootNode = new PNode();
         addChild( frontLegRootNode );
+        addChild( new EnergyChunkLayer( biker.energyChunkList, biker.getObservablePosition(), mvt ) );
 
         // Add slider that will control pedaling rate.
         addChild( new CrankRateSlider( biker.targetCrankAngularVelocity ) {{
