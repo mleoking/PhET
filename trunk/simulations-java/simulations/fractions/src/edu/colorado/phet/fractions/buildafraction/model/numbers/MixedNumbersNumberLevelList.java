@@ -96,7 +96,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         } );
         add( new Function0<NumberLevel>() {
             public NumberLevel apply() {
-                return withDifferentRepresentations( new F<Unit, NumberLevel>() {
+                return level9PostProcessor( 1, new F<Unit, NumberLevel>() {
                     @Override public NumberLevel f( final Unit unit ) {
                         return level9();
                     }
@@ -105,7 +105,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         } );
         add( new Function0<NumberLevel>() {
             public NumberLevel apply() {
-                return withDifferentRepresentations( new F<Unit, NumberLevel>() {
+                return level9PostProcessor( 2, new F<Unit, NumberLevel>() {
                     @Override public NumberLevel f( final Unit unit ) {
                         return level10();
                     }
@@ -146,6 +146,26 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         }
 
         //If it doesn't find a satisfactory level after trying several times, just use the next solution whether or not it satisfies the constraints.
+        return f.f( unit() );
+    }
+
+    private NumberLevel level9PostProcessor( int minimumRequired, final F<Unit, NumberLevel> f ) {
+        int count = 0;
+        while ( count < 10 ) {
+            NumberLevel level = f.f( unit() );
+            if ( level.hasDifferentShapeTypes() && level.getTargetsThatHaveShapesWithDifferentNumerators().length() >= minimumRequired ) {
+                List<NumberTarget> differentOnes = level.getTargetsThatHaveShapesWithDifferentNumerators();
+                List<NumberTarget> filtered = differentOnes.filter( new F<NumberTarget, Boolean>() {
+                    @Override public Boolean f( final NumberTarget numberTarget ) {
+                        return numberTarget.hasTwoOrMoreShapesNotCompletelyFilled();
+                    }
+                } );
+                if ( filtered.length() >= minimumRequired ) { return level; }
+            }
+            count++;
+            System.out.println( "count = " + count );
+        }
+
         return f.f( unit() );
     }
 

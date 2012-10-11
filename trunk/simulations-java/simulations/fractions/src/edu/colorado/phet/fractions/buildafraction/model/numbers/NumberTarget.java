@@ -172,4 +172,20 @@ public @Data class NumberTarget {
         }
         return iterableList( filledPatterns );
     }
+
+    public Boolean hasMixedDivisions() {
+        return filledPattern.map( new F<FilledPattern, Integer>() {
+            @Override public Integer f( final FilledPattern filledPattern ) {
+                return filledPattern.shapes.length();
+            }
+        } ).group( Equal.intEqual ).length() != 1;
+    }
+
+    public boolean hasTwoOrMoreShapesNotCompletelyFilled() {
+        return filledPattern.filter( new F<FilledPattern, Boolean>() {
+            @Override public Boolean f( final FilledPattern filledPattern ) {
+                return !filledPattern.isCompletelyFilled();
+            }
+        } ).length() >= 2;
+    }
 }
