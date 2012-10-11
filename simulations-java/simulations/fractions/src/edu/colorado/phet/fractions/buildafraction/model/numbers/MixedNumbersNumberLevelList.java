@@ -142,7 +142,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
 //                } );
             }
             count++;
-            System.out.println( "count = " + count );
+//            System.out.println( "count = " + count );
         }
 
         //If it doesn't find a satisfactory level after trying several times, just use the next solution whether or not it satisfies the constraints.
