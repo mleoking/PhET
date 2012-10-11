@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.numbers;
 
-import fj.Effect;
 import fj.F;
 import fj.P2;
 import fj.Unit;
@@ -18,7 +17,6 @@ import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
 import edu.colorado.phet.fractions.buildafraction.model.NumberLevelFactory;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
-import edu.colorado.phet.fractions.fractionmatcher.view.PatternType;
 
 import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction.mixedFraction;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
@@ -126,22 +124,22 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         while ( count < 10 ) {
             NumberLevel level = f.f( unit() );
             if ( level.hasDifferentShapeTypes() ) {
-                System.out.println( "Has different types, using it" );
-                System.out.println( "level.getShapeTypes():" );
-                level.getPatternTypes().foreach( new Effect<PatternType>() {
-                    @Override public void e( final PatternType patternType ) {
-                        System.out.println( " > " + patternType );
-                    }
-                } );
+//                System.out.println( "Has different types, using it" );
+//                System.out.println( "level.getShapeTypes():" );
+//                level.getPatternTypes().foreach( new Effect<PatternType>() {
+//                    @Override public void e( final PatternType patternType ) {
+//                        System.out.println( " > " + patternType );
+//                    }
+//                } );
                 return level;
             }
             else {
-                System.out.println( "Same types: " );
-                level.getPatternTypes().foreach( new Effect<PatternType>() {
-                    @Override public void e( final PatternType patternType ) {
-                        System.out.println( " > " + patternType );
-                    }
-                } );
+//                System.out.println( "Same types: " );
+//                level.getPatternTypes().foreach( new Effect<PatternType>() {
+//                    @Override public void e( final PatternType patternType ) {
+//                        System.out.println( " > " + patternType );
+//                    }
+//                } );
             }
             count++;
             System.out.println( "count = " + count );
