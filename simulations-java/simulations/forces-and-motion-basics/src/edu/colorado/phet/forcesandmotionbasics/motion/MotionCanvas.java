@@ -244,7 +244,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         };
         addChild( terrainLayer );
 
-        final JCheckBox showForcesCheckBox = new PropertyCheckBox( UserComponents.forcesCheckBox, Strings.FORCES, showForces ) {{
+        final JCheckBox showForcesCheckBox = new PropertyCheckBox( UserComponents.forcesCheckBox, friction ? Strings.FORCES : Strings.FORCE, showForces ) {{
             setFont( DEFAULT_FONT );
         }};
         final JCheckBox showValuesCheckBox = new PropertyCheckBox( UserComponents.valuesCheckBox, Strings.VALUES, showValues ) {{

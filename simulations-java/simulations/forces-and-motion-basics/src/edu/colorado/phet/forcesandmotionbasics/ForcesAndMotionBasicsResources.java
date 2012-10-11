@@ -18,6 +18,7 @@ public class ForcesAndMotionBasicsResources {
         public static final String APPLIED_FORCE = RESOURCES.getLocalizedString( "appliedForce" );
         public static final String BLUE_WINS = RESOURCES.getLocalizedString( "blueWins" );
         public static final String FORCE_READOUT__PATTERN = RESOURCES.getLocalizedString( "forceReadout.pattern" );
+        public static final String FORCE = RESOURCES.getLocalizedString( "force" );
         public static final String FORCES = RESOURCES.getLocalizedString( "forces" );
         public static final String FRICTION = RESOURCES.getLocalizedString( "friction" );
         public static final String FRICTION_FORCE = RESOURCES.getLocalizedString( "frictionForce" );
