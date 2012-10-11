@@ -34,7 +34,6 @@ public class BikerNode extends PositionableFadableModelElementNode {
         addChild( new ModelElementImageNode( Biker.FRAME_IMAGE, mvt ) );
         PNode frontLegRootNode = new PNode();
         addChild( frontLegRootNode );
-        addChild( new EnergyChunkLayer( biker.energyChunkList, biker.getObservablePosition(), mvt ) );
 
         // Add slider that will control pedaling rate.
         addChild( new CrankRateSlider( biker.targetCrankAngularVelocity ) {{
@@ -71,6 +70,9 @@ public class BikerNode extends PositionableFadableModelElementNode {
 
         // Add the upper body.
         addChild( new ModelElementImageNode( Biker.RIDER_UPPER_BODY_IMAGE, mvt ) );
+
+        // Add the energy chunk layer.
+        addChild( new EnergyChunkLayer( biker.energyChunkList, biker.getObservablePosition(), mvt ) );
 
         // Add and observer that will turn the back wheel.
         final Point2D wheelRotationPoint = new Point2D.Double( spokesImage.getFullBoundsReference().getCenterX(),
