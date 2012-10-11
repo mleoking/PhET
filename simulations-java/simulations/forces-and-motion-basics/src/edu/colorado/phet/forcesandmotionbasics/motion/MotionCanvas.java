@@ -37,6 +37,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -62,6 +63,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendModelMessage;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
@@ -76,7 +78,7 @@ import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsAppli
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images.ROCK_BROWN;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images.ROCK_GRAY;
-import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.speedCheckBoxIcon;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.*;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._isOnSkateboard;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._mass;
 import static fj.data.Option.some;
@@ -92,7 +94,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     private final BooleanProperty showSpeedometer = new BooleanProperty( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
-    private final Property<Boolean> showForces = new Property<Boolean>( false );
+    private final BooleanProperty showForces = new BooleanProperty( false );
     private final PNode skateboard;
     private final List<StackableNode> stackableNodes;
     private final Property<List<StackableNode>> stack = new Property<List<StackableNode>>( List.<StackableNode>nil() );
@@ -113,7 +115,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final PusherNode pusherNode;
 
     //Features only for Tab 3: Friction:
-    private final Property<Boolean> showSumOfForces = new Property<Boolean>( false );
+    private final BooleanProperty showSumOfForces = new BooleanProperty( false );
     private final BooleanProperty dragging = new BooleanProperty( false );
 
     public MotionCanvas( final Resettable moduleContext, final IClock clock,
@@ -266,6 +268,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         final PNode speedControlPanel = new HBox( 15, new PSwing( speedCheckBox ), new SpeedometerNode( Strings.SPEED, 125, model.speed, STROBE_SPEED ) {{
             scale( 0.25 );
+            addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( final PInputEvent event ) {
                     sendUserMessage( speedCheckBoxIcon, button, pressed, parameterSet( isSelected, !showSpeedometer.get() ) );
@@ -273,12 +276,37 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 }
             } );
         }} );
+        final PNode showForcesPanel = new HBox( 15, new PSwing( showForcesCheckBox ), new ForceArrowNode( false, ZERO, 20, "", ForcesNode.APPLIED_FORCE_COLOR, TextLocation.SIDE, false ) {{
+            scale( 0.4 );
+            setPickable( true );
+            setChildrenPickable( true );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( final PInputEvent event ) {
+                    sendUserMessage( showForcesCheckBoxIcon, button, pressed, parameterSet( isSelected, !showForces.get() ) );
+                    showForces.toggle();
+                }
+            } );
+            addInputEventListener( new CursorHandler() );
+        }} );
+
+        final PNode showSumOfForcesPanel = new HBox( 15, new PSwing( showSumOfForcesCheckBox ), new ForceArrowNode( false, ZERO, 20, "", ForcesNode.SUM_OF_FORCES_COLOR, TextLocation.SIDE, false ) {{
+            scale( 0.4 );
+            setPickable( true );
+            setChildrenPickable( true );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( final PInputEvent event ) {
+                    sendUserMessage( showSumOfForcesCheckBoxIcon, button, pressed, parameterSet( isSelected, !showSumOfForces.get() ) );
+                    showSumOfForces.toggle();
+                }
+            } );
+            addInputEventListener( new CursorHandler() );
+        }} );
         final VBox vbox = friction ?
-                          new VBox( 0, VBox.LEFT_ALIGNED, new PSwing( showForcesCheckBox ), indent( showValuesCheckBox ), indent( showSumOfForcesCheckBox ),
+                          new VBox( 0, VBox.LEFT_ALIGNED, showForcesPanel, indent( showValuesCheckBox ), indent( showSumOfForcesPanel ),
                                     new PSwing( massCheckBox ),
                                     speedControlPanel,
                                     new FrictionSliderControl( model.frictionValue ) ) :
-                          new VBox( 0, VBox.LEFT_ALIGNED, new PSwing( showForcesCheckBox ), indent( showValuesCheckBox ),
+                          new VBox( 0, VBox.LEFT_ALIGNED, showForcesPanel, indent( showValuesCheckBox ),
                                     new PSwing( massCheckBox ),
                                     speedControlPanel );
 
@@ -496,7 +524,11 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     }
 
     private PNode indent( final JCheckBox component ) {
-        return new HBox( 15, new PhetPPath( new Rectangle( 0, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ), new PSwing( component ) );
+        return indent( new PSwing( component ) );
+    }
+
+    private PNode indent( final PNode component ) {
+        return new HBox( 15, new PhetPPath( new Rectangle( 0, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ), component );
     }
 
     private void step( double dt ) {
