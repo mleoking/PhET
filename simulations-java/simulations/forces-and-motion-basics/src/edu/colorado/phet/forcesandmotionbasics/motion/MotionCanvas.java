@@ -499,9 +499,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             public void apply( final List<StackableNode> stackableNodes ) {
                 if ( stackableNodes.length() == 0 ) {
                     model.appliedForce.set( 0.0 );
-                    if ( friction ) {
-                        model.velocity.set( 0.0 );
-                    }
+                    model.velocity.set( 0.0 );
                 }
             }
         } );
