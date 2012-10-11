@@ -149,6 +149,8 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         return f.f( unit() );
     }
 
+    /*on mixed numbers level 10 numbers, add post processing rule.  Should be 2 challenges with mixed divisions, they should have at least 2 shapes not completely filled.
+    for level 9, at least 1 with mixed divisions but with 2 shapes not completely filled.*/
     private NumberLevel level9PostProcessor( int minimumRequired, final F<Unit, NumberLevel> f ) {
         int count = 0;
         while ( count < 10 ) {
