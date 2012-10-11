@@ -46,7 +46,6 @@ import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PlayPauseButton;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.StepButton;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Strings;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.ModelComponents;
@@ -369,20 +368,21 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 //            } );
 //        }},
 
-                                      playPauseButton, new StepButton( 60 ) {{
-            addListener( new Listener() {
-                public void buttonPressed() {
-                    step( typicalDT * 5 );
-                }
-            } );
-
-            //Only enable the step button when the sim is paused
-            playing.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( final Boolean playing ) {
-                    setEnabled( !playing );
-                }
-            } );
-        }}
+                                      playPauseButton
+//                , new StepButton( 60 ) {{
+//            addListener( new Listener() {
+//                public void buttonPressed() {
+//                    step( typicalDT * 5 );
+//                }
+//            } );
+//
+//            //Only enable the step button when the sim is paused
+//            playing.addObserver( new VoidFunction1<Boolean>() {
+//                public void apply( final Boolean playing ) {
+//                    setEnabled( !playing );
+//                }
+//            } );
+//        }}
         );
         timeControls.setOffset( STAGE_SIZE.width / 2 - playPauseButton.getFullBounds().getWidth() / 2, STAGE_SIZE.height - timeControls.getFullHeight() );
         addChild( timeControls );

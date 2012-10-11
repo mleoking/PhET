@@ -1,3 +1,4 @@
+Tab 2-3: Get rid of "step" button
 Tab 2-3: Start with "forces" on by default
 Tab 2: Renamed "forces" to "force"
 Tab 2-3: Only show the pusher if the user has changed the slider control once
