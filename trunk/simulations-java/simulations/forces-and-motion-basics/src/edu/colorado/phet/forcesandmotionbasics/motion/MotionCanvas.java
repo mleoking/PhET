@@ -95,7 +95,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     private final BooleanProperty showSpeedometer = new BooleanProperty( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
-    private final BooleanProperty showForces = new BooleanProperty( false );
+    private final BooleanProperty showForces = new BooleanProperty( true );
     private final PNode skateboard;
     private final List<StackableNode> stackableNodes;
     private final Property<List<StackableNode>> stack = new Property<List<StackableNode>>( List.<StackableNode>nil() );
