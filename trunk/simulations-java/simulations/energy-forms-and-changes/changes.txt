@@ -1,3 +1,5 @@
+# 0.00.21 (69108) Oct 11, 2012
+10/11/12 Deploy to dev for review and feedback.
 2nd tab: Added first cut of energy chunks to the biker.
 2nd tab: Made the burner under the teapot emit thermal energy chunks into the pot.
 2nd tab: Added initial version of energy chunk emission to the teapot.
