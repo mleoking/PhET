@@ -27,6 +27,9 @@ public class Model {
     var timeStep: Number;	//time step in seconds
     var msTimer: Timer;		//millisecond timer
     var colliding: Boolean;	//true if wall-ball or ball-ball collision has occured in current timestep
+	var wallHit: Boolean; 	//true if ball-wall collision in current timestep
+	var wallOffsetX: Number;	//displacement of ball in x-direction to correct for penetration into wall
+	var wallOffsetY: Number;	//displacement of ball in y-direction to correct for penetration into wall
     public var playing: Boolean;	//true if motion is playing, false if paused
     public var singleStepping: Boolean; //true if singleStepping forward or backward
     public var soundOn: Boolean;	//true if sound enabled
@@ -297,6 +300,7 @@ public class Model {
             this.atInitialConfig = true;
         }
         this.ball_arr[indx].position.setX( xPos );
+		trace("Model.setX called. index = " + indx + "  xPos = " + xPos); 
         if ( this.atInitialConfig ) {
             this.initPos[indx].setX( xPos );
             this.setTimeToZero();
@@ -324,8 +328,9 @@ public class Model {
     }
 
     public function setXY( indx: int, xPos: Number, yPos: Number ): void {
+		trace("Model.setXY called. index = " + indx + "  xPos = " + xPos + "  yPos = " + yPos); 
         this.setX( indx, xPos );
-        this.setY( indx, yPos )
+        this.setY( indx, yPos );
     }
 
     public function setVX( indx: int, xVel: Number ): void {
@@ -383,6 +388,7 @@ public class Model {
     }
 
     public function singleStep(): void {
+		trace("singleStep called.")
         this.nbrCollisionsInThisTimeStep = 0;
         if ( this.atInitialConfig ) {this.atInitialConfig = false;}
         var dt: Number;
@@ -455,22 +461,27 @@ public class Model {
         this.reversing = false;
     }
 
-    //if ball beyond reflecting border, then translate to back to edge and reflect
+    //If ball beyond reflecting border, then translate to back to edge and reflect
 	//Updated 10/04/2012 to correctly process collisions with corners
     public function checkAndProcessWallCollision( index: int, x: Number, y: Number, vX: Number, vY: Number ): void {
-        var wallHit: Boolean = false;
+        trace("Model.checkAndProcessWallCollision called. Ball index = " + index );
+		this.wallOffsetX = 0;
+		this.wallOffsetY = 0;
+		wallHit = false;
 		    if ( this.borderOn ) {
             var radius: Number = this.ball_arr[index].getRadius();
             var onePlusDelta: Number = 1.000001;
             if ( (x + radius) > this.borderWidth ) {
                 this.setX( index, this.borderWidth - onePlusDelta * radius );
                 this.setVX( index, -e * vX );   //ball_arr[i].velocity.setX(-e*vX);
+				this.wallOffsetX = ( this.borderWidth - onePlusDelta * radius ) - x;   //x_final - x_initial
                 wallHit = true;
             }//end if
             else {
                 if ( (x - radius) < 0 ) {
                     this.setX( index, onePlusDelta * radius );
                     this.setVX( index, -e * vX ); //ball_arr[i].velocity.setX(-e*vX);
+					this.wallOffsetX = ( onePlusDelta * radius ) - x;   //x_final - x_initial
                     wallHit = true;
                 }// end if
 			}//end else
@@ -478,12 +489,14 @@ public class Model {
             if ( (y + radius) > this.borderHeight / 2 ) {
                 this.setY( index, this.borderHeight / 2 - onePlusDelta * radius );
                 this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
+				this.wallOffsetY = ( this.borderHeight / 2 - onePlusDelta * radius ) - y ;  //y_final - y_initial
                 wallHit = true;
              } //end if
              else {
                   if ( (y - radius) < -this.borderHeight / 2 ) {
                       this.setY( index, -this.borderHeight / 2 + onePlusDelta * radius );
                       this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
+					  this.wallOffsetY = ( -this.borderHeight / 2 + onePlusDelta * radius ) - y;  //y_final - y_initial
                       wallHit = true;
                   }//end if
             }//end else
@@ -493,7 +506,22 @@ public class Model {
                 this.nbrCollisionsInThisTimeStep += 1;
                 this.playClickSound();
                 this.colliding = true;
-            }//end if
+				//check if overlapping any other ball and correct by translating other ball
+				var xi: Number = ball_arr[index].position.getX();
+				var yi: Number = ball_arr[index].position.getY();
+				for (var j: int = 0; j < this.nbrBalls; j++){
+					if ( j != index ){
+						var xj: Number = ball_arr[j].position.getX();
+                		var yj: Number = ball_arr[j].position.getY();
+						var dist: Number = Math.sqrt( (xj - xi) * (xj - xi) + (yj - yi) * (yj - yi) );
+						var distMin: Number = ball_arr[index].getRadius() + ball_arr[j].getRadius();
+						if( dist < distMin ){
+							this.setX( j, xj + wallOffsetX );
+							this.setY( j, yj + wallOffsetY );
+						}//end if (dist < ..
+					}//end if(j != i)
+				}//end if (var j: int ...
+            }//end if (wallHit)
         }//end if(borderOn)
     }//end of checkWallAndProcessCollision()
 
@@ -511,7 +539,8 @@ public class Model {
                 if ( dist < distMin ) {
                     this.nbrCollisionsInThisTimeStep += 1;
                     //trace("elasticity before collision: "+this.e);
-                    //trace("collision detected. i = "+i+"   j = "+j+"   at time: "+this.time+"   dist: "+dist+"   distMin: "+distMin);
+                    trace("Model.detectCollision called. i = "+i+"   j = "+j+"   x" + i + " = " +xi+ "   dist: "+dist+"   distMin: "+distMin);
+					trace("Model.detectCollision called.   x" + i + " = " +xi+ "  y" + i + " = " + yi + "   x" + j + " = " +xj+ "  y" + j + " = " + yj );
                     this.collideBalls( i, j );
                     this.colliding = true;
                     //this.colliders[i][j] = 1;  //ball have collided
@@ -606,6 +635,8 @@ public class Model {
     }//end checkWallCollision
 
     public function collideBalls( i: int, j: int ): void {
+		var x0temp: Number = ball_arr[0].position.getX();
+		trace( "Start of collideBalls, x0 = " + x0temp ) ;
         this.playClickSound();
         //        var balliNbr: String = String( i + 1 );
         //        var balljNbr: String = String( j + 1 );
@@ -644,7 +675,7 @@ public class Model {
         //normal components of velocities after collision (P for prime = after)
         //trace("Model.e: "+this.e);
         var v1nP: Number = ((m1 - m2 * this.e) * v1n + m2 * (1 + this.e) * v2n) / (m1 + m2);
-        var v2nP: Number = (this.e + 0.00001) * (v1n - v2n) + v1nP;
+        var v2nP: Number = (this.e + 0.000001) * (v1n - v2n) + v1nP;  //changed from 0.0000001
         var v1xP: Number = (1 / d) * (v1nP * delX - v1t * delY);
         var v1yP: Number = (1 / d) * (v1nP * delY + v1t * delX);
         var v2xP: Number = (1 / d) * (v2nP * delX - v2t * delY);
@@ -663,6 +694,8 @@ public class Model {
 
         this.setXY( i, newXi, newYi );
         this.setXY( j, newXj, newYj );
+		x0temp = ball_arr[0].position.getX();
+		trace("End of collideBalls x0 = " + x0temp ) ;
 
         //}else{ //end if(colliders[i][j] == 0)
         //if balls already collided, but still not separated, or just starting then pull apart keeping C.M. fixed

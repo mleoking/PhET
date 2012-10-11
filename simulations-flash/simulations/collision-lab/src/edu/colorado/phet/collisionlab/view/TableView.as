@@ -1,4 +1,4 @@
-//View of "Pool Table" containing balls
+﻿//View of "Pool Table" containing balls
 package edu.colorado.phet.collisionlab.view {
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.control.PlayPauseButtons;
