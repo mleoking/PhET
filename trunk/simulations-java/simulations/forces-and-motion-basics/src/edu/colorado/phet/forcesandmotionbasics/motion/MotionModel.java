@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import static edu.colorado.phet.forcesandmotionbasics.motion.MotionCanvas.STROBE_SPEED;
 import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
@@ -42,6 +43,7 @@ class MotionModel {
     //Only used in Tab 3 "Friction"
     public final SettableProperty<Double> frictionValue = new Property<Double>( FrictionSliderControl.MAX / 2 );//The coefficient of friction (mu_k = mu_s)
     private Pair<Long, SpeedValue> lastOutOfRange = null;
+    public final BooleanProperty movedSliderOnce = new BooleanProperty( false );
 
     public MotionModel( boolean friction, ObservableProperty<Double> massOfObjectsOnSkateboard ) {
         this.friction = friction;
@@ -51,6 +53,14 @@ class MotionModel {
                 updateForces();
             }
         }.observe( frictionValue, massOfObjectsOnSkateboard, appliedForce );
+
+        appliedForce.addObserver( new VoidFunction1<Double>() {
+            public void apply( final Double value ) {
+                if ( value != 0.0 ) {
+                    movedSliderOnce.set( true );
+                }
+            }
+        } );
     }
 
     public static enum Sign {
@@ -127,14 +137,6 @@ class MotionModel {
             frictionForce = MathUtil.getSign( velocity.get() ) * frictionValue.get() * massOfObjectsOnSkateboard.get();
         }
         return -frictionForce;
-    }
-
-    public void rewind() {
-        velocity.set( 0.0 );
-        position.set( 0.0 );
-        speed.set( new Some<Double>( 0.0 ) );
-        appliedForce.set( 0.0 );
-        frictionForce.set( 0.0 );
     }
 
     //Called whether paused or not.  When a second passes, the slider should gray in, if the speed value is no longer exceeded.

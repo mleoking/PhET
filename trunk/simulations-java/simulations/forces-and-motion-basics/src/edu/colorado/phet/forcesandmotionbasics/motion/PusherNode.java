@@ -40,7 +40,9 @@ class PusherNode extends PNode {
     private final BufferedImage pusherFallDownRight = flipX( Images.PUSHER_FALL_DOWN );
     private final BufferedImage pusherFallDownLeft = Images.PUSHER_FALL_DOWN;
 
-    public PusherNode( final BooleanProperty fallen, final PNode skateboard, final double grassY, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final ObservableProperty<SpeedValue> speedValue, final Property<Option<Double>> speed, final BooleanProperty playing ) {
+    public PusherNode( final BooleanProperty fallen, final PNode skateboard, final double grassY, final DoubleProperty appliedForce,
+                       final Property<List<StackableNode>> stack, final ObservableProperty<SpeedValue> speedValue, final Property<Option<Double>> speed,
+                       final BooleanProperty playing, final BooleanProperty movedSliderOnce ) {
         this.appliedForce = appliedForce;
         pusher = new PImage( PUSHER_STRAIGHT_ON );
         pusher.scale( 0.8 * 0.9 );
@@ -48,6 +50,9 @@ class PusherNode extends PNode {
 
         final SimpleObserver update = new SimpleObserver() {
             public void update() {
+
+                //Don't show the pusher unless the user has moved the slider once
+                pusher.setVisible( movedSliderOnce.get() );
 
                 double appliedForce = PusherNode.this.appliedForce.get();
                 if ( appliedForce != 0.0 ) {
