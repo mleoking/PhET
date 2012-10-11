@@ -73,7 +73,10 @@ public class HSliderNode extends SliderNode {
     public PhetPPath getTrackNode() { return node.getTrackNode();}
 
     //Adds a label to the slider node and return the created tick
-    public PhetPPath addLabel( double value, PNode labelNode ) {
+    public PhetPPath addLabel( double value, PNode labelNode ) {return addLabel( value, labelNode, 15, 8 );}
+
+    //Adds a label to the slider node and return the created tick
+    public PhetPPath addLabel( double value, PNode labelNode, double tickLength, double tickOffset ) {
 
         //Wrap in a zero offset node for rotating the label
         //Wrap in another layer for setting the offset independently of the rotation
@@ -86,8 +89,6 @@ public class HSliderNode extends SliderNode {
 
         //Add the tick mark, At discussion on 10/6/2011 we decided every label should have a tick mark that extends to the track but is also visible when the knob is over it
         float tickStrokeWidth = 1.5f;
-        double tickLength = 15;
-        double tickOffset = 8;
         final PhetPPath tickMark = new PhetPPath( new Line2D.Double( label.getCenterX() - tickOffset, label.getCenterY(),
                                                                      label.getCenterX() - tickOffset - tickLength, label.getCenterY() ),
                                                   new BasicStroke( tickStrokeWidth ), Color.darkGray );

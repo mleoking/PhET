@@ -83,11 +83,19 @@ class AppliedForceSliderControl extends PNode {
         };
 
         final HSliderNode sliderNode = new HSliderNode( UserComponents.appliedForceSliderKnob, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForceSliderModel, enabled ) {{
-            PhetPPath tick1 = addLabel( -100, new EnablePhetPText( "-100", DEFAULT_FONT, enabled ) );
-            PhetPPath tick2 = addLabel( -50, dummyLabel() );
-            addLabel( 0, new EnablePhetPText( "0", DEFAULT_FONT, enabled ) );
-            PhetPPath tick4 = addLabel( 50, dummyLabel() );
-            PhetPPath tick5 = addLabel( 100, new EnablePhetPText( "100", DEFAULT_FONT, enabled ) );
+            final int longTick = 15;
+            final int shortTick = 10;
+            final int longTickOffset = 8;
+            final int shortTickOffset = 15;
+            PhetPPath tick1 = addLabel( -100, new EnablePhetPText( "-100", DEFAULT_FONT, enabled ), longTick, longTickOffset );
+            PhetPPath tick1_5 = addLabel( -75, dummyLabel(), shortTick, shortTickOffset );
+            PhetPPath tick2 = addLabel( -50, dummyLabel(), longTick, longTickOffset );
+            PhetPPath tick2_5 = addLabel( -25, dummyLabel(), shortTick, shortTickOffset );
+            addLabel( 0, new EnablePhetPText( "0", DEFAULT_FONT, enabled ), longTick, longTickOffset );
+            PhetPPath tick3_5 = addLabel( 25, dummyLabel(), shortTick, shortTickOffset );
+            PhetPPath tick4 = addLabel( 50, dummyLabel(), longTick, longTickOffset );
+            PhetPPath tick4_5 = addLabel( 75, dummyLabel(), shortTick, shortTickOffset );
+            PhetPPath tick5 = addLabel( 100, new EnablePhetPText( "100", DEFAULT_FONT, enabled ), longTick, longTickOffset );
 
             //Gray out the ticks if the speed is exceeded.
             speedValue.addObserver( grayIf( tick1, LEFT_SPEED_EXCEEDED ) );
