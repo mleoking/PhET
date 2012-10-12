@@ -1,3 +1,4 @@
+Tab 2-3: Always show pusher
 # 0.00.47 (69125) Oct 11, 2012
 Tab 2-3: Fixed: Bug with force slider. Place object > pause sim > move force slider > play sim > remove object. The force slider will stay in place. It should go to zero.
 Tab 3: Moved "sum of forces" above "values"
