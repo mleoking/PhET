@@ -47,6 +47,16 @@ public class NumberLevel extends Level {
                         } ) ) ), targets );
     }
 
+    public static List<Integer> straightforwardNumbers( List<MixedFraction> targets ) {
+        return targets.map( MixedFraction._numerator ).append(
+                targets.map( MixedFraction._denominator ).append(
+                        targets.map( MixedFraction._whole ).filter( new F<Integer, Boolean>() {
+                            @Override public Boolean f( final Integer integer ) {
+                                return integer > 0;
+                            }
+                        } ) ) );
+    }
+
     public NumberLevel( final List<MixedFraction> selected, final RandomColors3 colors, final F<MixedFraction, FilledPattern> shape ) {
         this( list( target( selected.index( 0 ), colors.next(), shape ),
                     target( selected.index( 1 ), colors.next(), shape ),

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
 
 import static edu.colorado.phet.fractions.common.util.DefaultP2.p2;
@@ -60,5 +61,13 @@ public @Data class FilledPattern {
             }
         } );
         return filledShapes.length() == shapes.length();
+    }
+
+    public Fraction toFraction() {
+        return new Fraction( shapes.filter( new F<P2<Shape, Boolean>, Boolean>() {
+            @Override public Boolean f( final P2<Shape, Boolean> shapeBooleanP2 ) {
+                return shapeBooleanP2._2();
+            }
+        } ).length(), shapes.length() );
     }
 }
