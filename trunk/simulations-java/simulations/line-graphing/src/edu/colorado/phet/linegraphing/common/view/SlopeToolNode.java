@@ -39,7 +39,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class SlopeToolNode extends PComposite {
 
-    // delimiters
+    // lines
+    private static final Color LINE_COLOR = LGColors.SLOPE;
 
     // values
     private static final int VALUE_X_SPACING = 4;
@@ -180,14 +181,13 @@ public class SlopeToolNode extends PComposite {
     // Can't use common-code ArrowNode because we want a different tip style.
     private static class ArrowNode extends PComposite {
 
-        private static final Stroke STROKE = new BasicStroke( 0.5f );
-        private static final Color COLOR = Color.BLACK;
+        private static final Stroke STROKE = new BasicStroke( 1f );
         private static final PDimension TIP_SIZE = new PDimension( 6, 8 ); // use even-number dimensions, or tips will look asymmetrical due to rounding
 
         public ArrowNode( double tailX, double tailY, double tipX, double tipY ) {
 
             // nodes
-            PNode lineNode = new PhetPPath( new Line2D.Double( tailX, tailY, tipX, tipY ), STROKE, COLOR );
+            PNode lineNode = new PhetPPath( new Line2D.Double( tailX, tailY, tipX, tipY ), STROKE, LINE_COLOR );
             DoubleGeneralPath tipPath = new DoubleGeneralPath();
             if ( tailX == tipX ) {
                 // vertical arrow
@@ -222,7 +222,7 @@ public class SlopeToolNode extends PComposite {
             else {
                 throw new UnsupportedOperationException( "this implementation supports only horizontal and vertical arrows" );
             }
-            PNode tipNode = new PhetPPath( tipPath.getGeneralPath(), STROKE, COLOR );
+            PNode tipNode = new PhetPPath( tipPath.getGeneralPath(), STROKE, LINE_COLOR );
 
             // rendering order
             addChild( tipNode );
@@ -233,12 +233,11 @@ public class SlopeToolNode extends PComposite {
     // Delimiter line that is at the end of a length line in a dimensional drawing.
     private static class DimensionalDelimiterNode extends PPath {
 
-        private static final Stroke STROKE = new BasicStroke( 0.5f );
-        private static final Color COLOR = Color.BLACK;
+        private static final Stroke STROKE = new BasicStroke( 1.25f );
 
         public DimensionalDelimiterNode( double x1, double y1, double x2, double y2 ) {
             setStroke( STROKE );
-            setStrokePaint( COLOR );
+            setStrokePaint( LINE_COLOR );
             setPathTo( new Line2D.Double( x1, y1, x2, y2 ) );
         }
     }
