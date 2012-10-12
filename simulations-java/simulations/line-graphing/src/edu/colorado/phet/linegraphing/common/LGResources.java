@@ -54,5 +54,7 @@ public class LGResources {
         public static final Image MINIMIZE_BUTTON = PhetCommonResources.getImage( "buttons/minimizeButton.png" );
         public static final Image MAXIMIZE_BUTTON = PhetCommonResources.getImage( "buttons/maximizeButton.png" );
         public static final Image POINT_TOOL = RESOURCES.getImage( "point_tool.png" );
+        public static final Image CHECK_MARK = RESOURCES.getImage( "Check-Mark-u2713.png" );
+        public static final Image X_MARK = RESOURCES.getImage( "Heavy-Ballot-X-u2718.png" );
     }
 }
