@@ -52,6 +52,8 @@ import static edu.colorado.phet.forcesandmotionbasics.motion.SpeedValue.*;
  */
 class AppliedForceSliderControl extends PNode {
 
+    public static final int MAX_APPLIED_FORCE = 500;//Newtons.  Int because it is used in string values for the slider
+
     public AppliedForceSliderControl( final ObservableProperty<SpeedValue> speedValue, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction, final BooleanProperty playing ) {
 
         final Not enabled = Not.not( stack.valueEquals( List.<StackableNode>nil() ) );
@@ -82,20 +84,20 @@ class AppliedForceSliderControl extends PNode {
             }
         };
 
-        final HSliderNode sliderNode = new HSliderNode( UserComponents.appliedForceSliderKnob, -100, 100, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForceSliderModel, enabled ) {{
+        final HSliderNode sliderNode = new HSliderNode( UserComponents.appliedForceSliderKnob, -MAX_APPLIED_FORCE, MAX_APPLIED_FORCE, DEFAULT_TRACK_THICKNESS, 200 * 1.75, appliedForceSliderModel, enabled ) {{
             final int longTick = 15;
             final int shortTick = 10;
             final int longTickOffset = 8;
             final int shortTickOffset = 15;
-            PhetPPath tick1 = addLabel( -100, new EnablePhetPText( "-100", DEFAULT_FONT, enabled ), longTick, longTickOffset );
-            PhetPPath tick1_5 = addLabel( -75, dummyLabel(), shortTick, shortTickOffset );
-            PhetPPath tick2 = addLabel( -50, dummyLabel(), longTick, longTickOffset );
-            PhetPPath tick2_5 = addLabel( -25, dummyLabel(), shortTick, shortTickOffset );
+            PhetPPath tick1 = addLabel( -MAX_APPLIED_FORCE, new EnablePhetPText( "-" + MAX_APPLIED_FORCE, DEFAULT_FONT, enabled ), longTick, longTickOffset );
+            PhetPPath tick1_5 = addLabel( -MAX_APPLIED_FORCE * 0.75, dummyLabel(), shortTick, shortTickOffset );
+            PhetPPath tick2 = addLabel( -MAX_APPLIED_FORCE * 0.5, dummyLabel(), longTick, longTickOffset );
+            PhetPPath tick2_5 = addLabel( -MAX_APPLIED_FORCE * 0.25, dummyLabel(), shortTick, shortTickOffset );
             addLabel( 0, new EnablePhetPText( "0", DEFAULT_FONT, enabled ), longTick, longTickOffset );
-            PhetPPath tick3_5 = addLabel( 25, dummyLabel(), shortTick, shortTickOffset );
-            PhetPPath tick4 = addLabel( 50, dummyLabel(), longTick, longTickOffset );
-            PhetPPath tick4_5 = addLabel( 75, dummyLabel(), shortTick, shortTickOffset );
-            PhetPPath tick5 = addLabel( 100, new EnablePhetPText( "100", DEFAULT_FONT, enabled ), longTick, longTickOffset );
+            PhetPPath tick3_5 = addLabel( MAX_APPLIED_FORCE * 0.25, dummyLabel(), shortTick, shortTickOffset );
+            PhetPPath tick4 = addLabel( MAX_APPLIED_FORCE * 0.5, dummyLabel(), longTick, longTickOffset );
+            PhetPPath tick4_5 = addLabel( MAX_APPLIED_FORCE * 0.75, dummyLabel(), shortTick, shortTickOffset );
+            PhetPPath tick5 = addLabel( MAX_APPLIED_FORCE, new EnablePhetPText( "" + MAX_APPLIED_FORCE, DEFAULT_FONT, enabled ), longTick, longTickOffset );
 
             //Gray out the ticks if the speed is exceeded.
             speedValue.addObserver( grayIf( tick1, LEFT_SPEED_EXCEEDED ) );

@@ -1,3 +1,5 @@
+Tab 2-3: Changed max applied force to 500N
+Tab 2-3: Added factor of gravity with g=10.0
 # 0.00.48 (69148) Oct 12, 2012
 Tab 2-3: Always show pusher
 # 0.00.47 (69125) Oct 11, 2012
