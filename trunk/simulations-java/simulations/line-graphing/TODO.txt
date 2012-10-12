@@ -12,7 +12,7 @@ DESIGN
 - Game: define levels and challenges
 
 HIGH
-- "given equation" and "your equation" boxes, with check or X icons (icons outside boxes, on side towards graph)
+- Game: put boxes around equations (answer and guess), horizontally align "=" signs
 - query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up (including "x={0} (slope undefined)")
 - change color of Check-Mark-u2713.png from yellow to green
 
@@ -21,10 +21,10 @@ MEDIUM
 - add support for fractional y-intercept in equations (only when y-intercept is non-interactive)
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
 - sort out duplication in Challenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
-- layout of EquationNode subclasses is complicated. Is there a better way?
 
 LOW
 - review usages of Line.simplified
+- layout of EquationNode subclasses is complicated. Is there a better way?
 - add "verbose" mode to equation code, in case we want to show exactly what is in model
 - use of Line.color is a bit of a mess, and makes it difficult to manage line lists
 - repackage in anticipating of having 3 sims in this project
