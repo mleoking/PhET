@@ -1,3 +1,4 @@
+10/12/12 game: add check-mark and "X" icons for "correct" and "incorrect" next to equations
 10/12/12 new slope tool got a thumbs up, delete old version (RiseRunBracketNode)
 10/12/12 slope tool: change color of line, adjust strokes
 # 0.00.29 (69048) Oct 9, 2012

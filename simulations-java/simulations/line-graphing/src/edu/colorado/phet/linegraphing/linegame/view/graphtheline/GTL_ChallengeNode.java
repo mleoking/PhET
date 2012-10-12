@@ -10,11 +10,13 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
@@ -25,6 +27,7 @@ import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -45,6 +48,11 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         // The equation for the current guess will be a child of this node, to maintain rendering order.
         final PNode guessEquationParent = new PNode();
         guessEquationParent.setVisible( false );
+
+        // icons for indicating correct vs incorrect
+        final PNode answerCorrectNode = new PImage( Images.CHECK_MARK );
+        final PNode guessCorrectNode = new PImage( Images.CHECK_MARK );
+        final PNode guessIncorrectNode = new PImage( Images.X_MARK );
 
         final GTL_GraphNode graphNode = createGraphNode( challenge );
 
@@ -80,6 +88,9 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
             answerEquationNode.setChildrenPickable( false );
             guessEquationParent.setPickable( false );
             guessEquationParent.setChildrenPickable( false );
+            answerCorrectNode.setPickable( false );
+            guessCorrectNode.setPickable( false );
+            guessIncorrectNode.setPickable( false );
             faceNode.setPickable( false );
             faceNode.setChildrenPickable( false );
             pointsAwardedNode.setPickable( false );
@@ -90,7 +101,10 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         {
             addChild( titleNode );
             addChild( answerEquationNode );
+            addChild( answerCorrectNode );
             addChild( guessEquationParent );
+            addChild( guessCorrectNode );
+            addChild( guessIncorrectNode );
             addChild( graphNode );
             addChild( checkButton );
             addChild( tryAgainButton );
@@ -106,9 +120,17 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
             // title centered at top
             titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
                                  10 );
+
             // equation centered in left half of challenge space
             answerEquationNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( answerEquationNode.getFullBoundsReference().getWidth() / 2 ),
                                           ( challengeSize.getHeight() / 2 ) - ( answerEquationNode.getFullBoundsReference().getHeight() / 2 ) );
+            // correct/incorrect icons are to left of equations
+            answerCorrectNode.setOffset( answerEquationNode.getFullBoundsReference().getMinX() - answerCorrectNode.getFullBoundsReference().getWidth() - 20, //TODO
+                                         answerEquationNode.getFullBoundsReference().getCenterY() - ( answerCorrectNode.getFullBoundsReference().getHeight() / 2 ) );
+            guessCorrectNode.setOffset( answerCorrectNode.getXOffset(),
+                                        answerCorrectNode.getFullBoundsReference().getMaxY() + 10 ); //TODO
+            guessIncorrectNode.setOffset( guessCorrectNode.getOffset() ); //TODO
+
             // graphNode is positioned automatically based on mvt's origin offset.
             // buttons centered at bottom of challenge space
             final double ySpacing = 15;
@@ -118,19 +140,29 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
             tryAgainButton.setOffset( buttonCenterX - ( tryAgainButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
             showAnswerButton.setOffset( buttonCenterX - ( showAnswerButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
             nextButton.setOffset( buttonCenterX - ( nextButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
+
             // face centered in the challenge space
             faceNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( faceNode.getFullBoundsReference().getWidth() / 2 ),
                                 ( challengeSize.getHeight() / 2 ) - ( faceNode.getFullBoundsReference().getHeight() / 2 ) );
         }
 
+        // Update visibility of the correct/incorrect icons.
+        final VoidFunction0 updateIcons = new VoidFunction0() {
+            public void apply() {
+                answerCorrectNode.setVisible( model.state.get() == PlayState.NEXT );
+                guessCorrectNode.setVisible( answerCorrectNode.getVisible() && challenge.isCorrect() );
+                guessIncorrectNode.setVisible( answerCorrectNode.getVisible() && !challenge.isCorrect() );
+            }
+        };
+
         // Function that keeps the guess equation updated as the user manipulates the line.
         challenge.guess.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
                 guessEquationParent.removeAllChildren();
-                Color color = challenge.isCorrect() ? LineGameConstants.ANSWER_COLOR : LineGameConstants.GUESS_COLOR;
-                guessEquationParent.addChild( createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, color ) );
+                guessEquationParent.addChild( createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, LineGameConstants.GUESS_COLOR ) );
                 guessEquationParent.setOffset( answerEquationNode.getXOffset(),
                                                answerEquationNode.getFullBoundsReference().getMaxY() + 30 );
+                updateIcons.apply();
             }
         } );
 
@@ -156,8 +188,11 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                 graphNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || state == PlayState.NEXT );
                 graphNode.setChildrenPickable( graphNode.getPickable() );
 
-                // Show the equation for the user's guess if they didn't succeed at the challenge.
-                guessEquationParent.setVisible( state == PlayState.NEXT && !challenge.isCorrect() );
+                // Show the equation for the user's guess at the end of the challenge.
+                guessEquationParent.setVisible( state == PlayState.NEXT );
+
+                // visibility of correct/incorrect icons
+                updateIcons.apply();
             }
         } );
 
