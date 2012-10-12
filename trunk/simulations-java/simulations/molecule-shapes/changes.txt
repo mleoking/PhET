@@ -1,3 +1,4 @@
+> Switched 3D libraries for better Windows XP / graphics card support
 # 1.03.09 (69002) Oct 8, 2012
 Fixed JNLP launching issue.
 Fixed 1-frame bond delay
