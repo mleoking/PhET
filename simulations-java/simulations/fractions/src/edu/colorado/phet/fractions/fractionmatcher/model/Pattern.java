@@ -217,6 +217,10 @@ public class Pattern {
         return new Pattern( outlinePath.getGeneralPath(), shapes, PatternType.polygon );
     }
 
+    public static Pattern gridBig() {
+        return new Pattern( list( (Shape) new Rectangle2D.Double( 0, 0, 60, 60 ) ), PatternType.grid );
+    }
+
     public static class Direction {
         public static final Direction RIGHT = new Direction( 1, 0 );
         public static final Direction LEFT = new Direction( -1, 0 );

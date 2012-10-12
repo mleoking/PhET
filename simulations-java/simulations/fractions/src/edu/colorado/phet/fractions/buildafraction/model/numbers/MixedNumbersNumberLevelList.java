@@ -433,7 +433,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
             return pie;
         }
         else if ( shapeType == CUBES ) {
-            final PatternMaker result = denominator == 1 ? grid1 :
+            final PatternMaker result = denominator == 1 ? grid1Big :
                                         denominator == 3 ? random.nextBoolean() ? horizontallySlicedCube : verticallySlicedCube :
                                         denominator == 9 ? grid9 :
                                         null;
