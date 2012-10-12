@@ -12,11 +12,13 @@ import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
@@ -28,6 +30,7 @@ import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -47,6 +50,11 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
 
         // The equation for the correct answer
         final PNode answerEquationNode = createAnswerEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color );
+
+        // icons for indicating correct vs incorrect
+        final PNode answerCorrectNode = new PImage( Images.CHECK_MARK );
+        final PNode guessCorrectNode = new PImage( Images.CHECK_MARK );
+        final PNode guessIncorrectNode = new PImage( Images.X_MARK );
 
         final MTE_GraphNode graphNode = createGraphNode( challenge );
 
@@ -78,6 +86,11 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         {
             titleNode.setPickable( false );
             titleNode.setChildrenPickable( false );
+            answerCorrectNode.setPickable( false );
+            guessCorrectNode.setPickable( false );
+            guessIncorrectNode.setPickable( false );
+            graphNode.setPickable( false );
+            graphNode.setChildrenPickable( false );
             faceNode.setPickable( false );
             faceNode.setChildrenPickable( false );
             pointsAwardedNode.setPickable( false );
@@ -87,8 +100,11 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         // rendering order
         {
             addChild( titleNode );
-            addChild( guessEquationNode );
             addChild( answerEquationNode );
+            addChild( answerCorrectNode );
+            addChild( guessEquationNode );
+            addChild( guessCorrectNode );
+            addChild( guessIncorrectNode );
             addChild( graphNode );
             addChild( checkButton );
             addChild( tryAgainButton );
@@ -104,12 +120,22 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
             // title centered at top
             titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
                                  10 );
+
             // guess equation centered in right half of challenge space
             guessEquationNode.setOffset( ( 0.75 * challengeSize.getWidth() ) - ( guessEquationNode.getFullBoundsReference().getWidth() / 2 ),
                                          ( challengeSize.getHeight() / 2 ) - ( guessEquationNode.getFullBoundsReference().getHeight() / 2 ) );
+
             // answer below guess
             answerEquationNode.setOffset( guessEquationNode.getXOffset(),
                                           guessEquationNode.getFullBoundsReference().getMaxY() + 30 );
+
+            // correct/incorrect icons are to left of equations
+            answerCorrectNode.setOffset( answerEquationNode.getFullBoundsReference().getMinX() - answerCorrectNode.getFullBoundsReference().getWidth() - 20, //TODO
+                                         answerEquationNode.getFullBoundsReference().getCenterY() - ( answerCorrectNode.getFullBoundsReference().getHeight() / 2 ) );
+            guessCorrectNode.setOffset( guessEquationNode.getFullBoundsReference().getMinX() - guessCorrectNode.getFullBoundsReference().getWidth() - 20, //TODO
+                                        guessEquationNode.getFullBoundsReference().getCenterY() - ( guessCorrectNode.getFullBoundsReference().getHeight() / 2 ) ); //TODO
+            guessIncorrectNode.setOffset( guessCorrectNode.getOffset() ); //TODO
+
             // graphNode is positioned automatically based on mvt's origin offset.
             // buttons centered at bottom of challenge space
             final double ySpacing = 15;
@@ -119,6 +145,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
             tryAgainButton.setOffset( buttonCenterX - ( tryAgainButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
             showAnswerButton.setOffset( buttonCenterX - ( showAnswerButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
             nextButton.setOffset( buttonCenterX - ( nextButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
+
             // face centered in the challenge space
             faceNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( faceNode.getFullBoundsReference().getWidth() / 2 ),
                                 ( challengeSize.getHeight() / 2 ) - ( faceNode.getFullBoundsReference().getHeight() / 2 ) );
@@ -130,6 +157,22 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
             devAnswerNode.setOffset( answerEquationNode.getOffset() );
             addChild( devAnswerNode );
         }
+
+        // Update visibility of the correct/incorrect icons.
+        final VoidFunction0 updateIcons = new VoidFunction0() {
+            public void apply() {
+                answerCorrectNode.setVisible( model.state.get() == PlayState.NEXT );
+                guessCorrectNode.setVisible( answerCorrectNode.getVisible() && challenge.isCorrect() );
+                guessIncorrectNode.setVisible( answerCorrectNode.getVisible() && !challenge.isCorrect() );
+            }
+        };
+
+        // when the guess changes...
+        challenge.guess.addObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
+                updateIcons.apply();
+            }
+        } );
 
         // state changes
         model.state.addObserver( new VoidFunction1<PlayState>() {
@@ -153,8 +196,11 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
                 guessEquationNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || state == PlayState.NEXT );
                 guessEquationNode.setChildrenPickable( guessEquationNode.getPickable() );
 
-                // Show the equation for the user's guess if they didn't succeed at the challenge.
-                answerEquationNode.setVisible( state == PlayState.NEXT && !challenge.isCorrect() );
+                // Show the equation for the answer at the end of the challenge.
+                answerEquationNode.setVisible( state == PlayState.NEXT );
+
+                // visibility of correct/incorrect icons
+                updateIcons.apply();
             }
         } );
 
