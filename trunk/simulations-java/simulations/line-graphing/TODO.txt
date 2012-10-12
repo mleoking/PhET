@@ -14,6 +14,7 @@ DESIGN
 HIGH
 - "given equation" and "your equation" boxes, with check or X icons (icons outside boxes, on side towards graph)
 - query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up (including "x={0} (slope undefined)")
+- change color of Check-Mark-u2713.png from yellow to green
 
 MEDIUM
 - get rid of EquationNode.setPaintDeep and LineNode.updateColor, make LineNode immutable, use a new instance when its color changes
