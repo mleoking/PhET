@@ -1,3 +1,4 @@
+Tab 3: Moved "sum of forces" above "values"
 # 0.00.46 (69120) Oct 11, 2012
 Tab 2-3: Added half ticks between major ticks
 Tab 2-3: Label min/max as "-100" and "100"

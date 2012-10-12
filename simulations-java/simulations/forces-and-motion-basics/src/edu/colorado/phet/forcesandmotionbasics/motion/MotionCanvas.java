@@ -304,7 +304,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 //        }}
         );
         final VBox vbox = friction ?
-                          new VBox( 0, VBox.LEFT_ALIGNED, showForcesPanel, indent( showValuesCheckBox ), indent( showSumOfForcesPanel ),
+                          new VBox( 0, VBox.LEFT_ALIGNED, showForcesPanel, indent( showSumOfForcesPanel ), indent( showValuesCheckBox ),
                                     new PSwing( massCheckBox ),
                                     speedControlPanel,
                                     new FrictionSliderControl( model.frictionValue ) ) :
