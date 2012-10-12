@@ -193,7 +193,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
                 nextButton.setVisible( state == PlayState.NEXT );
 
                 // states in which the equation is interactive
-                guessEquationNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || state == PlayState.NEXT );
+                guessEquationNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || ( state == PlayState.NEXT && !challenge.isCorrect() ) );
                 guessEquationNode.setChildrenPickable( guessEquationNode.getPickable() );
 
                 // Show the equation for the answer at the end of the challenge.
