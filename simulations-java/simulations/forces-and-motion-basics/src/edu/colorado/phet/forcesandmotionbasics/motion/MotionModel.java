@@ -125,8 +125,9 @@ class MotionModel {
     }
 
     private double getFrictionForce( final double appliedForce ) {
+        double g = 10.0;
         if ( !friction ) { return 0.0; }
-        double frictionForce = Math.abs( frictionValue.get() ) * MathUtil.getSign( appliedForce ) * massOfObjectsOnSkateboard.get();
+        double frictionForce = Math.abs( frictionValue.get() ) * MathUtil.getSign( appliedForce ) * massOfObjectsOnSkateboard.get() * g;
 
         //Friction force only applies above this velocity
         final double velocityThreshold = 1E-12;
@@ -134,7 +135,7 @@ class MotionModel {
             frictionForce = appliedForce;
         }
         else if ( Math.abs( velocity.get() ) > velocityThreshold ) {
-            frictionForce = MathUtil.getSign( velocity.get() ) * frictionValue.get() * massOfObjectsOnSkateboard.get();
+            frictionForce = MathUtil.getSign( velocity.get() ) * frictionValue.get() * massOfObjectsOnSkateboard.get() * g;
         }
         return -frictionForce;
     }

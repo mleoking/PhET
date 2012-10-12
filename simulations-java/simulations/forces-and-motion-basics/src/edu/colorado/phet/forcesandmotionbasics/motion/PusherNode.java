@@ -109,6 +109,6 @@ class PusherNode extends PNode {
 
     private int getImageIndex( final Double appliedForce ) {
         int maxImageIndex = 14;
-        return (int) round( Math.abs( appliedForce ) / 100.0 * ( maxImageIndex - 0.5 ) );
+        return (int) round( Math.abs( appliedForce ) / AppliedForceSliderControl.MAX_APPLIED_FORCE * ( maxImageIndex - 0.5 ) );
     }
 }
