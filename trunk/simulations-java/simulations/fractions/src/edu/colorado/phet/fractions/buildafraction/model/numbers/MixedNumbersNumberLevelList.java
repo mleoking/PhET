@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model.numbers;
 
+import fj.Equal;
 import fj.F;
 import fj.Ord;
 import fj.P2;
@@ -463,11 +464,11 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
 
     static @Data class Sample {
         public final List<Integer> denominators;
-        public final List<ShapeTypeEnum> shapeTypes;
+        public final ShapeTypeEnum type;
 
-        public List<FilledPattern> toShapeList( ShapeTypeEnum shapeType ) {
+        public List<FilledPattern> toShapeList() {
             for ( int i = 0; i < 1000; i++ ) {
-                final List<FilledPattern> result = toShapes( shapeType );
+                final List<FilledPattern> result = toShapes( type );
                 final MixedFraction mixedNumber = patternToMixedFraction( result );
                 final List<Integer> cards = NumberLevel.straightforwardNumbers( single( mixedNumber ) );
                 if ( result.length() > 2 && mixedNumber.toFraction().numerator > mixedNumber.toFraction().denominator && cards.maximum( Ord.intOrd ) < 10 && cards.filter( new F<Integer, Boolean>() {
@@ -479,7 +480,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
                 }
             }
             System.out.println( "Bailing OUT" );
-            return toShapes( shapeType );
+            return toShapes( type );
         }
 
         private List<FilledPattern> toShapes( final ShapeTypeEnum pattern ) {
@@ -503,30 +504,50 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         final NumberTarget a = new NumberTarget( original.targets.index( 0 ).mixedFraction, colors.next(), original.targets.index( 0 ).filledPattern, original.targets.index( 0 ).representation );
         final NumberTarget b = new NumberTarget( original.targets.index( 1 ).mixedFraction, colors.next(), original.targets.index( 1 ).filledPattern, original.targets.index( 1 ).representation );
 
-        List<Sample> selected = choose( 2, level9_10_sets );
+        List<ShapeTypeEnum> types = choose( 2, shapeTypes );
+        List<Sample> selected = types.map( new F<ShapeTypeEnum, Sample>() {
+            @Override public Sample f( final ShapeTypeEnum shapeTypeEnum ) {
+                return shapeTypeEnumToSample( shapeTypeEnum );
+            }
+        } );
         final NumberTarget c = sampleToTarget( colors, selected.index( 0 ) );
         final NumberTarget d = sampleToTarget( colors, selected.index( 1 ) );
 
         return new NumberLevel( shuffle( list( a, b, c, d ) ) );
     }
 
+    private Sample shapeTypeEnumToSample( final ShapeTypeEnum shapeTypeEnum ) {
+        ArrayList<Sample> allowed = new ArrayList<Sample>();
+        for ( Struct level9_10_set : level9_10_sets ) {
+            if ( level9_10_set.matchingTypes.elementIndex( Equal.<ShapeTypeEnum>anyEqual(), shapeTypeEnum ).isSome() ) {
+                allowed.add( new Sample( level9_10_set.denominators, shapeTypeEnum ) );
+            }
+        }
+        return chooseOne( iterableList( allowed ) );
+    }
+
     private NumberTarget sampleToTarget( final RandomColors4 colors, final Sample sample ) {
-        final ShapeTypeEnum type = chooseOne( sample.shapeTypes );
-        List<FilledPattern> shapeList = sample.toShapeList( type );
+        final ShapeTypeEnum type = sample.type;
+        List<FilledPattern> shapeList = sample.toShapeList();
         final PatternMaker representation = type == PIE ? pie : type == BAR ? horizontalBar : type == CUBES ? grid1 : type == PYRAMIDS ? pyramid1 : null;
         return new NumberTarget( patternToMixedFraction( shapeList ), colors.next(), shapeList, representation.random() );
     }
 
     private final List<ShapeTypeEnum> shapeTypes = list( BAR, PIE, PYRAMIDS, CUBES );
 
-    private final List<Sample> level9_10_sets = list( new Sample( list( 1, 2, 3, 6 ), list( BAR, PIE ) ), new Sample( list( 1, 2, 4, 8 ), list( BAR, PIE ) ), new Sample( list( 1, 4, 9 ), list( PYRAMIDS, CUBES ) ) );
+    private final List<Struct> level9_10_sets = list( new Struct( list( 1, 2, 3, 6 ), list( BAR, PIE ) ), new Struct( list( 1, 2, 4, 8 ), list( BAR, PIE ) ), new Struct( list( 1, 4, 9 ), list( PYRAMIDS, CUBES ) ) );
 
     /*Level 10:
     --Same as level 9, but now all 4 targets can have different internal divisions in representations.*/
     NumberLevel level10() {
         RandomColors4 colors = new RandomColors4();
 
-        List<Sample> selected = level9_10_sets.snoc( chooseOne( level9_10_sets ) );
+        List<ShapeTypeEnum> types = shapeTypes.snoc( chooseOne( shapeTypes ) );
+        List<Sample> selected = types.map( new F<ShapeTypeEnum, Sample>() {
+            @Override public Sample f( final ShapeTypeEnum shapeTypeEnum ) {
+                return shapeTypeEnumToSample( shapeTypeEnum );
+            }
+        } );
         final NumberTarget a = sampleToTarget( colors, selected.index( 0 ) );
         final NumberTarget b = sampleToTarget( colors, selected.index( 1 ) );
         final NumberTarget c = sampleToTarget( colors, selected.index( 2 ) );
@@ -644,5 +665,10 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
             }
         }
         System.out.println( "allOK = " + allOK );
+    }
+
+    public static @Data class Struct {
+        public final List<Integer> denominators;
+        public final List<ShapeTypeEnum> matchingTypes;
     }
 }
