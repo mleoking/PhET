@@ -132,6 +132,15 @@ class AppliedForceSliderControl extends PNode {
                     }
                 }
             } );
+
+            //Force slider should go to zero if the stack is emptied
+            stack.addObserver( new VoidFunction1<List<StackableNode>>() {
+                public void apply( final List<StackableNode> stackableNodes ) {
+                    if ( stackableNodes.isEmpty() ) {
+                        appliedForceSliderModel.set( 0.0 );
+                    }
+                }
+            } );
         }};
         VBox box = new VBox( 5, new EnablePhetPText( Strings.APPLIED_FORCE, DEFAULT_FONT, enabled ),
                              sliderNode,
