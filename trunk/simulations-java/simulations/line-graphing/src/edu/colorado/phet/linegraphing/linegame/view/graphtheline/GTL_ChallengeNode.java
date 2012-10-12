@@ -185,7 +185,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                 nextButton.setVisible( state == PlayState.NEXT );
 
                 // states in which the graph is interactive
-                graphNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || state == PlayState.NEXT );
+                graphNode.setPickable( state == PlayState.FIRST_CHECK || state == PlayState.SECOND_CHECK || ( state == PlayState.NEXT && !challenge.isCorrect() ) );
                 graphNode.setChildrenPickable( graphNode.getPickable() );
 
                 // Show the equation for the user's guess at the end of the challenge.
