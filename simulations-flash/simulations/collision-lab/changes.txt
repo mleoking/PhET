@@ -1,3 +1,5 @@
+# 2.00.04 (69138) Oct 12, 2012
+10/12/12 Bug fix. Inelastic collisions in corners now behave.
 # 2.00.03 (69059) Oct 9, 2012
 10/9/12 Bug fix: ball cannot penetrate corner of barrier.
 # 2.00.02 (67037) Aug 15, 2012
