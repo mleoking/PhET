@@ -247,6 +247,20 @@ public class Pattern {
         return new Grid( edgeCount );
     }
 
+    public static Pattern horizontallySlicedCube3() {
+        Pattern p = new Pattern( list( (Shape) new Rectangle2D.Double( 0, 0, 60, 20 ),
+                                       new Rectangle2D.Double( 0, 20, 60, 20 ),
+                                       new Rectangle2D.Double( 0, 40, 60, 20 ) ), PatternType.horizontallySlicedCube );
+        return p;
+    }
+
+    public static Pattern verticallySlicedCube3() {
+        Pattern p = new Pattern( list( (Shape) new Rectangle2D.Double( 0, 0, 20, 60 ),
+                                       new Rectangle2D.Double( 20, 0, 20, 60 ),
+                                       new Rectangle2D.Double( 40, 0, 20, 60 ) ), PatternType.verticallySlicedCube );
+        return p;
+    }
+
     private static class Grid extends Pattern {
         public static final double length = 20;
 

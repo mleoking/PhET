@@ -434,7 +434,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         }
         else if ( shapeType == CUBES ) {
             final PatternMaker result = denominator == 1 ? grid1 :
-                                        denominator == 4 ? grid4 :
+                                        denominator == 3 ? random.nextBoolean() ? horizontallySlicedCube : verticallySlicedCube :
                                         denominator == 9 ? grid9 :
                                         null;
             if ( result == null ) { throw new RuntimeException( "no cube found for denominator " + denominator ); }
