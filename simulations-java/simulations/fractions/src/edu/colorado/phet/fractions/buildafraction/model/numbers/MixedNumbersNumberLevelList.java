@@ -98,20 +98,12 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         } );
         add( new Function0<NumberLevel>() {
             public NumberLevel apply() {
-                return level9PostProcessor( 1, new F<Unit, NumberLevel>() {
-                    @Override public NumberLevel f( final Unit unit ) {
-                        return level9();
-                    }
-                } );
+                return level9();
             }
         } );
         add( new Function0<NumberLevel>() {
             public NumberLevel apply() {
-                return level9PostProcessor( 2, new F<Unit, NumberLevel>() {
-                    @Override public NumberLevel f( final Unit unit ) {
-                        return level10();
-                    }
-                } );
+                return level10();
             }
         } );
     }
