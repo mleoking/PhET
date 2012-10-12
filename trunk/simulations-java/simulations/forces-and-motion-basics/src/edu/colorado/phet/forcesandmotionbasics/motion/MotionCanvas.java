@@ -108,7 +108,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
     private static final double typicalDT = 0.033333333333333215;
 
-    //Speed at which the bricks start to look as if they are going backwards
+    //Speed at which the bricks start to look as if they are going backwards.  Meters per second.
     public static final double STROBE_SPEED = 9.559393222711847;
 
     private final BooleanProperty playing = new BooleanProperty( true );
