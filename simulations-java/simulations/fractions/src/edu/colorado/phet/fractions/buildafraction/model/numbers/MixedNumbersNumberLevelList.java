@@ -422,37 +422,28 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     NumberLevel level9ORIG() { return levelWithSomeScattering( list( true, true, false, false ) ); }
 
     static enum ShapeTypeEnum {
-        BAR, PIE, CUBES, PYRAMIDS;
-
-        public PatternMaker toPatternMaker( final Integer denominator ) {
-            if ( this == BAR ) {
-                return horizontalBar;
-            }
-            else if ( this == PIE ) {
-                return pie;
-            }
-            else if ( this == CUBES ) {
-                final PatternMaker result = denominator == 1 ? grid1 :
-                                            denominator == 4 ? grid4 :
-                                            denominator == 9 ? grid9 :
-                                            null;
-                if ( result == null ) { throw new RuntimeException( "no cube found for denominator " + denominator ); }
-                return result;
-            }
-            else if ( this == PYRAMIDS ) {
-                final PatternMaker result = denominator == 1 ? pyramid1 :
-                                            denominator == 4 ? pyramid4 :
-                                            denominator == 9 ? pyramid9 :
-                                            null;
-                if ( result == null ) { throw new RuntimeException( "no pyramid found for denominator " + denominator ); }
-                return result;
-            }
-            else {
-                throw new RuntimeException( "type not found" );
-            }
-        }
+        BAR, PIE, CUBES
     }
 
+    public static PatternMaker toPatternMaker( ShapeTypeEnum shapeType, final Integer denominator ) {
+        if ( shapeType == BAR ) {
+            return horizontalBar;
+        }
+        else if ( shapeType == PIE ) {
+            return pie;
+        }
+        else if ( shapeType == CUBES ) {
+            final PatternMaker result = denominator == 1 ? grid1 :
+                                        denominator == 4 ? grid4 :
+                                        denominator == 9 ? grid9 :
+                                        null;
+            if ( result == null ) { throw new RuntimeException( "no cube found for denominator " + denominator ); }
+            return result;
+        }
+        else {
+            throw new RuntimeException( "type not found" );
+        }
+    }
 
     private static MixedFraction patternToMixedFraction( final List<FilledPattern> result ) {
         Fraction f = new Fraction( 0, 1 );
@@ -488,7 +479,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
             for ( Integer denominator : denominators ) {
                 int numerator = denominator == 1 ? 1 : random.nextInt( denominator );
 
-                PatternMaker patternMaker = pattern.toPatternMaker( denominator );
+                PatternMaker patternMaker = toPatternMaker( pattern, denominator );
 
                 if ( numerator > 0 ) {
                     shapeList.add( patternMaker.random().f( new MixedFraction( 0, numerator, denominator ) ) );
@@ -529,13 +520,13 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
     private NumberTarget sampleToTarget( final RandomColors4 colors, final Sample sample ) {
         final ShapeTypeEnum type = sample.type;
         List<FilledPattern> shapeList = sample.toShapeList();
-        final PatternMaker representation = type == PIE ? pie : type == BAR ? horizontalBar : type == CUBES ? grid1 : type == PYRAMIDS ? pyramid1 : null;
+        final PatternMaker representation = type == PIE ? pie : type == BAR ? horizontalBar : type == CUBES ? grid1 : null;
         return new NumberTarget( patternToMixedFraction( shapeList ), colors.next(), shapeList, representation.random() );
     }
 
-    private final List<ShapeTypeEnum> shapeTypes = list( BAR, PIE, PYRAMIDS, CUBES );
+    private final List<ShapeTypeEnum> shapeTypes = list( BAR, PIE, CUBES );
 
-    private final List<Struct> level9_10_sets = list( new Struct( list( 1, 2, 3, 6 ), list( BAR, PIE ) ), new Struct( list( 1, 2, 4, 8 ), list( BAR, PIE ) ), new Struct( list( 1, 4, 9 ), list( PYRAMIDS, CUBES ) ) );
+    private final List<Struct> level9_10_sets = list( new Struct( list( 1, 2, 3, 6 ), list( BAR, PIE ) ), new Struct( list( 1, 2, 4, 8 ), list( BAR, PIE ) ), new Struct( list( 1, 3, 9 ), list( CUBES ) ) );
 
     /*Level 10:
     --Same as level 9, but now all 4 targets can have different internal divisions in representations.*/
