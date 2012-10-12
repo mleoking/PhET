@@ -1,3 +1,4 @@
+# 0.00.30 (69149) Oct 12, 2012
 10/12/12 tweak margins and spacing in slope tool to look better for rise/run=1/1 case
 10/12/12 game fix: when challenge is correct, disable interactivity
 10/12/12 game: add check-mark and "X" icons for "correct" and "incorrect" next to equations
