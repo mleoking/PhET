@@ -7,6 +7,10 @@ import fj.data.List;
 import fj.function.Integers;
 import lombok.Data;
 
+import java.util.Random;
+
+import edu.colorado.phet.fractions.buildafraction.model.MixedFraction;
+
 /**
  * Immutable fraction object with denominator and numerator, may be improper, unreduced, or have minus signs in both numerator and denominator.
  *
@@ -102,13 +106,29 @@ public @Data class Fraction {
         }
     };
 
-    //Sample test main
-    public static void main( String[] args ) {
-        System.out.println( "sum = " + sum( List.list( fraction( 1, 2 ), fraction( 2, 3 ), fraction( 1, 6 ) ) ) );
-    }
-
     //Fractions are equal if they reduce to the same fraction.
     public boolean valueEquals( final Fraction b ) {
         return b.reduce().equals( this.reduce() );
+    }
+
+    public MixedFraction toMixedFraction() {
+        Fraction reduced = reduce();
+        int wholePart = reduced.numerator / reduced.denominator;
+        Fraction remainingFraction = new Fraction( reduced.numerator - wholePart * reduced.denominator, reduced.denominator );
+        return new MixedFraction( wholePart, remainingFraction.numerator, remainingFraction.denominator );
+    }
+
+    //Sample test main
+    public static void main( String[] args ) {
+        System.out.println( "sum = " + sum( List.list( fraction( 1, 2 ), fraction( 2, 3 ), fraction( 1, 6 ) ) ) );
+
+        Random random = new Random();
+        System.out.println( "fraction( 10,3 ).toMixedFraction() = " + fraction( 10, 3 ).toMixedFraction() );
+        for ( int i = 0; i < 1000; i++ ) {
+            Fraction f = fraction( random.nextInt( 1000 ), random.nextInt( 1000 ) + 1 );
+            if ( !f.valueEquals( f.toMixedFraction().toFraction() ) ) {
+                throw new RuntimeException( "Didn't match: " + f );
+            }
+        }
     }
 }
