@@ -52,7 +52,7 @@ class PusherNode extends PNode {
             public void update() {
 
                 //Don't show the pusher unless the user has moved the slider once
-                pusher.setVisible( movedSliderOnce.get() );
+//                pusher.setVisible( movedSliderOnce.get() );
 
                 double appliedForce = PusherNode.this.appliedForce.get();
                 if ( appliedForce != 0.0 ) {
