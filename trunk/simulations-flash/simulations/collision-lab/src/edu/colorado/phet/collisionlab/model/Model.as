@@ -28,6 +28,7 @@ public class Model {
     var msTimer: Timer;		//millisecond timer
     var colliding: Boolean;	//true if wall-ball or ball-ball collision has occured in current timestep
 	var wallHit: Boolean; 	//true if ball-wall collision in current timestep
+	//Next two lines added Oct 11, 2012 to fix bug 
 	var wallOffsetX: Number;	//displacement of ball in x-direction to correct for penetration into wall
 	var wallOffsetY: Number;	//displacement of ball in y-direction to correct for penetration into wall
     public var playing: Boolean;	//true if motion is playing, false if paused
@@ -300,7 +301,7 @@ public class Model {
             this.atInitialConfig = true;
         }
         this.ball_arr[indx].position.setX( xPos );
-		trace("Model.setX called. index = " + indx + "  xPos = " + xPos); 
+		//trace("Model.setX called. index = " + indx + "  xPos = " + xPos); 
         if ( this.atInitialConfig ) {
             this.initPos[indx].setX( xPos );
             this.setTimeToZero();
@@ -328,8 +329,7 @@ public class Model {
     }
 
     public function setXY( indx: int, xPos: Number, yPos: Number ): void {
-		trace("Model.setXY called. index = " + indx + "  xPos = " + xPos + "  yPos = " + yPos); 
-        this.setX( indx, xPos );
+		this.setX( indx, xPos );
         this.setY( indx, yPos );
     }
 
@@ -388,7 +388,6 @@ public class Model {
     }
 
     public function singleStep(): void {
-		trace("singleStep called.")
         this.nbrCollisionsInThisTimeStep = 0;
         if ( this.atInitialConfig ) {this.atInitialConfig = false;}
         var dt: Number;
@@ -464,8 +463,7 @@ public class Model {
     //If ball beyond reflecting border, then translate to back to edge and reflect
 	//Updated 10/04/2012 to correctly process collisions with corners
     public function checkAndProcessWallCollision( index: int, x: Number, y: Number, vX: Number, vY: Number ): void {
-        trace("Model.checkAndProcessWallCollision called. Ball index = " + index );
-		this.wallOffsetX = 0;
+        this.wallOffsetX = 0;
 		this.wallOffsetY = 0;
 		wallHit = false;
 		    if ( this.borderOn ) {
@@ -502,10 +500,10 @@ public class Model {
             }//end else
 
             if ( wallHit ) {
-                //trace("wall hit at time t = " + this.time);
                 this.nbrCollisionsInThisTimeStep += 1;
                 this.playClickSound();
                 this.colliding = true;
+				//New code Oct 11, 2012
 				//check if overlapping any other ball and correct by translating other ball
 				var xi: Number = ball_arr[index].position.getX();
 				var yi: Number = ball_arr[index].position.getY();
@@ -521,6 +519,7 @@ public class Model {
 						}//end if (dist < ..
 					}//end if(j != i)
 				}//end if (var j: int ...
+				//end of new code added Oct 12, 2012
             }//end if (wallHit)
         }//end if(borderOn)
     }//end of checkWallAndProcessCollision()
@@ -543,7 +542,6 @@ public class Model {
 					trace("Model.detectCollision called.   x" + i + " = " +xi+ "  y" + i + " = " + yi + "   x" + j + " = " +xj+ "  y" + j + " = " + yj );
                     this.collideBalls( i, j );
                     this.colliding = true;
-                    //this.colliders[i][j] = 1;  //ball have collided
                 }
             }//for(j=..)
         }//for(i=..)
@@ -567,8 +565,7 @@ public class Model {
                     var dist: Number = Math.sqrt( (xj - xi) * (xj - xi) + (yj - yi) * (yj - yi) );
                     var distMin: Number = ball_arr[i].getRadius() + ball_arr[j].getRadius();
                     if ( dist <= distMin ) {
-                        trace( "Model: Ball " + i + " and " + j + " overlap at round " + cntr );
-                        separateBalls( i, j );
+                         separateBalls( i, j );
                     }
                 }//for(j=..)
             }//for(i=..)
@@ -635,8 +632,6 @@ public class Model {
     }//end checkWallCollision
 
     public function collideBalls( i: int, j: int ): void {
-		var x0temp: Number = ball_arr[0].position.getX();
-		trace( "Start of collideBalls, x0 = " + x0temp ) ;
         this.playClickSound();
         //        var balliNbr: String = String( i + 1 );
         //        var balljNbr: String = String( j + 1 );
@@ -694,8 +689,6 @@ public class Model {
 
         this.setXY( i, newXi, newYi );
         this.setXY( j, newXj, newYj );
-		x0temp = ball_arr[0].position.getX();
-		trace("End of collideBalls x0 = " + x0temp ) ;
 
         //}else{ //end if(colliders[i][j] == 0)
         //if balls already collided, but still not separated, or just starting then pull apart keeping C.M. fixed
