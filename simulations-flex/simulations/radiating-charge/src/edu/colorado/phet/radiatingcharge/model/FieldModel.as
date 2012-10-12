@@ -41,15 +41,15 @@ public class FieldModel {
     private var m:Number;           //mass of charge
     private var _amplitude:Number;  //amplitude of motion of charge (for sinusoidal or circular motion)
     private var _frequency:Number;  //frequency(Hz) of motion of charge (for sinusoidal or circular motion)
-    //private var slopeSign:Number;   //+1 or -1, used in sawtooth generator
     private var phi:Number;         //phase of oscillatory motion (sinusoidal or circular)
     private var beta:Number;        //ratio (speed of charge)/c
     private var _nbrFieldLines:int;      //number of field lines coming from charge
     private var _nbrPhotonsPerLine:int; //number of photons in a given field line
     private var cos_arr:Array;      //cosines of angles of the rays, CCW from horizontal, angle must be in radians
     private var theta_arr:Array;    //angles of rest frame rays (in rads)
-    private var sin_arr:Array;      //sines of angles of the rays,
+    private var sin_arr:Array;      //sines of angles of the rays
     private var _fieldLine_arr:Array;  //array of field lines
+
     private var testCounter: int;   //for testing only
     private var flag:Boolean;       //for testing only
 
@@ -67,11 +67,11 @@ public class FieldModel {
     private const RANDOM: int = 6;
 
     private var _paused:Boolean;        //true if sim is paused
-    private var _outOfBounds:Boolean;   //true if charge is a ways off-screen
+    private var _outOfBounds:Boolean;   //true if charge is off-screen out-of-bounds
 
     private var _t:Number;              //time in seconds
-    private var tLastStep:Number;       //time of last screendraw
-    private var clockTime: Number;
+    private var tLastStep:Number;       //time of last screen redraw
+    private var clockTime: Number;      //time on system clock
     private var elapsedTime:Number;     //elapsed time since previous screen draw
     private var _tLastPhoton: Number;	//time of previous Photon emission
     private var tRate: Number;	        //1 = real time; 0.25 = 1/4 of real time, etc.
@@ -81,12 +81,12 @@ public class FieldModel {
     private var delTPhotonDefault: Number;   //default time between photon emission events
     private var stepsPerFrame:int;      //number of algorithm steps between screen draws
     private var tBump:Number;           //time that charge is "bumped" = moved thru one cycle of sine wave
-    private var _bumpDuration:Number;    //duration of bump in seconds
+    private var _bumpDuration:Number;   //duration of bump in seconds
     private var tLastRandomStep:Number; //time of previous step in random walk motion
     private var delTRandomWalk:Number;  //time between steps in random walk motion
     private var msTimer: Timer;	        //millisecond timer
     private var stageW:int;             //width of stage in pixels
-    private var stageH:int;
+    private var stageH:int;             //height of stage in pixels
 
 
     public function FieldModel( myMainView: MainView ) {
@@ -121,17 +121,17 @@ public class FieldModel {
         }
 
         this._motionType = _MANUAL_WITH_FRICTION;
-        var n: Number = 4;
-        this.c = this.stageW/n;     //n seconds to cross width of stage
-        this.k = 10;                //spring constant
-        this.m = 1;                 //mass
+        var n: Number = 4;          //n seconds for photon to cross width of stage
+        this.c = this.stageW/n;     //speed of light
+        this.k = 10;                //spring constant of spring attached to charge in manual mode
+        this.m = 1;                 //mass of charge
 
-        this.fX = 0;
+        this.fX = 0;                //force on charge
         this.fY = 0;
-        this._vX = 0;
+        this._vX = 0;               //velocity
         this._vY = 0;
-        this._v = Math.sqrt( _vX*_vX + _vY*_vY );
-        this._v0 = 0;
+        this._v = Math.sqrt( _vX*_vX + _vY*_vY );    //speed
+        this._v0 = 0;                                //initial speed
         this.beta = v/c;
         this.gamma = 1/Math.sqrt( 1 - beta*beta );
 //        this._amplitude = 5;
@@ -147,12 +147,12 @@ public class FieldModel {
         this.clockTime = getTimer();
         this.tLastStep = getTimer();
         this._tLastPhoton = 0;
-        this.dtDefault = 0.006;
+        this.dtDefault = 0.006;      //default time step is 6 ms
         this.dt = 0.006;
-        this.delTPhotonDefault = 0.02;
+        this.delTPhotonDefault = 0.02;        //default time between photon emission events on a given ray is 20 ms
         this.delTPhoton = delTPhotonDefault;
         this.tRate = 1;         //not currently used
-        this.stepsPerFrame = 4;
+        this.stepsPerFrame = 4;              // 4 steps between screen redraws
         this.flag = false;
         this.msTimer = new Timer( stepsPerFrame*dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, reDrawScreen );
@@ -160,6 +160,7 @@ public class FieldModel {
         this.startRadiation();
     }
 
+    //Initial amplitude and frequency of sinusoidal and circular motion of charge
     public function initializeAmplitudeAndFrequency():void{
         this._amplitude = 9;
         this._frequency = 1.2;
@@ -414,8 +415,6 @@ public class FieldModel {
         }else if (_motionType == _MANUAL_WITH_FRICTION){
             this.manualWithFrictionStep();
         } else if( _motionType == LINEAR ){
-//            _xC += _vX*dt;
-//            _yC += _vY*dt;
             this.linearMotionStep();
         }else if( _motionType == SINUSOIDAL ) {
             this.sinusiodalStep();
@@ -668,7 +667,7 @@ public class FieldModel {
         this.tLastStep = clockTime;
         testCounter += 1;
         if( testCounter >= 20 ){
-            trace( elapsedTime );
+            trace( "elapsed time between screen redraws is " + elapsedTime );
             testCounter = 0;
         }
 //        if(dt > 0.05 ){
