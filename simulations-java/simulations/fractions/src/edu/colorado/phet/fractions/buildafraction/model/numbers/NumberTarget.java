@@ -87,7 +87,7 @@ public @Data class NumberTarget {
     }
 
     //Start with solutions as above, and subdivide them, then rearrange them.
-    private static F<MixedFraction, List<FilledPattern>> scatteredComposite( final F<MixedFraction, FilledPattern> element ) {
+    public static F<MixedFraction, List<FilledPattern>> scatteredComposite( final F<MixedFraction, FilledPattern> element ) {
         return new F<MixedFraction, List<FilledPattern>>() {
             @Override public List<FilledPattern> f( final MixedFraction f ) {
                 Fraction fraction = f.toFraction();

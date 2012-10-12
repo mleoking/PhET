@@ -5,6 +5,7 @@ import fj.F;
 import fj.P2;
 import fj.Unit;
 import fj.data.List;
+import lombok.Data;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 
 import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction.mixedFraction;
+import static edu.colorado.phet.fractions.buildafraction.model.numbers.MixedNumbersNumberLevelList.ShapeTypeEnum.*;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget.*;
 import static edu.colorado.phet.fractions.common.math.Fraction.fraction;
@@ -424,11 +426,78 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
      * --So, for instance if {1:3/4} is being represented by circles, the first circle could be divided in ¼’s and the second circle divided in 1/8’s,
      *   with pieces randomly distributed between the two circles.
      */
-    NumberLevel level9() { return levelWithSomeScattering( list( true, true, false, false ) ); }
+    NumberLevel level9ORIG() { return levelWithSomeScattering( list( true, true, false, false ) ); }
+
+    static enum ShapeTypeEnum {
+        BAR, PIE, CUBES, PYRAMIDS
+    }
+
+    static @Data class Sample {
+        public final List<Integer> denominators;
+        public final List<ShapeTypeEnum> shapeTypes;
+
+        //Result is random, so be sure to only call this once per sampling.
+        public MixedFraction toMixedFraction() {
+
+            //It should be a mixed number, so guarantee that the whole part is one or more and the fraction part is nonzero.
+            for ( int i = 0; i < 1000; i++ ) {
+                Fraction sum = generatePossibleFraction();
+                if ( sum.numerator > sum.denominator ) {
+                    return sum.toMixedFraction();
+                }
+            }
+            return generatePossibleFraction().toMixedFraction();
+        }
+
+        private Fraction generatePossibleFraction() {
+            Fraction sum = new Fraction( 0, 1 );
+            for ( Integer denominator : denominators ) {
+                sum = sum.plus( fraction( random.nextInt( denominator ), denominator ) );
+            }
+            return sum;
+        }
+    }
+
+    @SuppressWarnings("unchecked") NumberLevel level9() {
+        NumberLevel original = level9ORIG();
+        RandomColors4 colors = new RandomColors4();
+        final NumberTarget a = new NumberTarget( original.targets.index( 0 ).mixedFraction, colors.next(), original.targets.index( 0 ).filledPattern, original.targets.index( 0 ).representation );
+        final NumberTarget b = new NumberTarget( original.targets.index( 1 ).mixedFraction, colors.next(), original.targets.index( 1 ).filledPattern, original.targets.index( 1 ).representation );
+
+        List<Sample> selected = choose( 2, level9_10_sets );
+        final NumberTarget c = sampleToTarget( colors, selected.index( 0 ) );
+        final NumberTarget d = sampleToTarget( colors, selected.index( 1 ) );
+
+        return new NumberLevel( shuffle( list( a, b, c, d ) ) );
+    }
+
+    private NumberTarget sampleToTarget( final RandomColors4 colors, final Sample sample ) {
+        MixedFraction mixedFraction = sample.toMixedFraction();
+        ShapeTypeEnum shapeType = chooseOne( sample.shapeTypes );
+        final F<MixedFraction, FilledPattern> pattern = ( shapeType == PIE ? NumberLevelList.pie :
+                                                          shapeType == BAR ? NumberLevelList.horizontalBar :
+                                                          shapeType == PYRAMIDS ? NumberLevelList.pyramid9 :
+                                                          NumberLevelList.grid9 ).random();
+        return new NumberTarget( mixedFraction, colors.next(), shuffle( scatteredComposite( pattern ).f( mixedFraction ) ), pattern );
+    }
+
+    private final List<ShapeTypeEnum> pieOrBar = list( BAR, PIE, CUBES, PYRAMIDS );
+    private final List<Sample> level9_10_sets = list( new Sample( list( 1, 2, 3, 6 ), pieOrBar ), new Sample( list( 1, 2, 4, 8 ), pieOrBar ), new Sample( list( 1, 3, 9 ), list( PYRAMIDS, CUBES ) ) );
 
     /*Level 10:
     --Same as level 9, but now all 4 targets can have different internal divisions in representations.*/
-    NumberLevel level10() { return levelWithSomeScattering( list( true, true, true, true ) ); }
+    NumberLevel level10() {
+        NumberLevel original = level9ORIG();
+        RandomColors4 colors = new RandomColors4();
+
+        List<Sample> selected = choose( 3, level9_10_sets ).snoc( chooseOne( level9_10_sets ) );
+        final NumberTarget a = sampleToTarget( colors, selected.index( 0 ) );
+        final NumberTarget b = sampleToTarget( colors, selected.index( 1 ) );
+        final NumberTarget c = sampleToTarget( colors, selected.index( 2 ) );
+        final NumberTarget d = sampleToTarget( colors, selected.index( 3 ) );
+
+        return new NumberLevel( shuffle( list( a, b, c, d ) ) );
+    }
 
     //Shared code for levels 9-10, see their descriptions
     NumberLevel levelWithSomeScattering( List<Boolean> scatterList ) {
