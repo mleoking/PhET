@@ -43,8 +43,8 @@ public class SlopeToolNode extends PComposite {
     private static final Color LINE_COLOR = LGColors.SLOPE;
 
     // values
-    private static final int VALUE_X_SPACING = 4;
-    private static final int VALUE_Y_SPACING = 4;
+    private static final int VALUE_X_SPACING = 6;
+    private static final int VALUE_Y_SPACING = 6;
 
     public SlopeToolNode( Property<Line> line, final ModelViewTransform mvt, final double manipulatorDiameter ) {
 
@@ -146,7 +146,7 @@ public class SlopeToolNode extends PComposite {
         private static final PhetFont FONT = new PhetFont( Font.BOLD, 16 );
         private static final Color TEXT_COLOR = Color.BLACK;
         private static final Color BACKGROUND_COLOR = ColorUtils.createColor( LGColors.SLOPE, 150 );
-        private static final double X_MARGIN = 6;
+        private static final double X_MARGIN = 3;
         private static final double Y_MARGIN = 3;
 
         public AbsoluteValueNode( double value ) {
