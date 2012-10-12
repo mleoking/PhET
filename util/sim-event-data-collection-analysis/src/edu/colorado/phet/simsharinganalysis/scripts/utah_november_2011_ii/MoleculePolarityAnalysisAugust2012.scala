@@ -126,7 +126,7 @@ object NewParser {
                                p.toString != "Two Atoms: buttonNode: Reset All"
 
                                //Uncomment this line to make a plot for just one tab
-                               && p.toString.startsWith(tabNames(0))
+                               && p.toString.startsWith(tabNames(2))
     )
   }
 
@@ -190,16 +190,16 @@ object NewParser {
 
     println()
     println("Total items possible: " + componentSet.size)
-    val formatter = new DecimalFormat("0.00")
     println()
 
-    println("[=======================chart==================]")
-    println("group\tcomponents used during\"play only\" time")
+    println("group\tnumber missed during play only time\tcomponents missed during\"play only\" time")
     for ( log <- logs.sortBy(_.id) ) {
       val elements = getStates(log)
       val entriesUsedInPlayTime = getUsedComponents(elements, e => e.serverTime >= startPlayTime && e.serverTime <= endPlayTime)
       val entriesUsedAnyTime = getUsedComponents(elements, e => true)
-      println(log.id + "\t" + formatter.format(entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0) + "%")
+//      println(log.id + "\t" + formatter.format(entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0) + "%")
+      val missedComponents = allComponents.distinct -- entriesUsedInPlayTime.distinct
+      println(log.id+"\t"+missedComponents.length+"\t"+missedComponents.mkString(", "))
     }
     println()
 
