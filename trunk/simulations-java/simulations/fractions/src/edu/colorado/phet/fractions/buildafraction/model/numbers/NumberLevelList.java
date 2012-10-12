@@ -118,6 +118,17 @@ public class NumberLevelList implements NumberLevelFactory {
             return Pattern.grid( 1 );
         }
     };
+
+    public static final PatternMaker horizontallySlicedCube = new PatternMaker( "grid", 3 ) {
+        @Override public Pattern f( final MixedFraction mixedFraction ) {
+            return Pattern.horizontallySlicedCube3();
+        }
+    };
+    public static final PatternMaker verticallySlicedCube = new PatternMaker( "grid", 3 ) {
+        @Override public Pattern f( final MixedFraction mixedFraction ) {
+            return Pattern.verticallySlicedCube3();
+        }
+    };
     public static final PatternMaker grid4 = new PatternMaker( "grid", 4 ) {
         @Override public Pattern f( final MixedFraction fraction ) {
             return Pattern.grid( 2 );
