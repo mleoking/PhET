@@ -527,7 +527,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         } );
     }
 
-    static final BufferedImage CLEAR = new BufferedImage( Images.ICE_OVERLAY.getWidth() / 8, 10, BufferedImage.TYPE_INT_ARGB_PRE );
+    static final BufferedImage CLEAR = new BufferedImage( Images.ICE_OVERLAY.getWidth() / 8, 6, BufferedImage.TYPE_INT_ARGB_PRE );
     BufferedImage gravelImage = new BufferedImage( CLEAR.getWidth(), CLEAR.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
 
     private static final Random random = new Random();
