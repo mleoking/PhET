@@ -65,9 +65,9 @@ class AppliedForceSliderControl extends PNode {
                     appliedForce.set( value );
                 }
                 else if ( speedValue.get() == RIGHT_SPEED_EXCEEDED ) {
-                    appliedForce.set( MathUtil.clamp( -100, value, 0 ) );
+                    appliedForce.set( MathUtil.clamp( -MAX_APPLIED_FORCE, value, 0 ) );
                 }
-                else { appliedForce.set( MathUtil.clamp( 0, value, 100 ) ); }
+                else { appliedForce.set( MathUtil.clamp( 0, value, MAX_APPLIED_FORCE ) ); }
                 notifyIfChanged();
             }
 
@@ -182,7 +182,7 @@ class AppliedForceSliderControl extends PNode {
 
                                            private void updateValueFromText( final DecimalFormat format ) {
                                                try {
-                                                   final double value = MathUtil.clamp( -100, format.parse( getText() ).doubleValue(), 100 );
+                                                   final double value = MathUtil.clamp( -MAX_APPLIED_FORCE, format.parse( getText() ).doubleValue(), MAX_APPLIED_FORCE );
                                                    SimSharingManager.sendUserMessage( UserComponents.appliedForceTextField, UserComponentTypes.textField, UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.appliedForce, value ) );
                                                    appliedForce.set( value );
                                                    appliedForceSliderModel.set( appliedForce.get() );
