@@ -40,7 +40,7 @@ public class ForceArrowNode extends PNode {
         this.forceInNewtons = forceInNewtons;
 
         //Choose a single scale factor that works in all of the tabs.
-        final double value = forceInNewtons * 3.625;
+        final double value = forceInNewtons * 3.5 / 5;
         if ( value == 0 && textLocation == TextLocation.SIDE ) { return; }
         else if ( value == 0 && textLocation == TextLocation.TOP ) {
             showTextOnly( tail );

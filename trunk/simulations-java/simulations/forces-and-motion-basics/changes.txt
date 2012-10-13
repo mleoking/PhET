@@ -1,3 +1,7 @@
+Tab 1: Increased cart weight by a factor of 10
+Tab 1: Increased puller forces from by a factor of 5
+Tab 1: Increased puller masses from {200,400,600} to {400,600,1000} Newtons
+Tab 1-3: Reduced force arrow nodes by a factor of about 5
 Tab 3: Added gravel texture as a function of friction
 # 0.00.49 (69169) Oct 12, 2012
 Tab 2-3: Changed max speed from 9.5 m/s to 10 m/s

@@ -47,9 +47,9 @@ public class PullerNode extends PNode {
 
             //Average human mass is 76-83 kg, so the average human weight is between 745 and 813 Newtons.
             //Read more: http://wiki.answers.com/Q/What_does_an_average_human_weigh_in_newtons#ixzz26k003Tsu
-            return pullerNode.size == PullerSize.SMALL ? 200.0 :
-                   pullerNode.size == PullerSize.MEDIUM ? 400.0 :
-                   pullerNode.size == PullerSize.LARGE ? 800.0 :
+            return pullerNode.size == PullerSize.SMALL ? 400.0 :
+                   pullerNode.size == PullerSize.MEDIUM ? 600.0 :
+                   pullerNode.size == PullerSize.LARGE ? 1000.0 :
                    null;
         }
     };
@@ -189,9 +189,9 @@ public class PullerNode extends PNode {
     public KnotNode getKnot() { return knot; }
 
     public double getForce() {
-        return size == PullerSize.SMALL ? 10 :
-               size == PullerSize.MEDIUM ? 20 :
-               size == PullerSize.LARGE ? 30 :
+        return size == PullerSize.SMALL ? 10 * 5 :
+               size == PullerSize.MEDIUM ? 20 * 5 :
+               size == PullerSize.LARGE ? 30 * 5 :
                Double.NaN;
     }
 
