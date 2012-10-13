@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.umd.cs.piccolo.PNode;
@@ -41,7 +40,7 @@ class PusherNode extends PNode {
     private final BufferedImage pusherFallDownLeft = Images.PUSHER_FALL_DOWN;
 
     public PusherNode( final BooleanProperty fallen, final PNode skateboard, final double grassY, final DoubleProperty appliedForce,
-                       final Property<List<StackableNode>> stack, final ObservableProperty<SpeedValue> speedValue, final Property<Option<Double>> speed,
+                       final Property<List<StackableNode>> stack, final ObservableProperty<SpeedValue> speedValue, final ObservableProperty<Double> velocity,
                        final BooleanProperty playing, final BooleanProperty movedSliderOnce ) {
         this.appliedForce = appliedForce;
         pusher = new PImage( PUSHER_STRAIGHT_ON );
@@ -61,7 +60,8 @@ class PusherNode extends PNode {
                 if ( appliedForce != 0 ) {
                     lastNonzeroAppliedForce = appliedForce;
                 }
-                boolean behindSkateboard = MathUtil.getSign( lastNonzeroAppliedForce ) == MathUtil.getSign( speed.get().get() );
+
+                boolean behindSkateboard = MathUtil.getSign( lastNonzeroAppliedForce ) == MathUtil.getSign( velocity.get() );
 
                 if ( appliedForce == 0 ) {
                     if ( behindSkateboard ) {
