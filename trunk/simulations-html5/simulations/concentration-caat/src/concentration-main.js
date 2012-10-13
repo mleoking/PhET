@@ -27,9 +27,24 @@
         return background;
     }
 
-    function createKnob( image, minX, y, maxX ) {
-        var knob = new CAAT.Actor().setBackgroundImage( image, true ).setPosition( minX, y );
-        knob.x = minX;
+    function createKnob( image, minX, y, maxX, mobile ) {
+        var knobImage = new CAAT.Actor().setBackgroundImage( image, true ).enableEvents( false );
+        var touchAreaWidth = 100;
+        var touchAreaHeight = 100;
+
+        //Only make smaller regions on touch devices
+        if ( !mobile ) {
+            touchAreaWidth = knobImage.width;
+            touchAreaHeight = knobImage.height;
+        }
+
+        var knob = new CAAT.ActorContainer().setSize( touchAreaWidth, touchAreaHeight );
+        var relativeX = touchAreaWidth / 2 - knobImage.width / 2;
+        var relativeY = touchAreaHeight / 2 - knobImage.height / 2;
+        knobImage.setPosition( relativeX, relativeY );
+        knob.setPosition( minX - relativeX, y - relativeY );
+        knob.addChild( knobImage );
+
         knob.enableDrag();
         knob.mouseDrag = function ( mouseEvent ) {
 
@@ -43,11 +58,11 @@
             }
 
             var knobX = pt.x + knob.__relativeTouchPoint;
-            if ( knobX > maxX ) {
-                knobX = maxX;
+            if ( knobX > maxX - relativeX ) {
+                knobX = maxX - relativeX;
             }
-            if ( knobX < minX ) {
-                knobX = minX;
+            if ( knobX < minX - relativeX ) {
+                knobX = minX - relativeX;
             }
             knob.x = knobX;
         };
@@ -216,8 +231,11 @@
         //This seemed to be relevant: http://tripleodeon.com/2011/12/first-understand-your-screen/
         var rootNode = new CAAT.ActorContainer().setSize( director.width * 10, director.height * 10 );
 
-        var topKnob = createKnob( director.getImage( 'slider-knob' ), 90, 34, 177 );
-        var bottomKnob = createKnob( director.getImage( 'slider-knob' ), 738, 498, 738 + (177 - 90) );
+        //Consider as mobile if android, ios or cocoon (which shows up as "an unknown OS)
+        var mobile = isAndroid() || isIOS() || director.getOSName() == "an unknown OS";
+
+        var topKnob = createKnob( director.getImage( 'slider-knob' ), 90, 34, 177, mobile );
+        var bottomKnob = createKnob( director.getImage( 'slider-knob' ), 738, 498, 738 + (177 - 90), mobile );
 
         var border = new CAAT.Actor().setSize( director.width, director.height );
 
@@ -250,7 +268,7 @@
             return tick;
         }
 
-        function createEvaporationControlPanel() {
+        function createEvaporationControlPanel( mobile ) {
             var background = rectangleNode( 400, 100, 'rgb(240,240,240)', 2, 'gray' );
             var sliderTrack = rectangleNode( 200, 4, 'white', 1, 'black' );
             var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Evaporation" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
@@ -259,7 +277,7 @@
             container.setSize( background.width, background.height );
             container.addChild( background );
             container.addChild( text.setLocation( 2, 30 ) );
-            var evaporationKnob = createKnob( director.getImage( 'slider-knob' ), 150, 25, 350 );
+            var evaporationKnob = createKnob( director.getImage( 'slider-knob' ), 150, 25, 350, mobile );
             container.addChild( sliderTrack.setPosition( 150 + 10, 25 + evaporationKnob.height / 2 ) );
             container.addChild( evaporationKnob );
 
@@ -363,7 +381,7 @@
             return container;
         }
 
-        var evaporationControlPanel = createEvaporationControlPanel();
+        var evaporationControlPanel = createEvaporationControlPanel( mobile );
         var soluteControlPanel = createSoluteControlPanel();
 
         rootNode.addChild( border );
@@ -590,7 +608,7 @@
 
         //This breaks Win7/Chrome interaction, so only enable on ios + android
         var allowPinchToZoomOnMobile = false;//Needs to be rewritten to work with stage centering strategy
-        var mobile = isAndroid() || isIOS();
+
         if ( mobile && allowPinchToZoomOnMobile ) {
             //Pinch to zoom in on different parts of the sim, mainly to make up for shortcomings in the user interface on smaller devices.
             //        var canvasElement = document.getElementById( "canvas" );

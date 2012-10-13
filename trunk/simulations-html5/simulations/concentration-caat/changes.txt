@@ -1,3 +1,4 @@
+Use larger hit areas for knobs
 Show the CAAT Debug panel at the bottom of the screen
 # 00.00.08 (69010) Oct 9, 2012
 # 00.00.07 (68962) Oct 8, 2012
