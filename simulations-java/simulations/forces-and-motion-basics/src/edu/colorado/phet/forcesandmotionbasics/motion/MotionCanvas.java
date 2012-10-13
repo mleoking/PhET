@@ -290,7 +290,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 }
             } );
         }} );
-        final PNode showForcesPanel = new HBox( 15, new PSwing( showForcesCheckBox ), new ForceArrowNode( false, ZERO, 20, "", ForcesNode.APPLIED_FORCE_COLOR, TextLocation.SIDE, false ) {{
+        final PNode showForcesPanel = new HBox( 15, new PSwing( showForcesCheckBox ), new ForceArrowNode( false, ZERO, 20 * 5, "", ForcesNode.APPLIED_FORCE_COLOR, TextLocation.SIDE, false ) {{
             scale( 0.4 );
             setPickable( true );
             setChildrenPickable( true );
