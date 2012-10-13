@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -54,7 +55,8 @@ class AppliedForceSliderControl extends PNode {
 
     public static final int MAX_APPLIED_FORCE = 500;//Newtons.  Int because it is used in string values for the slider
 
-    public AppliedForceSliderControl( final ObservableProperty<SpeedValue> speedValue, final DoubleProperty appliedForce, final Property<List<StackableNode>> stack, final boolean friction, final BooleanProperty playing ) {
+    public AppliedForceSliderControl( final ObservableProperty<SpeedValue> speedValue, final DoubleProperty appliedForce,
+                                      final Property<List<StackableNode>> stack, final boolean friction, final BooleanProperty playing, final MotionModel model ) {
 
         final Not enabled = Not.not( stack.valueEquals( List.<StackableNode>nil() ) );
         final String unitsString = friction ? Strings.NEWTONS__N : Strings.NEWTONS;
@@ -140,6 +142,8 @@ class AppliedForceSliderControl extends PNode {
                 public void apply( final List<StackableNode> stackableNodes ) {
                     if ( stackableNodes.isEmpty() ) {
                         appliedForceSliderModel.set( 0.0 );
+                        model.speed.set( new Some<Double>( 0.0 ) );
+                        model.velocity.set( 0.0 );
                     }
                 }
             } );
