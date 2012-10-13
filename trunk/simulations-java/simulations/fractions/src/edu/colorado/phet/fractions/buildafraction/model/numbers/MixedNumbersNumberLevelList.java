@@ -509,7 +509,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
 
     private Sample shapeTypeEnumToSample( final ShapeTypeEnum shapeTypeEnum ) {
         ArrayList<Sample> allowed = new ArrayList<Sample>();
-        for ( Struct level9_10_set : level9_10_sets ) {
+        for ( ShapeTypeWithDenominators level9_10_set : level9_10_sets ) {
             if ( level9_10_set.matchingTypes.elementIndex( Equal.<ShapeTypeEnum>anyEqual(), shapeTypeEnum ).isSome() ) {
                 allowed.add( new Sample( level9_10_set.denominators, shapeTypeEnum ) );
             }
@@ -526,7 +526,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
 
     private final List<ShapeTypeEnum> shapeTypes = list( BAR, PIE, CUBES );
 
-    private final List<Struct> level9_10_sets = list( new Struct( list( 1, 2, 3, 6 ), list( BAR, PIE ) ), new Struct( list( 1, 2, 4, 8 ), list( BAR, PIE ) ), new Struct( list( 1, 3, 9 ), list( CUBES ) ) );
+    private final List<ShapeTypeWithDenominators> level9_10_sets = list( new ShapeTypeWithDenominators( list( 1, 2, 3, 6 ), list( BAR, PIE ) ), new ShapeTypeWithDenominators( list( 1, 2, 4, 8 ), list( BAR, PIE ) ), new ShapeTypeWithDenominators( list( 1, 3, 9 ), list( CUBES ) ) );
 
     /*Level 10:
     --Same as level 9, but now all 4 targets can have different internal divisions in representations.*/
@@ -658,7 +658,7 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
         System.out.println( "allOK = " + allOK );
     }
 
-    public static @Data class Struct {
+    public static @Data class ShapeTypeWithDenominators {
         public final List<Integer> denominators;
         public final List<ShapeTypeEnum> matchingTypes;
     }
