@@ -1,3 +1,4 @@
+Tab 3: Only show the gravel specks within the brown surface stroke
 # 0.00.55 (69192) Oct 13, 2012
 Tab 3: Made 15% more gravel specks at max and 0 at 10% of max friction
 # 0.00.54 (69185) Oct 12, 2012
