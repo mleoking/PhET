@@ -1,3 +1,4 @@
+# 0.00.51 (69176) Oct 12, 2012
 Tab 2-3: Fixed scaling of force arrow icon in the control panel
 Tab 2-3: Fixed: place object > pause > apply force > play > get up to some speed > pause > remove object. The speedometer stays at the last speed, but should go to zero
 Tab 2-3: Updated bounds for slider when partly grayed out
