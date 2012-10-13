@@ -1,3 +1,4 @@
+Tab 3: Made 15% more gravel specks at max and 0 at 10% of max friction
 # 0.00.54 (69185) Oct 12, 2012
 Tab 3: Made the gravel specks 1x1 pixel
 # 0.00.53 (69183) Oct 12, 2012

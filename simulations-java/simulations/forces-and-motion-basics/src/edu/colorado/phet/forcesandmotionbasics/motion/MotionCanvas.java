@@ -533,7 +533,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private static final Random random = new Random();
 
     private void updateGravelImage() {
-        LinearFunction linearFunction = new LinearFunction( 0, FrictionSliderControl.MAX, 40, 500 );
+        LinearFunction linearFunction = new LinearFunction( FrictionSliderControl.MAX * 0.1, FrictionSliderControl.MAX, 0, 500 * 1.15 );
         final int numSpecks = (int) linearFunction.evaluate( model.frictionValue.get() );
         //Save computation, esp. for older machines
         if ( numSpecks == lastNumSpecks ) {return;}
