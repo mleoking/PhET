@@ -21,6 +21,7 @@ import edu.colorado.phet.fractions.buildafraction.model.NumberLevelFactory;
 import edu.colorado.phet.fractions.common.math.Fraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 
+import static edu.colorado.phet.common.phetcommon.util.functionaljava.FJUtils.contains;
 import static edu.colorado.phet.fractions.buildafraction.model.MixedFraction.mixedFraction;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.MixedNumbersNumberLevelList.ShapeTypeEnum.*;
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
@@ -462,7 +463,8 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
                 final List<FilledPattern> result = toShapes( type );
                 final MixedFraction mixedNumber = patternToMixedFraction( result );
                 final List<Integer> cards = NumberLevel.straightforwardNumbers( single( mixedNumber ) );
-                if ( result.length() > 2 && mixedNumber.toFraction().numerator > mixedNumber.toFraction().denominator && cards.maximum( Ord.intOrd ) < 10 && cards.filter( new F<Integer, Boolean>() {
+                if ( result.length() > 2 && mixedNumber.toFraction().numerator > mixedNumber.toFraction().denominator &&
+                     cards.maximum( Ord.intOrd ) < 10 && cards.filter( new F<Integer, Boolean>() {
                     @Override public Boolean f( final Integer integer ) {
                         return integer == 0;
                     }
@@ -474,10 +476,47 @@ public class MixedNumbersNumberLevelList implements NumberLevelFactory {
             return toShapes( type );
         }
 
+        private List<Integer> getDenominatorsForPatterns( final List<FilledPattern> result ) {
+            return result.map( new F<FilledPattern, Integer>() {
+                @Override public Integer f( final FilledPattern filledPattern ) {
+                    return filledPattern.getDenominator();
+                }
+            } );
+        }
+
+        private boolean createsCommonDenominatorProblem( final List<Integer> denominators ) {
+            boolean containsWholeHalfAndThird = contains( denominators, 1 ) && contains( denominators, 2 ) && contains( denominators, 3 );
+            if ( containsWholeHalfAndThird ) { return !contains( denominators, 6 ); }
+            else { return true; }
+        }
+
         private List<FilledPattern> toShapes( final ShapeTypeEnum pattern ) {
             ArrayList<FilledPattern> shapeList = new ArrayList<FilledPattern>();
             for ( Integer denominator : denominators ) {
                 int numerator = denominator == 1 ? 1 : random.nextInt( denominator );
+
+                //do not include problems
+                //that only involve a whole, a half, and a third.  Then often a common
+                //denominator of 6 must be invoked.  So, whole, half, third, and sixth can
+                //work, since the sixth is already present.
+                if ( denominator == 6 &&
+                     iterableList( shapeList ).exists( new F<FilledPattern, Boolean>() {
+                         @Override public Boolean f( final FilledPattern filledPattern ) {
+                             return filledPattern.getDenominator() == 1;
+                         }
+                     } ) &&
+                     iterableList( shapeList ).exists( new F<FilledPattern, Boolean>() {
+                         @Override public Boolean f( final FilledPattern filledPattern ) {
+                             return filledPattern.getDenominator() == 2;
+                         }
+                     } ) &&
+                     iterableList( shapeList ).exists( new F<FilledPattern, Boolean>() {
+                         @Override public Boolean f( final FilledPattern filledPattern ) {
+                             return filledPattern.getDenominator() == 3;
+                         }
+                     } ) ) {
+                    numerator = random.nextInt( denominator - 1 ) + 1;
+                }
 
                 PatternMaker patternMaker = toPatternMaker( pattern, denominator );
 

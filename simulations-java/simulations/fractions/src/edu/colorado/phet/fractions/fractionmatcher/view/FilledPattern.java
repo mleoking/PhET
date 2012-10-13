@@ -70,4 +70,8 @@ public @Data class FilledPattern {
             }
         } ).length(), shapes.length() );
     }
+
+    public Integer getDenominator() {
+        return shapes.length();
+    }
 }
