@@ -16,3 +16,5 @@ Implement combo box picker (or something better)
 Show values in the concentration meter
 
 Can’t see any solute when you 'evaporate' all of the liquid.
+
+Lots of flicker when dragging objects or sliders on ipad or android
