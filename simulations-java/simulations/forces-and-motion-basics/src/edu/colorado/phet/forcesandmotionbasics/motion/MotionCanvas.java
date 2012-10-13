@@ -533,7 +533,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private static final Random random = new Random();
 
     private void updateGravelImage() {
-        LinearFunction linearFunction = new LinearFunction( 0, FrictionSliderControl.MAX, 40, 280 );
+        LinearFunction linearFunction = new LinearFunction( 0, FrictionSliderControl.MAX, 40, 500 );
         final int numSpecks = (int) linearFunction.evaluate( model.frictionValue.get() );
         //Save computation, esp. for older machines
         if ( numSpecks == lastNumSpecks ) {return;}
@@ -544,20 +544,22 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         random.setSeed( 0L );
 
         g2.setPaint( Color.black );
+        final int width = gravelImage.getWidth();
+        final int height = gravelImage.getHeight();
         for ( int i = 0; i < numSpecks / 2; i++ ) {
-            g2.fillRect( random.nextInt( gravelImage.getWidth() ), random.nextInt( gravelImage.getHeight() ), random.nextInt( 2 ) + 1, random.nextInt( 2 ) + 1 );
+            g2.fillRect( random.nextInt( width ), random.nextInt( height ), 1, 1 );
         }
 
         g2.setPaint( Color.darkGray );
         for ( int i = 0; i < numSpecks / 2; i++ ) {
-            g2.fillRect( random.nextInt( gravelImage.getWidth() ), random.nextInt( gravelImage.getHeight() ), random.nextInt( 2 ) + 1, random.nextInt( 2 ) + 1 );
+            g2.fillRect( random.nextInt( width ), random.nextInt( height ), 1, 1 );
         }
 
         //Add white dots in the ratio 1:5
         random.setSeed( 11L );
         g2.setPaint( Color.white );
         for ( int i = 0; i < numSpecks / 10; i++ ) {
-            g2.fillRect( random.nextInt( gravelImage.getWidth() ), random.nextInt( gravelImage.getHeight() ), random.nextInt( 2 ) + 1, random.nextInt( 2 ) + 1 );
+            g2.fillRect( random.nextInt( width ), random.nextInt( height ), 1, 1 );
         }
 
         g2.dispose();
