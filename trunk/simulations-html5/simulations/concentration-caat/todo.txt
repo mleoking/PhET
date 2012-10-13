@@ -1,14 +1,18 @@
-Hit areas on knobs should be much larger
+larger hit areas for slider knobs or other things, to make it useful on Nexus 7 and/or phones.
+    Increase hit area on combo box, radio buttons, buttons, concentration sensor
+
 releasing a knob should reset its value to 0.0
-show a frame rate readout (could be done with debug template)
-    integrate with C:\Users\Sam\Desktop\CAAT\documentation\debug\debug_template.html, this will show frame rate
+
 pinch to zoom on the frame
     working on mobile but a bit buggy
+
 an object dragged out of the stage bounds cannot be retrieved (mouse events don't originate from there, will probably have to change the rootNode bounds)
-pinch to zoom
-internationaliation (make it part of the sim?)
-larger hit areas for slider knobs or other things, to make it useful on Nexus 7 and/or phones.
+
+i18n
+    Use a properties parser to load pre-existing translations, see For parsing properties files: https://github.com/Xavi-/node-properties-parser
+
 Implement combo box picker (or something better)
-I can move the concentration meter 'target' fairly easily, but the meter doesn't read anything (probably not coded yet?)
+
+Show values in the concentration meter
+
 Can’t see any solute when you 'evaporate' all of the liquid.
-For parsing properties files: https://github.com/Xavi-/node-properties-parser
