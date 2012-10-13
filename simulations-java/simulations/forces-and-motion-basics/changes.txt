@@ -1,3 +1,4 @@
+Tab 3: Added gravel texture as a function of friction
 # 0.00.49 (69169) Oct 12, 2012
 Tab 2-3: Changed max speed from 9.5 m/s to 10 m/s
 Tab 2-3: Changed max applied force to 500N

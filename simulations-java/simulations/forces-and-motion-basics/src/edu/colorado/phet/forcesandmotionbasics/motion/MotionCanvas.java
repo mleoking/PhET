@@ -17,9 +17,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import javax.swing.JCheckBox;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -117,6 +119,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     //Features only for Tab 3: Friction:
     private final BooleanProperty showSumOfForces = new BooleanProperty( false );
     private final BooleanProperty dragging = new BooleanProperty( false );
+    private int lastNumSpecks = -1;
 
     public MotionCanvas( final Resettable moduleContext, final IClock clock,
 
@@ -238,6 +241,17 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width, -50, STAGE_SIZE.width * 3, cloudTexture.getHeight( null ) );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 10, area.getY(), cloudTexture.getWidth( null ), cloudTexture.getHeight( null ) );
                     addChild( new PhetPPath( area, new TexturePaint( BufferedImageUtils.toBufferedImage( cloudTexture ), anchor ) ) );
+                }
+
+                //Show gravel overlay
+                if ( friction && model.frictionValue.get() > 0 ) {
+                    final double gravelScale = 1;
+                    updateGravelImage();
+                    final BufferedImage image = gravelImage;
+                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / gravelScale, grassY / gravelScale, STAGE_SIZE.width * 3 / gravelScale, image.getHeight() );
+                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / gravelScale, area.getY(), image.getWidth(), image.getHeight() );
+                    PhetPPath path = new PhetPPath( area, new TexturePaint( image, anchor ) ) {{ scale( gravelScale ); }};
+                    addChild( path );
                 }
             }
         };
@@ -509,6 +523,37 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 sendModelMessage( ModelComponents.stack, ModelComponentTypes.modelElement, ModelActions.changed, parameterSet( ParameterKeys.mass, getMassOfObjectsOnSkateboard() ).with( ParameterKeys.items, stackToString( stackableNodes ) ) );
             }
         } );
+    }
+
+    static final BufferedImage CLEAR = new BufferedImage( Images.ICE_OVERLAY.getWidth() / 8, 10, BufferedImage.TYPE_INT_ARGB_PRE );
+    BufferedImage gravelImage = new BufferedImage( CLEAR.getWidth(), CLEAR.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+
+    private static final Random random = new Random();
+
+    private void updateGravelImage() {
+        LinearFunction linearFunction = new LinearFunction( 0, FrictionSliderControl.MAX, 40, 280 );
+        final int numSpecks = (int) linearFunction.evaluate( model.frictionValue.get() );
+        //Save computation, esp. for older machines
+        if ( numSpecks == lastNumSpecks ) {return;}
+
+        //Clear a transparent buffered image as fast as possible: http://stackoverflow.com/questions/2367365/clear-a-transparent-bufferedimage-as-fast-as-possible
+        gravelImage.setData( CLEAR.getRaster() );
+        Graphics2D g2 = gravelImage.createGraphics();
+        random.setSeed( 0L );
+
+        g2.setPaint( Color.black );
+        for ( int i = 0; i < numSpecks / 2; i++ ) {
+            g2.fillRect( random.nextInt( gravelImage.getWidth() ), random.nextInt( gravelImage.getHeight() ), random.nextInt( 1 ) + 1, 2 + random.nextInt( 1 ) + 1 );
+        }
+
+        g2.setPaint( Color.darkGray );
+        for ( int i = 0; i < numSpecks / 2; i++ ) {
+            g2.fillRect( random.nextInt( gravelImage.getWidth() ), random.nextInt( gravelImage.getHeight() ), random.nextInt( 1 ) + 1, 2 + random.nextInt( 1 ) + 1 );
+        }
+
+        g2.dispose();
+
+        lastNumSpecks = numSpecks;
     }
 
     //Avoid an empty string in a parameter value by listing the ground or skateboard first
