@@ -45,4 +45,12 @@ public class FJUtils {
             }
         };
     }
+
+    public static <T> boolean contains( final List<T> list, final T value ) {
+        return list.exists( new F<T, Boolean>() {
+            @Override public Boolean f( final T t ) {
+                return t.equals( value );
+            }
+        } );
+    }
 }
