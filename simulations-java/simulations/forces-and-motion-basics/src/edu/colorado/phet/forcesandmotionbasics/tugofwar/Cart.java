@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleP
  * @author Sam Reid
  */
 class Cart {
-    public final double weight = 1000;       //in newtons, weighs a little more than a big puller
+    public final double weight = 1000 * 10;//Compare to puller weight in PullerNode
     private double velocity = 0;
     public final DoubleProperty position = new DoubleProperty( 0.0 );
 
