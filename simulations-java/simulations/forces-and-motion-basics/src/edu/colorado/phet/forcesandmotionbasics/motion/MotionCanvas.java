@@ -248,7 +248,9 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     final double gravelScale = 1;
                     updateGravelImage();
                     final BufferedImage image = gravelImage;
-                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / gravelScale, grassY / gravelScale, STAGE_SIZE.width * 3 / gravelScale, image.getHeight() );
+
+                    //Move the gravel up so it is slightly above ground
+                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / gravelScale, grassY / gravelScale - 1.75, STAGE_SIZE.width * 3 / gravelScale, image.getHeight() );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / gravelScale, area.getY(), image.getWidth(), image.getHeight() );
                     PhetPPath path = new PhetPPath( area, new TexturePaint( image, anchor ) ) {{ scale( gravelScale ); }};
                     addChild( path );
@@ -543,12 +545,19 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
         g2.setPaint( Color.black );
         for ( int i = 0; i < numSpecks / 2; i++ ) {
-            g2.fillRect( random.nextInt( gravelImage.getWidth() ), random.nextInt( gravelImage.getHeight() ), random.nextInt( 1 ) + 1, 2 + random.nextInt( 1 ) + 1 );
+            g2.fillRect( random.nextInt( gravelImage.getWidth() ), random.nextInt( gravelImage.getHeight() ), random.nextInt( 2 ) + 1, random.nextInt( 2 ) + 1 );
         }
 
         g2.setPaint( Color.darkGray );
         for ( int i = 0; i < numSpecks / 2; i++ ) {
-            g2.fillRect( random.nextInt( gravelImage.getWidth() ), random.nextInt( gravelImage.getHeight() ), random.nextInt( 1 ) + 1, 2 + random.nextInt( 1 ) + 1 );
+            g2.fillRect( random.nextInt( gravelImage.getWidth() ), random.nextInt( gravelImage.getHeight() ), random.nextInt( 2 ) + 1, random.nextInt( 2 ) + 1 );
+        }
+
+        //Add white dots in the ratio 1:5
+        random.setSeed( 11L );
+        g2.setPaint( Color.white );
+        for ( int i = 0; i < numSpecks / 10; i++ ) {
+            g2.fillRect( random.nextInt( gravelImage.getWidth() ), random.nextInt( gravelImage.getHeight() ), random.nextInt( 2 ) + 1, random.nextInt( 2 ) + 1 );
         }
 
         g2.dispose();

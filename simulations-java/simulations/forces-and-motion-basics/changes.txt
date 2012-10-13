@@ -1,3 +1,5 @@
+Tab 3: Moved the gravel up a bit so they are slightly above ground
+Tab 3: Added white gravel specks in a ratio of about 1:5 to the other specks
 # 0.00.52 (69178) Oct 12, 2012
 Tab 2-3: Fixed: the puller doesn't fall down when hitting max speed moving to the right
 # 0.00.51 (69176) Oct 12, 2012
