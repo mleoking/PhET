@@ -153,7 +153,7 @@
         var beakerWidth = 600;
         var beakerMaxX = beakerX + beakerWidth;
         var beakerMaxY = beakerY + beakerHeight;
-        var beaker = new CAAT.Actor().setSize( beakerWidth + lipWidth * 2, beakerHeight + lipWidth ).setLocation( beakerX - lipWidth, beakerY - lipWidth );
+        var beaker = new CAAT.Actor().setSize( beakerWidth + lipWidth * 2, beakerHeight + lipWidth ).setLocation( beakerX - lipWidth, beakerY - lipWidth ).enableEvents( false );
         beaker.paint = function ( director, time ) {
             var ctx = director.ctx;
 
@@ -175,7 +175,7 @@
             ctx.restore();
         };
 
-        var topFlowingWater = new CAAT.Actor().setSize( director.width, director.height );
+        var topFlowingWater = new CAAT.Actor().setSize( director.width, director.height ).enableEvents( false );
         var topFlowAmount = 0.0;
         topFlowingWater.paint = function ( director, time ) {
             var ctx = director.ctx;
@@ -191,8 +191,7 @@
             ctx.restore();
         };
 
-        var bottomFlowingWater = new CAAT.Actor().setSize( director.width, director.height );
-        bottomFlowingWater.enableDrag();
+        var bottomFlowingWater = new CAAT.Actor().setSize( director.width, director.height ).enableEvents( false );
         var bottomFlowAmount = 0.0;
 
         bottomFlowingWater.paint = function ( director, time ) {
@@ -221,9 +220,9 @@
             ctx.restore();
         };
 
-        var topFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 100, 50 );
-        var topFaucetPipe = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_pipe_long' ), true ).setPosition( -292, 82 );
-        var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 752, 520 );
+        var topFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 100, 50 ).enableEvents( false );
+        var topFaucetPipe = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_pipe_long' ), true ).setPosition( -292, 82 ).enableEvents( false );
+        var bottomFaucet = new CAAT.Actor().setBackgroundImage( director.getImage( 'faucet_front' ), true ).setPosition( 752, 520 ).enableEvents( false );
 
         //WORKAROUND: On android Chrome, this size had to be extended for unknown reasons.  It worked fine everywhere else just to use the director's width and height.
         //Luckily this did not seem to disrupt the behavior on other systems too much.
@@ -231,13 +230,16 @@
         //This seemed to be relevant: http://tripleodeon.com/2011/12/first-understand-your-screen/
         var rootNode = new CAAT.ActorContainer().setSize( director.width * 10, director.height * 10 );
 
+        //To enable pinch to zoom, use this line instead
+        //        var rootNode = new CAAT.ActorContainer().setSize( director.width , director.height  ).enableDrag().setGestureEnabled( true );
+
         //Consider as mobile if android, ios or cocoon (which shows up as "an unknown OS)
         var mobile = isAndroid() || isIOS() || director.getOSName() == "an unknown OS";
 
         var topKnob = createKnob( director.getImage( 'slider-knob' ), 90, 34, 177, mobile );
         var bottomKnob = createKnob( director.getImage( 'slider-knob' ), 738, 498, 738 + (177 - 90), mobile );
 
-        var border = new CAAT.Actor().setSize( director.width, director.height );
+        var border = new CAAT.Actor().setSize( director.width, director.height ).enableEvents( false );
 
         border.paint = function ( director, time ) {
             var ctx = director.ctx;
@@ -250,7 +252,7 @@
         };
 
         function createTick( fraction, extentX ) {
-            var tick = new CAAT.Actor().setSize( director.width, director.height );
+            var tick = new CAAT.Actor().setSize( director.width, director.height ).enableEvents( false );
             tick.paint = function ( director, time ) {
                 var ctx = director.ctx;
                 ctx.save();
@@ -607,31 +609,31 @@
 
 
         //This breaks Win7/Chrome interaction, so only enable on ios + android
-        var allowPinchToZoomOnMobile = false;//Needs to be rewritten to work with stage centering strategy
-
-        if ( mobile && allowPinchToZoomOnMobile ) {
-            //Pinch to zoom in on different parts of the sim, mainly to make up for shortcomings in the user interface on smaller devices.
-            //        var canvasElement = document.getElementById( "canvas" );
-            var canvasElement = document.getElementsByTagName( 'canvas' )[0];
-            var hammer = new Hammer( canvasElement );
-//                originalEvent   : event,
-//                position:_pos.center,
-//                scale:calculateScale( _pos.start, _pos.move ),
-//                rotation :  calculateRotation( _pos.start, _pos.move )
-//        hammer.ontransformstart = function ( ev ) {
-//        };
-            hammer.ontransform = function ( ev ) {
-//            var string = "scale = " + ev.scale + ", x = " + ev.position.x + ", centerx = " + centerX;
-//            console.log( string );
-//            rootNode.setLocation( 0, 0 );
-                rootNode.setScaleAnchored( ev.scale, ev.scale, ev.position.x / 1024, ev.position.y / 768 );
-                rootNode.centerAt( ev.position.x, ev.position.y );
-//            rootNode.setScale( ev.scale, ev.scale );
-                debugOutput.setText( string );
-            };
-//        hammer.ontransformend = function ( ev ) {
-//        };
-        }
+//        var allowPinchToZoomOnMobile = false;//Needs to be rewritten to work with stage centering strategy
+//
+//        if ( mobile && allowPinchToZoomOnMobile ) {
+//            //Pinch to zoom in on different parts of the sim, mainly to make up for shortcomings in the user interface on smaller devices.
+//            //        var canvasElement = document.getElementById( "canvas" );
+//            var canvasElement = document.getElementsByTagName( 'canvas' )[0];
+//            var hammer = new Hammer( canvasElement );
+////                originalEvent   : event,
+////                position:_pos.center,
+////                scale:calculateScale( _pos.start, _pos.move ),
+////                rotation :  calculateRotation( _pos.start, _pos.move )
+////        hammer.ontransformstart = function ( ev ) {
+////        };
+//            hammer.ontransform = function ( ev ) {
+////            var string = "scale = " + ev.scale + ", x = " + ev.position.x + ", centerx = " + centerX;
+////            console.log( string );
+////            rootNode.setLocation( 0, 0 );
+//                rootNode.setScaleAnchored( ev.scale, ev.scale, ev.position.x / 1024, ev.position.y / 768 );
+//                rootNode.centerAt( ev.position.x, ev.position.y );
+////            rootNode.setScale( ev.scale, ev.scale );
+//                debugOutput.setText( string );
+//            };
+////        hammer.ontransformend = function ( ev ) {
+////        };
+//        }
     }
 
     /**
