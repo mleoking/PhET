@@ -67,6 +67,13 @@
             knob.x = knobX;
         };
 
+        //Make the sliders snap back to 0 when released--the user has to hold it down continuously
+        var origMouseUP = knob.mouseUp;
+        knob.mouseUp = function ( mouseEvent ) {
+            origMouseUP.apply( knob, mouseEvent );
+            knob.setPosition( minX - relativeX, y - relativeY );
+        };
+
         //Returns a value between 0 and 1
         knob.getValue = function () {
             return (knob.x - minX) / (maxX - minX);
