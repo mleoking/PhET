@@ -152,7 +152,7 @@
 
                     //Didn't work at all when specifying "both"
                     mode:'map',
-                    language:'fr',
+                    language:'en',
                     callback:function () {
                         createScenesAfterResourcesLoaded( director );
                     }
