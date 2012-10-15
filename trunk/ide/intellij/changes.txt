@@ -1,1 +1,2 @@
+1/15/2012: Code style: Allow simple methods on one line for JavaScript, see #3253
 2/13/2012: Code Style: Allow simple methods on one line, see #3253
