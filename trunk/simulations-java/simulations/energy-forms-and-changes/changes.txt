@@ -1,3 +1,7 @@
+2nd tab: Removed the "Fast Forward" selection from the clock control.
+2nd tab: Added more images for greater resolution of the biker's movements.
+2nd tab: Added new image for biker where logo is on sleeve and doesn't get covered by energy chunks.
+2nd tab: New images for the hub of the generator and the support of the solar panel.
 # 0.00.21 (69108) Oct 11, 2012
 10/11/12 Deploy to dev for review and feedback.
 2nd tab: Added first cut of energy chunks to the biker.
