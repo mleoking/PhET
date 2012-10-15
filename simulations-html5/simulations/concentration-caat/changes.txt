@@ -1,3 +1,4 @@
+read language from URL parameter
 Internationalized strings
 Snap sliders back to zero when released
 Use larger hit areas for knobs, but only on mobile
