@@ -8,7 +8,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -17,11 +16,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemsModel;
-import edu.colorado.phet.energyformsandchanges.intro.view.NormalAndFastForwardTimeControlPanel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
@@ -69,15 +69,12 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         //------- Node Creation ----------------------------------------------
 
         // Create the clock controls. TODO: i18n
-        PNode clockControl = new NormalAndFastForwardTimeControlPanel( normalSimSpeed, model.getClock() );
-        {
-            normalSimSpeed.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean normalSimSpeed ) {
-                    ConstantDtClock clock = (ConstantDtClock) model.getClock();
-                    clock.setDt( normalSimSpeed ? EFACConstants.SIM_TIME_PER_TICK_NORMAL : EFACConstants.SIM_TIME_PER_TICK_FAST_FORWARD );
-                }
-            } );
-        }
+        PNode clockControl = new PSwing( new PiccoloClockControlPanel( model.getClock() ) {{
+            Color transparent = new Color( 0, 0, 0, 0 );
+            setBackground( transparent );
+            getButtonCanvas().setBackground( transparent );
+            getBackgroundNode().setVisible( false );
+        }} );
 
         // Create the back drop for the clock controls.
         PNode clockControlBackground = new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth() * 2, clockControl.getFullBoundsReference().getHeight() * 20 ), // Tall enough so that users are unlikely to see bottom.
