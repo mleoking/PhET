@@ -355,7 +355,14 @@
             var fluidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'white' ).setLocation( 5 + 180 - 60, 62 + 6 - 30 + 5 + offsetY );
             container.addChild( fluidCircle );
 
-            var comboBox = new CAAT.ShapeActor().setSize( 190, 40 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'white' ).setStrokeStyle( 'black' ).setLocation( 100, 5 );
+            var comboBox = new CAAT.ShapeActor().setSize( 190, 40 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).
+                    setFillStyle( 'white' ).setStrokeStyle( 'black' ).setLocation( 100, 5 );
+            comboBox.mouseEnter = function ( mouseEvent ) {
+                CAAT.setCursor( 'pointer' );
+            };
+            comboBox.mouseExit = function ( mouseEvent ) {
+                CAAT.setCursor( 'default' );
+            };
             container.addChild( comboBox );
 
             function createSquareAndTextNode( color, text ) {
