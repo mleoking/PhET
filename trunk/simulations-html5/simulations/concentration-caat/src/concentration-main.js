@@ -696,11 +696,21 @@
                                topFlowAmount = topKnob.getValue();
 
                                if ( bottomKnob.getValue() > 0 ) {
+
+                                   var initialConcentration = absorbedCrystals / fluidHeight * 2;
+
                                    //remove fluid
-                                   fluidHeight = fluidHeight - bottomKnob.getValue() * 4;
-                                   if ( fluidHeight < 0 ) {
-                                       fluidHeight = 0;
-                                   }
+                                   var fluidLost = Math.min( bottomKnob.getValue() * 4, fluidHeight );
+                                   fluidHeight = fluidHeight - fluidLost;
+
+                                   //Concentration = absorbedCrystals / fluidHeight * 2
+                                   //Solve for absorbedCrystals:
+                                   //absorbedCrystals = Concentration * fluidHeight / 2
+                                   //take a derivative, with Concentration is fixed.
+                                   //d absorbedCrystals = concentration / 2 * d fluidHeight
+
+                                   absorbedCrystals = initialConcentration * fluidHeight / 2;
+
                                }
                                bottomFlowAmount = bottomKnob.getValue();
 
