@@ -1,3 +1,4 @@
+Interpolate color midpoint
 Respect solute's max concentration when choosing the solution color
 # 00.00.11 (69230) Oct 15, 2012
 Added launchable translations
