@@ -357,12 +357,8 @@
 
             var comboBox = new CAAT.ShapeActor().setSize( 190, 40 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).
                     setFillStyle( 'white' ).setStrokeStyle( 'black' ).setLocation( 100, 5 );
-            comboBox.mouseEnter = function ( mouseEvent ) {
-                CAAT.setCursor( 'pointer' );
-            };
-            comboBox.mouseExit = function ( mouseEvent ) {
-                CAAT.setCursor( 'default' );
-            };
+            comboBox.mouseEnter = function ( mouseEvent ) { CAAT.setCursor( 'pointer' ); };
+            comboBox.mouseExit = function ( mouseEvent ) { CAAT.setCursor( 'default' ); };
             container.addChild( comboBox );
 
             function createSquareAndTextNode( color, text ) {
