@@ -1,3 +1,6 @@
+All of the sources are contained directly in src/ because when I tried adding sub directories, it failed to work under CocoonJS
+
+Notes:
 Cocoon-js would not run on android with caat.js in a contrib/ directory
 
 to run httpd server, use

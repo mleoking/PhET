@@ -143,6 +143,23 @@
      * @param director
      */
     function createScenes( director ) {
+
+        //Load the properties files and then create scenes
+        jQuery.i18n.properties(
+                {
+                    name:'beers-law-lab-strings',
+                    path:'localization/',
+
+                    //Didn't work at all when specifying "both"
+                    mode:'map',
+                    language:'fr',
+                    callback:function () {
+                        createScenesAfterResourcesLoaded( director );
+                    }
+                } );
+    }
+
+    function createScenesAfterResourcesLoaded( director ) {
         var scene = director.createScene();
 
         //Set background to white
@@ -280,7 +297,7 @@
         function createEvaporationControlPanel( mobile ) {
             var background = rectangleNode( 400, 100, 'rgb(240,240,240)', 2, 'gray' );
             var sliderTrack = rectangleNode( 200, 4, 'white', 1, 'black' );
-            var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Evaporation" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
+            var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( jQuery.i18n.prop( 'evaporation' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
             var container = new CAAT.ActorContainer().setPosition( 175, 612 );
             container.setSize( background.width, background.height );
@@ -296,7 +313,7 @@
 
         function createSoluteControlPanel() {
             var background = rectangleNode( 300, 120, 'rgb(220,220,220)', 1, 'black' );
-            var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Solute:" ).calcTextSize( director ).
+            var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( jQuery.i18n.prop( 'solute' ) ).calcTextSize( director ).
                     setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
             var container = new CAAT.ActorContainer().setPosition( 700, 20 );
@@ -304,8 +321,8 @@
             container.addChild( background );
             container.addChild( text.setLocation( 2, 4 + 8 ) );
             var offsetY = 20;
-            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( "Solid" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 60, 55 + offsetY ) );
-            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( "Solution" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 180, 55 + offsetY ) );
+            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( jQuery.i18n.prop( 'solid' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 60, 55 + offsetY ) );
+            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( jQuery.i18n.prop( 'solution' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 180, 55 + offsetY ) );
             var solidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'black' ).setLocation( 5, 62 + 6 - 30 + 5 + offsetY );
             container.addChild( solidCircle );
             var fluidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'white' ).setLocation( 5 + 180 - 60, 62 + 6 - 30 + 5 + offsetY );
@@ -326,7 +343,7 @@
                 return container;
             }
 
-            var node = createSquareAndTextNode( 'red', "Drink Mix" );
+            var node = createSquareAndTextNode( 'red', jQuery.i18n.prop( "drinkMix" ) );
             comboBox.addChild( node.setLocation( 5, 5 ) );
 
             var buttonBox = new CAAT.ShapeActor().setSize( 30, 30 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' ).setLocation( comboBox.width - 30 - 5, 5 );
@@ -367,14 +384,14 @@
             var popupItemOffsetY = 2;
             var itemSpacing = 15;
             var itemSize = 30 + itemSpacing;
-            popup.addChild( createSquareAndTextNode( 'red', 'Drink Mix' ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'red', 'Cobalt (II) nitrate' ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'pink', 'Cobalt chloride' ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'orange', 'Potassium dichromate' ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'yellow', 'Potassium chromate' ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'green', 'Nickel (II) chloride' ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'blue', 'Copper sulfate' ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'purple', 'Potassium permanganate' ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'red', jQuery.i18n.prop( "drinkMix" ) ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'red', jQuery.i18n.prop( "cobaltIINitrate" ) ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'pink', jQuery.i18n.prop( "cobaltChloride" ) ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'orange', jQuery.i18n.prop( "potassiumDichromate" ) ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'yellow', jQuery.i18n.prop( "potassiumChromate" ) ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'green', jQuery.i18n.prop( "nickelIIChloride" ) ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'blue', jQuery.i18n.prop( "copperSulfate" ) ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNode( 'purple', jQuery.i18n.prop( "potassiumPermanganate" ) ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
             popup.setLocation( 640, 66 );
             var inTree = false;
             comboBox.mouseClick = function ( e ) {
@@ -431,7 +448,7 @@
                 setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 224, 186 + 200 );
         rootNode.addChild( oneHalfLiterLabel );
 
-        var removeSoluteButton = createButton( director, "Remove Solute", 130, 'rgb(240,240,240)' ).setLocation( 589, 641 );
+        var removeSoluteButton = createButton( director, jQuery.i18n.prop( 'removeSolute' ), 130, 'rgb(240,240,240)' ).setLocation( 589, 641 );
         removeSoluteButton.mouseClick = function ( e ) {
             absorbedCrystals = 0;
         };
@@ -450,8 +467,8 @@
         var concentrationMeterBodyImage = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-body' ), true );
         var concentrationMeterBody = new CAAT.ActorContainer().setPosition( 785, 280 ).enableEvents( false ).setSize( concentrationMeterBodyImage.width, concentrationMeterBodyImage.height );
         concentrationMeterBody.addChild( concentrationMeterBodyImage );
-        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "Concentration" ).calcTextSize( director ).setTextFillStyle( 'white' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 20, 10 ) );
-        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "(mol/L)" ).calcTextSize( director ).setTextFillStyle( 'white' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 60, 35 ) );
+        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( jQuery.i18n.prop( "concentration" ) ).calcTextSize( director ).setTextFillStyle( 'white' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 20, 10 ) );
+        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( '(' + jQuery.i18n.prop( "units.molesPerLiter" ) + ')' ).calcTextSize( director ).setTextFillStyle( 'white' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 60, 35 ) );
         concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "-" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 100, 80 ) );
 
         var concentrationMeterProbe = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-probe' ), true ).setPosition( 760, 425 );

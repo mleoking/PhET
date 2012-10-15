@@ -1,3 +1,4 @@
+Internationalized strings
 Snap sliders back to zero when released
 Use larger hit areas for knobs, but only on mobile
 Show the CAAT Debug panel at the bottom of the screen
