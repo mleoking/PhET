@@ -1,3 +1,4 @@
+Fixed fluid color during dilution
 # 00.00.09 (69223) Oct 15, 2012
 Use crystal color for the fluid
 Wired up combo box
