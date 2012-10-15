@@ -402,7 +402,7 @@
                 result.mouseClick = function ( mouseEvent ) {
                     rootNode.removeChild( popup );
                     comboBox.removeChild( comboBox.displayedComboBoxItem );
-                    comboBox.displayedComboBoxItem = createSquareAndTextNode( 'blue', jQuery.i18n.prop( "newOne" ) ).setLocation( 5, 5 );
+                    comboBox.displayedComboBoxItem = createSquareAndTextNode( color, text ).setLocation( 5, 5 );
                     comboBox.addChild( comboBox.displayedComboBoxItem );
                     CAAT.setCursor( 'default' );
                 };
