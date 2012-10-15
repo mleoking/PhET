@@ -1,5 +1,8 @@
 (function () {
 
+    //English strings obtained from https://github.com/nzakas/props2js
+    var strings = {"copperSulfate":"Copper sulfate", "solution":"Solution", "concentration":"Concentration", "beers-law-lab.name":"Beer\u0027s Law Lab", "tab.beersLaw":"Beer\u0027s Law", "tab.concentration":"Concentration", "units.molesPerLiter":"mol/L", "potassiumDichromate":"Potassium dichromate", "removeSolute":"Remove Solute", "solid":"Solid", "fixed":"fixed", "pattern.0percent":"{0}%", "none":"none", "evaporation":"Evaporation", "potassiumChromate":"Potassium chromate", "units.mM":"mM", "lots":"lots", "saturated":"Saturated!", "pattern.0formula.1name":"{0}: {1}", "transmittance":"Transmittance", "water":"water", "pattern.0value.1units":"{0} {1}", "potassiumPermanganate":"Potassium permanganate", "drinkMix":"Drink mix", "pattern.0label":"{0}:", "units.centimeters":"cm", "concentration.name":"Concentration", "pattern.parentheses.0text":"({0})", "variable":"variable", "units.uM":"µM", "nickelIIChloride":"Nickel (II) chloride", "units.M":"M", "cobaltChloride":"Cobalt chloride", "cobaltIINitrate":"Cobalt (II) nitrate", "solute":"Solute", "wavelength":"Wavelength", "absorbance":"Absorbance", "units.liters":"L"};
+
     //Seems to be some bugs with CAAT.ShapeActor when running in CocoonJS, so we have our own implementation.
     function rectangleNode( width, height, fillStyle, strokeThickness, strokeStyle ) {
         var background = new CAAT.Actor().setSize( width, height );
@@ -157,7 +160,14 @@
     var jQuery = [];
     jQuery.i18n = [];
     jQuery.i18n.prop = function ( key ) {
-        return "" + key;
+
+        for ( var k in strings ) {
+            if ( key == k ) {
+                return strings[k];
+            }
+        }
+
+        return key;
     };
 
     /**
@@ -187,10 +197,7 @@
 
     function createScenesAfterResourcesLoaded( director ) {
 
-        var model = [];
-        model.solute = [];
-        model.solute.color = [];
-        model.solute.color = {red:255, green:0, blue:0};
+        var model = {solute:{color:{red:255, green:0, blue:0}}};
         var scene = director.createScene();
 
         //Set background to white
