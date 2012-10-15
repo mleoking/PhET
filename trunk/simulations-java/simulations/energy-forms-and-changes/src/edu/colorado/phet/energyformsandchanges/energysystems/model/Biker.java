@@ -67,6 +67,18 @@ public class Biker extends EnergySource {
         add( new ModelElementImage( FRONT_LEG_10, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( FRONT_LEG_11, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( FRONT_LEG_12, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_13, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_14, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_15, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_16, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_17, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_18, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_19, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_20, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_21, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_22, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_23, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_24, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
     }};
 
     public static final List<ModelElementImage> BACK_LEG_IMAGES = new ArrayList<ModelElementImage>() {{
@@ -82,6 +94,18 @@ public class Biker extends EnergySource {
         add( new ModelElementImage( BACK_LEG_10, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( BACK_LEG_11, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( BACK_LEG_12, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_13, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_14, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_15, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_16, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_17, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_18, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_19, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_20, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_21, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_22, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_23, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_24, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
     }};
 
     // Offsets used for creating energy chunk paths.  These need to be
