@@ -156,11 +156,9 @@
     //For running under Cocoon, use this code for jQuery
     //and comment out these lines in the html:
 //    <script type="text/javascript" src="jquery-1.5.1.min.js"></script>
-//    <script type="text/javascript" src="jquery.i18n.properties-1.0.9.js"></script>
-    var jQuery = [];
-    jQuery.i18n = [];
-    jQuery.i18n.prop = function ( key ) {
+//    <script type="text/javascript" src="translateerties-1.0.9.js"></script>
 
+    function translate( key ) {
         for ( var k in strings ) {
             if ( key == k ) {
                 return strings[k];
@@ -168,7 +166,7 @@
         }
 
         return key;
-    };
+    }
 
     /**
      * This function will be called to let you define new scenes that will be
@@ -356,7 +354,7 @@
         function createEvaporationControlPanel( mobile ) {
             var background = rectangleNode( 400, 100, 'rgb(240,240,240)', 2, 'gray' );
             var sliderTrack = rectangleNode( 200, 4, 'white', 1, 'black' );
-            var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( jQuery.i18n.prop( 'evaporation' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
+            var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( translate( 'evaporation' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
             var container = new CAAT.ActorContainer().setPosition( 175, 612 );
             container.setSize( background.width, background.height );
@@ -372,7 +370,7 @@
 
         function createSoluteControlPanel() {
             var background = rectangleNode( 300, 120, 'rgb(220,220,220)', 1, 'black' );
-            var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( jQuery.i18n.prop( 'solute' ) ).calcTextSize( director ).
+            var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( translate( 'solute' ) ).calcTextSize( director ).
                     setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
             var container = new CAAT.ActorContainer().setPosition( 700, 20 );
@@ -380,8 +378,8 @@
             container.addChild( background );
             container.addChild( text.setLocation( 2, 4 + 8 ) );
             var offsetY = 20;
-            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( jQuery.i18n.prop( 'solid' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 60, 55 + offsetY ) );
-            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( jQuery.i18n.prop( 'solution' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 180, 55 + offsetY ) );
+            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( translate( 'solid' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 60, 55 + offsetY ) );
+            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( translate( 'solution' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 180, 55 + offsetY ) );
             var solidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'black' ).setLocation( 5, 62 + 6 - 30 + 5 + offsetY );
             container.addChild( solidCircle );
             var fluidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'white' ).setLocation( 5 + 180 - 60, 62 + 6 - 30 + 5 + offsetY );
@@ -438,7 +436,7 @@
                 return result;
             }
 
-            var displayedComboBoxItem = createSquareAndTextNode( {red:255, green:0, blue:0}, jQuery.i18n.prop( "drinkMix" ), model.solute ).setLocation( 5, 5 );
+            var displayedComboBoxItem = createSquareAndTextNode( {red:255, green:0, blue:0}, translate( "drinkMix" ), model.solute ).setLocation( 5, 5 );
             comboBox.displayedComboBoxItem = displayedComboBoxItem;
             comboBox.addChild( displayedComboBoxItem );
 
@@ -479,14 +477,14 @@
             var popupItemOffsetY = 2;
             var itemSpacing = 15;
             var itemSize = 30 + itemSpacing;
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "drinkMix" ), model.solutes[0] ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:0, green:255, blue:0}, jQuery.i18n.prop( "cobaltIINitrate" ), model.solutes[1] ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:0, green:0, blue:255}, jQuery.i18n.prop( "cobaltChloride" ), model.solutes[2] ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumDichromate" ), model.solutes[3] ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumChromate" ), model.solutes[4] ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "nickelIIChloride" ), model.solutes[5] ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "copperSulfate" ), model.solutes[6] ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumPermanganate" ), model.solutes[7] ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "drinkMix" ), model.solutes[0] ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:0, green:255, blue:0}, translate( "cobaltIINitrate" ), model.solutes[1] ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:0, green:0, blue:255}, translate( "cobaltChloride" ), model.solutes[2] ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "potassiumDichromate" ), model.solutes[3] ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "potassiumChromate" ), model.solutes[4] ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "nickelIIChloride" ), model.solutes[5] ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "copperSulfate" ), model.solutes[6] ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "potassiumPermanganate" ), model.solutes[7] ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
             popup.setLocation( 640, 66 );
             comboBox.mouseClick = function ( e ) {
                 var indexFound = rootNode.findChild( popup );
@@ -543,7 +541,7 @@
                 setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 224, 186 + 200 );
         rootNode.addChild( oneHalfLiterLabel );
 
-        var removeSoluteButton = createButton( director, jQuery.i18n.prop( 'removeSolute' ), 130, 'rgb(240,240,240)' ).setLocation( 589, 641 );
+        var removeSoluteButton = createButton( director, translate( 'removeSolute' ), 130, 'rgb(240,240,240)' ).setLocation( 589, 641 );
         removeSoluteButton.mouseClick = function ( e ) {
             absorbedCrystals = 0;
         };
@@ -562,8 +560,8 @@
         var concentrationMeterBodyImage = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-body' ), true );
         var concentrationMeterBody = new CAAT.ActorContainer().setPosition( 785, 280 ).enableEvents( false ).setSize( concentrationMeterBodyImage.width, concentrationMeterBodyImage.height );
         concentrationMeterBody.addChild( concentrationMeterBodyImage );
-        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( jQuery.i18n.prop( "concentration" ) ).calcTextSize( director ).setTextFillStyle( 'white' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 20, 10 ) );
-        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( '(' + jQuery.i18n.prop( "units.molesPerLiter" ) + ')' ).calcTextSize( director ).setTextFillStyle( 'white' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 60, 35 ) );
+        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( translate( "concentration" ) ).calcTextSize( director ).setTextFillStyle( 'white' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 20, 10 ) );
+        concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( '(' + translate( "units.molesPerLiter" ) + ')' ).calcTextSize( director ).setTextFillStyle( 'white' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 60, 35 ) );
         concentrationMeterBody.addChild( new CAAT.TextActor().setFont( "25px sans-serif" ).setText( "-" ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setPosition( 100, 80 ) );
 
         var concentrationMeterProbe = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-probe' ), true ).setPosition( 760, 425 );
