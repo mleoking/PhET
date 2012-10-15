@@ -137,6 +137,20 @@
         return ua.indexOf( "android" ) > -1;
     }
 
+    //http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values/901144#901144
+    function getParameterByName( name ) {
+        name = name.replace( /[\[]/, "\\\[" ).replace( /[\]]/, "\\\]" );
+        var regexS = "[\\?&]" + name + "=([^&#]*)";
+        var regex = new RegExp( regexS );
+        var results = regex.exec( window.location.search );
+        if ( results == null ) {
+            return "";
+        }
+        else {
+            return decodeURIComponent( results[1].replace( /\+/g, " " ) );
+        }
+    }
+
     /**
      * This function will be called to let you define new scenes that will be
      * shown after the splash screen.
@@ -152,7 +166,7 @@
 
                     //Didn't work at all when specifying "both"
                     mode:'map',
-                    language:'en',
+                    language:getParameterByName( "language" ),
                     callback:function () {
                         createScenesAfterResourcesLoaded( director );
                     }
