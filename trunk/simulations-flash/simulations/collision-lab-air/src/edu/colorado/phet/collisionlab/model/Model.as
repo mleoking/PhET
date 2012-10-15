@@ -27,6 +27,10 @@ public class Model {
     var timeStep: Number;	//time step in seconds
     var msTimer: Timer;		//millisecond timer
     var colliding: Boolean;	//true if wall-ball or ball-ball collision has occured in current timestep
+    var wallHit: Boolean; 	//true if ball-wall collision in current timestep
+    //Next two lines added Oct 11, 2012 to fix bug
+    var wallOffsetX: Number;	//displacement of ball in x-direction to correct for penetration into wall
+    var wallOffsetY: Number;	//displacement of ball in y-direction to correct for penetration into wall
     public var playing: Boolean;	//true if motion is playing, false if paused
     public var singleStepping: Boolean; //true if singleStepping forward or backward
     public var soundOn: Boolean;	//true if sound enabled
@@ -458,19 +462,23 @@ public class Model {
     //if ball beyond reflecting border, then translate to back to edge and reflect
     //Updated 10/04/2012 to correctly process collisions with corners
     public function checkAndProcessWallCollision( index: int, x: Number, y: Number, vX: Number, vY: Number ): void {
-        var wallHit: Boolean = false;
+        this.wallOffsetX = 0;
+        this.wallOffsetY = 0;
+        wallHit = false;
         if ( this.borderOn ) {
             var radius: Number = this.ball_arr[index].getRadius();
             var onePlusDelta: Number = 1.000001;
             if ( (x + radius) > this.borderWidth ) {
                 this.setX( index, this.borderWidth - onePlusDelta * radius );
                 this.setVX( index, -e * vX );   //ball_arr[i].velocity.setX(-e*vX);
+                this.wallOffsetX = ( this.borderWidth - onePlusDelta * radius ) - x;   //x_final - x_initial
                 wallHit = true;
             }//end if
             else {
                 if ( (x - radius) < 0 ) {
                     this.setX( index, onePlusDelta * radius );
                     this.setVX( index, -e * vX ); //ball_arr[i].velocity.setX(-e*vX);
+                    this.wallOffsetX = ( onePlusDelta * radius ) - x;   //x_final - x_initial
                     wallHit = true;
                 }// end if
             }//end else
@@ -478,12 +486,14 @@ public class Model {
             if ( (y + radius) > this.borderHeight / 2 ) {
                 this.setY( index, this.borderHeight / 2 - onePlusDelta * radius );
                 this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
+                this.wallOffsetY = ( this.borderHeight / 2 - onePlusDelta * radius ) - y ;  //y_final - y_initial
                 wallHit = true;
             } //end if
             else {
                 if ( (y - radius) < -this.borderHeight / 2 ) {
                     this.setY( index, -this.borderHeight / 2 + onePlusDelta * radius );
                     this.setVY( index, -e * vY ); //ball_arr[i].velocity.setY(-e*vY);
+                    this.wallOffsetY = ( -this.borderHeight / 2 + onePlusDelta * radius ) - y;  //y_final - y_initial
                     wallHit = true;
                 }//end if
             }//end else
@@ -493,6 +503,23 @@ public class Model {
                 this.nbrCollisionsInThisTimeStep += 1;
                 this.playClickSound();
                 this.colliding = true;
+                //New code Oct 11, 2012
+                //check if overlapping any other ball and correct by translating other ball
+                var xi: Number = ball_arr[index].position.getX();
+                var yi: Number = ball_arr[index].position.getY();
+                for (var j: int = 0; j < this.nbrBalls; j++){
+                    if ( j != index ){
+                        var xj: Number = ball_arr[j].position.getX();
+                        var yj: Number = ball_arr[j].position.getY();
+                        var dist: Number = Math.sqrt( (xj - xi) * (xj - xi) + (yj - yi) * (yj - yi) );
+                        var distMin: Number = ball_arr[index].getRadius() + ball_arr[j].getRadius();
+                        if( dist < distMin ){
+                            this.setX( j, xj + wallOffsetX );
+                            this.setY( j, yj + wallOffsetY );
+                        }//end if (dist < ..
+                    }//end if(j != i)
+                }//end if (var j: int ...
+                //end of new code added Oct 12, 2012
             }//end if
         }//end if(borderOn)
     }//end of checkWallAndProcessCollision()
