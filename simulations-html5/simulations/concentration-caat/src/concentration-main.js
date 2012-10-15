@@ -113,7 +113,7 @@
     }
 
     function getColor( distance, destination ) {
-        var source = {red:200, green:200, blue:255};
+        var source = {red:224, green:255, blue:255};
         var relative = {
             red:interpolate( 0, source.red, 1, destination.red, distance ),
             green:interpolate( 0, source.green, 1, destination.green, distance ),
@@ -195,9 +195,25 @@
 //                } );
     }
 
+    function solution( name, minConcentration, minRed, minGreen, minBlue, maxConcentration, maxRed, maxGreen, maxBlue ) {
+        var result = {minConcentration:minConcentration, minColor:{red:minRed, green:minGreen, blue:minBlue}, maxConcentration:maxConcentration, maxColor:{red:maxRed, blue:maxBlue, green:maxGreen}};
+        return result;
+    }
+
     function createScenesAfterResourcesLoaded( director ) {
 
-        var model = {solute:{color:{red:255, green:0, blue:0}}};
+        var model = {};
+        model.solutes = [
+            solution( "drinkMix", 0.05, 255, 225, 225, 5.96, 255, 0, 0 ),
+            solution( "cobaltIINitrate", 0.05, 255, 225, 225, 5.64, 255, 0, 0 ),
+            solution( "cobaltChloride", 0.05, 255, 242, 242, 4.33, 255, 106, 106 ),
+            solution( "potassiumDichromate", 0.01, 255, 204, 153, 0.51, 255, 127, 0 ),
+            solution( "potassiumChromate", 0.05, 255, 255, 153, 3.35, 255, 255, 0 ),
+            solution( "nickelIIChloride", 0.2, 170, 255, 170, 5.21, 0, 128, 0 ),
+            solution( "copperSulfate", 0.2, 200, 225, 255, 1.38, 30, 144, 255 ),
+            solution( "potassiumPermanganate", 0.01, 255, 0, 255, 0.48, 80, 0, 120 )
+        ];
+        model.solute = model.solutes[0];
         var scene = director.createScene();
 
         //Set background to white
@@ -248,7 +264,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            var water = {red:200, green:200, blue:255};
+            var water = {red:224, green:255, blue:255};
             ctx.fillStyle = 'rgb(' + Math.round( water.red ) + ',' + Math.round( water.green ) + ',' + Math.round( water.blue ) + ')';
 
             if ( topFlowAmount > 0.1 && fluidHeight < beakerHeight ) {
@@ -265,7 +281,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ), model.solute.color );
+            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ), model.solute.maxColor );
 
             if ( bottomFlowAmount > 0.1 && fluidHeight > 0 ) {
                 ctx.fillRect( beakerMaxX + 60, beakerMaxY + 50, 50 * bottomFlowAmount, 800 );
@@ -281,7 +297,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ), model.solute.color );
+            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ), model.solute.maxColor );
             ctx.fillRect( beakerX, beakerMaxY - fluidHeight, beakerWidth, fluidHeight );
 
             ctx.restore();
@@ -379,8 +395,8 @@
 
             var popup = new CAAT.ShapeActor().setSize( 350, 355 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'white' ).setStrokeStyle( 'black' );
 
-            function createSquareAndTextNode( color, text ) {
-                var square = rectangleNode( 30, 30, 'rgb(' + color.red + ',' + color.green + ',' + color.blue + ')', 1, 'gray' );
+            function createSquareAndTextNode( color, text, solute ) {
+                var square = rectangleNode( 30, 30, 'rgb(' + solute.maxColor.red + ',' + solute.maxColor.green + ',' + solute.maxColor.blue + ')', 1, 'gray' );
                 var entryText = new CAAT.TextActor().setFont( "24px sans-serif" ).setText( text ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 40, 5 ).enableEvents( false );
                 var container = new CAAT.ActorContainer().setSize( 340, 30 );
                 container.backgroundColor = 'white';
@@ -399,8 +415,8 @@
                 return container;
             }
 
-            function createSquareAndTextNodeButton( color, text ) {
-                var result = createSquareAndTextNode( color, text );
+            function createSquareAndTextNodeButton( color, text, solute ) {
+                var result = createSquareAndTextNode( color, text, solute );
                 result.mouseEnter = function ( mouseEvent ) {
                     result.backgroundColor = 'yellow';
                     CAAT.setCursor( 'pointer' );
@@ -410,20 +426,19 @@
                     CAAT.setCursor( 'default' );
                 };
                 result.mouseClick = function ( mouseEvent ) {
+                    absorbedCrystals = 0;
                     rootNode.removeChild( popup );
                     comboBox.removeChild( comboBox.displayedComboBoxItem );
-                    comboBox.displayedComboBoxItem = createSquareAndTextNode( color, text ).setLocation( 5, 5 );
+                    model.solute = solute;
+                    comboBox.displayedComboBoxItem = createSquareAndTextNode( color, text, model.solute ).setLocation( 5, 5 );
                     comboBox.addChild( comboBox.displayedComboBoxItem );
-                    model.solute.color.red = color.red;
-                    model.solute.color.green = color.green;
-                    model.solute.color.blue = color.blue;
                     CAAT.setCursor( 'default' );
                 };
                 result.enableEvents( true );
                 return result;
             }
 
-            var displayedComboBoxItem = createSquareAndTextNode( {red:255, green:0, blue:0}, jQuery.i18n.prop( "drinkMix" ) ).setLocation( 5, 5 );
+            var displayedComboBoxItem = createSquareAndTextNode( {red:255, green:0, blue:0}, jQuery.i18n.prop( "drinkMix" ), model.solute ).setLocation( 5, 5 );
             comboBox.displayedComboBoxItem = displayedComboBoxItem;
             comboBox.addChild( displayedComboBoxItem );
 
@@ -464,14 +479,14 @@
             var popupItemOffsetY = 2;
             var itemSpacing = 15;
             var itemSize = 30 + itemSpacing;
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "drinkMix" ) ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:0, green:255, blue:0}, jQuery.i18n.prop( "cobaltIINitrate" ) ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:0, green:0, blue:255}, jQuery.i18n.prop( "cobaltChloride" ) ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumDichromate" ) ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumChromate" ) ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "nickelIIChloride" ) ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "copperSulfate" ) ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumPermanganate" ) ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "drinkMix" ), model.solutes[0] ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:0, green:255, blue:0}, jQuery.i18n.prop( "cobaltIINitrate" ), model.solutes[1] ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:0, green:0, blue:255}, jQuery.i18n.prop( "cobaltChloride" ), model.solutes[2] ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumDichromate" ), model.solutes[3] ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumChromate" ), model.solutes[4] ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "nickelIIChloride" ), model.solutes[5] ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "copperSulfate" ), model.solutes[6] ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumPermanganate" ), model.solutes[7] ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
             popup.setLocation( 640, 66 );
             comboBox.mouseClick = function ( e ) {
                 var indexFound = rootNode.findChild( popup );
@@ -660,7 +675,7 @@
                                    if ( x > beakerX && x < beakerMaxX ) {
 
                                        //TODO: this line breaks MVC a bit
-                                       var crystal = new CAAT.Actor().setBounds( x, y, w, w ).setFillStyle( 'rgb(' + model.solute.color.red + ',' + model.solute.color.green + ',' + model.solute.color.blue + ')' );
+                                       var crystal = new CAAT.Actor().setBounds( x, y, w, w ).setFillStyle( 'rgb(' + model.solute.maxColor.red + ',' + model.solute.maxColor.green + ',' + model.solute.maxColor.blue + ')' );
                                        crystal.velocity = 0;
                                        rootNode.addChild( crystal );
                                        crystal.setRotation( Math.random() * Math.PI * 2 );
