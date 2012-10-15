@@ -385,6 +385,7 @@
                 container.addChild( square );
                 container.addChild( entryText );
                 container.enableEvents( false );
+                container.crystalColor = color;
                 return container;
             }
 
@@ -468,6 +469,8 @@
                     rootNode.addChild( popup );
                 }
             };
+
+            container.comboBox = comboBox;
             return container;
         }
 
@@ -642,7 +645,9 @@
                                    var x = shaker.x + 20 + Math.random() * 50;
                                    var y = shaker.y + 140 + Math.random() * 20;
                                    if ( x > beakerX && x < beakerMaxX ) {
-                                       var crystal = new CAAT.Actor().setBounds( x, y, w, w ).setFillStyle( 'rgb(' + 255 + ',' + 0 + ',' + 0 + ')' );
+
+                                       //TODO: this line breaks MVC a bit
+                                       var crystal = new CAAT.Actor().setBounds( x, y, w, w ).setFillStyle( soluteControlPanel.comboBox.displayedComboBoxItem.crystalColor );
                                        crystal.velocity = 0;
                                        rootNode.addChild( crystal );
                                        crystal.setRotation( Math.random() * Math.PI * 2 );
