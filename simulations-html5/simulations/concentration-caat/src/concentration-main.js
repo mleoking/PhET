@@ -117,21 +117,18 @@
     }
 
     function getColor( distance, destination ) {
-        var source = {red:224, green:255, blue:255};
+        var waterColor = {red:224, green:255, blue:255};
         var relative = {
-            red:interpolate( 0, source.red, 1, destination.red, distance ),
-            green:interpolate( 0, source.green, 1, destination.green, distance ),
-            blue:interpolate( 0, source.blue, 1, destination.blue, distance )};
+            red:interpolate( 0, waterColor.red, 1, destination.red, distance ),
+            green:interpolate( 0, waterColor.green, 1, destination.green, distance ),
+            blue:interpolate( 0, waterColor.blue, 1, destination.blue, distance )};
 
         return 'rgb(' + Math.round( relative.red ) + ',' + Math.round( relative.green ) + ',' + Math.round( relative.blue ) + ')';
     }
 
-    function getFractionTowardSaturation( absorbedCrystals ) {
-        var distance = absorbedCrystals / 100;
-        if ( distance > 1 ) {
-            distance = 1;
-        }
-        return distance;
+    function getFractionTowardSaturation( absorbedCrystals, fluidHeight ) {
+        var concentration = absorbedCrystals / fluidHeight * 2;
+        return Math.min( 1.0, concentration );
     }
 
     function isIOS() {
@@ -284,7 +281,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ), model.solute.maxColor );
+            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals, fluidHeight ), model.solute.maxColor );
 
             if ( bottomFlowAmount > 0.1 && fluidHeight > 0 ) {
                 ctx.fillRect( beakerMaxX + 60, beakerMaxY + 50, 50 * bottomFlowAmount, 800 );
@@ -299,7 +296,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ), model.solute.maxColor );
+            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals, fluidHeight ), model.solute.maxColor );
             ctx.fillRect( 0, beakerMaxY - fluidHeight, beakerWidth, fluidHeight );
 
             ctx.restore();
