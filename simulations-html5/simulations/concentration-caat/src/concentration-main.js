@@ -393,7 +393,7 @@
 
             var popup = new CAAT.ShapeActor().setSize( 350, 355 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'white' ).setStrokeStyle( 'black' );
 
-            function createSquareAndTextNode( color, text, solute ) {
+            function createSquareAndTextNode( text, solute ) {
                 var square = rectangleNode( 30, 30, 'rgb(' + solute.maxColor.red + ',' + solute.maxColor.green + ',' + solute.maxColor.blue + ')', 1, 'gray' );
                 var entryText = new CAAT.TextActor().setFont( "24px sans-serif" ).setText( text ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 40, 5 ).enableEvents( false );
                 var container = new CAAT.ActorContainer().setSize( 340, 30 );
@@ -413,8 +413,8 @@
                 return container;
             }
 
-            function createSquareAndTextNodeButton( color, text, solute ) {
-                var result = createSquareAndTextNode( color, text, solute );
+            function createSquareAndTextNodeButton( text, solute ) {
+                var result = createSquareAndTextNode( text, solute );
                 result.mouseEnter = function ( mouseEvent ) {
                     result.backgroundColor = 'yellow';
                     CAAT.setCursor( 'pointer' );
@@ -428,7 +428,7 @@
                     rootNode.removeChild( popup );
                     comboBox.removeChild( comboBox.displayedComboBoxItem );
                     model.solute = solute;
-                    comboBox.displayedComboBoxItem = createSquareAndTextNode( color, text, model.solute ).setLocation( 5, 5 );
+                    comboBox.displayedComboBoxItem = createSquareAndTextNode( text, model.solute ).setLocation( 5, 5 );
                     comboBox.addChild( comboBox.displayedComboBoxItem );
                     CAAT.setCursor( 'default' );
                 };
@@ -436,7 +436,7 @@
                 return result;
             }
 
-            var displayedComboBoxItem = createSquareAndTextNode( {red:255, green:0, blue:0}, translate( "drinkMix" ), model.solute ).setLocation( 5, 5 );
+            var displayedComboBoxItem = createSquareAndTextNode( translate( "drinkMix" ), model.solute ).setLocation( 5, 5 );
             comboBox.displayedComboBoxItem = displayedComboBoxItem;
             comboBox.addChild( displayedComboBoxItem );
 
@@ -477,14 +477,14 @@
             var popupItemOffsetY = 2;
             var itemSpacing = 15;
             var itemSize = 30 + itemSpacing;
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "drinkMix" ), model.solutes[0] ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:0, green:255, blue:0}, translate( "cobaltIINitrate" ), model.solutes[1] ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:0, green:0, blue:255}, translate( "cobaltChloride" ), model.solutes[2] ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "potassiumDichromate" ), model.solutes[3] ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "potassiumChromate" ), model.solutes[4] ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "nickelIIChloride" ), model.solutes[5] ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "copperSulfate" ), model.solutes[6] ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, translate( "potassiumPermanganate" ), model.solutes[7] ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( translate( "drinkMix" ), model.solutes[0] ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( translate( "cobaltIINitrate" ), model.solutes[1] ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( translate( "cobaltChloride" ), model.solutes[2] ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( translate( "potassiumDichromate" ), model.solutes[3] ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( translate( "potassiumChromate" ), model.solutes[4] ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( translate( "nickelIIChloride" ), model.solutes[5] ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( translate( "copperSulfate" ), model.solutes[6] ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( translate( "potassiumPermanganate" ), model.solutes[7] ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
             popup.setLocation( 640, 66 );
             comboBox.mouseClick = function ( e ) {
                 var indexFound = rootNode.findChild( popup );
