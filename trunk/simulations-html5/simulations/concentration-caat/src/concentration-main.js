@@ -366,10 +366,20 @@
             comboBox.mouseExit = function ( mouseEvent ) { CAAT.setCursor( 'default' ); };
             container.addChild( comboBox );
 
+            var popup = new CAAT.ShapeActor().setSize( 350, 355 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'white' ).setStrokeStyle( 'black' );
+
             function createSquareAndTextNode( color, text ) {
                 var square = rectangleNode( 30, 30, color, 1, 'gray' );
                 var entryText = new CAAT.TextActor().setFont( "24px sans-serif" ).setText( text ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 40, 5 ).enableEvents( false );
-                var container = new CAAT.ActorContainer().setSize( 400, 30 );
+                var container = new CAAT.ActorContainer().setSize( 340, 30 );
+                container.backgroundColor = 'white';
+                container.paint = function ( director, time ) {
+                    var ctx = director.ctx;
+                    ctx.save();
+                    ctx.fillStyle = container.backgroundColor;
+                    ctx.fillRect( 0, 0, container.width, container.height );
+                    ctx.restore();
+                };
                 square.enableEvents( false );
                 entryText.enableEvents( false );
                 container.addChild( square );
@@ -378,8 +388,30 @@
                 return container;
             }
 
-            var node = createSquareAndTextNode( 'red', jQuery.i18n.prop( "drinkMix" ) );
-            comboBox.addChild( node.setLocation( 5, 5 ) );
+            function createSquareAndTextNodeButton( color, text ) {
+                var result = createSquareAndTextNode( color, text );
+                result.mouseEnter = function ( mouseEvent ) {
+                    result.backgroundColor = 'yellow';
+                    CAAT.setCursor( 'pointer' );
+                };
+                result.mouseExit = function ( mouseEvent ) {
+                    result.backgroundColor = 'white';
+                    CAAT.setCursor( 'default' );
+                };
+                result.mouseClick = function ( mouseEvent ) {
+                    rootNode.removeChild( popup );
+                    comboBox.removeChild( comboBox.displayedComboBoxItem );
+                    comboBox.displayedComboBoxItem = createSquareAndTextNode( 'blue', jQuery.i18n.prop( "newOne" ) ).setLocation( 5, 5 );
+                    comboBox.addChild( comboBox.displayedComboBoxItem );
+                    CAAT.setCursor( 'default' );
+                };
+                result.enableEvents( true );
+                return result;
+            }
+
+            var displayedComboBoxItem = createSquareAndTextNode( 'red', jQuery.i18n.prop( "drinkMix" ) ).setLocation( 5, 5 );
+            comboBox.displayedComboBoxItem = displayedComboBoxItem;
+            comboBox.addChild( displayedComboBoxItem );
 
             var buttonBox = new CAAT.ShapeActor().setSize( 30, 30 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'rgb(220,220,220)' ).setLocation( comboBox.width - 30 - 5, 5 );
             comboBox.addChild( buttonBox );
@@ -415,28 +447,25 @@
             };
 
             buttonBox.enableEvents( false );
-            var popup = new CAAT.ShapeActor().setSize( 350, 355 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'white' ).setStrokeStyle( 'black' );
             var popupItemOffsetY = 2;
             var itemSpacing = 15;
             var itemSize = 30 + itemSpacing;
-            popup.addChild( createSquareAndTextNode( 'red', jQuery.i18n.prop( "drinkMix" ) ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'red', jQuery.i18n.prop( "cobaltIINitrate" ) ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'pink', jQuery.i18n.prop( "cobaltChloride" ) ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'orange', jQuery.i18n.prop( "potassiumDichromate" ) ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'yellow', jQuery.i18n.prop( "potassiumChromate" ) ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'green', jQuery.i18n.prop( "nickelIIChloride" ) ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'blue', jQuery.i18n.prop( "copperSulfate" ) ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNode( 'purple', jQuery.i18n.prop( "potassiumPermanganate" ) ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( 'red', jQuery.i18n.prop( "drinkMix" ) ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( 'red', jQuery.i18n.prop( "cobaltIINitrate" ) ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( 'pink', jQuery.i18n.prop( "cobaltChloride" ) ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( 'orange', jQuery.i18n.prop( "potassiumDichromate" ) ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( 'yellow', jQuery.i18n.prop( "potassiumChromate" ) ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( 'green', jQuery.i18n.prop( "nickelIIChloride" ) ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( 'blue', jQuery.i18n.prop( "copperSulfate" ) ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( 'purple', jQuery.i18n.prop( "potassiumPermanganate" ) ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
             popup.setLocation( 640, 66 );
-            var inTree = false;
             comboBox.mouseClick = function ( e ) {
-                if ( !inTree ) {
-                    rootNode.addChild( popup );
-                    inTree = true;
+                var indexFound = rootNode.findChild( popup );
+                if ( indexFound > 0 ) {
+                    rootNode.removeChild( popup );
                 }
                 else {
-                    rootNode.removeChild( popup );
-                    inTree = false;
+                    rootNode.addChild( popup );
                 }
             };
             return container;
