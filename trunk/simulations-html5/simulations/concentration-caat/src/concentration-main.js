@@ -698,10 +698,8 @@
                                    }
                                }
                            },
-                           function ( scene_time, timer_time, timertask_instance ) {   // tick
-                           },
-                           function ( scene_time, timer_time, timertask_instance ) {   // cancel
-                           } );
+                           function ( scene_time, timer_time, timertask_instance ) { }, // tick
+                           function ( scene_time, timer_time, timertask_instance ) { } ); // cancel
 
 
         //This breaks Win7/Chrome interaction, so only enable on ios + android
