@@ -1,3 +1,5 @@
+Use crystal color for the fluid
+Wired up combo box
 Comment out jQuery/i18n for testing under CocoonJS
 read language from URL parameter
 Internationalized strings

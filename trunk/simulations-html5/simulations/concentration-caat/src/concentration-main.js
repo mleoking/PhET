@@ -109,9 +109,8 @@
         return y0 + (x - x0) * (y1 - y0) / (x1 - x0);
     }
 
-    function getColor( distance ) {
+    function getColor( distance, destination ) {
         var source = {red:200, green:200, blue:255};
-        var destination = {red:255, green:0, blue:0};
         var relative = {
             red:interpolate( 0, source.red, 1, destination.red, distance ),
             green:interpolate( 0, source.green, 1, destination.green, distance ),
@@ -259,7 +258,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ) );
+            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ), model.solute.color );
 
             if ( bottomFlowAmount > 0.1 && fluidHeight > 0 ) {
                 ctx.fillRect( beakerMaxX + 60, beakerMaxY + 50, 50 * bottomFlowAmount, 800 );
@@ -275,7 +274,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ) );
+            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals ), model.solute.color );
             ctx.fillRect( beakerX, beakerMaxY - fluidHeight, beakerWidth, fluidHeight );
 
             ctx.restore();
