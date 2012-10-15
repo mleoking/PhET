@@ -151,6 +151,16 @@
         }
     }
 
+    //For running under Cocoon, use this code for jQuery
+    //and comment out these lines in the html:
+//    <script type="text/javascript" src="jquery-1.5.1.min.js"></script>
+//    <script type="text/javascript" src="jquery.i18n.properties-1.0.9.js"></script>
+    var jQuery = [];
+    jQuery.i18n = [];
+    jQuery.i18n.prop = function ( key ) {
+        return "" + key;
+    };
+
     /**
      * This function will be called to let you define new scenes that will be
      * shown after the splash screen.
@@ -158,19 +168,22 @@
      */
     function createScenes( director ) {
 
-        //Load the properties files and then create scenes
-        jQuery.i18n.properties(
-                {
-                    name:'beers-law-lab-strings',
-                    path:'localization/',
+        createScenesAfterResourcesLoaded( director );
 
-                    //Didn't work at all when specifying "both"
-                    mode:'map',
-                    language:getParameterByName( "language" ),
-                    callback:function () {
-                        createScenesAfterResourcesLoaded( director );
-                    }
-                } );
+        //Uncomment these lines for jQuery i18n
+        //Load the properties files and then create scenes
+//        jQuery.i18n.properties(
+//                {
+//                    name:'beers-law-lab-strings',
+//                    path:'localization/',
+//
+//                    //Didn't work at all when specifying "both"
+//                    mode:'map',
+//                    language:getParameterByName( "language" ),
+//                    callback:function () {
+//                        createScenesAfterResourcesLoaded( director );
+//                    }
+//                } );
     }
 
     function createScenesAfterResourcesLoaded( director ) {
