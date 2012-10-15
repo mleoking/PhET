@@ -197,6 +197,11 @@
         shaker.x = 389;
         shaker.lastY = shaker.y;
 
+        scene.enableInputList( 1 );
+
+        //Allow interaction even if outside of parent bounds
+        scene.addActorToInputList( shaker, 0, 0 );
+
         var lipWidth = 40;
         var beakerX = 150;
         var beakerY = 200;
@@ -503,6 +508,9 @@
 
         var concentrationMeterProbe = new CAAT.Actor().setBackgroundImage( director.getImage( 'concentration-meter-probe' ), true ).setPosition( 760, 425 );
         concentrationMeterProbe.enableDrag();
+
+        //Allow interaction even if outside of parent bounds
+        scene.addActorToInputList( concentrationMeterProbe, 0, 0 );
 
         //Uses the same cubic curve defined in Java implementation of ConcentrationMeterNode.WireNode
         var wireNode = new CAAT.Actor().setSize( director.width * 10, director.width * 10 ).enableEvents( false );
