@@ -86,6 +86,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage GENERATOR = RESOURCES.getImage( "generator.png" );
         public static final BufferedImage GENERATOR_ICON = RESOURCES.getImage( "generator_icon.png" );
         public static final BufferedImage GENERATOR_WHEEL_HUB = RESOURCES.getImage( "generator_wheel_hub.png" );
+        public static final BufferedImage GENERATOR_WHEEL_HUB_2 = RESOURCES.getImage( "generator_wheel_hub_2.png" );
         public static final BufferedImage GENERATOR_WHEEL_PADDLES = RESOURCES.getImage( "generator_wheel_paddles.png" );
         public static final BufferedImage GENERATOR_WHEEL_PADDLES_SHORT = RESOURCES.getImage( "generator_wheel_paddles_short.png" );
         public static final BufferedImage GENERATOR_WHEEL_TEXTURE = RESOURCES.getImage( "generator_wheel_texture.png" );
@@ -102,6 +103,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage SOLAR_PANEL_GEN = RESOURCES.getImage( "solar_panel_gen.png" );
         public static final BufferedImage SOLAR_PANEL_ICON = RESOURCES.getImage( "solar_panel_icon.png" );
         public static final BufferedImage SOLAR_PANEL_POST = RESOURCES.getImage( "solar_panel_post.png" );
+        public static final BufferedImage SOLAR_PANEL_POST_2 = RESOURCES.getImage( "solar_panel_post_2.png" );
         public static final BufferedImage SUN_ICON = RESOURCES.getImage( "sun_icon.png" );
         public static final BufferedImage TAB_3_DRAWING = RESOURCES.getImage( "tab-3-drawing.png" );
         public static final BufferedImage TEAPOT = RESOURCES.getImage( "teapot.png" );
