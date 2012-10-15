@@ -187,6 +187,11 @@
     }
 
     function createScenesAfterResourcesLoaded( director ) {
+
+        var model = [];
+        model.solute = [];
+        model.solute.color = [];
+        model.solute.color = {red:255, green:0, blue:0};
         var scene = director.createScene();
 
         //Set background to white
@@ -369,7 +374,7 @@
             var popup = new CAAT.ShapeActor().setSize( 350, 355 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).setFillStyle( 'white' ).setStrokeStyle( 'black' );
 
             function createSquareAndTextNode( color, text ) {
-                var square = rectangleNode( 30, 30, color, 1, 'gray' );
+                var square = rectangleNode( 30, 30, 'rgb(' + color.red + ',' + color.green + ',' + color.blue + ')', 1, 'gray' );
                 var entryText = new CAAT.TextActor().setFont( "24px sans-serif" ).setText( text ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 40, 5 ).enableEvents( false );
                 var container = new CAAT.ActorContainer().setSize( 340, 30 );
                 container.backgroundColor = 'white';
@@ -385,7 +390,6 @@
                 container.addChild( square );
                 container.addChild( entryText );
                 container.enableEvents( false );
-                container.crystalColor = color;
                 return container;
             }
 
@@ -404,13 +408,16 @@
                     comboBox.removeChild( comboBox.displayedComboBoxItem );
                     comboBox.displayedComboBoxItem = createSquareAndTextNode( color, text ).setLocation( 5, 5 );
                     comboBox.addChild( comboBox.displayedComboBoxItem );
+                    model.solute.color.red = color.red;
+                    model.solute.color.green = color.green;
+                    model.solute.color.blue = color.blue;
                     CAAT.setCursor( 'default' );
                 };
                 result.enableEvents( true );
                 return result;
             }
 
-            var displayedComboBoxItem = createSquareAndTextNode( 'red', jQuery.i18n.prop( "drinkMix" ) ).setLocation( 5, 5 );
+            var displayedComboBoxItem = createSquareAndTextNode( {red:255, green:0, blue:0}, jQuery.i18n.prop( "drinkMix" ) ).setLocation( 5, 5 );
             comboBox.displayedComboBoxItem = displayedComboBoxItem;
             comboBox.addChild( displayedComboBoxItem );
 
@@ -451,14 +458,14 @@
             var popupItemOffsetY = 2;
             var itemSpacing = 15;
             var itemSize = 30 + itemSpacing;
-            popup.addChild( createSquareAndTextNodeButton( 'red', jQuery.i18n.prop( "drinkMix" ) ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( 'red', jQuery.i18n.prop( "cobaltIINitrate" ) ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( 'pink', jQuery.i18n.prop( "cobaltChloride" ) ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( 'orange', jQuery.i18n.prop( "potassiumDichromate" ) ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( 'yellow', jQuery.i18n.prop( "potassiumChromate" ) ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( 'green', jQuery.i18n.prop( "nickelIIChloride" ) ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( 'blue', jQuery.i18n.prop( "copperSulfate" ) ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
-            popup.addChild( createSquareAndTextNodeButton( 'purple', jQuery.i18n.prop( "potassiumPermanganate" ) ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "drinkMix" ) ).setLocation( 2, 0 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:0, green:255, blue:0}, jQuery.i18n.prop( "cobaltIINitrate" ) ).setLocation( 2, 1 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:0, green:0, blue:255}, jQuery.i18n.prop( "cobaltChloride" ) ).setLocation( 2, 2 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumDichromate" ) ).setLocation( 2, 3 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumChromate" ) ).setLocation( 2, 4 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "nickelIIChloride" ) ).setLocation( 2, 5 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "copperSulfate" ) ).setLocation( 2, 6 * itemSize + popupItemOffsetY ) );
+            popup.addChild( createSquareAndTextNodeButton( {red:255, green:0, blue:0}, jQuery.i18n.prop( "potassiumPermanganate" ) ).setLocation( 2, 7 * itemSize + popupItemOffsetY ) );
             popup.setLocation( 640, 66 );
             comboBox.mouseClick = function ( e ) {
                 var indexFound = rootNode.findChild( popup );
@@ -647,7 +654,7 @@
                                    if ( x > beakerX && x < beakerMaxX ) {
 
                                        //TODO: this line breaks MVC a bit
-                                       var crystal = new CAAT.Actor().setBounds( x, y, w, w ).setFillStyle( soluteControlPanel.comboBox.displayedComboBoxItem.crystalColor );
+                                       var crystal = new CAAT.Actor().setBounds( x, y, w, w ).setFillStyle( 'rgb(' + model.solute.color.red + ',' + model.solute.color.green + ',' + model.solute.color.blue + ')' );
                                        crystal.velocity = 0;
                                        rootNode.addChild( crystal );
                                        crystal.setRotation( Math.random() * Math.PI * 2 );
