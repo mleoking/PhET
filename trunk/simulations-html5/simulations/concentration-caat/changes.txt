@@ -1,3 +1,4 @@
+Comment out jQuery/i18n for testing under CocoonJS
 read language from URL parameter
 Internationalized strings
 Snap sliders back to zero when released
