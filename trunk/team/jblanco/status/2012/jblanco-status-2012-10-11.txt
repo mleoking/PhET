@@ -1,0 +1,64 @@
+PhET Progress Report, J. Blanco, 10-11-2012
+
+PhET Weekly Progress Report
+John Blanco
+October 11th, 2012
+
+Time period covered: October 4th through October 10th.
+
+Energy Forms and Changes - 10.0 hrs
+
+o	Reviewed and discussed in Physics Meeting.
+o	Integrated new images for fluorescent light bulb.
+o	Fixed an issue where the energy chunks at the boundaries of system elements could get dragged around.
+o	Moved conversion of energy chunks to be behind connector for the converter-to-user stage.  Less glitchy and works better during swaps.
+o	Made light rays disappear from sun and from light bulbs when in energy chunk viewing mode.
+o	Implemented energy chunks for the teapot, including thermal energy chunks from the burner to the body of the teapot, and mechanical chunks from the spout.
+
+Forces and Motion Basics - 1.0 hrs
+
+o	Reviewed and discussed in Physics Meeting.
+o	Consulted with Sam on issue with guy getting run over, issue with dropped crates being in odd place.
+
+Fraction Relationships - 0.5 hrs
+
+o	Reviewed and discussed in Physics Meeting.
+
+Tablet Investigation - 15.5 hrs
+
+o	Meeting with Quick Left on getting started, contract specifics, and statement of work.
+o	Meeting with Bust Out Solutions on getting started, contract specifics, and statement of work.
+o	Negotiated on rates with both Quick Left and Bust Out.
+o	Edited contract for agreement with Competentum in order to integrated changes from Kathy P and Barry (CU purchasing or legal expert).
+o	Worked with Oliver N on filling out on-line forms for agreement with Quick Left.
+o	Responded to Chris Bruce of Nerd Island about his students converting a PhET simulation.
+o	Some reading about and studying of JavaScript.
+o	Set up and participated in kickoff meeting with Competentum for the Masses and Springs HTML5 effort.
+o	Checked in with Google about the dates for the OER developer conference.
+
+Customer Support - 1.5 hrs
+
+o	Investigated a company called Chalkable that has contacted us about integrating PhET simulations into their on-line learning environment.
+o	Provided information to a teacher in the UK who was working on configuring PhET for a locally-hosted installation.
+
+Installers - 4.5 hrs
+
+o	Worked on an issue where the installer that includes the activities is not running due to issues with file names that contain non-Latin characters, see #3453.
+
+Collision Lab - 1.0 hrs
+
+o	Supported testing of AIR version.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Developer meeting to discuss improvements to the development process.
+o	Worked with Ariel on DRK-12 update.
+o	Normal Unfuddle ticket overhead.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays -  0 hrs
+
+o	Working remotely on Friday, October 12th.
+o	Out on Friday, October 19th.
