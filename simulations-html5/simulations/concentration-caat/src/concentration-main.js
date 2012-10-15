@@ -282,7 +282,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals, fluidHeight ), model.solute.maxColor );
+            ctx.fillStyle = getColor( Math.min( absorbedCrystals / fluidHeight * 2 / model.solute.maxConcentration, 1.0 ), model.solute.maxColor );
 
             if ( bottomFlowAmount > 0.1 && fluidHeight > 0 ) {
                 ctx.fillRect( beakerMaxX + 60, beakerMaxY + 50, 50 * bottomFlowAmount, 800 );
@@ -297,7 +297,7 @@
             var ctx = director.ctx;
             ctx.save();
 
-            ctx.fillStyle = getColor( getFractionTowardSaturation( absorbedCrystals, fluidHeight ), model.solute.maxColor );
+            ctx.fillStyle = getColor( Math.min( absorbedCrystals / fluidHeight * 2 / model.solute.maxConcentration, 1.0 ), model.solute.maxColor );
             ctx.fillRect( 0, beakerMaxY - fluidHeight, beakerWidth, fluidHeight );
 
             ctx.restore();
@@ -742,7 +742,7 @@
                                var newText = probeCenterX < fluid.x + fluid.width &&
                                              probeCenterX > fluid.x &&
                                              probeCenterY > beakerMaxY - fluidHeight &&
-                                             probeCenterY < beakerMaxY ? (absorbedCrystals / fluidHeight * 2).toFixed( 3 ) :
+                                             probeCenterY < beakerMaxY ? (Math.min( absorbedCrystals / fluidHeight * 2, model.solute.maxConcentration )).toFixed( 3 ) :
                                              "-";
                                if ( model.lastText != newText ) {
                                    concentrationMeterReadoutText.setText( newText );
