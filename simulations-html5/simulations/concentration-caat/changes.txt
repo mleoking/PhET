@@ -1,3 +1,4 @@
+Added support for clearing dirty rectangles and made default, involved changes to caat.js
 # 00.00.12 (69243) Oct 16, 2012
 Fixed highlighting for combo box items
 Interpolate color midpoint

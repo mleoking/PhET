@@ -4702,7 +4702,7 @@ function proxyObject( object, preMethod, postMethod, errorMethod, getter, setter
          * Set the behavior path.
          * The path can be any length, and will take behaviorDuration time to be traversed.
          * @param {CAAT.Path}
-                *
+         *
          * @deprecated
          */
         setPath:function ( path ) {
@@ -4714,7 +4714,7 @@ function proxyObject( object, preMethod, postMethod, errorMethod, getter, setter
          * Set the behavior path.
          * The path can be any length, and will take behaviorDuration time to be traversed.
          * @param {CAAT.Path}
-                * @return this
+         * @return this
          */
         setValues:function ( path ) {
             return this.setPath( path );
@@ -10337,7 +10337,7 @@ function proxyObject( object, preMethod, postMethod, errorMethod, getter, setter
         timeline:0, // global director timeline.
         imagesCache:null, // An array of JSON elements of the form { id:string, image:Image }
         audioManager:null,
-        clear:true, // clear background before drawing scenes ??
+        clear:CAAT.Director.CLEAR_ALL, // clear background before drawing scenes ??
 
         transitionScene:null,
 
@@ -11807,9 +11807,7 @@ function proxyObject( object, preMethod, postMethod, errorMethod, getter, setter
          */
         setClear:function ( clear ) {
             this.clear = clear;
-            if ( this.clear === CAAT.Director.CLEAR_DIRTY_RECTS ) {
-                this.dirtyRectsEnabled = true;
-            }
+            this.dirtyRectsEnabled = (this.clear === CAAT.Director.CLEAR_DIRTY_RECTS);
             return this;
         },
         /**
@@ -12871,6 +12869,8 @@ function proxyObject( object, preMethod, postMethod, errorMethod, getter, setter
         };
 
         CAAT.Director.prototype.setClear = function ( clear ) {
+            this.clear = clear;
+            this.dirtyRectsEnabled = (this.clear === CAAT.Director.CLEAR_DIRTY_RECTS);
             return this;
         };
 
