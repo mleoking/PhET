@@ -642,6 +642,7 @@
             segmentedButton.mouseClick = function ( mouseEvent ) {
                 model.solidSelected = !model.solidSelected;
                 model.toggledSolidSelected();
+                segmentedButton.dirty = true;
             };
             container.addChild( segmentedButton.setLocation( background.width / 2 - segmentedButton.width / 2, background.height / 2 - 10 ) );
 
@@ -687,6 +688,7 @@
                 };
                 result.mouseClick = function ( mouseEvent ) {
                     absorbedCrystals = 0;
+                    fluid.dirty = true;
                     rootNode.removeChild( popup );
                     comboBox.removeChild( comboBox.displayedComboBoxItem );
                     model.solute = solute;
@@ -807,6 +809,7 @@
         var removeSoluteButton = createButton( director, translate( 'removeSolute' ), 130, 'rgb(240,240,240)' ).setLocation( 589, 641 );
         removeSoluteButton.mouseClick = function ( e ) {
             absorbedCrystals = 0;
+            fluid.dirty = true;
         };
         rootNode.addChild( removeSoluteButton );
 
@@ -969,6 +972,7 @@
                                    //d absorbedCrystals = concentration / 2 * d fluidHeight
 
                                    absorbedCrystals = initialConcentration * fluidHeight / 2;
+                                   fluid.dirty = true;
 
                                }
                                bottomFlowAmount = bottomKnob.getValue();
@@ -985,6 +989,7 @@
                                        rootNode.removeChild( c );
                                        i--;
                                        absorbedCrystals++;
+                                       fluid.dirty = true;
                                    }
                                }
                                shaker.lastY = shaker.y;
@@ -996,6 +1001,7 @@
                                    if ( fluidHeight < 0 ) {
                                        fluidHeight = 0;
                                    }
+                                   fluid.dirty = true;
                                }
 
                                var probeCenterX = concentrationMeterProbe.x + concentrationMeterProbe.width / 2;
