@@ -424,11 +424,13 @@
                 rootNode.removeChild( dropper );
                 rootNode.addChild( shaker );
                 scene.removeActorFromInputList( dropper, 0 );
+                scene.addActorToInputList( shaker, 0, 0 );
             }
             else {
                 rootNode.removeChild( shaker );
                 rootNode.addChild( dropper );
                 scene.removeActorFromInputList( shaker, 0 );
+                scene.addActorToInputList( dropper, 0, 0 );
             }
         };
 
