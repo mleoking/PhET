@@ -412,7 +412,7 @@
 
         var dropperBackground = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-background' ), true );
         var dropperForeground = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-foreground' ), true );
-        var dropperLiquid = new CAAT.Actor().setSize( dropperBackground.width, dropperBackground.height ).setLocation( dropperBackground.width - 40, dropperBackground.height );
+        var dropperLiquid = new CAAT.Actor().setSize( dropperBackground.width, dropperBackground.height );
         dropperLiquid.paint = function ( director, time ) {
             var ctx = director.ctx;
 
@@ -424,15 +424,19 @@
             var glassWidth = 46;
             var glassHeight = 150;
             var glassYOffset = tipHeight + 14;
-            ctx.moveTo( -tipWidth / 2, 0 );
-            ctx.lineTo( -tipWidth / 2, -tipHeight );
-            ctx.lineTo( -glassWidth / 2, -glassYOffset );
-            ctx.lineTo( -glassWidth / 2, -glassHeight );
-            ctx.lineTo( glassWidth / 2, -glassHeight );
-            ctx.lineTo( glassWidth / 2, -glassYOffset );
-            ctx.lineTo( tipWidth / 2, -tipHeight );
-            ctx.lineTo( tipWidth / 2, 0 );
+            ctx.beginPath();
+            var dx = dropperBackground.width - 40;
+            var dy = dropperBackground.height;
+            ctx.moveTo( -tipWidth / 2 + dx, 0 + dy );
+            ctx.lineTo( -tipWidth / 2 + dx, -tipHeight + dy );
+            ctx.lineTo( -glassWidth / 2 + dx, -glassYOffset + dy );
+            ctx.lineTo( -glassWidth / 2 + dx, -glassHeight + dy );
+            ctx.lineTo( glassWidth / 2 + dx, -glassHeight + dy );
+            ctx.lineTo( glassWidth / 2 + dx, -glassYOffset + dy );
+            ctx.lineTo( tipWidth / 2 + dx, -tipHeight + dy );
+            ctx.lineTo( tipWidth / 2 + dx, 0 + dy );
             ctx.fill();
+
             ctx.restore();
         };
         var dropperButton = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-button-unpressed' ), true ).setScale( 0.4, 0.4 ).setLocation( -26, -28 );

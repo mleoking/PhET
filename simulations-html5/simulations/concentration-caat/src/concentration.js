@@ -71,7 +71,7 @@ CAAT.modules.initialization.init = function ( width, height, runHere, imagesURL,
         }
 
         //Show the CAAT Debug panel at the bottom of the screen
-//        CAAT.DEBUG = 1;
+        CAAT.DEBUG = 1;
 
         director = new CAAT.Director().
                 initialize(
