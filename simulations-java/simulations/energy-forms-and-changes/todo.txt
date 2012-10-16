@@ -1,0 +1,32 @@
+
+Get rid of ability to cool the tea pot.
+Experiment: Make front of fluorescent bulbs programatically transparent when energy chunks present.
+Experiment: Make tea pot transparent when energy chunks present.
+Make some thermals come out of the tea pot spout
+Make chem energy in biker change to mech at top tube.
+Make biker always stop at spot where she is about to move
+Make biker run out of energy chunks, then have "Feed Me" button appear
+
+Add beaker and thermometer
+Make beaker hold energy to a point, then release it
+E's should build up in heat coil before going into beaker.
+
+Integrate Sam's way of making slider work
+Figure out how to make E's not cluster in the wires leading from solar panel
+
+Make water "non-turdy"
+
+Make behavior change when E's are visible such that lights don't glow until the get energy, and so forth.
+
+Have energy chunks present when sun appears, rather than having to wait.
+
+Have some delay for lights and burner lighting up when energy starts to flow to it.
+
+Internationalize E's
+Make knob bigger for the faucet
+Remove 3rd tab for now
+Tick marks on cloud slider
+Fix flicker when E's are transferred between energy systems
+Profile, have Chris test on Mac
+
+Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
