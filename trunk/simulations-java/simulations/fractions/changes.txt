@@ -1,3 +1,4 @@
+Tab 1: Increased card size for higher levels so that the "10" text would fit with default mac os x font
 # 1.01.36 (69181) Oct 12, 2012
 Tab 2: Mixed numbers level 9-10: Whenever a solution has shapes with 1/2, and 1/3 it must also have a 1/6 to avoid the need for the user to solve a common denominator type problem
 # 1.01.35 (69162) Oct 12, 2012

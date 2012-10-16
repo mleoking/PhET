@@ -112,7 +112,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
     private static PNode createNumberLevelIcon( final int level ) {
         return new PNode() {{
             for ( int i = 0; i < level; i++ ) {
-                NumberCardNode card = new NumberCardNode( new Dimension2DDouble( level < 10 ? 60 : 70, 75 ), level, new NumberDragContext() {
+                NumberCardNode card = new NumberCardNode( new Dimension2DDouble( level < 10 ? 60 : 74, 75 ), level, new NumberDragContext() {
                     public void endDrag( final NumberCardNode numberCardNode ) {
                     }
 
