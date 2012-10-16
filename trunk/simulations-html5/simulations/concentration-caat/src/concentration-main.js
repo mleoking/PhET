@@ -26,13 +26,14 @@
         return container;
     }
 
-    function createSegmentedButton( buttonContents ) {
+    function createSegmentedButton( buttonContents, model ) {
 
         var maxItemWidth = 0;
         var maxItemHeight = 0;
         for ( var z = 0; z < buttonContents.length; z++ ) {
             maxItemWidth = Math.max( maxItemWidth, buttonContents[z].width );
             maxItemHeight = Math.max( maxItemHeight, buttonContents[z].height );
+            buttonContents[z].enableEvents( false );
         }
 
         var leftRightInset = 10;
@@ -41,12 +42,15 @@
 
         var container = new CAAT.ActorContainer().setSize( width, 65 );
 
-        var background = new CAAT.Actor().setSize( container.width, container.height );
+        var background = new CAAT.Actor().setSize( container.width, container.height ).enableEvents( false );
         background.paint = function ( director, time ) {
             var ctx = director.ctx;
             ctx.strokeStyle = 'black';
-            ctx.lineWidth = 2;
-            roundRect( ctx, 0, 0, container.width, container.height, 20, true, true );
+            ctx.lineWidth = 1;
+            ctx.fillStyle = model.solidSelected ? 'rgb(200,200,200)' : 'blue';
+            roundRectRight( ctx, 0, 0, container.width, container.height, 20, true, true );
+            ctx.fillStyle = model.solidSelected ? 'blue' : 'rgb(200,200,200)';
+            roundRectLeft( ctx, 0, 0, container.width, container.height, 20, true, true );
             ctx.beginPath();
             ctx.moveTo( container.width / 2, 0 );
             ctx.lineTo( container.width / 2, container.height );
@@ -65,6 +69,54 @@
         }
 
         return container;
+    }
+
+    function roundRectLeft( ctx, x, y, width, height, radius, fill, stroke ) {
+        if ( typeof stroke == "undefined" ) {
+            stroke = true;
+        }
+        if ( typeof radius === "undefined" ) {
+            radius = 5;
+        }
+        ctx.beginPath();
+        ctx.moveTo( x + radius, y );
+        ctx.lineTo( x + width / 2, y );
+        ctx.lineTo( x + width / 2, y + height );
+        ctx.lineTo( x + radius, y + height );
+        ctx.quadraticCurveTo( x, y + height, x, y + height - radius );
+        ctx.lineTo( x, y + radius );
+        ctx.quadraticCurveTo( x, y, x + radius, y );
+        ctx.closePath();
+        if ( stroke ) {
+            ctx.stroke();
+        }
+        if ( fill ) {
+            ctx.fill();
+        }
+    }
+
+    function roundRectRight( ctx, x, y, width, height, radius, fill, stroke ) {
+        if ( typeof stroke == "undefined" ) {
+            stroke = true;
+        }
+        if ( typeof radius === "undefined" ) {
+            radius = 5;
+        }
+        ctx.beginPath();
+        ctx.moveTo( x + width / 2, y );
+        ctx.lineTo( x + width - radius, y );
+        ctx.quadraticCurveTo( x + width, y, x + width, y + radius );
+        ctx.lineTo( x + width, y + height - radius );
+        ctx.quadraticCurveTo( x + width, y + height, x + width - radius, y + height );
+        ctx.lineTo( x + width / 2, y + height );
+        ctx.lineTo( x + width / 2, y );
+        ctx.closePath();
+        if ( stroke ) {
+            ctx.stroke();
+        }
+        if ( fill ) {
+            ctx.fill();
+        }
     }
 
     /**
@@ -332,6 +384,7 @@
     function createScenesAfterResourcesLoaded( director ) {
 
         var model = {};
+        model.solidSelected = true;
         model.solutes = [
             solution( "drinkMix", 0.05, 255, 225, 225, 5.96, 255, 0, 0 ),
             solution( "cobaltIINitrate", 0.05, 255, 225, 225, 5.64, 255, 0, 0 ),
@@ -348,15 +401,36 @@
         //Set background to white
         scene.fillStyle = 'rgb(255,255,255)';
 
+        scene.enableInputList( 1 );
+
         var shaker = new CAAT.Actor().setBackgroundImage( director.getImage( 'shaker' ), true ).setRotation( -Math.PI / 4 );
         shaker.enableDrag();
         shaker.x = 389;
         shaker.lastY = shaker.y;
-
-        scene.enableInputList( 1 );
-
         //Allow interaction even if outside of parent bounds
         scene.addActorToInputList( shaker, 0, 0 );
+
+        var dropperBackground = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-background' ), true );
+        var dropperForeground = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-foreground' ), true );
+        var dropper = new CAAT.ActorContainer().setSize( dropperBackground.width, dropperBackground.height );
+        dropper.addChild( dropperBackground );
+        dropper.addChild( dropperForeground );
+        dropper.enableDrag();
+        dropper.x = 389;
+        scene.addActorToInputList( dropper, 0, 0 );
+
+        model.toggledSolidSelected = function () {
+            if ( model.solidSelected ) {
+                rootNode.removeChild( dropper );
+                rootNode.addChild( shaker );
+                scene.removeActorFromInputList( dropper, 0 );
+            }
+            else {
+                rootNode.removeChild( shaker );
+                rootNode.addChild( dropper );
+                scene.removeActorFromInputList( shaker, 0 );
+            }
+        };
 
         var lipWidth = 40;
         var beakerX = 150;
@@ -503,7 +577,8 @@
         }
 
         function createSoluteControlPanel() {
-            var background = rectangleNode( 300, 120, 'rgb(220,220,220)', 1, 'black' );
+            var soluteControlPanelBackground = 'rgb(220,220,220)';
+            var background = rectangleNode( 300, 120, soluteControlPanelBackground, 1, 'black' );
             var text = new CAAT.TextActor().setFont( "25px sans-serif" ).setText( translate( 'solute' ) ).calcTextSize( director ).
                     setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap();
 
@@ -513,8 +588,8 @@
             container.addChild( text.setLocation( 2, 4 + 8 ) );
             var offsetY = 20;
 
-            var solidText = new CAAT.TextActor().setFont( "20px sans-serif" ).setText( translate( 'solid' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 60, 55 + offsetY );
-            var solutionText = new CAAT.TextActor().setFont( "20px sans-serif" ).setText( translate( 'solution' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 180, 55 + offsetY );
+            var solidText = new CAAT.TextActor().setFont( "20px sans-serif" ).setText( translate( 'solid' ) ).calcTextSize( director ).setTextFillStyle( 'white' ).cacheAsBitmap().setLocation( 60, 55 + offsetY );
+            var solutionText = new CAAT.TextActor().setFont( "20px sans-serif" ).setText( translate( 'solution' ) ).calcTextSize( director ).setTextFillStyle( 'white' ).cacheAsBitmap().setLocation( 180, 55 + offsetY );
 
             var shakerIcon = new CAAT.Actor().setBackgroundImage( director.getImage( 'shaker-icon' ), true ).enableEvents( false ).setScale( 0.8, 0.8 );
             var dropperIcon = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-icon' ), true ).enableEvents( false ).setScale( 0.8, 0.8 );
@@ -522,14 +597,14 @@
             var liquidOnes = [dropperIcon, solutionText ];
             var buttonContents = [vbox( -8, solidOnes ), vbox( -8, liquidOnes )];
 
-            var segmentedButton = createSegmentedButton( buttonContents );
+            var segmentedButton = createSegmentedButton( buttonContents, model ).enableEvents( true );
+            segmentedButton.mouseEnter = function ( mouseEvent ) { CAAT.setCursor( 'pointer' ); };
+            segmentedButton.mouseExit = function ( mouseEvent ) { CAAT.setCursor( 'default' ); };
+            segmentedButton.mouseClick = function ( mouseEvent ) {
+                model.solidSelected = !model.solidSelected;
+                model.toggledSolidSelected();
+            };
             container.addChild( segmentedButton.setLocation( background.width / 2 - segmentedButton.width / 2, background.height / 2 - 10 ) );
-//            container.addChild( solidText );
-//            container.addChild( solutionText );
-//            var solidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'black' ).setLocation( 5, 62 + 6 - 30 + 5 + offsetY );
-//            container.addChild( solidCircle );
-//            var fluidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'white' ).setLocation( 5 + 180 - 60, 62 + 6 - 30 + 5 + offsetY );
-//            container.addChild( fluidCircle );
 
             var comboBox = new CAAT.ShapeActor().setSize( 190, 40 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).
                     setFillStyle( 'white' ).setStrokeStyle( 'black' ).setLocation( 100, 5 );
@@ -547,8 +622,10 @@
                 container.paint = function ( director, time ) {
                     var ctx = director.ctx;
                     ctx.save();
-                    ctx.fillStyle = container.backgroundColor;
-                    ctx.fillRect( 0, 0, container.width, container.height );
+                    if ( container.background ) {
+                        ctx.fillStyle = container.backgroundColor;
+                        ctx.fillRect( 0, 0, container.width, container.height );
+                    }
                     ctx.restore();
                 };
                 square.enableEvents( false );
@@ -575,6 +652,7 @@
                     comboBox.removeChild( comboBox.displayedComboBoxItem );
                     model.solute = solute;
                     comboBox.displayedComboBoxItem = createSquareAndTextNode( model.solute ).setLocation( 5, 5 );
+                    comboBox.displayedComboBoxItem.background = null;
                     comboBox.addChild( comboBox.displayedComboBoxItem );
                     CAAT.setCursor( 'default' );
                 };
@@ -671,6 +749,7 @@
         rootNode.addChild( topFaucetPipe );
         rootNode.addChild( topFaucet );
         rootNode.addChild( shaker );
+//        rootNode.addChild( dropper );
         rootNode.addChild( topKnob );
 
         rootNode.addChild( bottomFaucet );
@@ -952,7 +1031,9 @@
                             {id:'concentration-meter-body', url:'resources/concentration-meter-body.png'},
                             {id:'concentration-meter-probe', url:'resources/concentration-meter-probe.png'},
                             {id:'shaker-icon', url:'resources/shaker-icon.png'},
-                            {id:'dropper-icon', url:'resources/dropper-icon.png'}
+                            {id:'dropper-icon', url:'resources/dropper-icon.png'},
+                            {id:'dropper-background', url:'resources/dropper_background.png'},
+                            {id:'dropper-foreground', url:'resources/dropper_foreground.png'}
                         ],
 
                         /*
