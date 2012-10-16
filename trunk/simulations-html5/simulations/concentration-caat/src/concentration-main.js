@@ -1,5 +1,112 @@
 (function () {
 
+    function vbox( distanceBetweenItems, items ) {
+
+        var maxItemWidth = 0;
+        var maxItemHeight = 0;
+        var sumHeight = 0;
+        for ( var z = 0; z < items.length; z++ ) {
+            if ( z != 0 ) {
+                sumHeight = sumHeight + distanceBetweenItems;
+            }
+            maxItemWidth = Math.max( maxItemWidth, items[z].width );
+            maxItemHeight = Math.max( maxItemHeight, items[z].height );
+            sumHeight = sumHeight + items[z].height;
+        }
+
+        var container = new CAAT.ActorContainer().setSize( maxItemWidth, sumHeight );
+
+        var y = 0;
+        for ( var k = 0; k < items.length; k++ ) {
+            items[k].setLocation( maxItemWidth / 2 - items[k].width / 2, y );
+            container.addChild( items[k] );
+            y += items[k].height + distanceBetweenItems;
+        }
+
+        return container;
+    }
+
+    function createSegmentedButton( buttonContents ) {
+
+        var maxItemWidth = 0;
+        var maxItemHeight = 0;
+        for ( var z = 0; z < buttonContents.length; z++ ) {
+            maxItemWidth = Math.max( maxItemWidth, buttonContents[z].width );
+            maxItemHeight = Math.max( maxItemHeight, buttonContents[z].height );
+        }
+
+        var leftRightInset = 10;
+        var distanceBetweenButtons = 20;
+        var width = leftRightInset + maxItemWidth * buttonContents.length + distanceBetweenButtons * (buttonContents.length - 1) + leftRightInset;
+
+        var container = new CAAT.ActorContainer().setSize( width, 65 );
+
+        var background = new CAAT.Actor().setSize( container.width, container.height );
+        background.paint = function ( director, time ) {
+            var ctx = director.ctx;
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 2;
+            roundRect( ctx, 0, 0, container.width, container.height, 20, true, true );
+            ctx.beginPath();
+            ctx.moveTo( container.width / 2, 0 );
+            ctx.lineTo( container.width / 2, container.height );
+            ctx.closePath();
+            ctx.stroke();
+        };
+        container.addChild( background );
+
+        var x = leftRightInset;
+        for ( var k = 0; k < buttonContents.length; k++ ) {
+            x += maxItemWidth / 2;
+            buttonContents[k].setLocation( x - buttonContents[k].width / 2, container.height / 2 - buttonContents[k].height / 2 );
+            container.addChild( buttonContents[k] );
+            x += distanceBetweenButtons;
+            x += maxItemWidth / 2;
+        }
+
+        return container;
+    }
+
+    /**
+     * http://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-on-html-canvas
+     * Draws a rounded rectangle using the current state of the canvas.
+     * If you omit the last three params, it will draw a rectangle
+     * outline with a 5 pixel border radius
+     * @param {CanvasRenderingContext2D} ctx
+     * @param {Number} x The top left x coordinate
+     * @param {Number} y The top left y coordinate
+     * @param {Number} width The width of the rectangle
+     * @param {Number} height The height of the rectangle
+     * @param {Number} radius The corner radius. Defaults to 5;
+     * @param {Boolean} fill Whether to fill the rectangle. Defaults to false.
+     * @param {Boolean} stroke Whether to stroke the rectangle. Defaults to true.
+     */
+    function roundRect( ctx, x, y, width, height, radius, fill, stroke ) {
+        if ( typeof stroke == "undefined" ) {
+            stroke = true;
+        }
+        if ( typeof radius === "undefined" ) {
+            radius = 5;
+        }
+        ctx.beginPath();
+        ctx.moveTo( x + radius, y );
+        ctx.lineTo( x + width - radius, y );
+        ctx.quadraticCurveTo( x + width, y, x + width, y + radius );
+        ctx.lineTo( x + width, y + height - radius );
+        ctx.quadraticCurveTo( x + width, y + height, x + width - radius, y + height );
+        ctx.lineTo( x + radius, y + height );
+        ctx.quadraticCurveTo( x, y + height, x, y + height - radius );
+        ctx.lineTo( x, y + radius );
+        ctx.quadraticCurveTo( x, y, x + radius, y );
+        ctx.closePath();
+        if ( stroke ) {
+            ctx.stroke();
+        }
+        if ( fill ) {
+            ctx.fill();
+        }
+    }
+
     //English strings obtained from https://github.com/nzakas/props2js
     var englishStrings = {"copperSulfate":"Copper sulfate", "solution":"Solution", "concentration":"Concentration", "beers-law-lab.name":"Beer\u0027s Law Lab", "tab.beersLaw":"Beer\u0027s Law", "tab.concentration":"Concentration", "units.molesPerLiter":"mol/L", "potassiumDichromate":"Potassium dichromate", "removeSolute":"Remove Solute", "solid":"Solid", "fixed":"fixed", "pattern.0percent":"{0}%", "none":"none", "evaporation":"Evaporation", "potassiumChromate":"Potassium chromate", "units.mM":"mM", "lots":"lots", "saturated":"Saturated!", "pattern.0formula.1name":"{0}: {1}", "transmittance":"Transmittance", "water":"water", "pattern.0value.1units":"{0} {1}", "potassiumPermanganate":"Potassium permanganate", "drinkMix":"Drink mix", "pattern.0label":"{0}:", "units.centimeters":"cm", "concentration.name":"Concentration", "pattern.parentheses.0text":"({0})", "variable":"variable", "units.uM":"µM", "nickelIIChloride":"Nickel (II) chloride", "units.M":"M", "cobaltChloride":"Cobalt chloride", "cobaltIINitrate":"Cobalt (II) nitrate", "solute":"Solute", "wavelength":"Wavelength", "absorbance":"Absorbance", "units.liters":"L"};
     var frenchStrings = {"units.uM":"µmol/L", "drinkMix":"mélange type", "none":"aucune", "tab.beersLaw":"Loi de Beer-Lambert", "potassiumPermanganate":"permanganate de potassium", "cobaltIINitrate":"nitrate de cobalt (II)", "fixed":"fixée", "units.mM":"mmol/L", "beers-law-lab.name":"Loi de Beer-Lambert", "lots":"élevée", "removeSolute":"Retirer le soluté", "potassiumChromate":"chromate de potassium", "units.M":"mol/L", "variable":"variable", "potassiumDichromate":"dichromate de potassium", "copperSulfate":"sulfate de cuivre", "solute":"Soluté", "translation.credits":"Ph. Chevallier, Lycée Rotrou, France", "evaporation":"Évaporation", "solid":"Solide", "saturated":"Solution saturée !", "cobaltChloride":"chlorure de cobalt (II)", "wavelength":"longueur d\u0027onde", "nickelIIChloride":"chlorure de nickel (II)", "water":"eau"};
@@ -405,12 +512,24 @@
             container.addChild( background );
             container.addChild( text.setLocation( 2, 4 + 8 ) );
             var offsetY = 20;
-            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( translate( 'solid' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 60, 55 + offsetY ) );
-            container.addChild( new CAAT.TextActor().setFont( "20px sans-serif" ).setText( translate( 'solution' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 180, 55 + offsetY ) );
-            var solidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'black' ).setLocation( 5, 62 + 6 - 30 + 5 + offsetY );
-            container.addChild( solidCircle );
-            var fluidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'white' ).setLocation( 5 + 180 - 60, 62 + 6 - 30 + 5 + offsetY );
-            container.addChild( fluidCircle );
+
+            var solidText = new CAAT.TextActor().setFont( "20px sans-serif" ).setText( translate( 'solid' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 60, 55 + offsetY );
+            var solutionText = new CAAT.TextActor().setFont( "20px sans-serif" ).setText( translate( 'solution' ) ).calcTextSize( director ).setTextFillStyle( 'black' ).setLineWidth( 2 ).cacheAsBitmap().setLocation( 180, 55 + offsetY );
+
+            var shakerIcon = new CAAT.Actor().setBackgroundImage( director.getImage( 'shaker-icon' ), true ).enableEvents( false ).setScale( 0.8, 0.8 );
+            var dropperIcon = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-icon' ), true ).enableEvents( false ).setScale( 0.8, 0.8 );
+            var solidOnes = [shakerIcon, solidText ];
+            var liquidOnes = [dropperIcon, solutionText ];
+            var buttonContents = [vbox( -8, solidOnes ), vbox( -8, liquidOnes )];
+
+            var segmentedButton = createSegmentedButton( buttonContents );
+            container.addChild( segmentedButton.setLocation( background.width / 2 - segmentedButton.width / 2, background.height / 2 - 10 ) );
+//            container.addChild( solidText );
+//            container.addChild( solutionText );
+//            var solidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'black' ).setLocation( 5, 62 + 6 - 30 + 5 + offsetY );
+//            container.addChild( solidCircle );
+//            var fluidCircle = new CAAT.ShapeActor().setSize( 50, 50 ).setShape( CAAT.ShapeActor.prototype.SHAPE_CIRCLE ).setStrokeStyle( 'black' ).setFillStyle( 'white' ).setLocation( 5 + 180 - 60, 62 + 6 - 30 + 5 + offsetY );
+//            container.addChild( fluidCircle );
 
             var comboBox = new CAAT.ShapeActor().setSize( 190, 40 ).setShape( CAAT.ShapeActor.prototype.SHAPE_RECTANGLE ).
                     setFillStyle( 'white' ).setStrokeStyle( 'black' ).setLocation( 100, 5 );
@@ -491,14 +610,14 @@
 
             buttonBox.addChild( triangle );
 
-            solidCircle.mouseClick = function ( e ) {
-                solidCircle.setFillStyle( 'black' );
-                fluidCircle.setFillStyle( 'white' );
-            };
-            fluidCircle.mouseClick = function ( e ) {
-                solidCircle.setFillStyle( 'white' );
-                fluidCircle.setFillStyle( 'black' );
-            };
+//            solidCircle.mouseClick = function ( e ) {
+//                solidCircle.setFillStyle( 'black' );
+//                fluidCircle.setFillStyle( 'white' );
+//            };
+//            fluidCircle.mouseClick = function ( e ) {
+//                solidCircle.setFillStyle( 'white' );
+//                fluidCircle.setFillStyle( 'black' );
+//            };
 
             buttonBox.enableEvents( false );
             var popupItemOffsetY = 2;
@@ -831,7 +950,9 @@
                             {id:'faucet_pipe_long', url:'resources/faucet_pipe_long.png'},
                             {id:'slider-knob', url:'resources/slider-knob.png'},
                             {id:'concentration-meter-body', url:'resources/concentration-meter-body.png'},
-                            {id:'concentration-meter-probe', url:'resources/concentration-meter-probe.png'}
+                            {id:'concentration-meter-probe', url:'resources/concentration-meter-probe.png'},
+                            {id:'shaker-icon', url:'resources/shaker-icon.png'},
+                            {id:'dropper-icon', url:'resources/dropper-icon.png'}
                         ],
 
                         /*
