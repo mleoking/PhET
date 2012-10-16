@@ -37,10 +37,7 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
 
         // Create the burner.
         // TODO: i18n
-//        PNode heaterNode = new HeaterCoolerNode( teaPot.heatCoolAmount, "Heat", "Cool" ) {{
-//            setScale( 0.5 );
-//        }};
-        HeaterCoolerView heaterCooler = new HeaterCoolerView( teaPot.heatCoolAmount, "Heat", "Cool" );
+        HeaterCoolerView heaterCooler = new HeaterCoolerView( teaPot.heatCoolAmount, true, "Heat", false, "" );
 
         // Create the tea pot.
         final PNode teaPotImageNode = new ModelElementImageNode( TeaPot.TEAPOT_IMAGE, mvt );
