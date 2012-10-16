@@ -49,7 +49,7 @@ public class Biker extends EnergySource {
     // with very different scales.
     public static final ModelElementImage FRAME_IMAGE = new ModelElementImage( BICYCLE_FRAME_2, FRAME_CENTER_OFFSET );
     public static final ModelElementImage REAR_WHEEL_SPOKES_IMAGE = new ModelElementImage( BICYCLE_SPOKES, FRAME_CENTER_OFFSET.plus( new Vector2D( 0.035, -0.020 ) ) );
-    public static final ModelElementImage RIDER_UPPER_BODY_IMAGE = new ModelElementImage( BICYCLE_RIDER, FRAME_CENTER_OFFSET.plus( new Vector2D( -0.0025, 0.062 ) ) );
+    public static final ModelElementImage RIDER_UPPER_BODY_IMAGE = new ModelElementImage( BICYCLE_RIDER, FRAME_CENTER_OFFSET.plus( new Vector2D( 0.003, 0.068 ) ) );
 
     private static final Vector2D LEG_IMAGE_OFFSET = new Vector2D( 0.009, 0.002 );
 
