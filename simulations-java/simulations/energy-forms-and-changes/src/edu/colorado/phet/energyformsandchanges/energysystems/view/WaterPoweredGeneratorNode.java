@@ -24,6 +24,8 @@ public class WaterPoweredGeneratorNode extends PositionableFadableModelElementNo
         addChild( new EnergyChunkLayer( generator.electricalEnergyChunks, generator.getObservablePosition(), mvt ) );
         addChild( new ModelElementImageNode( WaterPoweredGenerator.HOUSING_IMAGE, mvt ) );
         addChild( new ModelElementImageNode( WaterPoweredGenerator.CONNECTOR_IMAGE, mvt ) );
+        final PNode spokesNode = new ModelElementImageNode( WaterPoweredGenerator.SHORT_SPOKES_IMAGE, mvt );
+        addChild( spokesNode );
         final PNode paddlesNode = new ModelElementImageNode( WaterPoweredGenerator.WHEEL_PADDLES_IMAGE, mvt );
         addChild( paddlesNode );
         addChild( new ModelElementImageNode( WaterPoweredGenerator.WHEEL_HUB_IMAGE, mvt ) );
@@ -39,13 +41,15 @@ public class WaterPoweredGeneratorNode extends PositionableFadableModelElementNo
                 double delta = -angle - paddlesNode.getRotation();
                 paddlesNode.rotateAboutPoint( delta, wheelRotationPoint );
                 wheelTextureNode.rotateAboutPoint( delta, wheelRotationPoint );
+                spokesNode.rotateAboutPoint( delta, wheelRotationPoint );
             }
         } );
 
-        // Hide the paddles when in direct coupling mode.
+        // Hide the paddles and show the spokes when in direct coupling mode.
         generator.directCouplingMode.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean directCouplingMode ) {
                 paddlesNode.setVisible( !directCouplingMode );
+                spokesNode.setVisible( directCouplingMode );
             }
         } );
     }
