@@ -412,18 +412,26 @@
 
         var dropperBackground = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-background' ), true );
         var dropperForeground = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-foreground' ), true );
+        var dropperButton = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-button-unpressed' ), true ).setScale( 0.4, 0.4 ).setLocation( -26, -28 );
+        dropperButton.enableEvents( true );
+        dropperButton.mouseEnter = function () { CAAT.setCursor( 'pointer' ); };
+        dropperButton.mouseExit = function () { CAAT.setCursor( 'default' ); };
+        dropperButton.mouseDown = function () {dropperButton.setBackgroundImage( director.getImage( 'dropper-button-pressed' ), true )};
+        dropperButton.mouseUp = function () {dropperButton.setBackgroundImage( director.getImage( 'dropper-button-unpressed' ), true )};
         var dropper = new CAAT.ActorContainer().setSize( dropperBackground.width, dropperBackground.height );
+
         dropper.addChild( dropperBackground );
         dropper.addChild( dropperForeground );
+        dropper.addChild( dropperButton );
         dropper.enableDrag();
         dropper.x = 389;
-        scene.addActorToInputList( dropper, 0, 0 );
 
         model.toggledSolidSelected = function () {
             if ( model.solidSelected ) {
                 rootNode.removeChild( dropper );
                 rootNode.addChild( shaker );
                 scene.removeActorFromInputList( dropper, 0 );
+                scene.removeActorFromInputList( dropperButton, 0 );
                 scene.addActorToInputList( shaker, 0, 0 );
             }
             else {
@@ -431,6 +439,7 @@
                 rootNode.addChild( dropper );
                 scene.removeActorFromInputList( shaker, 0 );
                 scene.addActorToInputList( dropper, 0, 0 );
+                scene.addActorToInputList( dropperButton, 0, 0 );
             }
         };
 
@@ -1035,7 +1044,9 @@
                             {id:'shaker-icon', url:'resources/shaker-icon.png'},
                             {id:'dropper-icon', url:'resources/dropper-icon.png'},
                             {id:'dropper-background', url:'resources/dropper_background.png'},
-                            {id:'dropper-foreground', url:'resources/dropper_foreground.png'}
+                            {id:'dropper-foreground', url:'resources/dropper_foreground.png'},
+                            {id:'dropper-button-unpressed', url:'resources/button_unpressed.png'},
+                            {id:'dropper-button-pressed', url:'resources/button_pressed.png'}
                         ],
 
                         /*
