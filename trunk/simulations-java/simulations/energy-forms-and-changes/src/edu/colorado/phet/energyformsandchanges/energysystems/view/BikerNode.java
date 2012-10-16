@@ -57,14 +57,17 @@ public class BikerNode extends PositionableFadableModelElementNode {
         }
         biker.getCrankAngle().addObserver( new VoidFunction1<Double>() {
             int numImages = backLegImageNodes.size();
+            PNode visibleFrontLeg = frontLegImageNodes.get( 0 );
+            PNode visibleBackLeg = backLegImageNodes.get( 0 );
 
             public void apply( Double rotationalAngle ) {
                 int currentImageIndex = (int) ( Math.floor( ( rotationalAngle % ( 2 * Math.PI ) ) / ( Math.PI * 2 / backLegImageNodes.size() ) ) );
-                int previousImageIndex = currentImageIndex == 0 ? numImages - 1 : currentImageIndex - 1;
-                backLegImageNodes.get( previousImageIndex ).setVisible( false );
-                backLegImageNodes.get( currentImageIndex ).setVisible( true );
-                frontLegImageNodes.get( previousImageIndex ).setVisible( false );
-                frontLegImageNodes.get( currentImageIndex ).setVisible( true );
+                visibleFrontLeg.setVisible( false );
+                visibleBackLeg.setVisible( false );
+                visibleFrontLeg = frontLegImageNodes.get( currentImageIndex );
+                visibleFrontLeg.setVisible( true );
+                visibleBackLeg = backLegImageNodes.get( currentImageIndex );
+                visibleBackLeg.setVisible( true );
             }
         } );
 
