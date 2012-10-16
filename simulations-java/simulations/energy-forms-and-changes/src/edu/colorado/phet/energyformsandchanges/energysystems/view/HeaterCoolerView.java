@@ -90,7 +90,11 @@ public class HeaterCoolerView {
      * @param coolLabel     Textual label for the slider knob position that
      *                      corresponds to max cooling.
      */
-    public HeaterCoolerView( Property<Double> heatCoolLevel, String heatLabel, String coolLabel ) {
+    public HeaterCoolerView( Property<Double> heatCoolLevel, boolean heatEnabled, String heatLabel, boolean coolEnabled, String coolLabel ) {
+
+        if ( !( heatEnabled || coolEnabled ) ) {
+            throw new IllegalArgumentException( "Either heating or cooling must be enabled." );
+        }
 
         this.heatCoolLevel = heatCoolLevel;
 
@@ -118,7 +122,7 @@ public class HeaterCoolerView {
         PNode burnerInterior = new PhetPPath( burnerInteriorShape, burnerInteriorPaint, new BasicStroke( 1 ), Color.LIGHT_GRAY );
 
         // Create the slider.
-        HeaterCoolerSliderNode stoveControlSlider = new HeaterCoolerSliderNode( HeaterCoolerView.this.heatCoolLevel, heatLabel, coolLabel ) {{
+        HeaterCoolerSliderNode stoveControlSlider = new HeaterCoolerSliderNode( HeaterCoolerView.this.heatCoolLevel, heatEnabled, heatLabel, coolEnabled, coolLabel ) {{
             // Scale the slider to look reasonable on the body of the stove.  It
             // may be scaled differently for different translations.
             double maxWidth = WIDTH * 0.8;
@@ -234,20 +238,34 @@ public class HeaterCoolerView {
      * @author Sam Reid
      * @author John Blanco
      */
-    public static class HeaterCoolerSliderNode extends VSliderNode {
+    public static class HeaterCoolerSliderNode extends PNode {
 
         private static final Color TOP_SIDE_TRACK_COLOR = new Color( 255, 69, 0 );    // Meant to look warm.
         private static final Color BOTTOM_SIDE_TRACK_COLOR = new Color( 0, 0, 240 );  // Meant to look cold.
 
         private static final Font LABEL_FONT = new PhetFont( 20, true );
 
-        public HeaterCoolerSliderNode( final SettableProperty<Double> value, String heatLabel, String coolLabel ) {
-            super( UserComponents.heaterCoolerSlider, -1, 1, 6, 75, value, new BooleanProperty( true ) );
+        public HeaterCoolerSliderNode( final SettableProperty<Double> value, boolean heatingEnabled, String heatLabel, boolean coolingEnabled, String coolLabel ) {
+            if ( !( heatingEnabled || coolingEnabled ) ) {
+                throw new IllegalArgumentException( "Either heating or cooling must be enabled." );
+            }
+
+            VSliderNode slider = new VSliderNode( UserComponents.heaterCoolerSlider,
+                                                  coolingEnabled ? -1 : 0,
+                                                  heatingEnabled ? 1 : 0,
+                                                  6,
+                                                  75,
+                                                  value,
+                                                  new BooleanProperty( true ) );
 
             // Show labels for add, zero, and remove.
-            addLabel( +1, new PhetPText( heatLabel, LABEL_FONT ) );
-            addLabel( 0.0, new TickMark() );
-            addLabel( -1, new PhetPText( coolLabel, LABEL_FONT ) );
+            slider.addLabel( 0.0, new TickMark() );
+            if ( heatingEnabled ) {
+                slider.addLabel( +1, new PhetPText( heatLabel, LABEL_FONT ) );
+            }
+            if ( coolingEnabled ) {
+                slider.addLabel( -1, new PhetPText( coolLabel, LABEL_FONT ) );
+            }
 
             // Return to 0 when the user releases the slider.
             addInputEventListener( new PBasicInputEventHandler() {
@@ -256,10 +274,11 @@ public class HeaterCoolerView {
                 }
             } );
 
-
             // Show a gradient in the track that goes from orange to light blue to
             // indicate the heat/coolness setting.
-            setTrackFillPaint( new GradientPaint( 0, 0, TOP_SIDE_TRACK_COLOR, 0, (float) trackLength, BOTTOM_SIDE_TRACK_COLOR, false ) );
+            slider.setTrackFillPaint( new GradientPaint( 0, 0, TOP_SIDE_TRACK_COLOR, 0, (float) slider.trackLength, BOTTOM_SIDE_TRACK_COLOR, false ) );
+
+            addChild( slider );
         }
 
         // Convenience class for creating a tick mark that works for this slider.
