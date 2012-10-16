@@ -56,7 +56,6 @@ public class BikerNode extends PositionableFadableModelElementNode {
             frontLegRootNode.addChild( frontLegImageNode );
         }
         biker.getCrankAngle().addObserver( new VoidFunction1<Double>() {
-            int numImages = backLegImageNodes.size();
             PNode visibleFrontLeg = frontLegImageNodes.get( 0 );
             PNode visibleBackLeg = backLegImageNodes.get( 0 );
 

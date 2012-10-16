@@ -39,7 +39,6 @@ public class WaterPoweredGenerator extends EnergyConverter {
     public static final ModelElementImage HOUSING_IMAGE = new ModelElementImage( GENERATOR, new Vector2D( 0, 0 ) );
     public static final Vector2D WHEEL_CENTER_OFFSET = new Vector2D( 0, 0.03 );
     public static final ModelElementImage WHEEL_PADDLES_IMAGE = new ModelElementImage( GENERATOR_WHEEL_PADDLES_SHORT, WHEEL_CENTER_OFFSET );
-    public static final ModelElementImage WHEEL_TEXTURE_IMAGE = new ModelElementImage( GENERATOR_WHEEL_TEXTURE, WHEEL_CENTER_OFFSET );
     public static final ModelElementImage WHEEL_HUB_IMAGE = new ModelElementImage( GENERATOR_WHEEL_HUB_2, WHEEL_CENTER_OFFSET );
     public static final ModelElementImage SHORT_SPOKES_IMAGE = new ModelElementImage( GENERATOR_WHEEL_SPOKES, WHEEL_CENTER_OFFSET );
     private static final Vector2D CONNECTOR_OFFSET = new Vector2D( 0.057, -0.04 );

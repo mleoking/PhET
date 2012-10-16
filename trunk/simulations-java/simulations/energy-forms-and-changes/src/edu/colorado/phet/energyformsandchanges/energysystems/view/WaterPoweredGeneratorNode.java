@@ -29,8 +29,6 @@ public class WaterPoweredGeneratorNode extends PositionableFadableModelElementNo
         final PNode paddlesNode = new ModelElementImageNode( WaterPoweredGenerator.WHEEL_PADDLES_IMAGE, mvt );
         addChild( paddlesNode );
         addChild( new ModelElementImageNode( WaterPoweredGenerator.WHEEL_HUB_IMAGE, mvt ) );
-        final PNode wheelTextureNode = new ModelElementImageNode( WaterPoweredGenerator.WHEEL_TEXTURE_IMAGE, mvt );
-        addChild( wheelTextureNode );
         addChild( new EnergyChunkLayer( generator.energyChunkList, generator.getObservablePosition(), mvt ) );
 
         // Update the rotation of the wheel image based on model value.
@@ -40,7 +38,6 @@ public class WaterPoweredGeneratorNode extends PositionableFadableModelElementNo
             public void apply( Double angle ) {
                 double delta = -angle - paddlesNode.getRotation();
                 paddlesNode.rotateAboutPoint( delta, wheelRotationPoint );
-                wheelTextureNode.rotateAboutPoint( delta, wheelRotationPoint );
                 spokesNode.rotateAboutPoint( delta, wheelRotationPoint );
             }
         } );
