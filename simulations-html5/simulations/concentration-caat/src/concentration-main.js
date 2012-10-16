@@ -412,6 +412,29 @@
 
         var dropperBackground = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-background' ), true );
         var dropperForeground = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-foreground' ), true );
+        var dropperLiquid = new CAAT.Actor().setSize( dropperBackground.width, dropperBackground.height ).setLocation( dropperBackground.width - 40, dropperBackground.height );
+        dropperLiquid.paint = function ( director, time ) {
+            var ctx = director.ctx;
+
+            ctx.save();
+            ctx.fillStyle = rgbToColor( model.solute.maxColor );
+
+            var tipWidth = 15;
+            var tipHeight = 5;
+            var glassWidth = 46;
+            var glassHeight = 150;
+            var glassYOffset = tipHeight + 14;
+            ctx.moveTo( -tipWidth / 2, 0 );
+            ctx.lineTo( -tipWidth / 2, -tipHeight );
+            ctx.lineTo( -glassWidth / 2, -glassYOffset );
+            ctx.lineTo( -glassWidth / 2, -glassHeight );
+            ctx.lineTo( glassWidth / 2, -glassHeight );
+            ctx.lineTo( glassWidth / 2, -glassYOffset );
+            ctx.lineTo( tipWidth / 2, -tipHeight );
+            ctx.lineTo( tipWidth / 2, 0 );
+            ctx.fill();
+            ctx.restore();
+        };
         var dropperButton = new CAAT.Actor().setBackgroundImage( director.getImage( 'dropper-button-unpressed' ), true ).setScale( 0.4, 0.4 ).setLocation( -26, -28 );
         dropperButton.enableEvents( true );
         dropperButton.mouseEnter = function () { CAAT.setCursor( 'pointer' ); };
@@ -420,6 +443,7 @@
         dropperButton.mouseUp = function () {dropperButton.setBackgroundImage( director.getImage( 'dropper-button-unpressed' ), true )};
         var dropper = new CAAT.ActorContainer().setSize( dropperBackground.width, dropperBackground.height );
 
+        dropper.addChild( dropperLiquid );
         dropper.addChild( dropperBackground );
         dropper.addChild( dropperForeground );
         dropper.addChild( dropperButton );
@@ -760,7 +784,6 @@
         rootNode.addChild( topFaucetPipe );
         rootNode.addChild( topFaucet );
         rootNode.addChild( shaker );
-//        rootNode.addChild( dropper );
         rootNode.addChild( topKnob );
 
         rootNode.addChild( bottomFaucet );
