@@ -78,6 +78,7 @@ CAAT.modules.initialization.init = function ( width, height, runHere, imagesURL,
                 width || 800,
                 height || 600,
                 canvascontainer );
+        director.setClear( CAAT.Director.CLEAR_DIRTY_RECTS );
     }
 
     /**

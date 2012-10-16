@@ -1007,7 +1007,20 @@
                                              "-";
                                if ( model.lastText != newText ) {
                                    concentrationMeterReadoutText.setText( newText );
+                                   model.lastText = newText;
+
+                                   var compareClearStyle = false;
+                                   if ( compareClearStyle ) {
+                                       if ( newText == "-" ) {
+                                           director.setClear( CAAT.Director.CLEAR_ALL );
+                                       }
+                                       else {
+//                                       console.log( "hello there" );
+                                           director.setClear( CAAT.Director.CLEAR_DIRTY_RECTS );
+                                       }
+                                   }
                                }
+
                            },
                            function ( scene_time, timer_time, timertask_instance ) { }, // tick
                            function ( scene_time, timer_time, timertask_instance ) { } ); // cancel
