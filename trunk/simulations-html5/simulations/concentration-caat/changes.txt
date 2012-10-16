@@ -1,3 +1,4 @@
+# 00.00.12 (69243) Oct 16, 2012
 Fixed highlighting for combo box items
 Interpolate color midpoint
 Respect solute's max concentration when choosing the solution color
