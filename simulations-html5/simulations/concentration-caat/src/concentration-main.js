@@ -660,12 +660,12 @@
                 container.backgroundColor = 'white';
                 container.paint = function ( director, time ) {
                     var ctx = director.ctx;
-                    ctx.save();
-                    if ( container.background ) {
+                    if ( container.backgroundColor ) {
+                        ctx.save();
                         ctx.fillStyle = container.backgroundColor;
                         ctx.fillRect( 0, 0, container.width, container.height );
+                        ctx.restore();
                     }
-                    ctx.restore();
                 };
                 square.enableEvents( false );
                 entryText.enableEvents( false );
