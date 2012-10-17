@@ -1,9 +1,15 @@
 (function () {
     console.log( "started" );
+
+    //Create the canvas and add to the document
     var canvas = document.createElement( "canvas" );
     var ctx = canvas.getContext( "2d" );
     document.body.appendChild( canvas );
 
+    //Don't allow the page to scroll up on ipad
+    document.ontouchmove = function ( e ) {e.preventDefault()};
+
+    //Preload images
     var loadedImages = 0;
     var skaterImage = new Image();
     skaterImage.src = "resources/skater.png";
@@ -19,9 +25,7 @@
             oRequestAnimationFrame;
 
     var x = 100;
-
     var lastTime = new Date().getTime();
-
     var deltas = [];
 
     function loop() {
@@ -33,6 +37,13 @@
         ctx.canvas.width = window.innerWidth;
         ctx.canvas.height = window.innerHeight;
 
+        var desiredAspectRatio = 1024.0 / 768.0;
+        var actualAspectRatio = ctx.canvas.width / ctx.canvas.height;
+
+        var widthLimited = actualAspectRatio > desiredAspectRatio;
+        var scale = widthLimited ? ctx.canvas.height / 768 : ctx.canvas.width / 1024;
+//        console.log( "scale = " + scale );
+
         ctx.fillStyle = 'blue';
         ctx.fillRect( 0, 0, window.innerWidth / 2, window.innerHeight / 2 );
 
@@ -40,7 +51,7 @@
         ctx.fillRect( x, 100, 20, 20 );
 
         ctx.save();
-        ctx.scale( 0.5, 0.5 );
+        ctx.scale( scale, scale );
         ctx.drawImage( skaterImage, 0, 0 );
         ctx.restore();
 
