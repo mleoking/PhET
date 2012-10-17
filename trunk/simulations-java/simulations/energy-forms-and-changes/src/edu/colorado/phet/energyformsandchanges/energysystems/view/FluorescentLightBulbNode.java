@@ -43,6 +43,13 @@ public class FluorescentLightBulbNode extends ImageBasedEnergySystemElementNode 
         addImageNode( FluorescentLightBulb.FRONT_OFF );
         final PNode energizedFront = addImageNode( FluorescentLightBulb.FRONT_ON );
 
+        // Make bulb partially transparent when energy chunks visible.
+        energyChunksVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        } );
+
         // Center the light rays on the bulb image.
         lightRays.setOffset( energizedFront.getFullBoundsReference().getCenterX(),
                              energizedFront.getFullBoundsReference().getCenterY() - energizedFront.getFullBoundsReference().getHeight() * 0.10 );
