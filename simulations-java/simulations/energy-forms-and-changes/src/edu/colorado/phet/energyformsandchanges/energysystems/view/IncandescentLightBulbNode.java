@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class IncandescentLightBulbNode extends ImageBasedEnergySystemElementNode {
 
-    public IncandescentLightBulbNode( final IncandescentLightBulb lightBulb, final ModelViewTransform mvt, ObservableProperty<Boolean> energyChunksVisible ) {
+    public IncandescentLightBulbNode( final IncandescentLightBulb lightBulb, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
         super( lightBulb, mvt );
 
         // Add the light rays.

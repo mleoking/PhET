@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class FluorescentLightBulbNode extends ImageBasedEnergySystemElementNode {
 
-    public FluorescentLightBulbNode( final FluorescentLightBulb lightBulb, final ModelViewTransform mvt, ObservableProperty<Boolean> energyChunksVisible ) {
+    public FluorescentLightBulbNode( final FluorescentLightBulb lightBulb, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
         super( lightBulb, mvt );
 
         // Add the light rays.
