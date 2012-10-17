@@ -17,6 +17,8 @@ Figure out how to make E's not cluster in the wires leading from solar panel
 
 Make water "non-turdy"
 
+Make the energy chunks coming from the solar panel not be so "chunked up".
+
 Make behavior change when E's are visible such that lights don't glow until the get energy, and so forth.
 
 Have energy chunks present when sun appears, rather than having to wait.
