@@ -42,7 +42,7 @@ public class SunNode extends PositionableFadableModelElementNode {
     private static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( 16, true );
     private static final Font CONTROL_PANEL_LABEL_FONT_FONT = new PhetFont( 14, false );
 
-    public SunNode( final Sun sun, final ModelViewTransform mvt, ObservableProperty<Boolean> energyChunksVisible ) {
+    public SunNode( final Sun sun, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
         super( sun, mvt );
 
         final double sunRadius = mvt.modelToViewDeltaX( Sun.RADIUS );
