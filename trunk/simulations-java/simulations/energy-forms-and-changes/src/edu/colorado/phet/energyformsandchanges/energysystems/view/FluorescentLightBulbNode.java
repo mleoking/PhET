@@ -17,9 +17,9 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author John Blanco
  */
-public class FluorescentLightBulbNode extends ImageBasedEnergySystemElementNode {
+public class FluorescentLightBulbNode extends PositionableFadableModelElementNode {
 
-    public FluorescentLightBulbNode( final FluorescentLightBulb lightBulb, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
+    public FluorescentLightBulbNode( final FluorescentLightBulb lightBulb, final ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
         super( lightBulb, mvt );
 
         // Add the light rays.
@@ -33,20 +33,26 @@ public class FluorescentLightBulbNode extends ImageBasedEnergySystemElementNode 
         } );
 
         // Add the images and the layer that will contain the energy chunks.
-        addImageNode( LightBulb.WIRE_FLAT_IMAGE );
-        addImageNode( LightBulb.WIRE_CURVE_IMAGE );
-        addImageNode( LightBulb.ELEMENT_BASE_BACK_IMAGE );
-        addImageNode( FluorescentLightBulb.BACK_OFF );
-        final PNode energizedBack = addImageNode( FluorescentLightBulb.BACK_ON );
+        addChild( new ModelElementImageNode( LightBulb.WIRE_FLAT_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( LightBulb.WIRE_CURVE_IMAGE, mvt ) );
+        addChild( new ModelElementImageNode( LightBulb.ELEMENT_BASE_BACK_IMAGE, mvt ) );
+        final PNode nonEnergizedBack = new ModelElementImageNode( FluorescentLightBulb.BACK_OFF, mvt );
+        addChild( nonEnergizedBack );
+        final PNode energizedBack = new ModelElementImageNode( FluorescentLightBulb.BACK_ON, mvt );
+        addChild( energizedBack );
         addChild( new EnergyChunkLayer( lightBulb.energyChunkList, lightBulb.getObservablePosition(), mvt ) );
-        addImageNode( LightBulb.ELEMENT_BASE_FRONT_IMAGE );
-        addImageNode( FluorescentLightBulb.FRONT_OFF );
-        final PNode energizedFront = addImageNode( FluorescentLightBulb.FRONT_ON );
+        addChild( new ModelElementImageNode( LightBulb.ELEMENT_BASE_FRONT_IMAGE, mvt ) );
+        final PNode nonEnergizedFront = new ModelElementImageNode( FluorescentLightBulb.FRONT_OFF, mvt );
+        addChild( nonEnergizedFront );
+        final PNode energizedFront = new ModelElementImageNode( FluorescentLightBulb.FRONT_ON, mvt );
+        addChild( energizedFront );
 
         // Make bulb partially transparent when energy chunks visible.
         energyChunksVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
-                //To change body of implemented methods use File | Settings | File Templates.
+                float opaqueness = visible ? 0.7f : 1.0f;
+                nonEnergizedFront.setTransparency( opaqueness );
+                nonEnergizedBack.setTransparency( opaqueness );
             }
         } );
 
@@ -57,9 +63,10 @@ public class FluorescentLightBulbNode extends ImageBasedEnergySystemElementNode 
         // Update the transparency of the lit bulb based on model element.
         lightBulb.litProportion.addObserver( new VoidFunction1<Double>() {
             public void apply( Double litProportion ) {
-                energizedFront.setTransparency( litProportion.floatValue() );
-                energizedBack.setTransparency( litProportion.floatValue() );
-                lightRays.setTransparency( litProportion.floatValue() );
+                float opaqueness = energyChunksVisible.get() ? litProportion.floatValue() * 0.7f : litProportion.floatValue();
+                energizedFront.setTransparency( opaqueness );
+                energizedBack.setTransparency( opaqueness );
+                lightRays.setTransparency( opaqueness );
             }
         } );
     }
