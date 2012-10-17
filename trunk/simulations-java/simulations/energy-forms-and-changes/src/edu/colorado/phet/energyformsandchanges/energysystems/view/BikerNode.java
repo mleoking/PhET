@@ -73,8 +73,9 @@ public class BikerNode extends PositionableFadableModelElementNode {
         // Add the upper body.
         addChild( new ModelElementImageNode( Biker.RIDER_UPPER_BODY_IMAGE, mvt ) );
 
-        // Add the energy chunk layer.
+        // Add the energy chunk layers.
         addChild( new EnergyChunkLayer( biker.energyChunkList, biker.getObservablePosition(), mvt ) );
+        addChild( new EnergyChunkLayer( biker.movingEnergyChunks, biker.getObservablePosition(), mvt ) );
 
         // Add and observer that will turn the back wheel.
         final Point2D wheelRotationPoint = new Point2D.Double( spokesImage.getFullBoundsReference().getCenterX(),
