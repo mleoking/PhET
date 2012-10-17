@@ -73,8 +73,8 @@
         var scale = widthLimited ? ctx.canvas.height / 768 : ctx.canvas.width / 1024;
 //        console.log( "scale = " + scale );
 
-        ctx.fillStyle = 'blue';
-        ctx.fillRect( 0, 0, window.innerWidth / 2, window.innerHeight / 2 );
+//        ctx.fillStyle = 'blue';
+//        ctx.fillRect( 0, 0, window.innerWidth / 2, window.innerHeight / 2 );
 
         ctx.fillStyle = 'black';
         ctx.fillRect( blockX, 100, 20, 20 );
