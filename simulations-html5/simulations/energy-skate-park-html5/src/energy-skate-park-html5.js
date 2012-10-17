@@ -71,6 +71,7 @@
     function loop() {
         if ( loadedImages == 0 ) {
             requestAnimationFrame( loop );
+            return;
         }
 
         //http://stackoverflow.com/questions/1664785/html5-canvas-resize-to-fit-window
