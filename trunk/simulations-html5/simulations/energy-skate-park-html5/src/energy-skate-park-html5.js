@@ -4,6 +4,11 @@
     var ctx = canvas.getContext( "2d" );
     document.body.appendChild( canvas );
 
+    var loadedImages = 0;
+    var skaterImage = new Image();
+    skaterImage.src = "resources/skater.png";
+    skaterImage.onload = function () { loadedImages++; };
+
     //or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
     //or here: http://jsfiddle.net/Y9uBv/5/
     var requestAnimationFrame =
@@ -20,6 +25,9 @@
     var deltas = [];
 
     function loop() {
+        if ( loadedImages == 0 ) {
+            requestAnimationFrame( loop );
+        }
 
         //http://stackoverflow.com/questions/1664785/html5-canvas-resize-to-fit-window
         ctx.canvas.width = window.innerWidth;
@@ -30,6 +38,11 @@
 
         ctx.fillStyle = 'black';
         ctx.fillRect( x, 100, 20, 20 );
+
+        ctx.save();
+        ctx.scale( 0.5, 0.5 );
+        ctx.drawImage( skaterImage, 0, 0 );
+        ctx.restore();
 
         var currentTime = new Date().getTime();
         deltas.push( currentTime - lastTime );
@@ -45,7 +58,7 @@
         var FPS = 1.0 / deltaSeconds;
         ctx.fillStyle = 'black';
 
-        ctx.fillText( "FPS: " + FPS.toPrecision( 2 ), 100, 100 );
+        ctx.fillText( "FPS: " + FPS.toPrecision( 6 ), 100, 100 );
 
         lastTime = currentTime;
 
