@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -34,8 +35,8 @@ public class Biker extends EnergySource {
     private static final double ANGULAR_ACCELERATION = Math.PI; // In radians/(sec^2).
     // TODO: This is temp until we figure out how much it should really put out.
     private static final double MAX_ENERGY_OUTPUT_RATE = 10; // In joules / (radians / sec)
-    private static final double CRANK_TO_REAR_WHEEL_RATIO = 1;
-    private static final int INITIAL_NUM_ENERGY_CHUNKS = 20;
+    private static final double CRANK_TO_REAR_WHEEL_RATIO = 10;
+    private static final int INITIAL_NUM_ENERGY_CHUNKS = 3;
     private static final Random RAND = new Random();
     public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 10; // In joules, but empirically determined.
 
@@ -124,6 +125,7 @@ public class Biker extends EnergySource {
     private double crankAngularVelocity = 0; // In radians/s.
     private final ObservableProperty<Boolean> energyChunksVisible;
     private List<EnergyChunkPathMover> energyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    public ObservableList<EnergyChunk> movingEnergyChunks = new ObservableList<EnergyChunk>();
     private double energyProducedSinceLastChunkEmitted = ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT * 0.9;
 
     // Property through which the target pedaling rate is set.
@@ -172,14 +174,14 @@ public class Biker extends EnergySource {
             // Decide if new chem energy chunk should start on its way.
             energyProducedSinceLastChunkEmitted += MAX_ENERGY_OUTPUT_RATE * ( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK ) * dt;
             if ( energyProducedSinceLastChunkEmitted >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT ) {
-                // Emit a new chunk.
-                Vector2D nominalInitialOffset = new Vector2D( 0.019, 0.05 );
-                Vector2D displacement = new Vector2D( ( RAND.nextDouble() - 0.5 ) * 0.02, 0 ).getRotatedInstance( Math.PI * 0.7 );
-                EnergyChunk newEnergyChunk = new EnergyChunk( EnergyType.CHEMICAL, getPosition().plus( nominalInitialOffset ).plus( displacement ),
-                                                              energyChunksVisible );
-                energyChunkList.add( newEnergyChunk );
-                energyChunkMovers.add( new EnergyChunkPathMover( newEnergyChunk, createChemicalEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
-                energyProducedSinceLastChunkEmitted -= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT;
+                // Start a new chunk moving.
+                if ( energyChunkList.size() > 0 ) {
+                    EnergyChunk energyChunk = energyChunkList.get( 0 );
+                    energyChunkMovers.add( new EnergyChunkPathMover( energyChunk, createChemicalEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                    energyChunkList.remove( energyChunk );
+                    movingEnergyChunks.add( energyChunk );
+                    energyProducedSinceLastChunkEmitted -= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT;
+                }
             }
 
             // Move the energy chunks.
@@ -219,6 +221,18 @@ public class Biker extends EnergySource {
         super.activate();
         // TODO: Don't really want to replenish every time, I don't think.
         replenishEnergyChunks();
+    }
+
+    @Override public void clearEnergyChunks() {
+        super.clearEnergyChunks();
+        movingEnergyChunks.clear();
+    }
+
+    @Override public List<EnergyChunk> extractOutgoingEnergyChunks() {
+        List<EnergyChunk> retVal = new ArrayList<EnergyChunk>( outgoingEnergyChunks );
+        movingEnergyChunks.removeAll( outgoingEnergyChunks );
+        outgoingEnergyChunks.clear();
+        return retVal;
     }
 
     public ObservableProperty<Double> getRearWheelAngle() {
