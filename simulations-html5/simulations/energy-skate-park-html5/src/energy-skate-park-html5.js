@@ -9,6 +9,35 @@
     //Don't allow the page to scroll up on ipad
     document.ontouchmove = function ( e ) {e.preventDefault()};
 
+    var drag = [];
+    var hammer = new Hammer( canvas );
+    hammer.ondragstart = function ( ev ) {};
+
+    var skaterX = 0;
+    var skaterY = 0;
+
+    hammer.ondrag = function ( ev ) {
+        drag = [];
+        var touches = ev.originalEvent.touches || [ev.originalEvent];
+        for ( var t = 0; t < touches.length; t++ ) {
+            skaterX = ev.touches[t].x;
+            skaterY = ev.touches[t].y;
+        }
+    };
+    hammer.ondragend = function ( ev ) {};
+
+    hammer.onswipe = function ( ev ) {};
+
+    hammer.ontap = function ( ev ) {};
+    hammer.ondoubletap = function ( ev ) {};
+    hammer.onhold = function ( ev ) {};
+
+    hammer.ontransformstart = function ( ev ) {};
+    hammer.ontransform = function ( ev ) {};
+    hammer.ontransformend = function ( ev ) {};
+
+    hammer.onrelease = function ( ev ) {};
+
     //Preload images
     var loadedImages = 0;
     var skaterImage = new Image();
@@ -24,7 +53,7 @@
             msRequestAnimationFrame ||
             oRequestAnimationFrame;
 
-    var x = 100;
+    var blockX = 100;
     var lastTime = new Date().getTime();
     var deltas = [];
 
@@ -48,9 +77,10 @@
         ctx.fillRect( 0, 0, window.innerWidth / 2, window.innerHeight / 2 );
 
         ctx.fillStyle = 'black';
-        ctx.fillRect( x, 100, 20, 20 );
+        ctx.fillRect( blockX, 100, 20, 20 );
 
         ctx.save();
+        ctx.translate( skaterX, skaterY );
         ctx.scale( scale, scale );
         ctx.drawImage( skaterImage, 0, 0 );
         ctx.restore();
@@ -73,7 +103,7 @@
 
         lastTime = currentTime;
 
-        ++x;
+        ++blockX;
         requestAnimationFrame( loop );
     }
 
