@@ -32,7 +32,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class TeaPotNode extends PositionableFadableModelElementNode {
 
-    public TeaPotNode( TeaPot teaPot, final ModelViewTransform mvt ) {
+    public TeaPotNode( TeaPot teaPot, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
         super( teaPot, mvt );
 
         // Create the burner.
@@ -55,14 +55,21 @@ public class TeaPotNode extends PositionableFadableModelElementNode {
                                                               teaPotImageNode.getFullBoundsReference().getMaxY() - 35,
                                                               burnerStandWidth,
                                                               burnerStandHeight );
-        PNode burnerStandNode = new BurnerStandNode( burnerStandRect, burnerStandWidth * 0.2 );
+        final PNode burnerStandNode = new BurnerStandNode( burnerStandRect, burnerStandWidth * 0.2 );
+
+        // Make the tea pot & stand transparent when the energy chunks are visible.
+        energyChunksVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean chunksVisible ) {
+                float opaqueness = chunksVisible ? 0.7f : 1;
+                teaPotImageNode.setTransparency( opaqueness );
+                burnerStandNode.setTransparency( opaqueness );
+            }
+        } );
 
         // Create the layer that will contain and manage the energy chunks.
         PNode energyChunkLayer = new EnergyChunkLayer( teaPot.energyChunkList, teaPot.getObservablePosition(), mvt );
 
         // Do the layout.
-//        heaterNode.setOffset( burnerStandRect.getCenterX() - heaterNode.getFullBoundsReference().width / 2,
-//                              burnerStandRect.getMaxY() - heaterNode.getFullBoundsReference().getHeight() + 15 );
         PBounds heaterCoolerBounds = heaterCooler.getFrontNode().getFullBoundsReference();
         heaterCooler.setOffset( burnerStandRect.getCenterX() - heaterCoolerBounds.width / 2,
                                 burnerStandRect.getMaxY() - heaterCoolerBounds.getHeight() + 15 );
