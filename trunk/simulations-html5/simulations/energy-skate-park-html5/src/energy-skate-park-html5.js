@@ -15,6 +15,17 @@
 
     var skaterX = 0;
     var skaterY = 0;
+    document.onmousemove = function ( e ) {
+
+        //How to tell if mouse is over something?
+        if ( navigator.browser !== 'iOS' ) {
+            document.body.style.cursor = 'pointer';
+        }
+    };
+
+    //Disable text selection, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
+    canvas.onselectstart = function () { return false; }; // ie
+    canvas.onmousedown = function () { return false; }; // mozilla
 
     hammer.ondrag = function ( ev ) {
         drag = [];
