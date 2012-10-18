@@ -274,7 +274,7 @@
 
     define("BITROCK_VERSION_ARGS",  "--version");
 
-    define("BITROCK_DIR",               file_cleanup_local_filename(ROOT_DIR."BitRock/"));
+    define("BITROCK_DIR",               file_cleanup_local_filename(ROOT_DIR."installbuilder-8.5.0/"));
     define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_DIR."projects/"));
 
     // Project files for building the "web mirror installer", meaning the
@@ -304,8 +304,6 @@
     define("BITROCK_DIST_SRC_Mac",        file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_Mac));
 
     define("BITROCK_PRE_ARGS",            " build ");
-
-    define("BITROCK_OUTPUT_DIR",          file_cleanup_local_filename(ROOT_DIR."BitRock/output/"));
 
     $g_bitrock_dists = array(
         BITROCK_PLATFORM_WINDOWS => BITROCK_DIST_SRC_WINNT,
