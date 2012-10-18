@@ -41,12 +41,25 @@
         var touches = ev.originalEvent.touches || [ev.originalEvent];
         for ( var t = 0; t < touches.length; t++ ) {
             if ( t == 0 ) {
-                skaterX = ev.touches[t].x;
-                skaterY = canvas.height - ev.touches[t].y;
 
-                skaterVelocityX = 0.0;
-                skaterVelocityY = 0.0;
-                skaterDragging = true;
+                var touchX = ev.touches[t].x;
+                var touchY = ev.touches[t].y;
+
+                var metropolisDistance = Math.abs( touchX - skaterX ) + Math.abs( (canvas.height - touchY) - skaterY );
+                if ( metropolisDistance < 400 ) {
+                    skaterDragging = true;
+                }
+                else {
+
+                }
+
+                if ( skaterDragging ) {
+                    skaterX = touchX;
+                    skaterY = canvas.height - touchY;
+
+                    skaterVelocityX = 0.0;
+                    skaterVelocityY = 0.0;
+                }
             }
         }
     };
@@ -137,8 +150,8 @@
         var x0 = numeric.linspace( 0, 400, 100 );
         ctx.beginPath();
         for ( var i = 0; i < x0.length; i++ ) {
-            var a = x0[i] + 100;
-            var b = s.at( x0[i] ) + 100;
+            var a = x0[i];
+            var b = s.at( x0[i] );
             if ( i == 0 ) {
                 ctx.moveTo( a, b );
             }
@@ -147,6 +160,16 @@
             }
         }
         ctx.stroke();
+        ctx.restore();
+
+        //Draw control points
+        ctx.save();
+        ctx.fillStyle = 'blue';
+        for ( var i = 0; i < controlPoints.length; i++ ) {
+            var controlPoint = controlPoints[i];
+            var radius = 10;
+            ctx.fillRect( controlPoint.x - radius, controlPoint.y - radius, radius * 2, radius * 2 );
+        }
         ctx.restore();
 
         var currentTime = new Date().getTime();
