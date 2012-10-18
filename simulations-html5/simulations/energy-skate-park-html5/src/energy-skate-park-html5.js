@@ -1,4 +1,5 @@
 (function () {
+
     console.log( "started" );
 
     //Create the canvas and add to the document
@@ -10,6 +11,11 @@
     document.ontouchmove = function ( e ) {e.preventDefault()};
 
     var drag = [];
+    var controlPoints = [
+        {x:100, y:100},
+        {x:200, y:200},
+        {x:300, y:100}
+    ];
     var hammer = new Hammer( canvas );
     hammer.ondragstart = function ( ev ) {};
 
@@ -95,33 +101,6 @@
         }
     }
 
-//    function interpolate( x, y ) {
-//        var n = x.length;
-//        var h = [];
-//        for ( var i = 0; i < x.length - 1; i++ ) {
-//            h.push( x[i + 1] - x[i] );
-//        }
-//
-//        var A = Matrix.Zero( n, n );
-//        A.elements[0][0] = 1;
-//        A.elements[n - 1][n - 1] = 1;
-//        for ( i = 1; i < n - 1; i++ ) {
-//            A.elements[i][i - 1] = h[i - 1];
-//            A.elements[i][ i] = 2 * ( h[i - 1] + h[i] );
-//            A.elements[i][i + 1] = h[i];
-//        }
-//
-//        var b = Matrix.Zero( n, 1 );
-//        for ( i = 1; i < n - 1; i++ ) {
-//            var a1 = ( ( y[i + 1] - y[i] ) / h[i] );
-//            var a2 = ( ( y[i] - y[i - 1] ) / h[i - 1] );
-//            b.elements[i][0] = (6 * ( a1 - a2 ) );
-//        }
-//        var zMat  = A.x
-//
-//        numeric.spline()
-//    }
-
     function renderGraphics() {
         //http://stackoverflow.com/questions/1664785/html5-canvas-resize-to-fit-window
         ctx.canvas.width = window.innerWidth;
@@ -132,10 +111,6 @@
 
         var widthLimited = actualAspectRatio > desiredAspectRatio;
         var scale = widthLimited ? ctx.canvas.height / 768 : ctx.canvas.width / 1024;
-        //        console.log( "scale = " + scale );
-
-        //        ctx.fillStyle = 'blue';
-        //        ctx.fillRect( 0, 0, window.innerWidth / 2, window.innerHeight / 2 );
 
         ctx.fillStyle = 'black';
         ctx.fillRect( blockX, 100, 20, 20 );
@@ -152,16 +127,18 @@
         ctx.save();
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 2;
-        var x = [100, 200, 300];
-//        var f = function ( x ) {return numeric.sin( numeric.mul( x, x, x ) )};
-//        var y = f( x );
-        var y = [100, 200, 100];
+        function getX( point ) {return point.x;}
+
+        function getY( point ) {return point.y;}
+
+        var x = controlPoints.map( getX );
+        var y = controlPoints.map( getY );
         var s = numeric.spline( x, y );
-        var x0 = numeric.linspace( 0, 400, 1000 );
+        var x0 = numeric.linspace( 0, 400, 100 );
         ctx.beginPath();
         for ( var i = 0; i < x0.length; i++ ) {
-            var a = x0[i];
-            var b = s.at( x0[i] );
+            var a = x0[i] + 100;
+            var b = s.at( x0[i] ) + 100;
             if ( i == 0 ) {
                 ctx.moveTo( a, b );
             }
