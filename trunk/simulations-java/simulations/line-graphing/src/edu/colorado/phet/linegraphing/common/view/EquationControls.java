@@ -35,7 +35,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EquationControls extends PhetPNode {
+public abstract class EquationControls extends PhetPNode {
 
     /**
      * Constructor
@@ -47,12 +47,12 @@ public class EquationControls extends PhetPNode {
      * @param linesVisible            are lines visible on the graph?
      * @param interactiveEquationNode node that implements the interactive equation
      */
-    public EquationControls( String title,
-                             final Property<Line> interactiveLine,
-                             final ObservableList<Line> savedLines,
-                             final Property<Boolean> maximized,
-                             final Property<Boolean> linesVisible,
-                             PNode interactiveEquationNode ) {
+    protected EquationControls( String title,
+                                final Property<Line> interactiveLine,
+                                final ObservableList<Line> savedLines,
+                                final Property<Boolean> maximized,
+                                final Property<Boolean> linesVisible,
+                                PNode interactiveEquationNode ) {
 
         // nodes
         PNode titleNode = new HTMLNode( title, LGColors.INTERACTIVE_LINE, new PhetFont( Font.BOLD, 18 ) );

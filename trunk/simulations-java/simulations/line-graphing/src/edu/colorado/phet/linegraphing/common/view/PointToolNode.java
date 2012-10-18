@@ -43,7 +43,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class PointToolNode extends PhetPNode {
 
-    protected static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
+    private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
     private static final double COORDINATES_Y_CENTER = 21; // center of the display area, measured from the top of the unscaled image file
 
     private final PNode bodyNode;

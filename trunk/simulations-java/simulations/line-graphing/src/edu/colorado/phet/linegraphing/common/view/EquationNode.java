@@ -34,7 +34,7 @@ public abstract class EquationNode extends PhetPNode {
 
     protected static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
-    protected final int pointSize; // point size of the static font used to render the equation
+    private final int pointSize; // point size of the static font used to render the equation
 
     /*
     * This controls the vertical offset of the slope's sign.
@@ -49,7 +49,7 @@ public abstract class EquationNode extends PhetPNode {
     protected final double fractionLineYFudgeFactor;
     protected final double undefinedSlopeYFudgeFactor;
 
-    protected final float fractionLineThickness; // thickness of the fraction divisor line
+    private final float fractionLineThickness; // thickness of the fraction divisor line
     protected final PDimension operatorLineSize; // size of the lines used to create + and - operators
     protected final PDimension signLineSize; // size of the lines used to create + and - signs
 

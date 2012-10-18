@@ -40,7 +40,7 @@ public abstract class LineNode extends PComposite {
      * @param graph the graph to draw it on
      * @param mvt   the transform between model and view coordinate frames
      */
-    public LineNode( final Line line, Graph graph, ModelViewTransform mvt ) {
+    protected LineNode( final Line line, Graph graph, ModelViewTransform mvt ) {
 
         this.line = line;
 

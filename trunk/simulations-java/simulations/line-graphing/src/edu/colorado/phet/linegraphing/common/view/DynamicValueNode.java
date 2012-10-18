@@ -32,7 +32,7 @@ public class DynamicValueNode extends PhetPText {
     }
 
     // Converts a double to an integer string, using nearest-neighbor rounding.
-    protected static String toIntString( double d, boolean absoluteValue ) {
+    private static String toIntString( double d, boolean absoluteValue ) {
         int i = MathUtil.roundHalfUp( d );
         if ( absoluteValue ) {
             i = Math.abs( i );
