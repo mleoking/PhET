@@ -9,7 +9,6 @@ DESIGN
 - navigation game
 
 HIGH
-- restore sign on slope-tool numbers
 - Game: put boxes around equations (answer and guess), horizontally align "=" signs
 - query equations to determine location of "=", for horizontal alignment of vertically stacked equations, so their "=" operators line up (including "x={0} (slope undefined)")
 - change color of Check-Mark-u2713.png from yellow to green
