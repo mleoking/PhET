@@ -95,6 +95,33 @@
         }
     }
 
+//    function interpolate( x, y ) {
+//        var n = x.length;
+//        var h = [];
+//        for ( var i = 0; i < x.length - 1; i++ ) {
+//            h.push( x[i + 1] - x[i] );
+//        }
+//
+//        var A = Matrix.Zero( n, n );
+//        A.elements[0][0] = 1;
+//        A.elements[n - 1][n - 1] = 1;
+//        for ( i = 1; i < n - 1; i++ ) {
+//            A.elements[i][i - 1] = h[i - 1];
+//            A.elements[i][ i] = 2 * ( h[i - 1] + h[i] );
+//            A.elements[i][i + 1] = h[i];
+//        }
+//
+//        var b = Matrix.Zero( n, 1 );
+//        for ( i = 1; i < n - 1; i++ ) {
+//            var a1 = ( ( y[i + 1] - y[i] ) / h[i] );
+//            var a2 = ( ( y[i] - y[i - 1] ) / h[i - 1] );
+//            b.elements[i][0] = (6 * ( a1 - a2 ) );
+//        }
+//        var zMat  = A.x
+//
+//        numeric.spline()
+//    }
+
     function renderGraphics() {
         //http://stackoverflow.com/questions/1664785/html5-canvas-resize-to-fit-window
         ctx.canvas.width = window.innerWidth;
@@ -119,6 +146,30 @@
         ctx.fillRect( -2, -2, 4, 4 );
         ctx.scale( scale, scale );
         ctx.drawImage( skaterImage, -skaterImage.width / 2, -skaterImage.height );
+        ctx.restore();
+
+        //Draw track
+        ctx.save();
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 2;
+        var x = [100, 200, 300];
+//        var f = function ( x ) {return numeric.sin( numeric.mul( x, x, x ) )};
+//        var y = f( x );
+        var y = [100, 200, 100];
+        var s = numeric.spline( x, y );
+        var x0 = numeric.linspace( 0, 400, 1000 );
+        ctx.beginPath();
+        for ( var i = 0; i < x0.length; i++ ) {
+            var a = x0[i];
+            var b = s.at( x0[i] );
+            if ( i == 0 ) {
+                ctx.moveTo( a, b );
+            }
+            else {
+                ctx.lineTo( a, b );
+            }
+        }
+        ctx.stroke();
         ctx.restore();
 
         var currentTime = new Date().getTime();
