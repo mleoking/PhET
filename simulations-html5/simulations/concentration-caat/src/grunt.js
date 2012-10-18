@@ -9,7 +9,7 @@ module.exports = function ( grunt ) {
                           lint:{
                               files:[
                                   'grunt.js',
-                                  'app/*.js'
+                                  '*.js'
                               ]
                           },
 
@@ -60,9 +60,11 @@ module.exports = function ( grunt ) {
                                   define:true,
                                   $:true
                               }
+                          },
+                          watch:{
+                              files:'<config:lint.files>',
+                              tasks:'concat min'
                           }
-
-
                       } );
 
     // Default task.
