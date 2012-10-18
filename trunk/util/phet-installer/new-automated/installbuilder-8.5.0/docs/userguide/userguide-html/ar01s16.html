@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>16. Code Signing</title><link rel="stylesheet" href="docbook-xsl.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.75.2" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 8" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 8" /><link rel="prev" href="ar01s15.html" title="15. Services" /><link rel="next" href="ar01s17.html" title="17. File associations" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">16. Code Signing</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s15.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s17.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section" title="16. Code Signing"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_code_signing"></a>16. Code Signing</h2></div></div></div><div class="section" title="16.1. OS X"><div class="titlepage"><div><div><h3 class="title"><a id="_os_x"></a>16.1. OS X</h3></div></div></div><p>Starting on OS X 10.8, Apple has tighten its security policies through the inclusion of "Gatekeeper". This new feature is intended to protect users from malicious software by only allowing applications from the Apple Store or signed by a registered Apple Developer to be installed. This security policy (the default one) can be relaxed to allow any application to be installed but the process is not straightforward and most users wont be willing to do that.</p><p>This milestone in the story of OS X makes mandatory the signing of your installers and InstallBuilder makes it easy for you.</p><p>The first step you must accomplish is becoming a registered Apple Developer and requesting a signing certificate. You can follow the steps to request and install your certificates in the Apple Documentation page <a class="ulink" href="http://developer.apple.com/library/mac/#documentation/ToolsLanguages/Conceptual/OSXWorkflowGuide/CodeSigning/CodeSigning.html" target="_top">developer.apple.com/library/mac/</a>. After installing your certificate, you can proceed to integrate them in the build process.</p><p>InstallBuilder defines a set of properties to configure the signing process. The minimum you should configure in your project should be:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+<code class="literal">&lt;osxSigningIdentity&gt;</code>: This is the "Common Name" of your Apple Developer certificate. It is usually called "Developer ID Application: Name of Your Company". The singing process is enabled by filling up this field and is the only one truly mandatory.
+</li><li class="listitem">
+<code class="literal">&lt;osxApplicationBundleIdentifier&gt;</code>: The unique identifier of the application, formatted in reverse-DNS format. It is not required to be customized to allow the singing of your application but InstallBuilder uses the same one for all generated installers (<code class="literal">com.bitrock.appinstaller</code>) so you should provide one matching your company name and application. For example, if your company domain name is <code class="literal">example.com</code>, and your application is named "Foo Bar Editor", you should use <code class="literal">com.example.foo-bar-editor</code>. This identifier can be also registered using the "Developer Certificate Utility".
+</li></ul></div><p><a id="snip637161"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;osxSigningIdentity&gt;Developer ID Application: Name of Your Company&lt;/osxSigningIdentity&gt;
+   &lt;osxApplicationBundleIdentifier&gt;com.example.foo-bar-editor&lt;/osxApplicationBundleIdentifier&gt;
+   ...
+&lt;/project&gt;</pre><p>Now you can launch the build process and the builder will try to sign the installer (please note this process is just allowed on OS X). If your keychain requires a password to access your keys, you will get a dialog requesting it. After introducing it, the build process will continue.</p><p>The builder will try to sign all the InstallBuilder binaries  under <code class="literal">sample.app/Contents/MacOS</code> and the full application bundle after the <code class="literal">&lt;postBuildActionList&gt;</code>. That will give you the opportunity of modifying the generated installer before the application is signed and sealed. For example, you could add a <code class="literal">README</code> file:</p><p><a id="snip8768386"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;osxSigningIdentity&gt;Developer ID Application: Name of Your Company&lt;/osxSigningIdentity&gt;
+   &lt;osxApplicationBundleIdentifier&gt;com.example.foo-bar-editor&lt;/osxApplicationBundleIdentifier&gt;
+   ...
+    &lt;postBuildActionList&gt;
+       &lt;copyFile origin="${build_project_directory}/README" destination="${installbuilder_install_root}/output/${project.installerFilename}/Contents/Resources/"/&gt;
+    &lt;/postBuildActionList&gt;
+&lt;/project&gt;</pre><p>The signing of the bundle will be performed after copying the file so the signature won’t be broken.</p><p>You can validate that the application was properly signed executing the below command:</p><pre class="screen">$ codesign -vvv sample-1.0-osx-installer.app
+sample-1.0-osx-installer.app: valid on disk
+sample-1.0-osx-installer.app: satisfies its Designated Requirement</pre><p>You can also check that all the runtimes has been signed:</p><pre class="screen">$ codesign -vvv sample-1.0-osx-installer.app/Contents/MacOS/*
+sample-1.0-osx-installer.app/Contents/MacOS/installbuilder: valid on disk
+sample-1.0-osx-installer.app/Contents/MacOS/installbuilder: satisfies its Designated Requirement
+sample-1.0-osx-installer.app/Contents/MacOS/installbuilder.sh: valid on disk
+sample-1.0-osx-installer.app/Contents/MacOS/installbuilder.sh: satisfies its Designated Requirement
+sample-1.0-osx-installer.app/Contents/MacOS/osx-10.2: valid on disk
+sample-1.0-osx-installer.app/Contents/MacOS/osx-10.2: satisfies its Designated Requirement
+sample-1.0-osx-installer.app/Contents/MacOS/osx-intel: valid on disk
+sample-1.0-osx-installer.app/Contents/MacOS/osx-intel: satisfies its Designated Requirement
+sample-1.0-osx-installer.app/Contents/MacOS/osx-ppc: valid on disk
+sample-1.0-osx-installer.app/Contents/MacOS/osx-ppc: satisfies its Designated Requirement</pre><div class="note" title="object file format unrecognized, invalid, or unsuitable" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: object file format unrecognized, invalid, or unsuitable"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">object file format unrecognized, invalid, or unsuitable</th></tr><tr><td align="left" valign="top"><p>If you get that error while signing your installer you will need to upgrade your Xcode version to 4.4 and install the "Command Line Tools" add-on</p></td></tr></table></div><div class="note" title="The signing process is just allowed on OS X" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note: The signing process is just allowed on OS X"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left">The signing process is just allowed on OS X</th></tr><tr><td align="left" valign="top"><p>The OS X <code class="literal">codesign</code> tool is required for the signing so the signing process is just allowed on OS X.</p></td></tr></table></div><div class="section" title="Configuring the resource rules"><div class="titlepage"><div><div><h4 class="title"><a id="_configuring_the_resource_rules"></a>Configuring the resource rules</h4></div></div></div><p>With the default settings, just files under <code class="literal">sample.app/Contents/Resources/</code> and the bundle executable (<code class="literal">Contents/MacOS/installbuilder.sh</code>) are sealed so files under <code class="literal">sample.app/Contents/MacOS/</code> can be modified, added or deleted and the signature will still be valid. You can find which files were sealed checking the <code class="literal">CodeResources</code> file:</p><pre class="screen">$ cat sample.app/Contents/_CodeSignature/CodeResources
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+   &lt;key&gt;files&lt;/key&gt;
+   &lt;dict&gt;
+        &lt;key&gt;Resources/installbuilder.icns&lt;/key&gt;
+        &lt;data&gt;
+            kn13x4a9iiwHbg2lZg9vrUK9Hus=
+        &lt;/data&gt;
+   &lt;/dict&gt;
+   &lt;key&gt;rules&lt;/key&gt;
+   &lt;dict&gt;
+        &lt;key&gt;^Resources/&lt;/key&gt;
+        &lt;true/&gt;
+        ...
+   &lt;/dict&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;</pre><p>To solve this, you must provide your own resource rules when signing using the <code class="literal">&lt;osxSigningResourceRulesFile&gt;</code>:</p><p><a id="snip266980"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;osxSigningIdentity&gt;Developer ID Application: Name of Your Company&lt;/osxSigningIdentity&gt;
+   &lt;osxApplicationBundleIdentifier&gt;com.example.foo-bar-editor&lt;/osxApplicationBundleIdentifier&gt;
+   &lt;osxSigningResourceRulesFile&gt;${build_project_directory}/resource-rules.plist&lt;/osxSigningResourceRulesFile&gt;
+   ...
+&lt;/project&gt;</pre><p>To make the runtimes to be also sealed, your could use the below file:</p><pre class="screen">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+  &lt;key&gt;rules&lt;/key&gt;
+  &lt;dict&gt;
+    &lt;key&gt;^MacOS/&lt;/key&gt;
+    &lt;true/&gt;
+    &lt;key&gt;^Resources/&lt;/key&gt;
+    &lt;true/&gt;
+    &lt;key&gt;^Resources/.*\.lproj/&lt;/key&gt;
+    &lt;dict&gt;
+      &lt;key&gt;optional&lt;/key&gt;
+      &lt;true/&gt;
+      &lt;key&gt;weight&lt;/key&gt;
+      &lt;real&gt;1000&lt;/real&gt;
+    &lt;/dict&gt;
+    &lt;key&gt;^Resources/.*\.lproj/locversion.plist$&lt;/key&gt;
+    &lt;dict&gt;
+      &lt;key&gt;omit&lt;/key&gt;
+      &lt;true/&gt;
+      &lt;key&gt;weight&lt;/key&gt;
+      &lt;real&gt;1100&lt;/real&gt;
+    &lt;/dict&gt;
+    &lt;key&gt;^version.plist$&lt;/key&gt;
+    &lt;true/&gt;
+  &lt;/dict&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;</pre><p>Using this new rules you make sure no one can modify your application. For example, just adding a new file will invalidate the signature:</p><pre class="screen">$ codesign -vvv sample-1.0-osx-installer.app
+sample-1.0-osx-installer.app: valid on disk
+sample-1.0-osx-installer.app: satisfies its Designated Requirement
+$ echo foo &gt;&gt; sample-1.0-osx-installer.app/Contents/MacOS/bar
+$ codesign -vvv sample-1.0-osx-installer.app
+sample-1.0-osx-installer.app: a sealed resource is missing or invalid
+resource added: sample-1.0-osx-installer.app/Contents/MacOS/bar</pre></div><div class="section" title="Configuring the Keychain"><div class="titlepage"><div><div><h4 class="title"><a id="_configuring_the_keychain"></a>Configuring the Keychain</h4></div></div></div><p>By default, InstallBuilder will try to locate your keys under the system keychain paths but you can also configure your project to use a custom one. This is very useful when, for example, you don’t want to install your keys in any machine and keep then in a safe location instead, like an usb drive. To do that, you just have to use the <code class="literal">&lt;osxSigningKeychainFile&gt;</code>:</p><p><a id="snip7135645"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;osxSigningIdentity&gt;Developer ID Application: Name of Your Company&lt;/osxSigningIdentity&gt;
+   &lt;osxApplicationBundleIdentifier&gt;com.example.foo-bar-editor&lt;/osxApplicationBundleIdentifier&gt;
+   &lt;osxSigningResourceRulesFile&gt;${build_project_directory}/resource-rules.plist&lt;/osxSigningResourceRulesFile&gt;
+   &lt;osxSigningKeychainFile&gt;/Volumes/secure/secure.keychain&lt;/osxSigningKeychainFile&gt;
+   ...
+&lt;/project&gt;</pre><p>It is also recommended to password-protect the keychain with an strong password. That will have an advantage though, if you are using a headless server, OS X won’t be able to show the password dialog and the process will fail:</p><pre class="screen">Builder.app/Contents/MacOS/installbuilder.sh build ~/sample.xml
+
+ Building Sample Project osx
+ 0% ______________ 50% ______________ 100%
+ ##############################
+Warning: Error signing installer: sample-1.0-osx-installer.app: User interaction is not allowed.</pre><p>To solve this, you can unlock the keychain from command line in the <code class="literal">&lt;preBuildActionList&gt;</code>:</p><p><a id="snip8795467"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;osxSigningIdentity&gt;Developer ID Application: Name of Your Company&lt;/osxSigningIdentity&gt;
+   &lt;osxApplicationBundleIdentifier&gt;com.example.foo-bar-editor&lt;/osxApplicationBundleIdentifier&gt;
+   &lt;osxSigningResourceRulesFile&gt;${build_project_directory}/resource-rules.plist&lt;/osxSigningResourceRulesFile&gt;
+   &lt;osxSigningKeychainFile&gt;/Volumes/secure/secure.keychain&lt;/osxSigningKeychainFile&gt;
+   ...
+   &lt;preBuildActionList&gt;
+     &lt;runProgram&gt;
+        &lt;program&gt;security&lt;/program&gt;
+        &lt;programArguments&gt;unlock-keychain -p '${password.password}' "${project.osxSigningKeychainFile}"&lt;/programArguments&gt;
+     &lt;/runProgram&gt;
+   &lt;/preBuildActionList&gt;
+   ...
+&lt;/project&gt;</pre><p>And then launch the process as:</p><pre class="screen">Builder.app/Contents/MacOS/installbuilder.sh build ~/sample.xml --setvars password='Th1s1sav3ry&amp;5ecur3pa55w0rd!'
+
+ Building Sample Project osx
+ 0% ______________ 50% ______________ 100%
+ #########################################</pre></div><div class="section" title="Signing an already built installer"><div class="titlepage"><div><div><h4 class="title"><a id="_signing_an_already_built_installer"></a>Signing an already built installer</h4></div></div></div><p>InstallBuilder also includes a command line tool to easy the process of signing already built installers. You can find it under the <code class="literal">tools</code> folder in the installation directory. Executing it without arguments will display the help menu:</p><pre class="screen">$ tools/code-signing/osx/osxsigner
+
+Usage:
+
+/Applications/BitRock InstallBuilder for Qt 8.3.0/tools/code-signing/osx/osxsigner [options] /path/to/application.app
+
+
+ --help                         Display the list of valid options
+
+ --identity &lt;identity&gt;          Identity used to sign the application bundle
+                                Default:
+
+ --identifier &lt;identifier&gt;      Identifier used to sign the installer. If empty, the CFBundleIdentifier of the bundle will be used
+                                Default:
+
+ --keychain &lt;keychain&gt;          External keychain used to look for the identity
+                                Default:
+
+ --keychain-password &lt;keychain-password&gt; Password to unlock the specified keychain
+                                Default:
+
+ --output &lt;output&gt;              Directory in which to write the signed application. If empty, the application will be written in the same directory as the original with the '-signed' suffix appended
+                                Default:
+
+ --skip-runtimes                Just sign the Application Bundle and not the runtimes under Contents/MacOS
+
+ --debuglevel &lt;debuglevel&gt;      Debug information level of verbosity
+                                Default: 2
+                                Allowed: 0 1 2 3 4
+
+ --resource-rules &lt;resource-rules&gt; Path to a .plist file containing custom  resource rules</pre><p>You can replicate the same settings used in the previous section project by executing:</p><p><a id="snip5427563"></a></p><pre class="programlisting">$ tools/code-signing/osx/osxsigner --identity "Developer ID Application: Name of Your Company" --identifier "com.example.foo-bar-editor" \
+   --keychain "/Volumes/secure/secure.keychain" --keychain-password 'Th1s1sav3ry&amp;5ecur3pa55w0rd!' --output /tmp/signed \
+   --resource-rules "resource-rules.plist" sample-1.0-installer.app
+Signing app bundle /Applications/BitRock InstallBuilder for Qt 8.3.0/output/sample-1.0-osx-installer-signed.app
+Done!</pre></div></div><div class="section" title="16.2. Microsoft Windows"><div class="titlepage"><div><div><h3 class="title"><a id="_microsoft_windows"></a>16.2. Microsoft Windows</h3></div></div></div><p>InstallBuilder binaries for Microsoft Windows can be digitally signed using the <code class="literal">signtool</code> command-line utility. It is a part of Visual Studio and Windows SDK packages.</p><p>The following example shows how <code class="literal">signtool</code> can be used to digitally sign an installer as part of <a class="link" href="apd.html#postBuildActionList"><code class="literal">&lt;postBuildActionList&gt;</code></a>:</p><p><a id="snip1057402"></a></p><pre class="programlisting">&lt;postBuildActionList&gt;
+    &lt;runProgram&gt;
+        &lt;program&gt;/path/to/signtool&lt;/program&gt;
+        &lt;programArguments&gt;sign /d "${project.fullName}" /f certfile.pfx  "${installbuilder_install_root}/${project.installerFilename}"&lt;/programArguments&gt;
+    &lt;/runProgram&gt;
+&lt;/postBuildActionList&gt;</pre><p>The detailed syntax of the signtool command can be found on MSDN:</p><p><a class="ulink" href="http://msdn.microsoft.com/en-us/library/8s9b9yaz.aspx" target="_top">http://msdn.microsoft.com/en-us/library/8s9b9yaz.aspx</a></p><p>A limitation of this tool is that it does not allow re-signing an installer. Therefore, performing multiple quick builds would fail, as the tool would try to sign the same installer multiple times. For testing purposes, it may be convenient to only sign the output binary if certain flag is set - such as:</p><p><a id="snip1756014"></a></p><pre class="programlisting">&lt;postBuildActionList&gt;
+    &lt;runProgram&gt;
+        &lt;program&gt;/path/to/signtool&lt;/program&gt;
+        &lt;programArguments&gt;sign /d "${project.fullName}" /f certfile.pfx  "${installbuilder_install_root}/${project.installerFilename}"&lt;/programArguments&gt;
+        &lt;ruleList&gt;
+            &lt;isTrue value="${runSignTool}" /&gt;
+        &lt;/ruleList&gt;
+    &lt;/runProgram&gt;
+&lt;/postBuildActionList&gt;</pre><p>This will only sign the binary if <code class="literal">runSignTool</code> variable is set. A final build could be then run in the following way:</p><pre class="literallayout">C:\Program Files\Bitrock InstallBuilder\bin/builder-cli.exe build /path/to/project.xml windows --setvars runSignTool=1</pre><p>While regular use of the builder GUI and CLI modes will not cause the target binary to be signed.</p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s15.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s17.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">15. Services </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 17. File associations</td></tr></table></div></body></html>
