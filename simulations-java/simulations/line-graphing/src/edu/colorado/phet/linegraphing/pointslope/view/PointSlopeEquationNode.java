@@ -242,7 +242,6 @@ public class PointSlopeEquationNode extends EquationNode {
 
             // left side of equation (y term)
             PNode previousNode;
-            double previousXOffset = 0;
             removeChild( y1MinusSignNode );
             // (y - y1)
             yLeftParenNode.setOffset( 0, 0 );
@@ -260,6 +259,7 @@ public class PointSlopeEquationNode extends EquationNode {
                                   yNode.getYOffset() );
 
             // slope
+            double previousXOffset;
             if ( interactiveSlope ) {
                 // (rise/run), where rise and run are spinners, and the sign is integrated into the spinners
                 removeChild( slopeMinusSignNode );
@@ -327,6 +327,7 @@ public class PointSlopeEquationNode extends EquationNode {
                     removeChild( fractionLineNode );
                     removeChild( riseNode );
                     removeChild( runNode );
+                    previousXOffset = relationalOperatorXSpacing;
                 }
                 else if ( integerSlope ) {
                     // N
