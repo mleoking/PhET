@@ -79,7 +79,7 @@ public class SlopeToolNode extends PComposite {
         final double delimiterLengthFactor = 0.5;
         final PNode riseLineNode, riseTailDelimiterNode, riseTipDelimiterNode, riseValueNode;
         {
-            riseValueNode = new AbsoluteValueNode( line.rise );
+            riseValueNode = new ValueNode( line.rise );
             final double xOffset = offsetFactor * gridXSpacing;
             final double riseDelimiterLength = delimiterLengthFactor * gridXSpacing;
             final double tipFudgeY = ( line.rise > 0 ) ? 1 : -1;
@@ -105,7 +105,7 @@ public class SlopeToolNode extends PComposite {
         // run
         final PNode runLineNode, runTailDelimiterNode, runTipDelimiterNode, runValueNode;
         {
-            runValueNode = new AbsoluteValueNode( line.run );
+            runValueNode = new ValueNode( line.run );
             final double yOffset = offsetFactor * gridYSpacing;
             final double runDelimiterLength = delimiterLengthFactor * gridYSpacing;
             final double tipFudgeX = ( line.run > 0 ) ? -1 : 1;
@@ -139,8 +139,8 @@ public class SlopeToolNode extends PComposite {
         addChild( runValueNode );
     }
 
-    // Absolute value on a rectangular background with rounded corners.
-    private static class AbsoluteValueNode extends PComposite {
+    // Value on a rectangular background with rounded corners.
+    private static class ValueNode extends PComposite {
 
         private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
         private static final PhetFont FONT = new PhetFont( Font.BOLD, 16 );
@@ -149,9 +149,9 @@ public class SlopeToolNode extends PComposite {
         private static final double X_MARGIN = 3;
         private static final double Y_MARGIN = 3;
 
-        public AbsoluteValueNode( double value ) {
+        public ValueNode( double value ) {
 
-            PNode textNode = new PhetPText( FORMAT.format( Math.abs( value ) ), FONT, TEXT_COLOR );
+            PNode textNode = new PhetPText( FORMAT.format( value ), FONT, TEXT_COLOR );
 
             // background for the label
             final RoundRectangle2D.Double backgroundShape = new RoundRectangle2D.Double( 0, 0,
