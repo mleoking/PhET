@@ -171,7 +171,9 @@
         var x = controlPoints.map( getX );
         var y = controlPoints.map( getY );
         var s = numeric.spline( x, y );
-        var x0 = numeric.linspace( 0, 400, 100 );
+
+        //http://stackoverflow.com/questions/1669190/javascript-min-max-array-values
+        var x0 = numeric.linspace( Math.min.apply( null, x ), Math.max.apply( null, x ), 1000 );
         ctx.beginPath();
         for ( var i = 0; i < x0.length; i++ ) {
             var a = x0[i];
