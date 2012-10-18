@@ -24,6 +24,8 @@
     var skaterVelocityX = 0;
     var skaterVelocityY = 0;
     var skaterDragging = false;
+    var draggingControlPoint = -1;//-1 means not any
+
     document.onmousemove = function ( e ) {
 
         //How to tell if mouse is over something?
@@ -36,6 +38,12 @@
     canvas.onselectstart = function () { return false; }; // ie
     canvas.onmousedown = function () { return false; }; // mozilla
 
+    function distance( x1, y1, x2, y2 ) {
+        var dx = x2 - x1;
+        var dy = y2 - y1;
+        return Math.sqrt( dx * dx + dy * dy );
+    }
+
     hammer.ondrag = function ( ev ) {
         drag = [];
         var touches = ev.originalEvent.touches || [ev.originalEvent];
@@ -45,20 +53,33 @@
                 var touchX = ev.touches[t].x;
                 var touchY = ev.touches[t].y;
 
-                var metropolisDistance = Math.abs( touchX - skaterX ) + Math.abs( (canvas.height - touchY) - skaterY );
-                if ( metropolisDistance < 400 ) {
-                    skaterDragging = true;
+                if ( !skaterDragging && draggingControlPoint == -1 ) {
+                    var distanceToSkater = distance( touchX, canvas.height - touchY, skaterX, skaterY );
+                    if ( distanceToSkater < 200 ) {
+                        skaterDragging = true;
+                    }
+                    else {
+                        for ( var i = 0; i < controlPoints.length; i++ ) {
+                            var distanceToControlPoint = distance( controlPoints[i].x, controlPoints[i].y, touchX, touchY );
+                            if ( distanceToControlPoint < 200 ) {
+                                draggingControlPoint = i;
+                            }
+                        }
+                    }
                 }
-                else {
 
-                }
+                if ( drag ) {
+                    if ( skaterDragging ) {
+                        skaterX = touchX;
+                        skaterY = canvas.height - touchY;
 
-                if ( skaterDragging ) {
-                    skaterX = touchX;
-                    skaterY = canvas.height - touchY;
-
-                    skaterVelocityX = 0.0;
-                    skaterVelocityY = 0.0;
+                        skaterVelocityX = 0.0;
+                        skaterVelocityY = 0.0;
+                    }
+                    if ( draggingControlPoint >= 0 ) {
+                        controlPoints[draggingControlPoint].x = touchX;
+                        controlPoints[draggingControlPoint].y = touchY;
+                    }
                 }
             }
         }
@@ -75,7 +96,10 @@
     hammer.ontransform = function ( ev ) {};
     hammer.ontransformend = function ( ev ) {};
 
-    hammer.onrelease = function ( ev ) { skaterDragging = false; };
+    hammer.onrelease = function ( ev ) {
+        skaterDragging = false;
+        draggingControlPoint = -1;
+    };
 
     //Preload images
     var loadedImages = 0;
