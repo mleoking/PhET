@@ -106,15 +106,15 @@ public abstract class LineNode extends PComposite {
         PNode zeroOffsetNode = new ZeroOffsetNode( equationNode );
         equationParentNode.addChild( zeroOffsetNode );
         // put equation where it won't interfere with rise/run brackets
+        final double equationXOffset = -zeroOffsetNode.getFullBoundsReference().getWidth() - 12;
+        final double equationYOffset;
         if ( line.rise > 0 ) {
-            // equation below the line
-            zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12, 5 );
+            equationYOffset = 5; // equation below the line
         }
         else {
-            // equation above the line
-            zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12,
-                                      -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
+            equationYOffset = -zeroOffsetNode.getFullBoundsReference().getHeight() - 12; // equation above the line
         }
+        zeroOffsetNode.setOffset( equationXOffset, equationYOffset );
     }
 
     // Creates the line's equation in the correct form.
