@@ -1,8 +1,6 @@
-define( ["concentration"], function () {
+define( ["app/concentration"], function () {
 
     CAAT.modules.initialization = CAAT.modules.initialization || {};
-
-
     CAAT.modules.initialization.init = function ( width, height, runHere, imagesURL, onEndLoading ) {
 
         var canvascontainer = document.getElementById( runHere );
