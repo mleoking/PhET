@@ -1,3 +1,4 @@
+Moved source out of "app" dir to get it to work whether compiled or not
 Converted to grunt build
 Added calls to actor.dirty = true when needs repaint
 Added support for clearing dirty rectangles and made default, involved changes to caat.js

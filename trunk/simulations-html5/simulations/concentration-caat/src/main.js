@@ -1,4 +1,4 @@
-require( ["app/concentration"], function () {
+require( ["concentration"], function () {
 
     function vbox( distanceBetweenItems, items ) {
 
