@@ -36,3 +36,7 @@ Expected output:
     Compressed size: 1326 bytes gzipped (2844 bytes minified).
 
     Done, without errors.
+
+To run static analysis with JSHint, run
+
+    grunt lint

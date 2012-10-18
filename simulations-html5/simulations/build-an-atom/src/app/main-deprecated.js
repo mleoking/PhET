@@ -71,7 +71,7 @@ function init() {
 
     // Add the nucleus label.  This gets updated as the nucleus configuration
     // changes.
-    nucleusLabel = new NucleusLabel( new Point2D( 450, 80 ) );
+    nucleusLabel = new NucleusLabel( new Point2D( 450, 80 ), nucleonsInNucleus );
 
     // Add initial particles to buckets by initiating a reset.
     reset();

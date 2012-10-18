@@ -2,12 +2,12 @@ define([
   'nucleon'
 ], function( Nucleon ){
 
-function Neutron() {
+  function Neutron() {
     Nucleon.call( this, "gray" );
-}
+  }
 
-Neutron.prototype = Nucleon.prototype;
+  Neutron.prototype = Nucleon.prototype;
 
-return Neutron;
+  return Neutron;
 
 });

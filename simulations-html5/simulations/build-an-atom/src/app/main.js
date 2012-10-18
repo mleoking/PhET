@@ -1,6 +1,13 @@
 require([
-
-], function(){
+  'electron_shell',
+  'bucket',
+  'point2d',
+  'reset_button',
+  'nucleus_label',
+  'nucleon',
+  'proton',
+  'neutron'
+], function( ElectronShell, Bucket, Point2D, ResetButton, NucleusLabel, Nucleon, Proton, Neutron ){
 
   // Constants.
   var numProtons = 10;
@@ -82,11 +89,11 @@ require([
       protonBucket = new Bucket( new Point2D( 400, 300 ), "red", "Protons" );
 
       // Add the reset button.
-      resetButton = new ResetButton( new Point2D( 600, 325 ), "orange" );
+      resetButton = new ResetButton( new Point2D( 600, 325 ), "orange", reset );
 
       // Add the nucleus label.  This gets updated as the nucleus configuration
       // changes.
-      nucleusLabel = new NucleusLabel( new Point2D( 450, 80 ) );
+      nucleusLabel = new NucleusLabel( new Point2D( 450, 80 ), nucleonsInNucleus );
 
       // Add initial particles to buckets by initiating a reset.
       reset();
@@ -146,7 +153,6 @@ require([
       }
   }
 
-
   // Main drawing function.  This is where the z-ordering, i.e. the layering
   // effect, is created.
   function draw() {
@@ -197,6 +203,188 @@ require([
     // Draw the nucleus label.
     nucleusLabel.draw( context );
   }
+
+  //-----------------------------------------------------------------------------
+  // Utility functions
+  //-----------------------------------------------------------------------------
+
+  function removeParticleFromNucleus( particle ) {
+      for ( i = 0; i < nucleonsInNucleus.length; i++ ) {
+          if ( nucleonsInNucleus[i] == particle ) {
+              nucleonsInNucleus.splice( i, 1 );
+              break;
+          }
+      }
+      adjustNucleusConfiguration();
+  }
+
+  function removeAllParticlesFromNucleus() {
+      nucleonsInNucleus.length = 0;
+  }
+
+  // Adjust the positions of the nucleons in the nucleus to look good.
+  function adjustNucleusConfiguration() {
+      var particleRadius = new Nucleon( "black" ).radius;
+      if ( nucleonsInNucleus.length == 0 ) {
+          return;
+      }
+      else if ( nucleonsInNucleus.length == 1 ) {
+          nucleonsInNucleus[0].setLocation( electronShell.location );
+      }
+      else if ( nucleonsInNucleus.length == 2 ) {
+          nucleonsInNucleus[0].setLocationComponents( electronShell.location.x - particleRadius, electronShell.location.y );
+          nucleonsInNucleus[1].setLocationComponents( electronShell.location.x + particleRadius, electronShell.location.y );
+      }
+      else if ( nucleonsInNucleus.length == 3 ) {
+          nucleonsInNucleus[0].setLocationComponents( electronShell.location.x, electronShell.location.y - particleRadius * 1.1 );
+          nucleonsInNucleus[1].setLocationComponents( electronShell.location.x + particleRadius * 0.77, electronShell.location.y + particleRadius * 0.77 );
+          nucleonsInNucleus[2].setLocationComponents( electronShell.location.x - particleRadius * 0.77, electronShell.location.y + particleRadius * 0.77 );
+      }
+      else if ( nucleonsInNucleus.length == 4 ) {
+          nucleonsInNucleus[0].setLocationComponents( electronShell.location.x, electronShell.location.y - particleRadius * 1.5 );
+          nucleonsInNucleus[1].setLocationComponents( electronShell.location.x + particleRadius, electronShell.location.y );
+          nucleonsInNucleus[2].setLocationComponents( electronShell.location.x - particleRadius, electronShell.location.y );
+          nucleonsInNucleus[3].setLocationComponents( electronShell.location.x, electronShell.location.y + particleRadius * 1.5 );
+      }
+      else if ( nucleonsInNucleus.length >= 5 ) {
+          // Place the last five as a diamond with one in center.
+          nucleonsInNucleus[nucleonsInNucleus.length - 1].setLocationComponents( electronShell.location.x, electronShell.location.y );
+          nucleonsInNucleus[nucleonsInNucleus.length - 2].setLocationComponents( electronShell.location.x, electronShell.location.y - particleRadius * 1.5 );
+          nucleonsInNucleus[nucleonsInNucleus.length - 3].setLocationComponents( electronShell.location.x + particleRadius, electronShell.location.y );
+          nucleonsInNucleus[nucleonsInNucleus.length - 4].setLocationComponents( electronShell.location.x - particleRadius, electronShell.location.y );
+          nucleonsInNucleus[nucleonsInNucleus.length - 5].setLocationComponents( electronShell.location.x, electronShell.location.y + particleRadius * 1.5 );
+          // Place remaining particles around the edges of this configuration.
+          var placementRadius = particleRadius * 2;
+          for ( i = nucleonsInNucleus.length - 6; i >= 0; i-- ) {
+              var angle = Math.random() * Math.PI * 2;
+              nucleonsInNucleus[i].setLocationComponents( electronShell.location.x + placementRadius * Math.cos( angle ),
+                                                          electronShell.location.y + placementRadius * Math.sin( angle ) );
+          }
+      }
+  }
+
+  //-----------------------------------------------------------------------------
+  // Event handlers.
+  //-----------------------------------------------------------------------------
+
+  function onDocumentMouseDown( event ) {
+      onTouchStart( new Point2D( event.clientX, event.clientY ) );
+  }
+
+  function onDocumentMouseUp( event ) {
+      onTouchEnd();
+  }
+
+  function onDocumentMouseMove( event ) {
+      onDrag( new Point2D( event.clientX, event.clientY ) );
+  }
+
+  function onDocumentTouchStart( event ) {
+      if ( event.touches.length == 1 ) {
+          event.preventDefault();
+          onTouchStart( new Point2D( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
+      }
+  }
+
+  function onDocumentTouchMove( event ) {
+      if ( event.touches.length == 1 ) {
+          event.preventDefault();
+          onDrag( new Point2D( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
+      }
+  }
+
+  function onDocumentTouchEnd( event ) {
+      onTouchEnd();
+  }
+
+  function onWindowDeviceOrientation( event ) {
+  //    console.log( "onWindowDeviceOrientation, alpha = " + event.alpha + ", beta = " + event.beta + ", gamma = " + event.gamma );
+  }
+
+  function onTouchStart( location ) {
+      touchInProgress = true;
+      nucleonBeingDragged = null;
+
+      // See if this event occurred over any of the nucleons in the nucleus.
+      for ( var i = 0; i < nucleonsInNucleus.length; i++ ) {
+          if ( nucleonsInNucleus[i].containsPoint( location ) ) {
+              nucleonBeingDragged = nucleonsInNucleus[i];
+              removeParticleFromNucleus( nucleonBeingDragged );
+              break;
+          }
+      }
+      if ( nucleonBeingDragged == null ) {
+          // See if touch occurred over a nucleon in the proton bucket.
+          for ( var i = 0; i < protonBucket.nucleonsInBucket.length; i++ ) {
+              if ( protonBucket.nucleonsInBucket[i].containsPoint( location ) ) {
+                  nucleonBeingDragged = protonBucket.nucleonsInBucket[i];
+                  protonBucket.removeNucleonFromBucket( nucleonBeingDragged );
+                  break;
+              }
+          }
+      }
+      if ( nucleonBeingDragged == null ) {
+          // See if touch occurred over a nucleon in the neutron bucket.
+          for ( var i = 0; i < neutronBucket.nucleonsInBucket.length; i++ ) {
+              if ( neutronBucket.nucleonsInBucket[i].containsPoint( location ) ) {
+                  nucleonBeingDragged = neutronBucket.nucleonsInBucket[i];
+                  neutronBucket.removeNucleonFromBucket( nucleonBeingDragged );
+                  break;
+              }
+          }
+      }
+
+      // Position the nucleon (if there is one) at the location of this event.
+      if ( nucleonBeingDragged != null ) {
+          nucleonBeingDragged.setLocation( location );
+      }
+      else {
+          // Check if the reset button was pressed.
+          if ( resetButton.containsPoint( location ) ) {
+              resetButton.press();
+          }
+      }
+
+      draw();
+  }
+
+  function onDrag( location ) {
+      if ( touchInProgress && nucleonBeingDragged != null ) {
+          nucleonBeingDragged.setLocation( location );
+          draw();
+      }
+  }
+
+  function onTouchEnd() {
+      touchInProgress = false;
+      if ( nucleonBeingDragged != null ) {
+          // If the nucleon has been dropped within the electron shell, add it
+          // to the nucleus.
+          if ( electronShell.containsPoint( nucleonBeingDragged.location ) ) {
+              nucleonsInNucleus.push( nucleonBeingDragged );
+              adjustNucleusConfiguration();
+          }
+          else {
+              // Return the particle to the appropriate bucket.
+              if ( nucleonBeingDragged instanceof Proton ) {
+                  protonBucket.addNucleonToBucket( nucleonBeingDragged );
+              }
+              else {
+                  neutronBucket.addNucleonToBucket( nucleonBeingDragged );
+              }
+          }
+          // Always set to null to indicate that no nucleon is being dragged.
+          nucleonBeingDragged = null;
+      }
+
+      // If reset button was pressed, then release it.
+      if ( resetButton.pressed ) {
+          resetButton.unPress();
+      }
+
+      draw();
+  }
+
 
 
 });
