@@ -34,8 +34,6 @@ public abstract class EquationNode extends PhetPNode {
 
     protected static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
-    private final int pointSize; // point size of the static font used to render the equation
-
     /*
     * This controls the vertical offset of the slope's sign.
     * Zero is vertically centered on the equals sign, positive values move it down, negative move it up.
@@ -63,9 +61,12 @@ public abstract class EquationNode extends PhetPNode {
     protected final double spinnersYSpacing; // y spacing between spinners and fraction line
     protected final double ySpacing; // all y spacing
 
+    /**
+     * Constructor.
+     *
+     * @param pointSize point size of the font used to render the equation.
+     */
     protected EquationNode( int pointSize ) {
-
-        this.pointSize = pointSize;
 
         // Compute dimensions and layout offsets as percentages of the font's point size.
         slopeSignYOffset = 0;
