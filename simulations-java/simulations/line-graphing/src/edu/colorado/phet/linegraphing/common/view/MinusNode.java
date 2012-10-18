@@ -19,7 +19,7 @@ public class MinusNode extends PPath {
         this( size.getWidth(), size.getHeight(), paint );
     }
 
-    public MinusNode( double width, double height, Paint paint ) {
+    private MinusNode( double width, double height, Paint paint ) {
         super( new Rectangle2D.Double( 0, 0, width, height ) );
         assert ( width > height );
         setStroke( null );

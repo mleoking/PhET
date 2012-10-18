@@ -30,7 +30,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class LineFormsGraphNode extends GraphNode {
 
-    protected static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
+    private static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
 
     private final LineFormsModel model;
     private final LineFormsViewProperties viewProperties;
@@ -47,10 +47,10 @@ public abstract class LineFormsGraphNode extends GraphNode {
      * @param pointManipulatorColor
      * @param slopeManipulatorColor
      */
-    public LineFormsGraphNode( LineFormsModel model,
-                               final LineFormsViewProperties viewProperties,
-                               Color pointManipulatorColor,
-                               Color slopeManipulatorColor ) {
+    protected LineFormsGraphNode( LineFormsModel model,
+                                  final LineFormsViewProperties viewProperties,
+                                  Color pointManipulatorColor,
+                                  Color slopeManipulatorColor ) {
         super( model.graph, model.mvt );
 
         this.model = model;

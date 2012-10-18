@@ -278,7 +278,7 @@ public class GraphNode extends PhetPNode {
     }
 
     // Creates an icon for a line between 2 points on a grid with fixed dimensions.
-    public static Icon createIcon( double width, final Color color, int x1, int y1, int x2, int y2 ) {
+    private static Icon createIcon( double width, final Color color, int x1, int y1, int x2, int y2 ) {
         IntegerRange axisRange = new IntegerRange( -3, 3 );
         final Graph graph = new Graph( axisRange, axisRange );
         final ModelViewTransform mvt = ModelViewTransform.createOffsetScaleMapping( new java.awt.geom.Point2D.Double( 0, 0 ), 15, -15 );

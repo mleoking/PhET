@@ -30,7 +30,7 @@ public abstract class LineFormsCanvas extends CenteredStageCanvas {
      * @param graphNode
      * @param equationControls
      */
-    public LineFormsCanvas( LineFormsModel model, LineFormsViewProperties viewProperties, PNode graphNode, PNode equationControls ) {
+    protected LineFormsCanvas( LineFormsModel model, LineFormsViewProperties viewProperties, PNode graphNode, PNode equationControls ) {
         setBackground( LGColors.CANVAS );
 
         this.visibility = viewProperties;

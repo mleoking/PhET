@@ -1,3 +1,4 @@
+10/18/12 address "declaration redundancy" items from IDEA code inspection
 10/18/12 change color of Check-Mark-u2713.png from yellow to green
 10/18/12 change request: restore sign on slope-tool numbers
 # 0.00.30 (69149) Oct 12, 2012

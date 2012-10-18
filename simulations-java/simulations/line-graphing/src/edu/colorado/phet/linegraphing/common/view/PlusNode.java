@@ -33,7 +33,7 @@ public class PlusNode extends PPath {
      * @param height height of the horizontal bar
      * @param paint
      */
-    public PlusNode( double width, double height, Paint paint ) {
+    private PlusNode( double width, double height, Paint paint ) {
         assert ( width > height );
 
         // + shape, starting from top left and moving clockwise

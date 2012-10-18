@@ -18,7 +18,7 @@ public abstract class Challenge {
     public final Line answer; // the correct answer
     public final Property<Line> guess; // the user's current guess
 
-    public Challenge( Line answer, Line guess ) {
+    protected Challenge( Line answer, Line guess ) {
         this.answer = answer.withColor( LineGameConstants.ANSWER_COLOR );
         this.guess = new Property<Line>( guess.withColor( LineGameConstants.GUESS_COLOR ) );
     }
