@@ -44,14 +44,22 @@ object ESPReport extends App {
   val logs = phet load new File("C:\\Users\\Sam\\Desktop\\phet\\studies\\energy-skate-park-basics-october-2012").listFiles
   val reports = logs.map(toReport)
 
-  val allComponents = new ArrayBuffer[Component]
+  val _allComponents = new ArrayBuffer[Component]
   for ( report <- reports ) {
-    allComponents ++= report.dataPoints.map(_.component)
+    _allComponents ++= report.dataPoints.map(_.component)
   }
 
-  allComponents.sortBy(_.tab).distinct foreach ( println )
+  val allComponents = _allComponents.sortBy(_.tab).distinct
+  println("All components:")
+  allComponents foreach println
 
+  println("Reports:")
   for ( report <- reports ) {
-    println(report.dataPoints)
+    println("report for session: " + report.log.session)
+    val dataPoints = report.dataPoints
+    for ( component <- allComponents ) {
+      println("Tab " + component.tab + ", " + component.component + " (" + component.componentType + ")" + "\t" + dataPoints.filter(_.component == component).map(_.time).mkString("\t"))
+    }
+    println("\n")
   }
 }
