@@ -15,6 +15,9 @@
 
     var skaterX = 0;
     var skaterY = 0;
+    var skaterVelocityX = 0;
+    var skaterVelocityY = 0;
+    var skaterDragging = false;
     document.onmousemove = function ( e ) {
 
         //How to tell if mouse is over something?
@@ -31,8 +34,14 @@
         drag = [];
         var touches = ev.originalEvent.touches || [ev.originalEvent];
         for ( var t = 0; t < touches.length; t++ ) {
-            skaterX = ev.touches[t].x;
-            skaterY = ev.touches[t].y;
+            if ( t == 0 ) {
+                skaterX = ev.touches[t].x;
+                skaterY = canvas.height - ev.touches[t].y;
+
+                skaterVelocityX = 0.0;
+                skaterVelocityY = 0.0;
+                skaterDragging = true;
+            }
         }
     };
     hammer.ondragend = function ( ev ) {};
@@ -47,7 +56,7 @@
     hammer.ontransform = function ( ev ) {};
     hammer.ontransformend = function ( ev ) {};
 
-    hammer.onrelease = function ( ev ) {};
+    hammer.onrelease = function ( ev ) { skaterDragging = false; };
 
     //Preload images
     var loadedImages = 0;
@@ -68,12 +77,25 @@
     var lastTime = new Date().getTime();
     var deltas = [];
 
-    function loop() {
-        if ( loadedImages == 0 ) {
-            requestAnimationFrame( loop );
-            return;
-        }
+    function updatePhysics() {
+        //free fall
 
+        var dt = 1.0 / 60.0 * 10;
+
+        var skaterAccelerationX = 0;
+        var skaterAccelerationY = skaterY <= 0 || skaterDragging ? 0.0 : -9.8;
+        skaterVelocityX = skaterVelocityX + skaterAccelerationX * dt;
+        skaterVelocityY = skaterVelocityY + skaterAccelerationY * dt;
+        skaterX = skaterX + skaterVelocityX * dt + 0.5 * skaterAccelerationX * dt * dt;
+        skaterY = skaterY + skaterVelocityY * dt + 0.5 * skaterAccelerationY * dt * dt;
+
+        if ( skaterY < 0 ) {
+            skaterY = 0;
+            skaterVelocityY = 0.0;
+        }
+    }
+
+    function renderGraphics() {
         //http://stackoverflow.com/questions/1664785/html5-canvas-resize-to-fit-window
         ctx.canvas.width = window.innerWidth;
         ctx.canvas.height = window.innerHeight;
@@ -83,18 +105,20 @@
 
         var widthLimited = actualAspectRatio > desiredAspectRatio;
         var scale = widthLimited ? ctx.canvas.height / 768 : ctx.canvas.width / 1024;
-//        console.log( "scale = " + scale );
+        //        console.log( "scale = " + scale );
 
-//        ctx.fillStyle = 'blue';
-//        ctx.fillRect( 0, 0, window.innerWidth / 2, window.innerHeight / 2 );
+        //        ctx.fillStyle = 'blue';
+        //        ctx.fillRect( 0, 0, window.innerWidth / 2, window.innerHeight / 2 );
 
         ctx.fillStyle = 'black';
         ctx.fillRect( blockX, 100, 20, 20 );
 
         ctx.save();
-        ctx.translate( skaterX, skaterY );
+        ctx.translate( skaterX, ctx.canvas.height - skaterY );
+        ctx.fillStyle = 'red';
+        ctx.fillRect( -2, -2, 4, 4 );
         ctx.scale( scale, scale );
-        ctx.drawImage( skaterImage, 0, 0 );
+        ctx.drawImage( skaterImage, -skaterImage.width / 2, -skaterImage.height );
         ctx.restore();
 
         var currentTime = new Date().getTime();
@@ -116,6 +140,16 @@
         lastTime = currentTime;
 
         ++blockX;
+    }
+
+    function loop() {
+        if ( loadedImages == 0 ) {
+            requestAnimationFrame( loop );
+            return;
+        }
+
+        updatePhysics();
+        renderGraphics();
         requestAnimationFrame( loop );
     }
 
