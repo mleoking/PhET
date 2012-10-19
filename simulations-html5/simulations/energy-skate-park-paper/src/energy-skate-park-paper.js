@@ -39,20 +39,10 @@
         paper.setup( canvas );
 
         var raster = new paper.Raster( images[0] );
+        raster.scale( 0.5 );
 
-        // Create a Paper.js Path to draw a line into it:
-        var path = new paper.Path();
-
-        // Give the stroke a color
-        path.strokeColor = 'black';
-        var start = new paper.Point( 100, 100 );
-
-        // Move to start and draw a line from there
-        path.moveTo( start );
-
-        // Note that the plus operator on Point objects does not work
-        // in JavaScript. Instead, we need to call the add() function:
-        path.lineTo( start.add( [ 200, -50 ] ) );
+        var group = new paper.Group();
+        group.addChild( raster );
 
         console.log( "started" );
 
@@ -212,6 +202,7 @@
             ctx.save();
             ctx.strokeStyle = 'black';
             ctx.lineWidth = 2;
+
             function getX( point ) {return point.x;}
 
             function getY( point ) {return point.y;}
