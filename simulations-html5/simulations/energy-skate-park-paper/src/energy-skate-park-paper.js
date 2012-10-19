@@ -207,7 +207,7 @@
             ctx.fillStyle = 'red';
             ctx.fillRect( -2, -2, 4, 4 );
             ctx.scale( scale, scale );
-            ctx.drawImage( images[0], -images[0].width / 2, -images[0].height );
+//            ctx.drawImage( images[0], -images[0].width / 2, -images[0].height );
             ctx.restore();
 
             //Draw track
@@ -268,7 +268,7 @@
 
             ++blockX;
 
-            raster.setPosition( {x:skaterX, y:skaterY} );
+            raster.setPosition( {x:skaterX, y:ctx.canvas.height - skaterY - raster.getHeight() / 2} );
 
             paper.view.draw();
         }
