@@ -163,6 +163,10 @@ public class TectonicsClock implements IClock {
         return listeners.contains( clockListener );
     }
 
+    public void removeAllClockListeners() {
+        listeners.clear();
+    }
+
     public synchronized double getTimeMultiplier() {
         return timeMultiplier;
     }
