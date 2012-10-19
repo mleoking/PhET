@@ -31,13 +31,14 @@
     }
 
     function run( images ) {
-
         console.log( "hello" );
 
         var canvas = document.createElement( "canvas" );
 
         // Create an empty project and a view for the canvas:
         paper.setup( canvas );
+
+        var raster = new paper.Raster( images[0] );
 
         // Create a Paper.js Path to draw a line into it:
         var path = new paper.Path();
@@ -52,9 +53,6 @@
         // Note that the plus operator on Point objects does not work
         // in JavaScript. Instead, we need to call the add() function:
         path.lineTo( start.add( [ 200, -50 ] ) );
-
-        // Draw the view now:
-        paper.view.draw();
 
         console.log( "started" );
 
@@ -280,12 +278,6 @@
         }
 
         requestAnimationFrame( loop );
-
-        var raster = new paper.Raster( images[0] );
-
-        // Draw the view now:
-        paper.view.draw();
-
     }
 
     // Only executed our code once the DOM is ready.
