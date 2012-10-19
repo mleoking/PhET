@@ -34,8 +34,7 @@
 
         console.log( "hello" );
 
-        // Get a reference to the canvas object
-        var canvas = document.getElementById( 'canvas' );
+        var canvas = document.createElement( "canvas" );
 
         // Create an empty project and a view for the canvas:
         paper.setup( canvas );
@@ -60,7 +59,6 @@
         console.log( "started" );
 
         //Create the canvas and add to the document
-        var canvas = document.createElement( "canvas" );
         var ctx = canvas.getContext( "2d" );
         document.body.appendChild( canvas );
 
@@ -203,6 +201,7 @@
             ctx.fillStyle = 'black';
             ctx.fillRect( blockX, 100, 20, 20 );
 
+            //Draw skater
             ctx.save();
             ctx.translate( skaterX, ctx.canvas.height - skaterY );
             ctx.fillStyle = 'red';
@@ -268,6 +267,10 @@
             lastTime = currentTime;
 
             ++blockX;
+
+            raster.setPosition( {x:skaterX, y:skaterY} );
+
+            paper.view.draw();
         }
 
         function loop() {
@@ -283,7 +286,7 @@
         // Draw the view now:
         paper.view.draw();
 
-    };
+    }
 
     // Only executed our code once the DOM is ready.
     window.onload = function () {
