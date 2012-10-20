@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.linegraphing.common.LGResources;
 import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
@@ -42,6 +41,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class MTE_ChallengeNode extends ChallengeNode {
+
+    private static final int ICON_X_SPACING = 10;
+    private static final int BOX_Y_SPACING = 20;
 
     public MTE_ChallengeNode( final LineGameModel model, final MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
@@ -126,24 +128,22 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         // layout
         {
             // title centered at top
-            titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 10 );
+            titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 10 );
 
             // guess equation centered in right half of challenge space
             guessBoxNode.setOffset( ( 0.75 * challengeSize.getWidth() ) - ( guessBoxNode.getFullBoundsReference().getWidth() / 2 ),
-                                    ( challengeSize.getHeight() / 2 ) - guessBoxNode.getFullBoundsReference().getHeight() - 10 );
+                                    ( challengeSize.getHeight() / 2 ) - guessBoxNode.getFullBoundsReference().getHeight() - ( BOX_Y_SPACING / 2 ) );
 
             // answer below guess
-            answerBoxNode.setOffset( guessBoxNode.getXOffset(),
-                                     ( challengeSize.getHeight() / 2 ) + 10 );
+            answerBoxNode.setOffset( guessBoxNode.getXOffset(), ( challengeSize.getHeight() / 2 ) + ( BOX_Y_SPACING / 2 ) );
 
             // correct/incorrect icons are to left of equations
-            answerCorrectNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX() - answerCorrectNode.getFullBoundsReference().getWidth() - 10, //TODO
+            answerCorrectNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX() - answerCorrectNode.getFullBoundsReference().getWidth() - ICON_X_SPACING,
                                          answerBoxNode.getFullBoundsReference().getCenterY() - ( answerCorrectNode.getFullBoundsReference().getHeight() / 2 ) );
-            guessCorrectNode.setOffset( guessBoxNode.getFullBoundsReference().getMinX() - guessCorrectNode.getFullBoundsReference().getWidth() - 10, //TODO
-                                        guessBoxNode.getFullBoundsReference().getCenterY() - ( guessCorrectNode.getFullBoundsReference().getHeight() / 2 ) ); //TODO
-            guessIncorrectNode.setOffset( guessBoxNode.getFullBoundsReference().getMinX() - guessIncorrectNode.getFullBoundsReference().getWidth() - 10, //TODO
-                                          guessBoxNode.getFullBoundsReference().getCenterY() - ( guessIncorrectNode.getFullBoundsReference().getHeight() / 2 ) ); //TODO
+            guessCorrectNode.setOffset( guessBoxNode.getFullBoundsReference().getMinX() - guessCorrectNode.getFullBoundsReference().getWidth() - ICON_X_SPACING,
+                                        guessBoxNode.getFullBoundsReference().getCenterY() - ( guessCorrectNode.getFullBoundsReference().getHeight() / 2 ) );
+            guessIncorrectNode.setOffset( guessBoxNode.getFullBoundsReference().getMinX() - guessIncorrectNode.getFullBoundsReference().getWidth() - ICON_X_SPACING,
+                                          guessBoxNode.getFullBoundsReference().getCenterY() - ( guessIncorrectNode.getFullBoundsReference().getHeight() / 2 ) );
 
             // graphNode is positioned automatically based on mvt's origin offset.
             // buttons centered at bottom of challenge space
