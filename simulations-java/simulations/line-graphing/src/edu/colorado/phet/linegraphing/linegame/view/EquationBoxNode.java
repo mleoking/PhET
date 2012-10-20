@@ -42,7 +42,7 @@ public class EquationBoxNode extends PNode {
         // layout
         {
             final double xMargin = 20;
-            final double yMargin = 20;
+            final double yMargin = 10;
             // title in upper left
             titleNode.setOffset( xMargin, yMargin );
             // equation left-justified, vertically centered in space below title
