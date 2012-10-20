@@ -49,7 +49,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
 
         PNode titleNode = new PhetPText( Strings.MAKE_THE_EQUATION, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
 
-        final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.35 * challengeSize.getHeight() );
+        final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.3 * challengeSize.getHeight() );
 
         // The equation for the user's guess.
         EquationNode guessEquationNode = createGuessEquationNode( challenge.guess, challenge.graph, LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT, Color.BLACK );
