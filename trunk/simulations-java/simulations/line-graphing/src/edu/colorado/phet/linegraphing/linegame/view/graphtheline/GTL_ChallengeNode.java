@@ -92,14 +92,15 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
             addChild( answerBoxNode );
             addChild( answerCorrectNode );
             addChild( guessEquationParent );
-            addChild( guessCorrectNode );
-            addChild( guessIncorrectNode );
             addChild( graphNode );
             addChild( checkButton );
             addChild( tryAgainButton );
             addChild( showAnswerButton );
             addChild( nextButton );
             addChild( pointToolParent );
+            addChild( answerCorrectNode );
+            addChild( guessCorrectNode );
+            addChild( guessIncorrectNode );
             addChild( faceNode );
             addChild( pointsAwardedNode );
         }
