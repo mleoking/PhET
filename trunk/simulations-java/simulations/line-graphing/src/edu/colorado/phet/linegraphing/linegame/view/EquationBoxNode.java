@@ -21,23 +21,23 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class EquationBoxNode extends PNode {
 
-    public EquationBoxNode( EquationNode equationNode, String title, PDimension boxSize ) {
+    public EquationBoxNode( String title, PDimension boxSize, EquationNode equationNode ) {
+
+        PText titleNode = new PText( title );
+        titleNode.setTextPaint( Color.BLACK );
+        titleNode.setFont( new PhetFont( Font.BOLD, 24 ) );
 
         PPath boxNode = new PPath( new RoundRectangle2D.Double( 0, 0, boxSize.getWidth(), boxSize.getHeight(), 20, 20 ) );
         boxNode.setStroke( new BasicStroke( 1f ) );
         boxNode.setStrokePaint( Color.BLACK );
         boxNode.setPaint( new Color( 238, 238, 238 ) );
 
-        PText titleNode = new PText( title );
-        titleNode.setTextPaint( Color.BLACK );
-        titleNode.setFont( new PhetFont( Font.BOLD, 24 ) );
-
-        PNode zeroOffsetNode = new ZeroOffsetNode( equationNode );
+        PNode equationWrapperNode = new ZeroOffsetNode( equationNode );
 
         // rendering order
         addChild( boxNode );
         addChild( titleNode );
-        addChild( zeroOffsetNode );
+        addChild( equationWrapperNode );
 
         // layout
         {
@@ -47,7 +47,7 @@ public class EquationBoxNode extends PNode {
             titleNode.setOffset( xMargin, yMargin );
             // equation left-justified, vertically centered in space below title
             final double equationCenterY = titleNode.getFullBoundsReference().getMaxY() + ( ( boxSize.getHeight() - titleNode.getFullBoundsReference().getMaxY() ) / 2 );
-            zeroOffsetNode.setOffset( xMargin, equationCenterY - ( zeroOffsetNode.getFullBoundsReference().getHeight() / 2 ) );
+            equationWrapperNode.setOffset( xMargin, equationCenterY - ( equationWrapperNode.getFullBoundsReference().getHeight() / 2 ) );
         }
     }
 }

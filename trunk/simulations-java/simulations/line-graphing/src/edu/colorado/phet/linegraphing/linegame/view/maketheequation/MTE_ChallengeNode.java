@@ -52,12 +52,12 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.3 * challengeSize.getHeight() );
 
         // The equation for the user's guess.
-        EquationNode guessEquationNode = createGuessEquationNode( challenge.guess, challenge.graph, LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT, Color.BLACK );
-        final PNode guessBoxNode = new EquationBoxNode( guessEquationNode, Strings.YOUR_LINE, boxSize );
+        final PNode guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, boxSize,
+                                                        createGuessEquationNode( challenge.guess, challenge.graph, LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT, Color.BLACK ) );
 
         // The equation for the correct answer
-        EquationNode answerEquationNode = createAnswerEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color );
-        final PNode answerBoxNode = new EquationBoxNode( answerEquationNode, Strings.GIVEN_LINE, boxSize );
+        final PNode answerBoxNode = new EquationBoxNode( Strings.GIVEN_LINE, boxSize,
+                                                         createAnswerEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // icons for indicating correct vs incorrect
         final PNode answerCorrectNode = new PImage( Images.CHECK_MARK );
