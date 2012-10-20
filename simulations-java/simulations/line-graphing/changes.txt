@@ -1,3 +1,4 @@
+10/19/12 tweak layout of equation boxes in game
 10/19/12 cleanup layout code in GTL_ChallengeNode and MTE_ChallengeNode
 10/19/12 put boxes around the equations in "Make the Equation" challenges
 10/19/12 put boxes around the equations in "Graph the Line" challenges

@@ -15,7 +15,6 @@ HIGH
 - Game: "x=N (slope undefined)" doesn't fit inside equation boxes
 - Game: points below smiley face are difficult to see
 - Game: smiley face overlaps icons next to equation boxes
-- Game: improve layout of equation boxes
 - Game: "Place N Points" challenge
 
 MEDIUM

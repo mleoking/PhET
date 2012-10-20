@@ -23,7 +23,7 @@ public class EquationBoxNode extends PNode {
 
     public EquationBoxNode( EquationNode equationNode, String title, PDimension boxSize ) {
 
-        PPath boxNode = new PPath( new RoundRectangle2D.Double( 0, 0, boxSize.getWidth(), boxSize.getHeight(), 10, 10 ) );
+        PPath boxNode = new PPath( new RoundRectangle2D.Double( 0, 0, boxSize.getWidth(), boxSize.getHeight(), 20, 20 ) );
         boxNode.setStroke( new BasicStroke( 1f ) );
         boxNode.setStrokePaint( Color.BLACK );
         boxNode.setPaint( new Color( 238, 238, 238 ) );
@@ -40,9 +40,14 @@ public class EquationBoxNode extends PNode {
         addChild( zeroOffsetNode );
 
         // layout
-        final double xMargin = 20;
-        final double yMargin = 20;
-        titleNode.setOffset( xMargin, yMargin );
-        zeroOffsetNode.setOffset( xMargin, ( 0.60 * boxSize.getHeight() ) - ( zeroOffsetNode.getFullBoundsReference().getHeight() / 2 ) );
+        {
+            final double xMargin = 20;
+            final double yMargin = 20;
+            // title in upper left
+            titleNode.setOffset( xMargin, yMargin );
+            // equation left-justified, vertically centered in space below title
+            final double equationCenterY = titleNode.getFullBoundsReference().getMaxY() + ( ( boxSize.getHeight() - titleNode.getFullBoundsReference().getMaxY() ) / 2 );
+            zeroOffsetNode.setOffset( xMargin, equationCenterY - ( zeroOffsetNode.getFullBoundsReference().getHeight() / 2 ) );
+        }
     }
 }
