@@ -126,9 +126,9 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
 
             // equation centered in left half of challenge space
             answerBoxNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( answerBoxNode.getFullBoundsReference().getWidth() / 2 ),
-                                     ( challengeSize.getHeight() / 2 ) - answerBoxNode.getFullBoundsReference().getHeight() - 20 );
+                                     ( challengeSize.getHeight() / 2 ) - answerBoxNode.getFullBoundsReference().getHeight() - 10 );
             // correct/incorrect icons are to left of equations
-            answerCorrectNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX() - answerCorrectNode.getFullBoundsReference().getWidth() - 20, //TODO
+            answerCorrectNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX() - answerCorrectNode.getFullBoundsReference().getWidth() - 10, //TODO
                                          answerBoxNode.getFullBoundsReference().getCenterY() - ( answerCorrectNode.getFullBoundsReference().getHeight() / 2 ) );
             // graphNode is positioned automatically based on mvt's origin offset.
             // buttons centered at bottom of challenge space
@@ -161,13 +161,13 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                 // update the equation
                 guessEquationParent.removeAllChildren();
                 guessEquationParent.addChild( new EquationBoxNode( createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, LineGameConstants.GUESS_COLOR ), Strings.YOUR_LINE, boxSize ) );
-                guessEquationParent.setOffset( answerBoxNode.getXOffset(), ( challengeSize.getHeight() / 2 ) + 20 );
+                guessEquationParent.setOffset( answerBoxNode.getXOffset(), ( challengeSize.getHeight() / 2 ) + 10 );
 
 
                 // center icons on guess box
-                guessCorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMinX() - guessCorrectNode.getFullBoundsReference().getWidth() - 20, //TODO
+                guessCorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMinX() - guessCorrectNode.getFullBoundsReference().getWidth() - 10, //TODO
                                             guessEquationParent.getFullBoundsReference().getCenterY() - ( guessCorrectNode.getFullBoundsReference().getHeight() / 2 ) ); // TODO
-                guessIncorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMinX() - guessIncorrectNode.getFullBoundsReference().getWidth() - 20, //TODO
+                guessIncorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMinX() - guessIncorrectNode.getFullBoundsReference().getWidth() - 10, //TODO
                                               guessEquationParent.getFullBoundsReference().getCenterY() - ( guessIncorrectNode.getFullBoundsReference().getHeight() / 2 ) ); // TODO
 
                 // make relevant icons visible

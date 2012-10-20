@@ -43,6 +43,6 @@ public class EquationBoxNode extends PNode {
         final double xMargin = 20;
         final double yMargin = 20;
         titleNode.setOffset( xMargin, yMargin );
-        zeroOffsetNode.setOffset( xMargin, ( 0.65 * boxSize.getHeight() ) - ( zeroOffsetNode.getFullBoundsReference().getHeight() / 2 ) );
+        zeroOffsetNode.setOffset( xMargin, ( 0.60 * boxSize.getHeight() ) - ( zeroOffsetNode.getFullBoundsReference().getHeight() / 2 ) );
     }
 }
