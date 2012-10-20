@@ -90,23 +90,6 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         pointToolParent.addChild( pointToolNode1 );
         pointToolParent.addChild( pointToolNode2 );
 
-        // non-interactive nodes
-        {
-            titleNode.setPickable( false );
-            titleNode.setChildrenPickable( false );
-            answerBoxNode.setPickable( false );
-            answerBoxNode.setChildrenPickable( false );
-            answerCorrectNode.setPickable( false );
-            guessCorrectNode.setPickable( false );
-            guessIncorrectNode.setPickable( false );
-            graphNode.setPickable( false );
-            graphNode.setChildrenPickable( false );
-            faceNode.setPickable( false );
-            faceNode.setChildrenPickable( false );
-            pointsAwardedNode.setPickable( false );
-            pointsAwardedNode.setChildrenPickable( false );
-        }
-
         // rendering order
         {
             addChild( titleNode );
