@@ -1,3 +1,4 @@
+10/19/12 put boxes around the equations in "Graph the Line" challenges
 10/18/12 cleanup positioning of equation on graphed line
 10/18/12 point-slope equations: fix spacing on rhs of relational operator when slope is 1
 10/18/12 address "declaration redundancy" items from IDEA code inspection

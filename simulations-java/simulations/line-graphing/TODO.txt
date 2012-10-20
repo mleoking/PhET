@@ -14,6 +14,7 @@ HIGH
 - Game: "Place N Points" challenge
 
 MEDIUM
+- cleanup layout code in GTL_ChallengeNode and MTE_ChallengeNode
 - get rid of EquationNode.setPaintDeep and LineNode.updateColor, make LineNode immutable, use a new instance when its color changes
 - add support for fractional y-intercept in equations (only when y-intercept is non-interactive)
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
