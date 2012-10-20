@@ -94,16 +94,16 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
         {
             addChild( titleNode );
             addChild( answerBoxNode );
-            addChild( answerCorrectNode );
             addChild( guessBoxNode );
-            addChild( guessCorrectNode );
-            addChild( guessIncorrectNode );
             addChild( graphNode );
             addChild( checkButton );
             addChild( tryAgainButton );
             addChild( showAnswerButton );
             addChild( nextButton );
             addChild( pointToolParent );
+            addChild( answerCorrectNode );
+            addChild( guessCorrectNode );
+            addChild( guessIncorrectNode );
             addChild( faceNode );
             addChild( pointsAwardedNode );
         }
