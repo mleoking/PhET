@@ -26,6 +26,7 @@ import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.PlayState;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
+import edu.colorado.phet.linegraphing.linegame.view.EquationBoxNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -38,12 +39,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public abstract class GTL_ChallengeNode extends ChallengeNode {
 
-    public GTL_ChallengeNode( final LineGameModel model, final GTL_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public GTL_ChallengeNode( final LineGameModel model, final GTL_Challenge challenge, final GameAudioPlayer audioPlayer, final PDimension challengeSize ) {
 
         PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
 
+        final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.25 * challengeSize.getHeight() );
+
         // The equation for the answer.
-        final EquationNode answerEquationNode = createEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color );
+        final PNode answerBoxNode = new EquationBoxNode( createEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ), Strings.GIVEN_LINE, boxSize );
 
         // The equation for the current guess will be a child of this node, to maintain rendering order.
         final PNode guessEquationParent = new PNode();
@@ -84,8 +87,8 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         {
             titleNode.setPickable( false );
             titleNode.setChildrenPickable( false );
-            answerEquationNode.setPickable( false );
-            answerEquationNode.setChildrenPickable( false );
+            answerBoxNode.setPickable( false );
+            answerBoxNode.setChildrenPickable( false );
             guessEquationParent.setPickable( false );
             guessEquationParent.setChildrenPickable( false );
             answerCorrectNode.setPickable( false );
@@ -100,7 +103,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         // rendering order
         {
             addChild( titleNode );
-            addChild( answerEquationNode );
+            addChild( answerBoxNode );
             addChild( answerCorrectNode );
             addChild( guessEquationParent );
             addChild( guessCorrectNode );
@@ -122,15 +125,11 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                                  10 );
 
             // equation centered in left half of challenge space
-            answerEquationNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( answerEquationNode.getFullBoundsReference().getWidth() / 2 ),
-                                          ( challengeSize.getHeight() / 2 ) - ( answerEquationNode.getFullBoundsReference().getHeight() / 2 ) );
+            answerBoxNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( answerBoxNode.getFullBoundsReference().getWidth() / 2 ),
+                                     ( challengeSize.getHeight() / 2 ) - answerBoxNode.getFullBoundsReference().getHeight() - 20 );
             // correct/incorrect icons are to left of equations
-            answerCorrectNode.setOffset( answerEquationNode.getFullBoundsReference().getMinX() - answerCorrectNode.getFullBoundsReference().getWidth() - 20, //TODO
-                                         answerEquationNode.getFullBoundsReference().getCenterY() - ( answerCorrectNode.getFullBoundsReference().getHeight() / 2 ) );
-            guessCorrectNode.setOffset( answerCorrectNode.getXOffset(),
-                                        answerCorrectNode.getFullBoundsReference().getMaxY() + 10 ); //TODO
-            guessIncorrectNode.setOffset( guessCorrectNode.getOffset() ); //TODO
-
+            answerCorrectNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX() - answerCorrectNode.getFullBoundsReference().getWidth() - 20, //TODO
+                                         answerBoxNode.getFullBoundsReference().getCenterY() - ( answerCorrectNode.getFullBoundsReference().getHeight() / 2 ) );
             // graphNode is positioned automatically based on mvt's origin offset.
             // buttons centered at bottom of challenge space
             final double ySpacing = 15;
@@ -158,10 +157,20 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         // Function that keeps the guess equation updated as the user manipulates the line.
         challenge.guess.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
+
+                // update the equation
                 guessEquationParent.removeAllChildren();
-                guessEquationParent.addChild( createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, LineGameConstants.GUESS_COLOR ) );
-                guessEquationParent.setOffset( answerEquationNode.getXOffset(),
-                                               answerEquationNode.getFullBoundsReference().getMaxY() + 30 );
+                guessEquationParent.addChild( new EquationBoxNode( createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, LineGameConstants.GUESS_COLOR ), Strings.YOUR_LINE, boxSize ) );
+                guessEquationParent.setOffset( answerBoxNode.getXOffset(), ( challengeSize.getHeight() / 2 ) + 20 );
+
+
+                // center icons on guess box
+                guessCorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMinX() - guessCorrectNode.getFullBoundsReference().getWidth() - 20, //TODO
+                                            guessEquationParent.getFullBoundsReference().getCenterY() - ( guessCorrectNode.getFullBoundsReference().getHeight() / 2 ) ); // TODO
+                guessIncorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMinX() - guessIncorrectNode.getFullBoundsReference().getWidth() - 20, //TODO
+                                              guessEquationParent.getFullBoundsReference().getCenterY() - ( guessIncorrectNode.getFullBoundsReference().getHeight() / 2 ) ); // TODO
+
+                // make relevant icons visible
                 updateIcons.apply();
             }
         } );
