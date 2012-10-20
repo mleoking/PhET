@@ -54,11 +54,19 @@
         document.ontouchmove = function ( e ) {e.preventDefault()};
 
         var drag = [];
-        var controlPoints = [
-            {x:100, y:100},
-            {x:200, y:200},
-            {x:300, y:100}
+
+        function createCircle( x, y ) {
+            var circle = new paper.Path.Circle( new paper.Point( x, y ), 10 );
+            circle.fillColor = 'black';
+            return circle;
+        }
+
+        var controlCircles = [
+            createCircle( 100, 100 ),
+            createCircle( 200, 200 ),
+            createCircle( 300, 100 )
         ];
+
         var hammer = new Hammer( canvas );
         hammer.ondragstart = function ( ev ) {};
 
@@ -102,8 +110,8 @@
                             skaterDragging = true;
                         }
                         else {
-                            for ( var i = 0; i < controlPoints.length; i++ ) {
-                                var distanceToControlPoint = distance( controlPoints[i].x, controlPoints[i].y, touchX, touchY );
+                            for ( var i = 0; i < controlCircles.length; i++ ) {
+                                var distanceToControlPoint = distance( controlCircles[i].getPosition().x, controlCircles[i].getPosition().y, touchX, touchY );
                                 if ( distanceToControlPoint < 200 ) {
                                     draggingControlPoint = i;
                                 }
@@ -120,8 +128,7 @@
                             skaterVelocityY = 0.0;
                         }
                         if ( draggingControlPoint >= 0 ) {
-                            controlPoints[draggingControlPoint].x = touchX;
-                            controlPoints[draggingControlPoint].y = touchY;
+                            controlCircles[draggingControlPoint].setPosition( touchX, touchY );
                         }
                     }
                 }
@@ -203,12 +210,12 @@
             ctx.strokeStyle = 'black';
             ctx.lineWidth = 2;
 
-            function getX( point ) {return point.x;}
+            function getX( point ) {return point.getPosition().x;}
 
-            function getY( point ) {return point.y;}
+            function getY( point ) {return point.getPosition().y;}
 
-            var x = controlPoints.map( getX );
-            var y = controlPoints.map( getY );
+            var x = controlCircles.map( getX );
+            var y = controlCircles.map( getY );
             var s = numeric.spline( x, y );
 
             //http://stackoverflow.com/questions/1669190/javascript-min-max-array-values
@@ -225,16 +232,6 @@
                 }
             }
             ctx.stroke();
-            ctx.restore();
-
-            //Draw control points
-            ctx.save();
-            ctx.fillStyle = 'blue';
-            for ( var i = 0; i < controlPoints.length; i++ ) {
-                var controlPoint = controlPoints[i];
-                var radius = 10;
-                ctx.fillRect( controlPoint.x - radius, controlPoint.y - radius, radius * 2, radius * 2 );
-            }
             ctx.restore();
 
             var currentTime = new Date().getTime();
