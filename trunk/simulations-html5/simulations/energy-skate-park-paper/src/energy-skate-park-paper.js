@@ -41,8 +41,11 @@
         var raster = new paper.Raster( images[0] );
         raster.scale( 0.5 );
 
-        var group = new paper.Group();
-        group.addChild( raster );
+        var rootNode = new paper.Group();
+        rootNode.addChild( raster );
+        var scaleFactor = 0.8;
+        rootNode.selectedScaling = scaleFactor;
+        rootNode.scale( scaleFactor );
 
         console.log( "started" );
 
@@ -57,7 +60,8 @@
 
         function createCircle( x, y ) {
             var circle = new paper.Path.Circle( new paper.Point( x, y ), 10 );
-            circle.fillColor = 'black';
+            circle.fillColor = 'blue';
+            rootNode.addChild( circle );
             return circle;
         }
 
@@ -75,7 +79,7 @@
         var skaterVelocityX = 0;
         var skaterVelocityY = 0;
         var skaterDragging = false;
-        var draggingControlPoint = -1;//-1 means not any
+        var draggingControlPoint = null;//null means not any
 
         document.onmousemove = function ( e ) {
 
@@ -95,6 +99,8 @@
             return Math.sqrt( dx * dx + dy * dy );
         }
 
+        var draggingItem = null;
+
         hammer.ondrag = function ( ev ) {
             drag = [];
             var touches = ev.originalEvent.touches || [ev.originalEvent];
@@ -104,37 +110,52 @@
                     var touchX = ev.touches[t].x;
                     var touchY = ev.touches[t].y;
 
-                    if ( !skaterDragging && draggingControlPoint == -1 ) {
-                        var distanceToSkater = distance( touchX, canvas.height - touchY, skaterX, skaterY );
-                        if ( distanceToSkater < 200 ) {
-                            skaterDragging = true;
-                        }
-                        else {
-                            for ( var i = 0; i < controlCircles.length; i++ ) {
-                                var distanceToControlPoint = distance( controlCircles[i].getPosition().x, controlCircles[i].getPosition().y, touchX, touchY );
-                                if ( distanceToControlPoint < 200 ) {
-                                    draggingControlPoint = i;
-                                }
-                            }
+                    if ( draggingItem == null ) {
+                        var result = rootNode.hitTest( new paper.Point( touchX, touchY )
+//                                ,
+//                                                       {fill:true, stroke:false, tolerance:1000}
+                        );
+                        console.log( result );
+                        if ( result && result.item ) {
+                            draggingItem = result.item;
                         }
                     }
 
-                    if ( drag ) {
-                        if ( skaterDragging ) {
-                            skaterX = touchX;
-                            skaterY = canvas.height - touchY;
-
-                            skaterVelocityX = 0.0;
-                            skaterVelocityY = 0.0;
-                        }
-                        if ( draggingControlPoint >= 0 ) {
-                            controlCircles[draggingControlPoint].setPosition( touchX, touchY );
-                        }
+                    if ( draggingItem != null ) {
+                        draggingItem.setPosition( touchX / rootNode.selectedScaling, touchY / rootNode.selectedScaling );
                     }
+
+//                    if ( !skaterDragging && draggingControlPoint == null ) {
+//                        var distanceToSkater = distance( touchX, canvas.height - touchY, skaterX, skaterY );
+//                        if ( distanceToSkater < 200 ) {
+//                            skaterDragging = true;
+//                        }
+//                        else {
+//                            for ( var i = 0; i < controlCircles.length; i++ ) {
+//                                var distanceToControlPoint = distance( controlCircles[i].getPosition().x, controlCircles[i].getPosition().y, touchX, touchY );
+//                                if ( distanceToControlPoint < 200 ) {
+//                                    draggingControlPoint = i;
+//                                }
+//                            }
+//                        }
+//                    }
+
+//                    if ( drag ) {
+//                        if ( skaterDragging ) {
+//                            skaterX = touchX;
+//                            skaterY = canvas.height - touchY;
+//
+//                            skaterVelocityX = 0.0;
+//                            skaterVelocityY = 0.0;
+//                        }
+//                        if ( draggingControlPoint >= 0 ) {
+//                            controlCircles[draggingControlPoint].setPosition( touchX, touchY );
+//                        }
+//                    }
                 }
             }
         };
-        hammer.ondragend = function ( ev ) {};
+        hammer.ondragend = function ( ev ) {draggingItem = null;};
 
         hammer.onswipe = function ( ev ) {};
 
