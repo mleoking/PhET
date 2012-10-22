@@ -21,8 +21,10 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
   val javaVersion = startMessage("javaVersion")
   val simVersion = startMessage("version")
   val user = startMessage("id")
-  val startTime = entries(0).time //Time on client machine of last event
-  val endTime = entries(entries.size - 1).time //Time on client machine of last event
+  val startTime = entries(0).time
+  //Time on client machine of first event
+  val endTime = entries(entries.size - 1).time
+  //Time on client machine of last event
   val elapsedTime = endTime - startTime
   val date = new Date(startTime)
   val day = new SimpleDateFormat("MM-dd-yyyy").format(startTime)
@@ -31,7 +33,8 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
   val size = entries.size
   lazy val minutesUsed: Double = ( ( endTime - startTime ) / 1000.0 / 60.0 ).toDouble
   lazy val eventCountData = phet.timeSeries(this, countEntries(_))
-  lazy val firstUserEvent = entries.find(log => log.component != "system" && log.component != "window") //Millis
+  lazy val firstUserEvent = entries.find(log => log.component != "system" && log.component != "window")
+  //Millis
   lazy val userNumber = {
     try {
       user.toInt

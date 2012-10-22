@@ -50,15 +50,15 @@ object ESPReport extends App {
   }
 
   val allComponents = _allComponents.sortBy(_.tab).distinct
-  println("All components:")
-  allComponents foreach println
+  //  println("All components:")
+  //  allComponents foreach println
 
-  println("Reports:")
+  //  println("Reports:")
   for ( report <- reports ) {
     println("report for session: " + report.log.session)
     val dataPoints = report.dataPoints
     for ( component <- allComponents ) {
-      println("Tab " + component.tab + ", " + component.component + " (" + component.componentType + ")" + "\t" + dataPoints.filter(_.component == component).map(_.time).mkString("\t"))
+      println("Tab " + component.tab + ", " + component.component + " (" + component.componentType + ")" + "\t" + dataPoints.filter(_.component == component).map(element => ( element.time - report.log.startTime ) / 1000.0).mkString("\t"))
     }
     println("\n")
   }
