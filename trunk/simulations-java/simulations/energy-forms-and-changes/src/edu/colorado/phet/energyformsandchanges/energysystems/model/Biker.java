@@ -249,7 +249,7 @@ public class Biker extends EnergySource {
         return crankAngle;
     }
 
-    private void replenishEnergyChunks() {
+    public void replenishEnergyChunks() {
         Vector2D nominalInitialOffset = new Vector2D( 0.019, 0.05 );
         for ( int i = 0; i < INITIAL_NUM_ENERGY_CHUNKS; i++ ) {
             Vector2D displacement = new Vector2D( ( RAND.nextDouble() - 0.5 ) * 0.02, 0 ).getRotatedInstance( Math.PI * 0.7 );

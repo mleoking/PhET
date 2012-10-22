@@ -2,6 +2,8 @@
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,15 +85,24 @@ public class BikerNode extends PositionableFadableModelElementNode {
         addChild( new EnergyChunkLayer( biker.movingEnergyChunks, biker.getObservablePosition(), mvt ) );
 
         // Add button to replenish the biker's energy.
-        ButtonNode feedMeButton = new TextButtonNode( "Feed Me", new PhetFont( 16 ), new Color( 0, 200, 0 ) );
-        feedMeButton.setOffset( 0, 0 );
+        final ButtonNode feedMeButton = new TextButtonNode( "Feed Me", new PhetFont( 18 ), new Color( 0, 220, 0 ) );
+        feedMeButton.setOffset( -feedMeButton.getFullBoundsReference().width / 2, 75 );
+        feedMeButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                biker.replenishEnergyChunks();
+            }
+        } );
         biker.energyChunkList.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
             public void apply( EnergyChunk energyChunk ) {
-                //To change body of implemented methods use File | Settings | File Templates.
+                feedMeButton.setVisible( biker.energyChunkList.size() == 0 );
+            }
+        } );
+        biker.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
+            public void apply( EnergyChunk energyChunk ) {
+                feedMeButton.setVisible( biker.energyChunkList.size() == 0 );
             }
         } );
         addChild( feedMeButton );
-
 
         // Add and observer that will turn the back wheel.
         final Point2D wheelRotationPoint = new Point2D.Double( spokesImage.getFullBoundsReference().getCenterX(),
