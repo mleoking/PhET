@@ -35,8 +35,8 @@ public class Biker extends EnergySource {
     private static final double ANGULAR_ACCELERATION = Math.PI; // In radians/(sec^2).
     // TODO: This is temp until we figure out how much it should really put out.
     private static final double MAX_ENERGY_OUTPUT_RATE = 10; // In joules / (radians / sec)
-    private static final double CRANK_TO_REAR_WHEEL_RATIO = 10;
-    private static final int INITIAL_NUM_ENERGY_CHUNKS = 3;
+    private static final double CRANK_TO_REAR_WHEEL_RATIO = 1;
+    private static final int INITIAL_NUM_ENERGY_CHUNKS = 15;
     private static final Random RAND = new Random();
     public static final double ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT = 10; // In joules, but empirically determined.
 
