@@ -3,10 +3,10 @@ DONE: Get rid of ability to cool the tea pot.
 DONE: Experiment: Make front of fluorescent bulbs programatically transparent when energy chunks present.
 DONE: Experiment: Make tea pot transparent when energy chunks present.
 
-Make some thermals come out of the tea pot spout
-Make chem energy in biker change to mech at top tube.
-Make biker always stop at spot where she is about to move
-Make biker run out of energy chunks, then have "Feed Me" button appear
+DONE: Make some thermals come out of the tea pot spout
+DONE: Make chem energy in biker change to mech at top tube.
+DONE: Make biker always stop at spot where she is about to move
+DONE: Make biker run out of energy chunks, then have "Feed Me" button appear
 
 Add beaker and thermometer
 Make beaker hold energy to a point, then release it
@@ -19,7 +19,7 @@ Make water "non-turdy"
 
 Make the energy chunks coming from the solar panel not be so "chunked up".
 
-Make behavior change when E's are visible such that lights don't glow until the get energy, and so forth.
+Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
 
 Have energy chunks present when sun appears, rather than having to wait.
 
