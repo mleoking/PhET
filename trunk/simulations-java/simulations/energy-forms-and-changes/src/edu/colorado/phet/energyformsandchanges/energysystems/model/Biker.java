@@ -109,6 +109,8 @@ public class Biker extends EnergySource {
         add( new ModelElementImage( BACK_LEG_24, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
     }};
 
+    public static final int NUM_LEG_IMAGES = FRONT_LEG_IMAGES.size();
+
     // Offsets used for creating energy chunk paths.  These need to be
     // coordinated with the images.
     private static final Vector2D BIKER_BUTTOCKS_OFFSET = new Vector2D( 0.02, 0.04 );
@@ -149,6 +151,9 @@ public class Biker extends EnergySource {
 
         // Add initial set of energy chunks.
         replenishEnergyChunks();
+
+        // Get the crank into a position where animation will start right away.
+        setCrankToPoisedPosition();
     }
 
     //-------------------------------------------------------------------------
@@ -163,6 +168,7 @@ public class Biker extends EnergySource {
             double target = energyChunkList.size() > 0 ? targetCrankAngularVelocity.get() : 0;
 
             // Speed up or slow down the angular velocity of the crank.
+            double previousAngularVelocity = crankAngularVelocity;
             double angularVelocityDiffFromTarget = target - crankAngularVelocity;
             if ( angularVelocityDiffFromTarget != 0 ) {
                 double change = ANGULAR_ACCELERATION * dt;
@@ -177,6 +183,12 @@ public class Biker extends EnergySource {
             }
             crankAngle.set( ( crankAngle.get() + crankAngularVelocity * dt ) % ( 2 * Math.PI ) );
             rearWheelAngle.set( ( rearWheelAngle.get() + crankAngularVelocity * dt * CRANK_TO_REAR_WHEEL_RATIO ) % ( 2 * Math.PI ) );
+
+            if ( crankAngularVelocity == 0 && previousAngularVelocity != 0 ) {
+                // Set crank to a good position where animation will start
+                // right away when motion is restarted.
+                setCrankToPoisedPosition();
+            }
 
             // Decide if new chem energy chunk should start on its way.
             energyProducedSinceLastChunkEmitted += MAX_ENERGY_OUTPUT_RATE * ( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK ) * dt;
@@ -216,6 +228,18 @@ public class Biker extends EnergySource {
             }
         }
         return new Energy( EnergyType.MECHANICAL, Math.abs( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK * MAX_ENERGY_OUTPUT_RATE ), -Math.PI / 2 );
+    }
+
+    /*
+     * Set the crank to a position where a very small amount of motion will
+     * cause a new image to be chosen.  This is generally done when the biker
+     * stops so that the animation starts right away the next time the motion
+     * starts.
+     */
+    private void setCrankToPoisedPosition() {
+        int currentImage = mapAngleToImageIndex( crankAngle.get() );
+        double radiansPerImage = 2 * Math.PI / NUM_LEG_IMAGES;
+        crankAngle.set( ( currentImage % NUM_LEG_IMAGES * radiansPerImage + ( radiansPerImage - 1E-7 ) ) );
     }
 
     @Override public void deactivate() {
@@ -258,6 +282,14 @@ public class Biker extends EnergySource {
                                                           energyChunksVisible );
             energyChunkList.add( newEnergyChunk );
         }
+    }
+
+    public static int mapAngleToImageIndex( double angle ) {
+        int temp = (int) ( Math.floor( ( angle % ( 2 * Math.PI ) ) / ( Math.PI * 2 / NUM_LEG_IMAGES ) ) );
+        if ( temp >= NUM_LEG_IMAGES || temp < 0 ) {
+            assert false;
+        }
+        return (int) ( Math.floor( ( angle % ( 2 * Math.PI ) ) / ( Math.PI * 2 / NUM_LEG_IMAGES ) ) );
     }
 
     private static List<Vector2D> createChemicalEnergyChunkPath( final Vector2D panelPosition ) {

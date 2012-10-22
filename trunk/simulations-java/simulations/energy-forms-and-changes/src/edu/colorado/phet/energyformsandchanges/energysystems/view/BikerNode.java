@@ -51,11 +51,9 @@ public class BikerNode extends PositionableFadableModelElementNode {
         }} );
 
         // Add the images that will animate the front and back legs.
-        int numAnimationImages = Biker.BACK_LEG_IMAGES.size();
-        assert numAnimationImages == Biker.FRONT_LEG_IMAGES.size();
         final List<PNode> backLegImageNodes = new ArrayList<PNode>();
         final List<PNode> frontLegImageNodes = new ArrayList<PNode>();
-        for ( int i = 0; i < numAnimationImages; i++ ) {
+        for ( int i = 0; i < Biker.NUM_LEG_IMAGES; i++ ) {
             PNode backLegImageNode = new ModelElementImageNode( Biker.BACK_LEG_IMAGES.get( i ), mvt );
             backLegImageNode.setVisible( false );
             backLegImageNodes.add( backLegImageNode );
@@ -70,7 +68,7 @@ public class BikerNode extends PositionableFadableModelElementNode {
             PNode visibleBackLeg = backLegImageNodes.get( 0 );
 
             public void apply( Double rotationalAngle ) {
-                int currentImageIndex = (int) ( Math.floor( ( rotationalAngle % ( 2 * Math.PI ) ) / ( Math.PI * 2 / backLegImageNodes.size() ) ) );
+                int currentImageIndex = Biker.mapAngleToImageIndex( rotationalAngle );
                 visibleFrontLeg.setVisible( false );
                 visibleBackLeg.setVisible( false );
                 visibleFrontLeg = frontLegImageNodes.get( currentImageIndex );
