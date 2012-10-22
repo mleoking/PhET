@@ -156,7 +156,13 @@ public class Biker extends EnergySource {
 
     @Override public Energy stepInTime( double dt ) {
         if ( isActive() ) {
-            double angularVelocityDiffFromTarget = targetCrankAngularVelocity.get() - crankAngularVelocity;
+
+            // If there is no energy, the target speed is 0, otherwise it is
+            // the current set point.
+            double target = energyChunkList.size() > 0 ? targetCrankAngularVelocity.get() : 0;
+
+            // Speed up or slow down the angular velocity of the crank.
+            double angularVelocityDiffFromTarget = target - crankAngularVelocity;
             if ( angularVelocityDiffFromTarget != 0 ) {
                 double change = ANGULAR_ACCELERATION * dt;
                 if ( angularVelocityDiffFromTarget > 0 ) {
