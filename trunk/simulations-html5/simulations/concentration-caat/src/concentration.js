@@ -46,14 +46,14 @@
             }
 
             //Show the CAAT Debug panel at the bottom of the screen
-//        CAAT.DEBUG = 1;
+        CAAT.DEBUG = 1;
 
             director = new CAAT.Director().
                     initialize(
                     width || 800,
                     height || 600,
                     canvascontainer );
-            director.setClear( CAAT.Director.CLEAR_DIRTY_RECTS );
+//            director.setClear( CAAT.Director.CLEAR_DIRTY_RECTS );
         }
 
         /**
