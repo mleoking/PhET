@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -29,6 +30,8 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class BikerNode extends PositionableFadableModelElementNode {
+
+    protected final ButtonNode feedMeButton;
 
     public BikerNode( final Biker biker, final ModelViewTransform mvt ) {
         super( biker, mvt );
@@ -85,7 +88,7 @@ public class BikerNode extends PositionableFadableModelElementNode {
         addChild( new EnergyChunkLayer( biker.movingEnergyChunks, biker.getObservablePosition(), mvt ) );
 
         // Add button to replenish the biker's energy.
-        final ButtonNode feedMeButton = new TextButtonNode( "Feed Me", new PhetFont( 18 ), new Color( 0, 220, 0 ) );
+        feedMeButton = new TextButtonNode( "Feed Me", new PhetFont( 18 ), new Color( 0, 220, 0 ) );
         feedMeButton.setOffset( -feedMeButton.getFullBoundsReference().width / 2, 75 );
         feedMeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -94,12 +97,17 @@ public class BikerNode extends PositionableFadableModelElementNode {
         } );
         biker.energyChunkList.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
             public void apply( EnergyChunk energyChunk ) {
-                feedMeButton.setVisible( biker.energyChunkList.size() == 0 );
+                updateFeedMeButtonVisibility( biker );
             }
         } );
         biker.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
             public void apply( EnergyChunk energyChunk ) {
-                feedMeButton.setVisible( biker.energyChunkList.size() == 0 );
+                updateFeedMeButtonVisibility( biker );
+            }
+        } );
+        biker.getObservableActiveState().addObserver( new SimpleObserver() {
+            public void update() {
+                updateFeedMeButtonVisibility( biker );
             }
         } );
         addChild( feedMeButton );
@@ -118,6 +126,10 @@ public class BikerNode extends PositionableFadableModelElementNode {
                 spokesImage.rotateAboutPoint( -delta, wheelRotationPoint );
             }
         } );
+    }
+
+    private void updateFeedMeButtonVisibility( Biker biker ) {
+        feedMeButton.setVisible( biker.energyChunkList.size() == 0 && biker.isActive() );
     }
 
     private static class CrankRateSlider extends PNode {

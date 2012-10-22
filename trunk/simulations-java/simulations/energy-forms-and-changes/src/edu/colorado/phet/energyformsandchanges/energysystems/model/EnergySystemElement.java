@@ -63,7 +63,7 @@ public abstract class EnergySystemElement extends PositionableFadableModelElemen
         return active;
     }
 
-    protected boolean isActive() {
+    public boolean isActive() {
         return active.get();
     }
 
