@@ -113,8 +113,9 @@ public class BikerNode extends PositionableFadableModelElementNode {
                 // Piccolo doesn't use the convention in physics where a
                 // positive rotation is counter-clockwise, so we have to
                 // invert the angle in the following calculation.
-                double delta = -angle - spokesImage.getRotation();
-                spokesImage.rotateAboutPoint( delta, wheelRotationPoint );
+                double compensatedAngle = ( 2 * Math.PI - spokesImage.getRotation() ) % ( 2 * Math.PI );
+                double delta = angle - compensatedAngle;
+                spokesImage.rotateAboutPoint( -delta, wheelRotationPoint );
             }
         } );
     }
