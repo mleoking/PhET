@@ -1,7 +1,7 @@
 
-Get rid of ability to cool the tea pot.
-Experiment: Make front of fluorescent bulbs programatically transparent when energy chunks present.
-Experiment: Make tea pot transparent when energy chunks present.
+DONE: Get rid of ability to cool the tea pot.
+DONE: Experiment: Make front of fluorescent bulbs programatically transparent when energy chunks present.
+DONE: Experiment: Make tea pot transparent when energy chunks present.
 
 Make some thermals come out of the tea pot spout
 Make chem energy in biker change to mech at top tube.
