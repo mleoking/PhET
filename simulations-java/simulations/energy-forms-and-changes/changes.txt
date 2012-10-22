@@ -1,3 +1,4 @@
+2nd tab: Made the biker always be poised to move (i.e. animate) right away after stopping.
 2nd tab: Made improvements to the path followed by the energy chunks for the biker.
 2nd tab: Made the biker run out of energy after a while.
 # 0.00.22 (69285) Oct 17, 2012
