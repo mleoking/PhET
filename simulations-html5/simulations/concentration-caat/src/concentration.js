@@ -1,4 +1,5 @@
-define( ["concentration"], function () {
+//define( ["concentration"],
+(function () {
 
     CAAT.modules.initialization = CAAT.modules.initialization || {};
     CAAT.modules.initialization.init = function ( width, height, runHere, imagesURL, onEndLoading ) {
@@ -89,4 +90,5 @@ define( ["concentration"], function () {
                 }
         );
     }
-} );
+})()
+;
