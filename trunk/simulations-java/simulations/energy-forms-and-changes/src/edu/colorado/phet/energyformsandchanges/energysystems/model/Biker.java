@@ -112,9 +112,10 @@ public class Biker extends EnergySource {
     // Offsets used for creating energy chunk paths.  These need to be
     // coordinated with the images.
     private static final Vector2D BIKER_BUTTOCKS_OFFSET = new Vector2D( 0.02, 0.04 );
-    private static final Vector2D BIKE_CRANK_OFFSET = new Vector2D( 0.005, -0.01 );
+    private static final Vector2D TOP_TUBE_ABOVE_CRANK_OFFSET = new Vector2D( 0.007, 0.015 );
+    private static final Vector2D BIKE_CRANK_OFFSET = new Vector2D( 0.0052, -0.006 );
     private static final Vector2D BOTTOM_OF_BACK_WHEEL_OFFSET = new Vector2D( 0.03, -0.03 );
-    private static final Vector2D NEXT_ENERGY_SYSTEM_OFFSET = new Vector2D( 0.12, -0.01 );
+    private static final Vector2D NEXT_ENERGY_SYSTEM_OFFSET = new Vector2D( 0.13, -0.01 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -262,12 +263,13 @@ public class Biker extends EnergySource {
     private static List<Vector2D> createChemicalEnergyChunkPath( final Vector2D panelPosition ) {
         return new ArrayList<Vector2D>() {{
             add( panelPosition.plus( BIKER_BUTTOCKS_OFFSET ) );
-            add( panelPosition.plus( BIKE_CRANK_OFFSET ) );
+            add( panelPosition.plus( TOP_TUBE_ABOVE_CRANK_OFFSET ) );
         }};
     }
 
     private static List<Vector2D> createMechanicalEnergyChunkPath( final Vector2D panelPosition ) {
         return new ArrayList<Vector2D>() {{
+            add( panelPosition.plus( BIKE_CRANK_OFFSET ) );
             add( panelPosition.plus( BOTTOM_OF_BACK_WHEEL_OFFSET ) );
             add( panelPosition.plus( NEXT_ENERGY_SYSTEM_OFFSET ) );
         }};
