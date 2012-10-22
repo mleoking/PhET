@@ -88,6 +88,7 @@ public class BikerNode extends PositionableFadableModelElementNode {
         addChild( new EnergyChunkLayer( biker.movingEnergyChunks, biker.getObservablePosition(), mvt ) );
 
         // Add button to replenish the biker's energy.
+        // TODO: i18n
         feedMeButton = new TextButtonNode( "Feed Me", new PhetFont( 18 ), new Color( 0, 220, 0 ) );
         feedMeButton.setOffset( -feedMeButton.getFullBoundsReference().width / 2, 75 );
         feedMeButton.addActionListener( new ActionListener() {
