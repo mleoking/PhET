@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +9,14 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.Biker;
 import edu.umd.cs.piccolo.PNode;
@@ -77,7 +82,16 @@ public class BikerNode extends PositionableFadableModelElementNode {
         addChild( new EnergyChunkLayer( biker.energyChunkList, biker.getObservablePosition(), mvt ) );
         addChild( new EnergyChunkLayer( biker.movingEnergyChunks, biker.getObservablePosition(), mvt ) );
 
-        // Add
+        // Add button to replenish the biker's energy.
+        ButtonNode feedMeButton = new TextButtonNode( "Feed Me", new PhetFont( 16 ), new Color( 0, 200, 0 ) );
+        feedMeButton.setOffset( 0, 0 );
+        biker.energyChunkList.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
+            public void apply( EnergyChunk energyChunk ) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+        } );
+        addChild( feedMeButton );
+
 
         // Add and observer that will turn the back wheel.
         final Point2D wheelRotationPoint = new Point2D.Double( spokesImage.getFullBoundsReference().getCenterX(),
