@@ -77,8 +77,6 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.BROWN;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
-import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images.ROCK_BROWN;
-import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images.ROCK_GRAY;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.showForcesCheckBoxIcon;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.speedCheckBoxIcon;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._isOnSkateboard;
@@ -143,18 +141,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         final int grassY = 425;
         addChild( new SkyNode( createIdentity(), new Rectangle2D.Double( -width / 2, -width / 2 + grassY, width, width / 2 ), grassY, SkyNode.DEFAULT_TOP_COLOR, SkyNode.DEFAULT_BOTTOM_COLOR ) );
 
-        final BufferedImage rocksOverlay = new BufferedImage( 2000, 200, BufferedImage.TYPE_INT_ARGB_PRE );
-        Graphics2D g2 = rocksOverlay.createGraphics();
-        rock( g2, ROCK_GRAY, 10, 0, 14 );
-        rock( g2, ROCK_BROWN, 40, 10, 22 );
-        rock( g2, ROCK_BROWN, 220, 25, 28 );
-        rock( g2, ROCK_GRAY, 380, -10, 28 );
-        rock( g2, ROCK_BROWN, 1500, -10, 28 );
-        rock( g2, ROCK_GRAY, 1700, 25, 15 );
-        rock( g2, ROCK_GRAY, 1900, 12, 14 );
-        rock( g2, ROCK_BROWN, 1950, 12, 28 );
-        g2.dispose();
-
         final BufferedImage mountains = new BufferedImage( 3250, Images.MOUNTAINS.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
         Graphics2D mountainGraphics = mountains.createGraphics();
         mountainGraphics.drawRenderedImage( Images.MOUNTAINS, new AffineTransform() );
@@ -185,24 +171,8 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
             private void updateBackgroundLayer( final Double position ) {
                 removeAllChildren();
 
-                //Show rocks as additional texture
-                //TODO: Prototype code, being left during interviews.
-                boolean showRocks = false;
-                if ( showRocks ) {
-                    final double scale = 0.5;
-                    final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale + Images.BRICK_TILE.getHeight() - 22, STAGE_SIZE.width * 3 / scale, rocksOverlay.getHeight() );
-                    final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale, area.getY() - 1, rocksOverlay.getWidth(), rocksOverlay.getHeight() );
-                    PhetPPath path = new PhetPPath( area, new TexturePaint( rocksOverlay, anchor ) ) {{
-                        scale( scale );
-                    }};
-                    path.setTransparency( 0.7f );
-                    addChild( path );
-                }
-
                 //Show mountains as additional texture
-                //TODO: Prototype code, being left during interviews.
-                boolean showMountains = true;
-                if ( showMountains ) {
+                {
                     final double scale = 0.25;
                     final Rectangle2D.Double area = new Rectangle2D.Double( -STAGE_SIZE.width / scale, grassY / scale - mountains.getHeight(), STAGE_SIZE.width * 3 / scale, mountains.getHeight() );
                     final Rectangle2D.Double anchor = new Rectangle2D.Double( -position * 100 / scale / 50.0 + 150, area.getY() - 1, mountains.getWidth(), mountains.getHeight() );

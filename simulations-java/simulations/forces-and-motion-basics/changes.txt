@@ -1,3 +1,4 @@
+Removed unused rocks images and code
 # 0.00.56 (69194) Oct 13, 2012
 Tab 3: Only show the gravel specks within the brown surface stroke
 # 0.00.55 (69192) Oct 13, 2012
