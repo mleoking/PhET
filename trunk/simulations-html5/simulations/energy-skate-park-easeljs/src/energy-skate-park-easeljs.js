@@ -50,8 +50,69 @@
         $( "#myResetAllButton" ).click( function () {
             document.location.reload( true );
         } );
-//
-//        var canvas = document.createElement( "canvas" );
+        var canvas = document.getElementById( "display" );
+
+        //See https://github.com/CreateJS/EaselJS/blob/master/examples/DragAndDrop.html
+        var stage = new createjs.Stage( canvas );
+        stage.mouseEventsEnabled = true;
+        createjs.Touch.enable( stage );
+        // enabled mouse over / out events
+        stage.enableMouseOver( 10 );
+        stage.mouseMoveOutside = true; // keep tracking the mouse even when it leaves the canvas
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        var background = new createjs.Shape();
+        background.graphics.beginLinearGradientFill( ["#7cc7fe", "#FFF"], [0, 1], 0, 0, 0, 500 ).drawRect( 0, 0, canvas.width, canvas.height );
+        stage.addChild( background );
+
+        var ground = new createjs.Shape();
+        ground.graphics.beginFill( "64aa64" ).drawRect( 0, 500, canvas.width, 1000 );
+        stage.addChild( ground );
+
+        var skater = new createjs.Bitmap( images[0] );
+        skater.scale=1.0;
+
+        // wrapper function to provide scope for the event handlers:
+        (function ( target ) {
+            skater.onPress = function ( evt ) {
+                console.log( "pressed" );
+                // bump the target in front of it's siblings:
+                stage.addChild( target );
+                var offset = {x:target.x - evt.stageX, y:target.y - evt.stageY};
+
+                // add a handler to the event object's onMouseMove callback
+                // this will be active until the user releases the mouse button:
+                evt.onMouseMove = function ( ev ) {
+                    target.x = ev.stageX + offset.x;
+                    target.y = ev.stageY + offset.y;
+                    // indicate that the stage should be updated on the next tick:
+//                    update = true;
+                }
+//                skater.scaleX = 2;
+            };
+            skater.onMouseOver = function () {
+                console.log( "moused" );
+                target.scaleX = target.scaleY = target.scale * 1.2;
+//                update = true;
+            };
+//            skater.onMouseOut = function () {
+//                console.log( "mouseout" );
+//                target.scaleX = target.scaleY = target.scale;
+////                update = true;
+//            }
+        })( skater );
+
+        stage.addChild( skater );
+
+        stage.update();
+        createjs.Ticker.setFPS( 60 );
+        function tick() {
+            stage.update();
+        }
+
+        createjs.Ticker.addListener( tick );
 //
 //        // Create an empty project and a view for the canvas:
 //        paper.setup( canvas );
