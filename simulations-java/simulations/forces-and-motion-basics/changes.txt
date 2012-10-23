@@ -1,3 +1,4 @@
+Updated screenshot again to remove developer menu and added credits
 Updated screenshot
 Removed unused rocks images and code
 # 0.00.56 (69194) Oct 13, 2012
