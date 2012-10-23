@@ -47,9 +47,7 @@
 
         WebSocketTest();
 
-        $( "#myResetAllButton" ).click( function () {
-            document.location.reload( true );
-        } );
+        $( "#myResetAllButton" ).click( function () { document.location.reload( true ); } );
         var canvas = document.getElementById( "display" );
 
         //See https://github.com/CreateJS/EaselJS/blob/master/examples/DragAndDrop.html
@@ -62,6 +60,10 @@
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+
+        //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
+        canvas.onselectstart = function () { return false; }; // ie
+        canvas.onmousedown = function () { return false; }; // mozilla
 
         var background = new createjs.Shape();
         background.graphics.beginLinearGradientFill( ["#7cc7fe", "#FFF"], [0, 1], 0, 0, 0, 500 ).drawRect( 0, 0, canvas.width, canvas.height );
