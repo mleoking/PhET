@@ -1,0 +1,107 @@
+// Copyright 2002-2012, University of Colorado
+package edu.colorado.phet.buildtools.html5;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
+
+import org.java_websocket.WebSocket;
+import org.java_websocket.handshake.ClientHandshake;
+import org.java_websocket.server.WebSocketServer;
+
+/**
+ * For testing with CocoonJS, scan a filesystem and automatically re-zip whenever anything changes.
+ * I would have preferred to do this with SBT but couldn't figure out an easy way to do so.
+ * <p/>
+ * Note: this deletes files from your filesystem, so please be sure you know what you are doing before launching this.
+ *
+ * @author Sam Reid
+ */
+public class Watcher {
+    static long lastModified = 0;
+    private static WebSocket open;
+
+    public static void main( String[] args ) throws UnknownHostException {
+        final WebSocketServer server = new WebSocketServer( new InetSocketAddress( 8887 ) ) {
+            @Override public void onOpen( final WebSocket webSocket, final ClientHandshake clientHandshake ) {
+                System.out.println( "Watcher.onOpen" );
+                open = webSocket;
+            }
+
+            @Override public void onClose( final WebSocket webSocket, final int i, final String s, final boolean b ) {
+                System.out.println( "Watcher.onClose" );
+            }
+
+            @Override public void onMessage( final WebSocket webSocket, final String s ) {
+                System.out.println( "Watcher.onMessage" );
+            }
+
+            @Override public void onError( final WebSocket webSocket, final Exception e ) {
+                System.out.println( "Watcher.onError" );
+                e.printStackTrace();
+            }
+        };
+        server.start();
+//        WebSocket socket = new WebSocketImpl( server, new Draft_75(), new Socket() );
+//        socket.start();
+
+        final File root = new File( args[0] );
+        System.out.println( "root = " + root );
+
+        new Thread( new Runnable() {
+            public void run() {
+                long count = 0;
+                while ( true ) {
+                    long modifiedTime = lastModified( root );
+                    if ( modifiedTime > lastModified ) {
+                        lastModified = modifiedTime;
+                        try {
+                            runTask( root );
+                        }
+                        catch ( Exception e1 ) {
+                            e1.printStackTrace();
+                            lastModified = 0;
+                        }
+                        System.out.println();
+                        System.out.println( "Finished task" );
+                    }
+                    else {
+                        if ( count % 30 == 0 ) {
+                            System.out.print( "." );
+                        }
+                    }
+                    count++;
+                    try {
+                        Thread.sleep( 30 );
+                    }
+                    catch ( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } ).start();
+    }
+
+    private static void runTask( final File sourceRoot ) throws IOException {
+        if ( open != null ) {
+            open.send( "refresh" );
+        }
+    }
+
+    private static long lastModified( final File root ) {
+        if ( root.isDirectory() ) {
+            long base = root.lastModified();
+            for ( File file : root.listFiles() ) {
+                final long last = file.lastModified();
+                if ( last > base ) {
+                    base = last;
+                }
+            }
+            return base;
+        }
+        else {
+            return root.lastModified();
+        }
+    }
+}
