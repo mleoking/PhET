@@ -92,9 +92,30 @@
         var skaterLayer = new Kinetic.Layer();
         var splineLayer = new Kinetic.Layer();
 
+        var track = new Kinetic.Line( {
+                                          points:[73, 70, 340, 23, 450, 60, 500, 20],
+                                          stroke:"gray",
+                                          strokeWidth:15,
+                                          lineCap:"cap",
+                                          lineJoin:"cap"
+                                      } );
+        splineLayer.add( track );
+
         var pointerCursor = function () { document.body.style.cursor = "pointer";};
         var defaultCursor = function () { document.body.style.cursor = "default"; };
 
+
+        var updateSplineTrack = function () {
+            console.log( "drag" );
+            var pointArray = [];
+            for ( var i = 0; i < circles.length; i++ ) {
+                var circleElement = circles[i];
+                pointArray.push( circleElement.getX() + circle.getWidth() / 2, circleElement.getY() + circle.getHeight() / 2 );
+            }
+            track.setPoints( pointArray );
+        };
+
+        var circles = [];
         for ( var index = 0; index < 3; index++ ) {
             var circle = new Kinetic.Circle( {
                                                  x:21,
@@ -119,10 +140,13 @@
                                                                        draggable:true
                                                                    } );
 
+                                    circles.push( image );
                                     image.on( "mouseover", pointerCursor );
                                     image.on( "mouseout", defaultCursor );
+                                    image.on( "dragmove", updateSplineTrack );
                                     console.log( "callback" );
                                     splineLayer.add( image );
+                                    updateSplineTrack();
                                     splineLayer.draw();
                                 }
                             } );
