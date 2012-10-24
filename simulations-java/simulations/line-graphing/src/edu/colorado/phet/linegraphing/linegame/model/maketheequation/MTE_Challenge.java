@@ -23,7 +23,7 @@ import edu.colorado.phet.linegraphing.linegame.model.Challenge;
 public abstract class MTE_Challenge extends Challenge {
 
     private static final int GRAPH_WIDTH = 400; // graph width in view coordinates
-    private static final Point2D ORIGIN_OFFSET = new Point2D.Double( 300, 300 ); // offset of the origin (center of the graph) in view coordinates
+    private static final Point2D ORIGIN_OFFSET = new Point2D.Double( 275, 300 ); // offset of the origin (center of the graph) in view coordinates
 
     public final ModelViewTransform mvt; // transform between model and view coordinate frames
     public final Graph graph; // the graph that plots the lines

@@ -1,3 +1,6 @@
+10/24/12 game: add an outline around face, because we have a bright yellow face on a light yellow background
+10/24/12 game: reduce size of face, change layout so that face is below equation boxes
+10/24/12 game: reduce equation font size so that everything fits in equation boxes
 10/23/12 game: move point tools in front of check-mark and X icons
 10/19/12 tweak rendering order in challenge nodes
 10/19/12 delete setPickable calls in challenge nodes, unnecessary for this sim
