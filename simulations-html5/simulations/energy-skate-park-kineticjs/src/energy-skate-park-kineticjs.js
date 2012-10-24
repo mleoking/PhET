@@ -114,14 +114,17 @@
         skaterLayer.add( skater );
 
         //Scale up or down to fit the screen
-        var designWidth = 1024;
-        var designHeight = 768;
-        var stageWidth = stage.getWidth();
-        var stageHeight = stage.getHeight();
-        var sx = stageWidth / designWidth;
-        var sy = stageHeight / designHeight;
-        var min = Math.min( sx, sy );
-        stage.setScale( min );
+        function updateStageSize() {
+            var designWidth = 1024;
+            var designHeight = 768;
+            var stageWidth = stage.getWidth();
+            var stageHeight = stage.getHeight();
+            var sx = stageWidth / designWidth;
+            var sy = stageHeight / designHeight;
+            var min = Math.min( sx, sy );
+            stage.setScale( min );
+            stage.draw();
+        }
 
         //TODO: Center on available bounds
 //        var innerWidth = window.innerWidth;
@@ -138,6 +141,32 @@
 //
 //        stage.setScale( 0.5 );
 
+        //TODO: update scale when window size changes
+        //See http://stackoverflow.com/questions/2854407/javascript-jquery-window-resize-how-to-fire-after-the-resize-is-completed
+        var waitForFinalEvent = (function () {
+            var timers = {};
+            return function ( callback, ms, uniqueId ) {
+                if ( !uniqueId ) {
+                    uniqueId = "Don't call this twice without a uniqueId";
+                }
+                if ( timers[uniqueId] ) {
+                    clearTimeout( timers[uniqueId] );
+                }
+                timers[uniqueId] = setTimeout( callback, ms );
+            };
+        })();
+
+        $( window ).resize( function () {
+            updateStageSize();
+        } );
+
+        $( window ).resize( function () {
+            waitForFinalEvent( function () {
+                updateStageSize();
+//                alert( 'Resize...' );
+                //...
+            }, 100, "some unique string" );
+        } );
 
         // add the skaterLayer to the stage
         stage.add( backgroundLayer );
