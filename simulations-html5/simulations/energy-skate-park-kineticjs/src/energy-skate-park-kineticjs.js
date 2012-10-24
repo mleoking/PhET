@@ -126,21 +126,18 @@
             var min = Math.min( sx, sy );
             stage.setScale( min );
             stage.draw();
+
+            //Center on available bounds
+            if ( sy == min ) {
+                stage.setPosition( window.innerWidth / 2 - designWidth * min / 2, 0 );
+            }
+            else {
+                stage.setPosition( 0, window.innerHeight / 2 - designHeight * min / 2 );
+            }
         }
 
         updateStageSize();
 
-        //TODO: Center on available bounds
-//        var innerWidth = window.innerWidth;
-//        var innerHeight = window.innerHeight;
-//
-//        //Center on available bounds
-//        if ( sy == min ) {
-//            rootNode.setPosition( windowWidth / 2 - designWidth * min / 2, 0 );
-//        }
-//        else {
-//            rootNode.setPosition( 0, windowHeight / 2 - designHeight * min / 2 );
-//        }
 //
 //
 //        stage.setScale( 0.5 );
