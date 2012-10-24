@@ -21,11 +21,19 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class EquationBoxNode extends PNode {
 
+    private static final int X_MARGIN = 20;
+    private static final int Y_MARGIN = 10;
+
     public EquationBoxNode( String title, PDimension boxSize, EquationNode equationNode ) {
 
         PText titleNode = new PText( title );
         titleNode.setTextPaint( Color.BLACK );
         titleNode.setFont( new PhetFont( Font.BOLD, 24 ) );
+        final double maxTitleWidth = boxSize.getWidth() - ( 2 * X_MARGIN );
+        // If title is too wide to fit in box, then scale it.
+        if ( titleNode.getFullBoundsReference().getWidth() > maxTitleWidth ) {
+            titleNode.scale( maxTitleWidth / titleNode.getFullBoundsReference().getWidth() );
+        }
 
         PPath boxNode = new PPath( new RoundRectangle2D.Double( 0, 0, boxSize.getWidth(), boxSize.getHeight(), 20, 20 ) );
         boxNode.setStroke( new BasicStroke( 1f ) );
@@ -41,13 +49,11 @@ public class EquationBoxNode extends PNode {
 
         // layout
         {
-            final double xMargin = 20;
-            final double yMargin = 10;
             // title in upper left
-            titleNode.setOffset( xMargin, yMargin );
+            titleNode.setOffset( X_MARGIN, Y_MARGIN );
             // equation left-justified, vertically centered in space below title
             final double equationCenterY = titleNode.getFullBoundsReference().getMaxY() + ( ( boxSize.getHeight() - titleNode.getFullBoundsReference().getMaxY() ) / 2 );
-            equationWrapperNode.setOffset( xMargin, equationCenterY - ( equationWrapperNode.getFullBoundsReference().getHeight() / 2 ) );
+            equationWrapperNode.setOffset( X_MARGIN, equationCenterY - ( equationWrapperNode.getFullBoundsReference().getHeight() / 2 ) );
         }
     }
 }

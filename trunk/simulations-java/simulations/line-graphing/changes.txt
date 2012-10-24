@@ -1,3 +1,4 @@
+10/24/12 scale titles in EquationBoxNode if they don't fit in the dimensions of the box
 # 0.00.31 (69463) Oct 24, 2012
 10/24/12 adjust centering of first 2 tabs
 10/24/12 game: add an outline around face, because we have a bright yellow face on a light yellow background
