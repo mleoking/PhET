@@ -1,3 +1,4 @@
+# 0.00.31 (69463) Oct 24, 2012
 10/24/12 adjust centering of first 2 tabs
 10/24/12 game: add an outline around face, because we have a bright yellow face on a light yellow background
 10/24/12 game: reduce size of face, change layout so that face is below equation boxes
