@@ -75,124 +75,30 @@
                                         } );
 
         // add cursor styling
-        skater.on( "mouseover", function () {
-            document.body.style.cursor = "pointer";
-        } );
-        skater.on( "mouseout", function () {
-            document.body.style.cursor = "default";
-        } );
+        skater.on( "mouseover", function () { document.body.style.cursor = "pointer";} );
+        skater.on( "mouseout", function () { document.body.style.cursor = "default"; } );
         // add the shape to the layer
         layer.add( skater );
 
         // add the layer to the stage
         stage.add( layer );
 
+        //or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
+        //or here: http://jsfiddle.net/Y9uBv/5/
+        var requestAnimationFrame =
+                requestAnimationFrame ||
+                webkitRequestAnimationFrame ||
+                mozRequestAnimationFrame ||
+                msRequestAnimationFrame ||
+                oRequestAnimationFrame;
 
-//        var imageObj = new Image();
-//        imageObj.onload = function () {
-//        };
-//        imageObj.src = "resources/skater.png";
+        function loop() {
+//            updatePhysics();
+//            renderGraphics();
+            requestAnimationFrame( loop );
+        }
 
-
-//        var fabricCanvas = new fabric.Canvas( 'display', {hoverCursor:'pointer', selection:false} );
-//        console.log( 'canvas = ' + fabricCanvas );
-//
-//        //TODO: move this to another layer or maybe cache to improve performance
-//        var grass = new fabric.Rect( { top:canvas.height / 2, left:canvas.width / 2, width:canvas.width, height:canvas.height / 2, selectable:false } );
-//        grass.setFill( 'green' );
-//        fabricCanvas.add( grass );
-//
-//        var sky = new fabric.Rect( { top:canvas.height / 4,
-//                                       left:canvas.width / 2,
-//                                       width:canvas.width,
-//                                       height:canvas.height / 2,
-//                                       selectable:false,
-//                                       fill:'red'} );
-//        sky.setGradientFill( fabricCanvas.getContext(), {
-//            x1:0,
-//            y1:0,
-//            x2:0,
-//            y2:sky.height,
-//            colorStops:{
-//                0:'#000',
-//                1:'#fff'
-//            }
-//        } );
-//        fabricCanvas.add( sky );
-//
-//        var circle = new fabric.Circle( {
-//                                            left:100,
-//                                            top:100,
-//                                            radius:50,
-//                                            fill:'blue'
-//                                        } );
-//        fabricCanvas.add( circle );
-//
-//        for ( var i = 0, len = 1; i < len; i++ ) {
-//            fabric.Image.fromURL( 'resources/skater.png', function ( img ) {
-//                img.set( {
-//                             left:200,
-//                             top:200
-////                             left:fabric.util.getRandomInt( 0, 600 ),
-////                             top:fabric.util.getRandomInt( 0, 500 ),
-////                             angle:fabric.util.getRandomInt( 0, 90 )
-//                         } );
-//
-//                img.perPixelTargetFind = true;
-//                img.targetFindTolerance = 4;
-//                img.hasControls = img.hasBorders = false;
-//
-////                img.scale( fabric.util.getRandomInt( 50, 100 ) / 100 );
-//
-//                fabricCanvas.add( img );
-//            } );
-////
-//
-//        }
-//
-//        fabricCanvas.renderAll();
-//
-//        console.log( 'canvas = ' + fabricCanvas );
-//
-//        //or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
-//        //or here: http://jsfiddle.net/Y9uBv/5/
-//        var requestAnimationFrame =
-//                requestAnimationFrame ||
-//                webkitRequestAnimationFrame ||
-//                mozRequestAnimationFrame ||
-//                msRequestAnimationFrame ||
-//                oRequestAnimationFrame;
-//
-//        function loop() {
-//            circle.setGradientFill( fabricCanvas.getContext(), {
-//                x1:0,
-//                y1:0,
-//                x2:0,
-//                y2:circle.height,
-//                colorStops:{
-//                    0:'#000',
-//                    1:'#fff'
-//                }
-//            } );
-//
-//            sky.setGradientFill( fabricCanvas.getContext(), {
-//                x1:0,
-//                y1:0,
-//                x2:0,
-//                y2:sky.height,
-//                colorStops:{
-//                    0:'#000',
-//                    1:'#fff'
-//                }
-//            } );
-//
-//            fabricCanvas.renderAll();
-////            updatePhysics();
-////            renderGraphics();
-//            requestAnimationFrame( loop );
-//        }
-//
-//        requestAnimationFrame( loop );
+        requestAnimationFrame( loop );
     }
 
     // Only executed our code once the DOM is ready.
