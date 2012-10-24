@@ -60,29 +60,31 @@
         var fabricCanvas = new fabric.Canvas( 'display', {hoverCursor:'pointer', selection:false} );
         console.log( 'canvas = ' + fabricCanvas );
 
-        for ( var i = 0, len = 15; i < len; i++ ) {
-//            fabric.Image.fromURL( 'resources/skater.png', function ( img ) {
-//                img.set( {
+        for ( var i = 0, len = 1; i < len; i++ ) {
+            fabric.Image.fromURL( 'resources/skater.png', function ( img ) {
+                img.set( {
+                             left:200,
+                             top:200
 //                             left:fabric.util.getRandomInt( 0, 600 ),
 //                             top:fabric.util.getRandomInt( 0, 500 ),
 //                             angle:fabric.util.getRandomInt( 0, 90 )
-//                         } );
-//
-//                img.perPixelTargetFind = true;
-//                img.targetFindTolerance = 4;
-//                img.hasControls = img.hasBorders = false;
-//
-//                img.scale( fabric.util.getRandomInt( 50, 100 ) / 100 );
-//
-//                fabricCanvas.add( img );
-//            } );
+                         } );
 
-            var rect = new fabric.Rect( { width:100, height:50 } );
-            rect.setFill( 'green' );
-            fabricCanvas.add( rect );
+                img.perPixelTargetFind = true;
+                img.targetFindTolerance = 4;
+                img.hasControls = img.hasBorders = false;
+
+//                img.scale( fabric.util.getRandomInt( 50, 100 ) / 100 );
+
+                fabricCanvas.add( img );
+            } );
+//
+//            var rect = new fabric.Rect( { width:100, height:50 } );
+//            rect.setFill( 'green' );
+//            fabricCanvas.add( rect );
         }
 
-        fabricCanvas.renderAll();
+//        fabricCanvas.renderAll();
 
         console.log( 'canvas = ' + fabricCanvas );
     }
