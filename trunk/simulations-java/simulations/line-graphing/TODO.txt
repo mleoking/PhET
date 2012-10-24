@@ -9,13 +9,9 @@ DESIGN
 - should intercept manipulator be same color as point manipulator? It's a special-case of point.
 - Game: do we need to horizontally align relops in equation boxes? (I think not)
 - Game: titles on equation boxes
-- Game: replace check and X icons with smiley/frowny faces, and get rid of big face?
 - Game: for GTL challenges, showing "your line" in simplified form means that it may not match the line manipulators, creates a disconnect
 
 HIGH
-- Game: "x=N (slope undefined)" and some interactive point-slope equations don't fit inside width of equation boxes
-- Game: awarded points below smiley face are difficult to see
-- Game: smiley face overlaps icons next to equation boxes
 - Game: "Place 3 Points" challenge
 
 MEDIUM
