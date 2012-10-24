@@ -5,6 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -15,10 +16,12 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
@@ -40,7 +43,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class SunNode extends PositionableFadableModelElementNode {
 
     private static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( 16, true );
-    private static final Font CONTROL_PANEL_LABEL_FONT_FONT = new PhetFont( 14, false );
 
     public SunNode( final Sun sun, ObservableProperty<Boolean> energyChunksVisible, final ModelViewTransform mvt ) {
         super( sun, mvt );
@@ -97,8 +99,8 @@ public class SunNode extends PositionableFadableModelElementNode {
                                          80,
                                          sun.cloudiness,
                                          new BooleanProperty( true ) ) {{
-                            addLabel( 0, new PhetPText( "None", CONTROL_PANEL_LABEL_FONT_FONT ) ); // TODO: i18n
-                            addLabel( 1, new PhetPText( "Lots", CONTROL_PANEL_LABEL_FONT_FONT ) ); // TODO: i18n
+                            addLabel( 0, new TickMarkLabel( "None" ) ); // TODO: i18n
+                            addLabel( 1, new TickMarkLabel( "Lots" ) ); // TODO: i18n
                         }}
                 ),
                 EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
@@ -130,5 +132,30 @@ public class SunNode extends PositionableFadableModelElementNode {
                 }
             }
         } );
+    }
+
+    // Convenience class for creating a tick mark label that works for the slider.
+    private static class TickMarkLabel extends PNode {
+        private static final double INDENT = 4;
+        private static final double LENGTH = 7;
+        private static final float STROKE_WIDTH = 1;
+        private static final Stroke STROKE = new BasicStroke( STROKE_WIDTH );
+        private static final Font LABEL_FONT = new PhetFont( 14, false );
+
+        private TickMarkLabel(String text ) {
+            DoubleGeneralPath path = new DoubleGeneralPath( INDENT, STROKE_WIDTH / 2 ) {{
+                lineTo( INDENT + LENGTH, STROKE_WIDTH / 2 );
+            }};
+
+            final PNode tickMark = new PhetPPath( path.getGeneralPath(), STROKE, Color.BLACK );
+            final PNode label = new PhetPText( text, LABEL_FONT ){{
+                setOffset( tickMark.getFullBoundsReference().getMaxX() + 3, -getFullBoundsReference().height / 2 );
+            }};
+
+            PNode rootNode = new PNode();
+            rootNode.addChild( tickMark );
+            rootNode.addChild( label );
+            addChild( new ZeroOffsetNode( rootNode ) );
+        }
     }
 }
