@@ -48,7 +48,7 @@
 
         listenForRefresh();
 
-        $( "#myResetAllButton" ).click( function () { document.location.reload( true ); } );
+        $( "#myResetAllButton" ).click( function () { window.location.reload(  ); } );
         var container = document.getElementById( "container" );
 
         container.width = window.innerWidth;
@@ -138,36 +138,7 @@
 
         updateStageSize();
 
-//
-//
-//        stage.setScale( 0.5 );
-
-        //TODO: update scale when window size changes
-        //See http://stackoverflow.com/questions/2854407/javascript-jquery-window-resize-how-to-fire-after-the-resize-is-completed
-//        var waitForFinalEvent = (function () {
-//            var timers = {};
-//            return function ( callback, ms, uniqueId ) {
-//                if ( !uniqueId ) {
-//                    uniqueId = "Don't call this twice without a uniqueId";
-//                }
-//                if ( timers[uniqueId] ) {
-//                    clearTimeout( timers[uniqueId] );
-//                }
-//                timers[uniqueId] = setTimeout( callback, ms );
-//            };
-//        })();
-
-        $( window ).resize( function () {
-            updateStageSize();
-        } );
-
-//        $( window ).resize( function () {
-//            waitForFinalEvent( function () {
-//                updateStageSize();
-////                alert( 'Resize...' );
-//                //...
-//            }, 100, "some unique string" );
-//        } );
+        $( window ).resize( updateStageSize );
 
         // add the skaterLayer to the stage
         stage.add( backgroundLayer );
