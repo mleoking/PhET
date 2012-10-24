@@ -20,7 +20,7 @@ public class GTL_SI_SlopeIntercept_Challenge extends GTL_Challenge {
         super( answer, Line.Y_EQUALS_X_LINE );
     }
 
-    @Override public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         return new GTL_SI_SlopeIntercept_ChallengeNode( model, this, audioPlayer, challengeSize );
     }
 }

@@ -69,8 +69,8 @@ public class LineGameModel {
     public final Property<GamePhase> phase;
     public final Property<PlayState> state;
 
-    public final Property<Challenge> challenge; // the current challenge
-    private Challenge[] challenges = new Challenge[CHALLENGES_PER_GAME];
+    public final Property<IChallenge> challenge; // the current challenge
+    private IChallenge[] challenges = new IChallenge[CHALLENGES_PER_GAME];
     private int challengeIndex;
 
     // Default is a graph with uniform quadrants.
@@ -80,7 +80,7 @@ public class LineGameModel {
         timer = new GameTimer();
         results = new GameResults( LEVELS_RANGE );
 
-        challenge = new Property<Challenge>( new GTL_SI_SlopeIntercept_Challenge( Line.createSlopeIntercept( 1, 1, 1 ) ) ); // initial value is meaningless
+        challenge = new Property<IChallenge>( new GTL_SI_SlopeIntercept_Challenge( Line.createSlopeIntercept( 1, 1, 1 ) ) ); // initial value is meaningless
 
         phase = new Property<GamePhase>( GamePhase.SETTINGS ) {
 

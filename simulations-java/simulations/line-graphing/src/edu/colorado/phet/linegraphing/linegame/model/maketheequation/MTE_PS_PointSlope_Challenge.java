@@ -20,7 +20,7 @@ public class MTE_PS_PointSlope_Challenge extends MTE_Challenge {
         super( answer, Line.Y_EQUALS_X_LINE );
     }
 
-    @Override public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         return new MTE_PS_Point_Slope_ChallengeNode( model, this, audioPlayer, challengeSize );
     }
 }

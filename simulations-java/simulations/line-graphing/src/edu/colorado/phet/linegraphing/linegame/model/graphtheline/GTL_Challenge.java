@@ -13,14 +13,14 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
-import edu.colorado.phet.linegraphing.linegame.model.Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.MatchChallenge;
 
 /**
  * Base class model for all "Graph the Line" (GTL) challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class GTL_Challenge extends Challenge {
+public abstract class GTL_Challenge extends MatchChallenge {
 
     private static final int GRAPH_WIDTH = 400; // graph width in view coordinates
     private static final Point2D ORIGIN_OFFSET = new Point2D.Double( 700, 300 ); // offset of the origin (center of the graph) in view coordinates
@@ -56,7 +56,7 @@ public abstract class GTL_Challenge extends Challenge {
     }
 
     // Visibility of the answer affects whether it is "seen" by the point tools.
-    @Override public void setAnswerVisible( boolean visible ) {
+    public void setAnswerVisible( boolean visible ) {
         answerVisible = visible;
         updateLines();
     }
