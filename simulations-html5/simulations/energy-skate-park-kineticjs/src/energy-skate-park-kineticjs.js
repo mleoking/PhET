@@ -91,6 +91,40 @@
 
         var skaterLayer = new Kinetic.Layer();
 
+        var splineLayer = new Kinetic.Layer();
+        var circle = new Kinetic.Circle( {
+                                             x:50,
+                                             y:50,
+                                             radius:50,
+                                             fill:'red',
+                                             stroke:'black',
+                                             strokeWidth:4,
+                                             draggable:true
+                                         } );
+
+        var pointerCursor = function () { document.body.style.cursor = "pointer";};
+        var defaultCursor = function () { document.body.style.cursor = "default"; };
+
+        // convert shape into an image object
+        circle.toImage( {
+                            // define the size of the new image object
+                            width:100,
+                            height:100,
+                            callback:function ( img ) {
+                                // cache the image as a Kinetic.Image shape
+                                var image = new Kinetic.Image( {
+                                                                   image:img,
+                                                                   draggable:true
+                                                               } );
+
+                                image.on( "mouseover", pointerCursor );
+                                image.on( "mouseout", defaultCursor );
+                                console.log( "callback" );
+                                splineLayer.add( image );
+                                splineLayer.draw();
+                            }
+                        } );
+
         var skater = new Kinetic.Image( {
                                             x:140,
                                             y:100,
@@ -108,8 +142,8 @@
         skater.on( "dragend", function () { skater.dragging = false; } );
 
         // add cursor styling
-        skater.on( "mouseover", function () { document.body.style.cursor = "pointer";} );
-        skater.on( "mouseout", function () { document.body.style.cursor = "default"; } );
+        skater.on( "mouseover", pointerCursor );
+        skater.on( "mouseout", defaultCursor );
 
         skaterLayer.add( skater );
 
@@ -161,14 +195,15 @@
 
         $( window ).resize( updateStageSize );
 
-        var causeRepaintsOn = $("h1, h2, h3, p, .buttonText");
+        var causeRepaintsOn = $( "h1, h2, h3, p, .buttonText" );
 
-        $(window).resize(function() {
-        	causeRepaintsOn.css("z-index", 1);
-        });
+        $( window ).resize( function () {
+            causeRepaintsOn.css( "z-index", 1 );
+        } );
 
         // add the skaterLayer to the stage
         stage.add( backgroundLayer );
+        stage.add( splineLayer );
         stage.add( skaterLayer );
 
         //or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
@@ -183,6 +218,8 @@
 
         skater.velocityY = 0;
         function updatePhysics() {
+            var originalX = skater.getX();
+            var originalY = skater.getY();
 
             var newY = skater.getY();
             if ( !skater.dragging ) {
@@ -195,7 +232,12 @@
 
             //Don't let the skater go below the ground.
             skater.setY( Math.min( 383, newY ) );
-            skaterLayer.draw();
+
+            if ( skater.getX() != originalX || skater.getY() != originalY ) {
+                skaterLayer.draw();
+            }
+
+//            splineLayer.draw();
         }
 
         function loop() {
