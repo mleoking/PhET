@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.common.model;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.linegraphing.common.LGColors;
 
 /**
@@ -128,8 +129,13 @@ public class Line {
         }
     }
 
+    // Returns true if point is on this line.
+    public boolean onLine( Vector2D p ) {
+        return onLine( p.getX(), p.getY() );
+    }
+
     // Returns true if point (x,y) is on this line.
-    private boolean onLine( double x, double y ) {
+    public boolean onLine( double x, double y ) {
         if ( rise == 0 ) {
             return ( y == y1 );
         }
