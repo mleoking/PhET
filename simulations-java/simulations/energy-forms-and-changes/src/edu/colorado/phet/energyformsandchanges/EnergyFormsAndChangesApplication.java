@@ -37,7 +37,6 @@ public class EnergyFormsAndChangesApplication extends PiccoloPhetApplication {
         // Create the modules
         addModule( new EFACIntroModule() );
         addModule( new EnergySystemsModule() );
-        addModule( new EnergyStoriesModule() );
         initMenuBar();
     }
 
