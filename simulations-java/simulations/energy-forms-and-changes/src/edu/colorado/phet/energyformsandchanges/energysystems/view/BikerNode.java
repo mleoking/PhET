@@ -47,7 +47,7 @@ public class BikerNode extends PositionableFadableModelElementNode {
 
         // Add slider that will control pedaling rate.
         addChild( new CrankRateSlider( biker.targetCrankAngularVelocity ) {{
-            setOffset( -getFullBoundsReference().width / 2, 120 );
+            setOffset( -getFullBoundsReference().width / 2, 100 );
         }} );
 
         // Add the images that will animate the front and back legs.
@@ -79,7 +79,8 @@ public class BikerNode extends PositionableFadableModelElementNode {
         } );
 
         // Add the upper body.
-        addChild( new ModelElementImageNode( Biker.RIDER_UPPER_BODY_IMAGE, mvt ) );
+        PNode upperBody = new ModelElementImageNode( Biker.RIDER_UPPER_BODY_IMAGE, mvt );
+        addChild( upperBody );
 
         // Add the energy chunk layers.
         addChild( new EnergyChunkLayer( biker.energyChunkList, biker.getObservablePosition(), mvt ) );
@@ -88,7 +89,7 @@ public class BikerNode extends PositionableFadableModelElementNode {
         // Add button to replenish the biker's energy.
         // TODO: i18n
         feedMeButton = new TextButtonNode( "Feed Me", new PhetFont( 18 ), new Color( 0, 220, 0 ) );
-        feedMeButton.setOffset( -feedMeButton.getFullBoundsReference().width / 2, 75 );
+        feedMeButton.setOffset( -feedMeButton.getFullBoundsReference().width / 2, upperBody.getFullBoundsReference().getMinY() - 45 );
         feedMeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 biker.replenishEnergyChunks();
