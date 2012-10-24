@@ -51,8 +51,8 @@
         $( "#myResetAllButton" ).click( function () { document.location.reload( true ); } );
         var container = document.getElementById( "container" );
 
-//        canvas.width = window.innerWidth;
-//        canvas.height = window.innerHeight;
+        container.width = window.innerWidth;
+        container.height = window.innerHeight;
 
         //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
         container.onselectstart = function () { return false; }; // ie
@@ -60,16 +60,16 @@
 
         var stage = new Kinetic.Stage( {
                                            container:"container",
-                                           width:800,
-                                           height:600
+                                           width:container.width,
+                                           height:container.height
                                        } );
 
         var backgroundLayer = new Kinetic.Layer();
         var sky = new Kinetic.Rect( {
                                         x:0,
                                         y:0,
-                                        width:800,
-                                        height:600,
+                                        width:1024,
+                                        height:768,
                                         fill:{
                                             start:{ x:0, y:0 },
                                             end:{ x:0, y:600 },
@@ -81,7 +81,7 @@
         var ground = new Kinetic.Rect( {
                                            x:-10,
                                            y:500,
-                                           width:800 + 20,
+                                           width:1024 + 20,
                                            height:600,
                                            fill:'#64aa64',
                                            stroke:'#008200',
@@ -112,6 +112,32 @@
         skater.on( "mouseout", function () { document.body.style.cursor = "default"; } );
 
         skaterLayer.add( skater );
+
+        //Scale up or down to fit the screen
+        var designWidth = 1024;
+        var designHeight = 768;
+        var stageWidth = stage.getWidth();
+        var stageHeight = stage.getHeight();
+        var sx = stageWidth / designWidth;
+        var sy = stageHeight / designHeight;
+        var min = Math.min( sx, sy );
+        stage.setScale( min );
+
+        //TODO: Center on available bounds
+//        var innerWidth = window.innerWidth;
+//        var innerHeight = window.innerHeight;
+//
+//        //Center on available bounds
+//        if ( sy == min ) {
+//            rootNode.setPosition( windowWidth / 2 - designWidth * min / 2, 0 );
+//        }
+//        else {
+//            rootNode.setPosition( 0, windowHeight / 2 - designHeight * min / 2 );
+//        }
+//
+//
+//        stage.setScale( 0.5 );
+
 
         // add the skaterLayer to the stage
         stage.add( backgroundLayer );
