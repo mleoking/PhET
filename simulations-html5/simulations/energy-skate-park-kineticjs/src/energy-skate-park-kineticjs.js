@@ -49,14 +49,50 @@
         listenForRefresh();
 
         $( "#myResetAllButton" ).click( function () { document.location.reload( true ); } );
-        var canvas = document.getElementById( "display" );
+        var container = document.getElementById( "container" );
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+//        canvas.width = window.innerWidth;
+//        canvas.height = window.innerHeight;
 
         //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
-        canvas.onselectstart = function () { return false; }; // ie
-        canvas.onmousedown = function () { return false; }; // mozilla
+        container.onselectstart = function () { return false; }; // ie
+        container.onmousedown = function () { return false; }; // mozilla
+
+        var stage = new Kinetic.Stage( {
+                                           container:"container",
+                                           width:800,
+                                           height:600
+                                       } );
+        var layer = new Kinetic.Layer();
+
+        var skater = new Kinetic.Image( {
+                                            x:140,
+                                            y:100,
+                                            image:images[0],
+                                            width:106,
+                                            height:118,
+                                            draggable:true
+                                        } );
+
+        // add cursor styling
+        skater.on( "mouseover", function () {
+            document.body.style.cursor = "pointer";
+        } );
+        skater.on( "mouseout", function () {
+            document.body.style.cursor = "default";
+        } );
+        // add the shape to the layer
+        layer.add( skater );
+
+        // add the layer to the stage
+        stage.add( layer );
+
+
+//        var imageObj = new Image();
+//        imageObj.onload = function () {
+//        };
+//        imageObj.src = "resources/skater.png";
+
 
 //        var fabricCanvas = new fabric.Canvas( 'display', {hoverCursor:'pointer', selection:false} );
 //        console.log( 'canvas = ' + fabricCanvas );
