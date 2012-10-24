@@ -31,7 +31,7 @@ public abstract class LineNode extends PComposite {
 
     public final Line line;
     private final DoubleArrowNode arrowNode;
-    private final EquationNode equationNode;
+    private final PNode equationParentNode;
 
     /**
      * Constructor
@@ -98,13 +98,32 @@ public abstract class LineNode extends PComposite {
         addChild( arrowNode );
 
         // equation
-        PNode equationParentNode = new PNode();
+        equationParentNode = new PNode();
         addChild( equationParentNode );
         equationParentNode.setOffset( tipLocation );
         equationParentNode.setRotation( line.run == 0 ? Math.PI / 2 : -Math.atan( line.getSlope() ) );
-        equationNode = createEquationNode( line, EQUATION_FONT, line.color );
-        PNode zeroOffsetNode = new ZeroOffsetNode( equationNode );
-        equationParentNode.addChild( zeroOffsetNode );
+        updateEquation( line, EQUATION_FONT, line.color );
+    }
+
+    // Creates the line's equation in the correct form.
+    protected abstract EquationNode createEquationNode( Line line, PhetFont font, Color color );
+
+    public void setEquationVisible( boolean visible ) {
+        equationParentNode.setVisible( visible );
+    }
+
+    protected void updateColor( Color color ) {
+        arrowNode.setPaint( color );
+        updateEquation( line, EQUATION_FONT, color );
+    }
+
+    private void updateEquation( Line line, PhetFont font, Color color ) {
+
+        equationParentNode.removeAllChildren();
+
+        PNode zeroOffsetNode = new ZeroOffsetNode( createEquationNode( line, font, color ) );
+        equationParentNode.addChild( new ZeroOffsetNode( zeroOffsetNode ) );
+
         // put equation where it won't interfere with rise/run brackets
         final double equationXOffset = -zeroOffsetNode.getFullBoundsReference().getWidth() - 12;
         final double equationYOffset;
@@ -115,17 +134,5 @@ public abstract class LineNode extends PComposite {
             equationYOffset = -zeroOffsetNode.getFullBoundsReference().getHeight() - 12; // equation above the line
         }
         zeroOffsetNode.setOffset( equationXOffset, equationYOffset );
-    }
-
-    // Creates the line's equation in the correct form.
-    protected abstract EquationNode createEquationNode( Line line, PhetFont font, Color color );
-
-    public void setEquationVisible( boolean visible ) {
-        equationNode.setVisible( visible );
-    }
-
-    protected void updateColor( Color color ) {
-        arrowNode.setPaint( color );
-        equationNode.setPaintDeep( color );
     }
 }
