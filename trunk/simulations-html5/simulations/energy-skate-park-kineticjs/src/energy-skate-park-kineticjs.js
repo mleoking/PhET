@@ -63,6 +63,32 @@
                                            width:800,
                                            height:600
                                        } );
+
+        var backgroundLayer = new Kinetic.Layer();
+        var sky = new Kinetic.Rect( {
+                                        x:0,
+                                        y:0,
+                                        width:800,
+                                        height:600,
+                                        fill:{
+                                            start:{ x:0, y:0 },
+                                            end:{ x:0, y:600 },
+                                            colorStops:[0, '7cc7fe', 1, '#eef7fe']
+                                        }
+                                    } );
+        backgroundLayer.add( sky );
+
+        var ground = new Kinetic.Rect( {
+                                           x:-10,
+                                           y:500,
+                                           width:800 + 20,
+                                           height:600,
+                                           fill:'#64aa64',
+                                           stroke:'#008200',
+                                           strokeWidth:2
+                                       } );
+        backgroundLayer.add( ground );
+
         var skaterLayer = new Kinetic.Layer();
 
         var skater = new Kinetic.Image( {
@@ -71,16 +97,18 @@
                                             image:images[0],
                                             width:106,
                                             height:118,
+
                                             draggable:true
                                         } );
 
         // add cursor styling
         skater.on( "mouseover", function () { document.body.style.cursor = "pointer";} );
         skater.on( "mouseout", function () { document.body.style.cursor = "default"; } );
-        // add the shape to the skaterLayer
+
         skaterLayer.add( skater );
 
         // add the skaterLayer to the stage
+        stage.add( backgroundLayer );
         stage.add( skaterLayer );
 
         //or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
