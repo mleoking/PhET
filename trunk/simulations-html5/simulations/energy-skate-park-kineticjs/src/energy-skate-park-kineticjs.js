@@ -101,6 +101,12 @@
                                             draggable:true
                                         } );
 
+        skater.on( "dragstart", function () {
+            skater.dragging = true;
+            skater.velocityY = 0;
+        } );
+        skater.on( "dragend", function () { skater.dragging = false; } );
+
         // add cursor styling
         skater.on( "mouseover", function () { document.body.style.cursor = "pointer";} );
         skater.on( "mouseout", function () { document.body.style.cursor = "default"; } );
@@ -120,8 +126,27 @@
                 msRequestAnimationFrame ||
                 oRequestAnimationFrame;
 
+
+        skater.velocityY = 0;
+        function updatePhysics() {
+
+            var newY = skater.getY();
+            if ( !skater.dragging ) {
+                skater.velocityY = skater.velocityY + 0.5;
+                newY = skater.getY() + skater.velocityY * 1;
+            }
+            skater.setY( newY );
+
+//            console.log( "v = " + skater.velocityY );
+
+            //Don't let the skater go below the ground.
+            skater.setY( Math.min( 383, newY ) );
+            skaterLayer.draw();
+        }
+
         function loop() {
-//            updatePhysics();
+
+            updatePhysics();
 //            renderGraphics();
             requestAnimationFrame( loop );
         }
