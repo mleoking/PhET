@@ -36,6 +36,7 @@
             var ws = new WebSocket( "ws://localhost:8887/echo" );
             ws.onmessage = function ( evt ) { document.location.reload( true ); };
             ws.onclose = function () { };
+            console.log( "opened websocket" );
         }
         else {
             // The browser doesn't support WebSocket
@@ -60,6 +61,37 @@
         var fabricCanvas = new fabric.Canvas( 'display', {hoverCursor:'pointer', selection:false} );
         console.log( 'canvas = ' + fabricCanvas );
 
+        //TODO: move this to another layer or maybe cache to improve performance
+        var grass = new fabric.Rect( { top:canvas.height / 2, left:canvas.width / 2, width:canvas.width, height:canvas.height / 2, selectable:false } );
+        grass.setFill( 'green' );
+        fabricCanvas.add( grass );
+
+        var sky = new fabric.Rect( { top:canvas.height / 4,
+                                       left:canvas.width / 2,
+                                       width:canvas.width,
+                                       height:canvas.height / 2,
+                                       selectable:false,
+                                       fill:'red'} );
+        sky.setGradientFill( fabricCanvas.getContext(), {
+            x1:0,
+            y1:0,
+            x2:0,
+            y2:sky.height,
+            colorStops:{
+                0:'#000',
+                1:'#fff'
+            }
+        } );
+        fabricCanvas.add( sky );
+
+        var circle = new fabric.Circle( {
+                                            left:100,
+                                            top:100,
+                                            radius:50,
+                                            fill:'blue'
+                                        } );
+        fabricCanvas.add( circle );
+
         for ( var i = 0, len = 1; i < len; i++ ) {
             fabric.Image.fromURL( 'resources/skater.png', function ( img ) {
                 img.set( {
@@ -79,14 +111,52 @@
                 fabricCanvas.add( img );
             } );
 //
-//            var rect = new fabric.Rect( { width:100, height:50 } );
-//            rect.setFill( 'green' );
-//            fabricCanvas.add( rect );
+
         }
 
-//        fabricCanvas.renderAll();
+        fabricCanvas.renderAll();
 
         console.log( 'canvas = ' + fabricCanvas );
+
+        //or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
+        //or here: http://jsfiddle.net/Y9uBv/5/
+        var requestAnimationFrame =
+                requestAnimationFrame ||
+                webkitRequestAnimationFrame ||
+                mozRequestAnimationFrame ||
+                msRequestAnimationFrame ||
+                oRequestAnimationFrame;
+
+        function loop() {
+            circle.setGradientFill( fabricCanvas.getContext(), {
+                x1:0,
+                y1:0,
+                x2:0,
+                y2:circle.height,
+                colorStops:{
+                    0:'#000',
+                    1:'#fff'
+                }
+            } );
+
+            sky.setGradientFill( fabricCanvas.getContext(), {
+                x1:0,
+                y1:0,
+                x2:0,
+                y2:sky.height,
+                colorStops:{
+                    0:'#000',
+                    1:'#fff'
+                }
+            } );
+
+            fabricCanvas.renderAll();
+//            updatePhysics();
+//            renderGraphics();
+            requestAnimationFrame( loop );
+        }
+
+        requestAnimationFrame( loop );
     }
 
     // Only executed our code once the DOM is ready.
