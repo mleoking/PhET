@@ -144,19 +144,28 @@
                 right = 0;
             }
 
+            var w = 200 * scale;
 //            top = top + 1;
 
             //            $( ".controlPanel" ).css( "right", 5*scale );
 //            console.log( scale + ", top = " + top );
+//            console.log( "w = " + w );
             $( ".controlPanel" ).
                     css( "-webkit-transform", "scale(" + scale + "," + scale + ")" ).
                     css( "top", top ).css( "right", right );
+//                    css( "width", w );//.css( "height", 300 * scale );
 
         }
 
         updateStageSize();
 
         $( window ).resize( updateStageSize );
+
+        var causeRepaintsOn = $("h1, h2, h3, p, .buttonText");
+
+        $(window).resize(function() {
+        	causeRepaintsOn.css("z-index", 1);
+        });
 
         // add the skaterLayer to the stage
         stage.add( backgroundLayer );

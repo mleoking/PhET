@@ -30,6 +30,7 @@
         .buttonText {
             text-decoration: none;
             color: #000000;
+            /*font-size: 2vmin; *//*http://css-tricks.com/viewport-sized-typography*//*/*/
         }
 
         html, body {
@@ -49,6 +50,8 @@
             background: #c8f0c8;
             right: 5px;
             top: 5px;
+            /*width: 20%;*/
+            /*height: 20%;*/
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
             border-radius: 5px;
@@ -56,10 +59,12 @@
             border: 1px solid;
             /*transform: scale(1,0.5);*/
             /*-ms-transform: scale(2,4); *//* IE 9 */
-            -webkit-transform: scale(1, 1);
-        / / Safari and Chrome
+            /*-webkit-transform: scale(1, 1);*/
             /*-o-transform: scale(2,4);  Opera */
             /*-moz-transform: scale(2,4); *//* Firefox */
+
+            transition: 1s ease-out;
+            -webkit-transition: 1s ease-out;
         }
 
         table {
@@ -134,8 +139,9 @@
     </style>
 </head>
 <body>
-<!--<canvas id='display' class="canvasclass"></canvas>-->
+
 <div id="container" class="containerclass"></div>
+
 <div class="controlPanel">
     <!--TODO: Switch from table to CSS for layout-->
     <table>
@@ -150,7 +156,7 @@
             <td><img src="resources/pieChartIcon.png" style="border:0;" alt=""></td>
         </tr>
         <tr>
-            <td><label for="grid"></label><input id="grid" type="checkbox" value="Grid"/></td>
+            <td><label for="gridCheckBox"></label><input id="gridCheckBox" type="checkbox" value="Grid"/></td>
             <td><a href="#" class="buttonText">Grid</a></td>
             <td><img src="resources/gridIcon.png" style="border:0;" alt=""></td>
         </tr>
@@ -164,14 +170,6 @@
     <a href="#" class="resetAllButton" id="returnSkaterButton">Return Skater</a>
     <a href="#" class="resetAllButton returnSkaterButton" id="myResetAllButton">Reset All</a>
 </div>
-
-<!--<div class="returnSkaterButton">-->
-<!--<button onclick="JavaScript:document.location.reload( true );">Return Skater</button>-->
-<!--</div>-->
-<!--<div class="resetAllButton">-->
-<!--<button onclick="JavaScript:document.location.reload( true );">Reset All</button>-->
-<!--</div>-->
-
 <script type="text/javascript" src="jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="hammer.js"></script>
 <script type="text/javascript" src="kinetic-v4.0.4.min.js"></script>
