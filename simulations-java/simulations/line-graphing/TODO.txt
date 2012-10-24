@@ -21,11 +21,8 @@ MEDIUM
 
 LOW
 - review usages of Line.simplified
-- layout of EquationNode subclasses is complicated. Is there a better way?
 - add "verbose" mode to equation code, in case we want to show exactly what is in model
-- use of Line.color is a bit of a mess, and makes it difficult to manage line lists
 - repackage, in anticipation of having 3 sims in this project
-- EquationNode.setPaintDeep is buggy for dynamic or interactive equations
 
 DEVELOPER CONTROLS
 - replay the current Game challenge

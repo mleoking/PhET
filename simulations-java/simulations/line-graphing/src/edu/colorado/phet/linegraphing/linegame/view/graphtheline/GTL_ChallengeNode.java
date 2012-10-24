@@ -150,7 +150,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                 // update the equation
                 guessEquationParent.removeAllChildren();
                 guessEquationParent.addChild( new EquationBoxNode( Strings.YOUR_LINE, boxSize,
-                                                                   createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, LineGameConstants.GUESS_COLOR ) ) );
+                                                                   createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, line.color ) ) );
                 guessEquationParent.setOffset( answerBoxNode.getXOffset(), answerBoxNode.getFullBoundsReference().getMaxY() + 20 );
 
 

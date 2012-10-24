@@ -53,7 +53,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
 
         // The equation for the user's guess.
         final PNode guessBoxNode = new EquationBoxNode( Strings.YOUR_LINE, new PDimension( boxWidth, 0.3 * challengeSize.getHeight() ),
-                                                        createGuessEquationNode( challenge.guess, challenge.graph, LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT, Color.BLACK ) );
+                                                        createGuessEquationNode( challenge.guess, challenge.graph, LineGameConstants.INTERACTIVE_EQUATION_FONT, LineGameConstants.STATIC_EQUATION_FONT, challenge.guess.get().color ) );
 
         // The equation for the correct answer.
         final PNode answerBoxNode = new EquationBoxNode( Strings.GIVEN_LINE, new PDimension( boxWidth, 0.2 * challengeSize.getHeight() ),
