@@ -13,14 +13,14 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
-import edu.colorado.phet.linegraphing.linegame.model.Challenge;
+import edu.colorado.phet.linegraphing.linegame.model.MatchChallenge;
 
 /**
  * Base class model for all "Make the Equation" (MTE) challenges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class MTE_Challenge extends Challenge {
+public abstract class MTE_Challenge extends MatchChallenge {
 
     private static final int GRAPH_WIDTH = 400; // graph width in view coordinates
     private static final Point2D ORIGIN_OFFSET = new Point2D.Double( 275, 300 ); // offset of the origin (center of the graph) in view coordinates
@@ -56,7 +56,7 @@ public abstract class MTE_Challenge extends Challenge {
     }
 
     // Visibility of the answer affects whether the user's guess is "seen" by the point tools.
-    @Override public void setAnswerVisible( boolean visible ) {
+    public void setAnswerVisible( boolean visible ) {
         answerVisible = visible;
         updateLines();
     }

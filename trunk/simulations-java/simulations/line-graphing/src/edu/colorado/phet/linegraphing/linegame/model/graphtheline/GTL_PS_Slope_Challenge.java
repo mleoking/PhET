@@ -20,7 +20,7 @@ public class GTL_PS_Slope_Challenge extends GTL_Challenge {
         super( answer, Line.createPointSlope( answer.x1, answer.y1, 1, 1 ) );
     }
 
-    @Override public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         return new GTL_PS_Slope_ChallengeNode( model, this, audioPlayer, challengeSize );
     }
 }

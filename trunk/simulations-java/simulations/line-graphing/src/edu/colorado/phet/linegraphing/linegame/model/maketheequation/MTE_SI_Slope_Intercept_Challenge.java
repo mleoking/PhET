@@ -20,7 +20,7 @@ public class MTE_SI_Slope_Intercept_Challenge extends MTE_Challenge {
         super( answer, Line.createSlopeIntercept( 1, 1, 0 ) );
     }
 
-    @Override public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
+    public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
         return new MTE_SI_Slope_Intercept_ChallengeNode( model, this, audioPlayer, challengeSize );
     }
 }
