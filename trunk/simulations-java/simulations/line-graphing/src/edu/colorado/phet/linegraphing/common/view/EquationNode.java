@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.Color;
-import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
@@ -21,8 +20,6 @@ import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNo
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeColors;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -123,23 +120,6 @@ public abstract class EquationNode extends PhetPNode {
             super( MessageFormat.format( Strings.SLOPE_UNDEFINED, Strings.SYMBOL_X, line.x1 ), font, color );
             assert ( !line.isSlopeDefined() );
             setPickable( false );
-        }
-    }
-
-    // Changes the paint of the equation by doing a deep traversal of this node's descendants.
-    public void setPaintDeep( Paint paint ) {
-        setPaintDeep( this, paint );
-    }
-
-    private static void setPaintDeep( PNode node, Paint paint ) {
-        if ( node instanceof PText ) {
-            ( (PText) node ).setTextPaint( paint );
-        }
-        else if ( node instanceof PPath ) {
-            node.setPaint( paint );
-        }
-        for ( int i = 0; i < node.getChildrenCount(); i++ ) {
-            setPaintDeep( node.getChild( i ), paint );
         }
     }
 }
