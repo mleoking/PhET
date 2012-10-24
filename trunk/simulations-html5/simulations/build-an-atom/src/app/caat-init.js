@@ -1,80 +1,82 @@
-define([ ], function () {
+define( [ ], function () {
 
-    console.log("Hello from CAAT woman.");
-    CAAT.modules.initialization = CAAT.modules.initialization || {};
-    CAAT.modules.initialization.init = function ( width, height, runHere, imagesURL, onEndLoading ) {
+    function CaatInit() {
 
-        var canvascontainer = document.getElementById( runHere );
-        var director;
+        console.log( "Hello from CAAT woman." );
+        CAAT.modules.initialization = CAAT.modules.initialization || {};
+        CAAT.modules.initialization.init = function ( width, height, runHere, imagesURL, onEndLoading ) {
 
-        if ( CAAT.__CSS__ ) {   // css renderer
-            if ( canvascontainer ) {
-                if ( false === canvascontainer instanceof HTMLDivElement ) {
-                    canvascontainer = null;
+            var canvascontainer = document.getElementById( runHere );
+            var director;
+
+            if ( CAAT.__CSS__ ) {   // css renderer
+                if ( canvascontainer ) {
+                    if ( false === canvascontainer instanceof HTMLDivElement ) {
+                        canvascontainer = null;
+                    }
                 }
-            }
 
-            if ( canvascontainer === null ) {
-                canvascontainer = document.createElement( 'div' ); // create a new DIV
-                document.body.appendChild( canvascontainer );
-            }
-
-            director = new CAAT.Director().
-                    initialize(
-                    width || 800,
-                    height || 600,
-                    canvascontainer );
-
-        }
-        else {
-
-            if ( canvascontainer ) {
-                if ( canvascontainer instanceof HTMLDivElement ) {
-                    var ncanvascontainer = document.createElement( "canvas" );
-                    canvascontainer.appendChild( ncanvascontainer );
-                    canvascontainer = ncanvascontainer;
+                if ( canvascontainer === null ) {
+                    canvascontainer = document.createElement( 'div' ); // create a new DIV
+                    document.body.appendChild( canvascontainer );
                 }
-                else if ( false == canvascontainer instanceof HTMLCanvasElement ) {
-                    var ncanvascontainer = document.createElement( "canvas" );
-                    document.body.appendChild( ncanvascontainer );
-                    canvascontainer = ncanvascontainer;
-                }
+
+                director = new CAAT.Director().
+                        initialize(
+                        width || 800,
+                        height || 600,
+                        canvascontainer );
+
             }
             else {
-                canvascontainer = document.createElement( 'canvas' );
-                document.body.appendChild( canvascontainer );
+
+                if ( canvascontainer ) {
+                    if ( canvascontainer instanceof HTMLDivElement ) {
+                        var ncanvascontainer = document.createElement( "canvas" );
+                        canvascontainer.appendChild( ncanvascontainer );
+                        canvascontainer = ncanvascontainer;
+                    }
+                    else if ( false == canvascontainer instanceof HTMLCanvasElement ) {
+                        var ncanvascontainer = document.createElement( "canvas" );
+                        document.body.appendChild( ncanvascontainer );
+                        canvascontainer = ncanvascontainer;
+                    }
+                }
+                else {
+                    canvascontainer = document.createElement( 'canvas' );
+                    document.body.appendChild( canvascontainer );
+                }
+
+                //Show the CAAT Debug panel at the bottom of the screen
+                CAAT.DEBUG = 1;
+
+                director = new CAAT.Director().
+                        initialize(
+                        width || 800,
+                        height || 600,
+                        canvascontainer );
+//            director.setClear( CAAT.Director.CLEAR_DIRTY_RECTS );
             }
 
-            //Show the CAAT Debug panel at the bottom of the screen
-        CAAT.DEBUG = 1;
+            /**
+             * Load splash images. It is supossed the splash has some images.
+             */
+            new CAAT.ImagePreloader().loadImages(
+                    imagesURL,
+                    function on_load( counter, images ) {
 
-            director = new CAAT.Director().
-                    initialize(
-                    width || 800,
-                    height || 600,
-                    canvascontainer );
-//            director.setClear( CAAT.Director.CLEAR_DIRTY_RECTS );
-        }
+                        if ( counter == images.length ) {
 
-        /**
-         * Load splash images. It is supossed the splash has some images.
-         */
-        new CAAT.ImagePreloader().loadImages(
-                imagesURL,
-                function on_load( counter, images ) {
+                            director.emptyScenes();
+                            director.setImagesCache( images );
 
-                    if ( counter == images.length ) {
+                            onEndLoading( director );
 
-                        director.emptyScenes();
-                        director.setImagesCache( images );
-
-                        onEndLoading( director );
-
-                        /**
-                         * Change this sentence's parameters to play with different entering-scene
-                         * curtains.
-                         * just perform a director.setScene(0) to play first director's scene.
-                         */
+                            /**
+                             * Change this sentence's parameters to play with different entering-scene
+                             * curtains.
+                             * just perform a director.setScene(0) to play first director's scene.
+                             */
 //                    director.easeIn(
 //                            0,
 //                            CAAT.Scene.prototype.EASE_ROTATION,
@@ -82,12 +84,14 @@ define([ ], function () {
 //                            false,
 //                            CAAT.Actor.prototype.ANCHOR_CENTER,
 //                            new CAAT.Interpolator().createElasticOutInterpolator( 2.5, .4 ) );
-                        director.setScene( 0 );
+                            director.setScene( 0 );
 
-                        CAAT.loop( 60 );
+                            CAAT.loop( 60 );
+                        }
                     }
-                }
 
-        );
-    };
-});
+            );
+        };
+    }
+    return CaatInit;
+} );

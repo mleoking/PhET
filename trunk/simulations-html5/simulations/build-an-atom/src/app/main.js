@@ -73,6 +73,7 @@ require( [
         }
 
         // Initialize the scene graph.
+        console.log("About to init CAAT");
         CaatInit();
 
         // Set up event handlers.
