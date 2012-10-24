@@ -3,20 +3,20 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- play area layout feels unbalanced for game challenges
 - revisit the placement algorithm for equations on graphed lines, should it be on same end of line as slope manipulator? or in Q1 or Q4 (as is) so that it's close to interactive line?
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 - navigation game
+- should intercept manipulator be same color as point manipulator? It's a special-case of point.
 - Game: do we need to horizontally align relops in equation boxes? (I think not)
 - Game: titles on equation boxes
 - Game: replace check and X icons with smiley/frowny faces, and get rid of big face?
 - Game: for GTL challenges, showing "your line" in simplified form means that it may not match the line manipulators, creates a disconnect
 
 HIGH
-- Game: "x=N (slope undefined)" and some interactive point-slope equations don't fit inside equation boxes
+- Game: "x=N (slope undefined)" and some interactive point-slope equations don't fit inside width of equation boxes
 - Game: awarded points below smiley face are difficult to see
 - Game: smiley face overlaps icons next to equation boxes
-- Game: "Place N Points" challenge
+- Game: "Place 3 Points" challenge
 
 MEDIUM
 - get rid of EquationNode.setPaintDeep and LineNode.updateColor, make LineNode immutable, use a new instance when its color changes
