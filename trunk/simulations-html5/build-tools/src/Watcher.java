@@ -73,7 +73,7 @@ public class Watcher {
                     }
                     count++;
                     try {
-                        Thread.sleep( 30 );
+                        Thread.sleep( 100 );
                     }
                     catch ( InterruptedException e ) {
                         e.printStackTrace();
@@ -86,6 +86,7 @@ public class Watcher {
     private static void runTask( final File sourceRoot ) throws IOException {
         if ( open != null ) {
             open.send( "refresh" );
+            System.out.println( "Sent refresh command." );
         }
     }
 
