@@ -1,3 +1,0 @@
-EXAMPLE LICENSE
-
-This is an example license that the user needs to agree with in order to continue installation.
