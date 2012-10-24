@@ -68,8 +68,5 @@ public abstract class MTE_Challenge extends MatchChallenge {
         if ( answerVisible ) {
             allLines.add( guess.get() );
         }
-        else {
-            allLines.remove( guess.get() );
-        }
     }
 }
