@@ -6,8 +6,9 @@ require( [
              'nucleus_label',
              'nucleon',
              'proton',
-             'neutron'
-         ], function ( ElectronShell, Bucket, Point2D, ResetButton, NucleusLabel, Nucleon, Proton, Neutron ) {
+             'neutron',
+             'caat-init'
+         ], function ( ElectronShell, Bucket, Point2D, ResetButton, NucleusLabel, Nucleon, Proton, Neutron, CaatInit ) {
 
     // Constants.
     var numProtons = 10;
@@ -70,6 +71,9 @@ require( [
         if ( canvas.getContext ) {
             context = canvas.getContext( '2d' );
         }
+
+        // Initialize the scene graph.
+        CaatInit();
 
         // Set up event handlers.
         // TODO: Work with JO to "jquery-ize".
