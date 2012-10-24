@@ -17,7 +17,7 @@ public class LineGameConstants {
     // fonts
     public static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 40 );
     public static final Font BUTTON_FONT = new PhetFont( Font.BOLD, 30 );
-    public static final PhetFont INTERACTIVE_EQUATION_FONT = new PhetFont( Font.BOLD, 32 );
+    public static final PhetFont INTERACTIVE_EQUATION_FONT = new PhetFont( Font.BOLD, 28 );
     public static final PhetFont STATIC_EQUATION_FONT = new PhetFont( Font.PLAIN, INTERACTIVE_EQUATION_FONT.getSize() );
     public static final PhetFont POINTS_AWARDED_FONT = new PhetFont( Font.BOLD, 36 );
 
@@ -30,7 +30,7 @@ public class LineGameConstants {
     public static final Color BUTTON_COLOR = Color.YELLOW;
 
     // sizes
-    public static final double FACE_DIAMETER = 240;
+    public static final double FACE_DIAMETER = 120;
     public static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
     public static final double POINT_DIAMETER = 0.5; // diameter of the manipulators, in model units
     public static final double POINT_TOOL_SCALE = 0.80;

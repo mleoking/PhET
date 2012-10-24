@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.view.graphtheline;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -40,13 +41,12 @@ import edu.umd.cs.piccolo.util.PDimension;
 public abstract class GTL_ChallengeNode extends ChallengeNode {
 
     private static final int ICON_X_SPACING = 10;
-    private static final int BOX_Y_SPACING = 20;
 
     public GTL_ChallengeNode( final LineGameModel model, final GTL_Challenge challenge, final GameAudioPlayer audioPlayer, final PDimension challengeSize ) {
 
         PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
 
-        final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.25 * challengeSize.getHeight() );
+        final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.2 * challengeSize.getHeight() );
 
         // The equation for the answer.
         final PNode answerBoxNode = new EquationBoxNode( Strings.GIVEN_LINE, boxSize,
@@ -63,7 +63,8 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
 
         final GTL_GraphNode graphNode = createGraphNode( challenge );
 
-        final FaceNode faceNode = new FaceNode( LineGameConstants.FACE_DIAMETER, LineGameConstants.FACE_COLOR );
+        final FaceNode faceNode = new FaceNode( LineGameConstants.FACE_DIAMETER, LineGameConstants.FACE_COLOR,
+                                                new BasicStroke( 1f ), LineGameConstants.FACE_COLOR.darker(), Color.BLACK, Color.BLACK );
 
         final PText pointsAwardedNode = new PhetPText( "", LineGameConstants.POINTS_AWARDED_FONT, LineGameConstants.POINTS_AWARDED_COLOR );
 
@@ -112,9 +113,9 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
             titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
                                  10 );
 
-            // equation centered in left half of challenge space
-            answerBoxNode.setOffset( ( 0.25 * challengeSize.getWidth() ) - ( answerBoxNode.getFullBoundsReference().getWidth() / 2 ),
-                                     ( challengeSize.getHeight() / 2 ) - answerBoxNode.getFullBoundsReference().getHeight() - ( BOX_Y_SPACING / 2 ) );
+            // equation in left half of challenge space
+            answerBoxNode.setOffset( ( challengeSize.getWidth() / 2 ) - answerBoxNode.getFullBoundsReference().getWidth() - 40,
+                                     graphNode.getFullBoundsReference().getMinY() + 70 );
             // correct/incorrect icons are to left of equations
             answerCorrectNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX() - answerCorrectNode.getFullBoundsReference().getWidth() - ICON_X_SPACING,
                                          answerBoxNode.getFullBoundsReference().getCenterY() - ( answerCorrectNode.getFullBoundsReference().getHeight() / 2 ) );
@@ -128,9 +129,9 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
             showAnswerButton.setOffset( buttonCenterX - ( showAnswerButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
             nextButton.setOffset( buttonCenterX - ( nextButton.getFullBoundsReference().getWidth() / 2 ), buttonCenterY );
 
-            // face centered in the challenge space
-            faceNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( faceNode.getFullBoundsReference().getWidth() / 2 ),
-                                ( challengeSize.getHeight() / 2 ) - ( faceNode.getFullBoundsReference().getHeight() / 2 ) );
+            // face centered below equation boxes
+            faceNode.setOffset( answerBoxNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 ),
+                                checkButton.getFullBoundsReference().getMaxY() - faceNode.getFullBoundsReference().getHeight() );
         }
 
         // Update visibility of the correct/incorrect icons.
@@ -150,7 +151,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                 guessEquationParent.removeAllChildren();
                 guessEquationParent.addChild( new EquationBoxNode( Strings.YOUR_LINE, boxSize,
                                                                    createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, LineGameConstants.GUESS_COLOR ) ) );
-                guessEquationParent.setOffset( answerBoxNode.getXOffset(), ( challengeSize.getHeight() / 2 ) + 10 );
+                guessEquationParent.setOffset( answerBoxNode.getXOffset(), answerBoxNode.getFullBoundsReference().getMaxY() + 20 );
 
 
                 // center icons on guess box
@@ -204,9 +205,9 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                     final int points = model.computePoints( model.state.get() == PlayState.FIRST_CHECK ? 1 : 2 );  //TODO handle this better
                     model.results.score.set( model.results.score.get() + points );
                     pointsAwardedNode.setText( MessageFormat.format( Strings.POINTS_AWARDED, String.valueOf( points ) ) );
-                    // center points below face
-                    pointsAwardedNode.setOffset( faceNode.getFullBoundsReference().getCenterX() - ( pointsAwardedNode.getFullBoundsReference().getWidth() / 2 ),
-                                                 faceNode.getFullBoundsReference().getMaxY() + 10 );
+                    // points to right of face
+                    pointsAwardedNode.setOffset( faceNode.getFullBoundsReference().getMaxX() + 10,
+                                                 faceNode.getFullBoundsReference().getCenterY() - ( pointsAwardedNode.getFullBoundsReference().getHeight() / 2 ) );
                     model.state.set( PlayState.NEXT );
                 }
                 else {
