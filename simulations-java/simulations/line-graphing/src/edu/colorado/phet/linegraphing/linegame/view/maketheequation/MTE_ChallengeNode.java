@@ -100,10 +100,10 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
             addChild( tryAgainButton );
             addChild( showAnswerButton );
             addChild( nextButton );
-            addChild( pointToolParent );
             addChild( answerCorrectNode );
             addChild( guessCorrectNode );
             addChild( guessIncorrectNode );
+            addChild( pointToolParent );
             addChild( faceNode );
             addChild( pointsAwardedNode );
         }
