@@ -1,3 +1,4 @@
+10/24/12 add strings for "Place 3 Points" challenge
 10/24/12 change request: "Given line" -> "Target line"
 10/24/12 implemented model for "Place 3 Points" challenge, and stubs for view components
 10/24/12 revise class hierarchy to support challenges that are not "matching" challenges

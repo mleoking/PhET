@@ -32,6 +32,8 @@ public class LGResources {
         public static final String NEXT = COMMON_RESOURCE.getLocalizedString( "Games.next" );
         public static final String GRAPH_THE_LINE = RESOURCES.getLocalizedString( "graphTheLine" );
         public static final String MAKE_THE_EQUATION = RESOURCES.getLocalizedString( "makeTheEquation" );
+        public static final String PLACE_3_POINTS = RESOURCES.getLocalizedString( "place3Points" );
+        public static final String NOT_A_LINE = RESOURCES.getLocalizedString( "notALine" );
         public static final String TARGET_LINE = RESOURCES.getLocalizedString( "targetLine" );
         public static final String YOUR_LINE = RESOURCES.getLocalizedString( "yourLine" );
 
