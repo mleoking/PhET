@@ -48,7 +48,7 @@
 
         listenForRefresh();
 
-        $( "#myResetAllButton" ).click( function () { window.location.reload(  ); } );
+        $( "#myResetAllButton" ).click( function () { window.location.reload(); } );
         var container = document.getElementById( "container" );
 
         container.width = window.innerWidth;
@@ -113,6 +113,7 @@
 
         skaterLayer.add( skater );
 
+        var top = 1;
         //Scale up or down to fit the screen
         function updateStageSize() {
             var designWidth = 1024;
@@ -123,17 +124,34 @@
             var stageHeight = stage.getHeight();
             var sx = stageWidth / designWidth;
             var sy = stageHeight / designHeight;
-            var min = Math.min( sx, sy );
-            stage.setScale( min );
+            var scale = Math.min( sx, sy );
+            stage.setScale( scale );
             stage.draw();
 
+            var top = 0;
+            var right = 0;
+
             //Center on available bounds
-            if ( sy == min ) {
-                stage.setPosition( window.innerWidth / 2 - designWidth * min / 2, 0 );
+            if ( sy == scale ) {
+                stage.setPosition( window.innerWidth / 2 - designWidth * scale / 2, 0 );
+
+                top = 0;
+                right = (window.innerWidth / 2 - designWidth * scale / 2) * scale;
             }
             else {
-                stage.setPosition( 0, window.innerHeight / 2 - designHeight * min / 2 );
+                stage.setPosition( 0, window.innerHeight / 2 - designHeight * scale / 2 );
+                top = (window.innerHeight / 2 - designHeight * scale / 2) * scale;
+                right = 0;
             }
+
+//            top = top + 1;
+
+            //            $( ".controlPanel" ).css( "right", 5*scale );
+//            console.log( scale + ", top = " + top );
+            $( ".controlPanel" ).
+                    css( "-webkit-transform", "scale(" + scale + "," + scale + ")" ).
+                    css( "top", top ).css( "right", right );
+
         }
 
         updateStageSize();

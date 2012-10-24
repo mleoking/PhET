@@ -54,6 +54,11 @@
             border-radius: 5px;
             margin: 10px;
             border: 1px solid;
+            /*transform: scale(1,0.5);*/
+            /*-ms-transform: scale(2,4); *//* IE 9 */
+            -webkit-transform: scale(1,1);//  Safari and Chrome
+            /*-o-transform: scale(2,4);  Opera */
+            /*-moz-transform: scale(2,4); *//* Firefox */
         }
 
         table {
@@ -134,7 +139,7 @@
     <!--TODO: Switch from table to CSS for layout-->
     <table>
         <tr>
-            <td><label for="kibble"></label><input id="kibble" type="checkbox" value="Bar Graph"/></td>
+            <td><label for="barGraph"></label><input id="barGraph" type="checkbox" value="Bar Graph"/></td>
             <td><a href="#" class="buttonText">Bar Graph</a></td>
             <td><img src="resources/barChartIcon.png" style="border:0;" alt=""></td>
         </tr>
