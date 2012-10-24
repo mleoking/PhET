@@ -32,7 +32,7 @@ public class Biker extends EnergySource {
     //-------------------------------------------------------------------------
 
     public static final double MAX_ANGULAR_VELOCITY_OF_CRANK = 3 * Math.PI; // In radians/sec.
-    private static final double ANGULAR_ACCELERATION = Math.PI; // In radians/(sec^2).
+    private static final double ANGULAR_ACCELERATION = Math.PI / 2; // In radians/(sec^2).
     // TODO: This is temp until we figure out how much it should really put out.
     private static final double MAX_ENERGY_OUTPUT_RATE = 10; // In joules / (radians / sec)
     private static final double CRANK_TO_REAR_WHEEL_RATIO = 1;
@@ -192,7 +192,7 @@ public class Biker extends EnergySource {
 
             // Decide if new chem energy chunk should start on its way.
             energyProducedSinceLastChunkEmitted += MAX_ENERGY_OUTPUT_RATE * ( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK ) * dt;
-            if ( energyProducedSinceLastChunkEmitted >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT ) {
+            if ( energyProducedSinceLastChunkEmitted >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT && targetCrankAngularVelocity.get() > 0 ) {
                 // Start a new chunk moving.
                 if ( energyChunkList.size() > 0 ) {
                     EnergyChunk energyChunk = energyChunkList.get( 0 );
