@@ -63,7 +63,7 @@
                                            width:800,
                                            height:600
                                        } );
-        var layer = new Kinetic.Layer();
+        var skaterLayer = new Kinetic.Layer();
 
         var skater = new Kinetic.Image( {
                                             x:140,
@@ -77,11 +77,11 @@
         // add cursor styling
         skater.on( "mouseover", function () { document.body.style.cursor = "pointer";} );
         skater.on( "mouseout", function () { document.body.style.cursor = "default"; } );
-        // add the shape to the layer
-        layer.add( skater );
+        // add the shape to the skaterLayer
+        skaterLayer.add( skater );
 
-        // add the layer to the stage
-        stage.add( layer );
+        // add the skaterLayer to the stage
+        stage.add( skaterLayer );
 
         //or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
         //or here: http://jsfiddle.net/Y9uBv/5/
