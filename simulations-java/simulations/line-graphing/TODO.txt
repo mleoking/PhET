@@ -17,7 +17,7 @@ HIGH
 MEDIUM
 - add support for fractional y-intercept in equations (only when y-intercept is non-interactive)
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
-- sort out duplication in Challenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
+- sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
 
 LOW
 - review usages of Line.simplified

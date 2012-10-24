@@ -1,3 +1,4 @@
+10/24/12 implemented model for "Place 3 Points" challenge, and stubs for view components
 10/24/12 revise class hierarchy to support challenges that are not "matching" challenges
 10/24/12 clean up some uses of Line.color
 10/24/12 eliminate the need for EquationNode.setPaintDeep, replace equation on graphed line when its color changes
