@@ -68,8 +68,5 @@ public abstract class GTL_Challenge extends MatchChallenge {
         if ( answerVisible ) {
             allLines.add( answer );
         }
-        else {
-            allLines.remove( answer );
-        }
     }
 }
