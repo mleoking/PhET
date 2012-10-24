@@ -64,7 +64,8 @@
                                            height:container.height
                                        } );
 
-        var backgroundLayer = new Kinetic.Layer();
+        var groundLayer = new Kinetic.Layer();
+        var skyLayer = new Kinetic.Layer();
         var sky = new Kinetic.Rect( {
                                         x:0,
                                         y:0,
@@ -76,7 +77,6 @@
                                             colorStops:[0, '7cc7fe', 1, '#eef7fe']
                                         }
                                     } );
-        backgroundLayer.add( sky );
 
         var ground = new Kinetic.Rect( {
                                            x:-10,
@@ -87,44 +87,58 @@
                                            stroke:'#008200',
                                            strokeWidth:2
                                        } );
-        backgroundLayer.add( ground );
+        groundLayer.add( ground );
 
         var skaterLayer = new Kinetic.Layer();
-
         var splineLayer = new Kinetic.Layer();
-        var circle = new Kinetic.Circle( {
-                                             x:50,
-                                             y:50,
-                                             radius:50,
-                                             fill:'red',
-                                             stroke:'black',
-                                             strokeWidth:4,
-                                             draggable:true
-                                         } );
 
         var pointerCursor = function () { document.body.style.cursor = "pointer";};
         var defaultCursor = function () { document.body.style.cursor = "default"; };
 
-        // convert shape into an image object
-        circle.toImage( {
-                            // define the size of the new image object
-                            width:100,
-                            height:100,
-                            callback:function ( img ) {
-                                // cache the image as a Kinetic.Image shape
-                                var image = new Kinetic.Image( {
-                                                                   image:img,
-                                                                   draggable:true
-                                                               } );
+        for ( var index = 0; index < 3; index++ ) {
+            var circle = new Kinetic.Circle( {
+                                                 x:21,
+                                                 y:21,
+                                                 radius:20,
+                                                 fill:'blue',
+                                                 stroke:'red',
+                                                 strokeWidth:2,
+                                                 draggable:true,
+                                                 opacity:0.5
+                                             } );
 
-                                image.on( "mouseover", pointerCursor );
-                                image.on( "mouseout", defaultCursor );
-                                console.log( "callback" );
-                                splineLayer.add( image );
-                                splineLayer.draw();
-                            }
-                        } );
+            // convert shape into an image object
+            circle.toImage( {
+                                // define the size of the new image object
+                                width:44,
+                                height:44,
+                                callback:function ( img ) {
+                                    // cache the image as a Kinetic.Image shape
+                                    var image = new Kinetic.Image( {
+                                                                       image:img,
+                                                                       draggable:true
+                                                                   } );
 
+                                    image.on( "mouseover", pointerCursor );
+                                    image.on( "mouseout", defaultCursor );
+                                    console.log( "callback" );
+                                    splineLayer.add( image );
+                                    splineLayer.draw();
+                                }
+                            } );
+        }
+
+        sky.toImage( {width:1024, height:768, callback:function ( img ) {
+            // cache the image as a Kinetic.Image shape
+            var image = new Kinetic.Image( {
+                                               image:img
+                                           } );
+
+            image.on( "mouseover", pointerCursor );
+            image.on( "mouseout", defaultCursor );
+            skyLayer.add( image );
+            skyLayer.draw();
+        }} );
         var skater = new Kinetic.Image( {
                                             x:140,
                                             y:100,
@@ -201,8 +215,9 @@
             causeRepaintsOn.css( "z-index", 1 );
         } );
 
+        stage.add( skyLayer );
         // add the skaterLayer to the stage
-        stage.add( backgroundLayer );
+        stage.add( groundLayer );
         stage.add( splineLayer );
         stage.add( skaterLayer );
 
@@ -233,6 +248,7 @@
             //Don't let the skater go below the ground.
             skater.setY( Math.min( 383, newY ) );
 
+            //Only draw when necessary because otherwise performance is worse on ipad3
             if ( skater.getX() != originalX || skater.getY() != originalY ) {
                 skaterLayer.draw();
             }
