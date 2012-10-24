@@ -113,6 +113,26 @@
                 pointArray.push( circleElement.getX() + circle.getWidth() / 2, circleElement.getY() + circle.getHeight() / 2 );
             }
             track.setPoints( pointArray );
+
+            function getX( point ) {return point.getX() + point.getWidth() / 2;}
+
+            function getY( point ) {return point.getY() + point.getHeight() / 2;}
+
+            var x = circles.map( getX );
+            var y = circles.map( getY );
+            var s = numeric.spline( x, y );
+
+            //http://stackoverflow.com/questions/1669190/javascript-min-max-array-values
+            var x0 = numeric.linspace( Math.min.apply( null, x ), Math.max.apply( null, x ), 1000 );
+//            ctx.beginPath();
+            var myArray = [];
+            for ( var i = 0; i < x0.length; i++ ) {
+                var a = x0[i];
+                var b = s.at( x0[i] );
+                myArray.push( a, b );
+            }
+            track.setPoints( myArray );
+
         };
 
         var circles = [];
