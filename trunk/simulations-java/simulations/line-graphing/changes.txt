@@ -1,3 +1,4 @@
+10/25/12 move starting location of point tools in first 2 tabs, center them under the graph
 10/25/12 GTL challenge: "Target line" -> "Line to Graph", "Your line" -> "Your Line"
 10/25/12 MTE challenge: "Your line" -> "Your Equation", "Target line" -> "Correct Equation"
 10/24/12 add strings for "Place 3 Points" challenge

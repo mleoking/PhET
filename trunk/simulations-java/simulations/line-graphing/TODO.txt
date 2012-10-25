@@ -12,9 +12,6 @@ DESIGN
 HIGH
 - Game: "Place 3 Points" challenge
 - add slope tool (on "your line") when user has gotten challenge wrong and we're showing answer
-- GTL: "Target line" -> "Line to Graph", "Your line" -> "Your Line"
-- MTE: "Your line" -> "Your Equation", "Target line" -> "Correct Equation"
-- move starting location of point tools
 
 MEDIUM
 - add support for fractional y-intercept in equations (only when y-intercept is non-interactive)
