@@ -88,6 +88,7 @@ public class DefaultDecimalFormat extends DecimalFormat {
     // tests
     public static void main( String[] args ) {
 
+        // various values with a large integer component
         assert ( new DefaultDecimalFormat( "0.0" ).format( 1200.0 ).equals( "1200.0" ) );
         assert ( new DefaultDecimalFormat( "0.0" ).format( 999 ).equals( "999.0" ) );
         assert ( new DefaultDecimalFormat( "0.0" ).format( 1001 ).equals( "1001.0" ) );
