@@ -55,7 +55,7 @@ public class EnergySystemsModel {
     public final FaucetAndWater faucet = new FaucetAndWater( energyChunksVisible, waterPoweredGenerator.getObservableActiveState() );
     public final Sun sun = new Sun( solarPanel, energyChunksVisible );
     public final TeaPot teaPot = new TeaPot( energyChunksVisible, waterPoweredGenerator.getObservableActiveState() );
-    public final Biker biker = new Biker( energyChunksVisible );
+    public final Biker biker = new Biker( energyChunksVisible, waterPoweredGenerator.getObservableActiveState() );
 
     // Energy users.
     public final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb();

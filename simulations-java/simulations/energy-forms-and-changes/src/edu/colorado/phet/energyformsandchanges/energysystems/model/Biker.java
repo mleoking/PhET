@@ -134,13 +134,16 @@ public class Biker extends EnergySource {
     // Property through which the target pedaling rate is set.
     public Property<Double> targetCrankAngularVelocity = new Property<Double>( 0.0 ); // In radians/sec
 
+    private final ObservableProperty<Boolean> mechanicalPoweredSystemIsNext;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public Biker( ObservableProperty<Boolean> energyChunksVisible ) {
+    public Biker( ObservableProperty<Boolean> energyChunksVisible, ObservableProperty<Boolean> mechanicalPoweredSystemIsNext ) {
         super( EnergyFormsAndChangesResources.Images.BICYCLE_ICON );
         this.energyChunksVisible = energyChunksVisible;
+        this.mechanicalPoweredSystemIsNext = mechanicalPoweredSystemIsNext;
 
         // Monitor target rotation rate for validity.
         targetCrankAngularVelocity.addObserver( new VoidFunction1<Double>() {
@@ -191,15 +194,20 @@ public class Biker extends EnergySource {
             }
 
             // Decide if new chem energy chunk should start on its way.
-            energyProducedSinceLastChunkEmitted += MAX_ENERGY_OUTPUT_RATE * ( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK ) * dt;
-            if ( energyProducedSinceLastChunkEmitted >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT && targetCrankAngularVelocity.get() > 0 ) {
+            if ( targetCrankAngularVelocity.get() > 0 && mechanicalPoweredSystemIsNext.get()){
+                energyProducedSinceLastChunkEmitted += MAX_ENERGY_OUTPUT_RATE * ( crankAngularVelocity / MAX_ANGULAR_VELOCITY_OF_CRANK ) * dt;
+            }
+            if ( energyProducedSinceLastChunkEmitted >= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT &&
+                 targetCrankAngularVelocity.get() > 0 &&
+                 mechanicalPoweredSystemIsNext.get() ) {
+
                 // Start a new chunk moving.
                 if ( energyChunkList.size() > 0 ) {
                     EnergyChunk energyChunk = energyChunkList.get( 0 );
                     energyChunkMovers.add( new EnergyChunkPathMover( energyChunk, createChemicalEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                     energyChunkList.remove( energyChunk );
                     movingEnergyChunks.add( energyChunk );
-                    energyProducedSinceLastChunkEmitted -= ENERGY_REQUIRED_FOR_CHUNK_TO_EMIT;
+                    energyProducedSinceLastChunkEmitted -= 0;
                 }
             }
 
