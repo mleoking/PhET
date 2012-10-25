@@ -1,3 +1,4 @@
+> Fixed a bug that caused numbers in text boxes to be rounded incorrectly, see #3303
 # 2.04.00 (69435) Oct 23, 2012
 # 2.03.03 (69427) Oct 23, 2012
 Removed unused flavor "Ramp Forces and Motion Basics" before deploy
