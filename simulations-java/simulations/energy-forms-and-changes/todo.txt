@@ -8,6 +8,12 @@ DONE: Make chem energy in biker change to mech at top tube.
 DONE: Make biker always stop at spot where she is about to move
 DONE: Make biker run out of energy chunks, then have "Feed Me" button appear
 
+Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
+
+Integrate new images from Noah.
+
+Fix issues with switching
+
 Remove 3rd tab for now
 Tick marks on cloud slider
 Figure out how to make E's not cluster in the wires leading from solar panel.
