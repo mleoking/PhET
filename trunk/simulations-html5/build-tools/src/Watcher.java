@@ -11,10 +11,8 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 /**
- * For testing with CocoonJS, scan a filesystem and automatically re-zip whenever anything changes.
- * I would have preferred to do this with SBT but couldn't figure out an easy way to do so.
- * <p/>
- * Note: this deletes files from your filesystem, so please be sure you know what you are doing before launching this.
+ * For web development: Scan a filesystem and automatically send a web socket
+ * message that can be used to trigger a reload of the page.
  *
  * @author Sam Reid
  */
