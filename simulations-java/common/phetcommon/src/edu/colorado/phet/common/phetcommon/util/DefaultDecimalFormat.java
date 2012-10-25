@@ -34,14 +34,28 @@ public class DefaultDecimalFormat extends DecimalFormat {
 
     // #3303, Java 1.5 workaround for "nearest neighbor" rounding.
     private double roundNearestNeighbor( double number ) {
-        final int numDigitsToShow = decimalFormat.getMaximumFractionDigits();
+
+        //Find the number before the decimal place but ignore the minus sign if any
+        final int prefix = (int) Math.floor( Math.abs( number ) );
+
+        //Count the digits before the decimal place
+        final int numberOfDigitsBeforeTheDecimal = prefix == 0 ? 0 : Integer.toString( prefix ).length();
+
+        //Total number of digits to show is the number of digits before the decimal plus the number to show afterwards.
+        final int numDigitsToShow = decimalFormat.getMaximumFractionDigits() + numberOfDigitsBeforeTheDecimal;
+
         BigDecimal bigDecimal = new BigDecimal( number, new MathContext( numDigitsToShow, RoundingMode.HALF_UP ) );
         BigDecimal roundedBigDecimal = bigDecimal.setScale( numDigitsToShow, RoundingMode.HALF_UP );
         return roundedBigDecimal.doubleValue();
     }
 
+    @Override public StringBuffer format( final long number, final StringBuffer result, final FieldPosition fieldPosition ) {
+        return format( (double) number, result, fieldPosition );
+    }
+
     public StringBuffer format( double number, StringBuffer result, FieldPosition fieldPosition ) {
-        StringBuffer formattedText = decimalFormat.format( roundNearestNeighbor( number ), new StringBuffer(), fieldPosition );
+        final double rounded = roundNearestNeighbor( number );
+        StringBuffer formattedText = decimalFormat.format( rounded, new StringBuffer(), fieldPosition );
         double parsed = 0;
         try {
             parsed = decimalFormat.parse( formattedText.toString() ).doubleValue();
@@ -73,6 +87,12 @@ public class DefaultDecimalFormat extends DecimalFormat {
     // tests
     public static void main( String[] args ) {
 
+        assert ( new DefaultDecimalFormat( "0.0" ).format( 1200.0 ).equals( "1200.0" ) );
+        assert ( new DefaultDecimalFormat( "0.0" ).format( 999 ).equals( "999.0" ) );
+        assert ( new DefaultDecimalFormat( "0.0" ).format( 1001 ).equals( "1001.0" ) );
+        assert ( new DefaultDecimalFormat( "0.0" ).format( 999.9 ).equals( "999.9" ) );
+        assert ( new DefaultDecimalFormat( "0.0" ).format( 1000.06 ).equals( "1000.1" ) );
+
         // negative zero
         assert ( new DecimalFormat( "0.00" ).format( -0.00001 ).equals( "-0.00" ) );
         assert ( new DefaultDecimalFormat( "0.00" ).format( -0.00001 ).equals( "0.00" ) );
@@ -84,10 +104,18 @@ public class DefaultDecimalFormat extends DecimalFormat {
 
         // positive rounding (odd neighbor)
         assert ( new DefaultDecimalFormat( "0.00" ).format( 0.024 ).equals( "0.02" ) );
+
+        // positive rounding (even neighbor)
+        assert ( new DefaultDecimalFormat( "0.00" ).format( 0.014 ).equals( "0.01" ) );
+        assert ( new DefaultDecimalFormat( "0.00" ).format( 0.015 ).equals( "0.02" ) );
+        assert ( new DefaultDecimalFormat( "0.00" ).format( 0.016 ).equals( "0.02" ) );
+
+        // positive rounding (odd neighbor)
+        assert ( new DefaultDecimalFormat( "0.00" ).format( 0.024 ).equals( "0.02" ) );
         assert ( new DefaultDecimalFormat( "0.00" ).format( 0.025 ).equals( "0.03" ) );
         assert ( new DefaultDecimalFormat( "0.00" ).format( 0.026 ).equals( "0.03" ) );
 
-         // negative rounding (even neighbor)
+        // negative rounding (even neighbor)
         assert ( new DefaultDecimalFormat( "0.00" ).format( -0.014 ).equals( "-0.01" ) );
         assert ( new DefaultDecimalFormat( "0.00" ).format( -0.015 ).equals( "-0.02" ) );
         assert ( new DefaultDecimalFormat( "0.00" ).format( -0.016 ).equals( "-0.02" ) );
