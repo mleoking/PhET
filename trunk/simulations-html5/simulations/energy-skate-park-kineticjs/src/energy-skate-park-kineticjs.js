@@ -300,6 +300,53 @@
 //            splineLayer.draw();
         }
 
+        //Add Internationalization by replacing strings with those loaded from .properties files.
+        //Note this will not work with file:// syntax on chrome
+
+        // This will initialize the plugin
+        // and show two dialog boxes: one with the text "Olá World"
+        // and other with the text "Good morning John!"
+
+        //http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values/901144#901144
+        function getParameterByName( name ) {
+            name = name.replace( /[\[]/, "\\\[" ).replace( /[\]]/, "\\\]" );
+            var regexS = "[\\?&]" + name + "=([^&#]*)";
+            var regex = new RegExp( regexS );
+            var results = regex.exec( window.location.search );
+            if ( results == null ) {
+                return "";
+            }
+            else {
+                return decodeURIComponent( results[1].replace( /\+/g, " " ) );
+            }
+        }
+
+        var language = getParameterByName( "language" );
+
+        if ( language == "" ) {
+            language = "en";
+        }
+
+        console.log( language );
+        jQuery.i18n.properties( {
+                                    name:'energy-skate-park-strings',
+                                    path:'localization/',
+                                    mode:'map',
+                                    language:language,
+                                    callback:function () {
+                                        // We specified mode: 'both' so translated values will be
+                                        // available as JS vars/functions and as a map
+
+                                        $( "#skaterMassLabel" ).html( $.i18n.prop( 'skater.mass' ) );
+                                        $( "#barGraphLabel" ).html( $.i18n.prop( 'plots.bar-graph' ) );
+                                        $( "#pieChartLabel" ).html( $.i18n.prop( 'pieChart' ) );
+                                        $( "#gridLabel" ).html( $.i18n.prop( 'controls.show-grid' ) );
+                                        $( "#speedLabel" ).html( $.i18n.prop( 'properties.speed' ) );
+                                        $( "#returnSkaterButton" ).html( $.i18n.prop( 'controls.reset-character' ) );
+//                                        $( "#resetAllButton" ).html( $.i18n.prop( 'controls.reset-character' ) );
+                                    }
+                                } );
+
         function loop() {
 
             updatePhysics();
