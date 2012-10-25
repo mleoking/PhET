@@ -46,7 +46,7 @@
             }
 
             //Show the CAAT Debug panel at the bottom of the screen
-        CAAT.DEBUG = 1;
+        CAAT.DEBUG = 0;
 
             director = new CAAT.Director().
                     initialize(
