@@ -105,11 +105,22 @@
         var defaultCursor = function () { document.body.style.cursor = "default"; };
 
 
+        var inited = false;
         var updateSplineTrack = function () {
             console.log( "drag" );
+
+            //Have to do this lazily since the images load asynchronously
+            if (controlPoints.length==3 && inited==false){
+                inited = true;
+                controlPoints[1].setX(100);
+                controlPoints[1].setY(200);
+                controlPoints[2].setX(300);
+                controlPoints[2].setY(0);
+            }
+
             var pointArray = [];
-            for ( var i = 0; i < circles.length; i++ ) {
-                var circleElement = circles[i];
+            for ( var i = 0; i < controlPoints.length; i++ ) {
+                var circleElement = controlPoints[i];
                 pointArray.push( circleElement.getX() + circle.getWidth() / 2, circleElement.getY() + circle.getHeight() / 2 );
             }
             track.setPoints( pointArray );
@@ -118,8 +129,8 @@
 
             function getY( point ) {return point.getY() + point.getHeight() / 2;}
 
-            var x = circles.map( getX );
-            var y = circles.map( getY );
+            var x = controlPoints.map( getX );
+            var y = controlPoints.map( getY );
             var s = numeric.spline( x, y );
 
             //http://stackoverflow.com/questions/1669190/javascript-min-max-array-values
@@ -135,7 +146,7 @@
 
         };
 
-        var circles = [];
+        var controlPoints = [];
         for ( var index = 0; index < 3; index++ ) {
             var circle = new Kinetic.Circle( {
                                                  x:21,
@@ -160,7 +171,7 @@
                                                                        draggable:true
                                                                    } );
 
-                                    circles.push( image );
+                                    controlPoints.push( image );
                                     image.on( "mouseover", pointerCursor );
                                     image.on( "mouseout", defaultCursor );
                                     image.on( "dragmove", updateSplineTrack );
