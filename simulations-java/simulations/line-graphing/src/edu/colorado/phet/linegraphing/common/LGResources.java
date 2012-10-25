@@ -34,8 +34,10 @@ public class LGResources {
         public static final String MAKE_THE_EQUATION = RESOURCES.getLocalizedString( "makeTheEquation" );
         public static final String PLACE_3_POINTS = RESOURCES.getLocalizedString( "place3Points" );
         public static final String NOT_A_LINE = RESOURCES.getLocalizedString( "notALine" );
-        public static final String TARGET_LINE = RESOURCES.getLocalizedString( "targetLine" );
+        public static final String LINE_TO_GRAPH = RESOURCES.getLocalizedString( "lineToGraph" );
         public static final String YOUR_LINE = RESOURCES.getLocalizedString( "yourLine" );
+        public static final String YOUR_EQUATION = RESOURCES.getLocalizedString( "yourEquation" );
+        public static final String CORRECT_EQUATION = RESOURCES.getLocalizedString( "correctEquation" );
 
         public static final String SYMBOL_X = RESOURCES.getLocalizedString( "symbol.x" );
         public static final String SYMBOL_X1 = RESOURCES.getLocalizedString( "symbol.x1" );
