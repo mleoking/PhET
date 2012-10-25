@@ -1,3 +1,4 @@
+Clear dirty rectangles
 # 00.00.13 (69514) Oct 25, 2012
 Moved source out of "app" dir to get it to work whether compiled or not
 Converted to grunt build
