@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_es_PE.xml created Wed Oct 24 11:59:57 COT 2012 using: geometric-optics 2.05.00 (52650), translation-utility 2.14.00 (69024) oct 9, 2012--><SimStrings>
+<string key="draggableScreen" value="Pantalla arrastrable"/>
+<string key="draggableLens" value="Lente arrastrable"/>
+<string key="screen" value="Pantalla"/>
+<string key="draggableRuler" value="Regla arrastrable"/>
+<string key="simTitle" value="Óptica Geométrica"/>
+<string key="showHelp" value="Mostrar Ayuda"/>
+<string key="moveMe" value="¡Muéveme!"/>
+<string key="showGuides" value="Mostrar Guías"/>
+<string key="diameter" value="Diámetro(m)"/>
+<string key="ruler" value="Regla"/>
+<string key="focalPoint" value="Punto focal"/>
+<string key="curvatureRadius" value="Radio de curvatura(m)"/>
+<string key="changeObject" value="Cambiar Objeto"/>
+<string key="principalRays" value="Rayos principales"/>
+<string key="marginalRays" value="Rayos marginales"/>
+<string key="virtualImage" value="Imagen Virtual"/>
+<string key="noRays" value="Sin rayos"/>
+<string key="secondSource" value="2do Punto"/>
+<string key="hideHelp" value="Ocultar Ayuda"/>
+<string key="refractiveIndex" value="Índice refractivo"/>
+<string key="translation.credits" value="Por Héctor R. MALLMA ALVARADO (UNFV)(LIMA-PERÚ) hecmall@hotmail.com; hecmall@outlook.com"/>
+<string key="manyRays" value="Muchos rayos"/>
+</SimStrings>
