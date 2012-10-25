@@ -49,11 +49,12 @@ public class DefaultDecimalFormat extends DecimalFormat {
         return roundedBigDecimal.doubleValue();
     }
 
+    // ints are promoted to long, so we need to override the version of format that takes a long, otherwise #3303 won't be applied.
     @Override public StringBuffer format( final long number, final StringBuffer result, final FieldPosition fieldPosition ) {
         return format( (double) number, result, fieldPosition );
     }
 
-    public StringBuffer format( double number, StringBuffer result, FieldPosition fieldPosition ) {
+    @Override public StringBuffer format( double number, StringBuffer result, FieldPosition fieldPosition ) {
         final double rounded = roundNearestNeighbor( number );
         StringBuffer formattedText = decimalFormat.format( rounded, new StringBuffer(), fieldPosition );
         double parsed = 0;
