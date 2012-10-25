@@ -32,6 +32,20 @@ require( [
     var maxDetectedViewportWidth = 0.0;
     var maxDetectedViewportHeight = 0.0;
 
+    function listenForRefresh() {
+        if ( "WebSocket" in window ) {
+            // Let us open a web socket
+            var ws = new WebSocket( "ws://localhost:8887/echo" );
+            ws.onmessage = function ( evt ) { document.location.reload( true ); };
+            ws.onclose = function () { };
+            console.log( "opened websocket" );
+        }
+        else {
+            // The browser doesn't support WebSocket
+            alert( "WebSocket NOT supported by your Browser!" );
+        }
+    }
+
     var updateViewport = function () {
         if ( window.innerWidth !== viewportWidth || window.innerHeight !== viewportHeight ) {
             viewportWidth = window.innerWidth;
@@ -65,6 +79,9 @@ require( [
 
     // Initialize the canvas and context.
     function init() {
+
+        // Listen for changes to source files and reload when changes occur.
+        listenForRefresh();
 
         // Initialize references to the HTML5 canvas and its context.
         canvas = $( '#canvas' )[0];
