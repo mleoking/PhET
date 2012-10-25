@@ -278,12 +278,19 @@
 
         //or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
         //or here: http://jsfiddle.net/Y9uBv/5/
-        var requestAnimationFrame =
-                requestAnimationFrame ||
-                webkitRequestAnimationFrame ||
-                mozRequestAnimationFrame ||
-                msRequestAnimationFrame ||
-                oRequestAnimationFrame;
+        //See http://stackoverflow.com/questions/5605588/how-to-use-requestanimationframe
+        var requestAnimationFrame = function(){
+            return (
+                window.requestAnimationFrame       ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame    ||
+                window.oRequestAnimationFrame      ||
+                window.msRequestAnimationFrame     ||
+                function(/* function */ callback){
+                    window.setTimeout(callback, 1000 / 60);
+                }
+            );
+        }();
 
 
         skater.velocityY = 0;
