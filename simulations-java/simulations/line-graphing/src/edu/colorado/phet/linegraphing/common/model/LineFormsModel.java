@@ -107,8 +107,8 @@ public class LineFormsModel implements Resettable {
         }
 
         // point tools
-        this.pointTool1 = new PointTool( new Vector2D( graph.xRange.getMin() + ( 0.65 * graph.xRange.getLength() ), graph.yRange.getMin() - 0.25 ), Orientation.UP, allLines );
-        this.pointTool2 = new PointTool( new Vector2D( graph.xRange.getMin() + ( 0.90 * graph.xRange.getLength() ), graph.yRange.getMin() - 2.75 ), Orientation.DOWN, allLines );
+        this.pointTool1 = new PointTool( new Vector2D( graph.xRange.getMin() + ( 0.35 * graph.xRange.getLength() ), graph.yRange.getMin() - 0.25 ), Orientation.UP, allLines );
+        this.pointTool2 = new PointTool( new Vector2D( graph.xRange.getMin() + ( 0.65 * graph.xRange.getLength() ), graph.yRange.getMin() - 2.75 ), Orientation.DOWN, allLines );
 
         // Dynamically adjust ranges so that variables are constrained to the bounds of the graph.
         this.interactiveLine.addObserver( new VoidFunction1<Line>() {
