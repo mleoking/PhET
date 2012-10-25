@@ -7,7 +7,6 @@ DESIGN
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 - navigation game
 - should intercept manipulator be same color as point manipulator? It's a special-case of point.
-- Game: titles on equation boxes
 
 HIGH
 - Game: "Place 3 Points" challenge
@@ -20,7 +19,6 @@ MEDIUM
 
 LOW
 - review usages of Line.simplified
-- add "verbose" mode to equation code, in case we want to show exactly what is in model
 - repackage, in anticipation of having 3 sims in this project
 
 DEVELOPER CONTROLS
