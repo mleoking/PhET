@@ -207,7 +207,7 @@ public class Biker extends EnergySource {
                     energyChunkMovers.add( new EnergyChunkPathMover( energyChunk, createChemicalEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                     energyChunkList.remove( energyChunk );
                     movingEnergyChunks.add( energyChunk );
-                    energyProducedSinceLastChunkEmitted -= 0;
+                    energyProducedSinceLastChunkEmitted = 0;
                 }
             }
 
