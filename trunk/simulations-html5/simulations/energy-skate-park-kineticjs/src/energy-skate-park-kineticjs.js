@@ -40,7 +40,8 @@
         }
         else {
             // The browser doesn't support WebSocket
-            alert( "WebSocket NOT supported by your Browser!" );
+//            alert( "WebSocket NOT supported by your Browser!" );
+            console.log( "WebSocket NOT supported by your Browser!" );
         }
     }
 
@@ -66,17 +67,24 @@
 
         var groundLayer = new Kinetic.Layer();
         var skyLayer = new Kinetic.Layer();
-        var sky = new Kinetic.Rect( {
-                                        x:0,
-                                        y:0,
-                                        width:1024,
-                                        height:768,
-                                        fill:{
-                                            start:{ x:0, y:0 },
-                                            end:{ x:0, y:600 },
-                                            colorStops:[0, '7cc7fe', 1, '#eef7fe']
-                                        }
-                                    } );
+
+        var sky = (navigator.userAgent.indexOf( "Firefox" ) == -1) ? new Kinetic.Rect( {
+                                                                                           x:0,
+                                                                                           y:0,
+                                                                                           width:1024,
+                                                                                           height:768,
+                                                                                           fill:{
+                                                                                               start:{ x:0, y:0 },
+                                                                                               end:{ x:0, y:600 },
+                                                                                               colorStops:[0, '7cc7fe', 1, '#eef7fe']
+                                                                                           }
+                                                                                       } ) : new Kinetic.Rect( {
+                                                                                                                   x:0,
+                                                                                                                   y:0,
+                                                                                                                   width:1024,
+                                                                                                                   height:768,
+                                                                                                                   fill:'7cc7fe'
+                                                                                                               } );
 
         var ground = new Kinetic.Rect( {
                                            x:-10,
@@ -110,12 +118,12 @@
             console.log( "drag" );
 
             //Have to do this lazily since the images load asynchronously
-            if (controlPoints.length==3 && inited==false){
+            if ( controlPoints.length == 3 && inited == false ) {
                 inited = true;
-                controlPoints[1].setX(100);
-                controlPoints[1].setY(200);
-                controlPoints[2].setX(300);
-                controlPoints[2].setY(0);
+                controlPoints[1].setX( 100 );
+                controlPoints[1].setY( 200 );
+                controlPoints[2].setX( 300 );
+                controlPoints[2].setY( 0 );
             }
 
             var pointArray = [];
@@ -279,17 +287,17 @@
         //or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
         //or here: http://jsfiddle.net/Y9uBv/5/
         //See http://stackoverflow.com/questions/5605588/how-to-use-requestanimationframe
-        var requestAnimationFrame = function(){
+        var requestAnimationFrame = function () {
             return (
-                window.requestAnimationFrame       ||
-                window.webkitRequestAnimationFrame ||
-                window.mozRequestAnimationFrame    ||
-                window.oRequestAnimationFrame      ||
-                window.msRequestAnimationFrame     ||
-                function(/* function */ callback){
-                    window.setTimeout(callback, 1000 / 60);
-                }
-            );
+                    window.requestAnimationFrame ||
+                    window.webkitRequestAnimationFrame ||
+                    window.mozRequestAnimationFrame ||
+                    window.oRequestAnimationFrame ||
+                    window.msRequestAnimationFrame ||
+                    function ( /* function */ callback ) {
+                        window.setTimeout( callback, 1000 / 60 );
+                    }
+                    );
         }();
 
 
