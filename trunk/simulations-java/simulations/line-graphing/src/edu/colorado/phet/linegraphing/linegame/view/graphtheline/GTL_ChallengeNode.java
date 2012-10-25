@@ -40,8 +40,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public abstract class GTL_ChallengeNode extends ChallengeNode {
 
-    private static final int ICON_X_SPACING = 10;
-
     public GTL_ChallengeNode( final LineGameModel model, final GTL_Challenge challenge, final GameAudioPlayer audioPlayer, final PDimension challengeSize ) {
 
         PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
@@ -108,6 +106,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         }
 
         // layout
+        final int iconXSpacing = 10;
         {
             // title centered at top
             titleNode.setOffset( ( challengeSize.getWidth() / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
@@ -117,7 +116,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
             answerBoxNode.setOffset( ( challengeSize.getWidth() / 2 ) - answerBoxNode.getFullBoundsReference().getWidth() - 40,
                                      graphNode.getFullBoundsReference().getMinY() + 70 );
             // correct/incorrect icons are to left of equations
-            answerCorrectNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX() - answerCorrectNode.getFullBoundsReference().getWidth() - ICON_X_SPACING,
+            answerCorrectNode.setOffset( answerBoxNode.getFullBoundsReference().getMinX() - answerCorrectNode.getFullBoundsReference().getWidth() - iconXSpacing,
                                          answerBoxNode.getFullBoundsReference().getCenterY() - ( answerCorrectNode.getFullBoundsReference().getHeight() / 2 ) );
             // graphNode is positioned automatically based on mvt's origin offset.
             // buttons centered at bottom of challenge space
@@ -155,9 +154,9 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
 
 
                 // center icons on guess box
-                guessCorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMinX() - guessCorrectNode.getFullBoundsReference().getWidth() - ICON_X_SPACING,
+                guessCorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMinX() - guessCorrectNode.getFullBoundsReference().getWidth() - iconXSpacing,
                                             guessEquationParent.getFullBoundsReference().getCenterY() - ( guessCorrectNode.getFullBoundsReference().getHeight() / 2 ) );
-                guessIncorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMinX() - guessIncorrectNode.getFullBoundsReference().getWidth() - ICON_X_SPACING,
+                guessIncorrectNode.setOffset( guessEquationParent.getFullBoundsReference().getMinX() - guessIncorrectNode.getFullBoundsReference().getWidth() - iconXSpacing,
                                               guessEquationParent.getFullBoundsReference().getCenterY() - ( guessIncorrectNode.getFullBoundsReference().getHeight() / 2 ) );
 
                 // make relevant icons visible
