@@ -7,12 +7,14 @@ DESIGN
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 - navigation game
 - should intercept manipulator be same color as point manipulator? It's a special-case of point.
-- Game: do we need to horizontally align relops in equation boxes? (I think not)
 - Game: titles on equation boxes
-- Game: for GTL challenges, showing "your line" in simplified form means that it may not match the line manipulators, creates a disconnect
 
 HIGH
 - Game: "Place 3 Points" challenge
+- add slope tool (on "your line") when user has gotten challenge wrong and we're showing answer
+- GTL: "Target line" -> "Line to Graph", "Your line" -> "Your Line"
+- MTE: "Your line" -> "Your Equation", "Target line" -> "Correct Equation"
+- move starting location of point tools
 
 MEDIUM
 - add support for fractional y-intercept in equations (only when y-intercept is non-interactive)
