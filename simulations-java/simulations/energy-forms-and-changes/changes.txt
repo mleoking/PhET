@@ -1,3 +1,5 @@
+# 0.00.24 (69581) Oct 26, 2012
+10/26/12 Publishing to dev for review
 2nd tab: Integrated an image of the biker looking tired that replaces the main body when the biker runs out of food.
 2nd tab: Fixed an issue where energy chunks weren't being fully cleared when tea pot was swapped out.
 2nd tab: Fixed an issue where energy chunks weren't being fully cleared when biker was swapped out.
