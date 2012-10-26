@@ -56,15 +56,15 @@ public class Biker extends EnergySource {
 
     // Images used for animation.
     public static final List<ModelElementImage> FRONT_LEG_IMAGES = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( FRONT_LEG_1, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_2, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_3, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_4, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_5, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_6, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_7, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_8, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( FRONT_LEG_9, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_01, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_02, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_03, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_04, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_05, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_06, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_07, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_08, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( FRONT_LEG_09, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( FRONT_LEG_10, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( FRONT_LEG_11, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( FRONT_LEG_12, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
@@ -83,15 +83,15 @@ public class Biker extends EnergySource {
     }};
 
     public static final List<ModelElementImage> BACK_LEG_IMAGES = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( BACK_LEG_1, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_2, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_3, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_4, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_5, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_6, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_7, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_8, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
-        add( new ModelElementImage( BACK_LEG_9, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_01, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_02, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_03, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_04, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_05, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_06, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_07, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_08, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
+        add( new ModelElementImage( BACK_LEG_09, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( BACK_LEG_10, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( BACK_LEG_11, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
         add( new ModelElementImage( BACK_LEG_12, FRAME_CENTER_OFFSET.plus( LEG_IMAGE_OFFSET ) ) );
