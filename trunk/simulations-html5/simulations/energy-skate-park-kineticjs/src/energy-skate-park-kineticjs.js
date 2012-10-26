@@ -126,6 +126,7 @@
                 controlPoints[2].setY( 0 );
             }
 
+            //use the same algorithm as in trunk\simulations-java\common\spline\src\edu\colorado\phet\common\spline\CubicSpline2D.java
             var pointArray = [];
             for ( var i = 0; i < controlPoints.length; i++ ) {
                 var circleElement = controlPoints[i];
@@ -139,19 +140,22 @@
 
             var x = controlPoints.map( getX );
             var y = controlPoints.map( getY );
-            var s = numeric.spline( x, y );
+            var s = numeric.linspace( 0, 1, controlPoints.length );
+            var splineX = numeric.spline( s,x );
+            var splineY = numeric.spline( s,y );
+
+            var sAll = numeric.linspace( 0, 1, 1000 );
 
             //http://stackoverflow.com/questions/1669190/javascript-min-max-array-values
-            var x0 = numeric.linspace( Math.min.apply( null, x ), Math.max.apply( null, x ), 1000 );
+//            var x0 = numeric.linspace( Math.min.apply( null, x ), Math.max.apply( null, x ), 1000 );
 //            ctx.beginPath();
             var myArray = [];
-            for ( var i = 0; i < x0.length; i++ ) {
-                var a = x0[i];
-                var b = s.at( x0[i] );
-                myArray.push( a, b );
+            for ( var i = 0; i < sAll.length; i++ ) {
+                var b = splineX.at( sAll[i] ) ;
+                var a = splineY.at( sAll[i] );
+                myArray.push( b,a);
             }
             track.setPoints( myArray );
-
         };
 
         var controlPoints = [];
