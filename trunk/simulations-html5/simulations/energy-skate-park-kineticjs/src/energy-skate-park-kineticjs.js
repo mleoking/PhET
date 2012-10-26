@@ -229,6 +229,14 @@
 
         skaterLayer.add( skater );
 
+        var skaterDebugShape = new Kinetic.Circle( {
+                                                       x:0,
+                                                       y:0,
+                                                       radius:3,
+                                                       fill:'red'
+                                                   } );
+        skaterLayer.add( skaterDebugShape );
+
         var top = 1;
         //Scale up or down to fit the screen
         function updateStageSize() {
@@ -321,14 +329,17 @@
 //            console.log( "v = " + skater.velocityY );
 
             //Don't let the skater go below the ground.
-            skater.setY( Math.min( 383, newY ) );
+            var newSkaterY = Math.min( 383, newY );
+            skater.setY( newSkaterY );
+
+            skaterDebugShape.setX(originalX + skater.getWidth()/2);
+            skaterDebugShape.setY(newSkaterY + skater.getHeight());
+            //don't let the skater cross the spline
 
             //Only draw when necessary because otherwise performance is worse on ipad3
             if ( skater.getX() != originalX || skater.getY() != originalY ) {
                 skaterLayer.draw();
             }
-
-//            splineLayer.draw();
         }
 
         //Add Internationalization by replacing strings with those loaded from .properties files.
