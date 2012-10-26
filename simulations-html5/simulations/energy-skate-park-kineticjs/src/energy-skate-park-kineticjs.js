@@ -149,8 +149,6 @@
             var sAll = numeric.linspace( 0, 1, 75 );
 
             //http://stackoverflow.com/questions/1669190/javascript-min-max-array-values
-//            var x0 = numeric.linspace( Math.min.apply( null, x ), Math.max.apply( null, x ), 1000 );
-//            ctx.beginPath();
             var myArray = [];
             for ( var i = 0; i < sAll.length; i++ ) {
                 var b = splineX.at( sAll[i] );
@@ -269,12 +267,6 @@
                 right = 0;
             }
 
-            var w = 200 * scale;
-//            top = top + 1;
-
-            //            $( ".controlPanel" ).css( "right", 5*scale );
-//            console.log( scale + ", top = " + top );
-//            console.log( "w = " + w );
             $( ".controlPanel" ).
 //                    css( "-webkit-transform", "scale(" + scale + "," + scale + ")" ).
                     css( "top", top ).css( "right", right );
@@ -326,8 +318,6 @@
                 newY = skater.getY() + skater.velocityY * 1;
             }
             skater.setY( newY );
-
-//            console.log( "v = " + skater.velocityY );
 
             //Don't let the skater go below the ground.
             var newSkaterY = Math.min( 383, newY );
@@ -395,7 +385,6 @@
         function loop() {
 
             updatePhysics();
-//            renderGraphics();
             requestAnimationFrame( loop );
         }
 
