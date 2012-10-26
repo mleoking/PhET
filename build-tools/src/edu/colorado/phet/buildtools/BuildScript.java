@@ -2,6 +2,7 @@
 package edu.colorado.phet.buildtools;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -324,7 +325,12 @@ public class BuildScript {
 
     private boolean uploadProject( AuthenticationInfo authenticationInfo, String remotePathDir, String host ) {
 
-        File[] f = project.getDeployDir().listFiles(); //TODO: should handle recursive for future use (if we ever want to support nested directories)
+        //Ignore "node_modules" for grunt build directories upload
+        File[] f = project.getDeployDir().listFiles(new FilenameFilter() {
+            public boolean accept( final File dir, final String name ) {
+                return !name.equals( "node_modules" );
+            }
+        } ); //TODO: should handle recursive for future use (if we ever want to support nested directories)
         return uploadFiles( authenticationInfo, remotePathDir, host, f );
     }
 
