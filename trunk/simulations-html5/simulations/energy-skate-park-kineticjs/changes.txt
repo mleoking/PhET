@@ -1,3 +1,4 @@
+# 00.00.06 (69567) Oct 26, 2012
 Work around addColorStop error on Firefox and IE
 # 00.00.05 (69565) Oct 26, 2012
 # 00.00.04 (69509) Oct 24, 2012
