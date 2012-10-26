@@ -158,6 +158,33 @@
             track.setPoints( myArray );
         };
 
+        function updatePhysics() {
+            var originalX = skater.getX();
+            var originalY = skater.getY();
+
+            var newY = skater.getY();
+            if ( !skater.dragging ) {
+                skater.velocityY = skater.velocityY + 0.5;
+                newY = skater.getY() + skater.velocityY * 1;
+            }
+            skater.setY( newY );
+
+            //Don't let the skater go below the ground.
+            var newSkaterY = Math.min( 383, newY );
+            skater.setY( newSkaterY );
+
+            skaterDebugShape.setX( originalX + skater.getWidth() / 2 );
+            skaterDebugShape.setY( newSkaterY + skater.getHeight() );
+
+
+            //don't let the skater cross the spline
+
+            //Only draw when necessary because otherwise performance is worse on ipad3
+            if ( skater.getX() != originalX || skater.getY() != originalY ) {
+                skaterLayer.draw();
+            }
+        }
+
         var controlPoints = [];
         for ( var index = 0; index < 3; index++ ) {
             var circle = new Kinetic.Circle( {
@@ -308,32 +335,6 @@
 
 
         skater.velocityY = 0;
-        function updatePhysics() {
-            var originalX = skater.getX();
-            var originalY = skater.getY();
-
-            var newY = skater.getY();
-            if ( !skater.dragging ) {
-                skater.velocityY = skater.velocityY + 0.5;
-                newY = skater.getY() + skater.velocityY * 1;
-            }
-            skater.setY( newY );
-
-            //Don't let the skater go below the ground.
-            var newSkaterY = Math.min( 383, newY );
-            skater.setY( newSkaterY );
-
-            skaterDebugShape.setX(originalX + skater.getWidth()/2);
-            skaterDebugShape.setY(newSkaterY + skater.getHeight());
-
-
-            //don't let the skater cross the spline
-
-            //Only draw when necessary because otherwise performance is worse on ipad3
-            if ( skater.getX() != originalX || skater.getY() != originalY ) {
-                skaterLayer.draw();
-            }
-        }
 
         //Add Internationalization by replacing strings with those loaded from .properties files.
         //Note this will not work with file:// syntax on chrome
