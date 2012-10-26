@@ -10,6 +10,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -79,8 +80,10 @@ public class BikerNode extends PositionableFadableModelElementNode {
         } );
 
         // Add the upper body.
-        PNode upperBody = new ModelElementImageNode( Biker.RIDER_UPPER_BODY_IMAGE, mvt );
-        addChild( upperBody );
+        final PNode upperBodyNormal = new ModelElementImageNode( Biker.RIDER_NORMAL_UPPER_BODY_IMAGE, mvt );
+        addChild( upperBodyNormal );
+        final PNode upperBodyTired = new ModelElementImageNode( Biker.RIDER_TIRED_UPPER_BODY_IMAGE, mvt );
+        addChild( upperBodyTired );
 
         // Add the energy chunk layers.
         addChild( new EnergyChunkLayer( biker.energyChunkList, biker.getObservablePosition(), mvt ) );
@@ -89,25 +92,34 @@ public class BikerNode extends PositionableFadableModelElementNode {
         // Add button to replenish the biker's energy.
         // TODO: i18n
         feedMeButton = new TextButtonNode( "Feed Me", new PhetFont( 18 ), new Color( 0, 220, 0 ) );
-        feedMeButton.setOffset( -feedMeButton.getFullBoundsReference().width / 2, upperBody.getFullBoundsReference().getMinY() - 45 );
+        feedMeButton.setOffset( -feedMeButton.getFullBoundsReference().width / 2, upperBodyNormal.getFullBoundsReference().getMinY() - 45 );
         feedMeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 biker.replenishEnergyChunks();
             }
         } );
+        final Function0<Boolean> vizUpdater = new Function0<Boolean>() {
+            public Boolean apply() {
+                boolean outOfEnergy = biker.energyChunkList.size() == 0 && biker.isActive();
+                feedMeButton.setVisible( outOfEnergy );
+                upperBodyNormal.setVisible( !outOfEnergy );
+                upperBodyTired.setVisible( outOfEnergy );
+                return outOfEnergy;
+            }
+        };
         biker.energyChunkList.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
             public void apply( EnergyChunk energyChunk ) {
-                updateFeedMeButtonVisibility( biker );
+                vizUpdater.apply();
             }
         } );
         biker.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
             public void apply( EnergyChunk energyChunk ) {
-                updateFeedMeButtonVisibility( biker );
+                vizUpdater.apply();
             }
         } );
         biker.getObservableActiveState().addObserver( new SimpleObserver() {
             public void update() {
-                updateFeedMeButtonVisibility( biker );
+                vizUpdater.apply();
             }
         } );
         addChild( feedMeButton );
@@ -126,10 +138,6 @@ public class BikerNode extends PositionableFadableModelElementNode {
                 spokesImage.rotateAboutPoint( -delta, wheelRotationPoint );
             }
         } );
-    }
-
-    private void updateFeedMeButtonVisibility( Biker biker ) {
-        feedMeButton.setVisible( biker.energyChunkList.size() == 0 && biker.isActive() );
     }
 
     private static class CrankRateSlider extends PNode {

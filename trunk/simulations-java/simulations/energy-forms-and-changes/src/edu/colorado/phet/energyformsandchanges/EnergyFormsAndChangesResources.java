@@ -49,6 +49,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage BICYCLE_FRAME_2 = RESOURCES.getImage( "bicycle_frame_2.png" );
         public static final BufferedImage BICYCLE_ICON = RESOURCES.getImage( "bicycle_icon.png" );
         public static final BufferedImage BICYCLE_RIDER = RESOURCES.getImage( "bicycle_rider.png" );
+        public static final BufferedImage BICYCLE_RIDER_TIRED = RESOURCES.getImage( "bicycle_rider_tired.png" );
         public static final BufferedImage BICYCLE_SPOKES = RESOURCES.getImage( "bicycle_spokes.png" );
         public static final BufferedImage BRICK_TEXTURE_FRONT = RESOURCES.getImage( "brick_texture_front.png" );
         public static final BufferedImage BRICK_TEXTURE_RIGHT = RESOURCES.getImage( "brick_texture_right.png" );
