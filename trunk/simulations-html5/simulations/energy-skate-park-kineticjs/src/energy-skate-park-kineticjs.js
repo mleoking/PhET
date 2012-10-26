@@ -145,7 +145,8 @@
             var splineX = numeric.spline( s, x );
             var splineY = numeric.spline( s, y );
 
-            var sAll = numeric.linspace( 0, 1, 1000 );
+            //Use 75 interpolating points because it is smooth enough even for a very large track (experimented with 3 control points only, with more control points may need more samples)
+            var sAll = numeric.linspace( 0, 1, 75 );
 
             //http://stackoverflow.com/questions/1669190/javascript-min-max-array-values
 //            var x0 = numeric.linspace( Math.min.apply( null, x ), Math.max.apply( null, x ), 1000 );
@@ -334,6 +335,8 @@
 
             skaterDebugShape.setX(originalX + skater.getWidth()/2);
             skaterDebugShape.setY(newSkaterY + skater.getHeight());
+
+
             //don't let the skater cross the spline
 
             //Only draw when necessary because otherwise performance is worse on ipad3
