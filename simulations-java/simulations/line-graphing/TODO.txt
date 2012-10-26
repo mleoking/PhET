@@ -11,8 +11,10 @@ DESIGN
 HIGH
 - Game: "Place 3 Points" challenge
 - add slope tool (on "your line") when user has gotten challenge wrong and we're showing answer
+- use color of line for color of title in EquationBoxNode
 
 MEDIUM
+- add ability to specify alternate title (eg "Set the slope", "Set the y intercept") for challenges
 - add support for fractional y-intercept in equations (only when y-intercept is non-interactive)
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
