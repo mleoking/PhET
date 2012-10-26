@@ -68,23 +68,24 @@
         var groundLayer = new Kinetic.Layer();
         var skyLayer = new Kinetic.Layer();
 
-        var sky = (navigator.userAgent.indexOf( "Firefox" ) == -1) ? new Kinetic.Rect( {
-                                                                                           x:0,
-                                                                                           y:0,
-                                                                                           width:1024,
-                                                                                           height:768,
-                                                                                           fill:{
-                                                                                               start:{ x:0, y:0 },
-                                                                                               end:{ x:0, y:600 },
-                                                                                               colorStops:[0, '7cc7fe', 1, '#eef7fe']
-                                                                                           }
-                                                                                       } ) : new Kinetic.Rect( {
-                                                                                                                   x:0,
-                                                                                                                   y:0,
-                                                                                                                   width:1024,
-                                                                                                                   height:768,
-                                                                                                                   fill:'7cc7fe'
-                                                                                                               } );
+        //Work around addColorStop error on Firefox and IE
+        var sky = !($.browser.mozilla || $.browser.msie) ? new Kinetic.Rect( {
+                                                                                 x:0,
+                                                                                 y:0,
+                                                                                 width:1024,
+                                                                                 height:768,
+                                                                                 fill:{
+                                                                                     start:{ x:0, y:0 },
+                                                                                     end:{ x:0, y:600 },
+                                                                                     colorStops:[0, '7cc7fe', 1, '#eef7fe']
+                                                                                 }
+                                                                             } ) : new Kinetic.Rect( {
+                                                                                                         x:0,
+                                                                                                         y:0,
+                                                                                                         width:1024,
+                                                                                                         height:768,
+                                                                                                         fill:'7cc7fe'
+                                                                                                     } );
 
         var ground = new Kinetic.Rect( {
                                            x:-10,
@@ -141,8 +142,8 @@
             var x = controlPoints.map( getX );
             var y = controlPoints.map( getY );
             var s = numeric.linspace( 0, 1, controlPoints.length );
-            var splineX = numeric.spline( s,x );
-            var splineY = numeric.spline( s,y );
+            var splineX = numeric.spline( s, x );
+            var splineY = numeric.spline( s, y );
 
             var sAll = numeric.linspace( 0, 1, 1000 );
 
@@ -151,9 +152,9 @@
 //            ctx.beginPath();
             var myArray = [];
             for ( var i = 0; i < sAll.length; i++ ) {
-                var b = splineX.at( sAll[i] ) ;
+                var b = splineX.at( sAll[i] );
                 var a = splineY.at( sAll[i] );
-                myArray.push( b,a);
+                myArray.push( b, a );
             }
             track.setPoints( myArray );
         };
