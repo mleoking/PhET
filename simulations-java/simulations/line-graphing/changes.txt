@@ -1,3 +1,5 @@
+10/26/12 relax assertion in SlopeInterceptEquationNode to allow fractional y-intercept when y-intercept is not interactive
+10/26/12 use MathUtil.isInteger(value) instead of (value==Math.round(value))
 10/25/12 change some class constants to final local vars
 10/25/12 move starting location of point tools in first 2 tabs, center them under the graph
 10/25/12 GTL challenge: "Target line" -> "Line to Graph", "Your line" -> "Your Line"

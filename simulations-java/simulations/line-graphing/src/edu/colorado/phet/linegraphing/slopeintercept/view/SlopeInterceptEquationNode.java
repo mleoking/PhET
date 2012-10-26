@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.slopeintercept.view;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -117,7 +118,8 @@ public class SlopeInterceptEquationNode extends EquationNode {
         interactiveLine.addObserver( new VoidFunction1<Line>() {
 
             public void apply( Line line ) {
-                assert ( line.x1 == 0 ); // line is in slope-intercept form
+                // If intercept is interactive, then (x1,y1) must be on a grid line on the y intercept.
+                assert ( !interactiveIntercept || ( line.x1 == 0 && MathUtil.isInteger( line.y1 ) ) );
 
                 // Synchronize the controls atomically.
                 updatingControls = true;
