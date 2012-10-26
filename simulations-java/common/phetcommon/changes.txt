@@ -1,3 +1,4 @@
+10/26/12 add MathUtil.isInteger (initial use in line-graphing)
 10/25/12 #3303, Fixes for DefaultDecimalFormat
 10/4/12 #3450, added "Sylfaen" as the preferred font for Armenian (hy)
 10/1/12 Added "remove all clock listeners" methods to clocks

@@ -712,4 +712,9 @@ public class MathUtil {
             return getGreatestCommonDivisor( b, a % b );
         }
     }
+
+    // Returns true if the specified value is an integer.
+    public static boolean isInteger( double value ) {
+        return value == Math.round( value );
+    }
 }
