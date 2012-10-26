@@ -265,6 +265,7 @@ public class Biker extends EnergySource {
     @Override public void clearEnergyChunks() {
         super.clearEnergyChunks();
         movingEnergyChunks.clear();
+        energyChunkMovers.clear();
     }
 
     @Override public List<EnergyChunk> extractOutgoingEnergyChunks() {

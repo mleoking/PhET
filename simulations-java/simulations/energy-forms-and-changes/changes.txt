@@ -1,3 +1,4 @@
+2nd tab: Fixed an issue where energy chunks weren't being fully cleared when biker was swapped out.
 2nd tab: Fixed an issue where the biker used all energy instantly when pedaling.
 # 0.00.23 (69513) Oct 25, 2012
 10/25/12 Deploying to dev for review.
