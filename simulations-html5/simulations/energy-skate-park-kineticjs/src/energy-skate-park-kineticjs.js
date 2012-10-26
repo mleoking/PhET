@@ -153,9 +153,15 @@
             for ( var i = 0; i < sAll.length; i++ ) {
                 var b = splineX.at( sAll[i] );
                 var a = splineY.at( sAll[i] );
-                myArray.push( b, a );
+                myArray.push( {x:b, y:a} );
             }
             track.setPoints( myArray );
+        };
+
+        var getDistance = function ( a, b ) {
+            var deltaX = a.x - b.x;
+            var deltaY = a.y - b.y;
+            return Math.sqrt( deltaX * deltaX + deltaY * deltaY );
         };
 
         function updatePhysics() {
@@ -176,12 +182,29 @@
             skaterDebugShape.setX( originalX + skater.getWidth() / 2 );
             skaterDebugShape.setY( newSkaterY + skater.getHeight() );
 
+            //Find the closest part of the track and see if above or below it.
+            //1. Find the closest part of the track
+            //Shallow copy since sort modifies the list.  (Maybe underscore to the rescue here?)
+            var points = track.getPoints().slice( 0 );
+            var skaterLocation = {x:skaterDebugShape.getX(), y:skaterDebugShape.getY()};
+            points.sort( function ( a, b ) {return getDistance( a, skaterLocation ) - getDistance( b, skaterLocation );} );
+//            console.log( points );
+
+            //Determine if it crossed the track, maybe with http://stackoverflow.com/questions/234261/the-intersection-point-between-a-spline-and-a-line
+            if ( points.length > 0 ) {
+                var closestPoint = {x:points[0].x, y:points[0].y};
+//                console.log( "closest point = " + closestPoint.x+", "+closestPoint.y );
+                var close = getDistance( skaterLocation, closestPoint ) < 100;
+                skaterDebugShape.setFill( close ? 'blue' : 'red' );
+            }
 
             //don't let the skater cross the spline
 
             //Only draw when necessary because otherwise performance is worse on ipad3
-            if ( skater.getX() != originalX || skater.getY() != originalY ) {
-                skaterLayer.draw();
+            {
+                if ( skater.getX() != originalX || skater.getY() != originalY ) {
+                    skaterLayer.draw();
+                }
             }
         }
 
