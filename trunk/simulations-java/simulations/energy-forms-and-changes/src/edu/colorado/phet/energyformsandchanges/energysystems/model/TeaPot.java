@@ -184,7 +184,6 @@ public class TeaPot extends EnergySource {
         }};
     }
 
-
     @Override public void deactivate() {
         super.deactivate();
         heatCoolAmount.reset();
@@ -195,6 +194,7 @@ public class TeaPot extends EnergySource {
     @Override public void clearEnergyChunks() {
         super.clearEnergyChunks();
         exemptFromTransferEnergyChunks.clear();
+        energyChunkMovers.clear();
     }
 
     @Override public IUserComponent getUserComponent() {
