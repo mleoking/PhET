@@ -42,7 +42,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
 
     public GTL_ChallengeNode( final LineGameModel model, final GTL_Challenge challenge, final GameAudioPlayer audioPlayer, final PDimension challengeSize ) {
 
-        PNode titleNode = new PhetPText( Strings.GRAPH_THE_LINE, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
+        PNode titleNode = new PhetPText( challenge.title, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
 
         final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.2 * challengeSize.getHeight() );
 

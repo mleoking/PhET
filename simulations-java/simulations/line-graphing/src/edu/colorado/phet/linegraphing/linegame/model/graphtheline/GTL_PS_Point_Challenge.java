@@ -2,6 +2,8 @@
 package edu.colorado.phet.linegraphing.linegame.model.graphtheline;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.linegraphing.common.LGResources;
+import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.view.ChallengeNode;
@@ -17,7 +19,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class GTL_PS_Point_Challenge extends GTL_Challenge {
 
     public GTL_PS_Point_Challenge( Line answer ) {
-        super( answer, Line.createPointSlope( 0, 0, answer.rise, answer.run ) );
+        super( Strings.SET_THE_POINT, answer, Line.createPointSlope( 0, 0, answer.rise, answer.run ) );
     }
 
     public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {

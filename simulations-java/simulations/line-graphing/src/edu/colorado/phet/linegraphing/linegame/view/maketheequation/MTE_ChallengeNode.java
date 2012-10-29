@@ -45,7 +45,7 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
 
     public MTE_ChallengeNode( final LineGameModel model, final MTE_Challenge challenge, final GameAudioPlayer audioPlayer, PDimension challengeSize ) {
 
-        PNode titleNode = new PhetPText( Strings.MAKE_THE_EQUATION, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
+        PNode titleNode = new PhetPText( challenge.title, LineGameConstants.TITLE_FONT, LineGameConstants.TITLE_COLOR );
 
         final double boxWidth = 0.4 * challengeSize.getWidth();
 

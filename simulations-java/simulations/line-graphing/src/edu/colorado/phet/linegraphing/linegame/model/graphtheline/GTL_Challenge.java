@@ -31,12 +31,12 @@ public abstract class GTL_Challenge extends MatchChallenge {
     private final ObservableList<Line> allLines;
     private boolean answerVisible;
 
-    public GTL_Challenge( Line answer, Line guess ) {
-        this( answer, guess, LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
+    public GTL_Challenge( String title, Line answer, Line guess ) {
+        this( title, answer, guess, LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
     }
 
-    private GTL_Challenge( Line answer, Line guess, IntegerRange xRange, IntegerRange yRange ) {
-        super( answer, guess );
+    private GTL_Challenge( String title, Line answer, Line guess, IntegerRange xRange, IntegerRange yRange ) {
+        super( title, answer, guess );
 
         final double mvtScale = GRAPH_WIDTH / xRange.getLength(); // view units / model units
         mvt = ModelViewTransform.createOffsetScaleMapping( ORIGIN_OFFSET, mvtScale, -mvtScale ); // graph on right, y inverted
