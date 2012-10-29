@@ -16,6 +16,7 @@ HIGH
 MEDIUM
 - add ability to specify alternate title (eg "Set the slope", "Set the y intercept") for challenges
 - add support for fractional y-intercept in slope-intercept equations (only when y-intercept is non-interactive)
+- add support for mismatching the equation for on the left and right side of GTL and MTE challenges
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
 
