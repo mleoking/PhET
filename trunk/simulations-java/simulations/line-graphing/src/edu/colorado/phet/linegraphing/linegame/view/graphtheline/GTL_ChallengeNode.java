@@ -47,7 +47,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
         final PDimension boxSize = new PDimension( 0.35 * challengeSize.getWidth(), 0.2 * challengeSize.getHeight() );
 
         // The equation for the answer.
-        final PNode answerBoxNode = new EquationBoxNode( Strings.LINE_TO_GRAPH, boxSize,
+        final PNode answerBoxNode = new EquationBoxNode( Strings.LINE_TO_GRAPH, challenge.answer.color, boxSize,
                                                          createEquationNode( challenge.answer, LineGameConstants.STATIC_EQUATION_FONT, challenge.answer.color ) );
 
         // The equation for the current guess will be a child of this node, to maintain rendering order.
@@ -148,7 +148,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
 
                 // update the equation
                 guessEquationParent.removeAllChildren();
-                guessEquationParent.addChild( new EquationBoxNode( Strings.YOUR_LINE, boxSize,
+                guessEquationParent.addChild( new EquationBoxNode( Strings.YOUR_LINE, line.color, boxSize,
                                                                    createEquationNode( line, LineGameConstants.STATIC_EQUATION_FONT, line.color ) ) );
                 guessEquationParent.setOffset( answerBoxNode.getXOffset(), answerBoxNode.getFullBoundsReference().getMaxY() + 20 );
 

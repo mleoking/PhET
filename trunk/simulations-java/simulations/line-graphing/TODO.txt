@@ -6,12 +6,11 @@ DESIGN
 - revisit the placement algorithm for equations on graphed lines, should it be on same end of line as slope manipulator? or in Q1 or Q4 (as is) so that it's close to interactive line?
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 - navigation game
-- should intercept manipulator be same color as point manipulator? It's a special-case of point.
+- add "Slope" tab for m=(y2-y1)/(x2-x1) ?
 
 HIGH
 - Game: "Place 3 Points" challenge
 - add slope tool (on "your line") when user has gotten challenge wrong and we're showing answer
-- use color of line for color of title in EquationBoxNode
 
 MEDIUM
 - add ability to specify alternate title (eg "Set the slope", "Set the y intercept") for challenges
