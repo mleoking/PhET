@@ -1,3 +1,4 @@
+# 00.00.07 (69619) Oct 29, 2012
 Added interaction with splines
 # 00.00.06 (69567) Oct 26, 2012
 Work around addColorStop error on Firefox and IE
