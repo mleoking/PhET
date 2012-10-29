@@ -24,10 +24,10 @@ public class EquationBoxNode extends PNode {
     private static final int X_MARGIN = 20;
     private static final int Y_MARGIN = 10;
 
-    public EquationBoxNode( String title, PDimension boxSize, EquationNode equationNode ) {
+    public EquationBoxNode( String title, Color titleColor, PDimension boxSize, EquationNode equationNode ) {
 
         PText titleNode = new PText( title );
-        titleNode.setTextPaint( Color.BLACK );
+        titleNode.setTextPaint( titleColor );
         titleNode.setFont( new PhetFont( Font.BOLD, 24 ) );
         final double maxTitleWidth = boxSize.getWidth() - ( 2 * X_MARGIN );
         // If title is too wide to fit in box, then scale it.
