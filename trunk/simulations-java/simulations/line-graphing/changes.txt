@@ -1,3 +1,4 @@
+10/29/12 cleanup to reduce coupling introduced in previous change
 10/29/12 show slope tool for user's line when they've failed a challenge
 10/29/12 use color of line for color of title in EquationBoxNode
 10/26/12 use (x1,y1) color for intercept, since intercept is (0,y1)

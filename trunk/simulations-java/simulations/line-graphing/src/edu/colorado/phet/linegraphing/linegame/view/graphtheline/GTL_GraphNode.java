@@ -20,7 +20,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public abstract class GTL_GraphNode extends GraphNode {
 
-    protected final PNode slopeToolNode;
+    private final PNode linesParent, manipulatorsParent;
+    private final PNode slopeToolNode;
 
     public GTL_GraphNode( GTL_Challenge challenge ) {
         super( challenge.graph, challenge.mvt );
@@ -32,10 +33,30 @@ public abstract class GTL_GraphNode extends GraphNode {
             addChild( answerNode );
         }
 
+        // parent nodes, for maintaining rendering order
+        linesParent = new PNode();
+        manipulatorsParent = new PNode();
+
         // Slope tool
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( 0.85 );
         slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt, manipulatorDiameter );
+
+        // rendering order
+        addChild( linesParent );
         addChild( slopeToolNode );
+        addChild( manipulatorsParent );
+    }
+
+    public void setSlopeToolVisible( boolean visible ) {
+        slopeToolNode.setVisible( visible );
+    }
+
+    protected void addLineNode( PNode node ) {
+        linesParent.addChild( node );
+    }
+
+    protected void addManipulatorNode( PNode node ) {
+        manipulatorsParent.addChild( node );
     }
 
     // Creates the node that corresponds to the "answer" line.

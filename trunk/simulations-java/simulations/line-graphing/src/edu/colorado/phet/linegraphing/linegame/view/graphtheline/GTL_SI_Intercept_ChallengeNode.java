@@ -62,10 +62,9 @@ public class GTL_SI_Intercept_ChallengeNode extends GTL_SI_ChallengeNode {
                                                                                  new Property<DoubleRange>( new DoubleRange( challenge.graph.yRange ) ),
                                                                                  true /* constantSlope */ ) );
             // Rendering order
-            addChild( guessNodeParent );
-            addChild( answerNode );
-            slopeToolNode.moveToFront();
-            addChild( interceptManipulatorNode );
+            addLineNode( guessNodeParent );
+            addLineNode( answerNode );
+            addManipulatorNode( interceptManipulatorNode );
 
             // Show the user's current guess
             challenge.guess.addObserver( new VoidFunction1<Line>() {

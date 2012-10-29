@@ -72,11 +72,10 @@ public class GTL_PS_Points_ChallengeNode extends GTL_PS_ChallengeNode {
                                                                             new Property<DoubleRange>( new DoubleRange( challenge.graph.yRange ) ) ) );
 
             // Rendering order
-            addChild( guessNodeParent );
-            addChild( answerNode );
-            slopeToolNode.moveToFront();
-            addChild( x1y1ManipulatorNode );
-            addChild( x2y2ManipulatorNode );
+            addLineNode( guessNodeParent );
+            addLineNode( answerNode );
+            addManipulatorNode( x1y1ManipulatorNode );
+            addManipulatorNode( x2y2ManipulatorNode );
 
             // Show the user's current guess
             challenge.guess.addObserver( new VoidFunction1<Line>() {
