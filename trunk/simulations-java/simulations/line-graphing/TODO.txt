@@ -14,7 +14,6 @@ HIGH
 - Game: challenge generation (levels and randomization)
 
 MEDIUM
-- manipulators sometimes overlap equation on graphed line, e.g. (y-1)=(3/3)(x-5)
 - add ability to specify alternate title (eg "Set the slope", "Set the y intercept") for challenges
 - add support for fractional y-intercept in slope-intercept equations (only when y-intercept is non-interactive)
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
