@@ -101,6 +101,8 @@
         var skaterLayer = new Kinetic.Layer();
         var splineLayer = new Kinetic.Layer();
 
+        var controlPoints = [];
+
         function getX( point ) {return point.getX() + point.getWidth() / 2;}
 
         function getY( point ) {return point.getY() + point.getHeight() / 2;}
@@ -126,9 +128,10 @@
             if ( controlPoints.length == 3 && inited == false ) {
                 inited = true;
                 controlPoints[1].setX( 100 );
-                controlPoints[1].setY( 200 );
+                controlPoints[1].setY( 400 );
+
                 controlPoints[2].setX( 300 );
-                controlPoints[2].setY( 0 );
+                controlPoints[2].setY( 200 );
             }
 
             //use the same algorithm as in trunk\simulations-java\common\spline\src\edu\colorado\phet\common\spline\CubicSpline2D.java
@@ -175,26 +178,41 @@
         };
 
         function updatePhysics() {
-            var originalX = skater.getX();
-            var originalY = skater.getY();
+            if ( skater.attached ) {
+                skater.attachmentPoint = skater.attachmentPoint + 0.007;
+//                console.log( skater.attachmentPoint );
 
-            var newY = skater.getY();
-            if ( !skater.dragging ) {
-                skater.velocityY = skater.velocityY + 0.5;
-                newY = skater.getY() + skater.velocityY * 1;
+                //TODO: could avoid recomputing the splines in this step if they haven't changed.
+                var s = numeric.linspace( 0, 1, controlPoints.length );
+                var splineX = numeric.spline( s, controlPoints.map( getX ) );
+                var splineY = numeric.spline( s, controlPoints.map( getY ) );
+                skater.setX( splineX.at( skater.attachmentPoint ) - skater.getWidth() / 2 );
+                skater.setY( splineY.at( skater.attachmentPoint ) - skater.getHeight() );
+
+                if ( skater.attachmentPoint > 1.0 || skater.attachmentPoint < 0 ) {
+                    skater.attached = false;
+                }
+                skater.velocityY = 0;
             }
-            skater.setY( newY );
+            else {
+                var originalX = skater.getX();
+                var originalY = skater.getY();
 
-            //Don't let the skater go below the ground.
-            var newSkaterY = Math.min( 383, newY );
-            skater.setY( newSkaterY );
+                var newY = skater.getY();
+                if ( !skater.dragging ) {
+                    skater.velocityY = skater.velocityY + 0.5;
+                    newY = skater.getY() + skater.velocityY * 1;
+                }
+                skater.setY( newY );
 
-            skaterDebugShape.setX( originalX + skater.getWidth() / 2 );
-            skaterDebugShape.setY( newSkaterY + skater.getHeight() );
+                //Don't let the skater go below the ground.
+                var newSkaterY = Math.min( 383, newY );
+                skater.setY( newSkaterY );
 
-            //Find the closest part of the track and see if above or below it.
-            //1. Find the closest part of the track
-            //Shallow copy since sort modifies the list.  (Maybe underscore to the rescue here?)
+
+                //Find the closest part of the track and see if above or below it.
+                //1. Find the closest part of the track
+                //Shallow copy since sort modifies the list.  (Maybe underscore to the rescue here?)
 //            var points = track.getPoints().slice( 0 );
 //            var skaterLocation = {x:skaterDebugShape.getX(), y:skaterDebugShape.getY()};
 //            points.sort( function ( a, b ) {return getDistance( a, skaterLocation ) - getDistance( b, skaterLocation );} );
@@ -208,58 +226,114 @@
 //                skaterDebugShape.setFill( close ? 'blue' : 'red' );
 //            }
 
-            //don't let the skater cross the spline
+                //don't let the skater cross the spline
 
-            if ( controlPoints.length > 2 ) {
-                var x = controlPoints.map( getX ).map( function ( x ) {return x - skater.getX() - skater.getWidth() / 2} );
-                var y = controlPoints.map( getY ).map( function ( y ) {return y - skater.getY() - skater.getHeight()} );
-                var s = numeric.linspace( 0, 1, controlPoints.length );
-                var splineX = numeric.spline( s, x );
-                var splineY = numeric.spline( s, y );
+                if ( controlPoints.length > 2 ) {
+                    var s = numeric.linspace( 0, 1, controlPoints.length );
+                    var delta = 1E-6;
 
-                //Find values of "s" for which the p spline has roots.  This will give the x(s), y(s) 2d point for the root.
+                    function getSign( value ) {
+                        if ( value == 0 ) {
+                            return 0;
+                        }
+                        else if ( value > 0 ) {
+                            return +1;
+                        }
+                        else if ( value < 0 ) {
+                            return -1;
+                        }
+                        return "wrong value";
+                    }
 
-                //actually want to turn it sideways and look for the root at a fixed x value (for a skater falling in y direction only).
-                //For a skater moving at an angle, will have to rotate to the angle of the skater's motion.
-                var xRoots = splineX.roots();
+                    function getSides( xvalue, yvalue ) {
+                        var splineX = numeric.spline( s, controlPoints.map( getX ).map( function ( x ) {return x - xvalue - skater.getWidth() / 2} ) );
+                        var splineY = numeric.spline( s, controlPoints.map( getY ).map( function ( y ) {return y - yvalue - skater.getHeight()} ) );
 
-                var yRoots = splineY.roots();
-//                console.log( "x(s)roots: " + xRoots + ", y(s) roots = " + yRoots );
-//                console.log( "y(s)roots: " + yRoots );
+                        var xRoots = splineX.roots();
+                        var sides = [];
+                        for ( var i = 0; i < xRoots.length; i++ ) {
+                            var xRoot = xRoots[i];
+                            var pre = {x:splineX.at( xRoot - delta ), y:splineY.at( xRoot - delta )};
+                            var post = {x:splineX.at( xRoot + delta ), y:splineY.at( xRoot + delta )};
+                            var side = linePointPosition2DVector( pre, post, {x:0, y:0} );
+                            sides.push( {xRoot:xRoot, side:side} );
+                        }
+                        return sides;
+                    }
 
-                for ( var i = 0; i < xRoots.length; i++ ) {
-                    var xRoot = xRoots[i];
-                    for ( var j = 0; j < yRoots.length; j++ ) {
-                        var yRoot = yRoots[j];
+                    var originalSides = getSides( originalX, originalY );
+                    var newSides = getSides( skater.getX(), skater.getY() );
 
-                        //TODO: this check will have to be against a line segment instead of a point
-                        if ( Math.abs( xRoot - yRoot ) < 1E-1 ) {
-                            console.log( "found intersection at " + splineX.at( xRoot ) + ", " + splineY.at( yRoot ) );
-                            skater.velocityY = -skater.velocityY;
+                    for ( var i = 0; i < originalSides.length; i++ ) {
+                        var originalSide = originalSides[i];
+                        for ( var j = 0; j < newSides.length; j++ ) {
+                            var newSide = newSides[j];
+
+                            var distance = Math.abs( newSide.xRoot - originalSide.xRoot );
+
+                            if ( distance < 1E-4 && getSign( originalSide.side ) != getSign( newSide.side ) ) {
+                                console.log( "crossed over" );
+                                skater.attached = true;
+                                skater.attachmentPoint = newSide.xRoot;
+                            }
+//                        console.log( originalSides );
                         }
                     }
                 }
-
-//                for ( var i = 0; i < roots.length; i++ ) {
-//                    var root = roots[i];
-//                    var xRoot = splineX.at( root );
-//                    var yRoot = splineY.at( root );
-//                    console.log( "(" + xRoot + "," + yRoot + ")" );
+//                var splineX = numeric.spline( s, controlPoints.map( getX ).map( function ( x ) {return x - skater.getX() - skater.getWidth() / 2} ) );
+//                var splineY = numeric.spline( s, controlPoints.map( getY ).map( function ( y ) {return y - skater.getY() - skater.getHeight()} ) );
 //
-//                    var xPre = splineX.at( root - 1E-6 );
-//                    var yPre = splineX.at( root - 1E-6 );
-//                    var xPost = splineX.at( root + 1E-6 );
-//                    var yPost = splineX.at( root + 1E-6 );
+//                //Find values of "s" for which the p spline has roots.  This will give the x(s), y(s) 2d point for the root.
+//
+//                //actually want to turn it sideways and look for the root at a fixed x value (for a skater falling in y direction only).
+//                //For a skater moving at an angle, will have to rotate to the angle of the skater's motion.
+//                var xRoots = splineX.roots();
+//
+//                for ( var i = 0; i < xRoots.length; i++ ) {
+//                    var xRoot = xRoots[i];
+//                    var pre = {x:splineX.at( xRoot - delta ), y:splineY.at( xRoot - delta )};
+//                    var post = {x:splineX.at( xRoot + delta ), y:splineY.at( xRoot + delta )};
+//                    var side = linePointPosition2DVector( pre, post, {x:0, y:0} );
+//
+////                    console.log( pre.x + ", " + pre.y + "  =>  " + post.x + ", " + post.y + ", and " + (skater.getX() + skater.getWidth() / 2) + ", " + (skater.getY() + skater.getHeight()) +", side = "+side);
+////                    console.log( side);
+////                    for ( var j = 0; j < yRoots.length; j++ ) {
+////                        var yRoot = yRoots[j];
+////
+////                        //TODO: this check will have to be against a line segment instead of a point
+////                        if ( Math.abs( xRoot - yRoot ) < 1E-1 ) {
+////                            console.log( "found intersection at " + splineX.at( xRoot ) + ", " + splineY.at( yRoot ) );
+////                            skater.velocityY = -skater.velocityY;
+////
+//////                            splineX.diff()
+////                        }
+////                    }
 //                }
+//
+////                for ( var i = 0; i < roots.length; i++ ) {
+////                    var root = roots[i];
+////                    var xRoot = splineX.at( root );
+////                    var yRoot = splineY.at( root );
+////                    console.log( "(" + xRoot + "," + yRoot + ")" );
+////
+////                    var xPre = splineX.at( root - 1E-6 );
+////                    var yPre = splineX.at( root - 1E-6 );
+////                    var xPost = splineX.at( root + 1E-6 );
+////                    var yPost = splineX.at( root + 1E-6 );
+////                }
+//            }
+
             }
 
             //Only draw when necessary because otherwise performance is worse on ipad3
             if ( skater.getX() != originalX || skater.getY() != originalY ) {
+
+                skaterDebugShape.setX( skater.getX() + skater.getWidth() / 2 );
+                skaterDebugShape.setY( skater.getY() + skater.getHeight() );
                 skaterLayer.draw();
             }
         }
 
-        var controlPoints = [];
         for ( var index = 0; index < 3; index++ ) {
             var circle = new Kinetic.Circle( {
                                                  x:21,
@@ -316,10 +390,12 @@
 
                                             draggable:true
                                         } );
+        skater.attached = false;
 
         skater.on( "dragstart", function () {
             skater.dragging = true;
             skater.velocityY = 0;
+            skater.attached = false;
         } );
         skater.on( "dragend", function () { skater.dragging = false; } );
 
@@ -465,6 +541,19 @@
 
         requestAnimationFrame( loop );
     }
+
+    var dot = function ( a, b ) { return a.x * b.x + a.y * b.y; }
+
+    var sub = function ( a, b ) { return {x:(a.x - b.x), y:(a.y - b.y)}; };
+
+    //http://wiki.processing.org/w/Find_which_side_of_a_line_a_point_is_on
+    var linePointPosition2DVector = function ( p1, p2, p3 ) {
+
+        var diff = sub( p2, p1 );
+        var perp = {x:-diff.y, y:diff.x};
+        var pp = sub( p3, p1 );
+        return dot( pp, perp );
+    };
 
     // Only executed our code once the DOM is ready.
     window.onload = function () {
