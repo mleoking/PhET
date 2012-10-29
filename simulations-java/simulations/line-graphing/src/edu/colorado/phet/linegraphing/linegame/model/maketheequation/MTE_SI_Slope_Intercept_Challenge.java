@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class MTE_SI_Slope_Intercept_Challenge extends MTE_Challenge {
 
     public MTE_SI_Slope_Intercept_Challenge( Line answer ) {
-        super( Strings.SET_THE_SLOPE_AND_INTERCEPT, answer, Line.createSlopeIntercept( 1, 1, 0 ) );
+        super( Strings.SET_THE_SLOPE_AND_Y_INTERCEPT, answer, Line.createSlopeIntercept( 1, 1, 0 ) );
     }
 
     public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {

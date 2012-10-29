@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.linegame.model.graphtheline;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
-import edu.colorado.phet.linegraphing.common.LGResources;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
@@ -19,7 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class GTL_SI_Intercept_Challenge extends GTL_Challenge {
 
     public GTL_SI_Intercept_Challenge( Line answer ) {
-        super( Strings.SET_THE_INTERCEPT, answer, Line.createSlopeIntercept( answer.rise, answer.run, 0 ) );
+        super( Strings.SET_THE_Y_INTERCEPT, answer, Line.createSlopeIntercept( answer.rise, answer.run, 0 ) );
     }
 
     public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
