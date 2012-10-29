@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class GTL_SI_SlopeIntercept_Challenge extends GTL_Challenge {
 
     public GTL_SI_SlopeIntercept_Challenge( Line answer ) {
-        super( Strings.SET_THE_SLOPE_AND_INTERCEPT, answer, Line.Y_EQUALS_X_LINE );
+        super( Strings.SET_THE_SLOPE_AND_Y_INTERCEPT, answer, Line.Y_EQUALS_X_LINE );
     }
 
     public ChallengeNode createView( LineGameModel model, GameAudioPlayer audioPlayer, PDimension challengeSize ) {
