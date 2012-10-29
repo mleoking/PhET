@@ -14,9 +14,7 @@ import edu.umd.cs.piccolo.PNode;
 public class CloudNode extends PNode {
 
     public CloudNode( Cloud cloud, final ModelViewTransform mvt ) {
-        addChild( new ModelElementImageNode( Cloud.CLOUD_IMAGE, mvt ) {{
-//            setScale( 0.5 ); // TODO: Temp until cloud image size updated.
-        }} );
+        addChild( new ModelElementImageNode( Cloud.CLOUD_IMAGE, mvt ) );
         setOffset( mvt.modelToViewDeltaX( cloud.offsetFromParent.getX() ),
                    mvt.modelToViewDeltaY( cloud.offsetFromParent.getY() ) );
         cloud.existenceStrength.addObserver( new VoidFunction1<Double>() {
