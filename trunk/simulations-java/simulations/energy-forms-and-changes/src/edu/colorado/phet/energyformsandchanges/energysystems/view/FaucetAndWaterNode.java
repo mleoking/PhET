@@ -62,28 +62,28 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
         } );
 
         // Create the water, which consists of a set of water drops.
+        final PNode waterLayer = new PNode();
         faucet.waterDrops.addElementAddedObserver( new VoidFunction1<WaterDrop>() {
             public void apply( final WaterDrop addedWaterDrop ) {
                 final PNode waterDropNode = new WaterDropNode( addedWaterDrop, mvt );
-                addChild( waterDropNode );
+                waterLayer.addChild( waterDropNode );
                 faucet.waterDrops.addElementRemovedObserver( new VoidFunction1<WaterDrop>() {
                     public void apply( WaterDrop removedWaterDrop ) {
                         if ( removedWaterDrop == addedWaterDrop ) {
                             faucet.waterDrops.removeElementAddedObserver( this );
-                            removeChild( waterDropNode );
+                            waterLayer.removeChild( waterDropNode );
                         }
                     }
                 } );
             }
         } );
 
-        addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 110, 110 ), Color.ORANGE ) );
-
         // Create the energy chunk layer.
         PNode energyChunkLayer = new EnergyChunkLayer( faucet.energyChunkList, faucet.getObservablePosition(), mvt );
 
         // Add the nodes in the order that creates the desired layering.
-        addChild( waterNode );
+//        addChild( waterNode );
+        addChild( waterLayer );
         addChild( energyChunkLayer );
         addChild( faucetNode );
     }
