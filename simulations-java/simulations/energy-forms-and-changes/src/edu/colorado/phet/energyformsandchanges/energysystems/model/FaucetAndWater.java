@@ -43,6 +43,12 @@ public class FaucetAndWater extends EnergySource {
     private static final Random RAND = new Random();
     private static final DoubleRange ENERGY_CHUNK_TRANSFER_DISTANCE_RANGE = new DoubleRange( 0.05, 0.06 );
 
+    // The following acceleration constant defines the rate at which the water
+    // flows from the faucet.  The value used is not the actual value in
+    // Earth's gravitational field - it has been tweaked for optimal visual
+    // effect.
+    private static final Vector2D ACCELERATION_DUE_TO_GRAVITY = new Vector2D( 0, -0.15 );
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -101,6 +107,23 @@ public class FaucetAndWater extends EnergySource {
             // step method - so that the water can appear to fall at the start
             // and end of the flow.
             updateWaterShape( dt );
+
+            // Add water droplets as needed based on flow rate.
+            if ( flowProportion.get() > 0 ){
+                double initialWidth = flowProportion.get() * MAX_WATER_WIDTH * ( 1 + (RAND.nextDouble() - 0.5) * 0.2 );
+                waterDrops.add( new WaterDrop( OFFSET_FROM_CENTER_TO_WATER_ORIGIN.plus( 0, 0.01 ),
+                                               new Vector2D( 0, 0 ),
+                                               new PDimension( initialWidth, initialWidth ) ) );
+            }
+
+            // Make the water droplets fall.
+            for ( WaterDrop waterDrop : new ArrayList<WaterDrop>( waterDrops ) ) {
+                waterDrop.velocity.set( waterDrop.velocity.get().plus( ACCELERATION_DUE_TO_GRAVITY.times( dt ) ) );
+                waterDrop.offsetFromParent.set( waterDrop.offsetFromParent.get().plus( waterDrop.velocity.get().times( dt ) ) );
+                if ( waterDrop.offsetFromParent.get().distance( getPosition() ) > MAX_DISTANCE_FROM_FAUCET_TO_BOTTOM_OF_WATER ){
+                    waterDrops.remove( waterDrop );
+                }
+            }
 
             // Check if time to emit an energy chunk and, if so, do it.
             flowSinceLastChunk += flowProportion.get() * dt;
