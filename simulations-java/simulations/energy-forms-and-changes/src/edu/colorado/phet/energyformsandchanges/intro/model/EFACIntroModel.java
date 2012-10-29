@@ -594,7 +594,7 @@ public class EFACIntroModel {
 
         // Test if this point is in the beaker.
         if ( beaker.getThermalContactArea().getBounds().contains( locationAsPoint ) ) {
-            return new TemperatureAndColor( beaker.getTemperature(), EFACConstants.WATER_COLOR );
+            return new TemperatureAndColor( beaker.getTemperature(), EFACConstants.WATER_COLOR_IN_BEAKER );
         }
 
         // Test if the point is a burner.

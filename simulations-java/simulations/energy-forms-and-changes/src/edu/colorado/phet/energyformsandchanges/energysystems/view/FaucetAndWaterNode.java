@@ -1,10 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
-import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -42,7 +40,7 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
         faucetNode.setOffset( -faucetNode.getGlobalOutputCenter().getX() + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
                               -faucetNode.getGlobalOutputCenter().getY() + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
         // Create the water.
-        final PPath waterNode = new PhetPPath( EFACConstants.WATER_COLOR );
+        final PPath waterNode = new PhetPPath( EFACConstants.WATER_COLOR_OPAQUE );
         waterNode.setOffset( -mvt.modelToViewX( 0 ) + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
                              -mvt.modelToViewY( 0 ) + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
 
@@ -54,10 +52,10 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
                 Rectangle2D waterBounds = waterShapeInView.getBounds2D();
                 waterNode.setPaint( new GradientPaint( (float) waterBounds.getX(),
                                                        (float) waterBounds.getY(),
-                                                       ColorUtils.darkerColor( EFACConstants.WATER_COLOR, 0.3 ),
+                                                       ColorUtils.darkerColor( EFACConstants.WATER_COLOR_OPAQUE, 0.3 ),
                                                        (float) waterBounds.getMaxX(),
                                                        (float) waterBounds.getY(),
-                                                       ColorUtils.brighterColor( EFACConstants.WATER_COLOR, 0.5 ) ) );
+                                                       ColorUtils.brighterColor( EFACConstants.WATER_COLOR_OPAQUE, 0.5 ) ) );
             }
         } );
 

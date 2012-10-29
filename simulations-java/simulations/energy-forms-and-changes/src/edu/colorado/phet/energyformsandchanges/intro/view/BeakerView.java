@@ -224,14 +224,14 @@ public class BeakerView {
     }
 
     private static class PerspectiveWaterNode extends PNode {
-        private static final Color WATER_OUTLINE_COLOR = ColorUtils.darkerColor( EFACConstants.WATER_COLOR, 0.2 );
+        private static final Color WATER_OUTLINE_COLOR = ColorUtils.darkerColor( EFACConstants.WATER_COLOR_IN_BEAKER, 0.2 );
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
 
         private PerspectiveWaterNode( final Rectangle2D beakerOutlineRect, Property<Double> waterLevel ) {
 
-            final PhetPPath waterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
+            final PhetPPath waterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
             addChild( waterBodyNode );
-            final PhetPPath waterTopNode = new PhetPPath( EFACConstants.WATER_COLOR, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
+            final PhetPPath waterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
             addChild( waterTopNode );
 
 
