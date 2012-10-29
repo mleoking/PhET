@@ -76,6 +76,7 @@ public class GTL_SI_Slope_ChallengeNode extends GTL_SI_ChallengeNode {
             // Rendering order
             addChild( guessNodeParent );
             addChild( answerNode );
+            slopeToolNode.moveToFront();
             addChild( interceptNode );
             addChild( slopeManipulatorNode );
 

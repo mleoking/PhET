@@ -7,6 +7,7 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
+import edu.colorado.phet.linegraphing.common.view.SlopeToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.maketheequation.MTE_Challenge;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -19,6 +20,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public abstract class MTE_GraphNode extends GraphNode {
 
     private final PNode guessNodeParent;
+    protected final PNode slopeToolNode;
 
     public MTE_GraphNode( final MTE_Challenge challenge ) {
         super( challenge.graph, challenge.mvt );
@@ -35,9 +37,14 @@ public abstract class MTE_GraphNode extends GraphNode {
         LineNode answerNode = createAnswerLineNode( challenge.answer, challenge.graph, challenge.mvt );
         answerNode.setEquationVisible( false );
 
+        // Slope tool
+        final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( 0.85 );
+        slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt, manipulatorDiameter );
+
         // Rendering order
         addChild( guessNodeParent );
         addChild( answerNode );
+        addChild( slopeToolNode );
 
         // Show the user's current guess, initially hidden
         challenge.guess.addObserver( new VoidFunction1<Line>() {

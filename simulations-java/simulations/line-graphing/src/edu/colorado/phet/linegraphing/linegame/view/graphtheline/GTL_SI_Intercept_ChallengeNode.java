@@ -64,6 +64,7 @@ public class GTL_SI_Intercept_ChallengeNode extends GTL_SI_ChallengeNode {
             // Rendering order
             addChild( guessNodeParent );
             addChild( answerNode );
+            slopeToolNode.moveToFront();
             addChild( interceptManipulatorNode );
 
             // Show the user's current guess

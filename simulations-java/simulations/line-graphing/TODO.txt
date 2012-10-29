@@ -10,7 +10,6 @@ DESIGN
 
 HIGH
 - Game: "Place 3 Points" challenge
-- add slope tool (on "your line") when user has gotten challenge wrong and we're showing answer
 
 MEDIUM
 - add ability to specify alternate title (eg "Set the slope", "Set the y intercept") for challenges

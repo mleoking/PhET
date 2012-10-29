@@ -91,6 +91,7 @@ public class GTL_SI_Points_ChallengeNode extends GTL_SI_ChallengeNode {
             // Rendering order
             addChild( guessNodeParent );
             addChild( answerNode );
+            slopeToolNode.moveToFront();
             addChild( x1y1ManipulatorNode );
             addChild( x2y2ManipulatorNode );
 
