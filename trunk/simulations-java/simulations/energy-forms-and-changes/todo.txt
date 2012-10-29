@@ -1,8 +1,6 @@
 
-Integrate new images from Noah (droopy biker, new legs).
 Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
 Fix issues with switching between energy sources - energy chunks are weird.
-Make water "non-turdy"
 Add beaker and thermometer
 
 Figure out how to make E's not cluster in the wires leading from solar panel.
@@ -39,3 +37,6 @@ DONE: Make biker always stop at spot where she is about to move
 DONE: Make biker run out of energy chunks, then have "Feed Me" button appear
 DONE: Tick marks on cloud slider
 DONE: Remove 3rd tab for now
+DONE: Integrate new images from Noah (droopy biker, new legs).
+DONE: Make water "non-turdy"
+
