@@ -128,7 +128,7 @@ public abstract class LineNode extends PComposite {
         final double equationXOffset = -zeroOffsetNode.getFullBoundsReference().getWidth() - 12;
         final double equationYOffset;
         if ( line.rise > 0 ) {
-            equationYOffset = 5; // equation below the line
+            equationYOffset = 10; // equation below the line
         }
         else {
             equationYOffset = -zeroOffsetNode.getFullBoundsReference().getHeight() - 12; // equation above the line
