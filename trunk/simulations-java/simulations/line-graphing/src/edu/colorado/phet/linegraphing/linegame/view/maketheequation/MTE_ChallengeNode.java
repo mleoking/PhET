@@ -195,6 +195,9 @@ public abstract class MTE_ChallengeNode extends ChallengeNode {
 
                 // visibility of correct/incorrect icons
                 updateIcons.apply();
+
+                // slope tool visible when user got it wrong
+                graphNode.slopeToolNode.setVisible( state == PlayState.NEXT && !challenge.isCorrect() );
             }
         } );
 

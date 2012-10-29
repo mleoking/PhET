@@ -77,6 +77,7 @@ public class GTL_PS_PointSlope_ChallengeNode extends GTL_PS_ChallengeNode {
             // Rendering order
             addChild( guessNodeParent );
             addChild( answerNode );
+            slopeToolNode.moveToFront();
             addChild( pointManipulatorNode );
             addChild( slopeManipulatorNode );
 

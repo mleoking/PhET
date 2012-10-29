@@ -9,7 +9,9 @@ import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
+import edu.colorado.phet.linegraphing.common.view.SlopeToolNode;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Base class for the graph node in all "Graph the Line" (GTL) challenges.
@@ -17,6 +19,8 @@ import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class GTL_GraphNode extends GraphNode {
+
+    protected final PNode slopeToolNode;
 
     public GTL_GraphNode( GTL_Challenge challenge ) {
         super( challenge.graph, challenge.mvt );
@@ -27,6 +31,11 @@ public abstract class GTL_GraphNode extends GraphNode {
             answerNode.setEquationVisible( false );
             addChild( answerNode );
         }
+
+        // Slope tool
+        final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( 0.85 );
+        slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt, manipulatorDiameter );
+        addChild( slopeToolNode );
     }
 
     // Creates the node that corresponds to the "answer" line.
