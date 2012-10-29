@@ -58,8 +58,8 @@ public abstract class MTE_GraphNode extends GraphNode {
         } );
     }
 
-    public void setSlopeToolVisibile( boolean visibile ) {
-        slopeToolNode.setVisible( visibile );
+    public void setSlopeToolVisible( boolean visible ) {
+        slopeToolNode.setVisible( visible );
     }
 
     // Creates the node that corresponds to the "answer" line.
