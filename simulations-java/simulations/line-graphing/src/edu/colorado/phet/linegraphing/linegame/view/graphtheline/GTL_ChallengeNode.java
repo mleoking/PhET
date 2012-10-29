@@ -193,7 +193,7 @@ public abstract class GTL_ChallengeNode extends ChallengeNode {
                 updateIcons.apply();
 
                 // slope tool visible when user got it wrong
-                graphNode.slopeToolNode.setVisible( state == PlayState.NEXT && !challenge.isCorrect() );
+                graphNode.setSlopeToolVisible( state == PlayState.NEXT && !challenge.isCorrect() );
             }
         } );
 

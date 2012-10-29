@@ -10,8 +10,8 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.LineParameterRange;
 import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.common.model.LineParameterRange;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.PlottedPointNode;
@@ -74,11 +74,10 @@ public class GTL_SI_Slope_ChallengeNode extends GTL_SI_ChallengeNode {
                                                                               riseRange,
                                                                               new Property<DoubleRange>( new DoubleRange( challenge.graph.xRange ) ) ) );
             // Rendering order
-            addChild( guessNodeParent );
-            addChild( answerNode );
-            slopeToolNode.moveToFront();
-            addChild( interceptNode );
-            addChild( slopeManipulatorNode );
+            addLineNode( guessNodeParent );
+            addLineNode( answerNode );
+            addManipulatorNode( interceptNode );
+            addManipulatorNode( slopeManipulatorNode );
 
             // Show the user's current guess
             challenge.guess.addObserver( new VoidFunction1<Line>() {

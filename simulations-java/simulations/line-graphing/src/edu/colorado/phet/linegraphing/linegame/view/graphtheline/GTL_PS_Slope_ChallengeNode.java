@@ -74,11 +74,10 @@ public class GTL_PS_Slope_ChallengeNode extends GTL_PS_ChallengeNode {
                                                                               riseRange,
                                                                               new Property<DoubleRange>( new DoubleRange( LineParameterRange.run( challenge.answer, challenge.graph ) ) ) ) );
             // Rendering order
-            addChild( guessNodeParent );
-            addChild( answerNode );
-            slopeToolNode.moveToFront();
-            addChild( pointNode );
-            addChild( slopeManipulatorNode );
+            addLineNode( guessNodeParent );
+            addLineNode( answerNode );
+            addManipulatorNode( pointNode );
+            addManipulatorNode( slopeManipulatorNode );
 
             // Show the user's current guess
             challenge.guess.addObserver( new VoidFunction1<Line>() {

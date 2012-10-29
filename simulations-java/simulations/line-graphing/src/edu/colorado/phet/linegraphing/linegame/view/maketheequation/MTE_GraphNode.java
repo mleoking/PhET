@@ -20,7 +20,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public abstract class MTE_GraphNode extends GraphNode {
 
     private final PNode guessNodeParent;
-    protected final PNode slopeToolNode;
+    private final PNode slopeToolNode;
 
     public MTE_GraphNode( final MTE_Challenge challenge ) {
         super( challenge.graph, challenge.mvt );
@@ -56,6 +56,10 @@ public abstract class MTE_GraphNode extends GraphNode {
                 guessNodeParent.addChild( guessNode );
             }
         } );
+    }
+
+    public void setSlopeToolVisibile( boolean visibile ) {
+        slopeToolNode.setVisible( visibile );
     }
 
     // Creates the node that corresponds to the "answer" line.

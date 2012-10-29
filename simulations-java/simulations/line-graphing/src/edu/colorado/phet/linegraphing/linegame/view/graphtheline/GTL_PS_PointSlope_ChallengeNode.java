@@ -75,11 +75,10 @@ public class GTL_PS_PointSlope_ChallengeNode extends GTL_PS_ChallengeNode {
                                                                               slopeManipulatorNode, challenge.mvt, challenge.guess, riseRange, runRange ) );
 
             // Rendering order
-            addChild( guessNodeParent );
-            addChild( answerNode );
-            slopeToolNode.moveToFront();
-            addChild( pointManipulatorNode );
-            addChild( slopeManipulatorNode );
+            addLineNode( guessNodeParent );
+            addLineNode( answerNode );
+            addManipulatorNode( pointManipulatorNode );
+            addManipulatorNode( slopeManipulatorNode );
 
             // Show the user's current guess
             challenge.guess.addObserver( new VoidFunction1<Line>() {

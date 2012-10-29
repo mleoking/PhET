@@ -77,11 +77,10 @@ public class GTL_SI_SlopeIntercept_ChallengeNode extends GTL_SI_ChallengeNode {
                                                                                  y1Range,
                                                                                  true /* constantSlope */ ) );
             // Rendering order
-            addChild( guessNodeParent );
-            addChild( answerNode );
-            slopeToolNode.moveToFront();
-            addChild( slopeManipulatorNode );
-            addChild( interceptManipulatorNode );
+            addLineNode( guessNodeParent );
+            addLineNode( answerNode );
+            addManipulatorNode( slopeManipulatorNode );
+            addManipulatorNode( interceptManipulatorNode );
 
             // Show the user's current guess
             challenge.guess.addObserver( new VoidFunction1<Line>() {
