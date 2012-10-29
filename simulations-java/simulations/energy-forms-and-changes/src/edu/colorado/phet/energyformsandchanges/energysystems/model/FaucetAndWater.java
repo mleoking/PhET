@@ -14,11 +14,13 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that represents a faucet that can be turned on to provide mechanical
@@ -52,6 +54,9 @@ public class FaucetAndWater extends EnergySource {
     // water.
     private final List<DistanceWidthPair> waterShapeDefiningPoints = new ArrayList<DistanceWidthPair>();
 
+    // Water drops that comprise the stream of water.
+    public final ObservableList<WaterDrop> waterDrops = new ObservableList<WaterDrop>();
+
     // Shape of the water coming from the faucet.  The shape is specified
     // relative to the water origin.
     public final Property<Shape> waterShape = new Property<Shape>( createWaterShapeFromPoints( waterShapeDefiningPoints ) );
@@ -79,6 +84,9 @@ public class FaucetAndWater extends EnergySource {
         super( EnergyFormsAndChangesResources.Images.FAUCET_ICON );
         this.energyChunksVisible = energyChunksVisible;
         this.waterPowerableElementInPlace = waterPowerableElementInPlace;
+
+        // TEMP
+        waterDrops.add( new WaterDrop( new Vector2D( 0, 0 ), new Vector2D( 0, 0 ), new PDimension( 0.05, 0.05 ) ) );
     }
 
     //-------------------------------------------------------------------------

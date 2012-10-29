@@ -1,8 +1,10 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
+import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -14,6 +16,7 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.FaucetAndWater;
+import edu.colorado.phet.energyformsandchanges.energysystems.model.WaterDrop;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -26,7 +29,7 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
 
     private static final double FAUCET_NODE_HORIZONTAL_LENGTH = 700; // In screen coords, which are close to pixels.
 
-    public FaucetAndWaterNode( FaucetAndWater faucet, final ModelViewTransform mvt ) {
+    public FaucetAndWaterNode( final FaucetAndWater faucet, final ModelViewTransform mvt ) {
         super( faucet, mvt );
 
         // Create the faucet.
@@ -57,6 +60,24 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
                                                        ColorUtils.brighterColor( EFACConstants.WATER_COLOR, 0.5 ) ) );
             }
         } );
+
+        // Create the water, which consists of a set of water drops.
+        faucet.waterDrops.addElementAddedObserver( new VoidFunction1<WaterDrop>() {
+            public void apply( final WaterDrop addedWaterDrop ) {
+                final PNode waterDropNode = new WaterDropNode( addedWaterDrop, mvt );
+                addChild( waterDropNode );
+                faucet.waterDrops.addElementRemovedObserver( new VoidFunction1<WaterDrop>() {
+                    public void apply( WaterDrop removedWaterDrop ) {
+                        if ( removedWaterDrop == addedWaterDrop ) {
+                            faucet.waterDrops.removeElementAddedObserver( this );
+                            removeChild( waterDropNode );
+                        }
+                    }
+                } );
+            }
+        } );
+
+        addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, 110, 110 ), Color.ORANGE ) );
 
         // Create the energy chunk layer.
         PNode energyChunkLayer = new EnergyChunkLayer( faucet.energyChunkList, faucet.getObservablePosition(), mvt );
