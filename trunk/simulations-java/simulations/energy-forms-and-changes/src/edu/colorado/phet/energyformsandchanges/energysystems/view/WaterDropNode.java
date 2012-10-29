@@ -7,6 +7,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -25,11 +26,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author John Blanco
  */
-public class WaterDropNode extends PositionableFadableModelElementNode {
+public class WaterDropNode extends PNode {
 
     public WaterDropNode( WaterDrop waterDrop, final ModelViewTransform mvt ) {
-        super( waterDrop, mvt );
 
+        // Create and maintain the initial shape.
         final PPath waterDropNode = new PhetPPath( EFACConstants.WATER_COLOR );
         waterDrop.size.addObserver( new VoidFunction1<Dimension2D>() {
             public void apply( Dimension2D dropSize ) {
@@ -39,5 +40,13 @@ public class WaterDropNode extends PositionableFadableModelElementNode {
             }
         } );
         addChild( waterDropNode );
+
+        // Update offset as it changes.
+        waterDrop.offsetFromParent.addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D offsetFromParent ) {
+                setOffset( mvt.modelToViewDeltaX( offsetFromParent.getX() ),
+                           mvt.modelToViewDeltaY( offsetFromParent.getY() ) );
+            }
+        } );
    }
 }
