@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.slope.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
@@ -271,11 +272,46 @@ public class SlopeEquationNode extends EquationNode {
         } );
     }
 
-    //TODO do this right
     // Creates a node that displays the general form of this equation.
     public static PNode createGeneralFormNode() {
-        String html = MessageFormat.format( "{0} = {1} - {2} / {3} - {4}", /* m = y2 - y1 / x2 - x1 */
-                                            Strings.SYMBOL_SLOPE, Strings.SYMBOL_Y2, Strings.SYMBOL_Y1, Strings.SYMBOL_X2, Strings.SYMBOL_X1 );
-        return new HTMLNode( html, LGColors.INTERACTIVE_LINE, new PhetFont( Font.BOLD, 18 ) );
+
+        final Color color = LGColors.INTERACTIVE_LINE;
+        final Font font = new PhetFont( Font.BOLD, 18 );
+
+        // m =
+        String htmlLeftSide = MessageFormat.format( "{0} =", Strings.SYMBOL_SLOPE );
+        PNode leftSideNode = new HTMLNode( htmlLeftSide, color, font );
+
+        // y2 - y1
+        String htmlNumerator = MessageFormat.format( "{0} - {1}", Strings.SYMBOL_Y2, Strings.SYMBOL_Y1 );
+        PNode numeratorNode = new HTMLNode( htmlNumerator, color, font );
+
+        // x2 - x1
+        String htmlDenominator = MessageFormat.format( "{0} - {1}", Strings.SYMBOL_X2, Strings.SYMBOL_X1 );
+        PNode denominatorNode = new HTMLNode( htmlDenominator, color, font );
+
+        // fraction line
+        final double length = Math.max( numeratorNode.getFullBoundsReference().getWidth(), denominatorNode.getFullBoundsReference().getWidth() );
+        PPath fractionLineNode = new PPath( new Rectangle2D.Double( 0, 0, length, 1 ) );
+        fractionLineNode.setPaint( color );
+        fractionLineNode.setStroke( null );
+
+        // rendering order
+        PNode parentNode = new PNode();
+        parentNode.addChild( leftSideNode );
+        parentNode.addChild( numeratorNode );
+        parentNode.addChild( denominatorNode );
+        parentNode.addChild( fractionLineNode );
+
+        // layout
+        leftSideNode.setOffset( 0, 0 );
+        fractionLineNode.setOffset( leftSideNode.getFullBoundsReference().getMaxX() + 5,
+                                    leftSideNode.getFullBoundsReference().getCenterY() - ( fractionLineNode.getFullBoundsReference().getHeight() / 2 ) + 3 );
+        numeratorNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( numeratorNode.getFullBoundsReference().getWidth() / 2 ),
+                                 fractionLineNode.getFullBoundsReference().getMinY() - numeratorNode.getFullBoundsReference().getHeight() - 1 );
+        denominatorNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( denominatorNode.getFullBoundsReference().getWidth() / 2 ),
+                                   fractionLineNode.getFullBoundsReference().getMaxY() + 1 );
+
+        return new ZeroOffsetNode( parentNode );
     }
 }
