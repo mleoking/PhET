@@ -9,6 +9,7 @@ DESIGN
 
 HIGH
 - Slope: implement SlopeEquationNode.createGeneralFormNode
+- Slope: horizontally center the number parts of the unsimplified rise and run in SlopeEquationNode
 - Slope: label graphed lines with m=value
 - Slope: label standard lines as m=1, m=-1
 - Game: add support for fractional y-intercept in slope-intercept equations (only when y-intercept is non-interactive)
