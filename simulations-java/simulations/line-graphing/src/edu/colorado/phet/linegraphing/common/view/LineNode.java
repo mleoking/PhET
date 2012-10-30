@@ -101,7 +101,7 @@ public abstract class LineNode extends PComposite {
         equationParentNode = new PNode();
         addChild( equationParentNode );
         equationParentNode.setOffset( tipLocation );
-        equationParentNode.setRotation( line.run == 0 ? Math.PI / 2 : -Math.atan( line.getSlope() ) );
+        equationParentNode.setRotation( line.undefinedSlope() ? Math.PI / 2 : -Math.atan( line.getSlope() ) );
         updateEquation( line, EQUATION_FONT, line.color );
     }
 

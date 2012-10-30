@@ -38,14 +38,6 @@ public class Line {
         this.color = color;
     }
 
-    public double getSlope() {
-        return rise / run;
-    }
-
-    public boolean isSlopeDefined() {
-        return run != 0;
-    }
-
     /*
      * Creates a line by describing it in point-slope form: (y - y1) = m(x - x1)
      * Need to use a factory method because params are identical to primary constructor.
@@ -75,17 +67,32 @@ public class Line {
         return new Line( x1, y1, x2, y2, color );
     }
 
+    // Gets the slope. Returns Double.NaN if slope is undefined.
+    public double getSlope() {
+        if ( undefinedSlope() ) {
+            return Double.NaN;
+        }
+        else {
+            return rise / run;
+        }
+    }
+
+    // Returns true if the slope is undefined.
+    public boolean undefinedSlope() {
+        return run == 0;
+    }
+
     /*
      * Given x, solve y = m(x - x1) + y1
      * Returns Double.NaN if the solution is not unique, or there is no solution (x can't possibly be on the line.)
      * This occurs when we have a vertical line, with no run.
      */
     public double solveY( double x ) {
-        if ( run == 0 ) {
+        if ( undefinedSlope() ) {
             return Double.NaN;
         }
         else {
-            return ( ( rise / run ) * ( x - x1 ) ) + y1;
+            return ( getSlope() * ( x - x1 ) ) + y1;
         }
     }
 
