@@ -25,7 +25,8 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.MinusNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
-import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.PointColors;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.X1Y1Colors;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.X2Y2Colors;
 import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -63,15 +64,15 @@ public class SlopeEquationNode extends EquationNode {
         PNode mNode = new PhetPText( Strings.SYMBOL_SLOPE, staticFont, staticColor );
         PNode interactiveEqualsNode = new PhetPText( "=", staticFont, staticColor );
         // y2 - y2
-        PNode y2Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y2Spinner, y2, xRange, new PointColors(), interactiveFont, FORMAT ) );
+        PNode y2Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y2Spinner, y2, xRange, new X2Y2Colors(), interactiveFont, FORMAT ) );
         PNode numeratorOperatorNode = new PhetPText( "-", staticFont, staticColor );
-        PNode y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, y1, xRange, new PointColors(), interactiveFont, FORMAT ) );
+        PNode y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, y1, xRange, new X1Y1Colors(), interactiveFont, FORMAT ) );
         // fraction line
         PPath interactiveFractionLineNode = new PhetPPath( createFractionLineShape( 10 ), staticColor, null, null ); // correct length will be set later
         // x2 - x1
-        PNode x2Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x2Spinner, x2, xRange, new PointColors(), interactiveFont, FORMAT ) );
+        PNode x2Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x2Spinner, x2, xRange, new X2Y2Colors(), interactiveFont, FORMAT ) );
         PNode denominatorOperatorNode = new PhetPText( "-", staticFont, staticColor );
-        PNode x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, x1, xRange, new PointColors(), interactiveFont, FORMAT ) );
+        PNode x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, x1, xRange, new X1Y1Colors(), interactiveFont, FORMAT ) );
         // = unsimplified value
         final PNode unsimplifiedEqualsNode = new PhetPText( "=", staticFont, staticColor );
         final PText unsimplifiedRiseNode = new PhetPText( "?", staticFont, staticColor );
