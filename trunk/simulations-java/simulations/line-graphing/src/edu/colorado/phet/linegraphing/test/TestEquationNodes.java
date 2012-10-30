@@ -41,31 +41,6 @@ public class TestEquationNodes {
         final int xSpacing = 150;
         final int ySpacing = 60;
 
-        // slope-intercept tests
-        PNode slopeInterceptParent = new PNode();
-        {
-            // model
-            Property<Line> line = new Property<Line>( Line.createSlopeIntercept( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
-
-            // equations, all combinations of interactivity
-            SlopeInterceptEquationNode equationNode1 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, true, true, interactiveFont, staticFont, staticColor );
-            SlopeInterceptEquationNode equationNode2 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, true, false, interactiveFont, staticFont, staticColor );
-            SlopeInterceptEquationNode equationNode3 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, false, true, interactiveFont, staticFont, staticColor );
-            SlopeInterceptEquationNode equationNode4 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, false, false, interactiveFont, staticFont, staticColor );
-
-            // rendering order
-            slopeInterceptParent.addChild( equationNode1 );
-            slopeInterceptParent.addChild( equationNode2 );
-            slopeInterceptParent.addChild( equationNode3 );
-            slopeInterceptParent.addChild( equationNode4 );
-
-            // layout
-            equationNode1.setOffset( 0, 0 );
-            equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + ySpacing );
-            equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + ySpacing );
-            equationNode4.setOffset( equationNode1.getXOffset(), equationNode3.getFullBoundsReference().getMaxY() + ySpacing );
-        }
-
         // point-slope tests
         PNode pointSlopeParent = new PNode();
         {
@@ -97,6 +72,31 @@ public class TestEquationNodes {
             equationNode6.setOffset( equationNode1.getXOffset(), equationNode5.getFullBoundsReference().getMaxY() + ySpacing );
         }
 
+        // slope-intercept tests
+        PNode slopeInterceptParent = new PNode();
+        {
+            // model
+            Property<Line> line = new Property<Line>( Line.createSlopeIntercept( 1, 1, 1, LGColors.INTERACTIVE_LINE ) );
+
+            // equations, all combinations of interactivity
+            SlopeInterceptEquationNode equationNode1 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, true, true, interactiveFont, staticFont, staticColor );
+            SlopeInterceptEquationNode equationNode2 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, true, false, interactiveFont, staticFont, staticColor );
+            SlopeInterceptEquationNode equationNode3 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, false, true, interactiveFont, staticFont, staticColor );
+            SlopeInterceptEquationNode equationNode4 = new SlopeInterceptEquationNode( line, riseRange, runRange, y1Range, false, false, interactiveFont, staticFont, staticColor );
+
+            // rendering order
+            slopeInterceptParent.addChild( equationNode1 );
+            slopeInterceptParent.addChild( equationNode2 );
+            slopeInterceptParent.addChild( equationNode3 );
+            slopeInterceptParent.addChild( equationNode4 );
+
+            // layout
+            equationNode1.setOffset( 0, 0 );
+            equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + ySpacing );
+            equationNode3.setOffset( equationNode1.getXOffset(), equationNode2.getFullBoundsReference().getMaxY() + ySpacing );
+            equationNode4.setOffset( equationNode1.getXOffset(), equationNode3.getFullBoundsReference().getMaxY() + ySpacing );
+        }
+
         // slope tests
         PNode slopeParent = new PNode();
         {
@@ -115,15 +115,15 @@ public class TestEquationNodes {
 
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 1400, 768 ) );
-        canvas.getLayer().addChild( slopeInterceptParent );
+        canvas.setPreferredSize( new Dimension( 1024, 768 ) );
         canvas.getLayer().addChild( pointSlopeParent );
+        canvas.getLayer().addChild( slopeInterceptParent );
         canvas.getLayer().addChild( slopeParent );
 
         // layout
-        slopeInterceptParent.setOffset( 100, 50 );
-        pointSlopeParent.setOffset( slopeInterceptParent.getFullBoundsReference().getMaxX() + xSpacing, slopeInterceptParent.getYOffset() );
-        slopeParent.setOffset( pointSlopeParent.getFullBoundsReference().getMaxX() + xSpacing, pointSlopeParent.getYOffset() );
+        pointSlopeParent.setOffset( 100, 50 );
+        slopeInterceptParent.setOffset( pointSlopeParent.getFullBoundsReference().getMaxX() + xSpacing, pointSlopeParent.getYOffset() );
+        slopeParent.setOffset( slopeInterceptParent.getXOffset(), slopeInterceptParent.getFullBoundsReference().getMaxY() + 150 );
 
         // frame
         JFrame frame = new JFrame( TestEquationNodes.class.getName() );
