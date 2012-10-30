@@ -118,7 +118,7 @@ public abstract class EquationNode extends PhetPNode {
     protected static class UndefinedSlopeNode extends PhetPText {
         public UndefinedSlopeNode( Line line, PhetFont font, Color color ) {
             super( MessageFormat.format( Strings.SLOPE_UNDEFINED, Strings.SYMBOL_X, line.x1 ), font, color );
-            assert ( !line.isSlopeDefined() );
+            assert ( line.undefinedSlope() );
             setPickable( false );
         }
     }

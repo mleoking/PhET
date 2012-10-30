@@ -144,7 +144,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
 
         // Start by adding all nodes, then we'll selectively remove some nodes based on the desired form of the equation.
         removeAllChildren();
-        if ( !line.isSlopeDefined() && !interactiveSlope && !interactiveIntercept ) {
+        if ( line.undefinedSlope() && !interactiveSlope && !interactiveIntercept ) {
             // slope is undefined and nothing is interactive
             addChild( new UndefinedSlopeNode( line, staticFont, staticColor ) );
             return;
@@ -166,7 +166,6 @@ public class SlopeInterceptEquationNode extends EquationNode {
 
         // slope properties
         final double slope = line.getSlope();
-        final boolean undefinedSlope = ( line.run == 0 );
         final boolean zeroSlope = ( slope == 0 );
         final boolean unitySlope = ( Math.abs( slope ) == 1 );
         final boolean integerSlope = MathUtil.isInteger( slope );
@@ -212,7 +211,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
                 previousXOffset = ( fractionalSlope ? fractionSignXSpacing : integerSignXSpacing );
             }
 
-            if ( undefinedSlope || fractionalSlope ) {
+            if ( line.undefinedSlope() || fractionalSlope ) {
                 // rise/run x
                 fractionLineNode.setOffset( previousNode.getFullBoundsReference().getMaxX() + previousXOffset,
                                             equalsNode.getFullBoundsReference().getCenterY() + fractionLineYFudgeFactor );
@@ -331,7 +330,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
         }
 
         // Add the undefined-slope indicator after layout has been done, so that it covers the entire equation.
-        if ( !line.isSlopeDefined() ) {
+        if ( line.undefinedSlope() ) {
             PNode undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
             undefinedSlopeIndicator.setOffset( 0, fractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + undefinedSlopeYFudgeFactor );
             addChild( undefinedSlopeIndicator );
