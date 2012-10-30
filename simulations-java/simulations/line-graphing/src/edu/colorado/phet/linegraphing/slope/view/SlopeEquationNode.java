@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Renderer for slope equations, with interactive points (x1, y1, x2, y2).
- * Form is: m = (y2 - y1)/(x2 - x1 ) = rise/run
+ * Form is: m = y2 - y1 / x2 - x1  = rise/run
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -58,20 +58,16 @@ public class SlopeEquationNode extends EquationNode {
         // m =
         PNode mNode = new PhetPText( Strings.SYMBOL_SLOPE, staticFont, staticColor );
         PNode leftEqualsNode = new PhetPText( "=", staticFont, staticColor );
-        // ( y2 - y2 )
-        PNode numeratorLeftParen = new PhetPText( "(", staticFont, staticColor );
+        // y2 - y2
         PNode y2Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y2Spinner, y2, xRange, new PointColors(), interactiveFont, FORMAT ) );
         PNode numeratorOperatorNode = new PhetPText( "-", staticFont, staticColor );
         PNode y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, y1, xRange, new PointColors(), interactiveFont, FORMAT ) );
-        PNode numeratorRightParen = new PhetPText( ")", staticFont, staticColor );
         // left fraction line
         PPath leftLineNode = new PhetPPath( createFractionLineShape( 10 ), staticColor, null, null ); // correct length will be set later
-        // (x2 - x1 )
-        PNode denominatorLeftParen = new PhetPText( "(", staticFont, staticColor );
+        // x2 - x1
         PNode x2Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x2Spinner, x2, xRange, new PointColors(), interactiveFont, FORMAT ) );
         PNode denominatorOperatorNode = new PhetPText( "-", staticFont, staticColor );
         PNode x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, x1, xRange, new PointColors(), interactiveFont, FORMAT ) );
-        PNode denominatorRightParen = new PhetPText( ")", staticFont, staticColor );
         // = rise / run
         PNode rightEqualsNode = new PhetPText( "=", staticFont, staticColor );
         final PText riseNode = new PhetPText( FORMAT.format( interactiveLine.get().rise ), staticFont, staticColor );
@@ -82,17 +78,13 @@ public class SlopeEquationNode extends EquationNode {
         {
             addChild( mNode );
             addChild( leftEqualsNode );
-            addChild( numeratorLeftParen );
             addChild( y2Node );
             addChild( numeratorOperatorNode );
             addChild( y1Node );
-            addChild( numeratorRightParen );
             addChild( leftLineNode );
-            addChild( denominatorLeftParen );
             addChild( x2Node );
             addChild( denominatorOperatorNode );
             addChild( x1Node );
-            addChild( denominatorRightParen );
             addChild( rightEqualsNode );
             addChild( riseNode );
             addChild( rightLineNode );
@@ -107,31 +99,23 @@ public class SlopeEquationNode extends EquationNode {
             // fraction line
             leftLineNode.setOffset( leftEqualsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                     leftEqualsNode.getFullBoundsReference().getCenterY() + fractionLineYFudgeFactor );
-            // (y2 - y2)
-            numeratorLeftParen.setOffset( leftLineNode.getXOffset(),
-                                          leftLineNode.getFullBoundsReference().getMinY() - ( y2Node.getFullBoundsReference().getHeight() / 2 ) - ( numeratorLeftParen.getFullBoundsReference().getHeight() / 2 ) - spinnersYSpacing );
-            y2Node.setOffset( numeratorLeftParen.getFullBoundsReference().getMaxX() + parenXSpacing,
+            // y2 - y1
+            y2Node.setOffset( leftLineNode.getXOffset(),
                               leftLineNode.getFullBoundsReference().getMinY() - y2Node.getFullBoundsReference().getHeight() - spinnersYSpacing );
             numeratorOperatorNode.setOffset( y2Node.getFullBoundsReference().getMaxX() + operatorXSpacing,
-                                             numeratorLeftParen.getYOffset() );
+                                             y2Node.getFullBoundsReference().getCenterY() - ( numeratorOperatorNode.getFullBoundsReference().getHeight() / 2 ) );
             y1Node.setOffset( numeratorOperatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
                               y2Node.getYOffset() );
-            numeratorRightParen.setOffset( y1Node.getFullBoundsReference().getMaxX() + parenXSpacing,
-                                           numeratorLeftParen.getYOffset() );
             // fix fraction line length
-            double leftLineLength = numeratorRightParen.getFullBoundsReference().getMaxX() - numeratorLeftParen.getFullBoundsReference().getMinX();
+            final double leftLineLength = y1Node.getFullBoundsReference().getMaxX() - y2Node.getFullBoundsReference().getMinX();
             leftLineNode.setPathTo( createFractionLineShape( leftLineLength ) );
-            // (x2 - x1)
-            denominatorLeftParen.setOffset( numeratorLeftParen.getXOffset(),
-                                            leftLineNode.getFullBoundsReference().getMaxY() + ( x2Node.getFullBoundsReference().getHeight() / 2 ) - ( denominatorLeftParen.getFullBoundsReference().getHeight() / 2 ) + spinnersYSpacing );
-            x2Node.setOffset( denominatorLeftParen.getFullBoundsReference().getMaxX() + parenXSpacing,
+            // x2 - x1
+            x2Node.setOffset( y2Node.getXOffset(),
                               leftLineNode.getFullBoundsReference().getMaxY() + spinnersYSpacing );
             denominatorOperatorNode.setOffset( x2Node.getFullBoundsReference().getMaxX() + operatorXSpacing,
-                                               denominatorLeftParen.getYOffset() );
-            x1Node.setOffset( numeratorOperatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
+                                               x2Node.getFullBoundsReference().getCenterY() - ( denominatorOperatorNode.getFullBoundsReference().getHeight() / 2 ) );
+            x1Node.setOffset( denominatorOperatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
                               x2Node.getYOffset() );
-            denominatorRightParen.setOffset( x1Node.getFullBoundsReference().getMaxX() + parenXSpacing,
-                                             denominatorLeftParen.getYOffset() );
             // = rise/run
             rightEqualsNode.setOffset( leftLineNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                        leftEqualsNode.getYOffset() );
