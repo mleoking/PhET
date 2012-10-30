@@ -8,6 +8,7 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
+- Slope: implement new "Slope" tab
 - Slope: deal with dramatic changes in SlopeEquationControls panel width (try SlopeEquationControls.main with run=0)
 - Slope: horizontally center the number parts of the unsimplified rise and run in SlopeEquationNode
 - Slope: label graphed lines with m=value
