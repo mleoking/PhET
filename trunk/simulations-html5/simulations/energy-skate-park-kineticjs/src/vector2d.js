@@ -5,4 +5,4 @@ function vector2d( _x, _y ) {
     return vector;
 }
 
-var ZERO = vector2d( 0, 0 );
+function zero() {return vector2d( 0, 0 );}

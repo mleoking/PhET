@@ -198,7 +198,7 @@
                 var newSkaterY = Math.min( 383, newY );
                 skater.setY( newSkaterY );
                 if ( newSkaterY == 383 ) {
-                    skater.velocity = ZERO;
+                    skater.velocity = zero();
                 }
 
                 //don't let the skater cross the spline
@@ -324,7 +324,7 @@
 
         skater.on( "dragstart", function () {
             skater.dragging = true;
-            skater.velocity = ZERO;
+            skater.velocity = zero();
             skater.attached = false;
         } );
         skater.on( "dragend", function () { skater.dragging = false; } );
@@ -414,7 +414,7 @@
         }();
 
 
-        skater.velocity = ZERO;
+        skater.velocity = zero();
         console.log( skater.velocity );
 
         //Add Internationalization by replacing strings with those loaded from .properties files.
