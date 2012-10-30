@@ -10,10 +10,10 @@ DESIGN
 - add "Slope" tab for m=(y2-y1)/(x2-x1) ?
 
 HIGH
-- Game: "Place 3 Points" challenge
-- Game: challenge generation (levels and randomization)
 - Game: add support for fractional y-intercept in slope-intercept equations (only when y-intercept is non-interactive)
+- Game: "Place 3 Points" challenge
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges
+- Game: challenge generation (levels and randomization)
 
 MEDIUM
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
