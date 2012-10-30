@@ -2,6 +2,8 @@
 package edu.colorado.phet.linegraphing.slope.view;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.text.MessageFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -11,9 +13,11 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
@@ -267,5 +271,13 @@ public class SlopeEquationNode extends EquationNode {
                 }
             }
         } );
+    }
+
+    //TODO do this right
+    // Creates a node that displays the general form of this equation.
+    public static PNode createGeneralFormNode() {
+        String html = MessageFormat.format( "{0} = {1} - {2} / {3} - {4}", /* m = y2 - y1 / x2 - x1 */
+                                            Strings.SYMBOL_SLOPE, Strings.SYMBOL_Y2, Strings.SYMBOL_Y1, Strings.SYMBOL_X2, Strings.SYMBOL_X1 );
+        return new HTMLNode( html, LGColors.INTERACTIVE_LINE, new PhetFont( Font.BOLD, 18 ) );
     }
 }
