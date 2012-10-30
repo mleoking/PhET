@@ -144,16 +144,6 @@
             var splineX = numeric.spline( s, x );
             var splineY = numeric.spline( s, y );
 
-            //Find values of "s" for which the p spline has roots.  This will give the x(s), y(s) 2d point for the root.
-//            var roots = splineY.roots();
-//            console.log( "y(s)roots: " + roots );
-//            for ( var i = 0; i < roots.length; i++ ) {
-//                var root = roots[i];
-//                var xRoot = splineX.at( root );
-//                var yRoot = splineY.at( root );
-//                console.log( "(" + xRoot + "," + yRoot + ")" );
-//            }
-
             //Use 75 interpolating points because it is smooth enough even for a very large track (experimented with 3 control points only, with more control points may need more samples)
             var sAll = numeric.linspace( 0, 1, 75 );
 
@@ -176,7 +166,6 @@
         function updatePhysics() {
             if ( skater.attached ) {
                 skater.attachmentPoint = skater.attachmentPoint + 0.007;
-//                console.log( skater.attachmentPoint );
 
                 //TODO: could avoid recomputing the splines in this step if they haven't changed.
                 var s = numeric.linspace( 0, 1, controlPoints.length );
@@ -205,24 +194,7 @@
                 var newSkaterY = Math.min( 383, newY );
                 skater.setY( newSkaterY );
 
-                //Find the closest part of the track and see if above or below it.
-                //1. Find the closest part of the track
-                //Shallow copy since sort modifies the list.  (Maybe underscore to the rescue here?)
-//            var points = track.getPoints().slice( 0 );
-//            var skaterLocation = {x:skaterDebugShape.getX(), y:skaterDebugShape.getY()};
-//            points.sort( function ( a, b ) {return getDistance( a, skaterLocation ) - getDistance( b, skaterLocation );} );
-////            console.log( points );
-//
-//            //Determine if it crossed the track, maybe with http://stackoverflow.com/questions/234261/the-intersection-point-between-a-spline-and-a-line
-//            if ( points.length > 0 ) {
-//                var closestPoint = {x:points[0].x, y:points[0].y};
-////                console.log( "closest point = " + closestPoint.x+", "+closestPoint.y );
-//                var close = getDistance( skaterLocation, closestPoint ) < 100;
-//                skaterDebugShape.setFill( close ? 'blue' : 'red' );
-//            }
-
                 //don't let the skater cross the spline
-
                 if ( controlPoints.length > 2 ) {
                     var s = numeric.linspace( 0, 1, controlPoints.length );
                     var delta = 1E-6;
@@ -271,53 +243,9 @@
                                 skater.attached = true;
                                 skater.attachmentPoint = newSide.xRoot;
                             }
-//                        console.log( originalSides );
                         }
                     }
                 }
-//                var splineX = numeric.spline( s, controlPoints.map( getX ).map( function ( x ) {return x - skater.getX() - skater.getWidth() / 2} ) );
-//                var splineY = numeric.spline( s, controlPoints.map( getY ).map( function ( y ) {return y - skater.getY() - skater.getHeight()} ) );
-//
-//                //Find values of "s" for which the p spline has roots.  This will give the x(s), y(s) 2d point for the root.
-//
-//                //actually want to turn it sideways and look for the root at a fixed x value (for a skater falling in y direction only).
-//                //For a skater moving at an angle, will have to rotate to the angle of the skater's motion.
-//                var xRoots = splineX.roots();
-//
-//                for ( var i = 0; i < xRoots.length; i++ ) {
-//                    var xRoot = xRoots[i];
-//                    var pre = {x:splineX.at( xRoot - delta ), y:splineY.at( xRoot - delta )};
-//                    var post = {x:splineX.at( xRoot + delta ), y:splineY.at( xRoot + delta )};
-//                    var side = linePointPosition2DVector( pre, post, {x:0, y:0} );
-//
-////                    console.log( pre.x + ", " + pre.y + "  =>  " + post.x + ", " + post.y + ", and " + (skater.getX() + skater.getWidth() / 2) + ", " + (skater.getY() + skater.getHeight()) +", side = "+side);
-////                    console.log( side);
-////                    for ( var j = 0; j < yRoots.length; j++ ) {
-////                        var yRoot = yRoots[j];
-////
-////                        //TODO: this check will have to be against a line segment instead of a point
-////                        if ( Math.abs( xRoot - yRoot ) < 1E-1 ) {
-////                            console.log( "found intersection at " + splineX.at( xRoot ) + ", " + splineY.at( yRoot ) );
-////                            skater.velocityY = -skater.velocityY;
-////
-//////                            splineX.diff()
-////                        }
-////                    }
-//                }
-//
-////                for ( var i = 0; i < roots.length; i++ ) {
-////                    var root = roots[i];
-////                    var xRoot = splineX.at( root );
-////                    var yRoot = splineY.at( root );
-////                    console.log( "(" + xRoot + "," + yRoot + ")" );
-////
-////                    var xPre = splineX.at( root - 1E-6 );
-////                    var yPre = splineX.at( root - 1E-6 );
-////                    var xPost = splineX.at( root + 1E-6 );
-////                    var yPost = splineX.at( root + 1E-6 );
-////                }
-//            }
-
             }
 
             //Only draw when necessary because otherwise performance is worse on ipad3
