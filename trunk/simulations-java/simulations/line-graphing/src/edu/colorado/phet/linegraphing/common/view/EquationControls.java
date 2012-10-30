@@ -37,17 +37,28 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public abstract class EquationControls extends PhetPNode {
 
+    // Display the title as HTML
+    protected EquationControls( String title,
+                                final Property<Line> interactiveLine,
+                                final ObservableList<Line> savedLines,
+                                final Property<Boolean> maximized,
+                                final Property<Boolean> linesVisible,
+                                PNode interactiveEquationNode ) {
+        this( new HTMLNode( title, LGColors.INTERACTIVE_LINE, new PhetFont( Font.BOLD, 18 ) ),
+              interactiveLine, savedLines, maximized, linesVisible, interactiveEquationNode );
+    }
+
     /**
      * Constructor
      *
-     * @param title                   title that will be placed next to the minimize/maximize button
+     * @param titleNode               title that will be placed next to the minimize/maximize button
      * @param interactiveLine         the line that can be manipulated by the user
      * @param savedLines              lines that have been saved by the user
      * @param maximized               is the control panel maximized (true) or minimized (false)?
      * @param linesVisible            are lines visible on the graph?
      * @param interactiveEquationNode node that implements the interactive equation
      */
-    protected EquationControls( String title,
+    protected EquationControls( PNode titleNode,
                                 final Property<Line> interactiveLine,
                                 final ObservableList<Line> savedLines,
                                 final Property<Boolean> maximized,
@@ -55,7 +66,6 @@ public abstract class EquationControls extends PhetPNode {
                                 PNode interactiveEquationNode ) {
 
         // nodes
-        PNode titleNode = new HTMLNode( title, LGColors.INTERACTIVE_LINE, new PhetFont( Font.BOLD, 18 ) );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
             @Override protected ParameterSet getParameterSet() {
                 return super.getParameterSet().with( ParameterKeys.maximized, !maximized.get() );

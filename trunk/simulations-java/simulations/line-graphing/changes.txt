@@ -1,3 +1,4 @@
+10/30/12 add ability to specify an arbitrary node for the title of equation control panel, since slope equation cannot be rendered using HTMLNode
 # 0.00.32 (69676) Oct 30, 2012
 10/30/12 dev version to demo slope equation
 10/30/12 temporarily disable game levels 5 & 6 (where "Place 3 Points" challenges are being developed)
