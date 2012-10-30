@@ -20,7 +20,6 @@ MEDIUM
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
 
 LOW
-- review usages of Line.simplified
 - repackage, in anticipation of having 3 sims in this project
 
 DEVELOPER CONTROLS
