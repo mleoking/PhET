@@ -50,7 +50,7 @@
         cc.setGestureEnabled(true);
         scene.addChild(cc);
 
-        var coords= new CAAT.TextActor().
+        var coords = new CAAT.TextActor().
                 setFont("20px sans-serif").
                 setTextAlign('left').
                 setTextBaseline('top').
@@ -61,7 +61,7 @@
                 setOutline(true);
         scene.addChild(coords);
 
-        var coords2= new CAAT.TextActor().
+        var coords2 = new CAAT.TextActor().
                 setFont("20px sans-serif").
                 setTextAlign('left').
                 setTextBaseline('top').
@@ -72,7 +72,7 @@
                 setOutline(true);
         scene.addChild(coords2);
 
-        var coords3= new CAAT.TextActor().
+        var coords3 = new CAAT.TextActor().
                 setFont("20px sans-serif").
                 setTextAlign('left').
                 setTextBaseline('top').
@@ -97,7 +97,7 @@
         var np = 20;
         var s = 80;
         for ( var i = 0; i < np; i++) {
-            var sc= 1+Math.random()*.25;
+            var sc = 1 + Math.random() * .25;
 
             var p = new CAAT.ActorContainer().
                     setBounds(
