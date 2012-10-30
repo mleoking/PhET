@@ -308,7 +308,7 @@
 
             skyLayer.add( image );
             skyLayer.add( new Kinetic.Image( {image:images[1], x:800, y:430} ) );
-            skyLayer.add( new Kinetic.Image( {image:images[2], x:-100, y:320} ) );
+            skyLayer.add( new Kinetic.Image( {image:images[2], x:0, y:425, scale:0.4} ) );
             skyLayer.draw();
         }} );
         var skater = new Kinetic.Image( {
