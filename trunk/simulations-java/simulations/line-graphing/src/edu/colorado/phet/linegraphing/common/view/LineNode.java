@@ -124,14 +124,14 @@ public abstract class LineNode extends PComposite {
         PNode zeroOffsetNode = new ZeroOffsetNode( createEquationNode( line, font, color ) );
         equationParentNode.addChild( new ZeroOffsetNode( zeroOffsetNode ) );
 
-        // put equation where it won't interfere with rise/run brackets
-        final double equationXOffset = -zeroOffsetNode.getFullBoundsReference().getWidth() - 12;
+        // put equation where it won't interfere with slope tool
+        final double equationXOffset = -zeroOffsetNode.getFullBoundsReference().getWidth() - 30;
         final double equationYOffset;
-        if ( line.rise > 0 ) {
-            equationYOffset = 10; // equation below the line
+        if ( line.undefinedSlope() || line.rise <= 0 ) {
+            equationYOffset = -zeroOffsetNode.getFullBoundsReference().getHeight() - 12; // equation above the line
         }
         else {
-            equationYOffset = -zeroOffsetNode.getFullBoundsReference().getHeight() - 12; // equation above the line
+            equationYOffset = 10; // equation below the line
         }
         zeroOffsetNode.setOffset( equationXOffset, equationYOffset );
     }
