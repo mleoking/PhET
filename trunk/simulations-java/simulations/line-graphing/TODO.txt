@@ -8,7 +8,6 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- Slope: remove parens from slope equation
 - Slope: show both unsimplified and simplified slope on RHS of equation
 - Slope: label graphed lines with m=value
 - Slope: label standard lines as m=1, m=-1

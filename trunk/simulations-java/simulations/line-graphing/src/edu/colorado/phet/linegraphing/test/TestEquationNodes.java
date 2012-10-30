@@ -101,7 +101,7 @@ public class TestEquationNodes {
         PNode slopeParent = new PNode();
         {
             // model
-            Property<Line> line = new Property<Line>( new Line( 1, 1, 2, 2, LGColors.INTERACTIVE_LINE ) );
+            Property<Line> line = new Property<Line>( new Line( 1, 3, 2, 4, LGColors.INTERACTIVE_LINE ) );
 
             // equations
             SlopeEquationNode equationNode1 = new SlopeEquationNode( line, x1Range, y1Range, interactiveFont, staticFont, staticColor );

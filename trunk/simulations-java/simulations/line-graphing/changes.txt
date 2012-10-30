@@ -1,3 +1,4 @@
+10/30/12 remove parens from slope equation
 10/30/12 move responsibility for rendering general form of equation to EquationNode subclasses
 10/30/12 add ability to specify an arbitrary node for the title of equation control panel, since slope equation cannot be rendered using HTMLNode
 # 0.00.32 (69676) Oct 30, 2012
