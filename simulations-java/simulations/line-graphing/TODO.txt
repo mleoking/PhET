@@ -8,7 +8,6 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- Slope: implement SlopeEquationNode.createGeneralFormNode
 - Slope: horizontally center the number parts of the unsimplified rise and run in SlopeEquationNode
 - Slope: label graphed lines with m=value
 - Slope: label standard lines as m=1, m=-1
