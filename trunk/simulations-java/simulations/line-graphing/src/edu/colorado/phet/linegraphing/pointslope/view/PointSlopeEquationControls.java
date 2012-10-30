@@ -1,11 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.pointslope.view;
 
-import java.text.MessageFormat;
-
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
-import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
@@ -18,8 +15,7 @@ import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 class PointSlopeEquationControls extends EquationControls {
 
     public PointSlopeEquationControls( LineFormsModel model, LineFormsViewProperties viewProperties ) {
-        super( MessageFormat.format( "({0} - {1}) = {2}({3} - {4})", /* (y - y1) = m(x - x1) */
-                                     Strings.SYMBOL_Y, Strings.SYMBOL_Y1, Strings.SYMBOL_SLOPE, Strings.SYMBOL_X, Strings.SYMBOL_X1 ),
+        super( PointSlopeEquationNode.createGeneralFormNode(),
                model.interactiveLine,
                model.savedLines,
                viewProperties.interactiveEquationVisible,

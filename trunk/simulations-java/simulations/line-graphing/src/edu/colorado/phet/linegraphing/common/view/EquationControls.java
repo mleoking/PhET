@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
@@ -13,10 +12,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ToggleButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -36,17 +33,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class EquationControls extends PhetPNode {
-
-    // Display the title as HTML
-    protected EquationControls( String title,
-                                final Property<Line> interactiveLine,
-                                final ObservableList<Line> savedLines,
-                                final Property<Boolean> maximized,
-                                final Property<Boolean> linesVisible,
-                                PNode interactiveEquationNode ) {
-        this( new HTMLNode( title, LGColors.INTERACTIVE_LINE, new PhetFont( Font.BOLD, 18 ) ),
-              interactiveLine, savedLines, maximized, linesVisible, interactiveEquationNode );
-    }
 
     /**
      * Constructor
