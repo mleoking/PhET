@@ -115,7 +115,7 @@ public class TestEquationNodes {
 
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 1024, 768 ) );
+        canvas.setPreferredSize( new Dimension( 1200, 768 ) );
         canvas.getLayer().addChild( pointSlopeParent );
         canvas.getLayer().addChild( slopeInterceptParent );
         canvas.getLayer().addChild( slopeParent );
