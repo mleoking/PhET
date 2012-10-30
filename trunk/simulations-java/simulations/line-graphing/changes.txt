@@ -1,3 +1,4 @@
+10/30/12 add packages and resources for new "Slope" tab
 10/29/12 increase x-offset for equations on graphed lines so that they are more often inside the bounds of the grid
 10/29/12 prevent "x = 0 (undefined slope)" from overlapping the y-axis labels in Slope-Intercept tab
 10/29/12 replace !line.isSlopeDefined with line.undefinedSlope (all usages were inverted)

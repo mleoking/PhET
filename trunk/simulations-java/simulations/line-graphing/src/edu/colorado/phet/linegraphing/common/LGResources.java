@@ -43,11 +43,14 @@ public class LGResources {
 
         public static final String SYMBOL_X = RESOURCES.getLocalizedString( "symbol.x" );
         public static final String SYMBOL_X1 = RESOURCES.getLocalizedString( "symbol.x1" );
+        public static final String SYMBOL_X2 = RESOURCES.getLocalizedString( "symbol.x2" );
         public static final String SYMBOL_Y = RESOURCES.getLocalizedString( "symbol.y" );
         public static final String SYMBOL_Y1 = RESOURCES.getLocalizedString( "symbol.y1" );
+        public static final String SYMBOL_Y2 = RESOURCES.getLocalizedString( "symbol.y2" );
         public static final String SYMBOL_SLOPE = RESOURCES.getLocalizedString( "symbol.slope" );
         public static final String SYMBOL_INTERCEPT = RESOURCES.getLocalizedString( "symbol.intercept" );
 
+        public static final String TAB_SLOPE = RESOURCES.getLocalizedString( "tab.slope" );
         public static final String TAB_SLOPE_INTERCEPT = RESOURCES.getLocalizedString( "tab.slopeIntercept" );
         public static final String TAB_POINT_SLOPE = RESOURCES.getLocalizedString( "tab.pointSlope" );
         public static final String TAB_LINE_GAME = RESOURCES.getLocalizedString( "tab.lineGame" );
