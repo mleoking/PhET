@@ -306,9 +306,9 @@
                                                image:img
                                            } );
 
-            image.on( "mouseover", pointerCursor );
-            image.on( "mouseout", defaultCursor );
             skyLayer.add( image );
+            skyLayer.add( new Kinetic.Image( {image:images[1], x:800, y:430} ) );
+            skyLayer.add( new Kinetic.Image( {image:images[2], x:-100, y:320} ) );
             skyLayer.draw();
         }} );
         var skater = new Kinetic.Image( {
@@ -488,6 +488,6 @@
 
     // Only executed our code once the DOM is ready.
     window.onload = function () {
-        preloadImages( "resources/skater.png" ).done( run )
+        preloadImages( ["resources/skater.png", "resources/house.png", "resources/mountains.png"] ).done( run )
     }
 })();
