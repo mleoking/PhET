@@ -8,7 +8,10 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- "Slope" tab, m=(y2-y1)/(x2-x1)
+- Slope: remove parens from slope equation
+- Slope: show both unsimplified and simplified slope on RHS of equation
+- Slope: label graphed lines with m=value
+- Slope: label standard lines as m=1, m=-1
 - Game: add support for fractional y-intercept in slope-intercept equations (only when y-intercept is non-interactive)
 - Game: "Place 3 Points" challenge
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges
