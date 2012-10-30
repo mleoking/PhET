@@ -80,7 +80,7 @@
                                                                                                          y:0,
                                                                                                          width:1024,
                                                                                                          height:768,
-                                                                                                         fill:'7cc7fe'
+                                                                                                         fill:'#7cc7fe'
                                                                                                      } );
 
         var ground = new Kinetic.Rect( {
