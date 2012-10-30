@@ -51,7 +51,7 @@ public class Line {
     }
 
     /*
-     * Creates a line using point-slope description: (y - y1) = m(x - x1)
+     * Creates a line by describing it in point-slope form: (y - y1) = m(x - x1)
      * Need to use a factory method because params are identical to primary constructor.
      */
     public static Line createPointSlope( double x1, double y1, double rise, double run, Color color ) {
@@ -63,7 +63,7 @@ public class Line {
     }
 
     /*
-     * Creates a line using slope-intercept description: y = mx + b
+     * Creates a line by describing it in slope-intercept form: y = mx + b
      * Using a factory method instead of a constructor to be consistent with createPointSlope.
      */
     public static Line createSlopeIntercept( double rise, double run, double yIntercept, Color color ) {
