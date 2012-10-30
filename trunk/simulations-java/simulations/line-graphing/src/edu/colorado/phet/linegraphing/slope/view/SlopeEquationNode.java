@@ -149,7 +149,7 @@ public class SlopeEquationNode extends EquationNode {
                 // Unsimplified: adjust the fraction line length, center the rise and run values
                 {
                     unsimplifiedFractionLineNode.setPathTo( createFractionLineShape( Math.max( unsimplifiedRiseNode.getFullBoundsReference().getWidth(), unsimplifiedRunNode.getFullBoundsReference().getWidth() ) ) );
-                    //TODO horizontally center the numbers by taking into account the width of any minus signs
+                    //TODO horizontally center the numbers by taking into account the width of any minus signs. Eg, in -2/3, "2" should be centered over "3".
                     unsimplifiedRiseNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRiseNode.getFullBoundsReference().getWidth() / 2 ),
                                                     unsimplifiedFractionLineNode.getFullBoundsReference().getMinY() - unsimplifiedRiseNode.getFullBoundsReference().getHeight() - ySpacing );
                     unsimplifiedRunNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRunNode.getFullBoundsReference().getWidth() / 2 ),
