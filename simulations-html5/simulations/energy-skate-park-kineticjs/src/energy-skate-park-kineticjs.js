@@ -206,19 +206,6 @@
                     var s = numeric.linspace( 0, 1, controlPoints.length );
                     var delta = 1E-6;
 
-                    function getSign( value ) {
-                        if ( value == 0 ) {
-                            return 0;
-                        }
-                        else if ( value > 0 ) {
-                            return +1;
-                        }
-                        else if ( value < 0 ) {
-                            return -1;
-                        }
-                        return "wrong value";
-                    }
-
                     function getSides( xvalue, yvalue ) {
                         var splineX = numeric.spline( s, controlPoints.map( getX ).map( function ( x ) {return x - xvalue - skater.getWidth() / 2} ) );
                         var splineY = numeric.spline( s, controlPoints.map( getY ).map( function ( y ) {return y - yvalue - skater.getHeight()} ) );

@@ -6,3 +6,16 @@ function vector2d( _x, _y ) {
 }
 
 function zero() {return vector2d( 0, 0 );}
+
+function getSign( value ) {
+    if ( value == 0 ) {
+        return 0;
+    }
+    else if ( value > 0 ) {
+        return +1;
+    }
+    else if ( value < 0 ) {
+        return -1;
+    }
+    return "wrong value";
+}
