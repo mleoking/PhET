@@ -1,31 +1,27 @@
 (function () {
 
     //http://www.javascriptkit.com/javatutors/preloadimagesplus.shtml
-    function preloadimages( a ) {
-        var newimages = [], loadedimages = 0;
-        var postaction = function () {};
+    function preloadImages( a ) {
+        var newImages = [], loadedImages = 0;
+        var postAction = function () {};
         var arr = (typeof a != "object") ? [a] : a;
 
-        function imageloadpost() {
-            loadedimages++;
-            if ( loadedimages == arr.length ) {
-                postaction( newimages ); //call postaction and pass in newimages array as parameter
+        function imageLoadPost() {
+            loadedImages++;
+            if ( loadedImages == arr.length ) {
+                postAction( newImages ); //call postAction and pass in newImages array as parameter
             }
         }
 
         for ( var i = 0; i < arr.length; i++ ) {
-            newimages[i] = new Image();
-            newimages[i].src = arr[i];
-            newimages[i].onload = function () {
-                imageloadpost()
-            };
-            newimages[i].onerror = function () {
-                imageloadpost()
-            };
+            newImages[i] = new Image();
+            newImages[i].src = arr[i];
+            newImages[i].onload = function () {imageLoadPost()};
+            newImages[i].onerror = function () {imageLoadPost()};
         }
         return { //return blank object with done() method
             done:function ( f ) {
-                postaction = f || postaction; //remember user defined callback functions to be called when images load
+                postAction = f || postAction; //remember user defined callback functions to be called when images load
             }
         }
     }
@@ -34,7 +30,7 @@
         if ( "WebSocket" in window ) {
             // Let us open a web socket
             var ws = new WebSocket( "ws://localhost:8887/echo" );
-            ws.onmessage = function ( evt ) { document.location.reload( true ); };
+            ws.onmessage = function ( event ) { document.location.reload( true ); };
             ws.onclose = function () { };
             console.log( "opened websocket" );
         }
@@ -120,13 +116,13 @@
         var defaultCursor = function () { document.body.style.cursor = "default"; };
 
 
-        var inited = false;
+        var initialized = false;
         var updateSplineTrack = function () {
             console.log( "drag" );
 
             //Have to do this lazily since the images load asynchronously
-            if ( controlPoints.length == 3 && inited == false ) {
-                inited = true;
+            if ( controlPoints.length == 3 && initialized == false ) {
+                initialized = true;
                 controlPoints[1].setX( 100 );
                 controlPoints[1].setY( 400 );
 
@@ -542,7 +538,7 @@
         requestAnimationFrame( loop );
     }
 
-    var dot = function ( a, b ) { return a.x * b.x + a.y * b.y; }
+    var dot = function ( a, b ) { return a.x * b.x + a.y * b.y; };
 
     var sub = function ( a, b ) { return {x:(a.x - b.x), y:(a.y - b.y)}; };
 
@@ -557,6 +553,6 @@
 
     // Only executed our code once the DOM is ready.
     window.onload = function () {
-        preloadimages( "resources/skater.png" ).done( run )
+        preloadImages( "resources/skater.png" ).done( run )
     }
 })();
