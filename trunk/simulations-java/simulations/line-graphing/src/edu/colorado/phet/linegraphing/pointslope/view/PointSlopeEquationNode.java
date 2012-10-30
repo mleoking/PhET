@@ -39,7 +39,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class PointSlopeEquationNode extends EquationNode {
 
-    private final Property<Double> rise, run, x1, y1; // internal properties that are connected to spinners
+    private final Property<Double> x1, y1, rise, run; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
     // Nodes that appear in all possible forms of the equation "(y - y1) = m(x - x1)"
@@ -72,10 +72,10 @@ public class PointSlopeEquationNode extends EquationNode {
                                    final Color staticColor ) {
         super( staticFont.getSize() );
 
-        this.rise = new Property<Double>( interactiveLine.get().rise );
-        this.run = new Property<Double>( interactiveLine.get().run );
         this.x1 = new Property<Double>( interactiveLine.get().x1 );
         this.y1 = new Property<Double>( interactiveLine.get().y1 );
+        this.rise = new Property<Double>( interactiveLine.get().rise );
+        this.run = new Property<Double>( interactiveLine.get().run );
 
         // Determine the max width of the rise and run spinners.
         double maxSlopeSpinnerWidth = computeMaxSlopeSpinnerWidth( riseRange, runRange, interactiveFont, FORMAT );
