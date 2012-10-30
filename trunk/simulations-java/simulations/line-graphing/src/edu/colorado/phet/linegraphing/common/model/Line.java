@@ -24,7 +24,7 @@ public class Line {
     public final double x1, y1; // x and y components of the first point
     public final double x2, y2; // x and y components of the second point
     public final double rise, run; // vertical and horizontal components of the slope, relative to (x1,y1)
-    public final Color color; // color used for visualizing the line
+    public final Color color; // color used for visualizing the line (convenient to have this in the model)
 
     // Specified using 2 points
     public Line( double x1, double y1, double x2, double y2, Color color ) {
