@@ -82,7 +82,7 @@ public class Line {
     /*
      * Given x, solve y = m(x - x1) + y1
      * Returns Double.NaN if the solution is not unique, or there is no solution (x can't possibly be on the line.)
-     * This occurs when we have a vertical line, with no rise.
+     * This occurs when we have a vertical line, with no run.
      */
     public double solveY( double x ) {
         if ( run == 0 ) {
@@ -96,7 +96,7 @@ public class Line {
     /*
      * Given y, solve x = ((y - y1)/m) + x1
      * Returns Double.NaN if the solution is not unique, or there is no solution (y can't possibly be on the line.)
-     * This occurs when we have a horizontal line, with no run.
+     * This occurs when we have a horizontal line, with no rise.
      */
     public double solveX( double y ) {
         if ( rise == 0 ) {
