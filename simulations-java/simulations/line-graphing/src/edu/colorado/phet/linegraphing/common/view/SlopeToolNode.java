@@ -4,7 +4,6 @@ package edu.colorado.phet.linegraphing.common.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
@@ -41,6 +40,7 @@ public class SlopeToolNode extends PComposite {
 
     // lines
     private static final Color LINE_COLOR = LGColors.SLOPE;
+    private static final float STROKE_WIDTH = 1.25f;
 
     // values
     private static final int VALUE_X_SPACING = 6;
@@ -82,7 +82,7 @@ public class SlopeToolNode extends PComposite {
             riseValueNode = new ValueNode( line.rise );
             final double xOffset = offsetFactor * gridXSpacing;
             final double riseDelimiterLength = delimiterLengthFactor * gridXSpacing;
-            final double tipFudgeY = ( line.rise > 0 ) ? 1 : -1;
+            final double tipFudgeY = ( line.rise > 0 ) ? STROKE_WIDTH : -STROKE_WIDTH;
             final double arrowX;
             if ( line.run > 0 ) {
                 // value to left of line
@@ -181,13 +181,12 @@ public class SlopeToolNode extends PComposite {
     // Can't use common-code ArrowNode because we want a different tip style.
     private static class ArrowNode extends PComposite {
 
-        private static final Stroke STROKE = new BasicStroke( 1f );
-        private static final PDimension TIP_SIZE = new PDimension( 6, 8 ); // use even-number dimensions, or tips will look asymmetrical due to rounding
+        private static final PDimension TIP_SIZE = new PDimension( 6, 8 ); // use even-number dimensions, or tip will look asymmetrical due to rounding
 
         public ArrowNode( double tailX, double tailY, double tipX, double tipY ) {
 
             // nodes
-            PNode lineNode = new PhetPPath( new Line2D.Double( tailX, tailY, tipX, tipY ), STROKE, LINE_COLOR );
+            PNode lineNode = new PhetPPath( new Line2D.Double( tailX, tailY, tipX, tipY ), new BasicStroke( STROKE_WIDTH ), LINE_COLOR );
             DoubleGeneralPath tipPath = new DoubleGeneralPath();
             if ( tailX == tipX ) {
                 // vertical arrow
@@ -222,7 +221,7 @@ public class SlopeToolNode extends PComposite {
             else {
                 throw new UnsupportedOperationException( "this implementation supports only horizontal and vertical arrows" );
             }
-            PNode tipNode = new PhetPPath( tipPath.getGeneralPath(), STROKE, LINE_COLOR );
+            PNode tipNode = new PhetPPath( tipPath.getGeneralPath(), new BasicStroke( STROKE_WIDTH ), LINE_COLOR );
 
             // rendering order
             addChild( tipNode );
@@ -233,10 +232,8 @@ public class SlopeToolNode extends PComposite {
     // Delimiter line that is at the end of a length line in a dimensional drawing.
     private static class DimensionalDelimiterNode extends PPath {
 
-        private static final Stroke STROKE = new BasicStroke( 1.25f );
-
         public DimensionalDelimiterNode( double x1, double y1, double x2, double y2 ) {
-            setStroke( STROKE );
+            setStroke( new BasicStroke( STROKE_WIDTH ) );
             setStrokePaint( LINE_COLOR );
             setPathTo( new Line2D.Double( x1, y1, x2, y2 ) );
         }
