@@ -1,3 +1,4 @@
+10/30/12 use difference colors for (x1,y1) and (x2,y2)
 10/30/12 render general form of slope equation, add test harness to SlopeEquationControls
 10/30/12 show both unsimplified and simplified value on RHS of slope equation
 10/30/12 remove parens from slope equation

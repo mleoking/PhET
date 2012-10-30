@@ -64,9 +64,16 @@ public class SpinnerStateIndicator<T> {
     }
 
     // Colors used for the states of a point (x1,y1) spinner's up/down buttons.
-    public static class PointColors extends SpinnerStateIndicator<Color> {
-        public PointColors() {
+    public static class X1Y1Colors extends SpinnerStateIndicator<Color> {
+        public X1Y1Colors() {
             super( LGColors.POINT_X1_Y1, LGColors.POINT_X1_Y1, LGColors.POINT_X1_Y1.darker(), LGColors.SPINNER_BUTTON_DISABLED );
+        }
+    }
+
+    // Colors used for the states of a point (x2,y2) spinner's up/down buttons.
+    public static class X2Y2Colors extends SpinnerStateIndicator<Color> {
+        public X2Y2Colors() {
+            super( LGColors.POINT_X2_Y2, LGColors.POINT_X2_Y2, LGColors.POINT_X2_Y2.darker(), LGColors.SPINNER_BUTTON_DISABLED );
         }
     }
 

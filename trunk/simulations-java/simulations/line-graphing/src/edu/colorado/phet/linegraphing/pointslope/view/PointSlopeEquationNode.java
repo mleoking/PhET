@@ -25,7 +25,7 @@ import edu.colorado.phet.linegraphing.common.view.PlusNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
-import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.PointColors;
+import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.X1Y1Colors;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeColors;
 import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.umd.cs.piccolo.PNode;
@@ -89,7 +89,7 @@ public class PointSlopeEquationNode extends EquationNode {
         yNode = new PhetPText( Strings.SYMBOL_Y, staticFont, staticColor );
         yOperatorNode = new PNode(); // parent for + or - node
         if ( interactiveY1 ) {
-            y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, y1, y1Range, new PointColors(), interactiveFont, FORMAT ) );
+            y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, y1, y1Range, new X1Y1Colors(), interactiveFont, FORMAT ) );
         }
         else {
             y1Node = new DynamicValueNode( y1, staticFont, staticColor, true ); // displayed as absolute value
@@ -114,7 +114,7 @@ public class PointSlopeEquationNode extends EquationNode {
         xNode = new PhetPText( Strings.SYMBOL_X, staticFont, staticColor );
         xOperatorNode = new PNode(); // parent for + or - node
         if ( interactiveX1 ) {
-            x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, x1, x1Range, new PointColors(), interactiveFont, FORMAT ) );
+            x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, x1, x1Range, new X1Y1Colors(), interactiveFont, FORMAT ) );
         }
         else {
             x1Node = new DynamicValueNode( x1, staticFont, staticColor, true ); // displayed as absolute value
