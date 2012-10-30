@@ -188,7 +188,7 @@
                 if ( skater.attachmentPoint > 1.0 || skater.attachmentPoint < 0 ) {
                     skater.attached = false;
                 }
-                skater.velocityY = 0;
+                skater.velocity = ZERO;
             }
             else {
                 var originalX = skater.getX();
@@ -196,15 +196,14 @@
 
                 var newY = skater.getY();
                 if ( !skater.dragging ) {
-                    skater.velocityY = skater.velocityY + 0.5;
-                    newY = skater.getY() + skater.velocityY * 1;
+                    skater.velocity = skater.velocity.plus( 0, 0.5 );
+                    newY = skater.getY() + skater.velocity.times( 1 ).y;
                 }
                 skater.setY( newY );
 
                 //Don't let the skater go below the ground.
                 var newSkaterY = Math.min( 383, newY );
                 skater.setY( newSkaterY );
-
 
                 //Find the closest part of the track and see if above or below it.
                 //1. Find the closest part of the track
@@ -390,7 +389,7 @@
 
         skater.on( "dragstart", function () {
             skater.dragging = true;
-            skater.velocityY = 0;
+            skater.velocity = ZERO;
             skater.attached = false;
         } );
         skater.on( "dragend", function () { skater.dragging = false; } );
@@ -480,7 +479,8 @@
         }();
 
 
-        skater.velocityY = 0;
+        skater.velocity = ZERO;
+        console.log( skater.velocity );
 
         //Add Internationalization by replacing strings with those loaded from .properties files.
         //Note this will not work with file:// syntax on chrome
