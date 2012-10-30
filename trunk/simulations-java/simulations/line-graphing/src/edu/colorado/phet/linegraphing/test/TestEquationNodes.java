@@ -38,7 +38,7 @@ public class TestEquationNodes {
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );
 
-        final int xSpacing = 150;
+        final int xSpacing = 50;
         final int ySpacing = 60;
 
         // point-slope tests
@@ -115,7 +115,7 @@ public class TestEquationNodes {
 
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 1200, 768 ) );
+        canvas.setPreferredSize( new Dimension( 1024, 768 ) );
         canvas.getLayer().addChild( pointSlopeParent );
         canvas.getLayer().addChild( slopeInterceptParent );
         canvas.getLayer().addChild( slopeParent );
