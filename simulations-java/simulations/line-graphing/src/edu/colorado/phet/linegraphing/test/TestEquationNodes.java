@@ -15,6 +15,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationNode;
+import edu.colorado.phet.linegraphing.slope.view.SlopeEquationNode;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -96,15 +97,33 @@ public class TestEquationNodes {
             equationNode6.setOffset( equationNode1.getXOffset(), equationNode5.getFullBoundsReference().getMaxY() + ySpacing );
         }
 
+        // slope tests
+        PNode slopeParent = new PNode();
+        {
+            // model
+            Property<Line> line = new Property<Line>( new Line( 1, 1, 2, 2, LGColors.INTERACTIVE_LINE ) );
+
+            // equations
+            SlopeEquationNode equationNode1 = new SlopeEquationNode( line, x1Range, y1Range, interactiveFont, staticFont, staticColor );
+
+            // rendering order
+            slopeParent.addChild( equationNode1 );
+
+            // layout
+            equationNode1.setOffset( 0, 0 );
+        }
+
         // canvas
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 1024, 768 ) );
+        canvas.setPreferredSize( new Dimension( 1400, 768 ) );
         canvas.getLayer().addChild( slopeInterceptParent );
         canvas.getLayer().addChild( pointSlopeParent );
+        canvas.getLayer().addChild( slopeParent );
 
         // layout
         slopeInterceptParent.setOffset( 100, 50 );
         pointSlopeParent.setOffset( slopeInterceptParent.getFullBoundsReference().getMaxX() + xSpacing, slopeInterceptParent.getYOffset() );
+        slopeParent.setOffset( pointSlopeParent.getFullBoundsReference().getMaxX() + xSpacing, pointSlopeParent.getYOffset() );
 
         // frame
         JFrame frame = new JFrame( TestEquationNodes.class.getName() );
