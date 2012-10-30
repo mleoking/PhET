@@ -164,7 +164,10 @@
         };
 
         function updatePhysics() {
+            var originalX = skater.getX();
+            var originalY = skater.getY();
             if ( skater.attached ) {
+
                 skater.attachmentPoint = skater.attachmentPoint + 0.007;
 
                 //TODO: could avoid recomputing the splines in this step if they haven't changed.
@@ -177,22 +180,26 @@
                 if ( skater.attachmentPoint > 1.0 || skater.attachmentPoint < 0 ) {
                     skater.attached = false;
                 }
-                skater.velocity = ZERO;
+                skater.velocity = vector2d( skater.getX() - originalX, skater.getY() - originalY );
             }
             else {
-                var originalX = skater.getX();
-                var originalY = skater.getY();
 
                 var newY = skater.getY();
+                var newX = skater.getX();
                 if ( !skater.dragging ) {
                     skater.velocity = skater.velocity.plus( 0, 0.5 );
                     newY = skater.getY() + skater.velocity.times( 1 ).y;
+                    newX = skater.getX() + skater.velocity.times( 1 ).x;
                 }
+                skater.setX( newX );
                 skater.setY( newY );
 
                 //Don't let the skater go below the ground.
                 var newSkaterY = Math.min( 383, newY );
                 skater.setY( newSkaterY );
+                if ( newSkaterY == 383 ) {
+                    skater.velocity = ZERO;
+                }
 
                 //don't let the skater cross the spline
                 if ( controlPoints.length > 2 ) {
