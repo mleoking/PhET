@@ -2,8 +2,8 @@
 package edu.colorado.phet.linegraphing.pointslope.view;
 
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -48,9 +48,9 @@ public class PointSlopeEquationNode extends EquationNode {
     private final PNode y1MinusSignNode; // for "y = -y1" case
     private final PPath fractionLineNode;
 
-    // Constructor for a static line. Note that static lines are automatically simplified.
+    // Constructor for a static line.
     public PointSlopeEquationNode( Line line, PhetFont font, Color color ) {
-        this( new Property<Line>( line.simplified() ),
+        this( new Property<Line>( line ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
@@ -137,8 +137,8 @@ public class PointSlopeEquationNode extends EquationNode {
                 {
                     x1.set( line.x1 );
                     y1.set( line.y1 );
-                    rise.set( interactiveSlope ? line.rise : line.simplified().rise );
-                    run.set( interactiveSlope ? line.run : line.simplified().run );
+                    rise.set( interactiveSlope ? line.rise : line.getSimplifiedRise() );
+                    run.set( interactiveSlope ? line.run : line.getSimplifiedRun() );
                 }
                 updatingControls = false;
 
@@ -276,11 +276,12 @@ public class PointSlopeEquationNode extends EquationNode {
                 // slope is not interactive, so here we put it in the desired form
 
                 // slope properties, used to determine correct form
+                final double slope = line.getSlope();
                 final boolean undefinedSlope = ( line.run == 0 );
-                final boolean zeroSlope = ( line.getSlope() == 0 );
-                final boolean unitySlope = ( Math.abs( line.getSlope() ) == 1 );
-                final boolean integerSlope = ( Math.abs( line.simplified().run ) == 1 );
-                final boolean positiveSlope = ( line.getSlope() > 0 );
+                final boolean zeroSlope = ( slope == 0 );
+                final boolean unitySlope = ( Math.abs( slope ) == 1 );
+                final boolean integerSlope = MathUtil.isInteger( slope );
+                final boolean positiveSlope = ( slope > 0 );
                 final boolean fractionalSlope = ( !zeroSlope && !unitySlope && !integerSlope );
 
                 // adjust fraction line width, use max width of rise or run

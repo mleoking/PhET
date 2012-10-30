@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -48,9 +47,9 @@ public class SlopeInterceptEquationNode extends EquationNode {
     private final PNode interceptMinusSignNode; // for "y = -b" case
     private final PPath fractionLineNode;
 
-    // Constructor for a static line. Note that static lines are automatically simplified.
+    // Constructor for a static line.
     public SlopeInterceptEquationNode( Line line, PhetFont font, Color color ) {
-        this( new Property<Line>( line.simplified() ),
+        this( new Property<Line>( line ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
               new Property<DoubleRange>( new DoubleRange( 0, 1 ) ),
@@ -124,8 +123,8 @@ public class SlopeInterceptEquationNode extends EquationNode {
                 // Synchronize the controls atomically.
                 updatingControls = true;
                 {
-                    rise.set( interactiveSlope ? line.rise : line.simplified().rise );
-                    run.set( interactiveSlope ? line.run : line.simplified().run );
+                    rise.set( interactiveSlope ? line.rise : line.getSimplifiedRise() );
+                    run.set( interactiveSlope ? line.run : line.getSimplifiedRun() );
                     yIntercept.set( line.y1 );
                 }
                 updatingControls = false;
@@ -166,11 +165,12 @@ public class SlopeInterceptEquationNode extends EquationNode {
         }
 
         // slope properties
+        final double slope = line.getSlope();
         final boolean undefinedSlope = ( line.run == 0 );
-        final boolean zeroSlope = ( line.getSlope() == 0 );
-        final boolean unitySlope = ( Math.abs( line.getSlope() ) == 1 );
-        final boolean integerSlope = ( Math.abs( line.simplified().run ) == 1 );
-        final boolean positiveSlope = ( line.getSlope() > 0 );
+        final boolean zeroSlope = ( slope == 0 );
+        final boolean unitySlope = ( Math.abs( slope ) == 1 );
+        final boolean integerSlope = MathUtil.isInteger( slope );
+        final boolean positiveSlope = ( slope > 0 );
         final boolean fractionalSlope = ( !zeroSlope && !unitySlope && !integerSlope );
 
         // y =

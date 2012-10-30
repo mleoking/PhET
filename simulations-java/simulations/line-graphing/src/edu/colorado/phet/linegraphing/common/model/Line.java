@@ -112,21 +112,32 @@ public class Line {
         return onLine( line.x1, line.y1 ) && onLine( line.x2, line.y2 );
     }
 
-    /*
-     * Creates a simplified instance of the line.
-     * For our purposes, this means simplifying (aka, reducing) the slope.
-     * Simplification uses Euclid's algorithm for computing the greatest common divisor (GCD) of two integers,
-     * so simplification is performed only if the rise and run are integer values. Otherwise 'this' is returned.
-     */
-    public Line simplified() {
-        if ( ( rise != 0 ) && ( run != 0 ) && MathUtil.isInteger( rise ) && MathUtil.isInteger( run ) ) { // rise and run are non-zero integers
-            final int reducedRise = (int) ( rise / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
-            final int reducedRun = (int) ( run / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
-            return createPointSlope( x1, y1, reducedRise, reducedRun, color );
+    // Gets the simplified rise.
+    public double getSimplifiedRise() {
+        if ( slopeIsSimplifiable() ) {
+            return ( rise / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
         }
         else {
-            return this;
+            return rise;
         }
+    }
+
+    // Gets the simplified run.
+    public double getSimplifiedRun() {
+        if ( slopeIsSimplifiable() ) {
+            return ( run / MathUtil.getGreatestCommonDivisor( (int) rise, (int) run ) );
+        }
+        else {
+            return run;
+        }
+    }
+
+    /*
+     * Simplification uses Euclid's algorithm for computing the greatest common divisor (GCD) of non-zero integers,
+     * so slope can be simplified only if the rise and run meet that criteria.
+     */
+    private boolean slopeIsSimplifiable() {
+        return ( rise != 0 ) && ( run != 0 ) && MathUtil.isInteger( rise ) && MathUtil.isInteger( run );
     }
 
     // Returns true if point is on this line.

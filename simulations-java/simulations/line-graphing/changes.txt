@@ -1,3 +1,4 @@
+10/29/12 replace Line.simplified with getSimplifiedRise and getSimplifiedRun
 10/29/12 tweak the stroke used for the slope tool
 10/29/12 "intercept" -> "y-intercept" in challenge instructions
 10/29/12 add ability to specify titles (eg "Set the slope", "Set the intercept") for challenge subclasses
