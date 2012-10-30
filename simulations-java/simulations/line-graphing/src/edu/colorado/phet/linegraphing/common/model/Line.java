@@ -19,7 +19,7 @@ public class Line {
 
     // standard lines
     public static final Line Y_EQUALS_X_LINE = new Line( 0, 0, 1, 1, LGColors.Y_EQUALS_X );  // y = x
-    public static final Line Y_EQUALS_NEGATIVE_X_LINE = new Line( 0, 0, 1, -1, LGColors.Y_EQUALS_NEGATIVE_X );
+    public static final Line Y_EQUALS_NEGATIVE_X_LINE = new Line( 0, 0, 1, -1, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
 
     public final double x1, y1; // x and y components of the first point
     public final double x2, y2; // x and y components of the second point
