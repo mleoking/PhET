@@ -135,10 +135,10 @@ public class PointSlopeEquationNode extends EquationNode {
                 // Synchronize the controls atomically.
                 updatingControls = true;
                 {
-                    rise.set( interactiveSlope ? line.rise : line.simplified().rise );
-                    run.set( interactiveSlope ? line.run : line.simplified().run );
                     x1.set( line.x1 );
                     y1.set( line.y1 );
+                    rise.set( interactiveSlope ? line.rise : line.simplified().rise );
+                    run.set( interactiveSlope ? line.run : line.simplified().run );
                 }
                 updatingControls = false;
 
