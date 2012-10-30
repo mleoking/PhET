@@ -107,7 +107,7 @@ public class SlopeEquationNode extends EquationNode {
                                     leftEqualsNode.getFullBoundsReference().getCenterY() + fractionLineYFudgeFactor );
             // (y2 - y2)
             numeratorLeftParen.setOffset( leftLineNode.getXOffset(),
-                                          leftLineNode.getFullBoundsReference().getMinY() - numeratorLeftParen.getFullBoundsReference().getHeight() - spinnersYSpacing );
+                                          leftLineNode.getFullBoundsReference().getMinY() - ( y2Node.getFullBoundsReference().getHeight() / 2 ) - ( numeratorLeftParen.getFullBoundsReference().getHeight() / 2 ) - spinnersYSpacing );
             y2Node.setOffset( numeratorLeftParen.getFullBoundsReference().getMaxX() + parenXSpacing,
                               leftLineNode.getFullBoundsReference().getMinY() - y2Node.getFullBoundsReference().getHeight() - spinnersYSpacing );
             numeratorOperatorNode.setOffset( y2Node.getFullBoundsReference().getMaxX() + operatorXSpacing,
@@ -121,7 +121,7 @@ public class SlopeEquationNode extends EquationNode {
             leftLineNode.setPathTo( createFractionLineShape( leftLineLength ) );
             // (x2 - x1)
             denominatorLeftParen.setOffset( numeratorLeftParen.getXOffset(),
-                                            leftLineNode.getFullBoundsReference().getMaxY() + spinnersYSpacing );
+                                            leftLineNode.getFullBoundsReference().getMaxY() + ( x2Node.getFullBoundsReference().getHeight() / 2 ) - ( denominatorLeftParen.getFullBoundsReference().getHeight() / 2 ) + spinnersYSpacing );
             x2Node.setOffset( denominatorLeftParen.getFullBoundsReference().getMaxX() + parenXSpacing,
                               leftLineNode.getFullBoundsReference().getMaxY() + spinnersYSpacing );
             denominatorOperatorNode.setOffset( x2Node.getFullBoundsReference().getMaxX() + operatorXSpacing,
