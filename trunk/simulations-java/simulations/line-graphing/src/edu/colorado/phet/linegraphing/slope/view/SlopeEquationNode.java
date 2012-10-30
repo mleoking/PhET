@@ -19,6 +19,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.PointColors;
+import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -35,6 +36,7 @@ public class SlopeEquationNode extends EquationNode {
 
     private final Property<Double> x1, y1, x2, y2; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
+    private PNode undefinedSlopeIndicator;
 
     public SlopeEquationNode( final Property<Line> interactiveLine,
                               Property<DoubleRange> xRange,
@@ -176,6 +178,17 @@ public class SlopeEquationNode extends EquationNode {
                                     riseNode.getYOffset() );
                 runNode.setOffset( rightLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
                                    runNode.getYOffset() );
+
+                // undefined-slope indicator
+                removeChild( undefinedSlopeIndicator );
+                if ( line.undefinedSlope() ) {
+                    final double centerX = getFullBoundsReference().getCenterX();
+                    final double centerY = getFullBoundsReference().getCenterY();
+                    undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
+                    undefinedSlopeIndicator.setOffset( centerX - ( undefinedSlopeIndicator.getFullBoundsReference().getWidth() / 2 ),
+                                                       centerY - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) );
+                    addChild( undefinedSlopeIndicator );
+                }
             }
         } );
     }

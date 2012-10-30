@@ -1,3 +1,4 @@
+10/30/12 add undefined-slope indicator (big red "X") to slope equation
 10/30/12 adjust y-offset of static parts of slope equation
 10/30/12 first pass at interactive slope equation
 10/30/12 add packages and resources for new "Slope" tab
