@@ -341,7 +341,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
         }
     }
 
-    // Creates a node that displays the general form of the this equation.
+    // Creates a node that displays the general form of this equation.
     public static PNode createGeneralFormNode() {
         String html = MessageFormat.format( "{0} = {1}{2} + {3}", /* y = mx + b */
                                             Strings.SYMBOL_Y, Strings.SYMBOL_SLOPE, Strings.SYMBOL_X, Strings.SYMBOL_INTERCEPT );
