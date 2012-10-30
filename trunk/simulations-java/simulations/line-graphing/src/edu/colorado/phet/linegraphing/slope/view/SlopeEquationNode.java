@@ -57,9 +57,6 @@ public class SlopeEquationNode extends EquationNode {
         this.x2 = new Property<Double>( interactiveLine.get().x2 );
         this.y2 = new Property<Double>( interactiveLine.get().y2 );
 
-        // Determine the max width of the rise and run spinners.
-        double maxSlopeSpinnerWidth = computeMaxSlopeSpinnerWidth( xRange, yRange, interactiveFont, FORMAT );
-
         // Nodes that could appear is all possible ways to write the equation
         // m =
         PNode mNode = new PhetPText( Strings.SYMBOL_SLOPE, staticFont, staticColor );
