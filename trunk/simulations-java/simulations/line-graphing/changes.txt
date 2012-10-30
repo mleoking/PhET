@@ -1,3 +1,4 @@
+10/29/12 tweak the stroke used for the slope tool
 10/29/12 "intercept" -> "y-intercept" in challenge instructions
 10/29/12 add ability to specify titles (eg "Set the slope", "Set the intercept") for challenge subclasses
 10/29/12 fix: manipulators sometimes overlap equation on graphed line, e.g. (y-1)=(3/3)(x-5)
