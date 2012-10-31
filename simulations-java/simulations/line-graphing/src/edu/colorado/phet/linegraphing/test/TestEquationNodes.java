@@ -105,12 +105,15 @@ public class TestEquationNodes {
 
             // equations
             SlopeEquationNode equationNode1 = new SlopeEquationNode( line, x1Range, y1Range, interactiveFont, staticFont, staticColor );
+            SlopeEquationNode equationNode2 = new SlopeEquationNode( line, staticFont, staticColor );
 
             // rendering order
             slopeParent.addChild( equationNode1 );
+            slopeParent.addChild( equationNode2 );
 
             // layout
             equationNode1.setOffset( 0, 0 );
+            equationNode2.setOffset( equationNode1.getXOffset(), equationNode1.getFullBoundsReference().getMaxY() + ySpacing );
         }
 
         // canvas
@@ -123,7 +126,7 @@ public class TestEquationNodes {
         // layout
         pointSlopeParent.setOffset( 100, 50 );
         slopeInterceptParent.setOffset( pointSlopeParent.getFullBoundsReference().getMaxX() + xSpacing, pointSlopeParent.getYOffset() );
-        slopeParent.setOffset( slopeInterceptParent.getXOffset(), slopeInterceptParent.getFullBoundsReference().getMaxY() + 150 );
+        slopeParent.setOffset( slopeInterceptParent.getXOffset(), slopeInterceptParent.getFullBoundsReference().getMaxY() + 75 );
 
         // frame
         JFrame frame = new JFrame( TestEquationNodes.class.getName() );

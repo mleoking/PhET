@@ -33,17 +33,22 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Renderer for slope equations, with interactive points (x1, y1, x2, y2).
- * Form is: m = y2 - y1 / x2 - x1  = unsimplified value = simplified value
+ * Renderer for slope equations.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SlopeEquationNode extends EquationNode {
 
+    private final boolean SHOW_UNSIMPLIFIED_VALUE = true; //TODO delete this flag and related code if we decide not to show unsimplified slope value
+
     private final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
+    /*
+     * Use this constructor for interactive equations. Form: m = y2 - y1 / x2 - x1
+     * x1, y1, x2 and y2 are spinners.
+     */
     public SlopeEquationNode( final Property<Line> interactiveLine,
                               Property<DoubleRange> xRange,
                               Property<DoubleRange> yRange,
@@ -77,13 +82,6 @@ public class SlopeEquationNode extends EquationNode {
         final PText unsimplifiedRiseNode = new PhetPText( "?", staticFont, staticColor );
         final PText unsimplifiedRunNode = new PhetPText( "?", staticFont, staticColor );
         final PPath unsimplifiedFractionLineNode = new PhetPPath( createFractionLineShape( 10 ), staticColor, null, null ); // correct length will be set later
-        // = simplified value
-        final PNode simplifiedEqualsNode = new PhetPText( "=", staticFont, staticColor );
-        final PNode simplifiedMinusSign = new MinusNode( signLineSize, staticColor );
-        final PText simplifiedRiseNode = new PhetPText( "?", staticFont, staticColor );
-        final PText simplifiedRunNode = new PhetPText( "?", staticFont, staticColor );
-        final PPath simplifiedFractionLineNode = new PhetPPath( createFractionLineShape( 10 ), staticColor, null, null ); // correct length will be set later
-        final PText undefinedSlopeNode = new PhetPText( Strings.UNDEFINED, staticFont, staticColor );
 
         // rendering order
         {
@@ -100,14 +98,13 @@ public class SlopeEquationNode extends EquationNode {
             addChild( x2Node );
             addChild( denominatorOperatorNode );
             addChild( x1Node );
-            // = unsimplified value
-            addChild( unsimplifiedEqualsNode );
-            addChild( unsimplifiedRiseNode );
-            addChild( unsimplifiedFractionLineNode );
-            addChild( unsimplifiedRunNode );
-            // = simplified value
-            addChild( simplifiedEqualsNode );
-            // other nodes are added as needed by dynamic layout
+            if ( SHOW_UNSIMPLIFIED_VALUE ) {
+                // = unsimplified value
+                addChild( unsimplifiedEqualsNode );
+                addChild( unsimplifiedRiseNode );
+                addChild( unsimplifiedFractionLineNode );
+                addChild( unsimplifiedRunNode );
+            }
         }
 
         // static layout
@@ -155,73 +152,6 @@ public class SlopeEquationNode extends EquationNode {
                                                     unsimplifiedFractionLineNode.getFullBoundsReference().getMinY() - unsimplifiedRiseNode.getFullBoundsReference().getHeight() - ySpacing );
                     unsimplifiedRunNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRunNode.getFullBoundsReference().getWidth() / 2 ),
                                                    unsimplifiedFractionLineNode.getFullBoundsReference().getMaxY() + ySpacing );
-                }
-
-                // Simplified
-                {
-                    simplifiedEqualsNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                                    unsimplifiedEqualsNode.getYOffset() );
-
-                    // remove all related nodes, then we'll add the ones that are relevant
-                    removeChild( simplifiedMinusSign );
-                    removeChild( simplifiedRiseNode );
-                    removeChild( simplifiedRunNode );
-                    removeChild( simplifiedFractionLineNode );
-                    removeChild( undefinedSlopeNode );
-
-                    if ( line.undefinedSlope() ) {
-                        // "undefined"
-                        addChild( undefinedSlopeNode );
-                        undefinedSlopeNode.setOffset( simplifiedEqualsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                                      simplifiedEqualsNode.getY() );
-                    }
-                    else if ( line.getSlope() == 0 ) {
-                        // 0
-                        addChild( simplifiedRiseNode );
-                        simplifiedRiseNode.setText( "0" );
-                        simplifiedRiseNode.setOffset( simplifiedEqualsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                                      simplifiedEqualsNode.getY() );
-                    }
-                    else {
-                        final double nextXOffset;
-                        if ( line.getSlope() < 0 ) {
-                            // minus sign
-                            addChild( simplifiedMinusSign );
-                            simplifiedMinusSign.setOffset( simplifiedEqualsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                                           simplifiedEqualsNode.getFullBoundsReference().getCenterY() - ( simplifiedMinusSign.getFullBoundsReference().getHeight() / 2 ) + slopeSignYFudgeFactor + slopeSignYOffset );
-                            nextXOffset = simplifiedMinusSign.getFullBoundsReference().getMaxX() + operatorXSpacing;
-                        }
-                        else {
-                            nextXOffset = simplifiedEqualsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing;
-                        }
-
-                        if ( MathUtil.isInteger( line.getSlope() ) ) {
-                            // integer
-                            addChild( simplifiedRiseNode );
-                            simplifiedRiseNode.setText( FORMAT.format( Math.abs( line.getSlope() ) ) );
-                            simplifiedRiseNode.setOffset( nextXOffset, simplifiedEqualsNode.getYOffset() );
-                        }
-                        else {
-                            // fraction
-                            addChild( simplifiedFractionLineNode );
-                            addChild( simplifiedRiseNode );
-                            addChild( simplifiedRunNode );
-
-                            // set absolute values
-                            simplifiedRiseNode.setText( FORMAT.format( Math.abs( line.getSimplifiedRise() ) ) );
-                            simplifiedRunNode.setText( FORMAT.format( Math.abs( line.getSimplifiedRun() ) ) );
-
-                            // adjust fraction line length
-                            simplifiedFractionLineNode.setPathTo( createFractionLineShape( Math.max( simplifiedRiseNode.getFullBoundsReference().getWidth(), simplifiedRunNode.getFullBoundsReference().getWidth() ) ) );
-
-                            // layout, values horizontally centered
-                            simplifiedFractionLineNode.setOffset( nextXOffset, unsimplifiedFractionLineNode.getYOffset() );
-                            simplifiedRiseNode.setOffset( simplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( simplifiedRiseNode.getFullBoundsReference().getWidth() / 2 ),
-                                                          simplifiedFractionLineNode.getFullBoundsReference().getMinY() - simplifiedRiseNode.getFullBoundsReference().getHeight() - ySpacing );
-                            simplifiedRunNode.setOffset( simplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( simplifiedRunNode.getFullBoundsReference().getWidth() / 2 ),
-                                                         simplifiedFractionLineNode.getFullBoundsReference().getMaxY() + ySpacing );
-                        }
-                    }
                 }
             }
         };
@@ -274,6 +204,106 @@ public class SlopeEquationNode extends EquationNode {
                 }
             }
         } );
+    }
+
+    /*
+     * Use this constructor for non-interactive equations. Form: m = <value>
+     * Slope value is displayed in simplified form.
+     */
+    public SlopeEquationNode( Property<Line> line, PhetFont font, Color color ) {
+        super( font.getSize() );
+
+        // Nodes
+        // m =
+        PNode mNode = new PhetPText( Strings.SYMBOL_SLOPE, font, color );
+        final PNode equalsNode = new PhetPText( "=", font, color );
+        // rise/run
+        final PNode minusSignNode = new MinusNode( signLineSize, color );
+        final PText riseNode = new PhetPText( "?", font, color );
+        final PText runNode = new PhetPText( "?", font, color );
+        final PPath fractionLineNode = new PhetPPath( createFractionLineShape( 1 ), color, null, null ); // correct length will be set later
+
+        // rendering order
+        addChild( mNode );
+        addChild( equalsNode );
+
+        // layout
+        mNode.setOffset( 0, 0 );
+        equalsNode.setOffset( mNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, mNode.getYOffset() );
+
+        final VoidFunction1<Line> updateLayout = new VoidFunction1<Line>() {
+            public void apply( Line line ) {
+
+                // remove all related nodes, then we'll add the ones that are relevant
+                removeChild( minusSignNode );
+                removeChild( riseNode );
+                removeChild( runNode );
+                removeChild( fractionLineNode );
+
+                if ( line.undefinedSlope() ) {
+                    // "undefined"
+                    addChild( riseNode );
+                    riseNode.setText( Strings.UNDEFINED );
+                    riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                        equalsNode.getY() );
+                }
+                else if ( line.getSlope() == 0 ) {
+                    // 0
+                    addChild( riseNode );
+                    riseNode.setText( "0" );
+                    riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                        equalsNode.getY() );
+                }
+                else {
+                    final double nextXOffset;
+                    if ( line.getSlope() < 0 ) {
+                        // minus sign
+                        addChild( minusSignNode );
+                        minusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                                 equalsNode.getFullBoundsReference().getCenterY() - ( minusSignNode.getFullBoundsReference().getHeight() / 2 ) + slopeSignYFudgeFactor + slopeSignYOffset );
+                        nextXOffset = minusSignNode.getFullBoundsReference().getMaxX() + operatorXSpacing;
+                    }
+                    else {
+                        nextXOffset = equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing;
+                    }
+
+                    if ( MathUtil.isInteger( line.getSlope() ) ) {
+                        // integer
+                        addChild( riseNode );
+                        riseNode.setText( FORMAT.format( Math.abs( line.getSlope() ) ) );
+                        riseNode.setOffset( nextXOffset, equalsNode.getYOffset() );
+                    }
+                    else {
+                        // fraction
+                        addChild( fractionLineNode );
+                        addChild( riseNode );
+                        addChild( runNode );
+
+                        // set absolute values
+                        riseNode.setText( FORMAT.format( Math.abs( line.getSimplifiedRise() ) ) );
+                        runNode.setText( FORMAT.format( Math.abs( line.getSimplifiedRun() ) ) );
+
+                        // adjust fraction line length
+                        fractionLineNode.setPathTo( createFractionLineShape( Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getWidth() ) ) );
+
+                        // layout, values horizontally centered
+                        fractionLineNode.setOffset( nextXOffset,
+                                                    equalsNode.getFullBoundsReference().getCenterY() + fractionLineYFudgeFactor );
+                        riseNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
+                                            fractionLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
+                        runNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
+                                           fractionLineNode.getFullBoundsReference().getMaxY() + ySpacing );
+                    }
+                }
+            }
+        };
+
+        line.addObserver( updateLayout );
+    }
+
+    // Use this constructor for static equations
+    public SlopeEquationNode( Line line, PhetFont font, Color color ) {
+        this( new Property<Line>( line ), font, color );
     }
 
     // Creates a node that displays the general form of this equation.
