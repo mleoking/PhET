@@ -1,3 +1,5 @@
+10/31/12 non-interactive version of slope equation, which shows m = <simplified value>
+10/31/12 add a flag to show/hide unsimplified value in interactive slope equation
 10/31/12 make return type of LineNode.createEquationNode less specific
 # 0.00.33 (69693) Oct 30, 2012
 10/30/12 dev version for discussing Slope equation format with AP
