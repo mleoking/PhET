@@ -2,6 +2,8 @@
 
 // unless otherwise stated.
 
+/* @pjs preload="resources/skater.png"; */
+
 float bx;
 
 float by;
@@ -16,15 +18,39 @@ float bdifx = 0.0;
 
 float bdify = 0.0;
 
+PImage im=null;
 
 
 
+            void touchMove(TouchEvent touchEvent) {
+            //scale(2);
+              // empty the canvas
+              noStroke();
+              fill(255);
+              rect(0, 0, 1024, 768);
+
+              // draw circles at where fingers touch
+              fill(180, 180, 100);
+              for (int i = 0; i < touchEvent.touches.length; i++) {
+                int x = touchEvent.touches[i].offsetX;
+                int y = touchEvent.touches[i].offsetY;
+                ellipse(x, y, 50, 50);
+                  image(im, x,y, 100,100);
+              }
+              //scale(0.5);
+            }
+
+            void touchEnd(TouchEvent touchEvent) {
+              noStroke();
+              fill(255);
+              rect(1, 1, 1024, 768);
+            }
 
 void setup()
 
 {
 
-  size(200, 200);
+  size(1024,768);
 
   bx = width/2.0;
 
@@ -32,94 +58,8 @@ void setup()
 
   rectMode(CENTER_RADIUS);
 
+
+im = loadImage("resources/skater.png");
 }
 
 
-
-void draw()
-
-{
-
-  background(0);
-
-
-
-  // Test if the cursor is over the box
-
-  if (mouseX > bx-bs && mouseX < bx+bs &&
-
-      mouseY > by-bs && mouseY < by+bs) {
-
-    bover = true;
-
-    if(!locked) {
-
-      stroke(255);
-
-      fill(153);
-
-    }
-
-  } else {
-
-    stroke(153);
-
-    fill(153);
-
-    bover = false;
-
-  }
-
-
-
-  // Draw the box
-
-  rect(bx, by, bs, bs);
-
-}
-
-
-
-void mousePressed() {
-
-  if(bover) {
-
-    locked = true;
-
-    fill(255, 255, 255);
-
-  } else {
-
-    locked = false;
-
-  }
-
-  bdifx = mouseX-bx;
-
-  bdify = mouseY-by;
-
-
-
-}
-
-
-
-void mouseDragged() {
-
-  if(locked) {
-
-    bx = mouseX-bdifx;
-
-    by = mouseY-bdify;
-
-  }
-
-}
-
-
-
-void mouseReleased() {
-
-  locked = false;
-
-}
