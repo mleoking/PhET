@@ -8,7 +8,7 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- Point-Slope: equations on standard graphed lines are in wrong form, showing point-slope, should be slope-intercept
+- Point-Slope: equations on standard graphed lines are in wrong form, showing point-slope, should be slope-intercept (but if fixed, "saved" version of x=1 will be (y-0)=(x-0))
 - Slope: implement new "Slope" tab
 - Slope: deal with changes in SlopeEquationControls panel width, due to changes in the equation's unsimplified value
 - Slope: horizontally center the number parts of the unsimplified rise and run in SlopeEquationNode
