@@ -42,9 +42,7 @@ public class SlopeEquationNode extends EquationNode {
 
     private final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
-    private final Property<Double> x1, y1, x2, y2; // internal properties that are connected to spinners
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
-    private PNode undefinedSlopeIndicator;
 
     public SlopeEquationNode( final Property<Line> interactiveLine,
                               Property<DoubleRange> xRange,
@@ -54,10 +52,11 @@ public class SlopeEquationNode extends EquationNode {
                               final Color staticColor ) {
         super( staticFont.getSize() );
 
-        this.x1 = new Property<Double>( interactiveLine.get().x1 );
-        this.y1 = new Property<Double>( interactiveLine.get().y1 );
-        this.x2 = new Property<Double>( interactiveLine.get().x2 );
-        this.y2 = new Property<Double>( interactiveLine.get().y2 );
+        // properties that are connected to spinners
+        final Property<Double> x1 = new Property<Double>( interactiveLine.get().x1 );
+        final Property<Double> y1 = new Property<Double>( interactiveLine.get().y1 );
+        final Property<Double> x2 = new Property<Double>( interactiveLine.get().x2 );
+        final Property<Double> y2 = new Property<Double>( interactiveLine.get().y2 );
 
         // Nodes that could appear is all possible ways to write the equation
         // m =
@@ -240,6 +239,8 @@ public class SlopeEquationNode extends EquationNode {
         // sync the controls and layout with the model
         interactiveLine.addObserver( new VoidFunction1<Line>() {
 
+            PNode undefinedSlopeIndicator;
+
             public void apply( Line line ) {
 
                 // Synchronize the controls atomically.
@@ -260,7 +261,9 @@ public class SlopeEquationNode extends EquationNode {
                 updateLayout.apply( line );
 
                 // undefined-slope indicator
-                removeChild( undefinedSlopeIndicator );
+                if ( undefinedSlopeIndicator != null ) {
+                    removeChild( undefinedSlopeIndicator );
+                }
                 if ( line.undefinedSlope() ) {
                     final double centerX = getFullBoundsReference().getCenterX();
                     final double centerY = getFullBoundsReference().getCenterY();
