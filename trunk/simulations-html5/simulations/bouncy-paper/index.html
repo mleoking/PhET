@@ -25,7 +25,7 @@
                     
                     this.track = new Path.Line(
                         new Point(this.thumbSize, this.thumbSize),
-                        new Point(this.trackWidth, this.thumbSize))
+                        new Point(this.thumbSize + this.trackWidth, this.thumbSize))
                     this.track.strokeWidth = size.y / 4
                     this.track.strokeColor = new HslColor(192, 0.1, 0.8)
                     this.track.strokeCap = 'round'
@@ -84,7 +84,6 @@
                     this.position = pos
                     this.velocity = new Point(0,1)
                 },
-                
                 
                 // Experiment: delegate position directly to sprite
                 getPosition: function() {
@@ -205,6 +204,11 @@
             }
         </script>
         <style type="text/css">
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            
             #ballCount {
                 position: absolute;
                 bottom: 5%;
