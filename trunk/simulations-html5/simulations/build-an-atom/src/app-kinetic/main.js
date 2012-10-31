@@ -62,6 +62,12 @@ require([
 
   $(function(){
 
+
+    // $('#control-panel').css({
+    //   width:$('#control-panel label').width()
+    // });
+
+
     $(window).on('resize', function(){
       var win = $(window);
 
