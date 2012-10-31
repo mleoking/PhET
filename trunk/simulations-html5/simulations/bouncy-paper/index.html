@@ -4,6 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         
         <script type="text/javascript" src="js/underscore-min.js"></script>
+        <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
         <script type="text/javascript" src="js/paper.js"></script>
 
         <script type="text/paperscript" canvas="myCanvas">
@@ -36,10 +37,10 @@
                     this.thumb.fillColor = new HslColor(18, 0.3, 0.9)
                     this.thumb.strokeColor = new HslColor(18, 0.5, 0.3)
                     this.thumb.strokeWidth = size.y / 12
-                    this.thumb.onMouseDrag = function(event) {
-                        this.value = (this.toLocal(event.point).x - this.thumbSize) / this.trackWidth * (this.max - this.min)
-                    }.bind(this)
                     this.addChild(this.thumb)
+                    
+                    this.thumb.onMouseDown = this.drag.bind(this)
+                    this.thumb.onMouseDrag = this.drag.bind(this)
                     
                     if(opts.value)
                         this.value = opts.value
@@ -59,6 +60,14 @@
                     this.thumb.position.x = this.thumbSize + this.trackWidth * (value - this.min) / (this.max - this.min)
                     
                     this.onChange(value)
+                },
+                
+                drag: function(event) {
+                    var dragAtX = this.toLocal(event.point).x
+                    if(event.type === 'mousedown')
+                        this.dragOffset = this.thumb.position.x - this.thumbSize - dragAtX
+                    else
+                        this.value = (dragAtX + this.dragOffset) / this.trackWidth * (this.max - this.min) + this.min
                 }
             })
             
@@ -103,6 +112,8 @@
                 } else while(balls.length > newCount) {
                     balls.pop().sprite.remove()
                 }
+                
+                $('#ballCount').val(newCount)
             }
             
             var enclosure = new Path.Circle(new Point(0,0), 1)
@@ -169,21 +180,41 @@
             // Event handling
             
             function onResize(event) {
+                var scale = Math.min(view.size.width / 400, view.size.height / 300)
                 project.activeLayer.matrix
                    .setIdentity()
                    .translate(view.center)
-                   .scale(Math.min(view.size.width / 400, view.size.height / 300))
+                   .scale(scale)
+                $('#ballCount').css('font-size', scale * 12)
+                               .css('width', scale * 40)
             }
             onResize() // initial position
+            
+            updateBallCountFromInput = function() {
+                val = parseInt($('#ballCount').val())
+                if(val >= 0 && val < 100 && val != balls.length) {
+                    setBallCount(val)
+                }
+            }
+            $('#ballCount').change(updateBallCountFromInput)
+            $('#ballCount').keyup(updateBallCountFromInput)
             
             function onFrame(event) {
                 bounceBalls(event.delta)
                 displayFrameRate()
             }
         </script>
+        <style type="text/css">
+            #ballCount {
+                position: absolute;
+                bottom: 5%;
+                right: 5%;
+            }
+        </style>
     </head>
     
     <body>
         <canvas id="myCanvas" resize></canvas>
+        <input id="ballCount">
     </body>
 </html>
