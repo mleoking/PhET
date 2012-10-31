@@ -1,3 +1,4 @@
+# 0.00.34 (69712) Oct 31, 2012
 10/31/12 create specialization of LineNode that labels the line with slope formula, m = value
 10/31/12 non-interactive version of slope equation, which shows m = <simplified value>
 10/31/12 add a flag to show/hide unsimplified value in interactive slope equation
