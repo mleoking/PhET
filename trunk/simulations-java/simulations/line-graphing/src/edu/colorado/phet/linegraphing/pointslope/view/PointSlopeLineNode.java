@@ -7,8 +7,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Visual representation of a line in simplified point-slope form.
@@ -22,7 +22,7 @@ public class PointSlopeLineNode extends LineNode {
     }
 
     // Creates the line's equation in point-slope form.
-    @Override protected EquationNode createEquationNode( Line line, PhetFont font, Color color ) {
+    @Override protected PNode createEquationNode( Line line, PhetFont font, Color color ) {
         return new PointSlopeEquationNode( line, font, color );
     }
 }

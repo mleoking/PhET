@@ -106,7 +106,7 @@ public abstract class LineNode extends PComposite {
     }
 
     // Creates the line's equation in the correct form.
-    protected abstract EquationNode createEquationNode( Line line, PhetFont font, Color color );
+    protected abstract PNode createEquationNode( Line line, PhetFont font, Color color );
 
     public void setEquationVisible( boolean visible ) {
         equationParentNode.setVisible( visible );
