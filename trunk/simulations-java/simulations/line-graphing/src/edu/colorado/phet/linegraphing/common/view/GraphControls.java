@@ -158,11 +158,11 @@ class GraphControls extends PNode {
         PNode panel2 = new GraphControls( linesVisible, slopeVisible );
 
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 1024, 768 ) );
+        canvas.setPreferredSize( new Dimension( 300, 600 ) );
         canvas.getLayer().addChild( panel1 );
         canvas.getLayer().addChild( panel2 );
 
-        panel1.setOffset( 100, 100 );
+        panel1.setOffset( 50, 50 );
         panel2.setOffset( panel1.getXOffset(), panel1.getFullBoundsReference().getMaxY() + 20 );
 
         JFrame frame = new JFrame();
