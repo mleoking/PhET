@@ -1,3 +1,4 @@
+11/1/12 fix: undefined slope indicator (red "X") isn't centered on slope equation when the equation is wrapped in a ZeroOffsetNode
 11/1/12 add Slope module, currently using point-slope graph implementation
 11/1/12 add graphControls constructor arg to LineFormsCanvas base class
 11/1/12 add a variant of GraphControls that hides check boxes for standard lines
