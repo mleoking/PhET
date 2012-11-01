@@ -90,9 +90,6 @@ public class FaucetAndWater extends EnergySource {
         super( EnergyFormsAndChangesResources.Images.FAUCET_ICON );
         this.energyChunksVisible = energyChunksVisible;
         this.waterPowerableElementInPlace = waterPowerableElementInPlace;
-
-        // TEMP
-        waterDrops.add( new WaterDrop( new Vector2D( 0, 0 ), new Vector2D( 0, 0 ), new PDimension( 0.05, 0.05 ) ) );
     }
 
     //-------------------------------------------------------------------------
