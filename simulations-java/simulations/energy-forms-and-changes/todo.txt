@@ -1,24 +1,19 @@
 
-Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
-Fix issues with switching between energy sources - energy chunks are weird.
 Add beaker and thermometer
+Make knob bigger for the faucet
+Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
 
 Figure out how to make E's not cluster in the wires leading from solar panel.
 Figure out how to make E's not cluster in the output (spout) of the tea pot.
-Make knob bigger for the faucet
 
 Profile, have Chris test on Mac
-
 
 Make beaker hold energy to a point, then release it
 E's should build up in heat coil before going into beaker.
 
 Integrate Sam's way of making slider work
 
-
 Make behavior change when E's are visible such that lights don't glow until they get energy, and so forth.
-
-Have energy chunks present when sun appears, rather than having to wait.
 
 Have some delay for lights and burner lighting up when energy starts to flow to it.
 
@@ -27,10 +22,10 @@ Fix flicker when E's are transferred between energy systems
 
 Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
 
+
 DONE: Get rid of ability to cool the tea pot.
 DONE: Experiment: Make front of fluorescent bulbs programatically transparent when energy chunks present.
 DONE: Experiment: Make tea pot transparent when energy chunks present.
-
 DONE: Make some thermals come out of the tea pot spout
 DONE: Make chem energy in biker change to mech at top tube.
 DONE: Make biker always stop at spot where she is about to move
@@ -38,5 +33,7 @@ DONE: Make biker run out of energy chunks, then have "Feed Me" button appear
 DONE: Tick marks on cloud slider
 DONE: Remove 3rd tab for now
 DONE: Integrate new images from Noah (droopy biker, new legs).
+DONE: Fix issues with switching between energy sources - energy chunks are weird.
 DONE: Make water "non-turdy"
+DONE: Have energy chunks present when sun appears, rather than having to wait.
 
