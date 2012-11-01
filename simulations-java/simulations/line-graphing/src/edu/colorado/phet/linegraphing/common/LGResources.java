@@ -59,7 +59,7 @@ public class LGResources {
         public static final String POINT_XY = RESOURCES.getLocalizedString( "point.xy" );
         public static final String POINT_UNKNOWN = RESOURCES.getLocalizedString( "point.unknown" );
         public static final String POINTS_AWARDED = RESOURCES.getLocalizedString( "pointsAwarded" );
-        public static final String M_IS_VALUE = RESOURCES.getLocalizedString( "mIsValue" );
+        public static final String SLOPE_IS = RESOURCES.getLocalizedString( "slopeIs" );
     }
 
     public static class Images {

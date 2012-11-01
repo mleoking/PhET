@@ -212,8 +212,7 @@ public class SlopeEquationNode extends EquationNode {
 
         // Nodes
         // m =
-        PNode mNode = new PhetPText( Strings.SYMBOL_SLOPE, font, color );
-        final PNode equalsNode = new PhetPText( "=", font, color );
+        final PNode slopeIsNode = new PhetPText( MessageFormat.format( Strings.SLOPE_IS, Strings.SYMBOL_SLOPE ), font, color );
         // rise/run
         final PNode minusSignNode = new MinusNode( signLineSize, color );
         final PText riseNode = new PhetPText( "?", font, color );
@@ -221,12 +220,10 @@ public class SlopeEquationNode extends EquationNode {
         final PPath fractionLineNode = new PhetPPath( createFractionLineShape( 1 ), color, null, null ); // correct length will be set later
 
         // rendering order
-        addChild( mNode );
-        addChild( equalsNode );
+        addChild( slopeIsNode );
 
         // layout
-        mNode.setOffset( 0, 0 );
-        equalsNode.setOffset( mNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing, mNode.getYOffset() );
+        slopeIsNode.setOffset( 0, 0 );
 
         final VoidFunction1<Line> updateLayout = new VoidFunction1<Line>() {
             public void apply( Line line ) {
@@ -241,34 +238,34 @@ public class SlopeEquationNode extends EquationNode {
                     // "undefined"
                     addChild( riseNode );
                     riseNode.setText( Strings.UNDEFINED );
-                    riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                        equalsNode.getY() );
+                    riseNode.setOffset( slopeIsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                        slopeIsNode.getY() );
                 }
                 else if ( line.getSlope() == 0 ) {
                     // 0
                     addChild( riseNode );
                     riseNode.setText( "0" );
-                    riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                        equalsNode.getY() );
+                    riseNode.setOffset( slopeIsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                        slopeIsNode.getY() );
                 }
                 else {
                     final double nextXOffset;
                     if ( line.getSlope() < 0 ) {
                         // minus sign
                         addChild( minusSignNode );
-                        minusSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                                 equalsNode.getFullBoundsReference().getCenterY() - ( minusSignNode.getFullBoundsReference().getHeight() / 2 ) + slopeSignYFudgeFactor + slopeSignYOffset );
+                        minusSignNode.setOffset( slopeIsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                                 slopeIsNode.getFullBoundsReference().getCenterY() - ( minusSignNode.getFullBoundsReference().getHeight() / 2 ) + slopeSignYFudgeFactor + slopeSignYOffset );
                         nextXOffset = minusSignNode.getFullBoundsReference().getMaxX() + operatorXSpacing;
                     }
                     else {
-                        nextXOffset = equalsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing;
+                        nextXOffset = slopeIsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing;
                     }
 
                     if ( MathUtil.isInteger( line.getSlope() ) ) {
                         // integer
                         addChild( riseNode );
                         riseNode.setText( FORMAT.format( Math.abs( line.getSlope() ) ) );
-                        riseNode.setOffset( nextXOffset, equalsNode.getYOffset() );
+                        riseNode.setOffset( nextXOffset, slopeIsNode.getYOffset() );
                     }
                     else {
                         // fraction
@@ -285,7 +282,7 @@ public class SlopeEquationNode extends EquationNode {
 
                         // layout, values horizontally centered
                         fractionLineNode.setOffset( nextXOffset,
-                                                    equalsNode.getFullBoundsReference().getCenterY() + fractionLineYFudgeFactor );
+                                                    slopeIsNode.getFullBoundsReference().getCenterY() + fractionLineYFudgeFactor );
                         riseNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( riseNode.getFullBoundsReference().getWidth() / 2 ),
                                             fractionLineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
                         runNode.setOffset( fractionLineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
@@ -310,7 +307,7 @@ public class SlopeEquationNode extends EquationNode {
         final Font font = new PhetFont( Font.BOLD, 18 );
 
         // m =
-        String htmlLeftSide = MessageFormat.format( "{0}:&nbsp;&nbsp;{1} =", Strings.SLOPE, Strings.SYMBOL_SLOPE );
+        String htmlLeftSide = MessageFormat.format( "{0}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{1} =", Strings.SLOPE, Strings.SYMBOL_SLOPE );
         PNode leftSideNode = new HTMLNode( htmlLeftSide, color, font );
 
         // y2 - y1

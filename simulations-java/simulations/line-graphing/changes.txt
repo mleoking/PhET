@@ -1,3 +1,4 @@
+11/1/12 Slope: label lines with "m is value", blow off i18n ordering (too difficult, can't use MessageFormat)
 11/1/12 fix: undefined slope indicator (red "X") isn't centered on slope equation when the equation is wrapped in a ZeroOffsetNode
 11/1/12 add Slope module, currently using point-slope graph implementation
 11/1/12 add graphControls constructor arg to LineFormsCanvas base class
