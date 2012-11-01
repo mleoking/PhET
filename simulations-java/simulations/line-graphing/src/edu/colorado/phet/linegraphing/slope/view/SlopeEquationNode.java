@@ -215,8 +215,8 @@ public class SlopeEquationNode extends EquationNode {
 
         // Nodes
         // m =
-        PNode mNode = new PhetPText( Strings.SYMBOL_SLOPE, font, color );
-        final PNode equalsNode = new PhetPText( "=", font, color );
+        PNode mNode = new PhetPText( "slope (m)", font, color );
+        final PNode equalsNode = new PhetPText( "is", font, color );
         // rise/run
         final PNode minusSignNode = new MinusNode( signLineSize, color );
         final PText riseNode = new PhetPText( "?", font, color );
@@ -313,7 +313,7 @@ public class SlopeEquationNode extends EquationNode {
         final Font font = new PhetFont( Font.BOLD, 18 );
 
         // m =
-        String htmlLeftSide = MessageFormat.format( "{0} =", Strings.SYMBOL_SLOPE );
+        String htmlLeftSide = MessageFormat.format( "Slope: {0} =", Strings.SYMBOL_SLOPE );
         PNode leftSideNode = new HTMLNode( htmlLeftSide, color, font );
 
         // y2 - y1
