@@ -10,6 +10,7 @@ import edu.colorado.phet.linegraphing.common.LGResources;
 import edu.colorado.phet.linegraphing.dev.DevTestGameRewardMenuItem;
 import edu.colorado.phet.linegraphing.linegame.LineGameModule;
 import edu.colorado.phet.linegraphing.pointslope.PointSlopeModule;
+import edu.colorado.phet.linegraphing.slope.SlopeModule;
 import edu.colorado.phet.linegraphing.slopeintercept.SlopeInterceptModule;
 
 /**
@@ -22,6 +23,7 @@ public class GraphingLinesApplication extends PiccoloPhetApplication {
     public GraphingLinesApplication( PhetApplicationConfig config ) {
         super( config );
 
+        addModule( new SlopeModule() );
         addModule( new SlopeInterceptModule() );
         addModule( new PointSlopeModule() );
         addModule( new LineGameModule() );

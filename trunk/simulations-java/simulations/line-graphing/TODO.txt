@@ -8,10 +8,11 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- Slope: remove y=x and y=-x check boxes from Slope tab control panel
 - LineFormsModel: investigate implications of replacing runRange and riseRange with x2Range and y2Range
+- implement LineFormsModel.createSlopeModel
+- implement SlopeGraphNode
+- bug: unsimplified value in SlopeEquationNode doesn't update when line is manipulated on graph
 - Point-Slope: equations on standard graphed lines are in wrong form, showing point-slope, should be slope-intercept (but if fixed, "saved" version of y=x will be (y-0)=(x-0))
-- Slope: implement new "Slope" tab
 - Slope: deal with changes in SlopeEquationControls panel width, due to changes in the equation's unsimplified value
 - Slope: horizontally center the number parts of the unsimplified rise and run in SlopeEquationNode
 - Game: add support for fractional y-intercept in slope-intercept equations (only when y-intercept is non-interactive)

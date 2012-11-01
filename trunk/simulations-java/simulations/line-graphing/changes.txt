@@ -1,3 +1,4 @@
+11/1/12 add Slope module, currently using point-slope graph implementation
 11/1/12 add graphControls constructor arg to LineFormsCanvas base class
 11/1/12 add a variant of GraphControls that hides check boxes for standard lines
 11/1/12 add "Slope:" prefix to title in Slope equation control panel
