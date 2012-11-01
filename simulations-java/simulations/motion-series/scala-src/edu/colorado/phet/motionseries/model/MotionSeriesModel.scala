@@ -19,8 +19,10 @@ class MotionSeriesModel(defaultPosition: Double,
                         initialAngle: Double)
         extends RecordAndPlaybackModel[RecordedState](1000) with ObjectSelectionModel with RampSurfaceModel {
   private val _walls = new ScalaMutableBoolean(true)
-  private val _frictionless = new ScalaMutableBoolean(RampForcesAndMotionBasicsSettings.FRICTIONLESS_DEFAULT) //FRICTIONLESS_DEFAULT
-  private val _wallsBounce = new ScalaMutableBoolean(false) //BOUNCE_DEFAULT 
+  private val _frictionless = new ScalaMutableBoolean(RampForcesAndMotionBasicsSettings.FRICTIONLESS_DEFAULT)
+  //FRICTIONLESS_DEFAULT
+  private val _wallsBounce = new ScalaMutableBoolean(false)
+  //BOUNCE_DEFAULT
   private var _objectType: MotionSeriesObjectType = objectTypes(0)
   private val resetListeners = new ArrayBuffer[() => Unit]
   val surfaceFrictionStrategy = new SurfaceFrictionStrategy() {
@@ -145,6 +147,13 @@ class MotionSeriesModel(defaultPosition: Double,
 
       resetListeners.foreach(_())
       wallsBounce.reset()
+
+      //Fix the ramp segment lengths if the walls were gone
+      updateSegmentLengths()
+      updateWallRange()
+
+      //Make sure the code in CloseButton is called to bring the walls back if they were gone
+      notifyListeners()
     }
   }
 
