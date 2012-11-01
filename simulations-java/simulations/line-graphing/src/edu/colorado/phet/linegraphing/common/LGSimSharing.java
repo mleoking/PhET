@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 public class LGSimSharing {
 
     public static enum UserComponents implements IUserComponent {
-        slopeInterceptTab, pointSlopeTab, lineGameTab,
+        slopeTab, slopeInterceptTab, pointSlopeTab, lineGameTab,
         equationMinimizeMaximizeButton,
         riseSpinner, runSpinner, interceptSpinner, x1Spinner, y1Spinner, x2Spinner, y2Spinner,
         saveLineButton, eraseLinesButton,
