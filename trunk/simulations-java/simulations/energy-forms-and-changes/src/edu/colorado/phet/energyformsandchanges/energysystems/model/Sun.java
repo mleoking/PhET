@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
@@ -160,6 +161,16 @@ public class Sun extends EnergySource {
 
         // Produce the energy.
         return new Energy( EnergyType.LIGHT, energyProduced );
+    }
+
+    @Override public void activate() {
+        super.activate();
+        // Pre-populate the space around the sun with energy chunks.  The
+        // number of iterations is chosen carefully such that there chunks
+        // that are close, but not quite reaching, the solar panel.
+        for ( int i = 0; i < 100; i++ ) {
+            stepInTime( EFACConstants.SIM_TIME_PER_TICK_NORMAL );
+        }
     }
 
     @Override public IUserComponent getUserComponent() {
