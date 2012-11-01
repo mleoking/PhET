@@ -2,6 +2,7 @@
 package edu.colorado.phet.linegraphing.pointslope.view;
 
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
+import edu.colorado.phet.linegraphing.common.view.GraphControls;
 import edu.colorado.phet.linegraphing.common.view.LineFormsCanvas;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 
@@ -15,6 +16,7 @@ public class PointSlopeCanvas extends LineFormsCanvas {
     public PointSlopeCanvas( final LineFormsModel model, LineFormsViewProperties viewProperties ) {
         super( model, viewProperties,
                new PointSlopeGraphNode( model, viewProperties ),
-               new PointSlopeEquationControls( model, viewProperties ) );
+               new PointSlopeEquationControls( model, viewProperties ),
+               new GraphControls( viewProperties.linesVisible, viewProperties.slopeVisible, model.standardLines ) );
     }
 }
