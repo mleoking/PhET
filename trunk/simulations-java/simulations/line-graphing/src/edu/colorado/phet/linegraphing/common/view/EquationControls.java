@@ -100,7 +100,7 @@ public abstract class EquationControls extends PhetPNode {
             final double titleHeight = Math.max( titleNode.getFullBoundsReference().getHeight(), minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() );
             strutNode.setOffset( 0, 0 );
             minimizeMaximizeButtonNode.setOffset( 5, ( titleHeight - minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() ) / 2 );
-            titleNode.setOffset( minimizeMaximizeButtonNode.getFullBoundsReference().getMaxX() + 8,
+            titleNode.setOffset( minimizeMaximizeButtonNode.getFullBoundsReference().getMaxX() + 15,
                                  ( titleHeight - titleNode.getFullBoundsReference().getHeight() ) / 2 );
             titleSeparator.setOffset( 0, titleHeight + ySpacing );
             equationNode.setOffset( ( maxWidth / 2 ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
