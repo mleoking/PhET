@@ -195,11 +195,8 @@ public class SlopeEquationNode extends EquationNode {
                     removeChild( undefinedSlopeIndicator );
                 }
                 if ( line.undefinedSlope() ) {
-                    final double centerX = getFullBoundsReference().getCenterX();
-                    final double centerY = getFullBoundsReference().getCenterY();
                     undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
-                    undefinedSlopeIndicator.setOffset( centerX - ( undefinedSlopeIndicator.getFullBoundsReference().getWidth() / 2 ),
-                                                       centerY - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) );
+                    undefinedSlopeIndicator.setOffset( 0, unsimplifiedFractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + undefinedSlopeYFudgeFactor );
                     addChild( undefinedSlopeIndicator );
                 }
             }
