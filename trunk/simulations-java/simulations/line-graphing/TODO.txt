@@ -8,6 +8,7 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
+- PointSlopeEquationNode: for y=x and y=-x, use SlopeInterceptEquationNode
 - bug: in SlopeEquationNode, prevent the 2 points from being the same
 - center titles in Equation control panel
 - LineFormsModel: investigate implications of replacing runRange and riseRange with x2Range and y2Range
