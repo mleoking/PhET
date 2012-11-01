@@ -8,21 +8,21 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- Slope: also implement unsimplified form on its own line in the equation control panel
-- Slope: change graphed line label from "m is value"
 - Slope: remove y=x and y=-x check boxes from Slope tab control panel
 - LineFormsModel: investigate implications of replacing runRange and riseRange with x2Range and y2Range
 - Point-Slope: equations on standard graphed lines are in wrong form, showing point-slope, should be slope-intercept (but if fixed, "saved" version of y=x will be (y-0)=(x-0))
 - Slope: implement new "Slope" tab
 - Slope: deal with changes in SlopeEquationControls panel width, due to changes in the equation's unsimplified value
 - Slope: horizontally center the number parts of the unsimplified rise and run in SlopeEquationNode
-- Slope: label standard lines as m=1, m=-1
 - Game: add support for fractional y-intercept in slope-intercept equations (only when y-intercept is non-interactive)
 - Game: "Place 3 Points" challenge
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges
 - Game: challenge generation (levels and randomization)
 
 MEDIUM
+- Slope: change graphed line label from "m is value", handle i18n
+- Slope: also implement unsimplified form on its own line in the equation control panel
+- Slope: deal with i18n ordering of title in equation control panel
 - Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
