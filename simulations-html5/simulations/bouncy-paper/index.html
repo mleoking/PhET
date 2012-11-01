@@ -85,7 +85,6 @@
                     this.velocity = new Point(0,1)
                 },
                 
-                // Experiment: delegate position directly to sprite
                 getPosition: function() {
                     return this.sprite.position
                 },
@@ -128,7 +127,7 @@
                     new Point(200, 16),
                     {
                         min: 1,
-                        max: 100,
+                        max: 500,
                         value: 10,
                         onChange: setBallCount
                     }))
@@ -191,7 +190,7 @@
             
             updateBallCountFromInput = function() {
                 val = parseInt($('#ballCount').val())
-                if(val >= 0 && val < 100 && val != balls.length) {
+                if(val >= 0 && val <= 500 && val != balls.length) {
                     setBallCount(val)
                 }
             }
