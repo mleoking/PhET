@@ -30,12 +30,11 @@ public abstract class LineFormsCanvas extends CenteredStageCanvas {
      * @param graphNode
      * @param equationControls
      */
-    protected LineFormsCanvas( LineFormsModel model, LineFormsViewProperties viewProperties, PNode graphNode, PNode equationControls ) {
+    protected LineFormsCanvas( LineFormsModel model, LineFormsViewProperties viewProperties, PNode graphNode, PNode equationControls, PNode graphControls ) {
         setBackground( LGColors.CANVAS );
 
         this.visibility = viewProperties;
 
-        PNode graphControls = new GraphControls( viewProperties.linesVisible, viewProperties.slopeVisible, model.standardLines );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
         }};

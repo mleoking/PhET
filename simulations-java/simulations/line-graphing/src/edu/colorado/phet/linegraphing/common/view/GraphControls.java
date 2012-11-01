@@ -36,7 +36,7 @@ import static edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class GraphControls extends PNode {
+public class GraphControls extends PNode {
 
     private static final PhetFont CONTROL_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final String Y_EQUALS_X = MessageFormat.format( "{0} = {1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
