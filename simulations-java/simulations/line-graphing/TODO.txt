@@ -8,6 +8,7 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
+- LineFormsModel: investigate implications of replacing runRange and riseRange with x2Range and y2Range
 - Point-Slope: equations on standard graphed lines are in wrong form, showing point-slope, should be slope-intercept (but if fixed, "saved" version of y=x will be (y-0)=(x-0))
 - Slope: implement new "Slope" tab
 - Slope: deal with changes in SlopeEquationControls panel width, due to changes in the equation's unsimplified value
