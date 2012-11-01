@@ -1,3 +1,4 @@
+11/1/12 add a variant of GraphControls that hides check boxes for standard lines
 11/1/12 add "Slope:" prefix to title in Slope equation control panel
 # 0.00.34 (69712) Oct 31, 2012
 10/31/12 create specialization of LineNode that labels the line with slope formula, m = value
