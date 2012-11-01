@@ -1,12 +1,15 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.text.MessageFormat;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableNot;
@@ -18,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
@@ -38,6 +42,16 @@ class GraphControls extends PNode {
     private static final String Y_EQUALS_X = MessageFormat.format( "{0} = {1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
     private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
 
+    // Use this constructor for a control panel with all features.
+    public GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible, final ObservableList<Line> standardLines ) {
+        this( linesVisible, slopeVisible, standardLines, true );
+    }
+
+    // Use this constructor for a control panel without check boxes standard lines.
+    public GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible ) {
+        this( linesVisible, slopeVisible, new ObservableList<Line>(), false );
+    }
+
     /**
      * Constructor
      *
@@ -45,15 +59,15 @@ class GraphControls extends PNode {
      * @param slopeVisible  are the slope (rise/run) brackets visible on the graphed line?
      * @param standardLines standard lines (eg, y=x) that are available for viewing
      */
-    public GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible, final ObservableList<Line> standardLines ) {
+    private GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible, final ObservableList<Line> standardLines, boolean includeStandardLines ) {
 
         // private properties for standard-line check boxes
         final Property<Boolean> yEqualsXVisible = new Property<Boolean>( standardLines.contains( Line.Y_EQUALS_X_LINE ) );
         final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( standardLines.contains( Line.Y_EQUALS_NEGATIVE_X_LINE ) );
 
         // components
-        final JComponent linesCheckBox = new PropertyCheckBox( UserComponents.linesCheckBox, Strings.HIDE_LINES, new SettableNot( linesVisible ) );
-        linesCheckBox.setFont( CONTROL_FONT );
+        final JComponent hideLinesCheckBox = new PropertyCheckBox( UserComponents.linesCheckBox, Strings.HIDE_LINES, new SettableNot( linesVisible ) );
+        hideLinesCheckBox.setFont( CONTROL_FONT );
         final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, GraphNode.createYEqualsXIcon( 60, LGColors.Y_EQUALS_X ), yEqualsXVisible );
         final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, GraphNode.createYEqualsNegativeXIcon( 60, LGColors.Y_EQUALS_NEGATIVE_X ), yEqualsNegativeXVisible );
         final JComponent slopeCheckBox = new PropertyCheckBoxWithIcon( riseOverRunCheckBox, Strings.SLOPE, CONTROL_FONT, SlopeToolNode.createIcon( 60 ), slopeVisible );
@@ -65,9 +79,11 @@ class GraphControls extends PNode {
         panel.setAnchor( Anchor.CENTER ); // centered
         panel.setFill( Fill.NONE );
         panel.setAnchor( Anchor.WEST ); // left justified
-        panel.add( new JPanel() {{ add( linesCheckBox ); }} ); // wrap with JPanel to get same horizontal alignment as PropertyCheckBoxWithIcon
-        panel.add( positiveCheckBox );
-        panel.add( negativeCheckBox );
+        panel.add( new JPanel() {{ add( hideLinesCheckBox ); }} ); // wrap with JPanel to get same horizontal alignment as PropertyCheckBoxWithIcon
+        if ( includeStandardLines ) {
+            panel.add( positiveCheckBox );
+            panel.add( negativeCheckBox );
+        }
         panel.add( slopeCheckBox );
 
         // wrap Swing in a Piccolo control panel
@@ -129,5 +145,30 @@ class GraphControls extends PNode {
                 }
             }
         } );
+    }
+
+    // test
+    public static void main( String[] args ) {
+
+        final Property<Boolean> linesVisible = new Property<Boolean>( true );
+        final Property<Boolean> slopeVisible = new Property<Boolean>( true );
+        final ObservableList<Line> standardLines = new ObservableList<Line>();
+
+        PNode panel1 = new GraphControls( linesVisible, slopeVisible, standardLines );
+        PNode panel2 = new GraphControls( linesVisible, slopeVisible );
+
+        PhetPCanvas canvas = new PhetPCanvas();
+        canvas.setPreferredSize( new Dimension( 1024, 768 ) );
+        canvas.getLayer().addChild( panel1 );
+        canvas.getLayer().addChild( panel2 );
+
+        panel1.setOffset( 100, 100 );
+        panel2.setOffset( panel1.getXOffset(), panel1.getFullBoundsReference().getMaxY() + 20 );
+
+        JFrame frame = new JFrame();
+        frame.setContentPane( canvas );
+        frame.pack();
+        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }
