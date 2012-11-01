@@ -82,10 +82,6 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-
-
-
-
 #canvas {
   position: absolute;
 }
@@ -104,12 +100,6 @@ textarea {
   padding-left: 1em;
 }
 
-
-
-
-
-
-
 #control-panel {
   position: absolute;
   top: 1em;
@@ -127,21 +117,13 @@ textarea {
   padding-bottom: 20px;
 }
 
-
-
 @media only screen and (max-width: 800px) {
   body { font-size: 0.7em; }
 }
 
 @media only screen and (min-width: 1200px) {
-  body { font-size: 1.8em; }
+  body { font-size: 1.5em; }
 }
-
-
-
-
-
-
 
 /* ==========================================================================
    Helper classes
