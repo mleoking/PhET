@@ -3,7 +3,7 @@ package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
-import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
+import edu.colorado.phet.linegraphing.common.model.SlopeInterceptModel;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 
@@ -14,7 +14,7 @@ import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
  */
 class SlopeInterceptEquationControls extends EquationControls {
 
-    public SlopeInterceptEquationControls( LineFormsModel model, LineFormsViewProperties viewProperties ) {
+    public SlopeInterceptEquationControls( SlopeInterceptModel model, LineFormsViewProperties viewProperties ) {
         super( SlopeInterceptEquationNode.createGeneralFormNode(),
                model.interactiveLine,
                model.savedLines,

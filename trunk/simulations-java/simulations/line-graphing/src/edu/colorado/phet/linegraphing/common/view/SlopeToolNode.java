@@ -25,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
+import edu.colorado.phet.linegraphing.common.model.SlopeInterceptModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -244,7 +245,7 @@ public class SlopeToolNode extends PComposite {
 
         PNode parentNode = new PadBoundsNode();
 
-        LineFormsModel model = LineFormsModel.createSlopeInterceptModel();
+        LineFormsModel model = new SlopeInterceptModel();
         model.interactiveLine.set( Line.createSlopeIntercept( 1, 2, 0 ) ); // bigger values will make slope tool look smaller in icon
 
         // slope tool

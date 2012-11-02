@@ -1,16 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
-import java.awt.Color;
-import java.awt.geom.Point2D;
-
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighlightHandler;
 import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
@@ -18,10 +13,11 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class graph for the "Slope-Intercept" and "Point-Slope" modules.
- * Displays the following lines:
+ * Base class graph for the "Slope", "Slope-Intercept" and "Point-Slope" modules.
+ * Displays the following:
  * <ul>
- * <li>one interactive line with point and slope manipulators, and slope (rise/run) brackets</li>
+ * <li>one interactive line</li>
+ * <li>slope tool for interactive line</li>
  * <li>zero or more "saved" lines</li>
  * <li>zero or more "standard" lines</li>
  * </ul>
@@ -30,13 +26,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class LineFormsGraphNode extends GraphNode {
 
-    private static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
+    protected static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
 
-    private final LineFormsModel model;
+    protected final LineFormsModel model;
     private final LineFormsViewProperties viewProperties;
     private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
     private final PNode interactiveLineParentNode, slopeToolNode;
-    private final LineManipulatorNode pointManipulator, slopeManipulatorNode;
     private LineNode interactiveLineNode;
 
     /**
@@ -44,13 +39,8 @@ public abstract class LineFormsGraphNode extends GraphNode {
      *
      * @param model
      * @param viewProperties
-     * @param pointManipulatorColor
-     * @param slopeManipulatorColor
      */
-    protected LineFormsGraphNode( LineFormsModel model,
-                                  final LineFormsViewProperties viewProperties,
-                                  Color pointManipulatorColor,
-                                  Color slopeManipulatorColor ) {
+    protected LineFormsGraphNode( LineFormsModel model, final LineFormsViewProperties viewProperties ) {
         super( model.graph, model.mvt );
 
         this.model = model;
@@ -67,23 +57,11 @@ public abstract class LineFormsGraphNode extends GraphNode {
         // Slope tool
         slopeToolNode = new SlopeToolNode( model.interactiveLine, model.mvt, manipulatorDiameter );
 
-        // interactivity for point (x1,y1) manipulator
-        pointManipulator = new LineManipulatorNode( manipulatorDiameter, pointManipulatorColor );
-        pointManipulator.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
-                                                                     pointManipulator, model.mvt, model.interactiveLine, model.x1Range, model.y1Range,
-                                                                     true /* constantSlope */ ) );
-        // interactivity for slope manipulator
-        slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, slopeManipulatorColor );
-        slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
-                                                                          slopeManipulatorNode, model.mvt, model.interactiveLine, model.riseRange, model.runRange ) );
-
         // Rendering order
         addChild( interactiveLineParentNode );
         addChild( savedLinesParentNode );
         addChild( standardLinesParentNode );
         addChild( slopeToolNode );
-        addChild( pointManipulator );
-        addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
         // Add/remove standard lines
         model.standardLines.addElementAddedObserver( new VoidFunction1<Line>() {
@@ -191,26 +169,15 @@ public abstract class LineFormsGraphNode extends GraphNode {
 
         // slope tool
         slopeToolNode.setVisible( slopeVisible && linesVisible && interactiveLineVisible );
-
-        // Hide the manipulators at appropriate times (when dragging or based on visibility of lines).
-        pointManipulator.setVisible( linesVisible && interactiveLineVisible );
-        slopeManipulatorNode.setVisible( linesVisible && interactiveLineVisible );
     }
 
     // Updates the line and its associated decorations
     protected void updateInteractiveLine( final Line line ) {
-
-        final ModelViewTransform mvt = model.mvt;
-
         // replace the line node
         interactiveLineParentNode.removeAllChildren();
-        interactiveLineNode = createLineNode( line, model.graph, mvt );
+        interactiveLineNode = createLineNode( line, model.graph, model.mvt );
         interactiveLineNode.setEquationVisible( viewProperties.interactiveEquationVisible.get() );
         interactiveLineParentNode.addChild( interactiveLineNode );
-
-        // move the manipulators
-        pointManipulator.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
-        slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1 + line.run, line.y1 + line.rise ) ) );
     }
 
     // Creates a line node of the proper form.
