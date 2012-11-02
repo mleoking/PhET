@@ -110,8 +110,6 @@ public abstract class LineFormsGraphNode extends GraphNode {
                 }
             }
         } );
-
-        updateInteractiveLine( model.interactiveLine.get() ); // initial position of manipulators
     }
 
     // Gets the diameter of manipulators, in view coordinate frame.
