@@ -70,7 +70,6 @@ public class BeakerContainer extends Beaker {
         double overlappingArea = 0;
         for ( Rectangle2D rectangle2D : potentiallyDisplacingRectangles ) {
             if ( rectangle2D.intersects( fluidRectangle ) ) {
-                System.out.println( "rectangle2D = " + rectangle2D );
                 Rectangle2D intersection = rectangle2D.createIntersection( fluidRectangle );
                 overlappingArea += intersection.getWidth() * intersection.getHeight();
             }

@@ -60,7 +60,7 @@ public class EnergySystemsModel {
     // Energy users.
     public final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb();
     public final FluorescentLightBulb fluorescentLightBulb = new FluorescentLightBulb();
-    public final BeakerHeater beakerHeater = new BeakerHeater();
+    public final BeakerHeater beakerHeater = new BeakerHeater( clock, energyChunksVisible );
 
     // Items that span between energy system elements.
     // TODO: Need to make position based on the model elements instead of just hard coded.
