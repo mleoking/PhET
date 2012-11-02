@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.pointslope.view;
 
-import edu.colorado.phet.linegraphing.common.model.PointSlopeModel;
+import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.colorado.phet.linegraphing.common.view.GraphControls;
 import edu.colorado.phet.linegraphing.common.view.LineFormsCanvas;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;

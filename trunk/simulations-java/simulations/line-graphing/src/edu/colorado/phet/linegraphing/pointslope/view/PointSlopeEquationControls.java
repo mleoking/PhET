@@ -3,7 +3,7 @@ package edu.colorado.phet.linegraphing.pointslope.view;
 
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
-import edu.colorado.phet.linegraphing.common.model.PointSlopeModel;
+import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 
