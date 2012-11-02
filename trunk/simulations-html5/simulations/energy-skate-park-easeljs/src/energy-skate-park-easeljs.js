@@ -5,7 +5,7 @@ $( function () {
         if ( "WebSocket" in window ) {
             // Let us open a web socket
             var ws = new WebSocket( "ws://localhost:8887/echo" );
-            ws.onmessage = function ( event ) { document.location.reload( true ); };
+            ws.onmessage = function () { document.location.reload( true ); };
             ws.onclose = function () { };
             console.log( "opened websocket" );
         }
@@ -32,7 +32,7 @@ $( function () {
                 this.size = opts.size;
                 this.thumbSize = this.size.y / 2;
                 this.trackWidth = this.size.x - this.size.y;
-                this.onChange = opts.onChange || function ( value ) {};
+                this.onChange = opts.onChange || function () {};
                 this.x = opts.pos.x;
                 this.y = opts.pos.y;
 
@@ -129,16 +129,16 @@ $( function () {
 
         //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
         var canvas = document.getElementById( "c" );
-        canvas.onselectstart = function () { return false; }; // ie
-        canvas.onmousedown = function () { return false; }; // mozilla
+        canvas.onselectstart = function () { return false; }; // IE
+        canvas.onmousedown = function () { return false; }; // Mozilla
 
-        stage = new createjs.Stage( canvas );
+        var stage = new createjs.Stage( canvas );
         stage.addChild( group );
         stage.update();
 
         // Physics
 
-        Vector = {
+        var Vector = {
             add:function ( v, w ) {
                 return { x:v.x + w.x,
                     y:v.y + w.y }
@@ -147,7 +147,7 @@ $( function () {
                 return { x:v.x - w.x,
                     y:v.y - w.y }
             },
-            mult:function ( v, s ) {
+            times:function ( v, s ) {
                 return { x:v.x * s,
                     y:v.y * s }
             },
@@ -185,15 +185,16 @@ $( function () {
 
         // Event handling
 
-        var onResize = function ( event ) {
+        var onResize = function () {
             var winW = $( window ).width(),
                     winH = $( window ).height(),
                     scale = Math.min( winW / 1024, winH / 768 ),
                     canvasW = scale * 1024,
                     canvasH = scale * 768;
-            $( '#c' ).attr( 'width', canvasW );
-            $( '#c' ).attr( 'height', canvasH );
-            $( '#c' ).offset( {left:(winW - canvasW) / 2, top:(winH - canvasH) / 2} );
+            var canvas = $( '#c' );
+            canvas.attr( 'width', canvasW );
+            canvas.attr( 'height', canvasH );
+            canvas.offset( {left:(winW - canvasW) / 2, top:(winH - canvasH) / 2} );
             group.scaleX = group.scaleY = scale;
             stage.update();
         };
@@ -212,7 +213,7 @@ $( function () {
     //http://www.javascriptkit.com/javatutors/preloadimagesplus.shtml
     function preloadImages( a ) {
         var newImages = [], loadedImages = 0;
-        var postAction = function () {};
+        var postAction = function ( event ) {};
         var arr = (typeof a != "object") ? [a] : a;
 
         function imageLoadPost() {
