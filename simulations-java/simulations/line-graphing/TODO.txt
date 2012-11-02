@@ -8,9 +8,9 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- bug: in SlopeEquationNode, prevent the 2 points from being the same
 - center titles in Equation control panel
 - LineFormsModel: investigate implications of replacing runRange and riseRange with x2Range and y2Range
+- Slope model: adjust ranges so that we can't have (x1,y1)==(x2,y2)
 - implement LineFormsModel.createSlopeModel
 - implement SlopeGraphNode
 - Slope: deal with changes in SlopeEquationControls panel width, due to changes in the equation's unsimplified value
