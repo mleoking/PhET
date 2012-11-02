@@ -150,7 +150,7 @@ $( function () {
         function checkBoxRow( allTexts, index, image ) {
             var row = new createjs.Container();
 
-            var checkBox = new createjs.Shape( new createjs.Graphics().beginStroke( "000000" ).rect( 0, 0, 30, 30 ) );
+            var checkBox = new createjs.Shape( new createjs.Graphics().beginStroke( createjs.Graphics.fromRG ).drawRoundRect( 0, 0, 30, 30, 5 ).endStroke() );
 
             var text2 = new createjs.Text( allTexts[index], '20px "Arial",Tahoma' );
             text2.y = 3;
@@ -170,7 +170,7 @@ $( function () {
             var container = new createjs.Container();
             var offsetY = 8;
             var insetX = 8;
-            container.addChild( new createjs.Shape( new createjs.Graphics().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, 200, 170, 10 ).endFill().beginStroke( "black" ).drawRoundRect( 0, 0, 200, 170, 10 ) ) );
+            container.addChild( new createjs.Shape( new createjs.Graphics().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, 200, 195, 10 ).endFill().beginStroke( "black" ).drawRoundRect( 0, 0, 200, 195, 10 ).endStroke() ) );
             container.addLayoutItem = function ( child ) {
                 child.x = insetX;
                 child.y = offsetY;
@@ -189,6 +189,11 @@ $( function () {
             controlPanel.addLayoutItem( checkBoxRow( texts, 1, images[4] ) );
             controlPanel.addLayoutItem( checkBoxRow( texts, 2, images[5] ) );
             controlPanel.addLayoutItem( checkBoxRow( texts, 3, images[6] ) );
+            var container = new createjs.Container();
+            var text = new createjs.Text( "Skater Mass", '24px "Arial",Tahoma' );
+            text.x = 25;
+            container.addChild( text );
+            controlPanel.addLayoutItem( container );
             return controlPanel;
         }
 
