@@ -9,12 +9,12 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.manipulator.YInterceptDragHandler;
 import edu.colorado.phet.linegraphing.common.view.LineFormsGraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
-import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
+import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.SlopeDragHandler;
+import edu.colorado.phet.linegraphing.common.view.manipulator.YInterceptDragHandler;
 import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 
 /**
@@ -29,16 +29,13 @@ public class SlopeInterceptGraphNode extends LineFormsGraphNode {
     public SlopeInterceptGraphNode( SlopeInterceptModel model, LineFormsViewProperties viewProperties ) {
         super( model, viewProperties );
 
-        // Diameter of manipulators, in view coordinate frame.
-        final double manipulatorDiameter = model.mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
-
         // slope manipulator
-        slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
+        slopeManipulatorNode = new LineManipulatorNode( getManipulatorDiameter(), LGColors.SLOPE );
         slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                           slopeManipulatorNode, model.mvt, model.interactiveLine, model.riseRange, model.runRange ) );
 
         // intercept manipulator
-        interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
+        interceptManipulatorNode = new LineManipulatorNode( getManipulatorDiameter(), LGColors.INTERCEPT );
         interceptManipulatorNode.addInputEventListener( new YInterceptDragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
                                                                                    interceptManipulatorNode, model.mvt, model.interactiveLine, model.y1Range ) );
 

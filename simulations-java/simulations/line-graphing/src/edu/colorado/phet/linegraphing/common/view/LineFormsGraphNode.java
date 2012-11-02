@@ -26,7 +26,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class LineFormsGraphNode extends GraphNode {
 
-    protected static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
+    private static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
 
     protected final LineFormsModel model;
     private final LineFormsViewProperties viewProperties;
@@ -112,6 +112,11 @@ public abstract class LineFormsGraphNode extends GraphNode {
         } );
 
         updateInteractiveLine( model.interactiveLine.get() ); // initial position of manipulators
+    }
+
+    // Gets the diameter of manipulators, in view coordinate frame.
+    protected double getManipulatorDiameter() {
+        return model.mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
     }
 
     // Called when a standard line is added to the model.

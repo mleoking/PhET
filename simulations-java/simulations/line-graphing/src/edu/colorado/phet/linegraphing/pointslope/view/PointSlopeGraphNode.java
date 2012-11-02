@@ -9,13 +9,13 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.colorado.phet.linegraphing.common.view.LineFormsGraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
-import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
+import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.manipulator.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.common.view.manipulator.X1Y1DragHandler;
+import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 
 /**
  * Graph that provides direct manipulation of a line in point-slope form.
@@ -29,16 +29,13 @@ public class PointSlopeGraphNode extends LineFormsGraphNode {
     public PointSlopeGraphNode( PointSlopeModel model, LineFormsViewProperties viewProperties ) {
         super( model, viewProperties );
 
-        // Diameter of manipulators, in view coordinate frame.
-        final double manipulatorDiameter = model.mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
-
         // interactivity for point (x1,y1) manipulator
-        pointManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
+        pointManipulatorNode = new LineManipulatorNode( getManipulatorDiameter(), LGColors.POINT_X1_Y1 );
         pointManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.pointManipulator, UserComponentTypes.sprite,
                                                                          pointManipulatorNode, model.mvt, model.interactiveLine, model.x1Range, model.y1Range,
                                                                          true /* constantSlope */ ) );
         // interactivity for slope manipulator
-        slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
+        slopeManipulatorNode = new LineManipulatorNode( getManipulatorDiameter(), LGColors.SLOPE );
         slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                           slopeManipulatorNode, model.mvt, model.interactiveLine, model.riseRange, model.runRange ) );
 
