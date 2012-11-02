@@ -8,12 +8,12 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- LineFormsModel: investigate implications of replacing runRange and riseRange with x2Range and y2Range
 - Slope model: adjust ranges so that we can't have (x1,y1)==(x2,y2)
-- implement LineFormsModel.createSlopeModel
-- implement SlopeGraphNode
 - Slope: deal with changes in SlopeEquationControls panel width, due to changes in the equation's unsimplified value
 - Slope: horizontally center the number parts of the unsimplified rise and run in SlopeEquationNode
+- address duplication of SlopeInterceptGraphNode and PointSlopeGraphNode
+- address need to call updaters at end of LineFormsGraphNode subclass constructors
+- replace X1Y1DragHandler with InterceptDragHandler in SlopeInterceptGraphNode, as a safety precaution
 - Game: add support for fractional y-intercept in slope-intercept equations (only when y-intercept is non-interactive)
 - Game: "Place 3 Points" challenge
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges

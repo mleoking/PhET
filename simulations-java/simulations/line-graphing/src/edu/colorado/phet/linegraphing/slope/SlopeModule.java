@@ -4,9 +4,8 @@ package edu.colorado.phet.linegraphing.slope;
 import edu.colorado.phet.linegraphing.common.LGModule;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
+import edu.colorado.phet.linegraphing.common.model.SlopeModel;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeCanvas;
 import edu.colorado.phet.linegraphing.slope.view.SlopeCanvas;
 
 /**
@@ -18,6 +17,6 @@ public class SlopeModule extends LGModule {
 
     public SlopeModule() {
         super( UserComponents.slopeTab, Strings.TAB_SLOPE );
-        setSimulationPanel( new SlopeCanvas( LineFormsModel.createPointSlopeModel(), new LineFormsViewProperties() ) ); //TODO LineFormsModel.createSlopeModel
+        setSimulationPanel( new SlopeCanvas( new SlopeModel(), new LineFormsViewProperties() ) );
     }
 }

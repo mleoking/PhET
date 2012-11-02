@@ -3,7 +3,7 @@ package edu.colorado.phet.linegraphing.pointslope.view;
 
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
-import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
+import edu.colorado.phet.linegraphing.common.model.PointSlopeModel;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 
@@ -14,7 +14,7 @@ import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
  */
 class PointSlopeEquationControls extends EquationControls {
 
-    public PointSlopeEquationControls( LineFormsModel model, LineFormsViewProperties viewProperties ) {
+    public PointSlopeEquationControls( PointSlopeModel model, LineFormsViewProperties viewProperties ) {
         super( PointSlopeEquationNode.createGeneralFormNode(),
                model.interactiveLine,
                model.savedLines,

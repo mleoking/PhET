@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
+import edu.colorado.phet.linegraphing.common.model.SlopeModel;
 import edu.colorado.phet.linegraphing.common.view.EquationControls;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 import edu.umd.cs.piccolo.PNode;
@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 class SlopeEquationControls extends EquationControls {
 
-    public SlopeEquationControls( LineFormsModel model, LineFormsViewProperties viewProperties ) {
+    public SlopeEquationControls( SlopeModel model, LineFormsViewProperties viewProperties ) {
         this( model.interactiveLine, model.savedLines, model.x1Range, model.y1Range,
               viewProperties.interactiveEquationVisible, viewProperties.linesVisible );
     }
