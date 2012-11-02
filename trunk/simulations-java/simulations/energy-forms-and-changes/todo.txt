@@ -27,6 +27,7 @@ Fix flicker when E's are transferred between energy systems
 
 Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
 
+Fix: 1st tab, weird interaction between beaker and thermometer control panel.
 i18n
 
 

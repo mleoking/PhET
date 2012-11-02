@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * Drag handler for objects that can be moved by the user.  This is constructed
  * with a constraint function that defines where the model object can go.
  */
-class ThermalElementDragHandler extends RelativeDragHandler {
+public class ThermalElementDragHandler extends RelativeDragHandler {
 
     private UserMovableModelElement modelElement;
 

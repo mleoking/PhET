@@ -69,14 +69,13 @@ public class BeakerHeater extends EnergyUser {
     private List<EnergyChunkPathMover> thermalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     public Beaker beaker;
 
-
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
     protected BeakerHeater( ConstantDtClock clock, BooleanProperty energyChunksVisible ) {
         super( EnergyFormsAndChangesResources.Images.WATER_ICON );
-        beaker = new Beaker( clock, new Vector2D( 0, 0 ), energyChunksVisible );
+        beaker = new Beaker( clock, new Vector2D( 0, 0.025 ), energyChunksVisible );
     }
 
     //-------------------------------------------------------------------------
