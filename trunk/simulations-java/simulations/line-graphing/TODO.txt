@@ -25,6 +25,7 @@ MEDIUM
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
 
 LOW
+- vertical alignment of title in EquationControls subclasses looks a little off
 - repackage, in anticipation of having 3 sims in this project
 
 DEVELOPER CONTROLS
