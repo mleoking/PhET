@@ -1,3 +1,4 @@
+11/1/12 fix: init of ranges in SlopeModel
 11/1/12 create model and graph node for Slope tab
 11/1/12 move manipulators to subclasses of LineFormsGraphNode
 11/1/12 move ranges to subclasses of LineFormsModel
