@@ -82,12 +82,17 @@ public class SimSharingManager {
 
     public static final SimSharingManager getInstance() {
 
-        //If we try to use sim sharing before init called (say from a sample main), init with the default study and a dummy project name
+        //If we try to use sim sharing before init called (say from a sample main), init with sim-sharing turned off.
         if ( INSTANCE == null ) {
-            init( new PhetApplicationConfig( new String[] { "-study" }, "sim-sharing-manager" ) );
+            init( new PhetApplicationConfig( new String[] { }, "sim-sharing-manager" ) );
         }
         assert ( INSTANCE != null ); // make sure init worked
         return INSTANCE;
+    }
+
+    // Use if you have a non-PhetApplication (e.g., a sample main) that involves sim-sharing and you want basic console output.
+    public static void init() {
+        init( new PhetApplicationConfig( new String[] { "-study" }, "sim-sharing-manager" ) );
     }
 
     // Initialization, creates the singleton and sends startup events if sim-sharing is enabled.
