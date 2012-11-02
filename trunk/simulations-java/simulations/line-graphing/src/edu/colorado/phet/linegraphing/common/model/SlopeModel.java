@@ -29,12 +29,7 @@ public class SlopeModel extends LineFormsModel {
         x2Range = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
         y2Range = new Property<DoubleRange>( new DoubleRange( LGConstants.X_AXIS_RANGE ) );
 
-        // Dynamically adjust ranges so that variables are constrained to the bounds of the graph.
-        this.interactiveLine.addObserver( new VoidFunction1<Line>() {
-            public void apply( Line line ) {
-                //TODO adjust ranges here, using a specialization of LineParameterRange
-            }
-        } );
+        //NOTE: ranges do not need to be dynamically adjusted, because the points are free ranging.
     }
 
     @Override public void reset() {
