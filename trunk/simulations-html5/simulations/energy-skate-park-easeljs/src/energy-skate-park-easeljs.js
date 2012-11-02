@@ -157,7 +157,12 @@ $( function () {
         var skater = new createjs.Bitmap( images[0] );
         group.addChild( skater );
 
-        stage = new createjs.Stage( document.getElementById( "c" ) );
+        //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
+        var canvas = document.getElementById( "c" );
+        canvas.onselectstart = function () { return false; }; // ie
+        canvas.onmousedown = function () { return false; }; // mozilla
+
+        stage = new createjs.Stage( canvas );
         stage.addChild( group );
         stage.update();
 
