@@ -146,6 +146,54 @@ $( function () {
         skyGraphics.rect( 0, 0, 1024, 768 - groundHeight );
         var sky = new createjs.Shape( skyGraphics );
 
+        //Use the allTexts to measure row width for layout
+        function checkBoxRow( allTexts, index, image ) {
+            var row = new createjs.Container();
+
+            var checkBox = new createjs.Shape( new createjs.Graphics().beginStroke( "000000" ).rect( 0, 0, 30, 30 ) );
+
+            var text2 = new createjs.Text( allTexts[index], '20px "Arial",Tahoma' );
+            text2.y = 3;
+            text2.x = 30 + 5;
+            row.height = 40;//make all rows same height
+
+            row.width = text2.getMeasuredWidth();
+            row.addChild( checkBox );
+            row.addChild( text2 );
+            var bitmap = new createjs.Bitmap( image );
+            bitmap.x = 180 - image.width;
+            row.addChild( bitmap );
+            return row;
+        }
+
+        function verticalLayoutPanel() {
+            var container = new createjs.Container();
+            var offsetY = 8;
+            var insetX = 8;
+            container.addChild( new createjs.Shape( new createjs.Graphics().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, 200, 170, 10 ).endFill().beginStroke( "black" ).drawRoundRect( 0, 0, 200, 170, 10 ) ) );
+            container.addLayoutItem = function ( child ) {
+                child.x = insetX;
+                child.y = offsetY;
+                container.addChild( child );
+                offsetY += child.height;
+            };
+            container.y = 8;
+            container.x = 1024 - 200 - 8;
+            return container;
+        }
+
+        function createControlPanel() {
+            var controlPanel = verticalLayoutPanel();
+            var texts = ["Bar Graph", "Pie Chart", "Grid", "Speed"];
+            controlPanel.addLayoutItem( checkBoxRow( texts, 0, images[3] ) );
+            controlPanel.addLayoutItem( checkBoxRow( texts, 1, images[4] ) );
+            controlPanel.addLayoutItem( checkBoxRow( texts, 2, images[5] ) );
+            controlPanel.addLayoutItem( checkBoxRow( texts, 3, images[6] ) );
+            return controlPanel;
+        }
+
+        var controlPanel = createControlPanel();
+
         var background = new createjs.Container();
         background.addChild( sky );
         background.addChild( ground );
@@ -271,6 +319,7 @@ $( function () {
         splineLayer.addChild( c );
 
         group.addChild( background );
+        group.addChild( controlPanel );
         group.addChild( splineLayer );
         group.addChild( skater );
 
@@ -479,6 +528,6 @@ $( function () {
     //TODO: Switch to http://www.createjs.com/#!/PreloadJS
     // Only executed our code once the DOM is ready.
     window.onload = function () {
-        preloadImages( ["resources/skater.png", "resources/house.png", "resources/mountains.png"] ).done( run )
+        preloadImages( ["resources/skater.png", "resources/house.png", "resources/mountains.png", "resources/barChartIcon.png", "resources/pieChartIcon.png", "resources/gridIcon.png", "resources/speedIcon.png"] ).done( run )
     }
 } );
