@@ -197,15 +197,6 @@ $( function () {
         $( window ).resize( onResize );
         onResize(); // initial position
 
-        updateBallCountFromInput = function () {
-            val = parseInt( $( '#ballCount' ).val() );
-            if ( val >= 0 && val <= 500 && val != balls.length ) {
-                setBallCount( val )
-            }
-        };
-        $( '#ballCount' ).change( updateBallCountFromInput );
-        $( '#ballCount' ).keyup( updateBallCountFromInput );
-
         stage.update();
         createjs.Ticker.setFPS( 60 );
         createjs.Ticker.addListener( displayFrameRate );
