@@ -4,6 +4,8 @@ package edu.colorado.phet.linegraphing.slopeintercept.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
@@ -26,7 +28,7 @@ public class SlopeInterceptGraphNode extends LineFormsGraphNode {
 
     private final LineManipulatorNode interceptManipulatorNode, slopeManipulatorNode;
 
-    public SlopeInterceptGraphNode( SlopeInterceptModel model, LineFormsViewProperties viewProperties ) {
+    public SlopeInterceptGraphNode( final SlopeInterceptModel model, final LineFormsViewProperties viewProperties ) {
         super( model, viewProperties );
 
         // slope manipulator
@@ -38,37 +40,31 @@ public class SlopeInterceptGraphNode extends LineFormsGraphNode {
         interceptManipulatorNode = new LineManipulatorNode( getManipulatorDiameter(), LGColors.INTERCEPT );
         interceptManipulatorNode.addInputEventListener( new YInterceptDragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
                                                                                    interceptManipulatorNode, model.mvt, model.interactiveLine, model.y1Range ) );
-
+        // rendering order
         addChild( slopeManipulatorNode );
         addChild( interceptManipulatorNode );
 
-        //TODO unfortunate to have to do this in all LineFormGraphNode subclasses...
-        updateLinesVisibility( viewProperties.linesVisible.get(), viewProperties.interactiveLineVisible.get(), viewProperties.slopeVisible.get() );
-        updateInteractiveLine( model.interactiveLine.get() );
+        // Position of manipulators
+        model.interactiveLine.addObserver( new VoidFunction1<Line>() {
+            public void apply( Line line ) {
+                slopeManipulatorNode.setOffset( model.mvt.modelToView( new Point2D.Double( line.x1 + line.run, line.y1 + line.rise ) ) );
+                interceptManipulatorNode.setOffset( model.mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
+            }
+        } );
+
+        // Visibility of manipulators
+        RichSimpleObserver visibilityObserver = new RichSimpleObserver() {
+            @Override public void update() {
+                final boolean visible = viewProperties.linesVisible.get() && viewProperties.interactiveLineVisible.get();
+                slopeManipulatorNode.setVisible( visible );
+                interceptManipulatorNode.setVisible( visible );
+            }
+        };
+        visibilityObserver.observe( viewProperties.linesVisible, viewProperties.interactiveLineVisible );
     }
 
     // Creates a node that displays the line in slope-intercept form.
     protected LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
         return new SlopeInterceptLineNode( line, graph, mvt );
-    }
-
-    @Override protected void updateLinesVisibility( boolean linesVisible, boolean interactiveLineVisible, boolean slopeVisible ) {
-        super.updateLinesVisibility( linesVisible, interactiveLineVisible, slopeVisible );
-
-        // Hide the manipulators at appropriate times (when dragging or based on visibility of lines).
-        if ( slopeManipulatorNode != null && interceptManipulatorNode != null ) {
-            slopeManipulatorNode.setVisible( linesVisible && interactiveLineVisible );
-            interceptManipulatorNode.setVisible( linesVisible && interactiveLineVisible );
-        }
-    }
-
-    @Override protected void updateInteractiveLine( final Line line ) {
-        super.updateInteractiveLine( line );
-
-        // move the manipulators
-        if ( slopeManipulatorNode != null && interceptManipulatorNode != null ) {
-            slopeManipulatorNode.setOffset( model.mvt.modelToView( new Point2D.Double( line.x1 + line.run, line.y1 + line.rise ) ) );
-            interceptManipulatorNode.setOffset( model.mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
-        }
     }
 }
