@@ -29,17 +29,14 @@ public class SlopeGraphNode extends LineFormsGraphNode {
     public SlopeGraphNode( SlopeModel model, LineFormsViewProperties viewProperties ) {
         super( model, viewProperties );
 
-        // Diameter of manipulators, in view coordinate frame.
-        final double manipulatorDiameter = model.mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
-
         // interactivity for point (x1,y1) manipulator
-        x1y1ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
+        x1y1ManipulatorNode = new LineManipulatorNode( getManipulatorDiameter(), LGColors.POINT_X1_Y1 );
         x1y1ManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.x1y1Manipulator, UserComponentTypes.sprite,
                                                                         x1y1ManipulatorNode, model.mvt, model.interactiveLine, model.x1Range, model.y1Range,
                                                                         false /* constantSlope */ ) );
 
         // interactivity for point (x1,y1) manipulator
-        x2y2ManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X2_Y2 );
+        x2y2ManipulatorNode = new LineManipulatorNode( getManipulatorDiameter(), LGColors.POINT_X2_Y2 );
         x2y2ManipulatorNode.addInputEventListener( new X2Y2DragHandler( UserComponents.x2y2Manipulator, UserComponentTypes.sprite,
                                                                         x2y2ManipulatorNode, model.mvt, model.interactiveLine, model.x2Range, model.y2Range ) );
 

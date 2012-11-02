@@ -1,3 +1,4 @@
+11/2/12 add getManipulatorDiameter to LineFormsGraphNode base class
 11/2/12 move stuff related to line manipulators to linegraphing.common.view.manipulator
 11/2/12 move stuff related to spinners to linegraphing.common.view.spinner
 11/2/12 replace X1Y1DragHandler with YInterceptDragHandler (constrain to vertical drag) in SlopeInterceptGraphNode
