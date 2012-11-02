@@ -1,377 +1,248 @@
-(function () {
+$( function () {
+    // Widgets
 
-    //http://www.javascriptkit.com/javatutors/preloadimagesplus.shtml
-    function preloadimages( a ) {
-        var newimages = [], loadedimages = 0;
-        var postaction = function () {};
-        var arr = (typeof a != "object") ? [a] : a;
+    var Slider = function ( opts ) {
+        this.initialize( opts )
+    };
+    Slider.prototype = $.extend( new createjs.Container(), {
+        initialize:function ( opts ) {
+            opts = opts || {};
+            this.min = opts.min;
+            this.max = opts.max;
+            this.size = opts.size;
+            this.thumbSize = this.size.y / 2;
+            this.trackWidth = this.size.x - this.size.y;
+            this.onChange = opts.onChange || function ( value ) {};
+            this.x = opts.pos.x;
+            this.y = opts.pos.y;
 
-        function imageloadpost() {
-            loadedimages++;
-            if ( loadedimages == arr.length ) {
-                postaction( newimages ); //call postaction and pass in newimages array as parameter
+            this.track = new createjs.Shape();
+            this.track.graphics
+                    .setStrokeStyle( this.size.y / 4, 1 /*round*/ )
+                    .beginStroke( createjs.Graphics.getHSL( 192, 10, 80 ) )
+                    .moveTo( this.thumbSize, 0 )
+                    .lineTo( this.thumbSize + this.trackWidth, 0 );
+            this.addChild( this.track );
+
+            this.thumb = new createjs.Shape();
+            this.thumb.graphics
+                    .setStrokeStyle( this.size.y / 12 )
+                    .beginStroke( createjs.Graphics.getHSL( 18, 50, 30 ) )
+                    .beginFill( createjs.Graphics.getHSL( 18, 30, 90 ) )
+                    .drawCircle( 0, 0, this.thumbSize );
+            this.addChild( this.thumb );
+
+            this.thumb.onPress = this.drag.bind( this );
+            this.thumb.onMouseDrag = this.drag.bind( this );
+
+            if ( opts.value )
+                this.setValue( opts.value )
+        },
+
+        getValue:function () {
+            return this._value
+        },
+
+        setValue:function ( value ) {
+            if ( this.max && !(value && value < this.max) )  // This phrasing deals with NaN
+                value = this.max;
+            if ( this.min && !(value && value > this.min) )  // max === null / undefined / NaN defaults to min
+                value = this.min;
+            this._value = value;
+
+            this.thumb.x = this.thumbSize + this.trackWidth * (value - this.min) / (this.max - this.min);
+
+            this.onChange( value )
+        },
+
+        drag:function ( event ) {
+            event.onMouseMove = this.drag.bind( this );
+            var dragAtX = this.globalToLocal( event.stageX, event.stageY ).x;
+            if ( event.type === 'onPress' )
+                this.dragOffset = this.thumb.x - this.thumbSize - dragAtX;
+            else
+                this.setValue( (dragAtX + this.dragOffset) / this.trackWidth * (this.max - this.min) + this.min )
+        }
+    } );
+
+
+    // Scene setup
+
+    var BouncyBall = function ( pos, r ) {
+        this.initialize( pos, r )
+    };
+    BouncyBall.prototype = {
+        initialize:function ( pos, r ) {
+            var circle = new createjs.Shape();
+            circle.graphics
+                    .setStrokeStyle( r / 8 )
+                    .beginStroke( 'black' )
+                    .beginFill( createjs.Graphics.getHSL( Math.random() * 360, Math.sqrt( Math.random() ) * 100, 60 ) )
+                    .drawCircle( 0, 0, r );
+            this.sprite = circle;
+            this.setPosition( pos );
+            this.velocity = { x:0, y:1 }
+        },
+
+        getPosition:function () {
+            return { x:this.sprite.x,
+                y:this.sprite.y }
+        },
+
+        setPosition:function ( pos ) {
+            this.sprite.x = pos.x;
+            this.sprite.y = pos.y
+        }
+    };
+
+    var balls = [],
+            ballGroup = new createjs.Container(),
+            ballRadius = 0.04;
+
+    function setBallCount( newCount ) {
+        newCount = Math.round( newCount );
+        if ( newCount > balls.length ) {
+            var extraCount = newCount - balls.length;
+            _.each( _.range( extraCount ), function ( n ) {
+                var ball = new BouncyBall( { x:Math.random() - 0.5, y:0 }, ballRadius );
+                balls.push( ball );
+                ballGroup.addChild( ball.sprite )
+            } )
+        }
+        else while ( balls.length > newCount ) {
+            var ball = balls.pop();
+            ballGroup.removeChild( ball.sprite )
+        }
+
+        $( '#ballCount' ).val( newCount )
+    }
+
+    var enclosure = new createjs.Shape();
+    enclosure.graphics
+            .setStrokeStyle( ballRadius / 2 )
+            .beginStroke( createjs.Graphics.getRGB( 102, 204, 204 ) )
+            .drawCircle( 0, 0, 1 );
+    enclosure.x = enclosure.y = 0;
+    ballGroup.addChild( enclosure );
+    ballGroup.x = 200;
+    ballGroup.y = 126;
+    ballGroup.scaleX = ballGroup.scaleY = 120;
+    setBallCount( 10 );
+
+    group = new createjs.Container();
+    group.addChild( ballGroup );
+    group.addChild(
+            new Slider( {
+                            pos:{ x:100, y:270 },
+                            size:{ x:200, y:16 },
+                            min:1,
+                            max:500,
+                            value:10,
+                            onChange:setBallCount
+                        } ) );
+    var fpsText = new createjs.Text( '-- fps', '6px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
+    fpsText.x = 4;
+    fpsText.y = 280;
+    group.addChild( fpsText );
+
+    stage = new createjs.Stage( document.getElementById( "c" ) );
+    stage.addChild( group );
+    stage.update();
+
+    // Physics
+
+    Vector = {
+        add:function ( v, w ) {
+            return { x:v.x + w.x,
+                y:v.y + w.y }
+        },
+        sub:function ( v, w ) {
+            return { x:v.x - w.x,
+                y:v.y - w.y }
+        },
+        mult:function ( v, s ) {
+            return { x:v.x * s,
+                y:v.y * s }
+        },
+        dot:function ( v, w ) {
+            return v.x * w.x + v.y * w.y
+        },
+        length:function ( v ) {
+            return Math.sqrt( Vector.dot( v, v ) )
+        },
+        normalize:function ( v ) {
+            var length = Vector.length( v );
+            return { x:v.x / length,
+                y:v.y / length }
+        }
+    };
+
+    function bounceBalls( dt ) {
+        var dt = Math.min( dt / 1000.0, 0.2 ); // prevent huge leaps
+        _.each( balls, function ( ball ) {
+            // simple linear physics here; stable fixed-step iterative update is preferable for the real thing
+            ball.setPosition(
+                    Vector.add( ball.getPosition(), Vector.mult( ball.velocity, dt ) ) );
+            if ( Vector.length( ball.getPosition() ) > 1 ) {
+                var v = ball.velocity, n = Vector.normalize( ball.getPosition() );
+                ball.velocity = Vector.sub( v, Vector.mult( n, Vector.dot( v, n ) * 2 ) );
+                ball.setPosition( n ); // enclosure has radius 1 in local coords
             }
-        }
+            ball.velocity.y += 2 * dt
+        } )
+    }
 
-        for ( var i = 0; i < arr.length; i++ ) {
-            newimages[i] = new Image();
-            newimages[i].src = arr[i];
-            newimages[i].onload = function () {
-                imageloadpost()
-            };
-            newimages[i].onerror = function () {
-                imageloadpost()
-            };
-        }
-        return { //return blank object with done() method
-            done:function ( f ) {
-                postaction = f || postaction; //remember user defined callback functions to be called when images load
-            }
+
+    // UI
+
+    var frameCount = 0,
+            lastFrameRateUpdate = null;
+
+    function displayFrameRate() {
+        frameCount++;
+        if ( frameCount > 30 ) {
+            var now = new Date().getTime();
+
+            var rate = frameCount * 1000 / (now - lastFrameRateUpdate);
+            fpsText.text = rate.toFixed( 1 ) + " fps";
+
+            frameCount = 0;
+            lastFrameRateUpdate = now
         }
     }
 
-    function WebSocketTest() {
-        if ( "WebSocket" in window ) {
-            // Let us open a web socket
-            var ws = new WebSocket( "ws://localhost:8887/echo" );
-            ws.onmessage = function ( evt ) { document.location.reload( true ); };
-            ws.onclose = function () { };
+
+    // Event handling
+
+    var onResize = function ( event ) {
+        var winW = $( window ).width(),
+                winH = $( window ).height(),
+                scale = Math.min( winW / 400, winH / 300 ),
+                canvasW = scale * 400,
+                canvasH = scale * 300;
+        $( '#c' ).attr( 'width', canvasW );
+        $( '#c' ).attr( 'height', canvasH );
+        $( '#c' ).offset( {left:(winW - canvasW) / 2, top:(winH - canvasH) / 2} );
+        group.scaleX = group.scaleY = scale;
+        $( '#ballCount' ).css( 'font-size', scale * 12 )
+                .css( 'width', scale * 40 );
+        stage.update()
+    };
+    $( window ).resize( onResize );
+    onResize(); // initial position
+
+    updateBallCountFromInput = function () {
+        val = parseInt( $( '#ballCount' ).val() );
+        if ( val >= 0 && val <= 500 && val != balls.length ) {
+            setBallCount( val )
         }
-        else {
-            // The browser doesn't support WebSocket
-            alert( "WebSocket NOT supported by your Browser!" );
-        }
-    }
+    };
+    $( '#ballCount' ).change( updateBallCountFromInput );
+    $( '#ballCount' ).keyup( updateBallCountFromInput );
 
-    function run( images ) {
-
-        WebSocketTest();
-
-        $( "#myResetAllButton" ).click( function () { document.location.reload( true ); } );
-        var canvas = document.getElementById( "display" );
-
-        //See https://github.com/CreateJS/EaselJS/blob/master/examples/DragAndDrop.html
-        var stage = new createjs.Stage( canvas );
-        stage.mouseEventsEnabled = true;
-        createjs.Touch.enable( stage );
-        // enabled mouse over / out events
-        stage.enableMouseOver( 10 );
-        stage.mouseMoveOutside = true; // keep tracking the mouse even when it leaves the canvas
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
-        canvas.onselectstart = function () { return false; }; // ie
-        canvas.onmousedown = function () { return false; }; // mozilla
-
-        var background = new createjs.Shape();
-        background.graphics.beginLinearGradientFill( ["#7cc7fe", "#FFF"], [0, 1], 0, 0, 0, 500 ).drawRect( 0, 0, canvas.width, canvas.height );
-        stage.addChild( background );
-
-        var ground = new createjs.Shape();
-        ground.graphics.beginFill( "64aa64" ).drawRect( 0, 500, canvas.width, 1000 );
-        stage.addChild( ground );
-
-        var skater = new createjs.Bitmap( images[0] );
-        skater.scale=1.0;
-
-        // wrapper function to provide scope for the event handlers:
-        (function ( target ) {
-            skater.onPress = function ( evt ) {
-                console.log( "pressed" );
-                // bump the target in front of it's siblings:
-                stage.addChild( target );
-                var offset = {x:target.x - evt.stageX, y:target.y - evt.stageY};
-
-                // add a handler to the event object's onMouseMove callback
-                // this will be active until the user releases the mouse button:
-                evt.onMouseMove = function ( ev ) {
-                    target.x = ev.stageX + offset.x;
-                    target.y = ev.stageY + offset.y;
-                    // indicate that the stage should be updated on the next tick:
-//                    update = true;
-                }
-//                skater.scaleX = 2;
-            };
-            skater.onMouseOver = function () {
-                console.log( "moused" );
-                target.scaleX = target.scaleY = target.scale * 1.2;
-//                update = true;
-            };
-//            skater.onMouseOut = function () {
-//                console.log( "mouseout" );
-//                target.scaleX = target.scaleY = target.scale;
-////                update = true;
-//            }
-        })( skater );
-
-        stage.addChild( skater );
-
-        stage.update();
-        createjs.Ticker.setFPS( 60 );
-        function tick() {
-            stage.update();
-        }
-
-        createjs.Ticker.addListener( tick );
-//
-//        // Create an empty project and a view for the canvas:
-//        paper.setup( canvas );
-//
-//        var raster = new paper.Raster( images[0] );
-//        raster.scale( 0.5 );
-//
-//        var rootNode = new paper.Group();
-//        rootNode.addChild( raster );
-//        var scaleFactor = 0.8;
-//        rootNode.selectedScaling = scaleFactor;
-//        rootNode.scale( scaleFactor );
-//
-//        console.log( "started" );
-//
-//        //Create the canvas and add to the document
-//        var ctx = canvas.getContext( "2d" );
-//        document.body.appendChild( canvas );
-//
-//        //Don't allow the page to scroll up on ipad
-//        document.ontouchmove = function ( e ) {e.preventDefault()};
-//
-//        var drag = [];
-//
-//        function createCircle( x, y ) {
-//            var circle = new paper.Path.Circle( new paper.Point( x, y ), 10 );
-//            circle.fillColor = 'blue';
-//            rootNode.addChild( circle );
-//            return circle;
-//        }
-//
-//        var controlCircles = [
-//            createCircle( 100, 100 ),
-//            createCircle( 200, 200 ),
-//            createCircle( 300, 100 )
-//        ];
-//
-//        var hammer = new Hammer( canvas );
-//        hammer.ondragstart = function ( ev ) {};
-//
-//        var skaterX = 0;
-//        var skaterY = 0;
-//        var skaterVelocityX = 0;
-//        var skaterVelocityY = 0;
-//        var skaterDragging = false;
-//        var draggingControlPoint = null;//null means not any
-//
-//        document.onmousemove = function ( e ) {
-//
-//            //How to tell if mouse is over something?
-//            if ( navigator.browser !== 'iOS' ) {
-//                document.body.style.cursor = 'pointer';
-//            }
-//        };
-//
-//        //Disable text selection, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
-//        canvas.onselectstart = function () { return false; }; // ie
-//        canvas.onmousedown = function () { return false; }; // mozilla
-//
-//        function distance( x1, y1, x2, y2 ) {
-//            var dx = x2 - x1;
-//            var dy = y2 - y1;
-//            return Math.sqrt( dx * dx + dy * dy );
-//        }
-//
-//        var draggingItem = null;
-//
-//        hammer.ondrag = function ( ev ) {
-//            drag = [];
-//            var touches = ev.originalEvent.touches || [ev.originalEvent];
-//            for ( var t = 0; t < touches.length; t++ ) {
-//                if ( t == 0 ) {
-//
-//                    var touchX = ev.touches[t].x;
-//                    var touchY = ev.touches[t].y;
-//
-//                    if ( draggingItem == null ) {
-//                        var result = rootNode.hitTest( new paper.Point( touchX, touchY )
-////                                ,
-////                                                       {fill:true, stroke:false, tolerance:1000}
-//                        );
-//                        console.log( result );
-//                        if ( result && result.item ) {
-//                            draggingItem = result.item;
-//                        }
-//                    }
-//
-//                    if ( draggingItem != null ) {
-//                        draggingItem.setPosition( touchX / rootNode.selectedScaling, touchY / rootNode.selectedScaling );
-//                    }
-//
-////                    if ( !skaterDragging && draggingControlPoint == null ) {
-////                        var distanceToSkater = distance( touchX, canvas.height - touchY, skaterX, skaterY );
-////                        if ( distanceToSkater < 200 ) {
-////                            skaterDragging = true;
-////                        }
-////                        else {
-////                            for ( var i = 0; i < controlCircles.length; i++ ) {
-////                                var distanceToControlPoint = distance( controlCircles[i].getPosition().x, controlCircles[i].getPosition().y, touchX, touchY );
-////                                if ( distanceToControlPoint < 200 ) {
-////                                    draggingControlPoint = i;
-////                                }
-////                            }
-////                        }
-////                    }
-//
-////                    if ( drag ) {
-////                        if ( skaterDragging ) {
-////                            skaterX = touchX;
-////                            skaterY = canvas.height - touchY;
-////
-////                            skaterVelocityX = 0.0;
-////                            skaterVelocityY = 0.0;
-////                        }
-////                        if ( draggingControlPoint >= 0 ) {
-////                            controlCircles[draggingControlPoint].setPosition( touchX, touchY );
-////                        }
-////                    }
-//                }
-//            }
-//        };
-//        hammer.ondragend = function ( ev ) {draggingItem = null;};
-//
-//        hammer.onswipe = function ( ev ) {};
-//
-//        hammer.ontap = function ( ev ) {};
-//        hammer.ondoubletap = function ( ev ) {};
-//        hammer.onhold = function ( ev ) {};
-//
-//        hammer.ontransformstart = function ( ev ) {};
-//        hammer.ontransform = function ( ev ) {};
-//        hammer.ontransformend = function ( ev ) {};
-//
-//        hammer.onrelease = function ( ev ) {
-//            skaterDragging = false;
-//            draggingControlPoint = -1;
-//        };
-//
-//        //or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
-//        //or here: http://jsfiddle.net/Y9uBv/5/
-//        var requestAnimationFrame =
-//                requestAnimationFrame ||
-//                webkitRequestAnimationFrame ||
-//                mozRequestAnimationFrame ||
-//                msRequestAnimationFrame ||
-//                oRequestAnimationFrame;
-//
-//        var blockX = 100;
-//        var lastTime = new Date().getTime();
-//        var deltas = [];
-//
-//        function updatePhysics() {
-//            //free fall
-//
-//            var dt = 1.0 / 60.0 * 10;
-//
-//            var skaterAccelerationX = 0;
-//            var skaterAccelerationY = skaterY <= 0 || skaterDragging ? 0.0 : -9.8;
-//            skaterVelocityX = skaterVelocityX + skaterAccelerationX * dt;
-//            skaterVelocityY = skaterVelocityY + skaterAccelerationY * dt;
-//            skaterX = skaterX + skaterVelocityX * dt + 0.5 * skaterAccelerationX * dt * dt;
-//            skaterY = skaterY + skaterVelocityY * dt + 0.5 * skaterAccelerationY * dt * dt;
-//
-//            if ( skaterY < 0 ) {
-//                skaterY = 0;
-//                skaterVelocityY = 0.0;
-//            }
-//        }
-//
-//        function renderGraphics() {
-//            //http://stackoverflow.com/questions/1664785/html5-canvas-resize-to-fit-window
-//            ctx.canvas.width = window.innerWidth;
-//            ctx.canvas.height = window.innerHeight;
-//
-//            var desiredAspectRatio = 1024.0 / 768.0;
-//            var actualAspectRatio = ctx.canvas.width / ctx.canvas.height;
-//
-//            var widthLimited = actualAspectRatio > desiredAspectRatio;
-//            var scale = widthLimited ? ctx.canvas.height / 768 : ctx.canvas.width / 1024;
-//
-//            ctx.fillStyle = 'black';
-//            ctx.fillRect( blockX, 100, 20, 20 );
-//
-//            //Draw skater
-//            ctx.save();
-//            ctx.translate( skaterX, ctx.canvas.height - skaterY );
-//            ctx.fillStyle = 'red';
-//            ctx.fillRect( -2, -2, 4, 4 );
-//            ctx.scale( scale, scale );
-////            ctx.drawImage( images[0], -images[0].width / 2, -images[0].height );
-//            ctx.restore();
-//
-//            //Draw track
-//            ctx.save();
-//            ctx.strokeStyle = 'black';
-//            ctx.lineWidth = 2;
-//
-//            function getX( point ) {return point.getPosition().x;}
-//
-//            function getY( point ) {return point.getPosition().y;}
-//
-//            var x = controlCircles.map( getX );
-//            var y = controlCircles.map( getY );
-//            var s = numeric.spline( x, y );
-//
-//            //http://stackoverflow.com/questions/1669190/javascript-min-max-array-values
-//            var x0 = numeric.linspace( Math.min.apply( null, x ), Math.max.apply( null, x ), 1000 );
-//            ctx.beginPath();
-//            for ( var i = 0; i < x0.length; i++ ) {
-//                var a = x0[i];
-//                var b = s.at( x0[i] );
-//                if ( i == 0 ) {
-//                    ctx.moveTo( a, b );
-//                }
-//                else {
-//                    ctx.lineTo( a, b );
-//                }
-//            }
-//            ctx.stroke();
-//            ctx.restore();
-//
-//            var currentTime = new Date().getTime();
-//            deltas.push( currentTime - lastTime );
-//            if ( deltas.length > 60 ) {
-//                deltas.splice( 0, 1 );
-//            }
-//            var sum = 0.0;
-//            for ( var i = 0; i < deltas.length; i++ ) {
-//                sum += deltas[i];
-//            }
-//            var delta = sum / deltas.length;
-//            var deltaSeconds = delta / 1000;
-//            var FPS = 1.0 / deltaSeconds;
-//            ctx.fillStyle = 'black';
-//
-//            ctx.fillText( "FPS: " + FPS.toPrecision( 6 ), 100, 100 );
-//
-//            lastTime = currentTime;
-//
-//            ++blockX;
-//
-//            raster.setPosition( {x:skaterX, y:ctx.canvas.height - skaterY - raster.getHeight() / 2} );
-//
-//            paper.view.draw();
-//        }
-//
-//        function loop() {
-//            updatePhysics();
-//            renderGraphics();
-//            requestAnimationFrame( loop );
-//        }
-//
-//        requestAnimationFrame( loop );
-    }
-
-    // Only executed our code once the DOM is ready.
-    window.onload = function () {
-        preloadimages( "resources/skater.png" ).done( run )
-    }
-})();
+    stage.update();
+    createjs.Ticker.setFPS( 60 );
+    createjs.Ticker.addListener( bounceBalls );
+    createjs.Ticker.addListener( displayFrameRate );
+    createjs.Ticker.addListener( stage )
+} );
