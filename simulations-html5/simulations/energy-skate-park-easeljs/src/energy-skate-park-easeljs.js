@@ -98,6 +98,12 @@ $( function () {
         fpsText.y = 280;
         group.addChild( fpsText );
         var skater = new createjs.Bitmap( images[0] );
+
+        //put registration point at bottom center of the skater
+        skater.regX = images[0].width / 2;
+        skater.regY = images[0].height;
+        skater.x = 0;
+        skater.y = 0;
         skater.velocity = vector2d( 0, 0 );
         var scaleFactor = 0.65;
         skater.scaleX = scaleFactor;
@@ -116,7 +122,7 @@ $( function () {
                     e.target.x = transformed.x + relativePressPoint.x;
 
                     //don't let the skater go below ground
-                    e.target.y = Math.min( transformed.y + relativePressPoint.y, 370 );
+                    e.target.y = Math.min( transformed.y + relativePressPoint.y, 768 - groundHeight );
 //                    console.log( e.target.y );
                 }
                 skater.dragging = true;
@@ -171,7 +177,7 @@ $( function () {
                 }
                 else {
                     e.target.x = transformed.x + relativePressPoint.x;
-                    e.target.y = Math.min( transformed.y + relativePressPoint.y, 450 );
+                    e.target.y = Math.min( transformed.y + relativePressPoint.y, 768 - groundHeight );
 
                     //add my own fields for layout
                     e.target.centerX = e.target.x;
@@ -224,8 +230,6 @@ $( function () {
                     var circleElement = controlPoints[i];
                     pointArray.push( circleElement.x, circleElement.y );
                 }
-//                track.setPoints( pointArray );
-
 
                 var x = controlPoints.map( getX );
                 var y = controlPoints.map( getY );
@@ -243,7 +247,6 @@ $( function () {
                     var a = splineY.at( sAll[i] );
                     myArray.push( {x:b, y:a} );
                 }
-
 
                 for ( var i = 0; i < myArray.length; i++ ) {
                     var controlPoint = myArray[i];
@@ -359,8 +362,8 @@ $( function () {
                 var s = numeric.linspace( 0, 1, controlPoints.length );
                 var splineX = numeric.spline( s, controlPoints.map( getX ) );
                 var splineY = numeric.spline( s, controlPoints.map( getY ) );
-                skater.x = splineX.at( skater.attachmentPoint ) - skater.image.width / 2;
-                skater.y = splineY.at( skater.attachmentPoint ) - skater.image.height;
+                skater.x = splineX.at( skater.attachmentPoint );
+                skater.y = splineY.at( skater.attachmentPoint );
 
                 if ( skater.attachmentPoint > 1.0 || skater.attachmentPoint < 0 ) {
                     skater.attached = false;
@@ -380,9 +383,10 @@ $( function () {
                 skater.y = newY;
 
                 //Don't let the skater go below the ground.
-                var newSkaterY = Math.min( 383, newY );
+                var maxY = 768 - groundHeight;
+                var newSkaterY = Math.min( maxY, newY );
                 skater.y = newSkaterY;
-                if ( newSkaterY == 383 ) {
+                if ( newSkaterY == maxY ) {
                     skater.velocity = zero();
                 }
 
@@ -392,8 +396,8 @@ $( function () {
                     var delta = 1E-6;
 
                     function getSides( xvalue, yvalue ) {
-                        var splineX = numeric.spline( s, controlPoints.map( getX ).map( function ( x ) {return x - xvalue - skater.image.width / 2} ) );
-                        var splineY = numeric.spline( s, controlPoints.map( getY ).map( function ( y ) {return y - yvalue - skater.image.height} ) );
+                        var splineX = numeric.spline( s, controlPoints.map( getX ).map( function ( x ) {return x - xvalue } ) );
+                        var splineY = numeric.spline( s, controlPoints.map( getY ).map( function ( y ) {return y - yvalue } ) );
 
                         var xRoots = splineX.roots();
                         var sides = [];
