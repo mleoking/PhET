@@ -1,9 +1,28 @@
 $( function () {
+
+    //Listen for file changes for auto-refresh
+    function listenForRefresh() {
+        if ( "WebSocket" in window ) {
+            // Let us open a web socket
+            var ws = new WebSocket( "ws://localhost:8887/echo" );
+            ws.onmessage = function ( event ) { document.location.reload( true ); };
+            ws.onclose = function () { };
+            console.log( "opened websocket" );
+        }
+        else {
+            // The browser doesn't support WebSocket
+            //            alert( "WebSocket NOT supported by your Browser!" );
+            console.log( "WebSocket NOT supported by your Browser!" );
+        }
+    }
+
     function run( images ) {
+
+        listenForRefresh();
         // Widgets
 
         var Slider = function ( opts ) {
-            this.initialize( opts )
+            this.initialize( opts );
         };
         Slider.prototype = $.extend( new createjs.Container(), {
             initialize:function ( opts ) {
