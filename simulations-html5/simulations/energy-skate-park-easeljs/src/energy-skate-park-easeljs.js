@@ -98,6 +98,7 @@ $( function () {
         fpsText.y = 280;
         group.addChild( fpsText );
         var skater = new createjs.Bitmap( images[0] );
+        skater.velocity = vector2d( 0, 0 );
         var scaleFactor = 0.65;
         skater.scaleX = scaleFactor;
         skater.scaleY = scaleFactor;
@@ -118,6 +119,7 @@ $( function () {
                     e.target.y = Math.min( transformed.y + relativePressPoint.y, 370 );
 //                    console.log( e.target.y );
                 }
+                skater.velocity = vector2d( 0, 0 );
             }
         }
 
@@ -340,9 +342,101 @@ $( function () {
         onResize(); // initial position
 
         stage.update();
+
+
+        function updatePhysics() {
+            var originalX = skater.x;
+            var originalY = skater.y;
+            if ( skater.attached ) {
+
+                skater.attachmentPoint = skater.attachmentPoint + 0.007;
+
+                //TODO: could avoid recomputing the splines in this step if they haven't changed.
+                var s = numeric.linspace( 0, 1, controlPoints.length );
+                var splineX = numeric.spline( s, controlPoints.map( getX ) );
+                var splineY = numeric.spline( s, controlPoints.map( getY ) );
+                skater.x = splineX.at( skater.attachmentPoint ) - skater.image.width / 2;
+                skater.y = splineY.at( skater.attachmentPoint ) - skater.image.height;
+
+                if ( skater.attachmentPoint > 1.0 || skater.attachmentPoint < 0 ) {
+                    skater.attached = false;
+                }
+                skater.velocity = vector2d( skater.x - originalX, skater.y - originalY );
+            }
+            else {
+
+                var newY = skater.y;
+                var newX = skater.x;
+                if ( !skater.dragging ) {
+                    skater.velocity = skater.velocity.plus( 0, 0.5 );
+                    newY = skater.y + skater.velocity.times( 1 ).y;
+                    newX = skater.x + skater.velocity.times( 1 ).x;
+                }
+                skater.x = newX;
+                skater.y = newY;
+
+                //Don't let the skater go below the ground.
+                var newSkaterY = Math.min( 383, newY );
+                skater.y = newSkaterY;
+                if ( newSkaterY == 383 ) {
+                    skater.velocity = zero();
+                }
+
+                //don't let the skater cross the spline
+                if ( controlPoints.length > 2 ) {
+                    var s = numeric.linspace( 0, 1, controlPoints.length );
+                    var delta = 1E-6;
+
+                    function getSides( xvalue, yvalue ) {
+                        var splineX = numeric.spline( s, controlPoints.map( getX ).map( function ( x ) {return x - xvalue - skater.image.width / 2} ) );
+                        var splineY = numeric.spline( s, controlPoints.map( getY ).map( function ( y ) {return y - yvalue - skater.image.height} ) );
+
+                        var xRoots = splineX.roots();
+                        var sides = [];
+                        for ( var i = 0; i < xRoots.length; i++ ) {
+                            var xRoot = xRoots[i];
+                            var pre = {x:splineX.at( xRoot - delta ), y:splineY.at( xRoot - delta )};
+                            var post = {x:splineX.at( xRoot + delta ), y:splineY.at( xRoot + delta )};
+                            var side = linePointPosition2DVector( pre, post, {x:0, y:0} );
+                            sides.push( {xRoot:xRoot, side:side} );
+                        }
+                        return sides;
+                    }
+
+                    var originalSides = getSides( originalX, originalY );
+                    var newSides = getSides( skater.x, skater.y );
+
+                    for ( var i = 0; i < originalSides.length; i++ ) {
+                        var originalSide = originalSides[i];
+                        for ( var j = 0; j < newSides.length; j++ ) {
+                            var newSide = newSides[j];
+
+                            var distance = Math.abs( newSide.xRoot - originalSide.xRoot );
+
+                            if ( distance < 1E-4 && getSign( originalSide.side ) != getSign( newSide.side ) ) {
+                                console.log( "crossed over" );
+                                skater.attached = true;
+                                skater.attachmentPoint = newSide.xRoot;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Only draw when necessary because otherwise performance is worse on ipad3
+            if ( skater.x != originalX || skater.y != originalY ) {
+
+//                skaterDebugShape.setX( skater.getX() + skater.getWidth() / 2 );
+//                skaterDebugShape.setY( skater.getY() + skater.getHeight() );
+//                skaterLayer.draw();
+            }
+        }
+
+
         createjs.Ticker.setFPS( 60 );
         createjs.Ticker.addListener( displayFrameRate );
         createjs.Ticker.addListener( stage );
+        createjs.Ticker.addListener( updatePhysics );
 
         //Enable touch and prevent default
         createjs.Touch.enable( stage, false, false );
