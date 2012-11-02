@@ -44,7 +44,7 @@ public class SlopeInterceptGraphNode extends LineFormsGraphNode {
         addChild( slopeManipulatorNode );
         addChild( interceptManipulatorNode );
 
-        // Position of manipulators
+        // position of manipulators
         model.interactiveLine.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
                 slopeManipulatorNode.setOffset( model.mvt.modelToView( new Point2D.Double( line.x1 + line.run, line.y1 + line.rise ) ) );
@@ -52,7 +52,7 @@ public class SlopeInterceptGraphNode extends LineFormsGraphNode {
             }
         } );
 
-        // Visibility of manipulators
+        // visibility of manipulators
         RichSimpleObserver visibilityObserver = new RichSimpleObserver() {
             @Override public void update() {
                 final boolean visible = viewProperties.linesVisible.get() && viewProperties.interactiveLineVisible.get();
@@ -63,8 +63,8 @@ public class SlopeInterceptGraphNode extends LineFormsGraphNode {
         visibilityObserver.observe( viewProperties.linesVisible, viewProperties.interactiveLineVisible );
     }
 
-    // Creates a node that displays the line in slope-intercept form.
-    protected LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
+    // Creates a line labeled with its slope-intercept equation.
+    @Override protected LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
         return new SlopeInterceptLineNode( line, graph, mvt );
     }
 }

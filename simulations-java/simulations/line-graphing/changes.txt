@@ -1,3 +1,4 @@
+11/2/12 doc and @Override annotations in LineFormsGraphNode subclasses
 11/2/12 address need to call updaters at end of LineFormsGraphNode subclass constructors, register subclass-specific observers instead of overriding update methods
 11/2/12 add getManipulatorDiameter to LineFormsGraphNode base class
 11/2/12 move stuff related to line manipulators to linegraphing.common.view.manipulator
