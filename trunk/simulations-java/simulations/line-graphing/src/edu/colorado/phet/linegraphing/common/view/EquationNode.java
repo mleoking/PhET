@@ -16,9 +16,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RiseSpinnerNode;
-import edu.colorado.phet.linegraphing.common.view.SlopeSpinnerNode.RunSpinnerNode;
-import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeColors;
+import edu.colorado.phet.linegraphing.common.view.spinner.SlopeSpinnerNode.RiseSpinnerNode;
+import edu.colorado.phet.linegraphing.common.view.spinner.SlopeSpinnerNode.RunSpinnerNode;
+import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.SlopeColors;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 

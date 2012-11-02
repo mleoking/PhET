@@ -1,3 +1,4 @@
+11/2/12 move stuff related to spinners to linegraphing.common.view.spinner
 11/2/12 replace X1Y1DragHandler with YInterceptDragHandler (constrain to vertical drag) in SlopeInterceptGraphNode
 11/2/12 move model subclasses to appropriate packages
 11/2/12 fix: init of ranges in SlopeModel

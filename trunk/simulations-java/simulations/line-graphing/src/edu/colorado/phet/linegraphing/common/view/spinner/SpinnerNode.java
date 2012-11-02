@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.common.view;
+package edu.colorado.phet.linegraphing.common.view.spinner;
 
 
 import java.awt.Color;
@@ -36,10 +36,10 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.BackgroundColors;
-import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.DownButtonImages;
-import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.InterceptColors;
-import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.UpButtonImages;
+import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.BackgroundColors;
+import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.DownButtonImages;
+import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.InterceptColors;
+import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.UpButtonImages;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

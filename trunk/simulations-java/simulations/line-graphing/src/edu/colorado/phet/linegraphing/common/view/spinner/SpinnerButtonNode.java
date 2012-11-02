@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.common.view;
+package edu.colorado.phet.linegraphing.common.view.spinner;
 
 import java.awt.Cursor;
 import java.awt.Image;
@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
+import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -39,11 +40,12 @@ class SpinnerButtonNode<T> extends PNode {
 
     /**
      * Constructor
-     * @param userComponent component identifier for user data-collection message
-     * @param images set of images for the button states
-     * @param pressed is the button pressed?
-     * @param inside is the mouse inside the bounds of the button?
-     * @param enabled property that controls whether the button is enabled
+     *
+     * @param userComponent    component identifier for user data-collection message
+     * @param images           set of images for the button states
+     * @param pressed          is the button pressed?
+     * @param inside           is the mouse inside the bounds of the button?
+     * @param enabled          property that controls whether the button is enabled
      * @param newValueFunction function that computes the new value when the button fires
      */
     public SpinnerButtonNode( final IUserComponent userComponent,

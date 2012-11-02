@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.common.view;
+package edu.colorado.phet.linegraphing.common.view.spinner;
 
 import java.awt.Color;
 import java.text.NumberFormat;
@@ -23,8 +23,8 @@ public abstract class SlopeSpinnerNode extends SpinnerNode {
      *
      * @param userComponent
      * @param variableComponent the part of the slope that this spinner is manipulating
-     * @param fixedComponent the part of the slope that this spinner is not manipulating
-     * @param variableRange the variableRange of variableComponent
+     * @param fixedComponent    the part of the slope that this spinner is not manipulating
+     * @param variableRange     the variableRange of variableComponent
      * @param colors
      * @param font
      * @param format
