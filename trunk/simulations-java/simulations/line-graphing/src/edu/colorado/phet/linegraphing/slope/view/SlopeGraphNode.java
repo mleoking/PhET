@@ -31,13 +31,13 @@ public class SlopeGraphNode extends LineFormsGraphNode {
     public SlopeGraphNode( final SlopeModel model, final LineFormsViewProperties viewProperties ) {
         super( model, viewProperties );
 
-        // interactivity for point (x1,y1) manipulator
+        // (x1,y1) manipulator
         x1y1ManipulatorNode = new LineManipulatorNode( getManipulatorDiameter(), LGColors.POINT_X1_Y1 );
         x1y1ManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.x1y1Manipulator, UserComponentTypes.sprite,
                                                                         x1y1ManipulatorNode, model.mvt, model.interactiveLine, model.x1Range, model.y1Range,
                                                                         false /* constantSlope */ ) );
 
-        // interactivity for point (x1,y1) manipulator
+        // (x2,y2) manipulator
         x2y2ManipulatorNode = new LineManipulatorNode( getManipulatorDiameter(), LGColors.POINT_X2_Y2 );
         x2y2ManipulatorNode.addInputEventListener( new X2Y2DragHandler( UserComponents.x2y2Manipulator, UserComponentTypes.sprite,
                                                                         x2y2ManipulatorNode, model.mvt, model.interactiveLine, model.x2Range, model.y2Range ) );
@@ -45,7 +45,7 @@ public class SlopeGraphNode extends LineFormsGraphNode {
         addChild( x1y1ManipulatorNode );
         addChild( x2y2ManipulatorNode );
 
-        // Position of manipulators
+        // position of manipulators
         model.interactiveLine.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
                 x1y1ManipulatorNode.setOffset( model.mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
@@ -53,7 +53,7 @@ public class SlopeGraphNode extends LineFormsGraphNode {
             }
         } );
 
-        // Visibility of manipulators
+        // visibility of manipulators
         RichSimpleObserver visibilityObserver = new RichSimpleObserver() {
             @Override public void update() {
                 final boolean visible = viewProperties.linesVisible.get() && viewProperties.interactiveLineVisible.get();
@@ -64,8 +64,8 @@ public class SlopeGraphNode extends LineFormsGraphNode {
         visibilityObserver.observe( viewProperties.linesVisible, viewProperties.interactiveLineVisible );
     }
 
-    // Creates a node that draws the line labeled with its slope value.
-    protected LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
+    // Creates a line labeled with its slope.
+    @Override protected LineNode createLineNode( Line line, Graph graph, ModelViewTransform mvt ) {
         return new SlopeLineNode( line, graph, mvt );
     }
 }
