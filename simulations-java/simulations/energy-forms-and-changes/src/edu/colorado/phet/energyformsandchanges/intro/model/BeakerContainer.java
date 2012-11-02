@@ -36,14 +36,12 @@ public class BeakerContainer extends Beaker {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    /**
+    /*
      * Constructor.
-     *
-     * @param clock
-     * @param initialPosition The initial position in model space.
      */
-    public BeakerContainer( ConstantDtClock clock, Vector2D initialPosition, List<RectangularThermalMovableModelElement> potentiallyContainedElements, BooleanProperty energyChunksVisible ) {
-        super( clock, initialPosition, energyChunksVisible );
+    public BeakerContainer( ConstantDtClock clock, Vector2D initialPosition, double width, double height,
+                            List<RectangularThermalMovableModelElement> potentiallyContainedElements, BooleanProperty energyChunksVisible ) {
+        super( clock, initialPosition, width, height, energyChunksVisible );
         this.potentiallyContainedElements = potentiallyContainedElements;
     }
 
@@ -51,7 +49,7 @@ public class BeakerContainer extends Beaker {
     // Methods
     //-------------------------------------------------------------------------
 
-    /**
+    /*
      * Update the fluid level in the beaker based upon any displacement that
      * could be caused by the given rectangles.  This algorithm is strictly
      * two dimensional, even though displacement is more of the 3D concept.
@@ -91,11 +89,9 @@ public class BeakerContainer extends Beaker {
         }
     }
 
-    /**
+    /*
      * Get the total number of excess or deficit energy chunks for the beaker
      * and for anything contained by the beaker.
-     *
-     * @return
      */
     @Override public int getSystemEnergyChunkBalance() {
         int totalBalance = getEnergyChunkBalance();

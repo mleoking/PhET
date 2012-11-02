@@ -34,8 +34,6 @@ public class Beaker extends RectangularThermalMovableModelElement {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double WIDTH = 0.085; // In meters.
-    private static final double HEIGHT = WIDTH * 1.1;
     private static final double MATERIAL_THICKNESS = 0.001; // In meters.
     private static final int NUM_SLICES = 6;
     private static final Random RAND = new Random( 1 ); // This is seeded for consistent initial energy chunk distribution.
@@ -44,8 +42,6 @@ public class Beaker extends RectangularThermalMovableModelElement {
     private static final double WATER_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
     private static final double WATER_DENSITY = 1000.0; // In kg/m^3, source = design document (and common knowledge).
     private static final double DEFAULT_INITIAL_FLUID_LEVEL = 0.5;
-    private static final double FLUID_VOLUME = Math.PI * Math.pow( WIDTH / 2, 2 ) * ( DEFAULT_INITIAL_FLUID_LEVEL * HEIGHT ); // In m^3
-    private static final double FLUID_MASS = FLUID_VOLUME * WATER_DENSITY; // In kg
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -72,8 +68,8 @@ public class Beaker extends RectangularThermalMovableModelElement {
      * Constructor.  Initial position is the center bottom of the beaker
      * rectangle.
      */
-    public Beaker( ConstantDtClock clock, Vector2D initialPosition, BooleanProperty energyChunksVisible ) {
-        super( clock, initialPosition, WIDTH, HEIGHT, FLUID_MASS, WATER_SPECIFIC_HEAT, energyChunksVisible );
+    public Beaker( ConstantDtClock clock, Vector2D initialPosition, double width, double height, BooleanProperty energyChunksVisible ) {
+        super( clock, initialPosition, width, height, calculateWaterMass( width, height * DEFAULT_INITIAL_FLUID_LEVEL ), WATER_SPECIFIC_HEAT, energyChunksVisible );
         this.initialFluidLevel = DEFAULT_INITIAL_FLUID_LEVEL;
 
         // Update the top and bottom surfaces whenever the position changes.
@@ -97,20 +93,18 @@ public class Beaker extends RectangularThermalMovableModelElement {
                                                   this ) );
     }
 
-    /**
+    /*
      * Get the untranslated rectangle that defines the shape of the beaker.
-     *
-     * @return
      */
-    public static Rectangle2D getRawOutlineRect() {
-        return new Rectangle2D.Double( -WIDTH / 2, 0, WIDTH, HEIGHT );
+    public Rectangle2D getRawOutlineRect() {
+        return new Rectangle2D.Double( -width / 2, 0, width, height );
     }
 
     @Override public Rectangle2D getRect() {
-        return new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
+        return new Rectangle2D.Double( position.get().getX() - width / 2,
                                        position.get().getY(),
-                                       WIDTH,
-                                       HEIGHT);
+                                       width,
+                                       height );
     }
 
     @Override public Property<HorizontalSurface> getTopSurfaceProperty() {
@@ -151,20 +145,24 @@ public class Beaker extends RectangularThermalMovableModelElement {
         chosenSlice.addEnergyChunk( ec );
     }
 
+    private static double calculateWaterMass( double width, double height ) {
+        return Math.PI * Math.pow( width / 2, 2 ) * height * WATER_DENSITY;
+    }
+
     public ThermalContactArea getThermalContactArea() {
-        return new ThermalContactArea( new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
+        return new ThermalContactArea( new Rectangle2D.Double( position.get().getX() - width / 2,
                                                                position.get().getY(),
-                                                               WIDTH,
-                                                               HEIGHT * fluidLevel.get() ), true );
+                                                               width,
+                                                               height * fluidLevel.get() ), true );
     }
 
     @Override protected void addEnergyChunkSlices() {
         assert slices.size() == 0; // Check that his has not been already called.
-        final Rectangle2D fluidRect = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
+        final Rectangle2D fluidRect = new Rectangle2D.Double( position.get().getX() - width / 2,
                                                               position.get().getY(),
-                                                              WIDTH,
-                                                              HEIGHT * DEFAULT_INITIAL_FLUID_LEVEL );
-        double widthYProjection = Math.abs( WIDTH * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER );
+                                                              width,
+                                                              height * DEFAULT_INITIAL_FLUID_LEVEL );
+        double widthYProjection = Math.abs( width * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER );
         for ( int i = 0; i < NUM_SLICES; i++ ) {
             double proportion = ( i + 1 ) * ( 1 / (double) ( NUM_SLICES + 1 ) );
             DoubleGeneralPath slicePath = new DoubleGeneralPath();
@@ -183,7 +181,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
                 slicePath.curveTo( centerX + sliceWidth * 0.33, topY + controlPointYOffset, centerX - sliceWidth * 0.33, topY + controlPointYOffset, centerX - sliceWidth / 2, topY );
                 slicePath.lineTo( centerX - sliceWidth / 2, bottomY );
             }
-            slices.add( new EnergyChunkContainerSlice( slicePath.getGeneralPath(), -proportion * WIDTH, position ) );
+            slices.add( new EnergyChunkContainerSlice( slicePath.getGeneralPath(), -proportion * width, position ) );
         }
     }
 

@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
@@ -58,6 +57,9 @@ public class BeakerHeater extends EnergyUser {
 
     private static final double ENERGY_TO_FULLY_ACTIVATE = 50; // In joules/sec, a.k.a. Watts.
 
+    private static final double BEAKER_WIDTH = 0.08; // In meters.
+    private static final double BEAKER_HEIGHT = BEAKER_WIDTH * 0.9;
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -75,7 +77,7 @@ public class BeakerHeater extends EnergyUser {
 
     protected BeakerHeater( ConstantDtClock clock, BooleanProperty energyChunksVisible ) {
         super( EnergyFormsAndChangesResources.Images.WATER_ICON );
-        beaker = new Beaker( clock, new Vector2D( 0, 0.025 ), energyChunksVisible );
+        beaker = new Beaker( clock, new Vector2D( 0, 0.025 ), BEAKER_WIDTH, BEAKER_HEIGHT, energyChunksVisible );
     }
 
     //-------------------------------------------------------------------------
