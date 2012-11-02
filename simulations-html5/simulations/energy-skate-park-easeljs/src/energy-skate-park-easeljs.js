@@ -98,7 +98,7 @@ $( function () {
         fpsText.y = 280;
         group.addChild( fpsText );
         var skater = new createjs.Bitmap( images[0] );
-        var scaleFactor = 0.6;
+        var scaleFactor = 0.65;
         skater.scaleX = scaleFactor;
         skater.scaleY = scaleFactor;
 
@@ -137,9 +137,14 @@ $( function () {
         var houseImage = images[1];
         var house = new createjs.Bitmap( houseImage );
         house.y = 768 - groundHeight - houseImage.height;
+        house.x = 800;
         var mountainImage = images[2];
         var mountain = new createjs.Bitmap( mountainImage );
-        mountain.y = 768 - groundHeight - mountainImage.height;
+        var mountainScale = 0.6;
+        mountain.x = 0;
+        mountain.y = 768 - groundHeight - mountainImage.height * mountainScale;
+        mountain.scaleX = mountainScale;
+        mountain.scaleY = mountainScale;
         background.addChild( mountain );
         background.addChild( house );
 
