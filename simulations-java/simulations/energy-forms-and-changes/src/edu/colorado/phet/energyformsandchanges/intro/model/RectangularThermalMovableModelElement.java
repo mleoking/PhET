@@ -9,7 +9,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -33,7 +33,6 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     protected double energy = 0; // In Joules.
     private final double specificHeat; // In J/kg-K
     protected final double mass; // In kg
-    protected final ConstantDtClock clock;
     protected final double width;
     protected final double height;
     private int nextSliceIndex;
@@ -50,9 +49,8 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
      *
      * @param clock
      */
-    public RectangularThermalMovableModelElement( ConstantDtClock clock, Vector2D initialPosition, double width, double height, double mass, double specificHeat, BooleanProperty energyChunksVisible ) {
+    public RectangularThermalMovableModelElement( IClock clock, Vector2D initialPosition, double width, double height, double mass, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
-        this.clock = clock;
         this.mass = mass;
         this.width = width;
         this.height = height;
@@ -181,7 +179,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         return false;
     }
 
-    /**
+    /*
      * Extract the closest energy chunk on a randomly chosen energy chunk
      * slice.  The random part prevents odd situations where all the chunks
      * get pulled off of one slice.
@@ -212,7 +210,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         return closestEnergyChunk;
     }
 
-    /**
+    /*
      * Extract an energy chunk that is a good choice for being transferred to
      * the provided shape.  Generally, this means that it is close to the
      * shape.  This routine is not hugely general - it makes some assumptions
@@ -260,14 +258,11 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
         // Fail safe - If nothing found, get the first chunk.
         if ( chunkToExtract == null ) {
-            System.out.println( getClass().getName() + " - Warning: No energy chunk found by extraction algorithm, return one arbitrarily." );
+            System.out.println( getClass().getName() + " - Warning: No energy chunk found by extraction algorithm, returning one arbitrarily." );
             assert getNumEnergyChunks() != 0; // Everything should always have at least one chunk.
             for ( EnergyChunkContainerSlice slice : slices ) {
-                for ( EnergyChunk ec : slice.energyChunkList ) {
-                    chunkToExtract = ec;
-                    break;
-                }
-                if ( chunkToExtract != null ) {
+                if ( slice.energyChunkList.size() > 0 ){
+                    chunkToExtract = slice.energyChunkList.get( 0 );
                     break;
                 }
             }
@@ -302,7 +297,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         }
         // Distribute the energy chunks within the container.
         for ( int i = 0; i < 1000; i++ ) {
-            EnergyChunkDistributor.updatePositions( slices, clock.getDt() );
+            EnergyChunkDistributor.updatePositions( slices, EFACConstants.SIM_TIME_PER_TICK_NORMAL );
         }
     }
 
@@ -336,12 +331,10 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         }
     }
 
-    /**
+    /*
      * Get the shape as is is projected into 3D in the view.  Ideally, this
      * wouldn't even be in the model, because it would be purely handled in the
      * view, but it proved necessary.
-     *
-     * @return
      */
     public Shape getProjectedShape() {
         // TODO: Do I need the internal lines?  Assuming not for now, but this may change.
