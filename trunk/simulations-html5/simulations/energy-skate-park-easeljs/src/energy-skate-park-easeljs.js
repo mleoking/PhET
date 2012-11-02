@@ -174,18 +174,15 @@ $( function () {
         fpsText.y = 280;
         group.addChild( fpsText );
         var skater = new createjs.Bitmap( images[0] );
-//        var dragFunction = function ( event ) {
-//            event.onMouseMove = this.drag.bind( this );
-//            console.log( "mouse drag" );
-//        };
-//        skater.onMouseDrag = dragFunction.bind( skater );
 
         function pressHandler( e ) {
-            e.onMouseMove = function ( ev ) {
-                e.target.x = ev.stageX;
-                e.target.y = ev.stageY;
+            e.onMouseMove = function ( event ) {
+                var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
+                e.target.x = transformed.x;
+                e.target.y = transformed.y;
             }
-        };
+        }
+
         skater.onPress = pressHandler;
         group.addChild( skater );
 
