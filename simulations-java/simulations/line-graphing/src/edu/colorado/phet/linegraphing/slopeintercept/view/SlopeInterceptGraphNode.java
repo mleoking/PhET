@@ -9,15 +9,13 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
+import edu.colorado.phet.linegraphing.common.view.YInterceptDragHandler;
 import edu.colorado.phet.linegraphing.common.view.LineFormsGraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
-import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
-
-//TODO identical to PointSlopeGraphNode, except it takes a SlopeInterceptModel and uses a different color and UserComponent for intercept manip
+import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 
 /**
  * Graph that provides direct manipulation of a line in slope-intercept form.
@@ -26,7 +24,7 @@ import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
  */
 public class SlopeInterceptGraphNode extends LineFormsGraphNode {
 
-    private final LineManipulatorNode pointManipulatorNode, slopeManipulatorNode;
+    private final LineManipulatorNode interceptManipulatorNode, slopeManipulatorNode;
 
     public SlopeInterceptGraphNode( SlopeInterceptModel model, LineFormsViewProperties viewProperties ) {
         super( model, viewProperties );
@@ -34,18 +32,18 @@ public class SlopeInterceptGraphNode extends LineFormsGraphNode {
         // Diameter of manipulators, in view coordinate frame.
         final double manipulatorDiameter = model.mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
 
-        // interactivity for point (x1,y1) manipulator
-        pointManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
-        pointManipulatorNode.addInputEventListener( new X1Y1DragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
-                                                                         pointManipulatorNode, model.mvt, model.interactiveLine, model.x1Range, model.y1Range,
-                                                                         true /* constantSlope */ ) );
-        // interactivity for slope manipulator
+        // slope manipulator
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
         slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                           slopeManipulatorNode, model.mvt, model.interactiveLine, model.riseRange, model.runRange ) );
 
-        addChild( pointManipulatorNode );
+        // intercept manipulator
+        interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
+        interceptManipulatorNode.addInputEventListener( new YInterceptDragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
+                                                                                   interceptManipulatorNode, model.mvt, model.interactiveLine, model.y1Range ) );
+
         addChild( slopeManipulatorNode );
+        addChild( interceptManipulatorNode );
 
         //TODO unfortunate to have to do this in all LineFormGraphNode subclasses...
         updateLinesVisibility( viewProperties.linesVisible.get(), viewProperties.interactiveLineVisible.get(), viewProperties.slopeVisible.get() );
@@ -61,9 +59,9 @@ public class SlopeInterceptGraphNode extends LineFormsGraphNode {
         super.updateLinesVisibility( linesVisible, interactiveLineVisible, slopeVisible );
 
         // Hide the manipulators at appropriate times (when dragging or based on visibility of lines).
-        if ( pointManipulatorNode != null && slopeManipulatorNode != null ) {
-            pointManipulatorNode.setVisible( linesVisible && interactiveLineVisible );
+        if ( slopeManipulatorNode != null && interceptManipulatorNode != null ) {
             slopeManipulatorNode.setVisible( linesVisible && interactiveLineVisible );
+            interceptManipulatorNode.setVisible( linesVisible && interactiveLineVisible );
         }
     }
 
@@ -71,9 +69,9 @@ public class SlopeInterceptGraphNode extends LineFormsGraphNode {
         super.updateInteractiveLine( line );
 
         // move the manipulators
-        if ( pointManipulatorNode != null && slopeManipulatorNode != null ) {
-            pointManipulatorNode.setOffset( model.mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
+        if ( slopeManipulatorNode != null && interceptManipulatorNode != null ) {
             slopeManipulatorNode.setOffset( model.mvt.modelToView( new Point2D.Double( line.x1 + line.run, line.y1 + line.rise ) ) );
+            interceptManipulatorNode.setOffset( model.mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
         }
     }
 }
