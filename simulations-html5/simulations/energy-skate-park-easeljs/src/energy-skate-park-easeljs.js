@@ -102,8 +102,8 @@ $( function () {
         //put registration point at bottom center of the skater
         skater.regX = images[0].width / 2;
         skater.regY = images[0].height;
-        skater.x = 0;
-        skater.y = 0;
+        skater.x = 100;
+        skater.y = 20;
         skater.velocity = vector2d( 0, 0 );
         var scaleFactor = 0.65;
         skater.scaleX = scaleFactor;
@@ -199,9 +199,9 @@ $( function () {
             return controlPoint;
         }
 
-        var a = createControlPoint( 100, 100 );
-        var b = createControlPoint( 200, 200 );
-        var c = createControlPoint( 300, 100 );
+        var a = createControlPoint( 100, 200 );
+        var b = createControlPoint( 200, 300 );
+        var c = createControlPoint( 300, 250 );
 
         var controlPoints = [a, b, c];
 
