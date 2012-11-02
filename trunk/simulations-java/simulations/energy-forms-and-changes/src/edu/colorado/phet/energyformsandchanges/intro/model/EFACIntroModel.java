@@ -45,6 +45,9 @@ public class EFACIntroModel {
 
     public static final int NUM_THERMOMETERS = 3;
 
+    private static final double BEAKER_WIDTH = 0.085; // In meters.
+    private static final double BEAKER_HEIGHT = BEAKER_WIDTH * 1.1;
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -101,7 +104,7 @@ public class EFACIntroModel {
                 add( brick );
                 add( ironBlock );
             }};
-            beaker = new BeakerContainer( clock, new Vector2D( -0.015, 0 ), listOfThingsThatCanGoInBeaker, energyChunksVisible );
+            beaker = new BeakerContainer( clock, new Vector2D( -0.015, 0 ), BEAKER_WIDTH, BEAKER_HEIGHT, listOfThingsThatCanGoInBeaker, energyChunksVisible );
         }
 
         // Put all the thermal containers on a list for easy iteration.

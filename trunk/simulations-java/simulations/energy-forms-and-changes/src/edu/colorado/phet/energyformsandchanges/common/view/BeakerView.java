@@ -68,7 +68,7 @@ public class BeakerView {
 
         // Get a version of the rectangle that defines the beaker size and
         // location in the view.
-        final Rectangle2D beakerViewRect = scaleTransform.createTransformedShape( BeakerContainer.getRawOutlineRect() ).getBounds2D();
+        final Rectangle2D beakerViewRect = scaleTransform.createTransformedShape( beaker.getRawOutlineRect() ).getBounds2D();
 
         // Create the shapes for the top and bottom of the beaker.  These are
         // ellipses in order to create a 3D-ish look.
