@@ -26,7 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkNode;
-import edu.colorado.phet.energyformsandchanges.intro.model.Beaker;
+import edu.colorado.phet.energyformsandchanges.intro.model.BeakerContainer;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
@@ -61,7 +61,7 @@ public class BeakerView {
 
         this.mvt = mvt;
         this.canvas = canvas;
-        final Beaker beaker = model.getBeaker();
+        final BeakerContainer beaker = model.getBeaker();
 
         // Extract the scale transform from the MVT so that we can separate the
         // shape from the position.
@@ -69,7 +69,7 @@ public class BeakerView {
 
         // Get a version of the rectangle that defines the beaker size and
         // location in the view.
-        final Rectangle2D beakerViewRect = scaleTransform.createTransformedShape( Beaker.getRawOutlineRect() ).getBounds2D();
+        final Rectangle2D beakerViewRect = scaleTransform.createTransformedShape( BeakerContainer.getRawOutlineRect() ).getBounds2D();
 
         // Create the shapes for the top and bottom of the beaker.  These are
         // ellipses in order to create a 3D-ish look.

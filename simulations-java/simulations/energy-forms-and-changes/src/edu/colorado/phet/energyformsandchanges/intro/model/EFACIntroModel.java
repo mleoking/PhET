@@ -59,7 +59,7 @@ public class EFACIntroModel {
     // Movable thermal model objects.
     private final Brick brick;
     private final IronBlock ironBlock;
-    private final Beaker beaker;
+    private final BeakerContainer beaker;
 
     // Thermometers.
     public final List<Thermometer> thermometers = new ArrayList<Thermometer>();
@@ -101,7 +101,7 @@ public class EFACIntroModel {
                 add( brick );
                 add( ironBlock );
             }};
-            beaker = new Beaker( clock, new Vector2D( -0.015, 0 ), listOfThingsThatCanGoInBeaker, energyChunksVisible );
+            beaker = new BeakerContainer( clock, new Vector2D( -0.015, 0 ), listOfThingsThatCanGoInBeaker, energyChunksVisible );
         }
 
         // Put all the thermal containers on a list for easy iteration.
@@ -492,7 +492,7 @@ public class EFACIntroModel {
         return rightBurner;
     }
 
-    public Beaker getBeaker() {
+    public BeakerContainer getBeaker() {
         return beaker;
     }
 
