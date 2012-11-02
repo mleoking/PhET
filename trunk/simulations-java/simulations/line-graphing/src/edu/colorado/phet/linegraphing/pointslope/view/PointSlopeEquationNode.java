@@ -28,6 +28,7 @@ import edu.colorado.phet.linegraphing.common.view.SpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.X1Y1Colors;
 import edu.colorado.phet.linegraphing.common.view.SpinnerStateIndicator.SlopeColors;
 import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -159,11 +160,18 @@ public class PointSlopeEquationNode extends EquationNode {
      */
     private void updateLayout( Line line, boolean interactiveX1, boolean interactiveY1, boolean interactiveSlope, PhetFont staticFont, Color staticColor ) {
 
+        final boolean interactive = interactiveX1 || interactiveY1 || interactiveSlope;
+
         // Start by adding all nodes, then we'll selectively remove some nodes based on the desired form of the equation.
         removeAllChildren();
-        if ( line.undefinedSlope() && !interactiveX1 && !interactiveY1 && !interactiveSlope ) {
+        if ( line.undefinedSlope() && !interactive ) {
             // slope is undefined and nothing is interactive
             addChild( new UndefinedSlopeNode( line, staticFont, staticColor ) );
+            return;
+        }
+        else if ( ( line.same( Line.Y_EQUALS_X_LINE ) || line.same( Line.Y_EQUALS_NEGATIVE_X_LINE ) ) && !interactive ) {
+            // use slope-intercept form for non-interactive standard lines
+            addChild( new SlopeInterceptEquationNode( line, staticFont, staticColor ) );
             return;
         }
         else {
