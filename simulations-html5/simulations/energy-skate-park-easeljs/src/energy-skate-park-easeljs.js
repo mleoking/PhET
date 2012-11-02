@@ -155,6 +155,19 @@ $( function () {
         fpsText.y = 280;
         group.addChild( fpsText );
         var skater = new createjs.Bitmap( images[0] );
+//        var dragFunction = function ( event ) {
+//            event.onMouseMove = this.drag.bind( this );
+//            console.log( "mouse drag" );
+//        };
+//        skater.onMouseDrag = dragFunction.bind( skater );
+
+        function pressHandler( e ) {
+            e.onMouseMove = function ( ev ) {
+                e.target.x = ev.stageX;
+                e.target.y = ev.stageY;
+            }
+        };
+        skater.onPress = pressHandler;
         group.addChild( skater );
 
         //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
