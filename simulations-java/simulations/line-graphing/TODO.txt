@@ -8,7 +8,6 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- Slope model: adjust ranges so that we can't have (x1,y1)==(x2,y2)
 - Slope: deal with changes in SlopeEquationControls panel width, due to changes in the equation's unsimplified value
 - Slope: horizontally center the number parts of the unsimplified rise and run in SlopeEquationNode
 - address duplication of SlopeInterceptGraphNode and PointSlopeGraphNode
