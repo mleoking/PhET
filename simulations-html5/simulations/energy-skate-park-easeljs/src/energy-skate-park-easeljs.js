@@ -151,7 +151,23 @@ $( function () {
         background.addChild( mountain );
         background.addChild( house );
 
+        var splineLayer = new createjs.Container();
+
+        function createControlPoint( x, y ) {
+            var circleGraphics = new createjs.Graphics();
+            circleGraphics.beginFill( createjs.Graphics.getRGB( 0, 0, 255 ) );
+            circleGraphics.drawCircle( x, y, 20 );
+            var controlPoint = new createjs.Shape( circleGraphics );
+            controlPoint.onPress = pressHandler;
+            return controlPoint;
+        }
+
+        splineLayer.addChild( createControlPoint( 100, 100 ) );
+        splineLayer.addChild( createControlPoint( 200, 200 ) );
+        splineLayer.addChild( createControlPoint( 300, 100 ) );
+
         group.addChild( background );
+        group.addChild( splineLayer );
         group.addChild( skater );
 
         //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
