@@ -23,10 +23,10 @@ public class SlopeModel extends LineFormsModel {
         super( interactiveLine );
 
         // ranges
-        x1Range = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
+        x1Range = new Property<DoubleRange>( new DoubleRange( LGConstants.X_AXIS_RANGE ) );
         y1Range = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
-        x2Range = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
-        y2Range = new Property<DoubleRange>( new DoubleRange( LGConstants.X_AXIS_RANGE ) );
+        x2Range = new Property<DoubleRange>( new DoubleRange( LGConstants.X_AXIS_RANGE ) );
+        y2Range = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
 
         //NOTE: ranges do not need to be dynamically adjusted, because the points are free ranging.
     }
