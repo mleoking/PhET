@@ -8,7 +8,6 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- center titles in Equation control panel
 - LineFormsModel: investigate implications of replacing runRange and riseRange with x2Range and y2Range
 - Slope model: adjust ranges so that we can't have (x1,y1)==(x2,y2)
 - implement LineFormsModel.createSlopeModel
@@ -21,6 +20,7 @@ HIGH
 - Game: challenge generation (levels and randomization)
 
 MEDIUM
+- center titles in Equation control panel
 - implementation of SlopeInterceptEquationNode and PointSlopeEquationNode would be clearer if nodes were added selectively, rather than removed
 - Slope: also implement unsimplified form on its own line in the equation control panel
 - Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
