@@ -1,8 +1,9 @@
-11/1/12 fix: init of ranges in SlopeModel
-11/1/12 create model and graph node for Slope tab
-11/1/12 move manipulators to subclasses of LineFormsGraphNode
-11/1/12 move ranges to subclasses of LineFormsModel
-11/1/12 #3472, delete security=all-permissions for TestEquationNodes from line-graphing-build.properties
+11/2/12 move model subclasses to appropriate packages
+11/2/12 fix: init of ranges in SlopeModel
+11/2/12 create model and graph node for Slope tab
+11/2/12 move manipulators to subclasses of LineFormsGraphNode
+11/2/12 move ranges to subclasses of LineFormsModel
+11/2/12 #3472, delete security=all-permissions for TestEquationNodes from line-graphing-build.properties
 11/1/12 prevent (x1,y1)==(x2,y2) by making spinners skip over values in interactive slope equation
 11/1/12 use slope-intercept form for standard lines in Point-Slope tab
 11/1/12 Slope: label lines with "m is value", blow off i18n ordering (too difficult, can't use MessageFormat)

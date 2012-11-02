@@ -1,10 +1,12 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.common.model;
+package edu.colorado.phet.linegraphing.slope.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
+import edu.colorado.phet.linegraphing.common.model.Line;
+import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 
 /**
  * Model for the "Slope" tab.
