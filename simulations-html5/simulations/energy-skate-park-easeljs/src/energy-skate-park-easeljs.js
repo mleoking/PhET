@@ -99,6 +99,7 @@ $( function () {
         group.addChild( fpsText );
         var skater = new createjs.Bitmap( images[0] );
 
+
         function pressHandler( e ) {
             e.onMouseMove = function ( event ) {
                 var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
@@ -123,6 +124,14 @@ $( function () {
         var background = new createjs.Container();
         background.addChild( sky );
         background.addChild( ground );
+        var houseImage = images[1];
+        var house = new createjs.Bitmap( houseImage );
+        house.y = 768 - groundHeight - houseImage.height;
+        var mountainImage = images[2];
+        var mountain = new createjs.Bitmap( mountainImage );
+        mountain.y = 768 - groundHeight - mountainImage.height;
+        background.addChild( mountain );
+        background.addChild( house );
 
         group.addChild( background );
         group.addChild( skater );
