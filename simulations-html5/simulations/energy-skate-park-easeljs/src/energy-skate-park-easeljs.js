@@ -158,7 +158,7 @@ $( function () {
         ballGroup.scaleX = ballGroup.scaleY = 120;
         setBallCount( 10 );
 
-        group = new createjs.Container();
+        var group = new createjs.Container();
         group.addChild( ballGroup );
         group.addChild(
                 new Slider( {
