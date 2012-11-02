@@ -198,7 +198,7 @@ $( function () {
             var line = new createjs.Shape( graphics );
             line.drawBetweenControlPoints = function () {
                 graphics.clear();
-                graphics.beginStroke( "#000000" );
+                graphics.beginStroke( "#000000" ).setStrokeStyle( 20 );
                 for ( var i = 0; i < controlPoints.length; i++ ) {
                     var controlPoint = controlPoints[i];
                     if ( i == 0 ) {
