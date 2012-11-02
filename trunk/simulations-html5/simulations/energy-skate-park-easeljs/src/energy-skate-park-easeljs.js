@@ -159,12 +159,42 @@ $( function () {
             circleGraphics.drawCircle( x, y, 20 );
             var controlPoint = new createjs.Shape( circleGraphics );
             controlPoint.onPress = pressHandler;
+            //add my own fields for layout
+            controlPoint.centerX = x;
+            controlPoint.centerY = y;
             return controlPoint;
         }
 
-        splineLayer.addChild( createControlPoint( 100, 100 ) );
-        splineLayer.addChild( createControlPoint( 200, 200 ) );
-        splineLayer.addChild( createControlPoint( 300, 100 ) );
+
+        var a = createControlPoint( 100, 100 );
+        var b = createControlPoint( 200, 200 );
+        var c = createControlPoint( 300, 100 );
+
+        var controlPoints = [a, b, c];
+
+        function createLine() {
+            var graphics = new createjs.Graphics();
+            graphics.beginStroke( "#000000" );
+            for ( var i = 0; i < controlPoints.length; i++ ) {
+                var controlPoint = controlPoints[i];
+                if ( i == 0 ) {
+                    graphics.moveTo( controlPoint.centerX, controlPoint.centerY );
+                }
+                else {
+                    graphics.lineTo( controlPoint.centerX, controlPoint.centerY );
+                }
+            }
+
+            var line = new createjs.Shape( graphics );
+            return line;
+        }
+
+        splineLayer.addChild( createLine() );
+
+
+        splineLayer.addChild( a );
+        splineLayer.addChild( b );
+        splineLayer.addChild( c );
 
         group.addChild( background );
         group.addChild( splineLayer );
