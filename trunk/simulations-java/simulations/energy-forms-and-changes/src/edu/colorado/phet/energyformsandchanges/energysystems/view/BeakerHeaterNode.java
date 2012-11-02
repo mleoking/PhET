@@ -32,8 +32,12 @@ public class BeakerHeaterNode extends ImageBasedEnergySystemElementNode {
         addChild( new EnergyChunkLayer( beakerHeater.energyChunkList, beakerHeater.getObservablePosition(), mvt ) );
         addImageNode( BeakerHeater.ELEMENT_BASE_FRONT_IMAGE );
 
-        // Add the beaker, compensating for it's desire to set it's own offset.
-        ModelViewTransform compensatingMvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), mvt.getTransform().getScaleX(), mvt.getTransform().getScaleY() );
+        // Add the beaker.  A compensating MVT is needed because it is being
+        // added as a child of this node, but wants to set its own offset in
+        // model space.
+        ModelViewTransform compensatingMvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ),
+                                                                                          mvt.getTransform().getScaleX(),
+                                                                                          mvt.getTransform().getScaleY() );
         BeakerView beakerView = new BeakerView( beakerHeater.beaker, energyChunksVisible, compensatingMvt );
         addChild( beakerView.getBackNode() );
         addChild( beakerView.getFrontNode() );
