@@ -113,7 +113,10 @@ $( function () {
                 }
                 else {
                     e.target.x = transformed.x + relativePressPoint.x;
-                    e.target.y = transformed.y + relativePressPoint.y;
+
+                    //don't let the skater go below ground
+                    e.target.y = Math.min( transformed.y + relativePressPoint.y, 370 );
+//                    console.log( e.target.y );
                 }
             }
         }
