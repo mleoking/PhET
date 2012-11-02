@@ -42,7 +42,8 @@ public class BeakerHeaterNode extends ImageBasedEnergySystemElementNode {
         addChild( beakerView.getBackNode() );
         addChild( beakerView.getFrontNode() );
 
-        // Update the transparency of the lit bulb based on model element.
+        // Update the transparency of the hot element to make the dark element
+        // appear to heat up.
         beakerHeater.heatProportion.addObserver( new VoidFunction1<Double>() {
             public void apply( Double litProportion ) {
                 energizedCoil.setTransparency( litProportion.floatValue() );
