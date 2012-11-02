@@ -3,7 +3,6 @@ package edu.colorado.phet.linegraphing.common.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 
@@ -30,10 +29,5 @@ public class SlopeModel extends LineFormsModel {
         y2Range = new Property<DoubleRange>( new DoubleRange( LGConstants.X_AXIS_RANGE ) );
 
         //NOTE: ranges do not need to be dynamically adjusted, because the points are free ranging.
-    }
-
-    @Override public void reset() {
-        super.reset();
-        // no need to reset ranges, they will be reset when interactiveLine is reset
     }
 }
