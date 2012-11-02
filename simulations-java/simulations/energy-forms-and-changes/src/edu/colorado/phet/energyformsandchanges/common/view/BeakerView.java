@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.energyformsandchanges.intro.view;
+package edu.colorado.phet.energyformsandchanges.common.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -12,6 +12,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -22,12 +23,14 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
-import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkNode;
 import edu.colorado.phet.energyformsandchanges.intro.model.BeakerContainer;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
+import edu.colorado.phet.energyformsandchanges.intro.view.ThermalElementDragHandler;
+import edu.colorado.phet.energyformsandchanges.intro.view.ThermalItemMotionConstraint;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
@@ -49,15 +52,15 @@ public class BeakerView {
     private static final boolean SHOW_MODEL_RECT = false;
     private static final Color BEAKER_COLOR = new Color( 250, 250, 250, 100 );
 
-    private final ModelViewTransform mvt;
+    protected final ModelViewTransform mvt;
+    protected final PClip energyChunkClipNode;
 
-    private final PNode frontNode = new PNode();
-    private final PNode backNode = new PNode();
+    protected final PNode frontNode = new PNode();
+    protected final PNode backNode = new PNode();
 
-    public BeakerView( final EFACIntroModel model, final ModelViewTransform mvt ) {
+    public BeakerView( final Beaker beaker, BooleanProperty energyChunksVisible, final ModelViewTransform mvt ) {
 
         this.mvt = mvt;
-        final BeakerContainer beaker = model.getBeaker();
 
         // Extract the scale transform from the MVT so that we can separate the
         // shape from the position.
@@ -109,7 +112,7 @@ public class BeakerView {
         // Create the layers where the contained energy chunks will be placed.
         final PNode energyChunkRootNode = new PNode();
         backNode.addChild( energyChunkRootNode );
-        final PClip energyChunkClipNode = new PClip();
+        energyChunkClipNode = new PClip();
         energyChunkRootNode.addChild( energyChunkClipNode );
         energyChunkClipNode.setStroke( null );
         for ( int i = beaker.getSlices().size() - 1; i >= 0; i-- ) {
@@ -134,25 +137,6 @@ public class BeakerView {
             }
         } );
 
-        // Update the clipping mask when any of the blocks move.  The clipping
-        // mask hides energy chunks that overlap with blocks.
-        for ( Block block : model.getBlockList() ) {
-            block.position.addObserver( new SimpleObserver() {
-                public void update() {
-                    updateEnergyChunkClipMask( model, energyChunkClipNode );
-                }
-            } );
-        }
-
-        // Adjust the transparency of the water and label based on energy
-        // chunk visibility.
-        model.energyChunksVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean energyChunksVisible ) {
-                label.setTransparency( energyChunksVisible ? 0.5f : 1f );
-                water.setTransparency( energyChunksVisible ? EFACConstants.NOMINAL_WATER_OPACITY / 2 : EFACConstants.NOMINAL_WATER_OPACITY );
-            }
-        } );
-
         // If enabled, show the outline of the rectangle that represents the
         // beaker's position in the model.
         if ( SHOW_MODEL_RECT ) {
@@ -167,48 +151,18 @@ public class BeakerView {
                 // Compensate the energy chunk layer so that the energy chunk
                 // nodes can handle their own positioning.
                 energyChunkRootNode.setOffset( mvt.modelToView( position ).getRotatedInstance( Math.PI ).toPoint2D() );
-                BeakerView.this.updateEnergyChunkClipMask( model, energyChunkClipNode );
             }
         } );
 
-        // Add the cursor handler.
-        backNode.addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
-
-        // Add the drag handler.
-        final Vector2D offsetPosToCenter = new Vector2D( backNode.getFullBoundsReference().getCenterX() - mvt.modelToViewX( beaker.position.get().getX() ),
-                                                         backNode.getFullBoundsReference().getCenterY() - mvt.modelToViewY( beaker.position.get().getY() ) );
-
-        backNode.addInputEventListener( new ThermalElementDragHandler( beaker,
-                                                                       backNode,
-                                                                       mvt,
-                                                                       new ThermalItemMotionConstraint( model,
-                                                                                                        beaker,
-                                                                                                        backNode,
-                                                                                                        mvt,
-                                                                                                        offsetPosToCenter ) ) );
-    }
-
-    // Update the clipping mask that hides energy chunks behind blocks that are in the beaker.
-    private void updateEnergyChunkClipMask( EFACIntroModel model, PClip clip ) {
-        Vector2D forwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( Block.SURFACE_WIDTH / 2 );
-        Vector2D backwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( -Block.SURFACE_WIDTH / 2 );
-
-        Area clippingMask = new Area( frontNode.getFullBoundsReference() );
-        for ( Block block : model.getBlockList() ) {
-            if ( model.getBeaker().getRect().contains( block.getRect() ) ) {
-                DoubleGeneralPath path = new DoubleGeneralPath();
-                Rectangle2D rect = block.getRect();
-                path.moveTo( new Vector2D( rect.getX(), rect.getY() ).plus( forwardPerspectiveOffset ) );
-                path.lineTo( new Vector2D( rect.getMaxX(), rect.getY() ).plus( forwardPerspectiveOffset ) );
-                path.lineTo( new Vector2D( rect.getMaxX(), rect.getY() ).plus( backwardPerspectiveOffset ) );
-                path.lineTo( new Vector2D( rect.getMaxX(), rect.getMaxY() ).plus( backwardPerspectiveOffset ) );
-                path.lineTo( new Vector2D( rect.getMinX(), rect.getMaxY() ).plus( backwardPerspectiveOffset ) );
-                path.lineTo( new Vector2D( rect.getMinX(), rect.getMaxY() ).plus( forwardPerspectiveOffset ) );
-                path.closePath();
-                clippingMask.subtract( new Area( mvt.modelToView( path.getGeneralPath() ) ) );
+        // Adjust the transparency of the water and label based on energy
+        // chunk visibility.
+        energyChunksVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean energyChunksVisible ) {
+                label.setTransparency( energyChunksVisible ? 0.5f : 1f );
+                water.setTransparency( energyChunksVisible ? EFACConstants.NOMINAL_WATER_OPACITY / 2 : EFACConstants.NOMINAL_WATER_OPACITY );
             }
-        }
-        clip.setPathTo( clippingMask );
+        } );
+
     }
 
     // Class that represents water contained within the beaker.

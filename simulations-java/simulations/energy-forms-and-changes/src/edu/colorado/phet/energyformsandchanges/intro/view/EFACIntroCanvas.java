@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.view.BeakerView;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerNode;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
@@ -187,7 +188,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         final BlockNode ironBlockNode = new BlockNode( model, model.getIronBlock(), mvt );
         ironBlockNode.setApproachingEnergyChunkParentNode( airLayer );
         blockLayer.addChild( ironBlockNode );
-        BeakerView beakerView = new BeakerView( model, mvt );
+        BeakerView beakerView = new BeakerContainerView( model, mvt );
         beakerFrontLayer.addChild( beakerView.getFrontNode() );
         backLayer.addChild( beakerView.getBackNode() );
 

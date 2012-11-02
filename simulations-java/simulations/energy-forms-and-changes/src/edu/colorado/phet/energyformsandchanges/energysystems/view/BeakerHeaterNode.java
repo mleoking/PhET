@@ -1,8 +1,13 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.energyformsandchanges.common.view.BeakerView;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.BeakerHeater;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -14,7 +19,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class BeakerHeaterNode extends ImageBasedEnergySystemElementNode {
 
-    public BeakerHeaterNode( final BeakerHeater beakerHeater, final ModelViewTransform mvt ) {
+    public BeakerHeaterNode( final BeakerHeater beakerHeater, BooleanProperty energyChunksVisible, final ModelViewTransform mvt ) {
         super( beakerHeater, mvt );
 
         // Add the images that are used to depict this element along with the
@@ -26,6 +31,12 @@ public class BeakerHeaterNode extends ImageBasedEnergySystemElementNode {
         final PImage energizedCoil = addImageNode( BeakerHeater.HEATER_ELEMENT_ON_IMAGE );
         addChild( new EnergyChunkLayer( beakerHeater.energyChunkList, beakerHeater.getObservablePosition(), mvt ) );
         addImageNode( BeakerHeater.ELEMENT_BASE_FRONT_IMAGE );
+
+        // Add the beaker, compensating for it's desire to set it's own offset.
+        ModelViewTransform compensatingMvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), mvt.getTransform().getScaleX(), mvt.getTransform().getScaleY() );
+        BeakerView beakerView = new BeakerView( beakerHeater.beaker, energyChunksVisible, compensatingMvt );
+        addChild( beakerView.getBackNode() );
+        addChild( beakerView.getFrontNode() );
 
         // Update the transparency of the lit bulb based on model element.
         beakerHeater.heatProportion.addObserver( new VoidFunction1<Double>() {
