@@ -98,6 +98,9 @@ $( function () {
         fpsText.y = 280;
         group.addChild( fpsText );
         var skater = new createjs.Bitmap( images[0] );
+        var scaleFactor = 0.6;
+        skater.scaleX = scaleFactor;
+        skater.scaleY = scaleFactor;
 
         function pressHandler( e ) {
 
