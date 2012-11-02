@@ -262,6 +262,9 @@ $( function () {
         createjs.Ticker.addListener( bounceBalls );
         createjs.Ticker.addListener( displayFrameRate );
         createjs.Ticker.addListener( stage );
+
+        //Enable touch and prevent default
+        createjs.Touch.enable( stage, false, false );
     }
 
     //http://www.javascriptkit.com/javatutors/preloadimagesplus.shtml
