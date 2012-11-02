@@ -117,6 +117,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage GENERATOR_WHEEL_SPOKES = RESOURCES.getImage( "generator_wheel_spokes.png" );
         public static final BufferedImage GENERATOR_WHEEL_TEXTURE = RESOURCES.getImage( "generator_wheel_texture.png" );
         public static final BufferedImage HEATER_ELEMENT = RESOURCES.getImage( "heater_element.png" );
+        public static final BufferedImage HEATER_ELEMENT_DARK = RESOURCES.getImage( "heater_element_dark.png" );
         public static final BufferedImage HEATER_ELEMENT_OFF = RESOURCES.getImage( "heater_element_off.png" );
         public static final BufferedImage INCANDESCENT = RESOURCES.getImage( "incandescent.png" );
         public static final BufferedImage INCANDESCENT_ICON = RESOURCES.getImage( "incandescent_icon.png" );
