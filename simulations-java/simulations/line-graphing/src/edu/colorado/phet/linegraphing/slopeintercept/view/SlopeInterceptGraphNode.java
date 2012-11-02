@@ -9,12 +9,12 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.YInterceptDragHandler;
+import edu.colorado.phet.linegraphing.common.view.manipulator.YInterceptDragHandler;
 import edu.colorado.phet.linegraphing.common.view.LineFormsGraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
-import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
+import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
-import edu.colorado.phet.linegraphing.common.view.SlopeDragHandler;
+import edu.colorado.phet.linegraphing.common.view.manipulator.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 
 /**
