@@ -34,8 +34,8 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     private final double specificHeat; // In J/kg-K
     protected final double mass; // In kg
     protected final ConstantDtClock clock;
-    private final double width;
-    private final double height;
+    protected final double width;
+    protected final double height;
     private int nextSliceIndex;
 
     // 2D "slices" of the container, used for 3D layering of energy chunks.
@@ -45,7 +45,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     public final ObservableList<EnergyChunk> approachingEnergyChunks = new ObservableList<EnergyChunk>();
     protected final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
 
-    /**
+    /*
      * Constructor.
      *
      * @param clock
