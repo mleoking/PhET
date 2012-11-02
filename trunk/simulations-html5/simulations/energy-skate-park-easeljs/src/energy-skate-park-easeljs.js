@@ -119,8 +119,12 @@ $( function () {
                     e.target.y = Math.min( transformed.y + relativePressPoint.y, 370 );
 //                    console.log( e.target.y );
                 }
+                skater.dragging = true;
+            };
+            e.onMouseUp = function ( event ) {
+                skater.dragging = false;
                 skater.velocity = vector2d( 0, 0 );
-            }
+            };
         }
 
         skater.onPress = pressHandler;
