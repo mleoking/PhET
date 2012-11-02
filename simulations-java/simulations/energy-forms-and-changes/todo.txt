@@ -27,6 +27,8 @@ Fix flicker when E's are transferred between energy systems
 
 Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
 
+i18n
+
 
 DONE: Get rid of ability to cool the tea pot.
 DONE: Experiment: Make front of fluorescent bulbs programatically transparent when energy chunks present.

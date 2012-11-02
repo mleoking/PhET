@@ -9,7 +9,6 @@ import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
@@ -20,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
@@ -37,7 +35,8 @@ import edu.umd.cs.piccolox.nodes.PClip;
 /**
  * Object that represents a beaker in the view.  This representation is split
  * between a front node and a back node, which must be separately added to the
- * canvas.  This is done to allow a layering effect.
+ * canvas.  This is done to allow a layering effect.  Hence, this cannot be
+ * added directly to the canvas, and the client must add each layer separately.
  *
  * @author John Blanco
  */
@@ -49,18 +48,15 @@ public class BeakerView {
     private static final Font LABEL_FONT = new PhetFont( 32, false );
     private static final boolean SHOW_MODEL_RECT = false;
     private static final Color BEAKER_COLOR = new Color( 250, 250, 250, 100 );
-    private static final Vector2D BLOCK_OFFSET_POST_TO_CENTER = new Vector2D( 0, Block.SURFACE_WIDTH / 2 );
 
-    private final PhetPCanvas canvas;
     private final ModelViewTransform mvt;
 
     private final PNode frontNode = new PNode();
     private final PNode backNode = new PNode();
 
-    public BeakerView( final EFACIntroModel model, PhetPCanvas canvas, final ModelViewTransform mvt ) {
+    public BeakerView( final EFACIntroModel model, final ModelViewTransform mvt ) {
 
         this.mvt = mvt;
-        this.canvas = canvas;
         final BeakerContainer beaker = model.getBeaker();
 
         // Extract the scale transform from the MVT so that we can separate the
@@ -102,6 +98,7 @@ public class BeakerView {
         frontNode.setChildrenPickable( false );
 
         // Add the label.
+        // TODO: i18n
         final PText label = new PText( "Water" );
         label.setFont( LABEL_FONT );
         label.centerFullBoundsOnPoint( beakerViewRect.getCenterX(), beakerViewRect.getMaxY() - label.getFullBoundsReference().height * 1.5 );
@@ -214,15 +211,7 @@ public class BeakerView {
         clip.setPathTo( clippingMask );
     }
 
-    /**
-     * Convert the canvas position to the corresponding location in the model.
-     */
-    private Point2D convertCanvasPointToModelPoint( Point2D canvasPos ) {
-        Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
-        canvas.getPhetRootNode().screenToWorld( worldPos );
-        return mvt.viewToModel( worldPos );
-    }
-
+    // Class that represents water contained within the beaker.
     private static class PerspectiveWaterNode extends PNode {
         private static final Color WATER_OUTLINE_COLOR = ColorUtils.darkerColor( EFACConstants.WATER_COLOR_IN_BEAKER, 0.2 );
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
@@ -233,7 +222,6 @@ public class BeakerView {
             addChild( waterBodyNode );
             final PhetPPath waterTopNode = new PhetPPath( EFACConstants.WATER_COLOR_IN_BEAKER, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
             addChild( waterTopNode );
-
 
             waterLevel.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double fluidLevel ) {
