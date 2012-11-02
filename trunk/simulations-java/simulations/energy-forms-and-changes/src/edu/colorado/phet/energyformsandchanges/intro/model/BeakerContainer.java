@@ -22,11 +22,12 @@ import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
 
 /**
- * Model element that represents a beaker in the model.
+ * Model element that represents a beaker that can contain other thermal
+ * model elements.
  *
  * @author John Blanco
  */
-public class Beaker extends RectangularThermalMovableModelElement {
+public class BeakerContainer extends RectangularThermalMovableModelElement {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -73,7 +74,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
      * @param clock
      * @param initialPosition The initial position in model space.  This is
      */
-    public Beaker( ConstantDtClock clock, Vector2D initialPosition, List<RectangularThermalMovableModelElement> potentiallyContainedElements, BooleanProperty energyChunksVisible ) {
+    public BeakerContainer( ConstantDtClock clock, Vector2D initialPosition, List<RectangularThermalMovableModelElement> potentiallyContainedElements, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, WIDTH, HEIGHT * NON_DISPLACED_FLUID_LEVEL, FLUID_MASS, FLUID_SPECIFIC_HEAT, energyChunksVisible );
         this.potentiallyContainedElements = potentiallyContainedElements;
 
