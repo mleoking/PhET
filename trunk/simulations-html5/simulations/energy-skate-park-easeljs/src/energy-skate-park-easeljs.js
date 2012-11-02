@@ -92,84 +92,8 @@ $( function () {
             }
         } );
 
-
-        // Scene setup
-
-        var BouncyBall = function ( pos, r ) {
-            this.initialize( pos, r )
-        };
-        BouncyBall.prototype = {
-            initialize:function ( pos, r ) {
-                var circle = new createjs.Shape();
-                circle.graphics
-                        .setStrokeStyle( r / 8 )
-                        .beginStroke( 'black' )
-                        .beginFill( createjs.Graphics.getHSL( Math.random() * 360, Math.sqrt( Math.random() ) * 100, 60 ) )
-                        .drawCircle( 0, 0, r );
-                this.sprite = circle;
-                this.setPosition( pos );
-                this.velocity = { x:0, y:1 }
-            },
-
-            getPosition:function () {
-                return { x:this.sprite.x,
-                    y:this.sprite.y }
-            },
-
-            setPosition:function ( pos ) {
-                this.sprite.x = pos.x;
-                this.sprite.y = pos.y
-            }
-        };
-
-        var balls = [],
-                ballGroup = new createjs.Container(),
-                ballRadius = 0.04;
-
-        function setBallCount( newCount ) {
-            newCount = Math.round( newCount );
-            if ( newCount > balls.length ) {
-                var extraCount = newCount - balls.length;
-                _.each( _.range( extraCount ), function ( n ) {
-                    var ball = new BouncyBall( { x:Math.random() - 0.5, y:0 }, ballRadius );
-                    balls.push( ball );
-                    ballGroup.addChild( ball.sprite )
-                } )
-            }
-            else {
-                while ( balls.length > newCount ) {
-                    var ball = balls.pop();
-                    ballGroup.removeChild( ball.sprite )
-                }
-            }
-
-            $( '#ballCount' ).val( newCount )
-        }
-
-        var enclosure = new createjs.Shape();
-        enclosure.graphics
-                .setStrokeStyle( ballRadius / 2 )
-                .beginStroke( createjs.Graphics.getRGB( 102, 204, 204 ) )
-                .drawCircle( 0, 0, 1 );
-        enclosure.x = enclosure.y = 0;
-        ballGroup.addChild( enclosure );
-        ballGroup.x = 200;
-        ballGroup.y = 126;
-        ballGroup.scaleX = ballGroup.scaleY = 120;
-        setBallCount( 10 );
-
         var group = new createjs.Container();
-        group.addChild( ballGroup );
-        group.addChild(
-                new Slider( {
-                                pos:{ x:100, y:270 },
-                                size:{ x:200, y:16 },
-                                min:1,
-                                max:500,
-                                value:10,
-                                onChange:setBallCount
-                            } ) );
-        var fpsText = new createjs.Text( '-- fps', '6px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
+        var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
         fpsText.x = 4;
         fpsText.y = 280;
         group.addChild( fpsText );
@@ -223,22 +147,6 @@ $( function () {
             }
         };
 
-        function bounceBalls( dt ) {
-            var dt = Math.min( dt / 1000.0, 0.2 ); // prevent huge leaps
-            _.each( balls, function ( ball ) {
-                // simple linear physics here; stable fixed-step iterative update is preferable for the real thing
-                ball.setPosition(
-                        Vector.add( ball.getPosition(), Vector.mult( ball.velocity, dt ) ) );
-                if ( Vector.length( ball.getPosition() ) > 1 ) {
-                    var v = ball.velocity, n = Vector.normalize( ball.getPosition() );
-                    ball.velocity = Vector.sub( v, Vector.mult( n, Vector.dot( v, n ) * 2 ) );
-                    ball.setPosition( n ); // enclosure has radius 1 in local coords
-                }
-                ball.velocity.y += 2 * dt
-            } )
-        }
-
-
         // UI
 
         var frameCount = 0,
@@ -288,7 +196,6 @@ $( function () {
 
         stage.update();
         createjs.Ticker.setFPS( 60 );
-        createjs.Ticker.addListener( bounceBalls );
         createjs.Ticker.addListener( displayFrameRate );
         createjs.Ticker.addListener( stage );
 
