@@ -100,11 +100,12 @@ public class BeakerView {
         frontNode.setPickable( false );
         frontNode.setChildrenPickable( false );
 
-        // Add the label.
+        // Add the label.  Position it just below the front, top water line.
         // TODO: i18n
         final PText label = new PText( "Water" );
         label.setFont( LABEL_FONT );
-        label.centerFullBoundsOnPoint( beakerViewRect.getCenterX(), beakerViewRect.getMaxY() - label.getFullBoundsReference().height * 1.5 );
+        label.setOffset( beakerViewRect.getCenterX() - label.getFullBoundsReference().width / 2,
+                         beakerViewRect.getMaxY() - beakerViewRect.getHeight() * beaker.fluidLevel.get() + topEllipse.getHeight() / 2 );
         label.setPickable( false );
         label.setChildrenPickable( false );
         frontNode.addChild( label );
