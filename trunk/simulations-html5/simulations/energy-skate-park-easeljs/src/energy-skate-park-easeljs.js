@@ -108,6 +108,20 @@ $( function () {
         }
 
         skater.onPress = pressHandler;
+
+        var groundGraphics = new createjs.Graphics();
+        groundGraphics.setStrokeStyle( 1 );
+//        groundGraphics.beginStroke( createjs.Graphics.getRGB( 0, 0, 0 ) );
+//        groundGraphics.beginStroke( "#64aa64" );
+        groundGraphics.beginFill( "#64aa64" );
+        var groundHeight = 200;
+        groundGraphics.rect( 0, 768 - groundHeight, 1024, groundHeight );
+        var ground = new createjs.Shape( groundGraphics );
+
+        var background = new createjs.Container();
+        background.addChild( ground );
+
+        group.addChild( background );
         group.addChild( skater );
 
         //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
