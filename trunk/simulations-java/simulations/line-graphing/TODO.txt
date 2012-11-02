@@ -21,10 +21,8 @@ HIGH
 - Game: challenge generation (levels and randomization)
 
 MEDIUM
-- for (x1,y1)=(0,5), a bit too much space between "-" and "("
-- Slope: change graphed line label from "m is value", handle i18n
+- implementation of SlopeInterceptEquationNode and PointSlopeEquationNode would be clearer if nodes were added selectively, rather than removed
 - Slope: also implement unsimplified form on its own line in the equation control panel
-- Slope: deal with i18n ordering of title in equation control panel
 - Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
