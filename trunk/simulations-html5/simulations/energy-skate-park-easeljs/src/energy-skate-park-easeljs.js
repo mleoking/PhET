@@ -178,9 +178,7 @@ $( function () {
             $( '#c' ).attr( 'height', canvasH );
             $( '#c' ).offset( {left:(winW - canvasW) / 2, top:(winH - canvasH) / 2} );
             group.scaleX = group.scaleY = scale;
-            $( '#ballCount' ).css( 'font-size', scale * 12 )
-                    .css( 'width', scale * 40 );
-            stage.update()
+            stage.update();
         };
         $( window ).resize( onResize );
         onResize(); // initial position
