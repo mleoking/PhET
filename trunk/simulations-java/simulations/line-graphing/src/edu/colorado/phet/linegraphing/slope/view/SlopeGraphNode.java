@@ -12,10 +12,10 @@ import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.slope.model.SlopeModel;
 import edu.colorado.phet.linegraphing.common.view.LineFormsGraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
-import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
+import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
-import edu.colorado.phet.linegraphing.common.view.X1Y1DragHandler;
-import edu.colorado.phet.linegraphing.common.view.X2Y2DragHandler;
+import edu.colorado.phet.linegraphing.common.view.manipulator.X1Y1DragHandler;
+import edu.colorado.phet.linegraphing.common.view.manipulator.X2Y2DragHandler;
 
 /**
  * Graph that provides direct manipulation of a line in point-slope form.
