@@ -1,11 +1,11 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.common.view;
+package edu.colorado.phet.linegraphing.common.view.spinner;
 
 import java.awt.Color;
 import java.awt.Image;
 
 import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.view.SpinnerArrowNode.SpinnerArrowOrientation;
+import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerArrowNode.SpinnerArrowOrientation;
 
 /**
  * A set of objects that corresponds to the states of the spinner. The states are:

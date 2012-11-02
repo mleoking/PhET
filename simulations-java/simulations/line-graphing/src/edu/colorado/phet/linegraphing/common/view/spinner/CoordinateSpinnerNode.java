@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.common.view;
+package edu.colorado.phet.linegraphing.common.view.spinner;
 
 import java.awt.Color;
 import java.text.NumberFormat;
@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerNode;
+import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator;
 
 /**
  * Spinner for one coordinate of a point that prevents the point from having the same value as some other point.
