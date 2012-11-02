@@ -152,19 +152,40 @@ $( function () {
         background.addChild( house );
 
         var splineLayer = new createjs.Container();
+        var line = null;
+
+        function controlPointPressHandler( e ) {
+
+            //Make dragging relative to touch point
+            var relativePressPoint = null;
+            e.onMouseMove = function ( event ) {
+                var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
+                if ( relativePressPoint === null ) {
+                    relativePressPoint = {x:e.target.x - transformed.x, y:e.target.y - transformed.y};
+                }
+                else {
+                    e.target.x = transformed.x + relativePressPoint.x;
+                    e.target.y = Math.min( transformed.y + relativePressPoint.y, 450 );
+
+                    //add my own fields for layout
+                    e.target.centerX = e.target.x;
+                    e.target.centerY = e.target.y;
+                    line.drawBetweenControlPoints();
+                }
+            }
+        }
 
         function createControlPoint( x, y ) {
             var circleGraphics = new createjs.Graphics();
             circleGraphics.beginFill( createjs.Graphics.getRGB( 0, 0, 255 ) );
-            circleGraphics.drawCircle( x, y, 20 );
+            circleGraphics.drawCircle( 0, 0, 20 );
             var controlPoint = new createjs.Shape( circleGraphics );
-            controlPoint.onPress = pressHandler;
+            controlPoint.onPress = controlPointPressHandler;
             //add my own fields for layout
-            controlPoint.centerX = x;
-            controlPoint.centerY = y;
+            controlPoint.x = x;
+            controlPoint.y = y;
             return controlPoint;
         }
-
 
         var a = createControlPoint( 100, 100 );
         var b = createControlPoint( 200, 200 );
@@ -174,22 +195,26 @@ $( function () {
 
         function createLine() {
             var graphics = new createjs.Graphics();
-            graphics.beginStroke( "#000000" );
-            for ( var i = 0; i < controlPoints.length; i++ ) {
-                var controlPoint = controlPoints[i];
-                if ( i == 0 ) {
-                    graphics.moveTo( controlPoint.centerX, controlPoint.centerY );
-                }
-                else {
-                    graphics.lineTo( controlPoint.centerX, controlPoint.centerY );
-                }
-            }
-
             var line = new createjs.Shape( graphics );
+            line.drawBetweenControlPoints = function () {
+                graphics.clear();
+                graphics.beginStroke( "#000000" );
+                for ( var i = 0; i < controlPoints.length; i++ ) {
+                    var controlPoint = controlPoints[i];
+                    if ( i == 0 ) {
+                        graphics.moveTo( controlPoint.x, controlPoint.y );
+                    }
+                    else {
+                        graphics.lineTo( controlPoint.x, controlPoint.y );
+                    }
+                }
+            };
+            line.drawBetweenControlPoints();
             return line;
         }
 
-        splineLayer.addChild( createLine() );
+        line = createLine();
+        splineLayer.addChild( line );
 
 
         splineLayer.addChild( a );
