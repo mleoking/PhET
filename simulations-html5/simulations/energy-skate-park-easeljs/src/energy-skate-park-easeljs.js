@@ -110,15 +110,18 @@ $( function () {
         skater.onPress = pressHandler;
 
         var groundGraphics = new createjs.Graphics();
-        groundGraphics.setStrokeStyle( 1 );
-//        groundGraphics.beginStroke( createjs.Graphics.getRGB( 0, 0, 0 ) );
-//        groundGraphics.beginStroke( "#64aa64" );
         groundGraphics.beginFill( "#64aa64" );
         var groundHeight = 200;
         groundGraphics.rect( 0, 768 - groundHeight, 1024, groundHeight );
         var ground = new createjs.Shape( groundGraphics );
 
+        var skyGraphics = new createjs.Graphics();
+        skyGraphics.beginFill( "#7cc7fe" );
+        skyGraphics.rect( 0, 0, 1024, 768 - groundHeight );
+        var sky = new createjs.Shape( skyGraphics );
+
         var background = new createjs.Container();
+        background.addChild( sky );
         background.addChild( ground );
 
         group.addChild( background );
