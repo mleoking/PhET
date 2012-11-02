@@ -41,11 +41,11 @@ public class Beaker extends RectangularThermalMovableModelElement {
     private static final Random RAND = new Random( 1 ); // This is seeded for consistent initial energy chunk distribution.
 
     // Constants that control the nature of the fluid in the beaker.
-    private static final double FLUID_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
-    private static final double FLUID_DENSITY = 1000.0; // In kg/m^3, source = design document (and common knowledge).
-    private static final double NON_DISPLACED_FLUID_LEVEL = 0.5;
-    private static final double FLUID_VOLUME = Math.PI * Math.pow( WIDTH / 2, 2 ) * ( NON_DISPLACED_FLUID_LEVEL * HEIGHT ); // In m^3
-    private static final double FLUID_MASS = FLUID_VOLUME * FLUID_DENSITY; // In kg
+    private static final double WATER_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
+    private static final double WATER_DENSITY = 1000.0; // In kg/m^3, source = design document (and common knowledge).
+    private static final double DEFAULT_INITIAL_FLUID_LEVEL = 0.5;
+    private static final double FLUID_VOLUME = Math.PI * Math.pow( WIDTH / 2, 2 ) * ( DEFAULT_INITIAL_FLUID_LEVEL * HEIGHT ); // In m^3
+    private static final double FLUID_MASS = FLUID_VOLUME * WATER_DENSITY; // In kg
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -54,7 +54,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
     protected final double initialFluidLevel;
 
     // Property that is used to control and track the amount of fluid in the beaker.
-    public final Property<Double> fluidLevel = new Property<Double>( NON_DISPLACED_FLUID_LEVEL );
+    public final Property<Double> fluidLevel = new Property<Double>( DEFAULT_INITIAL_FLUID_LEVEL );
 
     // Top surface, which is the surface upon which other model elements can
     // sit.  For the beaker, this is only slightly above the bottom surface.
@@ -69,11 +69,12 @@ public class Beaker extends RectangularThermalMovableModelElement {
     //-------------------------------------------------------------------------
 
     /*
-     * Constructor.
+     * Constructor.  Initial position is the center bottom of the beaker
+     * rectangle.
      */
     public Beaker( ConstantDtClock clock, Vector2D initialPosition, BooleanProperty energyChunksVisible ) {
-        super( clock, initialPosition, WIDTH, HEIGHT, FLUID_MASS, FLUID_SPECIFIC_HEAT, energyChunksVisible );
-        this.initialFluidLevel = NON_DISPLACED_FLUID_LEVEL;
+        super( clock, initialPosition, WIDTH, HEIGHT, FLUID_MASS, WATER_SPECIFIC_HEAT, energyChunksVisible );
+        this.initialFluidLevel = DEFAULT_INITIAL_FLUID_LEVEL;
 
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<Vector2D>() {
@@ -162,7 +163,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
         final Rectangle2D fluidRect = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
                                                               position.get().getY(),
                                                               WIDTH,
-                                                              HEIGHT * NON_DISPLACED_FLUID_LEVEL );
+                                                              HEIGHT * DEFAULT_INITIAL_FLUID_LEVEL );
         double widthYProjection = Math.abs( WIDTH * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER );
         for ( int i = 0; i < NUM_SLICES; i++ ) {
             double proportion = ( i + 1 ) * ( 1 / (double) ( NUM_SLICES + 1 ) );
