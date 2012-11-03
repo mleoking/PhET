@@ -1,3 +1,4 @@
+11/2/12 quick review and cleanup of all code
 11/2/12 change initial line for Slope tab
 11/2/12 simplify SlopeEquationControls, delete test main
 11/2/12 delete unused enum in LGSimSharing
