@@ -115,7 +115,8 @@ $( function () {
         skater.scaleY = scaleFactor;
 
         function pressHandler( e ) {
-
+            skater.dragging = true;
+            skater.attached = false;
             //Make dragging relative to touch point
             var relativePressPoint = null;
             e.onMouseMove = function ( event ) {
