@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public abstract class LineFormsCanvas extends CenteredStageCanvas {
 
-    private final LineFormsViewProperties visibility;
+    private final LineFormsViewProperties viewProperties;
 
     /**
      * Constructor
@@ -33,7 +33,7 @@ public abstract class LineFormsCanvas extends CenteredStageCanvas {
     protected LineFormsCanvas( LineFormsModel model, LineFormsViewProperties viewProperties, PNode graphNode, PNode equationControls, PNode graphControls ) {
         setBackground( LGColors.CANVAS );
 
-        this.visibility = viewProperties;
+        this.viewProperties = viewProperties;
 
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
@@ -87,6 +87,6 @@ public abstract class LineFormsCanvas extends CenteredStageCanvas {
 
     @Override public void reset() {
         super.reset();
-        visibility.reset();
+        viewProperties.reset();
     }
 }
