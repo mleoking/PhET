@@ -274,18 +274,9 @@ $( function () {
 
         var controlPoints = [a, b, c];
 
-//        var updateSplineTrack = function () {
-//            console.log( "drag" );
-//
-//            //use the same algorithm as in trunk\simulations-java\common\spline\src\edu\colorado\phet\common\spline\CubicSpline2D.java
-//
-//            track.setPoints( myArray );
-//        };
-
         function getX( point ) {return point.x;}
 
         function getY( point ) {return point.y;}
-
 
         function createLine() {
             var graphics = new createjs.Graphics();
