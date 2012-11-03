@@ -150,6 +150,9 @@ $( function () {
         function checkBoxRow( allTexts, index, image ) {
             var row = new createjs.Container();
 
+            //Larger area behind for hit detection
+            row.addChild( new createjs.Shape( new createjs.Graphics().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, 180, 40, 5 ).endStroke() ) );
+
             var checkBox = new createjs.Shape( new createjs.Graphics().beginStroke( "#000000" ).drawRoundRect( 0, 0, 30, 30, 5 ).endStroke() );
             checkBox.selected = false;
 
@@ -165,6 +168,8 @@ $( function () {
             bitmap.x = 180 - image.width;
             row.addChild( bitmap );
 
+            row.onMouseOver = function ( mouseEvent ) { document.body.style.cursor = "pointer"; };
+            row.onMouseOut = function ( mouseEvent ) { document.body.style.cursor = "default"; };
             row.onPress = function ( mouseEvent ) {
                 console.log( "pressed" );
                 checkBox.selected = !checkBox.selected;
@@ -345,6 +350,10 @@ $( function () {
         canvas.onmousedown = function () { return false; }; // Mozilla
 
         var stage = new createjs.Stage( canvas );
+
+        //Necessary to enable mouseover events
+        stage.enableMouseOver();
+
         stage.addChild( group );
         stage.update();
 
