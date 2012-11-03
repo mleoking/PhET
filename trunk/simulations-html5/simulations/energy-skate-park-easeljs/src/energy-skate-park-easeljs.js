@@ -19,6 +19,9 @@ $( function () {
     function run( images ) {
 
         listenForRefresh();
+
+        function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; };
+        function showDefault( mouseEvent ) { document.body.style.cursor = "default"; };
         // Widgets
 
         var Slider = function ( opts ) {
@@ -98,6 +101,8 @@ $( function () {
         fpsText.y = 280;
         group.addChild( fpsText );
         var skater = new createjs.Bitmap( images[0] );
+        skater.onMouseOver = showPointer;
+        skater.onMouseOut = showDefault;
 
         //put registration point at bottom center of the skater
         skater.regX = images[0].width / 2;
@@ -167,9 +172,8 @@ $( function () {
             var bitmap = new createjs.Bitmap( image );
             bitmap.x = 180 - image.width;
             row.addChild( bitmap );
-
-            row.onMouseOver = function ( mouseEvent ) { document.body.style.cursor = "pointer"; };
-            row.onMouseOut = function ( mouseEvent ) { document.body.style.cursor = "default"; };
+            row.onMouseOver = showPointer;
+            row.onMouseOut = showDefault;
             row.onPress = function ( mouseEvent ) {
                 console.log( "pressed" );
                 checkBox.selected = !checkBox.selected;
@@ -262,6 +266,8 @@ $( function () {
             circleGraphics.drawCircle( 0, 0, 20 );
             var controlPoint = new createjs.Shape( circleGraphics );
             controlPoint.onPress = controlPointPressHandler;
+            controlPoint.onMouseOver = showPointer;
+            controlPoint.onMouseOut = showDefault;
             //add my own fields for layout
             controlPoint.x = x;
             controlPoint.y = y;
