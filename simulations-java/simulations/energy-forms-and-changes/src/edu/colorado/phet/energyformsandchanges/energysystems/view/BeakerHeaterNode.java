@@ -44,7 +44,10 @@ public class BeakerHeaterNode extends ImageBasedEnergySystemElementNode {
         addChild( beakerView.getFrontNode() );
 
         // Add the thermometer.
-        addChild( new ThermometerNode( beakerHeater.thermometer, compensatingMvt ) );
+        addChild( new ThermometerNode( beakerHeater.thermometer, compensatingMvt ){{
+            setPickable( false );
+            setChildrenPickable( false );
+        }} );
 
         // Update the transparency of the hot element to make the dark element
         // appear to heat up.
