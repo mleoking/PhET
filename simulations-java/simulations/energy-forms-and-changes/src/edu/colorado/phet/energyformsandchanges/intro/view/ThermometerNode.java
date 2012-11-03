@@ -18,7 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
-import edu.colorado.phet.energyformsandchanges.intro.model.ElementFollowingThermometer;
+import edu.colorado.phet.energyformsandchanges.common.model.Thermometer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -42,15 +42,15 @@ public class ThermometerNode extends PComposite {
     private static final double MAX_TEMPERATURE = EFACConstants.BOILING_POINT_TEMPERATURE + 5; // In degrees Kelvin.
     private static final double TEMPERATURE_RANGE = MAX_TEMPERATURE - MIN_TEMPERATURE; // In degrees Kelvin.
 
-    private final ElementFollowingThermometer thermometer;
+    private final Thermometer thermometer;
 
-    /**
+    /*
      * Constructor.
      *
      * @param thermometer
      * @param mvt
      */
-    public ThermometerNode( final ElementFollowingThermometer thermometer, final ModelViewTransform mvt ) {
+    public ThermometerNode( final Thermometer thermometer, final ModelViewTransform mvt ) {
 
         this.thermometer = thermometer;
 
@@ -147,7 +147,7 @@ public class ThermometerNode extends PComposite {
         }
     }
 
-    public ElementFollowingThermometer getThermometer() {
+    public Thermometer getThermometer() {
         return thermometer;
     }
 

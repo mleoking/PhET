@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.Thermometer;
 import edu.colorado.phet.energyformsandchanges.common.view.BeakerView;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerNode;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
@@ -127,7 +128,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             clockControl.centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, centerYBelowSurface );
             normalSimSpeed.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean normalSimSpeed ) {
-                    ConstantDtClock clock = (ConstantDtClock) model.getClock();
+                    ConstantDtClock clock = model.getClock();
                     clock.setDt( normalSimSpeed ? EFACConstants.SIM_TIME_PER_TICK_NORMAL : EFACConstants.SIM_TIME_PER_TICK_FAST_FORWARD );
                 }
             } );
@@ -310,7 +311,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             addChild( new ControlPanelNode( new VBox( 0, thermometerRegion ), backgroundColor ) );
         }
 
-        public void putThermometerInOpenSpot( ElementFollowingThermometer thermometer ) {
+        public void putThermometerInOpenSpot( Thermometer thermometer ) {
             // This is a little tweaky due to the relationship between the
             // thermometer in the model and the view representation.
             double xPos = 35;

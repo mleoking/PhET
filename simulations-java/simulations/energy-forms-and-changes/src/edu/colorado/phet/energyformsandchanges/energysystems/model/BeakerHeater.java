@@ -17,6 +17,9 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
+import edu.colorado.phet.energyformsandchanges.common.model.ITemperatureModel;
+import edu.colorado.phet.energyformsandchanges.common.model.Thermometer;
+import edu.colorado.phet.energyformsandchanges.intro.model.TemperatureAndColor;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.*;
 
@@ -57,7 +60,7 @@ public class BeakerHeater extends EnergyUser {
 
     private static final double ENERGY_TO_FULLY_ACTIVATE = 50; // In joules/sec, a.k.a. Watts.
 
-    private static final double BEAKER_WIDTH = 0.08; // In meters.
+    private static final double BEAKER_WIDTH = 0.075; // In meters.
     private static final double BEAKER_HEIGHT = BEAKER_WIDTH * 0.9;
 
     //-------------------------------------------------------------------------
@@ -70,6 +73,7 @@ public class BeakerHeater extends EnergyUser {
     private List<EnergyChunkPathMover> electricalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private List<EnergyChunkPathMover> thermalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     public Beaker beaker;
+    public Thermometer thermometer;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -78,6 +82,11 @@ public class BeakerHeater extends EnergyUser {
     protected BeakerHeater( ConstantDtClock clock, BooleanProperty energyChunksVisible ) {
         super( EnergyFormsAndChangesResources.Images.WATER_ICON );
         beaker = new Beaker( clock, new Vector2D( 0, 0.025 ), BEAKER_WIDTH, BEAKER_HEIGHT, energyChunksVisible );
+        thermometer = new Thermometer( clock, new ITemperatureModel() {
+            public TemperatureAndColor getTemperatureAndColorAtLocation( Vector2D location ) {
+                return new TemperatureAndColor( beaker.getTemperature(), EFACConstants.WATER_COLOR_OPAQUE );
+            }
+        }, new Vector2D( 0.033, 0.035 ) );
     }
 
     //-------------------------------------------------------------------------
