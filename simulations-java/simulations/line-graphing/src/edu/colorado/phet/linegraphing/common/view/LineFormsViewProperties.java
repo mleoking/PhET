@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * Properties that are specific to the view for the "Slope-Intercept" and "Point-Slope" tabs.
+ * Properties that are specific to the view for the "Slope", "Slope-Intercept" and "Point-Slope" tabs.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
