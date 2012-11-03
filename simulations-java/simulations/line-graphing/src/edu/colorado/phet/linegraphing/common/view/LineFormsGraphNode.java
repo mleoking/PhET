@@ -55,7 +55,7 @@ public abstract class LineFormsGraphNode extends GraphNode {
         final double manipulatorDiameter = model.mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
 
         // Slope tool
-        slopeToolNode = new SlopeToolNode( model.interactiveLine, model.mvt, manipulatorDiameter );
+        slopeToolNode = new SlopeToolNode( model.interactiveLine, model.mvt );
 
         // Rendering order
         addChild( interactiveLineParentNode );

@@ -39,7 +39,7 @@ public abstract class MTE_GraphNode extends GraphNode {
 
         // Slope tool
         final double manipulatorDiameter = challenge.mvt.modelToViewDeltaX( 0.85 );
-        slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt, manipulatorDiameter );
+        slopeToolNode = new SlopeToolNode( challenge.guess, challenge.mvt );
 
         // Rendering order
         addChild( guessNodeParent );
