@@ -107,8 +107,7 @@ $( function () {
         fpsText.y = 280;
         group.addChild( fpsText );
         var skater = new createjs.Bitmap( images[0] );
-        skater.onMouseOver = showPointer;
-        skater.onMouseOut = showDefault;
+        setCursorHand( skater );
 
         //put registration point at bottom center of the skater
         skater.regX = images[0].width / 2;
@@ -272,8 +271,7 @@ $( function () {
             circleGraphics.drawCircle( 0, 0, 20 );
             var controlPoint = new createjs.Shape( circleGraphics );
             controlPoint.onPress = controlPointPressHandler;
-            controlPoint.onMouseOver = showPointer;
-            controlPoint.onMouseOut = showDefault;
+            setCursorHand( controlPoint );
             //add my own fields for layout
             controlPoint.x = x;
             controlPoint.y = y;
