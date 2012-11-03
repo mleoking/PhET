@@ -21,6 +21,7 @@ import edu.colorado.phet.linegraphing.slope.model.SlopeModel;
 
 /**
  * Graph that provides direct manipulation of a line in point-slope form.
+ * Adds manipulators for (x1,y1) and (x2,y2) to the base class functionality.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
