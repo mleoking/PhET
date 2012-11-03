@@ -18,7 +18,7 @@ public class SlopeModel extends LineFormsModel {
     public final Property<DoubleRange> x1Range, y1Range, x2Range, y2Range; // ranges of things that the user can manipulate
 
     public SlopeModel() {
-        this( Line.createPointSlope( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ) );
+        this( new Line( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ) );
     }
 
     private SlopeModel( Line interactiveLine ) {
