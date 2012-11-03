@@ -11,7 +11,7 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Visual representation of a line in simplified point-slope form.
+ * Visual representation of a line, labeled with an equation in point-slope form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
