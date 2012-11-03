@@ -17,6 +17,7 @@ HIGH
 
 MEDIUM
 - investigate "SlopeInterceptModel extends PointSlopeInterceptModel", with specialization of LineParameterRange
+- reuse LineFormGraphNode subclasses in game
 - sizing of EquationControls strutNode looks suspicious, layout hasn't been done for nodes used to determine size
 - center titles in Equation control panel
 - implementation of SlopeInterceptEquationNode and PointSlopeEquationNode would be clearer if nodes were added selectively, rather than removed
