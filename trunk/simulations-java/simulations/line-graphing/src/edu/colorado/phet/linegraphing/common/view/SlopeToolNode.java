@@ -47,7 +47,7 @@ public class SlopeToolNode extends PComposite {
     private static final int VALUE_X_SPACING = 6;
     private static final int VALUE_Y_SPACING = 6;
 
-    public SlopeToolNode( Property<Line> line, final ModelViewTransform mvt, final double manipulatorDiameter ) {
+    public SlopeToolNode( Property<Line> line, final ModelViewTransform mvt ) {
 
         // not interactive
         setPickable( false );
@@ -55,12 +55,12 @@ public class SlopeToolNode extends PComposite {
 
         line.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
-                update( line, manipulatorDiameter, mvt );
+                update( line, mvt );
             }
         } );
     }
 
-    private void update( Line line, double manipulatorDiameter, ModelViewTransform mvt ) {
+    private void update( Line line, ModelViewTransform mvt ) {
 
         removeAllChildren();
 
@@ -249,7 +249,7 @@ public class SlopeToolNode extends PComposite {
         model.interactiveLine.set( Line.createSlopeIntercept( 1, 2, 0 ) ); // bigger values will make slope tool look smaller in icon
 
         // slope tool
-        SlopeToolNode slopeToolNode = new SlopeToolNode( model.interactiveLine, model.mvt, 6 );
+        SlopeToolNode slopeToolNode = new SlopeToolNode( model.interactiveLine, model.mvt );
         parentNode.addChild( slopeToolNode );
 
         // dashed line where the line would be, tweaked visually
