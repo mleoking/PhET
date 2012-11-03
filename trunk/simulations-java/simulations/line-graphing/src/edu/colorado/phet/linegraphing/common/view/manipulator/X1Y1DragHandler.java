@@ -14,7 +14,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Drag handler for the point (x1,y1) manipulator of a line in point-slope form.
- * This can also be used to manipulate the y-intercept for a line in slope-intercept form, where x1's range is fixed at zero.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
