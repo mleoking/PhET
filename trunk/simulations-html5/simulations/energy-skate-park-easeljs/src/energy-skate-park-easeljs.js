@@ -109,6 +109,7 @@ $( function () {
         fpsText.y = 280;
         group.addChild( fpsText );
         var skater = new createjs.Bitmap( images[0] );
+        skater.mass = 50;//kg
         setCursorHand( skater );
 
         //put registration point at bottom center of the skater
@@ -172,7 +173,8 @@ $( function () {
             var text2 = new createjs.Text( allTexts[index], '20px "Arial",Tahoma' );
 
             //Caching the text saves a few percent in profiling but makes it less crisp.
-            text2.cache( 0, 0, 100, 100 );
+            //TODO: maybe the cache scale should match the globalScale to make it super crisp
+            text2.cache( 0, 0, 100, 100, 1.1 );
 
             text2.y = 3;
             text2.x = 30 + 5;
@@ -404,10 +406,11 @@ $( function () {
 
         stage.update();
 
-
         function updatePhysics() {
             var originalX = skater.x;
             var originalY = skater.y;
+            var originalEnergy = 0.5 * skater.mass * skater.velocity.magnitude() * skater.velocity.magnitude() + skater.mass * 9.8 * (768 - groundHeight - skater.y);
+//            console.log( originalEnergy );
             if ( skater.attached ) {
 
                 skater.attachmentPoint = skater.attachmentPoint + 0.007;
