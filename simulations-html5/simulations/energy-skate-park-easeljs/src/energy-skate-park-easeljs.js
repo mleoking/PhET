@@ -1,6 +1,8 @@
 $( function () {
-    function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; };
-    function showDefault( mouseEvent ) { document.body.style.cursor = "default"; };
+    function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
+
+    function showDefault( mouseEvent ) { document.body.style.cursor = "default"; }
+
     function setCursorHand( displayObject ) {
         displayObject.onMouseOver = showPointer;
         displayObject.onMouseOut = showDefault;
