@@ -14,7 +14,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Base class drag handler for line manipulators.
- * Main purpose is to handle sim-sharing data collection.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
