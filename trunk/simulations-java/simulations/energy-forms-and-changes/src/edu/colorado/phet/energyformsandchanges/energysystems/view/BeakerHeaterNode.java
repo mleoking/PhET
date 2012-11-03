@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.energyformsandchanges.common.view.BeakerView;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.BeakerHeater;
+import edu.colorado.phet.energyformsandchanges.intro.view.ThermometerNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -41,6 +42,9 @@ public class BeakerHeaterNode extends ImageBasedEnergySystemElementNode {
         BeakerView beakerView = new BeakerView( beakerHeater.beaker, energyChunksVisible, compensatingMvt );
         addChild( beakerView.getBackNode() );
         addChild( beakerView.getFrontNode() );
+
+        // Add the thermometer.
+        addChild( new ThermometerNode( beakerHeater.thermometer, compensatingMvt ) );
 
         // Update the transparency of the hot element to make the dark element
         // appear to heat up.
