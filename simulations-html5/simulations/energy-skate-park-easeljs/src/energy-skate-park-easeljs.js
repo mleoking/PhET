@@ -150,7 +150,8 @@ $( function () {
         function checkBoxRow( allTexts, index, image ) {
             var row = new createjs.Container();
 
-            var checkBox = new createjs.Shape( new createjs.Graphics().beginStroke( createjs.Graphics.fromRG ).drawRoundRect( 0, 0, 30, 30, 5 ).endStroke() );
+            var checkBox = new createjs.Shape( new createjs.Graphics().beginStroke( "#000000" ).drawRoundRect( 0, 0, 30, 30, 5 ).endStroke() );
+            checkBox.selected = false;
 
             var text2 = new createjs.Text( allTexts[index], '20px "Arial",Tahoma' );
             text2.y = 3;
@@ -163,6 +164,15 @@ $( function () {
             var bitmap = new createjs.Bitmap( image );
             bitmap.x = 180 - image.width;
             row.addChild( bitmap );
+
+            row.onPress = function ( mouseEvent ) {
+                console.log( "pressed" );
+                checkBox.selected = !checkBox.selected;
+                checkBox.graphics.clear().beginStroke( "#000000" ).drawRoundRect( 0, 0, 30, 30, 5 ).endStroke();
+                if ( checkBox.selected ) {
+                    checkBox.graphics.beginFill( 'yellow' ).drawRoundRect( 0, 0, 30, 30, 5 ).endFill();
+                }
+            };
             return row;
         }
 
@@ -194,6 +204,7 @@ $( function () {
             text.x = 25;
             container.addChild( text );
             controlPanel.addLayoutItem( container );
+
             return controlPanel;
         }
 
