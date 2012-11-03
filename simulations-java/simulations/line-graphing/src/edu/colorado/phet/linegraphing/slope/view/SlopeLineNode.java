@@ -11,7 +11,7 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Visual representation of a line labels with slope equation. (m = value)
+ * Visual representation of a line, labeled with slope (m = value).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
