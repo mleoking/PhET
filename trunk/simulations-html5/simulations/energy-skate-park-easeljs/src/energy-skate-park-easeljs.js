@@ -1,4 +1,10 @@
 $( function () {
+    function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; };
+    function showDefault( mouseEvent ) { document.body.style.cursor = "default"; };
+    function setCursorHand( displayObject ) {
+        displayObject.onMouseOver = showPointer;
+        displayObject.onMouseOut = showDefault;
+    }
 
     //Listen for file changes for auto-refresh
     function listenForRefresh() {
@@ -20,8 +26,6 @@ $( function () {
 
         listenForRefresh();
 
-        function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; };
-        function showDefault( mouseEvent ) { document.body.style.cursor = "default"; };
         // Widgets
 
         var Slider = function ( opts ) {
@@ -173,8 +177,7 @@ $( function () {
             var bitmap = new createjs.Bitmap( image );
             bitmap.x = 180 - image.width;
             row.addChild( bitmap );
-            row.onMouseOver = showPointer;
-            row.onMouseOut = showDefault;
+            setCursorHand( row );
             row.onPress = function ( mouseEvent ) {
                 console.log( "pressed" );
                 checkBox.selected = !checkBox.selected;
