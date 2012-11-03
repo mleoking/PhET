@@ -33,6 +33,8 @@ $( function () {
         var Slider = function ( opts ) {
             this.initialize( opts );
         };
+
+        //REVIEW: Why use inheritance here?
         Slider.prototype = $.extend( new createjs.Container(), {
             initialize:function ( opts ) {
                 opts = opts || {};
