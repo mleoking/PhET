@@ -55,9 +55,10 @@ public class GraphControls extends PNode {
     /**
      * Constructor
      *
-     * @param linesVisible  are lines visible on the graph?
-     * @param slopeVisible  are the slope (rise/run) brackets visible on the graphed line?
-     * @param standardLines standard lines (eg, y=x) that are available for viewing
+     * @param linesVisible         are lines visible on the graph?
+     * @param slopeVisible         are the slope (rise/run) brackets visible on the graphed line?
+     * @param standardLines        standard lines (eg, y=x) that are available for viewing
+     * @param includeStandardLines should check boxes for standard lines be accessible?
      */
     private GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible, final ObservableList<Line> standardLines, boolean includeStandardLines ) {
 
