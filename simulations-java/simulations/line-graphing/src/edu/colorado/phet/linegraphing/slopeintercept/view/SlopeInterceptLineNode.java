@@ -11,7 +11,7 @@ import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Visual representation of a line in simplified slope-intercept form (y = mx + b).
+ * Visual representation of a line, labeled with an equation in slope-intercept form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
