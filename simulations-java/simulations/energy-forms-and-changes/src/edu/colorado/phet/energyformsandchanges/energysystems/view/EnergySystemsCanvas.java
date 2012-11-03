@@ -155,7 +155,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         {
             double energyControlsCenterX = STAGE_SIZE.getWidth() - Math.max( showEnergyControlPanel.getFullWidth() / 2, energyChunkLegend.getFullBoundsReference().getWidth() / 2 ) - CONTROL_INSET;
             showEnergyControlPanel.setOffset( energyControlsCenterX - showEnergyControlPanel.getFullBoundsReference().getWidth() / 2, CONTROL_INSET );
-            energyChunkLegend.setOffset( energyControlsCenterX - energyChunkLegend.getFullBoundsReference().getWidth() / 2,
+            energyChunkLegend.setOffset( STAGE_SIZE.getWidth() - energyChunkLegend.getFullBoundsReference().getWidth() - CONTROL_INSET,
                                          showEnergyControlPanel.getFullBoundsReference().getMaxY() + CONTROL_INSET );
         }
 
