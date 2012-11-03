@@ -184,7 +184,8 @@ $( function () {
                 checkBox.selected = !checkBox.selected;
                 checkBox.graphics.clear().beginStroke( "#000000" ).drawRoundRect( 0, 0, 30, 30, 5 ).endStroke();
                 if ( checkBox.selected ) {
-                    checkBox.graphics.beginFill( 'yellow' ).drawRoundRect( 0, 0, 30, 30, 5 ).endFill();
+                    var offsetY = 5;
+                    checkBox.graphics.beginStroke( 'black' ).setStrokeStyle( 5 ).moveTo( 5, 20 - offsetY ).lineTo( 10, 30 - offsetY ).lineTo( 28, 10 - offsetY ).endStroke();
                 }
             };
             return row;
