@@ -1,41 +1,24 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
-import java.awt.Color;
-
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
-import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.Thermometer;
 
 /**
- * Class that represents a thermometer in the model.  The thermometer has
- * only a point and a temperature in the model.  Its visual representation is
- * left entirely to the view.
+ * Class that represents a thermometer that can stick to other elements as
+ * they move.
  *
  * @author John Blanco
  */
-public class Thermometer extends UserMovableModelElement {
+public class ElementFollowingThermometer extends Thermometer {
 
-    public final Property<Double> sensedTemperature = new Property<Double>( EFACConstants.ROOM_TEMPERATURE );
-    public final Property<Color> sensedElementColor = new Property<Color>( PhetColorScheme.RED_COLORBLIND );
     private ElementFollower elementFollower = new ElementFollower( this.position );
 
-    public Thermometer( final EFACIntroModel model, Vector2D initialPosition ) {
-        super( initialPosition );
-
-        // Update the sensed temperature at each clock tick.
-        model.getClock().addClockListener( new ClockAdapter() {
-            @Override public void clockTicked( ClockEvent clockEvent ) {
-                TemperatureAndColor temperatureAndColor = model.getTemperatureAndColorAtLocation( position.get() );
-                sensedTemperature.set( temperatureAndColor.temperature );
-                sensedElementColor.set( temperatureAndColor.color );
-            }
-        } );
+    public ElementFollowingThermometer( final EFACIntroModel model, Vector2D initialPosition ) {
+        super( (ConstantDtClock) model.getClock(), model, initialPosition );
 
         // Monitor 'userControlled' in order to see when the user drops this
         // thermometer and determine whether or not it was dropped over
@@ -67,16 +50,6 @@ public class Thermometer extends UserMovableModelElement {
     @Override public void reset() {
         elementFollower.stopFollowing();
         super.reset();
-    }
-
-    @Override public IUserComponent getUserComponent() {
-        //TODO
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override public Property<HorizontalSurface> getBottomSurfaceProperty() {
-        // Can't actually be set on anything, so returns null.
-        return null;
     }
 
     // Convenience class for sticking to model elements.
