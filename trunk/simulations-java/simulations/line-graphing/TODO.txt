@@ -25,6 +25,7 @@ MEDIUM
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
 
 LOW
+- use DefaultDecimalFormat("0") in DynamicValueNode, instead of doing double-to-int conversion
 - vertical alignment of title in EquationControls subclasses looks a little off
 - repackage, in anticipation of having 3 sims in this project
 
