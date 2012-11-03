@@ -357,38 +357,10 @@ $( function () {
         stage.addChild( group );
         stage.update();
 
-        // Physics
-
-        var Vector = {
-            add:function ( v, w ) {
-                return { x:v.x + w.x,
-                    y:v.y + w.y }
-            },
-            sub:function ( v, w ) {
-                return { x:v.x - w.x,
-                    y:v.y - w.y }
-            },
-            times:function ( v, s ) {
-                return { x:v.x * s,
-                    y:v.y * s }
-            },
-            dot:function ( v, w ) {
-                return v.x * w.x + v.y * w.y
-            },
-            length:function ( v ) {
-                return Math.sqrt( Vector.dot( v, v ) )
-            },
-            normalize:function ( v ) {
-                var length = Vector.length( v );
-                return { x:v.x / length,
-                    y:v.y / length }
-            }
-        };
-
         // UI
 
-        var frameCount = 0,
-                lastFrameRateUpdate = null;
+        var frameCount = 0;
+        var lastFrameRateUpdate = null;
 
         function displayFrameRate() {
             frameCount++;
