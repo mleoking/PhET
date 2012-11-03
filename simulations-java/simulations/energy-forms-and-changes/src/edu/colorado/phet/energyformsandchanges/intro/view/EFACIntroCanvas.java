@@ -31,7 +31,7 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.view.BeakerView;
 import edu.colorado.phet.energyformsandchanges.common.view.BurnerNode;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
-import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
+import edu.colorado.phet.energyformsandchanges.intro.model.ElementFollowingThermometer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -198,7 +198,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         backLayer.addChild( thermometerToolBox );
 
         // Add the thermometers.
-        for ( Thermometer thermometer : model.thermometers ) {
+        for ( ElementFollowingThermometer thermometer : model.thermometers ) {
             thermometerToolBox.putThermometerInOpenSpot( thermometer );
             // Add one thermometer node to the front layer and one to the back,
             // and control the visibility based on whether the thermometer is
@@ -287,7 +287,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         model.reset();
         normalSimSpeed.reset();
         // Put the thermometers in the tool box.
-        for ( Thermometer thermometer : model.thermometers ) {
+        for ( ElementFollowingThermometer thermometer : model.thermometers ) {
             thermometerToolBox.putThermometerInOpenSpot( thermometer );
         }
     }
@@ -310,7 +310,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             addChild( new ControlPanelNode( new VBox( 0, thermometerRegion ), backgroundColor ) );
         }
 
-        public void putThermometerInOpenSpot( Thermometer thermometer ) {
+        public void putThermometerInOpenSpot( ElementFollowingThermometer thermometer ) {
             // This is a little tweaky due to the relationship between the
             // thermometer in the model and the view representation.
             double xPos = 35;
@@ -319,7 +319,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             for ( int i = 0; i < NUM_THERMOMETERS_SUPPORTED && !openLocationFound; i++ ) {
                 xPos = getFullBoundsReference().width / NUM_THERMOMETERS_SUPPORTED * i + 15;
                 openLocationFound = true;
-                for ( Thermometer modelThermometer : model.thermometers ) {
+                for ( ElementFollowingThermometer modelThermometer : model.thermometers ) {
                     if ( modelThermometer.position.get().distance( new Vector2D( mvt.viewToModel( xPos, yPos ) ) ) < 1E-3 ) {
                         openLocationFound = false;
                         break;

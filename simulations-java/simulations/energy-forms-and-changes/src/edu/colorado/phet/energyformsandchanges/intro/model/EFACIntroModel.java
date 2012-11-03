@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.common.model.ITemperatureModel;
 import edu.colorado.phet.energyformsandchanges.intro.view.BlockNode;
 
 /**
@@ -29,7 +30,7 @@ import edu.colorado.phet.energyformsandchanges.intro.view.BlockNode;
  *
  * @author John Blanco
  */
-public class EFACIntroModel {
+public class EFACIntroModel implements ITemperatureModel {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -65,7 +66,7 @@ public class EFACIntroModel {
     private final BeakerContainer beaker;
 
     // Thermometers.
-    public final List<Thermometer> thermometers = new ArrayList<Thermometer>();
+    public final List<ElementFollowingThermometer> thermometers = new ArrayList<ElementFollowingThermometer>();
 
     // Air.
     private final Air air;
@@ -120,7 +121,7 @@ public class EFACIntroModel {
         // Add the thermometers.  Set initial position to be off screen.
         // Subsequent initialization will put them into the thermometer box.
         for ( int i = 0; i < NUM_THERMOMETERS; i++ ) {
-            thermometers.add( new Thermometer( this, new Vector2D( 100, 100 ) ) );
+            thermometers.add( new ElementFollowingThermometer( this, new Vector2D( 100, 100 ) ) );
         }
     }
 
@@ -139,7 +140,7 @@ public class EFACIntroModel {
         ironBlock.reset();
         brick.reset();
         beaker.reset();
-        for ( Thermometer thermometer : thermometers ) {
+        for ( ElementFollowingThermometer thermometer : thermometers ) {
             thermometer.reset();
         }
     }
@@ -475,7 +476,7 @@ public class EFACIntroModel {
         return path.getGeneralPath();
     }
 
-    public IClock getClock() {
+    public ConstantDtClock getClock() {
         return clock;
     }
 
