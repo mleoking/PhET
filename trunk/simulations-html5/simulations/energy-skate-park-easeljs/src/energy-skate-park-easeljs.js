@@ -148,7 +148,7 @@ $( function () {
 
         var groundGraphics = new createjs.Graphics();
         groundGraphics.beginFill( "#64aa64" );
-        var groundHeight = 200;
+        var groundHeight = 116;
         groundGraphics.rect( 0, 768 - groundHeight, 1024, groundHeight );
         var ground = new createjs.Shape( groundGraphics );
 
@@ -238,8 +238,8 @@ $( function () {
         house.x = 800;
         var mountainImage = images[2];
         var mountain = new createjs.Bitmap( mountainImage );
-        var mountainScale = 0.6;
-        mountain.x = 0;
+        var mountainScale = 0.43;
+        mountain.x = -50;
         mountain.y = 768 - groundHeight - mountainImage.height * mountainScale;
         mountain.scaleX = mountainScale;
         mountain.scaleY = mountainScale;
