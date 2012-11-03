@@ -17,8 +17,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Base class for visual representation of all lines.
- * The line's equation (in reduced form) is positioned towards the tip, parallel with the line.
- * Subclasses are responsible for creating the equation in the correct form (slope-intercept, point-slope.)
+ * The line's equation is positioned towards the tip, parallel with the line.
+ * Subclasses are responsible for creating the equation in the correct form (slope, slope-intercept, point-slope.)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
