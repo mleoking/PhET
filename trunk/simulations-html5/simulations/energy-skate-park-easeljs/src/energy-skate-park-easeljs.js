@@ -168,6 +168,10 @@ $( function () {
             checkBox.selected = false;
 
             var text2 = new createjs.Text( allTexts[index], '20px "Arial",Tahoma' );
+
+            //Caching the text saves a few percent in profiling but makes it less crisp.
+            text2.cache( 0, 0, 100, 100 );
+
             text2.y = 3;
             text2.x = 30 + 5;
             row.height = 40;//make all rows same height
