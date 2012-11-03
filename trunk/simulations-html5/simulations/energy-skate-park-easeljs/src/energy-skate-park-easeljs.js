@@ -413,9 +413,15 @@ $( function () {
 //            console.log( originalEnergy );
             if ( skater.attached ) {
 
-                skater.attachmentPoint = skater.attachmentPoint + 0.007;
+                var speed = skater.velocity.magnitude();
+                console.log( speed );
 
-                //TODO: could avoid recomputing the splines in this step if they haven't changed.
+                skater.attachmentPoint = skater.attachmentPoint + speed / 1.8 * 0.003;
+
+                //Find a point on the spline that conserves energy and is near the original point and in the right direction.
+
+
+                //Could avoid recomputing the splines in this step if they haven't changed.  But it doesn't show up as high in the profiler.
                 var s = numeric.linspace( 0, 1, controlPoints.length );
                 var splineX = numeric.spline( s, controlPoints.map( getX ) );
                 var splineY = numeric.spline( s, controlPoints.map( getY ) );
@@ -424,8 +430,9 @@ $( function () {
 
                 if ( skater.attachmentPoint > 1.0 || skater.attachmentPoint < 0 ) {
                     skater.attached = false;
+                    skater.velocity = vector2d( skater.x - originalX, skater.y - originalY );
                 }
-                skater.velocity = vector2d( skater.x - originalX, skater.y - originalY );
+
             }
             else {
 
