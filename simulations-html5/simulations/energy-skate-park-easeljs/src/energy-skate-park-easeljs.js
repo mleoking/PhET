@@ -170,21 +170,28 @@ $( function () {
             var checkBox = new createjs.Shape( new createjs.Graphics().beginStroke( "#000000" ).drawRoundRect( 0, 0, 30, 30, 5 ).endStroke() );
             checkBox.selected = false;
 
+            var widths = [];
+            for ( var i = 0; i < allTexts.length; i++ ) {
+                var width = new createjs.Text( allTexts[i], '20px "Arial",Tahoma' ).getMeasuredWidth();
+                widths.push( width );
+            }
+            var maxTextWidth = Math.max.apply( null, widths );
+
             var text2 = new createjs.Text( allTexts[index], '20px "Arial",Tahoma' );
 
             //Caching the text saves a few percent in profiling but makes it less crisp.
             //TODO: maybe the cache scale should match the globalScale to make it super crisp
-            text2.cache( 0, 0, 100, 100, 1.1 );
+//            text2.cache( 0, 0, 100, 100, 1.1 );
 
             text2.y = 3;
-            text2.x = 30 + 5;
+            text2.x = 35;
             row.height = 40;//make all rows same height
 
             row.width = text2.getMeasuredWidth();
             row.addChild( checkBox );
             row.addChild( text2 );
             var bitmap = new createjs.Bitmap( image );
-            bitmap.x = 180 - image.width;
+            bitmap.x = text2.x + maxTextWidth + 15;
             row.addChild( bitmap );
             setCursorHand( row );
             row.onPress = function ( mouseEvent ) {
@@ -414,8 +421,6 @@ $( function () {
             if ( skater.attached ) {
 
                 var speed = skater.velocity.magnitude();
-                console.log( speed );
-
                 skater.attachmentPoint = skater.attachmentPoint + speed / 1.8 * 0.003;
 
                 //Find a point on the spline that conserves energy and is near the original point and in the right direction.
