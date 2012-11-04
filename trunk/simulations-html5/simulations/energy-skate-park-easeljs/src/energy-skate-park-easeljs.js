@@ -210,7 +210,8 @@ $( function () {
             var container = new createjs.Container();
             var offsetY = 8;
             var insetX = 8;
-            container.addChild( new createjs.Shape( new createjs.Graphics().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, 200, 195, 10 ).endFill().beginStroke( "black" ).drawRoundRect( 0, 0, 200, 195, 10 ).endStroke() ) );
+            var width = 200;
+            container.addChild( new createjs.Shape( new createjs.Graphics().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, width, 195, 10 ).endFill().beginStroke( "black" ).drawRoundRect( 0, 0, width, 195, 10 ).endStroke() ) );
             container.addLayoutItem = function ( child ) {
                 child.x = insetX;
                 child.y = offsetY;
@@ -223,12 +224,19 @@ $( function () {
         }
 
         function createControlPanel() {
-            var controlPanel = verticalLayoutPanel();
             var texts = ["Bar Graph", "Pie Chart", "Grid", "Speed"];
-            controlPanel.addLayoutItem( checkBoxRow( texts, 0, images[3] ) );
-            controlPanel.addLayoutItem( checkBoxRow( texts, 1, images[4] ) );
-            controlPanel.addLayoutItem( checkBoxRow( texts, 2, images[5] ) );
-            controlPanel.addLayoutItem( checkBoxRow( texts, 3, images[6] ) );
+            var checkBoxRows = [
+                checkBoxRow( texts, 0, images[3] ),
+                checkBoxRow( texts, 1, images[4] ),
+                checkBoxRow( texts, 2, images[5] ),
+                checkBoxRow( texts, 3, images[6] )
+            ];
+
+            var controlPanel = verticalLayoutPanel();
+            for ( var i = 0; i < checkBoxRows.length; i++ ) {
+                controlPanel.addLayoutItem( checkBoxRows[i] );
+            }
+
             var container = new createjs.Container();
             var text = new createjs.Text( "Skater Mass", '24px "Arial",Tahoma' );
             text.x = 25;
