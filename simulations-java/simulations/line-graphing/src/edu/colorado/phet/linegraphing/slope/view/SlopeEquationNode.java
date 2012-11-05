@@ -41,7 +41,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class SlopeEquationNode extends EquationNode {
 
     // puts "m = <value>" on a separate line, below the interactive equation
-    private static final boolean PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE = false;
+    private static final boolean PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE = true;
 
     private final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
