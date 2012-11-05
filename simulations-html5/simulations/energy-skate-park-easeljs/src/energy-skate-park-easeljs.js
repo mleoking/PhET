@@ -267,7 +267,12 @@ $( function () {
             text.x = 25;
             container.addChild( text );
             controlPanel.addLayoutItem( container );
-            controlPanel.cache( 0, 0, 1024, 768, 1.0 );
+
+            //Cache the control panel.  This has two effects:
+            //1. Renders it as an image, this improves performance but can cause it to be fuzzy or pixellated (on win7/chrome but not ios/safari).  Maybe we could tune the scale to fix that problem.
+            //2. Only repaint it when there is an actual change, such as mouse press or mouseover.  This also improves performance.
+            //TODO: Reduce the size of this cache.
+            controlPanel.cache( 0, 0, 200, 400, 1 );
 
             return controlPanel;
         }
