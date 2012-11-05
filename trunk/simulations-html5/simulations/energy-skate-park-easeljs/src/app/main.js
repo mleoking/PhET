@@ -2,6 +2,7 @@ require( [
              'mymath'
          ], function ( MyMath ) {
 
+    console.log( MyMath );
 //    var mather = MyMath();
 //    var side = mather.linePointPosition2DVector( pre, post, {x:0, y:0} );
 
@@ -278,7 +279,9 @@ require( [
             //1. Renders it as an image, this improves performance but can cause it to be fuzzy or pixellated (on win7/chrome but not ios/safari).  Maybe we could tune the scale to fix that problem.
             //2. Only repaint it when there is an actual change, such as mouse press or mouseover.  This also improves performance.
             //TODO: Reduce the size of this cache.
+//            if (Win7Chrome){
             controlPanel.cache( 0, 0, 200, 400, 1 );
+//            }
 
             return controlPanel;
         }
@@ -572,7 +575,7 @@ require( [
                             var xRoot = xRoots[i];
                             var pre = {x:splineX.at( xRoot - delta ), y:splineY.at( xRoot - delta )};
                             var post = {x:splineX.at( xRoot + delta ), y:splineY.at( xRoot + delta )};
-                            var side = linePointPosition2DVector( pre, post, {x:0, y:0} );
+                            var side = MyMath.linePointPosition2DVector( pre, post, {x:0, y:0} );
                             sides.push( {xRoot:xRoot, side:side} );
                         }
                         return sides;
@@ -588,7 +591,7 @@ require( [
 
                             var distance = Math.abs( newSide.xRoot - originalSide.xRoot );
 
-                            if ( distance < 1E-4 && getSign( originalSide.side ) != getSign( newSide.side ) ) {
+                            if ( distance < 1E-4 && MyMath.getSign( originalSide.side ) != MyMath.getSign( newSide.side ) ) {
                                 console.log( "crossed over" );
                                 skater.attached = true;
                                 skater.attachmentPoint = newSide.xRoot;
