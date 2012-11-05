@@ -39,8 +39,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class SlopeEquationNode extends EquationNode {
 
-    private final boolean SHOW_UNSIMPLIFIED_VALUE = true; //TODO delete this flag and related code if we decide not to show unsimplified slope value
-
     private final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
@@ -98,13 +96,11 @@ public class SlopeEquationNode extends EquationNode {
             addChild( x2Node );
             addChild( denominatorOperatorNode );
             addChild( x1Node );
-            if ( SHOW_UNSIMPLIFIED_VALUE ) {
-                // = unsimplified value
-                addChild( unsimplifiedEqualsNode );
-                addChild( unsimplifiedRiseNode );
-                addChild( unsimplifiedFractionLineNode );
-                addChild( unsimplifiedRunNode );
-            }
+            // = unsimplified value
+            addChild( unsimplifiedEqualsNode );
+            addChild( unsimplifiedRiseNode );
+            addChild( unsimplifiedFractionLineNode );
+            addChild( unsimplifiedRunNode );
         }
 
         // static layout
