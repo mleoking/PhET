@@ -22,12 +22,12 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.view.spinner.CoordinateSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.MinusNode;
+import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
+import edu.colorado.phet.linegraphing.common.view.spinner.CoordinateSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.X1Y1Colors;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.X2Y2Colors;
-import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -160,15 +160,17 @@ public class SlopeEquationNode extends EquationNode {
         final VoidFunction1<Line> updateLayout = new VoidFunction1<Line>() {
             public void apply( Line line ) {
 
-                // Unsimplified: adjust the fraction line length, center the rise and run values
-                {
-                    unsimplifiedFractionLineNode.setPathTo( createFractionLineShape( Math.max( unsimplifiedRiseNode.getFullBoundsReference().getWidth(), unsimplifiedRunNode.getFullBoundsReference().getWidth() ) ) );
-                    //TODO horizontally center the numbers by taking into account the width of any minus signs. Eg, in -2/3, "2" should be centered over "3".
-                    unsimplifiedRiseNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRiseNode.getFullBoundsReference().getWidth() / 2 ),
-                                                    unsimplifiedFractionLineNode.getFullBoundsReference().getMinY() - unsimplifiedRiseNode.getFullBoundsReference().getHeight() - ySpacing );
-                    unsimplifiedRunNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRunNode.getFullBoundsReference().getWidth() / 2 ),
-                                                   unsimplifiedFractionLineNode.getFullBoundsReference().getMaxY() + ySpacing );
-                }
+                // adjust the fraction line length, center the rise and run values
+                unsimplifiedFractionLineNode.setPathTo( createFractionLineShape( Math.max( unsimplifiedRiseNode.getFullBoundsReference().getWidth(), unsimplifiedRunNode.getFullBoundsReference().getWidth() ) ) );
+
+                // horizontally center rise and run, taking into account the width of any minus signs. Eg, in -2/3, "2" should be centered over "3".
+                final double minusWidth = new PhetPText( "-", staticFont, staticColor ).getFullBoundsReference().getWidth();
+                final double riseXOffset = ( line.rise >= 0 ) ? 0 : -( minusWidth / 2 );
+                final double runXOffset = ( line.run >= 0 ) ? 0 : -( minusWidth / 2 );
+                unsimplifiedRiseNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRiseNode.getFullBoundsReference().getWidth() / 2 ) + riseXOffset,
+                                                unsimplifiedFractionLineNode.getFullBoundsReference().getMinY() - unsimplifiedRiseNode.getFullBoundsReference().getHeight() - ySpacing );
+                unsimplifiedRunNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRunNode.getFullBoundsReference().getWidth() / 2 ) + runXOffset,
+                                               unsimplifiedFractionLineNode.getFullBoundsReference().getMaxY() + ySpacing );
             }
         };
 

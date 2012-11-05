@@ -8,7 +8,6 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- Slope: horizontally center the number parts of the unsimplified rise and run in SlopeEquationNode
 - Slope: deal with changes in SlopeEquationControls panel width, due to changes in the equation's unsimplified value
 - Game: add support for fractional y-intercept in slope-intercept equations (only when y-intercept is non-interactive)
 - Game: "Place 3 Points" challenge
