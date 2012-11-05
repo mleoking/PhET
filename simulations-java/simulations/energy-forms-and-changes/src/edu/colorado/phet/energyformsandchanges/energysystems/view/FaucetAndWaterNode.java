@@ -1,13 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
-import java.awt.GradientPaint;
-import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
-
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -43,21 +38,6 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
         final PPath waterNode = new PhetPPath( EFACConstants.WATER_COLOR_OPAQUE );
         waterNode.setOffset( -mvt.modelToViewX( 0 ) + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
                              -mvt.modelToViewY( 0 ) + mvt.modelToViewDeltaY( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getY() ) );
-
-        faucet.waterShape.addObserver( new VoidFunction1<Shape>() {
-            public void apply( Shape waterShape ) {
-
-                Shape waterShapeInView = mvt.modelToView( waterShape );
-                waterNode.setPathTo( waterShapeInView );
-                Rectangle2D waterBounds = waterShapeInView.getBounds2D();
-                waterNode.setPaint( new GradientPaint( (float) waterBounds.getX(),
-                                                       (float) waterBounds.getY(),
-                                                       ColorUtils.darkerColor( EFACConstants.WATER_COLOR_OPAQUE, 0.3 ),
-                                                       (float) waterBounds.getMaxX(),
-                                                       (float) waterBounds.getY(),
-                                                       ColorUtils.brighterColor( EFACConstants.WATER_COLOR_OPAQUE, 0.5 ) ) );
-            }
-        } );
 
         // Create the water, which consists of a set of water drops.
         final PNode waterLayer = new PNode();
