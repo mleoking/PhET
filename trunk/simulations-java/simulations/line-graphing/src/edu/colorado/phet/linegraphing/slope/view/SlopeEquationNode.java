@@ -34,6 +34,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Renderer for slope equations.
+ * General form is m = (y2 - y1) / (x2 - x1)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -44,7 +45,7 @@ public class SlopeEquationNode extends EquationNode {
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
 
     /*
-     * Use this constructor for interactive equations. Form: m = y2 - y1 / x2 - x1
+     * Use this constructor for interactive equations.
      * x1, y1, x2 and y2 are spinners.
      */
     public SlopeEquationNode( final Property<Line> interactiveLine,
