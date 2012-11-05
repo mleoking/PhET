@@ -79,36 +79,45 @@ public abstract class EquationControls extends PhetPNode {
 
         // horizontal separators
         double maxWidth = panelNode.getFullBoundsReference().getWidth();
-        final PNode titleSeparator = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
-            setStrokePaint( new Color( 212, 212, 212 ) );
+        final Color separatorColor = new Color( 212, 212, 212 );
+        final PPath titleSeparator = new PPath( new Line2D.Double( 0, 0, 1, 0 ) ) {{
+            setStrokePaint( separatorColor );
         }};
-        final PNode buttonsSeparator = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
-            setStrokePaint( new Color( 212, 212, 212 ) );
+        final PPath buttonsSeparator = new PPath( new Line2D.Double( 0, 0, 1, 0 ) ) {{
+            setStrokePaint( separatorColor );
         }};
         subPanelNode.addChild( titleSeparator );
         subPanelNode.addChild( buttonsSeparator );
 
-        // Horizontal strut, to prevent control panel from resizing when minimized.
-        PPath strutNode = new PPath( new Rectangle2D.Double( 0, 0, panelNode.getFullBoundsReference().getWidth() + 4, 1 ) );
-        strutNode.setStroke( null );
-        panelNode.addChild( strutNode );
-        strutNode.moveToBack();
-
-        // layout
+        // do vertical layout first, don't care about xOffsets here
         {
             final double ySpacing = 10;
             final double titleHeight = Math.max( titleNode.getFullBoundsReference().getHeight(), minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() );
-            strutNode.setOffset( 0, 0 );
             minimizeMaximizeButtonNode.setOffset( 5, ( titleHeight - minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() ) / 2 );
             titleNode.setOffset( minimizeMaximizeButtonNode.getFullBoundsReference().getMaxX() + 15,
                                  ( titleHeight - titleNode.getFullBoundsReference().getHeight() ) / 2 );
             titleSeparator.setOffset( 0, titleHeight + ySpacing );
-            equationNode.setOffset( ( maxWidth / 2 ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
-                                    titleSeparator.getFullBoundsReference().getMaxY() + ySpacing );
+            equationNode.setOffset( 0, titleSeparator.getFullBoundsReference().getMaxY() + ySpacing );
             buttonsSeparator.setOffset( 0, equationNode.getFullBoundsReference().getMaxY() + ySpacing );
-            saveLineButton.setOffset( ( maxWidth / 2 ) - saveLineButton.getFullBoundsReference().getWidth() - 3,
-                                      buttonsSeparator.getFullBoundsReference().getMaxY() + ySpacing );
-            eraseLinesButton.setOffset( ( maxWidth / 2 ) + 3, saveLineButton.getYOffset() );
+            saveLineButton.setOffset( 0, buttonsSeparator.getFullBoundsReference().getMaxY() + ySpacing );
+            eraseLinesButton.setOffset( saveLineButton.getFullBoundsReference().getWidth() + 5, saveLineButton.getYOffset() );
+        }
+
+        // Horizontal strut, to prevent control panel from resizing when minimized.  Do this after vertical layout!
+        final double strutWidth = panelNode.getFullBoundsReference().getWidth();
+        PPath strutNode = new PPath( new Rectangle2D.Double( 0, 0, strutWidth, 1 ) );
+        strutNode.setStroke( null );
+        panelNode.addChild( strutNode );
+        strutNode.moveToBack();
+
+        titleSeparator.setPathTo( new Line2D.Double( 0, 0, strutWidth, 0 ) );
+        buttonsSeparator.setPathTo( new Line2D.Double( 0, 0, strutWidth, 0 ) );
+
+        // now do horizontal layout
+        {
+            equationNode.setOffset( ( strutWidth / 2 ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ), equationNode.getYOffset() );
+            saveLineButton.setOffset( ( maxWidth / 2 ) - saveLineButton.getFullBoundsReference().getWidth() - 3, saveLineButton.getYOffset() );
+            eraseLinesButton.setOffset( ( maxWidth / 2 ) + 3, eraseLinesButton.getYOffset() );
         }
 
         // Wrap everything in a Piccolo control panel

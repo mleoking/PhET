@@ -1,3 +1,4 @@
+11/5/12 fix: sizing of EquationControls strutNode looks suspicious, layout hasn't been done for nodes used to determine size
 11/5/12 revert to 1 line for Slope equation
 # 0.00.36 (69881) Nov 5, 2012
 11/5/12 demonstrate putting unsimplified slope below interactive Slope equation
