@@ -1,4 +1,7 @@
-define( [], function () {
+define( ['image!resources/barChartIcon.png',
+            'image!resources/gridIcon.png',
+            'image!resources/pieChartIcon.png',
+            'image!resources/speedIcon.png'], function ( barChartIconImage, gridIconImage, pieChartIconImage, speedIconImage ) {
 
     var result = {};
 
@@ -92,10 +95,10 @@ define( [], function () {
     }
 
 
-    function createControlPanel( barGraphIconImage, pieChartIconImage, gridIconImage, speedIconImage ) {
+    function createControlPanel() {
         var texts = ["Bar Graph", "Pie Chart", "Grid", "Speed"];
         var checkBoxRows = [
-            checkBoxRow( texts, 0, barGraphIconImage ),
+            checkBoxRow( texts, 0, barChartIconImage ),
             checkBoxRow( texts, 1, pieChartIconImage ),
             checkBoxRow( texts, 2, gridIconImage ),
             checkBoxRow( texts, 3, speedIconImage )
