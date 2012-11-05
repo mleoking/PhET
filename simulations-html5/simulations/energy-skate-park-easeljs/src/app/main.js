@@ -25,16 +25,14 @@ require( [
     var groundHeight = 116;
 
     var skater = Skater.create( skaterImage, groundHeight );
-    var controlPanel = ControlPanel.createControlPanel( barChartIconImage, pieChartIconImage, gridIconImage, speedIconImage );
-    var background = Background.create( houseImage, mountainsImage, groundHeight );
 
     //Cache the background into a single image
 //        background.cache( 0, 0, 1024, 768, 1 );
 
     var splineLayer = Spline.createSplineLayer( groundHeight );
 
-    group.addChild( background );
-    group.addChild( controlPanel );
+    group.addChild( Background.create( houseImage, mountainsImage, groundHeight ) );
+    group.addChild( ControlPanel.createControlPanel( barChartIconImage, pieChartIconImage, gridIconImage, speedIconImage ) );
     group.addChild( splineLayer );
     group.addChild( skater );
     group.addChild( fpsText );
