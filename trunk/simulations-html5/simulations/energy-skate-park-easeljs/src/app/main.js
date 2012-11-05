@@ -223,15 +223,6 @@ require( [
 
         function displayFrameRate() {
             frameCount++;
-//            if ( frameCount > 30 ) {
-//                var now = new Date().getTime();
-//
-//                var rate = frameCount * 1000 / (now - lastFrameRateUpdate);
-//                fpsText.text = rate.toFixed( 1 ) + " fps";
-//
-//                frameCount = 0;
-//                lastFrameRateUpdate = now
-//            }
 
             //Get frame rate but filter transients: http://stackoverflow.com/questions/4787431/check-fps-in-js
             var thisFrameTime = (thisLoop = new Date) - lastLoop;
@@ -239,9 +230,6 @@ require( [
             lastLoop = thisLoop;
             if ( frameCount > 30 ) {
                 fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";
-
-                //States for appcache: http://motyar.blogspot.com/2011/09/handling-html5-application-cache-with.html
-                // (appcache = "+window.applicationCache.status+")";
             }
         }
 
