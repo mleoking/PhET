@@ -1,29 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resonance-strings_el.xml created Mon Aug 01 17:04:57 EEST 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) Φεβ 9, 2011-->
-<SimStrings>
+<!--resonance-strings_el.xml created Sun Nov 04 12:29:43 EET 2012 using: resonance 1.01.00 (54775), translation-utility 2.14.00 (69024) Οκτ 9, 2012--><SimStrings>
 <string key="simSpeed" value="ταχύτητα προσομοίωσης"/>
-<string key="sameFrequency" value="ίδια συχνότητα"/>
+<string key="sameFrequency" value="ίδια ιδιοσυχνότητα fo"/>
+<string key="sameSpring" value="ίδια σταθερά ελατηρίου k"/>
 <string key="slow" value="αργά"/>
-<string key="kg" value="κ."/>
+<string key="mixedMAndK" value="τυχαίες τιμές m, k"/>
+<string key="numberOfResonators" value="Πλήθος Ταλαντωτών"/>
+<string key="kg" value="kg"/>
 <string key="pause" value="παύση"/>
-<string key="frequencyEqualsXHz" value="συχνότητα = {0} Hz"/>
+<string key="amplitude" value="πλάτος"/>
+<string key="frequencyEqualsXHz" value="ιδιοσυχνότητα = {0} Hz"/>
+<string key="sloMo" value="Αργή Κίνηση"/>
 <string key="step" value="βήμα"/>
-<string key="cm" value="εκ."/>
-<string key="driver" value="ΟΔΗΓΟΣ"/>
-<string key="on" value="ανοιχτό"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="ΔΙΕΓΕΡΤΗΣ"/>
+<string key="on" value="ενεργοποίηση"/>
 <string key="ruler" value="Χάρακας"/>
 <string key="resonance.simTitle" value="Συντονισμός"/>
-<string key="springConstant" value="συνεχής αναπήδηση"/>
-<string key="frequency" value="συχνότητα"/>
+<string key="NperMperS" value="kg/s"/>
+<string key="springConstant" value="σταθερά ελατηρίου k"/>
+<string key="frequency" value="συχνότητα f"/>
 <string key="resetAll" value="Επαναφορά όλων"/>
 <string key="mass" value="Μάζα"/>
 <string key="sameMass" value="ίδια μάζα m"/>
-<string key="translation.credits" value="Yannis Kaskamanidis"/>
+<string key="resonator" value="Ταλαντωτής"/>
+<string key="translation.credits" value="Victoria Christodoulou"/>
 <string key="hz" value="Hz"/>
-<string key="play" value="αναπαραγωγή"/>
+<string key="NperM" value="N/m"/>
 <string key="gravityColon" value="Βαρύτητα:"/>
+<string key="play" value="Εκτέλεση"/>
 <string key="paused" value="ΣΤΑΜΑΤΗΜΕΝΟ"/>
-<string key="off" value="κλειστό"/>
-<string key="dampingConstant" value="συνεχής απόσβεση"/>
+<string key="off" value="απενεργοποίηση"/>
+<string key="dampingConstant" value="σταθερά απόσβεσης b"/>
 <string key="normal" value="κανονικά"/>
+<string key="selectPreset" value="Επιλέξτε"/>
 </SimStrings>
