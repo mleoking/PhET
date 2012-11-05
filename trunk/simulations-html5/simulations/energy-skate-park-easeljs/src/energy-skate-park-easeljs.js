@@ -107,7 +107,7 @@ $( function () {
         var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
         fpsText.x = 4;
         fpsText.y = 280;
-        group.addChild( fpsText );
+
         var skater = new createjs.Bitmap( images[0] );
         skater.mass = 50;//kg
         setCursorHand( skater );
@@ -156,7 +156,7 @@ $( function () {
         var ground = new createjs.Shape( groundGraphics );
 
         var skyGraphics = new createjs.Graphics();
-        skyGraphics.beginFill( "#7cc7fe" );
+        skyGraphics.beginLinearGradientFill( ["#7cc7fe", "#ffffff"], [0, 1], 0, 0, 0, 768 - groundHeight );
         skyGraphics.rect( 0, 0, 1024, 768 - groundHeight );
         var sky = new createjs.Shape( skyGraphics );
 
@@ -167,7 +167,7 @@ $( function () {
             //Larger area behind for hit detection
             row.addChild( new createjs.Shape( new createjs.Graphics().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, 180, 40, 5 ).endStroke() ) );
 
-            var checkBox = new createjs.Shape( new createjs.Graphics().beginStroke( "#000000" ).drawRoundRect( 0, 0, 30, 30, 5 ).endStroke() );
+            var checkBox = new createjs.Shape( new createjs.Graphics().beginFill( "#cccccc" ).drawRoundRect( 5, 5, 20, 20, 5 ).endStroke() );
             checkBox.selected = false;
 
             var widths = [];
@@ -197,12 +197,19 @@ $( function () {
             row.onPress = function ( mouseEvent ) {
                 console.log( "pressed" );
                 checkBox.selected = !checkBox.selected;
-                checkBox.graphics.clear().beginStroke( "#000000" ).drawRoundRect( 0, 0, 30, 30, 5 ).endStroke();
+
+
                 if ( checkBox.selected ) {
-                    var offsetY = 5;
-                    checkBox.graphics.beginStroke( 'black' ).setStrokeStyle( 5 ).moveTo( 5, 20 - offsetY ).lineTo( 10, 30 - offsetY ).lineTo( 28, 10 - offsetY ).endStroke();
+                    var offsetY = 7;
+                    checkBox.graphics.clear().beginFill( "#3e84b5" ).drawRoundRect( 5, 5, 20, 20, 5 ).endStroke().
+                            beginStroke( 'black' ).setStrokeStyle( 5 ).moveTo( 8, 20 - offsetY ).lineTo( 14, 30 - offsetY - 2 ).lineTo( 28, 10 - offsetY ).endStroke().
+                            beginStroke( 'white' ).setStrokeStyle( 4 ).moveTo( 8, 20 - offsetY ).lineTo( 14, 30 - offsetY - 2 ).lineTo( 28, 10 - offsetY ).endStroke();
+                }
+                else {
+                    checkBox.graphics.clear().beginFill( "#cccccc" ).drawRoundRect( 5, 5, 20, 20, 5 ).endStroke();
                 }
             };
+            row.onPress( "hi" );
             return row;
         }
 
@@ -368,6 +375,7 @@ $( function () {
         group.addChild( controlPanel );
         group.addChild( splineLayer );
         group.addChild( skater );
+        group.addChild( fpsText );
 
         //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
         var canvas = document.getElementById( "c" );
@@ -389,7 +397,7 @@ $( function () {
 
         function displayFrameRate() {
             frameCount++;
-            if ( frameCount > 30 ) {
+            if ( frameCount > 3 ) {
                 var now = new Date().getTime();
 
                 var rate = frameCount * 1000 / (now - lastFrameRateUpdate);
@@ -414,6 +422,7 @@ $( function () {
             canvas.attr( 'height', canvasH );
             canvas.offset( {left:(winW - canvasW) / 2, top:(winH - canvasH) / 2} );
             group.scaleX = group.scaleY = scale;
+//            controlPanel.cache(0,0,1024,768,scale*2);
             stage.update();
         };
         $( window ).resize( onResize );
