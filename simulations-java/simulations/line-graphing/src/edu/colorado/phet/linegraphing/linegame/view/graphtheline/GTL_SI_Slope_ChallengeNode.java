@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
-import edu.colorado.phet.linegraphing.common.model.LineParameterRange;
+import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeParameterRange;
 import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
 import edu.colorado.phet.linegraphing.common.view.PlottedPointNode;
@@ -19,6 +19,7 @@ import edu.colorado.phet.linegraphing.common.view.manipulator.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.linegame.LineGameConstants;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.graphtheline.GTL_Challenge;
+import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptParameterRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -93,7 +94,7 @@ public class GTL_SI_Slope_ChallengeNode extends GTL_SI_ChallengeNode {
                     slopeManipulatorNode.setOffset( challenge.mvt.modelToView( line.x2, line.y2 ) );
 
                     // adjust range
-                    riseRange.set( LineParameterRange.rise( line, challenge.graph ) );
+                    riseRange.set( new SlopeInterceptParameterRange().rise( line, challenge.graph ) );
                 }
             } );
         }

@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.LineParameterRange;
+import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeParameterRange;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
@@ -95,10 +95,11 @@ public class GTL_PS_PointSlope_ChallengeNode extends GTL_PS_ChallengeNode {
                     slopeManipulatorNode.setOffset( challenge.mvt.modelToView( line.x2, line.y2 ) );
 
                     // adjust ranges
-                    x1Range.set( LineParameterRange.x1( line, challenge.graph ) );
-                    y1Range.set( LineParameterRange.y1( line, challenge.graph ) );
-                    riseRange.set( LineParameterRange.rise( line, challenge.graph ) );
-                    runRange.set( LineParameterRange.run( line, challenge.graph ) );
+                    final PointSlopeParameterRange pointSlopeParameterRange = new PointSlopeParameterRange();
+                    x1Range.set( pointSlopeParameterRange.x1( line, challenge.graph ) );
+                    y1Range.set( pointSlopeParameterRange.y1( line, challenge.graph ) );
+                    riseRange.set( pointSlopeParameterRange.rise( line, challenge.graph ) );
+                    runRange.set( pointSlopeParameterRange.run( line, challenge.graph ) );
                 }
             } );
         }
