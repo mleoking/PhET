@@ -86,9 +86,10 @@ require( [
     createjs.Ticker.addListener( function () {Physics.updatePhysics( skater, groundHeight, splineLayer );} );
 
     //Enable touch and prevent default
-    //Necessary to enable mouseover events
-    stage.enableMouseOver();
     createjs.Touch.enable( stage, false, false );
+
+    //Necessary to enable MouseOver events
+    stage.enableMouseOver();
 
     //Paint once after initialization
     stage.update();
