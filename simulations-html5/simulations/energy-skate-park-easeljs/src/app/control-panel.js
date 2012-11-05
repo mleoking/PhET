@@ -92,13 +92,13 @@ define( [], function () {
     }
 
 
-    function createControlPanel( images ) {
+    function createControlPanel( barGraphIconImage, pieChartIconImage, gridIconImage, speedIconImage ) {
         var texts = ["Bar Graph", "Pie Chart", "Grid", "Speed"];
         var checkBoxRows = [
-            checkBoxRow( texts, 0, images[3] ),
-            checkBoxRow( texts, 1, images[4] ),
-            checkBoxRow( texts, 2, images[5] ),
-            checkBoxRow( texts, 3, images[6] )
+            checkBoxRow( texts, 0, barGraphIconImage ),
+            checkBoxRow( texts, 1, pieChartIconImage ),
+            checkBoxRow( texts, 2, gridIconImage ),
+            checkBoxRow( texts, 3, speedIconImage )
         ];
 
         var controlPanel = verticalLayoutPanel();

@@ -6,8 +6,7 @@ require.config( {
                         plugins:"../js/plugins",
 
                         underscore:"../js/vendor/underscore-min",
-                        mymath:"mymath"
-
+                        image:"../js/vendor/image"
                     },
 
                     shim:{

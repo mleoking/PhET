@@ -1,5 +1,5 @@
 define( [], function () {
-    var result = {create:function ( images, groundHeight ) {
+    var result = {create:function ( houseImage, mountainImage, groundHeight ) {
         var groundGraphics = new createjs.Graphics();
         groundGraphics.beginFill( "#64aa64" );
 
@@ -15,11 +15,9 @@ define( [], function () {
         var background = new createjs.Container();
         background.addChild( sky );
         background.addChild( ground );
-        var houseImage = images[1];
         var house = new createjs.Bitmap( houseImage );
         house.y = 768 - groundHeight - houseImage.height;
         house.x = 800;
-        var mountainImage = images[2];
         var mountain = new createjs.Bitmap( mountainImage );
         var mountainScale = 0.43;
         mountain.x = -50;
