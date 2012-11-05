@@ -8,7 +8,7 @@ import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 /**
  * Model for the "Slope-Intercept" tab.
  * This is a specialization of the Point-Slope model.
- * x1 fixed at zero, so that y1 is synonymous with y-intercept.
+ * x1 is fixed at zero, so that y1 is synonymous with y-intercept.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
