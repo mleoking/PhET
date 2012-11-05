@@ -14,6 +14,8 @@ require( [
              'image!resources/speedIcon.png'
          ], function ( Geometry, Vector2D, WebsocketRefresh, Skater, ControlPanel, Background, barChartIconImage, gridIconImage, houseImage, mountainsImage, pieChartIconImage, skaterImage, speedIconImage ) {
 
+    WebsocketRefresh.listenForRefresh();
+
     function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 
     function showDefault( mouseEvent ) { document.body.style.cursor = "default"; }
@@ -22,8 +24,6 @@ require( [
         displayObject.onMouseOver = showPointer;
         displayObject.onMouseOut = showDefault;
     }
-
-    WebsocketRefresh.listenForRefresh();
 
     var group = new createjs.Container();
     var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
