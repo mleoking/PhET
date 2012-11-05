@@ -40,6 +40,9 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class SlopeEquationNode extends EquationNode {
 
+    // puts "m = <value>" on a separate line, below the interactive equation
+    private static final boolean PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE = true;
+
     private final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
@@ -81,6 +84,8 @@ public class SlopeEquationNode extends EquationNode {
         final PText unsimplifiedRiseNode = new PhetPText( "?", staticFont, staticColor );
         final PText unsimplifiedRunNode = new PhetPText( "?", staticFont, staticColor );
         final PPath unsimplifiedFractionLineNode = new PhetPPath( createFractionLineShape( 10 ), staticColor, null, null ); // correct length will be set later
+        // m = for second line
+        PNode m2Node = new PhetPText( Strings.SYMBOL_SLOPE, staticFont, staticColor );
 
         // rendering order
         {
@@ -98,6 +103,9 @@ public class SlopeEquationNode extends EquationNode {
             addChild( denominatorOperatorNode );
             addChild( x1Node );
             // = unsimplified value
+            if ( PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE ) {
+                addChild( m2Node );
+            }
             addChild( unsimplifiedEqualsNode );
             addChild( unsimplifiedRiseNode );
             addChild( unsimplifiedFractionLineNode );
@@ -130,10 +138,19 @@ public class SlopeEquationNode extends EquationNode {
             x1Node.setOffset( denominatorOperatorNode.getFullBoundsReference().getMaxX() + operatorXSpacing,
                               x2Node.getYOffset() );
             // = unsimplified value
-            unsimplifiedEqualsNode.setOffset( interactiveFractionLineNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                              interactiveEqualsNode.getYOffset() );
-            unsimplifiedFractionLineNode.setOffset( unsimplifiedEqualsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
-                                                    interactiveFractionLineNode.getYOffset() );
+            if ( PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE ) {
+                m2Node.setOffset( mNode.getXOffset(), x1Node.getFullBoundsReference().getMaxY() + 20 );
+                unsimplifiedEqualsNode.setOffset( m2Node.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                                  m2Node.getYOffset() );
+                unsimplifiedFractionLineNode.setOffset( unsimplifiedEqualsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                                        unsimplifiedEqualsNode.getFullBoundsReference().getCenterY() + fractionLineYFudgeFactor );
+            }
+            else {
+                unsimplifiedEqualsNode.setOffset( interactiveFractionLineNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                                  interactiveEqualsNode.getYOffset() );
+                unsimplifiedFractionLineNode.setOffset( unsimplifiedEqualsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
+                                                        interactiveFractionLineNode.getYOffset() );
+            }
             // all other layout is done dynamically, in updateLayout
         }
 
