@@ -3,8 +3,9 @@ require( [
              'vector2d',
              'websocket-refresh',
              'skater',
-             'control-panel'
-         ], function ( Geometry, Vector2D, WebsocketRefresh, Skater, ControlPanel ) {
+             'control-panel',
+             'background'
+         ], function ( Geometry, Vector2D, WebsocketRefresh, Skater, ControlPanel, Background ) {
 
     function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 
@@ -27,36 +28,8 @@ require( [
 
         var skater = Skater.create( images[0], groundHeight );
         setCursorHand( skater );
-
-        var groundGraphics = new createjs.Graphics();
-        groundGraphics.beginFill( "#64aa64" );
-
-        groundGraphics.rect( 0, 768 - groundHeight, 1024, groundHeight );
-        var ground = new createjs.Shape( groundGraphics );
-
-        var skyGraphics = new createjs.Graphics();
-        skyGraphics.beginLinearGradientFill( ["#7cc7fe", "#ffffff"], [0, 1], 0, 0, 0, 768 - groundHeight );
-        skyGraphics.rect( 0, 0, 1024, 768 - groundHeight );
-        var sky = new createjs.Shape( skyGraphics );
-
         var controlPanel = ControlPanel.createControlPanel( images );
-
-        var background = new createjs.Container();
-        background.addChild( sky );
-        background.addChild( ground );
-        var houseImage = images[1];
-        var house = new createjs.Bitmap( houseImage );
-        house.y = 768 - groundHeight - houseImage.height;
-        house.x = 800;
-        var mountainImage = images[2];
-        var mountain = new createjs.Bitmap( mountainImage );
-        var mountainScale = 0.43;
-        mountain.x = -50;
-        mountain.y = 768 - groundHeight - mountainImage.height * mountainScale;
-        mountain.scaleX = mountainScale;
-        mountain.scaleY = mountainScale;
-        background.addChild( mountain );
-        background.addChild( house );
+        var background = Background.create( images, groundHeight );
 
         var splineLayer = new createjs.Container();
         var line = null;
