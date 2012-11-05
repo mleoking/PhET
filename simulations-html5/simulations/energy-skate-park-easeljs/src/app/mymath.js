@@ -1,3 +1,7 @@
+//define( [], function () {
+
+function MyMath() {}
+
 function getSign( value ) {
     if ( value == 0 ) {
         return 0;
@@ -23,3 +27,5 @@ var linePointPosition2DVector = function ( p1, p2, p3 ) {
     var pp = sub( p3, p1 );
     return dot( pp, perp );
 };
+
+//} );

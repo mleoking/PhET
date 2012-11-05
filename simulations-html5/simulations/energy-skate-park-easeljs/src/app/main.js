@@ -1,6 +1,9 @@
 require( [
+             'mymath'
+         ], function ( MyMath ) {
 
-         ], function () {
+//    var mather = MyMath();
+//    var side = mather.linePointPosition2DVector( pre, post, {x:0, y:0} );
 
     function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 
