@@ -96,13 +96,13 @@ public abstract class EquationControls extends PhetPNode {
             final double ySpacing = 10;
             final double titleHeight = Math.max( titleNode.getFullBoundsReference().getHeight(), minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() );
             minimizeMaximizeButtonNode.setOffset( 0, ( titleHeight - minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() ) / 2 );
-            titleNode.setOffset( minimizeMaximizeButtonNode.getFullBoundsReference().getWidth() + buttonsXSpacing,
+            titleNode.setOffset( minimizeMaximizeButtonNode.getFullBoundsReference().getMaxX() + buttonsXSpacing,
                                  ( titleHeight - titleNode.getFullBoundsReference().getHeight() ) / 2 );
             titleSeparator.setOffset( 0, titleHeight + ySpacing );
             equationNode.setOffset( 0, titleSeparator.getFullBoundsReference().getMaxY() + ySpacing );
             buttonsSeparator.setOffset( 0, equationNode.getFullBoundsReference().getMaxY() + ySpacing );
             saveLineButton.setOffset( 0, buttonsSeparator.getFullBoundsReference().getMaxY() + ySpacing );
-            eraseLinesButton.setOffset( saveLineButton.getFullBoundsReference().getWidth() + buttonsXSpacing, saveLineButton.getYOffset() );
+            eraseLinesButton.setOffset( saveLineButton.getFullBoundsReference().getMaxX() + buttonsXSpacing, saveLineButton.getYOffset() );
         }
 
         // Horizontal strut, to prevent control panel from resizing when minimized.  Do this after vertical layout!
