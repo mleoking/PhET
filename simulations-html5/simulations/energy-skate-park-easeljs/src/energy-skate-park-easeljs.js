@@ -395,6 +395,9 @@ $( function () {
         splineLayer.addChild( b );
         splineLayer.addChild( c );
 
+        //Cache the background into a single image
+//        background.cache( 0, 0, 1024, 768, 1 );
+
         group.addChild( background );
         group.addChild( controlPanel );
         group.addChild( splineLayer );
