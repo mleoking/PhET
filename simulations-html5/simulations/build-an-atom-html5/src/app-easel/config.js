@@ -7,7 +7,7 @@ require.config({
     plugins: "../js/plugins",
 
     underscore: "../js/vendor/underscore-min",
-    easel: "../js/vendor/easeljs-0.5.0"
+    easel: "../js/vendor/easeljs-0.5.0.min"
   },
 
   shim: {
