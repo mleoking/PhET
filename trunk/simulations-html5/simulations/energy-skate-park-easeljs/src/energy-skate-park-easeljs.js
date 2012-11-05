@@ -200,11 +200,13 @@ $( function () {
                 showPointer( event );
 //                text2.color="black";
                 backgroundShape.graphics.clear().beginFill( "#6dff7e" ).drawRoundRect( 0, 0, 180, 40, 5 ).endStroke();
+                controlPanel.updateCache();
             };
             row.onMouseOut = function ( event ) {
                 showDefault( event );
 //                text2.color="black";
                 backgroundShape.graphics.clear().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, 180, 40, 5 ).endStroke();
+                controlPanel.updateCache();
             };
             row.onPress = function ( mouseEvent ) {
                 console.log( "pressed" );
@@ -220,6 +222,7 @@ $( function () {
                 else {
                     checkBox.graphics.clear().beginFill( "#cccccc" ).drawRoundRect( 5, 9, 20, 20, 5 ).endStroke();
                 }
+                controlPanel.updateCache();
             };
             //Update once
 //            row.onPress( "hi" );
@@ -264,6 +267,7 @@ $( function () {
             text.x = 25;
             container.addChild( text );
             controlPanel.addLayoutItem( container );
+            controlPanel.cache( 0, 0, 1024, 768, 1.0 );
 
             return controlPanel;
         }
