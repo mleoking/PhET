@@ -22,6 +22,6 @@ class SlopeEquationControls extends EquationControls {
                viewProperties.linesVisible,
                new SlopeEquationNode( model.interactiveLine, model.x1Range, model.y1Range,
                                       LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT,
-                                      LGColors.STATIC_EQUATION_ELEMENT ) );
+                                      LGColors.STATIC_EQUATION_ELEMENT ), 30 );
     }
 }
