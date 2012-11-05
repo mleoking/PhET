@@ -7,11 +7,9 @@ require( [
              'physics',
              'image!resources/barChartIcon.png',
              'image!resources/gridIcon.png',
-             'image!resources/house.png',
-             'image!resources/mountains.png',
              'image!resources/pieChartIcon.png',
              'image!resources/speedIcon.png'
-         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, barChartIconImage, gridIconImage, houseImage, mountainsImage, pieChartIconImage, speedIconImage ) {
+         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, barChartIconImage, gridIconImage, pieChartIconImage, speedIconImage ) {
 
     WebsocketRefresh.listenForRefresh();
 
@@ -28,7 +26,7 @@ require( [
 
     var splineLayer = Spline.createSplineLayer( groundHeight );
 
-    group.addChild( Background.create( houseImage, mountainsImage, groundHeight ) );
+    group.addChild( Background.createBackground( groundHeight ) );
     group.addChild( ControlPanel.createControlPanel( barChartIconImage, pieChartIconImage, gridIconImage, speedIconImage ) );
     group.addChild( splineLayer );
     group.addChild( skater );
