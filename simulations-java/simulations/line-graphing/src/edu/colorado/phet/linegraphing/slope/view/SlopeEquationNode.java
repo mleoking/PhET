@@ -41,7 +41,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class SlopeEquationNode extends EquationNode {
 
     // puts "m = <value>" on a separate line, below the interactive equation
-    private static final boolean PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE = true;
+    private static final boolean PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE = false;
 
     private final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
@@ -88,28 +88,30 @@ public class SlopeEquationNode extends EquationNode {
         PNode m2Node = new PhetPText( Strings.SYMBOL_SLOPE, staticFont, staticColor );
 
         // rendering order
+        final PNode parentNode = new PNode();
+        addChild( parentNode );
         {
             // m =
-            addChild( mNode );
-            addChild( interactiveEqualsNode );
+            parentNode.addChild( mNode );
+            parentNode.addChild( interactiveEqualsNode );
             // y2 - y1
-            addChild( y2Node );
-            addChild( numeratorOperatorNode );
-            addChild( y1Node );
+            parentNode.addChild( y2Node );
+            parentNode.addChild( numeratorOperatorNode );
+            parentNode.addChild( y1Node );
             // fraction line
-            addChild( interactiveFractionLineNode );
+            parentNode.addChild( interactiveFractionLineNode );
             // x2 - x1
-            addChild( x2Node );
-            addChild( denominatorOperatorNode );
-            addChild( x1Node );
+            parentNode.addChild( x2Node );
+            parentNode.addChild( denominatorOperatorNode );
+            parentNode.addChild( x1Node );
             // = unsimplified value
             if ( PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE ) {
-                addChild( m2Node );
+                parentNode.addChild( m2Node );
             }
-            addChild( unsimplifiedEqualsNode );
-            addChild( unsimplifiedRiseNode );
-            addChild( unsimplifiedFractionLineNode );
-            addChild( unsimplifiedRunNode );
+            parentNode.addChild( unsimplifiedEqualsNode );
+            parentNode.addChild( unsimplifiedRiseNode );
+            parentNode.addChild( unsimplifiedFractionLineNode );
+            parentNode.addChild( unsimplifiedRunNode );
         }
 
         // static layout
@@ -210,7 +212,8 @@ public class SlopeEquationNode extends EquationNode {
                 }
                 if ( line.undefinedSlope() ) {
                     undefinedSlopeIndicator = new UndefinedSlopeIndicator( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() );
-                    undefinedSlopeIndicator.setOffset( 0, unsimplifiedFractionLineNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + undefinedSlopeYFudgeFactor );
+                    undefinedSlopeIndicator.setOffset( parentNode.getXOffset(),
+                                                       parentNode.getFullBoundsReference().getCenterY() - ( undefinedSlopeIndicator.getFullBoundsReference().getHeight() / 2 ) + undefinedSlopeYFudgeFactor );
                     addChild( undefinedSlopeIndicator );
                 }
             }
