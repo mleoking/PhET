@@ -1,9 +1,9 @@
 require( [
-             'mymath',
+             'geometry',
              'vector2d',
              'websocket-refresh',
              'skater'
-         ], function ( MyMath, Vector2D, WebsocketRefresh, Skater ) {
+         ], function ( Geometry, Vector2D, WebsocketRefresh, Skater ) {
 
     function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 
@@ -441,7 +441,7 @@ require( [
                             var xRoot = xRoots[i];
                             var pre = {x:splineX.at( xRoot - delta ), y:splineY.at( xRoot - delta )};
                             var post = {x:splineX.at( xRoot + delta ), y:splineY.at( xRoot + delta )};
-                            var side = MyMath.linePointPosition2DVector( pre, post, {x:0, y:0} );
+                            var side = Geometry.linePointPosition2DVector( pre, post, {x:0, y:0} );
                             sides.push( {xRoot:xRoot, side:side} );
                         }
                         return sides;
@@ -457,7 +457,7 @@ require( [
 
                             var distance = Math.abs( newSide.xRoot - originalSide.xRoot );
 
-                            if ( distance < 1E-4 && MyMath.getSign( originalSide.side ) != MyMath.getSign( newSide.side ) ) {
+                            if ( distance < 1E-4 && Geometry.getSign( originalSide.side ) != Geometry.getSign( newSide.side ) ) {
                                 console.log( "crossed over" );
                                 skater.attached = true;
                                 skater.attachmentPoint = newSide.xRoot;
