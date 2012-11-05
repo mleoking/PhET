@@ -30,6 +30,6 @@ public class SlopeModel extends LineFormsModel {
         x2Range = new Property<DoubleRange>( new DoubleRange( LGConstants.X_AXIS_RANGE ) );
         y2Range = new Property<DoubleRange>( new DoubleRange( LGConstants.Y_AXIS_RANGE ) );
 
-        //NOTE: ranges do not need to be dynamically adjusted, because the points are free ranging.
+        //NOTE: Unlike slope-intercept and point-slope, ranges do not need to be dynamically adjusted, because the points are free ranging.
     }
 }
