@@ -1,8 +1,9 @@
 require( [
              'mymath',
              'vector2d',
-             'websocket-refresh'
-         ], function ( MyMath, Vector2D, WebsocketRefresh ) {
+             'websocket-refresh',
+             'skater'
+         ], function ( MyMath, Vector2D, WebsocketRefresh, Skater ) {
 
     function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 
@@ -21,51 +22,14 @@ require( [
         var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
         fpsText.x = 4;
         fpsText.y = 280;
+        var groundHeight = 116;
 
-        var skater = new createjs.Bitmap( images[0] );
-        skater.mass = 50;//kg
+        var skater = Skater.create( images[0], groundHeight );
         setCursorHand( skater );
-
-        //put registration point at bottom center of the skater
-        skater.regX = images[0].width / 2;
-        skater.regY = images[0].height;
-        skater.x = 100;
-        skater.y = 20;
-        skater.velocity = new Vector2D( 0, 0 );
-        var scaleFactor = 0.65;
-        skater.scaleX = scaleFactor;
-        skater.scaleY = scaleFactor;
-
-        function pressHandler( e ) {
-            skater.dragging = true;
-            skater.attached = false;
-            //Make dragging relative to touch point
-            var relativePressPoint = null;
-            e.onMouseMove = function ( event ) {
-                var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
-                if ( relativePressPoint === null ) {
-                    relativePressPoint = {x:e.target.x - transformed.x, y:e.target.y - transformed.y};
-                }
-                else {
-                    e.target.x = transformed.x + relativePressPoint.x;
-
-                    //don't let the skater go below ground
-                    e.target.y = Math.min( transformed.y + relativePressPoint.y, 768 - groundHeight );
-//                    console.log( e.target.y );
-                }
-                skater.dragging = true;
-            };
-            e.onMouseUp = function ( event ) {
-                skater.dragging = false;
-                skater.velocity = new Vector2D();
-            };
-        }
-
-        skater.onPress = pressHandler;
 
         var groundGraphics = new createjs.Graphics();
         groundGraphics.beginFill( "#64aa64" );
-        var groundHeight = 116;
+
         groundGraphics.rect( 0, 768 - groundHeight, 1024, groundHeight );
         var ground = new createjs.Shape( groundGraphics );
 
