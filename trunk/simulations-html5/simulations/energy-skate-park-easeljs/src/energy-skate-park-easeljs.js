@@ -384,12 +384,46 @@ $( function () {
                 }
             };
             line.drawBetweenControlPoints();
+            setCursorHand( line );
+
+            //Allow dragging the entire line
+            function pressHandler( e ) {
+                line.dragging = true;
+                //Make dragging relative to touch point
+                var previousPoint = null;
+                e.onMouseMove = function ( event ) {
+                    var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
+                    if ( previousPoint === null ) {
+                        previousPoint = {x:transformed.x, y:transformed.y};
+                    }
+                    else {
+                        var newPoint = {x:transformed.x, y:transformed.y};
+                        var deltaX = newPoint.x - previousPoint.x;
+                        var deltaY = newPoint.y - previousPoint.y;
+
+                        a.x = a.x + deltaX;
+                        a.y = a.y + deltaY;
+
+                        b.x = b.x + deltaX;
+                        b.y = b.y + deltaY;
+
+                        c.x = c.x + deltaX;
+                        c.y = c.y + deltaY;
+
+                        line.drawBetweenControlPoints();
+                        previousPoint = newPoint;
+                    }
+                };
+            }
+
+            line.onPress = pressHandler;
+
+
             return line;
         }
 
         line = createLine();
         splineLayer.addChild( line );
-
 
         splineLayer.addChild( a );
         splineLayer.addChild( b );
