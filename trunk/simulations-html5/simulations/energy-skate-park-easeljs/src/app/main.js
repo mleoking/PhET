@@ -73,16 +73,13 @@ require( [
             bitmap.y = (row.height - bitmap.image.height) / 2;
             bitmap.x = text2.x + maxTextWidth + 15;
             row.addChild( bitmap );
-//            setCursorHand( row );
             row.onMouseOver = function ( event ) {
                 showPointer( event );
-//                text2.color="black";
                 backgroundShape.graphics.clear().beginFill( "#6dff7e" ).drawRoundRect( 0, 0, 180, 40, 5 ).endStroke();
                 controlPanel.updateCache();
             };
             row.onMouseOut = function ( event ) {
                 showDefault( event );
-//                text2.color="black";
                 backgroundShape.graphics.clear().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, 180, 40, 5 ).endStroke();
                 controlPanel.updateCache();
             };
