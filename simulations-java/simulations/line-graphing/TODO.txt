@@ -20,6 +20,7 @@ MEDIUM
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
 
 LOW
+- remove EquationControls.xPadding param if we decide to split Slope equation across 2 lines
 - implementation of SlopeInterceptEquationNode and PointSlopeEquationNode would be clearer if nodes were added selectively, rather than removed
 - Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
 - use DefaultDecimalFormat("0") in DynamicValueNode, instead of doing double-to-int conversion
