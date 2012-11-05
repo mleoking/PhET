@@ -1,6 +1,7 @@
 require( [
-             'mymath'
-         ], function ( MyMath ) {
+             'mymath',
+             'vector2d'
+         ], function ( MyMath, Vector2D ) {
 
     function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 
@@ -120,7 +121,7 @@ require( [
         skater.regY = images[0].height;
         skater.x = 100;
         skater.y = 20;
-        skater.velocity = vector2d( 0, 0 );
+        skater.velocity = new Vector2D( 0, 0 );
         var scaleFactor = 0.65;
         skater.scaleX = scaleFactor;
         skater.scaleY = scaleFactor;
@@ -532,7 +533,7 @@ require( [
 
                 if ( skater.attachmentPoint > 1.0 || skater.attachmentPoint < 0 ) {
                     skater.attached = false;
-                    skater.velocity = vector2d( skater.x - originalX, skater.y - originalY );
+                    skater.velocity = new Vector2D( skater.x - originalX, skater.y - originalY );
                 }
 
             }
@@ -553,7 +554,7 @@ require( [
                 var newSkaterY = Math.min( maxY, newY );
                 skater.y = newSkaterY;
                 if ( newSkaterY == maxY ) {
-                    skater.velocity = zero();
+                    skater.velocity = new Vector2D();
                 }
 
                 //don't let the skater cross the spline
