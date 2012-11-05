@@ -1,5 +1,7 @@
-define( [], function () {
-    var result = {create:function ( houseImage, mountainImage, groundHeight ) {
+define( [
+            'image!resources/house.png',
+            'image!resources/mountains.png'], function ( houseImage, mountainImage ) {
+    var result = {createBackground:function ( groundHeight ) {
         var groundGraphics = new createjs.Graphics();
         groundGraphics.beginFill( "#64aa64" );
 
