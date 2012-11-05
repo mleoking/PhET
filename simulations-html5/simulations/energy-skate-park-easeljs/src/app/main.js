@@ -1,6 +1,4 @@
 require( [
-             'geometry',
-             'vector2d',
              'websocket-refresh',
              'skater',
              'control-panel',
@@ -14,7 +12,7 @@ require( [
              'image!resources/pieChartIcon.png',
              'image!resources/skater.png',
              'image!resources/speedIcon.png'
-         ], function ( Geometry, Vector2D, WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, barChartIconImage, gridIconImage, houseImage, mountainsImage, pieChartIconImage, skaterImage, speedIconImage ) {
+         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, barChartIconImage, gridIconImage, houseImage, mountainsImage, pieChartIconImage, skaterImage, speedIconImage ) {
 
     WebsocketRefresh.listenForRefresh();
 
