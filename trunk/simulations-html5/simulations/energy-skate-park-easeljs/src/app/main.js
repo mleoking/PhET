@@ -9,7 +9,7 @@ require( [
 
     WebsocketRefresh.listenForRefresh();
 
-    var group = new createjs.Container();
+    var root = new createjs.Container();
     var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
     fpsText.x = 4;
     fpsText.y = 280;
@@ -22,11 +22,11 @@ require( [
 
     var splineLayer = Spline.createSplineLayer( groundHeight );
 
-    group.addChild( Background.createBackground( groundHeight ) );
-    group.addChild( ControlPanel.createControlPanel() );
-    group.addChild( splineLayer );
-    group.addChild( skater );
-    group.addChild( fpsText );
+    root.addChild( Background.createBackground( groundHeight ) );
+    root.addChild( ControlPanel.createControlPanel() );
+    root.addChild( splineLayer );
+    root.addChild( skater );
+    root.addChild( fpsText );
 
     //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
     var canvas = document.getElementById( "c" );
@@ -34,7 +34,7 @@ require( [
     canvas.onmousedown = function () { return false; }; // Mozilla
 
     var stage = new createjs.Stage( canvas );
-    stage.addChild( group );
+    stage.addChild( root );
 
     var frameCount = 0;
 
@@ -63,7 +63,7 @@ require( [
         canvas.attr( 'width', canvasW );
         canvas.attr( 'height', canvasH );
         canvas.offset( {left:(winW - canvasW) / 2, top:(winH - canvasH) / 2} );
-        group.scaleX = group.scaleY = scale;
+        root.scaleX = root.scaleY = scale;
         stage.update();
     };
     $( window ).resize( onResize );
