@@ -165,9 +165,10 @@ $( function () {
             var row = new createjs.Container();
 
             //Larger area behind for hit detection
-            row.addChild( new createjs.Shape( new createjs.Graphics().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, 180, 40, 5 ).endStroke() ) );
+            var backgroundShape = new createjs.Shape( new createjs.Graphics().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, 180, 40, 5 ).endStroke() );
+            row.addChild( backgroundShape );
 
-            var checkBox = new createjs.Shape( new createjs.Graphics().beginFill( "#cccccc" ).drawRoundRect( 5, 5, 20, 20, 5 ).endStroke() );
+            var checkBox = new createjs.Shape( new createjs.Graphics().beginFill( "#cccccc" ).drawRoundRect( 5, 9, 20, 20, 5 ).endStroke() );
             checkBox.selected = false;
 
             var widths = [];
@@ -183,7 +184,7 @@ $( function () {
             //TODO: maybe the cache scale should match the globalScale to make it super crisp
 //            text2.cache( 0, 0, 100, 100, 1.1 );
 
-            text2.y = 3;
+            text2.y = 7;
             text2.x = 35;
             row.height = 40;//make all rows same height
 
@@ -191,22 +192,33 @@ $( function () {
             row.addChild( checkBox );
             row.addChild( text2 );
             var bitmap = new createjs.Bitmap( image );
+            bitmap.y = (row.height - bitmap.image.height) / 2;
             bitmap.x = text2.x + maxTextWidth + 15;
             row.addChild( bitmap );
-            setCursorHand( row );
+//            setCursorHand( row );
+            row.onMouseOver = function ( event ) {
+                showPointer( event );
+//                text2.color="black";
+                backgroundShape.graphics.clear().beginFill( "#6dff7e" ).drawRoundRect( 0, 0, 180, 40, 5 ).endStroke();
+            };
+            row.onMouseOut = function ( event ) {
+                showDefault( event );
+//                text2.color="black";
+                backgroundShape.graphics.clear().beginFill( "#c8f0c8" ).drawRoundRect( 0, 0, 180, 40, 5 ).endStroke();
+            };
             row.onPress = function ( mouseEvent ) {
                 console.log( "pressed" );
                 checkBox.selected = !checkBox.selected;
 
 
                 if ( checkBox.selected ) {
-                    var offsetY = 7;
-                    checkBox.graphics.clear().beginFill( "#3e84b5" ).drawRoundRect( 5, 5, 20, 20, 5 ).endStroke().
+                    var offsetY = 1;
+                    checkBox.graphics.clear().beginFill( "#3e84b5" ).drawRoundRect( 5, 9, 20, 20, 5 ).endStroke().
                             beginStroke( 'black' ).setStrokeStyle( 5 ).moveTo( 8, 20 - offsetY ).lineTo( 14, 30 - offsetY - 2 ).lineTo( 28, 10 - offsetY ).endStroke().
                             beginStroke( 'white' ).setStrokeStyle( 4 ).moveTo( 8, 20 - offsetY ).lineTo( 14, 30 - offsetY - 2 ).lineTo( 28, 10 - offsetY ).endStroke();
                 }
                 else {
-                    checkBox.graphics.clear().beginFill( "#cccccc" ).drawRoundRect( 5, 5, 20, 20, 5 ).endStroke();
+                    checkBox.graphics.clear().beginFill( "#cccccc" ).drawRoundRect( 5, 9, 20, 20, 5 ).endStroke();
                 }
             };
             //Update once
