@@ -477,6 +477,9 @@ $( function () {
             lastLoop = thisLoop;
             if ( frameCount > 30 ) {
                 fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";
+
+                //States for appcache: http://motyar.blogspot.com/2011/09/handling-html5-application-cache-with.html
+                // (appcache = "+window.applicationCache.status+")";
             }
         }
 
