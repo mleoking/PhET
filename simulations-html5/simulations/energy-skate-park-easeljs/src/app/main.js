@@ -1,7 +1,8 @@
 require( [
              'mymath',
-             'vector2d'
-         ], function ( MyMath, Vector2D ) {
+             'vector2d',
+             'websocket-refresh'
+         ], function ( MyMath, Vector2D, WebsocketRefresh ) {
 
     function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 
@@ -12,25 +13,9 @@ require( [
         displayObject.onMouseOut = showDefault;
     }
 
-    //Listen for file changes for auto-refresh
-    function listenForRefresh() {
-        if ( "WebSocket" in window ) {
-            // Let us open a web socket
-            var ws = new WebSocket( "ws://localhost:8887/echo" );
-            ws.onmessage = function () { document.location.reload( true ); };
-            ws.onclose = function () { };
-            console.log( "opened websocket" );
-        }
-        else {
-            // The browser doesn't support WebSocket
-            //            alert( "WebSocket NOT supported by your Browser!" );
-            console.log( "WebSocket NOT supported by your Browser!" );
-        }
-    }
-
     function run( images ) {
 
-        listenForRefresh();
+        WebsocketRefresh.listenForRefresh();
 
         // Widgets
 
