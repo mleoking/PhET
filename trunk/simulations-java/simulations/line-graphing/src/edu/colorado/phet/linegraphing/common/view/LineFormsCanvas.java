@@ -14,7 +14,7 @@ import edu.colorado.phet.linegraphing.common.model.PointTool.Orientation;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Base class canvas for the "Slope-Intercept" and "Point-Slope" modules.
+ * Base class canvas for the "Slope", "Slope-Intercept" and "Point-Slope" tabs.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
