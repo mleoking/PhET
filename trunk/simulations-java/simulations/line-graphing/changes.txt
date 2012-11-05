@@ -1,3 +1,5 @@
+# 0.00.36 (69881) Nov 5, 2012
+11/5/12 demonstrate putting unsimplified slope below interactive Slope equation
 11/4/12 horizontally center the number parts of the unsimplified rise and run in SlopeEquationNode
 11/4/12 fix positioning of undefined-slope indicator (red "X") on Slope equation
 11/4/12 Slope: try putting "m = #/#" on a separate line below the interactive equation
