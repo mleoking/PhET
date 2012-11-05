@@ -5,8 +5,8 @@ require.config( {
                         vendor:"../js/vendor",
                         plugins:"../js/plugins",
 
-                        underscore:"../js/vendor/underscore-min"
-
+                        underscore:"../js/vendor/underscore-min",
+                        mymath:"mymath"
 
                     },
 
