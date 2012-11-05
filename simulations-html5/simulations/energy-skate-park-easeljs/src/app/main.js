@@ -61,10 +61,7 @@ require( [
     stage.addChild( group );
     stage.update();
 
-    // UI
-
     var frameCount = 0;
-    var lastFrameRateUpdate = null;
 
     var filterStrength = 20;
     var frameTime = 0, lastLoop = new Date, thisLoop;
