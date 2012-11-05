@@ -7,6 +7,8 @@ import edu.colorado.phet.linegraphing.common.view.EquationControls;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 import edu.colorado.phet.linegraphing.slope.model.SlopeModel;
 
+//TODO remove xPadding feature if we decide to split Slope equation across 2 lines.
+
 /**
  * Control panel for interacting with a line's equation in slope form.
  *
