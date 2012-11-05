@@ -54,12 +54,7 @@ require( [
     canvas.onmousedown = function () { return false; }; // Mozilla
 
     var stage = new createjs.Stage( canvas );
-
-    //Necessary to enable mouseover events
-    stage.enableMouseOver();
-
     stage.addChild( group );
-    stage.update();
 
     var frameCount = 0;
 
@@ -96,8 +91,6 @@ require( [
     };
     $( window ).resize( onResize );
     onResize(); // initial position
-
-    stage.update();
 
     function updatePhysics() {
         var originalX = skater.x;
@@ -207,6 +200,10 @@ require( [
     createjs.Ticker.addListener( updatePhysics );
 
     //Enable touch and prevent default
+    //Necessary to enable mouseover events
+    stage.enableMouseOver();
     createjs.Touch.enable( stage, false, false );
 
+    //Paint once to start
+    stage.update();
 } );
