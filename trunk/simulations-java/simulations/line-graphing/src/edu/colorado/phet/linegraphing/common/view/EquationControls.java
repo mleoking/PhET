@@ -43,7 +43,7 @@ public abstract class EquationControls extends PhetPNode {
      * @param maximized               is the control panel maximized (true) or minimized (false)?
      * @param linesVisible            are lines visible on the graph?
      * @param interactiveEquationNode node that implements the interactive equation
-     * @param xMargin                 how much of a margin to put on left and right sides
+     * @param xPadding                how much to pad the width, on each side
      */
     protected EquationControls( PNode titleNode,
                                 final Property<Line> interactiveLine,
@@ -51,7 +51,7 @@ public abstract class EquationControls extends PhetPNode {
                                 final Property<Boolean> maximized,
                                 final Property<Boolean> linesVisible,
                                 PNode interactiveEquationNode,
-                                double xMargin ) {
+                                double xPadding ) {
 
         // nodes
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
@@ -106,7 +106,7 @@ public abstract class EquationControls extends PhetPNode {
         }
 
         // Horizontal strut, to prevent control panel from resizing when minimized.  Do this after vertical layout!
-        final double panelWidth = panelNode.getFullBoundsReference().getWidth() + ( 2 * xMargin );
+        final double panelWidth = panelNode.getFullBoundsReference().getWidth() + ( 2 * xPadding );
         PPath strutNode = new PPath( new Rectangle2D.Double( 0, 0, panelWidth, 1 ) );
         strutNode.setStroke( null );
         strutNode.setPickable( false );
@@ -123,7 +123,7 @@ public abstract class EquationControls extends PhetPNode {
             minimizeMaximizeButtonNode.setOffset( 5, minimizeMaximizeButtonNode.getYOffset() );
             titleNode.setOffset( centerX - ( titleNode.getFullBoundsReference().getWidth() / 2 ), titleNode.getYOffset() );
             //WORKAROUND: Shift the equation slightly left, to accommodate Slope equations, whose resizing can cause the control panel to resize.
-            equationNode.setOffset( centerX - ( equationNode.getFullBoundsReference().getWidth() / 2 ) - ( xMargin / 2 ), equationNode.getYOffset() );
+            equationNode.setOffset( centerX - ( equationNode.getFullBoundsReference().getWidth() / 2 ) - ( xPadding / 2 ), equationNode.getYOffset() );
             saveLineButton.setOffset( centerX - saveLineButton.getFullBoundsReference().getWidth() - ( buttonsXSpacing / 2 ), saveLineButton.getYOffset() );
             eraseLinesButton.setOffset( centerX + ( buttonsXSpacing / 2 ), eraseLinesButton.getYOffset() );
         }
