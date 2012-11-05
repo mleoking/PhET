@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.model.LineParameterRange;
+import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeParameterRange;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.manipulator.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.LineNode;
@@ -72,7 +72,7 @@ public class GTL_PS_Slope_ChallengeNode extends GTL_PS_ChallengeNode {
             slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                               slopeManipulatorNode, challenge.mvt, challenge.guess,
                                                                               riseRange,
-                                                                              new Property<DoubleRange>( new DoubleRange( LineParameterRange.run( challenge.answer, challenge.graph ) ) ) ) );
+                                                                              new Property<DoubleRange>( new DoubleRange( new PointSlopeParameterRange().run( challenge.answer, challenge.graph ) ) ) ) );
             // Rendering order
             addLineNode( guessNodeParent );
             addLineNode( answerNode );
@@ -93,7 +93,7 @@ public class GTL_PS_Slope_ChallengeNode extends GTL_PS_ChallengeNode {
                     slopeManipulatorNode.setOffset( challenge.mvt.modelToView( line.x2, line.y2 ) );
 
                     // adjust range
-                    riseRange.set( LineParameterRange.rise( line, challenge.graph ) );
+                    riseRange.set( new PointSlopeParameterRange().rise( line, challenge.graph ) );
                 }
             } );
         }

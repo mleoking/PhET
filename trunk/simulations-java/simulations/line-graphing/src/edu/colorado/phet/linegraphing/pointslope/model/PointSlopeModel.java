@@ -8,7 +8,6 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
-import edu.colorado.phet.linegraphing.common.model.LineParameterRange;
 
 /**
  * Model for the "Point-Slope" tab.
@@ -20,10 +19,10 @@ public class PointSlopeModel extends LineFormsModel {
     public final Property<DoubleRange> x1Range, y1Range, riseRange, runRange; // ranges of things that the user can manipulate
 
     public PointSlopeModel() {
-        this( Line.createPointSlope( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ) );
+        this( Line.createPointSlope( 1, 2, 3, 4, LGColors.INTERACTIVE_LINE ), new PointSlopeParameterRange() );
     }
 
-    private PointSlopeModel( Line interactiveLine ) {
+    protected PointSlopeModel( Line interactiveLine, final PointSlopeParameterRange parameterRange ) {
         super( interactiveLine );
 
         // ranges
@@ -35,10 +34,10 @@ public class PointSlopeModel extends LineFormsModel {
         // Dynamically adjust ranges so that variables are constrained to the bounds of the graph.
         this.interactiveLine.addObserver( new VoidFunction1<Line>() {
             public void apply( Line line ) {
-                x1Range.set( LineParameterRange.x1( line, graph ) );
-                y1Range.set( LineParameterRange.y1( line, graph ) );
-                riseRange.set( LineParameterRange.rise( line, graph ) );
-                runRange.set( LineParameterRange.run( line, graph ) );
+                x1Range.set( parameterRange.x1( line, graph ) );
+                y1Range.set( parameterRange.y1( line, graph ) );
+                riseRange.set( parameterRange.rise( line, graph ) );
+                runRange.set( parameterRange.run( line, graph ) );
             }
         } );
     }

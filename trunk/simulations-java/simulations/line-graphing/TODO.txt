@@ -15,7 +15,6 @@ HIGH
 - Game: challenge generation (levels and randomization)
 
 MEDIUM
-- investigate "SlopeInterceptModel extends PointSlopeInterceptModel", with specialization of LineParameterRange
 - reuse LineFormGraphNode subclasses in game
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
