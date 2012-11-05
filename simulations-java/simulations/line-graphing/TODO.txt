@@ -9,6 +9,7 @@ DESIGN
 - decide whether Slope equation should be on 1 or 2 lines (SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE)
 
 HIGH
+- center titles in EquationControlPanel
 - Slope: deal with changes in SlopeEquationControls panel width, due to changes in the equation's unsimplified value
 - Game: add support for fractional y-intercept in slope-intercept equations (only when y-intercept is non-interactive)
 - Game: "Place 3 Points" challenge
@@ -18,7 +19,6 @@ HIGH
 MEDIUM
 - investigate "SlopeInterceptModel extends PointSlopeInterceptModel", with specialization of LineParameterRange
 - reuse LineFormGraphNode subclasses in game
-- center titles in Equation control panel
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
 
