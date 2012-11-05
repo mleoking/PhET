@@ -10,9 +10,8 @@ require( [
              'image!resources/house.png',
              'image!resources/mountains.png',
              'image!resources/pieChartIcon.png',
-             'image!resources/skater.png',
              'image!resources/speedIcon.png'
-         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, barChartIconImage, gridIconImage, houseImage, mountainsImage, pieChartIconImage, skaterImage, speedIconImage ) {
+         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, barChartIconImage, gridIconImage, houseImage, mountainsImage, pieChartIconImage, speedIconImage ) {
 
     WebsocketRefresh.listenForRefresh();
 
@@ -22,7 +21,7 @@ require( [
     fpsText.y = 280;
     var groundHeight = 116;
 
-    var skater = Skater.create( skaterImage, groundHeight );
+    var skater = Skater.create( groundHeight );
 
     //Cache the background into a single image
 //        background.cache( 0, 0, 1024, 768, 1 );
