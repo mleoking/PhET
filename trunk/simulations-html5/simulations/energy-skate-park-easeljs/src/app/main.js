@@ -18,15 +18,6 @@ require( [
 
     WebsocketRefresh.listenForRefresh();
 
-    function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
-
-    function showDefault( mouseEvent ) { document.body.style.cursor = "default"; }
-
-    function setCursorHand( displayObject ) {
-        displayObject.onMouseOver = showPointer;
-        displayObject.onMouseOut = showDefault;
-    }
-
     var group = new createjs.Container();
     var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
     fpsText.x = 4;
@@ -34,7 +25,6 @@ require( [
     var groundHeight = 116;
 
     var skater = Skater.create( skaterImage, groundHeight );
-    setCursorHand( skater );
     var controlPanel = ControlPanel.createControlPanel( barChartIconImage, pieChartIconImage, gridIconImage, speedIconImage );
     var background = Background.create( houseImage, mountainsImage, groundHeight );
 
@@ -100,6 +90,6 @@ require( [
     stage.enableMouseOver();
     createjs.Touch.enable( stage, false, false );
 
-    //Paint once to start
+    //Paint once after initialization
     stage.update();
 } );

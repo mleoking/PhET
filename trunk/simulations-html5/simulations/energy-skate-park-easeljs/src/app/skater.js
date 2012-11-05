@@ -1,6 +1,17 @@
 define( ["vector2d"], function ( Vector2D ) {
     return {create:function ( image, groundHeight ) {
+
+        function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
+
+        function showDefault( mouseEvent ) { document.body.style.cursor = "default"; }
+
+        function setCursorHand( displayObject ) {
+            displayObject.onMouseOver = showPointer;
+            displayObject.onMouseOut = showDefault;
+        }
+
         var skater = new createjs.Bitmap( image );
+        setCursorHand( skater );
         skater.mass = 50;//kg
         //put registration point at bottom center of the skater
         skater.regX = image.width / 2;
