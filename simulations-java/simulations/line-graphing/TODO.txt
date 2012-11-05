@@ -18,7 +18,6 @@ HIGH
 MEDIUM
 - investigate "SlopeInterceptModel extends PointSlopeInterceptModel", with specialization of LineParameterRange
 - reuse LineFormGraphNode subclasses in game
-- sizing of EquationControls strutNode looks suspicious, layout hasn't been done for nodes used to determine size
 - center titles in Equation control panel
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
