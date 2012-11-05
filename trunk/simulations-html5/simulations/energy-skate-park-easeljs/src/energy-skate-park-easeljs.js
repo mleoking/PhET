@@ -419,16 +419,27 @@ $( function () {
         var frameCount = 0;
         var lastFrameRateUpdate = null;
 
+        var filterStrength = 20;
+        var frameTime = 0, lastLoop = new Date, thisLoop;
+
         function displayFrameRate() {
             frameCount++;
-            if ( frameCount > 3 ) {
-                var now = new Date().getTime();
+//            if ( frameCount > 30 ) {
+//                var now = new Date().getTime();
+//
+//                var rate = frameCount * 1000 / (now - lastFrameRateUpdate);
+//                fpsText.text = rate.toFixed( 1 ) + " fps";
+//
+//                frameCount = 0;
+//                lastFrameRateUpdate = now
+//            }
 
-                var rate = frameCount * 1000 / (now - lastFrameRateUpdate);
-                fpsText.text = rate.toFixed( 1 ) + " fps";
-
-                frameCount = 0;
-                lastFrameRateUpdate = now
+            //Get frame rate but filter transients: http://stackoverflow.com/questions/4787431/check-fps-in-js
+            var thisFrameTime = (thisLoop = new Date) - lastLoop;
+            frameTime += (thisFrameTime - frameTime) / filterStrength;
+            lastLoop = thisLoop;
+            if ( frameCount > 30 ) {
+                fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";
             }
         }
 
