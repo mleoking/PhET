@@ -209,7 +209,10 @@ $( function () {
                     checkBox.graphics.clear().beginFill( "#cccccc" ).drawRoundRect( 5, 5, 20, 20, 5 ).endStroke();
                 }
             };
-            row.onPress( "hi" );
+            //Update once
+//            row.onPress( "hi" );
+
+
             return row;
         }
 
