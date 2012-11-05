@@ -147,7 +147,7 @@ require( [
             };
             e.onMouseUp = function ( event ) {
                 skater.dragging = false;
-                skater.velocity = vector2d( 0, 0 );
+                skater.velocity = new Vector2D();
             };
         }
 
