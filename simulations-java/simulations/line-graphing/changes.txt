@@ -1,3 +1,5 @@
+11/5/12 center titles in EquationControlPanel
+11/5/12 deal with changes in SlopeEquationControls panel width, due to changes in the equation's unsimplified value
 11/5/12 fix: sizing of EquationControls strutNode looks suspicious, layout hasn't been done for nodes used to determine size
 11/5/12 revert to 1 line for Slope equation
 # 0.00.36 (69881) Nov 5, 2012

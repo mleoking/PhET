@@ -43,13 +43,15 @@ public abstract class EquationControls extends PhetPNode {
      * @param maximized               is the control panel maximized (true) or minimized (false)?
      * @param linesVisible            are lines visible on the graph?
      * @param interactiveEquationNode node that implements the interactive equation
+     * @param xMargin                 how much of a margin to put on left and right sides
      */
     protected EquationControls( PNode titleNode,
                                 final Property<Line> interactiveLine,
                                 final ObservableList<Line> savedLines,
                                 final Property<Boolean> maximized,
                                 final Property<Boolean> linesVisible,
-                                PNode interactiveEquationNode ) {
+                                PNode interactiveEquationNode,
+                                double xMargin ) {
 
         // nodes
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
@@ -78,7 +80,6 @@ public abstract class EquationControls extends PhetPNode {
         subPanelNode.addChild( eraseLinesButton );
 
         // horizontal separators
-        double maxWidth = panelNode.getFullBoundsReference().getWidth();
         final Color separatorColor = new Color( 212, 212, 212 );
         final PPath titleSeparator = new PPath( new Line2D.Double( 0, 0, 1, 0 ) ) {{
             setStrokePaint( separatorColor );
@@ -90,34 +91,40 @@ public abstract class EquationControls extends PhetPNode {
         subPanelNode.addChild( buttonsSeparator );
 
         // do vertical layout first, don't care about xOffsets here
+        final double buttonsXSpacing = 10;
         {
             final double ySpacing = 10;
             final double titleHeight = Math.max( titleNode.getFullBoundsReference().getHeight(), minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() );
-            minimizeMaximizeButtonNode.setOffset( 5, ( titleHeight - minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() ) / 2 );
-            titleNode.setOffset( minimizeMaximizeButtonNode.getFullBoundsReference().getMaxX() + 15,
-                                 ( titleHeight - titleNode.getFullBoundsReference().getHeight() ) / 2 );
+            minimizeMaximizeButtonNode.setOffset( 0, ( titleHeight - minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() ) / 2 );
+            titleNode.setOffset( 0, ( titleHeight - titleNode.getFullBoundsReference().getHeight() ) / 2 );
             titleSeparator.setOffset( 0, titleHeight + ySpacing );
             equationNode.setOffset( 0, titleSeparator.getFullBoundsReference().getMaxY() + ySpacing );
             buttonsSeparator.setOffset( 0, equationNode.getFullBoundsReference().getMaxY() + ySpacing );
             saveLineButton.setOffset( 0, buttonsSeparator.getFullBoundsReference().getMaxY() + ySpacing );
-            eraseLinesButton.setOffset( saveLineButton.getFullBoundsReference().getWidth() + 5, saveLineButton.getYOffset() );
+            eraseLinesButton.setOffset( saveLineButton.getFullBoundsReference().getWidth() + buttonsXSpacing, saveLineButton.getYOffset() );
         }
 
         // Horizontal strut, to prevent control panel from resizing when minimized.  Do this after vertical layout!
-        final double strutWidth = panelNode.getFullBoundsReference().getWidth();
-        PPath strutNode = new PPath( new Rectangle2D.Double( 0, 0, strutWidth, 1 ) );
+        final double panelWidth = panelNode.getFullBoundsReference().getWidth() + ( 2 * xMargin );
+        PPath strutNode = new PPath( new Rectangle2D.Double( 0, 0, panelWidth, 1 ) );
         strutNode.setStroke( null );
+        strutNode.setPickable( false );
         panelNode.addChild( strutNode );
         strutNode.moveToBack();
 
-        titleSeparator.setPathTo( new Line2D.Double( 0, 0, strutWidth, 0 ) );
-        buttonsSeparator.setPathTo( new Line2D.Double( 0, 0, strutWidth, 0 ) );
+        // Set width of separators
+        titleSeparator.setPathTo( new Line2D.Double( 0, 0, panelWidth, 0 ) );
+        buttonsSeparator.setPathTo( new Line2D.Double( 0, 0, panelWidth, 0 ) );
 
         // now do horizontal layout
         {
-            equationNode.setOffset( ( strutWidth / 2 ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ), equationNode.getYOffset() );
-            saveLineButton.setOffset( ( maxWidth / 2 ) - saveLineButton.getFullBoundsReference().getWidth() - 3, saveLineButton.getYOffset() );
-            eraseLinesButton.setOffset( ( maxWidth / 2 ) + 3, eraseLinesButton.getYOffset() );
+            final double centerX = panelWidth / 2;
+            minimizeMaximizeButtonNode.setOffset( 5, minimizeMaximizeButtonNode.getYOffset() );
+            titleNode.setOffset( centerX - ( titleNode.getFullBoundsReference().getWidth() / 2 ), titleNode.getYOffset() );
+            //WORKAROUND: Shift the equation slightly left, to accommodate Slope equations, whose resizing can cause the control panel to resize.
+            equationNode.setOffset( centerX - ( equationNode.getFullBoundsReference().getWidth() / 2 ) - ( xMargin / 2 ), equationNode.getYOffset() );
+            saveLineButton.setOffset( centerX - saveLineButton.getFullBoundsReference().getWidth() - ( buttonsXSpacing / 2 ), saveLineButton.getYOffset() );
+            eraseLinesButton.setOffset( centerX + ( buttonsXSpacing / 2 ), eraseLinesButton.getYOffset() );
         }
 
         // Wrap everything in a Piccolo control panel
