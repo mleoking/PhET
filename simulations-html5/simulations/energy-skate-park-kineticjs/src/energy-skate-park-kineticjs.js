@@ -94,6 +94,46 @@
                                        } );
         groundLayer.add( ground );
 
+        var controlPanelLayer = new Kinetic.Layer();
+        var controlPanel = new Kinetic.Container( {x:800, y:5} );
+        controlPanelLayer.add( controlPanel );
+        controlPanel.add( new Kinetic.Rect( {
+                                                x:0,
+                                                y:0,
+                                                width:200,
+                                                height:250,
+                                                fill:"#c8f0c8",
+                                                stroke:'black',
+                                                strokeWidth:2,
+                                                cornerRadius:10
+                                            } ) );
+
+
+        var texts = ["Bar Graph", "Pie Chart", "Grid", "Speed"];
+
+        function checkBoxRow( texts, number, image, y ) {
+            var row = new Kinetic.Container( {y:y} );
+            row.add( new Kinetic.Text( {
+                                           x:0,
+                                           y:0,
+                                           text:texts[number],
+                                           fontSize:18,
+                                           fontFamily:"Calibri",
+                                           textFill:"black"
+                                       } ) );
+            row.add( new Kinetic.Image( {image:image, x:150} ) );
+            return row;
+        }
+
+        var checkBoxRows = [];
+        for ( var i = 0; i < 4; i++ ) {
+            checkBoxRows.push( checkBoxRow( texts, i % 4, images[i % 4 + 3], i * 50 ) );
+        }
+
+        for ( var i = 0; i < checkBoxRows.length; i++ ) {
+            controlPanel.add( checkBoxRows[i] );
+        }
+
         var skaterLayer = new Kinetic.Layer();
         var splineLayer = new Kinetic.Layer();
 
@@ -360,12 +400,6 @@
                 top = (window.innerHeight / 2 - designHeight * scale / 2) * scale;
                 right = 0;
             }
-
-            $( ".controlPanel" ).
-//                    css( "-webkit-transform", "scale(" + scale + "," + scale + ")" ).
-                    css( "top", top ).css( "right", right );
-//                    css( "width", w );//.css( "height", 300 * scale );
-
         }
 
         updateStageSize();
@@ -374,14 +408,11 @@
 
         var causeRepaintsOn = $( "h1, h2, h3, p, .buttonText" );
 
-        $( window ).resize( function () {
-            causeRepaintsOn.css( "z-index", 1 );
-        } );
-
         stage.add( skyLayer );
         // add the skaterLayer to the stage
         stage.add( groundLayer );
         stage.add( splineLayer );
+        stage.add( controlPanelLayer );
         stage.add( skaterLayer );
 
         //or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
@@ -462,6 +493,6 @@
 
     // Only executed our code once the DOM is ready.
     window.onload = function () {
-        preloadImages( ["resources/skater.png", "resources/house.png", "resources/mountains.png"] ).done( run )
+        preloadImages( ["resources/skater.png", "resources/house.png", "resources/mountains.png", "resources/barChartIcon.png", "resources/pieChartIcon.png", "resources/gridIcon.png", "resources/speedIcon.png"] ).done( run )
     }
 })();
