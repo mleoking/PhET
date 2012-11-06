@@ -162,13 +162,18 @@
             var dt = Math.min( dt, 0.2 ) // prevent huge leaps
             _.each( balls, function ( ball ) {
                 // simple linear physics here; stable fixed-step iterative update is preferable for the real thing
-                ball.position += ball.velocity * dt
+                ball.position.x += ball.velocity.x * dt
+                ball.position.y += ball.velocity.y * dt
                 if ( ball.position.length > 1 ) {
-                    var v = ball.velocity, n = ball.position.normalize()
-                    ball.velocity = v - n * v.dot( n ) * 2
-                    ball.position = n // enclosure has radius 1 in local coords
+                    var v = ball.velocity;
+                    var n = ball.position.normalize();
+                    ball.velocity.x = v.x - n.x * v.dot( n ) * 2
+                    ball.velocity.y = v.y - n.y * v.dot( n ) * 2
+                    ball.position.x = n.x // enclosure has radius 1 in local coords
+                    ball.position.y = n.y // enclosure has radius 1 in local coords
                 }
-                ball.velocity += new paper.Point( 0, 2 ) * dt
+                ball.velocity.x += new paper.Point( 0, 2 ).x * dt
+                ball.velocity.y += new paper.Point( 0, 2 ).y * dt
             } )
         }
 
