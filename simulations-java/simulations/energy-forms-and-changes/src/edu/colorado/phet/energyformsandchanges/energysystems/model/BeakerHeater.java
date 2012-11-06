@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
@@ -54,6 +55,9 @@ public class BeakerHeater extends EnergyUser {
     private static final Vector2D OFFSET_TO_BOTTOM_OF_CONNECTOR = new Vector2D( 0, -0.01 );
     private static final Vector2D OFFSET_TO_RADIATE_POINT = new Vector2D( 0, 0.02 );
 
+    // Offset from this node to the beaker.
+    private static final Vector2D BEAKER_OFFSET = new Vector2D( 0, 0.025 );
+
     // Miscellaneous other constants.
     private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
     private static final Random RAND = new Random();
@@ -81,7 +85,17 @@ public class BeakerHeater extends EnergyUser {
 
     protected BeakerHeater( ConstantDtClock clock, BooleanProperty energyChunksVisible ) {
         super( EnergyFormsAndChangesResources.Images.WATER_ICON );
-        beaker = new Beaker( clock, new Vector2D( 0, 0.025 ), BEAKER_WIDTH, BEAKER_HEIGHT, energyChunksVisible );
+
+        // Create the beaker and hook it up so that it moves with this model
+        // element.
+        beaker = new Beaker( clock, BEAKER_OFFSET, BEAKER_WIDTH, BEAKER_HEIGHT, energyChunksVisible );
+        getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D position ) {
+                beaker.position.set( position.plus( BEAKER_OFFSET ) );
+            }
+        } );
+
+        // Create the thermometer.
         thermometer = new Thermometer( clock, new ITemperatureModel() {
             public TemperatureAndColor getTemperatureAndColorAtLocation( Vector2D location ) {
                 return new TemperatureAndColor( beaker.getTemperature(), EFACConstants.WATER_COLOR_OPAQUE );
