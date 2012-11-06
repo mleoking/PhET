@@ -1,3 +1,4 @@
+11/6/12 tweak game challenge titles with AP
 11/6/12 display special titles only for single-variable challenges, use default title for all other challenges
 11/5/12 make SlopeInterceptModel a specialization of PointSlopeInterceptModel, with x1 constrained to zero via SlopeInterceptParameterRange
 11/5/12 center titles in EquationControlPanel
