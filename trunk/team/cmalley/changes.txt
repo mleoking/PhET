@@ -1,1 +1,0 @@
-Removed import of sun.java2d.Disposer.PollDisposable which causes a compile error in 1.5
