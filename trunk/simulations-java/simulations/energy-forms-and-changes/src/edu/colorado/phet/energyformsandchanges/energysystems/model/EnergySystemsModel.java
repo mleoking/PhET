@@ -48,7 +48,7 @@ public class EnergySystemsModel {
     }};
 
     // Energy Converters.
-    public final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
+    public final Generator waterPoweredGenerator = new Generator();
     public final SolarPanel solarPanel = new SolarPanel();
 
     // Energy sources.
