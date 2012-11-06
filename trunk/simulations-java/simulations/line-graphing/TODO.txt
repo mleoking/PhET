@@ -6,7 +6,7 @@ DESIGN
 - revisit the placement algorithm for equations on graphed lines, should it be on same end of line as slope manipulator? or in Q1 or Q4 (as is) so that it's close to interactive line?
 - names for the 3 sims in this project ("Graphing: Lines", "Graphing: Linear Inequalities", "Graphing: Absolute Value")
 - sign-off on specification of game levels
-- decide whether Slope equation should be on 1 or 2 lines (SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE)
+- default lines for first 3 tabs? (3,2) and (6,4) for Slope points?
 
 HIGH
 - add support for fractional y-intercept in slope-intercept equations (only when y-intercept is not interactive)
@@ -21,6 +21,7 @@ MEDIUM
 
 LOW
 - remove EquationControls.xPadding param if we decide to split Slope equation across 2 lines
+- remove code related to SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE
 - implementation of SlopeInterceptEquationNode and PointSlopeEquationNode would be clearer if nodes were added selectively, rather than removed
 - Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
 - use DefaultDecimalFormat("0") in DynamicValueNode, instead of doing double-to-int conversion
