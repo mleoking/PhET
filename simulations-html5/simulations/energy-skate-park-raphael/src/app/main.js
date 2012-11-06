@@ -9,50 +9,22 @@ require( [
 
     WebsocketRefresh.listenForRefresh();
 
-    //See sample at: http://stackoverflow.com/questions/3675519/raphaeljs-drag-and-drop
-    var nowX;
-    var nowY;
-    var paper = Raphael( 0, 0, window.innerWidth, window.innerHeight );
-//    paper.setViewBox( 0, 0, 2000, 2000, false );
-    var c = paper.rect( 200, 200, 100, 100 ).attr( {
-                                                       fill:"hsb(.8, 1, 1)",
-                                                       stroke:"none",
-                                                       cursor:"move"
-                                                   } );
-    var j = paper.rect( 0, 0, 100, 100 );
-    // start, move, and up are the drag functions
+    //See sample code here: http://raphaeljs.com/touches.html
+    var R = Raphael( 0, 0, "100%", "100%" ),
+            r = R.circle( 100, 100, 50 ).attr( {fill:"hsb(0, 1, 1)", stroke:"none", opacity:1} ),
+            g = R.circle( 210, 100, 50 ).attr( {fill:"hsb(.3, 1, 1)", stroke:"none", opacity:1} ),
+            b = R.circle( 320, 100, 50 ).attr( {fill:"hsb(.6, 1, 1)", stroke:"none", opacity:1} ),
+            p = R.circle( 430, 100, 50 ).attr( {fill:"hsb(.8, 1, 1)", stroke:"none", opacity:1} );
     var start = function () {
-        // storing original coordinates
-        this.ox = this.attr( "x" );
-        this.oy = this.attr( "y" );
-        this.attr( {opacity:1} );
-        if ( this.attr( "y" ) < 60 && this.attr( "x" ) < 60 ) {
-            this.attr( {fill:"#000"} );
-        }
-    };
-    var move = function ( dx, dy ) {
-        // move will be called with dx and dy
-        if ( this.attr( "y" ) > 60 || this.attr( "x" ) > 60 ) {
-            this.attr( {x:this.ox + dx, y:this.oy + dy} );
-        }
-        else {
-            nowX = Math.min( 60, this.ox + dx );
-            nowY = Math.min( 60, this.oy + dy );
-            nowX = Math.max( 0, nowX );
-            nowY = Math.max( 0, nowY );
-            this.attr( {x:nowX, y:nowY } );
-            if ( this.attr( "fill" ) != "#000" ) {
-                this.attr( {fill:"#000"} );
-            }
-        }
-    };
-    var up = function () {
-        // restoring state
-        this.attr( {opacity:.5} );
-        if ( this.attr( "y" ) < 60 && this.attr( "x" ) < 60 ) {
-            this.attr( {fill:"#AEAEAE"} );
-        }
-    };
-    // rstart and rmove are the resize functions;
-    c.drag( move, start, up );
+                this.ox = this.attr( "cx" );
+                this.oy = this.attr( "cy" );
+                this.animate( {r:70, opacity:1}, 500, ">" );
+            },
+            move = function ( dx, dy ) {
+                this.attr( {cx:this.ox + dx, cy:this.oy + dy} );
+            },
+            up = function () {
+                this.animate( {r:50, opacity:1}, 500, ">" );
+            };
+    R.set( r, g, b, p ).drag( move, start, up );
 } );
