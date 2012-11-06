@@ -108,7 +108,7 @@ public class BeakerView {
         final PNode energyChunkRootNode = new PNode();
         backNode.addChild( energyChunkRootNode );
         energyChunkClipNode = new PClip();
-        energyChunkClipNode.setPathTo( beakerViewRect );
+        energyChunkClipNode.setPathTo( beakerViewRect ); // Not sure that this is what is needed here. Bigger for chunks that are leaving? Needs thought.
         energyChunkRootNode.addChild( energyChunkClipNode );
         energyChunkClipNode.setStroke( null );
         for ( int i = beaker.getSlices().size() - 1; i >= 0; i-- ) {
