@@ -20,11 +20,11 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
 
 /**
  * This class represents an electrical generator that is powered by flowing
- * water or steam.
+ * water, steam, or directly driven using a drive belt.
  *
  * @author John Blanco
  */
-public class WaterPoweredGenerator extends EnergyConverter {
+public class Generator extends EnergyConverter {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -76,7 +76,7 @@ public class WaterPoweredGenerator extends EnergyConverter {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public WaterPoweredGenerator() {
+    public Generator() {
         super( EnergyFormsAndChangesResources.Images.GENERATOR_ICON );
     }
 
