@@ -41,6 +41,7 @@ public class MonthlyReportFilter {
 
         allList.add( "acid-base-solutions-study" );
         allList.add( "energy-skate-park-basics-study" );
+        allList.add( "reflection-and-refaction" );
 
         //As of 3/5/2012, we are supposed to put all sim research study support in this category
         allList.add( "sim-data-analysis-research-support" );
@@ -177,6 +178,15 @@ public class MonthlyReportFilter {
         if ( category.equals( "gas-properties" ) ) { return mapCategory( "ideal-gas" ); }
         if ( category.equals( "radiating-charge" ) ) { return mapCategory( "radiating-charges" ); }
         if ( category.equals( "ipad-mass-springs-prototype" ) ) { return mapCategory( "ipad" ); }
+        if ( category.equals( "energy-skate-park-html5" ) ) { return mapCategory( "ipad" ); }
+        if ( category.equals( "per-meeting" ) ) { return mapCategory( "meetings" ); }
+        if ( category.equals( "concentration-caat" ) ) { return mapCategory( "ipad" ); }
+        if ( category.equals( "energy-skate-park-easeljs" ) ) { return mapCategory( "ipad" ); }
+        if ( category.equals( "energy-skate-park-basics-kineticjs" ) ) { return mapCategory( "ipad" ); }
+        if ( category.equals( "concentration-html5" ) ) { return mapCategory( "ipad" ); }
+        if ( category.equals( "sim-event-data-collection-analysis" ) ) { return mapCategory( "Sim data collection/processing" ); }
+        if ( category.equals( "energy-skate-park-fabricjs" ) ) { return mapCategory( "ipad" ); }
+        if ( category.equals( "energy-skate-park-basics-processing" ) ) { return mapCategory( "ipad" ); }
 
         System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
