@@ -20,11 +20,15 @@ require( [
     var skaterStart = function () {
                 this.ox = this.attr( "x" );
                 this.oy = this.attr( "y" );
+                skater.dragging = true;
             },
             skaterMove = function ( dx, dy ) {
                 this.attr( {x:this.ox + dx / paper.overallScaleFactor, y:this.oy + dy / paper.overallScaleFactor} );
             },
-            skaterUp = function () {};
+            skaterUp = function () {
+                skaterY = skater.attr( "y" );
+                skater.dragging = false;
+            };
     skater.drag( skaterMove, skaterStart, skaterUp );
 
     var ground = paper.rect( 0, 768 - groundHeight, 1024, 768 ).attr( {fill:"#64aa64"} );
@@ -48,13 +52,14 @@ require( [
     var lastTime = Date.now();
 
     var skaterY = 100;
+    var skaterHeight = skater.attr( "height" );
 
     function updatePhysics() {
         var newTime = Date.now();
         var dt = newTime - lastTime;
-        if ( dt > 0 ) {
+        if ( dt > 0 && !skater.dragging ) {
 
-            skaterY = skaterY + 0.1 * dt;
+            skaterY = Math.min( 768 - groundHeight - skaterHeight, skaterY + 0.1 * dt );
             skater.attr( {y:skaterY} );
             lastTime = newTime;
         }
