@@ -19,9 +19,9 @@ import javax.swing.event.ChangeListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DateToMillis extends JFrame {
-    
+
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat( "MM/dd/yyyy hh:mm:ss" );
-    
+
     private Calendar calendar;
     private IntSpinner yearSpinner;
     private IntSpinner monthSpinner;
@@ -31,12 +31,12 @@ public class DateToMillis extends JFrame {
     private IntSpinner secondSpinner;
     private JTextField longTextField;
     private JLabel dateLabel;
-    
+
     public DateToMillis() {
         super( "Date <--> Long" );
-        
+
         calendar = new GregorianCalendar();
-        
+
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 convertToLong();
@@ -69,7 +69,7 @@ public class DateToMillis extends JFrame {
         datePanel.add( minuteSpinner );
         datePanel.add( new JLabel( ":" ) );
         datePanel.add( secondSpinner );
-        
+
         longTextField = new JTextField();
         longTextField.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -79,23 +79,23 @@ public class DateToMillis extends JFrame {
         JPanel longPanel = new JPanel();
         longPanel.add( longTextField );
         longPanel.add( new JLabel( "ms" ) );
-        
+
         JPanel controlPanel = new JPanel();
         controlPanel.add( datePanel );
         controlPanel.add( new JLabel( "==" ) );
         controlPanel.add( longPanel );
-        
+
         Box box = new Box( BoxLayout.Y_AXIS );
         box.add( controlPanel );
         dateLabel = new JLabel();
         box.add( dateLabel );
         getContentPane().add( box );
-        
+
         convertToLong();
         pack();
         setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     }
-    
+
     private void convertToLong() {
         int year = yearSpinner.getInt();
         int month = monthSpinner.getInt() - 1;
@@ -108,7 +108,7 @@ public class DateToMillis extends JFrame {
         longTextField.setText( String.valueOf( millis ) );
         dateLabel.setText( DATE_FORMAT.format( new Date( millis ) ) );
     }
-    
+
     private void convertToDate() {
         try {
             long millis = new Long( longTextField.getText() ).longValue();
@@ -122,27 +122,27 @@ public class DateToMillis extends JFrame {
             dateLabel.setText( DATE_FORMAT.format( new Date( millis ) ) );
         }
         catch ( NumberFormatException e ) {
-           Toolkit.getDefaultToolkit().beep();
-           convertToLong();
+            Toolkit.getDefaultToolkit().beep();
+            convertToLong();
         }
     }
-    
+
     private static class IntSpinner extends JSpinner {
-        
+
         public IntSpinner( int value, int min, int max ) {
             super( new SpinnerNumberModel( value, min, max, 1 ) );
             setEditor( new JSpinner.NumberEditor( this, "0" ) );
         }
-        
+
         public void setValue( int value ) {
             setValue( new Integer( value ) );
         }
-        
+
         public int getInt() {
             return ( (Integer) getValue() ).intValue();
         }
     }
-    
+
     public static void main( String[] args ) {
         JFrame frame = new DateToMillis();
         Dimension frameSize = frame.getSize();
