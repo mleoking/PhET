@@ -163,3 +163,35 @@ function setRotation( node, rotation, x, y ) {
 
     node.setAttributeNS( null, 'transform', 'rotate(' + rotation + ' ' + x + ' ' + y + ')' );
 }
+
+//or another game loop here: http://www.playmycode.com/blog/2011/08/building-a-game-mainloop-in-javascript/
+//or here: http://jsfiddle.net/Y9uBv/5/
+//See http://stackoverflow.com/questions/5605588/how-to-use-requestanimationframe
+var requestAnimationFrame = function () {
+    return (
+            window.requestAnimationFrame ||
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame ||
+            window.oRequestAnimationFrame ||
+            window.msRequestAnimationFrame ||
+            function ( /* function */ callback ) {
+                window.setTimeout( callback, 1000 / 60 );
+            }
+            );
+}();
+
+
+function updatePhysics() {
+//    x = parseInt( square.getAttributeNS( null, 'x' ) );
+//    y = parseInt( square.getAttributeNS( null, 'y' ) );
+    y = y + 3;
+//    square.setAttributeNS( null, 'x', x+2 );
+    square.setAttributeNS( null, 'y', y );
+}
+
+function loop() {
+    updatePhysics();
+    requestAnimationFrame( loop );
+}
+
+requestAnimationFrame( loop );
