@@ -30,11 +30,10 @@ public class LGResources {
         public static final String SHOW_ANSWER = COMMON_RESOURCE.getLocalizedString( "Games.showAnswer" );
         public static final String NEXT = COMMON_RESOURCE.getLocalizedString( "Games.next" );
         public static final String GRAPH_THE_LINE = RESOURCES.getLocalizedString( "graphTheLine" );
+        public static final String MAKE_THE_EQUATION = RESOURCES.getLocalizedString( "makeTheEquation" );
         public static final String SET_THE_SLOPE = RESOURCES.getLocalizedString( "setTheSlope" );
         public static final String SET_THE_Y_INTERCEPT = RESOURCES.getLocalizedString( "setTheYIntercept" );
         public static final String SET_THE_POINT = RESOURCES.getLocalizedString( "setThePoint" );
-        public static final String SET_THE_POINT_AND_SLOPE = RESOURCES.getLocalizedString( "setThePointAndSlope" );
-        public static final String SET_THE_SLOPE_AND_Y_INTERCEPT = RESOURCES.getLocalizedString( "setTheSlopeAndYIntercept" );
         public static final String NOT_A_LINE = RESOURCES.getLocalizedString( "notALine" );
         public static final String LINE_TO_GRAPH = RESOURCES.getLocalizedString( "lineToGraph" );
         public static final String YOUR_LINE = RESOURCES.getLocalizedString( "yourLine" );

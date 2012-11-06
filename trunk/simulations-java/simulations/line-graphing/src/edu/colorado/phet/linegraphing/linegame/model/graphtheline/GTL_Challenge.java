@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGConstants;
+import edu.colorado.phet.linegraphing.common.LGResources;
+import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.PointTool;
@@ -30,6 +32,11 @@ public abstract class GTL_Challenge extends MatchChallenge {
     public final PointTool pointTool1, pointTool2;
     private final ObservableList<Line> allLines;
     private boolean answerVisible;
+
+    // Challenge with default title.
+    public GTL_Challenge( Line answer, Line guess ) {
+        this( Strings.GRAPH_THE_LINE, answer, guess );
+    }
 
     public GTL_Challenge( String title, Line answer, Line guess ) {
         this( title, answer, guess, LGConstants.X_AXIS_RANGE, LGConstants.Y_AXIS_RANGE );
