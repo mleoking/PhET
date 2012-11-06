@@ -3,22 +3,25 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- default lines for first 3 tabs
-- revisit the placement algorithm for equations on graphed lines, should it be on same end of line as slope manipulator? or in Q1 or Q4 (as is) so that it's close to interactive line?
 - sign-off on specification of game levels
 
 HIGH
+- publish review dev version without Game tab
+- in Slope equation, put rise and run on blue background, ala slope tool
+- move equation on graphed line to be near slope manipulator
 - add support for fractional y-intercept in slope-intercept equations (only when y-intercept is not interactive)
 - Game: "Place 3 Points" challenge
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges
 - Game: challenge generation (levels and randomization)
 
 MEDIUM
+- Game: try check-mark and "X" icons in upper-right corner of equation box
 - reuse LineFormGraphNode subclasses in game
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
 
 LOW
+- consider using a subtle background color for buttons (Reset All, Save Line, Erase Lines)
 - remove EquationControls.xPadding param if we decide to split Slope equation across 2 lines
 - remove code related to SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE
 - implementation of SlopeInterceptEquationNode and PointSlopeEquationNode would be clearer if nodes were added selectively, rather than removed
