@@ -12,13 +12,12 @@ require( [
     //See sample at: http://stackoverflow.com/questions/3675519/raphaeljs-drag-and-drop
     var nowX;
     var nowY;
-    var R = Raphael( 0, 0, 500, 500 );
-    var c = R.rect( 200, 200, 40, 40 ).attr( {
-                                                 fill:"hsb(.8, 1, 1)",
-                                                 stroke:"none",
-                                                 opacity:.5,
-                                                 cursor:"move"
-                                             } );
+    var R = Raphael( 0, 0, window.innerWidth, window.innerHeight );
+    var c = R.rect( 200, 200, 100, 100 ).attr( {
+                                                   fill:"hsb(.8, 1, 1)",
+                                                   stroke:"none",
+                                                   cursor:"move"
+                                               } );
     var j = R.rect( 0, 0, 100, 100 );
     // start, move, and up are the drag functions
     var start = function () {
