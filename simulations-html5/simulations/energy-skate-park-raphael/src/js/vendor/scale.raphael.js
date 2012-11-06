@@ -38,6 +38,7 @@
       var ratioW = w / width;
       var ratioH = h / height;
       var scale = ratioW < ratioH ? ratioW : ratioH;
+      paper.overallScaleFactor = scale;
 
       var newHeight = parseInt(height * scale);
       var newWidth = parseInt(width * scale);
