@@ -1,7 +1,7 @@
-var x;
-var y;
-var touchX;
-var touchY;
+var x = 0;
+var y = 0;
+var touchX = 0;
+var touchY = 0;
 var width;
 var height;
 var rotation = 0;
@@ -19,6 +19,24 @@ square.ongesturestart = gestureStart;
 square.ongesturechange = gestureChange;
 square.ongestureend = gestureEnd;
 
+square.onmousedown = mouseDown;
+square.onmousemove = mouseMove;
+//square.onmouseup = mouseUp;
+
+function mouseDown( event ) {
+    event.preventDefault();
+
+    // one finger touch => start drag
+    var node = event.target;
+
+    x = parseInt( node.getAttributeNS( null, 'x' ) );
+    y = parseInt( node.getAttributeNS( null, 'y' ) );
+
+    touchX = event.pageX;
+    touchY = event.pageY;
+    console.log( touchX );
+}
+
 function touchStart( event ) {
     event.preventDefault();
 
@@ -35,6 +53,29 @@ function touchStart( event ) {
             touchY = touch.pageY;
         }
     }
+}
+
+function mouseMove( event ) {
+    event.preventDefault();
+
+    // one finger touch => drag
+    var touch = event;
+    var node = touch.target;
+
+    var dx = touch.pageX - touchX;
+    var dy = touch.pageY - touchY;
+
+    var newX = x + dx;
+    var newY = y + dy;
+
+    // set rotation to 0 before moving
+//					setRotation(node, 0, newX+width/2, newY+height/2);
+
+    node.setAttributeNS( null, 'x', touch.pageX - 50 );
+    node.setAttributeNS( null, 'y', touch.pageY - 50 );
+
+    // restore rotation
+//					setRotation(node, rotation, newX+width/2, newY+height/2);
 }
 
 function touchMove( event ) {
