@@ -14,23 +14,15 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
-import edu.colorado.phet.energyformsandchanges.intro.model.BeakerContainer;
-import edu.colorado.phet.energyformsandchanges.intro.model.Block;
-import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
-import edu.colorado.phet.energyformsandchanges.intro.view.ThermalElementDragHandler;
-import edu.colorado.phet.energyformsandchanges.intro.view.ThermalItemMotionConstraint;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
@@ -111,9 +103,12 @@ public class BeakerView {
         frontNode.addChild( label );
 
         // Create the layers where the contained energy chunks will be placed.
+        // A clipping node is used to enable occlusion when interacting with
+        // other model elements.
         final PNode energyChunkRootNode = new PNode();
         backNode.addChild( energyChunkRootNode );
         energyChunkClipNode = new PClip();
+        energyChunkClipNode.setPathTo( beakerViewRect );
         energyChunkRootNode.addChild( energyChunkClipNode );
         energyChunkClipNode.setStroke( null );
         for ( int i = beaker.getSlices().size() - 1; i >= 0; i-- ) {
