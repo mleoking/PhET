@@ -54,14 +54,14 @@ public class BeakerHeater extends EnergyUser {
     private static final Vector2D OFFSET_TO_BOTTOM_OF_CONNECTOR = new Vector2D( 0, -0.01 );
     private static final Vector2D OFFSET_TO_RADIATE_POINT = new Vector2D( 0, 0.02 );
 
+    // Miscellaneous other constants.
     private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
-
     private static final Random RAND = new Random();
-
     private static final double ENERGY_TO_FULLY_ACTIVATE = 50; // In joules/sec, a.k.a. Watts.
-
     private static final double BEAKER_WIDTH = 0.075; // In meters.
     private static final double BEAKER_HEIGHT = BEAKER_WIDTH * 0.9;
+    private static final double THERMAL_ENERGY_CHUNK_VELOCITY = 0.005; // In meters/sec, quite slow.
+    private static final double HEATER_ELEMENT_2D_HEIGHT = HEATER_ELEMENT_OFF_IMAGE.getHeight();
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -106,7 +106,7 @@ public class BeakerHeater extends EnergyUser {
 
                         // And a "mover" that will move this energy chunk through
                         // the wire to the bulb.
-                        electricalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, getEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                        electricalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, createElectricalEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                     }
                     else {
                         // By design, this shouldn't happen, so warn if it does.
@@ -120,23 +120,30 @@ public class BeakerHeater extends EnergyUser {
             for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( electricalEnergyChunkMovers ) ) {
                 energyChunkMover.moveAlongPath( dt );
                 if ( energyChunkMover.isPathFullyTraversed() ) {
+
+                    // The electrical energy chunk has reached the burner, so
+                    // it needs to change into thermal energy.
                     electricalEnergyChunkMovers.remove( energyChunkMover );
-                    // Cause this energy chunk to be radiated from the bulb.
                     energyChunkMover.energyChunk.energyType.set( EnergyType.THERMAL );
-                    List<Vector2D> lightPath = new ArrayList<Vector2D>() {{
-                        add( getPosition().plus( OFFSET_TO_RADIATE_POINT ).plus( new Vector2D( 0, RADIATED_ENERGY_CHUNK_MAX_DISTANCE ).getRotatedInstance( ( RAND.nextDouble() - 0.5 ) * ( Math.PI / 2 ) ) ) );
-                    }};
-                    thermalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk, lightPath, EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+
+                    // Have the thermal energy move a little on the element
+                    // before moving into the beaker.
+                    thermalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
+                                                                            createThermalEnergyChunkPath( energyChunkMover.energyChunk.position.get() ),
+                                                                            THERMAL_ENERGY_CHUNK_VELOCITY ) );
                 }
             }
 
             // Move the thermal energy chunks.
-            for ( EnergyChunkPathMover lightEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( thermalEnergyChunkMovers ) ) {
-                lightEnergyChunkMover.moveAlongPath( dt );
-                if ( lightEnergyChunkMover.isPathFullyTraversed() ) {
-                    // Remove the chunk and its mover.
-                    energyChunkList.remove( lightEnergyChunkMover.energyChunk );
-                    thermalEnergyChunkMovers.remove( lightEnergyChunkMover );
+            for ( EnergyChunkPathMover thermalEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( thermalEnergyChunkMovers ) ) {
+                thermalEnergyChunkMover.moveAlongPath( dt );
+                if ( thermalEnergyChunkMover.isPathFullyTraversed() ) {
+                    // The chunk is ready to move to the beaker.  We remove it
+                    // from here, and the beaker takes over management of the
+                    // chunk.
+                    beaker.addEnergyChunk( thermalEnergyChunkMover.energyChunk );
+                    energyChunkList.remove( thermalEnergyChunkMover.energyChunk );
+                    thermalEnergyChunkMovers.remove( thermalEnergyChunkMover );
                 }
             }
 
@@ -158,7 +165,13 @@ public class BeakerHeater extends EnergyUser {
         return EnergyFormsAndChangesSimSharing.UserComponents.selectBeakerHeaterButton;
     }
 
-    private static List<Vector2D> getEnergyChunkPath( final Vector2D centerPosition ) {
+    private static List<Vector2D> createThermalEnergyChunkPath( final Vector2D startPosition ) {
+        return new ArrayList<Vector2D>() {{
+            add( startPosition.plus( new Vector2D( 0, HEATER_ELEMENT_2D_HEIGHT ) ) );
+        }};
+    }
+
+    private static List<Vector2D> createElectricalEnergyChunkPath( final Vector2D centerPosition ) {
         return new ArrayList<Vector2D>() {{
             add( centerPosition.plus( OFFSET_TO_LEFT_SIDE_OF_WIRE_BEND ) );
             add( centerPosition.plus( OFFSET_TO_FIRST_WIRE_CURVE_POINT ) );
