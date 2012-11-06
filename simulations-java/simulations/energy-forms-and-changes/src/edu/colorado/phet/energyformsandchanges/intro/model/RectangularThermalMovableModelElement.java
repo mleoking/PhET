@@ -116,6 +116,15 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         }
     }
 
+    /**
+     * Add an energy chunk to this model element.  The energy chunk can be
+     * outside of the element's rectangular bounds, in which case it is added
+     * to the list of chunks that are moving towards the element, or it can be
+     * positioned already inside, in which case it is immediately added to one
+     * of the energy chunk "slices".
+     *
+     * @param ec
+     */
     public void addEnergyChunk( EnergyChunk ec ) {
         if ( getSliceBounds().contains( ec.position.get().toPoint2D() ) ) {
             // Energy chunk is positioned within container bounds, so add it
