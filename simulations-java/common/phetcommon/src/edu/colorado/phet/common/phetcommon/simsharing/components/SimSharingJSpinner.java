@@ -209,6 +209,8 @@ public class SimSharingJSpinner extends JSpinner {
     // test
     public static void main( String[] args ) {
 
+        SimSharingManager.init();
+
         // integer spinner
         final SimSharingJSpinner spinner = new SimSharingJSpinner( new UserComponent( "testSpinner" ) ) {{
             setModel( new SpinnerNumberModel( 0, 0, 100, 1 ) );

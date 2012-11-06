@@ -130,8 +130,7 @@ public class SimSharingJCheckBox extends JCheckBox {
     // demonstrate usage
     public static void main( String[] args ) {
 
-        String[] myArgs = { "-study" };
-        SimSharingManager.init( new PhetApplicationConfig( myArgs, "myProject" ) );
+        SimSharingManager.init();
 
         // check box that uses subclassing to provide custom parameters
         final JCheckBox checkBox1 = new SimSharingJCheckBox( new UserComponent( "checkBox1" ), "subclassing" ) {
