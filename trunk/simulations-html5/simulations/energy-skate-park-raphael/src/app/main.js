@@ -9,77 +9,50 @@ require( [
 
     WebsocketRefresh.listenForRefresh();
 
-    var root = new createjs.Container();
-    var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
-    fpsText.x = 4;
-    fpsText.y = 280;
-    var groundHeight = 116;
-
-    var skater = Skater.create( groundHeight );
-
-    //Cache the background into a single image
-//        background.cache( 0, 0, 1024, 768, 1 );
-
-    var splineLayer = Spline.createSplineLayer( groundHeight );
-
-    root.addChild( Background.createBackground( groundHeight ) );
-    root.addChild( ControlPanel.createControlPanel() );
-    root.addChild( splineLayer );
-    root.addChild( skater );
-    root.addChild( fpsText );
-
-    //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
-    var canvas = document.getElementById( "c" );
-    canvas.onselectstart = function () { return false; }; // IE
-    canvas.onmousedown = function () { return false; }; // Mozilla
-
-    var stage = new createjs.Stage( canvas );
-    stage.addChild( root );
-
-    var frameCount = 0;
-
-    var filterStrength = 20;
-    var frameTime = 0, lastLoop = new Date, thisLoop;
-
-    function updateFrameRate() {
-        frameCount++;
-
-        //Get frame rate but filter transients: http://stackoverflow.com/questions/4787431/check-fps-in-js
-        var thisFrameTime = (thisLoop = new Date) - lastLoop;
-        frameTime += (thisFrameTime - frameTime) / filterStrength;
-        lastLoop = thisLoop;
-        if ( frameCount > 30 ) {
-            fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";
+    //See sample at: http://stackoverflow.com/questions/3675519/raphaeljs-drag-and-drop
+    var nowX;
+    var nowY;
+    var R = Raphael( 0, 0, 500, 500 );
+    var c = R.rect( 200, 200, 40, 40 ).attr( {
+                                                 fill:"hsb(.8, 1, 1)",
+                                                 stroke:"none",
+                                                 opacity:.5,
+                                                 cursor:"move"
+                                             } );
+    var j = R.rect( 0, 0, 100, 100 );
+    // start, move, and up are the drag functions
+    var start = function () {
+        // storing original coordinates
+        this.ox = this.attr( "x" );
+        this.oy = this.attr( "y" );
+        this.attr( {opacity:1} );
+        if ( this.attr( "y" ) < 60 && this.attr( "x" ) < 60 ) {
+            this.attr( {fill:"#000"} );
         }
-    }
-
-    var onResize = function () {
-        var winW = $( window ).width(),
-                winH = $( window ).height(),
-                scale = Math.min( winW / 1024, winH / 768 ),
-                canvasW = scale * 1024,
-                canvasH = scale * 768;
-        var canvas = $( '#c' );
-        canvas.attr( 'width', canvasW );
-        canvas.attr( 'height', canvasH );
-        canvas.offset( {left:(winW - canvasW) / 2, top:(winH - canvasH) / 2} );
-        root.scaleX = root.scaleY = scale;
-        stage.update();
     };
-    $( window ).resize( onResize );
-    onResize(); // initial position
-
-    createjs.Ticker.setFPS( 60 );
-    createjs.Ticker.addListener( updateFrameRate );
-    createjs.Ticker.addListener( stage );
-    createjs.Ticker.addListener( function () {Physics.updatePhysics( skater, groundHeight, splineLayer );} );
-
-    //Enable touch and prevent default
-    createjs.Touch.enable( stage, false, false );
-
-    //Necessary to enable MouseOver events
-    stage.enableMouseOver();
-
-    //Paint once after initialization
-    stage.update();
+    var move = function ( dx, dy ) {
+        // move will be called with dx and dy
+        if ( this.attr( "y" ) > 60 || this.attr( "x" ) > 60 ) {
+            this.attr( {x:this.ox + dx, y:this.oy + dy} );
+        }
+        else {
+            nowX = Math.min( 60, this.ox + dx );
+            nowY = Math.min( 60, this.oy + dy );
+            nowX = Math.max( 0, nowX );
+            nowY = Math.max( 0, nowY );
+            this.attr( {x:nowX, y:nowY } );
+            if ( this.attr( "fill" ) != "#000" ) {
+                this.attr( {fill:"#000"} );
+            }
+        }
+    };
+    var up = function () {
+        // restoring state
+        this.attr( {opacity:.5} );
+        if ( this.attr( "y" ) < 60 && this.attr( "x" ) < 60 ) {
+            this.attr( {fill:"#AEAEAE"} );
+        }
+    };
+    // rstart and rmove are the resize functions;
+    c.drag( move, start, up );
 } );
