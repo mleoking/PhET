@@ -31,6 +31,20 @@ require( [
                 this.animate( {r:50, opacity:1}, 500, ">" );
             };
     paper.set( r, g, b, p ).drag( move, start, up );
+    var skater = paper.image( "resources/skater.png", 10, 10, 150, 200 );
+    skater.attr( {x:100, y:100} );
+
+    var skaterStart = function () {
+                this.ox = this.attr( "x" );
+                this.oy = this.attr( "y" );
+            },
+            skaterMove = function ( dx, dy ) {
+                this.attr( {x:this.ox + dx / paper.overallScaleFactor, y:this.oy + dy / paper.overallScaleFactor} );
+            },
+            skaterUp = function () {
+//                this.animate( {r:50, opacity:1}, 500, ">" );
+            };
+    skater.drag( skaterMove, skaterStart, skaterUp );
 
     var ground = paper.rect( 0, 768 - groundHeight, 1024, 768 ).attr( {fill:"#64aa64"} );
 
