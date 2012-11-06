@@ -9,6 +9,16 @@ var handlingGesture = false;
 
 //http://techblog.floorplanner.com/post/20528546052/interactive-svg-on-the-ipad
 
+var square = document.getElementById( "square" );
+console.log( square );
+
+square.ontouchstart = touchStart;
+square.ontouchmove = touchMove;
+square.ontouchend = touchEnd;
+square.ongesturestart = gestureStart;
+square.ongesturechange = gestureChange;
+square.ongestureend = gestureEnd;
+
 function touchStart( event ) {
     event.preventDefault();
 
