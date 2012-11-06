@@ -11,6 +11,6 @@ public class TimestampNow {
         Date date = new Date();
         System.out.println( date.toString() );
         System.out.println( date.getTime() + " ms since Epoch" );
-        System.out.println( (int)( date.getTime() / 1000L ) + " sec since Epoch" );
+        System.out.println( (int) ( date.getTime() / 1000L ) + " sec since Epoch" );
     }
 }

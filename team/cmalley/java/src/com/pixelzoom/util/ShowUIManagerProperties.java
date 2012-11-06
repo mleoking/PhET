@@ -1,4 +1,3 @@
-
 package com.pixelzoom.util;
 
 import java.awt.Dimension;
