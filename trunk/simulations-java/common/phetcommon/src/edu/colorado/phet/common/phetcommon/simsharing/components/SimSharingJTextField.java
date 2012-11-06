@@ -184,6 +184,8 @@ public class SimSharingJTextField extends JTextField {
      */
     public static void main( String[] args ) {
 
+        SimSharingManager.init();
+
         final SimSharingJTextField textField = new SimSharingJTextField( new UserComponent( "myTextField" ), "SimSharingJTextField", 20 );
         textField.setKeyPressedMessagesEnabled( true );
 
