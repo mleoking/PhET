@@ -21,7 +21,7 @@ import edu.umd.cs.piccolox.nodes.PClip;
  * Class that represents a "beaker container" in the view.  A beaker container
  * is a beaker that contains fluid, and in which other objects can be placed,
  * generally displacing the fluid.
- *
+ * <p/>
  * See the header comments in the parent class for some important information
  * about how this class is used on the canvas.
  *
@@ -67,7 +67,7 @@ public class BeakerContainerView extends BeakerView {
     }
 
     // Update the clipping mask that hides energy chunks behind blocks that are in the beaker.
-    private void updateEnergyChunkClipMask( EFACIntroModel model, PClip clip ) {
+    protected void updateEnergyChunkClipMask( EFACIntroModel model, PClip clip ) {
         Vector2D forwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( Block.SURFACE_WIDTH / 2 );
         Vector2D backwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( -Block.SURFACE_WIDTH / 2 );
 
