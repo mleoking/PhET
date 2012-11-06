@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_lt.xml created Tue Nov 06 21:28:47 EET 2012 using: projectile-motion 2.03.00 (52266), translation-utility 2.14.00 (69024) Spa 9, 2012-->
+<SimStrings>
+<string key="dragLabel" value="pasipriešinimo koeficientas"/>
+<string key="userChoice" value="vartotojo pasirinkimas"/>
+<string key="altitudeLabel" value="pakilimo aukštis(m)"/>
+<string key="football" value="futbolo kamuolys"/>
+<string key="golfball" value="golfo kamuoliukas"/>
+<string key="simTitle" value="Kampu į horizontą mesto kūno judėjimas"/>
+<string key="collision" value="Susidūrimas!"/>
+<string key="adultHuman" value="suaugęs žmogus"/>
+<string key="time" value="laikas(s)"/>
+<string key="buick" value="automobilis"/>
+<string key="diameter" value="skersmuo(m)"/>
+<string key="initSpeed" value="pradinis greitis(m/s)"/>
+<string key="bowlingball" value="boulingo kamuolys"/>
+<string key="piano" value="fortepijonas"/>
+<string key="sound" value="Garsas"/>
+<string key="range" value="nuotolis(m)"/>
+<string key="mass" value="masė(kg)"/>
+<string key="height" value="aukštis(m)"/>
+<string key="pumpkin" value="moliūgas"/>
+<string key="score" value="Taiklus šūvis!"/>
+<string key="angle" value="kampas(laipsniais)"/>
+<string key="baseball" value="beisbolo kamuoliukas"/>
+<string key="airResistance" value="oro pasipriešinimas"/>
+<string key="fire" value="Šauti"/>
+<string key="erase" value="Išvalyti"/>
+<string key="tankshell" value="tanko sviedinys"/>
+</SimStrings>
