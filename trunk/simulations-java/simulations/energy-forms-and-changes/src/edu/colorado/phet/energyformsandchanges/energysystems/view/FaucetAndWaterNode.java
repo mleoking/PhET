@@ -60,7 +60,6 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
         PNode energyChunkLayer = new EnergyChunkLayer( faucet.energyChunkList, faucet.getObservablePosition(), mvt );
 
         // Add the nodes in the order that creates the desired layering.
-//        addChild( waterNode );
         addChild( waterLayer );
         addChild( energyChunkLayer );
         addChild( faucetNode );
