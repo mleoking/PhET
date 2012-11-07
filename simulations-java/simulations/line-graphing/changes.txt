@@ -1,3 +1,4 @@
+11/6/12 extract NumberBackgroundNode from slope tool, for reuse in interactive Slope equation
 11/6/12 move equation on graphed lines to be near slope manipulator
 11/6/12 change request: use plain font style with challenge titles
 11/6/12 tweak game challenge titles with AP
