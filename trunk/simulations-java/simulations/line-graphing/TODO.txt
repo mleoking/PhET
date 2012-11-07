@@ -13,6 +13,7 @@ HIGH
 - Game: challenge generation (levels and randomization)
 
 MEDIUM
+- in Slope interactive equation, use a constant size for blue rise/run boxes, ignore minus sign when horizontally aligning values
 - Game: try check-mark and "X" icons in upper-right corner of equation box
 - reuse LineFormGraphNode subclasses in game
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
