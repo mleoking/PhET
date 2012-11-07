@@ -4,13 +4,21 @@ define([
 ], function( _, Easel ){
 
 
-  function ProtonView( proton ){
+  function ProtonView( proton, transform ){
+    var shape = new Easel.Shape();
+    _.extend( this, shape );
+
     this.proton = proton;
+
+    this.setTransform(
+      transform[0],
+      transform[1],
+      transform[2],
+      transform[3], 0, 0, 0, 0 );
+
     this.render();
     this.draggable();
   }
-
-  ProtonView.prototype = new Easel.Shape();
 
   ProtonView.prototype.render = function(){
     var color  = this.proton.color;
@@ -32,14 +40,11 @@ define([
         y: self.y - evt.stageY
       };
 
-      console.log( "Pressed!!!" );
-
       evt.onMouseMove = function ( ev ) {
         self.x = ev.stageX + offset.x;
         self.y = ev.stageY + offset.y;
 
         self.proton.position.setComponents( self.x, self.y );
-        console.log( "Dragged!!!", self.proton.position.toString() );
       };
     };
 
