@@ -106,6 +106,7 @@ require( [
         controlPanel.css( 'right', left + 'px' );
 
         $( "#barGraphLabel .ui-btn-inner .ui-btn-text" ).text( "Bar Chart" );
+        $( ".ui-shadow-inset" ).remove();
     };
     $( window ).resize( onResize );
     onResize(); // initial position
