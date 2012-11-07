@@ -182,7 +182,7 @@ public class BeakerHeater extends EnergyUser {
             // The path for the thermal energy chunks is meant to look like it
             // is moving on the burner element.  This must be manually
             // coordinated with the burner element image.
-            double angle = RAND.nextBoolean() ? -RAND.nextDouble() * Math.PI * 0.45 : RAND.nextDouble() * Math.PI * 0.3;
+            double angle = RAND.nextBoolean() ? RAND.nextDouble() * Math.PI * 0.45 : -RAND.nextDouble() * Math.PI * 0.3;
             add( startPosition.plus( new Vector2D( 0, HEATER_ELEMENT_2D_HEIGHT ).getRotatedInstance( angle ) ) );
         }};
     }
