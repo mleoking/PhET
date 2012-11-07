@@ -59,6 +59,31 @@ require( [
         }
     }
 
+    http://stackoverflow.com/questions/4009524/change-button-text-jquery-mobile
+            (function ( $ ) {
+                /*
+                 * Changes the displayed text for a jquery mobile button.
+                 * Encapsulates the idiosyncracies of how jquery re-arranges the DOM
+                 * to display a button for either an <a> link or <input type="button">
+                 */
+                $.fn.changeButtonText = function ( newText ) {
+                    return this.each( function () {
+                        $this = $( this );
+                        if ( $this.is( 'a' ) ) {
+                            $( 'span.ui-btn-text', $this ).text( newText );
+                            return;
+                        }
+                        if ( $this.is( 'input' ) ) {
+                            $this.val( newText );
+                            // go up the tree
+                            var ctx = $this.closest( '.ui-btn' );
+                            $( 'span.ui-btn-text', ctx ).text( newText );
+                            return;
+                        }
+                    } );
+                };
+            })( jQuery );
+
     var onResize = function () {
         var winW = $( window ).width(),
                 winH = $( window ).height(),
@@ -76,9 +101,11 @@ require( [
 
         var controlPanel = $( '#controlPanel' );
         var rightOfControlPanel = canvasW + left;
+        controlPanel.css( 'width', canvasW * 0.3 + 'px' );
         controlPanel.css( 'top', top + 'px' );
         controlPanel.css( 'right', left + 'px' );
-        controlPanel.css( 'width', canvasW * 0.2 + 'px' );
+
+        $( "#barGraphLabel .ui-btn-inner .ui-btn-text" ).text( "Bar Chart" );
     };
     $( window ).resize( onResize );
     onResize(); // initial position
