@@ -53,18 +53,17 @@ public class BeakerHeater extends EnergyUser {
     private static final Vector2D OFFSET_TO_SECOND_WIRE_CURVE_POINT = new Vector2D( -0.001, -0.025 );
     private static final Vector2D OFFSET_TO_THIRD_WIRE_CURVE_POINT = new Vector2D( -0.0005, -0.0175 );
     private static final Vector2D OFFSET_TO_BOTTOM_OF_CONNECTOR = new Vector2D( 0, -0.01 );
-    private static final Vector2D OFFSET_TO_RADIATE_POINT = new Vector2D( 0, 0.02 );
+    private static final Vector2D OFFSET_TO_CONVERSION_POINT = new Vector2D( 0, 0.012 );
 
     // Offset from this node to the beaker.
     private static final Vector2D BEAKER_OFFSET = new Vector2D( 0, 0.025 );
 
     // Miscellaneous other constants.
-    private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
     private static final Random RAND = new Random();
     private static final double ENERGY_TO_FULLY_ACTIVATE = 50; // In joules/sec, a.k.a. Watts.
     private static final double BEAKER_WIDTH = 0.075; // In meters.
     private static final double BEAKER_HEIGHT = BEAKER_WIDTH * 0.9;
-    private static final double THERMAL_ENERGY_CHUNK_VELOCITY = 0.005; // In meters/sec, quite slow.
+    private static final double THERMAL_ENERGY_CHUNK_VELOCITY = 0.01; // In meters/sec, quite slow.
     private static final double HEATER_ELEMENT_2D_HEIGHT = HEATER_ELEMENT_OFF_IMAGE.getHeight();
 
     //-------------------------------------------------------------------------
@@ -181,7 +180,11 @@ public class BeakerHeater extends EnergyUser {
 
     private static List<Vector2D> createThermalEnergyChunkPath( final Vector2D startPosition ) {
         return new ArrayList<Vector2D>() {{
-            add( startPosition.plus( new Vector2D( 0, HEATER_ELEMENT_2D_HEIGHT ) ) );
+            // The path for the thermal energy chunks is meant to look like it
+            // is moving on the burner element.  This must be manually
+            // coordinated with the burner element image.
+            double angle = RAND.nextBoolean() ? -RAND.nextDouble() * Math.PI * 0.45 : RAND.nextDouble() * Math.PI * 0.3;
+            add( startPosition.plus( new Vector2D( 0, HEATER_ELEMENT_2D_HEIGHT ).getRotatedInstance( angle ) ) );
         }};
     }
 
@@ -192,7 +195,7 @@ public class BeakerHeater extends EnergyUser {
             add( centerPosition.plus( OFFSET_TO_SECOND_WIRE_CURVE_POINT ) );
             add( centerPosition.plus( OFFSET_TO_THIRD_WIRE_CURVE_POINT ) );
             add( centerPosition.plus( OFFSET_TO_BOTTOM_OF_CONNECTOR ) );
-            add( centerPosition.plus( OFFSET_TO_RADIATE_POINT ) );
+            add( centerPosition.plus( OFFSET_TO_CONVERSION_POINT ) );
         }};
     }
 }
