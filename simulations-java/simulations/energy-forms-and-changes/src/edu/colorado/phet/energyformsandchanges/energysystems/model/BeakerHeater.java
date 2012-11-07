@@ -64,6 +64,7 @@ public class BeakerHeater extends EnergyUser {
     private static final Vector2D THERMOMETER_OFFSET = new Vector2D( 0.033, 0.035 );
     private static final double THERMAL_ENERGY_CHUNK_VELOCITY = 0.01; // In meters/sec, quite slow.
     private static final double HEATER_ELEMENT_2D_HEIGHT = HEATER_ELEMENT_OFF_IMAGE.getHeight();
+    private static final double MAX_HEAT_GENERATION_RATE = 1000; // Joules/sec.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -165,6 +166,9 @@ public class BeakerHeater extends EnergyUser {
             else {
                 heatProportion.set( 0.0 );
             }
+
+            // Add energy to the beaker based on heat coming from heat element.
+            beaker.changeEnergy( heatProportion.get() * MAX_HEAT_GENERATION_RATE * dt );
         }
     }
 
