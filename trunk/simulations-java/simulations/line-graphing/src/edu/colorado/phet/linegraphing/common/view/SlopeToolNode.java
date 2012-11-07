@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.RoundRectangle2D;
 import java.text.NumberFormat;
 
 import javax.swing.Icon;
@@ -21,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
@@ -46,6 +44,13 @@ public class SlopeToolNode extends PComposite {
     // values
     private static final int VALUE_X_SPACING = 6;
     private static final int VALUE_Y_SPACING = 6;
+    private static final NumberFormat VALUE_FORMAT = new DefaultDecimalFormat( "0" );
+    private static final PhetFont VALUE_FONT = new PhetFont( Font.BOLD, 16 );
+    private static final Color VALUE_TEXT_COLOR = Color.BLACK;
+    private static final Color VALUE_BACKGROUND_COLOR = ColorUtils.createColor( LGColors.SLOPE, 150 );
+    private static final double VALUE_X_MARGIN = 3;
+    private static final double VALUE_Y_MARGIN = 3;
+    private static final double VALUE_CORNER_RADIUS = 5;
 
     public SlopeToolNode( Property<Line> line, final ModelViewTransform mvt ) {
 
@@ -80,7 +85,9 @@ public class SlopeToolNode extends PComposite {
         final double delimiterLengthFactor = 0.5;
         final PNode riseLineNode, riseTailDelimiterNode, riseTipDelimiterNode, riseValueNode;
         {
-            riseValueNode = new ValueNode( line.rise );
+            riseValueNode = new NumberBackgroundNode( line.rise, VALUE_FORMAT,
+                                                      VALUE_FONT, VALUE_TEXT_COLOR, VALUE_BACKGROUND_COLOR,
+                                                      VALUE_X_MARGIN, VALUE_Y_MARGIN, VALUE_CORNER_RADIUS );
             final double xOffset = offsetFactor * gridXSpacing;
             final double riseDelimiterLength = delimiterLengthFactor * gridXSpacing;
             final double tipFudgeY = ( line.rise > 0 ) ? STROKE_WIDTH : -STROKE_WIDTH;
@@ -106,7 +113,9 @@ public class SlopeToolNode extends PComposite {
         // run
         final PNode runLineNode, runTailDelimiterNode, runTipDelimiterNode, runValueNode;
         {
-            runValueNode = new ValueNode( line.run );
+            runValueNode = new NumberBackgroundNode( line.run, VALUE_FORMAT, VALUE_FONT,
+                                                     VALUE_TEXT_COLOR, VALUE_BACKGROUND_COLOR,
+                                                     VALUE_X_MARGIN, VALUE_Y_MARGIN, VALUE_CORNER_RADIUS );
             final double yOffset = offsetFactor * gridYSpacing;
             final double runDelimiterLength = delimiterLengthFactor * gridYSpacing;
             final double tipFudgeX = ( line.run > 0 ) ? -1 : 1;
@@ -138,45 +147,6 @@ public class SlopeToolNode extends PComposite {
         addChild( runLineNode );
         addChild( riseValueNode );
         addChild( runValueNode );
-    }
-
-    // Value on a rectangular background with rounded corners.
-    private static class ValueNode extends PComposite {
-
-        private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
-        private static final PhetFont FONT = new PhetFont( Font.BOLD, 16 );
-        private static final Color TEXT_COLOR = Color.BLACK;
-        private static final Color BACKGROUND_COLOR = ColorUtils.createColor( LGColors.SLOPE, 150 );
-        private static final double X_MARGIN = 3;
-        private static final double Y_MARGIN = 3;
-
-        public ValueNode( double value ) {
-
-            PNode textNode = new PhetPText( FORMAT.format( value ), FONT, TEXT_COLOR );
-
-            // background for the label
-            final RoundRectangle2D.Double backgroundShape = new RoundRectangle2D.Double( 0, 0,
-                                                                                         textNode.getFullBoundsReference().getWidth() + ( 2 * X_MARGIN ),
-                                                                                         textNode.getFullBoundsReference().getHeight() + ( 2 * Y_MARGIN ),
-                                                                                         5, 5 );
-
-            // Put an opaque background behind a translucent background, so that we can vary the saturation of the slope color using the alpha channel.
-            PPath opaqueBackgroundNode = new PPath( backgroundShape );
-            opaqueBackgroundNode.setPaint( Color.WHITE );
-            opaqueBackgroundNode.setStroke( null );
-
-            PPath translucentBackgroundNode = new PPath( backgroundShape );
-            translucentBackgroundNode.setPaint( BACKGROUND_COLOR );
-            translucentBackgroundNode.setStroke( null );
-
-            // rendering order
-            addChild( opaqueBackgroundNode );
-            addChild( translucentBackgroundNode );
-            addChild( textNode );
-
-            // layout
-            textNode.setOffset( X_MARGIN, Y_MARGIN );
-        }
     }
 
     // Can't use common-code ArrowNode because we want a different tip style.
