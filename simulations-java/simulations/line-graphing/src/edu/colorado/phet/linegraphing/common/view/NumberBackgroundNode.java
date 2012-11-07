@@ -17,7 +17,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class NumberBackgroundNode extends PComposite {
+public class NumberBackgroundNode extends PComposite {
 
     public NumberBackgroundNode( double value, NumberFormat format,
                                  PhetFont font, Color textColor, Color backgroundColor,
