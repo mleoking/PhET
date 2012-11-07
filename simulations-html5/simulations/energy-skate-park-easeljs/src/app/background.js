@@ -1,8 +1,8 @@
 define( [
             'image!resources/house.png',
             'image!resources/mountains.png'], function ( h, m ) {
-    var houseImage = skaterImage;
-    var mountainImage = skaterImage;
+    var houseImage = h;
+    var mountainImage = m;
     var result = {createBackground:function ( groundHeight ) {
         var groundGraphics = new createjs.Graphics();
         groundGraphics.beginFill( "#64aa64" );
