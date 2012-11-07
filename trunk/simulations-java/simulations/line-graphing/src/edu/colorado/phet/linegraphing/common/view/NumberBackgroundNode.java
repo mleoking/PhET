@@ -30,19 +30,12 @@ public class NumberBackgroundNode extends PComposite {
                                                                                      textNode.getFullBoundsReference().getWidth() + ( 2 * xMargin ),
                                                                                      textNode.getFullBoundsReference().getHeight() + ( 2 * yMargin ),
                                                                                      cornerRadius, cornerRadius );
-
-        // Put an opaque background behind a translucent background, so that we can vary the saturation of the slope color using the alpha channel.
-        PPath opaqueBackgroundNode = new PPath( backgroundShape );
-        opaqueBackgroundNode.setPaint( Color.WHITE );
-        opaqueBackgroundNode.setStroke( null );
-
-        PPath translucentBackgroundNode = new PPath( backgroundShape );
-        translucentBackgroundNode.setPaint( backgroundColor );
-        translucentBackgroundNode.setStroke( null );
+        PPath backgroundNode = new PPath( backgroundShape );
+        backgroundNode.setPaint( backgroundColor );
+        backgroundNode.setStroke( null );
 
         // rendering order
-        addChild( opaqueBackgroundNode );
-        addChild( translucentBackgroundNode );
+        addChild( backgroundNode );
         addChild( textNode );
 
         // layout
