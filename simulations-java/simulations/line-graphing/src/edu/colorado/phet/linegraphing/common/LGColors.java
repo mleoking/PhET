@@ -16,7 +16,7 @@ public class LGColors {
     public static final Color SAVED_LINE_HIGHLIGHT = new Color( 0, 0, 255 );
     public static final Color Y_EQUALS_X = new Color( 16, 178, 15 );
     public static final Color Y_EQUALS_NEGATIVE_X = Y_EQUALS_X;
-    public static final Color SLOPE = new Color( 49, 204, 255 );
+    public static final Color SLOPE = new Color( 117, 217, 255 );
     public static final Color POINT_X1_Y1 = new Color( 255, 125, 255 );
     public static final Color POINT_X2_Y2 = Color.ORANGE; //TODO pick a color that works well with POINT_X1_Y1
     public static final Color INTERCEPT = POINT_X1_Y1;

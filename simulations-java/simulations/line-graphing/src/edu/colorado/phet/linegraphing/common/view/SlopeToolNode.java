@@ -47,7 +47,6 @@ public class SlopeToolNode extends PComposite {
     private static final NumberFormat VALUE_FORMAT = new DefaultDecimalFormat( "0" );
     private static final PhetFont VALUE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color VALUE_TEXT_COLOR = Color.BLACK;
-    private static final Color VALUE_BACKGROUND_COLOR = ColorUtils.createColor( LGColors.SLOPE, 150 );
     private static final double VALUE_X_MARGIN = 3;
     private static final double VALUE_Y_MARGIN = 3;
     private static final double VALUE_CORNER_RADIUS = 5;
@@ -86,7 +85,7 @@ public class SlopeToolNode extends PComposite {
         final PNode riseLineNode, riseTailDelimiterNode, riseTipDelimiterNode, riseValueNode;
         {
             riseValueNode = new NumberBackgroundNode( line.rise, VALUE_FORMAT,
-                                                      VALUE_FONT, VALUE_TEXT_COLOR, VALUE_BACKGROUND_COLOR,
+                                                      VALUE_FONT, VALUE_TEXT_COLOR, LGColors.SLOPE,
                                                       VALUE_X_MARGIN, VALUE_Y_MARGIN, VALUE_CORNER_RADIUS );
             final double xOffset = offsetFactor * gridXSpacing;
             final double riseDelimiterLength = delimiterLengthFactor * gridXSpacing;
@@ -114,7 +113,7 @@ public class SlopeToolNode extends PComposite {
         final PNode runLineNode, runTailDelimiterNode, runTipDelimiterNode, runValueNode;
         {
             runValueNode = new NumberBackgroundNode( line.run, VALUE_FORMAT, VALUE_FONT,
-                                                     VALUE_TEXT_COLOR, VALUE_BACKGROUND_COLOR,
+                                                     VALUE_TEXT_COLOR, LGColors.SLOPE,
                                                      VALUE_X_MARGIN, VALUE_Y_MARGIN, VALUE_CORNER_RADIUS );
             final double yOffset = offsetFactor * gridYSpacing;
             final double runDelimiterLength = delimiterLengthFactor * gridYSpacing;
