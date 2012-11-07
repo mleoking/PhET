@@ -1,9 +1,9 @@
 define( ['image!resources/barChartIcon.png',
             'image!resources/gridIcon.png',
             'image!resources/pieChartIcon.png',
-            'image!resources/speedIcon.png'], function ( barChartIconImage_, gridIconImage_, pieChartIconImage_, speedIconImage_ ) {
+            'image!resources/speedIcon.png'], function ( barChartIconImage, gridIconImage, pieChartIconImage, speedIconImage ) {
 
-    var barChartIconImage=skaterImage, gridIconImage=skaterImage, pieChartIconImage=skaterImage, speedIconImage = skaterImage;
+//    var barChartIconImage=skaterImage, gridIconImage=skaterImage, pieChartIconImage=skaterImage, speedIconImage = skaterImage;
 
     var result = {};
 

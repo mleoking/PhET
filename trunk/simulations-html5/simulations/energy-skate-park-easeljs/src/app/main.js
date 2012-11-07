@@ -10,7 +10,7 @@ require( [
 
     WebsocketRefresh.listenForRefresh();
 
-    console.log(location.href);
+    console.log( location.href );
 
 //    EaselUtil.changeHitDetection();
 
@@ -54,7 +54,7 @@ require( [
         frameTime += (thisFrameTime - frameTime) / filterStrength;
         lastLoop = thisLoop;
         if ( frameCount > 30 ) {
-            fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps @"+location.href;
+            fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";// @"+location.href;
         }
     }
 
