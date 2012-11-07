@@ -1,3 +1,4 @@
+11/6/12 adjust y-spacing for version of Slope interactive equation that puts unsimplified value on a separate line
 # 0.00.38 (70043) Nov 6, 2012
 11/6/12 make slope color look the same everywhere: adjust slope color, change slope tool node so that it doesn't add transparency
 # 0.00.37 (70041) Nov 6, 2012

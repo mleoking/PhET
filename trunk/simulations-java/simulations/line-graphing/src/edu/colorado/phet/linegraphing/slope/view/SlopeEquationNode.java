@@ -42,7 +42,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class SlopeEquationNode extends EquationNode {
 
     // puts "m = <value>" on a separate line, below the interactive equation
-    private static final boolean PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE = false;
+    private static final boolean PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE = true;
 
     private final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
@@ -143,7 +143,7 @@ public class SlopeEquationNode extends EquationNode {
                               x2Node.getYOffset() );
             // = unsimplified value
             if ( PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE ) {
-                m2Node.setOffset( mNode.getXOffset(), x1Node.getFullBoundsReference().getMaxY() + 20 );
+                m2Node.setOffset( mNode.getXOffset(), x1Node.getFullBoundsReference().getMaxY() + 50 );
                 unsimplifiedEqualsNode.setOffset( m2Node.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
                                                   m2Node.getYOffset() );
                 unsimplifiedFractionLineNode.setOffset( unsimplifiedEqualsNode.getFullBoundsReference().getMaxX() + relationalOperatorXSpacing,
