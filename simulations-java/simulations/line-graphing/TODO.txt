@@ -7,8 +7,8 @@ DESIGN
 
 HIGH
 - publish review dev version without Game tab
-- in Slope equation, put rise and run on blue background, ala slope tool
-- move equation on graphed line to be near slope manipulator
+- in Slope equation, put rise and run on blue background, ala slope tool (retool SlopeToolNode.ValueNode)
+- move equation on graphed line to be near slope manipulator (see LineNode.updateEquation)
 - add support for fractional y-intercept in slope-intercept equations (only when y-intercept is not interactive)
 - Game: "Place 3 Points" challenge
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges
