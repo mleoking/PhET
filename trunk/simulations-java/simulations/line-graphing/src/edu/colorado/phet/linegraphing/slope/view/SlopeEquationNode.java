@@ -24,6 +24,7 @@ import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Line;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.MinusNode;
+import edu.colorado.phet.linegraphing.common.view.NumberBackgroundNode;
 import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.colorado.phet.linegraphing.common.view.spinner.CoordinateSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.X1Y1Colors;
@@ -46,6 +47,7 @@ public class SlopeEquationNode extends EquationNode {
     private final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private boolean updatingControls; // flag that allows us to update all controls atomically when the model changes
+    private PNode unsimplifiedRiseNode, unsimplifiedRunNode;
 
     /*
      * Use this constructor for interactive equations.
@@ -81,8 +83,8 @@ public class SlopeEquationNode extends EquationNode {
         PNode x1Node = new ZeroOffsetNode( new CoordinateSpinnerNode( UserComponents.x1Spinner, x1, x2, y1, y2, xRange, new X1Y1Colors(), interactiveFont, FORMAT ) );
         // = unsimplified value
         final PNode unsimplifiedEqualsNode = new PhetPText( "=", staticFont, staticColor );
-        final PText unsimplifiedRiseNode = new PhetPText( "?", staticFont, staticColor );
-        final PText unsimplifiedRunNode = new PhetPText( "?", staticFont, staticColor );
+        unsimplifiedRiseNode = new PNode(); // non null
+        unsimplifiedRunNode = new PNode();  // non null
         final PPath unsimplifiedFractionLineNode = new PhetPPath( createFractionLineShape( 10 ), staticColor, null, null ); // correct length will be set later
         // m = for second line
         PNode m2Node = new PhetPText( Strings.SYMBOL_SLOPE, staticFont, staticColor );
@@ -163,14 +165,11 @@ public class SlopeEquationNode extends EquationNode {
                 // adjust the fraction line length, center the rise and run values
                 unsimplifiedFractionLineNode.setPathTo( createFractionLineShape( Math.max( unsimplifiedRiseNode.getFullBoundsReference().getWidth(), unsimplifiedRunNode.getFullBoundsReference().getWidth() ) ) );
 
-                // horizontally center rise and run, taking into account the width of any minus signs. Eg, in -2/3, "2" should be centered over "3".
-                final double minusWidth = new PhetPText( "-", staticFont, staticColor ).getFullBoundsReference().getWidth();
-                final double riseXOffset = ( line.rise >= 0 ) ? 0 : -( minusWidth / 2 );
-                final double runXOffset = ( line.run >= 0 ) ? 0 : -( minusWidth / 2 );
-                unsimplifiedRiseNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRiseNode.getFullBoundsReference().getWidth() / 2 ) + riseXOffset,
-                                                unsimplifiedFractionLineNode.getFullBoundsReference().getMinY() - unsimplifiedRiseNode.getFullBoundsReference().getHeight() - ySpacing );
-                unsimplifiedRunNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRunNode.getFullBoundsReference().getWidth() / 2 ) + runXOffset,
-                                               unsimplifiedFractionLineNode.getFullBoundsReference().getMaxY() + ySpacing );
+                // horizontally center rise and run
+                unsimplifiedRiseNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRiseNode.getFullBoundsReference().getWidth() / 2 ),
+                                                unsimplifiedFractionLineNode.getFullBoundsReference().getMinY() - unsimplifiedRiseNode.getFullBoundsReference().getHeight() - spinnersYSpacing );
+                unsimplifiedRunNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRunNode.getFullBoundsReference().getWidth() / 2 ),
+                                               unsimplifiedFractionLineNode.getFullBoundsReference().getMaxY() + spinnersYSpacing );
             }
         };
 
@@ -202,8 +201,18 @@ public class SlopeEquationNode extends EquationNode {
                 updatingControls = false;
 
                 // Update the rise & run values
-                unsimplifiedRiseNode.setText( FORMAT.format( line.rise ) );
-                unsimplifiedRunNode.setText( FORMAT.format( line.run ) );
+                {
+                    final double margin = 5;
+                    final double cornerRadius = 10;
+
+                    removeChild( unsimplifiedRiseNode );
+                    unsimplifiedRiseNode = new NumberBackgroundNode( line.rise, FORMAT, staticFont, staticColor, LGColors.SLOPE, margin, margin, cornerRadius );
+                    addChild( unsimplifiedRiseNode );
+
+                    removeChild( unsimplifiedRunNode );
+                    unsimplifiedRunNode = new NumberBackgroundNode( line.run, FORMAT, staticFont, staticColor, LGColors.SLOPE, margin, margin, cornerRadius );
+                    addChild( unsimplifiedRunNode );
+                }
 
                 // do layout before adding undefined-slope indicator
                 updateLayout.apply( line );
