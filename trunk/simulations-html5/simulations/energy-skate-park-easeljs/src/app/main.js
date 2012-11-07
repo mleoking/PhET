@@ -10,7 +10,7 @@ require( [
 
     WebsocketRefresh.listenForRefresh();
 
-    EaselUtil.changeHitDetection();
+//    EaselUtil.changeHitDetection();
 
     var root = new createjs.Container();
     var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
