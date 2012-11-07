@@ -32,10 +32,10 @@
             position: absolute;
         }
 
-        #checkboxes1 {
-            right: 10px;
-            top: 10px;
-            width: 40%;
+        #controlPanel {
+            margin: 5px;
+            padding: 0;
+            width: 20%;
             position: absolute;
         }
     </style>
@@ -44,30 +44,30 @@
 <body>
 
 <!-- Home -->
-<div data-role="control-panel">
-    <div id="checkboxes1" data-role="fieldcontain">
-        <fieldset data-role="controlgroup" data-type="vertical">
-            <legend>
-            </legend>
-            <input id="checkbox1" name="" type="checkbox"/>
-            <label for="checkbox1">
-                Bar Graph
-            </label>
-            <input id="checkbox2" name="" type="checkbox"/>
-            <label for="checkbox2">
-                Pie Chart
-            </label>
-            <input id="checkbox3" name="" type="checkbox"/>
-            <label for="checkbox3">
-                Grid
-            </label>
-            <input id="checkbox4" name="" type="checkbox"/>
-            <label for="checkbox4">
-                Speed
-            </label>
-        </fieldset>
-    </div>
-</div>
+<!--<div data-role="control-panel" id="controlPanel">-->
+<!--<div id="checkboxes1" data-role="fieldcontain">-->
+<fieldset data-role="controlgroup" data-type="vertical" id="controlPanel">
+    <legend>
+    </legend>
+    <input id="checkbox1" name="" type="checkbox"/>
+    <label for="checkbox1">
+        Bar Graph
+    </label>
+    <input id="checkbox2" name="" type="checkbox"/>
+    <label for="checkbox2">
+        Pie Chart
+    </label>
+    <input id="checkbox3" name="" type="checkbox"/>
+    <label for="checkbox3">
+        Grid
+    </label>
+    <input id="checkbox4" name="" type="checkbox"/>
+    <label for="checkbox4">
+        Speed
+    </label>
+</fieldset>
+<!--</div>-->
+<!--</div>-->
 <canvas id="c" width=400 height=300></canvas>
 </body>
 </html>

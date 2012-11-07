@@ -28,7 +28,7 @@ require( [
     var splineLayer = Spline.createSplineLayer( groundHeight );
 
     root.addChild( Background.createBackground( groundHeight ) );
-    root.addChild( ControlPanel.createControlPanel() );
+//    root.addChild( ControlPanel.createControlPanel() );
     root.addChild( splineLayer );
     root.addChild( skater );
     root.addChild( fpsText );
@@ -68,9 +68,17 @@ require( [
         var canvas = $( '#c' );
         canvas.attr( 'width', canvasW );
         canvas.attr( 'height', canvasH );
-        canvas.offset( {left:(winW - canvasW) / 2, top:(winH - canvasH) / 2} );
+        var left = (winW - canvasW) / 2;
+        var top = (winH - canvasH) / 2;
+        canvas.offset( {left:left, top:top} );
         root.scaleX = root.scaleY = scale;
         stage.update();
+
+        var controlPanel = $( '#controlPanel' );
+        var rightOfControlPanel = canvasW + left;
+        controlPanel.css( 'top', top + 'px' );
+        controlPanel.css( 'right', left + 'px' );
+        controlPanel.css( 'width', canvasW * 0.2 + 'px' );
     };
     $( window ).resize( onResize );
     onResize(); // initial position
