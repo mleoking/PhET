@@ -55,14 +55,13 @@ public class BeakerHeater extends EnergyUser {
     private static final Vector2D OFFSET_TO_BOTTOM_OF_CONNECTOR = new Vector2D( 0, -0.01 );
     private static final Vector2D OFFSET_TO_CONVERSION_POINT = new Vector2D( 0, 0.012 );
 
-    // Offset from this node to the beaker.
-    private static final Vector2D BEAKER_OFFSET = new Vector2D( 0, 0.025 );
-
     // Miscellaneous other constants.
     private static final Random RAND = new Random();
     private static final double ENERGY_TO_FULLY_ACTIVATE = 50; // In joules/sec, a.k.a. Watts.
     private static final double BEAKER_WIDTH = 0.075; // In meters.
     private static final double BEAKER_HEIGHT = BEAKER_WIDTH * 0.9;
+    private static final Vector2D BEAKER_OFFSET = new Vector2D( 0, 0.025 );
+    private static final Vector2D THERMOMETER_OFFSET = new Vector2D( 0.033, 0.035 );
     private static final double THERMAL_ENERGY_CHUNK_VELOCITY = 0.01; // In meters/sec, quite slow.
     private static final double HEATER_ELEMENT_2D_HEIGHT = HEATER_ELEMENT_OFF_IMAGE.getHeight();
 
@@ -85,21 +84,21 @@ public class BeakerHeater extends EnergyUser {
     protected BeakerHeater( ConstantDtClock clock, BooleanProperty energyChunksVisible ) {
         super( EnergyFormsAndChangesResources.Images.WATER_ICON );
 
-        // Create the beaker and hook it up so that it moves with this model
-        // element.
         beaker = new Beaker( clock, BEAKER_OFFSET, BEAKER_WIDTH, BEAKER_HEIGHT, energyChunksVisible );
-        getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
-            public void apply( Vector2D position ) {
-                beaker.position.set( position.plus( BEAKER_OFFSET ) );
-            }
-        } );
-
-        // Create the thermometer.
         thermometer = new Thermometer( clock, new ITemperatureModel() {
             public TemperatureAndColor getTemperatureAndColorAtLocation( Vector2D location ) {
                 return new TemperatureAndColor( beaker.getTemperature(), EFACConstants.WATER_COLOR_OPAQUE );
             }
-        }, new Vector2D( 0.033, 0.035 ) );
+        }, THERMOMETER_OFFSET );
+
+        // Update the position of the beaker and thermometer when the overall
+        // model element position changes.
+        getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D position ) {
+                beaker.position.set( position.plus( BEAKER_OFFSET ) );
+                thermometer.position.set( position.plus( THERMOMETER_OFFSET ) );
+            }
+        } );
     }
 
     //-------------------------------------------------------------------------
