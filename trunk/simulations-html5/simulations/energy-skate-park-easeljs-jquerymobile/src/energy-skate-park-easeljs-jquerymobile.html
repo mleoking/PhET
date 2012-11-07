@@ -6,6 +6,16 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
     <!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>-->
 
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css"/>
+    <link rel="stylesheet" href="my.css"/>
+    <style>
+            /* App custom styles */
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+    </script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.js">
+    </script>
+    <script src="my.js"></script>
     <script type="text/javascript" src="js/vendor/underscore-min.js"></script>
     <script type="text/javascript" src="js/vendor/jquery-1.8.2.min.js"></script>
     <script type="text/javascript" src="js/vendor/easeljs-0.5.0.min.js"></script>
@@ -25,6 +35,34 @@
 </head>
 
 <body>
+
+<!-- Home -->
+<div data-role="page" id="page1">
+    <div data-role="content">
+        <div id="checkboxes1" data-role="fieldcontain">
+            <fieldset data-role="controlgroup" data-type="vertical">
+                <legend>
+                </legend>
+                <input id="checkbox1" name="" type="checkbox"/>
+                <label for="checkbox1">
+                    Pie Chart
+                </label>
+                <input id="checkbox2" name="" type="checkbox"/>
+                <label for="checkbox2">
+                    Bar Chart
+                </label>
+                <input id="checkbox3" name="" type="checkbox"/>
+                <label for="checkbox3">
+                    Grid
+                </label>
+                <input id="checkbox4" name="" type="checkbox"/>
+                <label for="checkbox4">
+                    Speed
+                </label>
+            </fieldset>
+        </div>
+    </div>
+</div>
 <canvas id="c" width=400 height=300></canvas>
 </body>
 </html>
