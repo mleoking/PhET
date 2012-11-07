@@ -1,3 +1,4 @@
+11/6/12 temporarily hide "Line Game" tab
 11/6/12 in Slope equation, put rise and run on blue background, ala slope tool [70038]
 11/6/12 extract NumberBackgroundNode from slope tool, for reuse in interactive Slope equation
 11/6/12 move equation on graphed lines to be near slope manipulator
