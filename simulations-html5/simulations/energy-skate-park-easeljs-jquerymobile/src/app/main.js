@@ -54,7 +54,7 @@ require( [
         frameTime += (thisFrameTime - frameTime) / filterStrength;
         lastLoop = thisLoop;
         if ( frameCount > 30 ) {
-            fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps @"+location.href;
+            fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";// @"+location.href;
         }
     }
 
