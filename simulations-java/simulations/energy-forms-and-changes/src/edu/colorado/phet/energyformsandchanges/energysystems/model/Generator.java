@@ -52,7 +52,7 @@ public class Generator extends EnergyConverter {
     private static final Vector2D WIRE_CURVE_POINT_2_OFFSET = WHEEL_CENTER_OFFSET.plus( 0.03, -0.07 );
     private static final Vector2D CENTER_OF_CONNECTOR_OFFSET = CONNECTOR_OFFSET;
 
-    private static final double ENERGY_OUTPUT_RATE = 10; // In joules / (radians / sec)
+    private static final double ENERGY_OUTPUT_RATE = 35; // In joules / (radians / sec)
 
     //-------------------------------------------------------------------------
     // Instance Data
