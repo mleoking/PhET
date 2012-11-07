@@ -4,12 +4,15 @@ define([
   'model/point2D'
 ],function( _, Particle, Point2D ){
 
-  function Proton(){
+  function Proton( x, y ){
     this.initialize( "red" );
 
-    this.radius = 50;
+    this.radius = 5;
 
-    this.position = new Point2D( 0, 0 );
+    var xPos = x || 0;
+    var yPos = y || 0;
+
+    this.position = new Point2D( xPos, yPos );
   }
 
   _.extend( Proton.prototype, Particle.prototype );
