@@ -21,6 +21,7 @@ MEDIUM
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
 
 LOW
+- change value of slopeUndefined string key to "x={0} (slope undefined)"
 - consider using a subtle background color for buttons (Reset All, Save Line, Erase Lines)
 - remove EquationControls.xPadding param if we decide to split Slope equation across 2 lines
 - remove code related to SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE
