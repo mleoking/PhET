@@ -10,7 +10,7 @@ require( [
 
     WebsocketRefresh.listenForRefresh();
 
-    console.log(location.href);
+    console.log( location.href );
 
 //    EaselUtil.changeHitDetection();
 
@@ -39,6 +39,7 @@ require( [
     canvas.onmousedown = function () { return false; }; // Mozilla
 
     var stage = new createjs.Stage( canvas );
+    stage.mouseMoveOutside = true;
     stage.addChild( root );
 
     var frameCount = 0;
