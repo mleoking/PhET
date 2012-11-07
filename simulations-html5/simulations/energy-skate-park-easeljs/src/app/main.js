@@ -4,10 +4,13 @@ require( [
              'control-panel',
              'background',
              'spline',
-             'physics'
-         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics ) {
+             'physics',
+             'easel-util'
+         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil ) {
 
     WebsocketRefresh.listenForRefresh();
+
+    EaselUtil.changeHitDetection();
 
     var root = new createjs.Container();
     var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
