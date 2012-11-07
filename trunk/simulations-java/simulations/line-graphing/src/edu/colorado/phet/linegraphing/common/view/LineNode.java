@@ -3,8 +3,8 @@ package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
@@ -32,6 +32,7 @@ public abstract class LineNode extends PComposite {
     public final Line line;
     private final DoubleArrowNode arrowNode;
     private final PNode equationParentNode;
+    private final Vector2D tailLocation, tipLocation;
 
     /**
      * Constructor
@@ -90,9 +91,9 @@ public abstract class LineNode extends PComposite {
         }
 
         // double-headed arrow
-        Point2D tailLocation = new Point2D.Double( mvt.modelToViewX( tailX ), mvt.modelToViewY( tailY ) );
-        Point2D tipLocation = new Point2D.Double( mvt.modelToViewX( tipX ), mvt.modelToViewY( tipY ) );
-        arrowNode = new DoubleArrowNode( tailLocation, tipLocation, ARROW_HEAD_SIZE.getHeight(), ARROW_HEAD_SIZE.getWidth(), LINE_THICKNESS );
+        tailLocation = new Vector2D( mvt.modelToViewX( tailX ), mvt.modelToViewY( tailY ) );
+        tipLocation = new Vector2D( mvt.modelToViewX( tipX ), mvt.modelToViewY( tipY ) );
+        arrowNode = new DoubleArrowNode( tailLocation.toPoint2D(), tipLocation.toPoint2D(), ARROW_HEAD_SIZE.getHeight(), ARROW_HEAD_SIZE.getWidth(), LINE_THICKNESS );
         arrowNode.setPaint( line.color );
         arrowNode.setStroke( null ); // DoubleArrowNode is a shape that we fill, no need to stroke
         addChild( arrowNode );
@@ -100,7 +101,7 @@ public abstract class LineNode extends PComposite {
         // equation
         equationParentNode = new PNode();
         addChild( equationParentNode );
-        equationParentNode.setOffset( tipLocation );
+        equationParentNode.setOffset( tipLocation.toPoint2D() );
         equationParentNode.setRotation( line.undefinedSlope() ? Math.PI / 2 : -Math.atan( line.getSlope() ) );
         updateEquation( line, EQUATION_FONT, line.color );
     }
@@ -124,15 +125,41 @@ public abstract class LineNode extends PComposite {
         PNode zeroOffsetNode = new ZeroOffsetNode( createEquationNode( line, font, color ) );
         equationParentNode.addChild( new ZeroOffsetNode( zeroOffsetNode ) );
 
-        // put equation where it won't interfere with slope tool
-        final double equationXOffset = -zeroOffsetNode.getFullBoundsReference().getWidth() - 30;
-        final double equationYOffset;
-        if ( line.undefinedSlope() || line.rise <= 0 ) {
-            equationYOffset = -zeroOffsetNode.getFullBoundsReference().getHeight() - 12; // equation above the line
+        // Put equation where it won't interfere with slope tool or y-axis, at the end of the line that would have the slope manipulator.
+        if ( line.undefinedSlope() ) {
+            // this puts the "undefined slope" label to the right of the y-axis, at the same end of the line as the slope manipulator
+            if ( line.rise < 0 ) {
+                equationParentNode.setOffset( tipLocation.toPoint2D() );
+                zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 30, -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
+            }
+            else {
+                equationParentNode.setOffset( tailLocation.toPoint2D() );
+                zeroOffsetNode.setOffset( 30, -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
+            }
+        }
+        else if ( line.rise <= 0 ) {
+            if ( line.run >= 0 ) {
+                // equation above the line, at tip
+                equationParentNode.setOffset( tipLocation.toPoint2D() );
+                zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 30, -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
+            }
+            else {
+                // equation above the line, at tail
+                equationParentNode.setOffset( tailLocation.toPoint2D() );
+                zeroOffsetNode.setOffset( 30, -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
+            }
         }
         else {
-            equationYOffset = 10; // equation below the line
+            if ( line.run > 0 ) {
+                // equation below the line, at tip
+                equationParentNode.setOffset( tipLocation.toPoint2D() );
+                zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 30, 10 );
+            }
+            else {
+                // equation below the line, at tail
+                equationParentNode.setOffset( tailLocation.toPoint2D() );
+                zeroOffsetNode.setOffset( 30, 10 );
+            }
         }
-        zeroOffsetNode.setOffset( equationXOffset, equationYOffset );
     }
 }
