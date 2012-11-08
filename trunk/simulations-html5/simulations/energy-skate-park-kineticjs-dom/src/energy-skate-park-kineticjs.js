@@ -362,7 +362,7 @@
             }
 
             $( ".controlPanel" ).
-//                    css( "-webkit-transform", "scale(" + scale + "," + scale + ")" ).
+                    css( "-webkit-transform", "scale(" + scale + "," + scale + ")" ).
                     css( "top", top ).css( "right", right );
 //                    css( "width", w );//.css( "height", 300 * scale );
 
