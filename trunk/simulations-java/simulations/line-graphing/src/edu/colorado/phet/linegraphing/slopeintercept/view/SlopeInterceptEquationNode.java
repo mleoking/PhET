@@ -22,6 +22,7 @@ import edu.colorado.phet.linegraphing.common.view.DynamicValueNode;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.MinusNode;
 import edu.colorado.phet.linegraphing.common.view.PlusNode;
+import edu.colorado.phet.linegraphing.common.view.SlopeUndefinedNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerNode;
@@ -150,7 +151,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
         removeAllChildren();
         if ( line.undefinedSlope() && !interactiveSlope && !interactiveIntercept ) {
             // slope is undefined and nothing is interactive
-            addChild( new UndefinedSlopeNode( line, staticFont, staticColor ) );
+            addChild( new SlopeUndefinedNode( line, staticFont, staticColor ) );
             return;
         }
         else {

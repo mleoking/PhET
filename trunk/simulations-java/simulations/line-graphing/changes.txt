@@ -1,3 +1,4 @@
+11/7/12 promote SlopeUndefinedNode to top level, because it's not used in all equations
 11/7/12 simplify i18n for slopeUndefined key
 11/7/12 remove EquationControls.xPadding param, because interactive Slope equation no longer has a dynamic width
 11/7/12 use a constant size for the unsimplified rise & run boxes in the Slope equation
