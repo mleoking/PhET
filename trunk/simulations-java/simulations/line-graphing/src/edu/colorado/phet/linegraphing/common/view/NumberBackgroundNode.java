@@ -19,12 +19,26 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class NumberBackgroundNode extends PComposite {
 
+    // Use this constructor if you want the background sized to the value.
     public NumberBackgroundNode( double value, NumberFormat format,
                                  PhetFont font, Color textColor, Color backgroundColor,
                                  double xMargin, double yMargin, double cornerRadius ) {
         this( value, format, font, textColor, backgroundColor, xMargin, yMargin, cornerRadius, 0 );
     }
 
+    /**
+     * Use this constructor if you want to specify a minimum width for the value.
+     *
+     * @param value
+     * @param format
+     * @param font
+     * @param textColor
+     * @param backgroundColor
+     * @param xMargin
+     * @param yMargin
+     * @param cornerRadius
+     * @param minWidth        the minimum width of the value (xMargin is added to this to determine background width)
+     */
     public NumberBackgroundNode( double value, NumberFormat format,
                                  PhetFont font, Color textColor, Color backgroundColor,
                                  double xMargin, double yMargin, double cornerRadius, double minWidth ) {
