@@ -104,7 +104,7 @@ public abstract class EquationControls extends PhetPNode {
         }
 
         // Horizontal strut, to prevent control panel from resizing when minimized.  Do this after vertical layout!
-        final double panelWidth = panelNode.getFullBoundsReference().getWidth();
+        final double panelWidth = panelNode.getFullBoundsReference().getWidth() + 5;
         PPath strutNode = new PPath( new Rectangle2D.Double( 0, 0, panelWidth, 1 ) );
         strutNode.setStroke( null );
         strutNode.setPickable( false );
