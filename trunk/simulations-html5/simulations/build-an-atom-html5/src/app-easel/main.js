@@ -10,6 +10,7 @@ require([
     var atomStage = new Easel.Stage( atomConstructionCanvas[0] );
 
     atomStage.addChild( ParticleView.createParticleView( new Particle2(0, 0, "red", 20, "proton")));
+    atomStage.addChild( ParticleView.createParticleView( new Particle2(50, 50, "gray", 20, "neutron")));
 
     atomStage.update();
     console.log("main init");
@@ -21,7 +22,8 @@ require([
     // Set the frame rate.
     Easel.Ticker.setFPS( 60 );
 
-    // Enable touch and mouse events.
+    // Enable and configure touch and mouse events.
+    Easel.Touch.enable( atomStage, false, false );
     atomStage.enableMouseOver( 10 );
     atomStage.mouseMoveOutside = true;
 
