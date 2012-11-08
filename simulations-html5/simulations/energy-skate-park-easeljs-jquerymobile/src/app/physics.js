@@ -1,6 +1,10 @@
 define( ["vector2d", "geometry"], function ( Vector2D, Geometry ) {
     var Physics = {};
 
+    function getX( point ) {return point.x;}
+
+    function getY( point ) {return point.y;}
+
     Physics.updatePhysics = function ( skater, groundHeight, splineLayer ) {
         var originalX = skater.x;
         var originalY = skater.y;
@@ -48,10 +52,6 @@ define( ["vector2d", "geometry"], function ( Vector2D, Geometry ) {
             }
 
             //don't let the skater cross the spline
-
-            function getX( point ) {return point.x;}
-
-            function getY( point ) {return point.y;}
 
             if ( splineLayer.controlPoints.length > 2 ) {
                 var s = numeric.linspace( 0, 1, splineLayer.controlPoints.length );
