@@ -282,11 +282,11 @@ public class EFACIntroModel implements ITemperatureModel {
             // conditions met.
             if ( !contactWithOtherMovableElement || ( !immersedInBeaker && maxTemperatureDifference < MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE ) ) {
                 air.exchangeEnergyWith( movableEnergyContainer, dt );
-                if ( movableEnergyContainer.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
+                if ( movableEnergyContainer.getEnergyChunkBalance() > 0 ) {
                     Vector2D pointAbove = new Vector2D( movableEnergyContainer.getCenterPoint().getX(), movableEnergyContainer.getRect().getMaxY() );
                     air.addEnergyChunk( movableEnergyContainer.extractClosestEnergyChunk( pointAbove ) );
                 }
-                else if ( movableEnergyContainer.getEnergyChunkBalance() < 0 && movableEnergyContainer.getTemperature() < air.getTemperature() && air.canSupplyEnergyChunk() ) {
+                else if ( movableEnergyContainer.getEnergyChunkBalance() < 0 && movableEnergyContainer.getTemperature() < air.getTemperature() ) {
                     movableEnergyContainer.addEnergyChunk( air.requestEnergyChunk( movableEnergyContainer.getCenterPoint() ) );
                 }
             }
