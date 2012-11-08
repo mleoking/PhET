@@ -108,7 +108,8 @@ require( [
 
         var controlPanel = $( '#controlPanel' );
         var rightOfControlPanel = canvasW + left;
-        controlPanel.css( 'width', canvasW * 0.3 + 'px' );
+//        controlPanel.css( 'width', canvasW * 0.3 + 'px' );
+        controlPanel.css( 'width', '200px' );
         controlPanel.css( 'top', top + 'px' );
         controlPanel.css( 'right', left + 'px' );
 
