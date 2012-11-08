@@ -7,8 +7,6 @@ import edu.colorado.phet.linegraphing.common.view.EquationControls;
 import edu.colorado.phet.linegraphing.common.view.LineFormsViewProperties;
 import edu.colorado.phet.linegraphing.slope.model.SlopeModel;
 
-//TODO remove xPadding feature if we decide to split Slope equation across 2 lines.
-
 /**
  * Control panel for interacting with a line's equation in slope form.
  *
@@ -24,6 +22,6 @@ class SlopeEquationControls extends EquationControls {
                viewProperties.linesVisible,
                new SlopeEquationNode( model.interactiveLine, model.x1Range, model.y1Range,
                                       LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT,
-                                      LGColors.STATIC_EQUATION_ELEMENT ), 30 /* xPadding */ );
+                                      LGColors.STATIC_EQUATION_ELEMENT ) );
     }
 }

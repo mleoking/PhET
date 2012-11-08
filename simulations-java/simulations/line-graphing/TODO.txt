@@ -6,14 +6,12 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- publish review dev version without Game tab
 - add support for fractional y-intercept in slope-intercept equations (only when y-intercept is not interactive)
 - Game: "Place 3 Points" challenge
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges
 - Game: challenge generation (levels and randomization)
 
 MEDIUM
-- in Slope interactive equation, use a constant size for blue rise/run boxes, ignore minus sign when horizontally aligning values
 - Game: try check-mark and "X" icons in upper-right corner of equation box
 - reuse LineFormGraphNode subclasses in game
 - move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
@@ -23,7 +21,6 @@ LOW
 - run value on slope tool falls off left edge of play area when slope manip is moved to y=-10
 - change value of slopeUndefined string key to "x={0} (slope undefined)"
 - consider using a subtle background color for buttons (Reset All, Save Line, Erase Lines)
-- remove EquationControls.xPadding param if we decide to split Slope equation across 2 lines
 - remove code related to SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE
 - implementation of SlopeInterceptEquationNode and PointSlopeEquationNode would be clearer if nodes were added selectively, rather than removed
 - Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
