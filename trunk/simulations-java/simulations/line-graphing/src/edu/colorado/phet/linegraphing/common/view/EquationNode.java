@@ -119,7 +119,7 @@ public abstract class EquationNode extends PhetPNode {
     // When slope is undefined, we display "undefined" in place of an equation.
     protected static class UndefinedSlopeNode extends PhetPText {
         public UndefinedSlopeNode( Line line, PhetFont font, Color color ) {
-            super( MessageFormat.format( Strings.SLOPE_UNDEFINED, Strings.SYMBOL_X, line.x1 ), font, color );
+            super( MessageFormat.format( Strings.SLOPE_UNDEFINED, line.x1 ), font, color );
             assert ( line.undefinedSlope() );
             setPickable( false );
         }
