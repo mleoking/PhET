@@ -23,6 +23,6 @@ class PointSlopeEquationControls extends EquationControls {
                new PointSlopeEquationNode( model.interactiveLine, model.x1Range, model.y1Range, model.riseRange, model.runRange,
                                            true, true, true,
                                            LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT,
-                                           LGColors.STATIC_EQUATION_ELEMENT ), 0 /* xPadding */ );
+                                           LGColors.STATIC_EQUATION_ELEMENT ) );
     }
 }
