@@ -2,34 +2,22 @@
 require([
   'underscore',
   'easel',
-  'model/proton',
-  'view/proton'
-], function ( _, Easel, ProtonModel, ProtonView ) {
+  'model/particle2',
+  'view/particleView'
+], function ( _, Easel, Particle2, ParticleView ) {
 
     var atomConstructionCanvas = $( '#atom-construction-canvas' );
     var atomStage = new Easel.Stage( atomConstructionCanvas[0] );
 
-    var mvt = [ 100, 100, 4, 4];
-
-    _.times(4, function(i){
-      var proton = new ProtonModel( i * 10 * Math.random(), i * 10 * Math.random() );
-      var protonView = new ProtonView( proton, mvt );
-
-      atomStage.addChild( protonView );
-    });
-
-
+    atomStage.addChild( ParticleView.createParticleView( new Particle2(0, 0, "red", 20, "proton")));
 
     atomStage.update();
+    console.log("main init");
 
     // Enable touch and mouse events.
     atomStage.enableMouseOver( 10 );
     atomStage.mouseMoveOutside = true;
 
-    Easel.Ticker.addListener({
-      tick:function () {
-          atomStage.update();
-      }
-    });
+    Easel.Ticker.addListener( atomStage, true );
 
 } );
