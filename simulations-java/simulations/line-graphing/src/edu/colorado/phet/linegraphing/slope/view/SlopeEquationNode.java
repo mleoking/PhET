@@ -89,6 +89,10 @@ public class SlopeEquationNode extends EquationNode {
         // m = for second line
         PNode m2Node = new PhetPText( Strings.SYMBOL_SLOPE, staticFont, staticColor );
 
+        // Compute the max width needed to display the unsimplified rise and run values.
+        final double maxRangeLength = Math.max( xRange.get().getLength(), yRange.get().getLength() );
+        final double maxUnsimplifiedWidth = new PhetPText( FORMAT.format( -maxRangeLength ), interactiveFont, staticColor ).getFullBoundsReference().getWidth();
+
         // rendering order
         final PNode parentNode = new PNode();
         addChild( parentNode );
@@ -161,15 +165,11 @@ public class SlopeEquationNode extends EquationNode {
         // dynamic layout
         final VoidFunction1<Line> updateLayout = new VoidFunction1<Line>() {
             public void apply( Line line ) {
-
-                // adjust the fraction line length, center the rise and run values
-                unsimplifiedFractionLineNode.setPathTo( createFractionLineShape( Math.max( unsimplifiedRiseNode.getFullBoundsReference().getWidth(), unsimplifiedRunNode.getFullBoundsReference().getWidth() ) ) );
-
-                // horizontally center rise and run
+                // horizontally center rise and run above fraction line
                 unsimplifiedRiseNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRiseNode.getFullBoundsReference().getWidth() / 2 ),
-                                                unsimplifiedFractionLineNode.getFullBoundsReference().getMinY() - unsimplifiedRiseNode.getFullBoundsReference().getHeight() - spinnersYSpacing );
+                                                unsimplifiedFractionLineNode.getFullBoundsReference().getMinY() - unsimplifiedRiseNode.getFullBoundsReference().getHeight() - slopeYSpacing );
                 unsimplifiedRunNode.setOffset( unsimplifiedFractionLineNode.getFullBoundsReference().getCenterX() - ( unsimplifiedRunNode.getFullBoundsReference().getWidth() / 2 ),
-                                               unsimplifiedFractionLineNode.getFullBoundsReference().getMaxY() + spinnersYSpacing );
+                                               unsimplifiedFractionLineNode.getFullBoundsReference().getMaxY() + slopeYSpacing );
             }
         };
 
@@ -200,18 +200,23 @@ public class SlopeEquationNode extends EquationNode {
                 }
                 updatingControls = false;
 
-                // Update the rise & run values
+                // Update the unsimplified slope
                 {
-                    final double margin = 5;
+                    final double margin = 3;
                     final double cornerRadius = 10;
 
+                    // rise
                     removeChild( unsimplifiedRiseNode );
-                    unsimplifiedRiseNode = new NumberBackgroundNode( line.rise, FORMAT, staticFont, staticColor, LGColors.SLOPE, margin, margin, cornerRadius );
+                    unsimplifiedRiseNode = new NumberBackgroundNode( line.rise, FORMAT, staticFont, staticColor, LGColors.SLOPE, margin, margin, cornerRadius, maxUnsimplifiedWidth );
                     addChild( unsimplifiedRiseNode );
 
+                    // run
                     removeChild( unsimplifiedRunNode );
-                    unsimplifiedRunNode = new NumberBackgroundNode( line.run, FORMAT, staticFont, staticColor, LGColors.SLOPE, margin, margin, cornerRadius );
+                    unsimplifiedRunNode = new NumberBackgroundNode( line.run, FORMAT, staticFont, staticColor, LGColors.SLOPE, margin, margin, cornerRadius, maxUnsimplifiedWidth );
                     addChild( unsimplifiedRunNode );
+
+                    // fraction line length
+                    unsimplifiedFractionLineNode.setPathTo( createFractionLineShape( Math.max( unsimplifiedRiseNode.getFullBoundsReference().getWidth(), unsimplifiedRunNode.getFullBoundsReference().getWidth() ) ) );
                 }
 
                 // do layout before adding undefined-slope indicator

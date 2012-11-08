@@ -22,12 +22,20 @@ public class NumberBackgroundNode extends PComposite {
     public NumberBackgroundNode( double value, NumberFormat format,
                                  PhetFont font, Color textColor, Color backgroundColor,
                                  double xMargin, double yMargin, double cornerRadius ) {
+        this( value, format, font, textColor, backgroundColor, xMargin, yMargin, cornerRadius, 0 );
+    }
+
+    public NumberBackgroundNode( double value, NumberFormat format,
+                                 PhetFont font, Color textColor, Color backgroundColor,
+                                 double xMargin, double yMargin, double cornerRadius, double minWidth ) {
 
         PNode textNode = new PhetPText( format.format( value ), font, textColor );
 
         // background for the label
+        final double textWidth = textNode.getFullBoundsReference().getWidth();
+        final double backgroundWidth = ( minWidth == 0 ) ? textWidth : Math.max( minWidth, textWidth );
         final RoundRectangle2D.Double backgroundShape = new RoundRectangle2D.Double( 0, 0,
-                                                                                     textNode.getFullBoundsReference().getWidth() + ( 2 * xMargin ),
+                                                                                     backgroundWidth + ( 2 * xMargin ),
                                                                                      textNode.getFullBoundsReference().getHeight() + ( 2 * yMargin ),
                                                                                      cornerRadius, cornerRadius );
         PPath backgroundNode = new PPath( backgroundShape );
@@ -39,6 +47,6 @@ public class NumberBackgroundNode extends PComposite {
         addChild( textNode );
 
         // layout
-        textNode.setOffset( xMargin, yMargin );
+        textNode.setOffset( backgroundNode.getFullBoundsReference().getCenterX() - ( textNode.getFullBoundsReference().getWidth() / 2 ), yMargin );
     }
 }

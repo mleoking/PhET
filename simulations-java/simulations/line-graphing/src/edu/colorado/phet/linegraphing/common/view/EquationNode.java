@@ -56,7 +56,8 @@ public abstract class EquationNode extends PhetPNode {
     protected final double relationalOperatorXSpacing; // space around the relational operator (eg, =)
     protected final double parenXSpacing; // space between a parenthesis and the thing it encloses
     protected final double spinnersYSpacing; // y spacing between spinners and fraction line
-    protected final double ySpacing; // all y spacing
+    protected final double slopeYSpacing; // y spacing between rise and run values (with blue backgrounds) and fraction line
+    protected final double ySpacing; // all other y spacing
 
     /**
      * Constructor.
@@ -83,6 +84,7 @@ public abstract class EquationNode extends PhetPNode {
         parenXSpacing = 0.07 * pointSize;
         ySpacing = 0.1 * pointSize;
         spinnersYSpacing = 0.2 * pointSize;
+        slopeYSpacing = 0.4 * pointSize;
     }
 
     // Creates the shape for the fraction division line.
