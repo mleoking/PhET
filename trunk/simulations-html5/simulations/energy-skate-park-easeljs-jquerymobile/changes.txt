@@ -1,3 +1,4 @@
+# 00.00.05 (70094) Nov 8, 2012
 # 00.00.04 (70083) Nov 7, 2012
 Fixed a bug that was preventing spline traversal on firefox
 # 00.00.03 (70081) Nov 7, 2012
