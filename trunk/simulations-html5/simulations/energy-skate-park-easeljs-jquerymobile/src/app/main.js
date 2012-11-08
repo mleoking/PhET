@@ -129,6 +129,11 @@ require( [
         $( '#pieChartLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
         $( '#gridLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
         $( '#speedLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+
+        $( "#controlPanel" ).css( "-webkit-transform", "scale(" + scale + "," + scale + ")" );
+//        $( "#controlPanel" ).css( "width", "100%" );
+//        .
+//                css( "top", top ).css( "right", right );
 //        <span class="ui-btn-inner ui-corner-top"><span class="ui-btn-text">Bar Chart</span><span class="ui-icon ui-icon-checkbox-off ui-icon-shadow ui-iconsize-18">&nbsp;</span></span>
     };
     $( window ).resize( onResize );
