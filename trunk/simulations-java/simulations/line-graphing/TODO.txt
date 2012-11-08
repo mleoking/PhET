@@ -7,22 +7,20 @@ DESIGN
 
 HIGH
 - add support for fractional y-intercept in slope-intercept equations (only when y-intercept is not interactive)
+- Game: try check-mark and "X" icons in upper-right corner of equation box
 - Game: "Place 3 Points" challenge
 - Game: add support for mismatching the line form on the left and right side of GTL and MTE challenges
 - Game: challenge generation (levels and randomization)
 
 MEDIUM
-- Game: try check-mark and "X" icons in upper-right corner of equation box
 - reuse LineFormGraphNode subclasses in game
-- move things to EquationNode base class (adding UndefinedSlopeIndicatorNode, creating slope nodes,...)
-- sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
+- sort out duplication in IChallenge and ChallengeNode hierarchies
 
 LOW
-- consider using a subtle background color for buttons (Reset All, Save Line, Erase Lines)
-- remove code related to SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE
 - implementation of SlopeInterceptEquationNode and PointSlopeEquationNode would be clearer if nodes were added selectively, rather than removed
 - Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
-- vertical alignment of title in EquationControls subclasses looks a little off
+- consider using a subtle background color for buttons (Reset All, Save Line, Erase Lines)
+- remove code related to SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE
 - repackage, in anticipation of having 3 sims in this project
 
 DEVELOPER CONTROLS
