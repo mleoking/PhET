@@ -24,6 +24,9 @@
     <script type="text/javascript" src="images.js"></script>
     <script data-main="app/config.js" src="js/vendor/require.js"></script>
     <style type="text/css">
+        .alignRightPlease{
+            float:right;
+        }
         body {
             margin: 0;
             padding: 0;
@@ -57,6 +60,15 @@
             /*text-overflow: clip;*/
             /*overflow: hidden;*/
             /*}*/
+
+        .ui-slider {
+            width: 100%;
+            border: 20px;
+        }
+        #slider-fill{
+            width: 100%;
+            border: 20px;
+        }
     </style>
 </head>
 
@@ -64,30 +76,27 @@
 
 <!-- Home -->
 <div data-role="control-panel" id="controlPanel">
-    <div id="checkboxes1" data-role="fieldcontain" id="innerelement1">
-        <fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">
-            <legend>
-            </legend>
-            <input id="checkbox1" name="" type="checkbox"/>
-            <label for="checkbox1" id="barGraphLabel">
-                Bar Graph
-            </label>
-            <input id="checkbox2" name="" type="checkbox"/>
-            <label for="checkbox2">
-                Pie Chart
-            </label>
-            <input id="checkbox3" name="" type="checkbox"/>
-            <label for="checkbox3">
-                Grid
-            </label>
-            <input id="checkbox4" name="" type="checkbox"/>
-            <label for="checkbox4">
-                Speed
-            </label>
+    <fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">
+        <legend>
+        </legend>
+        <input id="checkbox1" name="" type="checkbox"/>
+        <label for="checkbox1" id="barGraphLabel">
+            Bar Graph
+        </label>
+        <input id="checkbox2" name="" type="checkbox"/>
+        <label for="checkbox2" id="pieChartLabel">
+            Pie Chart
+        </label>
+        <input id="checkbox3" name="" type="checkbox"/>
+        <label for="checkbox3" id="gridLabel">
+            Grid
+        </label>
+        <input id="checkbox4" name="" type="checkbox"/>
+        <label for="checkbox4" id="speedLabel">
+            Speed
+        </label>
 
-        </fieldset>
-
-    </div>
+    </fieldset>
     <input type="range" name="slider-fill" id="slider-fill" value="60" min="0" max="100" data-highlight="true"/>
 </div>
 <canvas id="c" width=400 height=300></canvas>
