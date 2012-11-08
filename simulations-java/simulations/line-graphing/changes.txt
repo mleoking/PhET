@@ -1,3 +1,4 @@
+11/7/12 fix: pad equation control panel width a little bit, so that undefined-slope indicator doesn't make the control panel resize
 11/7/12 use DefaultDecimalFormat("0") in DynamicValueNode, instead of doing double-to-int conversion
 11/7/12 promote SlopeUndefinedNode to top level, because it's not used in all equations
 11/7/12 simplify i18n for slopeUndefined key
