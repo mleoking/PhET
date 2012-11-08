@@ -84,10 +84,10 @@ require( [
                 };
             })( jQuery );
 
-    $( '#barGraphLabel > .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
-    $( '#pieChartLabel > .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
-    $( '#gridLabel > .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
-    $( '#speedLabel > .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
+    $( '#barGraphLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
+    $( '#pieChartLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
+    $( '#gridLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
+    $( '#speedLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
 
     var onResize = function () {
         var winW = $( window ).width(),
@@ -110,6 +110,9 @@ require( [
         controlPanel.css( 'top', top + 'px' );
         controlPanel.css( 'right', left + 'px' );
 
+
+        //Apply css overrides last (i.e. after other css takes effect.
+        //There must be a better way to do this, hopefully this can be improved easily.
         $( "#barGraphLabel .ui-btn-inner .ui-btn-text" ).text( "Bar Chart" );
         $( ".ui-shadow-inset" ).remove();
         var slider = $( ".ui-slider" );
@@ -119,6 +122,8 @@ require( [
         slider.css( "marginBottom", "0px" );
         slider.css( "marginRight", "0px" );
 
+        //TODO: this vertical alignment is a hack that won't work for different settings
+        $( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
 //        <span class="ui-btn-inner ui-corner-top"><span class="ui-btn-text">Bar Chart</span><span class="ui-icon ui-icon-checkbox-off ui-icon-shadow ui-iconsize-18">&nbsp;</span></span>
     };
     $( window ).resize( onResize );
