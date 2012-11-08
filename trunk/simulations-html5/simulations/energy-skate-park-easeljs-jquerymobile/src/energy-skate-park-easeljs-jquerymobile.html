@@ -65,12 +65,28 @@
             width: 100%;
             border: 20px;
         }
+
+        #navBar {
+            margin-left: 10px;
+            margin-top: 0px;
+            width: 60%;
+            position: absolute;
+            z-index: 10;
+        }
     </style>
 </head>
 
 <body>
 
-<!-- Home -->
+<div data-role="navbar" id="navBar">
+    <ul>
+        <li><a href="" class="ui-btn-active ui-state-persist">Introduction</a></li>
+        <li><a href="">Friction</a></li>
+        <li><a href="">Track Playground</a></li>
+    </ul>
+</div>
+<!-- /navbar -->
+
 <div data-role="control-panel" id="controlPanel">
     <fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">
         <legend>
