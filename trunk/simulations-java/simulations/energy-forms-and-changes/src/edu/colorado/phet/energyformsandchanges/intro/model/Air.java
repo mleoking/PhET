@@ -174,13 +174,4 @@ public class Air implements ThermalEnergyContainer {
     public EnergyContainerCategory getEnergyContainerCategory() {
         return EnergyContainerCategory.AIR;
     }
-
-    public boolean canAcceptEnergyChunk() {
-        return true;
-    }
-
-    public boolean canSupplyEnergyChunk() {
-        return true;
-    }
-
 }
