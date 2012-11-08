@@ -18,12 +18,10 @@ MEDIUM
 - sort out duplication in IChallenge and ChallengeNode hierarchies (introducing booleans for what's interactive should collapse a lot of things)
 
 LOW
-- run value on slope tool falls off left edge of play area when slope manip is moved to y=-10
 - consider using a subtle background color for buttons (Reset All, Save Line, Erase Lines)
 - remove code related to SlopeEquationNode.PUT_UNSIMPLIFIED_SLOPE_ON_SEPARATE_LINE
 - implementation of SlopeInterceptEquationNode and PointSlopeEquationNode would be clearer if nodes were added selectively, rather than removed
 - Game: for GTE challenge, "Your line" equation shifts up and down when slope changes between fraction and integer
-- use DefaultDecimalFormat("0") in DynamicValueNode, instead of doing double-to-int conversion
 - vertical alignment of title in EquationControls subclasses looks a little off
 - repackage, in anticipation of having 3 sims in this project
 
