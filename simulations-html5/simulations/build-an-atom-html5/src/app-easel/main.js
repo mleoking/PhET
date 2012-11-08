@@ -4,14 +4,18 @@ require( [
              'easel',
              'model/particle2',
              'view/particleView',
-             'view/atom-view'
-         ], function ( _, Easel, Particle2, ParticleView, AtomView ) {
+             'view/atom-view',
+             'view/bucket-view'
+         ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketView ) {
 
     var atomConstructionCanvas = $( '#atom-construction-canvas' );
     var atomStage = new Easel.Stage( atomConstructionCanvas[0] );
 
     var root = new Easel.Container();
     atomStage.addChild( root );
+    root.addChild( new BucketView( 100, 500 ) );
+    root.addChild( new BucketView( 250, 500 ) );
+    root.addChild( new BucketView( 400, 500 ) );
     root.addChild( ParticleView.createParticleView( new Particle2( 0, 0, "red", 20, "proton" ) ) );
     root.addChild( ParticleView.createParticleView( new Particle2( 50, 50, "gray", 20, "neutron" ) ) );
     var atomView = new AtomView();

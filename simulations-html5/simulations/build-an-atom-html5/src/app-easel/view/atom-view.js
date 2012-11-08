@@ -6,7 +6,7 @@ define( [
     var AtomView = function ( label, color ) {
         this.initialize( label, color );
     };
-    var p = AtomView.prototype = new createjs.Container(); // inherit from Container
+    var p = AtomView.prototype = new Easel.Container(); // inherit from Container
 
     p.Container_initialize = p.initialize;
     p.initialize = function ( label, color ) {
