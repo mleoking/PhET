@@ -282,13 +282,11 @@ public class EFACIntroModel implements ITemperatureModel {
             // conditions met.
             if ( !contactWithOtherMovableElement || ( !immersedInBeaker && maxTemperatureDifference < MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE ) ) {
                 air.exchangeEnergyWith( movableEnergyContainer, dt );
-                // TODO: exchange constant added for HCL prototype, remove when done.
-                double exchangeConstant = HeatTransferConstants.getHeatTransferFactor( air.getEnergyContainerCategory(), movableEnergyContainer.getEnergyContainerCategory() );
-                if ( exchangeConstant > 0 && movableEnergyContainer.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
+                if ( movableEnergyContainer.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
                     Vector2D pointAbove = new Vector2D( movableEnergyContainer.getCenterPoint().getX(), movableEnergyContainer.getRect().getMaxY() );
                     air.addEnergyChunk( movableEnergyContainer.extractClosestEnergyChunk( pointAbove ) );
                 }
-                else if ( exchangeConstant > 0 && movableEnergyContainer.getEnergyChunkBalance() < 0 && movableEnergyContainer.getTemperature() < air.getTemperature() && air.canSupplyEnergyChunk() ) {
+                else if ( movableEnergyContainer.getEnergyChunkBalance() < 0 && movableEnergyContainer.getTemperature() < air.getTemperature() && air.canSupplyEnergyChunk() ) {
                     movableEnergyContainer.addEnergyChunk( air.requestEnergyChunk( movableEnergyContainer.getCenterPoint() ) );
                 }
             }
