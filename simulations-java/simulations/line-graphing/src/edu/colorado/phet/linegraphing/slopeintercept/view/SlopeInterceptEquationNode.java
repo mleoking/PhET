@@ -23,12 +23,12 @@ import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.MinusNode;
 import edu.colorado.phet.linegraphing.common.view.PlusNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeUndefinedNode;
+import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.colorado.phet.linegraphing.common.view.spinner.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.InterceptColors;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.SlopeColors;
-import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -91,8 +91,8 @@ public class SlopeInterceptEquationNode extends EquationNode {
                                                               interactiveFont, FORMAT ) );
         }
         else {
-            riseNode = new DynamicValueNode( rise, staticFont, staticColor, true );
-            runNode = new DynamicValueNode( run, staticFont, staticColor, true );
+            riseNode = new DynamicValueNode( rise, FORMAT, staticFont, staticColor, true );
+            runNode = new DynamicValueNode( run, FORMAT, staticFont, staticColor, true );
         }
         fractionLineNode = new PPath( createFractionLineShape( maxSlopeSpinnerWidth ) ) {{
             setStroke( null );
@@ -105,7 +105,7 @@ public class SlopeInterceptEquationNode extends EquationNode {
             interceptNode = new ZeroOffsetNode( new SpinnerNode( UserComponents.interceptSpinner, yIntercept, yInterceptRange, new InterceptColors(), interactiveFont, FORMAT ) );
         }
         else {
-            interceptNode = new DynamicValueNode( yIntercept, staticFont, staticColor, true ); // absolute value
+            interceptNode = new DynamicValueNode( yIntercept, FORMAT, staticFont, staticColor, true ); // absolute value
         }
 
         // sync the model with the controls

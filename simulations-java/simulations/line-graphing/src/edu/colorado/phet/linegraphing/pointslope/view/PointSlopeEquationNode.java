@@ -23,12 +23,12 @@ import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.colorado.phet.linegraphing.common.view.MinusNode;
 import edu.colorado.phet.linegraphing.common.view.PlusNode;
 import edu.colorado.phet.linegraphing.common.view.SlopeUndefinedNode;
+import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
 import edu.colorado.phet.linegraphing.common.view.spinner.SlopeSpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SlopeSpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerNode;
-import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.X1Y1Colors;
 import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.SlopeColors;
-import edu.colorado.phet.linegraphing.common.view.UndefinedSlopeIndicator;
+import edu.colorado.phet.linegraphing.common.view.spinner.SpinnerStateIndicator.X1Y1Colors;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -94,7 +94,7 @@ public class PointSlopeEquationNode extends EquationNode {
             y1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.y1Spinner, y1, y1Range, new X1Y1Colors(), interactiveFont, FORMAT ) );
         }
         else {
-            y1Node = new DynamicValueNode( y1, staticFont, staticColor, true ); // displayed as absolute value
+            y1Node = new DynamicValueNode( y1, FORMAT, staticFont, staticColor, true ); // displayed as absolute value
         }
         yRightParenNode = new PhetPText( ")", staticFont, staticColor );
         y1MinusSignNode = new MinusNode( signLineSize, staticColor ); // for y=-y1 case
@@ -105,8 +105,8 @@ public class PointSlopeEquationNode extends EquationNode {
             runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, rise, run, runRange, new SlopeColors(), interactiveFont, FORMAT ) );
         }
         else {
-            riseNode = new DynamicValueNode( rise, staticFont, staticColor, true ); // displayed as absolute value
-            runNode = new DynamicValueNode( run, staticFont, staticColor, true ); // displayed as absolute value
+            riseNode = new DynamicValueNode( rise, FORMAT, staticFont, staticColor, true ); // displayed as absolute value
+            runNode = new DynamicValueNode( run, FORMAT, staticFont, staticColor, true ); // displayed as absolute value
         }
         fractionLineNode = new PPath( createFractionLineShape( maxSlopeSpinnerWidth ) ) {{
             setStroke( null );
@@ -119,7 +119,7 @@ public class PointSlopeEquationNode extends EquationNode {
             x1Node = new ZeroOffsetNode( new SpinnerNode( UserComponents.x1Spinner, x1, x1Range, new X1Y1Colors(), interactiveFont, FORMAT ) );
         }
         else {
-            x1Node = new DynamicValueNode( x1, staticFont, staticColor, true ); // displayed as absolute value
+            x1Node = new DynamicValueNode( x1, FORMAT, staticFont, staticColor, true ); // displayed as absolute value
         }
         xRightParenNode = new PhetPText( ")", staticFont, staticColor );
 
