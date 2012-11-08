@@ -84,6 +84,11 @@ require( [
                 };
             })( jQuery );
 
+    $( '#barGraphLabel > .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
+    $( '#pieChartLabel > .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
+    $( '#gridLabel > .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
+    $( '#speedLabel > .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
+
     var onResize = function () {
         var winW = $( window ).width(),
                 winH = $( window ).height(),
@@ -107,6 +112,14 @@ require( [
 
         $( "#barGraphLabel .ui-btn-inner .ui-btn-text" ).text( "Bar Chart" );
         $( ".ui-shadow-inset" ).remove();
+        var slider = $( ".ui-slider" );
+        slider.css( "width", "100%" );
+        slider.css( "marginTop", "0px" );
+        slider.css( "marginLeft", "0px" );
+        slider.css( "marginBottom", "0px" );
+        slider.css( "marginRight", "0px" );
+
+//        <span class="ui-btn-inner ui-corner-top"><span class="ui-btn-text">Bar Chart</span><span class="ui-icon ui-icon-checkbox-off ui-icon-shadow ui-iconsize-18">&nbsp;</span></span>
     };
     $( window ).resize( onResize );
     onResize(); // initial position
