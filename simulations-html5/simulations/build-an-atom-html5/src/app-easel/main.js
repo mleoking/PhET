@@ -10,12 +10,14 @@ require( [
     var atomConstructionCanvas = $( '#atom-construction-canvas' );
     var atomStage = new Easel.Stage( atomConstructionCanvas[0] );
 
-    atomStage.addChild( ParticleView.createParticleView( new Particle2( 0, 0, "red", 20, "proton" ) ) );
-    atomStage.addChild( ParticleView.createParticleView( new Particle2( 50, 50, "gray", 20, "neutron" ) ) );
+    var root = new Easel.Container();
+    atomStage.addChild( root );
+    root.addChild( ParticleView.createParticleView( new Particle2( 0, 0, "red", 20, "proton" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( 50, 50, "gray", 20, "neutron" ) ) );
     var atomView = new AtomView();
     atomView.x = 100;
     atomView.y = 100;
-    atomStage.addChild( atomView );
+    root.addChild( atomView );
 
     atomStage.update();
     console.log( "main init" );
@@ -26,6 +28,26 @@ require( [
 
     // Set the frame rate.
     Easel.Ticker.setFPS( 60 );
+
+    //resize the canvas when the window is resized
+    //Copied from energy skate park easel prototype
+    var onResize = function () {
+        var winW = $( window ).width(),
+                winH = $( window ).height(),
+                scale = Math.min( winW / 1024, winH / 768 ),
+                canvasW = scale * 1024,
+                canvasH = scale * 768;
+        atomConstructionCanvas.attr( 'width', canvasW );
+        atomConstructionCanvas.attr( 'height', canvasH );
+        var left = (winW - canvasW) / 2;
+        var top = (winH - canvasH) / 2;
+        atomConstructionCanvas.offset( {left:left, top:top} );
+        root.scaleX = root.scaleY = scale;
+        atomStage.update();
+    };
+    $( window ).resize( onResize );
+    onResize(); // initial position
+
 
     // Enable and configure touch and mouse events.
     Easel.Touch.enable( atomStage, false, false );
