@@ -104,6 +104,8 @@ require( [
         root.scaleX = root.scaleY = scale;
         stage.update();
 
+        $( "#navBar" ).css( 'top', top + 'px' );
+
         var controlPanel = $( '#controlPanel' );
         var rightOfControlPanel = canvasW + left;
         controlPanel.css( 'width', canvasW * 0.3 + 'px' );
@@ -123,7 +125,10 @@ require( [
         slider.css( "marginRight", "0px" );
 
         //TODO: this vertical alignment is a hack that won't work for different settings
-        $( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+        $( '#barGraphLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+        $( '#pieChartLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+        $( '#gridLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+        $( '#speedLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
 //        <span class="ui-btn-inner ui-corner-top"><span class="ui-btn-text">Bar Chart</span><span class="ui-icon ui-icon-checkbox-off ui-icon-shadow ui-iconsize-18">&nbsp;</span></span>
     };
     $( window ).resize( onResize );
