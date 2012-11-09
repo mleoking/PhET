@@ -6,7 +6,7 @@ DESIGN
 - sign-off on specification of game levels
 
 HIGH
-- bug: Point-Slope interactive equation can be used to move manipulators off the graph, eg y+12=3/4(x-12) (introduced in 0.0.28, 10/1/12)
+- bug: Point-Slope interactive equation can be used to move manipulators off the graph, eg y+12=3/4(x-12) (introduced in 0.0.28, 10/1/12, probably in [68657])
 - add support for fractional y-intercept in slope-intercept equations (only when y-intercept is not interactive)
 - Game: try check-mark and "X" icons in upper-right corner of equation box
 - Game: "Place 3 Points" challenge
