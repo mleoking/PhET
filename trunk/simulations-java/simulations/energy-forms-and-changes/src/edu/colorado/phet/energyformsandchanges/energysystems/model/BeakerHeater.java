@@ -247,15 +247,21 @@ public class BeakerHeater extends EnergyUser {
     }
 
     private static List<Vector2D> createRadiatedEnergyChunkPath( final Vector2D startPosition ) {
-        int numDirectionChanges = 3; // Empirically chosen.
+        int numDirectionChanges = 4; // Empirically chosen.
+        Vector2D nominalTravelVector = new Vector2D( 0, RADIATED_ENERGY_CHUNK_TRAVEL_DISTANCE / numDirectionChanges );
         ArrayList<Vector2D> pathPoints = new ArrayList<Vector2D>(  );
-        Vector2D currentPosition = startPosition;
-        for ( int i = 0; i < numDirectionChanges; i++ ){
-            Vector2D movement = new Vector2D( 0, RADIATED_ENERGY_CHUNK_TRAVEL_DISTANCE / numDirectionChanges ).getRotatedInstance( (RAND.nextDouble() - 0.5) * Math.PI / 2 );
+
+        // The first point is straight above the start point.  This just looks
+        // good, making the chunk move straight up out of the beaker.
+        Vector2D currentPosition = startPosition.plus( nominalTravelVector );
+        pathPoints.add( currentPosition );
+
+        // Add the remaining points in the path.
+        for ( int i = 0; i < numDirectionChanges - 1; i++ ){
+            Vector2D movement = nominalTravelVector.getRotatedInstance( (RAND.nextDouble() - 0.5) * Math.PI / 4 );
             currentPosition = currentPosition.plus( movement );
             pathPoints.add( currentPosition );
         }
         return pathPoints;
     }
-
 }
