@@ -1,4 +1,4 @@
-define( ["vector2d", "geometry"], function ( Vector2D, Geometry ) {
+define( ["../vector2d", "geometry"], function ( Vector2D, Geometry ) {
     var Physics = {};
 
     function getX( point ) {return point.x;}
@@ -65,10 +65,10 @@ define( ["vector2d", "geometry"], function ( Vector2D, Geometry ) {
                     var sides = [];
                     for ( var i = 0; i < xRoots.length; i++ ) {
                         var xRoot = xRoots[i];
-                        var pre = {x:splineX.at( xRoot - delta ), y:splineY.at( xRoot - delta )};
-                        var post = {x:splineX.at( xRoot + delta ), y:splineY.at( xRoot + delta )};
-                        var side = Geometry.linePointPosition2DVector( pre, post, {x:0, y:0} );
-                        sides.push( {xRoot:xRoot, side:side} );
+                        var pre = {x: splineX.at( xRoot - delta ), y: splineY.at( xRoot - delta )};
+                        var post = {x: splineX.at( xRoot + delta ), y: splineY.at( xRoot + delta )};
+                        var side = Geometry.linePointPosition2DVector( pre, post, {x: 0, y: 0} );
+                        sides.push( {xRoot: xRoot, side: side} );
                     }
                     return sides;
                 }
