@@ -5,8 +5,9 @@ require( [
              'view/background',
              'spline',
              'model/physics',
-             'view/easel-util'
-         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil ) {
+             'view/easel-util',
+             'view/pie-chart'
+         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart ) {
 
     WebsocketRefresh.listenForRefresh();
 
@@ -32,6 +33,7 @@ require( [
     root.addChild( splineLayer );
     root.addChild( skater );
     root.addChild( fpsText );
+    root.addChild( new PieChart( skater ) );
 
     //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
     var canvas = document.getElementById( "c" );
