@@ -1,3 +1,5 @@
+# 0.00.25 (70147) Nov 9, 2012
+11/9/12 Deploying to dev for review and feedback.
 2nd tab: Made thermal energy chunks build up in light bulb before radiating as light energy.
 2nd tab: Made energy chunks radiate from the beaker into the air.
 2nd tab: Made it impossible to heat beaker to boiling point temperature.
