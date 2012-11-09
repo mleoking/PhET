@@ -33,7 +33,9 @@ define( [
 
 
     var ParticleView = {};
+
     ParticleView.createParticleView = createParticleView;
+
     return ParticleView;
 
 } );
