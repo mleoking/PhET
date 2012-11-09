@@ -65,9 +65,10 @@ public class BeakerHeater extends EnergyUser {
     private static final double BEAKER_HEIGHT = BEAKER_WIDTH * 0.9;
     private static final Vector2D BEAKER_OFFSET = new Vector2D( 0, 0.025 );
     private static final Vector2D THERMOMETER_OFFSET = new Vector2D( 0.033, 0.035 );
-    private static final double THERMAL_ENERGY_CHUNK_VELOCITY = 0.01; // In meters/sec, quite slow.
+    private static final double HEATING_ELEMENT_ENERGY_CHUNK_VELOCITY = 0.01; // In meters/sec, quite slow.
     private static final double HEATER_ELEMENT_2D_HEIGHT = HEATER_ELEMENT_OFF_IMAGE.getHeight();
     private static final double MAX_HEAT_GENERATION_RATE = 1000; // Joules/sec.
+    private static final double RADIATED_ENERGY_CHUNK_TRAVEL_DISTANCE = 0.2; // In meters.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -147,7 +148,7 @@ public class BeakerHeater extends EnergyUser {
                     // before moving into the beaker.
                     heatingElementEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
                                                                                    createHeaterElementEnergyChunkPath( energyChunkMover.energyChunk.position.get() ),
-                                                                                   THERMAL_ENERGY_CHUNK_VELOCITY ) );
+                                                                                   HEATING_ELEMENT_ENERGY_CHUNK_VELOCITY ) );
                 }
             }
 
@@ -246,9 +247,15 @@ public class BeakerHeater extends EnergyUser {
     }
 
     private static List<Vector2D> createRadiatedEnergyChunkPath( final Vector2D startPosition ) {
-        return new ArrayList<Vector2D>() {{
-            add( startPosition.plus( new Vector2D( 0, 0.2 ) ) );
-        }};
+        int numDirectionChanges = 3; // Empirically chosen.
+        ArrayList<Vector2D> pathPoints = new ArrayList<Vector2D>(  );
+        Vector2D currentPosition = startPosition;
+        for ( int i = 0; i < numDirectionChanges; i++ ){
+            Vector2D movement = new Vector2D( 0, RADIATED_ENERGY_CHUNK_TRAVEL_DISTANCE / numDirectionChanges ).getRotatedInstance( (RAND.nextDouble() - 0.5) * Math.PI / 2 );
+            currentPosition = currentPosition.plus( movement );
+            pathPoints.add( currentPosition );
+        }
+        return pathPoints;
     }
 
 }
