@@ -38,7 +38,6 @@ define( ["skater"], function ( Skater ) {
         var thermalStartAngle = peStartAngle + peAngle;
 //        console.log( "ke = " + kineticEnergy + ", pe = " + potentialEnergy + ", thermalE = " + thermalEnergy );
 
-        var angle = 0;
         this.shape.graphics.clear().
                 beginFill( 'blue' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( keStartAngle ), pieRadius * Math.sin( keStartAngle ) ).arc( 0, 0, pieRadius, keStartAngle, peStartAngle, true ).lineTo( 0, 0 ).endFill().
                 beginFill( 'green' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( peStartAngle ), pieRadius * Math.sin( peStartAngle ) ).arc( 0, 0, pieRadius, peStartAngle, thermalStartAngle, true ).lineTo( 0, 0 ).endFill().
