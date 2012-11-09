@@ -117,7 +117,7 @@ require( [
         root.scaleX = root.scaleY = scale;
         stage.update();
 
-        $( "#navBar" ).css( 'top', top + 'px' );
+        $( "#navBar" ).css( 'top', top + 'px' ).css( 'left', (left + 50) + 'px' ).css( 'width', (canvasW - 100) + 'px' );
 
         //Scale the control panel up and down using css 2d transform
 //        $( "#controlPanel" ).css( "-webkit-transform", "scale(" + scale + "," + scale + ")" );
@@ -126,7 +126,7 @@ require( [
         var rightOfControlPanel = canvasW + left;
 //        controlPanel.css( 'width', canvasW * 0.3 + 'px' );
         controlPanel.css( 'width', '200px' );
-        controlPanel.css( 'top', top + 'px' );
+        controlPanel.css( 'top', (top + 30) + 'px' );
         controlPanel.css( 'right', left + 'px' );
 
 
