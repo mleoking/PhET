@@ -1,6 +1,6 @@
 define( [], function () {
 
-    return {changeHitDetection:function () {
+    return {changeHitDetection: function () {
         function newTestHit( x, y, displayObject, ctx ) {
             if ( displayObject.image !== undefined ) {
                 //            console.log( "x = " + x + ", y=" + y );

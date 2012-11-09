@@ -1,11 +1,11 @@
 require( [
              'websocket-refresh',
              'skater',
-             'control-panel',
+             'view/control-panel',
              'view/background',
              'spline',
              'physics',
-             'easel-util'
+             'view/easel-util'
          ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil ) {
 
     WebsocketRefresh.listenForRefresh();
