@@ -4,7 +4,7 @@ require( [
              'view/control-panel',
              'view/background',
              'spline',
-             'physics',
+             'model/physics',
              'view/easel-util'
          ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil ) {
 
