@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.common.model.EnergyType;
@@ -46,7 +47,7 @@ public class LightBulb extends EnergyUser {
     // Miscellaneous other constants.
     private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
     private static final Random RAND = new Random();
-    private static final double THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT = 1.5; // In seconds;
+    private static final DoubleRange THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT = new DoubleRange( 1.1, 1.5 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -108,7 +109,7 @@ public class LightBulb extends EnergyUser {
                     List<Vector2D> energyChunkPath = createThermalEnergyChunkPath( energyChunkMover.energyChunk.position.get() );
                     thermalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
                                                                             energyChunkPath,
-                                                                            getTotalPathLength( energyChunkMover.energyChunk.position.get(), energyChunkPath ) / THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT ) );
+                                                                            getTotalPathLength( energyChunkMover.energyChunk.position.get(), energyChunkPath ) / generateThermalChunkTimeOnFilament() ) );
                 }
             }
 
@@ -146,11 +147,14 @@ public class LightBulb extends EnergyUser {
         }
     }
 
+    private boolean goRightNextTime = true;
+
     private List<Vector2D> createThermalEnergyChunkPath( final Vector2D startingPoint ) {
         // TODO: Make some things constants, refine, clean up, and all that.
-        final double filamentWidth = 0.075;
+        final double filamentWidth = 0.03;
         return new ArrayList<Vector2D>() {{
-            add( startingPoint.plus( new Vector2D( ( RAND.nextDouble() - 0.5 ) * filamentWidth / 2, 0 ) ) );
+            add( startingPoint.plus( new Vector2D( RAND.nextDouble() * filamentWidth / 2 * ( goRightNextTime ? 1 : -1 ), 0 ) ) );
+            goRightNextTime = !goRightNextTime;
         }};
     }
 
@@ -165,8 +169,12 @@ public class LightBulb extends EnergyUser {
         }};
     }
 
-    private static double getTotalPathLength( Vector2D startingLocation, List<Vector2D> pathPoints ){
-        if ( pathPoints.size() == 0 ){
+    private static double generateThermalChunkTimeOnFilament() {
+        return THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT.getMin() + RAND.nextDouble() * THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT.getLength();
+    }
+
+    private static double getTotalPathLength( Vector2D startingLocation, List<Vector2D> pathPoints ) {
+        if ( pathPoints.size() == 0 ) {
             return 0;
         }
         double pathLength = startingLocation.distance( pathPoints.get( 0 ) );
