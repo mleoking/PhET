@@ -33,7 +33,8 @@ require( [
     root.addChild( splineLayer );
     root.addChild( skater );
     root.addChild( fpsText );
-    root.addChild( new PieChart( skater ) );
+    var pieChart = new PieChart( skater );
+    root.addChild( pieChart );
 
     //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
     var canvas = document.getElementById( "c" );
@@ -145,9 +146,12 @@ require( [
     onResize(); // initial position
 
     createjs.Ticker.setFPS( 60 );
-    createjs.Ticker.addListener( updateFrameRate );
-    createjs.Ticker.addListener( stage );
-    createjs.Ticker.addListener( function () {Physics.updatePhysics( skater, groundHeight, splineLayer );} );
+    createjs.Ticker.addListener( function () {
+        Physics.updatePhysics( skater, groundHeight, splineLayer );
+        updateFrameRate();
+        pieChart.tick();
+        stage.tick();
+    } );
 
     //Enable touch and prevent default
     createjs.Touch.enable( stage, false, false );

@@ -10,18 +10,13 @@ define( ["skater"], function ( Skater ) {
         var shape = new createjs.Shape();
         shape.graphics.beginStroke( "orange" ).setStrokeStyle( 5 ).moveTo( -10, -10 ).lineTo( 10, 10 ).moveTo( -10, 10 ).lineTo( 10, -10 ).endStroke();
         this.addChild( shape );
+        this.container = this;
+        this.skater = skater;
+    };
 
-        var container = this;
-
-        //uses object.watch polyfill
-        var update = function ( id, oldValue, newValue ) {
-//            console.log( "value changed: id  = " + id + ", old = " + oldValue + ", new = " + newValue );
-            container.x = skater.x;
-            container.y = skater.y;
-            return newValue;
-        };
-        skater.watch( "x", update );
-        skater.watch( "y", update );
+    p.tick = function () {
+        this.container.x = this.skater.x;
+        this.container.y = this.skater.y;
     };
 
     return PieChart;
