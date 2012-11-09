@@ -1,5 +1,5 @@
-define( ["vector2d" ], function ( Vector2D ) {
-    return {create:function ( groundHeight ) {
+define( ["model/vector2d" ], function ( Vector2D ) {
+    return {create: function ( groundHeight ) {
 
         function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 
@@ -31,7 +31,7 @@ define( ["vector2d" ], function ( Vector2D ) {
             e.onMouseMove = function ( event ) {
                 var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
                 if ( relativePressPoint === null ) {
-                    relativePressPoint = {x:e.target.x - transformed.x, y:e.target.y - transformed.y};
+                    relativePressPoint = {x: e.target.x - transformed.x, y: e.target.y - transformed.y};
                 }
                 else {
                     e.target.x = transformed.x + relativePressPoint.x;
