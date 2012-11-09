@@ -100,11 +100,14 @@ require( [
         canvas.attr( 'height', canvasH );
         var left = (winW - canvasW) / 2;
         var top = (winH - canvasH) / 2;
-        canvas.offset( {left:left, top:top} );
+        canvas.offset( {left: left, top: top} );
         root.scaleX = root.scaleY = scale;
         stage.update();
 
         $( "#navBar" ).css( 'top', top + 'px' );
+
+        //Scale the control panel up and down using css 2d transform
+//        $( "#controlPanel" ).css( "-webkit-transform", "scale(" + scale + "," + scale + ")" );
 
         var controlPanel = $( '#controlPanel' );
         var rightOfControlPanel = canvasW + left;
@@ -131,7 +134,6 @@ require( [
         $( '#gridLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
         $( '#speedLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
 
-        $( "#controlPanel" ).css( "-webkit-transform", "scale(" + scale + "," + scale + ")" );
 //        $( "#controlPanel" ).css( "width", "100%" );
 //        .
 //                css( "top", top ).css( "right", right );
