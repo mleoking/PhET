@@ -1,3 +1,5 @@
+2nd tab: Made energy chunks radiate from the beaker into the air.
+2nd tab: Made it impossible to heat beaker to boiling point temperature.
 2nd tab: Made energy chunks appear in the beaker on the burner.
 2nd tab: Added the beaker and thermometer to the beaker heater.
 2nd tab: Replaced heater element image with darker version.
