@@ -41,11 +41,12 @@ public class LightBulb extends EnergyUser {
     private static final Vector2D OFFSET_TO_SECOND_WIRE_CURVE_POINT = new Vector2D( -0.001, -0.025 );
     private static final Vector2D OFFSET_TO_THIRD_WIRE_CURVE_POINT = new Vector2D( -0.0005, -0.0175 );
     private static final Vector2D OFFSET_TO_BOTTOM_OF_CONNECTOR = new Vector2D( 0, -0.01 );
-    private static final Vector2D OFFSET_TO_RADIATE_POINT = new Vector2D( 0, 0.063 );
+    private static final Vector2D OFFSET_TO_RADIATE_POINT = new Vector2D( 0, 0.066 );
 
+    // Miscellaneous other constants.
     private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
-
     private static final Random RAND = new Random();
+    private static final double THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT = 1.5; // In seconds;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -57,6 +58,7 @@ public class LightBulb extends EnergyUser {
     public final Property<Double> litProportion = new Property<Double>( 0.0 );
 
     private List<EnergyChunkPathMover> electricalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private List<EnergyChunkPathMover> thermalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private List<EnergyChunkPathMover> lightEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
 
     //-------------------------------------------------------------------------
@@ -86,7 +88,7 @@ public class LightBulb extends EnergyUser {
 
                         // And a "mover" that will move this energy chunk through
                         // the wire to the bulb.
-                        electricalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, getEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                        electricalEnergyChunkMovers.add( new EnergyChunkPathMover( incomingEnergyChunk, createElectricalEnergyChunkPath( getPosition() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                     }
                     else {
                         // By design, this shouldn't happen, so warn if it does.
@@ -96,17 +98,31 @@ public class LightBulb extends EnergyUser {
                 incomingEnergyChunks.clear();
             }
 
-            // Move the electrical energy chunks that are currently under management.
+            // Move the electrical energy chunks.
             for ( EnergyChunkPathMover energyChunkMover : new ArrayList<EnergyChunkPathMover>( electricalEnergyChunkMovers ) ) {
                 energyChunkMover.moveAlongPath( dt );
                 if ( energyChunkMover.isPathFullyTraversed() ) {
                     electricalEnergyChunkMovers.remove( energyChunkMover );
+                    // Turn this energy chunk into thermal energy on the filament.
+                    energyChunkMover.energyChunk.energyType.set( EnergyType.THERMAL );
+                    List<Vector2D> energyChunkPath = createThermalEnergyChunkPath( energyChunkMover.energyChunk.position.get() );
+                    thermalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
+                                                                            energyChunkPath,
+                                                                            getTotalPathLength( energyChunkMover.energyChunk.position.get(), energyChunkPath ) / THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT ) );
+                }
+            }
+
+            // Move the thermal energy chunks.
+            for ( EnergyChunkPathMover thermalEnergyChunkMover : new ArrayList<EnergyChunkPathMover>( thermalEnergyChunkMovers ) ) {
+                thermalEnergyChunkMover.moveAlongPath( dt );
+                if ( thermalEnergyChunkMover.isPathFullyTraversed() ) {
                     // Cause this energy chunk to be radiated from the bulb.
-                    energyChunkMover.energyChunk.energyType.set( EnergyType.LIGHT );
+                    thermalEnergyChunkMovers.remove( thermalEnergyChunkMover );
+                    thermalEnergyChunkMover.energyChunk.energyType.set( EnergyType.LIGHT );
                     List<Vector2D> lightPath = new ArrayList<Vector2D>() {{
                         add( getPosition().plus( OFFSET_TO_RADIATE_POINT ).plus( new Vector2D( 0, RADIATED_ENERGY_CHUNK_MAX_DISTANCE ).getRotatedInstance( ( RAND.nextDouble() - 0.5 ) * ( Math.PI / 2 ) ) ) );
                     }};
-                    lightEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk, lightPath, EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                    lightEnergyChunkMovers.add( new EnergyChunkPathMover( thermalEnergyChunkMover.energyChunk, lightPath, EFACConstants.ENERGY_CHUNK_VELOCITY ) );
                 }
             }
 
@@ -130,7 +146,15 @@ public class LightBulb extends EnergyUser {
         }
     }
 
-    private static List<Vector2D> getEnergyChunkPath( final Vector2D centerPosition ) {
+    private List<Vector2D> createThermalEnergyChunkPath( final Vector2D startingPoint ) {
+        // TODO: Make some things constants, refine, clean up, and all that.
+        final double filamentWidth = 0.075;
+        return new ArrayList<Vector2D>() {{
+            add( startingPoint.plus( new Vector2D( ( RAND.nextDouble() - 0.5 ) * filamentWidth / 2, 0 ) ) );
+        }};
+    }
+
+    private static List<Vector2D> createElectricalEnergyChunkPath( final Vector2D centerPosition ) {
         return new ArrayList<Vector2D>() {{
             add( centerPosition.plus( OFFSET_TO_LEFT_SIDE_OF_WIRE_BEND ) );
             add( centerPosition.plus( OFFSET_TO_FIRST_WIRE_CURVE_POINT ) );
@@ -139,6 +163,17 @@ public class LightBulb extends EnergyUser {
             add( centerPosition.plus( OFFSET_TO_BOTTOM_OF_CONNECTOR ) );
             add( centerPosition.plus( OFFSET_TO_RADIATE_POINT ) );
         }};
+    }
+
+    private static double getTotalPathLength( Vector2D startingLocation, List<Vector2D> pathPoints ){
+        if ( pathPoints.size() == 0 ){
+            return 0;
+        }
+        double pathLength = startingLocation.distance( pathPoints.get( 0 ) );
+        for ( int i = 0; i < pathPoints.size() - 1; i++ ) {
+            pathLength += pathPoints.get( i ).distance( pathPoints.get( i + 1 ) );
+        }
+        return pathLength;
     }
 
     @Override public void deactivate() {
