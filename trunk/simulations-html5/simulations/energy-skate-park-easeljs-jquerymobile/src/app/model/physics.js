@@ -1,4 +1,4 @@
-define( ["../vector2d", "geometry"], function ( Vector2D, Geometry ) {
+define( ["model/vector2d", "model/geometry"], function ( Vector2D, Geometry ) {
     var Physics = {};
 
     function getX( point ) {return point.x;}
