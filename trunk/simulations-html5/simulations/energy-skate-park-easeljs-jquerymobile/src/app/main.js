@@ -6,8 +6,10 @@ require( [
              'spline',
              'model/physics',
              'view/easel-util',
-             'view/pie-chart'
-         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart ) {
+             'view/pie-chart',
+             'view/grid'
+
+         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid ) {
 
     WebsocketRefresh.listenForRefresh();
 
@@ -30,7 +32,9 @@ require( [
     var splineLayer = Spline.createSplineLayer( groundHeight );
 
     root.addChild( Background.createBackground( groundHeight ) );
-//    root.addChild( ControlPanel.createControlPanel() );
+    var grid = new Grid( skater.groundY );
+    grid.visible = false;
+    root.addChild( grid );
     root.addChild( splineLayer );
     root.addChild( skater );
     root.addChild( fpsText );
@@ -54,6 +58,7 @@ require( [
 
     //Wire up the pie chart check box button to the visibility of the pie chart
     $( "#checkbox2" ).click( function () { pieChart.visible = $( "#checkbox2" ).is( ":checked" ); } );
+    $( "#checkbox3" ).click( function () { grid.visible = $( "#checkbox3" ).is( ":checked" ); } );
 
     function updateFrameRate() {
         frameCount++;
