@@ -196,7 +196,9 @@ public class BeakerHeater extends EnergyUser {
             if ( beaker.getEnergyChunkBalance() > 0 ) {
                 // Remove an energy chunk from the beaker and start it floating
                 // away.
-                EnergyChunk ec = beaker.extractClosestEnergyChunk( beaker.getCenterPoint() );
+                Vector2D extractionPoint = new Vector2D( beaker.getRect().getMinX() + RAND.nextDouble() * beaker.getRect().getWidth(),
+                                                         beaker.getRect().getMinY() + RAND.nextDouble() * ( beaker.getRect().getHeight() * beaker.fluidLevel.get() ) );
+                EnergyChunk ec = beaker.extractClosestEnergyChunk( extractionPoint );
                 energyChunkList.add( ec );
                 radiatedEnergyChunkMovers.add( new EnergyChunkPathMover( ec, createRadiatedEnergyChunkPath( ec.position.get() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
             }
