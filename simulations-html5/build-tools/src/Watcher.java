@@ -1,10 +1,15 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildtools.html5;
 
+import fj.F;
+import fj.Ord;
+import fj.data.List;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -89,18 +94,25 @@ public class Watcher {
     }
 
     private static long lastModified( final File root ) {
-        if ( root.isDirectory() ) {
-            long base = root.lastModified();
-            for ( File file : root.listFiles() ) {
-                final long last = file.lastModified();
-                if ( last > base ) {
-                    base = last;
-                }
+        List<File> files = getAllFiles( root );
+        List<Long> modifiedTimes = files.map( new F<File, Long>() {
+            @Override public Long f( final File file ) {
+                return file.lastModified();
             }
-            return base;
+        } );
+        return modifiedTimes.maximum( Ord.longOrd );
+    }
+
+    private static List<File> getAllFiles( final File root ) {
+        ArrayList<File> f = new ArrayList<File>();
+        if ( root.isDirectory() ) {
+            for ( File child : root.listFiles() ) {
+                f.addAll( getAllFiles( child ).toCollection() );
+            }
         }
         else {
-            return root.lastModified();
+            f.add( root );
         }
+        return List.iterableList( f );
     }
 }
