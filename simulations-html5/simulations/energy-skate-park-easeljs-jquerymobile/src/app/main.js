@@ -2,7 +2,7 @@ require( [
              'websocket-refresh',
              'skater',
              'control-panel',
-             'background',
+             'view/background',
              'spline',
              'physics',
              'easel-util'
