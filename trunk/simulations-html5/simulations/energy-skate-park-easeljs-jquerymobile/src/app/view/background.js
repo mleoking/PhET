@@ -3,7 +3,7 @@ define( [
             'image!resources/mountains.png'], function ( houseImage, mountainImage ) {
 //    var houseImage = skaterImage;
 //    var mountainImage = skaterImage;
-    var result = {createBackground:function ( groundHeight ) {
+    var result = {createBackground: function ( groundHeight ) {
         var groundGraphics = new createjs.Graphics();
         groundGraphics.beginFill( "#64aa64" );
 
@@ -30,6 +30,9 @@ define( [
         mountain.scaleY = mountainScale;
         background.addChild( mountain );
         background.addChild( house );
+
+        //Cache as an image
+//        background.cache( 0, 0, 1024, 768 );
         return background;
     }};
     return result;
