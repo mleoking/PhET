@@ -35,6 +35,7 @@ require( [
     root.addChild( skater );
     root.addChild( fpsText );
     var pieChart = new PieChart( skater );
+    pieChart.visible = false;
     root.addChild( pieChart );
 
     //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
@@ -50,6 +51,9 @@ require( [
 
     var filterStrength = 20;
     var frameTime = 0, lastLoop = new Date, thisLoop;
+
+    //Wire up the pie chart check box button to the visibility of the pie chart
+    $( "#checkbox2" ).click( function () { pieChart.visible = $( "#checkbox2" ).is( ":checked" ); } );
 
     function updateFrameRate() {
         frameCount++;
