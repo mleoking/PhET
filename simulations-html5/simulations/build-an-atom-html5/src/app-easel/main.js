@@ -8,6 +8,7 @@ require( [
              'view/bucket-view'
          ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketView ) {
 
+
     var atomConstructionCanvas = $( '#atom-construction-canvas' );
     var atomStage = new Easel.Stage( atomConstructionCanvas[0] );
 
@@ -37,19 +38,24 @@ require( [
     // Set the frame rate.
     Easel.Ticker.setFPS( 60 );
 
+
     //resize the canvas when the window is resized
     //Copied from energy skate park easel prototype
     var onResize = function () {
+
+      var w = atomConstructionCanvas.width();
+      var h = atomConstructionCanvas.height();
+
         var winW = $( window ).width(),
                 winH = $( window ).height(),
-                scale = Math.min( winW / 1024, winH / 768 ),
-                canvasW = scale * 1024,
+                scale = Math.min( w / 682, h / 768 ),
+                canvasW = scale * 682,
                 canvasH = scale * 768;
-        atomConstructionCanvas.attr( 'width', canvasW );
-        atomConstructionCanvas.attr( 'height', canvasH );
-        var left = (winW - canvasW) / 2;
-        var top = (winH - canvasH) / 2;
-        atomConstructionCanvas.offset( {left:left, top:top} );
+        // atomConstructionCanvas.attr( 'width', canvasW );
+        // atomConstructionCanvas.attr( 'height', canvasH );
+        // var left = (winW - canvasW) / 2;
+        // var top = (winH - canvasH) / 2;
+        // atomConstructionCanvas.offset( {left:left, top:top} );
         root.scaleX = root.scaleY = scale;
         atomStage.update();
     };

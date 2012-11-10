@@ -82,8 +82,15 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-#canvas {
+canvas {
   position: absolute;
+  top: 10%;
+  background: rgb(255,255,153);
+  border: 1px solid #000;
+  border-left: 0px;
+  border-right: 0px;
+
+  width: 60%;
 }
 
 #topleftui {
@@ -100,7 +107,7 @@ textarea {
   padding-left: 1em;
 }
 
-#control-panel {
+#periodic-table {
   position: absolute;
   top: 1em;
   right: 1em;
@@ -109,21 +116,53 @@ textarea {
   background: #ccc;
   border-radius: 10px;
   float: left;
+  min-width: 320px;
+  width: 30%;
 }
 
-#control-panel label {
-  float: left;
-  clear: both;
-  padding-bottom: 20px;
+#periodic-table table td {
+  border: 1px solid white;
+  text-align: center;
+  width: 25px; height: 25px;
 }
 
-@media only screen and (max-width: 800px) {
-  body { font-size: 0.7em; }
+
+@media only screen and (max-width: 960px) {
+
+  #periodic-table table td {
+    width: 18px;
+    height: 18px;
+  }
+
 }
 
-@media only screen and (min-width: 1200px) {
-  body { font-size: 1.5em; }
+
+@media only screen and (max-width: 480px) {
+
+  #periodic-table {
+    top: 10px;
+    left: 10px;
+  }
+
+  canvas {
+    top: 220px;
+    width: 100%;
+  }
+
 }
+
+
+@media only screen and (max-width: 320px) and (orientation: portrait) {
+
+  #periodic-table table td {
+    font-size: 12px;
+    width: 16px;
+    height: 16px;
+  }
+
+}
+
+
 
 /* ==========================================================================
    Helper classes
