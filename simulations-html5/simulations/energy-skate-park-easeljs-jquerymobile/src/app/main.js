@@ -37,7 +37,9 @@ require( [
     root.addChild( grid );
     root.addChild( splineLayer );
     var barChart = BarChart.createBarChart( skater );
-    barChart.visible = false;
+    barChart.x = 50;
+    barChart.y = 50;
+//    barChart.visible = false;
     root.addChild( barChart );
 
     root.addChild( skater );
