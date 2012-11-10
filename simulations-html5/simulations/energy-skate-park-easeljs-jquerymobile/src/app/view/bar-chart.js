@@ -1,4 +1,4 @@
-define( [], function () {
+define( ['image!resources/close-button.png'], function ( closeButtonImage ) {
     return {createBarChart: function ( skater ) {
         var that = new createjs.Container();
         var shape = new createjs.Shape();
@@ -19,6 +19,11 @@ define( [], function () {
         var dy = 40 - 3;
         yAxisArrow.graphics.beginFill( 'black' ).moveTo( 0 + dx, 0 + dy ).lineTo( 7 + dx, 10 + dy ).lineTo( -7 + dx, 10 + dy ).lineTo( 0 + dx, 0 + dy ).endFill();
         that.addChild( yAxisArrow );
+
+        var closeButton = new createjs.Bitmap( closeButtonImage );
+        closeButton.x = 200 - closeButtonImage.width - 10;
+        closeButton.y = 10;
+        that.addChild( closeButton );
 
         that.onMouseOver = function () { document.body.style.cursor = "pointer"; };
         that.onMouseOut = function () { document.body.style.cursor = "default"; };
