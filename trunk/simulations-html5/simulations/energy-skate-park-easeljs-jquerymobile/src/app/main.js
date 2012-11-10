@@ -7,9 +7,9 @@ require( [
              'model/physics',
              'view/easel-util',
              'view/pie-chart',
-             'view/grid'
-
-         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid ) {
+             'view/grid',
+             'view/bar-chart'
+         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart ) {
 
     WebsocketRefresh.listenForRefresh();
 
@@ -36,6 +36,10 @@ require( [
     grid.visible = false;
     root.addChild( grid );
     root.addChild( splineLayer );
+    var barChart = BarChart.createBarChart( skater );
+    barChart.visible = false;
+    root.addChild( barChart );
+
     root.addChild( skater );
     root.addChild( fpsText );
     var pieChart = new PieChart( skater );
@@ -57,6 +61,7 @@ require( [
     var frameTime = 0, lastLoop = new Date, thisLoop;
 
     //Wire up the pie chart check box button to the visibility of the pie chart
+    $( "#checkbox1" ).click( function () { barChart.visible = $( "#checkbox1" ).is( ":checked" ); } );
     $( "#checkbox2" ).click( function () { pieChart.visible = $( "#checkbox2" ).is( ":checked" ); } );
     $( "#checkbox3" ).click( function () { grid.visible = $( "#checkbox3" ).is( ":checked" ); } );
 
@@ -171,4 +176,8 @@ require( [
 
     //Paint once after initialization
     stage.update();
+
+    var $newCanvas = $( '<canvas id="newCanvasCreated"/>' ).width( 100 ).height( 1000 );
+    $( '#theMainBody' ).append( $newCanvas );
+    $( '#newCanvasCreated' ).css( 'border', '1px' ).draggable();
 } );
