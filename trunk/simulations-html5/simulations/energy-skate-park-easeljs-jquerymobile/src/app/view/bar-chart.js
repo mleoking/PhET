@@ -20,6 +20,10 @@ define( ['image!resources/close-button.png'], function ( closeButtonImage ) {
         yAxisArrow.graphics.beginFill( 'black' ).moveTo( 0 + dx, 0 + dy ).lineTo( 7 + dx, 10 + dy ).lineTo( -7 + dx, 10 + dy ).lineTo( 0 + dx, 0 + dy ).endFill();
         that.addChild( yAxisArrow );
 
+        var xAxis = new createjs.Shape();
+        xAxis.graphics.beginStroke( 'red' ).setStrokeStyle( 4 ).moveTo( arrowX, 500 ).lineTo( arrowX + 150, 500 ).endStroke();
+        that.addChild( xAxis );
+
         var closeButton = new createjs.Bitmap( closeButtonImage );
         closeButton.x = 200 - closeButtonImage.width - 10;
         closeButton.y = 10;
