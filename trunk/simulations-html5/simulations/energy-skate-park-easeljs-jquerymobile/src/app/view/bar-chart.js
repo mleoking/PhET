@@ -6,6 +6,20 @@ define( [], function () {
         that.shape = shape;
         that.addChild( shape );
 
+        var energyLabel = new createjs.Text( 'Energy (J)', '24px "Arial",Tahoma', 'blue' );
+        energyLabel.x = 10;
+        energyLabel.y = 10;
+        energyLabel.shadow = new createjs.Shadow( 'black', 1, 1, 2 );
+        that.addChild( energyLabel );
+
+        var yAxisArrow = new createjs.Shape();
+        var arrowX = 34;
+        yAxisArrow.graphics.beginStroke( 'black' ).setStrokeStyle( 4 ).moveTo( arrowX, 500 ).lineTo( arrowX, 40 ).endStroke();
+        var dx = arrowX;
+        var dy = 40 - 3;
+        yAxisArrow.graphics.beginFill( 'black' ).moveTo( 0 + dx, 0 + dy ).lineTo( 7 + dx, 10 + dy ).lineTo( -7 + dx, 10 + dy ).lineTo( 0 + dx, 0 + dy ).endFill();
+        that.addChild( yAxisArrow );
+
         that.onMouseOver = function () { document.body.style.cursor = "pointer"; };
         that.onMouseOut = function () { document.body.style.cursor = "default"; };
 
