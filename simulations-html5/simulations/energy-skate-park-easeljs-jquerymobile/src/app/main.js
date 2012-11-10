@@ -179,7 +179,7 @@ require( [
     //Paint once after initialization
     stage.update();
 
-    var $newCanvas = $( '<canvas id="newCanvasCreated"/>' ).width( 100 ).height( 1000 );
-    $( '#theMainBody' ).append( $newCanvas );
-    $( '#newCanvasCreated' ).css( 'border', '1px' ).draggable();
+//    var $newCanvas = $( '<canvas id="newCanvasCreated"/>' ).width( 100 ).height( 1000 );
+//    $( '#theMainBody' ).append( $newCanvas );
+//    $( '#newCanvasCreated' ).css( 'border', '1px' ).draggable();
 } );
