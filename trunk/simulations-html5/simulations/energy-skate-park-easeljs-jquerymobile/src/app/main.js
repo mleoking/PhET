@@ -12,6 +12,7 @@ require( [
              'view/speedometer'
          ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
 
+    console.log( EaselUtil );
     WebsocketRefresh.listenForRefresh();
 
     console.log( location.href );
