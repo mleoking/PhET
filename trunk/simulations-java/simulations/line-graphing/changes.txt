@@ -1,3 +1,5 @@
+# 0.00.40 (70166) Nov 10, 2012
+11/10/12 dev version for interviews on first 3 tabs
 11/10/12 temporarily hide "Line Game" tab
 11/10/12 fix: incorrect order of range params in PointSlopeEquationNode constructor was allowing out-of-range values in spinners
 11/7/12 make "Line Game" tab accessible
