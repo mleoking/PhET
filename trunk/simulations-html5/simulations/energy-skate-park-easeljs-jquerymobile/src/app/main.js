@@ -67,12 +67,18 @@ require( [
 
     var filterStrength = 20;
     var frameTime = 0, lastLoop = new Date, thisLoop;
+    var paused = false;
 
     //Wire up the pie chart check box button to the visibility of the pie chart
     $( "#checkbox1" ).click( function () { barChart.visible = $( "#checkbox1" ).is( ":checked" ); } );
     $( "#checkbox2" ).click( function () { pieChart.visible = $( "#checkbox2" ).is( ":checked" ); } );
     $( "#checkbox3" ).click( function () { grid.visible = $( "#checkbox3" ).is( ":checked" ); } );
     $( "#checkbox4" ).click( function () { speedometer.visible = $( "#checkbox4" ).is( ":checked" ); } );
+
+    $( '#flip-min' ).val( 'on' ).slider( "refresh" );
+    $( "#flip-min" ).bind( "change", function ( event, ui ) {
+        paused = !paused;
+    } );
 
     function updateFrameRate() {
         frameCount++;
@@ -175,10 +181,12 @@ require( [
 
     createjs.Ticker.setFPS( 60 );
     createjs.Ticker.addListener( function () {
-        Physics.updatePhysics( skater, groundHeight, splineLayer );
-        updateFrameRate();
-        speedometer.tick();
-        pieChart.tick();
+        if ( !paused ) {
+            Physics.updatePhysics( skater, groundHeight, splineLayer );
+            updateFrameRate();
+            speedometer.tick();
+            pieChart.tick();
+        }
         stage.tick();
     } );
 
