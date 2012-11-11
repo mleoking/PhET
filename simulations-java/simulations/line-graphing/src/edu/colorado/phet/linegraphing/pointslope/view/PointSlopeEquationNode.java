@@ -66,10 +66,10 @@ public class PointSlopeEquationNode extends EquationNode {
     }
 
     public PointSlopeEquationNode( final Property<Line> interactiveLine,
-                                   Property<DoubleRange> riseRange,
-                                   Property<DoubleRange> runRange,
                                    Property<DoubleRange> x1Range,
                                    Property<DoubleRange> y1Range,
+                                   Property<DoubleRange> riseRange,
+                                   Property<DoubleRange> runRange,
                                    final boolean interactiveX1,
                                    final boolean interactiveY1,
                                    final boolean interactiveSlope,
