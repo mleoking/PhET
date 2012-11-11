@@ -173,6 +173,7 @@ require( [
     createjs.Ticker.addListener( function () {
         Physics.updatePhysics( skater, groundHeight, splineLayer );
         updateFrameRate();
+        speedometer.tick();
         pieChart.tick();
         stage.tick();
     } );
