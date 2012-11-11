@@ -15,29 +15,29 @@ public class PointSlopeParameterRange {
 
     // Range for the x component of the point (x1,y1)
     public DoubleRange x1( Line line, Graph graph ) {
-        final double x1Min = Math.max( graph.xRange.getMin(), graph.xRange.getMin() - line.run );
-        final double x1Max = Math.min( graph.xRange.getMax(), graph.xRange.getMax() - line.run );
-        return new DoubleRange( x1Min, x1Max );
+        final double min = Math.max( graph.xRange.getMin(), graph.xRange.getMin() - line.run );
+        final double max = Math.min( graph.xRange.getMax(), graph.xRange.getMax() - line.run );
+        return new DoubleRange( min, max );
     }
 
     // Range for the y component of the point (x1,y1)
     public DoubleRange y1( Line line, Graph graph ) {
-        final double y1Min = Math.max( graph.yRange.getMin(), graph.yRange.getMin() - line.rise );
-        final double y1Max = Math.min( graph.yRange.getMax(), graph.yRange.getMax() - line.rise );
-        return new DoubleRange( y1Min, y1Max );
+        final double min = Math.max( graph.yRange.getMin(), graph.yRange.getMin() - line.rise );
+        final double max = Math.min( graph.yRange.getMax(), graph.yRange.getMax() - line.rise );
+        return new DoubleRange( min, max );
     }
 
     // Range for the vertical component of the slope
     public DoubleRange rise( Line line, Graph graph ) {
-        final double riseMin = graph.yRange.getMin() - line.y1;
-        final double riseMax = graph.yRange.getMax() - line.y1;
-        return new DoubleRange( riseMin, riseMax );
+        final double min = graph.yRange.getMin() - line.y1;
+        final double max = graph.yRange.getMax() - line.y1;
+        return new DoubleRange( min, max );
     }
 
     // Range for the horizontal component of the slope
     public DoubleRange run( Line line, Graph graph ) {
-        final double runMin = graph.xRange.getMin() - line.x1;
-        final double runMax = graph.xRange.getMax() - line.x1;
-        return new DoubleRange( runMin, runMax );
+        final double min = graph.xRange.getMin() - line.x1;
+        final double max = graph.xRange.getMax() - line.x1;
+        return new DoubleRange( min, max );
     }
 }

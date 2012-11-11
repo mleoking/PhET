@@ -1,3 +1,4 @@
+11/10/12 shorten local variable names in PointSlopeParameterRange methods
 11/7/12 make "Line Game" tab accessible
 # 0.00.39 (70077) Nov 7, 2012
 11/7/12 fix: pad equation control panel width a little bit, so that undefined-slope indicator doesn't make the control panel resize
