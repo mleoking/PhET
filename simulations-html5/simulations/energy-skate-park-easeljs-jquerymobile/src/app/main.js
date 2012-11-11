@@ -8,8 +8,9 @@ require( [
              'view/easel-util',
              'view/pie-chart',
              'view/grid',
-             'view/bar-chart'
-         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart ) {
+             'view/bar-chart',
+             'view/speedometer'
+         ], function ( WebsocketRefresh, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
 
     WebsocketRefresh.listenForRefresh();
 
@@ -39,7 +40,7 @@ require( [
     var barChart = BarChart.createBarChart( skater );
     barChart.x = 50;
     barChart.y = 50;
-//    barChart.visible = false;
+    barChart.visible = false;
     root.addChild( barChart );
 
     root.addChild( skater );
@@ -47,6 +48,10 @@ require( [
     var pieChart = new PieChart( skater );
     pieChart.visible = false;
     root.addChild( pieChart );
+
+    var speedometer = Speedometer.createSpeedometer( skater );
+    speedometer.visible = false;
+    root.addChild( speedometer );
 
     //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
     var canvas = document.getElementById( "c" );
@@ -66,6 +71,7 @@ require( [
     $( "#checkbox1" ).click( function () { barChart.visible = $( "#checkbox1" ).is( ":checked" ); } );
     $( "#checkbox2" ).click( function () { pieChart.visible = $( "#checkbox2" ).is( ":checked" ); } );
     $( "#checkbox3" ).click( function () { grid.visible = $( "#checkbox3" ).is( ":checked" ); } );
+    $( "#checkbox4" ).click( function () { speedometer.visible = $( "#checkbox4" ).is( ":checked" ); } );
 
     function updateFrameRate() {
         frameCount++;
