@@ -38,9 +38,16 @@
             position: absolute;
             z-index: 2;
 
-            -webkit-transform: translateX(0);
+            /*-webkit-transform: translateX(0);*/
             /*overflow: visible;*/
             /*text-overflow: clip;*/
+        }
+
+        #flip-min {
+            position: absolute;
+            z-index: 3;
+            padding: 0;
+            margin: 5px;
         }
 
         #innerelement1 {
@@ -114,5 +121,10 @@
     <input type="range" name="slider-fill" id="slider-fill" value="60" min="0" max="100" data-highlight="true"/>
 </div>
 <canvas id="c" width=400 height=300></canvas>
+
+<select name="flip-min" id="flip-min" data-role="slider">
+    <option value="off">Pause</option>
+    <option value="on">Play</option>
+</select>
 </body>
 </html>

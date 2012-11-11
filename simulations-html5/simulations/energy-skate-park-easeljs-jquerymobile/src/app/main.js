@@ -161,6 +161,9 @@ require( [
         $( '#gridLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
         $( '#speedLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
 
+        //TODO: This will need to be made more specific
+        $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 40 + 'px' ).css( 'left', (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2) + 'px' );
+
 //        $( "#controlPanel" ).css( "width", "100%" );
 //        .
 //                css( "top", top ).css( "right", right );
