@@ -163,6 +163,7 @@ require( [
 
         //TODO: This will need to be made more specific
         $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 40 + 'px' ).css( 'left', (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2) + 'px' );
+        $( '#speedControl' ).css( 'position', 'absolute' ).css( 'width', '400px' ).css( 'top', canvasH + top - 55 + 'px' ).css( 'left', 100 + 'px' );
 
 //        $( "#controlPanel" ).css( "width", "100%" );
 //        .
