@@ -1,3 +1,4 @@
+11/10/12 temporarily hide "Line Game" tab
 11/10/12 fix: incorrect order of range params in PointSlopeEquationNode constructor was allowing out-of-range values in spinners
 11/7/12 make "Line Game" tab accessible
 # 0.00.39 (70077) Nov 7, 2012
