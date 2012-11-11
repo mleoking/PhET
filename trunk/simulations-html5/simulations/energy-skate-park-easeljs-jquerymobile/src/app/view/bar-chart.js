@@ -1,8 +1,8 @@
-define( ['image!resources/close-button.png'], function ( closeButtonImage ) {
+define( [], function () {
     return {createBarChart: function ( skater ) {
         var that = new createjs.Container();
         var shape = new createjs.Shape();
-        shape.graphics.beginFill( "white" ).beginStroke( "black" ).setStrokeStyle( 2 ).drawRoundRect( 0, 0, 200, 600, 10 ).endStroke();
+        shape.graphics.beginFill( "white" ).beginStroke( "black" ).setStrokeStyle( 2 ).drawRoundRect( 0, 0, 200, 600, 10 ).endStroke().endFill();
         that.shape = shape;
         that.addChild( shape );
 
@@ -29,24 +29,16 @@ define( ['image!resources/close-button.png'], function ( closeButtonImage ) {
             var relativePressPoint = null;
             e.onMouseMove = function ( event ) {
                 var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
-                console.log( transformed );
                 if ( relativePressPoint === null ) {
                     relativePressPoint = {x: e.target.x - transformed.x, y: e.target.y - transformed.y};
                 }
                 else {
                     e.target.x = transformed.x + relativePressPoint.x;
                     e.target.y = transformed.y + relativePressPoint.y;
-                    console.log( " x = " + e.target.x + ", y = " + e.target.y );
                 }
             };
-            e.onMouseUp = function ( event ) {
-            };
+            e.onMouseUp = function ( event ) { };
         }
-
-        var closeButton = new createjs.Bitmap( closeButtonImage );
-        closeButton.x = 200 - closeButtonImage.width - 10;
-        closeButton.y = 10;
-        that.addChild( closeButton );
 
         var fields = [
             {name: 'Kinetic', color: 'green'},
@@ -56,15 +48,18 @@ define( ['image!resources/close-button.png'], function ( closeButtonImage ) {
         ];
 
         for ( var i = 0; i < fields.length; i++ ) {
-            var field = fields[i];
-            var kineticLabel = new createjs.Text( field.name, '20px "Arial",Tahoma', field.color );
+            var kineticLabel = new createjs.Text( fields[i].name, '20px "Arial",Tahoma', fields[i].color );
             kineticLabel.rotation = 270;
             kineticLabel.x = 40 + i * 35;
             kineticLabel.y = 590;
             kineticLabel.shadow = new createjs.Shadow( 'black', 1, 1, 1 );
             that.addChild( kineticLabel );
+
+            var bar = new createjs.Shape();
+            var barHeight = 100 + i * 100;
+            bar.graphics.beginStroke( 'black' ).beginFill( fields[i].color ).rect( kineticLabel.x + 5, 500 - barHeight, 20, barHeight ).endFill().endStroke();
+            that.addChild( bar );
         }
-//        kineticLabel.onPress = pressHandler;
 
         that.onMouseOver = function () { document.body.style.cursor = "pointer"; };
         that.onMouseOut = function () { document.body.style.cursor = "default"; };
