@@ -1,4 +1,4 @@
-define( [], function () {
+define( ["view/easel-util"], function ( EaselUtil ) {
     return {createBarChart: function ( skater ) {
         var that = new createjs.Container();
         var shape = new createjs.Shape();
@@ -24,21 +24,7 @@ define( [], function () {
         xAxis.graphics.beginStroke( 'red' ).setStrokeStyle( 4 ).moveTo( arrowX, 500 ).lineTo( arrowX + 150, 500 ).endStroke();
         that.addChild( xAxis );
 
-        function pressHandler( e ) {
-            //Make dragging relative to touch point
-            var relativePressPoint = null;
-            e.onMouseMove = function ( event ) {
-                var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
-                if ( relativePressPoint === null ) {
-                    relativePressPoint = {x: e.target.x - transformed.x, y: e.target.y - transformed.y};
-                }
-                else {
-                    e.target.x = transformed.x + relativePressPoint.x;
-                    e.target.y = transformed.y + relativePressPoint.y;
-                }
-            };
-            e.onMouseUp = function ( event ) { };
-        }
+        EaselUtil.makeDraggable( that );
 
         var fields = [
             {name: 'Kinetic', color: 'green'},
@@ -63,8 +49,6 @@ define( [], function () {
 
         that.onMouseOver = function () { document.body.style.cursor = "pointer"; };
         that.onMouseOut = function () { document.body.style.cursor = "default"; };
-
-        that.onPress = pressHandler;
 
         return that;
     }};
