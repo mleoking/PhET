@@ -174,7 +174,7 @@
 9/29/12 collapse interactive equations to a single constructor
 9/29/12 use same font sizes for answer & guess equations in game
 9/29/12 show correct answer for failed "Make the Equation" challenges
-9/29/12 always should the equation/line to be matched in green, don't mess with black-to-green transition
+9/29/12 always show the equation/line to be matched in green, don't mess with black-to-green transition
 9/29/12 add marker class ChallengeNode to view hierarchy
 9/29/12 fix which lines are "seen" by the point tools for "Make the Equation" challenges
 9/29/12 change signature of PointSlopeInteractiveEquationNode constructors so that "point" params are before "slope" params
