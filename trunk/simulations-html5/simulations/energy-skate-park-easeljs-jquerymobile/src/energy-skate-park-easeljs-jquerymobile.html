@@ -82,6 +82,12 @@
             position: absolute;
             z-index: 10;
         }
+
+        #southPanel {
+            display: inline-block;
+            float: left;
+        }
+
     </style>
 </head>
 
@@ -122,6 +128,14 @@
 </div>
 <canvas id="c" width=400 height=300></canvas>
 
+<div id="speedControl">
+    <fieldset data-role="controlgroup" data-type="horizontal"><input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked"/>
+        <label for="radio-choice-21">Slow Motion</label>
+
+        <input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/>
+        <label for="radio-choice-22">Normal</label>
+    </fieldset>
+</div>
 <select name="flip-min" id="flip-min" data-role="slider">
     <option value="off">Pause</option>
     <option value="on">Play</option>
