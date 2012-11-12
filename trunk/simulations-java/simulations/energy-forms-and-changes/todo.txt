@@ -1,20 +1,14 @@
-
-Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
 Make knob bigger for the faucet
-Add beaker and thermometer
+Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
+Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
 
-Thermals build up on filament of incandescent and then emit light, and some heat.
-Thermals turn to light or stay, but emit at end when no more energies coming in.
 Fluorescent same algorithm, but different params, so less thermals.
-Heating element similar too.
+E's should build up in heat coil before going into beaker.
 
 Figure out how to make E's not cluster in the wires leading from solar panel.
 Figure out how to make E's not cluster in the output (spout) of the tea pot.
 
 Profile, have Chris test on Mac
-
-Make beaker hold energy to a point, then release it
-E's should build up in heat coil before going into beaker.
 
 Integrate Sam's way of making slider work
 
@@ -25,12 +19,14 @@ Have some delay for lights and burner lighting up when energy starts to flow to 
 Internationalize E's
 Fix flicker when E's are transferred between energy systems
 
-Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
 
 Fix: 1st tab, weird interaction between beaker and thermometer control panel.
 i18n
 
-
+DONE: Make beaker hold energy to a point, then release it
+DONE: Thermals build up on filament of incandescent and then emit light, and some heat.
+DONE: Thermals turn to light or stay, but emit at end when no more energies coming in.
+DONE: Add beaker and thermometer
 DONE: Get rid of ability to cool the tea pot.
 DONE: Experiment: Make front of fluorescent bulbs programatically transparent when energy chunks present.
 DONE: Experiment: Make tea pot transparent when energy chunks present.
