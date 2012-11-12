@@ -36,11 +36,14 @@ import edu.umd.cs.piccolox.PFrame;
  */
 public class VSliderNode extends SliderNode {
 
-    //the default width of the track (thin dimension)
+    // The default width of the track (thin dimension)
     public static final double DEFAULT_TRACK_THICKNESS = 6;
 
-    //The size of the track (how far the knob can move)
+    // The default length of the track (how far the knob can move)
     public static final double DEFAULT_TRACK_LENGTH = 200;
+
+    // Default width of the knob. Knob height is a function of width.
+    public static final double DEFAULT_KNOB_WIDTH = KnobNode.DEFAULT_WIDTH;
 
     protected PhetPPath trackNode;
     protected PNode knobNode;
@@ -51,15 +54,18 @@ public class VSliderNode extends SliderNode {
     public final double trackLength;
     public final double trackThickness;
 
+    // Constructor that assumes default track size and knob width.
     public VSliderNode( IUserComponent userComponent, double min, double max, SettableProperty<Double> value ) {
-        this( userComponent, min, max, DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, new Property<Boolean>( true ) );
+        this( userComponent, min, max, DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, DEFAULT_KNOB_WIDTH, value, new Property<Boolean>( true ) );
     }
 
-    @Override public void setTrackFillPaint( final Paint paint ) {
-        trackNode.setPaint( paint );
-    }
-
+    // Constructor that uses default knob width.
     public VSliderNode( IUserComponent userComponent, final double min, final double max, double trackThickness, double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+        this( userComponent, min, max, trackThickness, trackLength, DEFAULT_KNOB_WIDTH, value, enabled );
+    }
+
+    // Primary constructor.
+    public VSliderNode( IUserComponent userComponent, final double min, final double max, double trackThickness, double trackLength, double knobWidth, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         super( userComponent, min, max, value );
         this.trackLength = trackLength;
         this.trackThickness = trackThickness;
@@ -68,7 +74,7 @@ public class VSliderNode extends SliderNode {
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackThickness, trackLength );
         trackNode = new PhetPPath( trackPath, new GradientPaint( 0, 0, Color.gray, 0, (float) trackLength, Color.white, false ), new BasicStroke( 1 ), Color.BLACK );
         rootNode.addChild( trackNode );
-        knobNode = new ZeroOffsetNode( new KnobNode( KnobNode.DEFAULT_WIDTH, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
+        knobNode = new ZeroOffsetNode( new KnobNode( knobWidth, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             rotate( Math.PI * 2 * 3.0 / 4.0 );
             enabled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean enabled ) {
@@ -137,6 +143,10 @@ public class VSliderNode extends SliderNode {
         rootNode.addChild( knobNode );
 
         adjustOrigin();
+    }
+
+    @Override public void setTrackFillPaint( final Paint paint ) {
+        trackNode.setPaint( paint );
     }
 
     private Rectangle2D getKnobRect( double value ) {

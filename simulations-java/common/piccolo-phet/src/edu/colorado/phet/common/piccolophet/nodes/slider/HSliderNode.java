@@ -25,8 +25,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.PFrame;
 
-import static edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode.DEFAULT_TRACK_LENGTH;
-import static edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode.DEFAULT_TRACK_THICKNESS;
+import static edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode.*;
 
 /**
  * Horizontal slider that uses only Piccolo, i.e. there is no Swing involved.
@@ -49,11 +48,16 @@ public class HSliderNode extends SliderNode {
 
     public HSliderNode( final IUserComponent userComponent, final double min, final double max, double trackThickness, double trackLength,
                         final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+        this( userComponent, min, max, trackThickness, trackLength, DEFAULT_KNOB_WIDTH, value, enabled );
+    }
+
+    public HSliderNode( final IUserComponent userComponent, final double min, final double max, double trackThickness, double trackLength,
+                        double knobWidth, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         super( userComponent, min, max, value );
         this.trackLength = trackLength;
 
         //Create the vertical node that will be rotated by 90 degrees and delegated to
-        node = new VSliderNode( userComponent, min, max, trackThickness, trackLength, value, enabled ) {
+        node = new VSliderNode( userComponent, min, max, trackThickness, trackLength, knobWidth, value, enabled ) {
 
             protected Point2D.Double createEndPoint() {
                 return new Point2D.Double( trackNode.getFullBounds().getWidth(), 0 );
@@ -73,7 +77,9 @@ public class HSliderNode extends SliderNode {
     public PhetPPath getTrackNode() { return node.getTrackNode();}
 
     //Adds a label to the slider node and return the created tick
-    public PhetPPath addLabel( double value, PNode labelNode ) {return addLabel( value, labelNode, 15, 8 );}
+    public PhetPPath addLabel( double value, PNode labelNode ) {
+        return addLabel( value, labelNode, 15, 8 );
+    }
 
     //Adds a label to the slider node and return the created tick
     //Note: the usage of this method and esp. the last two parameters is subject to change

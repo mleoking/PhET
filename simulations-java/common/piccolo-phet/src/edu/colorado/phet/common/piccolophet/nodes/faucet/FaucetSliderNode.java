@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -20,6 +21,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class FaucetSliderNode extends HSliderNode {
 
+    public FaucetSliderNode( IUserComponent userComponent, final ObservableProperty<Boolean> enabled, double maxFlowRate, final Property<Double> flowRate, final boolean snapToZeroWhenReleased ) {
+        this( userComponent, enabled, VSliderNode.DEFAULT_TRACK_LENGTH, VSliderNode.DEFAULT_TRACK_THICKNESS, VSliderNode.DEFAULT_KNOB_WIDTH, maxFlowRate, flowRate, snapToZeroWhenReleased );
+    }
+
     /**
      * Creates a slider control to be shown on the faucet to control the flow.
      *
@@ -29,8 +34,9 @@ public class FaucetSliderNode extends HSliderNode {
      * @param flowRate               the flow rate property that is attached to the slider
      * @param snapToZeroWhenReleased does the knob snap back to zero when the user releases it?
      */
-    public FaucetSliderNode( IUserComponent userComponent, final ObservableProperty<Boolean> enabled, double maxFlowRate, final Property<Double> flowRate, final boolean snapToZeroWhenReleased ) {
-        super( userComponent, 0, maxFlowRate, flowRate, enabled );
+    public FaucetSliderNode( IUserComponent userComponent, final ObservableProperty<Boolean> enabled, double sliderTrackLength, double sliderTrackThickness,
+                             double knobWidth, double maxFlowRate, final Property<Double> flowRate, final boolean snapToZeroWhenReleased ) {
+        super( userComponent, 0, maxFlowRate, sliderTrackThickness, sliderTrackLength, knobWidth, flowRate, enabled );
 
         // Sets the flow to zero.
         final VoidFunction0 snapToZero = new VoidFunction0() {
@@ -58,5 +64,4 @@ public class FaucetSliderNode extends HSliderNode {
         } );
         setTrackFillPaint( Color.white );
     }
-
 }
