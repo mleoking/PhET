@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.common.view.EnergyChunkLayer;
@@ -27,9 +28,11 @@ public class FaucetAndWaterNode extends PositionableFadableModelElementNode {
 
         // Create the faucet.
         final FaucetNode faucetNode = new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet,
+                                                      1,
                                                       faucet.flowProportion,
                                                       faucet.getObservableActiveState(),
                                                       FAUCET_NODE_HORIZONTAL_LENGTH,
+                                                      40,
                                                       false );
         faucetNode.setScale( 0.9 ); // Make it a little smaller than default.  Looks better in this sim.
         faucetNode.setOffset( -faucetNode.getGlobalOutputCenter().getX() + mvt.modelToViewDeltaX( FaucetAndWater.OFFSET_FROM_CENTER_TO_WATER_ORIGIN.getX() ),
