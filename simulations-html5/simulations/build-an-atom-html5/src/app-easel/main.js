@@ -5,8 +5,9 @@ require( [
              'model/particle2',
              'view/particle-view',
              'view/atom-view',
-             'view/bucket-view'
-         ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketView ) {
+             'view/bucket-view',
+             'tpl!templates/periodic-table.html'
+         ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketView, periodicTable ) {
 
 
     var atomConstructionCanvas = $( '#atom-construction-canvas' );
@@ -17,7 +18,7 @@ require( [
 
     var bucket = new BucketView( 100, 500 );
 
-    root.addChild(bucket);
+    root.addChild( bucket );
     root.addChild( new BucketView( 250, 500 ) );
     root.addChild( new BucketView( 400, 500 ) );
 
@@ -32,8 +33,12 @@ require( [
     console.log( "main init" );
 
     //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
-    atomConstructionCanvas[0].onselectstart = function () { return false; }; // IE
-    atomConstructionCanvas[0].onmousedown = function () { return false; }; // Mozilla
+    atomConstructionCanvas[0].onselectstart = function () {
+        return false;
+    }; // IE
+    atomConstructionCanvas[0].onmousedown = function () {
+        return false;
+    }; // Mozilla
 
     // Set the frame rate.
     Easel.Ticker.setFPS( 60 );
@@ -43,8 +48,8 @@ require( [
     //Copied from energy skate park easel prototype
     var onResize = function () {
 
-      var w = atomConstructionCanvas.width();
-      var h = atomConstructionCanvas.height();
+        var w = atomConstructionCanvas.width();
+        var h = atomConstructionCanvas.height();
 
         var winW = $( window ).width(),
                 winH = $( window ).height(),
@@ -70,4 +75,7 @@ require( [
 
     Easel.Ticker.addListener( atomStage, true );
 
+    $(document ).ready( function (){
+       $('#periodic-table' ).html( periodicTable() );
+    });
 } );

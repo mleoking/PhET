@@ -1,25 +1,24 @@
 // Copyright 2002-2012, University of Colorado
-require.config({
-  deps: ["main"],
 
-  paths: {
-    vendor: "../js/vendor",
-    plugins: "../js/plugins",
+// RequireJS configuration file for BAA-Easel.
+require.config( {
+                    deps:["main"],
 
-    underscore: "../js/vendor/underscore-min",
-    easel: "../js/vendor/easeljs-0.5.0.min"
-  },
+                    paths:{
+                        vendor:"../js/vendor",
+                        underscore:"../js/vendor/underscore-min",
+                        easel:"../js/vendor/easeljs-0.5.0.min",
+                        tpl:"../js/vendor/tpl"
+                    },
 
-  shim: {
+                    shim:{
 
-    underscore: {
-      exports: "_"
-    },
+                        underscore:{
+                            exports:"_"
+                        },
 
-    easel: {
-      exports: "createjs"
-    }
-
-  }
-});
-
+                        easel:{
+                            exports:"createjs"
+                        }
+                    }
+                } );
