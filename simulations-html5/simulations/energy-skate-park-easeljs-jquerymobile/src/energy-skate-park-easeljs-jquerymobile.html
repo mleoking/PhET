@@ -96,38 +96,39 @@
 <div data-role="navbar" id="navBar">
     <ul>
         <li><a href="" class="ui-btn-active ui-state-persist">Introduction</a></li>
-        <li><a href="">Friction</a></li>
+        <li><a href="" id="frictionNavBarButton">Friction</a></li>
         <li><a href="">Track Playground</a></li>
     </ul>
 </div>
+<div id="tab1">
+    <div data-role="control-panel" id="controlPanel">
+        <fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">
+            <legend></legend>
+            <input id="checkbox1" name="" type="checkbox"/>
+            <label for="checkbox1" id="barGraphLabel">Bar Graph</label>
+            <input id="checkbox2" name="" type="checkbox"/>
+            <label for="checkbox2" id="pieChartLabel">Pie Chart</label>
+            <input id="checkbox3" name="" type="checkbox"/>
+            <label for="checkbox3" id="gridLabel">Grid</label>
+            <input id="checkbox4" name="" type="checkbox"/>
+            <label for="checkbox4" id="speedLabel">Speed</label>
+        </fieldset>
+        <input type="range" name="slider-fill" id="slider-fill" value="60" min="0" max="100" data-highlight="true"/>
+    </div>
+    <canvas id="c" width=400 height=300></canvas>
 
-<div data-role="control-panel" id="controlPanel">
-    <fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">
-        <legend></legend>
-        <input id="checkbox1" name="" type="checkbox"/>
-        <label for="checkbox1" id="barGraphLabel">Bar Graph</label>
-        <input id="checkbox2" name="" type="checkbox"/>
-        <label for="checkbox2" id="pieChartLabel">Pie Chart</label>
-        <input id="checkbox3" name="" type="checkbox"/>
-        <label for="checkbox3" id="gridLabel">Grid</label>
-        <input id="checkbox4" name="" type="checkbox"/>
-        <label for="checkbox4" id="speedLabel">Speed</label>
-    </fieldset>
-    <input type="range" name="slider-fill" id="slider-fill" value="60" min="0" max="100" data-highlight="true"/>
+    <div id="speedControl">
+        <fieldset data-role="controlgroup" data-type="horizontal"><input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked"/>
+            <label for="radio-choice-21">Slow Motion</label>
+
+            <input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/>
+            <label for="radio-choice-22">Normal</label>
+        </fieldset>
+    </div>
+    <select name="flip-min" id="flip-min" data-role="slider">
+        <option value="off">Pause</option>
+        <option value="on">Play</option>
+    </select>
 </div>
-<canvas id="c" width=400 height=300></canvas>
-
-<div id="speedControl">
-    <fieldset data-role="controlgroup" data-type="horizontal"><input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked"/>
-        <label for="radio-choice-21">Slow Motion</label>
-
-        <input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/>
-        <label for="radio-choice-22">Normal</label>
-    </fieldset>
-</div>
-<select name="flip-min" id="flip-min" data-role="slider">
-    <option value="off">Pause</option>
-    <option value="on">Play</option>
-</select>
 </body>
 </html>
