@@ -8,6 +8,8 @@ Energy chunks non-occluded when at top ellipse of beaker.
 Add Reset All just under the legend
 Make the rate of heating for the beaker on 2nd tab roughly match that heating rate on the first.
 Make it get closer to the boiling point.
+Make energy chunks spread out on light build filament a little better.  Min speed probably.
+No thermal E's on the fluorescent light bulb.
 
 
 Make the straight segment a bit shorter, move energy users to the left.
