@@ -19,9 +19,7 @@ require( [
 //    EaselUtil.changeHitDetection();
 
     var root = new createjs.Container();
-    var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
-    fpsText.x = 4;
-    fpsText.y = 280;
+
     var groundHeight = 116;
 
     var skater = Skater.create( groundHeight, 768 - groundHeight );
@@ -43,6 +41,10 @@ require( [
     root.addChild( barChart );
 
     root.addChild( skater );
+
+    var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
+    fpsText.x = 4;
+    fpsText.y = 280;
     root.addChild( fpsText );
     var pieChart = new PieChart( skater );
     pieChart.visible = false;
@@ -109,7 +111,6 @@ require( [
                     // go up the tree
                     var ctx = $this.closest( '.ui-btn' );
                     $( 'span.ui-btn-text', ctx ).text( newText );
-                    return;
                 }
             } );
         };
