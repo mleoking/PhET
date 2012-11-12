@@ -82,91 +82,79 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-canvas {
-  position: absolute;
-  top: 10%;
-  background: rgb(255,255,153);
-  border: 1px solid #000;
-  border-left: 0px;
-  border-right: 0px;
-
-  width: 60%;
+#atom-construction-canvas {
+    position: absolute;
+    top: 10%;
+    background: rgb(255, 255, 153);
+    border: 1px solid #000;
+    border-left: 0px;
+    border-right: 0px;
+    width: 60%;
 }
 
-#topleftui {
-  position: absolute;
-  left: 0;
-  top: 0;
-  color: white;
-  background-color: #222;
-  padding: 0.25em;
-  font-size: 12px;
-}
-
-#topleftui label:not(:first-child) {
-  padding-left: 1em;
+#control-panel {
+    position: absolute;
+    width: 40%;
+    right: 0;
+    background: red;
 }
 
 #periodic-table {
-  position: absolute;
-  top: 1em;
-  right: 1em;
-  border: 1px solid #000;
-  padding: 20px;
-  background: #ccc;
-  border-radius: 10px;
-  float: left;
-  min-width: 320px;
-  width: 30%;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    border: 1px solid #000;
+    padding: 20px;
+    background: #ccc;
+    border-radius: 10px;
+    float: left;
+    min-width: 320px;
+    width: 30%;
 }
 
 #periodic-table table td {
-  border: 1px solid white;
-  text-align: center;
-  width: 25px; height: 25px;
+    border: 1px solid white;
+    text-align: center;
+    width: 25px;
+    height: 25px;
 }
-
 
 @media only screen and (max-width: 960px) {
 
-  #periodic-table table td {
-    width: 18px;
-    height: 18px;
-  }
+    #periodic-table table td {
+        width: 18px;
+        height: 18px;
+    }
 
 }
-
 
 @media only screen and (max-width: 480px) {
 
-  #periodic-table {
-    top: 10px;
-    left: 10px;
-  }
+    #periodic-table {
+        top: 10px;
+        left: 10px;
+    }
 
-  canvas {
-    top: 220px;
-    width: 100%;
-  }
+    canvas {
+        top: 220px;
+        width: 100%;
+    }
 
 }
-
 
 @media only screen and (max-width: 320px) and (orientation: portrait) {
 
-  #periodic-table table td {
-    font-size: 12px;
-    width: 16px;
-    height: 16px;
-  }
+    #periodic-table table td {
+        font-size: 12px;
+        width: 16px;
+        height: 16px;
+    }
 
 }
 
-
-
 /* ==========================================================================
-   Helper classes
-   ========================================================================== */
+Helper classes
+========================================================================== */
 
 /*
  * Image replacement
@@ -275,8 +263,7 @@ canvas {
     /* Style adjustments for viewports that meet the condition */
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-       only screen and (min-resolution: 144dpi) {
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144 dpi) {
     /* Style adjustments for high resolution devices */
 }
 
