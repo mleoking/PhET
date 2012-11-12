@@ -1,9 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.faucet;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.TexturePaint;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -21,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
 import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -53,9 +57,11 @@ public class FaucetNode extends PNode {
     private static final double OUTPUT_PIPE_X2 = 109;
     private static final double OUTPUT_PIPE_Y = 133;
 
-    // Faucet handle in the image file.
-    private static final Point2D HANDLE_CENTER = new Point2D.Double( 46, 8 );
-    public static final Dimension2D HANDLE_SIZE = new Dimension2DDouble( 85, 16 );
+    // Faucet handle in the image file.  Empirically determined, must be
+    // update if the image changes.
+    private static final Point2D HANDLE_CENTER = new Point2D.Double( 47, 8 );
+    public static final Dimension2D HANDLE_SIZE = new Dimension2DDouble( 94, 16 );
+    private static final boolean SHOW_HANDLE_CENTER_AND_BOUNDS = false;
 
     private final PImage faucetNode;
     private final FaucetSliderNode sliderNode;
@@ -63,6 +69,11 @@ public class FaucetNode extends PNode {
     // Variant that uses a flow rate "percentage" between 0 and 1.
     public FaucetNode( IUserComponent userComponent, final Property<Double> flowRatePercentage, final ObservableProperty<Boolean> enabled, final double faucetLength, boolean snapToZeroWhenReleased ) {
         this( userComponent, 1, flowRatePercentage, enabled, faucetLength, snapToZeroWhenReleased );
+    }
+
+    // Variant that assumes default knob width.
+    public FaucetNode( IUserComponent userComponent, final double maxFlowRate, final Property<Double> flowRate, ObservableProperty<Boolean> enabled, double faucetLength, boolean snapToZeroWhenReleased ) {
+        this(userComponent, maxFlowRate, flowRate, enabled, faucetLength, VSliderNode.DEFAULT_KNOB_WIDTH, snapToZeroWhenReleased );
     }
 
     /**
@@ -75,7 +86,7 @@ public class FaucetNode extends PNode {
      * @param faucetLength           length of the input pipe
      * @param snapToZeroWhenReleased does the knob snap back to zero when the user releases it?
      */
-    public FaucetNode( IUserComponent userComponent, final double maxFlowRate, final Property<Double> flowRate, ObservableProperty<Boolean> enabled, double faucetLength, boolean snapToZeroWhenReleased ) {
+    public FaucetNode( IUserComponent userComponent, final double maxFlowRate, final Property<Double> flowRate, ObservableProperty<Boolean> enabled, double faucetLength, double knobWidth, boolean snapToZeroWhenReleased ) {
 
         //Scale up the faucet since it looks better at a larger size
         setScale( 1.2 ); //TODO #3199, make the image files larger instead of scaling up
@@ -90,11 +101,19 @@ public class FaucetNode extends PNode {
         addChild( pipeNode );
 
         // faucet slider
-        sliderNode = new FaucetSliderNode( UserComponentChain.chain( userComponent, UserComponents.slider ), enabled, maxFlowRate, flowRate, snapToZeroWhenReleased ) {{
-            setOffset( 4, 2.5 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
+        sliderNode = new FaucetSliderNode( UserComponentChain.chain( userComponent, UserComponents.slider ), enabled, VSliderNode.DEFAULT_TRACK_LENGTH,
+                                           VSliderNode.DEFAULT_TRACK_THICKNESS, knobWidth, maxFlowRate, flowRate, snapToZeroWhenReleased ) {{
             scale( HANDLE_SIZE.getWidth() / getFullBounds().getWidth() ); //scale to fit into the handle portion of the faucet image
+            centerFullBoundsOnPoint( HANDLE_CENTER.getX(), HANDLE_CENTER.getY() );
         }};
         addChild( sliderNode );
+
+        if ( SHOW_HANDLE_CENTER_AND_BOUNDS ) {
+            addChild( new PhetPPath( new Ellipse2D.Double( -2, -2, 4, 4 ), Color.PINK ) {{
+                setOffset( HANDLE_CENTER );
+            }} );
+            addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, HANDLE_SIZE.getWidth(), HANDLE_SIZE.getHeight() ), new BasicStroke( 1 ), Color.GREEN ) );
+        }
 
         //sim-sharing for non-interactive nodes
         faucetNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.faucetImage ) );
@@ -144,7 +163,7 @@ public class FaucetNode extends PNode {
                 }
             } );
         }};
-        final FaucetNode faucetNode = new FaucetNode( new UserComponent( "faucet" ), maxFlowRate, flowRate, new Property<Boolean>( true ), 50, true ) {{
+        final FaucetNode faucetNode = new FaucetNode( new UserComponent( "faucet" ), maxFlowRate, flowRate, new Property<Boolean>( true ), 50, VSliderNode.DEFAULT_KNOB_WIDTH, true ) {{
             setOffset( 100, 100 );
         }};
         final PhetPCanvas canvas = new PhetPCanvas() {{
