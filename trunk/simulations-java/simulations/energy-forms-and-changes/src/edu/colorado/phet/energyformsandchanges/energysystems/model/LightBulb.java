@@ -47,7 +47,7 @@ public class LightBulb extends EnergyUser {
     // Miscellaneous other constants.
     private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
     private static final Random RAND = new Random();
-    private static final DoubleRange THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT = new DoubleRange( 1.1, 1.5 );
+    private static final DoubleRange THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT = new DoubleRange( 2, 2.5 );
 
     //-------------------------------------------------------------------------
     // Instance Data
