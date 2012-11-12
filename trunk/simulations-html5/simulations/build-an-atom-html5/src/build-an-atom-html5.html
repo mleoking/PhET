@@ -22,11 +22,15 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
-<body id="home">
 
-<canvas id="atom-construction-canvas" width="800" height="640"></canvas>
+<body>
 
-<div id="periodic-table"> </div>
+<div class=phet-container>
+    <canvas id="atom-construction-canvas" width="800" height="640"></canvas>
+    <div id="control-panel">
+        <div id="periodic-table" class="widget"></div>
+    </div>
+</div>
 
 <script src="js/vendor/jquery-1.8.2.min.js"></script>
 <script data-main="app-easel/config.js" src="js/vendor/require.js"></script>
