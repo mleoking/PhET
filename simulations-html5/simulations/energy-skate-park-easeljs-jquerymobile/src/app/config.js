@@ -1,22 +1,23 @@
 require.config( {
-                    deps:["main"],
+                    deps: ["main"],
+//                    config: {i18n: {locale: 'fr-fr'}},
 
-                    paths:{
-                        vendor:"../js/vendor",
-                        plugins:"../js/plugins",
+                    paths: {
+                        vendor: "../js/vendor",
+                        plugins: "../js/plugins",
 
-                        underscore:"../js/vendor/underscore-min",
-                        image:"../js/vendor/image"
+                        underscore: "../js/vendor/underscore-min",
+                        image: "../js/vendor/image"
                     },
 
-                    shim:{
+                    shim: {
 
-                        underscore:{
-                            exports:"_"
+                        underscore: {
+                            exports: "_"
                         },
 
-                        kinetic:{
-                            exports:"Kinetic"
+                        kinetic: {
+                            exports: "Kinetic"
                         }
 
                     }
