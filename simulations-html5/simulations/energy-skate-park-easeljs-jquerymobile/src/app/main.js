@@ -141,12 +141,9 @@ require( [
 //        $( "#controlPanel" ).css( "-webkit-transform", "scale(" + scale + "," + scale + ")" );
 
         var controlPanel = $( '#controlPanel' );
-        var rightOfControlPanel = canvasW + left;
-//        controlPanel.css( 'width', canvasW * 0.3 + 'px' );
         controlPanel.css( 'width', '200px' );
         controlPanel.css( 'top', (top + 30) + 'px' );
         controlPanel.css( 'right', left + 'px' );
-
 
         //Apply css overrides last (i.e. after other css takes effect.
         //There must be a better way to do this, hopefully this can be improved easily.
@@ -165,14 +162,9 @@ require( [
         $( '#gridLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
         $( '#speedLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
 
-        //TODO: This will need to be made more specific
+        //TODO: This will need to be made more specific since it will cause problems if it applies to all slider switches
         $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 40 + 'px' ).css( 'left', (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2) + 'px' );
         $( '#speedControl' ).css( 'position', 'absolute' ).css( 'width', '400px' ).css( 'top', canvasH + top - 55 + 'px' ).css( 'left', 100 + 'px' );
-
-//        $( "#controlPanel" ).css( "width", "100%" );
-//        .
-//                css( "top", top ).css( "right", right );
-//        <span class="ui-btn-inner ui-corner-top"><span class="ui-btn-text">Bar Chart</span><span class="ui-icon ui-icon-checkbox-off ui-icon-shadow ui-iconsize-18">&nbsp;</span></span>
     };
     $( window ).resize( onResize );
     onResize(); // initial position
@@ -197,8 +189,4 @@ require( [
 
     //Paint once after initialization
     stage.update();
-
-//    var $newCanvas = $( '<canvas id="newCanvasCreated"/>' ).width( 100 ).height( 1000 );
-//    $( '#theMainBody' ).append( $newCanvas );
-//    $( '#newCanvasCreated' ).css( 'border', '1px' ).draggable();
 } );
