@@ -65,7 +65,7 @@ public class BeakerHeater extends EnergyUser {
     private static final double BEAKER_HEIGHT = BEAKER_WIDTH * 0.9;
     private static final Vector2D BEAKER_OFFSET = new Vector2D( 0, 0.025 );
     private static final Vector2D THERMOMETER_OFFSET = new Vector2D( 0.033, 0.035 );
-    private static final double HEATING_ELEMENT_ENERGY_CHUNK_VELOCITY = 0.01; // In meters/sec, quite slow.
+    private static final double HEATING_ELEMENT_ENERGY_CHUNK_VELOCITY = 0.0075; // In meters/sec, quite slow.
     private static final double HEATER_ELEMENT_2D_HEIGHT = HEATER_ELEMENT_OFF_IMAGE.getHeight();
     private static final double MAX_HEAT_GENERATION_RATE = 1000; // Joules/sec.
     private static final double RADIATED_ENERGY_CHUNK_TRAVEL_DISTANCE = 0.2; // In meters.
