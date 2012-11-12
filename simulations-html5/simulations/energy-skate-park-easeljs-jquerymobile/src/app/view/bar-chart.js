@@ -27,28 +27,38 @@ define( ["view/easel-util"], function ( EaselUtil ) {
         EaselUtil.makeDraggable( that );
 
         var fields = [
-            {name: 'Kinetic', color: 'green'},
-            {name: 'Potential', color: 'blue'},
-            {name: 'Thermal', color: 'red'},
-            {name: 'Total', color: 'yellow'}
+            {name: 'Kinetic', color: 'green', getter: skater.getKineticEnergy},
+            {name: 'Potential', color: 'blue', getter: skater.getPotentialEnergy},
+            {name: 'Thermal', color: 'red', getter: skater.getThermalEnergy},
+            {name: 'Total', color: 'yellow', getter: skater.getTotalEnergy}
         ];
 
         for ( var i = 0; i < fields.length; i++ ) {
-            var kineticLabel = new createjs.Text( fields[i].name, '20px "Arial",Tahoma', fields[i].color );
-            kineticLabel.rotation = 270;
-            kineticLabel.x = 40 + i * 35;
-            kineticLabel.y = 590;
-            kineticLabel.shadow = new createjs.Shadow( 'black', 1, 1, 1 );
-            that.addChild( kineticLabel );
+            var label = new createjs.Text( fields[i].name, '20px "Arial",Tahoma', fields[i].color );
+            label.rotation = 270;
+            label.x = 40 + i * 35;
+            label.y = 590;
+            label.shadow = new createjs.Shadow( 'black', 1, 1, 1 );
+            that.addChild( label );
+            fields[i].label = label;
 
             var bar = new createjs.Shape();
             var barHeight = 100 + i * 100;
-            bar.graphics.beginStroke( 'black' ).beginFill( fields[i].color ).rect( kineticLabel.x + 5, 500 - barHeight, 20, barHeight ).endFill().endStroke();
+            bar.graphics.beginStroke( 'black' ).beginFill( fields[i].color ).rect( label.x + 5, 500 - barHeight, 20, barHeight ).endFill().endStroke();
             that.addChild( bar );
+            fields[i].bar = bar;
         }
 
         that.onMouseOver = function () { document.body.style.cursor = "pointer"; };
         that.onMouseOut = function () { document.body.style.cursor = "default"; };
+
+        that.tick = function () {
+            for ( var k = 0; k < fields.length; k++ ) {
+                var value = fields[k].getter();
+                var barHeight = value / 100;
+                fields[k].bar.graphics.clear().beginStroke( 'black' ).beginFill( fields[k].color ).rect( fields[k].label.x + 5, 500 - barHeight, 20, barHeight ).endFill().endStroke();
+            }
+        };
 
         return that;
     }};

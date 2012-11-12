@@ -25,8 +25,7 @@ require( [
     fpsText.y = 280;
     var groundHeight = 116;
 
-    var skater = Skater.create( groundHeight );
-    skater.groundY = 768 - groundHeight;
+    var skater = Skater.create( groundHeight, 768 - groundHeight );
 
     //Cache the background into a single image
 //        background.cache( 0, 0, 1024, 768, 1 );
@@ -184,6 +183,7 @@ require( [
         if ( !paused ) {
             Physics.updatePhysics( skater, groundHeight, splineLayer );
             updateFrameRate();
+            barChart.tick();
             speedometer.tick();
             pieChart.tick();
         }
