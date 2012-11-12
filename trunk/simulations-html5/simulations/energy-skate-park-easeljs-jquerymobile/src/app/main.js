@@ -14,8 +14,6 @@ require( [
 
     WebsocketRefresh.listenForRefresh();
 
-    console.log( location.href );
-
 //    EaselUtil.changeHitDetection();
 
     var root = new createjs.Container();
