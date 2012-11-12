@@ -1,5 +1,5 @@
 define( ["model/vector2d" ], function ( Vector2D ) {
-    return {create: function ( groundHeight, groundY ) {
+    return {createSkater: function ( groundHeight, groundY ) {
 
         function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 

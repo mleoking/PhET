@@ -15,7 +15,7 @@ define( [
 
         var groundHeight = 116;
 
-        var skater = Skater.create( groundHeight, 768 - groundHeight );
+        var skater = Skater.createSkater( groundHeight, 768 - groundHeight );
 
         //Cache the background into a single image
         //        background.cache( 0, 0, 1024, 768, 1 );
