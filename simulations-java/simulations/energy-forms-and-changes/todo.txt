@@ -1,4 +1,18 @@
+
+
 Make knob bigger for the faucet
+
+Make thermal E's use black lettering.
+Energy chunks should get opaque when emiitted from beaker.
+Energy chunks non-occluded when at top ellipse of beaker.
+Add Reset All just under the legend
+Make the rate of heating for the beaker on 2nd tab roughly match that heating rate on the first.
+Make it get closer to the boiling point.
+
+
+Make the straight segment a bit shorter, move energy users to the left.
+Change the thermal E's
+
 Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
 Make some of the energy from the biker be thermal, have only this energy when she is biking by the solar panel.
 
