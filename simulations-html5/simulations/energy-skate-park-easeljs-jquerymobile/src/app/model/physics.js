@@ -62,7 +62,9 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 var d = (skater.velocity.y - (y - originalY) / dt );
                 var proposedEnergy = proposedY * 9.8 * skater.mass + 0.5 * skater.mass * skater.velocity.magnitudeSquared();
                 var e = (proposedEnergy - originalMechanicalEnergy);
-                var positionWeight = 1000;//TODO: Tune this value?
+
+                //TODO: Tune the weights?
+                var positionWeight = 10;
                 var velocityWeight = 10;
                 return positionWeight * (a * a + b * b) + velocityWeight * (c * c + d * d) + e * e;  //minimizing square same result
             }
