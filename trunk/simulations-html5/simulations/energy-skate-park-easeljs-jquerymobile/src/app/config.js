@@ -1,6 +1,6 @@
 require.config( {
                     deps: ["main"],
-//                    config: {i18n: {locale: 'fr-fr'}},
+                    config: {i18n: {locale: 'ar'}},
 
                     paths: {
                         vendor: "../js/vendor",

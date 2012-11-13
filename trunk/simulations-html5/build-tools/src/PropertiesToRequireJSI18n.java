@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
@@ -28,22 +29,36 @@ public class PropertiesToRequireJSI18n {
                 return name.endsWith( ".properties" );
             }
         } ) ) {
+            final boolean english = file.getName().indexOf( '_' ) < 0;
             Properties p = new Properties() {{
                 load( new FileInputStream( file ) );
             }};
             String output = "//Conversion from " + file.getAbsolutePath() + "\n" +
-                            "define( {\n" +
-                            "            \"root\": {\n";
+                            "define( {\n";
+            if ( english ) {
+                output += "            \"root\": {\n";
+            }
 
             for ( Object key : p.keySet() ) {
-                output += "                \"" + key + "\": \"" + p.get( key ) + "\",\n";
+                output += "                \"" + key + "\": \"" + escape( p.get( key ).toString() ) + "\",\n";
             }
 
             //Remove the last comma
             output = output.substring( 0, output.lastIndexOf( ',' ) ) + output.substring( output.lastIndexOf( ',' ) + 1 );
 
-            output += "            }\n" +
-                      "        } );";
+            if ( english ) {
+                output += "            }";
+
+
+                //list the files
+                final ArrayList<String> others = getNonEnglishLocales( source );
+                for ( String other : others ) {
+                    output += ",\n            \"" + other + "\": true";
+                }
+                output += "\n";
+
+            }
+            output += "        } );";
 
             System.out.println( output );
             System.out.println();
@@ -53,18 +68,42 @@ public class PropertiesToRequireJSI18n {
             String a = file.getName().substring( 0, file.getName().indexOf( "-strings" ) );
             String filename = a + "-strings.js";
 
-            final boolean english = file.getName().indexOf( '_' ) < 0;
             if ( !english ) {
                 final String tail = file.getName().substring( file.getName().indexOf( "_" ) + 1 );
                 String localeAndCountry = tail.substring( 0, tail.indexOf( '.' ) );
-                File outputDir = new File( destination, localeAndCountry );
+                File outputDir = new File( destination, localeAndCountry.toLowerCase() );
                 outputDir.mkdirs();
                 System.out.println( "outputDir = " + outputDir );
                 FileUtils.writeString( new File( outputDir, filename ), output );
             }
             else {
+                destination.mkdirs();
                 FileUtils.writeString( new File( destination, filename ), output );
             }
         }
+    }
+
+    private static String escape( final String s ) {
+        //Replace " with \".  May need to add other escapes later on.
+        return s.replace( "\"", "\\\"" );
+    }
+
+    public static ArrayList<String> getNonEnglishLocales( File source ) throws IOException {
+        ArrayList<String> strings = new ArrayList<String>();
+
+        for ( final File file : source.listFiles( new FilenameFilter() {
+            @Override public boolean accept( final File dir, final String name ) {
+                return name.endsWith( ".properties" );
+            }
+        } ) ) {
+            final boolean english = file.getName().indexOf( '_' ) < 0;
+
+            if ( !english ) {
+                final String tail = file.getName().substring( file.getName().indexOf( "_" ) + 1 );
+                String localeAndCountry = tail.substring( 0, tail.indexOf( '.' ) );
+                strings.add( localeAndCountry );
+            }
+        }
+        return strings;
     }
 }
