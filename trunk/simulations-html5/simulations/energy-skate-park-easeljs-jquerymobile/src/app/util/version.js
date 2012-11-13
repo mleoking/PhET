@@ -1,1 +1,1 @@
-define( [ ], function () { return {version: 3} } );
+define( [ ], function () { return {version: 12} } );
