@@ -24,11 +24,11 @@ define( ["skater"], function ( Skater ) {
         var delta = b - a + 80;
         this.y = this.skater.y - delta;
 
-        var kineticEnergy = 0.5 * this.skater.velocity.magnitudeSquared() * this.skater.mass;
-        var potentialEnergy = -0.5 * (this.skater.y - this.skater.groundY ) / 4 / 7 * this.skater.mass;
-        var thermalEnergy = 5000;
-        var totalEnergy = kineticEnergy + potentialEnergy + thermalEnergy;
-        var pieRadius = totalEnergy / 1000;
+        var kineticEnergy = this.skater.getKineticEnergy();
+        var potentialEnergy = this.skater.getPotentialEnergy();
+        var thermalEnergy = this.skater.getThermalEnergy();
+        var totalEnergy = this.skater.getTotalEnergy();
+        var pieRadius = totalEnergy / 100 * 1.5;
 
         var keAngle = kineticEnergy / totalEnergy * 2 * Math.PI;
         var peAngle = potentialEnergy / totalEnergy * 2 * Math.PI;
