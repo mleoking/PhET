@@ -74,7 +74,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 var delta = (max - min) / numDivisions;
                 var bestPoint = _.min( points, function ( s ) {return errorFunction( s );} );
                 var error = errorFunction( bestPoint );
-                if ( error < 1E-6 || depth > 6 ) {
+                if ( error < 1E-6 || depth > 5 ) {
                     return bestPoint;
                 }
                 else {
@@ -87,7 +87,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
 //                return getHeuristicError( s );
 //            } );
 //            var s = selectedI / maxIterations;
-            var s = binarySearch( -0.1, 1.1, getHeuristicError, 50, 0 );
+            var s = binarySearch( -0.1, 1.1, getHeuristicError, 20, 0 );
 
             //Perform a binary search to find the best location.
 
