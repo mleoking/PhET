@@ -42,9 +42,6 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
             var proposedX = skater.position.x + skater.velocity.x * dt + 0.5 * acceleration.x * dt * dt;
             var proposedY = skater.position.y + skater.velocity.y * dt + 0.5 * acceleration.y * dt * dt;
 
-            //Find a point on the track that has a state similar to [proposedX,proposedY,proposedVx,proposedVy,E0]
-//            var targetState = [proposedX, proposedY, skater.velocity.x, skater.velocity.y, originalEnergy];
-
             function getHeuristicError( s ) {
                 var x = splineX.at( s );
                 var y = splineY.at( s );
