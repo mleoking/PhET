@@ -76,7 +76,6 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
             if ( skater.dragging ) {
                 return;
             }
-            console.log( skater.position.x );
             var acceleration = new Vector2D( 0, -9.8 );
             skater.velocity = skater.velocity.plus( acceleration.times( dt ) );
             var aTerm = acceleration.times( 0.5 * dt * dt );
