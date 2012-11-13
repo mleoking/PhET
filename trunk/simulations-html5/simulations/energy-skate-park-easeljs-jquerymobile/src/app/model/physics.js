@@ -87,11 +87,9 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 var speed = Math.sqrt( sqrtArg );
                 skater.velocity = skater.velocity.unit().times( speed );
             }
-            //TODO: if the track is steep, use the vertical position instead of velocity to correct energy errors
 
             if ( s >= 1.0 || s <= 0 ) {
                 skater.attached = false;
-                skater.velocity = new Vector2D( skater.position.x - originalX, skater.y - originalY );
             }
         }
         else {
