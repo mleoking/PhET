@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -82,6 +83,10 @@ public class BeakerHeater extends EnergyUser {
     private List<EnergyChunkPathMover> radiatedEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     public Beaker beaker;
     public Thermometer thermometer;
+
+    // Separate list for the radiated energy chunks so that they can be
+    // handled a little differently in the view.
+    public final ObservableList<EnergyChunk> radiatedEnergyChunkList = new ObservableList<EnergyChunk>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -196,12 +201,12 @@ public class BeakerHeater extends EnergyUser {
 
             if ( beaker.getEnergyChunkBalance() > 0 ) {
                 // Remove an energy chunk from the beaker and start it floating
-                // away.
+                // away, a.k.a. make it "radiate".
                 Vector2D extractionPoint = new Vector2D( beaker.getRect().getMinX() + RAND.nextDouble() * beaker.getRect().getWidth(),
                                                          beaker.getRect().getMinY() + RAND.nextDouble() * ( beaker.getRect().getHeight() * beaker.fluidLevel.get() ) );
                 EnergyChunk ec = beaker.extractClosestEnergyChunk( extractionPoint );
                 ec.zPosition.set( 0.0 ); // Move to front of z order.
-                energyChunkList.add( ec );
+                radiatedEnergyChunkList.add( ec );
                 radiatedEnergyChunkMovers.add( new EnergyChunkPathMover( ec, createRadiatedEnergyChunkPath( ec.position.get() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
             }
 
@@ -210,7 +215,7 @@ public class BeakerHeater extends EnergyUser {
                 radiatedEnergyChunkMover.moveAlongPath( dt );
                 if ( radiatedEnergyChunkMover.isPathFullyTraversed() ) {
                     // Remove this energy chunk entirely.
-                    energyChunkList.remove( radiatedEnergyChunkMover.energyChunk );
+                    radiatedEnergyChunkList.remove( radiatedEnergyChunkMover.energyChunk );
                     radiatedEnergyChunkMovers.remove( radiatedEnergyChunkMover );
                 }
             }

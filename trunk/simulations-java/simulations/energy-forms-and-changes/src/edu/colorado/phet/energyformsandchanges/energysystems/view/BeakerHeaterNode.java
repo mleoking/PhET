@@ -42,6 +42,7 @@ public class BeakerHeaterNode extends ImageBasedEnergySystemElementNode {
                                                                                           mvt.getTransform().getScaleY() );
         BeakerView beakerView = new BeakerView( beakerHeater.beaker, energyChunksVisible, compensatingMvt );
         addChild( beakerView.getBackNode() );
+        addChild( new EnergyChunkLayer( beakerHeater.radiatedEnergyChunkList, beakerHeater.getObservablePosition(), mvt ) );
         addChild( beakerView.getFrontNode() );
 
         // Add the thermometer.
