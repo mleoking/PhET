@@ -153,7 +153,7 @@ public class LightBulb extends EnergyUser {
         // TODO: Make some things constants, refine, clean up, and all that.
         final double filamentWidth = 0.03;
         return new ArrayList<Vector2D>() {{
-            add( startingPoint.plus( new Vector2D( RAND.nextDouble() * filamentWidth / 2 * ( goRightNextTime ? 1 : -1 ), 0 ) ) );
+            add( startingPoint.plus( new Vector2D( ( 0.5 + RAND.nextDouble() / 2 ) * filamentWidth / 2 * ( goRightNextTime ? 1 : -1 ), 0 ) ) );
             goRightNextTime = !goRightNextTime;
         }};
     }
