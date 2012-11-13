@@ -65,13 +65,10 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
             }
 
             function binarySearch( min, max, errorFunction, numDivisions, depth ) {
-//                console.log("binary searching");
                 var points = numeric.linspace( min, max, numDivisions );
-//                console.log(min,max,numDivisions,depth,points);
                 var delta = (max - min) / numDivisions;
                 var bestPoint = _.min( points, function ( s ) {return errorFunction( s );} );
                 var error = errorFunction( bestPoint );
-                console.log( "depth = " + depth + ", error = " + error );
                 if ( error < 1E-6 || depth > 6 ) {
                     return bestPoint;
                 }
@@ -85,12 +82,9 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
 //                return getHeuristicError( s );
 //            } );
 //            var s = selectedI / maxIterations;
-//            console.log("starting binary search");
             var s = binarySearch( -0.1, 1.1, getHeuristicError, 50, 0 );
 
             //Perform a binary search to find the best location.
-
-//            console.log( selectedI );
 
             skater.attachmentPoint = s;
             var x = splineX.at( s );
