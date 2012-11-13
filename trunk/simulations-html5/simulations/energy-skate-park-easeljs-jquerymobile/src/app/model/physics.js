@@ -1,24 +1,29 @@
 define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector2D, Geometry ) {
     var Physics = {};
 
-    function getX( point ) {return point.x;}
+    var groundHeight = 116;
+    var groundY = 768 - groundHeight;
+    var metersPerPixel = 8.0 / 768.0;
 
-    function getY( point ) {return point.y;}
+    function getModelX( point ) {return point.x * metersPerPixel;}
+
+    function getModelY( point ) {return -(point.y - groundY) * metersPerPixel;}
 
 //    globalCounter = 0;
     var maxIterations = 2000;
     var numbersToSearch = _.range( -1, maxIterations + 1 );
 
     Physics.updatePhysics = function ( skater, groundHeight, splineLayer ) {
-        var originalX = skater.x;
-        var originalY = skater.y;
+        var dt = 0.0001;
+        var originalX = skater.position.x;
+        var originalY = skater.position.y;
         var originalEnergy = skater.getTotalEnergy();
         if ( skater.attached ) {
 
             //Could avoid recomputing the splines in this step if they haven't changed.  But it doesn't show up as high in the profiler.
             var s = numeric.linspace( 0, 1, splineLayer.controlPoints.length );
-            var splineX = numeric.spline( s, splineLayer.controlPoints.map( getX ) );
-            var splineY = numeric.spline( s, splineLayer.controlPoints.map( getY ) );
+            var splineX = numeric.spline( s, splineLayer.controlPoints.map( getModelX ) );
+            var splineY = numeric.spline( s, splineLayer.controlPoints.map( getModelY ) );
 
             //Find a point on the spline that conserves energy and is near the original point and in the right direction.
 
@@ -30,19 +35,17 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
 
             //See trunk\simulations-java\simulations\energy-skate-park\src\edu\colorado\phet\energyskatepark\model\physics\Particle1D.java
 
-            var unitVector = getUnitParallelVector( skater.attachmentPoint );
-            var gravityForce = new Vector2D( 0, skater.mass * 9.8 );
+            var unitVector = getUnitParallelVector( skater.attachmentPoint );//TODO: Could integrate (average) over adjacent points to get a better estimate.
+            var gravityForce = new Vector2D( 0, -skater.mass * 9.8 );
 
             var forceMagnitude = unitVector.dot( gravityForce );
             var netForce = unitVector.times( forceMagnitude );
 
             var acceleration = netForce.times( 1.0 / skater.mass );
 
-            var dt = 0.2;
             skater.velocity = skater.velocity.plus( acceleration.times( dt ) );
-            console.log( skater.velocity );
-            var proposedX = skater.x + skater.velocity.x * dt + 0.5 * acceleration.x * dt * dt;
-            var proposedY = skater.y + skater.velocity.y * dt + 0.5 * acceleration.y * dt * dt;
+            var proposedX = skater.position.x + skater.velocity.x * dt + 0.5 * acceleration.x * dt * dt;
+            var proposedY = skater.position.y + skater.velocity.y * dt + 0.5 * acceleration.y * dt * dt;
 
             //Find a point on the track that has a state similar to [proposedX,proposedY,proposedVx,proposedVy,E0]
 //            var targetState = [proposedX, proposedY, skater.velocity.x, skater.velocity.y, originalEnergy];
@@ -55,49 +58,49 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 var c = (skater.velocity.x - (x - originalX) / dt);
                 var d = (skater.velocity.y - (y - originalY) / dt );
                 return a * a + b * b + c * c + d * d;  //minimizing square same result
+//                return a * a + b * b;
             } );
 //            console.log( selectedI );
             var s = selectedI / maxIterations;
             var x = splineX.at( s );
             var y = splineY.at( s );
-            skater.x = x;
-            skater.y = y;
-            skater.velocity = new Vector2D( (skater.x - originalX) / dt, (skater.y - originalY) / dt );
+            skater.position.x = x;
+            skater.position.y = y;
+            skater.velocity = new Vector2D( (skater.position.x - originalX) / dt, (skater.y - originalY) / dt );
 
             if ( s >= 1.0 || s <= 0 ) {
                 skater.attached = false;
-                skater.velocity = new Vector2D( skater.x - originalX, skater.y - originalY );
+                skater.velocity = new Vector2D( skater.position.x - originalX, skater.y - originalY );
             }
         }
         else {
 
-            var newY = skater.y;
-            var newX = skater.x;
+            var newY = skater.position.y;
+            var newX = skater.position.x;
             if ( !skater.dragging ) {
-                skater.velocity = skater.velocity.plus( new Vector2D( 0, 0.5 ) );
-                newY = skater.y + skater.velocity.times( 1 ).y;
-                newX = skater.x + skater.velocity.times( 1 ).x;
+                skater.velocity = skater.velocity.plus( new Vector2D( 0, -9.8 * skater.mass ).times( dt ) );
+                newX = skater.position.x + skater.velocity.times( 1 ).x;
+                newY = skater.position.y + skater.velocity.times( 1 ).y;
             }
-            skater.x = newX;
-            skater.y = newY;
+            skater.position.x = newX;
+            skater.position.y = newY;
 
             //Don't let the skater go below the ground.
-            var maxY = 768 - groundHeight;
-            var newSkaterY = Math.min( maxY, newY );
-            skater.y = newSkaterY;
-            if ( newSkaterY == maxY ) {
+            var newSkaterY = Math.max( 0, newY );
+            skater.position.y = newSkaterY;
+            if ( newSkaterY == 0 ) {
                 skater.velocity = new Vector2D();
             }
 
             //don't let the skater cross the spline
-
             if ( splineLayer.controlPoints.length > 2 ) {
                 var s = numeric.linspace( 0, 1, splineLayer.controlPoints.length );
                 var delta = 1E-6;
 
                 function getSides( xvalue, yvalue ) {
-                    var splineX = numeric.spline( s, splineLayer.controlPoints.map( getX ).map( function ( x ) {return x - xvalue } ) );
-                    var splineY = numeric.spline( s, splineLayer.controlPoints.map( getY ).map( function ( y ) {return y - yvalue } ) );
+
+                    var splineX = numeric.spline( s, splineLayer.controlPoints.map( getModelX ).map( function ( x ) {return x - xvalue } ) );
+                    var splineY = numeric.spline( s, splineLayer.controlPoints.map( getModelY ).map( function ( y ) {return y - yvalue } ) );
 
                     var xRoots = splineX.roots();
                     var sides = [];
@@ -112,7 +115,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 }
 
                 var originalSides = getSides( originalX, originalY );
-                var newSides = getSides( skater.x, skater.y );
+                var newSides = getSides( skater.position.x, skater.position.y );
 
                 for ( var i = 0; i < originalSides.length; i++ ) {
                     var originalSide = originalSides[i];
@@ -125,19 +128,10 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                             console.log( "crossed over" );
                             skater.attached = true;
                             skater.attachmentPoint = newSide.xRoot;
-//                            skater.velocity = new Vector2D( 0, 0 );
                         }
                     }
                 }
             }
-        }
-
-        //Only draw when necessary because otherwise performance is worse on ipad3
-        if ( skater.x != originalX || skater.y != originalY ) {
-
-            //                skaterDebugShape.setX( skater.getX() + skater.getWidth() / 2 );
-            //                skaterDebugShape.setY( skater.getY() + skater.getHeight() );
-            //                skaterLayer.draw();
         }
     };
 

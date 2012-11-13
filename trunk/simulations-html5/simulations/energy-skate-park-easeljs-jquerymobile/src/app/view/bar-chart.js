@@ -56,7 +56,8 @@ define( ["view/easel-util",
         that.tick = function () {
             for ( var k = 0; k < fields.length; k++ ) {
                 var value = fields[k].getter();
-                var barHeight = value / 100;
+                var barHeight = value / 10;
+//                console.log(value);
                 fields[k].bar.graphics.clear().beginStroke( 'black' ).beginFill( fields[k].color ).rect( fields[k].label.x + 5, 500 - barHeight, 20, barHeight ).endFill().endStroke();
             }
         };

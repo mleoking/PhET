@@ -47,7 +47,7 @@ define( ["view/easel-util", "model/vector2d"], function ( EaselUtil, Vector2D ) 
         that.y = 160;
 
         that.tick = function () {
-            var angle = skater.velocity.magnitude() * 10;
+            var angle = skater.model.velocity.magnitude() * 50;
 
             var tickLength = (i % 2 == 0) ? 16 : 8;
             var innerVector = Vector2D.fromAngle( toRadians( angle + 180 - degreesPerTick * 2 ) ).times( -20 );
