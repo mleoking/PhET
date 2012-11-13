@@ -106,17 +106,22 @@ textarea {
     border: 1px solid black;
 }
 
+#periodic-table table td {
+    border: 1px solid black;
+    text-align: center;
+}
+
+#periodic-table table {
+    border-collapse: separate;
+    empty-cells: hide;
+    border-spacing: 1px;
+    width: 80%;
+}
+
 #control-panel #periodic-table {
     background: rgb(255, 255, 153);
     border-radius: 10px;
     float: left;
-}
-
-#periodic-table table td {
-    border: 1px solid black;
-    text-align: center;
-    width: 25px;
-    height: 25px;
 }
 
 @media only screen and (max-width: 960px) {
