@@ -35,11 +35,12 @@ define( ["skater"], function ( Skater ) {
         var keStartAngle = 0;
         var peStartAngle = keStartAngle + keAngle;
         var thermalStartAngle = peStartAngle + peAngle;
+        var antiClockwise = false;
 
         this.shape.graphics.clear().
-                beginFill( 'green' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( keStartAngle ), pieRadius * Math.sin( keStartAngle ) ).arc( 0, 0, pieRadius, keStartAngle, peStartAngle, false ).lineTo( 0, 0 ).endFill().
-                beginFill( 'blue' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( peStartAngle ), pieRadius * Math.sin( peStartAngle ) ).arc( 0, 0, pieRadius, peStartAngle, thermalStartAngle, false ).lineTo( 0, 0 ).endFill().
-                beginFill( 'red' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( thermalStartAngle ), pieRadius * Math.sin( thermalStartAngle ) ).arc( 0, 0, pieRadius, thermalStartAngle, 2 * Math.PI, false ).lineTo( 0, 0 ).endFill().
+                beginFill( 'green' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( keStartAngle ), pieRadius * Math.sin( keStartAngle ) ).arc( 0, 0, pieRadius, keStartAngle, peStartAngle, antiClockwise ).lineTo( 0, 0 ).endFill().
+                beginFill( 'blue' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( peStartAngle ), pieRadius * Math.sin( peStartAngle ) ).arc( 0, 0, pieRadius, peStartAngle, thermalStartAngle, antiClockwise ).lineTo( 0, 0 ).endFill().
+                beginFill( 'red' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( thermalStartAngle ), pieRadius * Math.sin( thermalStartAngle ) ).arc( 0, 0, pieRadius, thermalStartAngle, 2 * Math.PI, antiClockwise ).lineTo( 0, 0 ).endFill().
                 beginStroke( 'black' ).drawCircle( 0, 0, pieRadius ).endStroke();
     };
 
