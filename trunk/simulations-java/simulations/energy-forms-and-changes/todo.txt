@@ -1,9 +1,6 @@
 
 
 
-Make thermal E's use black lettering.
-Energy chunks should get opaque when emitted from beaker.
-Energy chunks non-occluded when at top ellipse of beaker.
 Make the rate of heating for the beaker on 2nd tab roughly match that heating rate on the first.
 Make it get closer to the boiling point.
 Make energy chunks spread out on light build filament a little better.  Min speed probably.
@@ -38,6 +35,9 @@ Fix flicker when E's are transferred between energy systems
 Fix: 1st tab, weird interaction between beaker and thermometer control panel.
 i18n
 
+DONE: Make thermal E's use black lettering.
+DONE: Energy chunks should get opaque when emitted from beaker.
+DONE: Energy chunks non-occluded when at top ellipse of beaker.
 DONE: Make knob bigger for the faucet
 DONE: Make beaker hold energy to a point, then release it
 DONE: Thermals build up on filament of incandescent and then emit light, and some heat.
