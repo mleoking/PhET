@@ -10,7 +10,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
     function getModelY( point ) {return -(point.y - groundY) * metersPerPixel;}
 
 //    globalCounter = 0;
-    var maxIterations = 500;
+    var maxIterations = 5000;
     var numbersToSearch = _.range( -1, maxIterations + 1 );
 
     Physics.updatePhysics = function ( skater, groundHeight, splineLayer ) {
@@ -59,11 +59,13 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 var c = (skater.velocity.x - (x - originalX) / dt);
                 var d = (skater.velocity.y - (y - originalY) / dt );
                 var proposedEnergy = proposedY * 9.8 * skater.mass + 0.5 * skater.mass * skater.velocity.magnitudeSquared();
-                var e = (proposedEnergy - originalMechanicalEnergy)
-                return a * a + b * b + c * c + d * d + e * e;  //minimizing square same result
+                var e = (proposedEnergy - originalMechanicalEnergy);
+                var positionWeight = 100;
+                return positionWeight * (a * a + b * b) + c * c + d * d + e * e;  //minimizing square same result
             } );
 //            console.log( selectedI );
             var s = selectedI / maxIterations;
+            skater.attachmentPoint = s;
             var x = splineX.at( s );
             var y = splineY.at( s );
             skater.position.x = x;
