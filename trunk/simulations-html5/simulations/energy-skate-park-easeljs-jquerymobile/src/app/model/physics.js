@@ -9,8 +9,14 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
 
     function getModelY( point ) {return -(point.y - groundY) * metersPerPixel;}
 
-    Physics.updatePhysics = function ( skater, groundHeight, splineLayer ) {
-        var dt = 0.01;
+    Physics.readout = "";
+
+
+    Physics.updatePhysics = function ( skater, groundHeight, splineLayer, _dt ) {
+//        console.log( _dt );
+        var dt = _dt;
+//        var dt = 0.01;
+        Physics.readout = dt;
         var originalX = skater.position.x;
         var originalY = skater.position.y;
         var originalEnergy = skater.getTotalEnergy();

@@ -10,10 +10,13 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
+
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 /**
  * For web development: Scan a filesystem and automatically send a web socket
@@ -90,12 +93,28 @@ public class Watcher {
         if ( open != null ) {
             open.send( "refresh" );
             System.out.println( "Sent refresh command." );
+
+            //If there is a version file, update it.  The version file helps us be reassured that the browser is running the latest version instead of running a previous cached version.
+            File f = new File( "C:\\workingcopy\\phet\\svn-1.7\\trunk\\simulations-html5\\simulations\\energy-skate-park-easeljs-jquerymobile\\src\\app\\util\\version.js" );
+            if ( f.exists() ) {
+                String file = FileUtils.loadFileAsString( f );
+                String tail = file.substring( file.lastIndexOf( ':' ) + 1 ).trim();
+                StringTokenizer st = new StringTokenizer( tail, "}" );
+                int value = Integer.parseInt( st.nextToken() );
+                String s = "define( [ ], function () { return {version: " + ( value + 1 ) + "} } );";
+                FileUtils.writeString( f, s );
+                System.out.println( s );
+            }
         }
     }
 
     private static long lastModified( final File root ) {
         List<File> files = getAllFiles( root );
-        List<Long> modifiedTimes = files.map( new F<File, Long>() {
+        List<Long> modifiedTimes = files.filter( new F<File, Boolean>() {
+            @Override public Boolean f( final File file ) {
+                return !file.getName().equals( "version.js" );
+            }
+        } ).map( new F<File, Long>() {
             @Override public Long f( final File file ) {
                 return file.lastModified();
             }
