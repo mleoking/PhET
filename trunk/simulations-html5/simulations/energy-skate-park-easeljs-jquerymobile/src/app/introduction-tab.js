@@ -171,7 +171,7 @@ define( [
         createjs.Ticker.setFPS( 60 );
         createjs.Ticker.addListener( function () {
             if ( !paused ) {
-                var dt = 0.01;
+                var dt = 0.02;
                 var subdivisions = 1;
                 for ( var i = 0; i < subdivisions; i++ ) {
                     Physics.updatePhysics( skaterModel, groundHeight, splineLayer, dt / subdivisions );
