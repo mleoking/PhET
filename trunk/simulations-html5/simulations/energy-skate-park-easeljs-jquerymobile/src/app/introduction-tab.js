@@ -172,9 +172,9 @@ define( [
         createjs.Ticker.addListener( function () {
             if ( !paused ) {
                 var dt = 0.01;
-                var maxSteps = 10;
-                for ( var i = 0; i < maxSteps; i++ ) {
-                    Physics.updatePhysics( skaterModel, groundHeight, splineLayer, dt / maxSteps );
+                var subdivisions = 1;
+                for ( var i = 0; i < subdivisions; i++ ) {
+                    Physics.updatePhysics( skaterModel, groundHeight, splineLayer, dt / subdivisions );
                 }
                 skater.updateFromModel();
                 updateFrameRate();
