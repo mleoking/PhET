@@ -87,8 +87,8 @@ textarea {
     top: 10%;
     background: rgb(255, 255, 153);
     border: 1px solid #000;
-    border-left: 0px;
-    border-right: 0px;
+    border-left: 0;
+    border-right: 0;
     width: 60%;
 }
 
@@ -167,8 +167,6 @@ Helper classes
     background-color: transparent;
     border: 0;
     overflow: hidden;
-    /* IE 6/7 fallback */
-    *text-indent: -9999px;
 }
 
 .ir:before {
