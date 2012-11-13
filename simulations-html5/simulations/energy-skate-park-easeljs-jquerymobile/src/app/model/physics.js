@@ -60,19 +60,39 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 var d = (skater.velocity.y - (y - originalY) / dt );
                 var proposedEnergy = proposedY * 9.8 * skater.mass + 0.5 * skater.mass * skater.velocity.magnitudeSquared();
                 var e = (proposedEnergy - originalMechanicalEnergy);
-                var positionWeight = 10;//TODO: Tune this value?
-                return positionWeight * (a * a + b * b) + c * c + d * d + e * e;  //minimizing square same result
+                var positionWeight = 1000;//TODO: Tune this value?
+                var velocityWeight = 10;
+                return positionWeight * (a * a + b * b) + velocityWeight * (c * c + d * d) + e * e;  //minimizing square same result
             }
 
-            var selectedI = _.min( numbersToSearch, function ( i ) {
-                var s = i / maxIterations;
-                return getHeuristicError( s );
-            } );
+            function binarySearch( min, max, errorFunction, numDivisions, depth ) {
+//                console.log("binary searching");
+                var points = numeric.linspace( min, max, numDivisions );
+//                console.log(min,max,numDivisions,depth,points);
+                var delta = (max - min) / numDivisions;
+                var bestPoint = _.min( points, function ( s ) {return errorFunction( s );} );
+                var error = errorFunction( bestPoint );
+                console.log( "depth = " + depth + ", error = " + error );
+                if ( error < 1E-6 || depth > 6 ) {
+                    return bestPoint;
+                }
+                else {
+                    return binarySearch( bestPoint - 2 * delta, bestPoint + 3 * delta, errorFunction, numDivisions, depth + 1 );
+                }
+            }
+
+//            var selectedI = _.min( numbersToSearch, function ( i ) {
+//                var s = i / maxIterations;
+//                return getHeuristicError( s );
+//            } );
+//            var s = selectedI / maxIterations;
+//            console.log("starting binary search");
+            var s = binarySearch( -0.1, 1.1, getHeuristicError, 50, 0 );
 
             //Perform a binary search to find the best location.
 
 //            console.log( selectedI );
-            var s = selectedI / maxIterations;
+
             skater.attachmentPoint = s;
             var x = splineX.at( s );
             var y = splineY.at( s );
