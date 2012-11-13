@@ -195,6 +195,7 @@ define( [
         stage.update();
 
         //Hide everything with a cover until the sim is all layed out.  http://stackoverflow.com/questions/9550760/hide-page-until-everything-is-loaded-advanced
+        //Hide/Remove don't work everywhere, but the combination seems to work everywhere.
         $( "#cover" ).hide().remove();
     };
 
