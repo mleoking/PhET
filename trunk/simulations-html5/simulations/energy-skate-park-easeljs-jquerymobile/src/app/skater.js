@@ -49,6 +49,7 @@ define( ["model/vector2d" ], function ( Vector2D ) {
                     }
                 }
                 skaterModel.dragging = true;
+                skaterModel.velocity = new Vector2D();
             };
             e.onMouseUp = function ( event ) {
                 skaterModel.dragging = false;
