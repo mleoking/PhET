@@ -1,4 +1,5 @@
-define( ["view/easel-util"], function ( EaselUtil ) {
+define( ["view/easel-util",
+            'i18n!nls/energy-skate-park-strings'], function ( EaselUtil, Strings ) {
     return {createBarChart: function ( skater ) {
         var that = new createjs.Container();
         var shape = new createjs.Shape();
@@ -6,7 +7,7 @@ define( ["view/easel-util"], function ( EaselUtil ) {
         that.shape = shape;
         that.addChild( shape );
 
-        var energyLabel = new createjs.Text( 'Energy (J)', '24px "Arial",Tahoma', 'blue' );
+        var energyLabel = new createjs.Text( Strings["properties.energy"], '24px "Arial",Tahoma', 'blue' );
         energyLabel.x = 10;
         energyLabel.y = 10;
         energyLabel.shadow = new createjs.Shadow( 'black', 1, 1, 2 );
