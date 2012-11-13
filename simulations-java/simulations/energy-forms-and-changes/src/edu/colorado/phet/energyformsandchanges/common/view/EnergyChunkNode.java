@@ -25,7 +25,7 @@ public class EnergyChunkNode extends PNode {
     private static final double Z_DISTANCE_WHERE_FULLY_FADED = 0.1; // In meters.
 
     private static final Map<EnergyType, Image> mapEnergyTypeToImage = new HashMap<EnergyType, Image>() {{
-        put( EnergyType.THERMAL, EnergyFormsAndChangesResources.Images.ENERGY_CHUNKS_WHITE_SEMIBOLD );
+        put( EnergyType.THERMAL, EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE_BLACK );
         put( EnergyType.ELECTRICAL, EnergyFormsAndChangesResources.Images.E_ELECTRIC_OUTLINE_BLACK );
         put( EnergyType.MECHANICAL, EnergyFormsAndChangesResources.Images.E_MECH_OUTLINE_BLACK );
         put( EnergyType.LIGHT, EnergyFormsAndChangesResources.Images.E_LIGHT_OUTLINE_BLACK );

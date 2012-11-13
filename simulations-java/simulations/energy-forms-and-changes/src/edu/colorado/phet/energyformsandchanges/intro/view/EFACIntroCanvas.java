@@ -149,7 +149,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             PropertyCheckBoxWithIcon showEnergyCheckBox = new PropertyCheckBoxWithIcon( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
                                                                                         "Energy Symbols",
                                                                                         new PhetFont( 20 ),
-                                                                                        EnergyFormsAndChangesResources.Images.ENERGY_CHUNKS_WHITE_SEMIBOLD,
+                                                                                        EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE_BLACK,
                                                                                         model.energyChunksVisible );
             backLayer.addChild( new ControlPanelNode( new PSwing( showEnergyCheckBox ), EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR ) {{
                 setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );
