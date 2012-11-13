@@ -9,17 +9,9 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
 
     function getModelY( point ) {return -(point.y - groundY) * metersPerPixel;}
 
-    Physics.readout = "";
-
-
-    Physics.updatePhysics = function ( skater, groundHeight, splineLayer, _dt ) {
-//        console.log( _dt );
-        var dt = _dt;
-//        var dt = 0.01;
-        Physics.readout = dt;
+    Physics.updatePhysics = function ( skater, groundHeight, splineLayer, dt ) {
         var originalX = skater.position.x;
         var originalY = skater.position.y;
-        var originalEnergy = skater.getTotalEnergy();
         var originalMechanicalEnergy = skater.getMechanicalEnergy();
         if ( skater.attached ) {
 
@@ -82,14 +74,8 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 }
             }
 
-//            var selectedI = _.min( numbersToSearch, function ( i ) {
-//                var s = i / maxIterations;
-//                return getHeuristicError( s );
-//            } );
-//            var s = selectedI / maxIterations;
-            var s = binarySearch( -0.1, 1.1, getHeuristicError, 20, 0 );
-
             //Perform a binary search to find the best location.
+            var s = binarySearch( -0.1, 1.1, getHeuristicError, 20, 0 );
 
             skater.attachmentPoint = s;
             var x = splineX.at( s );
