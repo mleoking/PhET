@@ -1,3 +1,4 @@
+# 00.00.08 (70269) Nov 13, 2012
 Improved energy conservation on the spline
 Allow canvas to fill the window
 # 00.00.07 (70193) Nov 12, 2012
