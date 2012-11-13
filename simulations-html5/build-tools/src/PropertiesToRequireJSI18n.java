@@ -40,7 +40,8 @@ public class PropertiesToRequireJSI18n {
             }
 
             for ( Object key : p.keySet() ) {
-                output += "                \"" + key + "\": \"" + escape( p.get( key ).toString() ) + "\",\n";
+                String prefix = english ? "                \"" : "            \"";
+                output += prefix + key + "\": \"" + escape( p.get( key ).toString() ) + "\",\n";
             }
 
             //Remove the last comma
@@ -85,7 +86,7 @@ public class PropertiesToRequireJSI18n {
 
     private static String escape( final String s ) {
         //Replace " with \".  May need to add other escapes later on.
-        return s.replace( "\"", "\\\"" );
+        return s.replace( "\"", "\\\"" ).replace( "\n", "\\n" );
     }
 
     public static ArrayList<String> getNonEnglishLocales( File source ) throws IOException {

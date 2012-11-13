@@ -75,105 +75,36 @@ define( {
             "help.drag-the-skater": "Tarik ",
             "location.jupiter": "Yupiter",
             "skater.phet-skater": "PhET Skater",
-            "translation.credits": "<html>
-            Marliana < br >
-        STKIP
-Surya < br >
-marliana.lutan
-@stkipsurya.ac.id
-< /html>",
-"controls.friction.title"
-:
-"Gesekan",
-        "tracks-menu.item.loop"
-:
-"Simpal",
-        "units.accel"
-:
-"N/kg",
-        "controls.bounciness"
-:
-"Pantulan",
-        "units.meters.abbreviation"
-:
-"m",
-        "skater.bulldog"
-:
-"Anjing",
-        "controls.gravity"
-:
-"Gravitasi",
-        "properties.height"
-:
-"Tinggi",
-        "message.confirm-reset-title"
-:
-"Konfirmasi Set Ulang",
-        "label.potential-energy-reference"
-:
-"Energi Potensial Referensi",
-        "energy.kinetic.energy"
-:
-"Energi Kinetik",
-        "tracks-menu.item.jump"
-:
-"Lompat",
-        "controls.reset-character"
-:
-"Ulang Skater",
-        "help.right-click-for-options"
-:
-"Klik Kanan untuk Pilihan",
-        "plots.energy-vs-position-save"
-:
-"Energi vs. Posisi (simpan #",
-        "controls.hide-friction"
-:
-"Sembunyikan Gesekan",
-        "controls.choose-character.label.pattern"
-:
-"{0} ({1} {2})",
-        "controls.add-track"
-:
-"Jalur",
-        "piechart.show"
-:
-"Lihat Bagan Lingkaran",
-        "energy.potential.energy"
-:
-"Energi Potensial",
-        "label.zero-potential-energy"
-:
-"EP = 0 pada garis titik ini",
-        "plots.position.meters"
-:
-"Posisi (meter)",
-        "tracks-menu.item.double-well-roller-coaster"
-:
-"Lembah Ganda (Roller-Coaster)",
-        "tracks-menu.item.s-curve"
-:
-"Kurva S",
-        "energy.kinetic.abbreviation"
-:
-"EK",
-        "controls.measuring-tape"
-:
-"Pita Pengukur",
-        "controls.stop-recording-path"
-:
-"Berhenti",
-        "location"
-:
-"Lokasi",
-        "controls.edit-skater"
-:
-"Ubah Massa Skater",
-        "tab.introduction"
-:
-"Permulaan",
-        "units.joules.abbreviation"
-:
-"J"
-} )
-;
+            "translation.credits": "<html>\nMarliana<br>\nSTKIP Surya<br>\nmarliana.lutan@stkipsurya.ac.id\n</html>",
+            "controls.friction.title": "Gesekan",
+            "tracks-menu.item.loop": "Simpal",
+            "units.accel": "N/kg",
+            "controls.bounciness": "Pantulan",
+            "units.meters.abbreviation": "m",
+            "skater.bulldog": "Anjing",
+            "controls.gravity": "Gravitasi",
+            "properties.height": "Tinggi",
+            "message.confirm-reset-title": "Konfirmasi Set Ulang",
+            "label.potential-energy-reference": "Energi Potensial Referensi",
+            "energy.kinetic.energy": "Energi Kinetik",
+            "tracks-menu.item.jump": "Lompat",
+            "controls.reset-character": "Ulang Skater",
+            "help.right-click-for-options": "Klik Kanan untuk Pilihan",
+            "plots.energy-vs-position-save": "Energi vs. Posisi (simpan #",
+            "controls.hide-friction": "Sembunyikan Gesekan",
+            "controls.choose-character.label.pattern": "{0} ({1} {2})",
+            "controls.add-track": "Jalur",
+            "piechart.show": "Lihat Bagan Lingkaran",
+            "energy.potential.energy": "Energi Potensial",
+            "label.zero-potential-energy": "EP = 0 pada garis titik ini",
+            "plots.position.meters": "Posisi (meter)",
+            "tracks-menu.item.double-well-roller-coaster": "Lembah Ganda (Roller-Coaster)",
+            "tracks-menu.item.s-curve": "Kurva S",
+            "energy.kinetic.abbreviation": "EK",
+            "controls.measuring-tape": "Pita Pengukur",
+            "controls.stop-recording-path": "Berhenti",
+            "location": "Lokasi",
+            "controls.edit-skater": "Ubah Massa Skater",
+            "tab.introduction": "Permulaan",
+            "units.joules.abbreviation": "J"
+        } );
