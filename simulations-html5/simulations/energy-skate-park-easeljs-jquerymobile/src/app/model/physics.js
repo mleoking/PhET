@@ -14,7 +14,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
     var numbersToSearch = _.range( -1, maxIterations + 1 );
 
     Physics.updatePhysics = function ( skater, groundHeight, splineLayer ) {
-        var dt = 0.0001;
+        var dt = 0.01;
         var originalX = skater.position.x;
         var originalY = skater.position.y;
         var originalEnergy = skater.getTotalEnergy();
@@ -58,7 +58,6 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 var c = (skater.velocity.x - (x - originalX) / dt);
                 var d = (skater.velocity.y - (y - originalY) / dt );
                 return a * a + b * b + c * c + d * d;  //minimizing square same result
-//                return a * a + b * b;
             } );
 //            console.log( selectedI );
             var s = selectedI / maxIterations;
@@ -74,21 +73,19 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
             }
         }
         else {
-
-            var newY = skater.position.y;
-            var newX = skater.position.x;
-            if ( !skater.dragging ) {
-                skater.velocity = skater.velocity.plus( new Vector2D( 0, -9.8 * skater.mass ).times( dt ) );
-                newX = skater.position.x + skater.velocity.times( 1 ).x;
-                newY = skater.position.y + skater.velocity.times( 1 ).y;
+            if ( skater.dragging ) {
+                return;
             }
-            skater.position.x = newX;
-            skater.position.y = newY;
+            console.log( skater.position.x );
+            var acceleration = new Vector2D( 0, -9.8 );
+            skater.velocity = skater.velocity.plus( acceleration.times( dt ) );
+            var aTerm = acceleration.times( 0.5 * dt * dt );
+            var dx = skater.velocity.times( dt ).plus( aTerm );
+            skater.position = skater.position.plus( dx );
 
             //Don't let the skater go below the ground.
-            var newSkaterY = Math.max( 0, newY );
-            skater.position.y = newSkaterY;
-            if ( newSkaterY == 0 ) {
+            if ( skater.position.y <= 0 ) {
+                skater.position.y = 0;
                 skater.velocity = new Vector2D();
             }
 
