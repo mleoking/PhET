@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
@@ -105,7 +106,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode energyConvertersCarouselController = new EnergySystemElementSelector( model.energyConvertersCarousel );
         PNode energyUsersCarouselController = new EnergySystemElementSelector( model.energyUsersCarousel );
 
-        // Add the various energy system elements.
+        // Create the various energy system elements.
         PNode faucetAndWaterNode = new FaucetAndWaterNode( model.faucet, mvt );
         PNode sunNode = new SunNode( model.sun, model.energyChunksVisible, mvt );
         PNode teaPotNode = new TeaPotNode( model.teaPot, model.energyChunksVisible, mvt );
@@ -116,6 +117,10 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode solarPanelNode = new SolarPanelNode( model.solarPanel, mvt );
         PNode beakerHeaterNode = new BeakerHeaterNode( model.beakerHeater, model.energyChunksVisible, mvt );
         PNode beltNode = new BeltNode( model.belt, mvt );
+
+        // Create the reset button.
+        ResetAllButtonNode resetButton = new ResetAllButtonNode( model, this, 20, Color.black, new Color( 255, 153, 0 ) );
+        resetButton.setConfirmationEnabled( false );
 
         //------- Node Layering -----------------------------------------------
 
@@ -139,6 +144,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         rootNode.addChild( clockControl );
         rootNode.addChild( showEnergyControlPanel );
         rootNode.addChild( energyChunkLegend );
+        rootNode.addChild( resetButton );
         rootNode.addChild( energySourcesCarouselController );
         rootNode.addChild( energyConvertersCarouselController );
         rootNode.addChild( energyUsersCarouselController );
@@ -167,6 +173,12 @@ public class EnergySystemsCanvas extends PhetPCanvas {
                                                                     carouselControllersCenterYPos );
         energyUsersCarouselController.centerFullBoundsOnPoint( mvt.modelToViewX( model.energyUsersCarousel.getSelectedElementPosition().getX() ),
                                                                carouselControllersCenterYPos );
+
+        // Reset button.
+        resetButton.setOffset( STAGE_SIZE.getWidth() - resetButton.getFullBounds().getWidth() - CONTROL_INSET,
+                               clockControlBackground.getFullBounds().getMinY() - resetButton.getFullBounds().getWidth() - CONTROL_INSET );
+        resetButton.centerFullBoundsOnPoint( ( energyUsersCarouselController.getFullBoundsReference().getMaxX() + STAGE_SIZE.getWidth() ) / 2,
+                                             energyUsersCarouselController.getFullBoundsReference().getCenterY() );
     }
 
     //-------------------------------------------------------------------------
