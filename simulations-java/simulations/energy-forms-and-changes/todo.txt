@@ -1,18 +1,17 @@
 
 
-Make knob bigger for the faucet
 
 Make thermal E's use black lettering.
-Energy chunks should get opaque when emiitted from beaker.
+Energy chunks should get opaque when emitted from beaker.
 Energy chunks non-occluded when at top ellipse of beaker.
-Add Reset All just under the legend
 Make the rate of heating for the beaker on 2nd tab roughly match that heating rate on the first.
 Make it get closer to the boiling point.
 Make energy chunks spread out on light build filament a little better.  Min speed probably.
 No thermal E's on the fluorescent light bulb.
-
-
 Make the straight segment a bit shorter, move energy users to the left.
+Add Reset All just under the legend
+
+
 Change the thermal E's
 
 Make everything turn on all the way when getting energy, taper as energy is reduced.  Max energy from generator and solar panel should be the same.
@@ -39,6 +38,7 @@ Fix flicker when E's are transferred between energy systems
 Fix: 1st tab, weird interaction between beaker and thermometer control panel.
 i18n
 
+DONE: Make knob bigger for the faucet
 DONE: Make beaker hold energy to a point, then release it
 DONE: Thermals build up on filament of incandescent and then emit light, and some heat.
 DONE: Thermals turn to light or stay, but emit at end when no more energies coming in.
