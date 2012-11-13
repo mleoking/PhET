@@ -125,13 +125,17 @@ define( [
                     scale = Math.min( winW / 1024, winH / 768 ),
                     canvasW = scale * 1024,
                     canvasH = scale * 768;
+
+            //Allow the canvas to fill the screen, but still center the content within the window.
             var canvas = $( '#c' );
-            canvas.attr( 'width', canvasW );
-            canvas.attr( 'height', canvasH );
+            canvas.attr( 'width', window.innerWidth );
+            canvas.attr( 'height', window.innerHeight );
             var left = (winW - canvasW) / 2;
             var top = (winH - canvasH) / 2;
-            canvas.offset( {left: left, top: top} );
+            canvas.offset( {left: 0, top: 0} );
             root.scaleX = root.scaleY = scale;
+            root.x = left;
+            root.y = top;
             stage.update();
 
             $( "#navBar" ).css( 'top', top + 'px' ).css( 'left', (left + 50) + 'px' ).css( 'width', (canvasW - 100) + 'px' );
