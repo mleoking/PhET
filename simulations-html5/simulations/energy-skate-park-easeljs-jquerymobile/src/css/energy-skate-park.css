@@ -1,0 +1,69 @@
+.alignRightPlease {
+    float: right;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#c {
+    position: absolute;
+}
+
+#controlPanel {
+    margin: 5px;
+    padding: 0;
+    /*width: 40%;*/
+    position: absolute;
+    z-index: 2;
+
+    /*-webkit-transform: translateX(0);*/
+    /*overflow: visible;*/
+    /*text-overflow: clip;*/
+}
+
+#flip-min {
+    position: absolute;
+    z-index: 3;
+    padding: 0;
+    margin: 5px;
+}
+
+#innerelement1 {
+    width: 100%;
+    height: 100%;
+}
+
+#innereelement2 {
+    width: 100%;
+    height: 100%;
+}
+
+/*.labelfor {*/
+/*text-overflow: clip;*/
+/*overflow: hidden;*/
+/*}*/
+
+.ui-slider {
+    width: 100%;
+    border: 20px;
+}
+
+#slider-fill {
+    width: 100%;
+    border: 20px;
+}
+
+#navBar {
+    margin-left: 10px;
+    margin-top: 0px;
+    width: 50%;
+    position: absolute;
+    z-index: 10;
+}
+
+#southPanel {
+    display: inline-block;
+    float: left;
+}
