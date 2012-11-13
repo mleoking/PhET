@@ -1,9 +1,6 @@
 /*
- * HTML5 Boilerplate
- *
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
+ * Main CSS file for Build an Atom.  This was derived from a file obtained
+ * from the HTML5 Boilerplate project.
  */
 
 /* ==========================================================================
@@ -98,7 +95,7 @@ textarea {
     right: 0;
 }
 
-#control-panel .widget{
+#control-panel .widget {
     float: left;
     clear: both;
     width: 91%;
@@ -110,13 +107,13 @@ textarea {
 }
 
 #control-panel #periodic-table {
-    background: #adff2f;
+    background: rgb(255, 255, 153);
     border-radius: 10px;
     float: left;
 }
 
 #periodic-table table td {
-    border: 1px solid white;
+    border: 1px solid black;
     text-align: center;
     width: 25px;
     height: 25px;
