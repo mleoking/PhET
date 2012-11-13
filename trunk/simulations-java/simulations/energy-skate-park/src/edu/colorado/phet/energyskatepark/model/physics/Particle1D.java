@@ -4,10 +4,10 @@ package edu.colorado.phet.energyskatepark.model.physics;
 import java.io.Serializable;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.common.spline.CubicSpline2D;
@@ -44,10 +44,6 @@ public class Particle1D implements Serializable {
     private double thermalEnergy = 0;
 
     private final boolean debug = false;
-
-    public Particle1D( ParametricFunction2D cubicSpline, boolean splineTop ) {
-        this( cubicSpline, splineTop, 9.8 );
-    }
 
     public Particle1D( ParametricFunction2D parametricFunction2D, boolean splineTop, double g ) {
         this.track = parametricFunction2D;
@@ -182,10 +178,6 @@ public class Particle1D implements Serializable {
 
     public double getSpeed() {
         return Math.abs( velocity );
-    }
-
-    public double getMass() {
-        return mass;
     }
 
     public Vector2D getCurvatureDirection() {
@@ -412,14 +404,6 @@ public class Particle1D implements Serializable {
         return cachedRC;
     }
 
-    public Vector2D getUnitParallelVector() {
-        return track.getUnitParallelVector( alpha );
-    }
-
-    public Vector2D getUnitNormalVector() {
-        return track.getUnitNormalVector( alpha );
-    }
-
     public class VerletOffset implements UpdateStrategy {
         private double L;
 
@@ -563,24 +547,4 @@ public class Particle1D implements Serializable {
             EnergySkateParkLogging.println( s );
         }
     }
-
-    public class RK4 implements UpdateStrategy {
-
-        public void stepInTime( double dt ) {
-            double state[] = new double[] { alpha, velocity };
-            edu.colorado.phet.energyskatepark.model.RK4.Diff diffy = new edu.colorado.phet.energyskatepark.model.RK4.Diff() {
-                public void f( double t, double state[], double F[] ) {
-                    F[0] = state[1];
-                    double parallelForce = track.getUnitParallelVector( alpha ).dot( getNetForce() );
-                    F[1] = parallelForce / mass;
-                }
-            };
-            edu.colorado.phet.energyskatepark.model.RK4.rk4( 0, state, dt, diffy );
-            alpha = state[0];
-            velocity = state[1];
-
-            handleBoundary();
-        }
-    }
-
 }
