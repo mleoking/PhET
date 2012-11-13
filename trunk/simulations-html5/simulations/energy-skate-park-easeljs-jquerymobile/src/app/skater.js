@@ -11,6 +11,8 @@ define( ["model/vector2d" ], function ( Vector2D ) {
         }
 
         var skater = new createjs.Bitmap( skaterImage );
+        skater.attachmentVelocity = 0.0;
+        skater.thermalEnergy = 0;
         skater.groundY = groundY;
         setCursorHand( skater );
         skater.mass = 50;//kg
@@ -52,8 +54,8 @@ define( ["model/vector2d" ], function ( Vector2D ) {
         skater.onPress = pressHandler;
 
         skater.getKineticEnergy = function () { return skater.mass * skater.velocity.magnitudeSquared(); };
-        skater.getPotentialEnergy = function () { return skater.mass * 9.8 * (skater.groundY - skater.y) / 10; };
-        skater.getThermalEnergy = function () { return 1000; };
+        skater.getPotentialEnergy = function () { return skater.mass * 9.8 * (skater.groundY - skater.y) / 10; };//pixels to meters
+        skater.getThermalEnergy = function () { return skater.thermalEnergy; };
         skater.getTotalEnergy = function () { return skater.getKineticEnergy() + skater.getPotentialEnergy() + skater.getThermalEnergy(); };
 
         return skater;
