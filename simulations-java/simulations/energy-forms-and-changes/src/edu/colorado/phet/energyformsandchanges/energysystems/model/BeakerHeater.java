@@ -200,6 +200,7 @@ public class BeakerHeater extends EnergyUser {
                 Vector2D extractionPoint = new Vector2D( beaker.getRect().getMinX() + RAND.nextDouble() * beaker.getRect().getWidth(),
                                                          beaker.getRect().getMinY() + RAND.nextDouble() * ( beaker.getRect().getHeight() * beaker.fluidLevel.get() ) );
                 EnergyChunk ec = beaker.extractClosestEnergyChunk( extractionPoint );
+                ec.zPosition.set( 0.0 ); // Move to front of z order.
                 energyChunkList.add( ec );
                 radiatedEnergyChunkMovers.add( new EnergyChunkPathMover( ec, createRadiatedEnergyChunkPath( ec.position.get() ), EFACConstants.ENERGY_CHUNK_VELOCITY ) );
             }
