@@ -1,5 +1,3 @@
-// Copyright 2002-2012, University of Colorado
-
 /*
  * Renders text in the center of the canvas.
  */
