@@ -101,10 +101,11 @@ textarea {
 #control-panel .widget{
     float: left;
     clear: both;
-    width: 95%;
+    width: 91%;
     min-height: 10em;
     background: gray;
-    margin-bottom: 10px;
+    margin: 2%;
+    padding: 2%;
     border: 1px solid black;
 }
 
