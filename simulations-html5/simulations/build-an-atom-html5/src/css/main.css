@@ -96,20 +96,22 @@ textarea {
     position: absolute;
     width: 40%;
     right: 0;
-    background: red;
 }
 
-#periodic-table {
-    position: absolute;
-    top: 1em;
-    right: 1em;
-    border: 1px solid #000;
-    padding: 20px;
-    background: #ccc;
+#control-panel .widget{
+    float: left;
+    clear: both;
+    width: 95%;
+    min-height: 10em;
+    background: gray;
+    margin-bottom: 10px;
+    border: 1px solid black;
+}
+
+#control-panel #periodic-table {
+    background: #adff2f;
     border-radius: 10px;
     float: left;
-    min-width: 320px;
-    width: 30%;
 }
 
 #periodic-table table td {
