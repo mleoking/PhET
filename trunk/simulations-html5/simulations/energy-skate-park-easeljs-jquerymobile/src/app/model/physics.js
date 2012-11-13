@@ -10,7 +10,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
     function getModelY( point ) {return -(point.y - groundY) * metersPerPixel;}
 
 //    globalCounter = 0;
-    var maxIterations = 2000;
+    var maxIterations = 500;
     var numbersToSearch = _.range( -1, maxIterations + 1 );
 
     Physics.updatePhysics = function ( skater, groundHeight, splineLayer ) {
@@ -18,6 +18,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
         var originalX = skater.position.x;
         var originalY = skater.position.y;
         var originalEnergy = skater.getTotalEnergy();
+        var originalMechanicalEnergy = skater.getMechanicalEnergy();
         if ( skater.attached ) {
 
             //Could avoid recomputing the splines in this step if they haven't changed.  But it doesn't show up as high in the profiler.
@@ -57,7 +58,9 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 var b = (proposedY - y);
                 var c = (skater.velocity.x - (x - originalX) / dt);
                 var d = (skater.velocity.y - (y - originalY) / dt );
-                return a * a + b * b + c * c + d * d;  //minimizing square same result
+                var proposedEnergy = proposedY * 9.8 * skater.mass + 0.5 * skater.mass * skater.velocity.magnitudeSquared();
+                var e = (proposedEnergy - originalMechanicalEnergy)
+                return a * a + b * b + c * c + d * d + e * e;  //minimizing square same result
             } );
 //            console.log( selectedI );
             var s = selectedI / maxIterations;
@@ -66,6 +69,14 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
             skater.position.x = x;
             skater.position.y = y;
             skater.velocity = new Vector2D( (skater.position.x - originalX) / dt, (skater.y - originalY) / dt );
+
+            //Conserve energy by tuning the velocity.
+            var sqrtArg = 2 * (originalMechanicalEnergy / skater.mass - 9.8 * skater.position.y);
+            if ( sqrtArg > 0 ) {
+                var speed = Math.sqrt( sqrtArg );
+                skater.velocity = skater.velocity.unit().times( speed );
+            }
+            //constant energy means
 
             if ( s >= 1.0 || s <= 0 ) {
                 skater.attached = false;
