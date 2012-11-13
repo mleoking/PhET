@@ -193,6 +193,9 @@ define( [
 
         //Paint once after initialization
         stage.update();
+
+        //Hide everything with a cover until the sim is all layed out.  http://stackoverflow.com/questions/9550760/hide-page-until-everything-is-loaded-advanced
+        $( "#cover" ).hide().remove();
     };
 
     return IntroductionTab;
