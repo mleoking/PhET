@@ -1,3 +1,4 @@
+Made the representation of the thermal energy chunks have a black E rather than a white one.
 2nd tab: Made the faucet knob larger.
 # 0.00.25 (70147) Nov 9, 2012
 11/9/12 Deploying to dev for review and feedback.
