@@ -37,9 +37,9 @@ define( ["skater"], function ( Skater ) {
         var thermalStartAngle = peStartAngle + peAngle;
 
         this.shape.graphics.clear().
-                beginFill( 'green' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( keStartAngle ), pieRadius * Math.sin( keStartAngle ) ).arc( 0, 0, pieRadius, keStartAngle, peStartAngle, true ).lineTo( 0, 0 ).endFill().
-                beginFill( 'blue' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( peStartAngle ), pieRadius * Math.sin( peStartAngle ) ).arc( 0, 0, pieRadius, peStartAngle, thermalStartAngle, true ).lineTo( 0, 0 ).endFill().
-                beginFill( 'red' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( thermalStartAngle ), pieRadius * Math.sin( thermalStartAngle ) ).arc( 0, 0, pieRadius, thermalStartAngle, 2 * Math.PI, true ).lineTo( 0, 0 ).endFill().
+                beginFill( 'green' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( keStartAngle ), pieRadius * Math.sin( keStartAngle ) ).arc( 0, 0, pieRadius, keStartAngle, peStartAngle, false ).lineTo( 0, 0 ).endFill().
+                beginFill( 'blue' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( peStartAngle ), pieRadius * Math.sin( peStartAngle ) ).arc( 0, 0, pieRadius, peStartAngle, thermalStartAngle, false ).lineTo( 0, 0 ).endFill().
+                beginFill( 'red' ).moveTo( 0, 0 ).lineTo( pieRadius * Math.cos( thermalStartAngle ), pieRadius * Math.sin( thermalStartAngle ) ).arc( 0, 0, pieRadius, thermalStartAngle, 2 * Math.PI, false ).lineTo( 0, 0 ).endFill().
                 beginStroke( 'black' ).drawCircle( 0, 0, pieRadius ).endStroke();
     };
 
