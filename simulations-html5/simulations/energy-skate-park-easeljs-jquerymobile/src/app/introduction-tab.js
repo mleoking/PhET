@@ -1,4 +1,5 @@
 define( [
+            'model/skater-model',
             'skater',
             'view/control-panel',
             'view/background',
@@ -9,13 +10,15 @@ define( [
             'view/grid',
             'view/bar-chart',
             'view/speedometer'
-        ], function ( Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
+        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
     var IntroductionTab = function () {
         var root = new createjs.Container();
 
         var groundHeight = 116;
+        var groundY = 768 - groundHeight;
 
-        var skater = Skater.createSkater( groundHeight, 768 - groundHeight );
+        var skaterModel = new SkaterModel();
+        var skater = Skater.createSkater( skaterModel, groundHeight, groundY );
 
         //Cache the background into a single image
         //        background.cache( 0, 0, 1024, 768, 1 );
@@ -23,7 +26,7 @@ define( [
         var splineLayer = Spline.createSplineLayer( groundHeight );
 
         root.addChild( Background.createBackground( groundHeight ) );
-        var grid = new Grid( skater.groundY );
+        var grid = new Grid( groundY );
         grid.visible = false;
         root.addChild( grid );
         root.addChild( splineLayer );
@@ -166,7 +169,8 @@ define( [
         createjs.Ticker.setFPS( 60 );
         createjs.Ticker.addListener( function () {
             if ( !paused ) {
-                Physics.updatePhysics( skater, groundHeight, splineLayer );
+                Physics.updatePhysics( skaterModel, groundHeight, splineLayer );
+                skater.updateFromModel();
                 updateFrameRate();
                 barChart.tick();
                 speedometer.tick();

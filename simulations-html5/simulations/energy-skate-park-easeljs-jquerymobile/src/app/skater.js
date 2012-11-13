@@ -1,5 +1,7 @@
 define( ["model/vector2d" ], function ( Vector2D ) {
-    return {createSkater: function ( groundHeight, groundY ) {
+    return {createSkater: function ( skaterModel, groundHeight, groundY ) {
+
+        var metersPerPixel = 8.0 / 768.0;
 
         function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 
@@ -11,24 +13,20 @@ define( ["model/vector2d" ], function ( Vector2D ) {
         }
 
         var skater = new createjs.Bitmap( skaterImage );
-        skater.attachmentVelocity = 0.0;
-        skater.thermalEnergy = 0;
-        skater.groundY = groundY;
+        skater.model = skaterModel;
+        skaterModel.attachmentVelocity = 0.0;
         setCursorHand( skater );
-        skater.mass = 50;//kg
         //put registration point at bottom center of the skater
         skater.regX = skaterImage.width / 2;
         skater.regY = skaterImage.height;
-        skater.x = 100;
-        skater.y = 20;
         skater.velocity = new Vector2D( 0, 0 );
         var scaleFactor = 0.65;
         skater.scaleX = scaleFactor;
         skater.scaleY = scaleFactor;
 
         function pressHandler( e ) {
-            skater.dragging = true;
-            skater.attached = false;
+            skaterModel.dragging = true;
+            skaterModel.attached = false;
             //Make dragging relative to touch point
             var relativePressPoint = null;
             e.onMouseMove = function ( event ) {
@@ -38,25 +36,39 @@ define( ["model/vector2d" ], function ( Vector2D ) {
                 }
                 else {
                     e.target.x = transformed.x + relativePressPoint.x;
+                    e.target.y = transformed.y + relativePressPoint.y;
 
                     //don't let the skater go below ground
-                    e.target.y = Math.min( transformed.y + relativePressPoint.y, 768 - groundHeight );
-//                    console.log( e.target.y );
+
+                    //Convert from view to model coordinates
+                    skaterModel.position.y = -(e.target.y - groundY) * metersPerPixel;
+                    skaterModel.position.x = (e.target.x) * metersPerPixel;
+
+                    if ( skaterModel.position.y < 0 ) {
+                        skaterModel.position.y = 0;
+                    }
                 }
-                skater.dragging = true;
+                skaterModel.dragging = true;
             };
             e.onMouseUp = function ( event ) {
-                skater.dragging = false;
-                skater.velocity = new Vector2D();
+                skaterModel.dragging = false;
+                skaterModel.velocity = new Vector2D();
             };
         }
 
         skater.onPress = pressHandler;
 
-        skater.getKineticEnergy = function () { return skater.mass * skater.velocity.magnitudeSquared(); };
-        skater.getPotentialEnergy = function () { return skater.mass * 9.8 * (skater.groundY - skater.y) / 10; };//pixels to meters
-        skater.getThermalEnergy = function () { return skater.thermalEnergy; };
-        skater.getTotalEnergy = function () { return skater.getKineticEnergy() + skater.getPotentialEnergy() + skater.getThermalEnergy(); };
+        skater.getKineticEnergy = skaterModel.getKineticEnergy;
+        skater.getPotentialEnergy = skaterModel.getPotentialEnergy;
+        skater.getThermalEnergy = skaterModel.getThermalEnergy;
+        skater.getTotalEnergy = skaterModel.getTotalEnergy;
+
+        skater.updateFromModel = function () {
+            this.x = skaterModel.position.x / metersPerPixel;
+            this.y = -skaterModel.position.y / metersPerPixel + groundY;
+        };
+
+        skater.updateFromModel();
 
         return skater;
     }};
