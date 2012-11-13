@@ -57,7 +57,6 @@ define( ['image!resources/barChartIcon.png',
 //            controlPanel.updateCache();
         };
         row.onPress = function ( mouseEvent ) {
-            console.log( "pressed" );
             checkBox.selected = !checkBox.selected;
 
 

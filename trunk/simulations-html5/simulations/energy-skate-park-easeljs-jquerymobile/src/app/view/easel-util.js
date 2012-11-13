@@ -11,7 +11,6 @@ define( [], function () {
             else {
                 e.target.x = transformed.x + relativePressPoint.x;
                 e.target.y = transformed.y + relativePressPoint.y;
-                //                    console.log( e.target.x + ', ' + e.target.y );
             }
         };
         e.onMouseUp = function ( event ) { };
@@ -32,7 +31,6 @@ define( [], function () {
         changeHitDetection: function () {
             function newTestHit( x, y, displayObject, ctx ) {
                 if ( displayObject.image !== undefined ) {
-                    //            console.log( "x = " + x + ", y=" + y );
                     return x >= 0 && y >= 0 && x <= displayObject.image.width && y <= displayObject.image.height;
                 }
                 else {
