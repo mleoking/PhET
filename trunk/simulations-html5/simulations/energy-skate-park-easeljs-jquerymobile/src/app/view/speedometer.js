@@ -47,9 +47,8 @@ define( ["view/easel-util", "model/vector2d"], function ( EaselUtil, Vector2D ) 
         that.y = 160;
 
         that.tick = function () {
-            var angle = skater.model.velocity.magnitude() * 50;
+            var angle = skater.model.velocity.magnitude() * 25;
 
-            var tickLength = (i % 2 == 0) ? 16 : 8;
             var innerVector = Vector2D.fromAngle( toRadians( angle + 180 - degreesPerTick * 2 ) ).times( -20 );
             var vector = Vector2D.fromAngle( toRadians( angle + 180 - degreesPerTick * 2 ) ).times( radius );
             needle.graphics.clear().beginStroke( "red" ).setStrokeStyle( 4 ).moveTo( innerVector.x, innerVector.y ).lineTo( vector.x, vector.y );
