@@ -68,6 +68,9 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 var s = i / maxIterations;
                 return getHeuristicError( s );
             } );
+
+            //Perform a binary search to find the best location.
+
 //            console.log( selectedI );
             var s = selectedI / maxIterations;
             skater.attachmentPoint = s;
