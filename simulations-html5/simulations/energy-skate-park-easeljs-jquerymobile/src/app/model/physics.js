@@ -50,8 +50,8 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
 
             //Find a point on the track that has a state similar to [proposedX,proposedY,proposedVx,proposedVy,E0]
 //            var targetState = [proposedX, proposedY, skater.velocity.x, skater.velocity.y, originalEnergy];
-            var selectedI = _.min( numbersToSearch, function ( i ) {
-                var s = i / maxIterations;
+
+            function getHeuristicError( s ) {
                 var x = splineX.at( s );
                 var y = splineY.at( s );
                 var a = (proposedX - x);
@@ -62,6 +62,11 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 var e = (proposedEnergy - originalMechanicalEnergy);
                 var positionWeight = 10;//TODO: Tune this value?
                 return positionWeight * (a * a + b * b) + c * c + d * d + e * e;  //minimizing square same result
+            }
+
+            var selectedI = _.min( numbersToSearch, function ( i ) {
+                var s = i / maxIterations;
+                return getHeuristicError( s );
             } );
 //            console.log( selectedI );
             var s = selectedI / maxIterations;
