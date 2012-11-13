@@ -48,28 +48,27 @@ public class LightBulb extends EnergyUser {
     private static final double RADIATED_ENERGY_CHUNK_MAX_DISTANCE = 0.5;
     private static final Random RAND = new Random();
     private static final DoubleRange THERMAL_ENERGY_CHUNK_TIME_ON_FILAMENT = new DoubleRange( 2, 2.5 );
+    private static final double ENERGY_TO_FULLY_LIGHT = 50;
 
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private final double energyToFullyLight; // In joules/sec, a.k.a. watts.
     private final IUserComponent userComponent;
-
     public final Property<Double> litProportion = new Property<Double>( 0.0 );
-
     private List<EnergyChunkPathMover> electricalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private List<EnergyChunkPathMover> thermalEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
     private List<EnergyChunkPathMover> lightEnergyChunkMovers = new ArrayList<EnergyChunkPathMover>();
+    private final boolean hasFilament;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected LightBulb( IUserComponent userComponent, Image icon, double energyToFullyLight ) {
+    protected LightBulb( IUserComponent userComponent, Image icon, boolean hasFilament ) {
         super( icon );
         this.userComponent = userComponent;
-        this.energyToFullyLight = energyToFullyLight;
+        this.hasFilament = hasFilament;
     }
 
     //-------------------------------------------------------------------------
@@ -104,12 +103,18 @@ public class LightBulb extends EnergyUser {
                 energyChunkMover.moveAlongPath( dt );
                 if ( energyChunkMover.isPathFullyTraversed() ) {
                     electricalEnergyChunkMovers.remove( energyChunkMover );
-                    // Turn this energy chunk into thermal energy on the filament.
-                    energyChunkMover.energyChunk.energyType.set( EnergyType.THERMAL );
-                    List<Vector2D> energyChunkPath = createThermalEnergyChunkPath( energyChunkMover.energyChunk.position.get() );
-                    thermalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
-                                                                            energyChunkPath,
-                                                                            getTotalPathLength( energyChunkMover.energyChunk.position.get(), energyChunkPath ) / generateThermalChunkTimeOnFilament() ) );
+                    if ( hasFilament ){
+                        // Turn this energy chunk into thermal energy on the filament.
+                        energyChunkMover.energyChunk.energyType.set( EnergyType.THERMAL );
+                        List<Vector2D> energyChunkPath = createThermalEnergyChunkPath( energyChunkMover.energyChunk.position.get() );
+                        thermalEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunkMover.energyChunk,
+                                                                                energyChunkPath,
+                                                                                getTotalPathLength( energyChunkMover.energyChunk.position.get(), energyChunkPath ) / generateThermalChunkTimeOnFilament() ) );
+                    }
+                    else{
+                        // There is no filament, so just radiate the chunk.
+                        radiateEnergyChunk( energyChunkMover.energyChunk );
+                    }
                 }
             }
 
@@ -119,11 +124,7 @@ public class LightBulb extends EnergyUser {
                 if ( thermalEnergyChunkMover.isPathFullyTraversed() ) {
                     // Cause this energy chunk to be radiated from the bulb.
                     thermalEnergyChunkMovers.remove( thermalEnergyChunkMover );
-                    thermalEnergyChunkMover.energyChunk.energyType.set( EnergyType.LIGHT );
-                    List<Vector2D> lightPath = new ArrayList<Vector2D>() {{
-                        add( getPosition().plus( OFFSET_TO_RADIATE_POINT ).plus( new Vector2D( 0, RADIATED_ENERGY_CHUNK_MAX_DISTANCE ).getRotatedInstance( ( RAND.nextDouble() - 0.5 ) * ( Math.PI / 2 ) ) ) );
-                    }};
-                    lightEnergyChunkMovers.add( new EnergyChunkPathMover( thermalEnergyChunkMover.energyChunk, lightPath, EFACConstants.ENERGY_CHUNK_VELOCITY ) );
+                    radiateEnergyChunk( thermalEnergyChunkMover.energyChunk );
                 }
             }
 
@@ -139,12 +140,20 @@ public class LightBulb extends EnergyUser {
 
             // Set how lit the bulb is.
             if ( isActive() && incomingEnergy.type == EnergyType.ELECTRICAL ) {
-                litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / energyToFullyLight, 1 ) );
+                litProportion.set( MathUtil.clamp( 0, incomingEnergy.amount / ENERGY_TO_FULLY_LIGHT, 1 ) );
             }
             else {
                 litProportion.set( 0.0 );
             }
         }
+    }
+
+    private void radiateEnergyChunk( EnergyChunk energyChunk ) {
+        energyChunk.energyType.set( EnergyType.LIGHT );
+        List<Vector2D> lightPath = new ArrayList<Vector2D>() {{
+            add( getPosition().plus( OFFSET_TO_RADIATE_POINT ).plus( new Vector2D( 0, RADIATED_ENERGY_CHUNK_MAX_DISTANCE ).getRotatedInstance( ( RAND.nextDouble() - 0.5 ) * ( Math.PI / 2 ) ) ) );
+        }};
+        lightEnergyChunkMovers.add( new EnergyChunkPathMover( energyChunk, lightPath, EFACConstants.ENERGY_CHUNK_VELOCITY ) );
     }
 
     private boolean goRightNextTime = true;

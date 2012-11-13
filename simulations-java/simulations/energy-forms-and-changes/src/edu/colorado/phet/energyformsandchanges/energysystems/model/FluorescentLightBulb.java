@@ -21,9 +21,7 @@ public class FluorescentLightBulb extends LightBulb {
     public static final ModelElementImage FRONT_OFF = new ModelElementImage( FLUORESCENT_FRONT, IMAGE_OFFSET );
     public static final ModelElementImage FRONT_ON = new ModelElementImage( FLUORESCENT_ON_FRONT, IMAGE_OFFSET );
 
-    private static final double ENERGY_TO_FULLY_LIGHT = 20; // In joules/sec, a.k.a. watts.
-
     protected FluorescentLightBulb() {
-        super( selectFluorescentLightBulbButton, FLUORESCENT_ICON, ENERGY_TO_FULLY_LIGHT );
+        super( selectFluorescentLightBulbButton, FLUORESCENT_ICON, false );
     }
 }
