@@ -169,7 +169,11 @@ define( [
         createjs.Ticker.setFPS( 60 );
         createjs.Ticker.addListener( function () {
             if ( !paused ) {
-                Physics.updatePhysics( skaterModel, groundHeight, splineLayer );
+                var dt = 0.01;
+                var maxSteps = 10;
+                for ( var i = 0; i < maxSteps; i++ ) {
+                    Physics.updatePhysics( skaterModel, groundHeight, splineLayer, dt / maxSteps );
+                }
                 skater.updateFromModel();
                 updateFrameRate();
                 barChart.tick();
