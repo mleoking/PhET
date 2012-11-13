@@ -96,7 +96,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
             var y = splineY.at( s );
             skater.position.x = x;
             skater.position.y = y;
-            skater.velocity = new Vector2D( (skater.position.x - originalX) / dt, (skater.y - originalY) / dt );
+            skater.velocity = new Vector2D( (skater.position.x - originalX) / dt, (skater.position.y - originalY) / dt );
 
             //Conserve energy by tuning the velocity.
             var sqrtArg = 2 * (originalMechanicalEnergy / skater.mass - 9.8 * skater.position.y);
@@ -104,7 +104,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
                 var speed = Math.sqrt( sqrtArg );
                 skater.velocity = skater.velocity.unit().times( speed );
             }
-            //constant energy means
+            //TODO: if the track is steep, use the vertical position instead of velocity to correct energy errors
 
             if ( s >= 1.0 || s <= 0 ) {
                 skater.attached = false;
