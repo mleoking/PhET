@@ -116,7 +116,15 @@ public class EnergySystemsModel implements Resettable {
     //-------------------------------------------------------------------------
 
     public void reset() {
-        // TODO.
+        energySourcesCarousel.getSelectedElement().deactivate();
+        energyConvertersCarousel.getSelectedElement().deactivate();
+        energyUsersCarousel.getSelectedElement().deactivate();
+        energySourcesCarousel.targetIndex.set( 0 );
+        energyConvertersCarousel.targetIndex.set( 0 );
+        energyUsersCarousel.targetIndex.set( 0 );
+        energySourcesCarousel.getSelectedElement().activate();
+        energyConvertersCarousel.getSelectedElement().activate();
+        energyUsersCarousel.getSelectedElement().activate();
     }
 
     public IClock getClock() {
