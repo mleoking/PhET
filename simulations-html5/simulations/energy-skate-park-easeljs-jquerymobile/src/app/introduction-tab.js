@@ -9,8 +9,9 @@ define( [
             'view/pie-chart',
             'view/grid',
             'view/bar-chart',
-            'view/speedometer'
-        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
+            'view/speedometer',
+            'util/version'
+        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer, Version ) {
     var IntroductionTab = function () {
         var root = new createjs.Container();
 
@@ -84,7 +85,8 @@ define( [
             frameTime += (thisFrameTime - frameTime) / filterStrength;
             lastLoop = thisLoop;
             if ( frameCount > 30 ) {
-                fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";// @"+location.href;
+//                fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";// @"+location.href;
+                fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps @" + Version.version;// @"+location.href;
             }
         }
 
@@ -173,7 +175,7 @@ define( [
 //                var maxSteps = 10;
 //                for ( var i = 0; i < maxSteps; i++ ) {
 //                    Physics.updatePhysics( skaterModel, groundHeight, splineLayer, dt );
-                Physics.updatePhysics( skaterModel, groundHeight, splineLayer );
+                Physics.updatePhysics( skaterModel, groundHeight, splineLayer, dt );
 //                }
                 skater.updateFromModel();
                 updateFrameRate();
