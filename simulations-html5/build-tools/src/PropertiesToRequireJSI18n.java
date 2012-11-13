@@ -71,7 +71,7 @@ public class PropertiesToRequireJSI18n {
             if ( !english ) {
                 final String tail = file.getName().substring( file.getName().indexOf( "_" ) + 1 );
                 String localeAndCountry = tail.substring( 0, tail.indexOf( '.' ) );
-                File outputDir = new File( destination, localeAndCountry.toLowerCase() );
+                File outputDir = new File( destination, localeAndCountry.toLowerCase().replace( "_", "-" ) );
                 outputDir.mkdirs();
                 System.out.println( "outputDir = " + outputDir );
                 FileUtils.writeString( new File( outputDir, filename ), output );
@@ -101,7 +101,7 @@ public class PropertiesToRequireJSI18n {
             if ( !english ) {
                 final String tail = file.getName().substring( file.getName().indexOf( "_" ) + 1 );
                 String localeAndCountry = tail.substring( 0, tail.indexOf( '.' ) );
-                strings.add( localeAndCountry );
+                strings.add( localeAndCountry.toLowerCase().replace( "_", "-" ) );
             }
         }
         return strings;
