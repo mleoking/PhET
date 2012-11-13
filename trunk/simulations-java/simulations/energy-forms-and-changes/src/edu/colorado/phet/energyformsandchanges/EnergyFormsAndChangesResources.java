@@ -143,10 +143,10 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage THERMOMETER_MEDIUM_FRONT = RESOURCES.getImage( "thermometer_medium_front.png" );
         public static final BufferedImage WATER_ICON = RESOURCES.getImage( "water_icon.png" );
         public static final BufferedImage WIRE_BLACK = RESOURCES.getImage( "wire_black.png" );
+        public static final BufferedImage WIRE_BLACK_62 = RESOURCES.getImage( "wire_black_62.png" );
         public static final BufferedImage WIRE_BLACK_86 = RESOURCES.getImage( "wire_black_86.png" );
         public static final BufferedImage WIRE_BLACK_LEFT = RESOURCES.getImage( "wire_black_left.png" );
         public static final BufferedImage WIRE_BLACK_MIDDLE = RESOURCES.getImage( "wire_black_middle.png" );
-        public static final BufferedImage WIRE_BLACK_MIDDLE_62 = RESOURCES.getImage( "wire_black_middle_62.png" );
         public static final BufferedImage WIRE_BLACK_RIGHT = RESOURCES.getImage( "wire_black_right.png" );
     }
 }
