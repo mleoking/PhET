@@ -30,7 +30,6 @@ require( [
     root.addChild( atomView );
 
     atomStage.update();
-    console.log( "main init" );
 
     //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
     atomConstructionCanvas[0].onselectstart = function () {
