@@ -171,8 +171,8 @@ public class PointSlopeEquationNode extends EquationNode {
             return;
         }
         else if ( ( line.same( Line.Y_EQUALS_X_LINE ) || line.same( Line.Y_EQUALS_NEGATIVE_X_LINE ) ) && !interactive ) {
-            // use slope-intercept form for non-interactive standard lines
-            addChild( new SlopeInterceptEquationNode( line, staticFont, staticColor ) );
+            // use slope-intercept form for y=x and y=-x, using a line with the proper slope and (x1,y1)=(0,0)
+            addChild( new SlopeInterceptEquationNode( Line.createSlopeIntercept( line.rise, line.run, 0, line.color ), staticFont, staticColor ) );
             return;
         }
         else {
