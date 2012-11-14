@@ -26,7 +26,7 @@ public class PropertiesToRequireJSI18n {
 
         for ( final File file : source.listFiles( new FilenameFilter() {
             public boolean accept( final File dir, final String name ) {
-                return name.endsWith( ".properties" );
+                return name.endsWith( ".properties" ) && name.contains( "-strings" );
             }
         } ) ) {
             final boolean english = file.getName().indexOf( '_' ) < 0;
