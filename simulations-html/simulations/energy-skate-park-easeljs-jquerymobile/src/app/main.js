@@ -10,7 +10,8 @@ require( ['websocket-refresh',
 //    $( "#tab2" ).append( $( '<canvas id="c" width=400 height=300></canvas>' ) );
 //    $( "#tab3" ).append( $( '<canvas id="c" width=400 height=300></canvas>' ) );
 
-    $( '#tab1' ).css( 'position', 'absolute' ).css( 'width', '100%' ).css( 'height', '100%' );
+//    $( '#tab1' ).css( 'position', 'absolute' ).css( 'width', '100%' ).css( 'height', '100%' );
+    $( '#tab1' ).css( 'width', '100%' ).css( 'height', '100%' );
 
 
     $( "#theMainBody" ).append( $( '<div data-role="navbar" id="navBar"><ul>' +
