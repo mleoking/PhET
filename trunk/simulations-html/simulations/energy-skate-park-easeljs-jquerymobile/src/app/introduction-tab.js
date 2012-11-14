@@ -111,27 +111,28 @@ define( [
         console.log( "pauseString = " + pauseString + ", playString = " + playString );
 
         //TODO: use requirejs templating for this (But maybe not since it may not work over file://)
-        $( "#tab1" ).append( $( '<select name="flip-min" id="flip-min" data-role="slider">' +
-                                '<option value="off">' + pauseString + '</option>' +
-                                '<option value="on">' + playString + '</option></select>' ) ).trigger( "create" );
+        var tab1 = $( "#tab1" );
+        tab1.append( $( '<select name="flip-min" id="flip-min" data-role="slider">' +
+                        '<option value="off">' + pauseString + '</option>' +
+                        '<option value="on">' + playString + '</option></select>' ) ).trigger( "create" );
 
         var slowMotionString = Strings["slow.motion"];
         var normalString = Strings.normal;
 
-        $( "#tab1" ).append( $( '<div id="speedControl"><fieldset data-role="controlgroup" data-type="horizontal">' +
-                                '<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked"/><label for="radio-choice-21">' + slowMotionString + '</label>' +
-                                '<input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/>' +
-                                '<label for="radio-choice-22">' + normalString + '</label></fieldset></div>' ) ).trigger( "create" );
+        tab1.append( $( '<div id="speedControl"><fieldset data-role="controlgroup" data-type="horizontal">' +
+                        '<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked"/><label for="radio-choice-21">' + slowMotionString + '</label>' +
+                        '<input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/>' +
+                        '<label for="radio-choice-22">' + normalString + '</label></fieldset></div>' ) ).trigger( "create" );
 
-        $( "#tab1" ).append( $( '<div data-role="control-panel" id="controlPanel">' +
-                                '<fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">' +
-                                '<legend></legend>' +
-                                '<input id="checkbox1" name="" type="checkbox"/>' +
-                                '<label for="checkbox1" id="barGraphLabel">' + Strings["plots.bar-graph"] + '</label>' +
-                                '<input id="checkbox2" name="" type="checkbox"/><label for="checkbox2" id="pieChartLabel">' + Strings["pieChart"] + '</label>' +
-                                '<input id="checkbox3" name="" type="checkbox"/><label for="checkbox3" id="gridLabel">' + Strings["controls.show-grid"] + '</label>' +
-                                '<input id="checkbox4" name="" type="checkbox"/><label for="checkbox4" id="speedLabel">' + Strings["properties.speed"] + '</label>' +
-                                '</fieldset><input type="range" name="slider-fill" id="slider-fill" value="60" min="0" max="100" data-highlight="true"/></div>' ) ).trigger( "create" );
+        tab1.append( $( '<div data-role="control-panel" id="controlPanel">' +
+                        '<fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">' +
+                        '<legend></legend>' +
+                        '<input id="checkbox1" name="" type="checkbox"/>' +
+                        '<label for="checkbox1" id="barGraphLabel">' + Strings["plots.bar-graph"] + '</label>' +
+                        '<input id="checkbox2" name="" type="checkbox"/><label for="checkbox2" id="pieChartLabel">' + Strings["pieChart"] + '</label>' +
+                        '<input id="checkbox3" name="" type="checkbox"/><label for="checkbox3" id="gridLabel">' + Strings["controls.show-grid"] + '</label>' +
+                        '<input id="checkbox4" name="" type="checkbox"/><label for="checkbox4" id="speedLabel">' + Strings["properties.speed"] + '</label>' +
+                        '</fieldset><input type="range" name="slider-fill" id="slider-fill" value="60" min="0" max="100" data-highlight="true"/></div>' ) ).trigger( "create" );
 
         //Wire up the pie chart check box button to the visibility of the pie chart
         $( "#checkbox1" ).click( function () { barChart.visible = $( "#checkbox1" ).is( ":checked" ); } );
