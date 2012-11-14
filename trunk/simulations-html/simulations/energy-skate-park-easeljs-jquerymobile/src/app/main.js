@@ -6,6 +6,7 @@ require( ['websocket-refresh',
     console.log( Strings["plots.position.meters"] );
     console.log( Strings["plots.energy-vs-position"] );
     console.log( Strings["energy-skate-park.description"] );
+    $( "#tab1" ).append( $( '<canvas id="c" width=400 height=300></canvas>' ) );
 
     $( "#theMainBody" ).append( $( '<div data-role="navbar" id="navBar"><ul>' +
                                    '<li><a href="" id="introNavBarButton" class="ui-btn-active ui-state-persist">' + Strings["tab.introduction"] + '</a></li>' +
