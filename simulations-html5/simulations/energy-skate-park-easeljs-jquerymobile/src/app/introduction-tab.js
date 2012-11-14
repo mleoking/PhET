@@ -120,17 +120,19 @@ define( [
         var pauseString = CommonStrings["Common.ClockControlPanel.Pause"];
         var playString = CommonStrings["Common.ClockControlPanel.Play"];
         console.log( "pauseString = " + pauseString + ", playString = " + playString );
-        $( "#tab1" ).append( $( '<select name="flip-min" id="flip-min" data-role="slider"><option value="off">' + pauseString + '</option><option value="on">' + playString + '</option></select>' ) ).trigger( "create" );
+        $( "#tab1" ).append( $( '<select name="flip-min" id="flip-min" data-role="slider">' +
+                                '<option value="off">' + pauseString + '</option>' +
+                                '<option value="on">' + playString + '</option></select>' ) ).trigger( "create" );
 
         var slowMotionString = Strings["slow.motion"];
         var normalString = Strings.normal;
-        $( "#tab1" ).append( $( '<div id="speedControl"><fieldset data-role="controlgroup" data-type="horizontal"><input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked"/><label for="radio-choice-21">' + slowMotionString +
-                                '</label><input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/><label for="radio-choice-22">' + normalString + '</label></fieldset></div>' ) ).trigger( "create" );
+        $( "#tab1" ).append( $( '<div id="speedControl"><fieldset data-role="controlgroup" data-type="horizontal">' +
+                                '<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked"/><label for="radio-choice-21">' + slowMotionString + '</label>' +
+                                '<input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/>' +
+                                '<label for="radio-choice-22">' + normalString + '</label></fieldset></div>' ) ).trigger( "create" );
 
         $( '#flip-min' ).val( 'on' ).slider( "refresh" );
-        $( "#flip-min" ).bind( "change", function ( event, ui ) {
-            paused = !paused;
-        } );
+        $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
 
         var onResize = function () {
             var winW = $( window ).width(),
@@ -179,8 +181,10 @@ define( [
             $( '#speedLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
 
             //TODO: This will need to be made more specific since it will cause problems if it applies to all slider switches
-            $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 40 + 'px' ).css( 'left', (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2) + 'px' );
-            $( '#speedControl' ).css( 'position', 'absolute' ).css( 'width', '400px' ).css( 'top', canvasH + top - 55 + 'px' ).css( 'left', 100 + 'px' );
+            $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' );
+            var leftSideOfPlayPauseButton = (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2);
+            $( 'div.ui-slider-switch' ).css( 'top', canvasH + top - 40 + 'px' ).css( 'left', leftSideOfPlayPauseButton + 'px' );
+            $( '#speedControl' ).css( 'position', 'absolute' ).css( 'width', '400px' ).css( 'top', canvasH + top - 55 + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
         };
         $( window ).resize( onResize );
         onResize(); // initial position
