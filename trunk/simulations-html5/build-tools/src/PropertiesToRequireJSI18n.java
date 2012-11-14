@@ -25,7 +25,7 @@ public class PropertiesToRequireJSI18n {
         File destination = new File( args[1] );
 
         for ( final File file : source.listFiles( new FilenameFilter() {
-            @Override public boolean accept( final File dir, final String name ) {
+            public boolean accept( final File dir, final String name ) {
                 return name.endsWith( ".properties" );
             }
         } ) ) {
@@ -93,7 +93,7 @@ public class PropertiesToRequireJSI18n {
         ArrayList<String> strings = new ArrayList<String>();
 
         for ( final File file : source.listFiles( new FilenameFilter() {
-            @Override public boolean accept( final File dir, final String name ) {
+            public boolean accept( final File dir, final String name ) {
                 return name.endsWith( ".properties" );
             }
         } ) ) {
