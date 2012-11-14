@@ -225,6 +225,16 @@ public class BeakerHeater extends EnergyUser {
     @Override public void deactivate() {
         super.deactivate();
         heatProportion.set( 0.0 );
+        beaker.reset();
+        beaker.position.set( getPosition().plus( BEAKER_OFFSET ) );
+    }
+
+    @Override public void clearEnergyChunks() {
+        super.clearEnergyChunks();
+        wireEnergyChunkMovers.clear();
+        heatingElementEnergyChunkMovers.clear();
+        radiatedEnergyChunkMovers.clear();
+        radiatedEnergyChunkList.clear();
     }
 
     @Override public IUserComponent getUserComponent() {
