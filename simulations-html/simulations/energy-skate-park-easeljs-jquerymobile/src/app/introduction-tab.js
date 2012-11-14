@@ -69,12 +69,6 @@ define( [
         var frameTime = 0, lastLoop = new Date, thisLoop;
         var paused = false;
 
-        //Wire up the pie chart check box button to the visibility of the pie chart
-        $( "#checkbox1" ).click( function () { barChart.visible = $( "#checkbox1" ).is( ":checked" ); } );
-        $( "#checkbox2" ).click( function () { pieChart.visible = $( "#checkbox2" ).is( ":checked" ); } );
-        $( "#checkbox3" ).click( function () { grid.visible = $( "#checkbox3" ).is( ":checked" ); } );
-        $( "#checkbox4" ).click( function () { speedometer.visible = $( "#checkbox4" ).is( ":checked" ); } );
-
         function updateFrameRate() {
             frameCount++;
 
@@ -116,26 +110,34 @@ define( [
         var playString = CommonStrings["Common.ClockControlPanel.Play"];
         console.log( "pauseString = " + pauseString + ", playString = " + playString );
 
-        //TODO: use requirejs templating for this.
+        //TODO: use requirejs templating for this (But maybe not since it may not work over file://)
         $( "#tab1" ).append( $( '<select name="flip-min" id="flip-min" data-role="slider">' +
                                 '<option value="off">' + pauseString + '</option>' +
                                 '<option value="on">' + playString + '</option></select>' ) ).trigger( "create" );
 
         var slowMotionString = Strings["slow.motion"];
         var normalString = Strings.normal;
+
         $( "#tab1" ).append( $( '<div id="speedControl"><fieldset data-role="controlgroup" data-type="horizontal">' +
                                 '<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked"/><label for="radio-choice-21">' + slowMotionString + '</label>' +
                                 '<input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/>' +
                                 '<label for="radio-choice-22">' + normalString + '</label></fieldset></div>' ) ).trigger( "create" );
+
         $( "#tab1" ).append( $( '<div data-role="control-panel" id="controlPanel">' +
                                 '<fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">' +
                                 '<legend></legend>' +
                                 '<input id="checkbox1" name="" type="checkbox"/>' +
-                                '<label for="checkbox1" id="barGraphLabel">Bar Graph</label>' +
-                                '<input id="checkbox2" name="" type="checkbox"/><label for="checkbox2" id="pieChartLabel">Pie Chart</label>' +
-                                '<input id="checkbox3" name="" type="checkbox"/><label for="checkbox3" id="gridLabel">Grid</label>' +
-                                '<input id="checkbox4" name="" type="checkbox"/><label for="checkbox4" id="speedLabel">Speed</label>' +
+                                '<label for="checkbox1" id="barGraphLabel">' + Strings["plots.bar-graph"] + '</label>' +
+                                '<input id="checkbox2" name="" type="checkbox"/><label for="checkbox2" id="pieChartLabel">' + Strings["pieChart"] + '</label>' +
+                                '<input id="checkbox3" name="" type="checkbox"/><label for="checkbox3" id="gridLabel">' + Strings["controls.show-grid"] + '</label>' +
+                                '<input id="checkbox4" name="" type="checkbox"/><label for="checkbox4" id="speedLabel">' + Strings["properties.speed"] + '</label>' +
                                 '</fieldset><input type="range" name="slider-fill" id="slider-fill" value="60" min="0" max="100" data-highlight="true"/></div>' ) ).trigger( "create" );
+
+        //Wire up the pie chart check box button to the visibility of the pie chart
+        $( "#checkbox1" ).click( function () { barChart.visible = $( "#checkbox1" ).is( ":checked" ); } );
+        $( "#checkbox2" ).click( function () { pieChart.visible = $( "#checkbox2" ).is( ":checked" ); } );
+        $( "#checkbox3" ).click( function () { grid.visible = $( "#checkbox3" ).is( ":checked" ); } );
+        $( "#checkbox4" ).click( function () { speedometer.visible = $( "#checkbox4" ).is( ":checked" ); } );
 
         $( '#barGraphLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
         $( '#pieChartLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
@@ -170,13 +172,12 @@ define( [
             //        $( "#controlPanel" ).css( "-webkit-transform", "scale(" + scale + "," + scale + ")" );
 
             var controlPanel = $( '#controlPanel' );
-            controlPanel.css( 'width', '200px' );
+            controlPanel.css( 'width', '270px' );
             controlPanel.css( 'top', (top + 30) + 'px' );
             controlPanel.css( 'right', left + 'px' );
 
             //Apply css overrides last (i.e. after other css takes effect.
             //There must be a better way to do this, hopefully this can be improved easily.
-            $( "#barGraphLabel .ui-btn-inner .ui-btn-text" ).text( "Bar Chart" );
             $( ".ui-shadow-inset" ).remove();
             var slider = $( ".ui-slider" );
             slider.css( "width", "100%" );
