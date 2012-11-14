@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     lint: {
       files: [
         'grunt.js',
-        'app/*.js'
+        'app-easel/*.js'
       ]
     },
 
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
     requirejs: {
       compile: {
         options: {
-          mainConfigFile: "app/config.js",
+          mainConfigFile: "app-easel/config.js",
           out: "dist/debug/require.js",
           name: "config",
           wrap: false
@@ -65,7 +65,7 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'requirejs concat min');
+  grunt.registerTask('default', 'lint requirejs concat min');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
 
 };
