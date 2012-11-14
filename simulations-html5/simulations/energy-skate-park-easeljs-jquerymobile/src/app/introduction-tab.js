@@ -12,8 +12,9 @@ define( [
             'view/bar-chart',
             'view/speedometer',
             'util/version',
-            'i18n!nls/energy-skate-park-strings'
-        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Version, Strings ) {
+            'i18n!nls/energy-skate-park-strings',
+            'i18n!../../../../common/common-html5/src/app/nls/phetcommon-strings'
+        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Version, Strings, CommonStrings ) {
     var IntroductionTab = function () {
         var root = new createjs.Container();
 
@@ -116,8 +117,10 @@ define( [
         $( '#gridLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
         $( '#speedLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
 
-        var pauseString = "Pause";
-        $( "#tab1" ).append( $( '<select name="flip-min" id="flip-min" data-role="slider"><option value="off">' + pauseString + '</option><option value="on">Play</option></select>' ) ).trigger( "create" );
+        var pauseString = CommonStrings["Common.ClockControlPanel.Pause"];
+        var playString = CommonStrings["Common.ClockControlPanel.Play"];
+        console.log( "pauseString = " + pauseString + ", playString = " + playString );
+        $( "#tab1" ).append( $( '<select name="flip-min" id="flip-min" data-role="slider"><option value="off">' + pauseString + '</option><option value="on">' + playString + '</option></select>' ) ).trigger( "create" );
 
         $( '#flip-min' ).val( 'on' ).slider( "refresh" );
         $( "#flip-min" ).bind( "change", function ( event, ui ) {
