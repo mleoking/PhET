@@ -1,4 +1,4 @@
-define( ["view/easel-util", "model/vector2d"], function ( EaselUtil, Vector2D ) {
+define( ["view/easel-util", "model/vector2d", 'i18n!nls/energy-skate-park-strings'], function ( EaselUtil, Vector2D, Strings ) {
     return {createSpeedometer: function ( skater ) {
         var that = new createjs.Container();
         var shape = new createjs.Shape();
@@ -7,7 +7,7 @@ define( ["view/easel-util", "model/vector2d"], function ( EaselUtil, Vector2D ) 
         that.shape = shape;
         that.addChild( shape );
 
-        var energyLabel = new createjs.Text( 'Speed', '24px "Arial",Tahoma', 'blue' );
+        var energyLabel = new createjs.Text( Strings["properties.speed"], '24px "Arial",Tahoma', 'blue' );
         energyLabel.x = -energyLabel.getMeasuredWidth() / 2;
         energyLabel.y = -energyLabel.getMeasuredLineHeight() / 2 - 40;
         energyLabel.shadow = new createjs.Shadow( 'black', 1, 1, 2 );
