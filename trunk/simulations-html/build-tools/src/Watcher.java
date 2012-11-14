@@ -95,7 +95,7 @@ public class Watcher {
             System.out.println( "Sent refresh command." );
 
             //If there is a version file, update it.  The version file helps us be reassured that the browser is running the latest version instead of running a previous cached version.
-            File f = new File( "C:\\workingcopy\\phet\\svn-1.7\\trunk\\simulations-html5\\simulations\\energy-skate-park-easeljs-jquerymobile\\src\\app\\util\\version.js" );
+            File f = new File( "C:\\workingcopy\\phet\\svn-1.7\\trunk\\simulations-html\\simulations\\energy-skate-park-easeljs-jquerymobile\\src\\app\\util\\version.js" );
             if ( f.exists() ) {
                 String file = FileUtils.loadFileAsString( f );
                 String tail = file.substring( file.lastIndexOf( ':' ) + 1 ).trim();

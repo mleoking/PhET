@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="WEB_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/simulations/bouncy-easel" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/bouncy-fabric" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/bouncy-kinetic" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/bouncy-paper" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/concentration-caat" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/concentration-html5" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/energy-skate-park-easeljs" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/energy-skate-park-fabricjs" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/energy-skate-park-html5" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/energy-skate-park-kineticjs" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/energy-skate-park-kineticjs-dom" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/energy-skate-park-paper" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/energy-skate-park-processingjs" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/energy-skate-park-raphael" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/energy-skate-park-svg" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/masses-and-springs-html5" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
+
