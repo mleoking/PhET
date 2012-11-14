@@ -1,3 +1,4 @@
+11/14/12 change request: "Save line" -> "Save Line", "Erase lines" -> "Erase Lines"
 # 0.00.40 (70166) Nov 10, 2012
 11/10/12 dev version for interviews on first 3 tabs
 11/10/12 temporarily hide "Line Game" tab
