@@ -3,7 +3,6 @@ package edu.colorado.phet.simsharinganalysis.scripts.utah_november_2011_ii
 import java.io.File
 import io.Source
 import collection.mutable.ArrayBuffer
-import java.text.DecimalFormat
 
 /**
  * Goal of this analysis:
@@ -173,6 +172,8 @@ object NewParser {
     //    val endPlayTime: Long = startPlayTime + elapsedPlayTime
 
     //right before everyone starts changing to tab 1 for the activity
+    val elapsed = 609600L
+    println("elapsed minutes = " + elapsed / 1000.0 / 60.0)
     val endPlayTime: Long = 1320867957969L + 609600L
 
     //    println(endPlayTime)
@@ -197,9 +198,9 @@ object NewParser {
       val elements = getStates(log)
       val entriesUsedInPlayTime = getUsedComponents(elements, e => e.serverTime >= startPlayTime && e.serverTime <= endPlayTime)
       val entriesUsedAnyTime = getUsedComponents(elements, e => true)
-//      println(log.id + "\t" + formatter.format(entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0) + "%")
+      //      println(log.id + "\t" + formatter.format(entriesUsedInPlayTime.length.toDouble / componentSet.size.toDouble * 100.0) + "%")
       val missedComponents = allComponents.distinct -- entriesUsedInPlayTime.distinct
-      println(log.id+"\t"+missedComponents.length+"\t"+missedComponents.mkString(", "))
+      println(log.id + "\t" + missedComponents.length + "\t" + missedComponents.mkString(", "))
     }
     println()
 
@@ -237,5 +238,12 @@ object NewParser {
       println(log.id + "\t" + unusedComponents.toList.sortBy(_.toString).mkString(", "))
     }
 
+    //tabulate the number of mouse clicks the group with "id = 23" made during the 10 minutes of sim use we've specified previously.
+    //Since the focus of the Polarity paper is on the amount of features students use (the representations and tools students interacted with) I want to make sure the reader doesn't confuse the number of features used with the number of actual clicks. To do that, I'd like to give the number of clicks an example student group made, and compare that with the number of features used.
+    println("tabulate the number of events")
+    for ( log <- logs.sortBy(_.id) ) {
+      val entries = log.entries.filter(e => e.component != "window" && e.component != "system" && e.serverTime >= startPlayTime && e.serverTime <= endPlayTime)
+      println(log.id + "\t" + entries.length + "\t" + entries.map(entry => "\"" + entry.component + " " + entry.action + "\"").mkString("\t"))
+    }
   }
 }
