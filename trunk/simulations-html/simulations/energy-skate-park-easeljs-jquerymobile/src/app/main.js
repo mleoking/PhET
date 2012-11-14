@@ -8,9 +8,13 @@ require( ['websocket-refresh',
     console.log( Strings["energy-skate-park.description"] );
 
     $( "#theMainBody" ).append( $( '<div data-role="navbar" id="navBar"><ul>' +
-                                   '<li><a href="" class="ui-btn-active ui-state-persist">' + Strings["tab.introduction"] + '</a></li>' +
+                                   '<li><a href="" id="introNavBarButton" class="ui-btn-active ui-state-persist">' + Strings["tab.introduction"] + '</a></li>' +
                                    '<li><a href="" id="frictionNavBarButton">' + Strings["tab.friction"] + '</a></li>' +
-                                   '<li><a href="">' + Strings["tab.trackPlayground"] + '</a></li></ul></div>' ) ).trigger( "create" );
+                                   '<li><a href="" id="playgroundNavBarButton">' + Strings["tab.trackPlayground"] + '</a></li></ul></div>' ) ).trigger( "create" );
+
+    $( "#introNavBarButton" ).click( function () { console.log( "intro" ); } );
+    $( "#frictionNavBarButton" ).click( function () { console.log( "friction" ); } );
+    $( "#playgroundNavBarButton" ).click( function () { console.log( "playground" ); } );
     WebsocketRefresh.listenForRefresh();
     var tab1 = new IntroductionTab();
 } );
