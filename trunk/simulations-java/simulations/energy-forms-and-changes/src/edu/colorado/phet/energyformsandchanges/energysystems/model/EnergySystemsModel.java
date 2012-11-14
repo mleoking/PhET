@@ -116,6 +116,7 @@ public class EnergySystemsModel implements Resettable {
     //-------------------------------------------------------------------------
 
     public void reset() {
+        energyChunksVisible.reset();
         energySourcesCarousel.getSelectedElement().deactivate();
         energyConvertersCarousel.getSelectedElement().deactivate();
         energyUsersCarousel.getSelectedElement().deactivate();
