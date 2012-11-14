@@ -112,14 +112,11 @@ define( [
             };
         })( jQuery );
 
-        $( '#barGraphLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
-        $( '#pieChartLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
-        $( '#gridLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
-        $( '#speedLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
-
         var pauseString = CommonStrings["Common.ClockControlPanel.Pause"];
         var playString = CommonStrings["Common.ClockControlPanel.Play"];
         console.log( "pauseString = " + pauseString + ", playString = " + playString );
+
+        //TODO: use requirejs templating for this.
         $( "#tab1" ).append( $( '<select name="flip-min" id="flip-min" data-role="slider">' +
                                 '<option value="off">' + pauseString + '</option>' +
                                 '<option value="on">' + playString + '</option></select>' ) ).trigger( "create" );
@@ -130,6 +127,20 @@ define( [
                                 '<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked"/><label for="radio-choice-21">' + slowMotionString + '</label>' +
                                 '<input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/>' +
                                 '<label for="radio-choice-22">' + normalString + '</label></fieldset></div>' ) ).trigger( "create" );
+        $( "#tab1" ).append( $( '<div data-role="control-panel" id="controlPanel">' +
+                                '<fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">' +
+                                '<legend></legend>' +
+                                '<input id="checkbox1" name="" type="checkbox"/>' +
+                                '<label for="checkbox1" id="barGraphLabel">Bar Graph</label>' +
+                                '<input id="checkbox2" name="" type="checkbox"/><label for="checkbox2" id="pieChartLabel">Pie Chart</label>' +
+                                '<input id="checkbox3" name="" type="checkbox"/><label for="checkbox3" id="gridLabel">Grid</label>' +
+                                '<input id="checkbox4" name="" type="checkbox"/><label for="checkbox4" id="speedLabel">Speed</label>' +
+                                '</fieldset><input type="range" name="slider-fill" id="slider-fill" value="60" min="0" max="100" data-highlight="true"/></div>' ) ).trigger( "create" );
+
+        $( '#barGraphLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
+        $( '#pieChartLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
+        $( '#gridLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
+        $( '#speedLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
 
         $( '#flip-min' ).val( 'on' ).slider( "refresh" );
         $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
