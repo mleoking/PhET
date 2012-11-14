@@ -73,11 +73,6 @@ define( [
         $( "#checkbox3" ).click( function () { grid.visible = $( "#checkbox3" ).is( ":checked" ); } );
         $( "#checkbox4" ).click( function () { speedometer.visible = $( "#checkbox4" ).is( ":checked" ); } );
 
-        $( '#flip-min' ).val( 'on' ).slider( "refresh" );
-        $( "#flip-min" ).bind( "change", function ( event, ui ) {
-            paused = !paused;
-        } );
-
         function updateFrameRate() {
             frameCount++;
 
@@ -122,6 +117,11 @@ define( [
 
         var pauseString = "Pause";
         $( "#tab1" ).append( $( '<select name="flip-min" id="flip-min" data-role="slider"><option value="off">' + pauseString + '</option><option value="on">Play</option></select>' ) ).trigger( "create" );
+
+        $( '#flip-min' ).val( 'on' ).slider( "refresh" );
+        $( "#flip-min" ).bind( "change", function ( event, ui ) {
+            paused = !paused;
+        } );
 
         var onResize = function () {
             var winW = $( window ).width(),
