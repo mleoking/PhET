@@ -10,8 +10,9 @@ define( [
             'view/grid',
             'view/bar-chart',
             'view/speedometer',
-            'util/version'
-        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer, Version ) {
+            'util/version',
+            'i18n!nls/energy-skate-park-strings'
+        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer, Version, Strings ) {
     var IntroductionTab = function () {
         var root = new createjs.Container();
 
@@ -118,6 +119,9 @@ define( [
         $( '#pieChartLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
         $( '#gridLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
         $( '#speedLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
+
+        var pauseString = "Pause";
+        $( "#tab1" ).append( $( '<select name="flip-min" id="flip-min" data-role="slider"><option value="off">' + pauseString + '</option><option value="on">Play</option></select>' ) ).trigger( "create" );
 
         var onResize = function () {
             var winW = $( window ).width(),
