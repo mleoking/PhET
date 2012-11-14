@@ -122,6 +122,11 @@ define( [
         console.log( "pauseString = " + pauseString + ", playString = " + playString );
         $( "#tab1" ).append( $( '<select name="flip-min" id="flip-min" data-role="slider"><option value="off">' + pauseString + '</option><option value="on">' + playString + '</option></select>' ) ).trigger( "create" );
 
+        var slowMotionString = Strings["slow.motion"];
+        var normalString = Strings.normal;
+        $( "#tab1" ).append( $( '<div id="speedControl"><fieldset data-role="controlgroup" data-type="horizontal"><input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked"/><label for="radio-choice-21">' + slowMotionString +
+                                '</label><input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/><label for="radio-choice-22">' + normalString + '</label></fieldset></div>' ) ).trigger( "create" );
+
         $( '#flip-min' ).val( 'on' ).slider( "refresh" );
         $( "#flip-min" ).bind( "change", function ( event, ui ) {
             paused = !paused;
