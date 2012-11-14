@@ -13,7 +13,7 @@ define( [
             'view/speedometer',
             'util/version',
             'i18n!nls/energy-skate-park-strings',
-            'i18n!../../../../common/common-html5/src/app/nls/phetcommon-strings'
+            'i18n!../../../../common/common-html/src/app/nls/phetcommon-strings'
         ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Version, Strings, CommonStrings ) {
     var IntroductionTab = function () {
         var root = new createjs.Container();
