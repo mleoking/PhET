@@ -1,8 +1,8 @@
 define( ["skater", 'util/extend'], function ( Skater ) {
     
     return createjs.Container.extend('Grid', {
-        initialize: function( superInitialize, groundY ) {
-            superInitialize();
+        initialize: function( superInit, groundY ) {
+            superInit();
             var shape = new createjs.Shape();
             shape.graphics.beginStroke( 'black' ).setStrokeStyle( 1 );
             var gridSpacing = 70;

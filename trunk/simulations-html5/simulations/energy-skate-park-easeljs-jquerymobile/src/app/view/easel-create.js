@@ -2,7 +2,7 @@ define(function () {
     
     createjs.DisplayObject.__proto__.create = function(params) {
         var object = new this();
-        for(key in params) {
+        for(var key in params) {
             var value = params[key];
             var setter = 'set' + key.substring(0,1).toUpperCase() + key.substring(1);
             if(object[setter]) {
