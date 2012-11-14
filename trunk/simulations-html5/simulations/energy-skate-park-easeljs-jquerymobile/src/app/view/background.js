@@ -19,17 +19,24 @@ define( [
         var background = new createjs.Container();
         background.addChild( sky );
         background.addChild( ground );
-        var house = new createjs.Bitmap( houseImage );
-        house.y = 768 - groundHeight - houseImage.height;
-        house.x = 800;
-        var mountain = new createjs.Bitmap( mountainImage );
+        
+        background.addChild(
+            createjs.Bitmap.create({
+                image: houseImage,
+                x: 800,
+                y: 768 - groundHeight - houseImage.height
+            })
+        );
         var mountainScale = 0.43;
-        mountain.x = -50;
-        mountain.y = 768 - groundHeight - mountainImage.height * mountainScale;
-        mountain.scaleX = mountainScale;
-        mountain.scaleY = mountainScale;
-        background.addChild( mountain );
-        background.addChild( house );
+        background.addChild(
+            createjs.Bitmap.create({
+                image: mountainImage,
+                x: -50,
+                y: 768 - groundHeight - mountainImage.height * mountainScale,
+                scaleX: mountainScale,
+                scaleY: mountainScale
+            })
+        );
 
         //Cache as an image
 //        background.cache( 0, 0, 1024, 768 );

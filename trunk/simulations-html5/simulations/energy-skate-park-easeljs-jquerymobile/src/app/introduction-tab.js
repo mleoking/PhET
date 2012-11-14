@@ -5,6 +5,7 @@ define( [
             'view/background',
             'spline',
             'model/physics',
+            'view/easel-create',
             'view/easel-util',
             'view/pie-chart',
             'view/grid',
@@ -12,7 +13,7 @@ define( [
             'view/speedometer',
             'util/version',
             'i18n!nls/energy-skate-park-strings'
-        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer, Version, Strings ) {
+        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Version, Strings ) {
     var IntroductionTab = function () {
         var root = new createjs.Container();
 
