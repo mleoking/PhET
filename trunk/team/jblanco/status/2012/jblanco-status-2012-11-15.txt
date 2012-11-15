@@ -8,7 +8,7 @@ Time period covered: November 1st through November 14th.  This is a two week per
 
 Energy Forms and Changes - 26.0 hrs
 
-o	Met with Rachel Sherr of the Seattle Energy Project about the nature of the simulation.
+o	•	Met with Rachel Sherr (of the Seattle Energy Project) and Noah P about the design of the simulation.
 o	Made energy chunks be already present when sun is swapped in.
 o	Integrated darker heating element.
 o	Added beaker and thermometer.
@@ -23,7 +23,7 @@ o	Changed layout in support of translation.
 o	Added a "Reset All" button to the second tab.
 o	Published several versions for testing.
 
-Tablet Investigation - 39.0 hrs
+Tablet Investigation - 38.0 hrs
 
 o	Various discussions on scene graph libraries, modularization libraries, build tools, support libraries, off line operation, internationalization, and project structure with Sam R.
 o	Worked with Oliver on planning for trip to Google.
@@ -32,17 +32,16 @@ o	Set up BAA-html5 to be deployable to dev.
 o	Worked with Quick Left on prototype of BAA on Easel and general process.
 o	Set up and experimented with new Samsung tablet.
 o	Tried out some of the JavaScript training on "Lynda".
-o	Followup on ASSETT proposal (needed to get department chair's statement of support).
 o	Investigated accessibility and met with group in Toronto about how to potentially integrate it into our simulation design.
 o	Worked with Sam R on better use of Easel in BAA-html5.
 o	Communicated with Chris Kelly about the plan for future work with Competentum.
 o	Discussed PO for future Competentum work with Oliver N.
-o	Added periodic table to BAA-html5.
-o	Added several empty control panel-ish entities to BAA-html5 and experiment with layouts.
+o	Created HTML periodic table and added to BAA-html5.
+o	Added several empty control panel-ish entities to BAA-html5 and experimented with layouts.
 o	Discussed setup and tools with Chris M.
 o	Worked on cross-domain loading error issue with Sam B.
 
-Customer Support - 1.0 hrs
+Customer Support - 1.5 hrs
 
 o	Helped Pearson with Java 7 issues.
 o	Wrote up a summary of support provided over the last couple of month for Kathy to use in soliciting donations.
@@ -51,8 +50,9 @@ Line Graphing - 1.0 hrs
 
 o	Reviewed prior to and during physics meeting.
 
-Fund Raising - 0.25 hrs
+Fund Raising - 1.0 hrs
 
+o	Followup on ASSETT proposal (needed to get department chair's statement of support).
 o	Email to a group that Kathy D is in contact with.  They are working on educational applications.
 
 Installers - 0.25 hrs
