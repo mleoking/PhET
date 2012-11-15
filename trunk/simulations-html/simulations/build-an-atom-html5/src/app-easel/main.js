@@ -9,25 +9,38 @@ require( [
              'tpl!templates/periodic-table.html'
          ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketView, periodicTable ) {
 
-
+    // Create the canvas where atoms will be constructed.
     var atomConstructionCanvas = $( '#atom-construction-canvas' );
     var atomStage = new Easel.Stage( atomConstructionCanvas[0] );
 
+    // Create a root node for the scene graph.
     var root = new Easel.Container();
     atomStage.addChild( root );
 
-    var bucket = new BucketView( 100, 500 );
+    // Create and add the buckets.
+    var protonBucket = new BucketView( 125, 500 );
+    root.addChild( protonBucket );
+    var neutronBucket = new BucketView( 300, 500 );
+    root.addChild( neutronBucket );
+    root.addChild( new BucketView( 300, 500 ) );
+    root.addChild( new BucketView( 475, 500 ) );
 
-    root.addChild( bucket );
-    root.addChild( new BucketView( 250, 500 ) );
-    root.addChild( new BucketView( 400, 500 ) );
-
-    root.addChild( ParticleView.createParticleView( new Particle2( 0, 0, "red", 20, "proton" ) ) );
-    root.addChild( ParticleView.createParticleView( new Particle2( 50, 50, "gray", 20, "neutron" ) ) );
+    // Create and add the place where the nucleus will be constructed.
     var atomView = new AtomView();
     atomView.x = 100;
     atomView.y = 100;
     root.addChild( atomView );
+
+    // Create and add the particles.
+    root.addChild( ParticleView.createParticleView( new Particle2( protonBucket.x + 30, protonBucket.y, "red", 15, "proton" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( protonBucket.x + 60, protonBucket.y, "red", 15, "proton" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( protonBucket.x + 90, protonBucket.y, "red", 15, "proton" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( protonBucket.x + 120, protonBucket.y, "red", 15, "proton" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( neutronBucket.x + 30, neutronBucket.y, "gray", 15, "neutron" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( neutronBucket.x + 60, neutronBucket.y, "gray", 15, "neutron" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( neutronBucket.x + 90, neutronBucket.y, "gray", 15, "neutron" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( neutronBucket.x + 120, neutronBucket.y, "gray", 15, "neutron" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( 150, 150, "blue", 8, "electron" ) ) );
 
     atomStage.update();
 
@@ -41,7 +54,6 @@ require( [
 
     // Set the frame rate.
     Easel.Ticker.setFPS( 60 );
-
 
     //resize the canvas when the window is resized
     //Copied from energy skate park easel prototype
