@@ -1,3 +1,5 @@
+# 00.00.03 (70339) Nov 15, 2012
+11/15/12 Capturing a snapshot.
 # 00.00.02 (69952) Nov 5, 2012
 11/5/12 Changed name of index file to avoid instant startup on dev page.
 # 00.00.01 (69948) Nov 5, 2012
