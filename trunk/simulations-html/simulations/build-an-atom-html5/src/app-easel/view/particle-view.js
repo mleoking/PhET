@@ -6,7 +6,7 @@ define( [
     function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
     function showDefault( mouseEvent ) { document.body.style.cursor = "default"; }
 
-    function pressHandler( e ) {
+    var pressHandler = function ( e ) {
         //Make dragging relative to touch point
         var relativePressPoint = null;
         e.onMouseMove = function ( event ) {
@@ -21,7 +21,7 @@ define( [
         };
     }
 
-    function createParticleView( particle ) {
+    var createParticleView = function ( particle ) {
         var particleView = new Easel.Shape();
         particleView.graphics.beginFill( particle.color ).drawCircle( particle.xPos, particle.yPos, particle.radius ).endFill();
         particleView.onMouseOver = showPointer;
@@ -30,12 +30,9 @@ define( [
         return particleView;
     }
 
-
-
     var ParticleView = {};
 
     ParticleView.createParticleView = createParticleView;
 
     return ParticleView;
-
 } );
