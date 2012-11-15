@@ -96,20 +96,16 @@ textarea {
     right: 0;
 }
 
-#control-panel .widget {
+#control-panel .widget-box {
     float: left;
     clear: both;
     width: 91%;
     min-height: 7em;
     background: rgb(255, 255, 153);
-    margin: 2%;
-    padding: 2%;
+    margin: 1%;
+    padding: 1%;
     border: 2px solid black;
-}
-
-#periodic-table table td {
-    border: 1px solid black;
-    text-align: center;
+    border-radius: 10px;
 }
 
 #periodic-table table {
@@ -119,10 +115,9 @@ textarea {
     width: 80%;
 }
 
-#control-panel #periodic-table {
-    background: rgb(255, 255, 153);
-    border-radius: 10px;
-    float: left;
+#periodic-table table td {
+    border: 1px solid black;
+    text-align: center;
 }
 
 @media only screen and (max-width: 960px) {
