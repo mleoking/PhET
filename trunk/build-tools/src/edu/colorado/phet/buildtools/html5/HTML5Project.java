@@ -145,7 +145,7 @@ public class HTML5Project extends PhetProject {
     }
 
     public static HTML5Project[] getProjects( final File trunk ) {
-        File[] html5SimDir = new File( trunk, "simulations-html5/simulations" ).listFiles( new FileFilter() {
+        File[] html5SimDir = new File( trunk, "simulations-html/simulations" ).listFiles( new FileFilter() {
             public boolean accept( final File pathname ) {
                 return pathname.isDirectory() && !pathname.getName().toLowerCase().equals( ".svn" );
             }
