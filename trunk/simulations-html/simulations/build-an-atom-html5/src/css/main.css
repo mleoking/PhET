@@ -100,11 +100,11 @@ textarea {
     float: left;
     clear: both;
     width: 91%;
-    min-height: 10em;
-    background: gray;
+    min-height: 7em;
+    background: rgb(255, 255, 153);
     margin: 2%;
     padding: 2%;
-    border: 1px solid black;
+    border: 2px solid black;
 }
 
 #periodic-table table td {
