@@ -17,19 +17,19 @@ require( [
     var root = new Easel.Container();
     atomStage.addChild( root );
 
+    // Create and add the place where the nucleus will be constructed.
+    var atomView = new AtomView();
+    atomView.x = 375;
+    atomView.y = 200;
+    root.addChild( atomView );
+
     // Create and add the buckets.
     var protonBucket = new BucketView( 125, 500 );
     root.addChild( protonBucket );
     var neutronBucket = new BucketView( 300, 500 );
     root.addChild( neutronBucket );
-    root.addChild( new BucketView( 300, 500 ) );
-    root.addChild( new BucketView( 475, 500 ) );
-
-    // Create and add the place where the nucleus will be constructed.
-    var atomView = new AtomView();
-    atomView.x = 100;
-    atomView.y = 100;
-    root.addChild( atomView );
+    var electronBucket = new BucketView( 475, 500 );
+    root.addChild( electronBucket );
 
     // Create and add the particles.
     root.addChild( ParticleView.createParticleView( new Particle2( protonBucket.x + 30, protonBucket.y, "red", 15, "proton" ) ) );
@@ -40,7 +40,11 @@ require( [
     root.addChild( ParticleView.createParticleView( new Particle2( neutronBucket.x + 60, neutronBucket.y, "gray", 15, "neutron" ) ) );
     root.addChild( ParticleView.createParticleView( new Particle2( neutronBucket.x + 90, neutronBucket.y, "gray", 15, "neutron" ) ) );
     root.addChild( ParticleView.createParticleView( new Particle2( neutronBucket.x + 120, neutronBucket.y, "gray", 15, "neutron" ) ) );
-    root.addChild( ParticleView.createParticleView( new Particle2( 150, 150, "blue", 8, "electron" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( neutronBucket.x + 120, neutronBucket.y, "gray", 15, "neutron" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( electronBucket.x + 30, electronBucket.y, "blue", 8, "electron" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( electronBucket.x + 60, electronBucket.y, "blue", 8, "electron" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( electronBucket.x + 90, electronBucket.y, "blue", 8, "electron" ) ) );
+    root.addChild( ParticleView.createParticleView( new Particle2( electronBucket.x + 120, electronBucket.y, "blue", 8, "electron" ) ) );
 
     atomStage.update();
 
