@@ -15,7 +15,7 @@ define([
 
     p.initialize = function ( x, y ) {
         var shape = new Easel.Shape();
-        shape.graphics.beginStroke( "black" ).beginFill( "gray" ).setStrokeStyle( 2 ).drawEllipse( 0, 0, 100, 30 ).endStroke().endFill();
+        shape.graphics.beginStroke( "black" ).beginFill( "gray" ).setStrokeStyle( 2 ).drawEllipse( 0, 0, 150, 30 ).endStroke().endFill();
         this.addChild( shape );
 
         this.x = x;
