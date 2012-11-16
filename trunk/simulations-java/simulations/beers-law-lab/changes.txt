@@ -1,3 +1,4 @@
+11/16/12 #3199, take advantage of improvements to FaucetNode and make the slider thumb larger
 10/7/12 #3423, replace BLLCanvas base class with CenteredStageCanvas from piccolo-phet
 7/31/12 #3395, move -startModule program arg to PhetApplication.startApplication
 # 1.02.00 (64232) May 17, 2012

@@ -20,7 +20,7 @@ class BLLFaucetNode extends PNode {
 
     public BLLFaucetNode( final IUserComponent userComponent, final Faucet faucet ) {
         // use composition, so we can move the origin to the center of the output pipe
-        faucetNode = new FaucetNode( userComponent, faucet.maxFlowRate, faucet.flowRate, faucet.enabled, faucet.inputPipeLength, true );
+        faucetNode = new FaucetNode( userComponent, faucet.maxFlowRate, faucet.flowRate, faucet.enabled, faucet.inputPipeLength, 40, true );
         addChild( faucetNode );
         Point2D originOffset = globalToLocal( faucetNode.getGlobalOutputCenter() );
         faucetNode.setOffset( faucet.location.getX() - originOffset.getX(), faucet.location.getY() - originOffset.getY() );
