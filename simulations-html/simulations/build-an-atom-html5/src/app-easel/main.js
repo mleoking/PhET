@@ -9,6 +9,8 @@ require( [
              'tpl!templates/periodic-table.html'
          ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketView, periodicTable ) {
 
+    var $window = $(window);
+
     // Create the canvas where atoms will be constructed.
     var atomConstructionCanvas = $( '#atom-construction-canvas' );
     var atomStage = new Easel.Stage( atomConstructionCanvas[0] );
@@ -20,8 +22,8 @@ require( [
     // Create and add the place where the nucleus will be constructed.
     var atomView = new AtomView();
 
-    atomView.x = atomConstructionCanvas.width() / 2;
-    atomView.y = atomConstructionCanvas.height() / 2;
+    atomView.x = 307;
+    atomView.y = 384;
     root.addChild( atomView );
 
     // Create and add the buckets.
@@ -60,22 +62,6 @@ require( [
     // Set the frame rate.
     Easel.Ticker.setFPS( 60 );
 
-    var originalCanvasWidth = atomConstructionCanvas.width();
-    var originalCanvasHeight = atomConstructionCanvas.height();
-
-    //resize the canvas when the window is resized
-    //Copied from energy skate park easel prototype
-    var onResize = function () {
-        var atomCanvasWidth = atomConstructionCanvas.width();
-        var atomCanvasHeight = atomConstructionCanvas.height();
-        var scale = Math.min( )
-        root.scaleX = root.scaleY = scale;
-        atomStage.update();
-    };
-    $( window ).resize( onResize );
-    onResize(); // initial position
-
-
     // Enable and configure touch and mouse events.
     Easel.Touch.enable( atomStage, false, false );
     atomStage.enableMouseOver( 10 );
@@ -83,7 +69,37 @@ require( [
 
     Easel.Ticker.addListener( atomStage, true );
 
-    $(document ).ready( function (){
+    //resize the canvas when the window is resized
+    //Copied from energy skate park easel prototype
+    $window.on('resize', function () {
+        var winW = $window.width();
+        var winH = $window.height();
+
+        var scale = Math.min( winW / 614, winH / 768 );
+
+        var canvasW = scale * 614;
+        var canvasH = scale * 768;
+
+        var container = atomConstructionCanvas.parent();
+
+        // set the canvas size
+        atomConstructionCanvas.attr({
+          width: ~~canvasW,
+          height: ~~canvasH
+        });
+
+        // center the canvas in its parent container
+        atomConstructionCanvas.css({
+          marginLeft: (container.width() - ~~canvasW) / 2
+        });
+
+        root.scaleX = root.scaleY = scale;
+        atomStage.update();
+    });
+
+    $window.resize();
+
+    $( document ).ready( function (){
        $('#periodic-table' ).html( periodicTable() );
     });
 } );
