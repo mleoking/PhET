@@ -100,7 +100,7 @@ textarea {
     float: left;
     clear: both;
     width: 91%;
-    min-height: 7em;
+    min-height: 1em;
     background: rgb(255, 255, 153);
     margin: 1%;
     padding: 1%;
