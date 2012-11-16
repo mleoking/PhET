@@ -85,11 +85,8 @@ textarea {
 
 #atom-construction-canvas {
     position: absolute;
-    top: 10%;
     background: rgb(255, 255, 153);
-    border: 1px solid #000;
-    border-left: 0;
-    border-right: 0;
+    border: 2px solid #000;
     width: 60%;
 }
 
@@ -121,6 +118,13 @@ textarea {
 #periodic-table table td {
     border: 1px solid black;
     text-align: center;
+}
+
+#detailed-element-symbol {
+    max-width: 5em;
+    border: 2px solid black;
+    background: white;
+    padding: 2%;
 }
 
 @media only screen and (max-width: 960px) {
