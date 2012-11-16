@@ -1,5 +1,5 @@
 require.config({
-                   deps: ["main"],
+                   deps: ["easel-basic-drag-and-drop"],
 
                    paths: {
                        vendor: "../js/vendor",
