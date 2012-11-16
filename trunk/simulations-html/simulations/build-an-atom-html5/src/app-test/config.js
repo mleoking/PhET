@@ -1,14 +1,12 @@
-console.log("Config file");
+console.log("Loading Easel RequireJS config file");
 require.config({
                    deps: ["main"],
 
                    paths: {
                        vendor: "../js/vendor",
                        plugins: "../js/plugins",
-
-                       underscore: "../js/vendor/underscore-min",
-                       kinetic: "../js/vendor/kinetic-v4.0.4"
-
+                       kinetic: "../js/vendor/kinetic-v4.0.4",
+                       easel:"../js/vendor/easeljs-0.5.0.min"
                    },
 
                    shim: {
@@ -19,8 +17,11 @@ require.config({
 
                        kinetic: {
                            exports: "Kinetic"
-                       }
+                       },
 
+                       easel:{
+                           exports:"createjs"
+                       }
                    }
                });
 
