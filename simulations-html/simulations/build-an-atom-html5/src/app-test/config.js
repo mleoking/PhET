@@ -1,4 +1,3 @@
-console.log("Loading Easel RequireJS config file");
 require.config({
                    deps: ["main"],
 

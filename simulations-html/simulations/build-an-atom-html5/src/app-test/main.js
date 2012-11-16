@@ -2,8 +2,6 @@ require( [
              'easel'
          ], function ( Easel ) {
 
-    console.log( "Starting simple easel drag and drop test." );
-
     // Create the stage.
     var canvas = $( '#test-canvas' );
     var stage = new Easel.Stage( canvas[0] );
@@ -11,7 +9,6 @@ require( [
     // Create and add a circle.
     var particle = new Easel.Shape();
     particle.graphics.beginStroke( "black" ).beginFill( "green" ).setStrokeStyle( 2 ).drawCircle( 100, 100, 30 ).endFill();
-    console.log( particle );
     stage.addChild( particle );
 
     // Create and hook up the mouse event handlers.
@@ -26,7 +23,6 @@ require( [
     particle.onMouseOut = showDefault;
 
     function pressHandler( e ) {
-        console.log( "Pressed." )
         //Make dragging relative to touch point
         var relativePressPoint = null;
         e.onMouseMove = function ( event ) {
