@@ -7,6 +7,11 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations/bouncy-fabric" />
       <excludeFolder url="file://$MODULE_DIR$/simulations/bouncy-kinetic" />
       <excludeFolder url="file://$MODULE_DIR$/simulations/bouncy-paper" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/build-an-atom-html5/src/app" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/build-an-atom-html5/src/app-caat" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/build-an-atom-html5/src/app-kinetic" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/build-an-atom-html5/src/app-processing" />
+      <excludeFolder url="file://$MODULE_DIR$/simulations/build-an-atom-html5/src/app-test" />
       <excludeFolder url="file://$MODULE_DIR$/simulations/concentration-caat" />
       <excludeFolder url="file://$MODULE_DIR$/simulations/concentration-html5" />
       <excludeFolder url="file://$MODULE_DIR$/simulations/energy-skate-park-easeljs" />
