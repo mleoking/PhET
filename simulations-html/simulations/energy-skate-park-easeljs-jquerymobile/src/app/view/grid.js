@@ -1,7 +1,7 @@
 define( ["skater", 'util/extend'], function ( Skater ) {
-    
-    return createjs.Container.extend('Grid', {
-        initialize: function( superInit, groundY ) {
+
+    return createjs.Container.extend( 'Grid', {
+        initialize: function ( superInit, groundY ) {
             superInit();
             var shape = new createjs.Shape();
             shape.graphics.beginStroke( 'black' ).setStrokeStyle( 1 );
@@ -15,9 +15,9 @@ define( ["skater", 'util/extend'], function ( Skater ) {
                 shape.graphics.moveTo( x, 0 ).lineTo( x, groundY );
             }
             this.addChild( shape );
-    //        shape.cache( 0, 0, 1024, 768 );
+            shape.cache( 0, 0, 1024, 768 );
         }
-    });
-    
+    } );
+
 } );
 
