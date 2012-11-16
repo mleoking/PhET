@@ -31,19 +31,22 @@
 <div class=phet-container>
     <canvas id="atom-construction-canvas" width="800" height="640"></canvas>
     <div id="control-panel">
-        <div id="periodic-table" class="widget-box"></div>
-        <div id="symbol" class="widget-box">
+        <div id="periodic-table-box" data-role="collapsible" class=widget-box>
+            <!--<h2>Periodic Table</h2>-->
+            <h2>Periodic Table</h2>
+            <div id="periodic-table"></div>
+        </div>
+        <div id="symbol" data-role="collapsible" class=widget-box>
             <h2>Symbol</h2>
-            <label><input type="checkbox" name="checkbox-0"/> I agree </label>
-
-            <input type="checkbox" name="checkbox-1" id="checkbox-1" class="custom"/>
-            <label for="checkbox-1">I agree</label>
+            <p>The symbol will be shown here.</p>
         </div>
-        <div id="mass-number" class="widget-box">
+        <div id="mass-number" data-role="collapsible" class=widget-box>
             <h2>Mass Number</h2>
+            <p>The Mass Number will be shown here.</p>
         </div>
-        <div id="net-charge" class="widget-box">
+        <div id="net-charge" data-role="collapsible" class=widget-box>
             <h2>Net Charge</h2>
+            <p>The net charge will be shown here.</p>
         </div>
     </div>
 </div>
