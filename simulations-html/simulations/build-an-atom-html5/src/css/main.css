@@ -18,7 +18,10 @@ textarea {
 body {
     font-size: 1em;
     line-height: 1.4;
-    background-color: rgb(255, 255, 153);
+}
+
+.ui-page {
+    background: rgb(255, 255, 153);
 }
 
 /*
@@ -103,7 +106,7 @@ textarea {
     min-height: 1em;
     background: rgb(255, 255, 153);
     margin: 1%;
-    padding: 1%;
+    /*padding: 1%;*/
     border: 2px solid black;
     border-radius: 10px;
 }
