@@ -19,7 +19,7 @@ define( [
                 e.target.y = transformed.y + relativePressPoint.y;
             }
         };
-    }
+    };
 
     var createParticleView = function ( particle ) {
         var particleView = new Easel.Shape();
@@ -29,7 +29,7 @@ define( [
         particleView.onMouseOut = showDefault;
         particleView.onPress = pressHandler;
         return particleView;
-    }
+    };
 
     var ParticleView = {};
 
