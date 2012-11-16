@@ -11,10 +11,9 @@ define( [
             'view/grid',
             'view/bar-chart',
             'view/speedometer',
-            'util/version',
             'i18n!nls/energy-skate-park-strings',
             'i18n!../../../../common/common-html/src/app/nls/phetcommon-strings'
-        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Version, Strings, CommonStrings ) {
+        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings ) {
     var IntroductionTab = function () {
         var root = new createjs.Container();
 
@@ -77,8 +76,7 @@ define( [
             frameTime += (thisFrameTime - frameTime) / filterStrength;
             lastLoop = thisLoop;
             if ( frameCount > 30 ) {
-//                fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";// @"+location.href;
-                fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps @" + Version.version;// @"+location.href;
+                fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";// @"+location.href;
             }
         }
 
