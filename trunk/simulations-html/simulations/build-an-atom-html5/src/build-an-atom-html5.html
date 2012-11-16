@@ -33,7 +33,8 @@
 <body>
 
 <div class=phet-container>
-    <canvas id="atom-construction-canvas" width="800" height="640"></canvas>
+    <!--Make the canvas be roughly the expected size on the nominal screen, which is 1024x768.-->
+    <canvas id="atom-construction-canvas" width="610" height="760"></canvas>
     <div id="control-panel">
         <div id="periodic-table-box" data-role="collapsible" class=widget-box>
             <h2>Periodic Table</h2>
@@ -41,6 +42,9 @@
         </div>
         <div id="symbol" data-role="collapsible" class=widget-box>
             <h2>Symbol</h2>
+            <div id="detailed-element-symbol">
+                <h1>H</h1>
+            </div>
         </div>
         <div id="mass-number" data-role="collapsible" class=widget-box>
             <h2>Mass Number</h2>

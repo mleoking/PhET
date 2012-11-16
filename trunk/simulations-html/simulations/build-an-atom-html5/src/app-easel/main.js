@@ -19,8 +19,9 @@ require( [
 
     // Create and add the place where the nucleus will be constructed.
     var atomView = new AtomView();
-    atomView.x = 375;
-    atomView.y = 200;
+
+    atomView.x = atomConstructionCanvas.width() / 2;
+    atomView.y = atomConstructionCanvas.height() / 2;
     root.addChild( atomView );
 
     // Create and add the buckets.
@@ -59,23 +60,15 @@ require( [
     // Set the frame rate.
     Easel.Ticker.setFPS( 60 );
 
+    var originalCanvasWidth = atomConstructionCanvas.width();
+    var originalCanvasHeight = atomConstructionCanvas.height();
+
     //resize the canvas when the window is resized
     //Copied from energy skate park easel prototype
     var onResize = function () {
-
-        var w = atomConstructionCanvas.width();
-        var h = atomConstructionCanvas.height();
-
-        var winW = $( window ).width(),
-                winH = $( window ).height(),
-                scale = Math.min( w / 682, h / 768 ),
-                canvasW = scale * 682,
-                canvasH = scale * 768;
-        // atomConstructionCanvas.attr( 'width', canvasW );
-        // atomConstructionCanvas.attr( 'height', canvasH );
-        // var left = (winW - canvasW) / 2;
-        // var top = (winH - canvasH) / 2;
-        // atomConstructionCanvas.offset( {left:left, top:top} );
+        var atomCanvasWidth = atomConstructionCanvas.width();
+        var atomCanvasHeight = atomConstructionCanvas.height();
+        var scale = Math.min( )
         root.scaleX = root.scaleY = scale;
         atomStage.update();
     };
