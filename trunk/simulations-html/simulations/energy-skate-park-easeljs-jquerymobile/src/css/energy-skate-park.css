@@ -11,7 +11,7 @@ body {
     position: absolute;
 }
 
-#tab1 {
+.tab {
     width: 100%;
     height: 100%;
 }

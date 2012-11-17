@@ -14,7 +14,14 @@ define( [
             'i18n!nls/energy-skate-park-strings',
             'i18n!../../../../common/common-html/src/app/nls/phetcommon-strings'
         ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings ) {
-    var IntroductionTab = function () {
+    var IntroductionTab = function ( id ) {
+
+        //Unique ID for the elements
+        function getID( s ) { return id + s; }
+
+        var canvas = $( '<canvas></canvas>' ).attr( "id", getID( "c" ) ).css( "position", "absolute" );//.css("width","100%" ).css("height","100%");
+        $( "#" + id ).append( canvas );
+
         var root = new createjs.Container();
 
         var groundHeight = 116;
@@ -54,7 +61,7 @@ define( [
         root.addChild( speedometer );
 
         //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
-        var canvas = document.getElementById( "c" );
+        var canvas = document.getElementById( getID( "c" ) );
         canvas.onselectstart = function () { return false; }; // IE
         canvas.onmousedown = function () { return false; }; // Mozilla
 
@@ -85,7 +92,7 @@ define( [
         console.log( "pauseString = " + pauseString + ", playString = " + playString );
 
         //TODO: use requirejs templating for this (But maybe not since it may not work over file://)
-        var tab1 = $( "#tab1" );
+        var tab1 = $( "#" + id );
         tab1.append( $( '<select name="flip-min" id="flip-min" data-role="slider">' +
                         '<option value="off">' + pauseString + '</option>' +
                         '<option value="on">' + playString + '</option></select>' ) ).trigger( "create" );
@@ -123,14 +130,14 @@ define( [
         $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
 
         var onResize = function () {
-            var winW = $( "#tab1" ).width(),
-                    winH = $( "#tab1" ).height(),
+            var winW = $( "#" + id ).width(),
+                    winH = $( "#" + id ).height(),
                     scale = Math.min( winW / 1024, winH / 768 ),
                     canvasW = scale * 1024,
                     canvasH = scale * 768;
 
             //Allow the canvas to fill the screen, but still center the content within the window.
-            var canvas = $( '#c' );
+            var canvas = $( "#" + getID( "c" ) );
             canvas.attr( 'width', winW );
             canvas.attr( 'height', winH );
             var left = (winW - canvasW) / 2;
@@ -177,7 +184,7 @@ define( [
         };
 
         //Uses jquery resize plugin "jquery.ba-resize": http://benalman.com/projects/jquery-resize-plugin/
-        $( "#tab1" ).resize( onResize );
+        $( id ).resize( onResize );
         onResize(); // initial position
 
         createjs.Ticker.setFPS( 60 );
