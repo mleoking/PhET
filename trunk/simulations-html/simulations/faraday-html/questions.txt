@@ -1,0 +1,3 @@
+Why does BAA do <script jquery> in html file? Can't it be loaded in config.js?
+
+Where should <script> tags be placed? in <head> or <body>? before or after <canvas>?
