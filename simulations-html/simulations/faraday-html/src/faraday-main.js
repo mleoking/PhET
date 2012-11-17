@@ -5,30 +5,25 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-require( [], function () {
+require( [ 'easel' ], function ( Easel ) {
 
-    // canvas and context
-    var canvas = document.getElementById( 'faraday-canvas' ),
-        context = canvas.getContext( '2d' );
+    // Create the stage.
+    var canvas = document.getElementById( 'faraday-canvas' );
+    var stage = new Easel.Stage( canvas );
 
-    context.fillStyle = 'black';
-    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+    // Fill the stage with a black background.
+    var background = new Easel.Shape();
+    background.graphics.beginFill( 'black' );
+    background.graphics.rect( 0, 0, canvas.width, canvas.height );
+    stage.addChild( background );
 
-    // text to render
-    var myString = "Faraday was here.";
+    // Render some text in the center of the stage.
+    var text = new Easel.Text( "Faraday was here", "36px Arial", "red" );
+    text.textAlign = 'center';
+    text.textBaseline = 'middle';
+    text.x = canvas.width / 2;
+    text.y = canvas.height / 2;
+    stage.addChild( text );
 
-    // text style and color
-    context.font = '40pt Arial';
-    context.fillStyle = 'yellow';
-    context.strokeStyle = 'red';
-
-    // center in the canvas
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    var centerX = ( canvas.width / 2 ),
-        centerY = ( canvas.height / 2 );
-
-    // fill and stroke the text
-    context.fillText( myString, centerX, centerY );
-    context.strokeText( myString, centerX, centerY );
+    stage.update();
 } );
