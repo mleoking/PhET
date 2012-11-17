@@ -126,6 +126,12 @@ define( [
         $( '#gridLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
         $( '#speedLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
 
+        //Rename id's so other tabs won't have the same id objects
+        $( '#barGraphLabel' ).attr( "id", getID( "barGraphLabel" ) );
+        $( '#pieChartLabel' ).attr( "id", getID( "pieChartLabel" ) );
+        $( '#gridLabel' ).attr( "id", getID( "gridLabel" ) );
+        $( '#speedLabel' ).attr( "id", getID( "speedLabel" ) );
+
         $( '#flip-min' ).val( 'on' ).slider( "refresh" );
         $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
 
@@ -169,10 +175,10 @@ define( [
             slider.css( "marginRight", "0px" );
 
             //TODO: this vertical alignment is a hack that won't work for different settings
-            $( '#barGraphLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
-            $( '#pieChartLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
-            $( '#gridLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
-            $( '#speedLabel' ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            $( '#' + getID( "barGraphLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            $( '#' + getID( "pieChartLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            $( '#' + getID( "gridLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            $( '#' + getID( "speedLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
 
             //TODO: This will need to be made more specific since it will cause problems if it applies to all slider switches
             $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' );
