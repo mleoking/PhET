@@ -105,7 +105,7 @@ define( [
                         '<input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/>' +
                         '<label for="radio-choice-22">' + normalString + '</label></fieldset></div>' ) ).trigger( "create" );
 
-        tab1.append( $( '<div data-role="control-panel" id="controlPanel">' +
+        tab1.append( $( '<div data-role="control-panel" id="controlPanel" class="controlPanel">' +
                         '<fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">' +
                         '<legend></legend>' +
                         '<input id="checkbox1" name="" type="checkbox"/>' +
@@ -127,10 +127,12 @@ define( [
         $( '#speedLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
 
         //Rename id's so other tabs won't have the same id objects
+        //TODO: For identifying items, should use "#tab1 .controlPanel" or something like that
         $( '#barGraphLabel' ).attr( "id", getID( "barGraphLabel" ) );
         $( '#pieChartLabel' ).attr( "id", getID( "pieChartLabel" ) );
         $( '#gridLabel' ).attr( "id", getID( "gridLabel" ) );
         $( '#speedLabel' ).attr( "id", getID( "speedLabel" ) );
+        $( '#controlPanel' ).attr( "id", getID( "controlPanel" ) );
 
         $( '#flip-min' ).val( 'on' ).slider( "refresh" );
         $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
@@ -159,7 +161,7 @@ define( [
             //Scale the control panel up and down using css 2d transform
             //        $( "#controlPanel" ).css( "-webkit-transform", "scale(" + scale + "," + scale + ")" );
 
-            var controlPanel = $( '#controlPanel' );
+            var controlPanel = $( '#' + getID( "controlPanel" ) );
             controlPanel.css( 'width', '270px' );
             controlPanel.css( 'top', (top + 30) + 'px' );
             controlPanel.css( 'right', left + 'px' );
