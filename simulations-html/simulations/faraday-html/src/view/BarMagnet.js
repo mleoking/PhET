@@ -2,7 +2,9 @@
 
 /**
  * Bar magnet display object.
+ *
  * Uses a factory pattern to instantiate and config an Easel Bitmap.
+ *
  * Usage: var barMagnet = createBarMagnet();
  *
  * @author Chris Malley (PixelZoom, Inc.)
