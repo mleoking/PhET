@@ -21,19 +21,11 @@ body {
     height: 100%;
 }
 
-/*http://jquerymobile.com/demos/1.2.0/docs/pages/page-transitions.html*/
-/*.ui-page { -webkit-backface-visibility: hidden; }*/
-
-#controlPanel {
+.controlPanel {
     margin: 5px;
     padding: 0;
-    /*width: 40%;*/
     position: absolute;
     z-index: 2;
-
-    /*-webkit-transform: translateX(0);*/
-    /*overflow: visible;*/
-    /*text-overflow: clip;*/
 }
 
 #flip-min {
