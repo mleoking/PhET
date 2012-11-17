@@ -14,6 +14,7 @@ define( ["skater", 'util/extend'], function ( Skater ) {
                 var x = 0 + i * gridSpacing;
                 shape.graphics.moveTo( x, 0 ).lineTo( x, groundY );
             }
+            shape.graphics.endStroke();
             this.addChild( shape );
 
             //Cache the grid to get better performance, especially on iPad
