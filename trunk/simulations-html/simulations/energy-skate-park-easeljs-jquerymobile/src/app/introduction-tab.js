@@ -1,7 +1,6 @@
 define( [
             'model/skater-model',
             'skater',
-            'view/control-panel',
             'view/background',
             'spline',
             'model/physics',
@@ -13,7 +12,9 @@ define( [
             'view/speedometer',
             'i18n!nls/energy-skate-park-strings',
             'i18n!../../../../common/common-html/src/app/nls/phetcommon-strings'
-        ], function ( SkaterModel, Skater, ControlPanel, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings ) {
+        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings ) {
+
+    //id is the string that identifies the tab for this module, used for creating unique ids.
     var IntroductionTab = function ( id ) {
 
         //Unique ID for the elements
