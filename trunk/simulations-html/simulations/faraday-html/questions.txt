@@ -1,13 +1,7 @@
 Why does BAA do <script jquery> in html file? Can't it be loaded in config.js?
 
-Where should <script> tags be placed? in <head> or <body>? before or after <canvas>?
-
 IntelliJ style config for js?
 
-RequireJS: require vs define?
-
-Am I using define properly in BarMagnet.js?
-
-Is the path in "image!path" relative to where the js file is, or where the enclosing html doc is?
-
 How to get the dimensions of a DisplayObject? (eg, for centering regX,regY)
+
+How to do the equivalent of Java test mains, for testing small bits of code.
