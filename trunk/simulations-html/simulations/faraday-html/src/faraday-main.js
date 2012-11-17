@@ -5,7 +5,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-require( [ 'easel', 'view/BarMagnet' ], function ( Easel, createBarMagnet ) {
+require( [ 'easel', 'view/BarMagnet2' ], function ( Easel, BarMagnet2 ) {
 
     // Create the stage.
     var canvas = document.getElementById( 'faraday-canvas' );
@@ -26,13 +26,15 @@ require( [ 'easel', 'view/BarMagnet' ], function ( Easel, createBarMagnet ) {
     stage.addChild( text );
 
     // Render a bar magnet
-    var barMagnet = createBarMagnet();
+    var barMagnet = new BarMagnet2();
     barMagnet.x = 200;
     barMagnet.y = 100;
     stage.addChild( barMagnet );
 
     stage.update();
     stage.enableMouseOver();
+
+    // Start the animation loop.
     Easel.Ticker.addListener( stage );
     Easel.Ticker.setFPS( 60 );
 } );
