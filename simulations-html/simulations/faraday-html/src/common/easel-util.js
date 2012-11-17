@@ -4,33 +4,40 @@
 define( [], function () {
 
     var theRelativeDragHandler = function ( e ) {
+
         //Make dragging relative to touch point
         var relativePressPoint = null;
+
         e.onMouseMove = function ( event ) {
             var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
             if ( relativePressPoint === null ) {
-                relativePressPoint = {x: e.target.x - transformed.x, y: e.target.y - transformed.y};
+                relativePressPoint = {x:e.target.x - transformed.x, y:e.target.y - transformed.y};
             }
             else {
                 e.target.x = transformed.x + relativePressPoint.x;
                 e.target.y = transformed.y + relativePressPoint.y;
             }
         };
-        e.onMouseUp = function ( event ) { };
+
+        e.onMouseUp = function ( event ) {
+        };
     };
+
     return {
-        relativeDragHandler: theRelativeDragHandler,
+        relativeDragHandler:theRelativeDragHandler,
 
         //Makes an object draggable, and uses the cursor hand
-        makeDraggable: function ( displayObject ) {
+        makeDraggable:function ( displayObject ) {
 
-            displayObject.onMouseOver = function () { document.body.style.cursor = "pointer"; };
-            displayObject.onMouseOut = function () { document.body.style.cursor = "default"; };
+            displayObject.onMouseOver = function () {
+                document.body.style.cursor = "pointer";
+            };
+
+            displayObject.onMouseOut = function () {
+                document.body.style.cursor = "default";
+            };
 
             displayObject.onPress = theRelativeDragHandler;
         }
-
-        //Switches Easel to use a different hit detection algorithm (instead of pixel based)
-};
-
+    };
 } );
