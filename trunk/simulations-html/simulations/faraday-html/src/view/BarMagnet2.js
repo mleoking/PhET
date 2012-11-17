@@ -1,5 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 
+/**
+ * Bar magnet display object.
+ * Uses the "Combination Inheritance" pattern to extend Easel's Bitmap type.
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
+ */
 define( [ 'easel', 'image!resources/images/barMagnet.png', 'common/easel-util' ], function ( Easel, barMagnetImage, EaselUtil ) {
 
     function BarMagnet2() {
