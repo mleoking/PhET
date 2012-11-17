@@ -32,4 +32,7 @@ require( [ 'easel', 'view/BarMagnet' ], function ( Easel, createBarMagnet ) {
     stage.addChild( barMagnet );
 
     stage.update();
+    stage.enableMouseOver();
+    Easel.Ticker.addListener( stage );
+    Easel.Ticker.setFPS( 60 );
 } );

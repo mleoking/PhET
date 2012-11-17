@@ -18,5 +18,7 @@ require.config( {
         easel: {
             exports: "createjs"
         }
-    }
+    },
+
+    urlArgs: new Date().getTime()  // cache buster to make browser refresh load all included scripts
 } );
