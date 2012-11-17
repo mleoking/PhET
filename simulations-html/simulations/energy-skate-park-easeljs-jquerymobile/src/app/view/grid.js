@@ -15,6 +15,8 @@ define( ["skater", 'util/extend'], function ( Skater ) {
                 shape.graphics.moveTo( x, 0 ).lineTo( x, groundY );
             }
             this.addChild( shape );
+
+            //Cache the grid to get better performance, especially on iPad
             shape.cache( 0, 0, 1024, 768 );
         }
     } );
