@@ -9,10 +9,10 @@ require( [], function () {
 
     // canvas and context
     var canvas = document.getElementById( 'faraday-canvas' ),
-            context = canvas.getContext( '2d' );
+        context = canvas.getContext( '2d' );
 
     context.fillStyle = 'black';
-    context.fillRect( 0, 0, context.canvas.width, context.canvas.height );
+    context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
     // text to render
     var myString = "Faraday was here.";
@@ -26,7 +26,7 @@ require( [], function () {
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     var centerX = ( canvas.width / 2 ),
-            centerY = ( canvas.height / 2 );
+        centerY = ( canvas.height / 2 );
 
     // fill and stroke the text
     context.fillText( myString, centerX, centerY );

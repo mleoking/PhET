@@ -7,16 +7,16 @@
  */
 require.config( {
 
-                    deps:["faraday-main"],
+    deps: ["faraday-main"],
 
-                    paths:{
-                        vendor:"../vendor",
-                        easel:"../vendor/easeljs-0.5.0.min"
-                    },
+    paths: {
+        vendor: "../vendor",
+        easel: "../vendor/easeljs-0.5.0.min"
+    },
 
-                    shim:{
-                        easel:{
-                            exports:"createjs"
-                        }
-                    }
-                } );
+    shim: {
+        easel: {
+            exports: "createjs"
+        }
+    }
+} );
