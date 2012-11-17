@@ -1,13 +1,22 @@
 // Copyright 2002-2012, University of Colorado
 
-define( [ 'image!../../data/faraday-html/barMagnet.png'], function ( barMagnetImage ) {
+define( [ 'easel', 'image!resources/images/barMagnet.png', 'common/easel-util' ], function ( Easel, barMagnetImage, EaselUtil ) {
 
-    // create a bitmap display object
-    var barMagnet = createjs.BitMap( barMagnetImage );
+    function createBarMagnet() {
+        // create a bitmap display object
+        var barMagnet = new Easel.Bitmap( barMagnetImage );
 
-    // move registration point to the center
-    barMagnet.regX = 30; //TODO half the width
-    barMagnet.regY = 30; //TODO half the height
+        // move registration point to the center
+        barMagnet.regX = barMagnet.image.width / 2;
+        barMagnet.regY = barMagnet.image.height / 2;
 
-    return barMagnet;
+//        EaselUtil.makeDraggable( barMagnet );
+
+        barMagnet.onMouseOver = function () { document.body.style.cursor = "pointer"; };
+        barMagnet.onMouseOut = function () { document.body.style.cursor = "default"; };
+
+        return barMagnet;
+    }
+
+    return createBarMagnet;
 } );
