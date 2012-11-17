@@ -3,6 +3,7 @@
 /**
  * Bar magnet display object.
  * Uses the "Combination Inheritance" pattern to extend Easel's Bitmap type.
+ * Usage: var barMagnet = new BarMagnet2();
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
