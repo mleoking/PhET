@@ -1,3 +1,4 @@
+11/16/12 add bar magnet image
 11/16/12 add some text to the canvas using Easel
 11/16/12 add some text to the canvas, using Canvas directly
 11/16/12 set up project directory structure and top-level html & js files
