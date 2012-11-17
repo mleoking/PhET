@@ -1,3 +1,4 @@
+11/16/12 first wag at bar magnet model element
 11/16/12 try another pattern ("Parasitic Combination Inheritance") for the bar magnet display object
 11/16/12 delete Easel text
 11/16/12 try another pattern ("Combination Inheritance") for the bar magnet display object
