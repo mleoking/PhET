@@ -27,7 +27,7 @@ define( [ 'easel', 'image!resources/images/barMagnet.png', 'common/easel-util' ]
         EaselUtil.makeDraggable( this );
     }
 
-    // Use prototype chaining to inherit properties and methods.
+    // Use prototype chaining to inherit properties and methods on the prototype.
     BarMagnet2.prototype = new Easel.Bitmap();
 
     return BarMagnet2;
