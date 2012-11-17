@@ -6,6 +6,8 @@
  * Uses the "Combination Inheritance" pattern to extend Easel's Bitmap type.
  * Combination Inheritance combines 2 other patterns, "Constructor Stealing" and "Prototype Chaining",
  * and is reportedly "the most frequently used inheritance pattern in JavaScript".
+ * The most significant downside of this pattern is that the supertype's constructor is called twice:
+ * once inside the subtype's constructor, and once to to create the subtype's prototype.
  * (Professional JavaScript for Web Developers, Zakas, Wrox Press, p 209-210.)
  *
  * Usage: var barMagnet = new BarMagnet2();
