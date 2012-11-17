@@ -80,30 +80,6 @@ define( [
             }
         }
 
-        //http://stackoverflow.com/questions/4009524/change-button-text-jquery-mobile
-        (function ( $ ) {
-            /*
-             * Changes the displayed text for a jquery mobile button.
-             * Encapsulates the idiosyncracies of how jquery re-arranges the DOM
-             * to display a button for either an <a> link or <input type="button">
-             */
-            $.fn.changeButtonText = function ( newText ) {
-                return this.each( function () {
-                    $this = $( this );
-                    if ( $this.is( 'a' ) ) {
-                        $( 'span.ui-btn-text', $this ).text( newText );
-                        return;
-                    }
-                    if ( $this.is( 'input' ) ) {
-                        $this.val( newText );
-                        // go up the tree
-                        var ctx = $this.closest( '.ui-btn' );
-                        $( 'span.ui-btn-text', ctx ).text( newText );
-                    }
-                } );
-            };
-        })( jQuery );
-
         var pauseString = CommonStrings["Common.ClockControlPanel.Pause"];
         var playString = CommonStrings["Common.ClockControlPanel.Play"];
         console.log( "pauseString = " + pauseString + ", playString = " + playString );
@@ -147,16 +123,16 @@ define( [
         $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
 
         var onResize = function () {
-            var winW = $( window ).width(),
-                    winH = $( window ).height(),
+            var winW = $( "#tab1" ).width(),
+                    winH = $( "#tab1" ).height(),
                     scale = Math.min( winW / 1024, winH / 768 ),
                     canvasW = scale * 1024,
                     canvasH = scale * 768;
 
             //Allow the canvas to fill the screen, but still center the content within the window.
             var canvas = $( '#c' );
-            canvas.attr( 'width', window.innerWidth );
-            canvas.attr( 'height', window.innerHeight );
+            canvas.attr( 'width', winW );
+            canvas.attr( 'height', winH );
             var left = (winW - canvasW) / 2;
             var top = (winH - canvasH) / 2;
             canvas.offset( {left: 0, top: 0} );
@@ -196,8 +172,12 @@ define( [
             var leftSideOfPlayPauseButton = (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2);
             $( 'div.ui-slider-switch' ).css( 'top', canvasH + top - 40 + 'px' ).css( 'left', leftSideOfPlayPauseButton + 'px' );
             $( '#speedControl' ).css( 'position', 'absolute' ).css( 'width', '400px' ).css( 'top', canvasH + top - 55 + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
+
+            console.log( "tab 1 resized, width = " + winW );
         };
-        $( window ).resize( onResize );
+
+        //Uses jquery resize plugin "jquery.ba-resize": http://benalman.com/projects/jquery-resize-plugin/
+        $( "#tab1" ).resize( onResize );
         onResize(); // initial position
 
         createjs.Ticker.setFPS( 60 );

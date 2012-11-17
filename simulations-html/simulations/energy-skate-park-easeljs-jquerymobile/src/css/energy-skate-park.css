@@ -11,6 +11,19 @@ body {
     position: absolute;
 }
 
+#tab1 {
+    width: 100%;
+    height: 100%;
+}
+
+#theMainBody {
+    width: 100%;
+    height: 100%;
+}
+
+/*http://jquerymobile.com/demos/1.2.0/docs/pages/page-transitions.html*/
+/*.ui-page { -webkit-backface-visibility: hidden; }*/
+
 #controlPanel {
     margin: 5px;
     padding: 0;
