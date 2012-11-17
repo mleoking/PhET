@@ -10,8 +10,8 @@ require.config( {
     deps: ["faraday-main"],
 
     paths: {
-        vendor: "../vendor",
-        easel: "../vendor/easeljs-0.5.0.min"
+        easel: "../vendor/easeljs-0.5.0.min",
+        image: "../vendor/image-0.2.1"
     },
 
     shim: {
