@@ -1,3 +1,4 @@
+11/16/12 drag the bar magnet (with SR)
 11/16/12 add bar magnet image
 11/16/12 add some text to the canvas using Easel
 11/16/12 add some text to the canvas, using Canvas directly
