@@ -17,18 +17,10 @@ require( [ 'easel', 'view/BarMagnet2' ], function ( Easel, BarMagnet2 ) {
     background.graphics.rect( 0, 0, canvas.width, canvas.height );
     stage.addChild( background );
 
-    // Render some text in the center of the stage.
-    var text = new Easel.Text( "Faraday was here", "36px Arial", "red" );
-    text.textAlign = 'center';
-    text.textBaseline = 'middle';
-    text.x = canvas.width / 2;
-    text.y = canvas.height / 2;
-    stage.addChild( text );
-
     // Render a bar magnet
     var barMagnet = new BarMagnet2();
-    barMagnet.x = 200;
-    barMagnet.y = 100;
+    barMagnet.x = canvas.width / 2;
+    barMagnet.y = canvas.height / 2;
     stage.addChild( barMagnet );
 
     stage.update();
