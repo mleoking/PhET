@@ -6,7 +6,6 @@ require( ['websocket-refresh',
     console.log( Strings["plots.position.meters"] );
     console.log( Strings["plots.energy-vs-position"] );
     console.log( Strings["energy-skate-park.description"] );
-    $( "#tab1" ).append( $( '<canvas id="c" width=400 height=300></canvas>' ) );
     //$( "#tab2" ).append( $( '<canvas id="c2" width=400 height=300></canvas>' ) );
 //    $( "#tab3" ).append( $( '<canvas id="c" width=400 height=300></canvas>' ) );
 
@@ -18,5 +17,6 @@ require( ['websocket-refresh',
                                    '<li><a href="#tab3" id="playgroundNavBarButton" data-transition="none" >' + Strings["tab.trackPlayground"] + '</a></li></ul></div>' ) ).trigger( "create" );
 
     WebsocketRefresh.listenForRefresh();
-    var tab1 = new IntroductionTab();
+    var tab1 = new IntroductionTab( "tab1" );
+    var tab2 = new IntroductionTab( "tab2" );
 } );
