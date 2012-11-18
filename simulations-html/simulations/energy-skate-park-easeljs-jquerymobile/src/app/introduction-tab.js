@@ -185,7 +185,7 @@ define( [
             $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' );
             var leftSideOfPlayPauseButton = (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2);
             $( 'div.ui-slider-switch' ).css( 'top', canvasH + top - 40 + 'px' ).css( 'left', leftSideOfPlayPauseButton + 'px' );
-            tab$( 'speedControl' ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 100 + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
+            $( "#" + id + " > .speedControl" ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 100 + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
 
             console.log( "tab 1 resized, width = " + winW );
         };
