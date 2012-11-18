@@ -102,7 +102,7 @@ define( [
 
         //TODO: use requirejs templating for this (But maybe not since it may not work over file://)
         var tab1 = $( "#" + id );
-        var templateText = playPauseFlipSwitch( {tab: id, pauseString: "Pause", playString: "Playx"} );
+        var templateText = playPauseFlipSwitch( {tab: id, pauseString: "Pause", playString: "Play"} );
         console.log( templateText );
         tab1.append( $( templateText ) ).trigger( "create" );
 
