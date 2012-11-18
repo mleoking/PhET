@@ -24,6 +24,9 @@ define( [
 
         function getHashID( s ) {return "#" + getID( s );}
 
+        //Get the jquery element with the name id+""+s
+        function tab$( s ) {return $( getHashID( s ) );}
+
         var canvas = $( '<canvas></canvas>' ).attr( "id", getID( "c" ) ).css( "position", "absolute" );//.css("width","100%" ).css("height","100%");
         $( "#" + id ).append( canvas );
 
@@ -119,15 +122,15 @@ define( [
         tab1.append( $( text ) ).trigger( "create" );
 
         //Wire up the pie chart check box button to the visibility of the pie chart
-        $( getHashID( "checkbox1" ) ).click( function () { barChart.visible = $( getHashID( "checkbox1" ) ).is( ":checked" ); } );
-        $( getHashID( "checkbox2" ) ).click( function () { pieChart.visible = $( getHashID( "checkbox2" ) ).is( ":checked" ); } );
-        $( getHashID( "checkbox3" ) ).click( function () { grid.visible = $( getHashID( "checkbox3" ) ).is( ":checked" ); } );
-        $( getHashID( "checkbox4" ) ).click( function () { speedometer.visible = $( getHashID( "checkbox4" ) ).is( ":checked" ); } );
+        tab$( "checkbox1" ).click( function () { barChart.visible = tab$( "checkbox1" ).is( ":checked" ); } );
+        tab$( "checkbox2" ).click( function () { pieChart.visible = tab$( "checkbox2" ).is( ":checked" ); } );
+        tab$( "checkbox3" ).click( function () { grid.visible = tab$( "checkbox3" ).is( ":checked" ); } );
+        tab$( "checkbox4" ).click( function () { speedometer.visible = tab$( "checkbox4" ).is( ":checked" ); } );
 
-        $( getHashID( "barGraphLabel" ) ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
-        $( getHashID( "pieChartLabel" ) ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
-        $( getHashID( "gridLabel" ) ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
-        $( getHashID( "speedLabel" ) ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
+        tab$( "barGraphLabel" ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
+        tab$( "pieChartLabel" ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
+        tab$( "gridLabel" ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
+        tab$( "speedLabel" ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
 
         $( '#flip-min' ).val( 'on' ).slider( "refresh" );
         $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
@@ -172,10 +175,10 @@ define( [
             slider.css( "marginRight", "0px" );
 
             //TODO: this vertical alignment is a hack that won't work for different settings
-            $( getHashID( "barGraphLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
-            $( getHashID( "pieChartLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
-            $( getHashID( "gridLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
-            $( getHashID( "speedLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            tab$( "barGraphLabel" ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            tab$( "pieChartLabel" ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            tab$( "gridLabel" ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            tab$( "speedLabel" ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
 
             //TODO: This will need to be made more specific since it will cause problems if it applies to all slider switches
             $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' );
