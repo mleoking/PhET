@@ -12,8 +12,9 @@ define( [
             'view/speedometer',
             'i18n!nls/energy-skate-park-strings',
             'i18n!../../../../common/common-html/src/app/nls/phetcommon-strings',
-            'tpl!view/control-panel.html'
-        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate ) {
+            'tpl!view/control-panel.html',
+            'tpl!view/play-pause-flip-switch.html'
+        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     var IntroductionTab = function ( id ) {
@@ -101,9 +102,9 @@ define( [
 
         //TODO: use requirejs templating for this (But maybe not since it may not work over file://)
         var tab1 = $( "#" + id );
-        tab1.append( $( '<select name="flip-min" id="flip-min" data-role="slider">' +
-                        '<option value="off">' + pauseString + '</option>' +
-                        '<option value="on">' + playString + '</option></select>' ) ).trigger( "create" );
+        var templateText = playPauseFlipSwitch( {tab: id, pauseString: "Pause", playString: "Playx"} );
+        console.log( templateText );
+        tab1.append( $( templateText ) ).trigger( "create" );
 
         var slowMotionString = Strings["slow.motion"];
         var normalString = Strings.normal;
