@@ -18,8 +18,11 @@ define( [
     //id is the string that identifies the tab for this module, used for creating unique ids.
     var IntroductionTab = function ( id ) {
 
+        //Rename element id so they will be unique across tabs
         //Unique ID for the elements
         function getID( s ) { return id + s; }
+
+        function getHashID( s ) {return "#" + getID( s );}
 
         var canvas = $( '<canvas></canvas>' ).attr( "id", getID( "c" ) ).css( "position", "absolute" );//.css("width","100%" ).css("height","100%");
         $( "#" + id ).append( canvas );
@@ -111,27 +114,20 @@ define( [
                                              barGraph: Strings["plots.bar-graph"],
                                              pieChart: Strings["pieChart"],
                                              grid: Strings["controls.show-grid"],
-                                             speedometer: Strings["properties.speed"]} );
+                                             speedometer: Strings["properties.speed"],
+                                             id: id} );
         tab1.append( $( text ) ).trigger( "create" );
 
         //Wire up the pie chart check box button to the visibility of the pie chart
-        $( "#checkbox1" ).click( function () { barChart.visible = $( "#checkbox1" ).is( ":checked" ); } );
-        $( "#checkbox2" ).click( function () { pieChart.visible = $( "#checkbox2" ).is( ":checked" ); } );
-        $( "#checkbox3" ).click( function () { grid.visible = $( "#checkbox3" ).is( ":checked" ); } );
-        $( "#checkbox4" ).click( function () { speedometer.visible = $( "#checkbox4" ).is( ":checked" ); } );
+        $( getHashID( "checkbox1" ) ).click( function () { barChart.visible = $( getHashID( "checkbox1" ) ).is( ":checked" ); } );
+        $( getHashID( "checkbox2" ) ).click( function () { pieChart.visible = $( getHashID( "checkbox2" ) ).is( ":checked" ); } );
+        $( getHashID( "checkbox3" ) ).click( function () { grid.visible = $( getHashID( "checkbox3" ) ).is( ":checked" ); } );
+        $( getHashID( "checkbox4" ) ).click( function () { speedometer.visible = $( getHashID( "checkbox4" ) ).is( ":checked" ); } );
 
-        $( '#barGraphLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
-        $( '#pieChartLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
-        $( '#gridLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
-        $( '#speedLabel' ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
-
-        //Rename id's so other tabs won't have the same id objects
-        //TODO: For identifying items, should use "#tab1 .controlPanel" or something like that
-        $( '#barGraphLabel' ).attr( "id", getID( "barGraphLabel" ) );
-        $( '#pieChartLabel' ).attr( "id", getID( "pieChartLabel" ) );
-        $( '#gridLabel' ).attr( "id", getID( "gridLabel" ) );
-        $( '#speedLabel' ).attr( "id", getID( "speedLabel" ) );
-        $( '#controlPanel' ).attr( "id", getID( "controlPanel" ) );
+        $( getHashID( "barGraphLabel" ) ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
+        $( getHashID( "pieChartLabel" ) ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
+        $( getHashID( "gridLabel" ) ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
+        $( getHashID( "speedLabel" ) ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
 
         $( '#flip-min' ).val( 'on' ).slider( "refresh" );
         $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
@@ -176,10 +172,10 @@ define( [
             slider.css( "marginRight", "0px" );
 
             //TODO: this vertical alignment is a hack that won't work for different settings
-            $( '#' + getID( "barGraphLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
-            $( '#' + getID( "pieChartLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
-            $( '#' + getID( "gridLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
-            $( '#' + getID( "speedLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            $( getHashID( "barGraphLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            $( getHashID( "pieChartLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            $( getHashID( "gridLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
+            $( getHashID( "speedLabel" ) ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
 
             //TODO: This will need to be made more specific since it will cause problems if it applies to all slider switches
             $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' );
