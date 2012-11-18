@@ -160,7 +160,7 @@ define( [
             //Scale the control panel up and down using css 2d transform
             //        $( "#controlPanel" ).css( "-webkit-transform", "scale(" + scale + "," + scale + ")" );
 
-            var controlPanel = $( '#' + getID( "controlPanel" ) );
+            var controlPanel = $( '#' + id + " > .controlPanel" );
             controlPanel.css( 'width', '270px' );
             controlPanel.css( 'top', (top + 30) + 'px' );
             controlPanel.css( 'right', left + 'px' );
