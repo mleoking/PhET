@@ -17,7 +17,7 @@ define( [
         ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
-    var IntroductionTab = function ( id ) {
+    return function ( id ) {
 
         //Rename element id so they will be unique across tabs
         //Unique ID for the elements
@@ -226,6 +226,4 @@ define( [
         //Hide/Remove don't work everywhere, but the combination seems to work everywhere.
         $( "#cover" ).hide().remove();
     };
-
-    return IntroductionTab;
 } );
