@@ -13,8 +13,9 @@ define( [
             'i18n!nls/energy-skate-park-strings',
             'i18n!../../../../common/common-html/src/app/nls/phetcommon-strings',
             'tpl!view/control-panel.html',
-            'tpl!view/play-pause-flip-switch.html'
-        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch ) {
+            'tpl!view/play-pause-flip-switch.html',
+            'tpl!view/speed-control.html'
+        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( id ) {
@@ -109,10 +110,7 @@ define( [
         var slowMotionString = Strings["slow.motion"];
         var normalString = Strings.normal;
 
-        tab1.append( $( '<div id="speedControl"><fieldset data-role="controlgroup" data-type="horizontal">' +
-                        '<input type="radio" name="radio-choice-2" id="radio-choice-21" value="choice-1" checked="checked"/><label for="radio-choice-21">' + slowMotionString + '</label>' +
-                        '<input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/>' +
-                        '<label for="radio-choice-22">' + normalString + '</label></fieldset></div>' ) ).trigger( "create" );
+        tab1.append( $( speedControl( {id: id, slowMotion: slowMotionString, normal: normalString} ) ) ).trigger( "create" );
 
         var text = controlPanelTemplate( {
                                              barGraph: Strings["plots.bar-graph"],
@@ -187,7 +185,7 @@ define( [
             $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' );
             var leftSideOfPlayPauseButton = (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2);
             $( 'div.ui-slider-switch' ).css( 'top', canvasH + top - 40 + 'px' ).css( 'left', leftSideOfPlayPauseButton + 'px' );
-            $( '#speedControl' ).css( 'position', 'absolute' ).css( 'width', '400px' ).css( 'top', canvasH + top - 55 + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
+            tab$( 'speedControl' ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 100 + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
 
             console.log( "tab 1 resized, width = " + winW );
         };
