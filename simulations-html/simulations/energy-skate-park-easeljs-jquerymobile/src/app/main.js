@@ -1,7 +1,7 @@
 require( ['websocket-refresh',
-             'introduction-tab',
+             'tab',
              'i18n!nls/energy-skate-park-strings'
-         ], function ( WebsocketRefresh, IntroductionTab, Strings ) {
+         ], function ( WebsocketRefresh, Tab, Strings ) {
     console.log( Strings.large );
     console.log( Strings["plots.position.meters"] );
     console.log( Strings["plots.energy-vs-position"] );
@@ -17,6 +17,6 @@ require( ['websocket-refresh',
                                    '<li><a href="#tab3" id="playgroundNavBarButton" data-transition="none" >' + Strings["tab.trackPlayground"] + '</a></li></ul></div>' ) ).trigger( "create" );
 
     WebsocketRefresh.listenForRefresh();
-    var tab1 = new IntroductionTab( "tab1" );
-    var tab2 = new IntroductionTab( "tab2" );
+    var tab1 = new Tab( "tab1" );
+    var tab2 = new Tab( "tab2" );
 } );
