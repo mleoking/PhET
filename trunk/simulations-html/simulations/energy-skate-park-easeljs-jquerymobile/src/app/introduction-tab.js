@@ -167,7 +167,9 @@ define( [
 
             //Apply css overrides last (i.e. after other css takes effect.
             //There must be a better way to do this, hopefully this can be improved easily.
-            $( ".ui-shadow-inset" ).remove();
+            tab$( "slider-fill" ).remove();
+
+            //TODO: This code actually hits all of the sliders in every tab.  This should be fixed.
             var slider = $( ".ui-slider" );
             slider.css( "width", "100%" );
             slider.css( "marginTop", "0px" );
