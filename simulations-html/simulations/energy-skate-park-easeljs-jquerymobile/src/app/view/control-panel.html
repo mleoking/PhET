@@ -1,10 +1,10 @@
-<div data-role="control-panel" id="controlPanel" class="controlPanel">
+<div data-role="control-panel" id="<%= id %>controlPanel" class="controlPanel">
     <fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">
         <legend></legend>
-        <input id="checkbox1" name="" type="checkbox"/><label for="checkbox1" id="barGraphLabel"><%= barGraph %></label>
-        <input id="checkbox2" name="" type="checkbox"/><label for="checkbox2" id="pieChartLabel"><%= pieChart %></label>
-        <input id="checkbox3" name="" type="checkbox"/><label for="checkbox3" id="gridLabel"><%= grid %></label>
-        <input id="checkbox4" name="" type="checkbox"/><label for="checkbox4" id="speedLabel"><%= speedometer %></label>
+        <input id="<%= id %>checkbox1" name="" type="checkbox"/><label for="<%= id %>checkbox1" id="<%= id %>barGraphLabel"><%= barGraph %></label>
+        <input id="<%= id %>checkbox2" name="" type="checkbox"/><label for="<%= id %>checkbox2" id="<%= id %>pieChartLabel"><%= pieChart %></label>
+        <input id="<%= id %>checkbox3" name="" type="checkbox"/><label for="<%= id %>checkbox3" id="<%= id %>gridLabel"><%= grid %></label>
+        <input id="<%= id %>checkbox4" name="" type="checkbox"/><label for="<%= id %>checkbox4" id="<%= id %>speedLabel"><%= speedometer %></label>
     </fieldset>
     <input type="range" name="slider-fill" id="slider-fill" value="60" min="0" max="100" data-highlight="true"/>
 </div>
