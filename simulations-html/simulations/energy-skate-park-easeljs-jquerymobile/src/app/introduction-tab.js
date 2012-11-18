@@ -110,7 +110,9 @@ define( [
         var slowMotionString = Strings["slow.motion"];
         var normalString = Strings.normal;
 
-        tab1.append( $( speedControl( {id: id, slowMotion: slowMotionString, normal: normalString} ) ) ).trigger( "create" );
+        //Class for CSS selector.  Use a class instead of ID so that different tabs don't have to come up with unique ID for the elements.\
+        var speedControlClass = "speedControl";
+        tab1.append( $( speedControl( {elementClass: speedControlClass, slowMotion: slowMotionString, normal: normalString} ) ) ).trigger( "create" );
 
         var text = controlPanelTemplate( {
                                              barGraph: Strings["plots.bar-graph"],
@@ -185,7 +187,7 @@ define( [
             $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' );
             var leftSideOfPlayPauseButton = (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2);
             $( 'div.ui-slider-switch' ).css( 'top', canvasH + top - 40 + 'px' ).css( 'left', leftSideOfPlayPauseButton + 'px' );
-            $( "#" + id + " > .speedControl" ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 100 + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
+            $( "#" + id + " > ." + speedControlClass ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 100 + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
 
             console.log( "tab 1 resized, width = " + winW );
         };
