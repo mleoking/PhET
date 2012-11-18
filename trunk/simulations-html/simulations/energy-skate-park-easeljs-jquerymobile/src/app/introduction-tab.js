@@ -11,8 +11,9 @@ define( [
             'view/bar-chart',
             'view/speedometer',
             'i18n!nls/energy-skate-park-strings',
-            'i18n!../../../../common/common-html/src/app/nls/phetcommon-strings'
-        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings ) {
+            'i18n!../../../../common/common-html/src/app/nls/phetcommon-strings',
+            'tpl!view/control-panel.html'
+        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     var IntroductionTab = function ( id ) {
@@ -106,15 +107,12 @@ define( [
                         '<input type="radio" name="radio-choice-2" id="radio-choice-22" value="choice-2"/>' +
                         '<label for="radio-choice-22">' + normalString + '</label></fieldset></div>' ) ).trigger( "create" );
 
-        tab1.append( $( '<div data-role="control-panel" id="controlPanel" class="controlPanel">' +
-                        '<fieldset data-role="controlgroup" data-type="vertical" id="innereelement2">' +
-                        '<legend></legend>' +
-                        '<input id="checkbox1" name="" type="checkbox"/>' +
-                        '<label for="checkbox1" id="barGraphLabel">' + Strings["plots.bar-graph"] + '</label>' +
-                        '<input id="checkbox2" name="" type="checkbox"/><label for="checkbox2" id="pieChartLabel">' + Strings["pieChart"] + '</label>' +
-                        '<input id="checkbox3" name="" type="checkbox"/><label for="checkbox3" id="gridLabel">' + Strings["controls.show-grid"] + '</label>' +
-                        '<input id="checkbox4" name="" type="checkbox"/><label for="checkbox4" id="speedLabel">' + Strings["properties.speed"] + '</label>' +
-                        '</fieldset><input type="range" name="slider-fill" id="slider-fill" value="60" min="0" max="100" data-highlight="true"/></div>' ) ).trigger( "create" );
+        var text = controlPanelTemplate( {
+                                             barGraph: Strings["plots.bar-graph"],
+                                             pieChart: Strings["pieChart"],
+                                             grid: Strings["controls.show-grid"],
+                                             speedometer: Strings["properties.speed"]} );
+        tab1.append( $( text ) ).trigger( "create" );
 
         //Wire up the pie chart check box button to the visibility of the pie chart
         $( "#checkbox1" ).click( function () { barChart.visible = $( "#checkbox1" ).is( ":checked" ); } );
