@@ -1,3 +1,4 @@
+use css class to identify the object instead of id
 # 00.00.08 (70269) Nov 13, 2012
 Improved energy conservation on the spline
 Allow canvas to fill the window
