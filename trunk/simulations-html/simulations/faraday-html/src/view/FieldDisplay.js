@@ -8,11 +8,11 @@
 define( [ 'easel' ], function( Easel ) {
 
     /**
-     * @param {FaradayModel} model
+     * @param {Field} field
      * @param {ModelViewTransform} mvt
      * @constructor
      */
-    function FieldDisplay( model, mvt ) {
+    function FieldDisplay( field, mvt ) {
         // constructor stealing
         Easel.Text.call( this, "field", "bold 36px Arial", 'white' );
     }

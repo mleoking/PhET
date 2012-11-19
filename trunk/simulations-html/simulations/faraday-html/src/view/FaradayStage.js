@@ -33,7 +33,7 @@ define( [ 'easel',
         background.graphics.rect( 0, 0, canvas.width, canvas.height );
 
         // field
-        this.field = new FieldDisplay( model );
+        this.field = new FieldDisplay( model.field, model.mvt );
         this.field.x = 50;
         this.field.y = 50;
         this.field.visible = this.fieldVisible.get();
@@ -42,13 +42,13 @@ define( [ 'easel',
         this.barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );
 
         // compass
-        this.compass = new CompassDisplay( model, model.mvt );
+        this.compass = new CompassDisplay( model.compass, model.mvt );
         this.compass.x = 50;
         this.compass.y = 100;
         this.compass.visible = this.compassVisible.get();
 
         // field meter
-        this.meter = new FieldMeterDisplay( model, model.mvt );
+        this.meter = new FieldMeterDisplay( model.fieldMeter, model.mvt );
         this.meter.x = 50;
         this.meter.y = 150;
         this.meter.visible = this.fieldMeterVisible.get();
