@@ -22,4 +22,10 @@ define( [], function () {
         this.getAngle = function() { return Math.atan2( y, x ); };
         this.getMagnitude = function() { return Math.sqrt( x * x + y * y ); };
     }
+
+    Vector.prototype.toString = function() {
+        return "[Vector (x=" + this.getX() + " y=" + this.getY() + ")]";
+    }
+
+    return Vector;
 } );
