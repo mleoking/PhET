@@ -13,6 +13,11 @@
  */
 define([], function() {
 
+    /**
+     * @class Property
+     * @constructor
+     * @param value
+     */
     function Property( value ) {
 
         // Variables declared in the constructor are private.
@@ -39,7 +44,7 @@ define([], function() {
                 _value = value;
                 var observersCopy = _observers.slice(); // make a copy, in case notification results in removeObserver
                 for ( var i = 0; i < observersCopy.length; i++ ) {
-                    observersCopy[i]( oldValue, value );
+                    observersCopy[i]( value, oldValue );
                 }
             }
         };
@@ -48,7 +53,7 @@ define([], function() {
          * Adds an observer.
          * If observer is already registered, this is a no-op.
          *
-         * @param observer a function of the form observer(oldValue,newValue)
+         * @param observer a function of the form observer(newValue,oldValue)
          */
         this.addObserver = function( observer ) {
             if ( _observers.indexOf( observer ) === -1 ) {
@@ -74,8 +79,8 @@ define([], function() {
     // test
     Property.prototype.test = function () {
         var name = new Property( "Moe" );
-        var observer = function ( oldName, newName ) {
-            console.log( "oldName=" + oldName + ", newName=" + newName );
+        var observer = function ( newName, oldName ) {
+            console.log( "newName=" + newName + ", oldName=" + oldName );
         };
         name.addObserver( observer );
         name.set( "Larry" ); // observer should be notified
