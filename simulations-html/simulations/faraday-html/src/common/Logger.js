@@ -3,36 +3,43 @@
 /**
  * Wrapper for logging. When we decide on a JS logging API, plug it in here.
  *
- * @author Chris Malley
+ * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [], function() {
 
-    function Logger() {}
+    /**
+     * @class Logger
+     * @constructor
+     * @param sourceName name of the source file in which the logger instance was created.
+     */
+    function Logger( sourceName ) {
+        this.sourceName = sourceName;
+    }
 
     // Set this to false to disable logging application-wide.
     Logger.enabled = true;
 
     // All other methods call this one, which prints to the console.
-    Logger.log = function ( prefix, message ) {
+    Logger.log = function ( prefix, sourceName, message ) {
         if ( Logger.enabled ) {
-            console.log( prefix + ": " + message );
+            console.log( prefix + " : " + sourceName + " : " + message );
         }
     };
 
-    Logger.info = function ( message ) {
-        Logger.log( "INFO", message );
+    Logger.prototype.info = function ( message ) {
+        Logger.log( "INFO", this.sourceName, message );
     };
 
-    Logger.warn = function ( message ) {
-        Logger.log( "WARNING", message );
+    Logger.prototype.warn = function ( message ) {
+        Logger.log( "WARNING", this.sourceName, message );
     };
 
-    Logger.error = function ( message ) {
-        Logger.log( "ERROR", message );
+    Logger.prototype.error = function ( message ) {
+        Logger.log( "ERROR", this.sourceName, message );
     };
 
-    Logger.fatal = function ( message ) {
-        Logger.log( "FATAL", message );
+    Logger.prototype.fatal = function ( message ) {
+        Logger.log( "FATAL", this.sourceName, message );
     };
 
     return Logger;

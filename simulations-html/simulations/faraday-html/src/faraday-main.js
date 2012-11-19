@@ -13,6 +13,8 @@ require( [ 'easel',
          ],
          function ( Easel, Logger, ModelViewTransform, BarMagnet, BarMagnetDisplay ) {
 
+    var logger = new Logger( "faraday-main" ); // logger for this source file
+
     var canvas = document.getElementById( 'faraday-canvas' );
 
     // Model ----------------------------------------------------------
@@ -23,7 +25,7 @@ require( [ 'easel',
 
     var barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), 10 );
     barMagnet.location.addObserver( function() {
-        Logger.info( "barMagnet.location=" + barMagnet.location.get().toString() );
+        logger.info( "barMagnet.location=" + barMagnet.location.get().toString() );
     });
 
     // View ----------------------------------------------------------
@@ -44,7 +46,8 @@ require( [ 'easel',
     stage.update();
     stage.enableMouseOver();
 
-    // Start the animation loop.
+    // Animation loop ----------------------------------------------------------
+
     Easel.Ticker.addListener( stage );
     Easel.Ticker.setFPS( 60 );
 } );
