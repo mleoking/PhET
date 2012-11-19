@@ -5,7 +5,9 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-require( [ 'easel', 'view/BarMagnet3' ], function ( Easel, BarMagnet3 ) {
+require( [ 'easel', 'view/BarMagnet3', 'common/Property' ], function ( Easel, BarMagnet3, Property ) {
+
+    new Property().test(); //XXX
 
     // Create the stage.
     var canvas = document.getElementById( 'faraday-canvas' );

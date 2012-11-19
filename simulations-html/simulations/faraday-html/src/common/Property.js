@@ -29,39 +29,37 @@ define([], function() {
 
         /**
          * Sets the value and notifies registered observers.
+         * If the value hasn't changed, this is a no-op.
+         *
          * @param value
          */
         this.set = function( value ) {
-            //TODO should (value === _value) result in a no-op?
-            _value = value;
-            var observersCopy = _observers.slice(); // make a copy, in case notification results in removeObserver
-            for ( var i = 0; i < observersCopy.length; i++ ) {
-                observersCopy[i]( _value );
+            if ( value !== _value ) {
+                var oldValue = _value;
+                _value = value;
+                var observersCopy = _observers.slice(); // make a copy, in case notification results in removeObserver
+                for ( var i = 0; i < observersCopy.length; i++ ) {
+                    observersCopy[i]( oldValue, value );
+                }
             }
         };
 
         /**
-         * Adds an observer, but does not notify it.
-         * The observer should be a function that expects one argument of the same type as the value.
-         * @param observer
-         */
-        this.addObserverNoNotify = function( observer ) {
-            _observers.push( observer );
-        };
-
-        /**
-         * Adds an observer, and notifies it immediately.
-         * The observer should be a function that expects one argument of the same type as the value.
-         * @param observer
+         * Adds an observer.
+         * If observer is already registered, this is a no-op.
+         *
+         * @param observer a function of the form observer(oldValue,newValue)
          */
         this.addObserver = function( observer ) {
-            this.addObserverNoNotify( observer );
-            observer( _value );
+            if ( _observers.indexOf( observer ) === -1 ) {
+                _observers.push( observer );
+            }
         };
-
 
         /**
          * Removes an observer.
+         * If observer is not registered, this is a no-op.
+         *
          * @param observer
          */
         this.removeObserver = function( observer ) {
@@ -75,14 +73,14 @@ define([], function() {
     //TODO is this a good way of co-locating small tests?
     // test
     Property.prototype.test = function () {
-        var name = new Property( "Simon" );
-        var observer = function ( name ) {
-            console.log( "name=" + name );
+        var name = new Property( "Moe" );
+        var observer = function ( oldName, newName ) {
+            console.log( "oldName=" + oldName + ", newName=" + newName );
         };
         name.addObserver( observer );
-        name.set( "Garfunkel" ); // observer should be notified
+        name.set( "Larry" ); // observer should be notified
         name.removeObserver( observer );
-        name.set( "Simon" ); // this should result in no notification
+        name.set( "Curly" ); // this should result in no notification
     };
 
     return Property;
