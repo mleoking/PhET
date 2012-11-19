@@ -16,14 +16,18 @@ define( [], function() {
         this.sourceName = sourceName;
     }
 
-    // Set this to false to disable logging application-wide.
-    Logger.enabled = true;
+    // Enable or disable logging application-wide.
+    Logger.enabled = false;
 
     // All other methods call this one, which prints to the console.
     Logger.log = function ( prefix, sourceName, message ) {
         if ( Logger.enabled ) {
             console.log( prefix + " : " + sourceName + " : " + message );
         }
+    };
+
+    Logger.prototype.debug = function ( message ) {
+            Logger.log( "DEBUG", this.sourceName, message );
     };
 
     Logger.prototype.info = function ( message ) {

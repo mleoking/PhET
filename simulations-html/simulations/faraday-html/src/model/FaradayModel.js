@@ -28,30 +28,21 @@ define( [ 'easel',
         // bar magnet
         this.barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), new Dimension( 250, 50 ), 10, 0 );
 
-        // Debug output for the bar magnet.
-        var thisModel = this;
-        this.barMagnet.location.addObserver( function () {
-            logger.info( "barMagnet.location=" + thisModel.barMagnet.location.get().toString() );
-        } );
-        this.barMagnet.strength.addObserver( function () {
-            logger.info( "barMagnet.strength=" + thisModel.barMagnet.strength.get() );
-        } );
-        this.barMagnet.orientation.addObserver( function () {
-            logger.info( "barMagnet.orientation=" + thisModel.barMagnet.orientation.get() );
-        } );
-
         // field
         this.field = new Field();
 
         // field meter
-        this.fieldMeter = new FieldMeter( new Easel.Point( 0, 0 ) );
+        this.fieldMeter = new FieldMeter( new Easel.Point( -275, 150 ) );
 
         // compass
-        this.compass = new Compass( new Easel.Point( 0, 0 ) );
+        this.compass = new Compass( new Easel.Point( -275, -150 ) );
     }
 
     FaradayModel.prototype.reset = function() {
         this.barMagnet.reset();
+        this.compass.reset();
+        this.field.reset();
+        this.fieldMeter.reset();
     };
 
     return FaradayModel;

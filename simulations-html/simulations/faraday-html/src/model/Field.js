@@ -11,5 +11,9 @@ define( [ 'common/Property' ], function( Property ) {
         //TODO
     }
 
+    Field.prototype.reset = function() {
+        //TODO
+    };
+
     return Field;
 } );

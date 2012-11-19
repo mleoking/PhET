@@ -39,7 +39,7 @@ define( [ 'easel',
         this.regX = this.image.width / 2;
         this.regY = this.image.height / 2;
 
-         // Dragging.
+        // Dragging.
         DragHandler.register( this, function( point ) {
             barMagnet.location.set( mvt.viewToModel( point ) );
         });

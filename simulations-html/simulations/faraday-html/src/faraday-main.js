@@ -14,7 +14,7 @@ require( [ 'easel',
          ],
          function ( Easel, Logger, ModelViewTransform, FaradayModel, ControlPanel, FaradayStage ) {
 
-    var logger = new Logger( "faraday-main" ); // logger for this source file
+    Logger.enabled = true;
 
     // MVC --------------------------------------------------------------------
 
