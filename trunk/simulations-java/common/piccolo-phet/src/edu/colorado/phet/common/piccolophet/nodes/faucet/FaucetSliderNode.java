@@ -28,11 +28,14 @@ public class FaucetSliderNode extends HSliderNode {
     /**
      * Creates a slider control to be shown on the faucet to control the flow.
      *
-     * @param userComponent          sim-sharing user component
-     * @param enabled                property to indicate if the slider is enabled
-     * @param maxFlowRate            the maximum flow rate
-     * @param flowRate               the flow rate property that is attached to the slider
-     * @param snapToZeroWhenReleased does the knob snap back to zero when the user releases it?
+     * @param userComponent           sim-sharing user component
+     * @param enabled                 property to indicate if the slider is enabled
+     * @param sliderTrackLength       length, in pixels, of slider track
+     * @param sliderTrackThickness    thickness, in pixels, of slider track
+     * @param knobWidth               width of the slider knob
+     * @param maxFlowRate             the maximum flow rate
+     * @param flowRate                the flow rate property that is attached to the slider
+     * @param snapToZeroWhenReleased  does the knob snap back to zero when the user releases it?
      */
     public FaucetSliderNode( IUserComponent userComponent, final ObservableProperty<Boolean> enabled, double sliderTrackLength, double sliderTrackThickness,
                              double knobWidth, double maxFlowRate, final Property<Double> flowRate, final boolean snapToZeroWhenReleased ) {
