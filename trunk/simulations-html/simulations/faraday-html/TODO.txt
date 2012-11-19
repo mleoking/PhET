@@ -1,6 +1,7 @@
 TODO list for faraday-html
 
 Features:
+- better interface for DragHandler
 - "Flip Polarity" button
 - "Strength" slider
 - magnetic field model and view
