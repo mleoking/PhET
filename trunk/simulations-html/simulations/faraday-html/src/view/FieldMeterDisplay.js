@@ -6,10 +6,11 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [ 'easel',
+          'common/MathUtil',
           'view/DragHandler',
           'image!resources/images/fieldMeter.png'
         ],
-        function( Easel, DragHandler, fieldMeterImage ) {
+        function( Easel, MathUtil, DragHandler, fieldMeterImage ) {
 
     /**
      * @param {FieldMeter} fieldMeter
@@ -31,21 +32,34 @@ define( [ 'easel',
         } );
 
         // Register for synchronization with model.
-        var thisDisplayObject = this;
-        function updateLocation( location ) {
-            var point = mvt.modelToView( location );
-            thisDisplayObject.x = point.x;
-            thisDisplayObject.y = point.y;
+        {
+            var thisDisplayObject = this;
+
+            // location
+            function updateLocation( location ) {
+                var point = mvt.modelToView( location );
+                thisDisplayObject.x = point.x;
+                thisDisplayObject.y = point.y;
+            }
+            fieldMeter.location.addObserver( updateLocation );
+
+            // visible
+            function updateVisibility( visible ) {
+                thisDisplayObject.visible = visible;
+            }
+            fieldMeter.visible.addObserver( updateVisibility );
+
+            // value
+            function updateValues( value ) {
+                console.log( "x=" + value.getX() + " y=" + value.getY() + " r=" + value.getMagnitude() + " a=" + MathUtil.toDegrees( value.getAngle() ) ); //XXX
+            }
+            fieldMeter.value.addObserver( updateValues );
         }
-        fieldMeter.location.addObserver( updateLocation );
-        function updateVisibility( visible ) {
-            thisDisplayObject.visible = visible;
-        }
-        fieldMeter.visible.addObserver( updateVisibility );
 
         // sync now
         updateLocation( fieldMeter.location.get() );
         updateVisibility( fieldMeter.visible.get() );
+        updateValues( fieldMeter.value.get() );
     }
 
     // prototype chaining
