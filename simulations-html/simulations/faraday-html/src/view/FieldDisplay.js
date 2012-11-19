@@ -15,7 +15,14 @@ define( [ 'easel' ], function( Easel ) {
     function FieldDisplay( field, mvt ) {
 
         // constructor stealing
-        Easel.Text.call( this, "field", "bold 36px Arial", 'white' );
+        Easel.Text.call( this, "field", "bold 100px Arial", 'white' );
+        this.textAlign = 'center';
+        this.textBaseline = 'middle';
+
+        // move to the origin
+        var point = mvt.modelToView( new Easel.Point( 0, 0 ) );
+        this.x = point.x;
+        this.y = point.y;
 
         // Register for synchronization with model.
         var thisDisplayObject = this;

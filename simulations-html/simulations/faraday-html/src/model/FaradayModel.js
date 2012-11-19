@@ -32,10 +32,10 @@ define( [ 'easel',
         this.field = new Field( true );
 
         // field meter
-        this.fieldMeter = new FieldMeter( new Easel.Point( -275, 150 ), true );
+        this.fieldMeter = new FieldMeter( new Easel.Point( -275, 100 ), true );
 
         // compass
-        this.compass = new Compass( new Easel.Point( -275, -150 ), true );
+        this.compass = new Compass( new Easel.Point( -275, -100 ), true );
     }
 
     FaradayModel.prototype.reset = function() {
