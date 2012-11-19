@@ -8,7 +8,7 @@ Features:
 - control panel layout
 
 Bugs:
-- "Show Inside Magnet" check box doesn't reset
+- "See Inside Magnet" check box doesn't reset
 
 General:
 - handle window resize
