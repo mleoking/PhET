@@ -6,8 +6,10 @@ require( [
              'view/particle-view',
              'view/atom-view',
              'view/bucket-view',
+             'view/symbol-view',
+             'model/atom',
              'tpl!templates/periodic-table.html'
-         ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketView, periodicTable ) {
+         ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketView, SymbolView, Atom, periodicTable ) {
 
     var $window = $(window);
 
@@ -100,6 +102,13 @@ require( [
     $window.resize();
 
     $( document ).ready( function (){
+
+      var atom = new Atom();
+
+      var symbolWidget = new SymbolView( atom );
+
        $('#periodic-table' ).html( periodicTable() );
     });
+
+
 } );

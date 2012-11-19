@@ -106,11 +106,12 @@ textarea {
     clear: both;
     width: 91%;
     min-height: 1em;
+    min-width: 485px;
     background: rgb(255, 255, 153);
     margin: 1%;
-    /*padding: 1%;*/
     border: 2px solid black;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 #periodic-table table {
@@ -126,44 +127,68 @@ textarea {
 }
 
 #detailed-element-symbol {
-    max-width: 5em;
     border: 2px solid black;
     background: white;
-    padding: 2%;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    float: left;
+    margin: 5px;
+    font-size: 1.4em;
 }
 
-/* @media only screen and (max-width: 960px) { */
+#detailed-element-symbol h1 {
+  margin: 0;
+  text-align: center;
+  line-height: 100px;
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  z-index: 1;
+}
 
-/*     #periodic-table table td { */
-/*         width: 18px; */
-/*         height: 18px; */
-/*     } */
+#detailed-element-symbol span {
+  position: absolute;
+  font-weight: bold;
+  z-index: 5;
+}
 
-/* } */
+#detailed-element-symbol .atomic-weight {
+  top: 5px;
+  left: 5px;
+}
 
-/* @media only screen and (max-width: 480px) { */
+#detailed-element-symbol .atomic-number {
+  bottom: 5px;
+  left: 5px;
+  color: red;
+}
 
-/*     #periodic-table { */
-/*         top: 10px; */
-/*         left: 10px; */
-/*     } */
+#detailed-element-symbol .charge {
+  top: 5px;
+  right: 5px;
+}
 
-/*     canvas { */
-/*         top: 220px; */
-/*         width: 100%; */
-/*     } */
 
-/* } */
+@media only screen and (max-width: 990px) {
 
-/* @media only screen and (max-width: 320px) and (orientation: portrait) { */
+  #canvas-container {
+    width: 100%;
+    position: static;
+  }
 
-/*     #periodic-table table td { */
-/*         font-size: 12px; */
-/*         width: 16px; */
-/*         height: 16px; */
-/*     } */
+  #control-panel {
+    width: 100%;
+    position: static;
+  }
 
-/* } */
+  #control-panel .widget-box {
+    width: 97%;
+  }
+
+}
+
+
 
 /* ==========================================================================
 Helper classes
