@@ -103,17 +103,17 @@ define( [
         console.log( "pauseString = " + pauseString + ", playString = " + playString );
 
         //TODO: use requirejs templating for this (But maybe not since it may not work over file://)
-        var tab1 = $( "#" + id );
+        var tab = $( "#" + id );
         var templateText = playPauseFlipSwitch( {tab: id, pauseString: "Pause", playString: "Play"} );
         console.log( templateText );
-        tab1.append( $( templateText ) ).trigger( "create" );
+        tab.append( $( templateText ) ).trigger( "create" );
 
         var slowMotionString = Strings["slow.motion"];
         var normalString = Strings.normal;
 
         //Class for CSS selector.  Use a class instead of ID so that different tabs don't have to come up with unique ID for the elements.\
         var speedControlClass = "speedControl";
-        tab1.append( $( speedControl( {elementClass: speedControlClass, slowMotion: slowMotionString, normal: normalString} ) ) ).trigger( "create" );
+        tab.append( $( speedControl( {elementClass: speedControlClass, slowMotion: slowMotionString, normal: normalString} ) ) ).trigger( "create" );
 
         var text = controlPanelTemplate( {
                                              barGraph: Strings["plots.bar-graph"],
@@ -121,7 +121,7 @@ define( [
                                              grid: Strings["controls.show-grid"],
                                              speedometer: Strings["properties.speed"],
                                              id: id} );
-        tab1.append( $( text ) ).trigger( "create" );
+        tab.append( $( text ) ).trigger( "create" );
 
         //Wire up the pie chart check box button to the visibility of the pie chart
         tab$( "checkbox1" ).click( function () { barChart.visible = tab$( "checkbox1" ).is( ":checked" ); } );
@@ -238,9 +238,9 @@ define( [
 
         //Create the navbar
         var persist = "ui-btn-active ui-state-persist";
-        var class1 = id == "tab1" ? persist : "";
+        var class1 = id == "tab" ? persist : "";
         var class2 = id == "tab2" ? persist : "";
         var class3 = id == "tab3" ? persist : "";
-        tab1.append( $( navBar( {class1: class1, class2: class2, class3: class3} ) ) ).trigger( "create" );
+        tab.append( $( navBar( {class1: class1, class2: class2, class3: class3} ) ) ).trigger( "create" );
     };
 } );
