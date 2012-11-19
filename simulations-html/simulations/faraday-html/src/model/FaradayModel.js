@@ -29,13 +29,13 @@ define( [ 'easel',
         this.barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), new Dimension( 250, 50 ), 10, 0 );
 
         // field
-        this.field = new Field();
+        this.field = new Field( true );
 
         // field meter
-        this.fieldMeter = new FieldMeter( new Easel.Point( -275, 150 ) );
+        this.fieldMeter = new FieldMeter( new Easel.Point( -275, 150 ), true );
 
         // compass
-        this.compass = new Compass( new Easel.Point( -275, -150 ) );
+        this.compass = new Compass( new Easel.Point( -275, -150 ), true );
     }
 
     FaradayModel.prototype.reset = function() {

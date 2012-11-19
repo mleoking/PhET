@@ -34,9 +34,14 @@ define( [ 'easel', 'view/DragHandler' ], function( Easel, DragHandler ) {
             thisDisplayObject.y = point.y;
         }
         compass.location.addObserver( updateLocation );
+        function updateVisibility( visible ) {
+            thisDisplayObject.visible = visible;
+        }
+        compass.visible.addObserver( updateVisibility );
 
         // sync now
         updateLocation( compass.location.get() );
+        updateVisibility( compass.visible.get() );
     }
 
     // prototype chaining

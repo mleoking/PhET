@@ -5,14 +5,25 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/Property' ], function( Property ) {
+define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
 
-    function Field() {
-        //TODO
+    function Field( visible ) {
+
+        var logger = new Logger( "Field" ); // logger for this source file
+
+        this.visible = new Property( visible );
+
+        //DEBUG
+        var DEBUG = true;
+        if ( DEBUG ) {
+            this.visible.addObserver( function ( newValue ) {
+                logger.debug( "visible=" + newValue );
+            } );
+        }
     }
 
     Field.prototype.reset = function() {
-        //TODO
+        this.visible.reset();
     };
 
     return Field;
