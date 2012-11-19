@@ -19,9 +19,6 @@ define( [ 'easel',
 
         // properties that are specific to the view (have no model counterpart.)
         this.magnetTransparent = new Property( false );
-        this.fieldVisible = new Property( true );
-        this.compassVisible = new Property( true );
-        this.fieldMeterVisible = new Property( true );
 
         // stage
         this.stage = new Easel.Stage( canvas );
@@ -34,20 +31,17 @@ define( [ 'easel',
 
         // field
         this.field = new FieldDisplay( model.field, model.mvt );
-        this.field.x = 50;
-        this.field.y = 50;
-        this.field.visible = this.fieldVisible.get();
+        this.field.x = 50; //XXX
+        this.field.y = 50; //XXX
 
         // bar magnet
         this.barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );
 
         // compass
         this.compass = new CompassDisplay( model.compass, model.mvt );
-        this.compass.visible = this.compassVisible.get();
 
         // field meter
         this.meter = new FieldMeterDisplay( model.fieldMeter, model.mvt );
-        this.meter.visible = this.fieldMeterVisible.get();
 
         // rendering order
         this.stage.addChild( background );
@@ -59,9 +53,6 @@ define( [ 'easel',
 
     FaradayStage.prototype.reset = function() {
        this.magnetTransparent.reset();
-       this.fieldVisible.reset();
-       this.compassVisible.reset();
-       this.fieldMeterVisible.reset();
     };
 
     return FaradayStage;

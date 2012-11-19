@@ -13,8 +13,19 @@ define( [ 'easel' ], function( Easel ) {
      * @constructor
      */
     function FieldDisplay( field, mvt ) {
+
         // constructor stealing
         Easel.Text.call( this, "field", "bold 36px Arial", 'white' );
+
+        // Register for synchronization with model.
+        var thisDisplayObject = this;
+        function updateVisibility( visible ) {
+            thisDisplayObject.visible = visible;
+        }
+        field.visible.addObserver( updateVisibility );
+
+        // sync now
+        updateVisibility( field.visible.get() );
     }
 
     // prototype chaining

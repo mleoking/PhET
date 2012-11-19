@@ -26,9 +26,9 @@ define( [ 'easel',
         this.regY = 28; // manually measured in image file
 
         // Dragging.
-        DragHandler.register( this, function( point ) {
+        DragHandler.register( this, function ( point ) {
             fieldMeter.location.set( mvt.viewToModel( point ) );
-        });
+        } );
 
         // Register for synchronization with model.
         var thisDisplayObject = this;
@@ -38,9 +38,14 @@ define( [ 'easel',
             thisDisplayObject.y = point.y;
         }
         fieldMeter.location.addObserver( updateLocation );
+        function updateVisibility( visible ) {
+            thisDisplayObject.visible = visible;
+        }
+        fieldMeter.visible.addObserver( updateVisibility );
 
         // sync now
         updateLocation( fieldMeter.location.get() );
+        updateVisibility( fieldMeter.visible.get() );
     }
 
     // prototype chaining
