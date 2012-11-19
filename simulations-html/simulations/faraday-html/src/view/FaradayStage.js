@@ -21,7 +21,7 @@ define( [ 'easel',
         this.magnetTransparent = new Property( false );
         this.fieldVisible = new Property( true );
         this.compassVisible = new Property( true );
-        this.fieldMeterVisible = new Property( false );
+        this.fieldMeterVisible = new Property( true );
 
         // stage
         this.stage = new Easel.Stage( canvas );

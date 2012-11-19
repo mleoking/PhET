@@ -5,7 +5,11 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'view/DragHandler' ], function( Easel, DragHandler ) {
+define( [ 'easel',
+          'view/DragHandler',
+          'image!resources/images/fieldMeter.png'
+        ],
+        function( Easel, DragHandler, fieldMeterImage ) {
 
     /**
      * @param {FieldMeter} fieldMeter
@@ -13,12 +17,13 @@ define( [ 'easel', 'view/DragHandler' ], function( Easel, DragHandler ) {
      * @constructor
      */
     function FieldMeterDisplay( fieldMeter, mvt ) {
-        // constructor stealing
-        Easel.Text.call( this, "meter", "bold 36px Arial", 'white' );
 
-        //XXX center
-        this.textAlign = 'center';
-        this.textBaseline = 'middle';
+        // constructor stealing
+        Easel.Bitmap.call( this, fieldMeterImage );
+
+        // Move registration point to the center of probe crosshairs.
+        this.regX = this.image.width / 2;
+        this.regY = 28; // manually measured in image file
 
         // Dragging.
         DragHandler.register( this, function( point ) {
@@ -39,7 +44,7 @@ define( [ 'easel', 'view/DragHandler' ], function( Easel, DragHandler ) {
     }
 
     // prototype chaining
-    FieldMeterDisplay.prototype = new Easel.Text();
+    FieldMeterDisplay.prototype = new Easel.Bitmap();
 
     return FieldMeterDisplay;
 } );
