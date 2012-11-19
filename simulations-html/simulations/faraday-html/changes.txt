@@ -1,3 +1,5 @@
+11/18/12 wire up Reset All button
+11/18/12 implement Property.reset
 11/18/12 add "Flip Polarity" button in HTML, wire up to model
 11/18/12 better interface for DragHandler
 11/18/12 rotate bar magnet display object to match orientation of model

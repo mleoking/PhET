@@ -22,6 +22,12 @@ define( [ 'common/Property' ], function ( Property ) {
         this.orientation = new Property( orientation );
     }
 
+    BarMagnet.prototype.reset = function() {
+        this.location.reset();
+        this.strength.reset();
+        this.orientation.reset();
+    }
+
     return BarMagnet;
 } );
 
