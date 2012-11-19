@@ -31,6 +31,13 @@ require( [ 'easel',
 
     // Controls ----------------------------------------------------------
 
+    //TODO similar for other check boxes
+    var showCompassCheckBox = document.getElementById( "showCompassCheckBox" );
+    showCompassCheckBox.onclick = function() {
+        //TODO change compass visibility
+        logger.info( "showCompassCheckBox=" + showCompassCheckBox.checked );
+    };
+
     var flipPolarityButton = document.getElementById( "flipPolarityButton" );
     flipPolarityButton.onclick = function() {
         model.barMagnet.orientation.set( model.barMagnet.orientation.get() + Math.PI );
