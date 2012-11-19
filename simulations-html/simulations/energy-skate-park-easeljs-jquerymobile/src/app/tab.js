@@ -19,7 +19,7 @@ define( [
         ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
-    return function ( id ) {
+    return function ( id, running ) {
 
         //Rename element id so they will be unique across tabs
         //Unique ID for the elements
@@ -194,12 +194,15 @@ define( [
         };
 
         //Uses jquery resize plugin "jquery.ba-resize": http://benalman.com/projects/jquery-resize-plugin/
-        $( "#" + id ).resize( onResize );
+        //TODO: This line is too expensive on ipad, dropping the frame rate by 15FPS
+//        $( "#" + id ).resize( onResize );
         onResize(); // initial position
 
         createjs.Ticker.setFPS( 60 );
         createjs.Ticker.addListener( function () {
-            if ( !paused ) {
+//            function moduleActive() {return $.mobile.activePage[0] == tab1[0];}
+
+            if ( running && !paused ) {
                 var dt = 0.02;
                 var subdivisions = 1;
                 for ( var i = 0; i < subdivisions; i++ ) {
@@ -207,9 +210,15 @@ define( [
                 }
                 skater.updateFromModel();
                 updateFrameRate();
-                barChart.tick();
-                speedometer.tick();
-                pieChart.tick();
+                if ( barChart.visible ) {
+                    barChart.tick();
+                }
+                if ( speedometer.visible ) {
+                    speedometer.tick();
+                }
+                if ( pieChart.visible ) {
+                    pieChart.tick();
+                }
             }
             stage.tick();
         } );

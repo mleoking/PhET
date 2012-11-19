@@ -1,15 +1,21 @@
 require( ['websocket-refresh',
-             'tab',
-             'i18n!nls/energy-skate-park-strings'
-         ], function ( WebsocketRefresh, Tab, Strings ) {
-
-//    $( "#theMainBody" ).append( $( '<div data-role="navbar" id="navBar"><ul>' +
-//                                   '<li><a href="#tab1" id="introNavBarButton" data-transition="none" class="ui-btn-active ui-state-persist">' + Strings["tab.introduction"] + '</a></li>' +
-//                                   '<li><a href="#tab2" id="frictionNavBarButton" data-transition="none" >' + Strings["tab.friction"] + '</a></li>' +
-//                                   '<li><a href="#tab3" id="playgroundNavBarButton" data-transition="none" >' + Strings["tab.trackPlayground"] + '</a></li></ul></div>' ) ).trigger( "create" );
+             'tab'
+         ], function ( WebsocketRefresh, Tab ) {
 
     WebsocketRefresh.listenForRefresh();
-    var tab1 = new Tab( "tab1" );
-    var tab2 = new Tab( "tab2" );
-    var tab3 = new Tab( "tab3" );
+    new Tab( "tab1", true );
+    new Tab( "tab2", false );
+    new Tab( "tab3", false );
+//    new Tab( "tab4", false );
+//    new Tab( "tab5", false );
+//    new Tab( "tab6", false );
+//    new Tab( "tab7", false );
+//    new Tab( "tab8", false );
+//    new Tab( "tab9", false );
+//    new Tab( "tab10", false );
+//    new Tab( "tab11", false );
+//    new Tab( "tab12", false );
+//    new Tab( "tab13", false );
+//    new Tab( "tab14", false );
+//    new Tab( "tab15", false );
 } );
