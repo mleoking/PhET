@@ -31,8 +31,6 @@ define( [ 'easel',
 
         // field
         this.field = new FieldDisplay( model.field, model.mvt );
-        this.field.x = 50; //XXX
-        this.field.y = 50; //XXX
 
         // bar magnet
         this.barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );
