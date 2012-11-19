@@ -89,7 +89,12 @@ body {
     text-align: center
 }
 
-.returnSkaterButton {
+/*.returnSkaterButton {*/
+/*padding: 10px;*/
+/*margin: 10px;*/
+/*}*/
+
+.returnButtons {
     padding: 10px;
     margin: 10px;
 }

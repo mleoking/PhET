@@ -12,6 +12,11 @@ define( ["model/vector2d"], function ( Vector2D ) {
         this.getThermalEnergy = function () { return that.thermalEnergy; };
         this.getTotalEnergy = function () { return that.getKineticEnergy() + that.getPotentialEnergy() + that.getThermalEnergy(); };
         this.getMechanicalEnergy = function () { return that.getKineticEnergy() + that.getPotentialEnergy() };
+        this.returnSkater = function () {
+            this.position = new Vector2D( 0, 0 );
+            this.velocity = new Vector2D( 0, 0 );
+            this.thermalEnergy = 0.0;
+        };
     }
 
     return SkaterModel;
