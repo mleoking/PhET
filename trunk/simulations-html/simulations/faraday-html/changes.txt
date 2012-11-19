@@ -1,3 +1,4 @@
+11/19/12 FaradayStage: fix type name internally, add reset
 11/19/12 reuse meter image from faraday java
 11/19/12 move debug logging into model objects
 11/19/12 add drag handlers to compass and field meter
