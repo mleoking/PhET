@@ -198,29 +198,32 @@ define( [
 //        $( "#" + id ).resize( onResize );
         onResize(); // initial position
 
+        function moduleActive() {return $.mobile.activePage[0] == tab[0];}
+
         createjs.Ticker.setFPS( 60 );
         createjs.Ticker.addListener( function () {
-//            function moduleActive() {return $.mobile.activePage[0] == tab1[0];}
+            if ( moduleActive() ) {
 
-            if ( running && !paused ) {
-                var dt = 0.02;
-                var subdivisions = 1;
-                for ( var i = 0; i < subdivisions; i++ ) {
-                    Physics.updatePhysics( skaterModel, groundHeight, splineLayer, dt / subdivisions );
+                if ( !paused ) {
+                    var dt = 0.02;
+                    var subdivisions = 1;
+                    for ( var i = 0; i < subdivisions; i++ ) {
+                        Physics.updatePhysics( skaterModel, groundHeight, splineLayer, dt / subdivisions );
+                    }
+                    skater.updateFromModel();
+                    updateFrameRate();
+                    if ( barChart.visible ) {
+                        barChart.tick();
+                    }
+                    if ( speedometer.visible ) {
+                        speedometer.tick();
+                    }
+                    if ( pieChart.visible ) {
+                        pieChart.tick();
+                    }
                 }
-                skater.updateFromModel();
-                updateFrameRate();
-                if ( barChart.visible ) {
-                    barChart.tick();
-                }
-                if ( speedometer.visible ) {
-                    speedometer.tick();
-                }
-                if ( pieChart.visible ) {
-                    pieChart.tick();
-                }
+                stage.tick();
             }
-            stage.tick();
         } );
 
         //Enable touch and prevent default
