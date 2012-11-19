@@ -14,15 +14,27 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'image!resources/images/barMagnet.png' ], function ( Easel, barMagnetImage ) {
+define( [ 'easel',
+          'common/easel-util',
+          'image!resources/images/barMagnet.png'
+        ],
+        function ( Easel, EaselUtil, barMagnetImage ) {
 
-    function BarMagnetDO2() {
+    function BarMagnetDO2( barMagnet ) {
+
         // Use constructor stealing to inherit instance properties.
         Easel.Bitmap.call( this, barMagnetImage );
 
         // Move registration point to the center.
         this.regX = this.image.width / 2;
         this.regY = this.image.height / 2;
+
+         // Dragging.
+        EaselUtil.makeDraggable( this );
+
+        // sync with model
+        this.x = barMagnet.x.get(); //TODO mvt
+        this.y = barMagnet.y.get(); //TODO mvt
     }
 
     // Use prototype chaining to inherit properties and methods on the prototype.
