@@ -6,14 +6,19 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 require( [ 'easel',
+           'common/ModelViewTransform',
            'model/BarMagnet',
            'view/BarMagnetDisplay'
          ],
-         function ( Easel, BarMagnet, BarMagnetDisplay ) {
+         function ( Easel, ModelViewTransform, BarMagnet, BarMagnetDisplay ) {
+
+    var canvas = document.getElementById( 'faraday-canvas' );
 
     // Model ----------------------------------------------------------
 
-    var barMagnet = new BarMagnet( new Easel.Point( 200, 200 ), 10 );
+    var mvt = new ModelViewTransform( new Easel.Point( canvas.width / 2, canvas.height / 2 ), 1 ); // origin in center of canvas
+
+    var barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), 10 );
     barMagnet.location.addObserver( function() {
         console.log( "barMagnet.location=" + barMagnet.location.get().toString() );
     });
@@ -21,7 +26,6 @@ require( [ 'easel',
     // View ----------------------------------------------------------
 
     // Create the stage.
-    var canvas = document.getElementById( 'faraday-canvas' );
     var stage = new Easel.Stage( canvas );
 
     // Fill the stage with a black background.
@@ -31,7 +35,7 @@ require( [ 'easel',
     stage.addChild( background );
 
     // Render a bar magnet
-    var barMagnetDisplay = new BarMagnetDisplay( barMagnet );
+    var barMagnetDisplay = new BarMagnetDisplay( barMagnet, mvt );
     stage.addChild( barMagnetDisplay );
 
     stage.update();
