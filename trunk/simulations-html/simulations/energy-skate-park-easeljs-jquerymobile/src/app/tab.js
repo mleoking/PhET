@@ -31,7 +31,8 @@ define( [
         function tab$( s ) {return $( getHashID( s ) );}
 
         var canvas = $( '<canvas></canvas>' ).attr( "id", getID( "c" ) ).css( "position", "absolute" );//.css("width","100%" ).css("height","100%");
-        $( "#" + id ).append( canvas );
+        var tab = $( "#" + id );
+        tab.append( canvas );
 
         var root = new createjs.Container();
 
@@ -103,7 +104,6 @@ define( [
         console.log( "pauseString = " + pauseString + ", playString = " + playString );
 
         //TODO: use requirejs templating for this (But maybe not since it may not work over file://)
-        var tab = $( "#" + id );
         var templateText = playPauseFlipSwitch( {tab: id, pauseString: "Pause", playString: "Play"} );
         console.log( templateText );
         tab.append( $( templateText ) ).trigger( "create" );
@@ -138,11 +138,11 @@ define( [
         $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
 
         var onResize = function () {
-            var winW = $( "#" + id ).width(),
-                    winH = $( "#" + id ).height(),
-                    scale = Math.min( winW / 1024, winH / 768 ),
-                    canvasW = scale * 1024,
-                    canvasH = scale * 768;
+            var winW = tab.width();
+            var winH = tab.height();
+            var scale = Math.min( winW / 1024, winH / 768 );
+            var canvasW = scale * 1024;
+            var canvasH = scale * 768;
 
             //Allow the canvas to fill the screen, but still center the content within the window.
             var canvas = $( "#" + getID( "c" ) );
@@ -196,6 +196,7 @@ define( [
         //Uses jquery resize plugin "jquery.ba-resize": http://benalman.com/projects/jquery-resize-plugin/
         //TODO: This line is too expensive on ipad, dropping the frame rate by 15FPS
 //        $( "#" + id ).resize( onResize );
+        $( window ).resize( onResize );
         onResize(); // initial position
 
         function moduleActive() {return $.mobile.activePage[0] == tab[0];}
