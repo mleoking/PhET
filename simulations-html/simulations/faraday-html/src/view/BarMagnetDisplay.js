@@ -31,6 +31,10 @@ define( [ 'easel',
         // Use constructor stealing to inherit instance properties.
         Easel.Bitmap.call( this, barMagnetImage );
 
+        // Compute scale factors to match model.
+        this.scaleX = mvt.modelToViewScalar( barMagnet.size.getWidth() ) / this.image.width;
+        this.scaleY = mvt.modelToViewScalar( barMagnet.size.getHeight() ) / this.image.height;
+
         // Move registration point to the center.
         this.regX = this.image.width / 2;
         this.regY = this.image.height / 2;

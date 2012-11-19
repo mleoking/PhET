@@ -16,7 +16,7 @@ define( [ 'easel' ], function( Easel ) {
     function ModelViewTransform( scale, offset ) {
 
         /*
-         * Transformation from model to view coordinate frame.
+         * Transformation a point from model to view coordinates.
          * @param {Point} point
          * @return {Point}
          */
@@ -25,12 +25,30 @@ define( [ 'easel' ], function( Easel ) {
         };
 
         /*
-         * Transformation from view to model coordinate frame.
+         * Transformation a point from view to model coordinates.
          * @param {Point} point
          * @return {Point}
          */
         this.viewToModel = function( point ) {
             return new Easel.Point( ( point.x / scale ) - offset.x, ( point.y / scale ) - offset.y );
+        };
+
+        /**
+         * Transforms a scalar from model to view coordinates.
+         * @param {Number} scalar
+         * @return {Number}
+         */
+        this.modelToViewScalar = function( scalar ) {
+            return scalar * scale;
+        };
+
+        /**
+         * Transforms a scalar from view to model coordinates.
+         * @param {Number} scalar
+         * @return {Number}
+         */
+        this.viewToModelScalar = function ( scalar ) {
+            return scalar / scale;
         };
     }
 
