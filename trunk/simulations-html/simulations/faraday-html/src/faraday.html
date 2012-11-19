@@ -19,9 +19,22 @@
     </style>
 </head>
 <body>
-    <canvas id='faraday-canvas' width='800' height='600'>Canvas not supported.</canvas>
-    <input id='flipPolarityButton' type='button' class='button' value='Flip Polarity' />
-    <input id='resetAllButton' type='button' class='resetAllButton' value='Reset All' />
+    <div>
+         <!- Canvas -->
+         <div>
+             <canvas id='faraday-canvas' width='800' height='600'  style='float:left'>Canvas not supported.</canvas>
+         </div>
+
+         <!-- Control panel -->
+        <div id="control-panel">
+           <div>
+               <input id='flipPolarityButton' type='button' class='button' value='Flip Polarity'/><br>
+               <input id='resetAllButton' type='button' class='resetAllButton' value='Reset All'/>
+           </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
     <script src='../vendor/jquery-1.8.2.min.js'></script>
     <script data-main='faraday-config.js' src='../vendor/require-2.1.1.min.js'></script>
 </body>
