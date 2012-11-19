@@ -1,3 +1,4 @@
+11/18/12 encapsulate control panel stuff in its own type
 11/18/12 wire up event handler for 1 check box
 11/18/12 add all controls except strength slider to HTML
 11/18/12 put control panel to right of stage
