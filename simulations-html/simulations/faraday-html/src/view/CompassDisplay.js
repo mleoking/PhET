@@ -28,12 +28,16 @@ define( [ 'easel', 'view/DragHandler' ], function( Easel, DragHandler ) {
 
         // Register for synchronization with model.
         var thisDisplayObject = this;
+
+        // @param {Point} location
         function updateLocation( location ) {
             var point = mvt.modelToView( location );
             thisDisplayObject.x = point.x;
             thisDisplayObject.y = point.y;
         }
         compass.location.addObserver( updateLocation );
+
+        // @param {Boolean} visible
         function updateVisibility( visible ) {
             thisDisplayObject.visible = visible;
         }

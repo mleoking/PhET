@@ -26,6 +26,8 @@ define( [ 'easel' ], function( Easel ) {
 
         // Register for synchronization with model.
         var thisDisplayObject = this;
+
+        // @param {Boolean} visible
         function updateVisibility( visible ) {
             thisDisplayObject.visible = visible;
         }
