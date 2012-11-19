@@ -1,3 +1,5 @@
+11/19/12 move debug logging into model objects
+11/19/12 add drag handlers to compass and field meter
 11/19/12 create stubs for all model object types
 11/19/12 move mvt creation to model
 11/19/12 rename FaradayView -> FaradayStage, cleanup

@@ -43,14 +43,10 @@ define( [ 'easel',
 
         // compass
         this.compass = new CompassDisplay( model.compass, model.mvt );
-        this.compass.x = 50;
-        this.compass.y = 100;
         this.compass.visible = this.compassVisible.get();
 
         // field meter
         this.meter = new FieldMeterDisplay( model.fieldMeter, model.mvt );
-        this.meter.x = 50;
-        this.meter.y = 150;
         this.meter.visible = this.fieldMeterVisible.get();
 
         // rendering order
