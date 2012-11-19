@@ -5,8 +5,16 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'common/Dimension', 'common/Logger', 'common/ModelViewTransform', 'model/BarMagnet' ],
-        function ( Easel, Dimension, Logger, ModelViewTransform, BarMagnet ) {
+define( [ 'easel',
+          'common/Dimension',
+          'common/Logger',
+          'common/ModelViewTransform',
+          'model/BarMagnet',
+          'model/Compass',
+          'model/Field',
+          'model/FieldMeter'
+        ],
+        function ( Easel, Dimension, Logger, ModelViewTransform, BarMagnet, Compass, Field, FieldMeter ) {
 
     function FaradayModel( canvasWidth, canvasHeight ) {
 
@@ -31,6 +39,15 @@ define( [ 'easel', 'common/Dimension', 'common/Logger', 'common/ModelViewTransfo
         this.barMagnet.orientation.addObserver( function () {
             logger.info( "barMagnet.orientation=" + thisModel.barMagnet.orientation.get() );
         } );
+
+        // field
+        this.field = new Field();
+
+        // field meter
+        this.fieldMeter = new FieldMeter( new Easel.Point( 0, 0 ) );
+
+        // compass
+        this.compass = new Compass( new Easel.Point( 0, 0 ) );
     }
 
     FaradayModel.prototype.reset = function() {
