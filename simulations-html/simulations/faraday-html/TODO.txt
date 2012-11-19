@@ -1,0 +1,17 @@
+TODO list for faraday-html
+
+Features:
+- "Flip Polarity" button
+- "Strength" slider
+- magnetic field model and view
+- compass model and view
+- "Show Field" check box
+- "Show Compass" check box
+- "See Inside Magnet" check box
+- field meter model and view
+- "Show Field Meter" check box
+- "Reset All" button
+
+General:
+- i18n
+- data collection
