@@ -22,6 +22,7 @@ define([], function() {
 
         // Variables declared in the constructor are private.
         var _value = value;
+        var _initialValue = value;
         var _observers = new Array();
 
         /**
@@ -48,6 +49,13 @@ define([], function() {
                 }
             }
         };
+
+        /**
+         * Resets the value to the initial value.
+         */
+        this.reset = function() {
+            this.set( _initialValue );
+        }
 
         /**
          * Adds an observer.

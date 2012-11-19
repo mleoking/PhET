@@ -6,13 +6,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 require( [ 'easel',
-           'common/Dimension',
            'common/Logger',
            'common/ModelViewTransform',
-           'model/BarMagnet',
-           'view/BarMagnetDisplay'
+           'model/FaradayModel',
+           'view/FaradayView'
          ],
-         function ( Easel, Dimension, Logger, ModelViewTransform, BarMagnet, BarMagnetDisplay ) {
+         function ( Easel, Logger, ModelViewTransform, FaradayModel, FaradayView ) {
 
     var logger = new Logger( "faraday-main" ); // logger for this source file
 
@@ -24,48 +23,26 @@ require( [ 'easel',
     var MVT_OFFSET = new Easel.Point( 0.5 * canvas.width / MVT_SCALE, 0.5 * canvas.height / MVT_SCALE ); // origin in center of canvas
     var mvt = new ModelViewTransform( MVT_SCALE, MVT_OFFSET );
 
-    var barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), new Dimension( 250, 50 ), 10, 0 );
-    barMagnet.location.addObserver( function() {
-        logger.info( "barMagnet.location=" + barMagnet.location.get().toString() );
-    } );
-    barMagnet.strength.addObserver( function () {
-        logger.info( "barMagnet.strength=" + barMagnet.strength.get() );
-    } );
-    barMagnet.orientation.addObserver( function () {
-        logger.info( "barMagnet.orientation=" + barMagnet.orientation.get() );
-    } );
+    var model = new FaradayModel();
 
     // View ----------------------------------------------------------
 
-    // Create the stage.
-    var stage = new Easel.Stage( canvas );
-
-    // Fill the stage with a black background.
-    var background = new Easel.Shape();
-    background.graphics.beginFill( 'black' );
-    background.graphics.rect( 0, 0, canvas.width, canvas.height );
-    stage.addChild( background );
-
-    // Render a bar magnet
-    var barMagnetDisplay = new BarMagnetDisplay( barMagnet, mvt );
-    stage.addChild( barMagnetDisplay );
-
-    stage.enableMouseOver();
+    var view = new FaradayView( canvas, model, mvt );
 
     // Controls ----------------------------------------------------------
 
     var flipPolarityButton = document.getElementById( "flipPolarityButton" );
     flipPolarityButton.onclick = function() {
-        barMagnet.orientation.set( barMagnet.orientation.get() + Math.PI );
+        model.barMagnet.orientation.set( model.barMagnet.orientation.get() + Math.PI );
     };
 
     var resetAllButton = document.getElementById( "resetAllButton" );
     resetAllButton.onclick = function () {
-        //TODO
+        model.reset();
     };
 
     // Animation loop ----------------------------------------------------------
 
-    Easel.Ticker.addListener( stage );
+    Easel.Ticker.addListener( view.stage );
     Easel.Ticker.setFPS( 60 );
 } );
