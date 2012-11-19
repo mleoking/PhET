@@ -27,5 +27,17 @@ define( [], function () {
         return "[Vector (x=" + this.getX() + " y=" + this.getY() + ")]";
     }
 
+    /**
+     * Creates a vector using polar coordinates.
+     * @param {Number} magnitude
+     * @param {Number} angle in radians
+     * @return {Vector$object}
+     */
+    Vector.createPolar = function( magnitude, angle ) {
+        var x = magnitude * Math.cos( angle );
+        var y = magnitude * Math.sin( angle );
+        return new Vector( x, y );
+    };
+
     return Vector;
 } );

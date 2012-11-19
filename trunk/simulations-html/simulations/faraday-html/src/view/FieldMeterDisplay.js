@@ -44,7 +44,7 @@ define( [ 'easel',
         this.addChild( angleText );
 
         // layout
-        var TEXT_X = 65;
+        var TEXT_X = 55;
         var textY = 104;
         var TEXT_Y_DELTA = 23;
         magnitudeText.x = TEXT_X;

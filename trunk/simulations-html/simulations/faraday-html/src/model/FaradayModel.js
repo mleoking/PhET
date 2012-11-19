@@ -26,7 +26,7 @@ define( [ 'easel',
         this.mvt = new ModelViewTransform( MVT_SCALE, MVT_OFFSET );
 
         // model elements
-        this.barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), new Dimension( 250, 50 ), 10, 0 );
+        this.barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), new Dimension( 250, 50 ), 150, 0 );
         this.field = new Field( true, this.barMagnet );
         this.fieldMeter = new FieldMeter( new Easel.Point( -275, 100 ), true, this.barMagnet );
         this.compass = new Compass( new Easel.Point( -275, -100 ), true, this.barMagnet );
