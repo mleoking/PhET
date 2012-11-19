@@ -84,6 +84,7 @@ public class FaucetNode extends PNode {
      * @param flowRate               the flow rate, in model units
      * @param enabled                determines whether the slider is enabled
      * @param faucetLength           length of the input pipe
+     * @param knobWidth              width of the slider know that controls the flow
      * @param snapToZeroWhenReleased does the knob snap back to zero when the user releases it?
      */
     public FaucetNode( IUserComponent userComponent, final double maxFlowRate, final Property<Double> flowRate, ObservableProperty<Boolean> enabled, double faucetLength, double knobWidth, boolean snapToZeroWhenReleased ) {
