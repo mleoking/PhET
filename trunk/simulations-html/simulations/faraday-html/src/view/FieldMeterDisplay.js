@@ -65,39 +65,41 @@ define( [ 'easel',
         } );
 
         // Register for synchronization with model.
-        {
-            var thisDisplayObject = this;
+        var thisInstance = this;
 
-            /*
-             * @param {Point} location
-             */
-            function updateLocation( location ) {
-                var point = mvt.modelToView( location );
-                thisDisplayObject.x = point.x;
-                thisDisplayObject.y = point.y;
-            }
-            fieldMeter.location.addObserver( updateLocation );
-
-            /*
-             * @param {Boolean} location
-             */
-            function updateVisibility( visible ) {
-                thisDisplayObject.visible = visible;
-            }
-            fieldMeter.visible.addObserver( updateVisibility );
-
-            /*
-             * @param {Vector} value
-             */
-            function updateValues( value ) {
-                var NUMBER_OF_DECIMALS = 2;
-                magnitudeText.text = value.getMagnitude().toFixed( NUMBER_OF_DECIMALS );
-                xText.text = value.getX().toFixed( NUMBER_OF_DECIMALS );
-                yText.text = value.getY().toFixed( NUMBER_OF_DECIMALS );
-                angleText.text = MathUtil.toDegrees( value.getAngle() ).toFixed( NUMBER_OF_DECIMALS );
-            }
-            fieldMeter.value.addObserver( updateValues );
+        /*
+         * @param {Point} location
+         */
+        function updateLocation( location ) {
+            var point = mvt.modelToView( location );
+            thisInstance.x = point.x;
+            thisInstance.y = point.y;
         }
+
+        fieldMeter.location.addObserver( updateLocation );
+
+        /*
+         * @param {Boolean} location
+         */
+        function updateVisibility( visible ) {
+            thisInstance.visible = visible;
+        }
+
+        fieldMeter.visible.addObserver( updateVisibility );
+
+        /*
+         * @param {Vector} value
+         */
+        function updateValues( value ) {
+            var NUMBER_OF_DECIMALS = 2;
+            magnitudeText.text = value.getMagnitude().toFixed( NUMBER_OF_DECIMALS );
+            xText.text = value.getX().toFixed( NUMBER_OF_DECIMALS );
+            yText.text = value.getY().toFixed( NUMBER_OF_DECIMALS );
+            angleText.text = MathUtil.toDegrees( value.getAngle() ).toFixed( NUMBER_OF_DECIMALS );
+        }
+
+        fieldMeter.value.addObserver( updateValues );
+
 
         // sync now
         updateLocation( fieldMeter.location.get() );
