@@ -15,10 +15,11 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [ 'easel',
+          'common/MathUtil',
           'view/DragHandler',
           'image!resources/images/barMagnet.png'
         ],
-        function ( Easel, DragHandler, barMagnetImage ) {
+        function ( Easel, MathUtil, DragHandler, barMagnetImage ) {
 
     /**
      * @class BarMagnetDisplay
@@ -53,7 +54,7 @@ define( [ 'easel',
         }
         barMagnet.location.addObserver( updateLocation );
         function updateOrientation( orientation ) {
-            thisDisplayObject.rotation = orientation * 180 / Math.PI; // convert radians (model) to view (degrees)
+            thisDisplayObject.rotation = MathUtil.toDegrees( orientation );
         }
         barMagnet.orientation.addObserver( updateOrientation );
 
