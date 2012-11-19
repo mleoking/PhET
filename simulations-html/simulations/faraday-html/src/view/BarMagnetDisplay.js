@@ -44,16 +44,22 @@ define( [ 'easel',
             barMagnet.location.set( mvt.viewToModel( point ) );
         });
 
-        // sync with model
+        // Register for synchronization with model.
         var thisDisplayObject = this;
         function updateLocation( location ) {
             var point = mvt.modelToView( location );
             thisDisplayObject.x = point.x;
             thisDisplayObject.y = point.y;
         }
-
         barMagnet.location.addObserver( updateLocation );
+        function updateOrientation( orientation ) {
+            thisDisplayObject.rotation = orientation * 180 / Math.PI; // convert radians (model) to view (degrees)
+        }
+        barMagnet.orientation.addObserver( updateOrientation );
+
+        // sync now
         updateLocation( barMagnet.location.get() );
+        updateOrientation( barMagnet.orientation.get() );
     }
 
     // Use prototype chaining to inherit properties and methods on the prototype.
