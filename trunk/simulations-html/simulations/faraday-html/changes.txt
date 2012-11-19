@@ -1,3 +1,4 @@
+11/18/12 wrapper for static logging
 11/18/12 add scaling to model-view-transform
 11/18/12 add model-view-transform (scaling currently ignored)
 11/18/12 complete synchronization of bar magnet model and view
