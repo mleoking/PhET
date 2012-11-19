@@ -16,22 +16,11 @@ require( [ 'easel',
 
     var logger = new Logger( "faraday-main" ); // logger for this source file
 
+    // MVC --------------------------------------------------------------------
+
     var canvas = document.getElementById( 'faraday-canvas' );
-
-    // Model ----------------------------------------------------------
-
-    var MVT_SCALE = 1; // 1 model unit == 1 view unit
-    var MVT_OFFSET = new Easel.Point( 0.5 * canvas.width / MVT_SCALE, 0.5 * canvas.height / MVT_SCALE ); // origin in center of canvas
-    var mvt = new ModelViewTransform( MVT_SCALE, MVT_OFFSET );
-
-    var model = new FaradayModel();
-
-    // View ----------------------------------------------------------
-
-    var view = new FaradayStage( canvas, model, mvt );
-
-    // Controls ----------------------------------------------------------
-
+    var model = new FaradayModel( canvas.width, canvas.height );
+    var view = new FaradayStage( canvas, model );
     var controls = new ControlPanel( model, view );
 
     // Animation loop ----------------------------------------------------------

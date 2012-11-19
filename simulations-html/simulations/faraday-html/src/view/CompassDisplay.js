@@ -9,9 +9,10 @@ define( [ 'easel' ], function( Easel ) {
 
     /**
      * @param {FaradayModel} model
+     * @param {ModelViewTransform} mvt
      * @constructor
      */
-    function CompassDisplay( model ) {
+    function CompassDisplay( model, mvt ) {
         // constructor stealing
         Easel.Text.call( this, "compass", "bold 36px Arial", 'white' );
     }
