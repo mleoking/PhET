@@ -1,3 +1,4 @@
+11/18/12 add size and orientation to bar magnet model
 11/18/12 remove unnecessary call to stage.update
 11/18/12 use one logger instance per source file, similar to java.util.logging
 11/18/12 wrapper for static logging

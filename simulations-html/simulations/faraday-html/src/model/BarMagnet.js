@@ -11,11 +11,15 @@ define( [ 'common/Property' ], function ( Property ) {
      * @class BarMagnet
      * @constructor
      * @param {Point} location
-     * @param {Number} strength
+     * @param {Dimension} size
+     * @param {Number} strength in Gauss
+     * @param {Number} orientation in radians
      */
-    function BarMagnet( location, strength ) {
+    function BarMagnet( location, size, strength, orientation ) {
         this.location = new Property( location );
+        this.size = size;
         this.strength = new Property( strength );
+        this.orientation = new Property( orientation );
     }
 
     return BarMagnet;
