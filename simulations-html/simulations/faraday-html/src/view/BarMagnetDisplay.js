@@ -24,8 +24,9 @@ define( [ 'easel',
      * @class BarMagnetDisplay
      * @constructor
      * @param {BarMagnet} barMagnet
+     * @param {ModelViewTransform} mvt
      */
-    function BarMagnetDisplay( barMagnet ) {
+    function BarMagnetDisplay( barMagnet, mvt ) {
 
         // Use constructor stealing to inherit instance properties.
         Easel.Bitmap.call( this, barMagnetImage );
@@ -36,14 +37,15 @@ define( [ 'easel',
 
          // Dragging.
         new DragHandler( this, function( point ) {
-            barMagnet.location.set( point );
+            barMagnet.location.set( mvt.viewToModel( point ) );
         });
 
         // sync with model
         var thisDisplayObject = this;
         function updateLocation( location ) {
-            thisDisplayObject.x = location.x; //TODO mvt
-            thisDisplayObject.y = location.y; //TODO mvt
+            var point = mvt.modelToView( location );
+            thisDisplayObject.x = point.x;
+            thisDisplayObject.y = point.y;
         }
 
         barMagnet.location.addObserver( updateLocation );
