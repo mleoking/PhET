@@ -1,3 +1,4 @@
+11/19/12 doc
 11/19/12 center field display object at the origin
 11/19/12 tweak initial location of compass and field meter
 11/19/12 move visibility property into model types

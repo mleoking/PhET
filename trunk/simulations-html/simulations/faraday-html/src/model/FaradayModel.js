@@ -25,19 +25,14 @@ define( [ 'easel',
         var MVT_OFFSET = new Easel.Point( 0.5 * canvasWidth / MVT_SCALE, 0.5 * canvasHeight / MVT_SCALE ); // origin in center of canvas
         this.mvt = new ModelViewTransform( MVT_SCALE, MVT_OFFSET );
 
-        // bar magnet
+        // model elements
         this.barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), new Dimension( 250, 50 ), 10, 0 );
-
-        // field
         this.field = new Field( true );
-
-        // field meter
         this.fieldMeter = new FieldMeter( new Easel.Point( -275, 100 ), true );
-
-        // compass
         this.compass = new Compass( new Easel.Point( -275, -100 ), true );
     }
 
+    // Resets all model elements
     FaradayModel.prototype.reset = function() {
         this.barMagnet.reset();
         this.field.reset();
