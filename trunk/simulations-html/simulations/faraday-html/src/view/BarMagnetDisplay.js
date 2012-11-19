@@ -20,6 +20,7 @@ define( [ 'easel',
         ],
         function ( Easel, EaselUtil, barMagnetImage ) {
 
+    // {BarMagnet} barMagnet
     function BarMagnetDO2( barMagnet ) {
 
         // Use constructor stealing to inherit instance properties.
@@ -33,8 +34,8 @@ define( [ 'easel',
         EaselUtil.makeDraggable( this );
 
         // sync with model
-        this.x = barMagnet.x.get(); //TODO mvt
-        this.y = barMagnet.y.get(); //TODO mvt
+        this.x = barMagnet.location.get().getX(); //TODO mvt
+        this.y = barMagnet.location.get().getY(); //TODO mvt
     }
 
     // Use prototype chaining to inherit properties and methods on the prototype.
