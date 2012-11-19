@@ -133,6 +133,13 @@ define( [
             skaterModel.returnSkater();
         } );
         tab$( "resetAllButton" ).bind( "click", function () {
+
+            //This line of code took a long to find.  You cannot simply attr("checked","").
+            tab$( "checkbox1" ).removeAttr( "checked" ).checkboxradio( "refresh" );
+            tab$( "checkbox2" ).removeAttr( "checked" ).checkboxradio( "refresh" );
+            tab$( "checkbox3" ).removeAttr( "checked" ).checkboxradio( "refresh" );
+            tab$( "checkbox4" ).removeAttr( "checked" ).checkboxradio( "refresh" );
+
             barChart.visible = false;
             pieChart.visible = false;
             grid.visible = false;
