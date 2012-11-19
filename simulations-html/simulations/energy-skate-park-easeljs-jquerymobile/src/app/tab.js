@@ -193,7 +193,7 @@ define( [
         };
 
         //Uses jquery resize plugin "jquery.ba-resize": http://benalman.com/projects/jquery-resize-plugin/
-        $( id ).resize( onResize );
+        $( "#" + id ).resize( onResize );
         onResize(); // initial position
 
         createjs.Ticker.setFPS( 60 );
@@ -225,5 +225,7 @@ define( [
         //Hide everything with a cover until the sim is all layed out.  http://stackoverflow.com/questions/9550760/hide-page-until-everything-is-loaded-advanced
         //Hide/Remove don't work everywhere, but the combination seems to work everywhere.
         $( "#cover" ).hide().remove();
+
+
     };
 } );
