@@ -10,10 +10,10 @@ define( [ 'easel' ], function( Easel ) {
     /**
      * @class ModelViewTransform
      * @constructor
-     * @param {Point} offset
-     * @param {Number} scale
+     * @param {Number} scale when going from model to view coordinates. 1 unit in the model is this many view units.
+     * @param {Point} offset when going from model to view coordinates
      */
-    function ModelViewTransform( offset, scale ) {
+    function ModelViewTransform( scale, offset ) {
 
         /*
          * Transformation from model to view coordinate frame.
@@ -21,7 +21,7 @@ define( [ 'easel' ], function( Easel ) {
          * @return {Point}
          */
         this.modelToView = function( point ) {
-            return new Easel.Point( point.x + offset.x, point.y + offset.y );
+            return new Easel.Point( ( point.x + offset.x ) * scale, ( point.y + offset.y ) * scale );
         };
 
         /*
@@ -30,7 +30,7 @@ define( [ 'easel' ], function( Easel ) {
          * @return {Point}
          */
         this.viewToModel = function( point ) {
-            return new Easel.Point( point.x - offset.x, point.y - offset.y );
+            return new Easel.Point( ( point.x / scale ) - offset.x, ( point.y / scale ) - offset.y );
         };
     }
 

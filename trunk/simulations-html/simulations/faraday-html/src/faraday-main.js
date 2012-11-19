@@ -16,7 +16,9 @@ require( [ 'easel',
 
     // Model ----------------------------------------------------------
 
-    var mvt = new ModelViewTransform( new Easel.Point( canvas.width / 2, canvas.height / 2 ), 1 ); // origin in center of canvas
+    var MVT_SCALE = 2; // 1 model unit == 2 view units
+    var MVT_OFFSET = new Easel.Point( 0.5 * canvas.width / MVT_SCALE, 0.5 * canvas.height / MVT_SCALE ); // origin in center of canvas
+    var mvt = new ModelViewTransform( MVT_SCALE, MVT_OFFSET );
 
     var barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), 10 );
     barMagnet.location.addObserver( function() {
