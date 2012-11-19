@@ -6,12 +6,13 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 require( [ 'easel',
+           'common/Dimension',
            'common/Logger',
            'common/ModelViewTransform',
            'model/BarMagnet',
            'view/BarMagnetDisplay'
          ],
-         function ( Easel, Logger, ModelViewTransform, BarMagnet, BarMagnetDisplay ) {
+         function ( Easel, Dimension, Logger, ModelViewTransform, BarMagnet, BarMagnetDisplay ) {
 
     var logger = new Logger( "faraday-main" ); // logger for this source file
 
@@ -19,14 +20,20 @@ require( [ 'easel',
 
     // Model ----------------------------------------------------------
 
-    var MVT_SCALE = 2; // 1 model unit == 2 view units
+    var MVT_SCALE = 1; // 1 model unit == 2 view units
     var MVT_OFFSET = new Easel.Point( 0.5 * canvas.width / MVT_SCALE, 0.5 * canvas.height / MVT_SCALE ); // origin in center of canvas
     var mvt = new ModelViewTransform( MVT_SCALE, MVT_OFFSET );
 
-    var barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), 10 );
+    var barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), new Dimension( 250, 50 ), 10, 0 );
     barMagnet.location.addObserver( function() {
         logger.info( "barMagnet.location=" + barMagnet.location.get().toString() );
-    });
+    } );
+    barMagnet.strength.addObserver( function () {
+        logger.info( "barMagnet.strength=" + barMagnet.strength.get() );
+    } );
+    barMagnet.orientation.addObserver( function () {
+        logger.info( "barMagnet.orientation=" + barMagnet.orientation.get() );
+    } );
 
     // View ----------------------------------------------------------
 
