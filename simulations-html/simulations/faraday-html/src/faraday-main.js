@@ -32,7 +32,7 @@ require( [ 'easel',
 
     // Controls ----------------------------------------------------------
 
-    var controls = new ControlPanel( model );
+    var controls = new ControlPanel( model, view );
 
     // Animation loop ----------------------------------------------------------
 
