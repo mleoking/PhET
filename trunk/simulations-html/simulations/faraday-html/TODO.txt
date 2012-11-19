@@ -1,7 +1,6 @@
 TODO list for faraday-html
 
 Features:
-- "Flip Polarity" button
 - "Strength" slider
 - magnetic field model and view
 - compass model and view
@@ -13,5 +12,6 @@ Features:
 - "Reset All" button
 
 General:
+- handle window resize
 - i18n
 - data collection

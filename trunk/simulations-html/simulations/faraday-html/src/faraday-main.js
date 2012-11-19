@@ -52,6 +52,18 @@ require( [ 'easel',
 
     stage.enableMouseOver();
 
+    // Controls ----------------------------------------------------------
+
+    var flipPolarityButton = document.getElementById( "flipPolarityButton" );
+    flipPolarityButton.onclick = function() {
+        barMagnet.orientation.set( barMagnet.orientation.get() + Math.PI );
+    };
+
+    var resetAllButton = document.getElementById( "resetAllButton" );
+    resetAllButton.onclick = function () {
+        //TODO
+    };
+
     // Animation loop ----------------------------------------------------------
 
     Easel.Ticker.addListener( stage );
