@@ -67,9 +67,7 @@ define( [ 'easel',
         // Register for synchronization with model.
         var thisInstance = this;
 
-        /*
-         * @param {Point} location
-         */
+        // @param {Point} location
         function updateLocation( location ) {
             var point = mvt.modelToView( location );
             thisInstance.x = point.x;
@@ -78,18 +76,14 @@ define( [ 'easel',
 
         fieldMeter.location.addObserver( updateLocation );
 
-        /*
-         * @param {Boolean} location
-         */
+        // @param {Boolean} location
         function updateVisibility( visible ) {
             thisInstance.visible = visible;
         }
 
         fieldMeter.visible.addObserver( updateVisibility );
 
-        /*
-         * @param {Vector} value
-         */
+        // @param {Vector} value
         function updateValues( value ) {
             var NUMBER_OF_DECIMALS = 2;
             magnitudeText.text = value.getMagnitude().toFixed( NUMBER_OF_DECIMALS );

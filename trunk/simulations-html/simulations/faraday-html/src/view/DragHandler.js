@@ -33,7 +33,7 @@ define( [ 'easel' ], function( Easel ) {
             // Make dragging relative to touch Point.
             var relativePressPoint = null;
 
-            // {MouseEvent} moveEvent
+            // @param {MouseEvent} moveEvent
             pressEvent.onMouseMove = function ( moveEvent ) {
                 var transformed = moveEvent.target.parent.globalToLocal( moveEvent.stageX, moveEvent.stageY );
                 if ( relativePressPoint === null ) {

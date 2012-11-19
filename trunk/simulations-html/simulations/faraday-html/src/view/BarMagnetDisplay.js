@@ -47,12 +47,16 @@ define( [ 'easel',
 
         // Register for synchronization with model.
         var thisDisplayObject = this;
+
+        // @param {Point} location
         function updateLocation( location ) {
             var point = mvt.modelToView( location );
             thisDisplayObject.x = point.x;
             thisDisplayObject.y = point.y;
         }
         barMagnet.location.addObserver( updateLocation );
+
+        // @param {Number} orientation in radians
         function updateOrientation( orientation ) {
             thisDisplayObject.rotation = MathUtil.toDegrees( orientation );
         }
