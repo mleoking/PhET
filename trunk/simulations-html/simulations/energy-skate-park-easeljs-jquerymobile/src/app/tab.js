@@ -181,8 +181,8 @@ define( [
 
             var controlPanel = $( '#' + id + " > .controlPanel" );
             controlPanel.css( 'width', '270px' );
-            controlPanel.css( 'top', (top + 30) + 'px' );
-            controlPanel.css( 'right', left + 'px' );
+            controlPanel.css( 'top', 30 + 'px' );
+            controlPanel.css( 'right', 0 + 'px' );
 
             //Apply css overrides last (i.e. after other css takes effect.
             //There must be a better way to do this, hopefully this can be improved easily.
@@ -222,6 +222,21 @@ define( [
         createjs.Ticker.setFPS( 60 );
         createjs.Ticker.addListener( function () {
             if ( moduleActive() ) {
+
+                //make sure the nav bar button is showing as selected
+                //http://stackoverflow.com/questions/3105984/how-to-get-element-by-href-in-jquery
+                var tab1 = $( 'a[href="#tab1"]' );
+                tab1.removeClass( "ui-btn-active" );
+                var tab2 = $( 'a[href="#tab2"]' );
+                tab2.removeClass( "ui-btn-active" );
+                var tab3 = $( 'a[href="#tab3"]' );
+                tab3.removeClass( "ui-btn-active" );
+
+                var links = id == "tab1" ? tab1 :
+                            id == "tab2" ? tab2 :
+                            tab3;
+
+                links.addClass( "ui-btn-active" );
 
                 if ( !paused ) {
                     var dt = 0.02;
