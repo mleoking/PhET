@@ -5,3 +5,5 @@ IntelliJ style config for js?
 How to get the dimensions of a DisplayObject? (eg, for centering regX,regY)
 
 How to do the equivalent of Java test mains, for testing small bits of code.
+
+assert

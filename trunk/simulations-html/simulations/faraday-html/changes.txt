@@ -1,3 +1,4 @@
+11/18/12 wire up bar magnet model to view
 11/18/12 refine Property.js
 11/16/12 first wag at implementing observable properties
 11/16/12 first wag at bar magnet model element

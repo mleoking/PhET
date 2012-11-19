@@ -5,9 +5,11 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-require( [ 'easel', 'view/BarMagnet3', 'common/Property' ], function ( Easel, BarMagnet3, Property ) {
-
-    new Property().test(); //XXX
+require( [ 'easel',
+           'model/BarMagnet',
+           'view/BarMagnetDO3'
+         ],
+         function ( Easel, BarMagnet, BarMagnetDO ) {
 
     // Create the stage.
     var canvas = document.getElementById( 'faraday-canvas' );
@@ -20,9 +22,7 @@ require( [ 'easel', 'view/BarMagnet3', 'common/Property' ], function ( Easel, Ba
     stage.addChild( background );
 
     // Render a bar magnet
-    var barMagnet = new BarMagnet3();
-    barMagnet.x = canvas.width / 2;
-    barMagnet.y = canvas.height / 2;
+    var barMagnet = new BarMagnetDO( new BarMagnet( 200, 200, 10 ) );
     stage.addChild( barMagnet );
 
     stage.update();
