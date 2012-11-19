@@ -43,7 +43,6 @@ require( [ 'easel',
     var barMagnetDisplay = new BarMagnetDisplay( barMagnet, mvt );
     stage.addChild( barMagnetDisplay );
 
-    stage.update();
     stage.enableMouseOver();
 
     // Animation loop ----------------------------------------------------------
