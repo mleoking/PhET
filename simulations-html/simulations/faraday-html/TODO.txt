@@ -9,6 +9,7 @@ Features:
 - "See Inside Magnet" check box
 - field meter model and view
 - "Show Field Meter" check box
+- control panel layout
 
 General:
 - handle window resize

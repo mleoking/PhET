@@ -1,3 +1,4 @@
+11/18/12 add all controls except strength slider to HTML
 11/18/12 put control panel to right of stage
 11/18/12 wire up Reset All button
 11/18/12 implement Property.reset

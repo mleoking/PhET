@@ -9,11 +9,14 @@
     <meta charset="utf-8"/>
     <title>Faraday's Electromagnet Lab</title>
     <style>
+        label.checkbox {
+            font-size: 175%;
+        }
         input.button {
-            font-size: 20px;
+            font-size: 175%;
         }
         input.resetAllButton {
-            font-size : 20px;
+            font-size : 175%;
             background : orange
         }
     </style>
@@ -28,7 +31,21 @@
          <!-- Control panel -->
         <div id="control-panel">
            <div>
-               <input id='flipPolarityButton' type='button' class='button' value='Flip Polarity'/><br>
+               <div>(Strength slider here)</div>
+               <input id='flipPolarityButton' type='button' class='button' value='Flip Polarity'/>
+               <br>
+               <input id='seeInsideMagnetCheckBox' type='checkbox' class='checkbox'/>
+               <label for="seeInsideMagnetCheckBox" class='checkbox'>See Inside Magnet</label>
+               <br>
+               <input id='showFieldCheckBox' type='checkbox' class='checkbox'/>
+               <label for="showFieldCheckBox" class='checkbox'>Show Field</label>
+               <br>
+               <input id='showCompassCheckBox' type='checkbox' class='checkbox'/>
+               <label for="showCompassCheckBox" class='checkbox'>Show Compass</label>
+               <br>
+               <input id='showFieldMeterCheckBox' type='checkbox' class='checkbox'/>
+               <label for="showFieldMeterCheckBox" class='checkbox'>Show Field Meter</label>
+               <br>
                <input id='resetAllButton' type='button' class='resetAllButton' value='Reset All'/>
            </div>
         </div>
