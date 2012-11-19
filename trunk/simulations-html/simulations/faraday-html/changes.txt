@@ -1,7 +1,8 @@
-11/18/12 create type stubs for all top-level display objects
-11/18/12 wire up control panel to view properties and stub display objects
-11/18/12 wire up control panel stubs
-11/18/12 encapsulate control panel stuff in its own type
+11/19/12 rename FaradayView -> FaradayStage, cleanup
+11/19/12 create type stubs for all top-level display objects
+11/19/12 wire up control panel to view properties and stub display objects
+11/19/12 wire up control panel stubs
+11/19/12 encapsulate control panel stuff in its own type
 11/18/12 wire up event handler for 1 check box
 11/18/12 add all controls except strength slider to HTML
 11/18/12 put control panel to right of stage

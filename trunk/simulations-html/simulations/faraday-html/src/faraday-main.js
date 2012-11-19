@@ -10,9 +10,9 @@ require( [ 'easel',
            'common/ModelViewTransform',
            'model/FaradayModel',
            'view/ControlPanel',
-           'view/FaradayView'
+           'view/FaradayStage'
          ],
-         function ( Easel, Logger, ModelViewTransform, FaradayModel, ControlPanel, FaradayView ) {
+         function ( Easel, Logger, ModelViewTransform, FaradayModel, ControlPanel, FaradayStage ) {
 
     var logger = new Logger( "faraday-main" ); // logger for this source file
 
@@ -28,7 +28,7 @@ require( [ 'easel',
 
     // View ----------------------------------------------------------
 
-    var view = new FaradayView( canvas, model, mvt );
+    var view = new FaradayStage( canvas, model, mvt );
 
     // Controls ----------------------------------------------------------
 
