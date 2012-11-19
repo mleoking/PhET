@@ -9,9 +9,10 @@
     <div class="controlLabel">Skater Mass</div>
     <input type="range" name="slider-fill" id="<%= id %>slider-fill" value="60" min="0" max="100" data-highlight="true"/>
 
-    <div class="returnSkaterButton">
-        <button class="returnSkaterButton">Return Skater</button>
-        <button data-theme="e" type="reset">Reset All</button>
+    <div class="returnButtons">
+        <!--TODO: Couldn't get this selector to work based on classes for adding the button event-->
+        <button id="<%= id %>returnSkaterButton">Return Skater</button>
+        <button id="<%= id %>resetAllButton" data-theme="e" type="reset">Reset All</button>
     </div>
 
 </div>

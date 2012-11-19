@@ -129,6 +129,17 @@ define( [
         tab$( "checkbox3" ).click( function () { grid.visible = tab$( "checkbox3" ).is( ":checked" ); } );
         tab$( "checkbox4" ).click( function () { speedometer.visible = tab$( "checkbox4" ).is( ":checked" ); } );
 
+        tab$( "returnSkaterButton" ).bind( "click", function () {
+            skaterModel.returnSkater();
+        } );
+        tab$( "resetAllButton" ).bind( "click", function () {
+            barChart.visible = false;
+            pieChart.visible = false;
+            grid.visible = false;
+            speedometer.visible = false;
+            skaterModel.returnSkater();
+        } );
+
         tab$( "barGraphLabel" ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
         tab$( "pieChartLabel" ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
         tab$( "gridLabel" ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
