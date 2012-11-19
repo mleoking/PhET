@@ -95,6 +95,8 @@ textarea {
           box-shadow: inset 0px 0px 6px 0px #000;
 }
 
+/* ------------------------------ Widget Control Panel ------------------------------ */
+
 #control-panel {
     position: absolute;
     width: 40%;
@@ -114,6 +116,8 @@ textarea {
     overflow: hidden;
 }
 
+/* ------------------------------ Periodic Table ------------------------------ */
+
 #periodic-table table {
     border-collapse: separate;
     empty-cells: hide;
@@ -125,6 +129,8 @@ textarea {
     border: 1px solid black;
     text-align: center;
 }
+
+/* ------------------------------ Detailed Element Symbol ------------------------------ */
 
 #detailed-element-symbol {
     border: 2px solid black;
@@ -169,6 +175,27 @@ textarea {
   right: 5px;
 }
 
+/* ------------------------------ Mass Number ------------------------------ */
+
+#mass-number-container {
+  position: relative;
+  width: 102px;
+  height: 102px;
+  background: url(../resources/images/atom_builder_scale.png) no-repeat bottom left;
+}
+
+#mass-number-container .mass-number {
+  width: 60px;
+  height: 22px;
+  position: absolute;
+  bottom: 4px;
+  left: 21px;
+  background: #fff;
+  text-align: center;
+}
+
+
+/* ------------------------------ Media Queries ------------------------------ */
 
 @media only screen and (max-width: 990px) {
 
