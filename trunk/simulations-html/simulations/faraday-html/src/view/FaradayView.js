@@ -5,7 +5,14 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'common/Property', 'view/BarMagnetDisplay' ], function ( Easel, Property, BarMagnetDisplay ) {
+define( [ 'easel',
+          'common/Property',
+          'view/BarMagnetDisplay',
+          'view/CompassDisplay',
+          'view/FieldDisplay',
+          'view/FieldMeterDisplay'
+        ],
+        function ( Easel, Property, BarMagnetDisplay, CompassDisplay, FieldDisplay, FieldMeterDisplay ) {
 
     function FaradayView( canvas, model, mvt ) {
 
@@ -24,8 +31,8 @@ define( [ 'easel', 'common/Property', 'view/BarMagnetDisplay' ], function ( Ease
         background.graphics.rect( 0, 0, canvas.width, canvas.height );
         this.stage.addChild( background );
 
-        // TODO field
-        this.field = new Easel.Text( "field", "bold 36px Arial", 'white' );
+        // field
+        this.field = new FieldDisplay( model );
         this.field.x = 50;
         this.field.y = 50;
         this.field.visible = this.fieldVisible.get();
@@ -35,15 +42,15 @@ define( [ 'easel', 'common/Property', 'view/BarMagnetDisplay' ], function ( Ease
         this.barMagnet = new BarMagnetDisplay( model.barMagnet, mvt );
         this.stage.addChild( this.barMagnet );
 
-        // TODO compass
-        this.compass = new Easel.Text( "compass", "bold 36px Arial", 'white' );
+        // compass
+        this.compass = new CompassDisplay( model );
         this.compass.x = 50;
         this.compass.y = 100;
         this.compass.visible = this.compassVisible.get();
         this.stage.addChild( this.compass );
 
-        // TODO field meter
-        this.meter = new Easel.Text( "meter", "bold 36px Arial", 'white' );
+        // field meter
+        this.meter = new FieldMeterDisplay( model );
         this.meter.x = 50;
         this.meter.y = 150;
         this.meter.visible = this.fieldMeterVisible.get();
