@@ -15,7 +15,7 @@ define( [ 'easel',
         ],
         function ( Easel, Property, BarMagnetDisplay, CompassDisplay, FieldDisplay, FieldMeterDisplay ) {
 
-    function FaradayView( canvas, model ) {
+    function FaradayStage( canvas, model ) {
 
         // properties that are specific to the view (have no model counterpart.)
         this.magnetTransparent = new Property( false );
@@ -57,5 +57,12 @@ define( [ 'easel',
         this.stage.addChild( this.meter );
     }
 
-    return FaradayView;
+    FaradayStage.prototype.reset = function() {
+       this.magnetTransparent.reset();
+       this.fieldVisible.reset();
+       this.compassVisible.reset();
+       this.fieldMeterVisible.reset();
+    };
+
+    return FaradayStage;
 } );
