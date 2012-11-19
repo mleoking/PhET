@@ -9,3 +9,7 @@ How to do the equivalent of Java test mains, for testing small bits of code.
 assert
 
 how much arg checking to do?
+
+when do you have to qualify a name with 'this'?
+
+property assignment using ':' vs '="
