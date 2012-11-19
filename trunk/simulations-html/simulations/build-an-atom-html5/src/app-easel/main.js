@@ -7,9 +7,10 @@ require( [
              'view/atom-view',
              'view/bucket-view',
              'view/symbol-view',
+             'view/mass-number-view',
              'model/atom',
              'tpl!templates/periodic-table.html'
-         ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketView, SymbolView, Atom, periodicTable ) {
+         ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketView, SymbolView, MassNumberView, Atom, periodicTable ) {
 
     var $window = $(window);
 
@@ -105,7 +106,11 @@ require( [
 
       var atom = new Atom();
 
+      atom.protons = 1;
+      atom.neutrons = 1;
+
       var symbolWidget = new SymbolView( atom );
+      var massNumberWidget = new MassNumberView( atom );
 
        $('#periodic-table' ).html( periodicTable() );
     });
