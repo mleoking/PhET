@@ -40,9 +40,9 @@ define( [ 'easel',
 
     FaradayModel.prototype.reset = function() {
         this.barMagnet.reset();
-        this.compass.reset();
         this.field.reset();
         this.fieldMeter.reset();
+        this.compass.reset();
     };
 
     return FaradayModel;
