@@ -26,8 +26,7 @@ define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
         magnet.strength.addObserver( updateValue );
 
         //DEBUG
-        var DEBUG = true;
-        if ( DEBUG ) {
+        if ( true ) {
             this.location.addObserver( function ( newValue ) {
                 logger.debug( "location=" + newValue );
             } );

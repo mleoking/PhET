@@ -25,7 +25,7 @@ define( [], function () {
 
     Vector.prototype.toString = function() {
         return "[Vector (x=" + this.getX() + " y=" + this.getY() + ")]";
-    }
+    };
 
     /**
      * Creates a vector using polar coordinates.

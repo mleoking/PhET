@@ -26,8 +26,7 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector' ], function ( Logg
         this.orientation = new Property( orientation );
 
         // Debugging output
-        var DEBUG = true;
-        if ( DEBUG ) {
+        if ( true ) {
             this.location.addObserver( function ( newValue ) {
                 logger.debug( "location=" + newValue );
             } );
