@@ -20,11 +20,44 @@ define( [ 'easel',
     function FieldMeterDisplay( fieldMeter, mvt ) {
 
         // constructor stealing
-        Easel.Bitmap.call( this, fieldMeterImage );
+        Easel.Container.call( this );
 
+        // meter body
+        var meter = new Easel.Bitmap( fieldMeterImage );
         // Move registration point to the center of probe crosshairs.
-        this.regX = this.image.width / 2;
+        this.regX = meter.image.width / 2;
         this.regY = 28; // manually measured in image file
+
+        // 4 values
+        var TEXT_FONT = "18px Arial";
+        var TEXT_COLOR = 'white';
+        var magnitudeText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
+        var xText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
+        var yText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
+        var angleText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
+
+        // rendering order
+        this.addChild( meter );
+        this.addChild( magnitudeText );
+        this.addChild( xText );
+        this.addChild( yText );
+        this.addChild( angleText );
+
+        // layout
+        var TEXT_X = 65;
+        var textY = 104;
+        var TEXT_Y_DELTA = 23;
+        magnitudeText.x = TEXT_X;
+        magnitudeText.y = textY;
+        textY += TEXT_Y_DELTA;
+        xText.x = TEXT_X;
+        xText.y = textY;
+        textY += TEXT_Y_DELTA;
+        yText.x = TEXT_X;
+        yText.y = textY;
+        textY += TEXT_Y_DELTA;
+        angleText.x = TEXT_X;
+        angleText.y = textY;
 
         // Dragging.
         DragHandler.register( this, function ( point ) {
@@ -35,7 +68,9 @@ define( [ 'easel',
         {
             var thisDisplayObject = this;
 
-            // location
+            /*
+             * @param {Point} location
+             */
             function updateLocation( location ) {
                 var point = mvt.modelToView( location );
                 thisDisplayObject.x = point.x;
@@ -43,15 +78,23 @@ define( [ 'easel',
             }
             fieldMeter.location.addObserver( updateLocation );
 
-            // visible
+            /*
+             * @param {Boolean} location
+             */
             function updateVisibility( visible ) {
                 thisDisplayObject.visible = visible;
             }
             fieldMeter.visible.addObserver( updateVisibility );
 
-            // value
+            /*
+             * @param {Vector} value
+             */
             function updateValues( value ) {
-                console.log( "x=" + value.getX() + " y=" + value.getY() + " r=" + value.getMagnitude() + " a=" + MathUtil.toDegrees( value.getAngle() ) ); //XXX
+                var NUMBER_OF_DECIMALS = 2;
+                magnitudeText.text = value.getMagnitude().toFixed( NUMBER_OF_DECIMALS );
+                xText.text = value.getX().toFixed( NUMBER_OF_DECIMALS );
+                yText.text = value.getY().toFixed( NUMBER_OF_DECIMALS );
+                angleText.text = MathUtil.toDegrees( value.getAngle() ).toFixed( NUMBER_OF_DECIMALS );
             }
             fieldMeter.value.addObserver( updateValues );
         }
@@ -63,7 +106,7 @@ define( [ 'easel',
     }
 
     // prototype chaining
-    FieldMeterDisplay.prototype = new Easel.Bitmap();
+    FieldMeterDisplay.prototype = new Easel.Container();
 
     return FieldMeterDisplay;
 } );
