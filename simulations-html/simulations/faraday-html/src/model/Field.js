@@ -7,7 +7,7 @@
  */
 define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
 
-    function Field( visible ) {
+    function Field( visible, magnet ) {
 
         var logger = new Logger( "Field" ); // logger for this source file
 

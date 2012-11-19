@@ -7,7 +7,7 @@
  */
 define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
 
-    function Compass( location, visible ) {
+    function Compass( location, visible, magnet ) {
 
         var logger = new Logger( "Compass" ); // logger for this source file
 

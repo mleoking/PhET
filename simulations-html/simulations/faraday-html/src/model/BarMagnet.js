@@ -5,7 +5,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/Logger', 'common/Property' ], function ( Logger, Property ) {
+define( [ 'common/Logger', 'common/Property', 'common/Vector' ], function ( Logger, Property, Vector ) {
 
     /**
      * @class BarMagnet
@@ -45,6 +45,19 @@ define( [ 'common/Logger', 'common/Property' ], function ( Logger, Property ) {
         this.location.reset();
         this.strength.reset();
         this.orientation.reset();
+    };
+
+    /*
+     * Gets the E-field vector at a point.
+     * Note that this is not physically accurate.
+     * It was not feasible to implement a numerical model directly, as it relies on double integrals.
+     * See BarMagnet.java in simulations-java/faraday for details.
+     *
+     * @param {Point} point
+     * @return {Vector}
+     */
+    BarMagnet.prototype.getFieldVector = function( point ) {
+         return new Vector( 10, 10 ); //TODO
     };
 
     return BarMagnet;
