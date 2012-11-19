@@ -7,9 +7,15 @@
  */
 require( [ 'easel',
            'model/BarMagnet',
-           'view/BarMagnetDO3'
+           'view/BarMagnetDisplay'
          ],
-         function ( Easel, BarMagnet, BarMagnetDO ) {
+         function ( Easel, BarMagnet, BarMagnetDisplay ) {
+
+    // Model ----------------------------------------------------------
+
+    var barMagnet = new BarMagnet( 200, 200, 10 );
+
+    // View ----------------------------------------------------------
 
     // Create the stage.
     var canvas = document.getElementById( 'faraday-canvas' );
@@ -22,8 +28,8 @@ require( [ 'easel',
     stage.addChild( background );
 
     // Render a bar magnet
-    var barMagnet = new BarMagnetDO( new BarMagnet( 200, 200, 10 ) );
-    stage.addChild( barMagnet );
+    var barMagnetDisplay = new BarMagnetDisplay( barMagnet );
+    stage.addChild( barMagnetDisplay );
 
     stage.update();
     stage.enableMouseOver();
