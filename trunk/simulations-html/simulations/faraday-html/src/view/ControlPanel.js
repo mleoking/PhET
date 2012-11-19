@@ -5,7 +5,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/Logger' ], function ( Logger ) {
+define( [ 'common/PropertyCheckBox' ], function ( PropertyCheckBox ) {
 
     /**
      * @param {FaradayModel} model
@@ -14,52 +14,11 @@ define( [ 'common/Logger' ], function ( Logger ) {
      */
     function ControlPanel( model, stage ) {
 
-        var logger = new Logger( "faraday-main" ); // logger for this source file
-
-        // See Inside Magnet
-        var seeInsideMagnetCheckBox = document.getElementById( "seeInsideMagnetCheckBox" );
-        seeInsideMagnetCheckBox.checked = stage.magnetTransparent.get();
-        seeInsideMagnetCheckBox.onclick = function () {
-            logger.debug( "seeInsideMagnetCheckBox=" + seeInsideMagnetCheckBox.checked );
-            //TODO
-        };
-        stage.magnetTransparent.addObserver( function ( newValue ) {
-            seeInsideMagnetCheckBox.checked = newValue;
-        } );
-
-        // Show Field
-        var showFieldCheckBox = document.getElementById( "showFieldCheckBox" );
-        showFieldCheckBox.checked = model.field.visible.get();
-        showFieldCheckBox.onclick = function () {
-            logger.debug( "showFieldCheckBox=" + showFieldCheckBox.checked );
-            model.field.visible.set( showFieldCheckBox.checked );
-        };
-        model.field.visible.addObserver( function ( newValue ) {
-            showFieldCheckBox.checked = newValue;
-        } );
-
-        // Show Compass
-        var showCompassCheckBox = document.getElementById( "showCompassCheckBox" );
-        showCompassCheckBox.checked = model.compass.visible.get();
-        showCompassCheckBox.onclick = function () {
-            logger.debug( "showCompassCheckBox=" + showCompassCheckBox.checked );
-            model.compass.visible.set( showCompassCheckBox.checked );
-        };
-        model.compass.visible.addObserver( function ( newValue ) {
-            console.log( "compassVisible newValue=" + newValue );//XXX
-            showCompassCheckBox.checked = newValue;
-        } );
-
-        // Show Field Meter
-        var showFieldMeterCheckBox = document.getElementById( "showFieldMeterCheckBox" );
-        showFieldMeterCheckBox.checked = model.fieldMeter.visible.get();
-        showFieldMeterCheckBox.onclick = function () {
-            logger.debug( "showFieldMeterCheckBox=" + showFieldMeterCheckBox.checked );
-            model.fieldMeter.visible.set( showFieldMeterCheckBox.checked );
-        };
-        model.fieldMeter.visible.addObserver( function ( newValue ) {
-            showFieldMeterCheckBox.checked = newValue;
-        } );
+        // Check boxes
+        PropertyCheckBox.connect( stage.magnetTransparent, "seeInsideMagnetCheckBox" );
+        PropertyCheckBox.connect( model.field.visible, "showFieldCheckBox" );
+        PropertyCheckBox.connect( model.compass.visible, "showCompassCheckBox" );
+        PropertyCheckBox.connect( model.fieldMeter.visible, "showFieldMeterCheckBox" );
 
         var flipPolarityButton = document.getElementById( "flipPolarityButton" );
         flipPolarityButton.onclick = function () {

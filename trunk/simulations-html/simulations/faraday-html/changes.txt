@@ -1,3 +1,4 @@
+11/19/12 factor out check box code into PropertyCheckBox
 11/19/12 doc function params
 11/19/12 display values in field meter
 11/19/12 add value updater to FieldMeter display object
