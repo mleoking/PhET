@@ -11,6 +11,7 @@ define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
 
         var logger = new Logger( "Field" ); // logger for this source file
 
+        // initialize properties
         this.visible = new Property( visible );
 
         //DEBUG
@@ -22,6 +23,7 @@ define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
         }
     }
 
+    // Resets all properties
     Field.prototype.reset = function() {
         this.visible.reset();
     };

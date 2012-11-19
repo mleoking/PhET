@@ -19,6 +19,7 @@ define( [ 'common/Logger', 'common/Property' ], function ( Logger, Property ) {
 
         var logger = new Logger( "BarMagnet" ); // logger for this source file
 
+        // initialize properties
         this.location = new Property( location );
         this.size = size;
         this.strength = new Property( strength );
@@ -39,6 +40,7 @@ define( [ 'common/Logger', 'common/Property' ], function ( Logger, Property ) {
         }
     }
 
+    // Resets all properties
     BarMagnet.prototype.reset = function() {
         this.location.reset();
         this.strength.reset();

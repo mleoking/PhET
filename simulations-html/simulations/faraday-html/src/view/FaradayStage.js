@@ -17,7 +17,7 @@ define( [ 'easel',
 
     function FaradayStage( canvas, model ) {
 
-        // properties that are specific to the view (have no model counterpart.)
+        // view-specific properties (have no model counterpart.)
         this.magnetTransparent = new Property( false );
 
         // stage
@@ -49,6 +49,7 @@ define( [ 'easel',
         this.stage.addChild( this.meter );
     }
 
+    // Resets all view-specific properties
     FaradayStage.prototype.reset = function() {
        this.magnetTransparent.reset();
     };

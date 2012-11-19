@@ -11,6 +11,7 @@ define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
 
         var logger = new Logger( "Compass" ); // logger for this source file
 
+        // initialize properties
         this.location = new Property( location );
         this.visible = new Property( visible );
 
@@ -26,6 +27,7 @@ define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
         }
     }
 
+    // Resets all properties
     Compass.prototype.reset = function() {
         this.location.reset();
         this.visible.reset();
