@@ -19,6 +19,9 @@ define( [ 'easel',
 
         // view-specific properties (have no model counterpart.)
         this.magnetTransparent = new Property( false );
+        this.magnetTransparent.addObserver( function() {
+             //TODO change transparency of barMagnet display object
+        });
 
         // stage
         this.stage = new Easel.Stage( canvas );
