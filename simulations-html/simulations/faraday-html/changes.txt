@@ -1,3 +1,5 @@
+11/19/12 make the field vector the same everywhere inside the magnet
+11/19/12 add factory method for creating vectors using polar coordinates
 11/19/12 wire up stub observer to "see inside magnet" property
 11/19/12 factor out check box code into PropertyCheckBox
 11/19/12 doc function params

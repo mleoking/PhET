@@ -47,6 +47,19 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector' ], function ( Logg
         this.orientation.reset();
     };
 
+    /**
+     * Determines whether a point is inside the magnet.
+     *
+     * @param {Point} point
+     * @return {Boolean}
+     */
+    BarMagnet.prototype.contains = function( point ) {
+        return ( point.x >= this.location.get().x - this.size.getWidth() / 2 ) &&
+               ( point.x <= this.location.get().x + this.size.getWidth() / 2 ) &&
+               ( point.y >= this.location.get().y - this.size.getHeight() / 2 ) &&
+               ( point.y <= this.location.get().y + this.size.getHeight() / 2 );
+    };
+
     /*
      * Gets the E-field vector at a point.
      * Note that this is not physically accurate.
@@ -56,8 +69,14 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector' ], function ( Logg
      * @param {Point} point
      * @return {Vector}
      */
-    BarMagnet.prototype.getFieldVector = function( point ) {
-         return new Vector( 10, 10 ); //TODO
+    BarMagnet.prototype.getFieldVector = function ( point ) {
+        if ( this.contains( point ) ) {
+            // field is the same everywhere inside the magnet
+            return Vector.createPolar( this.strength.get(), this.orientation.get() );
+        }
+        else {
+            return new Vector( 10, 10 ); //TODO
+        }
     };
 
     return BarMagnet;
