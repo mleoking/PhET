@@ -8,9 +8,20 @@
 <head>
     <meta charset="utf-8"/>
     <title>Faraday's Electromagnet Lab</title>
+    <style>
+        input.button {
+            font-size: 20px;
+        }
+        input.resetAllButton {
+            font-size : 20px;
+            background : orange
+        }
+    </style>
 </head>
 <body>
     <canvas id='faraday-canvas' width='800' height='600'>Canvas not supported.</canvas>
+    <input id='flipPolarityButton' type='button' class='button' value='Flip Polarity' />
+    <input id='resetAllButton' type='button' class='resetAllButton' value='Reset All' />
     <script src='../vendor/jquery-1.8.2.min.js'></script>
     <script data-main='faraday-config.js' src='../vendor/require-2.1.1.min.js'></script>
 </body>
