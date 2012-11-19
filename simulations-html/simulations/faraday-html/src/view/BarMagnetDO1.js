@@ -9,7 +9,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'image!resources/images/barMagnet.png', 'common/easel-util' ], function ( Easel, barMagnetImage, EaselUtil ) {
+define( [ 'easel', 'image!resources/images/barMagnet.png' ], function ( Easel, barMagnetImage ) {
 
     function createBarMagnet() {
 
