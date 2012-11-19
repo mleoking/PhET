@@ -5,17 +5,14 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [], function () {
+define( [ 'common/Property' ], function ( Property, assert ) {
 
-    //TODO x,y should be a Point2D or Vector2D
-    //TODO minStrength,maxStrength should be a Range, immutable, read-only
-    function BarMagnet( x, y, strength, minStrength, maxStrength ) {
-        this.x = x;
-        this.y = y;
-        this.strength = strength;
-        this.minStrength = minStrength;
-        this.maxStrength = maxStrength;
+    function BarMagnet( x, y, strength ) {
+        this.x = new Property( x );
+        this.y = new Property( y );
+        this.strength = new Property( strength );
     }
 
     return BarMagnet;
 } );
+

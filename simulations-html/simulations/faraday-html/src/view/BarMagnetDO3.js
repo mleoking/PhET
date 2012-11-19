@@ -12,17 +12,14 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'image!resources/images/barMagnet.png', 'common/easel-util' ], function ( Easel, barMagnetImage, EaselUtil ) {
+define( [ 'easel',
+          'common/easel-util',
+          'model/BarMagnet',
+          'image!resources/images/barMagnet.png'
+        ],
+        function ( Easel, EaselUtil, BarMagnet, barMagnetImage ) {
 
-    //TODO move this method to common code
-    // Performs parasitic inheritance
-    function inheritPrototype( subType, superType ) {
-        var prototype = Object( superType.prototype );
-        prototype.constructor = subType;
-        subType.prototype =  prototype;
-    }
-
-    function BarMagnet3() {
+    function BarMagnet3( /* BarMagnet */ magnet ) {
 
         // Use constructor stealing to inherit instance properties.
         Easel.Bitmap.call( this, barMagnetImage );
@@ -33,6 +30,18 @@ define( [ 'easel', 'image!resources/images/barMagnet.png', 'common/easel-util' ]
 
         // Dragging.
         EaselUtil.makeDraggable( this );
+
+        // sync with model
+        this.x = magnet.x.get(); //TODO mvt
+        this.y = magnet.y.get(); //TODO mvt
+    }
+
+    //TODO move this method to common code
+    // Performs parasitic inheritance
+    function inheritPrototype( subType, superType ) {
+        var prototype = Object( superType.prototype );
+        prototype.constructor = subType;
+        subType.prototype = prototype;
     }
 
     inheritPrototype( BarMagnet3, Easel.Bitmap );
