@@ -1,3 +1,4 @@
+11/18/12 create type stubs for all top-level display objects
 11/18/12 wire up control panel to view properties and stub display objects
 11/18/12 wire up control panel stubs
 11/18/12 encapsulate control panel stuff in its own type

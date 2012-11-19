@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Bar magnet display object.
+ * Display object for the bar magnet.
  *
  * Uses the "Combination Inheritance" pattern to extend Easel's Bitmap type.
  * Combination Inheritance combines 2 other patterns, "Constructor Stealing" and "Prototype Chaining",
