@@ -4,12 +4,11 @@ Features:
 - "Strength" slider (jquery?)
 - magnetic field model and view
 - compass model and view
-- "Show Field" check box
-- "Show Compass" check box
-- "See Inside Magnet" check box
 - field meter model and view
-- "Show Field Meter" check box
 - control panel layout
+
+Bugs:
+- "Show Inside Magnet" check box doesn't reset
 
 General:
 - handle window resize
