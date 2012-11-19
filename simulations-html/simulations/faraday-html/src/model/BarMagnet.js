@@ -5,11 +5,11 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/Property' ], function ( Property, assert ) {
+define( [ 'common/Point2D', 'common/Property' ], function ( Point2D, Property ) {
 
-    function BarMagnet( x, y, strength ) {
-        this.x = new Property( x );
-        this.y = new Property( y );
+    // {Point2D} location, {Number} strength
+    function BarMagnet( location, strength ) {
+        this.location = new Property( location );
         this.strength = new Property( strength );
     }
 

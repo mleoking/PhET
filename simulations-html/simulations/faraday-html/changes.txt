@@ -1,3 +1,4 @@
+11/18/12 immutable Point2D
 11/18/12 delete unused variants of bar magnet display object, use "combination inheritance" version
 11/18/12 wire up bar magnet model to view
 11/18/12 refine Property.js
