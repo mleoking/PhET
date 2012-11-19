@@ -83,3 +83,13 @@ body {
     background: #fff;
     z-index: 9999;
 }
+
+.controlLabel {
+    font-size: 23px;
+    text-align: center
+}
+
+.returnSkaterButton {
+    padding: 10px;
+    margin: 10px;
+}
