@@ -14,8 +14,9 @@ define( [
             'i18n!../../../../common/common-html/src/app/nls/phetcommon-strings',
             'tpl!view/control-panel.html',
             'tpl!view/play-pause-flip-switch.html',
-            'tpl!view/speed-control.html'
-        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl ) {
+            'tpl!view/speed-control.html',
+            'tpl!view/navbar.html'
+        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( id ) {
@@ -226,29 +227,11 @@ define( [
         //Hide/Remove don't work everywhere, but the combination seems to work everywhere.
         $( "#cover" ).hide().remove();
 
-        if ( id == "tab1" ) {
-            tab1.append( $( '    <div data-role="header" data-id="foo1" data-position="fixed">' +
-                            '<div data-role="navbar"><ul>' +
-                            '<li><a href="#tab1" class="ui-btn-active ui-state-persist">Introduction</a></li>' +
-                            '<li><a href="#tab2">Friction</a></li>' +
-                            '<li><a href="#tab3">Track Playground</a></li>' +
-                            '</ul></div><!-- /navbar --></div><!-- /footer -->' ) ).trigger( "create" );
-        }
-        else if ( id == "tab2" ) {
-            tab1.append( $( '    <div data-role="header" data-id="foo1" data-position="fixed">' +
-                            '<div data-role="navbar"><ul>' +
-                            '<li><a href="#tab1" >Introduction</a></li>' +
-                            '<li><a href="#tab2" class="ui-btn-active ui-state-persist">Friction</a></li>' +
-                            '<li><a href="#tab3">Track Playground</a></li>' +
-                            '</ul></div><!-- /navbar --></div><!-- /footer -->' ) ).trigger( "create" );
-        }
-        else if ( id == "tab3" ) {
-            tab1.append( $( '    <div data-role="header" data-id="foo1" data-position="fixed">' +
-                            '<div data-role="navbar"><ul>' +
-                            '<li><a href="#tab1" >Introduction</a></li>' +
-                            '<li><a href="#tab2" >Friction</a></li>' +
-                            '<li><a href="#tab3" class="ui-btn-active ui-state-persist">Track Playground</a></li>' +
-                            '</ul></div><!-- /navbar --></div><!-- /footer -->' ) ).trigger( "create" );
-        }
+        //Create the navbar
+        var persist = "ui-btn-active ui-state-persist";
+        var class1 = id == "tab1" ? persist : "";
+        var class2 = id == "tab2" ? persist : "";
+        var class3 = id == "tab3" ? persist : "";
+        tab1.append( $( navBar( {class1: class1, class2: class2, class3: class3} ) ) ).trigger( "create" );
     };
 } );
