@@ -16,8 +16,7 @@ define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
         this.visible = new Property( visible );
 
         //DEBUG
-        var DEBUG = true;
-        if ( DEBUG ) {
+        if ( true ) {
             this.location.addObserver( function ( newValue ) {
                 logger.debug( "location=" + newValue );
             } );
