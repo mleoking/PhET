@@ -19,7 +19,7 @@ define( [
         ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
-    return function ( id, running ) {
+    return function ( id, running, sliderControls ) {
 
         //Rename element id so they will be unique across tabs
         //Unique ID for the elements
@@ -120,7 +120,8 @@ define( [
                                              pieChart: Strings["pieChart"],
                                              grid: Strings["controls.show-grid"],
                                              speedometer: Strings["properties.speed"],
-                                             id: id} );
+                                             id: id,
+                                             sliderControls: sliderControls} );
         tab.append( $( text ) ).trigger( "create" );
 
         //Wire up the pie chart check box button to the visibility of the pie chart
@@ -187,6 +188,7 @@ define( [
             //Apply css overrides last (i.e. after other css takes effect.
             //There must be a better way to do this, hopefully this can be improved easily.
             tab$( "slider-fill" ).remove();
+            tab$( "frictionSlider" ).remove();
 
             //TODO: This code actually hits all of the sliders in every tab.  This should be fixed.
             var slider = $( ".ui-slider" );
@@ -203,9 +205,9 @@ define( [
             tab$( "speedLabel" ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
 
             //TODO: This will need to be made more specific since it will cause problems if it applies to all slider switches
-            $( 'div.ui-slider-switch' ).css( 'position', 'absolute' ).css( 'width', '200px' );
+            $( '#' + id + 'containerForPlayPauseFlipSwitch ' ).css( 'position', 'absolute' ).css( 'width', '200px' );
             var leftSideOfPlayPauseButton = (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2);
-            $( 'div.ui-slider-switch' ).css( 'top', canvasH + top - 40 + 'px' ).css( 'left', leftSideOfPlayPauseButton + 'px' );
+            $( '#' + id + 'containerForPlayPauseFlipSwitch ' ).css( 'left', leftSideOfPlayPauseButton + 'px' ).css( 'top', canvasH + top - 100 + 'px' );
             $( "#" + id + " > ." + speedControlClass ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 100 + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
 
             console.log( "tab 1 resized, width = " + winW );

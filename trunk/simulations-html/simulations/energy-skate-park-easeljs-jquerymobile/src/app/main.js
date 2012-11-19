@@ -1,11 +1,15 @@
 require( ['websocket-refresh',
-             'tab'
-         ], function ( WebsocketRefresh, Tab ) {
+             'tab',
+             "tpl!view/massSlider.html",
+             "tpl!view/frictionControls.html"
+         ], function ( WebsocketRefresh, Tab, massSlider, frictionControls ) {
 
     WebsocketRefresh.listenForRefresh();
-    new Tab( "tab1", true );
-    new Tab( "tab2", false );
-    new Tab( "tab3", false );
+
+    //TODO: move page creation to here, so it reads like $("body").append($(createTab("tab1")))
+    new Tab( "tab1", true, massSlider( {id: "tab1"} ) );
+    new Tab( "tab2", false, frictionControls( {id: "tab2"} ) );
+    new Tab( "tab3", false, frictionControls( {id: "tab3"} ) );
 //    new Tab( "tab4", false );
 //    new Tab( "tab5", false );
 //    new Tab( "tab6", false );
