@@ -20,7 +20,7 @@ require( [ 'easel',
 
     // Model ----------------------------------------------------------
 
-    var MVT_SCALE = 1; // 1 model unit == 2 view units
+    var MVT_SCALE = 1; // 1 model unit == 1 view unit
     var MVT_OFFSET = new Easel.Point( 0.5 * canvas.width / MVT_SCALE, 0.5 * canvas.height / MVT_SCALE ); // origin in center of canvas
     var mvt = new ModelViewTransform( MVT_SCALE, MVT_OFFSET );
 
