@@ -6,11 +6,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 require( [ 'easel',
+           'common/Logger',
            'common/ModelViewTransform',
            'model/BarMagnet',
            'view/BarMagnetDisplay'
          ],
-         function ( Easel, ModelViewTransform, BarMagnet, BarMagnetDisplay ) {
+         function ( Easel, Logger, ModelViewTransform, BarMagnet, BarMagnetDisplay ) {
 
     var canvas = document.getElementById( 'faraday-canvas' );
 
@@ -22,7 +23,7 @@ require( [ 'easel',
 
     var barMagnet = new BarMagnet( new Easel.Point( 0, 0 ), 10 );
     barMagnet.location.addObserver( function() {
-        console.log( "barMagnet.location=" + barMagnet.location.get().toString() );
+        Logger.info( "barMagnet.location=" + barMagnet.location.get().toString() );
     });
 
     // View ----------------------------------------------------------
