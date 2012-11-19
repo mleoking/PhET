@@ -6,15 +6,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 require( [ 'easel',
-           'common/Point2D',
            'model/BarMagnet',
            'view/BarMagnetDisplay'
          ],
-         function ( Easel, Point2D, BarMagnet, BarMagnetDisplay ) {
+         function ( Easel, BarMagnet, BarMagnetDisplay ) {
 
     // Model ----------------------------------------------------------
 
-    var barMagnet = new BarMagnet( new Point2D( 200, 200 ), 10 );
+    var barMagnet = new BarMagnet( new Easel.Point( 200, 200 ), 10 );
+    barMagnet.location.addObserver( function() {
+        console.log( "barMagnet.location=" + barMagnet.location.get().toString() );
+    });
 
     // View ----------------------------------------------------------
 

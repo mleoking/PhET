@@ -15,13 +15,17 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [ 'easel',
-          'common/easel-util',
+          'view/DragHandler',
           'image!resources/images/barMagnet.png'
         ],
-        function ( Easel, EaselUtil, barMagnetImage ) {
+        function ( Easel, DragHandler, barMagnetImage ) {
 
-    // {BarMagnet} barMagnet
-    function BarMagnetDO2( barMagnet ) {
+    /**
+     * @class BarMagnetDisplay
+     * @constructor
+     * @param {BarMagnet} barMagnet
+     */
+    function BarMagnetDisplay( barMagnet ) {
 
         // Use constructor stealing to inherit instance properties.
         Easel.Bitmap.call( this, barMagnetImage );
@@ -31,15 +35,23 @@ define( [ 'easel',
         this.regY = this.image.height / 2;
 
          // Dragging.
-        EaselUtil.makeDraggable( this );
+        new DragHandler( this, function( point ) {
+            barMagnet.location.set( point );
+        });
 
         // sync with model
-        this.x = barMagnet.location.get().getX(); //TODO mvt
-        this.y = barMagnet.location.get().getY(); //TODO mvt
+        var thisDisplayObject = this;
+        function updateLocation( location ) {
+            thisDisplayObject.x = location.x; //TODO mvt
+            thisDisplayObject.y = location.y; //TODO mvt
+        }
+
+        barMagnet.location.addObserver( updateLocation );
+        updateLocation( barMagnet.location.get() );
     }
 
     // Use prototype chaining to inherit properties and methods on the prototype.
-    BarMagnetDO2.prototype = new Easel.Bitmap();
+    BarMagnetDisplay.prototype = new Easel.Bitmap();
 
-    return BarMagnetDO2;
+    return BarMagnetDisplay;
 } );
