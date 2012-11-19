@@ -8,13 +8,14 @@
  */
 define( [ 'easel' ], function( Easel ) {
 
+    function DragHandler() {}
+
     /**
-     * @class DragHandler
-     * @constructor
+     * Registers a drag handler with the specified Easel display object.
      * @param {DisplayObject} displayObject
      * @param {Function} dragFunction function called while dragging, params: {Point}
      */
-    function DragHandler( displayObject, dragFunction ) {
+    DragHandler.register = function( displayObject, dragFunction ) {
 
         // Drag cursor
         displayObject.onMouseOver = function() {
@@ -43,7 +44,9 @@ define( [ 'easel' ], function( Easel ) {
                 }
             };
         };
-    }
+    };
+
+    //TODO implement unregister
 
     return DragHandler;
 });

@@ -1,3 +1,4 @@
+11/18/12 better interface for DragHandler
 11/18/12 rotate bar magnet display object to match orientation of model
 11/18/12 scale bar magnet display object to match dimensions of model
 11/18/12 add size and orientation to bar magnet model
