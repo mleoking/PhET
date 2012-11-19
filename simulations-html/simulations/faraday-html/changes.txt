@@ -1,3 +1,4 @@
+11/18/12 put control panel to right of stage
 11/18/12 wire up Reset All button
 11/18/12 implement Property.reset
 11/18/12 add "Flip Polarity" button in HTML, wire up to model
