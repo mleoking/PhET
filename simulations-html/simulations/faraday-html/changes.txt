@@ -1,3 +1,5 @@
+11/19/12 get rid of canvas text cursor by disabling text selection.
+11/19/12 enable touch events
 11/19/12 add MathUtil, for conversion between degrees (Easel) and radians (model)
 11/19/12 doc
 11/19/12 center field display object at the origin

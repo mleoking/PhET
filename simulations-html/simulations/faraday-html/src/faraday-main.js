@@ -16,9 +16,18 @@ require( [ 'easel',
 
     Logger.enabled = true;
 
-    // MVC --------------------------------------------------------------------
+    // Canvas --------------------------------------------------------------------
 
     var canvas = document.getElementById( 'faraday-canvas' );
+
+    // Get rid of canvas text cursor by disabling text selection.
+    // See http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
+    canvas.onselectstart = function () { return false; }; // IE
+    canvas.onmousedown = function () { return false; }; // Mozilla
+
+    // MVC --------------------------------------------------------------------
+
+
     var model = new FaradayModel( canvas.width, canvas.height );
     var view = new FaradayStage( canvas, model );
     var controls = new ControlPanel( model, view );
@@ -27,4 +36,5 @@ require( [ 'easel',
 
     Easel.Ticker.addListener( view.stage );
     Easel.Ticker.setFPS( 60 );
+    Easel.Touch.enable( view.stage, false, false );
 } );
