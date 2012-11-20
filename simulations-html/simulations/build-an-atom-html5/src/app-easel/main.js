@@ -5,18 +5,21 @@ require( [
              'model/particle2',
              'view/particle-view',
              'view/atom-view',
-             'view/bucket-view',
+             'view/bucket-hole',
+             'view/bucket-front',
              'view/symbol-view',
              'view/mass-number-view',
              'model/atom',
              'tpl!templates/periodic-table.html'
-         ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketView, SymbolView, MassNumberView, Atom, periodicTable ) {
+         ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketHole, BucketFront, SymbolView, MassNumberView, Atom, periodicTable ) {
 
-    var $window = $(window);
+    var $window = $( window );
 
     // Create the canvas where atoms will be constructed.
     var atomConstructionCanvas = $( '#atom-construction-canvas' );
     var atomStage = new Easel.Stage( atomConstructionCanvas[0] );
+    var stageWidth = atomConstructionCanvas[0].width;
+    var stageHeight = atomConstructionCanvas[0].height;
 
     // Create a root node for the scene graph.
     var root = new Easel.Container();
@@ -30,11 +33,12 @@ require( [
     root.addChild( atomView );
 
     // Create and add the buckets.
-    var protonBucket = new BucketView( 125, 500 );
+    var protonBucket = new BucketHole( 125, 500 );
     root.addChild( protonBucket );
-    var neutronBucket = new BucketView( 300, 500 );
+    root.addChild( new BucketFront( stageWidth / 2, 600, 100, 100, "Protons" ) );
+    var neutronBucket = new BucketHole( stageWidth / 2, 500 );
     root.addChild( neutronBucket );
-    var electronBucket = new BucketView( 475, 500 );
+    var electronBucket = new BucketHole( 475, 500 );
     root.addChild( electronBucket );
 
     // Create and add the particles.
@@ -74,7 +78,7 @@ require( [
 
     //resize the canvas when the window is resized
     //Copied from energy skate park easel prototype
-    $window.on('resize', function () {
+    $window.on( 'resize', function () {
         var winW = $window.width();
         var winH = $window.height();
 
@@ -86,34 +90,34 @@ require( [
         var container = atomConstructionCanvas.parent();
 
         // set the canvas size
-        atomConstructionCanvas.attr({
-          width: ~~canvasW,
-          height: ~~canvasH
-        });
+        atomConstructionCanvas.attr( {
+                                         width:~~canvasW,
+                                         height:~~canvasH
+                                     } );
 
         // center the canvas in its parent container
-        atomConstructionCanvas.css({
-          marginLeft: (container.width() - ~~canvasW) / 2
-        });
+        atomConstructionCanvas.css( {
+                                        marginLeft:(container.width() - ~~canvasW) / 2
+                                    } );
 
         root.scaleX = root.scaleY = scale;
         atomStage.update();
-    });
+    } );
 
     $window.resize();
 
-    $( document ).ready( function (){
+    $( document ).ready( function () {
 
-      var atom = new Atom();
+        var atom = new Atom();
 
-      atom.protons = 1;
-      atom.neutrons = 1;
+        atom.protons = 1;
+        atom.neutrons = 1;
 
-      var symbolWidget = new SymbolView( atom );
-      var massNumberWidget = new MassNumberView( atom );
+        var symbolWidget = new SymbolView( atom );
+        var massNumberWidget = new MassNumberView( atom );
 
-       $('#periodic-table' ).html( periodicTable() );
-    });
+        $( '#periodic-table' ).html( periodicTable() );
+    } );
 
 
 } );
