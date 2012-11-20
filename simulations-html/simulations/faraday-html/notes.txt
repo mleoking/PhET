@@ -16,6 +16,8 @@ how to doc function param types? {Type}?
 
 DisplayObject alpha modulation
 
+logger
+
 
 Patterns:
 
