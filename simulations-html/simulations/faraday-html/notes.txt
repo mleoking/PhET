@@ -1,4 +1,4 @@
-Need:
+Needs:
 
 IntelliJ codestyle
 
@@ -15,6 +15,13 @@ test mains and unit tests
 how to doc function param types? {Type}?
 
 DisplayObject alpha modulation
+
+
+Patterns:
+
+Combination inheritance
+
+private fields and methods
 
 
 Observations:
