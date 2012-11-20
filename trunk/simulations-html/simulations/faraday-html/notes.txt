@@ -1,0 +1,24 @@
+Need:
+
+IntelliJ codestyle
+
+assert
+
+arg validation (type, required vs optional, value)
+
+something similar to Property<T>
+
+DisplayObject bounds
+
+test mains and unit tests
+
+
+Observations:
+
+Having to manually enter each "import" for requirejs.
+
+Browser error messages involving requirejs are terrible.
+
+If you rename something, you have to manually track down usages and fix.
+
+Can't navigate to things. If you're lucky, it requires multiple steps, including a manual association of requirejs import to function param.
