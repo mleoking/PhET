@@ -12,6 +12,8 @@ DisplayObject bounds
 
 test mains and unit tests
 
+how to doc function param types? {Type}?
+
 
 Observations:
 

@@ -17,7 +17,7 @@ define( [ 'easel', 'common/Dimension' ], function( Easel, Dimension ) {
         // constructor stealing
         Easel.Container.call( this );
 
-        var SIZE = new Dimension( 40, 20 );
+        var SIZE = new Dimension( 50, 14 );
 
         var northShape = new Easel.Shape();
         northShape.graphics.beginFill( Easel.Graphics.getRGB( 255, 0, 0, alpha ) ); // red

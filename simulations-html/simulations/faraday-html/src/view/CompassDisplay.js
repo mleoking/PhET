@@ -22,6 +22,15 @@ define( [ 'easel',
         // constructor stealing
         Easel.Container.call( this );
 
+        // ring
+        var ring = new Easel.Shape();
+        ring.graphics.beginFill( Easel.Graphics.getRGB( 0, 0, 0, 0.05 ) ); // transparent
+        ring.graphics.setStrokeStyle( 10 );
+        ring.graphics.beginStroke( Easel.Graphics.getRGB( 153, 153, 153) ); // gray
+        ring.graphics.drawCircle( 0, 0, 35 );
+        this.addChild( ring );
+
+        // needle
         var needle = new CompassNeedleDisplay( 0, 1 );
         this.addChild( needle );
 
@@ -38,7 +47,7 @@ define( [ 'easel',
             var point = mvt.modelToView( location );
             thisDisplayObject.x = point.x;
             thisDisplayObject.y = point.y;
-            thisDisplayObject.rotation = MathUtil.toDegrees( compass.orientation.get() );
+            needle.rotation = MathUtil.toDegrees( compass.orientation.get() );
         }
         compass.location.addObserver( updateLocation );
 
