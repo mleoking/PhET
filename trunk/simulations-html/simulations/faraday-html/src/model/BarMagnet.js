@@ -57,10 +57,10 @@ define( [ 'common/Logger',
      * @return {Boolean}
      */
     BarMagnet.prototype.contains = function( point ) {
-        return ( point.x >= this.location.get().x - this.size.getWidth() / 2 ) &&
-               ( point.x <= this.location.get().x + this.size.getWidth() / 2 ) &&
-               ( point.y >= this.location.get().y - this.size.getHeight() / 2 ) &&
-               ( point.y <= this.location.get().y + this.size.getHeight() / 2 );
+        return ( point.x >= this.location.get().x - this.size.width / 2 ) &&
+               ( point.x <= this.location.get().x + this.size.width / 2 ) &&
+               ( point.y >= this.location.get().y - this.size.height / 2 ) &&
+               ( point.y <= this.location.get().y + this.size.height / 2 );
     };
 
     /*
