@@ -14,3 +14,4 @@ General:
 - handle window resize
 - i18n
 - data collection
+- test with all browsers
