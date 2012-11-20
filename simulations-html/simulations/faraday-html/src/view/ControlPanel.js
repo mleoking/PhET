@@ -7,12 +7,13 @@
  */
 define( [ 'common/PropertyCheckBox' ], function ( PropertyCheckBox ) {
 
+    function ControlPanel() {}
+
     /**
      * @param {FaradayModel} model
      * @param {FaradayStage} stage
-     * @constructor
      */
-    function ControlPanel( model, stage ) {
+    ControlPanel.connect = function( model, stage ) {
 
         // Check boxes
         PropertyCheckBox.connect( stage.magnetTransparent, "seeInsideMagnetCheckBox" );
@@ -30,7 +31,7 @@ define( [ 'common/PropertyCheckBox' ], function ( PropertyCheckBox ) {
             model.reset();
             stage.reset();
         };
-    }
+    };
 
     return ControlPanel;
 } );

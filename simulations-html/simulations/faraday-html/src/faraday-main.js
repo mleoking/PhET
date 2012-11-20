@@ -30,7 +30,7 @@ require( [ 'easel',
 
     var model = new FaradayModel( canvas.width, canvas.height );
     var view = new FaradayStage( canvas, model );
-    var controls = new ControlPanel( model, view );
+    ControlPanel.connect( model, view );
 
     // Animation loop ----------------------------------------------------------
 
