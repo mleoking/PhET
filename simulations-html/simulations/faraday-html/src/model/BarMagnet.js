@@ -81,7 +81,7 @@ define( [ 'common/Logger',
             //TODO implement simple dipole model (see pg 3 of faraday-notes-2005.pdf)
             var v = new Vector( this.location.get().x - point.x, this.location.get().y - point.y );
             var magnitude = this.strength.get() / ( 2 * v.getMagnitude() );
-            var angle = v.getAngle();
+            var angle = v.getAngle() + this.orientation.get();
             return Vector.createPolar( magnitude, angle );
         }
     };
