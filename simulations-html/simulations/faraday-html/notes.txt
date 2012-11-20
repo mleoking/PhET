@@ -29,7 +29,7 @@ Patterns:
    private fields and methods (can't have private fields and public class methods)
 
 
-Annoyances:
+Annoyances, productivity drains:
 
     Having to manually enter each "import" for requirejs.
 
