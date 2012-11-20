@@ -14,7 +14,7 @@ Needs:
 
   Easel:
     DisplayObject bounds
-    DisplayObject alpha modulation
+    DisplayObject alpha modulation (filters?)
 
   Sim framework:
     something similar to Property<T>
