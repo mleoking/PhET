@@ -36,11 +36,10 @@ require( [
     var bucketWidth = 150;
     var bucketHoleY = stageHeight * 0.75;
     var neutronBucketHole = new BucketHole( stageWidth / 2, bucketHoleY, bucketWidth );
-
-    var protonBucketHole = new BucketHole( 125, 500, 100 );
-    root.addChild( protonBucketHole );
     root.addChild( neutronBucketHole );
-    var electronBucketHole = new BucketHole( 475, 500 );
+    var protonBucketHole = new BucketHole( ( stageWidth - bucketWidth ) / 4, bucketHoleY, bucketWidth );
+    root.addChild( protonBucketHole );
+    var electronBucketHole = new BucketHole( stageWidth - (( stageWidth - bucketWidth ) / 4), bucketHoleY, bucketWidth );
     root.addChild( electronBucketHole );
 
     // Create and add the particles.
