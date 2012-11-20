@@ -19,6 +19,11 @@ Having to manually enter each "import" for requirejs.
 
 Browser error messages involving requirejs are terrible.
 
-If you rename something, you have to manually track down usages and fix.
+Renaming or moving something is painful, and the pain will scale with project size.
 
 Can't navigate to things. If you're lucky, it requires multiple steps, including a manual association of requirejs import to function param.
+
+
+Typical errors:
+
+TypeError: this.initialize is not a function : occurs in easel.js when you forget a 'this' or 'new', or forget a requirejs function param

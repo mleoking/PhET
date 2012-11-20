@@ -14,6 +14,17 @@ define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
         // initialize properties
         this.location = new Property( location );
         this.visible = new Property( visible );
+        this.orientation = new Property( 0 ); // radians
+
+        // Update the orientation.
+        var thisInstance = this;
+        var updateOrientation = function () {
+            var vector = magnet.getFieldVector( thisInstance.location.get() );
+            thisInstance.orientation.set( vector.getAngle() );
+        };
+        this.location.addObserver( updateOrientation );
+        magnet.location.addObserver( updateOrientation );
+        updateOrientation();
 
         //DEBUG
         if ( true ) {
@@ -22,6 +33,9 @@ define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
             } );
             this.visible.addObserver( function ( newValue ) {
                 logger.debug( "visible=" + newValue );
+            } );
+            this.orientation.addObserver( function ( newValue ) {
+                logger.debug( "orientation=" + newValue );
             } );
         }
     }
