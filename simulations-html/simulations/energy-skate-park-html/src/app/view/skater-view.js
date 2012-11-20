@@ -67,6 +67,7 @@ define( ["../model/vector2d" ], function ( Vector2D ) {
         skater.updateFromModel = function () {
             this.x = skaterModel.position.x / metersPerPixel;
             this.y = -skaterModel.position.y / metersPerPixel + groundY;
+            this.rotation = skaterModel.angle * 360 / 2 / Math.PI;
         };
 
         skater.updateFromModel();
