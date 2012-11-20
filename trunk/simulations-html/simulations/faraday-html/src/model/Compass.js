@@ -24,6 +24,7 @@ define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
         };
         this.location.addObserver( updateOrientation );
         magnet.location.addObserver( updateOrientation );
+        magnet.orientation.addObserver( updateOrientation );
         updateOrientation();
 
         //DEBUG

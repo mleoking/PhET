@@ -5,6 +5,7 @@ Features:
 - magnetic field model and view
 - compass model and view
 - control panel layout
+- compass kinematics
 
 Bugs:
 
