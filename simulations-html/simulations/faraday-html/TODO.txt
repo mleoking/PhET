@@ -3,7 +3,7 @@ TODO list for faraday-html
 Features:
 - "Strength" slider (jquery?)
 - magnetic field model and view
-- compass model and view
+- "see inside" field display object
 - control panel layout
 - compass kinematics
 
