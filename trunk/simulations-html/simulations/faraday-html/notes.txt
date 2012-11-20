@@ -4,19 +4,21 @@ IntelliJ codestyle
 
 assert
 
+logger
+
 arg validation (type, required vs optional, value)
+
+documentation tools/conventions (eg, how to doc function param types)
+
+test mains and unit tests
 
 something similar to Property<T>
 
 DisplayObject bounds
 
-test mains and unit tests
-
-how to doc function param types? {Type}?
-
 DisplayObject alpha modulation
 
-logger
+
 
 
 Patterns:
