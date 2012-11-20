@@ -1,48 +1,49 @@
 Needs:
 
-IntelliJ codestyle
+  IDE:
+    codestyle
+    navigation
 
-assert
+  SE:
+    assert
+    logger
+    arg validation (type, required vs optional, value)
+    documentation tools/conventions (eg, how to doc function param types)
+    adhoc (test mains) and unit tests
 
-logger
+  Easel:
+    DisplayObject bounds
+    DisplayObject alpha modulation
 
-arg validation (type, required vs optional, value)
-
-documentation tools/conventions (eg, how to doc function param types)
-
-test mains and unit tests
-
-something similar to Property<T>
-
-DisplayObject bounds
-
-DisplayObject alpha modulation
-
-
+  Sim framework:
+    something similar to Property<T>
+    core types (Dimension, Vector)
+    sim types (ModelViewTransform)
 
 
 Patterns:
 
-Combination inheritance
+   Combination inheritance
 
-private fields and methods
+   private fields and methods (can't have private fields and public class methods)
 
 
 Observations:
 
-Having to manually enter each "import" for requirejs.
+    Having to manually enter each "import" for requirejs.
 
-Browser error messages involving requirejs are terrible.
+    Browser error messages involving requirejs are terrible.
 
-Renaming or moving something is painful, and the pain will scale with project size.
+    Renaming or moving something is painful, and the pain will scale with project size.
 
-Can't navigate to things. If you're lucky, it requires multiple steps, including a manual association of requirejs import to function param.
+    Can't navigate to things. If you're lucky, it requires multiple steps, including a manual association of requirejs import to function param.
 
-IntelliJ "find file" doesn't off files in the JS project that you're working on as first choices (like it does for Java)
+    IntelliJ "find file" doesn't off files in the JS project that you're working on as first choices (like it does for Java)
+
 
 Typical errors:
 
-TypeError: this.initialize is not a function : occurs in easel.js when you forget:
+    TypeError: this.initialize is not a function : occurs in easel.js when you forget:
     - 'this', eg in Number.call(this) or this.myfunction
     - 'new'
     - a requirejs function param
