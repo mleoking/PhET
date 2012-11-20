@@ -58,7 +58,9 @@ require( [
     root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 120, electronBucketHole.y, "blue", 8, "electron" ) ) );
 
     // Add the bucket fronts.
+    root.addChild( new BucketFront( protonBucketHole.centerX, protonBucketHole.centerY, bucketWidth, "Protons" ) );
     root.addChild( new BucketFront( neutronBucketHole.centerX, neutronBucketHole.centerY, bucketWidth, "Neutrons" ) );
+    root.addChild( new BucketFront( electronBucketHole.centerX, electronBucketHole.centerY, bucketWidth, "Electrons" ) );
 
 
     atomStage.update();
