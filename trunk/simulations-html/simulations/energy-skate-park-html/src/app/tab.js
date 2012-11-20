@@ -62,7 +62,7 @@ define( [
 
         var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
         fpsText.x = 4;
-        fpsText.y = 280;
+        fpsText.y = 50;
         root.addChild( fpsText );
         var pieChart = new PieChart( skater );
         pieChart.visible = false;
