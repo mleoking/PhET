@@ -1,6 +1,6 @@
 define( [
             'model/skater-model',
-            'view/skater',
+            'view/skater-view',
             'view/background',
             'spline',
             'model/physics',
