@@ -103,3 +103,15 @@ body {
 /*overflow: hidden;*/
 /*white-space: nowrap;*/
 /*}*/
+
+.slider_steps {
+    width: 100%
+}
+
+.alignleft {
+    float: left;
+}
+
+.alignright {
+    float: right;
+}
