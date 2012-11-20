@@ -3,8 +3,9 @@ Needs:
   IDE:
     codestyle
     navigation
+    presentation compiler support
 
-  SE:
+  Software engineering:
     assert
     logger
     arg validation (type, required vs optional, value)
