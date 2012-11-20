@@ -1,4 +1,4 @@
-define( ["model/vector2d" ], function ( Vector2D ) {
+define( ["../model/vector2d" ], function ( Vector2D ) {
     return {createSkater: function ( skaterModel, groundHeight, groundY ) {
 
         var metersPerPixel = 8.0 / 768.0;
