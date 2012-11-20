@@ -5,7 +5,12 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'view/DragHandler' ], function( Easel, DragHandler ) {
+define( [ 'easel',
+          'common/MathUtil',
+          'view/CompassNeedleDisplay',
+          'view/DragHandler'
+        ],
+        function( Easel, MathUtil, CompassNeedleDisplay, DragHandler ) {
 
     /**
      * @param {Compass} compass
@@ -15,11 +20,10 @@ define( [ 'easel', 'view/DragHandler' ], function( Easel, DragHandler ) {
     function CompassDisplay( compass, mvt ) {
 
         // constructor stealing
-        Easel.Text.call( this, "compass", "bold 36px Arial", 'white' );
+        Easel.Container.call( this );
 
-        //XXX center
-        this.textAlign = 'center';
-        this.textBaseline = 'middle';
+        var needle = new CompassNeedleDisplay( 0, 1 );
+        this.addChild( needle );
 
         // Dragging.
         DragHandler.register( this, function( point ) {
@@ -34,6 +38,7 @@ define( [ 'easel', 'view/DragHandler' ], function( Easel, DragHandler ) {
             var point = mvt.modelToView( location );
             thisDisplayObject.x = point.x;
             thisDisplayObject.y = point.y;
+            thisDisplayObject.rotation = MathUtil.toDegrees( compass.orientation.get() );
         }
         compass.location.addObserver( updateLocation );
 
@@ -49,7 +54,7 @@ define( [ 'easel', 'view/DragHandler' ], function( Easel, DragHandler ) {
     }
 
     // prototype chaining
-    CompassDisplay.prototype = new Easel.Text();
+    CompassDisplay.prototype = new Easel.Container();
 
     return CompassDisplay;
 } );

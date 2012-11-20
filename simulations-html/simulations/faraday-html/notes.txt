@@ -23,7 +23,11 @@ Renaming or moving something is painful, and the pain will scale with project si
 
 Can't navigate to things. If you're lucky, it requires multiple steps, including a manual association of requirejs import to function param.
 
+IntelliJ "find file" doesn't off files in the JS project that you're working on as first choices (like it does for Java)
 
 Typical errors:
 
-TypeError: this.initialize is not a function : occurs in easel.js when you forget a 'this' or 'new', or forget a requirejs function param
+TypeError: this.initialize is not a function : occurs in easel.js when you forget:
+    - 'this', eg in Number.call(this) or this.myfunction
+    - 'new'
+    - a requirejs function param
