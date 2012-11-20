@@ -1,3 +1,4 @@
+//One of the three tabs in Energy Skate Park
 define( [
             'model/skater-model',
             'view/skater-view',
@@ -30,9 +31,9 @@ define( [
         //Get the jquery element with the name id+""+s
         function tab$( s ) {return $( getHashID( s ) );}
 
-        var canvas = $( '<canvas></canvas>' ).attr( "id", getID( "c" ) ).css( "position", "absolute" );//.css("width","100%" ).css("height","100%");
+        var canvasElement = $( '<canvas></canvas>' ).attr( "id", getID( "c" ) ).css( "position", "absolute" );//.css("width","100%" ).css("height","100%");
         var tab = $( "#" + id );
-        tab.append( canvas );
+        tab.append( canvasElement );
 
         var root = new createjs.Container();
 
@@ -101,9 +102,7 @@ define( [
 
         var pauseString = CommonStrings["Common.ClockControlPanel.Pause"];
         var playString = CommonStrings["Common.ClockControlPanel.Play"];
-        console.log( "pauseString = " + pauseString + ", playString = " + playString );
 
-        //TODO: use requirejs templating for this (But maybe not since it may not work over file://)
         var templateText = playPauseFlipSwitch( {tab: id, pauseString: "Pause", playString: "Play"} );
         console.log( templateText );
         tab.append( $( templateText ) ).trigger( "create" );
