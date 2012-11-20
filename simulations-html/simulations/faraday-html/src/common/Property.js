@@ -55,7 +55,7 @@ define([], function() {
          */
         this.reset = function() {
             this.set( _initialValue );
-        }
+        };
 
         /**
          * Adds an observer.
