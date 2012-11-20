@@ -16,8 +16,9 @@ define( [
             'tpl!view/control-panel.html',
             'tpl!view/play-pause-flip-switch.html',
             'tpl!view/speed-control.html',
-            'tpl!view/navbar.html'
-        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar ) {
+            'tpl!view/navbar.html',
+            'view/easel-root'
+        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar, createEaselRoot ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( id, running, sliderControls ) {
@@ -35,43 +36,11 @@ define( [
         var tab = $( "#" + id );
         tab.append( canvasElement );
 
-        var root = new createjs.Container();
-
+        var skaterModel = new SkaterModel();
         var groundHeight = 116;
         var groundY = 768 - groundHeight;
 
-        var skaterModel = new SkaterModel();
-        var skater = Skater.createSkater( skaterModel, groundHeight, groundY );
-
-        //Cache the background into a single image
-        //        background.cache( 0, 0, 1024, 768, 1 );
-
-        var splineLayer = Spline.createSplineLayer( groundHeight );
-
-        root.addChild( Background.createBackground( groundHeight ) );
-        var grid = new Grid( groundY );
-        grid.visible = false;
-        root.addChild( grid );
-        root.addChild( splineLayer );
-        var barChart = BarChart.createBarChart( skater );
-        barChart.x = 50;
-        barChart.y = 50;
-        barChart.visible = false;
-        root.addChild( barChart );
-
-        root.addChild( skater );
-
-        var fpsText = new createjs.Text( '-- fps', '24px "Lucida Grande",Tahoma', createjs.Graphics.getRGB( 153, 153, 230 ) );
-        fpsText.x = 4;
-        fpsText.y = 50;
-        root.addChild( fpsText );
-        var pieChart = new PieChart( skater );
-        pieChart.visible = false;
-        root.addChild( pieChart );
-
-        var speedometer = Speedometer.createSpeedometer( skater );
-        speedometer.visible = false;
-        root.addChild( speedometer );
+        var root = createEaselRoot( skaterModel, groundHeight, groundY );
 
         //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
         var canvas = document.getElementById( getID( "c" ) );
@@ -96,7 +65,7 @@ define( [
             frameTime += (thisFrameTime - frameTime) / filterStrength;
             lastLoop = thisLoop;
             if ( frameCount > 30 ) {
-                fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";// @"+location.href;
+                root.fpsText.text = (1000 / frameTime).toFixed( 1 ) + " fps";// @"+location.href;
             }
         }
 
@@ -124,10 +93,10 @@ define( [
         tab.append( $( text ) ).trigger( "create" );
 
         //Wire up the pie chart check box button to the visibility of the pie chart
-        tab$( "checkbox1" ).click( function () { barChart.visible = tab$( "checkbox1" ).is( ":checked" ); } );
-        tab$( "checkbox2" ).click( function () { pieChart.visible = tab$( "checkbox2" ).is( ":checked" ); } );
-        tab$( "checkbox3" ).click( function () { grid.visible = tab$( "checkbox3" ).is( ":checked" ); } );
-        tab$( "checkbox4" ).click( function () { speedometer.visible = tab$( "checkbox4" ).is( ":checked" ); } );
+        tab$( "checkbox1" ).click( function () { root.barChart.visible = tab$( "checkbox1" ).is( ":checked" ); } );
+        tab$( "checkbox2" ).click( function () { root.pieChart.visible = tab$( "checkbox2" ).is( ":checked" ); } );
+        tab$( "checkbox3" ).click( function () { root.grid.visible = tab$( "checkbox3" ).is( ":checked" ); } );
+        tab$( "checkbox4" ).click( function () { root.speedometer.visible = tab$( "checkbox4" ).is( ":checked" ); } );
 
         tab$( "returnSkaterButton" ).bind( "click", function () {
             skaterModel.returnSkater();
@@ -140,10 +109,7 @@ define( [
             tab$( "checkbox3" ).removeAttr( "checked" ).checkboxradio( "refresh" );
             tab$( "checkbox4" ).removeAttr( "checked" ).checkboxradio( "refresh" );
 
-            barChart.visible = false;
-            pieChart.visible = false;
-            grid.visible = false;
-            speedometer.visible = false;
+            root.resetAll();
             skaterModel.returnSkater();
         } );
 
@@ -243,19 +209,11 @@ define( [
                     var dt = 0.02;
                     var subdivisions = 1;
                     for ( var i = 0; i < subdivisions; i++ ) {
-                        Physics.updatePhysics( skaterModel, groundHeight, splineLayer, dt / subdivisions );
+                        Physics.updatePhysics( skaterModel, groundHeight, root.splineLayer, dt / subdivisions );
                     }
-                    skater.updateFromModel();
+
                     updateFrameRate();
-                    if ( barChart.visible ) {
-                        barChart.tick();
-                    }
-                    if ( speedometer.visible ) {
-                        speedometer.tick();
-                    }
-                    if ( pieChart.visible ) {
-                        pieChart.tick();
-                    }
+                    root.tick();
                 }
                 stage.tick();
             }
