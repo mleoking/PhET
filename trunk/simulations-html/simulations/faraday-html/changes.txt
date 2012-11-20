@@ -1,10 +1,11 @@
+11/20/12 fix: account for magnet orientation when computing b-field vector
 11/20/12 update compass orientation when magnet orientation changes
 11/20/12 add remaining parts to compass display object (no kinematics yet)
 11/20/12 add compass ring, make needle size match Java sim
 11/20/12 add needle to compass display object
 11/20/12 add orientation property to compass
 11/20/12 add missing call to FieldMeter.updateValues
-11/20/12 compass needle display object, for use in compass and E-field visualization
+11/20/12 compass needle display object, for use in compass and b-field visualization
 11/20/12 make Dimension mutable
 11/20/12 implement simple "linear distance from point" model of bar magnet field
 11/19/12 make the field vector the same everywhere inside the magnet
