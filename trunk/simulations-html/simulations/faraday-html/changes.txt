@@ -1,3 +1,4 @@
+11/20/12 add compass ring, make needle size match Java sim
 11/20/12 add needle to compass display object
 11/20/12 add orientation property to compass
 11/20/12 add missing call to FieldMeter.updateValues
