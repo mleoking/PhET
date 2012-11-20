@@ -65,7 +65,7 @@ module.exports = function ( grunt ) {
                       } );
 
     // Default task.
-    grunt.registerTask( 'default', 'lint requirejs concat min' );
+    grunt.registerTask( 'default', 'requirejs concat min' );
     grunt.loadNpmTasks( 'grunt-contrib-requirejs' );
 
 };
