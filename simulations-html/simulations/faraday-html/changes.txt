@@ -1,3 +1,4 @@
+11/20/12 compass needle display object, for use in compass and E-field visualization
 11/20/12 make Dimension mutable
 11/20/12 implement simple "linear distance from point" model of bar magnet field
 11/19/12 make the field vector the same everywhere inside the magnet

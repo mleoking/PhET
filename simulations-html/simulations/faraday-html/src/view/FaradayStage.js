@@ -10,10 +10,11 @@ define( [ 'easel',
           'common/Property',
           'view/BarMagnetDisplay',
           'view/CompassDisplay',
+          'view/CompassNeedleDisplay',
           'view/FieldDisplay',
           'view/FieldMeterDisplay'
         ],
-        function ( Easel, Property, BarMagnetDisplay, CompassDisplay, FieldDisplay, FieldMeterDisplay ) {
+        function ( Easel, Property, BarMagnetDisplay, CompassDisplay, CompassNeedleDisplay, FieldDisplay, FieldMeterDisplay ) {
 
     function FaradayStage( canvas, model ) {
 
@@ -50,6 +51,13 @@ define( [ 'easel',
         this.stage.addChild( this.barMagnet );
         this.stage.addChild( this.compass );
         this.stage.addChild( this.meter );
+
+        //XXX test compass needle
+        var compassNeedle = new CompassNeedleDisplay( 0, 1 );
+        var origin = model.mvt.modelToView( new Easel.Point(0,0) );
+        compassNeedle.x = origin.x;
+        compassNeedle.y = origin.y;
+        this.stage.addChild( compassNeedle );
     }
 
     // Resets all view-specific properties
