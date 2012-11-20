@@ -6,6 +6,7 @@ Features:
 - "see inside" field display object
 - control panel layout
 - compass kinematics
+- compass/magnet collision detection
 
 Bugs:
 
