@@ -18,9 +18,7 @@ define( [], function () {
     p.tick = function () {
         this.x = this.skater.x;
 
-        var a = this.skater.localToGlobal( 0, 0 ).y;
-        var b = this.skater.localToGlobal( 0, this.skater.image.height ).y;
-        var delta = b - a + 80;
+        var delta = 250;
         this.y = this.skater.y - delta;
 
         var kineticEnergy = this.skater.getKineticEnergy();
