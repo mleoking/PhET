@@ -84,25 +84,21 @@ body {
     z-index: 9999;
 }
 
+.controlLabel2 {
+    font-size: 23px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .controlLabel {
     font-size: 23px;
     text-align: center
 }
 
-/*.returnSkaterButton {*/
-/*padding: 10px;*/
-/*margin: 10px;*/
-/*}*/
-
 .returnButtons {
     padding: 10px;
     margin: 10px;
 }
-
-/*div {*/
-/*overflow: hidden;*/
-/*white-space: nowrap;*/
-/*}*/
 
 .slider_steps {
     width: 100%
@@ -114,4 +110,14 @@ body {
 
 .alignright {
     float: right;
+}
+
+.alignright2 {
+    float: right;
+    width: 100px;
+}
+
+.tinyswitch {
+    width: 100px;
+    position: absolute;
 }
