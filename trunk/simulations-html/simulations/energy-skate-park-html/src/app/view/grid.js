@@ -1,4 +1,4 @@
-define( ["skater", 'util/extend'], function ( Skater ) {
+define( ["view/skater", 'util/extend'], function ( Skater ) {
 
     return createjs.Container.extend( 'Grid', {
         initialize: function ( superInit, groundY ) {

@@ -79,6 +79,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
             var y = splineY.at( s );
             skater.position.x = x;
             skater.position.y = y;
+            skater.angle = Math.atan2( splineX.diff().at( s ), splineX.diff().at( s ) );
             skater.velocity = new Vector2D( (skater.position.x - originalX) / dt, (skater.position.y - originalY) / dt );
 
             //Conserve energy by tuning the velocity.
@@ -90,6 +91,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
 
             if ( s >= 1.0 || s <= 0 ) {
                 skater.attached = false;
+                skater.angle = 0;
             }
         }
         else {
@@ -106,6 +108,7 @@ define( ["underscore", "model/vector2d", "model/geometry"], function ( _, Vector
             if ( skater.position.y <= 0 ) {
                 skater.position.y = 0;
                 skater.velocity = new Vector2D();
+                skater.angle = 0;
             }
 
             //don't let the skater cross the spline
