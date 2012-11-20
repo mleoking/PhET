@@ -1,21 +1,20 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Immutable dimension (size).
+ * Dimension (size) 2D.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [], function () {
 
     /**
-     * @class Dimension
      * @constructor
      * @param {Number} width
      * @param {Number} height
      */
     function Dimension( width, height ) {
-        this.getWidth = function() { return width; };
-        this.getHeight = function() { return height; };
+        this.width = width;
+        this.height = height;
     }
 
     return Dimension;
