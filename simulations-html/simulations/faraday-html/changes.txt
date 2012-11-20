@@ -1,3 +1,5 @@
+11/20/12 add orientation property to compass
+11/20/12 add missing call to FieldMeter.updateValues
 11/20/12 compass needle display object, for use in compass and E-field visualization
 11/20/12 make Dimension mutable
 11/20/12 implement simple "linear distance from point" model of bar magnet field
