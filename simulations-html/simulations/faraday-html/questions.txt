@@ -1,15 +1,11 @@
-Why does BAA do <script jquery> in html file? Can't it be loaded in config.js?
-
-IntelliJ style config for js?
-
-How to get the dimensions of a DisplayObject? (eg, for centering regX,regY)
-
-How to do the equivalent of Java test mains, for testing small bits of code.
+IntelliJ codestyle
 
 assert
 
-how much arg checking to do?
+arg validation (type, required vs optional, value)
 
-when do you have to qualify a name with 'this'?
+something similar to Property<T>
 
-property assignment using ':' vs '="
+DisplayObject bounds
+
+test mains and unit tests
