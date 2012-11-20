@@ -4,23 +4,23 @@ define([
   'easel'
 ], function ( _, Easel ) {
 
-    var BucketView = function ( x, y ) {
+    var BucketHole = function ( x, y ) {
         Easel.Container.prototype.initialize.call(this);
         this.initialize( x, y );
     };
 
-    var p = BucketView.prototype;
+    var p = BucketHole.prototype;
 
     _.extend(p, Easel.Container.prototype);
 
     p.initialize = function ( x, y ) {
         var shape = new Easel.Shape();
-        shape.graphics.beginStroke( "black" ).beginFill( "gray" ).setStrokeStyle( 2 ).drawEllipse( 0, 0, 150, 30 ).endStroke().endFill();
+        shape.graphics.beginStroke( "black" ).beginFill( "black" ).setStrokeStyle( 2 ).drawEllipse( 0, 0, 150, 30 ).endStroke().endFill();
         this.addChild( shape );
 
         this.x = x;
         this.y = y;
     };
 
-    return BucketView;
+    return BucketHole;
 });
