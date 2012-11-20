@@ -14,16 +14,17 @@ define( [
      * @param labelText Text shown on front of bucket.
      * @return {BucketFront} The representation of the front of the bucket.
      **/
-    var BucketFront = function ( centerX, topY, width, height, labelText ) {
+    var BucketFront = function ( centerX, topY, width, labelText ) {
         Easel.Container.prototype.initialize.call( this );
-        this.initialize( centerX, topY, width, height, labelText );
+        this.initialize( centerX, topY, width, labelText );
     };
 
     var p = BucketFront.prototype;
 
     _.extend( p, Easel.Container.prototype );
 
-    p.initialize = function ( centerX, topY, width, height, labelText ) {
+    p.initialize = function ( centerX, topY, width, labelText ) {
+        var height = width * 0.7; // Determined empirically for best look.
         var shape = new Easel.Shape();
         shape.graphics.beginStroke( "black" ).beginFill( "gray" ).setStrokeStyle( 2 ).drawRect( 0, 0, width, height ).endStroke().endFill();
         this.addChild( shape );
