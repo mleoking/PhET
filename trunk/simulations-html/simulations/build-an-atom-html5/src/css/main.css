@@ -180,7 +180,7 @@ textarea {
 #mass-number-container {
   position: relative;
   width: 102px;
-  height: 102px;
+  height: 110px;
   background: url(../resources/images/atom_builder_scale.png) no-repeat bottom left;
 }
 
@@ -191,7 +191,17 @@ textarea {
   bottom: 4px;
   left: 21px;
   background: #fff;
+  font-weight: bold;
   text-align: center;
+}
+
+#mass-number-container .orbital-view {
+  width: 62px;
+  height: 62px;
+  background: url(../resources/images/small_electron_rings.png) no-repeat;
+  position: absolute;
+  top: 0px;
+  left: 20px;
 }
 
 
