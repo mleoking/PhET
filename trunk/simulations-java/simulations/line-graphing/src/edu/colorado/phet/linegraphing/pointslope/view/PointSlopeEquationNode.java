@@ -392,7 +392,8 @@ public class PointSlopeEquationNode extends EquationNode {
 
     // Creates a node that displays the general form of this equation.
     public static PNode createGeneralFormNode() {
-        String html = MessageFormat.format( "<html>({0} - {1}<small><sub>1</sub></small>) = {2}({3} - {4}<small><sub>1</sub></small>)</html>", /* (y - y1) = m(x - x1) */
+        //NOTE: <font> tag is deprecated in HTML4 and unsupported in HTML5. But as of Java 1.7, Swing (supposedly) implements a subset of HTML3.
+        String html = MessageFormat.format( "<html>({0} - {1}<font size='-1'><sub>1</sub></font>) = {2}({3} - {4}<font size='-1'><sub>1</sub></font>)</html>", /* (y - y1) = m(x - x1) */
                                             Strings.SYMBOL_Y, Strings.SYMBOL_Y, Strings.SYMBOL_SLOPE, Strings.SYMBOL_X, Strings.SYMBOL_X );
         return new HTMLNode( html, LGColors.INTERACTIVE_LINE, new PhetFont( Font.BOLD, 18 ) );
     }
