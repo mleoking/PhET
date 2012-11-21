@@ -19,12 +19,6 @@ define( [
 
             function FaradayStage( canvas, model ) {
 
-                // view-specific properties (have no model counterpart.)
-                this.magnetTransparent = new Property( false );
-                this.magnetTransparent.addObserver( function () {
-                    //TODO make "inside field" display object visible
-                } );
-
                 // stage
                 this.stage = new Easel.Stage( canvas );
                 this.stage.enableMouseOver();
@@ -35,27 +29,33 @@ define( [
                 background.graphics.rect( 0, 0, canvas.width, canvas.height );
 
                 // field
-                this.field = new FieldDisplay( model.field, model.mvt );
+                var field = new FieldDisplay( model.field, model.mvt );
 
                 // bar magnet
-                this.barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );
+                var barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );
 
                 // field inside magnet
+                this.magnetTransparent = new Property( false );
                 var fieldInside = new FieldInsideDisplay( model.barMagnet, model.mvt );
+                fieldInside.visible = this.magnetTransparent.get();
+                var that = this;
+                this.magnetTransparent.addObserver( function () {
+                    fieldInside.visible = that.magnetTransparent.get();
+                } );
 
                 // compass
-                this.compass = new CompassDisplay( model.compass, model.mvt );
+                var compass = new CompassDisplay( model.compass, model.mvt );
 
                 // field meter
-                this.meter = new FieldMeterDisplay( model.fieldMeter, model.mvt );
+                var meter = new FieldMeterDisplay( model.fieldMeter, model.mvt );
 
                 // rendering order
                 this.stage.addChild( background );
-                this.stage.addChild( this.field );
-                this.stage.addChild( this.barMagnet );
+                this.stage.addChild( field );
+                this.stage.addChild( barMagnet );
                 this.stage.addChild( fieldInside );
-                this.stage.addChild( this.compass );
-                this.stage.addChild( this.meter );
+                this.stage.addChild( compass );
+                this.stage.addChild( meter );
             }
 
             // Resets all view-specific properties
