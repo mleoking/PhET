@@ -12,28 +12,28 @@ define( [
         function ( Easel, Dimension2D, MathUtil, CompassNeedleDisplay ) {
 
             /**
-             * @param {BarMagnet} magnet
+             * @param {BarMagnet} barMagnet
              * @param {ModelViewTransform2D} mvt
              * @constructor
              */
-            function FieldInsideDisplay( magnet, mvt ) {
+            function FieldInsideDisplay( barMagnet, mvt ) {
 
                 // constructor stealing
                 Easel.Container.call( this );
 
-                // grid of needles, inside the magnet's bounds
+                // grid of needles, inside the barMagnet's bounds
                 {
                     var NEEDLE_SIZE = new Dimension2D( 25, 7 );
 
                     var ROWS = 2;
                     var COLUMNS = 7;
 
-                    var xDelta = magnet.size.width / ( COLUMNS + 1 );
-                    var xStart = -(magnet.size.width / 2) + xDelta; // left
+                    var xDelta = barMagnet.size.width / ( COLUMNS + 1 );
+                    var xStart = -(barMagnet.size.width / 2) + xDelta; // left
                     var xOffset = xStart;
 
-                    var yDelta = magnet.size.height / ROWS;
-                    var yStart = -(magnet.size.height / 2) + ( yDelta / 2 ); // top
+                    var yDelta = barMagnet.size.height / ROWS;
+                    var yStart = -(barMagnet.size.height / 2) + ( yDelta / 2 ); // top
                     var yOffset = yStart;
 
                     // populate top-to-bottom, left-to-right
@@ -56,7 +56,7 @@ define( [
                 var updateStrength = function( strength ) {
                     that.alpha = 1; //TODO alpha = strength/maxStrength
                 }
-                magnet.strength.addObserver( updateStrength );
+                barMagnet.strength.addObserver( updateStrength );
 
                 // @param {Point2D} location
                 var updateLocation = function( location ) {
@@ -64,18 +64,18 @@ define( [
                     that.x = p.x;
                     that.y = p.y;
                 };
-                magnet.location.addObserver( updateLocation );
+                barMagnet.location.addObserver( updateLocation );
 
                 // @param {Number} orientation in radians
                 var updateOrientation = function ( orientation ) {
                     that.rotation = MathUtil.toDegrees( orientation );
                 };
-                magnet.orientation.addObserver( updateOrientation );
+                barMagnet.orientation.addObserver( updateOrientation );
 
                 // update now
-                updateStrength( magnet.strength.get() );
-                updateLocation( magnet.location.get() );
-                updateOrientation( magnet.orientation.get() );
+                updateStrength( barMagnet.strength.get() );
+                updateLocation( barMagnet.location.get() );
+                updateOrientation( barMagnet.orientation.get() );
             }
 
             // prototype chaining
