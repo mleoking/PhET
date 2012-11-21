@@ -38,34 +38,39 @@ define( [
         root.addChild( electronShell );
 
         // Create and add the bucket holes where the idle particles will be kept.
-        var bucketWidth = 150;
-        var bucketHoleY = stageHeight * 0.75;
-        var neutronBucketHole = new BucketHole( stageWidth / 2, bucketHoleY, bucketWidth );
-        root.addChild( neutronBucketHole );
-        var protonBucketHole = new BucketHole( ( stageWidth - bucketWidth ) / 4, bucketHoleY, bucketWidth );
-        root.addChild( protonBucketHole );
-        var electronBucketHole = new BucketHole( stageWidth - (( stageWidth - bucketWidth ) / 4), bucketHoleY, bucketWidth );
-        root.addChild( electronBucketHole );
+        this.protonBucketHole = new BucketHole( model.protonBucket );
+        root.addChild( this.protonBucketHole );
+
+//        var bucketWidth = 150;
+//        var bucketHoleY = stageHeight * 0.75;
+//        var neutronBucketHole = new BucketHole( stageWidth / 2, bucketHoleY, bucketWidth );
+//        root.addChild( neutronBucketHole );
+//        var protonBucketHole = new BucketHole( ( stageWidth - bucketWidth ) / 4, bucketHoleY, bucketWidth );
+//        root.addChild( protonBucketHole );
+//        var electronBucketHole = new BucketHole( stageWidth - (( stageWidth - bucketWidth ) / 4), bucketHoleY, bucketWidth );
+//        root.addChild( electronBucketHole );
 
         // Create and add the particles.
-        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 30, protonBucketHole.y, "red", 15, "proton" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 60, protonBucketHole.y, "red", 15, "proton" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 90, protonBucketHole.y, "red", 15, "proton" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 120, protonBucketHole.y, "red", 15, "proton" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 30, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 60, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 90, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 120, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 120, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 30, electronBucketHole.y, "blue", 8, "electron" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 60, electronBucketHole.y, "blue", 8, "electron" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 90, electronBucketHole.y, "blue", 8, "electron" ) ) );
-        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 120, electronBucketHole.y, "blue", 8, "electron" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 30, protonBucketHole.y, "red", 15, "proton" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 60, protonBucketHole.y, "red", 15, "proton" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 90, protonBucketHole.y, "red", 15, "proton" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 120, protonBucketHole.y, "red", 15, "proton" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 30, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 60, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 90, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 120, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 120, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 30, electronBucketHole.y, "blue", 8, "electron" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 60, electronBucketHole.y, "blue", 8, "electron" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 90, electronBucketHole.y, "blue", 8, "electron" ) ) );
+//        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 120, electronBucketHole.y, "blue", 8, "electron" ) ) );
+//
+//        // Add the bucket fronts.
+        var protonBucketFront = new BucketFront( model.protonBucket );
+        root.addChild( new BucketFront( protonBucketFront ) );
 
-        // Add the bucket fronts.
-        root.addChild( new BucketFront( protonBucketHole.centerX, protonBucketHole.centerY, bucketWidth, "Protons" ) );
-        root.addChild( new BucketFront( neutronBucketHole.centerX, neutronBucketHole.centerY, bucketWidth, "Neutrons" ) );
-        root.addChild( new BucketFront( electronBucketHole.centerX, electronBucketHole.centerY, bucketWidth, "Electrons" ) );
+//        root.addChild( new BucketFront( neutronBucketHole.centerX, neutronBucketHole.centerY, bucketWidth, "Neutrons" ) );
+//        root.addChild( new BucketFront( electronBucketHole.centerX, electronBucketHole.centerY, bucketWidth, "Electrons" ) );
 
         // Initial stage update.  TODO: Is this needed?
         this.stage.update();
@@ -104,14 +109,14 @@ define( [
 
             // set the canvas size
             buildAnAtomCanvas.attr( {
-                                 width:~~canvasW,
-                                 height:~~canvasH
-                             } );
+                                        width:~~canvasW,
+                                        height:~~canvasH
+                                    } );
 
             // center the canvas in its parent container
             buildAnAtomCanvas.css( {
-                                marginLeft:(container.width() - ~~canvasW) / 2
-                            } );
+                                       marginLeft:(container.width() - ~~canvasW) / 2
+                                   } );
 
             root.scaleX = root.scaleY = scale;
             self.stage.update();
