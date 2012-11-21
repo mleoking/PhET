@@ -1,3 +1,4 @@
+11/20/12 scoping bug fix in FieldInsideDisplay
 11/20/12 add visualization of field inside magnet
 11/20/12 apply default IntelliJ formatting throughout
 11/20/12 implement control panel using static connection method
