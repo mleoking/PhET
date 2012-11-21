@@ -45,7 +45,7 @@ define( [
                     var indicator = new Easel.Shape();
                     indicator.graphics.beginFill( 'black' );
                     indicator.graphics.setStrokeStyle( 0 );
-                    indicator.graphics.drawCircle( vector.getX(), vector.getY(), 3 );
+                    indicator.graphics.drawCircle( vector.x, vector.y, 3 );
                     this.addChild( indicator );
 
                     angle += 45;

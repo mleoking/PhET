@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Immutable 2D vector.
+ * 2D vector.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -14,26 +14,23 @@ define( [],
              * @constructor
              */
             function Vector( x, y ) {
-
-                // Cartesian coordinates
-                this.getX = function () {
-                    return x;
-                };
-                this.getY = function () {
-                    return y;
-                };
-
-                // Polar coordinates
-                this.getAngle = function () {
-                    return Math.atan2( y, x );
-                };
-                this.getMagnitude = function () {
-                    return Math.sqrt( x * x + y * y );
-                };
+                this.x = x;
+                this.y = y;
             }
 
+            // @return {Number}
+            Vector.prototype.getAngle = function () {
+                return Math.atan2( this.y, this.x );
+            };
+
+            // @return {Number}
+            Vector.prototype.getMagnitude = function () {
+                return Math.sqrt( this.x * this.x + this.y * this.y );
+            };
+
+            // @return {Number}
             Vector.prototype.toString = function () {
-                return "[Vector (x=" + this.getX() + " y=" + this.getY() + ")]";
+                return "[Vector (x=" + this.x + " y=" + this.y + ")]";
             };
 
             /**
