@@ -21,18 +21,9 @@ define( [
                 // constructor stealing
                 Easel.Container.call( this );
 
-                // parent container for needles
-                var needlesContainer = new Easel.Container();
-                this.addChild( needlesContainer );
-
-                var NEEDLE_SIZE = new Dimension2D( 25, 7 );
-
-                var that = this;
-
-                // @param {Number} strength
-                var updateStrength = function ( strength ) {
-
-                    needlesContainer.removeAllChildren();
+                // grid of needles, inside the magnet's bounds
+                {
+                    var NEEDLE_SIZE = new Dimension2D( 25, 7 );
 
                     var ROWS = 2;
                     var COLUMNS = 7;
@@ -42,23 +33,29 @@ define( [
                     var xOffset = xStart;
 
                     var yDelta = magnet.size.height / ROWS;
-                    var yStart = -(magnet.size.height / 2) + ( yDelta/2 ); // top
+                    var yStart = -(magnet.size.height / 2) + ( yDelta / 2 ); // top
                     var yOffset = yStart;
 
                     // populate top-to-bottom, left-to-right
                     for ( var row = 0; row < ROWS; row++ ) {
                         xOffset = xStart;
                         for ( var column = 0; column < COLUMNS; column++ ) {
-                            var alpha = 1;  //TODO alpha = strength/maxStrength
-                            var needle = new CompassNeedleDisplay( NEEDLE_SIZE, 0, alpha );
+                            var needle = new CompassNeedleDisplay( NEEDLE_SIZE, 0, 1 );
                             needle.x = xOffset;
                             needle.y = yOffset;
-                            needlesContainer.addChild( needle );
+                            this.addChild( needle );
                             xOffset += xDelta;
                         }
                         yOffset += yDelta;
                     }
-                };
+                }
+
+                var that = this;
+
+                // @param {Number} strength
+                var updateStrength = function( strength ) {
+                    that.alpha = 1; //TODO alpha = strength/maxStrength
+                }
                 magnet.strength.addObserver( updateStrength );
 
                 // @param {Point2D} location
