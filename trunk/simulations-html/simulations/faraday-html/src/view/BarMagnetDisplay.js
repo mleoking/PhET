@@ -14,61 +14,64 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel',
-          'common/MathUtil',
-          'view/DragHandler',
-          'image!resources/images/barMagnet.png'
+define( [
+            'easel',
+            'common/MathUtil',
+            'view/DragHandler',
+            'image!resources/images/barMagnet.png'
         ],
         function ( Easel, MathUtil, DragHandler, barMagnetImage ) {
 
-    /**
-     * @class BarMagnetDisplay
-     * @constructor
-     * @param {BarMagnet} barMagnet
-     * @param {ModelViewTransform} mvt
-     */
-    function BarMagnetDisplay( barMagnet, mvt ) {
+            /**
+             * @class BarMagnetDisplay
+             * @constructor
+             * @param {BarMagnet} barMagnet
+             * @param {ModelViewTransform} mvt
+             */
+            function BarMagnetDisplay( barMagnet, mvt ) {
 
-        // Use constructor stealing to inherit instance properties.
-        Easel.Bitmap.call( this, barMagnetImage );
+                // Use constructor stealing to inherit instance properties.
+                Easel.Bitmap.call( this, barMagnetImage );
 
-        // Compute scale factors to match model.
-        this.scaleX = mvt.modelToViewScalar( barMagnet.size.width ) / this.image.width;
-        this.scaleY = mvt.modelToViewScalar( barMagnet.size.height ) / this.image.height;
+                // Compute scale factors to match model.
+                this.scaleX = mvt.modelToViewScalar( barMagnet.size.width ) / this.image.width;
+                this.scaleY = mvt.modelToViewScalar( barMagnet.size.height ) / this.image.height;
 
-        // Move registration point to the center.
-        this.regX = this.image.width / 2;
-        this.regY = this.image.height / 2;
+                // Move registration point to the center.
+                this.regX = this.image.width / 2;
+                this.regY = this.image.height / 2;
 
-        // Dragging.
-        DragHandler.register( this, function( point ) {
-            barMagnet.location.set( mvt.viewToModel( point ) );
-        });
+                // Dragging.
+                DragHandler.register( this, function ( point ) {
+                    barMagnet.location.set( mvt.viewToModel( point ) );
+                } );
 
-        // Register for synchronization with model.
-        var thisDisplayObject = this;
+                // Register for synchronization with model.
+                var thisDisplayObject = this;
 
-        // @param {Point} location
-        function updateLocation( location ) {
-            var point = mvt.modelToView( location );
-            thisDisplayObject.x = point.x;
-            thisDisplayObject.y = point.y;
-        }
-        barMagnet.location.addObserver( updateLocation );
+                // @param {Point} location
+                function updateLocation( location ) {
+                    var point = mvt.modelToView( location );
+                    thisDisplayObject.x = point.x;
+                    thisDisplayObject.y = point.y;
+                }
 
-        // @param {Number} orientation in radians
-        function updateOrientation( orientation ) {
-            thisDisplayObject.rotation = MathUtil.toDegrees( orientation );
-        }
-        barMagnet.orientation.addObserver( updateOrientation );
+                barMagnet.location.addObserver( updateLocation );
 
-        // sync now
-        updateLocation( barMagnet.location.get() );
-        updateOrientation( barMagnet.orientation.get() );
-    }
+                // @param {Number} orientation in radians
+                function updateOrientation( orientation ) {
+                    thisDisplayObject.rotation = MathUtil.toDegrees( orientation );
+                }
 
-    // Use prototype chaining to inherit properties and methods on the prototype.
-    BarMagnetDisplay.prototype = new Easel.Bitmap();
+                barMagnet.orientation.addObserver( updateOrientation );
 
-    return BarMagnetDisplay;
-} );
+                // sync now
+                updateLocation( barMagnet.location.get() );
+                updateOrientation( barMagnet.orientation.get() );
+            }
+
+            // Use prototype chaining to inherit properties and methods on the prototype.
+            BarMagnetDisplay.prototype = new Easel.Bitmap();
+
+            return BarMagnetDisplay;
+        } );

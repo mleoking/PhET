@@ -1,3 +1,4 @@
+11/20/12 apply default IntelliJ formatting throughout
 11/20/12 implement control panel using static connection method
 11/20/12 fix: account for magnet orientation when computing b-field vector
 11/20/12 update compass orientation when magnet orientation changes

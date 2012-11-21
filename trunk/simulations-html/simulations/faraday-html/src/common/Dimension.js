@@ -5,17 +5,18 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [], function () {
+define( [],
+        function () {
 
-    /**
-     * @constructor
-     * @param {Number} width
-     * @param {Number} height
-     */
-    function Dimension( width, height ) {
-        this.width = width;
-        this.height = height;
-    }
+            /**
+             * @constructor
+             * @param {Number} width
+             * @param {Number} height
+             */
+            function Dimension( width, height ) {
+                this.width = width;
+                this.height = height;
+            }
 
-    return Dimension;
-} );
+            return Dimension;
+        } );

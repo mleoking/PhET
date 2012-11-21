@@ -5,104 +5,105 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel',
-          'common/MathUtil',
-          'view/DragHandler',
-          'image!resources/images/fieldMeter.png'
+define( [
+            'easel',
+            'common/MathUtil',
+            'view/DragHandler',
+            'image!resources/images/fieldMeter.png'
         ],
-        function( Easel, MathUtil, DragHandler, fieldMeterImage ) {
+        function ( Easel, MathUtil, DragHandler, fieldMeterImage ) {
 
-    /**
-     * @param {FieldMeter} fieldMeter
-     * @param {ModelViewTransform} mvt
-     * @constructor
-     */
-    function FieldMeterDisplay( fieldMeter, mvt ) {
+            /**
+             * @param {FieldMeter} fieldMeter
+             * @param {ModelViewTransform} mvt
+             * @constructor
+             */
+            function FieldMeterDisplay( fieldMeter, mvt ) {
 
-        // constructor stealing
-        Easel.Container.call( this );
+                // constructor stealing
+                Easel.Container.call( this );
 
-        // meter body
-        var meter = new Easel.Bitmap( fieldMeterImage );
-        // Move registration point to the center of probe crosshairs.
-        this.regX = meter.image.width / 2;
-        this.regY = 28; // manually measured in image file
+                // meter body
+                var meter = new Easel.Bitmap( fieldMeterImage );
+                // Move registration point to the center of probe crosshairs.
+                this.regX = meter.image.width / 2;
+                this.regY = 28; // manually measured in image file
 
-        // 4 values
-        var TEXT_FONT = "18px Arial";
-        var TEXT_COLOR = 'white';
-        var magnitudeText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
-        var xText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
-        var yText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
-        var angleText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
+                // 4 values
+                var TEXT_FONT = "18px Arial";
+                var TEXT_COLOR = 'white';
+                var magnitudeText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
+                var xText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
+                var yText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
+                var angleText = new Easel.Text( "?", TEXT_FONT, TEXT_COLOR );
 
-        // rendering order
-        this.addChild( meter );
-        this.addChild( magnitudeText );
-        this.addChild( xText );
-        this.addChild( yText );
-        this.addChild( angleText );
+                // rendering order
+                this.addChild( meter );
+                this.addChild( magnitudeText );
+                this.addChild( xText );
+                this.addChild( yText );
+                this.addChild( angleText );
 
-        // layout
-        var TEXT_X = 55;
-        var textY = 104;
-        var TEXT_Y_DELTA = 23;
-        magnitudeText.x = TEXT_X;
-        magnitudeText.y = textY;
-        textY += TEXT_Y_DELTA;
-        xText.x = TEXT_X;
-        xText.y = textY;
-        textY += TEXT_Y_DELTA;
-        yText.x = TEXT_X;
-        yText.y = textY;
-        textY += TEXT_Y_DELTA;
-        angleText.x = TEXT_X;
-        angleText.y = textY;
+                // layout
+                var TEXT_X = 55;
+                var textY = 104;
+                var TEXT_Y_DELTA = 23;
+                magnitudeText.x = TEXT_X;
+                magnitudeText.y = textY;
+                textY += TEXT_Y_DELTA;
+                xText.x = TEXT_X;
+                xText.y = textY;
+                textY += TEXT_Y_DELTA;
+                yText.x = TEXT_X;
+                yText.y = textY;
+                textY += TEXT_Y_DELTA;
+                angleText.x = TEXT_X;
+                angleText.y = textY;
 
-        // Dragging.
-        DragHandler.register( this, function ( point ) {
-            fieldMeter.location.set( mvt.viewToModel( point ) );
+                // Dragging.
+                DragHandler.register( this, function ( point ) {
+                    fieldMeter.location.set( mvt.viewToModel( point ) );
+                } );
+
+                // Register for synchronization with model.
+                var thisInstance = this;
+
+                // @param {Point} location
+                function updateLocation( location ) {
+                    var point = mvt.modelToView( location );
+                    thisInstance.x = point.x;
+                    thisInstance.y = point.y;
+                }
+
+                fieldMeter.location.addObserver( updateLocation );
+
+                // @param {Boolean} location
+                function updateVisibility( visible ) {
+                    thisInstance.visible = visible;
+                }
+
+                fieldMeter.visible.addObserver( updateVisibility );
+
+                // @param {Vector} value
+                function updateValues( value ) {
+                    var NUMBER_OF_DECIMALS = 2;
+                    magnitudeText.text = value.getMagnitude().toFixed( NUMBER_OF_DECIMALS );
+                    xText.text = value.getX().toFixed( NUMBER_OF_DECIMALS );
+                    yText.text = value.getY().toFixed( NUMBER_OF_DECIMALS );
+                    angleText.text = MathUtil.toDegrees( value.getAngle() ).toFixed( NUMBER_OF_DECIMALS );
+                }
+
+                fieldMeter.value.addObserver( updateValues );
+
+
+                // sync now
+                updateLocation( fieldMeter.location.get() );
+                updateVisibility( fieldMeter.visible.get() );
+                updateValues( fieldMeter.value.get() );
+            }
+
+            // prototype chaining
+            FieldMeterDisplay.prototype = new Easel.Container();
+
+            return FieldMeterDisplay;
         } );
-
-        // Register for synchronization with model.
-        var thisInstance = this;
-
-        // @param {Point} location
-        function updateLocation( location ) {
-            var point = mvt.modelToView( location );
-            thisInstance.x = point.x;
-            thisInstance.y = point.y;
-        }
-
-        fieldMeter.location.addObserver( updateLocation );
-
-        // @param {Boolean} location
-        function updateVisibility( visible ) {
-            thisInstance.visible = visible;
-        }
-
-        fieldMeter.visible.addObserver( updateVisibility );
-
-        // @param {Vector} value
-        function updateValues( value ) {
-            var NUMBER_OF_DECIMALS = 2;
-            magnitudeText.text = value.getMagnitude().toFixed( NUMBER_OF_DECIMALS );
-            xText.text = value.getX().toFixed( NUMBER_OF_DECIMALS );
-            yText.text = value.getY().toFixed( NUMBER_OF_DECIMALS );
-            angleText.text = MathUtil.toDegrees( value.getAngle() ).toFixed( NUMBER_OF_DECIMALS );
-        }
-
-        fieldMeter.value.addObserver( updateValues );
-
-
-        // sync now
-        updateLocation( fieldMeter.location.get() );
-        updateVisibility( fieldMeter.visible.get() );
-        updateValues( fieldMeter.value.get() );
-    }
-
-    // prototype chaining
-    FieldMeterDisplay.prototype = new Easel.Container();
-
-    return FieldMeterDisplay;
-} );

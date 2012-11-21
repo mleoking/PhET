@@ -5,97 +5,101 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel',
-          'common/MathUtil',
-          'common/Vector',
-          'view/CompassNeedleDisplay',
-          'view/DragHandler'
+define( [
+            'easel',
+            'common/MathUtil',
+            'common/Vector',
+            'view/CompassNeedleDisplay',
+            'view/DragHandler'
         ],
-        function( Easel, MathUtil, Vector, CompassNeedleDisplay, DragHandler ) {
+        function ( Easel, MathUtil, Vector, CompassNeedleDisplay, DragHandler ) {
 
-    /**
-     * @param {Compass} compass
-     * @param {ModelViewTransform} mvt
-     * @constructor
-     */
-    function CompassDisplay( compass, mvt ) {
+            /**
+             * @param {Compass} compass
+             * @param {ModelViewTransform} mvt
+             * @constructor
+             */
+            function CompassDisplay( compass, mvt ) {
 
-        // constructor stealing
-        Easel.Container.call( this );
+                // constructor stealing
+                Easel.Container.call( this );
 
-        var outsideRadius = 40;
-        var ringThickness = 10;
+                var outsideRadius = 40;
+                var ringThickness = 10;
 
-        // ring
-        var ring = new Easel.Shape();
-        ring.graphics.beginFill( Easel.Graphics.getRGB( 0, 0, 0, 0.05 ) ); // transparent
-        ring.graphics.setStrokeStyle( ringThickness );
-        ring.graphics.beginStroke( Easel.Graphics.getRGB( 153, 153, 153) ); // gray
-        ring.graphics.drawCircle( 0, 0, outsideRadius - ( ringThickness / 2 ) );
-        this.addChild( ring );
+                // ring
+                var ring = new Easel.Shape();
+                ring.graphics.beginFill( Easel.Graphics.getRGB( 0, 0, 0, 0.05 ) ); // transparent
+                ring.graphics.setStrokeStyle( ringThickness );
+                ring.graphics.beginStroke( Easel.Graphics.getRGB( 153, 153, 153 ) ); // gray
+                ring.graphics.drawCircle( 0, 0, outsideRadius - ( ringThickness / 2 ) );
+                this.addChild( ring );
 
-        // indicators on the ring
-        var angle = 0;
-        while ( angle < 360 ) {
+                // indicators on the ring
+                var angle = 0;
+                while ( angle < 360 ) {
 
-            var vector = Vector.createPolar( outsideRadius - ( ringThickness / 2 ), MathUtil.toRadians( angle ) );
+                    var vector = Vector.createPolar( outsideRadius - ( ringThickness / 2 ), MathUtil.toRadians( angle ) );
 
-            var indicator = new Easel.Shape();
-            indicator.graphics.beginFill( 'black' );
-            indicator.graphics.setStrokeStyle( 0 );
-            indicator.graphics.drawCircle( vector.getX(), vector.getY(), 3 );
-            this.addChild( indicator );
+                    var indicator = new Easel.Shape();
+                    indicator.graphics.beginFill( 'black' );
+                    indicator.graphics.setStrokeStyle( 0 );
+                    indicator.graphics.drawCircle( vector.getX(), vector.getY(), 3 );
+                    this.addChild( indicator );
 
-            angle += 45;
-        }
+                    angle += 45;
+                }
 
-        // needle
-        var needle = new CompassNeedleDisplay( 0, 1 );
-        this.addChild( needle );
+                // needle
+                var needle = new CompassNeedleDisplay( 0, 1 );
+                this.addChild( needle );
 
-        // center pin
-        var pin = new Easel.Shape();
-        pin.graphics.beginFill( 'black' );
-        pin.graphics.setStrokeStyle( 0 );
-        pin.graphics.drawCircle( 0, 0, 3 );
-        this.addChild( pin );
+                // center pin
+                var pin = new Easel.Shape();
+                pin.graphics.beginFill( 'black' );
+                pin.graphics.setStrokeStyle( 0 );
+                pin.graphics.drawCircle( 0, 0, 3 );
+                this.addChild( pin );
 
-        // Dragging.
-        DragHandler.register( this, function( point ) {
-            compass.location.set( mvt.viewToModel( point ) );
-        });
+                // Dragging.
+                DragHandler.register( this, function ( point ) {
+                    compass.location.set( mvt.viewToModel( point ) );
+                } );
 
-        // Register for synchronization with model.
-        var thisDisplayObject = this;
+                // Register for synchronization with model.
+                var thisDisplayObject = this;
 
-        // @param {Point} location
-        function updateLocation( location ) {
-            var point = mvt.modelToView( location );
-            thisDisplayObject.x = point.x;
-            thisDisplayObject.y = point.y;
-        }
-        compass.location.addObserver( updateLocation );
+                // @param {Point} location
+                function updateLocation( location ) {
+                    var point = mvt.modelToView( location );
+                    thisDisplayObject.x = point.x;
+                    thisDisplayObject.y = point.y;
+                }
 
-        // @param {Number} orientation
-        function updateOrientation( orientation ) {
-            needle.rotation = MathUtil.toDegrees( compass.orientation.get() );
-        }
-        compass.orientation.addObserver( updateOrientation );
+                compass.location.addObserver( updateLocation );
 
-        // @param {Boolean} visible
-        function updateVisibility( visible ) {
-            thisDisplayObject.visible = visible;
-        }
-        compass.visible.addObserver( updateVisibility );
+                // @param {Number} orientation
+                function updateOrientation( orientation ) {
+                    needle.rotation = MathUtil.toDegrees( compass.orientation.get() );
+                }
 
-        // sync now
-        updateLocation( compass.location.get() );
-        updateOrientation( compass.orientation.get() );
-        updateVisibility( compass.visible.get() );
-    }
+                compass.orientation.addObserver( updateOrientation );
 
-    // prototype chaining
-    CompassDisplay.prototype = new Easel.Container();
+                // @param {Boolean} visible
+                function updateVisibility( visible ) {
+                    thisDisplayObject.visible = visible;
+                }
 
-    return CompassDisplay;
-} );
+                compass.visible.addObserver( updateVisibility );
+
+                // sync now
+                updateLocation( compass.location.get() );
+                updateOrientation( compass.orientation.get() );
+                updateVisibility( compass.visible.get() );
+            }
+
+            // prototype chaining
+            CompassDisplay.prototype = new Easel.Container();
+
+            return CompassDisplay;
+        } );
