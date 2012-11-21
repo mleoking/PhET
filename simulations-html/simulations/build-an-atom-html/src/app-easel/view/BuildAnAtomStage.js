@@ -67,7 +67,7 @@ define( [
 //
 //        // Add the bucket fronts.
         var protonBucketFront = new BucketFront( model.protonBucket );
-        root.addChild( new BucketFront( protonBucketFront ) );
+        root.addChild( protonBucketFront );
 
 //        root.addChild( new BucketFront( neutronBucketHole.centerX, neutronBucketHole.centerY, bucketWidth, "Neutrons" ) );
 //        root.addChild( new BucketFront( electronBucketHole.centerX, electronBucketHole.centerY, bucketWidth, "Electrons" ) );
