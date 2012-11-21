@@ -10,12 +10,13 @@ define( [
             'common/Logger',
             'common/ModelViewTransform2D',
             'common/Point2D',
+            'common/Range',
             'model/BarMagnet',
             'model/Compass',
             'model/Field',
             'model/FieldMeter'
         ],
-        function ( Dimension2D, Logger, ModelViewTransform2D, Point2D, BarMagnet, Compass, Field, FieldMeter ) {
+        function ( Dimension2D, Logger, ModelViewTransform2D, Point2D, Range, BarMagnet, Compass, Field, FieldMeter ) {
 
             function FaradayModel( canvasWidth, canvasHeight ) {
 
@@ -27,7 +28,7 @@ define( [
                 this.mvt = new ModelViewTransform2D( MVT_SCALE, MVT_OFFSET );
 
                 // model elements
-                this.barMagnet = new BarMagnet( new Point2D( 0, 0 ), new Dimension2D( 250, 50 ), 150, 0 );
+                this.barMagnet = new BarMagnet( new Point2D( 0, 0 ), new Dimension2D( 250, 50 ), 150, new Range( 0, 300 ), 0 );
                 this.field = new Field( true, this.barMagnet );
                 this.fieldMeter = new FieldMeter( new Point2D( -275, 100 ), true, this.barMagnet );
                 this.compass = new Compass( new Point2D( -275, -100 ), true, this.barMagnet );

@@ -54,7 +54,7 @@ define( [
 
                 // @param {Number} strength
                 var updateStrength = function( strength ) {
-                    that.alpha = 1; //TODO alpha = strength/maxStrength
+                    that.alpha = strength / barMagnet.strengthRange.max;
                 }
                 barMagnet.strength.addObserver( updateStrength );
 

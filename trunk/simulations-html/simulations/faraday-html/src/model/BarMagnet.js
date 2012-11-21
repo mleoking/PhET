@@ -14,9 +14,10 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector2D' ],
              * @param {Point2D} location
              * @param {Dimension2D} size
              * @param {Number} strength in Gauss
+             * @param {Range} strengthRange in Gauss
              * @param {Number} orientation in radians
              */
-            function BarMagnet( location, size, strength, orientation ) {
+            function BarMagnet( location, size, strength, strengthRange, orientation ) {
 
                 var logger = new Logger( "BarMagnet" ); // logger for this source file
 
@@ -24,6 +25,7 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector2D' ],
                 this.location = new Property( location );
                 this.size = size;
                 this.strength = new Property( strength );
+                this.strengthRange = strengthRange;
                 this.orientation = new Property( orientation );
 
                 // Debugging output
