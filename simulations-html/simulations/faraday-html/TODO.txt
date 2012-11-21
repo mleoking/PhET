@@ -3,7 +3,7 @@ TODO list for faraday-html
 Features:
 - faraday-html.iml
 - "Strength" slider (jquery?)
-- magnetic field model and view
+- magnetic field view
 - compass kinematics
 - compass/magnet collision detection
 - add optional 3rd param to DragHandler to constrain bounds (SR request)
