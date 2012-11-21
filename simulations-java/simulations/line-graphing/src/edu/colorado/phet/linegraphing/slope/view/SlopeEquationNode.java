@@ -344,7 +344,8 @@ public class SlopeEquationNode extends EquationNode {
         PNode leftSideNode = new HTMLNode( htmlLeftSide, color, font );
 
         // y2 - y1
-        String pattern = "<html>{0}<small><sub>2</sub></small> - {1}<small><sub>1</sub></small></html>"; // same for numerator and denominator
+        //NOTE: <font> tag is deprecated in HTML4 and unsupported in HTML5. But as of Java 1.7, Swing (supposedly) implements a subset of HTML3.
+        String pattern = "<html>{0}<font size='-1'><sub>2</sub></font> - {1}<font size='-1'><sub>1</sub></font></html>"; // same for numerator and denominator
         String htmlNumerator = MessageFormat.format( pattern, Strings.SYMBOL_Y, Strings.SYMBOL_Y );
         PNode numeratorNode = new HTMLNode( htmlNumerator, color, font );
 
