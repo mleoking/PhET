@@ -16,11 +16,11 @@
  */
 define( [
             'easel',
+            'common/DragHandler',
             'common/MathUtil',
-            'view/DragHandler',
             'image!resources/images/barMagnet.png'
         ],
-        function ( Easel, MathUtil, DragHandler, barMagnetImage ) {
+        function ( Easel, DragHandler, MathUtil, barMagnetImage ) {
 
             /**
              * @class BarMagnetDisplay

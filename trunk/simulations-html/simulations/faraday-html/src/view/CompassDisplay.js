@@ -8,12 +8,12 @@
 define( [
             'easel',
             'common/Dimension2D',
+            'common/DragHandler',
             'common/MathUtil',
             'common/Vector2D',
-            'view/CompassNeedleDisplay',
-            'view/DragHandler'
+            'view/CompassNeedleDisplay'
         ],
-        function ( Easel, Dimension2D, MathUtil, Vector2D, CompassNeedleDisplay, DragHandler ) {
+        function ( Easel, Dimension2D, DragHandler, MathUtil, Vector2D, CompassNeedleDisplay ) {
 
             /**
              * @param {Compass} compass
