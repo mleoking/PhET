@@ -6,11 +6,11 @@ require( [
              'model/BuildAnAtomModel',
              'view/symbol-view',
              'view/mass-number-view',
-             'tpl!templates/periodic-table'
+             'tpl!templates/periodic-table.html'
          ], function ( _, Easel, BuildAnAtomStage, BuildAnAtomModel, SymbolView, MassNumberView, periodicTable ) {
 
     var buildAnAtomModel = new BuildAnAtomModel();
-    var buildAnAtomStage = new BuildAnAtomStage( document.getElementById( 'atom-construction-canvas' ) );
+    var buildAnAtomStage = new BuildAnAtomStage( document.getElementById( 'atom-construction-canvas' ), buildAnAtomModel );
 
     $( document ).ready( function () {
 

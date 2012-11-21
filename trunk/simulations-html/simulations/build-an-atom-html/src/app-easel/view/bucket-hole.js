@@ -4,25 +4,26 @@ define([
   'easel'
 ], function ( _, Easel ) {
 
-    var BucketHole = function ( centerX, centerY, width ) {
+    var BucketHole = function ( bucket ) {
         Easel.Container.prototype.initialize.call(this);
-        this.initialize( centerX, centerY, width );
+        this.bucket = bucket;
+        this.initialize();
     };
 
     var p = BucketHole.prototype;
-
     _.extend(p, Easel.Container.prototype);
 
-    p.initialize = function ( centerX, centerY, width ) {
-        var bucketHoleHeight = width * 0.2;
+    p.initialize = function () {
+        var width = this.bucket.width;
+        var height = width * 0.2;
+        var centerX = this.bucket.x;
+        var centerY = this.bucket.y;
         var shape = new Easel.Shape();
-        shape.graphics.beginStroke( "black" ).beginFill( "black" ).setStrokeStyle( 2 ).drawEllipse( 0, 0, width, bucketHoleHeight ).endStroke().endFill();
+        shape.graphics.beginStroke( "black" ).beginFill( "black" ).setStrokeStyle( 2 ).drawEllipse( 0, 0, width, height ).endStroke().endFill();
         this.addChild( shape );
 
         this.x = centerX - width / 2;
-        this.y = centerY - bucketHoleHeight / 2;
-        this.centerX = centerX;
-        this.centerY = centerY;
+        this.y = centerY - height / 2;
     };
 
     return BucketHole;
