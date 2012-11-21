@@ -5,8 +5,8 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/Logger', 'common/Property', 'common/Vector' ],
-        function ( Logger, Property, Vector ) {
+define( [ 'common/Logger', 'common/Property', 'common/Vector2D' ],
+        function ( Logger, Property, Vector2D ) {
 
             /**
              * @class BarMagnet
@@ -67,19 +67,19 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector' ],
              * See BarMagnet.java in simulations-java/faraday for details.
              *
              * @param {Point2D} point
-             * @return {Vector}
+             * @return {Vector2D}
              */
             BarMagnet.prototype.getFieldVector = function ( point ) {
                 if ( this.contains( point ) ) {
                     // field is the same everywhere inside the magnet
-                    return Vector.createPolar( this.strength.get(), this.orientation.get() );
+                    return Vector2D.createPolar( this.strength.get(), this.orientation.get() );
                 }
                 else {
                     //TODO implement simple dipole model (see pg 3 of faraday-notes-2005.pdf)
-                    var v = new Vector( this.location.get().x - point.x, this.location.get().y - point.y );
+                    var v = new Vector2D( this.location.get().x - point.x, this.location.get().y - point.y );
                     var magnitude = this.strength.get() / ( 2 * v.getMagnitude() );
                     var angle = v.getAngle() + this.orientation.get();
-                    return Vector.createPolar( magnitude, angle );
+                    return Vector2D.createPolar( magnitude, angle );
                 }
             };
 

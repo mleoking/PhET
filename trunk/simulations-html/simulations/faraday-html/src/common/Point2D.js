@@ -1,5 +1,5 @@
 /**
- * 2D vector.
+ * 2D point.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
@@ -15,6 +15,11 @@ define( [],
                 this.x = x;
                 this.y = y;
             }
+
+            // @return {String}
+            Point2D.prototype.toString = function () {
+                return "[Point2D (x=" + this.x + " y=" + this.y + ")]";
+            };
 
             return Point2D;
         } );
