@@ -20,3 +20,4 @@ General:
 - i18n
 - data collection
 - test with all browsers
+- doc conventions/tools for js (JSDoc?)

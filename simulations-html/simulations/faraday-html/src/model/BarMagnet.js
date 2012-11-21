@@ -11,7 +11,7 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector' ],
             /**
              * @class BarMagnet
              * @constructor
-             * @param {Point} location
+             * @param {Point2D} location
              * @param {Dimension} size
              * @param {Number} strength in Gauss
              * @param {Number} orientation in radians
@@ -50,7 +50,7 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector' ],
             /**
              * Determines whether a point is inside the magnet.
              *
-             * @param {Point} point
+             * @param {Point2D} point
              * @return {Boolean}
              */
             BarMagnet.prototype.contains = function ( point ) {
@@ -66,7 +66,7 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector' ],
              * It was not feasible to implement a numerical model directly, as it relies on double integrals.
              * See BarMagnet.java in simulations-java/faraday for details.
              *
-             * @param {Point} point
+             * @param {Point2D} point
              * @return {Vector}
              */
             BarMagnet.prototype.getFieldVector = function ( point ) {

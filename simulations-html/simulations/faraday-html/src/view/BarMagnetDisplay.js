@@ -41,7 +41,7 @@ define( [
                 this.regX = this.image.width / 2;
                 this.regY = this.image.height / 2;
 
-                // Dragging.
+                // @param {Point2D} point
                 DragHandler.register( this, function ( point ) {
                     barMagnet.location.set( mvt.viewToModel( point ) );
                 } );
@@ -49,7 +49,7 @@ define( [
                 // Register for synchronization with model.
                 var thisDisplayObject = this;
 
-                // @param {Point} location
+                // @param {Point2D} location
                 function updateLocation( location ) {
                     var point = mvt.modelToView( location );
                     thisDisplayObject.x = point.x;

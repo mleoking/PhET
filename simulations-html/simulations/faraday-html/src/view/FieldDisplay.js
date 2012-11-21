@@ -5,8 +5,8 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel' ],
-        function ( Easel ) {
+define( [ 'easel', 'common/Point2D' ],
+        function ( Easel, Point2D ) {
 
             /**
              * @param {Field} field
@@ -21,7 +21,7 @@ define( [ 'easel' ],
                 this.textBaseline = 'middle';
 
                 // move to the origin
-                var point = mvt.modelToView( new Easel.Point( 0, 0 ) );
+                var point = mvt.modelToView( new Point2D( 0, 0 ) );
                 this.x = point.x;
                 this.y = point.y;
 
