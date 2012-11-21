@@ -1,3 +1,4 @@
+11/21/12 replace Easel.Point with Point2D
 11/21/12 make Vector mutable
 11/20/12 scoping bug fix in FieldInsideDisplay
 11/20/12 add visualization of field inside magnet

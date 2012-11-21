@@ -61,7 +61,7 @@ define( [
                 };
                 magnet.strength.addObserver( updateStrength );
 
-                // @param {Point} location
+                // @param {Point2D} location
                 var updateLocation = function( location ) {
                     var p = mvt.modelToView( location );
                     that.x = p.x;

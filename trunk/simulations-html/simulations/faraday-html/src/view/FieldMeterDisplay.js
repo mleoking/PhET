@@ -60,7 +60,7 @@ define( [
                 angleText.x = TEXT_X;
                 angleText.y = textY;
 
-                // Dragging.
+                // @param {Point2D} point
                 DragHandler.register( this, function ( point ) {
                     fieldMeter.location.set( mvt.viewToModel( point ) );
                 } );
@@ -68,7 +68,7 @@ define( [
                 // Register for synchronization with model.
                 var thisInstance = this;
 
-                // @param {Point} location
+                // @param {Point2D} location
                 function updateLocation( location ) {
                     var point = mvt.modelToView( location );
                     thisInstance.x = point.x;

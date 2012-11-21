@@ -6,8 +6,8 @@
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel' ],
-        function ( Easel ) {
+define( [ 'common/Point2D' ],
+        function ( Point2D ) {
 
             function DragHandler() {
             }
@@ -15,7 +15,7 @@ define( [ 'easel' ],
             /**
              * Registers a drag handler with the specified Easel display object.
              * @param {DisplayObject} displayObject
-             * @param {Function} dragFunction function called while dragging, params: {Point}
+             * @param {Function} dragFunction function called while dragging, params: {Point2D}
              */
             DragHandler.register = function ( displayObject, dragFunction ) {
 
@@ -32,17 +32,17 @@ define( [ 'easel' ],
                 // @param {MouseEvent} pressEvent
                 displayObject.onPress = function ( pressEvent ) {
 
-                    // Make dragging relative to touch Point.
+                    // Make dragging relative to touch Point2D.
                     var relativePressPoint = null;
 
                     // @param {MouseEvent} moveEvent
                     pressEvent.onMouseMove = function ( moveEvent ) {
                         var transformed = moveEvent.target.parent.globalToLocal( moveEvent.stageX, moveEvent.stageY );
                         if ( relativePressPoint === null ) {
-                            relativePressPoint = new Easel.Point( pressEvent.target.x - transformed.x, pressEvent.target.y - transformed.y );
+                            relativePressPoint = new Point2D( pressEvent.target.x - transformed.x, pressEvent.target.y - transformed.y );
                         }
                         else {
-                            dragFunction( new Easel.Point( transformed.x + relativePressPoint.x, transformed.y + relativePressPoint.y ) );
+                            dragFunction( new Point2D( transformed.x + relativePressPoint.x, transformed.y + relativePressPoint.y ) );
                         }
                     };
                 };

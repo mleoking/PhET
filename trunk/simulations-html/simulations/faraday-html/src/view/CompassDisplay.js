@@ -62,7 +62,7 @@ define( [
                 pin.graphics.drawCircle( 0, 0, 3 );
                 this.addChild( pin );
 
-                // Dragging.
+                // @param {Point2D} point
                 DragHandler.register( this, function ( point ) {
                     compass.location.set( mvt.viewToModel( point ) );
                 } );
@@ -70,7 +70,7 @@ define( [
                 // Register for synchronization with model.
                 var thisDisplayObject = this;
 
-                // @param {Point} location
+                // @param {Point2D} location
                 function updateLocation( location ) {
                     var point = mvt.modelToView( location );
                     thisDisplayObject.x = point.x;
