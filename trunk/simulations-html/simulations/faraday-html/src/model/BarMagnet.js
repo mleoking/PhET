@@ -12,7 +12,7 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector2D' ],
              * @class BarMagnet
              * @constructor
              * @param {Point2D} location
-             * @param {Dimension} size
+             * @param {Dimension2D} size
              * @param {Number} strength in Gauss
              * @param {Number} orientation in radians
              */

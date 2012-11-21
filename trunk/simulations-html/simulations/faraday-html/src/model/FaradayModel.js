@@ -6,7 +6,7 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [
-            'common/Dimension',
+            'common/Dimension2D',
             'common/Logger',
             'common/ModelViewTransform',
             'common/Point2D',
@@ -15,7 +15,7 @@ define( [
             'model/Field',
             'model/FieldMeter'
         ],
-        function ( Dimension, Logger, ModelViewTransform, Point2D, BarMagnet, Compass, Field, FieldMeter ) {
+        function ( Dimension2D, Logger, ModelViewTransform, Point2D, BarMagnet, Compass, Field, FieldMeter ) {
 
             function FaradayModel( canvasWidth, canvasHeight ) {
 
@@ -27,7 +27,7 @@ define( [
                 this.mvt = new ModelViewTransform( MVT_SCALE, MVT_OFFSET );
 
                 // model elements
-                this.barMagnet = new BarMagnet( new Point2D( 0, 0 ), new Dimension( 250, 50 ), 150, 0 );
+                this.barMagnet = new BarMagnet( new Point2D( 0, 0 ), new Dimension2D( 250, 50 ), 150, 0 );
                 this.field = new Field( true, this.barMagnet );
                 this.fieldMeter = new FieldMeter( new Point2D( -275, 100 ), true, this.barMagnet );
                 this.compass = new Compass( new Point2D( -275, -100 ), true, this.barMagnet );
