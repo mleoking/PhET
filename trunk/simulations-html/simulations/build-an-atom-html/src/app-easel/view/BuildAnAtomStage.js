@@ -15,6 +15,7 @@ define( [
     function BuildAnAtomStage( canvas, model ) {
 
         var $window = $( window );
+        var self = this;
 
         // Create the stage.
         this.stage = new Easel.Stage( canvas );
@@ -38,8 +39,18 @@ define( [
         root.addChild( electronShell );
 
         // Create and add the bucket holes where the idle particles will be kept.
-        this.protonBucketHole = new BucketHole( model.protonBucket );
-        root.addChild( this.protonBucketHole );
+
+        _.each(model.buckets, function(bucketModel, bucketName){
+
+          var bucketHole = self[ bucketName +'Hole' ] = new BucketHole( bucketModel );
+          root.addChild( bucketHole );
+
+          var protonBucketFront = new BucketFront( bucketModel );
+          root.addChild( protonBucketFront );
+
+        });
+
+
 
 //        var bucketWidth = 150;
 //        var bucketHoleY = stageHeight * 0.75;
@@ -66,8 +77,6 @@ define( [
 //        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 120, electronBucketHole.y, "blue", 8, "electron" ) ) );
 //
 //        // Add the bucket fronts.
-        var protonBucketFront = new BucketFront( model.protonBucket );
-        root.addChild( protonBucketFront );
 
 //        root.addChild( new BucketFront( neutronBucketHole.centerX, neutronBucketHole.centerY, bucketWidth, "Neutrons" ) );
 //        root.addChild( new BucketFront( electronBucketHole.centerX, electronBucketHole.centerY, bucketWidth, "Electrons" ) );
