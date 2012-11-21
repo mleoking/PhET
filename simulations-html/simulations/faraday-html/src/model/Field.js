@@ -5,27 +5,28 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/Logger', 'common/Property' ], function( Logger, Property ) {
+define( [ 'common/Logger', 'common/Property' ],
+        function ( Logger, Property ) {
 
-    function Field( visible, magnet ) {
+            function Field( visible, magnet ) {
 
-        var logger = new Logger( "Field" ); // logger for this source file
+                var logger = new Logger( "Field" ); // logger for this source file
 
-        // initialize properties
-        this.visible = new Property( visible );
+                // initialize properties
+                this.visible = new Property( visible );
 
-        //DEBUG
-        if ( true ) {
-            this.visible.addObserver( function ( newValue ) {
-                logger.debug( "visible=" + newValue );
-            } );
-        }
-    }
+                //DEBUG
+                if ( true ) {
+                    this.visible.addObserver( function ( newValue ) {
+                        logger.debug( "visible=" + newValue );
+                    } );
+                }
+            }
 
-    // Resets all properties
-    Field.prototype.reset = function() {
-        this.visible.reset();
-    };
+            // Resets all properties
+            Field.prototype.reset = function () {
+                this.visible.reset();
+            };
 
-    return Field;
-} );
+            return Field;
+        } );

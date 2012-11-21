@@ -5,17 +5,19 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [], function () {
+define( [],
+        function () {
 
-    function MathUtil() {}
+            function MathUtil() {
+            }
 
-    MathUtil.toRadians = function ( degrees ) {
-        return degrees * Math.PI / 180;
-    };
+            MathUtil.toRadians = function ( degrees ) {
+                return degrees * Math.PI / 180;
+            };
 
-    MathUtil.toDegrees = function ( radians ) {
-        return radians * 180 / Math.PI;
-    };
+            MathUtil.toDegrees = function ( radians ) {
+                return radians * 180 / Math.PI;
+            };
 
-    return MathUtil;
-} );
+            return MathUtil;
+        } );
