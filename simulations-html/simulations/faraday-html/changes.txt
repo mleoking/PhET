@@ -1,3 +1,4 @@
+11/21/12 move DragHandler to common
 11/21/12 use arg type checking in ModelViewTransform2D
 11/21/12 rename ModelViewTransform to ModelViewTransform2D
 11/21/12 rename Dimension to Dimension2D

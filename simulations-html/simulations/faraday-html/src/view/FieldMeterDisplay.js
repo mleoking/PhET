@@ -7,11 +7,11 @@
  */
 define( [
             'easel',
+            'common/DragHandler',
             'common/MathUtil',
-            'view/DragHandler',
             'image!resources/images/fieldMeter.png'
         ],
-        function ( Easel, MathUtil, DragHandler, fieldMeterImage ) {
+        function ( Easel, DragHandler, MathUtil, fieldMeterImage ) {
 
             /**
              * @param {FieldMeter} fieldMeter
