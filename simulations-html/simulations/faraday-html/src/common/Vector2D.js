@@ -13,24 +13,24 @@ define( [],
              * @param {Number} y
              * @constructor
              */
-            function Vector( x, y ) {
+            function Vector2D( x, y ) {
                 this.x = x;
                 this.y = y;
             }
 
             // @return {Number}
-            Vector.prototype.getAngle = function () {
+            Vector2D.prototype.getAngle = function () {
                 return Math.atan2( this.y, this.x );
             };
 
             // @return {Number}
-            Vector.prototype.getMagnitude = function () {
+            Vector2D.prototype.getMagnitude = function () {
                 return Math.sqrt( this.x * this.x + this.y * this.y );
             };
 
-            // @return {Number}
-            Vector.prototype.toString = function () {
-                return "[Vector (x=" + this.x + " y=" + this.y + ")]";
+            // @return {String}
+            Vector2D.prototype.toString = function () {
+                return "[Vector2D (x=" + this.x + " y=" + this.y + ")]";
             };
 
             /**
@@ -39,11 +39,11 @@ define( [],
              * @param {Number} angle in radians
              * @return {Vector$object}
              */
-            Vector.createPolar = function ( magnitude, angle ) {
+            Vector2D.createPolar = function ( magnitude, angle ) {
                 var x = magnitude * Math.cos( angle );
                 var y = magnitude * Math.sin( angle );
-                return new Vector( x, y );
+                return new Vector2D( x, y );
             };
 
-            return Vector;
+            return Vector2D;
         } );

@@ -9,11 +9,11 @@ define( [
             'easel',
             'common/Dimension',
             'common/MathUtil',
-            'common/Vector',
+            'common/Vector2D',
             'view/CompassNeedleDisplay',
             'view/DragHandler'
         ],
-        function ( Easel, Dimension, MathUtil, Vector, CompassNeedleDisplay, DragHandler ) {
+        function ( Easel, Dimension, MathUtil, Vector2D, CompassNeedleDisplay, DragHandler ) {
 
             /**
              * @param {Compass} compass
@@ -40,7 +40,7 @@ define( [
                 var angle = 0;
                 while ( angle < 360 ) {
 
-                    var vector = Vector.createPolar( outsideRadius - ( ringThickness / 2 ), MathUtil.toRadians( angle ) );
+                    var vector = Vector2D.createPolar( outsideRadius - ( ringThickness / 2 ), MathUtil.toRadians( angle ) );
 
                     var indicator = new Easel.Shape();
                     indicator.graphics.beginFill( 'black' );
