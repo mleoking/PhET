@@ -16,7 +16,7 @@ import edu.colorado.phet.linegraphing.common.model.Line;
  */
 public class SlopeUndefinedNode extends PhetPText {
     public SlopeUndefinedNode( Line line, PhetFont font, Color color ) {
-        super( MessageFormat.format( Strings.SLOPE_UNDEFINED, line.x1 ), font, color );
+        super( MessageFormat.format( Strings.SLOPE_UNDEFINED, Strings.SYMBOL_X, line.x1 ), font, color );
         assert ( line.undefinedSlope() );
         setPickable( false );
     }
