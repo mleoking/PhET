@@ -16,39 +16,37 @@ define( [ 'common/Point2D' ],
             function ModelViewTransform2D( scale, offset ) {
 
                 /*
-                 * Transformation a point from model to view coordinates.
-                 * @param {Point2D} point
-                 * @return {Point2D}
+                 * Transformation a value from model to view coordinates.
+                 * @param {*} value
+                 * @return {*}
                  */
-                this.modelToView = function ( point ) {
-                    return new Point2D( ( point.x + offset.x ) * scale, ( point.y + offset.y ) * scale );
+                this.modelToView = function ( value ) {
+                    if ( typeof( value ) === 'number' ) {
+                        return value * scale;
+                    }
+                    else if ( value instanceof Point2D ) {
+                        return new Point2D( ( value.x + offset.x ) * scale, ( value.y + offset.y ) * scale );
+                    }
+                    else {
+                        throw new Error( "value has unsupported type: " + typeof( value ) );
+                    }
                 };
 
                 /*
-                 * Transformation a point from view to model coordinates.
-                 * @param {Point2D} point
-                 * @return {Point2D}
+                 * Transformation a value from view to model coordinates.
+                 * @param {*} value
+                 * @return {*}
                  */
-                this.viewToModel = function ( point ) {
-                    return new Point2D( ( point.x / scale ) - offset.x, ( point.y / scale ) - offset.y );
-                };
-
-                /**
-                 * Transforms a scalar from model to view coordinates.
-                 * @param {Number} scalar
-                 * @return {Number}
-                 */
-                this.modelToViewScalar = function ( scalar ) {
-                    return scalar * scale;
-                };
-
-                /**
-                 * Transforms a scalar from view to model coordinates.
-                 * @param {Number} scalar
-                 * @return {Number}
-                 */
-                this.viewToModelScalar = function ( scalar ) {
-                    return scalar / scale;
+                this.viewToModel = function ( value ) {
+                    if ( typeof( value ) === 'number' ) {
+                        return value / scale;
+                    }
+                    else if ( value instanceof Point2D ) {
+                        return new Point2D( ( value.x / scale ) - offset.x, ( value.y / scale ) - offset.y );
+                    }
+                    else {
+                        throw new Error( "value has unsupported type: " + typeof( value ) );
+                    }
                 };
             }
 
