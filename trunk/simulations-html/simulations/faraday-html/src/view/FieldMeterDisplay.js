@@ -88,8 +88,8 @@ define( [
                 function updateValues( value ) {
                     var NUMBER_OF_DECIMALS = 2;
                     magnitudeText.text = value.getMagnitude().toFixed( NUMBER_OF_DECIMALS );
-                    xText.text = value.getX().toFixed( NUMBER_OF_DECIMALS );
-                    yText.text = value.getY().toFixed( NUMBER_OF_DECIMALS );
+                    xText.text = value.x.toFixed( NUMBER_OF_DECIMALS );
+                    yText.text = value.y.toFixed( NUMBER_OF_DECIMALS );
                     angleText.text = MathUtil.toDegrees( value.getAngle() ).toFixed( NUMBER_OF_DECIMALS );
                 }
 
