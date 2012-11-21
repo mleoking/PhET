@@ -15,6 +15,7 @@ Needs:
   Easel:
     DisplayObject bounds
     DisplayObject alpha modulation (filters?)
+    transform isn't propagated through the scenegraph
 
   Sim framework:
     something similar to Property<T>

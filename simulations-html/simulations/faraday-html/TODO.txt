@@ -3,10 +3,10 @@ TODO list for faraday-html
 Features:
 - "Strength" slider (jquery?)
 - magnetic field model and view
-- "see inside" field display object
 - control panel layout
 - compass kinematics
 - compass/magnet collision detection
+- set alpha of field inside magnet based on magnet strength (see FieldInsideDisplay)
 
 Bugs:
 
