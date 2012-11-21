@@ -27,6 +27,8 @@ define( [
 
                 var NEEDLE_SIZE = new Dimension( 25, 7 );
 
+                var that = this;
+
                 // @param {Number} strength
                 var updateStrength = function ( strength ) {
 
@@ -62,18 +64,14 @@ define( [
                 // @param {Point} location
                 var updateLocation = function( location ) {
                     var p = mvt.modelToView( location );
-                    this.x = p.x;
-                    this.y = p.y;
-                    //WORKAROUND: Easel nested Containers all appear to have their own independent transform!
-                    needlesContainer.x = this.x;
-                    needlesContainer.y = this.y;
+                    that.x = p.x;
+                    that.y = p.y;
                 };
                 magnet.location.addObserver( updateLocation );
 
                 // @param {Number} orientation in radians
                 var updateOrientation = function ( orientation ) {
-                    this.rotation = MathUtil.toDegrees( orientation );
-                    needlesContainer.rotation = this.rotation; //WORKAROUND: Easel nested Containers all appear to have their own independent transform!
+                    that.rotation = MathUtil.toDegrees( orientation );
                 };
                 magnet.orientation.addObserver( updateOrientation );
 
