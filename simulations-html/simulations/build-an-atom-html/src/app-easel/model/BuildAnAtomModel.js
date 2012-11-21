@@ -6,7 +6,12 @@ define( [
 
     function BuildAnAtomModel() {
         this.atom = new Atom();
-        this.protonBucket = new Bucket( 100, 100, 150, "Test" );
+
+        this.buckets = {
+          protonBucket: new Bucket( 100, 100, 150, "Protons" ),
+          neutronBucket: new Bucket( 300, 100, 150, "Neutrons" ),
+          electronBucket: new Bucket( 600, 100, 150, "Electrons" )
+        };
     }
 
     return BuildAnAtomModel;

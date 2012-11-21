@@ -10,7 +10,7 @@ require( [
          ], function ( _, Easel, BuildAnAtomStage, BuildAnAtomModel, SymbolView, MassNumberView, periodicTable ) {
 
     var buildAnAtomModel = new BuildAnAtomModel();
-    var buildAnAtomStage = new BuildAnAtomStage( document.getElementById( 'atom-construction-canvas' ), buildAnAtomModel );
+    window.buildAnAtomStage = new BuildAnAtomStage( document.getElementById( 'atom-construction-canvas' ), buildAnAtomModel );
 
     $( document ).ready( function () {
 
