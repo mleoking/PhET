@@ -1,3 +1,4 @@
+11/21/12 rename ModelViewTransform to ModelViewTransform2D
 11/21/12 rename Dimension to Dimension2D
 11/21/12 rename Vector to Vector2D
 11/21/12 replace Easel.Point with Point2D

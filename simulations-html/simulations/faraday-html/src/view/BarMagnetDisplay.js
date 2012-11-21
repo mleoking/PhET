@@ -26,7 +26,7 @@ define( [
              * @class BarMagnetDisplay
              * @constructor
              * @param {BarMagnet} barMagnet
-             * @param {ModelViewTransform} mvt
+             * @param {ModelViewTransform2D} mvt
              */
             function BarMagnetDisplay( barMagnet, mvt ) {
 

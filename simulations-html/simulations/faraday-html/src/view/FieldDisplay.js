@@ -10,7 +10,7 @@ define( [ 'easel', 'common/Point2D' ],
 
             /**
              * @param {Field} field
-             * @param {ModelViewTransform} mvt
+             * @param {ModelViewTransform2D} mvt
              * @constructor
              */
             function FieldDisplay( field, mvt ) {

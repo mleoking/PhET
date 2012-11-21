@@ -13,7 +13,7 @@ define( [
 
             /**
              * @param {BarMagnet} magnet
-             * @param {ModelViewTransform} mvt
+             * @param {ModelViewTransform2D} mvt
              * @constructor
              */
             function FieldInsideDisplay( magnet, mvt ) {

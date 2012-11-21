@@ -15,7 +15,7 @@ define( [
 
             /**
              * @param {FieldMeter} fieldMeter
-             * @param {ModelViewTransform} mvt
+             * @param {ModelViewTransform2D} mvt
              * @constructor
              */
             function FieldMeterDisplay( fieldMeter, mvt ) {
