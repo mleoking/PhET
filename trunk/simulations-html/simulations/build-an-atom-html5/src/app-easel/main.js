@@ -28,8 +28,9 @@ require( [
     // Create and add the place where the nucleus will be constructed.
     var atomView = new AtomView();
 
-    atomView.x = 307;
-    atomView.y = 384;
+    // Add the location where the atom will be constructed.
+    atomView.x = stageWidth / 2;
+    atomView.y = stageHeight * 0.4;
     root.addChild( atomView );
 
     // Create and add the bucket holes where the idle particles will be kept.
