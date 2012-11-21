@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Compass model type.
+ * Field model. Not much here, just a convenience for controlling visibility.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */

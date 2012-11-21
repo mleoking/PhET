@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Bar magnet model type.
+ * Bar magnet model.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
