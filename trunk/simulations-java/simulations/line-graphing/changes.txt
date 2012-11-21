@@ -1,3 +1,4 @@
+11/20/12 use <small> instead of <font size='3'> for subscripts, because <font> is deprecated in HTML4.01 and unsupported in HTML5
 11/20/12 fill in {0} in "{0}=# (slope undefined)" with the translated symbol for "x"
 11/20/12 move symbol subscripting (x1,y1,...) into code, make subscripts smaller
 # 0.00.41 (70308) Nov 14, 2012
