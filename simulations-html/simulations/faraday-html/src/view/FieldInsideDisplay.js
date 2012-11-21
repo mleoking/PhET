@@ -5,11 +5,11 @@
  */
 define( [
             'easel',
-            'common/Dimension',
+            'common/Dimension2D',
             'common/MathUtil',
             'view/CompassNeedleDisplay'
         ],
-        function ( Easel, Dimension, MathUtil, CompassNeedleDisplay ) {
+        function ( Easel, Dimension2D, MathUtil, CompassNeedleDisplay ) {
 
             /**
              * @param {BarMagnet} magnet
@@ -25,7 +25,7 @@ define( [
                 var needlesContainer = new Easel.Container();
                 this.addChild( needlesContainer );
 
-                var NEEDLE_SIZE = new Dimension( 25, 7 );
+                var NEEDLE_SIZE = new Dimension2D( 25, 7 );
 
                 var that = this;
 

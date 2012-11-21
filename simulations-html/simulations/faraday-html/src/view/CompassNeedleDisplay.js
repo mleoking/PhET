@@ -5,11 +5,11 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'common/Dimension' ],
-        function ( Easel, Dimension ) {
+define( [ 'easel' ],
+        function ( Easel ) {
 
             /**
-             * @param {Dimension} size
+             * @param {Dimension2D} size
              * @param {Number} orientation in degrees
              * @param {Number} alpha 0 (transparent) to 1 (opaque)
              * @constructor
