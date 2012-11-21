@@ -344,11 +344,12 @@ public class SlopeEquationNode extends EquationNode {
         PNode leftSideNode = new HTMLNode( htmlLeftSide, color, font );
 
         // y2 - y1
-        String htmlNumerator = MessageFormat.format( "{0} - {1}", Strings.SYMBOL_Y2, Strings.SYMBOL_Y1 );
+        String pattern = "<html>{0}<font size='3'><sub>2</sub></font> - {1}<font size='3'><sub>1</sub></font></html>"; // same for numerator and denominator
+        String htmlNumerator = MessageFormat.format( pattern, Strings.SYMBOL_Y, Strings.SYMBOL_Y );
         PNode numeratorNode = new HTMLNode( htmlNumerator, color, font );
 
         // x2 - x1
-        String htmlDenominator = MessageFormat.format( "{0} - {1}", Strings.SYMBOL_X2, Strings.SYMBOL_X1 );
+        String htmlDenominator = MessageFormat.format( pattern, Strings.SYMBOL_X, Strings.SYMBOL_X );
         PNode denominatorNode = new HTMLNode( htmlDenominator, color, font );
 
         // fraction line
