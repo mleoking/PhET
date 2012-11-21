@@ -1,6 +1,7 @@
 TODO list for faraday-html
 
 Features:
+- faraday-html.iml
 - "Strength" slider (jquery?)
 - magnetic field model and view
 - compass kinematics
