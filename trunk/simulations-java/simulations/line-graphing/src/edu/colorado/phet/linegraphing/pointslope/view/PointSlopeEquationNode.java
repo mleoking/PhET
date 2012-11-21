@@ -392,8 +392,8 @@ public class PointSlopeEquationNode extends EquationNode {
 
     // Creates a node that displays the general form of this equation.
     public static PNode createGeneralFormNode() {
-        String html = MessageFormat.format( "({0} - {1}) = {2}({3} - {4})", /* (y - y1) = m(x - x1) */
-                                            Strings.SYMBOL_Y, Strings.SYMBOL_Y1, Strings.SYMBOL_SLOPE, Strings.SYMBOL_X, Strings.SYMBOL_X1 );
+        String html = MessageFormat.format( "<html>({0} - {1}<font size='3'><sub>1</sub></font>) = {2}({3} - {4}<font size='3'><sub>1</sub></font>)</html>", /* (y - y1) = m(x - x1) */
+                                            Strings.SYMBOL_Y, Strings.SYMBOL_Y, Strings.SYMBOL_SLOPE, Strings.SYMBOL_X, Strings.SYMBOL_X );
         return new HTMLNode( html, LGColors.INTERACTIVE_LINE, new PhetFont( Font.BOLD, 18 ) );
     }
 }

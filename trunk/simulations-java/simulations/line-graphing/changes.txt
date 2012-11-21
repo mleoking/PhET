@@ -1,3 +1,4 @@
+11/20/12 move symbol subscripting (x1,y1,...) into code, make subscripts smaller
 # 0.00.41 (70308) Nov 14, 2012
 11/14/12 fix: represent y=x and y=-x in slope-intercept form in "Point-Slope" tab
 11/14/12 change request: "Save line" -> "Save Line", "Erase lines" -> "Erase Lines"
