@@ -7,12 +7,13 @@
  */
 define( [
             'easel',
+            'common/Dimension',
             'common/MathUtil',
             'common/Vector',
             'view/CompassNeedleDisplay',
             'view/DragHandler'
         ],
-        function ( Easel, MathUtil, Vector, CompassNeedleDisplay, DragHandler ) {
+        function ( Easel, Dimension, MathUtil, Vector, CompassNeedleDisplay, DragHandler ) {
 
             /**
              * @param {Compass} compass
@@ -51,7 +52,7 @@ define( [
                 }
 
                 // needle
-                var needle = new CompassNeedleDisplay( 0, 1 );
+                var needle = new CompassNeedleDisplay( new Dimension( 50, 14 ), 0, 1 );
                 this.addChild( needle );
 
                 // center pin

@@ -12,9 +12,10 @@ define( [
             'view/BarMagnetDisplay',
             'view/CompassDisplay',
             'view/FieldDisplay',
+            'view/FieldInsideDisplay',
             'view/FieldMeterDisplay'
         ],
-        function ( Easel, Property, BarMagnetDisplay, CompassDisplay, FieldDisplay, FieldMeterDisplay ) {
+        function ( Easel, Property, BarMagnetDisplay, CompassDisplay, FieldDisplay, FieldInsideDisplay, FieldMeterDisplay ) {
 
             function FaradayStage( canvas, model ) {
 
@@ -39,6 +40,9 @@ define( [
                 // bar magnet
                 this.barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );
 
+                // field inside magnet
+                var fieldInside = new FieldInsideDisplay( model.barMagnet, model.mvt );
+
                 // compass
                 this.compass = new CompassDisplay( model.compass, model.mvt );
 
@@ -49,6 +53,7 @@ define( [
                 this.stage.addChild( background );
                 this.stage.addChild( this.field );
                 this.stage.addChild( this.barMagnet );
+                this.stage.addChild( fieldInside );
                 this.stage.addChild( this.compass );
                 this.stage.addChild( this.meter );
             }
