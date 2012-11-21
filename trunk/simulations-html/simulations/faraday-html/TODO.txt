@@ -17,5 +17,6 @@ General:
 - handle window resize
 - i18n
 - data collection
+- mobile devices
 - test with all browsers
 - doc conventions/tools for js (JSDoc?)
