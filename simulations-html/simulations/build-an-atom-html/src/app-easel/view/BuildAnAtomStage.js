@@ -35,7 +35,7 @@ define( [
         var electronShell = new ElectronShellView();
         electronShell.x = stageWidth / 2;
         electronShell.y = stageHeight * 0.4;
-        this.stage.addChild( electronShell );
+        root.addChild( electronShell );
 
         // Create and add the bucket holes where the idle particles will be kept.
         var bucketWidth = 150;
