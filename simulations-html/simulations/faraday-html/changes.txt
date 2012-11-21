@@ -1,3 +1,5 @@
+11/21/12 set alpha of "inside field" display object based on strength of magnet
+11/21/12 add Range type
 11/21/12 wire up FieldDisplay to magnet model
 11/21/12 use a static grid of needles for "inside field", modulate alpha of parent display object based on magnet strength
 11/21/12 wire up "See Inside" check box
