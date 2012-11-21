@@ -8,12 +8,12 @@
 require( [
              'easel',
              'common/Logger',
-             'common/ModelViewTransform',
+             'common/ModelViewTransform2D',
              'model/FaradayModel',
              'view/ControlPanel',
              'view/FaradayStage'
          ],
-         function ( Easel, Logger, ModelViewTransform, FaradayModel, ControlPanel, FaradayStage ) {
+         function ( Easel, Logger, ModelViewTransform2D, FaradayModel, ControlPanel, FaradayStage ) {
 
              Logger.enabled = true;
 

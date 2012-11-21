@@ -9,12 +9,11 @@ define( [ 'common/Point2D' ],
         function ( Point2D ) {
 
             /**
-             * @class ModelViewTransform
              * @constructor
              * @param {Number} scale when going from model to view coordinates. 1 unit in the model is this many view units.
              * @param {Point2D} offset when going from model to view coordinates
              */
-            function ModelViewTransform( scale, offset ) {
+            function ModelViewTransform2D( scale, offset ) {
 
                 /*
                  * Transformation a point from model to view coordinates.
@@ -53,5 +52,5 @@ define( [ 'common/Point2D' ],
                 };
             }
 
-            return ModelViewTransform;
+            return ModelViewTransform2D;
         } );

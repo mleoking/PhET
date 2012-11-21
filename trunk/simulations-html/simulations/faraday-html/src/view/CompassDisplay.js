@@ -17,7 +17,7 @@ define( [
 
             /**
              * @param {Compass} compass
-             * @param {ModelViewTransform} mvt
+             * @param {ModelViewTransform2D} mvt
              * @constructor
              */
             function CompassDisplay( compass, mvt ) {
