@@ -9,7 +9,7 @@
     <meta charset="utf-8"/>
     <title>Faraday's Electromagnet Lab</title>
     <style>
-        label.checkbox {
+        label.controlPanel {
             font-size: 175%;
         }
         input.button {
@@ -31,20 +31,29 @@
          <!-- Control panel -->
         <div id="control-panel">
            <div>
-               <div>(Strength slider here)</div>
+               <label for="strengthSlider" class='controlPanel'>Magnet Strength:</label>
+               <br>
+               <!-- BUG: HTML slider doesn't work on FireFox -->
+               <input id="strengthSlider" type="range" min="0" max="300" value="150"/>
+               <br>
+               <br>
                <input id='flipPolarityButton' type='button' class='button' value='Flip Polarity'/>
                <br>
+               <br>
+               <br>
                <input id='seeInsideMagnetCheckBox' type='checkbox' class='checkbox'/>
-               <label for="seeInsideMagnetCheckBox" class='checkbox'>See Inside Magnet</label>
+               <label for="seeInsideMagnetCheckBox" class='controlPanel'>See Inside Magnet</label>
                <br>
                <input id='showFieldCheckBox' type='checkbox' class='checkbox'/>
-               <label for="showFieldCheckBox" class='checkbox'>Show Field</label>
+               <label for="showFieldCheckBox" class='controlPanel'>Show Field</label>
                <br>
                <input id='showCompassCheckBox' type='checkbox' class='checkbox'/>
-               <label for="showCompassCheckBox" class='checkbox'>Show Compass</label>
+               <label for="showCompassCheckBox" class='controlPanel'>Show Compass</label>
                <br>
                <input id='showFieldMeterCheckBox' type='checkbox' class='checkbox'/>
-               <label for="showFieldMeterCheckBox" class='checkbox'>Show Field Meter</label>
+               <label for="showFieldMeterCheckBox" class='controlPanel'>Show Field Meter</label>
+               <br>
+               <br>
                <br>
                <input id='resetAllButton' type='button' class='resetAllButton' value='Reset All'/>
            </div>
