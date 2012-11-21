@@ -29,7 +29,7 @@ define( [
                 background.graphics.rect( 0, 0, canvas.width, canvas.height );
 
                 // field
-                var field = new FieldDisplay( model.field, model.mvt );
+                var field = new FieldDisplay( model.field, model.barMagnet, model.mvt );
 
                 // bar magnet
                 var barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );

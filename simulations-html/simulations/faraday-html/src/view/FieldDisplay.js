@@ -10,10 +10,11 @@ define( [ 'easel', 'common/Point2D' ],
 
             /**
              * @param {Field} field
+             * @param {BarMagnet} barMagnet
              * @param {ModelViewTransform2D} mvt
              * @constructor
              */
-            function FieldDisplay( field, mvt ) {
+            function FieldDisplay( field, barMagnet, mvt ) {
 
                 // constructor stealing
                 Easel.Text.call( this, "field", "bold 100px Arial", 'white' );
@@ -26,17 +27,28 @@ define( [ 'easel', 'common/Point2D' ],
                 this.y = point.y;
 
                 // Register for synchronization with model.
-                var thisDisplayObject = this;
+                var that = this;
 
                 // @param {Boolean} visible
                 function updateVisibility( visible ) {
-                    thisDisplayObject.visible = visible;
+                    that.visible = visible;
+                    if ( visible ) {
+                        updateField();
+                    }
                 }
-
                 field.visible.addObserver( updateVisibility );
+
+                function updateField() {
+                    if ( that.visible ) {
+                        //TODO
+                    }
+                }
+                barMagnet.location.addObserver( updateField );
+                barMagnet.strength.addObserver( updateField );
 
                 // sync now
                 updateVisibility( field.visible.get() );
+                updateField();
             }
 
             // prototype chaining
