@@ -10,8 +10,9 @@ require( [
              'view/symbol-view',
              'view/mass-number-view',
              'model/atom',
+             'view/electron-shell-view',
              'tpl!templates/periodic-table.html'
-         ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketHole, BucketFront, SymbolView, MassNumberView, Atom, periodicTable ) {
+         ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketHole, BucketFront, SymbolView, MassNumberView, Atom, ElectronShellView, periodicTable ) {
 
     var $window = $( window );
 
@@ -27,11 +28,14 @@ require( [
 
     // Create and add the place where the nucleus will be constructed.
     var atomView = new AtomView();
-
-    // Add the location where the atom will be constructed.
     atomView.x = stageWidth / 2;
     atomView.y = stageHeight * 0.4;
     root.addChild( atomView );
+
+    // Add the electron shell.
+    atomStage.addChild( new ElectronShellView( stageWidth / 2, stageHeight * 0.4 ) );
+
+    // Add the location where the atom will be constructed.
 
     // Create and add the bucket holes where the idle particles will be kept.
     var bucketWidth = 150;
