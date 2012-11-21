@@ -8,9 +8,6 @@ Features:
 - set alpha of field inside magnet based on magnet strength (see FieldInsideDisplay)
 - add optional 3rd param to DragHandler to constrain bounds
 - move stuff to common (Vector, Dimension, Property, DragHandler, Logger, ModelViewTransform, MathUtil)
-- in ModelViewTransform,  make modelToView and viewToModel do type checking to decide how to handle arg
-- rename Vector -> Vector2D
-- replace Easel.Point with Point2D
 
 Bugs:
 

@@ -34,8 +34,8 @@ define( [
                 Easel.Bitmap.call( this, barMagnetImage );
 
                 // Compute scale factors to match model.
-                this.scaleX = mvt.modelToViewScalar( barMagnet.size.width ) / this.image.width;
-                this.scaleY = mvt.modelToViewScalar( barMagnet.size.height ) / this.image.height;
+                this.scaleX = mvt.modelToView( barMagnet.size.width ) / this.image.width;
+                this.scaleY = mvt.modelToView( barMagnet.size.height ) / this.image.height;
 
                 // Move registration point to the center.
                 this.regX = this.image.width / 2;
