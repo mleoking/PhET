@@ -8,9 +8,9 @@ define( [
         this.atom = new Atom();
 
         this.buckets = {
-          protonBucket: new Bucket( 100, 100, 150, "Protons" ),
-          neutronBucket: new Bucket( 300, 100, 150, "Neutrons" ),
-          electronBucket: new Bucket( 600, 100, 150, "Electrons" )
+          protonBucket: new Bucket( 105, 600, 150, "Protons" ),
+          neutronBucket: new Bucket( 305, 600, 150, "Neutrons" ),
+          electronBucket: new Bucket( 505, 600, 150, "Electrons" )
         };
     }
 
