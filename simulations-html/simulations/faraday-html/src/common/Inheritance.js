@@ -22,6 +22,7 @@ define( [], function () {
              *
              * function Subtype(...) {
              *     Supertype.call(this, ...); // constructor stealing, called second
+             *     ...
              * }
              *
              * inheritPrototype( Subtype, Supertype ); // prototype chaining, called first
