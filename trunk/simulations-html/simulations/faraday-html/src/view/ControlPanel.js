@@ -42,7 +42,7 @@ define( [ 'common/PropertyCheckBox' ],
                 PropertyCheckBox.connect( model.fieldMeter.visible, "showFieldMeterCheckBox" );
 
                 var flipPolarityButton = document.getElementById( "flipPolarityButton" );
-                flipPolarityButton.onmousemove = function () {
+                flipPolarityButton.onclick = function () {
                     model.barMagnet.orientation.set( model.barMagnet.orientation.get() + Math.PI );
                 };
 

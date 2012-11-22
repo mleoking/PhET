@@ -9,7 +9,6 @@ Features:
 - move stuff to common-html
 
 Bugs:
-- why does "Flip" button fire on mouseover? (this started when strength textfield was added)
 - use a slider for strength
 
 General:
