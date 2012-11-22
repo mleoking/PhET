@@ -17,14 +17,13 @@ define( [
         function ( Easel, Dimension2D, Inheritance, Point2D, MathUtil, FieldPointDisplay ) {
 
             /**
-             * @param {Field} field
              * @param {BarMagnet} barMagnet
              * @param {ModelViewTransform2D} mvt
              * @param {Dimension2D} canvasSize
              * @param {Dimension2D} needleSize
              * @constructor
              */
-            function FieldOutsideDisplay( field, barMagnet, mvt, canvasSize, needleSize ) {
+            function FieldOutsideDisplay( barMagnet, mvt, canvasSize, needleSize ) {
 
                 // constructor stealing
                 Easel.Container.call( this );
@@ -69,17 +68,7 @@ define( [
                 barMagnet.strength.addObserver( updateField );
                 barMagnet.orientation.addObserver( updateField );
 
-                // @param {Boolean} visible
-                function updateVisibility( visible ) {
-                    that.visible = visible;
-                    if ( visible ) {
-                        updateField();
-                    }
-                }
-                field.visible.addObserver( updateVisibility );
-
                 // sync now
-                updateVisibility( field.visible.get() );
                 updateField();
             }
 

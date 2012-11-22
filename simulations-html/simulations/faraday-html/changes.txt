@@ -1,3 +1,4 @@
+11/21/12 get rid of Field model element, handle field visibility in the view
 11/21/12 patch up Canvas in CanvasQuirks
 11/21/12 implement FaradayStage using inheritance instead of composition
 11/21/12 switch from Combination Inheritance to Parasitic Combination Inheritance throughout

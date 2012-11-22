@@ -33,7 +33,12 @@ define( [
                 var NEEDLE_SIZE = new Dimension2D( 25, 7 );
 
                 // field outside the magnet
-                var field = new FieldOutsideDisplay( model.field, model.barMagnet, model.mvt, new Dimension2D( canvas.width, canvas.height ), NEEDLE_SIZE );
+                var field = new FieldOutsideDisplay( model.barMagnet, model.mvt, new Dimension2D( canvas.width, canvas.height ), NEEDLE_SIZE );
+                this.fieldVisible = new Property( true );
+                field.visible = this.fieldVisible.get();
+                this.fieldVisible.addObserver( function( visible ) {
+                    field.visible = visible;
+                } );
 
                 // bar magnet
                 var barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );
@@ -66,6 +71,7 @@ define( [
 
             // Resets all view-specific properties
             FaradayStage.prototype.reset = function () {
+                this.fieldVisible.reset();
                 this.magnetTransparent.reset();
             };
 
