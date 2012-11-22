@@ -16,4 +16,3 @@ General:
 - data collection
 - mobile devices
 - test with all browsers
-- doc conventions/tools for js (JSDoc?)
