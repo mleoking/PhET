@@ -2,13 +2,13 @@
 
 /**
  * Stage, sets up the scenegraph.
- * Uses composition of Easel.Stage, inheritance proved to be problematic.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [
             'easel',
             'common/Dimension2D',
+            'common/Inheritance',
             'common/Property',
             'view/BarMagnetDisplay',
             'view/CompassDisplay',
@@ -16,13 +16,13 @@ define( [
             'view/FieldMeterDisplay',
             'view/FieldOutsideDisplay'
         ],
-        function ( Easel, Dimension2D, Property, BarMagnetDisplay, CompassDisplay, FieldInsideDisplay, FieldMeterDisplay, FieldOutsideDisplay ) {
+        function ( Easel, Dimension2D, Inheritance, Property, BarMagnetDisplay, CompassDisplay, FieldInsideDisplay, FieldMeterDisplay, FieldOutsideDisplay ) {
 
             function FaradayStage( canvas, model ) {
 
-                // stage
-                this.stage = new Easel.Stage( canvas );
-                this.stage.enableMouseOver();
+                Easel.Stage.call( this, canvas ); // constructor stealing
+
+                this.enableMouseOver();
 
                 // black background
                 var background = new Easel.Shape();
@@ -54,13 +54,15 @@ define( [
                 var meter = new FieldMeterDisplay( model.fieldMeter, model.mvt );
 
                 // rendering order
-                this.stage.addChild( background );
-                this.stage.addChild( field );
-                this.stage.addChild( barMagnet );
-                this.stage.addChild( fieldInside );
-                this.stage.addChild( compass );
-                this.stage.addChild( meter );
+                this.addChild( background );
+                this.addChild( field );
+                this.addChild( barMagnet );
+                this.addChild( fieldInside );
+                this.addChild( compass );
+                this.addChild( meter );
             }
+
+            Inheritance.inheritPrototype( FaradayStage, Easel.Stage );
 
             // Resets all view-specific properties
             FaradayStage.prototype.reset = function () {
