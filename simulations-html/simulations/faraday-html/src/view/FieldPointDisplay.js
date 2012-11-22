@@ -6,8 +6,8 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'view/CompassNeedleDisplay'],
-        function ( CompassNeedleDisplay ) {
+define( [ 'common/Inheritance', 'view/CompassNeedleDisplay'],
+        function ( Inheritance, CompassNeedleDisplay ) {
 
             /**
              * @param {Dimension2D} size
@@ -20,7 +20,7 @@ define( [ 'view/CompassNeedleDisplay'],
             }
 
             // prototype chaining
-            FieldPointDisplay.prototype = new CompassNeedleDisplay();
+            Inheritance.inheritPrototype( FieldPointDisplay, CompassNeedleDisplay );
 
             return FieldPointDisplay;
         } );

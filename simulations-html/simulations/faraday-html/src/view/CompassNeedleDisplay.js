@@ -5,8 +5,8 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'common/Dimension2D' ],
-        function ( Easel, Dimension2D ) {
+define( [ 'easel', 'common/Dimension2D', 'common/Inheritance' ],
+        function ( Easel, Dimension2D, Inheritance ) {
 
             /**
              * @param {Dimension2D} size
@@ -40,7 +40,7 @@ define( [ 'easel', 'common/Dimension2D' ],
             }
 
             // prototype chaining
-            CompassNeedleDisplay.prototype = new Easel.Container();
+            Inheritance.inheritPrototype( CompassNeedleDisplay, Easel.Container );
 
             return CompassNeedleDisplay;
         } );

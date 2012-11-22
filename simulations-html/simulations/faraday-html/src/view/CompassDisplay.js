@@ -9,11 +9,12 @@ define( [
             'easel',
             'common/Dimension2D',
             'common/DragHandler',
+            'common/Inheritance',
             'common/MathUtil',
             'common/Vector2D',
             'view/CompassNeedleDisplay'
         ],
-        function ( Easel, Dimension2D, DragHandler, MathUtil, Vector2D, CompassNeedleDisplay ) {
+        function ( Easel, Dimension2D, DragHandler, Inheritance, MathUtil, Vector2D, CompassNeedleDisplay ) {
 
             /**
              * @param {Compass} compass
@@ -100,7 +101,7 @@ define( [
             }
 
             // prototype chaining
-            CompassDisplay.prototype = new Easel.Container();
+            Inheritance.inheritPrototype( CompassDisplay, Easel.Container );
 
             return CompassDisplay;
         } );

@@ -8,10 +8,11 @@
 define( [
             'easel',
             'common/DragHandler',
+            'common/Inheritance',
             'common/MathUtil',
             'image!resources/images/fieldMeter.png'
         ],
-        function ( Easel, DragHandler, MathUtil, fieldMeterImage ) {
+        function ( Easel, DragHandler, Inheritance, MathUtil, fieldMeterImage ) {
 
             /**
              * @param {FieldMeter} fieldMeter
@@ -103,7 +104,7 @@ define( [
             }
 
             // prototype chaining
-            FieldMeterDisplay.prototype = new Easel.Container();
+            Inheritance.inheritPrototype( FieldMeterDisplay, Easel.Container );
 
             return FieldMeterDisplay;
         } );

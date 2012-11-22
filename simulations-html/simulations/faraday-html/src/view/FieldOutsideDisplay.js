@@ -9,11 +9,12 @@
 define( [
             'easel',
             'common/Dimension2D',
+            'common/Inheritance',
             'common/Point2D',
             'common/MathUtil',
             'view/FieldPointDisplay'
         ],
-        function ( Easel, Dimension2D, Point2D, MathUtil, FieldPointDisplay ) {
+        function ( Easel, Dimension2D, Inheritance, Point2D, MathUtil, FieldPointDisplay ) {
 
             /**
              * @param {Field} field
@@ -83,7 +84,7 @@ define( [
             }
 
             // prototype chaining
-            FieldOutsideDisplay.prototype = new Easel.Container();
+            Inheritance.inheritPrototype( FieldOutsideDisplay, Easel.Container );
 
             return FieldOutsideDisplay;
         } );
