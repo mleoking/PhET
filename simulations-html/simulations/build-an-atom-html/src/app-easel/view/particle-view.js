@@ -23,7 +23,7 @@ define( [
 
     var createParticleView = function ( particle ) {
         var particleView = new Easel.Shape();
-        particleView.graphics.beginStroke( "black" ).beginFill( particle.color ).setStrokeStyle( 1 ).drawCircle( particle.xPos, particle.yPos, particle.radius ).endFill();
+        particleView.graphics.beginStroke( "black" ).beginFill( particle.color ).setStrokeStyle( 1 ).drawCircle( particle.x, particle.y, particle.radius ).endFill();
 
         particleView.onMouseOver = showPointer;
         particleView.onMouseOut = showDefault;

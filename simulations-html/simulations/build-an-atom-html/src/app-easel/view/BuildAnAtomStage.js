@@ -1,16 +1,14 @@
 define( [
             'underscore',
             'easel',
-            'model/particle2',
             'view/particle-view',
             'view/atom-view',
             'view/bucket-hole',
             'view/bucket-front',
             'view/symbol-view',
             'view/mass-number-view',
-            'model/atom',
             'view/electron-shell-view'
-        ], function ( _, Easel, Particle2, ParticleView, AtomView, BucketHole, BucketFront, SymbolView, MassNumberView, Atom, ElectronShellView ) {
+        ], function ( _, Easel, ParticleView, AtomView, BucketHole, BucketFront, SymbolView, MassNumberView, ElectronShellView ) {
 
     function BuildAnAtomStage( canvas, model ) {
 
@@ -40,28 +38,21 @@ define( [
 
         // Create and add the bucket holes where the idle particles will be kept.
 
-        _.each(model.buckets, function(bucketModel, bucketName){
+        _.each( model.buckets, function ( bucketModel, bucketName ) {
 
-          var bucketHole = self[ bucketName +'Hole' ] = new BucketHole( bucketModel );
-          root.addChild( bucketHole );
+            var bucketHole = self[ bucketName + 'Hole' ] = new BucketHole( bucketModel );
+            root.addChild( bucketHole );
 
-          var protonBucketFront = new BucketFront( bucketModel );
-          root.addChild( protonBucketFront );
+            var protonBucketFront = new BucketFront( bucketModel );
+            root.addChild( protonBucketFront );
 
-        });
-
-
-
-//        var bucketWidth = 150;
-//        var bucketHoleY = stageHeight * 0.75;
-//        var neutronBucketHole = new BucketHole( stageWidth / 2, bucketHoleY, bucketWidth );
-//        root.addChild( neutronBucketHole );
-//        var protonBucketHole = new BucketHole( ( stageWidth - bucketWidth ) / 4, bucketHoleY, bucketWidth );
-//        root.addChild( protonBucketHole );
-//        var electronBucketHole = new BucketHole( stageWidth - (( stageWidth - bucketWidth ) / 4), bucketHoleY, bucketWidth );
-//        root.addChild( electronBucketHole );
+        } );
 
         // Create and add the particles.
+        _.each( model.particles, function ( particle ) {
+            // TODO: Fix ParticleView to have a constructor instead.
+            root.addChild( ParticleView.createParticleView( particle ));
+        } );
 //        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 30, protonBucketHole.y, "red", 15, "proton" ) ) );
 //        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 60, protonBucketHole.y, "red", 15, "proton" ) ) );
 //        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 90, protonBucketHole.y, "red", 15, "proton" ) ) );

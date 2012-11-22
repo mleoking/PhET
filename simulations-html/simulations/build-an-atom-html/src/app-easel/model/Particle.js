@@ -2,6 +2,14 @@
 define([
 ], function( ){
 
+    /**
+     * @param x
+     * @param y
+     * @param color
+     * @param radius
+     * @param type
+     * @constructor
+     */
   function Particle( x, y, color, radius, type ){
       this.x = x;
       this.y = y;
