@@ -3,7 +3,6 @@ TODO list for faraday-html
 Features:
 - compass kinematics (animating a model element)
 - compass/magnet collision detection (bounds computations)
-- add optional 3rd param to DragHandler to constrain bounds (SR request)
 - move stuff to simulations-html/common
 
 Bugs:
