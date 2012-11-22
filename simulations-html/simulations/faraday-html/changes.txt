@@ -1,3 +1,4 @@
+11/21/12 create a specialization of compass needle that knows its location, for use in b-field grid
 11/21/12 provide canvas dimensions to field visualization
 11/21/12 add module for faraday-html
 11/21/12 switch to textfield for entering magnet strength, slider is brain damaged
