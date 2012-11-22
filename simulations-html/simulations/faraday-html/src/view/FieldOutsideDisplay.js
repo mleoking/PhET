@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Display object for the B-field, a grid of compass needles.
+ * Display object for the B-field outside the magnet, a grid of compass needles.
  * Each needle represents the B-field vector at a specific point.
  *
  * @author Chris Malley (PixelZoom, Inc.)
@@ -23,7 +23,7 @@ define( [
              * @param {Dimension2D} needleSize
              * @constructor
              */
-            function FieldDisplay( field, barMagnet, mvt, canvasSize, needleSize ) {
+            function FieldOutsideDisplay( field, barMagnet, mvt, canvasSize, needleSize ) {
 
                 // constructor stealing
                 Easel.Container.call( this );
@@ -83,7 +83,7 @@ define( [
             }
 
             // prototype chaining
-            FieldDisplay.prototype = new Easel.Container();
+            FieldOutsideDisplay.prototype = new Easel.Container();
 
-            return FieldDisplay;
+            return FieldOutsideDisplay;
         } );

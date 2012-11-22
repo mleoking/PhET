@@ -12,11 +12,11 @@ define( [
             'common/Property',
             'view/BarMagnetDisplay',
             'view/CompassDisplay',
-            'view/FieldDisplay',
             'view/FieldInsideDisplay',
-            'view/FieldMeterDisplay'
+            'view/FieldMeterDisplay',
+            'view/FieldOutsideDisplay'
         ],
-        function ( Easel, Dimension2D, Property, BarMagnetDisplay, CompassDisplay, FieldDisplay, FieldInsideDisplay, FieldMeterDisplay ) {
+        function ( Easel, Dimension2D, Property, BarMagnetDisplay, CompassDisplay, FieldInsideDisplay, FieldMeterDisplay, FieldOutsideDisplay ) {
 
             function FaradayStage( canvas, model ) {
 
@@ -32,8 +32,8 @@ define( [
                 // needle size, used for field inside and outside the magnet
                 var NEEDLE_SIZE = new Dimension2D( 25, 7 );
 
-                // field
-                var field = new FieldDisplay( model.field, model.barMagnet, model.mvt, new Dimension2D( canvas.width, canvas.height ), NEEDLE_SIZE );
+                // field outside the magnet
+                var field = new FieldOutsideDisplay( model.field, model.barMagnet, model.mvt, new Dimension2D( canvas.width, canvas.height ), NEEDLE_SIZE );
 
                 // bar magnet
                 var barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );
