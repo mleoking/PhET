@@ -16,7 +16,7 @@ define( [ 'common/Logger', 'common/Property' ],
                 this.visible = new Property( visible );
 
                 //DEBUG
-                if ( true ) {
+                if ( false ) {
                     this.visible.addObserver( function ( newValue ) {
                         logger.debug( "visible=" + newValue );
                     } );

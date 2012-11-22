@@ -29,7 +29,7 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector2D' ],
                 this.orientation = new Property( orientation );
 
                 // Debugging output
-                if ( true ) {
+                if ( false ) {
                     this.location.addObserver( function ( newValue ) {
                         logger.debug( "location=" + newValue );
                     } );
