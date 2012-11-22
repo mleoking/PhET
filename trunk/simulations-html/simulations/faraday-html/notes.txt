@@ -48,3 +48,6 @@ Typical errors:
     - 'this', eg in Number.call(this) or this.myfunction
     - 'new'
     - a requirejs function param
+
+    TypeError: Foo is undefined
+    - you probably forgot to 'return Foo' from your requirejs define function
