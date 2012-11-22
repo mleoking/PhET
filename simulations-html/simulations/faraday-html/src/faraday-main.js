@@ -7,28 +7,21 @@
  */
 require( [
              'easel',
+             'common/CanvasQuirks',
              'common/Logger',
              'common/ModelViewTransform2D',
              'model/FaradayModel',
              'view/ControlPanel',
              'view/FaradayStage'
          ],
-         function ( Easel, Logger, ModelViewTransform2D, FaradayModel, ControlPanel, FaradayStage ) {
+         function ( Easel, CanvasQuirks, Logger, ModelViewTransform2D, FaradayModel, ControlPanel, FaradayStage ) {
 
              Logger.enabled = true;
 
              // Canvas --------------------------------------------------------------------
 
              var canvas = document.getElementById( 'faraday-canvas' );
-
-             // Get rid of canvas text cursor by disabling text selection.
-             // See http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
-             canvas.onselectstart = function () {
-                 return false;
-             }; // IE
-             canvas.onmousedown = function () {
-                 return false;
-             }; // Mozilla
+             CanvasQuirks.fixTextCursor( canvas );
 
              // MVC --------------------------------------------------------------------
 
