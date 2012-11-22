@@ -1,3 +1,4 @@
+11/21/12 update field when magnet orientation changes
 11/21/12 first wag at field visualization, hardcoded grid spacing
 11/21/12 disable debug output in model
 11/21/12 fixed bug with "Flip Polarity" button

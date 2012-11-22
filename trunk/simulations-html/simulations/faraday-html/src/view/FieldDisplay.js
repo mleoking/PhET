@@ -67,6 +67,7 @@ define( [
                 }
                 barMagnet.location.addObserver( updateField );
                 barMagnet.strength.addObserver( updateField );
+                barMagnet.orientation.addObserver( updateField );
 
                 // @param {Boolean} visible
                 function updateVisibility( visible ) {
