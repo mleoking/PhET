@@ -17,8 +17,8 @@ define( [ 'common/Point2D' ],
 
                 /*
                  * Transformation a value from model to view coordinates.
-                 * @param {*} value
-                 * @return {*}
+                 * @param {Number|Point2D} value
+                 * @return {Number|Point2D}
                  */
                 this.modelToView = function ( value ) {
                     if ( typeof( value ) === 'number' ) {
@@ -34,8 +34,8 @@ define( [ 'common/Point2D' ],
 
                 /*
                  * Transformation a value from view to model coordinates.
-                 * @param {*} value
-                 * @return {*}
+                 * @param {Number|Point2D} value
+                 * @return {Number|Point2D}
                  */
                 this.viewToModel = function ( value ) {
                     if ( typeof( value ) === 'number' ) {
