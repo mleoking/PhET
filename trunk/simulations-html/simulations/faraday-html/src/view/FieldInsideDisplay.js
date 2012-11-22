@@ -6,10 +6,11 @@
 define( [
             'easel',
             'common/Dimension2D',
+            'common/Inheritance',
             'common/MathUtil',
             'view/CompassNeedleDisplay'
         ],
-        function ( Easel, Dimension2D, MathUtil, CompassNeedleDisplay ) {
+        function ( Easel, Dimension2D, Inheritance, MathUtil, CompassNeedleDisplay ) {
 
             /**
              * @param {BarMagnet} barMagnet
@@ -78,7 +79,7 @@ define( [
             }
 
             // prototype chaining
-            FieldInsideDisplay.prototype = new Easel.Container();
+            Inheritance.inheritPrototype( FieldInsideDisplay, Easel.Container );
 
             return FieldInsideDisplay;
         } );
