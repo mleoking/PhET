@@ -8,6 +8,7 @@ Features:
 
 Bugs:
 - use a slider for strength
+- dipole model for bar magnet
 
 General:
 - widgets
