@@ -11,14 +11,13 @@ define( [ 'view/CompassNeedleDisplay'],
 
             /**
              * @param {Dimension2D} size
-             * @param {Number} orientation in radians
              * @param {Point2D} location
              * @constructor
              */
-            function FieldPointDisplay( size, orientation, location ) {
+            function FieldPointDisplay( size, location ) {
 
                 // constructor stealing
-                CompassNeedleDisplay.call( this, size, orientation, 1 );
+                CompassNeedleDisplay.call( this, size );
 
                 this.location = location;
             }

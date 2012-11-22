@@ -11,23 +11,22 @@ define( [ 'easel' ],
             /**
              * @param {Dimension2D} size
              * @param {Number} orientation in degrees
-             * @param {Number} alpha 0 (transparent) to 1 (opaque)
              * @constructor
              */
-            function CompassNeedleDisplay( size, orientation, alpha ) {
+            function CompassNeedleDisplay( size ) {
 
                 // constructor stealing
                 Easel.Container.call( this );
 
                 var northShape = new Easel.Shape();
-                northShape.graphics.beginFill( Easel.Graphics.getRGB( 255, 0, 0, alpha ) ); // red
+                northShape.graphics.beginFill( 'red' );
                 northShape.graphics.moveTo( 0, -size.height / 2 )
                         .lineTo( size.width / 2, 0 )
                         .lineTo( 0, size.height / 2 )
                         .closePath();
 
                 var southShape = new Easel.Shape();
-                southShape.graphics.beginFill( Easel.Graphics.getRGB( 255, 255, 255, alpha ) ); // white
+                southShape.graphics.beginFill( 'white' );
                 southShape.graphics.moveTo( 0, -size.height / 2 )
                         .lineTo( -size.width / 2, 0 )
                         .lineTo( 0, size.height / 2 )
@@ -35,8 +34,6 @@ define( [ 'easel' ],
 
                 this.addChild( northShape );
                 this.addChild( southShape );
-
-                this.rotation = orientation;
             }
 
             // prototype chaining
