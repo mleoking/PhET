@@ -28,7 +28,7 @@ define( [ 'common/Logger', 'common/Property' ],
                 updateValue();
 
                 //DEBUG
-                if ( true ) {
+                if ( false ) {
                     this.location.addObserver( function ( newValue ) {
                         logger.debug( "location=" + newValue );
                     } );
