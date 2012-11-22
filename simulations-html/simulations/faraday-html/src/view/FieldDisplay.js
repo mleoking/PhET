@@ -6,8 +6,14 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'common/Point2D' ],
-        function ( Easel, Point2D ) {
+define( [
+            'easel',
+            'common/Dimension2D',
+            'common/Point2D',
+            'common/MathUtil',
+            'view/FieldPointDisplay'
+        ],
+        function ( Easel, Dimension2D, Point2D, MathUtil, FieldPointDisplay ) {
 
             /**
              * @param {Field} field
@@ -19,17 +25,48 @@ define( [ 'easel', 'common/Point2D' ],
             function FieldDisplay( field, barMagnet, mvt, canvasSize ) {
 
                 // constructor stealing
-                Easel.Text.call( this, "field", "bold 100px Arial", 'white' );
-                this.textAlign = 'center';
-                this.textBaseline = 'middle';
+                Easel.Container.call( this );
 
-                // move to the origin
-                var point = mvt.modelToView( new Point2D( 0, 0 ) );
-                this.x = point.x;
-                this.y = point.y;
+                // create a grid of compass needles
+                var grid = [];
+                {
+                    var NEEDLE_SIZE = new Dimension2D( 25, 7 ); //TODO duplicated from FieldInsideDisplay
+                    var X_SPACING = 20;
+                    var Y_SPACING = 20;
+
+                    var deltaX = 100; //TODO compute
+                    var deltaY = 100; //TODO compute
+
+                    var y = deltaY / 4;
+                    while ( y <= canvasSize.height ) {
+                        var x = deltaX / 2;
+                        while ( x <= canvasSize.width ) {
+                            var needle = new FieldPointDisplay( NEEDLE_SIZE, new Point2D( x, y ) );
+                            needle.x = x;
+                            needle.y = y;
+                            this.addChild( needle );
+                            grid.push( needle );
+                            x += deltaX;
+                        }
+                        y += deltaY;
+                    }
+                }
 
                 // Register for synchronization with model.
                 var that = this;
+
+                function updateField() {
+                    if ( that.visible ) {
+                        // @param {FieldPointDisplay} item
+                        grid.forEach( function ( item ) {
+                            var vector = barMagnet.getFieldVector( mvt.viewToModel( item.location ) );
+                            item.rotation = MathUtil.toDegrees( vector.getAngle() );
+                            item.alpha = barMagnet.strength.get() / barMagnet.strengthRange.max;
+                        } );
+                    }
+                }
+                barMagnet.location.addObserver( updateField );
+                barMagnet.strength.addObserver( updateField );
 
                 // @param {Boolean} visible
                 function updateVisibility( visible ) {
@@ -40,21 +77,13 @@ define( [ 'easel', 'common/Point2D' ],
                 }
                 field.visible.addObserver( updateVisibility );
 
-                function updateField() {
-                    if ( that.visible ) {
-                        //TODO
-                    }
-                }
-                barMagnet.location.addObserver( updateField );
-                barMagnet.strength.addObserver( updateField );
-
                 // sync now
                 updateVisibility( field.visible.get() );
                 updateField();
             }
 
             // prototype chaining
-            FieldDisplay.prototype = new Easel.Text();
+            FieldDisplay.prototype = new Easel.Container();
 
             return FieldDisplay;
         } );

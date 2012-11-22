@@ -15,10 +15,7 @@ define( [ 'view/CompassNeedleDisplay'],
              * @constructor
              */
             function FieldPointDisplay( size, location ) {
-
-                // constructor stealing
-                CompassNeedleDisplay.call( this, size );
-
+                CompassNeedleDisplay.call( this, size ); // constructor stealing
                 this.location = location;
             }
 

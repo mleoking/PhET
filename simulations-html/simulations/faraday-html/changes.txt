@@ -1,3 +1,4 @@
+11/21/12 first wag at field visualization, hardcoded grid spacing
 11/21/12 disable debug output in model
 11/21/12 fixed bug with "Flip Polarity" button
 11/21/12 remove orientation and alpha args from CompassNeedleDisplay, these are available on supertype

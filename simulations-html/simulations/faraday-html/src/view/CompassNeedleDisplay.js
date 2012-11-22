@@ -5,8 +5,8 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel' ],
-        function ( Easel ) {
+define( [ 'easel', 'common/Dimension2D' ],
+        function ( Easel, Dimension2D ) {
 
             /**
              * @param {Dimension2D} size
@@ -14,6 +14,9 @@ define( [ 'easel' ],
              * @constructor
              */
             function CompassNeedleDisplay( size ) {
+
+                // Provide a default size.
+                size = size || new Dimension2D( 20, 10 );
 
                 // constructor stealing
                 Easel.Container.call( this );
