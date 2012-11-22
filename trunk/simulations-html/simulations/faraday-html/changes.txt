@@ -1,3 +1,4 @@
+11/21/12 change CSS to use a sans serif font for HTML controls
 11/21/12 fix: make field meter observe magnet orientation
 11/21/12 rename view-specific properties to match how they are presented to the user
 11/21/12 get rid of Field model element, handle field visibility in the view
