@@ -36,8 +36,8 @@ define( [ 'common/PropertyCheckBox' ],
                 };
 
                 // Check boxes
-                PropertyCheckBox.connect( stage.magnetTransparent, "seeInsideMagnetCheckBox" );
-                PropertyCheckBox.connect( stage.fieldVisible, "showFieldCheckBox" );
+                PropertyCheckBox.connect( stage.seeInside, "seeInsideMagnetCheckBox" );
+                PropertyCheckBox.connect( stage.showField, "showFieldCheckBox" );
                 PropertyCheckBox.connect( model.compass.visible, "showCompassCheckBox" );
                 PropertyCheckBox.connect( model.fieldMeter.visible, "showFieldMeterCheckBox" );
 
