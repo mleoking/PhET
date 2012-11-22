@@ -8,6 +8,12 @@
 define( [ 'common/Logger', 'common/Property' ],
         function ( Logger, Property ) {
 
+            /**
+             * @param {Point} location
+             * @param {Boolean} visible
+             * @param {BarMagnet} magnet
+             * @constructor
+             */
             function Compass( location, visible, magnet ) {
 
                 var logger = new Logger( "Compass" ); // logger for this source file
