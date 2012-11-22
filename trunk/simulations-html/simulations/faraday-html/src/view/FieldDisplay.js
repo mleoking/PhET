@@ -31,24 +31,23 @@ define( [
                 var grid = [];
                 {
                     var NEEDLE_SIZE = new Dimension2D( 25, 7 ); //TODO duplicated from FieldInsideDisplay
-                    var X_SPACING = 20;
-                    var Y_SPACING = 20;
+                    var SPACING = 20;
 
-                    var deltaX = 100; //TODO compute
-                    var deltaY = 100; //TODO compute
+                    // delta is the same for both dimensions, because needles rotate
+                    var delta = Math.max( NEEDLE_SIZE.width, NEEDLE_SIZE.height ) + SPACING;
 
-                    var y = deltaY / 4;
+                    var y = delta / 4;
                     while ( y <= canvasSize.height ) {
-                        var x = deltaX / 2;
+                        var x = delta / 2;
                         while ( x <= canvasSize.width ) {
                             var needle = new FieldPointDisplay( NEEDLE_SIZE, new Point2D( x, y ) );
                             needle.x = x;
                             needle.y = y;
                             this.addChild( needle );
                             grid.push( needle );
-                            x += deltaX;
+                            x += delta;
                         }
-                        y += deltaY;
+                        y += delta;
                     }
                 }
 
@@ -61,7 +60,7 @@ define( [
                         grid.forEach( function ( item ) {
                             var vector = barMagnet.getFieldVector( mvt.viewToModel( item.location ) );
                             item.rotation = MathUtil.toDegrees( vector.getAngle() );
-                            item.alpha = barMagnet.strength.get() / barMagnet.strengthRange.max;
+                            item.alpha = Math.min( 1, barMagnet.strength.get() / barMagnet.strengthRange.max );
                         } );
                     }
                 }
