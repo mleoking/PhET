@@ -15,7 +15,7 @@ define( [ 'easel', 'common/Dimension2D' ],
              */
             function CompassNeedleDisplay( size ) {
 
-                // Provide a default size.
+                // Provide a default size (primarily to support prototype chaining)
                 size = size || new Dimension2D( 20, 10 );
 
                 // constructor stealing
