@@ -1,3 +1,4 @@
+11/21/12 provide canvas dimensions to field visualization
 11/21/12 add module for faraday-html
 11/21/12 switch to textfield for entering magnet strength, slider is brain damaged
 11/21/12 add HTML slider for magnet strength (doesn't work on FireFox, textfield is substituted)

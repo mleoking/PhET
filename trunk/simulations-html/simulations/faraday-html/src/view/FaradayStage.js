@@ -8,6 +8,7 @@
  */
 define( [
             'easel',
+            'common/Dimension2D',
             'common/Property',
             'view/BarMagnetDisplay',
             'view/CompassDisplay',
@@ -15,7 +16,7 @@ define( [
             'view/FieldInsideDisplay',
             'view/FieldMeterDisplay'
         ],
-        function ( Easel, Property, BarMagnetDisplay, CompassDisplay, FieldDisplay, FieldInsideDisplay, FieldMeterDisplay ) {
+        function ( Easel, Dimension2D, Property, BarMagnetDisplay, CompassDisplay, FieldDisplay, FieldInsideDisplay, FieldMeterDisplay ) {
 
             function FaradayStage( canvas, model ) {
 
@@ -29,7 +30,7 @@ define( [
                 background.graphics.rect( 0, 0, canvas.width, canvas.height );
 
                 // field
-                var field = new FieldDisplay( model.field, model.barMagnet, model.mvt );
+                var field = new FieldDisplay( model.field, model.barMagnet, model.mvt, new Dimension2D( canvas.width, canvas.height ) );
 
                 // bar magnet
                 var barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );

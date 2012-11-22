@@ -12,9 +12,10 @@ define( [ 'easel', 'common/Point2D' ],
              * @param {Field} field
              * @param {BarMagnet} barMagnet
              * @param {ModelViewTransform2D} mvt
+             * @param {Dimension2D} canvasSize
              * @constructor
              */
-            function FieldDisplay( field, barMagnet, mvt ) {
+            function FieldDisplay( field, barMagnet, mvt, canvasSize ) {
 
                 // constructor stealing
                 Easel.Text.call( this, "field", "bold 100px Arial", 'white' );
