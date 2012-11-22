@@ -14,17 +14,16 @@ define( [
             /**
              * @param {BarMagnet} barMagnet
              * @param {ModelViewTransform2D} mvt
+             * @param {Dimension2D} needleSize
              * @constructor
              */
-            function FieldInsideDisplay( barMagnet, mvt ) {
+            function FieldInsideDisplay( barMagnet, mvt, needleSize ) {
 
                 // constructor stealing
                 Easel.Container.call( this );
 
                 // grid of needles, inside the barMagnet's bounds
                 {
-                    var NEEDLE_SIZE = new Dimension2D( 25, 7 );
-
                     var ROWS = 2;
                     var COLUMNS = 7;
 
@@ -40,7 +39,7 @@ define( [
                     for ( var row = 0; row < ROWS; row++ ) {
                         xOffset = xStart;
                         for ( var column = 0; column < COLUMNS; column++ ) {
-                            var needle = new CompassNeedleDisplay( NEEDLE_SIZE );
+                            var needle = new CompassNeedleDisplay( needleSize );
                             needle.x = xOffset;
                             needle.y = yOffset;
                             this.addChild( needle );

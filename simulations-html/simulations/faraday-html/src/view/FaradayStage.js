@@ -29,15 +29,18 @@ define( [
                 background.graphics.beginFill( 'black' );
                 background.graphics.rect( 0, 0, canvas.width, canvas.height );
 
+                // needle size, used for field inside and outside the magnet
+                var NEEDLE_SIZE = new Dimension2D( 25, 7 );
+
                 // field
-                var field = new FieldDisplay( model.field, model.barMagnet, model.mvt, new Dimension2D( canvas.width, canvas.height ) );
+                var field = new FieldDisplay( model.field, model.barMagnet, model.mvt, new Dimension2D( canvas.width, canvas.height ), NEEDLE_SIZE );
 
                 // bar magnet
                 var barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );
 
                 // field inside magnet
                 this.magnetTransparent = new Property( false );
-                var fieldInside = new FieldInsideDisplay( model.barMagnet, model.mvt );
+                var fieldInside = new FieldInsideDisplay( model.barMagnet, model.mvt, NEEDLE_SIZE );
                 fieldInside.visible = this.magnetTransparent.get();
                 var that = this;
                 this.magnetTransparent.addObserver( function () {
@@ -45,7 +48,7 @@ define( [
                 } );
 
                 // compass
-                var compass = new CompassDisplay( model.compass, model.mvt );
+                var compass = new CompassDisplay( model.compass, model.mvt, NEEDLE_SIZE );
 
                 // field meter
                 var meter = new FieldMeterDisplay( model.fieldMeter, model.mvt );

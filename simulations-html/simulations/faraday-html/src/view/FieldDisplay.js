@@ -20,9 +20,10 @@ define( [
              * @param {BarMagnet} barMagnet
              * @param {ModelViewTransform2D} mvt
              * @param {Dimension2D} canvasSize
+             * @param {Dimension2D} needleSize
              * @constructor
              */
-            function FieldDisplay( field, barMagnet, mvt, canvasSize ) {
+            function FieldDisplay( field, barMagnet, mvt, canvasSize, needleSize ) {
 
                 // constructor stealing
                 Easel.Container.call( this );
@@ -30,17 +31,16 @@ define( [
                 // create a grid of compass needles
                 var grid = [];
                 {
-                    var NEEDLE_SIZE = new Dimension2D( 25, 7 ); //TODO duplicated from FieldInsideDisplay
                     var SPACING = 20;
 
                     // delta is the same for both dimensions, because needles rotate
-                    var delta = Math.max( NEEDLE_SIZE.width, NEEDLE_SIZE.height ) + SPACING;
+                    var delta = Math.max( needleSize.width, needleSize.height ) + SPACING;
 
                     var y = delta / 4;
                     while ( y <= canvasSize.height ) {
                         var x = delta / 2;
                         while ( x <= canvasSize.width ) {
-                            var needle = new FieldPointDisplay( NEEDLE_SIZE, new Point2D( x, y ) );
+                            var needle = new FieldPointDisplay( needleSize, new Point2D( x, y ) );
                             needle.x = x;
                             needle.y = y;
                             this.addChild( needle );
