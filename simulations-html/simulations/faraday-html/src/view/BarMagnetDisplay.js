@@ -47,20 +47,20 @@ define( [
                 } );
 
                 // Register for synchronization with model.
-                var thisDisplayObject = this;
+                var that = this;
 
                 // @param {Point2D} location
                 function updateLocation( location ) {
                     var point = mvt.modelToView( location );
-                    thisDisplayObject.x = point.x;
-                    thisDisplayObject.y = point.y;
+                    that.x = point.x;
+                    that.y = point.y;
                 }
 
                 barMagnet.location.addObserver( updateLocation );
 
                 // @param {Number} orientation in radians
                 function updateOrientation( orientation ) {
-                    thisDisplayObject.rotation = MathUtil.toDegrees( orientation );
+                    that.rotation = MathUtil.toDegrees( orientation );
                 }
 
                 barMagnet.orientation.addObserver( updateOrientation );
