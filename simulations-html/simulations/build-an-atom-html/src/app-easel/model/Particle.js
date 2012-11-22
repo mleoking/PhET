@@ -2,13 +2,13 @@
 define([
 ], function( ){
 
-  function Particle2( xPos, yPos, color, radius, type ){
-      this.xPos = xPos;
-      this.yPos = yPos;
+  function Particle( x, y, color, radius, type ){
+      this.x = x;
+      this.y = y;
       this.color = color;
       this.radius = radius;
       this.type = type;
   }
 
-  return Particle2;
+  return Particle;
 });
