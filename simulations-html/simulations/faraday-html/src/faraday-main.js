@@ -33,12 +33,12 @@ require( [
              // MVC --------------------------------------------------------------------
 
              var model = new FaradayModel( canvas.width, canvas.height );
-             var view = new FaradayStage( canvas, model );
-             ControlPanel.connect( model, view );
+             var stage = new FaradayStage( canvas, model );
+             ControlPanel.connect( model, stage );
 
              // Animation loop ----------------------------------------------------------
 
-             Easel.Ticker.addListener( view.stage );
+             Easel.Ticker.addListener( stage );
              Easel.Ticker.setFPS( 60 );
-             Easel.Touch.enable( view.stage, false, false );
+             Easel.Touch.enable( stage, false, false );
          } );
