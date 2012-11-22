@@ -1,3 +1,4 @@
+11/21/12 chain calls to Easel.Graphics methods
 11/21/12 for closures, rename thisDisplayObject -> that
 11/21/12 rename FieldDisplay -> FieldOutsideDisplay
 11/21/12 provide needle size in constructors for field inside and outside the magnet

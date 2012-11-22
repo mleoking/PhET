@@ -30,10 +30,11 @@ define( [
 
                 // ring
                 var ring = new Easel.Shape();
-                ring.graphics.beginFill( Easel.Graphics.getRGB( 0, 0, 0, 0.05 ) ); // transparent
-                ring.graphics.setStrokeStyle( ringThickness );
-                ring.graphics.beginStroke( Easel.Graphics.getRGB( 153, 153, 153 ) ); // gray
-                ring.graphics.drawCircle( 0, 0, outsideRadius - ( ringThickness / 2 ) );
+                ring.graphics
+                        .beginFill( Easel.Graphics.getRGB( 0, 0, 0, 0.05 ) )
+                        .setStrokeStyle( ringThickness )
+                        .beginStroke( Easel.Graphics.getRGB( 153, 153, 153 ) )
+                        .drawCircle( 0, 0, outsideRadius - ( ringThickness / 2 ) );
                 this.addChild( ring );
 
                 // indicators on the ring
@@ -43,9 +44,10 @@ define( [
                     var vector = Vector2D.createPolar( outsideRadius - ( ringThickness / 2 ), MathUtil.toRadians( angle ) );
 
                     var indicator = new Easel.Shape();
-                    indicator.graphics.beginFill( 'black' );
-                    indicator.graphics.setStrokeStyle( 0 );
-                    indicator.graphics.drawCircle( vector.x, vector.y, 3 );
+                    indicator.graphics
+                            .beginFill( 'black' )
+                            .setStrokeStyle( 0 )
+                            .drawCircle( vector.x, vector.y, 3 );
                     this.addChild( indicator );
 
                     angle += 45;
@@ -57,9 +59,10 @@ define( [
 
                 // center pin
                 var pin = new Easel.Shape();
-                pin.graphics.beginFill( 'black' );
-                pin.graphics.setStrokeStyle( 0 );
-                pin.graphics.drawCircle( 0, 0, 3 );
+                pin.graphics
+                        .beginFill( 'black' )
+                        .setStrokeStyle( 0 )
+                        .drawCircle( 0, 0, 3 );
                 this.addChild( pin );
 
                 // @param {Point2D} point
