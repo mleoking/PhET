@@ -52,7 +52,7 @@ define( [
                 }
 
                 // needle
-                var needle = new CompassNeedleDisplay( new Dimension2D( 50, 14 ), 0, 1 );
+                var needle = new CompassNeedleDisplay( new Dimension2D( 50, 14 ) );
                 this.addChild( needle );
 
                 // center pin
@@ -76,21 +76,18 @@ define( [
                     thisDisplayObject.x = point.x;
                     thisDisplayObject.y = point.y;
                 }
-
                 compass.location.addObserver( updateLocation );
 
                 // @param {Number} orientation
                 function updateOrientation( orientation ) {
                     needle.rotation = MathUtil.toDegrees( compass.orientation.get() );
                 }
-
                 compass.orientation.addObserver( updateOrientation );
 
                 // @param {Boolean} visible
                 function updateVisibility( visible ) {
                     thisDisplayObject.visible = visible;
                 }
-
                 compass.visible.addObserver( updateVisibility );
 
                 // sync now

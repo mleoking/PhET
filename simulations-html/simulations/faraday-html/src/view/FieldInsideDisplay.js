@@ -40,7 +40,7 @@ define( [
                     for ( var row = 0; row < ROWS; row++ ) {
                         xOffset = xStart;
                         for ( var column = 0; column < COLUMNS; column++ ) {
-                            var needle = new CompassNeedleDisplay( NEEDLE_SIZE, 0, 1 );
+                            var needle = new CompassNeedleDisplay( NEEDLE_SIZE );
                             needle.x = xOffset;
                             needle.y = yOffset;
                             this.addChild( needle );
