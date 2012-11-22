@@ -1,7 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Display object for the E-field.
+ * Display object for the B-field, a grid of compass needles.
+ * Each needle represents the B-field vector at a specific point.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
