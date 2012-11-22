@@ -24,6 +24,10 @@ define( [
 
                 this.enableMouseOver();
 
+                // properties that are specific to the view (have no model counterpart)
+                this.seeInside = new Property( false );
+                this.showField = new Property( true );
+
                 // black background
                 var background = new Easel.Shape();
                 background.graphics.beginFill( 'black' );
@@ -34,9 +38,8 @@ define( [
 
                 // field outside the magnet
                 var field = new FieldOutsideDisplay( model.barMagnet, model.mvt, new Dimension2D( canvas.width, canvas.height ), NEEDLE_SIZE );
-                this.fieldVisible = new Property( true );
-                field.visible = this.fieldVisible.get();
-                this.fieldVisible.addObserver( function( visible ) {
+                field.visible = this.showField.get();
+                this.showField.addObserver( function( visible ) {
                     field.visible = visible;
                 } );
 
@@ -44,12 +47,10 @@ define( [
                 var barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );
 
                 // field inside magnet
-                this.magnetTransparent = new Property( false );
                 var fieldInside = new FieldInsideDisplay( model.barMagnet, model.mvt, NEEDLE_SIZE );
-                fieldInside.visible = this.magnetTransparent.get();
-                var that = this;
-                this.magnetTransparent.addObserver( function () {
-                    fieldInside.visible = that.magnetTransparent.get();
+                fieldInside.visible = this.seeInside.get();
+                this.seeInside.addObserver( function ( visible ) {
+                    fieldInside.visible = visible;
                 } );
 
                 // compass
@@ -71,8 +72,8 @@ define( [
 
             // Resets all view-specific properties
             FaradayStage.prototype.reset = function () {
-                this.fieldVisible.reset();
-                this.magnetTransparent.reset();
+                this.seeInside.reset();
+                this.showField.reset();
             };
 
             return FaradayStage;

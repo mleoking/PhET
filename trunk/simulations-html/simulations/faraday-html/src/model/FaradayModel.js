@@ -35,7 +35,6 @@ define( [
             // Resets all model elements
             FaradayModel.prototype.reset = function () {
                 this.barMagnet.reset();
-                this.field.reset();
                 this.fieldMeter.reset();
                 this.compass.reset();
             };

@@ -1,3 +1,4 @@
+11/21/12 rename view-specific properties to match how they are presented to the user
 11/21/12 get rid of Field model element, handle field visibility in the view
 11/21/12 patch up Canvas in CanvasQuirks
 11/21/12 implement FaradayStage using inheritance instead of composition
