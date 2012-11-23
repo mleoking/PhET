@@ -21,7 +21,7 @@ define( [
         ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar, createEaselRoot ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
-    return function ( id, running, sliderControls ) {
+    return function ( id, running, sliderControls, analytics ) {
 
         //Rename element id so they will be unique across tabs
         //Unique ID for the elements
@@ -94,13 +94,33 @@ define( [
 
         //Wire up the pie chart check box button to the visibility of the pie chart
         tab$( "checkbox1" ).click( function () {
-//            var img = new Image();
-//            img.src = "http://simian.colorado.edu/__utm.gif?id=0&name=hello";
-            root.barChart.visible = tab$( "checkbox1" ).is( ":checked" );
+            var newValue = tab$( "checkbox1" ).is( ":checked" );
+            analytics.log( "barGraphCheckBox", "checkBox", "pressed", [
+                {value: newValue}
+            ] );
+            root.barChart.visible = newValue;
         } );
-        tab$( "checkbox2" ).click( function () { root.pieChart.visible = tab$( "checkbox2" ).is( ":checked" ); } );
-        tab$( "checkbox3" ).click( function () { root.grid.visible = tab$( "checkbox3" ).is( ":checked" ); } );
-        tab$( "checkbox4" ).click( function () { root.speedometer.visible = tab$( "checkbox4" ).is( ":checked" ); } );
+        tab$( "checkbox2" ).click( function () {
+            var newValue = tab$( "checkbox2" ).is( ":checked" );
+            analytics.log( "pieChartCheckBox", "checkBox", "pressed", [
+                {value: newValue}
+            ] );
+            root.pieChart.visible = newValue;
+        } );
+        tab$( "checkbox3" ).click( function () {
+            var newValue = tab$( "checkbox3" ).is( ":checked" );
+            analytics.log( "gridCheckBox", "checkBox", "pressed", [
+                {value: newValue}
+            ] );
+            root.grid.visible = newValue;
+        } );
+        tab$( "checkbox4" ).click( function () {
+            var newValue = tab$( "checkbox4" ).is( ":checked" );
+            analytics.log( "speedCheckBox", "checkBox", "pressed", [
+                {value: newValue}
+            ] );
+            root.speedometer.visible = newValue;
+        } );
 
         tab$( "returnSkaterButton" ).bind( "click", function () {
             skaterModel.returnSkater();
