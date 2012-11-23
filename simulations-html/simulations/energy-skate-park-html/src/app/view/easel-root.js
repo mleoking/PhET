@@ -5,13 +5,12 @@ define( [
             'view/background',
             'spline',
             'model/physics',
-            'view/easel-create',
             'view/easel-util',
             'view/pie-chart',
             'view/grid',
             'view/bar-chart',
             'view/speedometer'
-        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
+        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( skaterModel, groundHeight, groundY, analytics ) {

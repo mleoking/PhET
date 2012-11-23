@@ -5,7 +5,6 @@ define( [
             'view/background',
             'spline',
             'model/physics',
-            'view/easel-create',
             'view/easel-util',
             'view/pie-chart',
             'view/grid',
@@ -18,7 +17,7 @@ define( [
             'tpl!view/speed-control.html',
             'tpl!view/navbar.html',
             'view/easel-root'
-        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselCreate, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar, createEaselRoot ) {
+        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar, createEaselRoot ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( id, running, sliderControls, analytics ) {
