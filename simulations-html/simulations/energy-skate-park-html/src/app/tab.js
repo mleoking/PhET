@@ -93,7 +93,11 @@ define( [
         tab.append( $( text ) ).trigger( "create" );
 
         //Wire up the pie chart check box button to the visibility of the pie chart
-        tab$( "checkbox1" ).click( function () { root.barChart.visible = tab$( "checkbox1" ).is( ":checked" ); } );
+        tab$( "checkbox1" ).click( function () {
+//            var img = new Image();
+//            img.src = "http://simian.colorado.edu/__utm.gif?id=0&name=hello";
+            root.barChart.visible = tab$( "checkbox1" ).is( ":checked" );
+        } );
         tab$( "checkbox2" ).click( function () { root.pieChart.visible = tab$( "checkbox2" ).is( ":checked" ); } );
         tab$( "checkbox3" ).click( function () { root.grid.visible = tab$( "checkbox3" ).is( ":checked" ); } );
         tab$( "checkbox4" ).click( function () { root.speedometer.visible = tab$( "checkbox4" ).is( ":checked" ); } );
@@ -113,10 +117,10 @@ define( [
             skaterModel.returnSkater();
         } );
 
-        tab$( "barGraphLabel" ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
-        tab$( "pieChartLabel" ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
-        tab$( "gridLabel" ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
-        tab$( "speedLabel" ).find( '> .ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
+        tab$( "barGraphLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
+        tab$( "pieChartLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
+        tab$( "gridLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
+        tab$( "speedLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
 
         $( '#flip-min' ).val( 'on' ).slider( "refresh" );
         $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
