@@ -114,12 +114,10 @@ define( [
             skaterModel.returnSkater();
         } );
         tab$( "resetAllButton" ).bind( "click", function () {
+            analytics.log( "resetAllButton", "button", "pressed" );
 
             //This line of code took a long to find.  You cannot simply attr("checked","").
-            tab$( "checkbox1" ).removeAttr( "checked" ).checkboxradio( "refresh" );
-            tab$( "checkbox2" ).removeAttr( "checked" ).checkboxradio( "refresh" );
-            tab$( "checkbox3" ).removeAttr( "checked" ).checkboxradio( "refresh" );
-            tab$( "checkbox4" ).removeAttr( "checked" ).checkboxradio( "refresh" );
+            _.each( elements, function ( element ) {tab$( element.dom ).removeAttr( "checked" ).checkboxradio( "refresh" )} );
 
             root.resetAll();
             skaterModel.returnSkater();
