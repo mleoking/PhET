@@ -92,34 +92,22 @@ define( [
                                              sliderControls: sliderControls} );
         tab.append( $( text ) ).trigger( "create" );
 
+        var elements = [
+            {dom: "checkbox1", component: "barGraphCheckBox", node: root.barChart},
+            {dom: "checkbox2", component: "pieChartCheckBox", node: root.pieChart},
+            {dom: "checkbox3", component: "gridCheckBox", node: root.grid},
+            {dom: "checkbox4", component: "speedCheckBox", node: root.speedometer}
+        ];
+
         //Wire up the pie chart check box button to the visibility of the pie chart
-        tab$( "checkbox1" ).click( function () {
-            var newValue = tab$( "checkbox1" ).is( ":checked" );
-            analytics.log( "barGraphCheckBox", "checkBox", "pressed", [
-                {value: newValue}
-            ] );
-            root.barChart.visible = newValue;
-        } );
-        tab$( "checkbox2" ).click( function () {
-            var newValue = tab$( "checkbox2" ).is( ":checked" );
-            analytics.log( "pieChartCheckBox", "checkBox", "pressed", [
-                {value: newValue}
-            ] );
-            root.pieChart.visible = newValue;
-        } );
-        tab$( "checkbox3" ).click( function () {
-            var newValue = tab$( "checkbox3" ).is( ":checked" );
-            analytics.log( "gridCheckBox", "checkBox", "pressed", [
-                {value: newValue}
-            ] );
-            root.grid.visible = newValue;
-        } );
-        tab$( "checkbox4" ).click( function () {
-            var newValue = tab$( "checkbox4" ).is( ":checked" );
-            analytics.log( "speedCheckBox", "checkBox", "pressed", [
-                {value: newValue}
-            ] );
-            root.speedometer.visible = newValue;
+        _.each( elements, function ( element ) {
+            tab$( element.dom ).click( function () {
+                var newValue = tab$( element.dom ).is( ":checked" );
+                analytics.log( element.component, "checkBox", "pressed", [
+                    {value: newValue}
+                ] );
+                element.node.visible = newValue;
+            } );
         } );
 
         tab$( "returnSkaterButton" ).bind( "click", function () {
