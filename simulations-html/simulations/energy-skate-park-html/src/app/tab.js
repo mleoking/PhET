@@ -40,7 +40,7 @@ define( [
         var groundHeight = 116;
         var groundY = 768 - groundHeight;
 
-        var root = createEaselRoot( skaterModel, groundHeight, groundY );
+        var root = createEaselRoot( skaterModel, groundHeight, groundY, analytics );
 
         //Get rid of text cursor when dragging on the canvas, see http://stackoverflow.com/questions/2659999/html5-canvas-hand-cursor-problems
         var canvas = document.getElementById( getID( "c" ) );

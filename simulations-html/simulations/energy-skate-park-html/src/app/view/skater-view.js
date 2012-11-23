@@ -1,5 +1,5 @@
 define( ["../model/vector2d" ], function ( Vector2D ) {
-    return {createSkater: function ( skaterModel, groundHeight, groundY ) {
+    return {createSkater: function ( skaterModel, groundHeight, groundY, analytics ) {
 
         var metersPerPixel = 8.0 / 768.0;
 
@@ -54,6 +54,9 @@ define( ["../model/vector2d" ], function ( Vector2D ) {
             e.onMouseUp = function ( event ) {
                 skaterModel.dragging = false;
                 skaterModel.velocity = new Vector2D();
+                analytics.log( "skater", "sprite", "released", [
+                    {y: skaterModel.position.y.toFixed( 2 )}
+                ] );
             };
         }
 
