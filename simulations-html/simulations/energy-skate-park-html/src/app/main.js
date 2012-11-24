@@ -1,17 +1,9 @@
 require( ['websocket-refresh',
-             'tab',
-             "tpl!view/massSlider.html",
-             "tpl!view/frictionControls.html",
-             '../../../../common/common-html/src/app/analytics/Analytics'
+          'tab',
+          "tpl!view/massSlider.html",
+          "tpl!view/frictionControls.html",
+          '../../../../common/common-html/src/app/analytics/Analytics'
          ], function ( WebsocketRefresh, Tab, massSlider, frictionControls, Analytics ) {
-
-    //Workaround for IE9 console: http://stackoverflow.com/questions/5472938/does-ie9-support-console-log-and-is-it-a-real-function
-    if ( !window.console ) {
-        window.console = {};
-    }
-    if ( !window.console.log ) {
-        window.console.log = function () { };
-    }
 
     WebsocketRefresh.listenForRefresh();
     var analytics = new Analytics();
