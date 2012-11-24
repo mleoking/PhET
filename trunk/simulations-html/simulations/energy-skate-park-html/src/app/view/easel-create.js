@@ -1,4 +1,4 @@
-define(function () {
+define(['util/ie-support'], function() {
     
     createjs.DisplayObject.__proto__.create = function(params) {
         var object = new this();
@@ -42,3 +42,5 @@ define(function () {
     }
 
 });
+
+
