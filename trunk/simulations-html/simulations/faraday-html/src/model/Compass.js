@@ -5,8 +5,8 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'easel', 'common/Logger', 'common/Property' ],
-        function ( Easel, Logger, Property ) {
+define( [ 'easel', 'common/Logger', 'common/Property', 'model/CompassKinematics' ],
+        function ( Easel, Logger, Property, CompassKinematics ) {
 
             /**
              * @param {Point} location
@@ -22,17 +22,7 @@ define( [ 'easel', 'common/Logger', 'common/Property' ],
                 this.location = new Property( location );
                 this.visible = new Property( visible );
                 this.orientation = new Property( 0 ); // radians
-
-                // Update the orientation.
-                var thisInstance = this;
-                var updateOrientation = function () {
-                    var vector = magnet.getFieldVector( thisInstance.location.get() );
-                    thisInstance.orientation.set( vector.getAngle() );
-                };
-                this.location.addObserver( updateOrientation );
-                magnet.location.addObserver( updateOrientation );
-                magnet.orientation.addObserver( updateOrientation );
-                updateOrientation();
+                this.kinematics = new CompassKinematics( this, magnet );
 
                 //DEBUG
                 if ( false ) {
@@ -56,8 +46,16 @@ define( [ 'easel', 'common/Logger', 'common/Property' ],
 
             // Animates the compass needle
             Compass.prototype.tick = function() {
-                console.log( "Compass.tick " + Easel.Ticker.getInterval() );
-                //TODO
+                this.kinematics.animateOrientation( 1 );
+            };
+
+            /**
+             * Workaround to get the compass moving immediately.
+             * In some situations, such as when the magnet polarity is flipped,
+             * it can take quite awhile for the magnet to start moving.
+             */
+            Compass.prototype.startMovingNow = function () {
+                this.kinematics.startMovingNow();
             };
 
             return Compass;

@@ -44,6 +44,7 @@ define( [ 'common/PropertyCheckBox' ],
                 var flipPolarityButton = document.getElementById( "flipPolarityButton" );
                 flipPolarityButton.onclick = function () {
                     model.barMagnet.orientation.set( model.barMagnet.orientation.get() + Math.PI );
+                    model.compass.startMovingNow();
                 };
 
                 var resetAllButton = document.getElementById( "resetAllButton" );
