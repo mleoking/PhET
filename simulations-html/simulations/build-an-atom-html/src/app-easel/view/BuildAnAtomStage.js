@@ -1,6 +1,7 @@
 define( [
             'underscore',
             'easel',
+            'common/ModelViewTransform2D',
             'view/ParticleView',
             'view/AtomView',
             'view/BucketHole',
@@ -8,7 +9,7 @@ define( [
             'view/SymbolView',
             'view/MassNumberView',
             'view/ElectronShellView'
-        ], function ( _, Easel, ParticleView, AtomView, BucketHole, BucketFront, SymbolView, MassNumberView, ElectronShellView ) {
+        ], function ( _, Easel, ModelViewTransform2D, ParticleView, AtomView, BucketHole, BucketFront, SymbolView, MassNumberView, ElectronShellView ) {
 
     function BuildAnAtomStage( canvas, model ) {
 
@@ -20,14 +21,20 @@ define( [
         var stageWidth = canvas.width;
         var stageHeight = canvas.height;
 
+        // Set up the model-view transform. The center of the nucleus is at the
+        // the point (0, 0) in model space, so this is set up to make that
+        // point centered in the x direction and somewhat above center in the
+        // y direction.
+        var mvt = new ModelViewTransform2D( 1, { x: stageWidth / 2, y: stageHeight * 0.4 } );
+
         // Create a root node for the scene graph.
         var root = new Easel.Container();
         this.stage.addChild( root );
 
         // Create and add the place where the nucleus will be constructed.
-        var atomView = new AtomView();
-        atomView.x = stageWidth / 2;
-        atomView.y = stageHeight * 0.4;
+        var atomView = new AtomView( 0, 0, mvt );
+//        atomView.x = stageWidth / 2;
+//        atomView.y = stageHeight * 0.4;
         root.addChild( atomView );
 
         // Add the electron shell.
