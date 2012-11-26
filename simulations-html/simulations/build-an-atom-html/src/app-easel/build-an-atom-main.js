@@ -4,8 +4,8 @@ require( [
              'easel',
              'view/BuildAnAtomStage',
              'model/BuildAnAtomModel',
-             'view/symbol-view',
-             'view/mass-number-view',
+             'view/SymbolView',
+             'view/MassNumberView',
              'tpl!templates/periodic-table.html'
          ], function ( _, Easel, BuildAnAtomStage, BuildAnAtomModel, SymbolView, MassNumberView, periodicTable ) {
 
