@@ -30,8 +30,9 @@ define( [
 
                 // black background
                 var background = new Easel.Shape();
-                background.graphics.beginFill( 'black' );
-                background.graphics.rect( 0, 0, canvas.width, canvas.height );
+                background.graphics
+                        .beginFill( 'black' )
+                        .rect( 0, 0, canvas.width, canvas.height );
 
                 // needle size, used for field inside and outside the magnet
                 var NEEDLE_SIZE = new Dimension2D( 25, 7 );

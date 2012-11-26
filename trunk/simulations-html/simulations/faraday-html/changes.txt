@@ -1,3 +1,4 @@
+11/26/12 chain graphics calls in FaradayStage
 11/26/12 convert from Ticket.getInterval to frames for compass animation
 11/26/12 animate compass kinematics using Verlet algorithm
 11/26/12 thisInstance -> that
