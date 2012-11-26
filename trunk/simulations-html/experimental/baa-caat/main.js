@@ -1,5 +1,5 @@
 require([
-  'underscore',
+  '../.',
   'caat'
 ], function( _, CAAT ){
 
