@@ -3,13 +3,13 @@ Needs:
   IDE:
     codestyle
     navigation
+    refactoring (move, rename,...)
     presentation compiler support
 
   Software engineering:
     assert
     logger
     arg validation (type, required vs optional, value)
-    documentation tools/conventions (eg, how to doc function param types)
     adhoc (test mains) and unit tests
 
   Easel:
