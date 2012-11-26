@@ -7,7 +7,7 @@ define( [
 
     function BuildAnAtomModel() {
 
-        this.atom = new Atom();
+        this.atom = new Atom( 0, 0 );
 
         this.buckets = {
             protonBucket:new Bucket( 105, 600, 150, "Protons" ),

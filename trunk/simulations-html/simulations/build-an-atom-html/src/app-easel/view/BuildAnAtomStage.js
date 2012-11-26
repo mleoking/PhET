@@ -32,11 +32,11 @@ define( [
         this.stage.addChild( root );
 
         // Create and add the place where the nucleus will be constructed.
-        var atomView = new AtomView( 0, 0, mvt );
+        var atomView = new AtomView( model.atom, mvt );
         root.addChild( atomView );
 
         // Add the electron shell.
-        var electronShell = new ElectronShellView( 0, 0, mvt );
+        var electronShell = new ElectronShellView( model.atom, mvt );
         root.addChild( electronShell );
 
         // Create and add the bucket holes where the idle particles will be kept.

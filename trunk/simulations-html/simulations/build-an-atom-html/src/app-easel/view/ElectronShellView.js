@@ -6,16 +6,16 @@ define( [
 
         ], function ( _, Easel, Point2D ) {
 
-    var ElectronShellView = function ( xPos, yPos, mvt ) {
+    var ElectronShellView = function ( atom, mvt ) {
         Easel.Container.prototype.initialize.call( this );
-        this.initialize( xPos, yPos, mvt );
+        this.initialize( atom, mvt );
     };
 
     var p = ElectronShellView.prototype;
 
     _.extend( p, Easel.Container.prototype );
 
-    p.initialize = function ( xPos, yPos, mvt ) {
+    p.initialize = function ( atom, mvt ) {
         var innerRadius = mvt.modelToView( 80 );
         var innerRingShape = new Easel.Shape();
         innerRingShape.graphics
@@ -34,7 +34,7 @@ define( [
                 .endStroke();
         this.addChild( outerRingShape );
 
-        var centerInViewSpace = mvt.modelToView( new Point2D( xPos, yPos ) );
+        var centerInViewSpace = mvt.modelToView( new Point2D( atom.xPos, atom.yPos ) );
         this.x = centerInViewSpace.x;
         this.y = centerInViewSpace.y;
     };
