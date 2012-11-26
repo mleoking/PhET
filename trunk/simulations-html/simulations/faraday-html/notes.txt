@@ -17,13 +17,11 @@ Needs:
 
   Sim framework:
     Game loop?
-    something similar to Property<T>
-    core types (Dimension, Vector)
-    sim types (ModelViewTransform)
+    something similar to Property<T> (Object.observe in ECMAScript.next)
 
   i18n in energy-skate-park-html:
     where did you get i18n.js?
-    why is not in vendor/?
+    why isn't it in vendor/?
     where is it imported?
     example use?
     why in nls directory?
