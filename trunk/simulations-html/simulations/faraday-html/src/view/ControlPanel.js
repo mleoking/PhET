@@ -5,8 +5,8 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/PropertyCheckBox' ],
-        function ( PropertyCheckBox ) {
+define( [ 'common/PropertyCheckBox', 'i18n!resources/nls/faraday-html-strings' ],
+        function ( PropertyCheckBox, strings ) {
 
             function ControlPanel() {
             }
@@ -19,6 +19,8 @@ define( [ 'common/PropertyCheckBox' ],
 
                 //TODO Would prefer a slider, but HTML slider is brain damaged, and doesn't work in FireFox.
                 // Strength text field
+                var strengthTextFieldLabel = document.getElementById( "strengthTextFieldLabel" );
+                //TODO strengthTextFieldLabel i18n
                 var strengthTextField = document.getElementById( "strengthTextField" );
                 strengthTextField.onkeydown = function ( event ) {
                     // Interpretting keyCodes has all kinds of browser incompatibility problems.
@@ -42,12 +44,14 @@ define( [ 'common/PropertyCheckBox' ],
                 PropertyCheckBox.connect( model.fieldMeter.visible, "showFieldMeterCheckBox" );
 
                 var flipPolarityButton = document.getElementById( "flipPolarityButton" );
+                flipPolarityButton.value = strings.flipPolarity;
                 flipPolarityButton.onclick = function () {
                     model.barMagnet.orientation.set( model.barMagnet.orientation.get() + Math.PI );
                     model.compass.startMovingNow();
                 };
 
                 var resetAllButton = document.getElementById( "resetAllButton" );
+                resetAllButton.value = strings.resetAll;
                 resetAllButton.onclick = function () {
                     model.reset();
                     stage.reset();
