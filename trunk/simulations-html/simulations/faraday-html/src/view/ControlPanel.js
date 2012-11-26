@@ -20,7 +20,7 @@ define( [ 'common/PropertyCheckBox', 'i18n!resources/nls/faraday-html-strings' ]
                 //TODO Would prefer a slider, but HTML slider is brain damaged, and doesn't work in FireFox.
                 // Strength text field
                 var strengthTextFieldLabel = document.getElementById( "strengthTextFieldLabel" );
-                //TODO strengthTextFieldLabel i18n
+                strengthTextFieldLabel.innerHTML = strings.magnetStrength;
                 var strengthTextField = document.getElementById( "strengthTextField" );
                 strengthTextField.onkeydown = function ( event ) {
                     // Interpretting keyCodes has all kinds of browser incompatibility problems.
@@ -38,10 +38,10 @@ define( [ 'common/PropertyCheckBox', 'i18n!resources/nls/faraday-html-strings' ]
                 };
 
                 // Check boxes
-                PropertyCheckBox.connect( stage.seeInside, "seeInsideMagnetCheckBox" );
-                PropertyCheckBox.connect( stage.showField, "showFieldCheckBox" );
-                PropertyCheckBox.connect( model.compass.visible, "showCompassCheckBox" );
-                PropertyCheckBox.connect( model.fieldMeter.visible, "showFieldMeterCheckBox" );
+                PropertyCheckBox.connect( stage.seeInside, "seeInsideMagnetCheckBox", strings.seeInsideMagnet );
+                PropertyCheckBox.connect( stage.showField, "showFieldCheckBox", strings.showField );
+                PropertyCheckBox.connect( model.compass.visible, "showCompassCheckBox", strings.showCompass );
+                PropertyCheckBox.connect( model.fieldMeter.visible, "showFieldMeterCheckBox", strings.showFieldMeter );
 
                 var flipPolarityButton = document.getElementById( "flipPolarityButton" );
                 flipPolarityButton.value = strings.flipPolarity;

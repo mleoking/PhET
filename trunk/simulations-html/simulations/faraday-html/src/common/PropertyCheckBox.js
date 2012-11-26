@@ -14,8 +14,11 @@ define( [],
             /**
              * @param {Property} booleanProperty the property to be synchronized
              * @param {String} id id attribute of the HTML element containing the check box
+             * @param {String} labelString
              */
-            PropertyCheckBox.connect = function ( booleanProperty, id ) {
+            PropertyCheckBox.connect = function ( booleanProperty, id, labelString ) {
+
+                // check box
                 var checkBox = document.getElementById( id );
                 checkBox.checked = booleanProperty.get();
                 checkBox.onclick = function () {
@@ -24,6 +27,12 @@ define( [],
                 booleanProperty.addObserver( function ( newValue ) {
                     checkBox.checked = newValue;
                 } );
+
+                // i18n of check box label
+                var label = document.getElementById( id + "Label" );
+                if ( label instanceof HTMLElement ) {
+                    label.innerHTML = labelString;
+                }
             };
 
             return PropertyCheckBox;
