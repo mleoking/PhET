@@ -28,7 +28,7 @@ define( [
         var mvt = new ModelViewTransform2D( 1, { x: stageWidth / 2, y: stageHeight * 0.4 } );
 
         // Create a root node for the scene graph.
-        var root = new Easel.Container();
+        var root = this.root = new Easel.Container();
         this.stage.addChild( root );
 
         // Create and add the place where the nucleus will be constructed.
@@ -51,15 +51,14 @@ define( [
         } );
 
         // Create and add the particles.
-        _.each( model.particles, function ( particle ) {
-            // TODO: Fix ParticleView to have a constructor instead.
-            root.addChild( ParticleView.createParticleView( particle ));
-        } );
-//
-//        // Add the bucket fronts.
+        _.each( model.particles, function ( particleModel ) {
 
-//        root.addChild( new BucketFront( neutronBucketHole.centerX, neutronBucketHole.centerY, bucketWidth, "Neutrons" ) );
-//        root.addChild( new BucketFront( electronBucketHole.centerX, electronBucketHole.centerY, bucketWidth, "Electrons" ) );
+          console.log(particleModel);
+
+            var particle = new ParticleView( particleModel, mvt );
+            root.addChild( particle );
+        } );
+
 
         // Initial stage update.  TODO: Is this needed?
         this.stage.update();

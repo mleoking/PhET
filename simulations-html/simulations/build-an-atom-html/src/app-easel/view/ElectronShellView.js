@@ -7,7 +7,6 @@ define( [
         ], function ( _, Easel, Point2D ) {
 
     var ElectronShellView = function ( atom, mvt ) {
-        Easel.Container.prototype.initialize.call( this );
         this.initialize( atom, mvt );
     };
 
@@ -16,6 +15,7 @@ define( [
     _.extend( p, Easel.Container.prototype );
 
     p.initialize = function ( atom, mvt ) {
+        Easel.Container.prototype.initialize.call( this );
         var innerRadius = mvt.modelToView( 80 );
         var innerRingShape = new Easel.Shape();
         innerRingShape.graphics
