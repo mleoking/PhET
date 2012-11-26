@@ -18,9 +18,9 @@ define( [ 'common/Logger', 'common/Property' ],
                 this.value = new Property( magnet.getFieldVector( location ) );
 
                 // Update the value displayed by the meter.
-                var thisInstance = this;
+                var that = this;
                 var updateValue = function () {
-                    thisInstance.value.set( magnet.getFieldVector( thisInstance.location.get() ) );
+                    that.value.set( magnet.getFieldVector( that.location.get() ) );
                 };
                 this.location.addObserver( updateValue );
                 magnet.location.addObserver( updateValue );
