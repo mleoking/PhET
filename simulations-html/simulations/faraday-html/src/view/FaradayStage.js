@@ -9,6 +9,8 @@ define( [
             'easel',
             'common/Dimension2D',
             'common/Inheritance',
+            'common/ModelViewTransform2D',
+            'common/Point2D',
             'common/Property',
             'view/BarMagnetDisplay',
             'view/CompassDisplay',
@@ -16,7 +18,7 @@ define( [
             'view/FieldMeterDisplay',
             'view/FieldOutsideDisplay'
         ],
-        function ( Easel, Dimension2D, Inheritance, Property, BarMagnetDisplay, CompassDisplay, FieldInsideDisplay, FieldMeterDisplay, FieldOutsideDisplay ) {
+        function ( Easel, Dimension2D, Inheritance, ModelViewTransform2D, Point2D, Property, BarMagnetDisplay, CompassDisplay, FieldInsideDisplay, FieldMeterDisplay, FieldOutsideDisplay ) {
 
             function FaradayStage( canvas, model ) {
 
@@ -28,6 +30,11 @@ define( [
                 this.seeInside = new Property( false );
                 this.showField = new Property( true );
 
+                // model-view transform
+                var MVT_SCALE = 1; // 1 model unit == 1 view unit
+                var MVT_OFFSET = new Point2D( 0.5 * canvas.width / MVT_SCALE, 0.5 * canvas.height / MVT_SCALE ); // origin in center of canvas
+                var mvt = new ModelViewTransform2D( MVT_SCALE, MVT_OFFSET );
+
                 // black background
                 var background = new Easel.Shape();
                 background.graphics
@@ -38,27 +45,27 @@ define( [
                 var NEEDLE_SIZE = new Dimension2D( 25, 7 );
 
                 // field outside the magnet
-                var field = new FieldOutsideDisplay( model.barMagnet, model.mvt, new Dimension2D( canvas.width, canvas.height ), NEEDLE_SIZE );
+                var field = new FieldOutsideDisplay( model.barMagnet, mvt, new Dimension2D( canvas.width, canvas.height ), NEEDLE_SIZE );
                 field.visible = this.showField.get();
-                this.showField.addObserver( function( visible ) {
+                this.showField.addObserver( function ( visible ) {
                     field.visible = visible;
                 } );
 
                 // bar magnet
-                var barMagnet = new BarMagnetDisplay( model.barMagnet, model.mvt );
+                var barMagnet = new BarMagnetDisplay( model.barMagnet, mvt );
 
                 // field inside magnet
-                var fieldInside = new FieldInsideDisplay( model.barMagnet, model.mvt, NEEDLE_SIZE );
+                var fieldInside = new FieldInsideDisplay( model.barMagnet, mvt, NEEDLE_SIZE );
                 fieldInside.visible = this.seeInside.get();
                 this.seeInside.addObserver( function ( visible ) {
                     fieldInside.visible = visible;
                 } );
 
                 // compass
-                var compass = new CompassDisplay( model.compass, model.mvt, NEEDLE_SIZE );
+                var compass = new CompassDisplay( model.compass, mvt, NEEDLE_SIZE );
 
                 // field meter
-                var meter = new FieldMeterDisplay( model.fieldMeter, model.mvt );
+                var meter = new FieldMeterDisplay( model.fieldMeter, mvt );
 
                 // rendering order
                 this.addChild( background );
