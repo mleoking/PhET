@@ -6,8 +6,8 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [
+            'easel',
             'common/Dimension2D',
-            'common/Logger',
             'common/ModelViewTransform2D',
             'common/Point2D',
             'common/Range',
@@ -15,11 +15,9 @@ define( [
             'model/Compass',
             'model/FieldMeter'
         ],
-        function ( Dimension2D, Logger, ModelViewTransform2D, Point2D, Range, BarMagnet, Compass, FieldMeter ) {
+        function ( Easel, Dimension2D, ModelViewTransform2D, Point2D, Range, BarMagnet, Compass, FieldMeter ) {
 
             function FaradayModel( canvasWidth, canvasHeight ) {
-
-                var logger = new Logger( "faraday-main" ); // logger for this source file
 
                 // model-view transform
                 var MVT_SCALE = 1; // 1 model unit == 1 view unit
@@ -37,6 +35,11 @@ define( [
                 this.barMagnet.reset();
                 this.fieldMeter.reset();
                 this.compass.reset();
+            };
+
+            // Animates the model, called by Easel.Ticker
+            FaradayModel.prototype.tick = function() {
+                this.compass.tick();
             };
 
             return FaradayModel;

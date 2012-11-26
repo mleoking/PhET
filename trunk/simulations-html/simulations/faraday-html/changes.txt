@@ -1,3 +1,4 @@
+11/26/12 wire up Easel.Ticker to call model.tick, so we can animate the compass; add stub for Compass.tick
 11/21/12 change CSS to use a sans serif font for HTML controls
 11/21/12 fix: make field meter observe magnet orientation
 11/21/12 rename view-specific properties to match how they are presented to the user
