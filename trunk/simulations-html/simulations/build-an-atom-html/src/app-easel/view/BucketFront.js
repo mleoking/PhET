@@ -1,23 +1,25 @@
 // Copyright 2002-2012, University of Colorado
-define( [ 'underscore', 'easel' ], function ( _, Easel ) {
+define( [ 'underscore', 'easel', 'common/Point2D' ], function ( _, Easel, Point2D ) {
+
     /**
      * @class BucketFront
      * @param bucket The model of the bucket.
      * @constructor
      **/
-    var BucketFront = function ( bucket ) {
+    var BucketFront = function ( bucket, mvt ) {
         Easel.Container.prototype.initialize.call( this );
         this.bucket = bucket;
-        this.initialize();
+        this.mvt = mvt;
+        this.initialize( mvt );
     };
 
     var p = BucketFront.prototype;
 
     _.extend( p, Easel.Container.prototype );
 
-    p.initialize = function () {
+    p.initialize = function ( mvt ) {
 
-        var width = this.bucket.width;
+        var width = mvt.modelToView( this.bucket.width );
         var height = width * 0.5; // Determined empirically for best look.
 
         // Create the basic shape of the front of the bucket.
@@ -43,11 +45,12 @@ define( [ 'underscore', 'easel' ], function ( _, Easel ) {
 
         // Set the registration point.
         this.regX = width / 2;
-        this.regY = 0;
+        this.regY = -width * 0.1; // TODO: This was manually coordinated with BucketHole, should be made automatic.
 
         // Set the position.
-        this.x = this.bucket.x;
-        this.y = this.bucket.y;
+        var topCenter = mvt.modelToView( new Point2D( this.bucket.x, this.bucket.y ) );
+        this.x = topCenter.x;
+        this.y = topCenter.y;
     };
 
     return BucketFront;
