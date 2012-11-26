@@ -2,7 +2,6 @@
 define( [
             'easel',
             'common/Point2D'
-
         ], function ( Easel, Point2D ) {
 
     /**
