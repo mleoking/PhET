@@ -18,37 +18,16 @@
 
     <title>CAAT Demo Attempt</title>
 
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../../simulations/build-an-atom-html/src/css/normalize.css">
+    <link rel="stylesheet" href="../../simulations/build-an-atom-html/src/css/main.css">
 </head>
 <body id="home">
 
-<div id="experiment-holder"></div>
+<canvas width="1024" height="600" id='experiment-holder'>
+</canvas>
 
-
-<div id="control-panel">
-
-    <nav>
-        <label>
-            <input type="checkbox"/>
-            Show Forces
-        </label>
-        <label>
-            <input type="checkbox"/>
-            Show Units
-        </label>
-        <label>
-            <input type="checkbox"/>
-            Enable Gravity
-        </label>
-
-    </nav>
-
-</div>
-
-<script src="js/vendor/jquery-1.8.2.min.js"></script>
-<script data-main="app-kinetic/config.js" src="js/vendor/require.js"></script>
+<script src="../../simulations/build-an-atom-html/src/js/vendor/caat.js"></script>
+<script data-main="app-caat/config.js" src="../../simulations/build-an-atom-html/src/js/vendor/require.js"></script>
 
 </body>
 </html>
-
