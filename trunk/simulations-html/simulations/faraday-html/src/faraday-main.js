@@ -25,7 +25,7 @@ require( [
 
              // MVC --------------------------------------------------------------------
 
-             var model = new FaradayModel( canvas.width, canvas.height );
+             var model = new FaradayModel();
              var stage = new FaradayStage( canvas, model );
              ControlPanel.connect( model, stage );
 
