@@ -67,20 +67,20 @@ define( [
                 } );
 
                 // Register for synchronization with model.
-                var thisInstance = this;
+                var that = this;
 
                 // @param {Point2D} location
                 function updateLocation( location ) {
                     var point = mvt.modelToView( location );
-                    thisInstance.x = point.x;
-                    thisInstance.y = point.y;
+                    that.x = point.x;
+                    that.y = point.y;
                 }
 
                 fieldMeter.location.addObserver( updateLocation );
 
                 // @param {Boolean} location
                 function updateVisibility( visible ) {
-                    thisInstance.visible = visible;
+                    that.visible = visible;
                 }
 
                 fieldMeter.visible.addObserver( updateVisibility );
