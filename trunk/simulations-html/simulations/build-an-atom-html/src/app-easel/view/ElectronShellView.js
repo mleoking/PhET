@@ -1,20 +1,22 @@
 // Copyright 2002-2012, University of Colorado
-define([
-  'underscore',
-  'easel'
-], function ( _, Easel ) {
+define( [
+            'underscore',
+            'easel',
+            'common/Point2D'
 
-    var ElectronShellView = function ( centerX, centerY ) {
-        Easel.Container.prototype.initialize.call(this);
-        this.initialize( centerX, centerY );
+        ], function ( _, Easel, Point2D ) {
+
+    var ElectronShellView = function ( xPos, yPos, mvt ) {
+        Easel.Container.prototype.initialize.call( this );
+        this.initialize( xPos, yPos, mvt );
     };
 
     var p = ElectronShellView.prototype;
 
-    _.extend(p, Easel.Container.prototype);
+    _.extend( p, Easel.Container.prototype );
 
-    p.initialize = function ( centerX, centerY ) {
-        var innerRadius = 80;
+    p.initialize = function ( xPos, yPos, mvt ) {
+        var innerRadius = mvt.modelToView( 80 );
         var innerRingShape = new Easel.Shape();
         innerRingShape.graphics
                 .beginStroke( "blue" )
@@ -23,7 +25,7 @@ define([
                 .endStroke();
         this.addChild( innerRingShape );
 
-        var outerRadius = 160;
+        var outerRadius = mvt.modelToView( 160 );
         var outerRingShape = new Easel.Shape();
         outerRingShape.graphics
                 .beginStroke( "blue" )
@@ -32,9 +34,10 @@ define([
                 .endStroke();
         this.addChild( outerRingShape );
 
-        this.x = centerX;
-        this.y = centerY;
+        var centerInViewSpace = mvt.modelToView( new Point2D( xPos, yPos ) );
+        this.x = centerInViewSpace.x;
+        this.y = centerInViewSpace.y;
     };
 
     return ElectronShellView;
-});
+} );
