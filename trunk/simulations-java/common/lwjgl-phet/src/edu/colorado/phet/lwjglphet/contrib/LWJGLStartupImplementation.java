@@ -175,7 +175,7 @@ public class LWJGLStartupImplementation {
                 System.load( targetFile.getAbsolutePath() );
             }
         }
-        logger.log( Level.FINE, "Copied {0} to {1}", new Object[]{fullname, targetFile} );
+        logger.log( Level.INFO, "Copied {0} to {1}", new Object[]{fullname, targetFile} );
     }
 
     public static void extractNativeLibs( File extractionDir, Platform platform, boolean loadSoundSupport, boolean loadJoystickSupport ) throws IOException {
