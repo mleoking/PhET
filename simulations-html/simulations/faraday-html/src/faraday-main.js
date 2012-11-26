@@ -31,6 +31,7 @@ require( [
 
              // Animation loop ----------------------------------------------------------
 
+             Easel.Ticker.addListener( model );
              Easel.Ticker.addListener( stage );
              Easel.Ticker.setFPS( 60 );
              Easel.Touch.enable( stage, false, false );

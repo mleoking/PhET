@@ -5,8 +5,8 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/Logger', 'common/Property' ],
-        function ( Logger, Property ) {
+define( [ 'easel', 'common/Logger', 'common/Property' ],
+        function ( Easel, Logger, Property ) {
 
             /**
              * @param {Point} location
@@ -52,6 +52,12 @@ define( [ 'common/Logger', 'common/Property' ],
             Compass.prototype.reset = function () {
                 this.location.reset();
                 this.visible.reset();
+            };
+
+            // Animates the compass needle
+            Compass.prototype.tick = function() {
+                console.log( "Compass.tick " + Easel.Ticker.getInterval() );
+                //TODO
             };
 
             return Compass;
