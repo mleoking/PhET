@@ -13,7 +13,6 @@ Bugs:
 General:
 - widgets (jquery-mobile)
 - handle window resize (check resize of parent component? see ESP.tab.onResize or concentration.?)
-- i18n
 - data collection (SR's Analytics.js)
 - mobile devices
 - test with all browsers
