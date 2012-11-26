@@ -1,5 +1,5 @@
 define([
-    'lib/underscore',
+    'underscore',
     'common/easel-custom'
 ], function(
     _,
