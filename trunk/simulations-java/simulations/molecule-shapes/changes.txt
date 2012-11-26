@@ -1,3 +1,4 @@
+# 1.04.02 (70619) Nov 25, 2012
 # 1.04.01 (70618) Nov 25, 2012
 # 1.04.00 (69129) Oct 12, 2012
 > Switched 3D libraries for better Windows XP / graphics card support
