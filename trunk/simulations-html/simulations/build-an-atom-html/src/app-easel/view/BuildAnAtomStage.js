@@ -1,13 +1,13 @@
 define( [
             'underscore',
             'easel',
-            'view/particle-view',
-            'view/atom-view',
-            'view/bucket-hole',
-            'view/bucket-front',
-            'view/symbol-view',
-            'view/mass-number-view',
-            'view/electron-shell-view'
+            'view/ParticleView',
+            'view/AtomView',
+            'view/BucketHole',
+            'view/BucketFront',
+            'view/SymbolView',
+            'view/MassNumberView',
+            'view/ElectronShellView'
         ], function ( _, Easel, ParticleView, AtomView, BucketHole, BucketFront, SymbolView, MassNumberView, ElectronShellView ) {
 
     function BuildAnAtomStage( canvas, model ) {
