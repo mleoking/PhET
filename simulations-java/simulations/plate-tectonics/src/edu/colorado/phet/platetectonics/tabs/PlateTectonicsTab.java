@@ -166,6 +166,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     // main initialization. we want thus run AFTER LWJGL and the canvas have been initialized so we can get the stage size set (and call LWJGL functions)
     public void initialize() {
 
+        // sanity check, in case a size change event has not occurred yet.
+        if( initialCanvasSize == null ) {
+            initialCanvasSize = getCanvas().getSize();
+        }
+
         // attempt to set the stage size to the canvas size, so we can get 1-to-1 pixel mapping for the UI (without needing to scale) if possible
         stageSize = initialCanvasSize;
         if ( Math.abs( stageSize.getWidth() - 1008 ) > 20 || Math.abs( stageSize.getHeight() - 676 ) > 20 ) {
