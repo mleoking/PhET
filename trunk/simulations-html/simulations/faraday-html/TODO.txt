@@ -1,7 +1,6 @@
 TODO list for faraday-html
 
 Features:
-- convert from Ticket.getInterval to dt for compass animation
 - compass goes nuts inside magnet
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common

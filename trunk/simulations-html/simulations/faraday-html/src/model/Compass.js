@@ -46,7 +46,8 @@ define( [ 'easel', 'common/Logger', 'common/Property', 'model/CompassKinematics'
 
             // Animates the compass needle
             Compass.prototype.tick = function() {
-                this.kinematics.animateOrientation( 1 );
+                var frames = Easel.Ticker.getInterval() / ( 1000 / Easel.Ticker.getFPS() );
+                this.kinematics.animateOrientation( frames );
             };
 
             /**

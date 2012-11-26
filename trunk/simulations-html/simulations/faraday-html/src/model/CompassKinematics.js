@@ -17,9 +17,9 @@ define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
 
                 /**
                  * Gets the orientation of the compass needle, animated over time.
-                 * @param {Number} dt
+                 * @param {Number} frames number of animation frames
                  */
-                this.animateOrientation = function ( dt ) {
+                this.animateOrientation = function ( frames ) {
 
                     var fieldVector = barMagnet.getFieldVector( compass.location.get() );
                     var magnitude = fieldVector.getMagnitude();
@@ -40,14 +40,14 @@ define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
 
                         // Step 1: orientation
                         var alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * _omega );
-                        _theta = _theta + ( _omega * dt ) + ( 0.5 * alphaTemp * dt * dt );
+                        _theta = _theta + ( _omega * frames ) + ( 0.5 * alphaTemp * frames * frames );
 
                         // Step 2: angular acceleration
-                        var omegaTemp = _omega + ( alphaTemp * dt );
+                        var omegaTemp = _omega + ( alphaTemp * frames );
                         _alpha = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * omegaTemp );
 
                         // Step 3: angular velocity
-                        _omega = _omega + ( 0.5 * ( _alpha + alphaTemp ) * dt );
+                        _omega = _omega + ( 0.5 * ( _alpha + alphaTemp ) * frames );
                     }
                     compass.orientation.set( _theta );
                 };
