@@ -40,13 +40,12 @@ define( [
         root.addChild( electronShell );
 
         // Create and add the bucket holes where the idle particles will be kept.
-
         _.each( model.buckets, function ( bucketModel, bucketName ) {
 
-            var bucketHole = self[ bucketName + 'Hole' ] = new BucketHole( bucketModel );
+            var bucketHole = self[ bucketName + 'Hole' ] = new BucketHole( bucketModel, mvt );
             root.addChild( bucketHole );
 
-            var protonBucketFront = new BucketFront( bucketModel );
+            var protonBucketFront = new BucketFront( bucketModel, mvt );
             root.addChild( protonBucketFront );
 
         } );
@@ -56,19 +55,6 @@ define( [
             // TODO: Fix ParticleView to have a constructor instead.
             root.addChild( ParticleView.createParticleView( particle ));
         } );
-//        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 30, protonBucketHole.y, "red", 15, "proton" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 60, protonBucketHole.y, "red", 15, "proton" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 90, protonBucketHole.y, "red", 15, "proton" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( protonBucketHole.x + 120, protonBucketHole.y, "red", 15, "proton" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 30, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 60, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 90, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 120, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( neutronBucketHole.x + 120, neutronBucketHole.y, "gray", 15, "neutron" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 30, electronBucketHole.y, "blue", 8, "electron" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 60, electronBucketHole.y, "blue", 8, "electron" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 90, electronBucketHole.y, "blue", 8, "electron" ) ) );
-//        root.addChild( ParticleView.createParticleView( new Particle2( electronBucketHole.x + 120, electronBucketHole.y, "blue", 8, "electron" ) ) );
 //
 //        // Add the bucket fronts.
 

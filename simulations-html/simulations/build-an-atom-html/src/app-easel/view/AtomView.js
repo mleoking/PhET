@@ -23,7 +23,6 @@ define( [
         var x = new Easel.Shape();
         var sizeInPixels = mvt.modelToView( 20 );
         var center = mvt.modelToView( new Point2D( atom.xPos, atom.yPos ) );
-        console.log( "center = " + center );
         x.graphics.beginStroke( "orange" )
                 .setStrokeStyle( 5 )
                 .moveTo( center.x - sizeInPixels / 2, center.y - sizeInPixels / 2 )

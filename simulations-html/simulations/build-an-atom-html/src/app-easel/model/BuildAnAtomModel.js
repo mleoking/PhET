@@ -10,9 +10,9 @@ define( [
         this.atom = new Atom( 0, 0 );
 
         this.buckets = {
-            protonBucket:new Bucket( 105, 600, 150, "Protons" ),
-            neutronBucket:new Bucket( 305, 600, 150, "Neutrons" ),
-            electronBucket:new Bucket( 505, 600, 150, "Electrons" )
+            protonBucket:new Bucket( -200, 300, 150, "Protons" ),
+            neutronBucket:new Bucket( 0, 300, 150, "Neutrons" ),
+            electronBucket:new Bucket( 200, 300, 150, "Electrons" )
         };
 
         this.particles = [ ];
