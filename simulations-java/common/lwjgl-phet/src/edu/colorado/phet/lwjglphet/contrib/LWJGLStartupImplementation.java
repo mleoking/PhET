@@ -145,13 +145,18 @@ public class LWJGLStartupImplementation {
 
         String path = "native/" + sysName + "/" + fullname;
         InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream( path );
-        //InputStream in = Natives.class.getResourceAsStream();
         if ( in == null ) {
-            if ( !warning ) {
-                logger.log( Level.WARNING, "Cannot locate native library: {0}/{1}",
-                            new String[]{sysName, fullname} );
+            if ( fullname.endsWith( ".dylib" ) ) {
+                path = path.replaceFirst( ".dylib", ".jnilib" );
+                in = Thread.currentThread().getContextClassLoader().getResourceAsStream( path );
             }
-            return;
+            if ( in == null ) {
+                if ( !warning ) {
+                    logger.log( Level.WARNING, "Cannot locate native library: {0}/{1}",
+                                new String[] { sysName, fullname } );
+                }
+                return;
+            }
         }
         File targetFile = new File( extractionDir, fullname );
         try {
@@ -176,6 +181,7 @@ public class LWJGLStartupImplementation {
             }
         }
         logger.log( Level.INFO, "Copied {0} to {1}", new Object[]{fullname, targetFile} );
+        System.out.println( targetFile );
     }
 
     public static void extractNativeLibs( File extractionDir, Platform platform, boolean loadSoundSupport, boolean loadJoystickSupport ) throws IOException {
