@@ -20,12 +20,6 @@ Needs:
     something similar to Property<T> (Object.observe in ECMAScript.next)
 
   i18n in energy-skate-park-html:
-    where did you get i18n.js?
-    why isn't it in vendor/?
-    where is it imported?
-    example use?
-    why in nls directory?
-    is nls/energy-skate-part-strings.js both fallbacks and config?
     why is each translation in a subdir on nls/?
     i18n of DOM vs Easel?
 

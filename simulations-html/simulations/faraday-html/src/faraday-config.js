@@ -11,6 +11,7 @@ require.config( {
 
     paths: {
         easel: "../vendor/easeljs-0.5.0.min",
+        i18n: "../vendor/i18n-2.0.1",
         image: "../vendor/image-0.2.1"
     },
 

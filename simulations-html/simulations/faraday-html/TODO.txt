@@ -4,15 +4,16 @@ Features:
 - compass goes nuts inside magnet
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
+- add framerate display
 
 Bugs:
 - use a slider for strength
 - dipole model for bar magnet
 
 General:
-- widgets
-- handle window resize
+- widgets (jquery-mobile)
+- handle window resize (check resize of parent component? see ESP.tab.onResize or concentration.?)
 - i18n
-- data collection
+- data collection (SR's Analytics.js)
 - mobile devices
 - test with all browsers
