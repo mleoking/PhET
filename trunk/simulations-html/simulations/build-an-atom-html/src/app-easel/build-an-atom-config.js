@@ -2,7 +2,7 @@
 
 // RequireJS configuration file for BAA-Easel.
 require.config( {
-                    deps:["main"],
+                    deps:["build-an-atom-main"],
 
                     paths:{
                         vendor:"../js/vendor",
