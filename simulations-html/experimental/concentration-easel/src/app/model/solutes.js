@@ -1,5 +1,5 @@
 define([
-    'lib/underscore',
+    'underscore',
     'common/easel-custom',
     'common/util/object',
     'common/util/color',

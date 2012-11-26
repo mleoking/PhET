@@ -1,5 +1,5 @@
 define([
-    'lib/easel',
+    'easel',
     'common/ie-support'
 ], function(
     Easel

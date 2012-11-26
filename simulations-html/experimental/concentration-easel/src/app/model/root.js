@@ -1,32 +1,37 @@
 define([
-    'lib/underscore',
+    'underscore',
     'common/util/object',
     'model/shaker',
     'model/crystal',
-    'model/solutes'
+    'model/solutes',
+    'view/beaker'
 ], function(
     _,
     ObjectUtil,
     Shaker,
     Crystal,
-    Solutes
+    Solutes,
+    TubView
 ) {
     return ObjectUtil.classdef('ConcentrationRoot', Object, {
         initialize: function(container) {
             this.crystals = [];
-            this.tub = {
-                left:    50,
-                right:  350,
-                top:    100,
-                bottom: 250,
+            this.width = 1024;
+            this.height = 748;
+            var beaker = this.beaker = {
+                left:   100,
+                right:  710,
+                top:    292,
+                bottom: 594,
                 fill:     0
             };
             this.solutes = Solutes;
             this.solute = Solutes[0];
             
             this.container = container;
-            this.shaker = new Shaker(this, 50, 100);
-            this.container.addChild(this.shaker.sprite);
+            container.addChild(TubView.create(beaker.left, beaker.top, beaker.right, beaker.bottom));
+            this.shaker = new Shaker(this, (beaker.left + beaker.right) / 2, beaker.top - 20);
+            container.addChild(this.shaker.sprite);
         },
         
         addCrystal: function(crystal) {

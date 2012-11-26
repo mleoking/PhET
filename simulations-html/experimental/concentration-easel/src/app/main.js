@@ -1,6 +1,6 @@
 define([
     'common/easel-custom',
-    'lib/jquery',
+    'jquery',
     'common/util/object',
     'model/root',
     'model/crystal'
@@ -15,6 +15,7 @@ define([
     var stage = new Easel.Stage($canvas[0]),
         mainContainer = new Easel.Container();
     stage.addChild(mainContainer);
+    createjs.Touch.enable(stage, false, false);
     stage.enableMouseOver();
     
     window.model = new ConcentrationModel(mainContainer);
@@ -33,15 +34,15 @@ define([
         stage.update();
     });
     
-    $(window).blur( function() { console.log('pause');  createjs.Ticker.setPaused(true); });
+    $(window).blur( function() { console.log('pause');  createjs.Ticker.setPaused(true);  });
     $(window).focus(function() { console.log('resume'); createjs.Ticker.setPaused(false); });
     
     var onResize = function(event) {
         var winW = $(window).width(),
             winH = $(window).height(),
-            scale = Math.min(winW / 400, winH / 300),
-            contentW = scale * 400,
-            contentH = scale * 300;
+            scale = Math.min(winW / model.width, winH / model.height),
+            contentW = scale * model.width,
+            contentH = scale * model.height;
         $canvas.attr('width',  winW);
         $canvas.attr('height', winH);
         mainContainer.x = (winW - contentW) / 2;
@@ -56,3 +57,4 @@ define([
     
     $('#sim-loading').remove();
 });
+

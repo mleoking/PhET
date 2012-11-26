@@ -3,7 +3,7 @@ define([
     'common/easel-custom',
     'common/model/positionable',
     'model/crystal',
-    'lib/image!res/images/shaker.png',
+    'image!res/images/shaker.png',
 ], function(
     ObjectUtil,
     Easel,
@@ -20,8 +20,8 @@ define([
             
             this.sprite = Easel.Bitmap.create({
                 image: shakerImage,
-                rotation: -54,
-                scale: 0.3,
+                rotation: -44,
+                scale: 0.75,
                 regX: 12,
                 regY: 72
             });
@@ -29,8 +29,9 @@ define([
         },
         
         shakeTo: function(x1, y1) {
-            x1 = Math.max(50, Math.min(350, x1));
-            y1 = Math.max( 5, Math.min(100, y1));
+            var beaker = this.modelRoot.beaker;
+            x1 = Math.max(beaker.left, Math.min(beaker.right,    x1));
+            y1 = Math.max(         10, Math.min(beaker.top - 10, y1));
             
             var xdelta = Math.min(20, x1 - this.x),
                 ydelta = Math.min(20, y1 - this.y),
@@ -52,3 +53,8 @@ define([
         }
     });
 });
+
+
+
+
+
