@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_ru.xml created Sun Nov 25 00:11:32 GET 2012 using: equation-grapher 2.02.00 (52283), translation-utility 2.14.00 (69024) окт 9, 2012--><SimStrings>
+<string key="showYEq" value="Показать y ="/>
+<string key="erase" value="Удалить"/>
+<string key="save" value="Сохранить"/>
+<string key="zero" value="Сброс"/>
+<string key="simTitle" value="Конструктор графиков"/>
+<string key="translation.credits" value="Инфологика"/>
+</SimStrings>
