@@ -21,7 +21,6 @@ define( [
         };
 
         this.nucleons = [];
-
         var NUCLEON_DIAMETER = 15; // In pixels.
         var proton = new Particle( this.buckets.protonBucket.x, this.buckets.protonBucket.y, "red", NUCLEON_DIAMETER, "proton" );
         this.nucleons.push( proton );

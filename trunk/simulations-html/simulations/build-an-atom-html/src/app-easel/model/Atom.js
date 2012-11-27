@@ -9,6 +9,7 @@ define( [
         this.protons = 0;
         this.neutrons = 0;
         this.electrons = 0;
+        this.nucleons = [];
     }
 
     Atom.prototype.toJSON = function () {
@@ -21,13 +22,16 @@ define( [
         };
     };
 
-    var nucleons = [];
-
     Atom.prototype.addParticle = function ( particle ) {
         if ( particle.type === 'proton' ) {
             particle.setLocation( {x:0, y:0} );
-            nucleons.push( particle );
-            console.log( "Particle added to atom ");
+            this.nucleons.push( particle );
+            console.log( "Particle added to atom" );
+            var self = this;
+            particle.events.one( 'userGrabbed', function () {
+                self.nucleons = _.without( self.nucleons, particle );
+                console.log( "Particle removed from atom" );
+            } );
         }
     }
 
