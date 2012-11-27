@@ -16,7 +16,14 @@ define([
       this.color = color;
       this.radius = radius;
       this.type = type;
+      this.events = $({});
   }
+
+  Particle.prototype.setLocation = function( point ){
+    this.x = point.x;
+    this.y = point.y;
+    this.events.trigger('locationChange');
+  };
 
   return Particle;
 });
