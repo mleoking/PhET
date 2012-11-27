@@ -1,3 +1,4 @@
+11/26/12 display frame rate in canvas
 11/26/12 complete i18n of all HTML widgets
 11/26/12 add i18n support
 11/26/12 move mvt to view (private var of FaradayStage)

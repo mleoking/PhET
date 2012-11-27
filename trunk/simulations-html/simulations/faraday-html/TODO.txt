@@ -4,7 +4,6 @@ Features:
 - compass goes nuts inside magnet
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
-- add framerate display
 
 Bugs:
 - use a slider for strength
