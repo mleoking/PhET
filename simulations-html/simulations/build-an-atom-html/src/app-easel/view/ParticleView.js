@@ -43,11 +43,6 @@ define( [
             particle.setUserControlled( true );
         });
 
-        // var registeredPressFunction = this.onPress;
-        // this.onPress = function ( mouseEvent ){
-        //     registeredPressFunction( mouseEvent );
-        // }
-
         particle.events.on( 'locationChange', function () {
             var newLocation = mvt.modelToView( new Point2D( particle.x, particle.y ) );
             self.x = newLocation.x;
