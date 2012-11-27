@@ -1,6 +1,6 @@
 // Copyright 2002-2012, University of Colorado
-define([
-], function( ){
+define( [
+        ], function () {
 
     /**
      * @param x
@@ -10,20 +10,32 @@ define([
      * @param type
      * @constructor
      */
-  function Particle( x, y, color, radius, type ){
-      this.x = x;
-      this.y = y;
-      this.color = color;
-      this.radius = radius;
-      this.type = type;
-      this.events = $({});
-  }
+    function Particle( x, y, color, radius, type ) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.radius = radius;
+        this.type = type;
+        this.events = $( {} );
+        this.userControlled = false;
+    }
 
-  Particle.prototype.setLocation = function( point ){
-    this.x = point.x;
-    this.y = point.y;
-    this.events.trigger('locationChange');
-  };
+    Particle.prototype.setLocation = function ( point ) {
+        this.x = point.x;
+        this.y = point.y;
+        this.events.trigger( 'locationChange' );
+    };
 
-  return Particle;
-});
+    // Use this when setting user controlled so that event is triggered.
+    Particle.prototype.setUserControlled = function ( userControlled ) {
+        if ( userControlled && !this.userControlled ){
+            this.events.trigger( 'userGrabbed' );
+        }
+        else if ( this.userControlled  ){
+            this.events.trigger( 'userReleased' );
+        }
+        this.userControlled = userControlled;
+    }
+
+    return Particle;
+} );
