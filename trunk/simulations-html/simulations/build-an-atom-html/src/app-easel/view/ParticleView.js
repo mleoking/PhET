@@ -36,12 +36,36 @@ define( [
             particle.setLocation( mvt.viewToModel( point ) );
         } );
 
+        this.onMouseDown = function ( mouseEvent ){
+            particle.setUserControlled( true );
+            console.log( "mouse down, mousevent = " + mouseEvent );
+        }
+
+        this.onMouseUp = function ( mouseEvent ){
+            particle.setUserControlled( false );
+            console.log( "mouse up, mousevent = " + mouseEvent );
+        }
+
+        this.onMouseMove = function ( mouseEvent ){
+            particle.setUserControlled( false );
+            console.log( "mouse up, mousevent = " + mouseEvent );
+        }
+
+        var registeredPressFunction = this.onPress;
+        this.onPress = function ( mouseEvent ){
+            particle.setUserControlled( true );
+            registeredPressFunction( mouseEvent );
+        }
+
+        this.onClick = function ( mouseEvent ){
+            particle.setUserControlled( false );
+        }
+
         particle.events.on( 'locationChange', function () {
             var newLocation = mvt.modelToView( new Point2D( particle.x, particle.y ) );
             self.x = newLocation.x;
             self.y = newLocation.y;
         } );
-
     };
 
     // Private Methods
