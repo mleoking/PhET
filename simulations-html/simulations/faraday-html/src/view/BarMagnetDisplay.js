@@ -17,10 +17,11 @@
 define( [
             'easel',
             'common/DragHandler',
+            'common/Inheritance',
             'common/MathUtil',
             'image!resources/images/barMagnet.png'
         ],
-        function ( Easel, DragHandler, MathUtil, barMagnetImage ) {
+        function ( Easel, DragHandler, Inheritance, MathUtil, barMagnetImage ) {
 
             /**
              * @class BarMagnetDisplay
@@ -71,7 +72,7 @@ define( [
             }
 
             // Use prototype chaining to inherit properties and methods on the prototype.
-            BarMagnetDisplay.prototype = new Easel.Bitmap();
+            Inheritance.inheritPrototype( BarMagnetDisplay, Easel.Bitmap );
 
             return BarMagnetDisplay;
         } );
