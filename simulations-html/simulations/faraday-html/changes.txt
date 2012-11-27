@@ -1,3 +1,4 @@
+11/26/12 normalize compass needle angle in kinematics algorithm
 11/26/21 BarMagnet.getFieldVector -> getFieldAt
 11/26/12 fix: update field display when it becomes visible
 11/26/12 display frame rate in canvas
