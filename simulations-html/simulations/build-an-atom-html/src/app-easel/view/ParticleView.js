@@ -54,21 +54,5 @@ define( [
         $( '#atom-construction-canvas' ).css( { cursor:"default" } );
     }
 
-    ParticleView.prototype.pressHandler = function ( e ) {
-        debugger;
-        // Make dragging relative to touch point
-        var relativePressPoint = null;
-        e.onMouseMove = function ( event ) {
-            var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
-            if ( relativePressPoint === null ) {
-                relativePressPoint = {x:e.target.x - transformed.x, y:e.target.y - transformed.y};
-            }
-            else {
-                e.target.x = transformed.x + relativePressPoint.x;
-                e.target.y = transformed.y + relativePressPoint.y;
-            }
-        };
-    };
-
     return ParticleView;
 } );
