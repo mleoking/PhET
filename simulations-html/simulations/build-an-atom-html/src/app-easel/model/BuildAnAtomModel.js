@@ -21,7 +21,12 @@ define( [
     }
 
     BuildAnAtomModel.prototype.initializeParticles = function () {
-        this.particles.push( new Particle(  this.buckets.protonBucket.x, this.buckets.protonBucket.y, "red", 15, "proton" ));
+        var NUCLEON_DIAMETER = 15; // In pixels.
+        var proton = new Particle(  this.buckets.protonBucket.x, this.buckets.protonBucket.y, "red", NUCLEON_DIAMETER, "proton" );
+        this.particles.push( proton );
+        proton.events.on( 'userReleased', function () {
+            proton.setLocation( { x:0, y:0 });
+        } );
     };
 
     return BuildAnAtomModel;
