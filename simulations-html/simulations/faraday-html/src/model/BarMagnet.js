@@ -63,7 +63,7 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector2D' ],
             };
 
             /*
-             * Gets the E-field vector at a point.
+             * Gets the B-field vector at a point.
              * Note that this is not physically accurate.
              * It was not feasible to implement a numerical model directly, as it relies on double integrals.
              * See BarMagnet.java in simulations-java/faraday for details.
@@ -71,7 +71,7 @@ define( [ 'common/Logger', 'common/Property', 'common/Vector2D' ],
              * @param {Point2D} point
              * @return {Vector2D}
              */
-            BarMagnet.prototype.getFieldVector = function ( point ) {
+            BarMagnet.prototype.getFieldAt = function ( point ) {
                 if ( this.contains( point ) ) {
                     // field is the same everywhere inside the magnet
                     return Vector2D.createPolar( this.strength.get(), this.orientation.get() );
