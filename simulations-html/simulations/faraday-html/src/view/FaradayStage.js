@@ -52,6 +52,9 @@ define( [
                 field.visible = this.showField.get();
                 this.showField.addObserver( function ( visible ) {
                     field.visible = visible;
+                    if ( visible ) {
+                        field.updateField();
+                    }
                 } );
 
                 // bar magnet

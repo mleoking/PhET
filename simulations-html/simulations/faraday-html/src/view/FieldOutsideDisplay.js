@@ -54,7 +54,7 @@ define( [
                 // Register for synchronization with model.
                 var that = this;
 
-                function updateField() {
+                this.updateField = function() {
                     if ( that.visible ) {
                         // @param {FieldPointDisplay} item
                         grid.forEach( function ( item ) {
@@ -64,12 +64,12 @@ define( [
                         } );
                     }
                 }
-                barMagnet.location.addObserver( updateField );
-                barMagnet.strength.addObserver( updateField );
-                barMagnet.orientation.addObserver( updateField );
+                barMagnet.location.addObserver( this.updateField );
+                barMagnet.strength.addObserver( this.updateField );
+                barMagnet.orientation.addObserver( this.updateField );
 
                 // sync now
-                updateField();
+                this.updateField();
             }
 
             // prototype chaining
