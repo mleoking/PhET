@@ -15,12 +15,12 @@ define( [ 'common/Logger', 'common/Property' ],
                 // initialize properties
                 this.location = new Property( location );
                 this.visible = new Property( visible );
-                this.value = new Property( magnet.getFieldVector( location ) );
+                this.value = new Property( magnet.getFieldAt( location ) );
 
                 // Update the value displayed by the meter.
                 var that = this;
                 var updateValue = function () {
-                    that.value.set( magnet.getFieldVector( that.location.get() ) );
+                    that.value.set( magnet.getFieldAt( that.location.get() ) );
                 };
                 this.location.addObserver( updateValue );
                 magnet.location.addObserver( updateValue );

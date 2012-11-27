@@ -58,7 +58,7 @@ define( [
                     if ( that.visible ) {
                         // @param {FieldPointDisplay} item
                         grid.forEach( function ( item ) {
-                            var vector = barMagnet.getFieldVector( mvt.viewToModel( item.location ) );
+                            var vector = barMagnet.getFieldAt( mvt.viewToModel( item.location ) );
                             item.rotation = MathUtil.toDegrees( vector.getAngle() );
                             item.alpha = Math.min( 1, barMagnet.strength.get() / barMagnet.strengthRange.max );
                         } );

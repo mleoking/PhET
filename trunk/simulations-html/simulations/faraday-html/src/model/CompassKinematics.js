@@ -21,7 +21,7 @@ define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
                  */
                 this.animateOrientation = function ( frames ) {
 
-                    var fieldVector = barMagnet.getFieldVector( compass.location.get() );
+                    var fieldVector = barMagnet.getFieldAt( compass.location.get() );
                     var magnitude = fieldVector.getMagnitude();
                     var angle = fieldVector.getAngle();
 

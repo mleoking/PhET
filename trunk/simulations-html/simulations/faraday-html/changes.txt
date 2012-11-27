@@ -1,3 +1,4 @@
+11/26/21 BarMagnet.getFieldVector -> getFieldAt
 11/26/12 fix: update field display when it becomes visible
 11/26/12 display frame rate in canvas
 11/26/12 complete i18n of all HTML widgets
