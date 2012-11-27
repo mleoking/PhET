@@ -51,7 +51,7 @@ define( [
         } );
 
         // Create and add the particles.
-        _.each( model.particles, function ( particleModel ) {
+        _.each( model.nucleons, function ( particleModel ) {
 
           console.log(particleModel);
 

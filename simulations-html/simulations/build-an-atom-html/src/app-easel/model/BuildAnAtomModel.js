@@ -5,6 +5,11 @@ define( [
             'model/particle'
         ], function ( Atom, Bucket, Particle ) {
 
+    /**
+     * Constructor for main model object.
+     *
+     * @constructor
+     */
     function BuildAnAtomModel() {
 
         this.atom = new Atom( 0, 0 );
@@ -15,19 +20,16 @@ define( [
             electronBucket:new Bucket( 200, 300, 150, "Electrons" )
         };
 
-        this.particles = [ ];
+        this.nucleons = [];
 
-        this.initializeParticles();
-    }
-
-    BuildAnAtomModel.prototype.initializeParticles = function () {
         var NUCLEON_DIAMETER = 15; // In pixels.
-        var proton = new Particle(  this.buckets.protonBucket.x, this.buckets.protonBucket.y, "red", NUCLEON_DIAMETER, "proton" );
-        this.particles.push( proton );
+        var proton = new Particle( this.buckets.protonBucket.x, this.buckets.protonBucket.y, "red", NUCLEON_DIAMETER, "proton" );
+        this.nucleons.push( proton );
+        var self = this;
         proton.events.on( 'userReleased', function () {
-            proton.setLocation( { x:0, y:0 });
+            self.atom.addParticle( proton );
         } );
-    };
+    }
 
     return BuildAnAtomModel;
 } );
