@@ -1,6 +1,6 @@
 //One of the three tabs in Energy Skate Park
 define( [
-            'model/skater-model',
+            'easel', 'model/skater-model',
             'view/skater-view',
             'view/background',
             'spline',
@@ -17,7 +17,7 @@ define( [
             'tpl!view/speed-control.html',
             'tpl!view/navbar.html',
             'view/easel-root'
-        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar, createEaselRoot ) {
+        ], function ( createjs, SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar, createEaselRoot ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( id, running, sliderControls, analytics ) {

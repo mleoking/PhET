@@ -1,5 +1,5 @@
 //One of the three tabs in Energy Skate Park
-define( [
+define( ['easel',
             'model/skater-model',
             'view/skater-view',
             'view/background',
@@ -10,7 +10,7 @@ define( [
             'view/grid',
             'view/bar-chart',
             'view/speedometer'
-        ], function ( SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
+        ], function ( createjs, SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( skaterModel, groundHeight, groundY, analytics ) {
