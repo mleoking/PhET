@@ -8,7 +8,7 @@ define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
                 // constants
                 var SENSITIVITY = 0.01; // increase this to make the compass more sensitive to smaller fields
                 var DAMPING = 0.08; // increase this to make the needle wobble less
-                var THRESHOLD = MathUtil.toRadians( 0.2 ); // angle at which the needle stops wobbling and snaps to the actual field orientation
+                var THRESHOLD = MathUtil.toRadians( 0.5 ); // angle at which the needle stops wobbling and snaps to the actual field orientation
 
                 // private fields
                 var theta = 0; // Angle of needle orientation (in radians)
@@ -41,6 +41,7 @@ define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
                         // Step 1: orientation
                         var alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * omega );
                         theta = theta + ( omega * frames ) + ( 0.5 * alphaTemp * frames * frames );
+                        theta = theta % ( 2 * Math.PI ); // normalize
 
                         // Step 2: angular acceleration
                         var omegaTemp = omega + ( alphaTemp * frames );
