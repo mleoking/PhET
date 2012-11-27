@@ -1,7 +1,6 @@
 Needs:
 
   IDE:
-    codestyle
     navigation
     refactoring (move, rename,...)
     presentation compiler support
