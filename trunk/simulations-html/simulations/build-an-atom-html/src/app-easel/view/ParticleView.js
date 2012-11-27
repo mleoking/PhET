@@ -68,15 +68,5 @@ define( [
         } );
     };
 
-    // Private Methods
-
-    function showPointer( mouseEvent ) {
-        $( '#atom-construction-canvas' ).css( { cursor:"pointer" } );
-    }
-
-    function showDefault( mouseEvent ) {
-        $( '#atom-construction-canvas' ).css( { cursor:"default" } );
-    }
-
     return ParticleView;
 } );
