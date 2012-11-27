@@ -11,7 +11,7 @@ define( [
             'view/bar-chart',
             'view/speedometer',
             'i18n!nls/energy-skate-park-strings',
-            'i18n!../../../../common/common-html/src/app/nls/phetcommon-strings',
+            'i18n!../../../common/common-html/src/app/nls/phetcommon-strings',
             'tpl!view/control-panel.html',
             'tpl!view/play-pause-flip-switch.html',
             'tpl!view/speed-control.html',
