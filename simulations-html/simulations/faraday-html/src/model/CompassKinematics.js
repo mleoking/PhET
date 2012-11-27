@@ -56,8 +56,8 @@ define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
                 /**
                  * Workaround to get the compass moving immediately.
                  * In some situations, such as when the magnet polarity is flipped,
-                 * it can take quite awhile for the magnet to start moving.
-                 * So we give the compass needle a small amount of angular velocity to get it going.
+                 * it can take quite awhile for the needle to start moving.
+                 * So we give the needle a small amount of angular velocity to get it going.
                  */
                 this.startMovingNow = function () {
                     omega = 0.03; // adjust as needed for desired behavior
