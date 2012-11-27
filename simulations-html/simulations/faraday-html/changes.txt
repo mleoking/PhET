@@ -1,3 +1,4 @@
+11/26/12 delete jquery import from html file
 11/26/12 when compass is inside magnet, immediate snap needle to field orientation
 11/26/12 normalize compass needle angle in kinematics algorithm
 11/26/21 BarMagnet.getFieldVector -> getFieldAt
