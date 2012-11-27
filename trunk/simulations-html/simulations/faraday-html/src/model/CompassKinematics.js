@@ -11,9 +11,9 @@ define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
                 var THRESHOLD = MathUtil.toRadians( 0.2 ); // angle at which the needle stops wobbling and snaps to the actual field orientation
 
                 // private fields
-                var _theta = 0; // Angle of needle orientation (in radians)
-                var _omega = 0; // Angular velocity, the change in angle over time.
-                var _alpha = 0; // Angular accelaration, the change in angular velocity over time.
+                var theta = 0; // Angle of needle orientation (in radians)
+                var omega = 0; // Angular velocity, the change in angle over time.
+                var alpha = 0; // Angular acceleration, the change in angular velocity over time.
 
                 /**
                  * Gets the orientation of the compass needle, animated over time.
@@ -26,30 +26,30 @@ define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
                     var angle = fieldVector.getAngle();
 
                     // Difference between the field angle and the compass angle.
-                    var phi = ( ( magnitude == 0 ) ? 0.0 : ( angle - _theta ) );
+                    var phi = ( ( magnitude == 0 ) ? 0.0 : ( angle - theta ) );
 
                     if ( Math.abs( phi ) < THRESHOLD ) {
                         // When the difference between the field angle and the compass angle is insignificant,
                         // simply set the angle and consider the compass to be at rest.
-                        _theta = angle;
-                        _omega = 0;
-                        _alpha = 0;
+                        theta = angle;
+                        omega = 0;
+                        alpha = 0;
                     }
                     else {
                         // Use the Verlet algorithm to compute angle, angular velocity, and angular acceleration.
 
                         // Step 1: orientation
-                        var alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * _omega );
-                        _theta = _theta + ( _omega * frames ) + ( 0.5 * alphaTemp * frames * frames );
+                        var alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * omega );
+                        theta = theta + ( omega * frames ) + ( 0.5 * alphaTemp * frames * frames );
 
                         // Step 2: angular acceleration
-                        var omegaTemp = _omega + ( alphaTemp * frames );
-                        _alpha = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * omegaTemp );
+                        var omegaTemp = omega + ( alphaTemp * frames );
+                        alpha = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * omegaTemp );
 
                         // Step 3: angular velocity
-                        _omega = _omega + ( 0.5 * ( _alpha + alphaTemp ) * frames );
+                        omega = omega + ( 0.5 * ( alpha + alphaTemp ) * frames );
                     }
-                    compass.orientation.set( _theta );
+                    compass.orientation.set( theta );
                 };
 
                 /**
@@ -59,7 +59,7 @@ define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
                  * So we give the compass needle a small amount of angular velocity to get it going.
                  */
                 this.startMovingNow = function () {
-                    _omega = 0.03; // adjust as needed for desired behavior
+                    omega = 0.03; // adjust as needed for desired behavior
                 }
             }
 
