@@ -9,13 +9,15 @@ require.config( {
                         jquery: '../../../contrib/jquery-1.8.3',
                         'jquery.mobile': '../../../contrib/jquery.mobile-1.2.0',
                         underscore: '../../../contrib/underscore-1.4.2',
-                        tpl: "../../../contrib/tpl-0.2"
+                        tpl: "../../../contrib/tpl-0.2",
+                        numeric: "../js/vendor/numeric-1.2.3"
                     },
 
                     shim: {
                         underscore: { exports: "_" },
                         easel: { exports: "createjs" },
-                        jquery: { exports: "$" }
+                        jquery: { exports: "$" },
+                        numeric: {exports: "numeric"}
                     },
 
                     urlArgs: new Date().getTime() // add cache buster query string to make browser refresh actually reload everything

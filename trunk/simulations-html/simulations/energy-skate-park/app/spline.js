@@ -1,4 +1,4 @@
-define( ['easel', ], function ( createjs ) {
+define( ['easel', 'numeric' ], function ( createjs, numeric ) {
 
     function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 
