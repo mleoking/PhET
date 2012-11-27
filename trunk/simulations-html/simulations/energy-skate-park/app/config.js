@@ -9,7 +9,7 @@ require.config( {
                         jquery: '../../../contrib/jquery-1.8.3',
                         'jquery.mobile': '../../../contrib/jquery.mobile-1.2.0',
                         underscore: '../../../contrib/underscore-1.4.2',
-                        tpl: "../js/vendor/tpl"
+                        tpl: "../../../contrib/tpl-0.2"
                     },
 
                     shim: {
