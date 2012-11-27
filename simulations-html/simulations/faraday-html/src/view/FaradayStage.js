@@ -16,9 +16,12 @@ define( [
             'view/CompassDisplay',
             'view/FieldInsideDisplay',
             'view/FieldMeterDisplay',
-            'view/FieldOutsideDisplay'
+            'view/FieldOutsideDisplay',
+            'view/FPSDisplay'
         ],
-        function ( Easel, Dimension2D, Inheritance, ModelViewTransform2D, Point2D, Property, BarMagnetDisplay, CompassDisplay, FieldInsideDisplay, FieldMeterDisplay, FieldOutsideDisplay ) {
+        function ( Easel,
+                   Dimension2D, Inheritance, ModelViewTransform2D, Point2D, Property,
+                   BarMagnetDisplay, CompassDisplay, FieldInsideDisplay, FieldMeterDisplay, FieldOutsideDisplay, FPSDisplay ) {
 
             function FaradayStage( canvas, model ) {
 
@@ -67,6 +70,11 @@ define( [
                 // field meter
                 var meter = new FieldMeterDisplay( model.fieldMeter, mvt );
 
+                // FPS display, upper left
+                this.fps = new FPSDisplay();
+                this.fps.x = 20;
+                this.fps.y = 20;
+
                 // rendering order
                 this.addChild( background );
                 this.addChild( field );
@@ -74,6 +82,7 @@ define( [
                 this.addChild( fieldInside );
                 this.addChild( compass );
                 this.addChild( meter );
+                this.addChild( this.fps );
             }
 
             Inheritance.inheritPrototype( FaradayStage, Easel.Stage );

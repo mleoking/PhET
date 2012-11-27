@@ -33,6 +33,7 @@ require( [
 
              Easel.Ticker.addListener( model );
              Easel.Ticker.addListener( stage );
+             Easel.Ticker.addListener( stage.fps );
              Easel.Ticker.setFPS( 60 );
              Easel.Touch.enable( stage, false, false );
          } );
