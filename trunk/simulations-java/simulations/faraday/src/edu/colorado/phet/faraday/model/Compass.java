@@ -114,7 +114,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
     /**
      * Workaround to get the compass moving immediately.
      * In some situations, such as when the magnet polarity is flipped,
-     * it can take quite awhile for the magnet to start moving.
+     * it can take quite awhile for the compass needle to start moving.
      */
     public void startMovingNow() {
         _behavior.startMovingNow();
@@ -291,7 +291,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
         private double _theta;
         // Angular velocity, the change in angle over time.
         private double _omega;
-        // Angular accelaration, the change in angular velocity over time.
+        // Angular acceleration, the change in angular velocity over time.
         private double _alpha;
 
         public KinematicBehavior( Compass compassModel ) {
@@ -339,7 +339,7 @@ public class Compass extends FaradayObservable implements ModelElement, SimpleOb
         /**
          * Workaround to get the compass moving immediately.
          * In some situations, such as when the magnet polarity is flipped,
-         * it can take quite awhile for the magnet to start moving.
+         * it can take quite awhile for the needle to start moving.
          * So we give the compass needle a small amount of
          * angular velocity to get it going.
          */
