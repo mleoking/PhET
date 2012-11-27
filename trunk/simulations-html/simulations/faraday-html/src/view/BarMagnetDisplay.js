@@ -71,7 +71,7 @@ define( [
                 updateOrientation( barMagnet.orientation.get() );
             }
 
-            // Use prototype chaining to inherit properties and methods on the prototype.
+            // prototype chaining
             Inheritance.inheritPrototype( BarMagnetDisplay, Easel.Bitmap );
 
             return BarMagnetDisplay;
