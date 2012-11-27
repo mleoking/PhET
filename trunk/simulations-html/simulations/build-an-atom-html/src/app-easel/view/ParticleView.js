@@ -6,16 +6,6 @@ define( [
             'common/DragHandler'
         ], function ( _, Easel, Point2D, DragHandler ) {
 
-    // Private Methods
-
-    function showPointer( mouseEvent ) {
-        $( '#atom-construction-canvas' ).css( { cursor:"pointer" } );
-    }
-
-    function showDefault( mouseEvent ) {
-        $( '#atom-construction-canvas' ).css( { cursor:"default" } );
-    }
-
     // Constructor
 
     function ParticleView() {
@@ -44,8 +34,6 @@ define( [
 
         DragHandler.register( this, function ( point ) {
             particle.setLocation( mvt.viewToModel( point ) );
-            // self.x = point.x;
-            // self.y = point.y;
         } );
 
         particle.events.on( 'locationChange', function () {
@@ -56,8 +44,19 @@ define( [
 
     };
 
+    // Private Methods
+
+    function showPointer( mouseEvent ) {
+        $( '#atom-construction-canvas' ).css( { cursor:"pointer" } );
+    }
+
+    function showDefault( mouseEvent ) {
+        $( '#atom-construction-canvas' ).css( { cursor:"default" } );
+    }
+
     ParticleView.prototype.pressHandler = function ( e ) {
-        //Make dragging relative to touch point
+        debugger;
+        // Make dragging relative to touch point
         var relativePressPoint = null;
         e.onMouseMove = function ( event ) {
             var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
