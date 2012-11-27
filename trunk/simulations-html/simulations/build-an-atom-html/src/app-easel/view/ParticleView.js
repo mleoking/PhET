@@ -34,32 +34,19 @@ define( [
 
         DragHandler.register( this, function ( point ) {
             particle.setLocation( mvt.viewToModel( point ) );
-        } );
+        }, function( pressEvent ){
 
-        this.onMouseDown = function ( mouseEvent ){
+            pressEvent.onMouseUp = function(){
+              particle.setUserControlled( false );
+            };
+
             particle.setUserControlled( true );
-            console.log( "mouse down, mousevent = " + mouseEvent );
-        }
+        });
 
-        this.onMouseUp = function ( mouseEvent ){
-            particle.setUserControlled( false );
-            console.log( "mouse up, mousevent = " + mouseEvent );
-        }
-
-        this.onMouseMove = function ( mouseEvent ){
-            particle.setUserControlled( false );
-            console.log( "mouse up, mousevent = " + mouseEvent );
-        }
-
-        var registeredPressFunction = this.onPress;
-        this.onPress = function ( mouseEvent ){
-            particle.setUserControlled( true );
-            registeredPressFunction( mouseEvent );
-        }
-
-        this.onClick = function ( mouseEvent ){
-            particle.setUserControlled( false );
-        }
+        // var registeredPressFunction = this.onPress;
+        // this.onPress = function ( mouseEvent ){
+        //     registeredPressFunction( mouseEvent );
+        // }
 
         particle.events.on( 'locationChange', function () {
             var newLocation = mvt.modelToView( new Point2D( particle.x, particle.y ) );
