@@ -21,6 +21,16 @@ define( [
         };
     };
 
+    var nucleons = [];
+
+    Atom.prototype.addParticle = function ( particle ) {
+        if ( particle.type === 'proton' ) {
+            particle.setLocation( {x:0, y:0} );
+            nucleons.push( particle );
+            console.log( "Particle added to atom ");
+        }
+    }
+
     return Atom;
 
 } );
