@@ -53,7 +53,7 @@ define( [ 'easel', 'common/Logger', 'common/Property', 'model/CompassKinematics'
             /**
              * Workaround to get the compass moving immediately.
              * In some situations, such as when the magnet polarity is flipped,
-             * it can take quite awhile for the magnet to start moving.
+             * it can take quite awhile for the needle to start moving.
              */
             Compass.prototype.startMovingNow = function () {
                 this.kinematics.startMovingNow();
