@@ -28,9 +28,9 @@ define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
                     // Difference between the field angle and the compass angle.
                     var phi = ( ( magnitude == 0 ) ? 0.0 : ( angle - theta ) );
 
-                    if ( Math.abs( phi ) < THRESHOLD ) {
-                        // When the difference between the field angle and the compass angle is insignificant,
-                        // simply set the angle and consider the compass to be at rest.
+                    // If the angle difference is tiny, or the compass is inside the magnet,
+                    // immediately set the needle angle and consider the compass to be at rest.
+                    if ( ( Math.abs( phi ) < THRESHOLD ) || ( barMagnet.contains( compass.location.get() ) ) )  {
                         theta = angle;
                         omega = 0;
                         alpha = 0;

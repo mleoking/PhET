@@ -1,7 +1,6 @@
 TODO list for faraday-html
 
 Features:
-- compass goes nuts inside magnet
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
 
