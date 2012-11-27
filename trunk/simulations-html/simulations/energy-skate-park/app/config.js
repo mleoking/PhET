@@ -15,7 +15,7 @@ require.config( {
                     shim: {
                         underscore: { exports: "_" },
                         easel: { exports: "createjs" },
-                        jquery: { exports: "$" },
+                        jquery: { exports: "$" }
                     },
 
                     urlArgs: new Date().getTime() // add cache buster query string to make browser refresh actually reload everything
