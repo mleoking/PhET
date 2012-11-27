@@ -1,4 +1,4 @@
-define( [], function () {
+define( ['easel', ], function ( createjs ) {
 
     function showPointer( mouseEvent ) { document.body.style.cursor = "pointer"; }
 
@@ -23,7 +23,7 @@ define( [], function () {
             e.onMouseMove = function ( event ) {
                 var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
                 if ( relativePressPoint === null ) {
-                    relativePressPoint = {x:e.target.x - transformed.x, y:e.target.y - transformed.y};
+                    relativePressPoint = {x: e.target.x - transformed.x, y: e.target.y - transformed.y};
                 }
                 else {
                     e.target.x = transformed.x + relativePressPoint.x;
@@ -87,7 +87,7 @@ define( [], function () {
                 for ( var i = 0; i < sAll.length; i++ ) {
                     var b = splineX.at( sAll[i] );
                     var a = splineY.at( sAll[i] );
-                    myArray.push( {x:b, y:a} );
+                    myArray.push( {x: b, y: a} );
                 }
 
                 for ( var i = 0; i < myArray.length; i++ ) {
@@ -111,10 +111,10 @@ define( [], function () {
                 e.onMouseMove = function ( event ) {
                     var transformed = event.target.parent.globalToLocal( event.stageX, event.stageY );
                     if ( previousPoint === null ) {
-                        previousPoint = {x:transformed.x, y:transformed.y};
+                        previousPoint = {x: transformed.x, y: transformed.y};
                     }
                     else {
-                        var newPoint = {x:transformed.x, y:transformed.y};
+                        var newPoint = {x: transformed.x, y: transformed.y};
                         var deltaX = newPoint.x - previousPoint.x;
                         var deltaY = newPoint.y - previousPoint.y;
 

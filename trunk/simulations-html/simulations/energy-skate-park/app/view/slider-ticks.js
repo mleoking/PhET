@@ -1,4 +1,4 @@
-define( [], function () {
+define( ['easel', ], function ( createjs ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( id, running, sliderControls ) {

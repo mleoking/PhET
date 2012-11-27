@@ -1,4 +1,4 @@
-define( [], function () {
+define( ['easel' ], function ( createjs ) {
 
     var theRelativeDragHandler = function ( e ) {
         //Make dragging relative to touch point

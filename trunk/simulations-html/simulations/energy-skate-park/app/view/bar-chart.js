@@ -1,5 +1,5 @@
-define( ["view/easel-util",
-            'i18n!nls/energy-skate-park-strings'], function ( EaselUtil, Strings ) {
+define( ['easel', "view/easel-util",
+            'i18n!nls/energy-skate-park-strings'], function ( createjs, EaselUtil, Strings ) {
     return {createBarChart: function ( skater ) {
         var that = new createjs.Container();
         var shape = new createjs.Shape();
