@@ -6,18 +6,18 @@
  * @author Sam Reid
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/Point2D' ],
-        function ( Point2D ) {
+define( [ 'underscore','common/Point2D' ],
+        function ( _, Point2D ) {
 
-            function DragHandler() {
-            }
+            // not meant to be instantiated
+            var DragHandler = {};
 
             /**
              * Registers a drag handler with the specified Easel display object.
              * @param {DisplayObject} displayObject
              * @param {Function} dragFunction function called while dragging, params: {Point2D}
              */
-            DragHandler.register = function ( displayObject, dragFunction ) {
+            DragHandler.register = function ( displayObject, dragFunction, onPress ) {
 
                 // Drag cursor
                 displayObject.onMouseOver = function () {
@@ -34,7 +34,6 @@ define( [ 'common/Point2D' ],
 
                     // Make dragging relative to touch Point2D.
                     var relativePressPoint = null;
-
                     // @param {MouseEvent} moveEvent
                     pressEvent.onMouseMove = function ( moveEvent ) {
                         var transformed = moveEvent.target.parent.globalToLocal( moveEvent.stageX, moveEvent.stageY );
@@ -45,6 +44,11 @@ define( [ 'common/Point2D' ],
                             dragFunction( new Point2D( transformed.x + relativePressPoint.x, transformed.y + relativePressPoint.y ) );
                         }
                     };
+
+                    if( _.isFunction( onPress ) ){
+                      onPress(pressEvent);
+                    }
+
                 };
             };
 
