@@ -37,6 +37,8 @@ define( [], function () {
             }
         }
         img.src = message;
+
+        //TODO: echo a copy to Google analytics event tracking for recording, visualization and other Google Analytics benefits?
     };
 
     return Analytics;
