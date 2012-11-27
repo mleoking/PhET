@@ -1,4 +1,4 @@
-define( ['easel', "../model/vector2d" ], function ( createjs, Vector2D ) {
+define( ['easel', "model/vector2d", 'view/skaterImageBase64' ], function ( createjs, Vector2D, skaterImage ) {
     return {createSkater: function ( skaterModel, groundHeight, groundY, analytics ) {
 
         var metersPerPixel = 8.0 / 768.0;
