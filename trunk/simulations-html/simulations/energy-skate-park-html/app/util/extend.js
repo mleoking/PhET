@@ -1,4 +1,4 @@
-define( ['underscore'], function () {
+define( ['../../.'], function () {
     Object.__proto__.extend = function ( className, subclassMethods ) {
         var subclass = function () {
             this.initialize.apply( this, arguments );

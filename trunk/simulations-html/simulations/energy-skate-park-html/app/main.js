@@ -2,7 +2,7 @@ require( ['websocket-refresh',
           'tab',
           "tpl!view/massSlider.html",
           "tpl!view/frictionControls.html",
-          '../../../../common/common-html/src/app/analytics/Analytics'
+          '../../../common/common-html/src/app/analytics/Analytics'
          ], function ( WebsocketRefresh, Tab, massSlider, frictionControls, Analytics ) {
 
     WebsocketRefresh.listenForRefresh();
