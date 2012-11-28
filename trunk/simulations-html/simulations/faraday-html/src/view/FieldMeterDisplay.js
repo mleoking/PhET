@@ -10,7 +10,7 @@ define( [
             'common/DragHandler',
             'common/Inheritance',
             'common/MathUtil',
-            'image!src/resources/images/fieldMeter.png'
+            'image!images/fieldMeter.png'
         ],
         function ( Easel, DragHandler, Inheritance, MathUtil, fieldMeterImage ) {
 
