@@ -1,6 +1,7 @@
 //One of the three tabs in Energy Skate Park
 define( [
-            'easel', 'model/skater-model',
+            'easel',
+            'model/skater-model',
             'view/skater-view',
             'view/background',
             'spline',
@@ -17,7 +18,7 @@ define( [
             'tpl!view/speed-control.html',
             'tpl!view/navbar.html',
             'view/easel-root'
-        ], function ( createjs, SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar, createEaselRoot ) {
+        ], function ( Easel, SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar, createEaselRoot ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( id, running, sliderControls, analytics ) {
@@ -46,7 +47,7 @@ define( [
         canvas.onselectstart = function () { return false; }; // IE
         canvas.onmousedown = function () { return false; }; // Mozilla
 
-        var stage = new createjs.Stage( canvas );
+        var stage = new Easel.Stage( canvas );
         stage.mouseMoveOutside = true;
         stage.addChild( root );
 
@@ -71,7 +72,7 @@ define( [
         var pauseString = CommonStrings["Common.ClockControlPanel.Pause"];
         var playString = CommonStrings["Common.ClockControlPanel.Play"];
 
-        var templateText = playPauseFlipSwitch( {tab: id, pauseString: "Pause", playString: "Play"} );
+        var templateText = playPauseFlipSwitch( {tab: id, pauseString: pauseString, playString: playString} );
         console.log( templateText );
         tab.append( $( templateText ) ).trigger( "create" );
 
@@ -151,9 +152,6 @@ define( [
 
             $( "#navBar" ).css( 'top', top + 'px' ).css( 'left', (left + 50) + 'px' ).css( 'width', (canvasW - 100) + 'px' );
 
-            //Scale the control panel up and down using css 2d transform
-            //        $( "#controlPanel" ).css( "-webkit-transform", "scale(" + scale + "," + scale + ")" );
-
             var controlPanel = $( '#' + id + " > .controlPanel" );
             controlPanel.css( 'width', '270px' );
             controlPanel.css( 'top', 30 + 'px' );
@@ -179,9 +177,10 @@ define( [
             tab$( "speedLabel" ).find( ".ui-btn-text" ).css( "position", "absolute" ).css( "top", "35%" );
 
             //TODO: This will need to be made more specific since it will cause problems if it applies to all slider switches
-            $( '#' + id + 'containerForPlayPauseFlipSwitch ' ).css( 'position', 'absolute' ).css( 'width', '200px' );
+            var $2 = $( '#' + id + 'containerForPlayPauseFlipSwitch ' );
+            $2.css( 'position', 'absolute' ).css( 'width', '200px' );
             var leftSideOfPlayPauseButton = (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2);
-            $( '#' + id + 'containerForPlayPauseFlipSwitch ' ).css( 'left', leftSideOfPlayPauseButton + 'px' ).css( 'top', canvasH + top - 100 + 'px' );
+            $2.css( 'left', leftSideOfPlayPauseButton + 'px' ).css( 'top', canvasH + top - 100 + 'px' );
             $( "#" + id + " > ." + speedControlClass ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 100 + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
 
             console.log( "tab 1 resized, width = " + winW );
@@ -195,8 +194,8 @@ define( [
 
         function moduleActive() {return $.mobile.activePage[0] == tab[0];}
 
-        createjs.Ticker.setFPS( 60 );
-        createjs.Ticker.addListener( function () {
+        Easel.Ticker.setFPS( 60 );
+        Easel.Ticker.addListener( function () {
             if ( moduleActive() ) {
 
                 //make sure the nav bar button is showing as selected
@@ -229,7 +228,7 @@ define( [
         } );
 
         //Enable touch and prevent default
-        createjs.Touch.enable( stage, false, false );
+        Easel.Touch.enable( stage, false, false );
 
         //Necessary to enable MouseOver events
         stage.enableMouseOver();
