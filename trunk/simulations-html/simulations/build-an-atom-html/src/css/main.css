@@ -128,22 +128,19 @@ textarea {
 #periodic-table table td {
     border: 1px solid black;
     text-align: center;
-
-  -webkit-transition: all 0.3s ease-out; 
-     -moz-transition: all 0.3s ease-out; 
-       -o-transition: all 0.3s ease-out; 
-          transition: all 0.3s ease-out; 
 }
 
 #periodic-table table td.active {
   background: #fff;
   border-color: red;
   font-weight: bold;
+  /* without display: block, active cells start getting cut off by the zoom, starting with Boron*/
+  display: block;
 
-  -webkit-transform: scale(1.5); 
-     -moz-transform: scale(1.5); 
-      -ms-transform: scale(1.5); 
-       -o-transform: scale(1.5); 
+  -webkit-transform: scale(1.5);
+     -moz-transform: scale(1.5);
+      -ms-transform: scale(1.5);
+       -o-transform: scale(1.5);
           transform: scale(1.5);
 
   -webkit-animation: pulseBorderColor 1s infinite 500ms;
