@@ -1,4 +1,4 @@
-TODO list for faraday-html
+TODO list for faraday
 
 Features:
 - compass/magnet collision detection (bounds computations)
