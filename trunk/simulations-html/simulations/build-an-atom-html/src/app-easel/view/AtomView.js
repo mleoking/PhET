@@ -1,8 +1,10 @@
 // Copyright 2002-2012, University of Colorado
 define( [
             'easel',
-            'common/Point2D'
-        ], function ( Easel, Point2D ) {
+            'common/Point2D',
+            'common/AtomIdentifier',
+            'model/Atom'
+        ], function ( Easel, Point2D, AtomIdentifier, Atom ) {
 
     /**
      * @param xPos
@@ -20,6 +22,7 @@ define( [
 
     p.initialize = function ( atom, mvt ) {
         this.Container_initialize();
+        this.atom = atom;
 
         // Create the X where the nucleus goes.
         var x = new Easel.Shape();
@@ -35,9 +38,13 @@ define( [
         this.addChild( x );
 
         // Create the textual readout of the element name.
-        var label = new Easel.Text( "Test", 'bold 36px Arial', 'red' );
-        label.text = 'Hydrogen';
-        this.addChild( label );
+        this.label = new Easel.Text( "Test", 'bold 36px Arial', 'red' );
+        var self = this;
+        atom.events.on( Atom.CONFIG_CHANGE_EVENT, function () {
+            console.log( "Atom config change event received." );
+            self.label.text = AtomIdentifier.getName( self.atom.getNumProtons() );
+        } );
+        this.addChild( this.label );
     };
 
     return AtomView;
