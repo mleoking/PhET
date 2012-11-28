@@ -10,6 +10,7 @@ define( [
     var PROTON_COLOR = "red";
     var NUM_NEUTRONS = 5;
     var NEUTRON_COLOR = "gray";
+    var PARTICLE_CAPTURE_RADIUS = 100;
 
     /**
      * Constructor for main model object.
@@ -34,7 +35,12 @@ define( [
             var proton = new Particle( self.buckets.protonBucket.x, self.buckets.protonBucket.y, PROTON_COLOR, NUCLEON_DIAMETER, "proton" );
             self.nucleons.push( proton );
             proton.events.on( 'userReleased', function () {
-                self.atom.addParticle( proton );
+                if ( proton.x < 0 ){
+                    self.buckets.protonBucket.addParticle( proton );
+                }
+                else{
+                    self.atom.addParticle( proton );
+                }
             } );
         });
 
