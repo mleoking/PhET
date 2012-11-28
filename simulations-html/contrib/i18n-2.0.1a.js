@@ -37,22 +37,25 @@
 (function () {
     'use strict';
 
-    // Creates associative array (object) of query params
-    //Copied from http://geekswithblogs.net/PhubarBaz/archive/2011/11/21/getting-query-parameters-in-javascript.aspx
-    //Phet.SRR Added this code on 11/27/2012
-    var QueryParameters = (function () {
-        var result = {};
-
+    //PhET.SRR Added this code on 11/27/2012
+    //PhET.CM Modified this code on 11/28/2012
+    //Look for a query parameter of the form "locale=value", where the format of value is described in RFC 4646.
+    //The value of this parameter will be used to override the browser's language.
+    //Adapted from http://geekswithblogs.net/PhubarBaz/archive/2011/11/21/getting-query-parameters-in-javascript.aspx
+    var localeQueryParameter = (function () {
+        var value;
         if ( typeof window != 'undefined' && window.location.search ) {
-            // split up the query string and store in an associative array
+            // look for first occurrence of "locale" query parameter
             var params = window.location.search.slice( 1 ).split( "&" );
             for ( var i = 0; i < params.length; i++ ) {
-                var tmp = params[i].split( "=" );
-                result[tmp[0]] = unescape( tmp[1] );
+                var nameValuePair = params[i].split( "=" );
+                if ( nameValuePair[0] === 'locale' ) {
+                    value = decodeURI( nameValuePair[1] );
+                    break;
+                }
             }
         }
-
-        return result;
+        return value;
     }());
 
     //regexp for reconstructing the master bundle name from parts of the regexp match
@@ -140,16 +143,9 @@
                     suffix = match[4];
                     locale = masterConfig.locale;
                     if ( !locale ) {
+                        //PhET.CM modified this code on 11/28/2012
                         var result = typeof navigator === "undefined" ? "root" :
-                                     (navigator.language || navigator.userLanguage || "root").toLowerCase();
-
-                        //Allow a query parameter of "locale=language-country-city-etc" override other settings such as "ar", "ar-sa", "fr-fr-paris"
-                        //Phet.SRR Added this code on 11/27/2012
-                        for ( var param in QueryParameters ) {
-                            if ( param === "locale" ) {
-                                result = QueryParameters[param];
-                            }
-                        }
+                                     (localeQueryParameter || navigator.language || navigator.userLanguage || "root").toLowerCase();
                         locale = masterConfig.locale = result;
                     }
                     parts = locale.split( "-" );
