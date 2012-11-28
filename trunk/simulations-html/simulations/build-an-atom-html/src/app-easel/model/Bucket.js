@@ -10,7 +10,10 @@ define( [ 'underscore' ], function ( _ ) {
     }
 
     Bucket.prototype.addParticle = function ( particle ){
-        particle.setLocation( {x: this.x, y: this.y });
+
+        var xPos = (this.x - this.width / 2) + Math.random() * this.width;
+
+        particle.setLocation( {x: xPos, y: this.y });
         this.particles.push( particle );
         var self = this;
         particle.events.one('particleGrabbed', function(){
