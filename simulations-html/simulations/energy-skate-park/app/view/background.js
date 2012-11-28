@@ -1,6 +1,6 @@
 define( ['easel', 'view/easel-create',
-            'image!resources/house.png',
-            'image!resources/mountains.png'],
+            'image!resources/images/house.png',
+            'image!resources/images/mountains.png'],
         function ( createjs, EaselExtensions, houseImage, mountainImage ) {
 //    var houseImage = skaterImage;
 //    var mountainImage = skaterImage;

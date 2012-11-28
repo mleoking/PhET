@@ -1,9 +1,7 @@
-define( ['easel', 'image!resources/barChartIcon.png',
-            'image!resources/gridIcon.png',
-            'image!resources/pieChartIcon.png',
-            'image!resources/speedIcon.png'], function ( createjs, barChartIconImage, gridIconImage, pieChartIconImage, speedIconImage ) {
-
-//    var barChartIconImage=skaterImage, gridIconImage=skaterImage, pieChartIconImage=skaterImage, speedIconImage = skaterImage;
+define( ['easel', 'image!resources/images/barChartIcon.png',
+            'image!resources/images/gridIcon.png',
+            'image!resources/images/pieChartIcon.png',
+            'image!resources/images/speedIcon.png'], function ( createjs, barChartIconImage, gridIconImage, pieChartIconImage, speedIconImage ) {
 
     var result = {};
 

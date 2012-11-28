@@ -116,10 +116,10 @@ define( [
             skaterModel.returnSkater();
         } );
 
-        tab$( "barGraphLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/barChartIcon.png" />' );
-        tab$( "pieChartLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/pieChartIcon.png" />' );
-        tab$( "gridLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/gridIcon.png" />' );
-        tab$( "speedLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/speedIcon.png" />' );
+        tab$( "barGraphLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="barChartIconImage" src="resources/images/barChartIcon.png" />' );
+        tab$( "pieChartLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/images/pieChartIcon.png" />' );
+        tab$( "gridLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/images/gridIcon.png" />' );
+        tab$( "speedLabel" ).find( '.ui-btn-inner' ).append( '<img class="alignRightPlease" id="pieChartIconImage" src="resources/images/speedIcon.png" />' );
 
         $( '#flip-min' ).val( 'on' ).slider( "refresh" );
         $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
