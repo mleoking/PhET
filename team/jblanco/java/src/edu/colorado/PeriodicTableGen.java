@@ -64,6 +64,6 @@ public class PeriodicTableGen {
     }
 
     private static void outputCellWithSymbol( String symbol ) {
-        System.out.println( "<td>" + symbol + "</td>" );
+        System.out.println( "<td data-symbol=" + "\"" + symbol + "\"" + ">" + symbol + "</td>" );
     }
 }
