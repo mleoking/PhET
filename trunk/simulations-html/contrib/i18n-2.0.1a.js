@@ -147,16 +147,12 @@
                                  typeof navigator === "undefined" ? "root" :
                                  (navigator.language ||
                                   navigator.userLanguage || "root").toLowerCase();
-                        var result = typeof navigator === "undefined" ? "root" :
-                                     (localeQueryParameter || navigator.language || navigator.userLanguage || "root").toLowerCase();
 
                         //PhET.CM added this block on 11/28/2012
                         //Override the browser's language using the optional query parameter.
-                        if ( localeQueryParameter instanceof String ) {
-                            result = localeQueryParameter;
+                        if ( typeof localeQueryParameter === 'string' ) {
+                            locale = localeQueryParameter;
                         }
-
-                        locale = masterConfig.locale = result;
                     }
                     parts = locale.split( "-" );
                 }
