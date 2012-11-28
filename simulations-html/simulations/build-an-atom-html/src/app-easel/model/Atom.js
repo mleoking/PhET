@@ -99,9 +99,9 @@ define( [
             var placementAngle = 0;
             var placementAngleDelta = 0;
             for ( var i = 0; i < this.nucleons.length; i++ ) {
-                this.nucleons[i].setLocation({
-                        x:centerX + placementRadius * Math.cos( placementAngle ),
-                        y:centerY + placementRadius * Math.sin( placementAngle )} );
+                this.nucleons[i].setLocation( {
+                                                  x:centerX + placementRadius * Math.cos( placementAngle ),
+                                                  y:centerY + placementRadius * Math.sin( placementAngle )} );
                 numAtThisRadius--;
                 if ( numAtThisRadius > 0 ) {
                     // Stay at the same radius and update the placement angle.
