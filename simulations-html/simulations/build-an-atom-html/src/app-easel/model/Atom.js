@@ -9,9 +9,11 @@ define( [
         this.xPos = xPos;
         this.yPos = yPos;
         this.nucleons = [];
+        this.electrons = [];
         this.events = $( {} );
     }
 
+    // deprecated (not yet)
     Atom.prototype.toJSON = function () {
         // hard coded properties for now
         return {
@@ -48,6 +50,15 @@ define( [
             }
         });
         return numProtons;
+    };
+
+    Atom.prototype.getWeight = function(){
+        return this.nucleons.length;
+    };
+
+    Atom.prototype.getCharge = function(){
+        var protons = this.getNumProtons();
+        return protons - this.electrons.length;
     };
 
     Atom.prototype.reconfigureNucleus = function ( moveImmediately ) {
