@@ -13,21 +13,11 @@ Needs:
 
   Easel:
     DisplayObject bounds
+    lack of support for dirty regions?
 
   Sim framework:
     Game loop?
     something similar to Property<T> (Object.observe in ECMAScript.next)
-
-  i18n in energy-skate-park-html:
-    why is each translation in a subdir on nls/?
-    i18n of DOM vs Easel?
-
-
-Patterns:
-
-   Combination inheritance
-
-   private fields and methods (can't have private fields and public class methods)
 
 
 Annoyances, productivity drains:
