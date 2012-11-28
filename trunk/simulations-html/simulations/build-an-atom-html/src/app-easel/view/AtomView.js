@@ -20,6 +20,8 @@ define( [
 
     p.initialize = function ( atom, mvt ) {
         this.Container_initialize();
+
+        // Create the X where the nucleus goes.
         var x = new Easel.Shape();
         var sizeInPixels = mvt.modelToView( 20 );
         var center = mvt.modelToView( new Point2D( atom.xPos, atom.yPos ) );
@@ -31,6 +33,11 @@ define( [
                 .lineTo( center.x + sizeInPixels / 2, center.y - sizeInPixels / 2 )
                 .endStroke();
         this.addChild( x );
+
+        // Create the textual readout of the element name.
+        var label = new Easel.Text( "Test", 'bold 36px Arial', 'red' );
+        label.text = 'Hydrogen';
+        this.addChild( label );
     };
 
     return AtomView;
