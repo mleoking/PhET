@@ -47,7 +47,6 @@ define( [
             var newLocation = mvt.modelToView( new Point2D( particle.x, particle.y ) );
             self.x = newLocation.x;
             self.y = newLocation.y;
-            console.log( "newLocation.x = " + newLocation.x );
         } );
     };
 
