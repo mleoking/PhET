@@ -2,14 +2,7 @@
 define( [
             'easel',
             'model/skater-model',
-            'view/skater-view',
-            'view/background',
-            'spline',
             'model/physics',
-            'view/easel-util',
-            'view/pie-chart',
-            'view/grid',
-            'view/bar-chart',
             'view/speedometer',
             'i18n!nls/energy-skate-park-strings',
             'i18n!../../../common/phet/app/nls/phetcommon-strings',
@@ -18,7 +11,7 @@ define( [
             'tpl!view/speed-control.html',
             'tpl!view/navbar.html',
             'view/easel-root'
-        ], function ( Easel, SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar, createEaselRoot ) {
+        ], function ( Easel, SkaterModel, Physics, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar, createEaselRoot ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( id, running, sliderControls, analytics ) {
