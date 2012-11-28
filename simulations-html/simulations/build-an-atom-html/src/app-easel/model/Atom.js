@@ -57,26 +57,27 @@ define( [
         var centerY = this.yPos;
         var nucleonRadius = 15; // TODO: Figure out how to do shared constants and share this rather than hard coding it.
         console.log( "centerX" + centerX );
+        var angle, distFromCenter;
 
-        if ( this.nucleons.length == 0 ) {
+        if ( this.nucleons.length === 0 ) {
             // Nothing to do.
             return;
         }
-        else if ( this.nucleons.length == 1 ) {
+        else if ( this.nucleons.length === 1 ) {
             // There is only one nucleon present, so place it in the center
             // of the atom.
             this.nucleons[0].setLocation( {x:centerX, y:centerY} );
         }
-        else if ( this.nucleons.length == 2 ) {
+        else if ( this.nucleons.length === 2 ) {
             // Two nucleons - place them side by side with their meeting point in the center.
-            var angle = Math.random() * 2 * Math.PI;
+            angle = Math.random() * 2 * Math.PI;
             this.nucleons[0].setLocation( { x:centerX + nucleonRadius * Math.cos( angle ), y:centerY + nucleonRadius * Math.sin( angle ) } );
             this.nucleons[1].setLocation( { x:centerX - nucleonRadius * Math.cos( angle ), y:centerY - nucleonRadius * Math.sin( angle ) } );
         }
-        else if ( this.nucleons.length == 3 ) {
+        else if ( this.nucleons.length === 3 ) {
             // Three nucleons - form a triangle where they all touch.
-            var angle = Math.random() * 2 * Math.PI;
-            var distFromCenter = nucleonRadius * 1.155;
+            angle = Math.random() * 2 * Math.PI;
+            distFromCenter = nucleonRadius * 1.155;
             console.log( "distFromCenter" + distFromCenter );
             this.nucleons[0].setLocation( { x:centerX + distFromCenter * Math.cos( angle ),
                                               y:centerY + distFromCenter * Math.sin( angle ) } );
@@ -85,9 +86,9 @@ define( [
             this.nucleons[2].setLocation( { x:centerX + distFromCenter * Math.cos( angle + 4 * Math.PI / 3 ),
                                               y:centerY + distFromCenter * Math.sin( angle + 4 * Math.PI / 3 ) } );
         }
-        else if ( this.nucleons.length == 4 ) {
+        else if ( this.nucleons.length === 4 ) {
             // Four nucleons - make a sort of diamond shape with some overlap.
-            var angle = Math.random() * 2 * Math.PI;
+            angle = Math.random() * 2 * Math.PI;
             this.nucleons[0].setLocation( {
                                               x:centerX + nucleonRadius * Math.cos( angle ),
                                               y:centerY + nucleonRadius * Math.sin( angle )} );
