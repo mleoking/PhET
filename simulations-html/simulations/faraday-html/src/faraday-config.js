@@ -2,6 +2,7 @@
 
 /*
  * RequireJS configuration file for the "Faraday's Electromagnetic Lab" sim.
+ * Paths are relative to the location of this file.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
