@@ -1,3 +1,4 @@
+11/28/12 move faraday.html to top level
 11/28/12 delete data dir
 11/28/12 delete empty dirs
 11/28/12 remove "html" from string file names
