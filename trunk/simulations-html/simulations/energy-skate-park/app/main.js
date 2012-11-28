@@ -1,8 +1,8 @@
 require( ['websocket-refresh',
-          'tab',
-          "tpl!view/massSlider.html",
-          "tpl!view/frictionControls.html",
-          '../../../common/common-html/src/app/analytics/Analytics'
+             'tab',
+             "tpl!view/massSlider.html",
+             "tpl!view/frictionControls.html",
+             '../../../common/common-html/app/analytics/Analytics'
          ], function ( WebsocketRefresh, Tab, massSlider, frictionControls, Analytics ) {
 
     WebsocketRefresh.listenForRefresh();
