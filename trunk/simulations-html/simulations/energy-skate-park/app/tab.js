@@ -5,7 +5,7 @@ define( [
             'model/physics',
             'view/speedometer',
             'i18n!../nls/energy-skate-park-strings',
-            'i18n!../../../common/phet/app/nls/phetcommon-strings',
+            'i18n!../../../common/phet/nls/phetcommon-strings',
             'tpl!view/control-panel.html',
             'tpl!view/play-pause-flip-switch.html',
             'tpl!view/speed-control.html',
