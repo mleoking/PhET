@@ -39,7 +39,7 @@
 
     // Creates associative array (object) of query params
     //Copied from http://geekswithblogs.net/PhubarBaz/archive/2011/11/21/getting-query-parameters-in-javascript.aspx
-    //SRR Added this code on 11/27/2012
+    //Phet.SRR Added this code on 11/27/2012
     var QueryParameters = (function () {
         var result = {};
 
@@ -144,7 +144,7 @@
                                      (navigator.language || navigator.userLanguage || "root").toLowerCase();
 
                         //Allow a query parameter of "locale=language-country-city-etc" override other settings such as "ar", "ar-sa", "fr-fr-paris"
-                        //SRR Added this code on 11/27/2012
+                        //Phet.SRR Added this code on 11/27/2012
                         for ( var param in QueryParameters ) {
                             if ( param === "locale" ) {
                                 result = QueryParameters[param];
