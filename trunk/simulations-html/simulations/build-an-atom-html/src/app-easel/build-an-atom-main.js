@@ -6,8 +6,8 @@ require( [
              'model/BuildAnAtomModel',
              'view/SymbolView',
              'view/MassNumberView',
-             'tpl!templates/periodic-table.html'
-         ], function ( _, Easel, BuildAnAtomStage, BuildAnAtomModel, SymbolView, MassNumberView, periodicTable ) {
+             'view/PeriodicTableView'
+         ], function ( _, Easel, BuildAnAtomStage, BuildAnAtomModel, SymbolView, MassNumberView, PeriodicTablelView ) {
 
     var buildAnAtomModel = new BuildAnAtomModel();
     window.buildAnAtomStage = new BuildAnAtomStage( document.getElementById( 'atom-construction-canvas' ), buildAnAtomModel );
@@ -15,9 +15,9 @@ require( [
     $( document ).ready( function () {
 
         var atom = buildAnAtomModel.atom;
+
         var symbolWidget = new SymbolView( atom );
         var massNumberWidget = new MassNumberView( atom );
-
-        $( '#periodic-table' ).html( periodicTable() );
+        var periodicTableWidget = new PeriodicTablelView( atom );
     } );
 } );

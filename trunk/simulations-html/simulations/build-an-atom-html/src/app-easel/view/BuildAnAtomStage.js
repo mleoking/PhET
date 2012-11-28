@@ -6,10 +6,8 @@ define( [
             'view/AtomView',
             'view/BucketHole',
             'view/BucketFront',
-            'view/SymbolView',
-            'view/MassNumberView',
             'view/ElectronShellView'
-        ], function ( _, Easel, ModelViewTransform2D, ParticleView, AtomView, BucketHole, BucketFront, SymbolView, MassNumberView, ElectronShellView ) {
+        ], function ( _, Easel, ModelViewTransform2D, ParticleView, AtomView, BucketHole, BucketFront, ElectronShellView ) {
 
     function BuildAnAtomStage( canvas, model ) {
 

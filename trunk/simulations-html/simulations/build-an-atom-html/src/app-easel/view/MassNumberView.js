@@ -33,4 +33,3 @@ define([
   return MassNumberlView;
 
 });
-
