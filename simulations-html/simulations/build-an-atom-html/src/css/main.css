@@ -241,6 +241,25 @@ textarea {
   left: 20px;
 }
 
+/* ------------------------------ Net Charge Widget ------------------------------ */
+
+#net-charge-container {
+  width: 94px;
+  height: 88px;
+  background: url(../resources/images/atom_builder_charge_meter_no_window.png) no-repeat;
+  position: relative;
+}
+
+#net-charge-container .net-charge {
+  width: 60px;
+  height: 22px;
+  position: absolute;
+  bottom: 8px;
+  left: 17px;
+  background: #fff;
+  font-weight: bold;
+  text-align: center;
+}
 
 /* ------------------------------ Media Queries ------------------------------ */
 
