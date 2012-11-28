@@ -3,14 +3,11 @@ define( [
             'underscore'
         ], function ( _ ) {
 
-    var CONFIG_CHANGE_EVENT = 'configurationChanged';
-
     function Atom( xPos, yPos ) {
+        this.CONFIG_CHANGE_EVENT = 'configurationChanged';
+
         this.xPos = xPos;
         this.yPos = yPos;
-        this.protons = 0;
-        this.neutrons = 0;
-        this.electrons = 0;
         this.nucleons = [];
         this.events = $( {} );
     }
@@ -36,12 +33,23 @@ define( [
                 self.nucleons = _.without( self.nucleons, particle );
                 console.log( "Particle removed from atom" );
                 self.reconfigureNucleus( true );
-                self.events.trigger( CONFIG_CHANGE_EVENT );
+                debugger;
+                self.events.trigger( self.CONFIG_CHANGE_EVENT );
             } );
             self.reconfigureNucleus( true );
-            self.events.trigger( CONFIG_CHANGE_EVENT );
+            self.events.trigger( this.CONFIG_CHANGE_EVENT );
         }
-    }
+    };
+
+    Atom.prototype.getNumProtons = function(){
+        var numProtons = 0;
+        _.each( this.nucleons, function(nucleon){
+            if ( nucleon.type === 'proton' ){
+                numProtons++;
+            }
+        });
+        return numProtons;
+    };
 
     Atom.prototype.reconfigureNucleus = function ( moveImmediately ) {
 
@@ -142,7 +150,7 @@ define( [
 //                nucleon.moveToDestination();
 //            }
 //        }
-    }
+    };
 
 
     return Atom;
