@@ -8,8 +8,8 @@ module.exports = function ( grunt ) {
 
                           lint: {
                               files: [
-                                  'grunt.js',
-                                  'app-easel/*.js'
+//                                  'grunt.js',
+//                                  'app-easel/*.js'
                               ]
                           },
 
