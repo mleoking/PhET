@@ -143,7 +143,7 @@
                         var result = typeof navigator === "undefined" ? "root" :
                                      (navigator.language || navigator.userLanguage || "root").toLowerCase();
 
-                        //Allow a query parameter of "locale=LAco**" override other settings
+                        //Allow a query parameter of "locale=language-country-city-etc" override other settings such as "ar", "ar-sa", "fr-fr-paris"
                         //SRR Added this code on 11/27/2012
                         for ( var param in QueryParameters ) {
                             if ( param === "locale" ) {
