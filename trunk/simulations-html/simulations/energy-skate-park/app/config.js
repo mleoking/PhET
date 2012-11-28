@@ -10,7 +10,7 @@ require.config( {
                         'jquery.mobile': '../../../contrib/jquery.mobile-1.2.0',
                         underscore: '../../../contrib/underscore-1.4.2',
                         tpl: "../../../contrib/tpl-0.2",
-                        numeric: "../js/vendor/numeric-1.2.3",
+                        numeric: "../../../contrib/numeric-1.2.3",
                         i18n: "../../../contrib/i18n-2.0.1a"
                     },
 
