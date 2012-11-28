@@ -43,7 +43,7 @@
     var QueryParameters = (function () {
         var result = {};
 
-        if ( window.location.search ) {
+        if ( typeof window != 'undefined' && window.location.search ) {
             // split up the query string and store in an associative array
             var params = window.location.search.slice( 1 ).split( "&" );
             for ( var i = 0; i < params.length; i++ ) {
