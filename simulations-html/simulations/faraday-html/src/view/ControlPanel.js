@@ -5,7 +5,7 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/PropertyCheckBox', 'i18n!resources/nls/faraday-strings' ],
+define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
         function ( PropertyCheckBox, strings ) {
 
             function ControlPanel() {

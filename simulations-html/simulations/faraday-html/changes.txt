@@ -1,3 +1,4 @@
+11/28/12 move nls dir to top level
 11/28/12 move images dir to top level
 11/28/12 move faraday.html to top level
 11/28/12 delete data dir
