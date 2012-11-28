@@ -37,6 +37,24 @@
 (function () {
     'use strict';
 
+    // Creates associative array (object) of query params
+    //Copied from http://geekswithblogs.net/PhubarBaz/archive/2011/11/21/getting-query-parameters-in-javascript.aspx
+    //SRR Added this code on 11/27/2012
+    var QueryParameters = (function () {
+        var result = {};
+
+        if ( window.location.search ) {
+            // split up the query string and store in an associative array
+            var params = window.location.search.slice( 1 ).split( "&" );
+            for ( var i = 0; i < params.length; i++ ) {
+                var tmp = params[i].split( "=" );
+                result[tmp[0]] = unescape( tmp[1] );
+            }
+        }
+
+        return result;
+    }());
+
     //regexp for reconstructing the master bundle name from parts of the regexp match
     //nlsRegExp.exec("foo/bar/baz/nls/en-ca/foo") gives:
     //["foo/bar/baz/nls/en-ca/foo", "foo/bar/baz/nls/", "/", "/", "en-ca", "foo"]
@@ -122,10 +140,17 @@
                     suffix = match[4];
                     locale = masterConfig.locale;
                     if ( !locale ) {
-                        locale = masterConfig.locale =
-                                 typeof navigator === "undefined" ? "root" :
-                                 (navigator.language ||
-                                  navigator.userLanguage || "root").toLowerCase();
+                        var result = typeof navigator === "undefined" ? "root" :
+                                     (navigator.language || navigator.userLanguage || "root").toLowerCase();
+
+                        //Allow a query parameter of "locale=LAco**" override other settings
+                        //SRR Added this code on 11/27/2012
+                        for ( var param in QueryParameters ) {
+                            if ( param === "locale" ) {
+                                result = QueryParameters[param];
+                            }
+                        }
+                        locale = masterConfig.locale = result;
                     }
                     parts = locale.split( "-" );
                 }
