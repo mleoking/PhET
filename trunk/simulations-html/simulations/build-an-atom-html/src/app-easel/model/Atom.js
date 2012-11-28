@@ -23,7 +23,7 @@ define( [
     };
 
     Atom.prototype.addParticle = function ( particle ) {
-        if ( particle.type === 'proton' ) {
+        if ( particle.type === 'proton' || particle.type ==='neutron' ) {
             particle.setLocation( {x:0, y:0} );
             this.nucleons.push( particle );
             console.log( "Particle added to atom" );
