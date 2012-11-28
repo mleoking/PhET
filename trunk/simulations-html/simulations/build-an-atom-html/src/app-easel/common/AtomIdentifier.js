@@ -47,7 +47,7 @@ define( [], function () {
     ];
 
     var symbolTable = [
-        '', // 0, NO ELEMENT
+        '-', // 0, NO ELEMENT
         'H', // 1, HYDROGEN
         'He', // 2, HELIUM
         'Li', // 3, LITHIUM
