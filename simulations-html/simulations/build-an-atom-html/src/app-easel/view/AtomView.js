@@ -40,10 +40,12 @@ define( [
         // Create the textual readout of the element name.
         this.label = new Easel.Text( "Test", 'bold 36px Arial', 'red' );
         var self = this;
+
         atom.events.on( Atom.CONFIG_CHANGE_EVENT, function () {
             console.log( "Atom config change event received." );
             self.label.text = AtomIdentifier.getName( self.atom.getNumProtons() );
         } );
+
         this.addChild( this.label );
     };
 

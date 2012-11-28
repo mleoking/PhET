@@ -3,9 +3,9 @@ define( [
             'underscore'
         ], function ( _ ) {
 
-    function Atom( xPos, yPos ) {
-        this.CONFIG_CHANGE_EVENT = 'configurationChanged';
+    Atom.CONFIG_CHANGE_EVENT = 'configurationChanged';
 
+    function Atom( xPos, yPos ) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.nucleons = [];
@@ -33,11 +33,10 @@ define( [
                 self.nucleons = _.without( self.nucleons, particle );
                 console.log( "Particle removed from atom" );
                 self.reconfigureNucleus( true );
-                debugger;
-                self.events.trigger( self.CONFIG_CHANGE_EVENT );
+                self.events.trigger( Atom.CONFIG_CHANGE_EVENT );
             } );
             self.reconfigureNucleus( true );
-            self.events.trigger( this.CONFIG_CHANGE_EVENT );
+            self.events.trigger( Atom.CONFIG_CHANGE_EVENT );
         }
     };
 
@@ -76,7 +75,7 @@ define( [
         }
         else if ( this.nucleons.length == 3 ) {
             // Three nucleons - form a triangle where they all touch.
-            angle = Math.random() * 2 * Math.PI;
+            var angle = Math.random() * 2 * Math.PI;
             var distFromCenter = nucleonRadius * 1.155;
             console.log( "distFromCenter" + distFromCenter );
             this.nucleons[0].setLocation( { x:centerX + distFromCenter * Math.cos( angle ),
