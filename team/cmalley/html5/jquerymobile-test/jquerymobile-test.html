@@ -7,23 +7,27 @@
 </head>
 <body>
 <h1>jquery-mobile test</h1>
+
 <div data-role="control-panel" class="controlPanel">
+
+    <!-- slider -->
     <div>
-        <button id="resetAllButton" data-theme="e" type="reset">Reset All</button>
+        <input type="range" name="massSliderName" id="massSlider" value="60" min="0" max="100" data-highlight="true"/>
+        <div>
+            <p class="alignleft">Small</p>
+            <p class="alignright">Large</p>
+            <div style="clear: both;"></div>
+        </div>
     </div>
+
+    <!-- check box -->
     <div>
         <input id="compassCheckBox" name="" type="checkbox"/><label for="compassCheckBox" id="compassCheckBoxLabel">Compass</label>
     </div>
+
+    <!-- push button -->
     <div>
-        <input type="range" name="massSliderName" id="massSlider" value="60" min="0" max="100" data-highlight="true"/>
-
-        <div>
-            <p class="alignleft">Small</p>
-
-            <p class="alignright">Large</p>
-
-            <div style="clear: both;"></div>
-        </div>
+        <button id="resetAllButton" data-theme="e" type="reset">Reset All</button>
     </div>
 </div>
 </body>
