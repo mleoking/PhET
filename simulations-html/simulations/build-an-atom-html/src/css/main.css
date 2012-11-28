@@ -128,6 +128,46 @@ textarea {
 #periodic-table table td {
     border: 1px solid black;
     text-align: center;
+
+  -webkit-transition: all 0.3s ease-out; 
+     -moz-transition: all 0.3s ease-out; 
+       -o-transition: all 0.3s ease-out; 
+          transition: all 0.3s ease-out; 
+}
+
+#periodic-table table td.active {
+  background: #fff;
+  border-color: red;
+  font-weight: bold;
+
+  -webkit-transform: scale(1.5); 
+     -moz-transform: scale(1.5); 
+      -ms-transform: scale(1.5); 
+       -o-transform: scale(1.5); 
+          transform: scale(1.5);
+
+  -webkit-animation: pulseBorderColor 1s infinite 500ms;
+     -moz-animation: pulseBorderColor 1s infinite 500ms;
+       -o-animation: pulseBorderColor 1s infinite 500ms;
+          animation: pulseBorderColor 1s infinite 500ms;
+}
+
+@-webkit-keyframes pulseBorderColor {
+  0%   { border-color: red; }
+  100%  { border-color: black; }
+}
+@-moz-keyframes pulseBorderColor {
+  0%   { border-color: red; }
+  100%  { border-color: black; }
+}
+@-o-keyframes pulseBorderColor {
+  0%   { border-color: red; }
+  100%  { border-color: black; }
+}
+@keyframes pulseBorderColor {
+  0%   { border-color: red; }
+  100%  { border-color: black; }
+  
 }
 
 /* ------------------------------ Detailed Element Symbol ------------------------------ */
