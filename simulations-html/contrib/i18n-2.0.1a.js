@@ -50,7 +50,7 @@
             for ( var i = 0; i < params.length; i++ ) {
                 var nameValuePair = params[i].split( "=" );
                 if ( nameValuePair[0] === 'locale' ) {
-                    value = decodeURI( nameValuePair[1] );
+                    value = decodeURI( nameValuePair[1] ).toLowerCase();
                     break;
                 }
             }
@@ -143,9 +143,19 @@
                     suffix = match[4];
                     locale = masterConfig.locale;
                     if ( !locale ) {
-                        //PhET.CM modified this code on 11/28/2012
+                        locale = masterConfig.locale =
+                                 typeof navigator === "undefined" ? "root" :
+                                 (navigator.language ||
+                                  navigator.userLanguage || "root").toLowerCase();
                         var result = typeof navigator === "undefined" ? "root" :
                                      (localeQueryParameter || navigator.language || navigator.userLanguage || "root").toLowerCase();
+
+                        //PhET.CM added this block on 11/28/2012
+                        //Override the browser's language using the optional query parameter.
+                        if ( localeQueryParameter instanceof String ) {
+                            result = localeQueryParameter;
+                        }
+
                         locale = masterConfig.locale = result;
                     }
                     parts = locale.split( "-" );
