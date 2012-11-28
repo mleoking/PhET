@@ -19,7 +19,7 @@ define( [
             'common/DragHandler',
             'common/Inheritance',
             'common/MathUtil',
-            'image!resources/images/barMagnet.png'
+            'image!src/resources/images/barMagnet.png'
         ],
         function ( Easel, DragHandler, Inheritance, MathUtil, barMagnetImage ) {
 
