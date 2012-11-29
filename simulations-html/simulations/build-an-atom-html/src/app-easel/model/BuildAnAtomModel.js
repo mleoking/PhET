@@ -13,6 +13,7 @@ define( [
     var NUM_NEUTRONS = 5;
     var NEUTRON_COLOR = "gray";
     var PARTICLE_CAPTURE_RADIUS = 100;
+    var BUCKET_WIDTH = 150;
 
     /**
      * Constructor for main model object.
@@ -24,9 +25,9 @@ define( [
         this.atom = new Atom( 0, 0 );
 
         this.buckets = {
-            protonBucket:new Bucket( -200, 300, 150, "Protons" ),
-            neutronBucket:new Bucket( 0, 300, 150, "Neutrons" ),
-            electronBucket:new Bucket( 200, 300, 150, "Electrons" )
+            protonBucket:new Bucket( -200, 300, BUCKET_WIDTH, 15, "Protons" ),
+            neutronBucket:new Bucket( 0, 300, BUCKET_WIDTH, 15, "Neutrons" ),
+            electronBucket:new Bucket( 200, 300, BUCKET_WIDTH, 15, "Electrons" )
         };
 
         this.nucleons = [];
