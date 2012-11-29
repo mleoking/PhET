@@ -5,10 +5,10 @@ require.config( {
                     deps:["build-an-atom-main"],
 
                     paths:{
-                        vendor:"../js/vendor",
-                        underscore:"../js/vendor/underscore-min",
-                        easel:"../js/vendor/easeljs-0.5.0.min",
-                        tpl:"../js/vendor/tpl"
+                        vendor:"../../vendor",
+                        underscore:"../../vendor/underscore-min",
+                        easel:"../../vendor/easeljs-0.5.0.min",
+                        tpl:"../../vendor/tpl"
                     },
 
                     shim:{
