@@ -37,6 +37,7 @@ define( [ 'easel', 'common/Dimension2D', 'common/Inheritance' ],
 
                 this.addChild( northShape );
                 this.addChild( southShape );
+                this.cache( -size.width/2, -size.height/2, size.width, size.height ); //TODO causes jitter on iPad?
             }
 
             // prototype chaining
