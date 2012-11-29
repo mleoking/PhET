@@ -1,0 +1,54 @@
+PhET Progress Report, J. Blanco, 11-29-2012
+
+PhET Weekly Progress Report
+John Blanco
+November 29th, 2012
+
+Time period covered: November 15th through November 28th.  This is a two week period due to a cancelled status meeting.
+
+Tablet Investigation - 44.0 hrs
+
+o	BAA-HTML: Implemented collapsible jQuery boxes for the control panel widgets.
+o	BAA-HTML: Consistent size and shape for control panel widgets.
+o	BAA-HTML: Discussion of viability to become "identified developer" on Macs.
+o	BAA-HTML: Experimented with layout, making it so that controls move under canvas when layout gets narrow.
+o	BAA-HTML: Got periodic table staying within box bounds or getting cut off.
+o	BAA-HTML: Got periodic table highlighting based on element produced.
+o	BAA-HTML: Got symbol working.
+o	BAA-HTML: Got mass indicator working.
+o	BAA-HTML: Implemented full bucket shape and labels.
+o	BAA-HTML: Implemented full model-view separation using model-view-transform.
+o	BAA-HTML: Ported “AtomIdentifier” from Java into JavaScript.
+o	BAA-HTML: Added element name label.
+o	BAA-HTML: Moved prototypes out of rip area.
+o	Discussion of better constructor for Easel Display Objects.
+o	Discussions of observable properties, backbone, translation, coding style, build process, polyfills, "monkey patches", alternate scene graphs.
+o	Worked with Competentum on trying to get Masses & Springs finalized.
+o	Worked with Competentum on plans for next work (FAMB, done in PhET's HTML5 'style').
+
+Common Code - 1.5 hrs
+
+o	Cleaned up Faucet Node based on input from other developers.
+
+Installers - 7.0 hrs
+
+o	Fixed issue where "Play with Sims" button - and several other things - were missing from main page, see #3471.
+
+Sim Sharing - 1.0 hrs
+
+o	Meeting to discuss data collection.
+
+Environment - 1.0 hrs
+
+o	Updated graphics drivers on my development machine in order to fix issues with resizing HTML5-based simulations.
+
+Meetings, Email, and Other Administrative Overhead - 10.0 hrs
+
+o	Weekly status meeting.
+o	Status report.
+o	Normal Unfuddle ticket overhead.
+o	Normal email and administrative overhead.
+
+Vacation, Holidays, and Sick Time -  16.0 hrs
+
+o	Thanksgiving and the day after were holidays.
