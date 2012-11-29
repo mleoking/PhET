@@ -1,3 +1,4 @@
+11/29/12 add caching of compass needles (SR)
 11/28/12 rename src dir to app
 11/28/12 delete empty resources dir
 11/28/12 move nls dir to top level
