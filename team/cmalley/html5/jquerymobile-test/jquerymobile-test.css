@@ -1,0 +1,11 @@
+.alignleft {
+    float: left;
+}
+
+.alignright {
+    float: right;
+}
+
+.fullwidth {
+    width: 50%;
+}
