@@ -3,9 +3,6 @@ TODO list for faraday
 Features:
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
-
-Bugs:
-- use a slider for strength
 - dipole model for bar magnet
 
 General:
@@ -14,3 +11,4 @@ General:
 - data collection (SR's Analytics.js)
 - mobile devices
 - test with all browsers
+- Easel bounds
