@@ -1,6 +1,7 @@
 TODO list for faraday
 
 Features:
+- overlay for control panel
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
 - dipole model for bar magnet
