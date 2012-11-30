@@ -1,4 +1,11 @@
 // Copyright 2002-2012, University of Colorado
+
+/**
+ * Bar magnet model.
+ *
+ * @author John Blanco
+ */
+
 define( [
             'easel',
             'common/Point2D',
