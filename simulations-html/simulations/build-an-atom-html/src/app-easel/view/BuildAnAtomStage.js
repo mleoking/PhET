@@ -39,24 +39,21 @@ define( [
 
         // Create and add the bucket holes where the idle particles will be kept.
         _.each( model.buckets, function ( bucketModel, bucketName ) {
-
             var bucketHole = self[ bucketName + 'Hole' ] = new BucketHole( bucketModel, mvt );
             root.addChild( bucketHole );
-
-            var protonBucketFront = new BucketFront( bucketModel, mvt );
-            root.addChild( protonBucketFront );
-
         } );
 
         // Create and add the particles.
         _.each( model.nucleons, function ( particleModel ) {
-
-          console.log(particleModel);
-
             var particle = new ParticleView( particleModel, mvt );
             root.addChild( particle );
         } );
 
+        // Create and add the bucket fronts.
+        _.each( model.buckets, function ( bucketModel, bucketName ) {
+            var bucketFront = new BucketFront( bucketModel, mvt );
+            root.addChild( bucketFront );
+        } );
 
         // Initial stage update.  TODO: Is this needed?
         this.stage.update();

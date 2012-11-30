@@ -1,16 +1,16 @@
 // Copyright 2002-2012, University of Colorado
 define( [
             'underscore',
+            'common/SharedConstants',
             'common/Utils',
             'model/atom',
             'model/Bucket',
             'model/particle'
-        ], function ( _, Utils, Atom, Bucket, Particle ) {
+        ], function ( _, SharedConstants, Utils, Atom, Bucket, Particle ) {
 
-    var NUCLEON_DIAMETER = 15; // In pixels.
-    var NUM_PROTONS = 5;
+    var NUM_PROTONS = 10;
     var PROTON_COLOR = "red";
-    var NUM_NEUTRONS = 5;
+    var NUM_NEUTRONS = 13;
     var NEUTRON_COLOR = "gray";
     var PARTICLE_CAPTURE_RADIUS = 100;
     var BUCKET_WIDTH = 150;
@@ -25,9 +25,9 @@ define( [
         this.atom = new Atom( 0, 0 );
 
         this.buckets = {
-            protonBucket:new Bucket( -200, 300, BUCKET_WIDTH, 15, "Protons" ),
-            neutronBucket:new Bucket( 0, 300, BUCKET_WIDTH, 15, "Neutrons" ),
-            electronBucket:new Bucket( 200, 300, BUCKET_WIDTH, 15, "Electrons" )
+            protonBucket:new Bucket( -200, 300, BUCKET_WIDTH, SharedConstants.NUCLEON_RADIUS, "Protons" ),
+            neutronBucket:new Bucket( 0, 300, BUCKET_WIDTH, SharedConstants.NUCLEON_RADIUS, "Neutrons" ),
+            electronBucket:new Bucket( 200, 300, BUCKET_WIDTH, SharedConstants.ELECTRON_RADIUS, "Electrons" )
         };
 
         this.nucleons = [];
@@ -35,7 +35,7 @@ define( [
 
         // Add the protons.
         _.times( NUM_PROTONS, function () {
-            var proton = new Particle( self.buckets.protonBucket.x, self.buckets.protonBucket.y, PROTON_COLOR, NUCLEON_DIAMETER, "proton" );
+            var proton = new Particle( self.buckets.protonBucket.x, self.buckets.protonBucket.y, PROTON_COLOR, SharedConstants.NUCLEON_RADIUS, "proton" );
             self.nucleons.push( proton );
             self.buckets.protonBucket.addParticle( proton );
             proton.events.on( 'userReleased', function () {
@@ -50,7 +50,7 @@ define( [
 
         // Add the neutron.
         _.times( NUM_NEUTRONS, function () {
-            var neutron = new Particle( self.buckets.neutronBucket.x, self.buckets.protonBucket.y, NEUTRON_COLOR, NUCLEON_DIAMETER, "neutron" );
+            var neutron = new Particle( self.buckets.neutronBucket.x, self.buckets.protonBucket.y, NEUTRON_COLOR, SharedConstants.NUCLEON_RADIUS, "neutron" );
             self.nucleons.push( neutron );
             self.buckets.neutronBucket.addParticle( neutron );
             neutron.events.on( 'userReleased', function () {

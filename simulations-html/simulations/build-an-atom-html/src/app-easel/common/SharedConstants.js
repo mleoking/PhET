@@ -4,8 +4,8 @@ define( [ ], function ( ) {
     // Not meant to be instantiated.
     var SharedConstants = {};
 
-    SharedConstants.NUCLEON_RAIDUS = 15; // In pixels.
-    SharedConstants.ELECTRON_RADIUS = 15; // In pixels.
+    SharedConstants.NUCLEON_RADIUS = 12; // In pixels.
+    SharedConstants.ELECTRON_RADIUS = 10; // In pixels.
 
     return SharedConstants;
 
