@@ -29,11 +29,9 @@ define( [
         // Distinguish nucleons from electrons.
         if ( particle.type === 'proton' || particle.type === 'neutron' ) {
             this.nucleons.push( particle );
-            console.log( "Particle added to atom" );
             var self = this;
             particle.events.one( 'userGrabbed', function () {
                 self.nucleons = _.without( self.nucleons, particle );
-                console.log( "Particle removed from atom" );
                 self.reconfigureNucleus( true );
                 self.events.trigger( Atom.CONFIG_CHANGE_EVENT );
             } );
@@ -67,7 +65,6 @@ define( [
         var centerX = this.xPos;
         var centerY = this.yPos;
         var nucleonRadius = 15; // TODO: Figure out how to do shared constants and share this rather than hard coding it.
-        console.log( "centerX" + centerX );
         var angle, distFromCenter;
 
         if ( this.nucleons.length === 0 ) {
@@ -89,7 +86,6 @@ define( [
             // Three nucleons - form a triangle where they all touch.
             angle = Math.random() * 2 * Math.PI;
             distFromCenter = nucleonRadius * 1.155;
-            console.log( "distFromCenter" + distFromCenter );
             this.nucleons[0].setLocation( { x:centerX + distFromCenter * Math.cos( angle ),
                                               y:centerY + distFromCenter * Math.sin( angle ) } );
             this.nucleons[1].setLocation( { x:centerX + distFromCenter * Math.cos( angle + 2 * Math.PI / 3 ),

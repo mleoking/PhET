@@ -20,7 +20,6 @@ define( [ 'underscore' ], function ( _ ) {
         var self = this;
         particle.events.one( 'particleGrabbed', function () {
             self.particles = _.without( self.particles, particle );
-            console.log( "particle removed from bucket" );
         } )
     }
 
