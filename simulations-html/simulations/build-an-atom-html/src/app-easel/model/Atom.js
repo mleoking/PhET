@@ -1,7 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 define( [
-            'underscore'
-        ], function ( _ ) {
+            'underscore',
+            'common/SharedConstants'
+        ], function ( _, SharedConstants ) {
 
     Atom.CONFIG_CHANGE_EVENT = 'configurationChanged';
 
@@ -12,17 +13,6 @@ define( [
         this.electrons = [];
         this.events = $( {} );
     }
-
-    // deprecated (not yet)
-    Atom.prototype.toJSON = function () {
-        // hard coded properties for now
-        return {
-            symbol:"He",
-            weight:1,
-            number:1,
-            charge:0
-        };
-    };
 
     Atom.prototype.addParticle = function ( particle ) {
 
@@ -40,21 +30,21 @@ define( [
         }
     };
 
-    Atom.prototype.getNumProtons = function(){
+    Atom.prototype.getNumProtons = function () {
         var numProtons = 0;
-        _.each( this.nucleons, function(nucleon){
-            if ( nucleon.type === 'proton' ){
+        _.each( this.nucleons, function ( nucleon ) {
+            if ( nucleon.type === 'proton' ) {
                 numProtons++;
             }
-        });
+        } );
         return numProtons;
     };
 
-    Atom.prototype.getWeight = function(){
+    Atom.prototype.getWeight = function () {
         return this.nucleons.length;
     };
 
-    Atom.prototype.getCharge = function(){
+    Atom.prototype.getCharge = function () {
         var protons = this.getNumProtons();
         return protons - this.electrons.length;
     };
@@ -64,7 +54,7 @@ define( [
         // Convenience variables.
         var centerX = this.xPos;
         var centerY = this.yPos;
-        var nucleonRadius = 15; // TODO: Figure out how to do shared constants and share this rather than hard coding it.
+        var nucleonRadius = SharedConstants.NUCLEON_RADIUS;
         var angle, distFromCenter;
 
         if ( this.nucleons.length === 0 ) {
