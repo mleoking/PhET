@@ -1,14 +1,3 @@
-.alignleft {
-    float: left;
-}
-
-.alignright {
-    float: right;
-}
-
-.fullwidth {
-    width: 50%;
-}
 
 #popupPanel-popup {
     right: 0 !important;
