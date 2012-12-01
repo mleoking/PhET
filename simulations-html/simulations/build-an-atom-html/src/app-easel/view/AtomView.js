@@ -53,7 +53,7 @@ define( [
             if ( self.atom.getNumProtons() == 0 ){
                 self.stabilityIndicator.text = "";
             }
-            if ( AtomIdentifier.isStable( self.atom.getNumProtons(), self.atom.getNumNeutrons() ) ){
+            else if ( AtomIdentifier.isStable( self.atom.getNumProtons(), self.atom.getNumNeutrons() ) ){
                 self.stabilityIndicator.text = "Stable";
             }
             else{
