@@ -5,11 +5,14 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
-        function ( PropertyCheckBox, strings ) {
+define( [ 'jquery', 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
+        function ( $, PropertyCheckBox, strings ) {
 
             function ControlPanel() {
+            }
 
+            //TODO ??? this doesn't get called, but is recommended at http://jquerymobile.com/demos/1.2.0/docs/pages/popup/popup-panels.html
+            ControlPanel.resize = function () {
                 // Make the options panel the same height as the window
                 $( "#optionsPanel" ).on(
                         {
@@ -18,13 +21,15 @@ define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
                                 $( "#optionsPanel" ).css( "height", h );
                             }
                         } );
-            }
+            };
 
             /**
              * @param {FaradayModel} model
              * @param {FaradayStage} stage
              */
             ControlPanel.connect = function ( model, stage ) {
+
+                ControlPanel.resize();
 
                 // Strength slider
                 var strengthSliderLabel = document.getElementById( "strengthSliderLabel" );

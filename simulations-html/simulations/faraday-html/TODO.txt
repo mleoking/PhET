@@ -13,6 +13,10 @@ Features:
 - move stuff to simulations-html/common
 - dipole model for bar magnet
 
+Questions:
+- do I need to put jquery and jquery.mobile paths in faraday-config.js when they're loaded in faraday.html?
+- do I need to define(['jquery'],function($){...}) ?
+
 General:
 - widgets (jquery-mobile)
 - handle window resize (see ESP:tab.onResize or concentration:main.onResize)
