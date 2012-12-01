@@ -12,13 +12,17 @@
     margin: -1px 0;
 }
 
-/*TODO: this messes up the location of the slider's handle */
 /* for elements of class="ui-btn" inside of the element with id="optionsPanel" */
 #optionsPanel .ui-btn {
-    margin: 2em 15px;
+    margin: 15px 15px;
 }
 
 /* Hide the text field for the strength slider */
 #strengthSlider {
     display: none;
+}
+
+/* Workaround to fix slider handle margins, messed up by #optionPanel .ui-btn */
+#strengthSliderDiv .ui-slider-handle {
+    margin: -15px 0px 0px -15px;
 }
