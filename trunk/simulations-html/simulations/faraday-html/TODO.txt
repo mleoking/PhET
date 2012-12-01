@@ -1,6 +1,7 @@
 TODO list for faraday
 
 Features:
+- why are button icons missing when using contrib/jquery.mobile-1.2.0.css?
 - strength slider doesn't reset (assigning to slider.value doesn't move the handle)
 - check boxes are not rendering correctly
 - #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
