@@ -2,15 +2,15 @@
 
 require( [], function () {
 
-    // Make the control panel the same height as the window
-        $( "#optionsPanel" ).on(
-                {
-                    popupbeforeposition:function () {
-                        var h = $( window ).height();
+    // Make the Options panel the same height as the window
+    $( "#optionsPanel" ).on(
+            {
+                popupbeforeposition:function () {
+                    var h = $( window ).height();
 
-                        $( "#optionsPanel" ).css( "height", h );
-                    }
-                } );
+                    $( "#optionsPanel" ).css( "height", h );
+                }
+            } );
 
     // Stub handlers for UI components ----------------------------------
 
