@@ -1,3 +1,5 @@
+11/30/12 set absolute position of Options button to upper-right using css
+11/30/12 make options panel less transparent
 11/30/12 first attempt at overlapping "Options" button on canvas
 11/30/12 rename faraday.css
 11/30/12 remove easel shim from faraday-config, removed $ import in ControlPanel
