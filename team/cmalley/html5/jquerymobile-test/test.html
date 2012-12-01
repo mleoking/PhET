@@ -14,28 +14,25 @@
 <div class='fullwidth'>
 
     <!- button to open the panel -->
-    <a href="#popupPanel" data-rel="popup" data-transition="slide" data-position-to="window" data-role="button" data-icon="gear">Options</a>
+    <a href="#popupPanel" data-rel="popup" data-transition="slide" data-position-to="window" data-role="button" data-icon="gear" data-mini="true" data-inline="true">Options</a>
 
     <div data-role="popup" id="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
 
-        <a data-role="button" data-icon="delete" data-iconpos="notext">X</a>
+        <!-- control panel header with close button -->
+        <div class="ui-bar ui-bar-b">
+            <!--<a data-role="button" data-icon="delete" data-iconpos="notext" data-theme="b">X</a>-->
+        	<h3>Options</h3>
+        </div>
 
         <!-- slider -->
         <div>
-            <input type="range" name="massSliderName" id="massSlider" value="60" min="0" max="100" data-highlight="true"/>
-
-            <div>
-                <p class="alignleft">Small</p>
-
-                <p class="alignright">Large</p>
-
-                <div style="clear: both;"></div>
-            </div>
+            <label for="strengthSlider">Magnet Strength:</label>
+            <input type="range" name="strengthSlider" id="strengthSlider" value="150" min="0" max="300" data-highlight="true"/>
         </div>
 
         <!-- Flip Polarity button -->
         <div>
-            <button id="flipPolarityButton" data-theme="e" type="reset">Flip Polarity</button>
+            <button id="flipPolarityButton" type="reset">Flip Polarity</button>
         </div>
 
         <!-- check boxes -->
@@ -54,7 +51,7 @@
 
         <!-- Reset All button -->
         <div>
-            <button id="resetAllButton" data-theme="e" type="reset">Reset All</button>
+            <button id="resetAllButton" data-theme="e" type="reset" data-icon="refresh">Reset All</button>
         </div>
     </div>
 </div>
