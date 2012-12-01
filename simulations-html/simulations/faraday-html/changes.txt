@@ -1,3 +1,5 @@
+11/30/12 first attempt at overlapping "Options" button on canvas
+11/30/12 rename faraday.css
 11/30/12 remove easel shim from faraday-config, removed $ import in ControlPanel
 11/30/12 got contrib jquery.mobile to load by moving stuff around in html file, but not sure why...
 11/30/12 add some requirejs stuff for jquery and jquery.mobile that i'm not really sure about
