@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css"/>
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <script src="test.js"></script>
     <!-- hide text field for sliders -->
     <style>input.ui-slider-input {display: none;}</style>
 </head>
@@ -15,7 +16,7 @@
 
 <div class='fullwidth'>
 
-    <!- button to open the panel -->
+    <!-- button to open the panel -->
     <a href="#popupPanel" data-rel="popup" data-transition="slide" data-position-to="window" data-role="button" data-icon="gear" data-mini="true" data-inline="true">Options</a>
 
     <div data-role="popup" id="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
@@ -59,6 +60,7 @@
 </div>
 
 <script>
+    // Make the overlay panel the same height as the window
     $( "#popupPanel" ).on(
             {
                 popupbeforeposition:function () {
