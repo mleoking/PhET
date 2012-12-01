@@ -49,6 +49,7 @@ define( [
         var self = this;
         atom.events.on( Atom.CONFIG_CHANGE_EVENT, function () {
             self.label.text = AtomIdentifier.getName( self.atom.getNumProtons() );
+            console.log( "Stable = " + AtomIdentifier.isStable( self.atom.getNumProtons(), self.atom.getNumNeutrons() ) )
         } );
 
         this.addChild( this.label );

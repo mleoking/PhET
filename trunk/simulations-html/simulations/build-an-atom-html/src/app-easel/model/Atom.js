@@ -40,6 +40,16 @@ define( [
         return numProtons;
     };
 
+    Atom.prototype.getNumNeutrons = function () {
+        var numNeutrons = 0;
+        _.each( this.nucleons, function ( nucleon ) {
+            if ( nucleon.type === 'neutron' ) {
+                numNeutrons++;
+            }
+        } );
+        return numNeutrons;
+    };
+
     Atom.prototype.getWeight = function () {
         return this.nucleons.length;
     };

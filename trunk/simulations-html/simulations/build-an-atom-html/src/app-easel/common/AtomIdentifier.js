@@ -1,7 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 
-// Copyright 2002-2012, University of Colorado
-
+/**
+ * Object that can be used to identify various things about an atom given its
+ * configuration, i.e. number of protons, neutrons, and/or electrons.
+ */
 define( [], function () {
 
     // Not meant to be instantiated.
@@ -22,6 +24,20 @@ define( [], function () {
     AtomIdentifier.getName = function ( numProtons ) {
         return nameTable[numProtons];
     };
+
+    /**
+     * Identifies whether a given atomic nucleus is stable.
+     * @param numProtons
+     */
+    AtomIdentifier.isStable = function ( numProtons, numNeutrons ) {
+        var tableEntry = stableElementTable[ numProtons ];
+        if ( typeof( tableEntry ) == 'undefined' ){
+            console.log("Error: Stability table has no entry for atomic number ", numProtons );
+            return false;
+        }
+        return $.inArray( numProtons + numNeutrons, tableEntry ) > -1;
+    };
+
 
     var nameTable = [
         '',
@@ -160,6 +176,13 @@ define( [], function () {
         'Ds', // 110, DARMSTADTIUM
         'Rg', // 111, ROENTGENIUM
         'Cn' // 112, UNUNBIUM
+    ];
+
+    // Table of stable elements, indexed by atomic number.
+    var stableElementTable = [
+            [],     // No element
+            [1, 2], // Hydrogen
+            [3, 4]  // Helium
     ];
 
     return AtomIdentifier;
