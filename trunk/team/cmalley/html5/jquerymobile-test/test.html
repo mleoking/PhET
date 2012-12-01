@@ -16,18 +16,19 @@
 
 <div class='fullwidth'>
 
-    <!-- button to open the panel -->
+    <!-- button to open the control panel -->
     <a href="#popupPanel" data-rel="popup" data-transition="slide" data-position-to="window" data-role="button" data-icon="gear" data-mini="true" data-inline="true">Options</a>
 
+    <!-- the control panel is an overlay popup -->
     <div data-role="popup" id="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
 
-        <!-- control panel header with close button -->
+        <!-- control panel header with close (back) button -->
         <div class="ui-bar ui-bar-b">
-            <!--<a data-role="button" data-icon="delete" data-iconpos="notext" data-theme="b">X</a>-->
+            <a data-role="button" data-icon="delete" data-iconpos="notext" data-theme="b" data-rel="back">X</a>
         	<h3>Options</h3>
         </div>
 
-        <!-- slider -->
+        <!-- Magnet Strength slider -->
         <div>
             <label for="strengthSlider">Magnet Strength:</label>
             <input type="range" name="strengthSlider" id="strengthSlider" value="150" min="0" max="300" data-highlight="true"/>
