@@ -7,7 +7,6 @@ require( [], function () {
             {
                 popupbeforeposition:function () {
                     var h = $( window ).height();
-
                     $( "#optionsPanel" ).css( "height", h );
                 }
             } );
