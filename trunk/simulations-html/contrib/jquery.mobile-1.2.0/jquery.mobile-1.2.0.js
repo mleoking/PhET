@@ -7852,9 +7852,12 @@ $.widget( "mobile.slider", $.mobile.widget, {
 			var data = val,
 				// a slight tolerance helped get to the ends of the slider
 				tol = 8;
-			if ( !this.dragging ||
-					data.pageX < this.slider.offset().left - tol ||
-					data.pageX > this.slider.offset().left + this.slider.width() + tol ) {
+			if ( !this.dragging
+            //PhET.SR Commented out these lines of code around 12/1/2012, see http://forum.jquery.com/topic/jquery-mobile-slider-doesn-t-hit-the-right-min-and-max-values
+            //See #3478
+//                         || data.pageX < this.slider.offset().left - tol
+//                         || data.pageX > this.slider.offset().left + this.slider.width() + tol
+                    ) {
 				return;
 			}
 			percent = Math.round( ( ( data.pageX - this.slider.offset().left ) / this.slider.width() ) * 100 );
