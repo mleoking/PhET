@@ -3,7 +3,6 @@ TODO list for faraday
 Features:
 - strength slider doesn't reset (assigning to slider.value doesn't move the handle)
 - check boxes are not rendering correctly
-- things are broken when loading jquery.mobile from contrib
 - #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
 - can close-by-clicking-outside be disabled for popups?
 - fix layout of options panel header
@@ -14,6 +13,7 @@ Features:
 - dipole model for bar magnet
 
 Questions:
+- what order do scripts need to be loaded? why are jquery and jquery.mobile special?
 - do I need to put jquery and jquery.mobile paths in faraday-config.js when they're loaded in faraday.html?
 - do I need to define(['jquery'],function($){...}) ?
 
