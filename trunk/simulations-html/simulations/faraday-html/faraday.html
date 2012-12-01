@@ -8,61 +8,87 @@
 <head>
     <meta charset="utf-8"/>
     <title>Faraday's Electromagnet Lab</title>
-    <style>
-        label.controlPanel {
-            font-family: 'Arial';
-            font-size: 175%;
-        }
-        input.button {
-            font-family: 'Arial';
-            font-size: 175%;
-        }
-        input.resetAllButton {
-            font-family: 'Arial';
-            font-size : 175%;
-            background : orange
-        }
-    </style>
+
+    <!-- Load jquery-mobile css and js -->
+    <!--<link rel="stylesheet" href="../../contrib/jquery.mobile-1.2.0/jquery.mobile-1.2.0.css"/>-->
+    <!--<script type="text/javascript" src="../../contrib/jquery-1.8.3.js"></script>-->
+    <!--<script type="text/javascript" src="../../contrib/jquery.mobile-1.2.0/jquery.mobile-1.2.0.js"></script>-->
+
+    <!-- Load jquery-mobile css and js -->
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css"/>
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+    <!-- Load app-specific css and js -->
+    <link rel="stylesheet" href="css/optionsPanel.css"/>
+    <script data-main='app/faraday-config.js' src='../../contrib/require-2.1.2.js'></script>
+
 </head>
 <body>
+<div>
+    <!- Canvas -->
     <div>
-         <!- Canvas -->
-         <div>
-             <canvas id='faraday-canvas' width='800' height='600'  style='float:left'>Canvas not supported.</canvas>
-         </div>
-
-         <!-- Control panel -->
-        <div id="control-panel">
-           <div>
-               <label id="strengthTextFieldLabel" for="strengthTextField" class='controlPanel'></label>
-               <br>
-               <input id="strengthTextField" type="number" min="0" max="300" value="150"/>
-               <br>
-               <br>
-               <input id='flipPolarityButton' type='button' class='button'/>
-               <br>
-               <br>
-               <br>
-               <input id='seeInsideMagnetCheckBox' type='checkbox' class='checkbox'/>
-               <label id='seeInsideMagnetCheckBoxLabel' for="seeInsideMagnetCheckBox" class='controlPanel'></label>
-               <br>
-               <input id='showFieldCheckBox' type='checkbox' class='checkbox'/>
-               <label id='showFieldCheckBoxLabel' for="showFieldCheckBox" class='controlPanel'></label>
-               <br>
-               <input id='showCompassCheckBox' type='checkbox' class='checkbox'/>
-               <label id='showCompassCheckBoxLabel' for="showCompassCheckBox" class='controlPanel'></label>
-               <br>
-               <input id='showFieldMeterCheckBox' type='checkbox' class='checkbox'/>
-               <label id='showFieldMeterCheckBoxLabel' for="showFieldMeterCheckBox" class='controlPanel'></label>
-               <br>
-               <br>
-               <br>
-               <input id='resetAllButton' type='button' class='resetAllButton'/>
-           </div>
-        </div>
+        <canvas id='faraday-canvas' width='800' height='600' style='float:left'>Canvas not supported.</canvas>
     </div>
 
-    <!-- JavaScript -->
-    <script data-main='app/faraday-config.js' src='../../contrib/require-2.1.2.js'></script>
+    <!-- Options panel -->
+    <div>
+
+        <!-- button to open the control panel -->
+        <a href="#optionsPanel" data-rel="popup" data-transition="slide" data-position-to="window" data-role="button" data-icon="gear" data-mini="true" data-inline="true">Options</a>
+
+        <!-- the control panel is an overlay popup -->
+        <div data-role="popup" id="optionsPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+
+            <!-- control panel header with close (back) button -->
+            <div class="ui-bar ui-bar-b">
+                <a data-role="button" data-icon="delete" data-iconpos="notext" data-theme="b" data-rel="back">X</a>
+
+                <h3>Options</h3>
+            </div>
+
+            <!-- Magnet controls -->
+            <div>
+                <!-- Magnet Strength slider -->
+                <div id="strengthSliderDiv">
+                    <label for="strengthSlider" id="strengthSliderLabel">Magnet Strength:</label>
+                    <input type="range" name="strengthSlider" id="strengthSlider" value="150" min="0" max="300" data-highlight="true"/>
+                </div>
+
+                <!-- Flip Polarity button -->
+                <div>
+                    <button id="flipPolarityButton" type="reset">Flip Polarity</button>
+                </div>
+
+                <!-- check boxes -->
+                <div>
+                    <input id="seeInsideCheckBox" name="" type="checkbox"/><label for="seeInsideCheckBox" id="seeInsideCheckBoxLabel">See Inside Magnet</label>
+                </div>
+            </div>
+
+            <br> <!-- vertical space -->
+
+            <!-- Misc controls -->
+            <div>
+                <div>
+                    <input id="compassCheckBox" name="" type="checkbox"/><label for="compassCheckBox" id="compassCheckBoxLabel">Show Compass</label>
+                </div>
+                <div>
+                    <input id="fieldCheckBox" name="" type="checkbox"/><label for="fieldCheckBox" id="fieldCheckBoxLabel">Show Field</label>
+                </div>
+                <div>
+                    <input id="meterCheckBox" name="" type="checkbox"/><label for="meterCheckBox" id="meterCheckBoxLabel">Show Field Meter</label>
+                </div>
+            </div>
+
+            <br> <!-- vertical space -->
+
+            <!-- Reset All button -->
+            <div>
+                <button id="resetAllButton" data-theme="e" type="reset" data-icon="refresh">Reset All</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
