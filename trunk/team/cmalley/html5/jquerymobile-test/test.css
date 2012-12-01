@@ -1,14 +1,14 @@
 
-#popupPanel-popup {
+#optionsPanel-popup {
     right: 0 !important;
     left: auto !important;
 }
 
-#popupPanel {
+#optionsPanel {
     background: rgba(255, 255, 255, .25);
     margin: -1px 0;
 }
 
-#popupPanel .ui-btn {
+#optionsPanel .ui-btn {
     margin: 2em 15px;
 }
