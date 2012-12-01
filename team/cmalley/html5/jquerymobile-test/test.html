@@ -61,17 +61,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    // Make the overlay panel the same height as the window
-    $( "#popupPanel" ).on(
-            {
-                popupbeforeposition:function () {
-                    var h = $( window ).height();
-
-                    $( "#popupPanel" ).css( "height", h );
-                }
-            } );
-</script>
 </body>
 </html>

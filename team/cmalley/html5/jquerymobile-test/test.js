@@ -2,6 +2,16 @@
 
 require( [], function () {
 
+    // Make the control panel the same height as the window
+        $( "#optionsPanel" ).on(
+                {
+                    popupbeforeposition:function () {
+                        var h = $( window ).height();
+
+                        $( "#optionsPanel" ).css( "height", h );
+                    }
+                } );
+
     // Stub handlers for UI components ----------------------------------
 
     var strengthSlider = document.getElementById( "strengthSlider" );
