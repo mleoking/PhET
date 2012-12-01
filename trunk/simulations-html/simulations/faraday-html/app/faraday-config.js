@@ -11,15 +11,18 @@ require.config( {
     deps: ["faraday-main"],
 
     paths: {
-        easel: "../../../contrib/easel-0.5.0",
-        i18n: "../../../contrib/i18n-2.0.1a",
-        image: "../../../contrib/image-0.2.1"
+        easel:"../../../contrib/easel-0.5.0",
+        i18n:"../../../contrib/i18n-2.0.1a",
+        image:"../../../contrib/image-0.2.1",
+        jquery:'../../../contrib/jquery-1.8.3',
+        'jquery.mobile':'../../../contrib/jquery.mobile-1.2.0'
     },
 
     shim: {
         easel: {
             exports: "createjs"
-        }
+        },
+        jquery: { exports: "$" }
     },
 
     urlArgs: new Date().getTime()  // cache buster to make browser refresh load all included scripts
