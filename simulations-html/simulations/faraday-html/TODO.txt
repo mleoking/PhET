@@ -1,7 +1,14 @@
 TODO list for faraday
 
 Features:
-- overlay for control panel
+- strength slider doesn't reset (assigning to slider.value doesn't move the handle)
+- check boxes are not rendering correctly
+- things are broken when loading jquery.mobile from contrib
+- #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
+- can close-by-clicking-outside be disabled for popups?
+- fix layout of options panel header
+- overlap the "Options" button with the canvas
+- hide the "Options" button when the options panel is popped up
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
 - dipole model for bar magnet
