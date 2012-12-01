@@ -30,30 +30,41 @@
         	<h3>Options</h3>
         </div>
 
-        <!-- Magnet Strength slider -->
+        <!-- Magnet controls -->
         <div>
-            <label for="strengthSlider">Magnet Strength:</label>
-            <input type="range" name="strengthSlider" id="strengthSlider" value="150" min="0" max="300" data-highlight="true"/>
+            <!-- Magnet Strength slider -->
+            <div id="strengthSliderDiv">
+                <label for="strengthSlider" id="strengthSliderLabel">Magnet Strength:</label>
+                <input type="range" name="strengthSlider" id="strengthSlider" value="150" min="0" max="300" data-highlight="true"/>
+            </div>
+
+            <!-- Flip Polarity button -->
+            <div>
+                <button id="flipPolarityButton" type="reset">Flip Polarity</button>
+            </div>
+
+            <!-- check boxes -->
+            <div>
+                <input id="seeInsideCheckBox" name="" type="checkbox"/><label for="seeInsideCheckBox" id="seeInsideCheckBoxLabel">See Inside Magnet</label>
+            </div>
         </div>
 
-        <!-- Flip Polarity button -->
+        <br> <!-- vertical space -->
+
+        <!-- Misc controls -->
         <div>
-            <button id="flipPolarityButton" type="reset">Flip Polarity</button>
+            <div>
+                <input id="compassCheckBox" name="" type="checkbox"/><label for="compassCheckBox" id="compassCheckBoxLabel">Show Compass</label>
+            </div>
+            <div>
+                <input id="fieldCheckBox" name="" type="checkbox"/><label for="fieldCheckBox" id="fieldCheckBoxLabel">Show Field</label>
+            </div>
+            <div>
+                <input id="meterCheckBox" name="" type="checkbox"/><label for="meterCheckBox" id="meterCheckBoxLabel">Show Field Meter</label>
+            </div>
         </div>
 
-        <!-- check boxes -->
-        <div>
-            <input id="seeInsideCheckBox" name="" type="checkbox"/><label for="seeInsideCheckBox" id="seeInsideCheckBoxLabel">See Inside Magnet</label>
-        </div>
-        <div>
-            <input id="compassCheckBox" name="" type="checkbox"/><label for="compassCheckBox" id="compassCheckBoxLabel">Show Compass</label>
-        </div>
-        <div>
-            <input id="fieldCheckBox" name="" type="checkbox"/><label for="fieldCheckBox" id="fieldCheckBoxLabel">Show Field</label>
-        </div>
-        <div>
-            <input id="meterCheckBox" name="" type="checkbox"/><label for="meterCheckBox" id="meterCheckBoxLabel">Show Field Meter</label>
-        </div>
+        <br> <!-- vertical space -->
 
         <!-- Reset All button -->
         <div>
