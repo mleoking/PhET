@@ -1,11 +1,10 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Bar magnet model.
+ * View representation of the atom.
  *
  * @author John Blanco
  */
-
 define( [
             'easel',
             'common/Point2D',
@@ -45,14 +44,25 @@ define( [
         this.addChild( x );
 
         // Create the textual readout of the element name.
-        this.label = new Easel.Text( "", 'bold 36px Arial', 'red' );
+        this.elementName = new Easel.Text( "", 'bold 36px Arial', 'red' );
+        this.stabilityIndicator = new Easel.Text( "", 'bold 28px Arial', 'black' );
+        this.stabilityIndicator.y = 50;
         var self = this;
         atom.events.on( Atom.CONFIG_CHANGE_EVENT, function () {
-            self.label.text = AtomIdentifier.getName( self.atom.getNumProtons() );
-            console.log( "Stable = " + AtomIdentifier.isStable( self.atom.getNumProtons(), self.atom.getNumNeutrons() ) )
+            self.elementName.text = AtomIdentifier.getName( self.atom.getNumProtons() );
+            if ( self.atom.getNumProtons() == 0 ){
+                self.stabilityIndicator.text = "";
+            }
+            if ( AtomIdentifier.isStable( self.atom.getNumProtons(), self.atom.getNumNeutrons() ) ){
+                self.stabilityIndicator.text = "Stable";
+            }
+            else{
+                self.stabilityIndicator.text = "Unstable";
+            }
         } );
 
-        this.addChild( this.label );
+        this.addChild( this.elementName );
+        this.addChild( this.stabilityIndicator );
     };
 
     return AtomView;
