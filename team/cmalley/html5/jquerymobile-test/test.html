@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8"/>
     <title>jquery-mobile test</title>
-    <link rel="stylesheet" href="test.css" />
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+    <link rel="stylesheet" href="test.css"/>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css"/>
     <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
 </head>
@@ -13,25 +13,45 @@
 
 <div class='fullwidth'>
 
-    <!-- slider -->
-    <div>
-        <input type="range" name="massSliderName" id="massSlider" value="60" min="0" max="100" data-highlight="true"/>
+    <!- button to open the panel -->
+    <a href="#popupPanel" data-rel="popup" data-transition="slide" data-position-to="window" data-role="button" data-icon="gear">Options</a>
+
+    <div data-role="popup" id="popupPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+
+        <a data-role="button" data-icon="delete" data-iconpos="notext">X</a>
+
+        <!-- slider -->
         <div>
-            <p class="alignleft">Small</p>
-            <p class="alignright">Large</p>
-            <div style="clear: both;"></div>
+            <input type="range" name="massSliderName" id="massSlider" value="60" min="0" max="100" data-highlight="true"/>
+
+            <div>
+                <p class="alignleft">Small</p>
+
+                <p class="alignright">Large</p>
+
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+        <!-- check box -->
+        <div>
+            <input id="compassCheckBox" name="" type="checkbox"/><label for="compassCheckBox" id="compassCheckBoxLabel">Compass</label>
+        </div>
+        <!-- push button -->
+        <div>
+            <button id="resetAllButton" data-theme="e" type="reset">Reset All</button>
         </div>
     </div>
-
-    <!-- check box -->
-    <div>
-        <input id="compassCheckBox" name="" type="checkbox"/><label for="compassCheckBox" id="compassCheckBoxLabel">Compass</label>
-    </div>
-
-    <!-- push button -->
-    <div>
-        <button id="resetAllButton" data-theme="e" type="reset">Reset All</button>
-    </div>
 </div>
+
+<script>
+    $( "#popupPanel" ).on(
+            {
+                popupbeforeposition:function () {
+                    var h = $( window ).height();
+
+                    $( "#popupPanel" ).css( "height", h );
+                }
+            } );
+</script>
 </body>
 </html>
