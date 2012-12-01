@@ -39,6 +39,7 @@ define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
                     model.barMagnet.strength.set( strengthSlider.value );
                 };
                 model.barMagnet.strength.addObserver( function( strength ) {
+                    //TODO: this doesn't cause the slider to update
                     strengthSlider.value = strength;
                 });
 
