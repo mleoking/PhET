@@ -31,11 +31,11 @@ define( [], function () {
      */
     AtomIdentifier.isStable = function ( numProtons, numNeutrons ) {
         var tableEntry = stableElementTable[ numProtons ];
-        if ( typeof( tableEntry ) == 'undefined' ){
-            console.log("Error: Stability table has no entry for atomic number ", numProtons );
+        if ( typeof( tableEntry ) == 'undefined' ) {
+            console.log( "Error: Stability table has no entry for atomic number " + numProtons );
             return false;
         }
-        return $.inArray( numProtons + numNeutrons, tableEntry ) > -1;
+        return $.inArray( numNeutrons, tableEntry ) > -1;
     };
 
 
@@ -178,11 +178,30 @@ define( [], function () {
         'Cn' // 112, UNUNBIUM
     ];
 
-    // Table of stable elements, indexed by atomic number.
+    // Table of stable elements, indexed by atomic number to a list of viable numbers of neutrons.
     var stableElementTable = [
-            [],     // No element
-            [1, 2], // Hydrogen
-            [3, 4]  // Helium
+        // No element
+        [],
+        // Hydrogen
+        [0, 1],
+        // Helium
+        [1, 2],
+        // Lithium
+        [3, 4] ,
+        // Beryllium
+        [5],
+        // Boron
+        [5, 6],
+        // Carbon
+        [6, 7],
+        // Nitrogen
+        [7, 8],
+        // Oxygen
+        [8, 9, 10],
+        // Fluorine
+        [10],
+        // Neon
+        [10, 11, 12]
     ];
 
     return AtomIdentifier;
