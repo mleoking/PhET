@@ -1,4 +1,3 @@
-
 #optionsPanel-popup {
     right: 0 !important;
     left: auto !important;
@@ -11,4 +10,9 @@
 
 #optionsPanel .ui-btn {
     margin: 2em 15px;
+}
+
+/* Hide the text field for jquery-mobile sliders */
+input.ui-slider-input {
+    display: none;
 }
