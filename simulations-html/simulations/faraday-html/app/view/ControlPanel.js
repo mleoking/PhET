@@ -9,6 +9,15 @@ define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
         function ( PropertyCheckBox, strings ) {
 
             function ControlPanel() {
+
+                // Make the options panel the same height as the window
+                $( "#optionsPanel" ).on(
+                        {
+                            popupbeforeposition:function () {
+                                var h = $( window ).height();
+                                $( "#optionsPanel" ).css( "height", h );
+                            }
+                        } );
             }
 
             /**
@@ -17,31 +26,22 @@ define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
              */
             ControlPanel.connect = function ( model, stage ) {
 
-                //TODO Would prefer a slider, but HTML slider is brain damaged, and doesn't work in FireFox.
-                // Strength text field
-                var strengthTextFieldLabel = document.getElementById( "strengthTextFieldLabel" );
-                strengthTextFieldLabel.innerHTML = strings.magnetStrength;
-                var strengthTextField = document.getElementById( "strengthTextField" );
-                strengthTextField.onkeydown = function ( event ) {
-                    // Interpretting keyCodes has all kinds of browser incompatibility problems.
-                    if ( event.keyCode === 13 ) {
-                        // keep the value in range
-                        if ( strengthTextField.value < model.barMagnet.strengthRange.min ) {
-                            strengthTextField.value = model.barMagnet.strengthRange.min;
-                        }
-                        else if ( strengthTextField.value > model.barMagnet.strengthRange.max ) {
-                            strengthTextField.value = model.barMagnet.strengthRange.max;
-                        }
-                        // update the model
-                        model.barMagnet.strength.set( strengthTextField.value );
-                    }
+                // Strength slider
+                var strengthSliderLabel = document.getElementById( "strengthSliderLabel" );
+                strengthSliderLabel.innerHTML = strings.magnetStrength;
+                var strengthSlider = document.getElementById( "strengthSlider" );
+                strengthSlider.change = function ( event ) {
+                    model.barMagnet.strength.set( strengthSlider.value );
                 };
+                model.barMagnet.strength.addObserver( function( strength ) {
+                    strengthSlider.value = strength;
+                });
 
                 // Check boxes
-                PropertyCheckBox.connect( stage.seeInside, "seeInsideMagnetCheckBox", strings.seeInsideMagnet );
-                PropertyCheckBox.connect( stage.showField, "showFieldCheckBox", strings.showField );
-                PropertyCheckBox.connect( model.compass.visible, "showCompassCheckBox", strings.showCompass );
-                PropertyCheckBox.connect( model.fieldMeter.visible, "showFieldMeterCheckBox", strings.showFieldMeter );
+                PropertyCheckBox.connect( stage.seeInside, "seeInsideCheckBox", strings.seeInsideMagnet );
+                PropertyCheckBox.connect( stage.showField, "fieldCheckBox", strings.showField );
+                PropertyCheckBox.connect( model.compass.visible, "compassCheckBox", strings.showCompass );
+                PropertyCheckBox.connect( model.fieldMeter.visible, "meterCheckBox", strings.showFieldMeter );
 
                 var flipPolarityButton = document.getElementById( "flipPolarityButton" );
                 flipPolarityButton.value = strings.flipPolarity;
