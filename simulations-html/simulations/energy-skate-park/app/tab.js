@@ -246,5 +246,7 @@ define( [
 
         $( window ).resize( onResize );
         onResize(); // initial position
+
+        $( '#tab1popupMenu' ).on( {popupafterclose: function () {setTimeout( function () { $( '#popupDialog' ).popup( 'open' ) }, 100 );}} );
     };
 } );
