@@ -116,3 +116,16 @@ body {
     width: 100px;
     position: absolute;
 }
+
+.creditsLogo {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px;
+    /*width: 300px;*/
+}
+
+.creditsText {
+    display: inline-block;
+    vertical-align: middle;
+    /*width: 300px;*/
+}
