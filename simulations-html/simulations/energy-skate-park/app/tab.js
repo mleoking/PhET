@@ -137,17 +137,17 @@ define( [
             canvas.attr( 'height', winH );
             var left = (winW - canvasW) / 2;
             var top = (winH - canvasH) / 2;
-            canvas.offset( {left: 0, top: $( "#tab1headerbar" ).height()} );
+            var headerBarHeight = tab$( "headerbar" ).height();
+            canvas.offset( {left: 0, top: headerBarHeight} );
             root.scaleX = root.scaleY = scale;
             root.x = left;
             root.y = top;
-            stage.update();
 
             $( "#navBar" ).css( 'top', top + 'px' ).css( 'left', (left + 50) + 'px' ).css( 'width', (canvasW - 100) + 'px' );
 
             var controlPanel = $( '#' + id + " > .controlPanel" );
             controlPanel.css( 'width', '270px' );
-            controlPanel.css( 'top', 30 + 'px' );
+            controlPanel.css( 'top', 30 + headerBarHeight + 'px' );
             controlPanel.css( 'right', 0 + 'px' );
 
             //Apply css overrides last (i.e. after other css takes effect.
@@ -173,10 +173,12 @@ define( [
             var $2 = $( '#' + id + 'containerForPlayPauseFlipSwitch ' );
             $2.css( 'position', 'absolute' ).css( 'width', '200px' );
             var leftSideOfPlayPauseButton = (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2);
-            $2.css( 'left', leftSideOfPlayPauseButton + 'px' ).css( 'top', canvasH + top - 100 + 'px' );
-            $( "#" + id + " > ." + speedControlClass ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 100 + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
+            $2.css( 'left', leftSideOfPlayPauseButton + 'px' ).css( 'top', canvasH + top - 100 + headerBarHeight + 'px' );
+            $( "#" + id + " > ." + speedControlClass ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 100 + headerBarHeight + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
 
             console.log( "tab 1 resized, width = " + winW );
+
+            stage.update();
         };
 
         //Uses jquery resize plugin "jquery.ba-resize": http://benalman.com/projects/jquery-resize-plugin/
