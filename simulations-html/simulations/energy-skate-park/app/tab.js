@@ -238,10 +238,9 @@ define( [
         var class3 = id == "tab3" ? persist : "";
         tab.append( $( navBar( {class1: class1, class2: class2, class3: class3} ) ) ).trigger( "create" );
 
-        $( '#tab1controlgroup' ).css( 'margin-bottom', '0px' );
-        $( '#tab1controlgroup' ).css( 'margin-top', '0px' );
-
-        $( '#myheaderbar' ).css( 'height', '50px' );
+        tab$( 'controlgroup' ).css( 'margin-bottom', '0px' );
+        tab$( 'controlgroup' ).css( 'margin-top', '0px' );
+        tab$( 'headerbar' ).css( 'height', '50px' );
 
         $( window ).resize( onResize );
         onResize(); // initial position
