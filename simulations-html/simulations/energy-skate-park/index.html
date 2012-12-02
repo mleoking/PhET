@@ -17,11 +17,50 @@
 </head>
 
 <body id="theMainBody">
-<div data-role="page" id="tab1" class="tab"></div>
-<div data-role="page" id="tab2" class="tab"></div>
-<div data-role="page" id="tab3" class="tab"></div>
+<div data-role="page" id="tab1" class="tab">
+    <div data-role="header" data-position="fixed" id="tab1headerbar" data-theme="c" data-content-theme="c">
+        <!--<h1></h1>-->
+        <span class="ui-title"/>
+
+        <div data-role="controlgroup" data-type="horizontal" id="tab1controlgroup" class="alignleft">
+            <a href="#tab1" data-role="button" class="ui-btn-active ui-state-persist">Introduction</a>
+            <a href="#tab2" data-role="button">Friction</a>
+            <a href="#tab3" data-role="button">Track Playground</a>
+        </div>
+        <!--<a href="index.html" data-role="button" data-icon="delete" class="ui-btn-left">Cancel</a>-->
+        <a href="index.html" data-role="button" data-icon="star" class="ui-btn-right">PhET</a>
+    </div>
+</div>
+<div data-role="page" id="tab2" class="tab">
+    <div data-role="header" data-position="fixed" id="tab2headerbar" data-theme="c" data-content-theme="c">
+        <!--<h1></h1>-->
+        <span class="ui-title"/>
+
+        <div data-role="controlgroup" data-type="horizontal" id="tab2controlgroup" class="alignleft">
+            <a href="#tab1" data-role="button">Introduction</a>
+            <a href="#tab2" data-role="button" class="ui-btn-active ui-state-persist">Friction</a>
+            <a href="#tab3" data-role="button">Track Playground</a>
+        </div>
+        <!--<a href="index.html" data-role="button" data-icon="delete" class="ui-btn-left">Cancel</a>-->
+        <a href="index.html" data-role="button" data-icon="star" class="ui-btn-right">PhET</a>
+    </div>
+</div>
+<div data-role="page" id="tab3" class="tab">
+    <div data-role="header" data-position="fixed" id="tab3headerbar" data-theme="c" data-content-theme="c">
+        <!--<h1></h1>-->
+        <span class="ui-title"/>
+
+        <div data-role="controlgroup" data-type="horizontal" id="tab3controlgroup" class="alignleft">
+            <a href="#tab1" data-role="button">Introduction</a>
+            <a href="#tab2" data-role="button">Friction</a>
+            <a href="#tab3" data-role="button" class="ui-btn-active ui-state-persist">Track Playground</a>
+        </div>
+        <!--<a href="index.html" data-role="button" data-icon="delete" class="ui-btn-left">Cancel</a>-->
+        <a href="index.html" data-role="button" data-icon="star" class="ui-btn-right">PhET</a>
+    </div>
+</div>
 <!--<div id="cover"></div>-->
 
-<div id="analyticsLog">Hello there</div>
+<!--<div id="analyticsLog">Hello there</div>-->
 </body>
 </html>

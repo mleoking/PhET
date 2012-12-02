@@ -137,7 +137,7 @@ define( [
             canvas.attr( 'height', winH );
             var left = (winW - canvasW) / 2;
             var top = (winH - canvasH) / 2;
-            canvas.offset( {left: 0, top: 0} );
+            canvas.offset( {left: 0, top: $( "#tab1headerbar" ).height()} );
             root.scaleX = root.scaleY = scale;
             root.x = left;
             root.y = top;
@@ -182,8 +182,6 @@ define( [
         //Uses jquery resize plugin "jquery.ba-resize": http://benalman.com/projects/jquery-resize-plugin/
         //TODO: This line is too expensive on ipad, dropping the frame rate by 15FPS
 //        $( "#" + id ).resize( onResize );
-        $( window ).resize( onResize );
-        onResize(); // initial position
 
         function moduleActive() {return $.mobile.activePage[0] == tab[0];}
 
@@ -239,5 +237,13 @@ define( [
         var class2 = id == "tab2" ? persist : "";
         var class3 = id == "tab3" ? persist : "";
         tab.append( $( navBar( {class1: class1, class2: class2, class3: class3} ) ) ).trigger( "create" );
+
+        $( '#tab1controlgroup' ).css( 'margin-bottom', '0px' );
+        $( '#tab1controlgroup' ).css( 'margin-top', '0px' );
+
+        $( '#myheaderbar' ).css( 'height', '50px' );
+
+        $( window ).resize( onResize );
+        onResize(); // initial position
     };
 } );
