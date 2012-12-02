@@ -22,6 +22,6 @@ General:
 - widgets (jquery-mobile)
 - handle window resize (see ESP:tab.onResize or concentration:main.onResize)
 - data collection (SR's Analytics.js)
-- mobile devices
-- test with all browsers
+- apache server config for testing
+- detecting mobile devices
 - Easel bounds
