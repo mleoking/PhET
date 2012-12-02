@@ -7,8 +7,8 @@ Features:
 - #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
 - can close-by-clicking-outside be disabled for popups?
 - fix layout of options panel header
-- overlap the "Options" button with the canvas
-- hide the "Options" button when the options panel is popped up
+- overlap the "Options" button with the canvas (I'm doing this is css, but is it right?)
+- hide the "Options" button when the options panel is popped up (how does the app know?)
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
 - dipole model for bar magnet
@@ -17,10 +17,11 @@ Questions:
 - what order do scripts need to be loaded? why are jquery and jquery.mobile special?
 - do I need to put jquery and jquery.mobile paths in faraday-config.js when they're loaded in faraday.html?
 - do I need to define(['jquery'],function($){...}) ?
+- jquery.mobile assigns id attributes, have to find these in inspector, then hardcode in js, seems fragile
 
 General:
 - widgets (jquery-mobile)
-- handle window resize (see ESP:tab.onResize or concentration:main.onResize)
+- handle window resize (see ESP:tab.onResize or concentration:main.onResize), scale vs world-bounds
 - data collection (SR's Analytics.js)
 - apache server config for testing
 - detecting mobile devices
