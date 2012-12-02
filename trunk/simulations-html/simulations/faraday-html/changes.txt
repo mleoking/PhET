@@ -1,3 +1,4 @@
+12/2/12 yet another ordering of css and js in hmtl file
 12/2/12 load app CSS after loading jquery.mobile
 11/30/12 set absolute position of Options button to upper-right using css
 11/30/12 make options panel less transparent
