@@ -125,26 +125,24 @@ define( [
         $( "#flip-min" ).bind( "change", function ( event, ui ) { paused = !paused; } );
 
         var onResize = function () {
-            var winW = tab.width();
-            var winH = tab.height();
-            var scale = Math.min( winW / 1024, winH / 768 );
+            var width = tab.width();
+            var height = tab.height();
+            var scale = Math.min( width / 1024, height / 768 );
             var canvasW = scale * 1024;
             var headerBarHeight = tab$( "headerbar" ).height();
             var canvasH = scale * 768 - headerBarHeight - 100;
 
             //Allow the canvas to fill the screen, but still center the content within the window.
             var canvas = $( "#" + getID( "c" ) );
-            canvas.attr( 'width', winW );
-            canvas.attr( 'height', winH - headerBarHeight );
-            var left = (winW - canvasW) / 2;
-            var top = (winH - canvasH) / 2;
+            canvas.attr( 'width', width );
+            canvas.attr( 'height', height - headerBarHeight );
+            var left = (width - canvasW) / 2;
+            var top = (height - canvasH) / 2;
 
             canvas.offset( {left: 0, top: headerBarHeight} );
             root.scaleX = root.scaleY = scale;
             root.x = left;
             root.y = top;
-
-            $( "#navBar" ).css( 'top', top + 'px' ).css( 'left', (left + 50) + 'px' ).css( 'width', (canvasW - 100) + 'px' );
 
             var controlPanel = $( '#' + id + " > .controlPanel" );
             controlPanel.css( 'width', '270px' );
@@ -176,8 +174,6 @@ define( [
             var leftSideOfPlayPauseButton = (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2);
             $2.css( 'left', leftSideOfPlayPauseButton + 'px' ).css( 'top', canvasH + top - 100 + headerBarHeight + 'px' );
             $( "#" + id + " > ." + speedControlClass ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 100 + headerBarHeight + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
-
-            console.log( "tab 1 resized, width = " + winW );
 
             stage.update();
         };
