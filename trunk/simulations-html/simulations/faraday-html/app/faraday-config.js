@@ -13,9 +13,7 @@ require.config( {
     paths: {
         easel:"../../../contrib/easel-0.5.0",
         i18n:"../../../contrib/i18n-2.0.1a",
-        image:"../../../contrib/image-0.2.1",
-        jquery:'../../../contrib/jquery-1.8.3',
-        'jquery.mobile':'../../../contrib/jquery.mobile-1.2.0/jquery.mobile-1.2.0'
+        image:"../../../contrib/image-0.2.1"
     },
 
     shim: {
