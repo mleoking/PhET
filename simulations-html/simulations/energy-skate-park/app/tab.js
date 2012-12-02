@@ -191,22 +191,6 @@ define( [
         Easel.Ticker.setFPS( 60 );
         Easel.Ticker.addListener( function () {
             if ( moduleActive() ) {
-
-                //make sure the nav bar button is showing as selected
-                //http://stackoverflow.com/questions/3105984/how-to-get-element-by-href-in-jquery
-                var tab1 = $( 'a[href="#tab1"]' );
-                tab1.removeClass( "ui-btn-active" );
-                var tab2 = $( 'a[href="#tab2"]' );
-                tab2.removeClass( "ui-btn-active" );
-                var tab3 = $( 'a[href="#tab3"]' );
-                tab3.removeClass( "ui-btn-active" );
-
-                var links = id == "tab1" ? tab1 :
-                            id == "tab2" ? tab2 :
-                            tab3;
-
-                links.addClass( "ui-btn-active" );
-
                 if ( !paused ) {
                     var dt = 0.02;
                     var subdivisions = 1;
@@ -247,6 +231,8 @@ define( [
 
         $( window ).resize( onResize );
         onResize(); // initial position
+//        onResize(); // initial position
+//        onResize(); // initial position
 
         $( '#tab1popupMenu' ).on( {popupafterclose: function () {setTimeout( function () { $( '#popupDialog' ).popup( 'open' ) }, 100 );}} );
     };
