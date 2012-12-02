@@ -129,15 +129,16 @@ define( [
             var winH = tab.height();
             var scale = Math.min( winW / 1024, winH / 768 );
             var canvasW = scale * 1024;
-            var canvasH = scale * 768;
+            var headerBarHeight = tab$( "headerbar" ).height();
+            var canvasH = scale * 768 - headerBarHeight - 100;
 
             //Allow the canvas to fill the screen, but still center the content within the window.
             var canvas = $( "#" + getID( "c" ) );
             canvas.attr( 'width', winW );
-            canvas.attr( 'height', winH );
+            canvas.attr( 'height', winH - headerBarHeight );
             var left = (winW - canvasW) / 2;
             var top = (winH - canvasH) / 2;
-            var headerBarHeight = tab$( "headerbar" ).height();
+
             canvas.offset( {left: 0, top: headerBarHeight} );
             root.scaleX = root.scaleY = scale;
             root.x = left;
