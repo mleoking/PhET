@@ -24,10 +24,11 @@ define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
             };
 
             /**
+             * Initializes the Options panel. This should only be called once.
              * @param {FaradayModel} model
              * @param {FaradayStage} stage
              */
-            OptionsPanel.connect = function ( model, stage ) {
+            OptionsPanel.init = function ( model, stage ) {
 
                 OptionsPanel.resize();
 
