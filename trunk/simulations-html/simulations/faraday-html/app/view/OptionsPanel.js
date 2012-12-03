@@ -16,26 +16,12 @@ define( [
             function OptionsPanel() {
             }
 
-            //TODO ??? this doesn't get called, but is recommended at http://jquerymobile.com/demos/1.2.0/docs/pages/popup/popup-panels.html
-            OptionsPanel.resize = function () {
-                // Make the options panel the same height as the window
-                $( "#optionsPanel" ).on(
-                        {
-                            popupbeforeposition:function () {
-                                var h = $( window ).height();
-                                $( "#optionsPanel" ).css( "height", h );
-                            }
-                        } );
-            };
-
             /**
              * Initializes the Options panel. This should only be called once.
              * @param {FaradayModel} model
              * @param {FaradayStage} stage
              */
             OptionsPanel.init = function ( model, stage ) {
-
-                OptionsPanel.resize();
 
                 // DOM modification ------------------------------------------------------------
 
@@ -55,6 +41,15 @@ define( [
                             resetAll:strings.resetAll
                         } );
                 $( "#optionsPanelDiv" ).append( $( optionsPanelFragment ) ).trigger( "create" );
+
+                // Make the Options panel the same height as the window
+                $( "#optionsPanel" ).on(
+                        {
+                            popupbeforeposition:function () {
+                                var h = $( window ).height();
+                                $( "#optionsPanel" ).css( "height", h );
+                            }
+                        } );
 
                 // Wire up DOM components ------------------------------------------------------
 
