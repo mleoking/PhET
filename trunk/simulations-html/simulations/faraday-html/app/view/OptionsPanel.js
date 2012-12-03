@@ -69,12 +69,14 @@ define( [
                 PropertyCheckBox.connect( stage.showField, "fieldCheckBox" );
                 PropertyCheckBox.connect( model.fieldMeter.visible, "meterCheckBox" );
 
+                // Change the magnet's orientation
                 $( "#flipPolarityButton" ).bind( 'click',
                                                  function () {
                                                      model.barMagnet.orientation.set( model.barMagnet.orientation.get() + Math.PI );
                                                      model.compass.startMovingNow();
                                                  } );
 
+                // Reset the simulation
                 $( "#resetAllButton" ).bind( 'click',
                                              function () {
                                                  model.reset();

@@ -1,3 +1,4 @@
+12/3/12 wire up check boxes using jquery selectors
 12/3/12 size the Options panel after modifying the DOM
 12/3/12 use jquery to bind buttons to handlers
 12/3/12 add template for Options panel
