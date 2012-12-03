@@ -18,6 +18,7 @@ Questions:
 - do I need to put jquery and jquery.mobile paths in faraday-config.js when they're loaded in faraday.html?
 - do I need to define(['jquery'],function($){...}) ?
 - can close-by-clicking-outside be disabled for popups?
+- why am I getting "not well-formed" errors when using tpl substitutions?
 
 General:
 - widgets (jquery-mobile)
