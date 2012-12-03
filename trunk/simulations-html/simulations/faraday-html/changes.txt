@@ -1,3 +1,4 @@
+12/2/12 fix i18n of check boxes, account for jquery.mobile dom changes
 12/2/12 remove redundant load of jquery and jquery.mobile from faraday-config.js
 12/2/12 yet another ordering of css and js in hmtl file
 12/2/12 load app CSS after loading jquery.mobile
