@@ -3,6 +3,7 @@
 define( {
             "flipPolarity":"Flip Polarity",
             "magnetStrength":"Magnet Strength:",
+            "options":"Options",
             "resetAll":"Reset All",
             "seeInsideMagnet":"See Inside Magnet",
             "showCompass":"Show Compass",

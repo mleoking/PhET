@@ -17,11 +17,13 @@ define( [
             'view/FieldInsideDisplay',
             'view/FieldMeterDisplay',
             'view/FieldOutsideDisplay',
-            'view/FrameRateDisplay'
+            'view/FrameRateDisplay',
+            'i18n!../../nls/faraday-strings'
         ],
         function ( Easel,
                    Dimension2D, Inheritance, ModelViewTransform2D, Point2D, Property,
-                   BarMagnetDisplay, CompassDisplay, FieldInsideDisplay, FieldMeterDisplay, FieldOutsideDisplay, FrameRateDisplay ) {
+                   BarMagnetDisplay, CompassDisplay, FieldInsideDisplay, FieldMeterDisplay, FieldOutsideDisplay, FrameRateDisplay,
+                   strings ) {
 
             function FaradayStage( canvas, model ) {
 
@@ -77,6 +79,10 @@ define( [
                 this.frameRateDisplay = new FrameRateDisplay();
                 this.frameRateDisplay.x = 20;
                 this.frameRateDisplay.y = 20;
+
+                // Options button
+                var optionsButton = document.getElementById( "optionsButton");
+                optionsButton.value = strings.options;
 
                 // rendering order
                 this.addChild( background );
