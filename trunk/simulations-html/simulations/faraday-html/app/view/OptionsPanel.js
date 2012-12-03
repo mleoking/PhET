@@ -33,8 +33,8 @@ define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
                 OptionsPanel.resize();
 
                 // Options panel title
-                var optionsCloseButtonLabel = document.getElementById( "optionsCloseButtonLabel" );
-                optionsCloseButtonLabel.value = strings["options"];
+                var optionsLabel = document.getElementById( "optionsLabel" );
+                optionsLabel.value = strings["options"];
 
                 // Strength slider
                 var strengthSliderLabel = document.getElementById( "strengthSliderLabel" );
