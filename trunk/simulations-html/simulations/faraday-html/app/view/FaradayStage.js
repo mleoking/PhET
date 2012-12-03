@@ -80,10 +80,6 @@ define( [
                 this.frameRateDisplay.x = 20;
                 this.frameRateDisplay.y = 20;
 
-                // Options button
-                var optionsButton = document.getElementById( "optionsButton");
-                optionsButton.value = strings.options;
-
                 // rendering order
                 this.addChild( background );
                 this.addChild( field );

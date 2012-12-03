@@ -1,3 +1,4 @@
+12/3/12 add template for Options button
 12/3/12 delete unnecessary div in faraday.html
 12/2/12 change id and tag for Options panel label
 12/2/12 revert css for .ui-btn and .ui-slider-handle
