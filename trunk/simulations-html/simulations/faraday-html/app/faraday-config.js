@@ -12,7 +12,7 @@ require.config( {
 
     paths: {
         easel:"../../../contrib/easel-0.5.0",
-        i18n:"../../../contrib/i18n-2.0.1a",
+        i18n:"../../../contrib/i18n-2.0.1-phet",
         image:"../../../contrib/image-0.2.1"
     },
 
