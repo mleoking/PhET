@@ -51,6 +51,10 @@ define( [
             var particleView = new ParticleView( particleModel, mvt );
             self.particleLayer.addChild( particleView );
         } );
+        _.each( model.electrons, function ( particleModel ) {
+            var particleView = new ParticleView( particleModel, mvt );
+            self.particleLayer.addChild( particleView );
+        } );
 
         // Create and add the bucket fronts.
         _.each( model.buckets, function ( bucketModel, bucketName ) {

@@ -12,7 +12,10 @@ define( [
     var PROTON_COLOR = "red";
     var NUM_NEUTRONS = 13;
     var NEUTRON_COLOR = "gray";
-    var PARTICLE_CAPTURE_RADIUS = 100;
+    var NUM_ELECTRONS = 11;
+    var ELECTRON_COLOR = "blue";
+    var NUCLEON_CAPTURE_RADIUS = 100;
+    var ELECTRON_CAPTURE_RADIUS = 150; // TODO: Coordinate with electron shells
     var BUCKET_WIDTH = 150;
 
     /**
@@ -31,6 +34,7 @@ define( [
         };
 
         this.nucleons = [];
+        this.electrons = [];
         var self = this;
 
         // Add the protons.
@@ -39,7 +43,7 @@ define( [
             self.nucleons.push( proton );
             self.buckets.protonBucket.addParticle( proton );
             proton.events.on( 'userReleased', function () {
-                if ( Utils.distanceBetweenPoints( self.atom.xPos, self.atom.yPos, proton.x, proton.y ) < PARTICLE_CAPTURE_RADIUS ) {
+                if ( Utils.distanceBetweenPoints( self.atom.xPos, self.atom.yPos, proton.x, proton.y ) < NUCLEON_CAPTURE_RADIUS ) {
                     self.atom.addParticle( proton );
                 }
                 else {
@@ -48,17 +52,32 @@ define( [
             } );
         } );
 
-        // Add the neutron.
+        // Add the neutrons.
         _.times( NUM_NEUTRONS, function () {
             var neutron = new Particle( self.buckets.neutronBucket.x, self.buckets.protonBucket.y, NEUTRON_COLOR, SharedConstants.NUCLEON_RADIUS, "neutron" );
             self.nucleons.push( neutron );
             self.buckets.neutronBucket.addParticle( neutron );
             neutron.events.on( 'userReleased', function () {
-                if ( Utils.distanceBetweenPoints( self.atom.xPos, self.atom.yPos, neutron.x, neutron.y ) < PARTICLE_CAPTURE_RADIUS ) {
+                if ( Utils.distanceBetweenPoints( self.atom.xPos, self.atom.yPos, neutron.x, neutron.y ) < NUCLEON_CAPTURE_RADIUS ) {
                     self.atom.addParticle( neutron );
                 }
                 else {
                     self.buckets.neutronBucket.addParticle( neutron );
+                }
+            } );
+        } );
+
+        // Add the electrons.
+        _.times( NUM_ELECTRONS, function () {
+            var electron = new Particle( self.buckets.electronBucket.x, self.buckets.electronBucket.y, ELECTRON_COLOR, SharedConstants.ELECTRON_RADIUS, "electron" );
+            self.electrons.push( electron );
+            self.buckets.electronBucket.addParticle( electron );
+            electron.events.on( 'userReleased', function () {
+                if ( Utils.distanceBetweenPoints( self.atom.xPos, self.atom.yPos, electron.x, electron.y ) < ELECTRON_CAPTURE_RADIUS ) {
+                    self.atom.addParticle( electron );
+                }
+                else {
+                    self.buckets.electronBucket.addParticle( electron );
                 }
             } );
         } );
