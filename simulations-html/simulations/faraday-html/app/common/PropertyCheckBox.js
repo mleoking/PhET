@@ -14,9 +14,8 @@ define( [],
             /**
              * @param {Property} booleanProperty the property to be synchronized
              * @param {String} id id attribute of the HTML element containing the check box
-             * @param {String} labelString
              */
-            PropertyCheckBox.connect = function ( booleanProperty, id, labelString ) {
+            PropertyCheckBox.connect = function ( booleanProperty, id ) {
 
                 // check box
                 var checkBox = document.getElementById( id );
@@ -27,14 +26,6 @@ define( [],
                 booleanProperty.addObserver( function ( newValue ) {
                     checkBox.checked = newValue;
                 } );
-
-                /**
-                 * i18n of check box label, taking into account how jquery.mobile changes the DOM.
-                 * Original DOM: <label for="id" id="idLabel">key</label>
-                 * Jquery.mobile rewrite: <label for="id" id="idLabel"><span><span class="ui-btn-text>key</span></span></label>
-                 */
-                var labelId = id + "Label";
-                $( "#" + labelId + " span span.ui-btn-text *" ).replaceWith( labelString );
             };
 
             return PropertyCheckBox;

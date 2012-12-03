@@ -1,8 +1,7 @@
 TODO list for faraday
 
 Features:
-- Options button template, i18n, trigger
-- Options panel template, i18n, trigger
+- slider is not working in template
 - #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
 - fix layout of options panel header
 - overlap the "Options" button with the canvas (I'm doing this is css, but is it right?)
