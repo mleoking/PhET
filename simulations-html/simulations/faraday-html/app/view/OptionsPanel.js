@@ -5,8 +5,12 @@
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
-define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
-        function ( PropertyCheckBox, strings ) {
+define( [
+            'common/PropertyCheckBox',
+            'i18n!../../nls/faraday-strings',
+            'tpl!../../templates/optionsButton.html'
+        ],
+        function ( PropertyCheckBox, strings, optionsButtonTemplate ) {
 
             function OptionsPanel() {
             }
@@ -31,6 +35,10 @@ define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
             OptionsPanel.init = function ( model, stage ) {
 
                 OptionsPanel.resize();
+
+                // Add the Options button to the DOM
+                var fragment = optionsButtonTemplate( { options:strings.options } );
+                $( "#optionsButtonDiv" ).append( $( fragment ) ).trigger( "create" );
 
                 // Options panel title
                 var optionsLabel = document.getElementById( "optionsLabel" );
