@@ -31,6 +31,7 @@
     margin: 15px 15px;
 }
 
+/*TODO make this go away, it relies on knowing the default margins for sliders */
 /* Workaround to fix slider handle margins, messed up by #optionPanel .ui-btn */
 #strengthSliderDiv .ui-slider-handle {
     margin: -15px 0px 0px -15px;
