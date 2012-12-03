@@ -74,24 +74,17 @@ define( [
                 PropertyCheckBox.connect( stage.showField, "fieldCheckBox" );
                 PropertyCheckBox.connect( model.fieldMeter.visible, "meterCheckBox" );
 
-                var flipPolarityButton = document.getElementById( "flipPolarityButton" );
-                flipPolarityButton.onclick = function () {
-                    model.barMagnet.orientation.set( model.barMagnet.orientation.get() + Math.PI );
-                    model.compass.startMovingNow();
-                };
+                $( "#flipPolarityButton" ).bind( 'click',
+                                                 function () {
+                                                     model.barMagnet.orientation.set( model.barMagnet.orientation.get() + Math.PI );
+                                                     model.compass.startMovingNow();
+                                                 } );
 
-                var resetAllButton = document.getElementById( "resetAllButton" );
-                resetAllButton.onclick = function () {
-                    model.reset();
-                    stage.reset();
-                };
-
-//                $( "#resetAllButton" ).bind( 'onclick',
-//                                             function () {
-//                                                 console.log("resetAll");//XXX
-//                                                 model.reset();
-//                                                 stage.reset();
-//                                             } );
+                $( "#resetAllButton" ).bind( 'click',
+                                             function () {
+                                                 model.reset();
+                                                 stage.reset();
+                                             } );
             };
 
             return OptionsPanel;
