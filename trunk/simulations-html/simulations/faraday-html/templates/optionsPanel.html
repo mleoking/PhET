@@ -1,0 +1,60 @@
+<!-- Template for the Options control panel -->
+<div data-role="popup" id="optionsPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
+
+    <!-- Options panel header with close (back) button -->
+    <div class="ui-bar ui-bar-b">
+        <a id="optionsCloseButton" data-role="button" data-icon="delete" data-iconpos="notext" data-theme="b" data-rel="back" data-mini="true">X</a>
+
+        <h1 id="optionsLabel">options</h1>
+    </div>
+
+    <!-- Magnet controls -->
+    <div>
+        <!-- Magnet Strength slider -->
+        <div id="strengthSliderDiv">
+            <label for="strengthSlider" id="strengthSliderLabel"><%= magnetStrength %></label>
+            <input type="range" name="strengthSlider" id="strengthSlider" value="150" min="0" max="300" data-highlight="true"/>
+        </div>
+
+        <!-- Flip Polarity button -->
+        <div>
+            <button id="flipPolarityButton" type="reset"><%= flipPolarity %></button>
+        </div>
+
+        <!-- See Inside Magnet check box -->
+        <div>
+            <input id="seeInsideCheckBox" name="" type="checkbox"/>
+            <label for="seeInsideCheckBox" id="seeInsideCheckBoxLabel"><%= seeInsideMagnet %></label>
+        </div>
+    </div>
+
+    <br> <!-- vertical space -->
+
+    <!-- Misc controls -->
+    <div>
+        <!-- Show Compass check box -->
+        <div>
+            <input id="compassCheckBox" name="" type="checkbox"/>
+            <label for="compassCheckBox" id="compassCheckBoxLabel"><%= showCompass %></label>
+        </div>
+
+        <!-- Show Field check box -->
+        <div>
+            <input id="fieldCheckBox" name="" type="checkbox"/>
+            <label for="fieldCheckBox" id="fieldCheckBoxLabel"><%= showField %></label>
+        </div>
+
+        <!-- Show Field Meter check box -->
+        <div>
+            <input id="meterCheckBox" name="" type="checkbox"/>
+            <label for="meterCheckBox" id="meterCheckBoxLabel"><%= showFieldMeter %></label>
+        </div>
+    </div>
+
+    <br> <!-- vertical space -->
+
+    <!-- Reset All button -->
+    <div>
+        <button id="resetAllButton" data-theme="e" type="reset" data-icon="refresh"><%= resetAll %></button>
+    </div>
+</div>

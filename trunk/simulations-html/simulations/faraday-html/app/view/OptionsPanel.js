@@ -8,9 +8,10 @@
 define( [
             'common/PropertyCheckBox',
             'i18n!../../nls/faraday-strings',
-            'tpl!../../templates/optionsButton.html'
+            'tpl!../../templates/optionsButton.html',
+            'tpl!../../templates/optionsPanel.html'
         ],
-        function ( PropertyCheckBox, strings, optionsButtonTemplate ) {
+        function ( PropertyCheckBox, strings, optionsButtonTemplate, optionsPanelTemplate ) {
 
             function OptionsPanel() {
             }
@@ -36,45 +37,61 @@ define( [
 
                 OptionsPanel.resize();
 
-                // Add the Options button to the DOM
-                var fragment = optionsButtonTemplate( { options:strings.options } );
-                $( "#optionsButtonDiv" ).append( $( fragment ) ).trigger( "create" );
+                // DOM modification ------------------------------------------------------------
 
-                // Options panel title
-                var optionsLabel = document.getElementById( "optionsLabel" );
-                optionsLabel.value = strings["options"];
+                // Add the Options button to the DOM
+                var optionsButtonFragment = optionsButtonTemplate( { options:strings.options } );
+                $( "#optionsButtonDiv" ).append( $( optionsButtonFragment ) ).trigger( "create" );
+
+                // Add the Options panel to the DOM
+                var optionsPanelFragment = optionsPanelTemplate(
+                        {
+                            magnetStrength:strings.magnetStrength,
+                            flipPolarity:strings.flipPolarity,
+                            seeInsideMagnet:strings.seeInsideMagnet,
+                            showCompass:strings.showCompass,
+                            showField:strings.showField,
+                            showFieldMeter:strings.showFieldMeter,
+                            resetAll:strings.resetAll
+                        } );
+                $( "#optionsPanelDiv" ).append( $( optionsPanelFragment ) ).trigger( "create" );
+
+                // Wire up DOM components ------------------------------------------------------
 
                 // Strength slider
-                var strengthSliderLabel = document.getElementById( "strengthSliderLabel" );
-                strengthSliderLabel.innerHTML = strings.magnetStrength;
                 var strengthSlider = document.getElementById( "strengthSlider" );
                 strengthSlider.change = function ( event ) {
                     model.barMagnet.strength.set( strengthSlider.value );
                 };
-                model.barMagnet.strength.addObserver( function( strength ) {
+                model.barMagnet.strength.addObserver( function ( strength ) {
                     //TODO: use jquery selectors everywhere
-                    $("#strengthSlider").val(strength).slider( "refresh" );
-                });
+                    $( "#strengthSlider" ).val( strength ).slider( "refresh" );
+                } );
 
                 // Check boxes
-                PropertyCheckBox.connect( stage.seeInside, "seeInsideCheckBox", strings.seeInsideMagnet );
-                PropertyCheckBox.connect( model.compass.visible, "compassCheckBox", strings.showCompass );
-                PropertyCheckBox.connect( stage.showField, "fieldCheckBox", strings.showField );
-                PropertyCheckBox.connect( model.fieldMeter.visible, "meterCheckBox", strings.showFieldMeter );
+                PropertyCheckBox.connect( stage.seeInside, "seeInsideCheckBox" );
+                PropertyCheckBox.connect( model.compass.visible, "compassCheckBox" );
+                PropertyCheckBox.connect( stage.showField, "fieldCheckBox" );
+                PropertyCheckBox.connect( model.fieldMeter.visible, "meterCheckBox" );
 
                 var flipPolarityButton = document.getElementById( "flipPolarityButton" );
-                flipPolarityButton.value = strings.flipPolarity;
                 flipPolarityButton.onclick = function () {
                     model.barMagnet.orientation.set( model.barMagnet.orientation.get() + Math.PI );
                     model.compass.startMovingNow();
                 };
 
                 var resetAllButton = document.getElementById( "resetAllButton" );
-                resetAllButton.value = strings.resetAll;
                 resetAllButton.onclick = function () {
                     model.reset();
                     stage.reset();
                 };
+
+//                $( "#resetAllButton" ).bind( 'onclick',
+//                                             function () {
+//                                                 console.log("resetAll");//XXX
+//                                                 model.reset();
+//                                                 stage.reset();
+//                                             } );
             };
 
             return OptionsPanel;
