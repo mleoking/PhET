@@ -27,7 +27,8 @@ define( [
 
         var canvasElement = $( '<canvas></canvas>' ).attr( "id", getID( "c" ) ).css( "position", "absolute" );//.css("width","100%" ).css("height","100%");
         var tab = $( "#" + id );
-        tab.append( canvasElement );
+        //Put canvas first as the background
+        tab.prepend( canvasElement );
 
         var skaterModel = new SkaterModel();
         var groundHeight = 116;
@@ -135,18 +136,18 @@ define( [
             //Allow the canvas to fill the screen, but still center the content within the window.
             var canvas = $( "#" + getID( "c" ) );
             canvas.attr( 'width', width );
-            canvas.attr( 'height', height - headerBarHeight );
+            canvas.attr( 'height', height );
             var left = (width - canvasW) / 2;
             var top = (height - canvasH) / 2;
 
-            canvas.offset( {left: 0, top: headerBarHeight} );
+            canvas.offset( {left: 0, top: 0} );
             root.scaleX = root.scaleY = scale;
             root.x = left;
             root.y = top;
 
             var controlPanel = $( '#' + id + " > .controlPanel" );
             controlPanel.css( 'width', '270px' );
-            controlPanel.css( 'top', 30 + headerBarHeight + 'px' );
+            controlPanel.css( 'top', 50 + headerBarHeight + 'px' );
             controlPanel.css( 'right', 0 + 'px' );
 
             //Apply css overrides last (i.e. after other css takes effect.
@@ -172,8 +173,8 @@ define( [
             var $2 = $( '#' + id + 'containerForPlayPauseFlipSwitch ' );
             $2.css( 'position', 'absolute' ).css( 'width', '200px' );
             var leftSideOfPlayPauseButton = (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2);
-            $2.css( 'left', leftSideOfPlayPauseButton + 'px' ).css( 'top', canvasH + top - 100 + headerBarHeight + 'px' );
-            $( "#" + id + " > ." + speedControlClass ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top - 100 + headerBarHeight + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
+            $2.css( 'left', leftSideOfPlayPauseButton + 'px' ).css( 'top', canvasH + top + headerBarHeight + 'px' );
+            $( "#" + id + " > ." + speedControlClass ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top + headerBarHeight + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
 
             stage.update();
         };
