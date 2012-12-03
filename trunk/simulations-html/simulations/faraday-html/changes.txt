@@ -1,3 +1,4 @@
+12/3/12 remove unnecessary div's from options panel template
 12/3/12 use a single jquery selector when wiring up check boxes
 12/3/12 wire up check boxes using jquery selectors
 12/3/12 size the Options panel after modifying the DOM
