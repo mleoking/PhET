@@ -3,7 +3,6 @@ TODO list for faraday
 Features:
 - move options panel html to a template, do i18n there, then trigger
 - #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
-- can close-by-clicking-outside be disabled for popups?
 - i18n: put string keys in html file, use to do string value lookup
 - fix layout of options panel header
 - overlap the "Options" button with the canvas (I'm doing this is css, but is it right?)
@@ -17,8 +16,7 @@ Questions:
 - what order do scripts need to be loaded? why are jquery and jquery.mobile special?
 - do I need to put jquery and jquery.mobile paths in faraday-config.js when they're loaded in faraday.html?
 - do I need to define(['jquery'],function($){...}) ?
-- jquery.mobile assigns id attributes, have to find these in inspector, then hardcode in js, seems fragile
-- jquery.mobile dom modifications make i18n dicey
+- can close-by-clicking-outside be disabled for popups?
 
 General:
 - widgets (jquery-mobile)

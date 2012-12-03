@@ -26,8 +26,8 @@
     margin: -1px 0;
 }
 
-/* for elements of class="ui-btn" inside of the element with id="optionsPanel" */
-#optionsPanel .ui-btn {
+/* buttons in the Options panel */
+.optionsButton {
     margin: 15px 15px;
 }
 
@@ -41,11 +41,7 @@ div.ui-slider {
     width: 80%;
 }
 
-/* Workaround to fix slider handle margins, messed up by #optionPanel .ui-btn */
-#strengthSliderDiv .ui-slider-handle {
-    margin: -15px 0px 0px -15px;
-}
-
+/* Label centered above the Strength slider */
 #strengthSliderLabel {
     margin: 15px 0px 10px 0px;
     font-family: Helvetica,Arial,sans-serif;
