@@ -17,15 +17,25 @@ define( [],
              */
             PropertyCheckBox.connect = function ( booleanProperty, id ) {
 
-                // check box
-                var checkBox = document.getElementById( id );
-                checkBox.checked = booleanProperty.get();
-                checkBox.onclick = function () {
-                    booleanProperty.set( checkBox.checked );
-                };
-                booleanProperty.addObserver( function ( newValue ) {
-                    checkBox.checked = newValue;
+                // Initial state
+                $( "#" + id ).attr( "checked", booleanProperty.get() ).checkboxradio( "refresh" );
+
+                // sync model with check box
+                $( "#" + id ).bind( 'change', function () {
+                    booleanProperty.set( $( "#" + id ).attr( "checked" ) );
                 } );
+
+                // sync check box with model
+                var setChecked = function ( checked ) {
+                    console.log( "setChecked" );
+                    $( "#" + id ).attr( "checked", checked ).checkboxradio( "refresh" );
+                };
+                booleanProperty.addObserver( function ( checked ) {
+                    setChecked( checked );
+                } );
+
+                // initial state
+                setChecked( booleanProperty.get() );
             };
 
             return PropertyCheckBox;
