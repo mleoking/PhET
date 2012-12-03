@@ -27,7 +27,7 @@ require( [
 
              var model = new FaradayModel();
              var stage = new FaradayStage( canvas, model );
-             OptionsPanel.connect( model, stage );
+             OptionsPanel.init( model, stage );
 
              // Animation loop ----------------------------------------------------------
 

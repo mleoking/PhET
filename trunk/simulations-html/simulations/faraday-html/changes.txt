@@ -1,3 +1,4 @@
+12/2/12 rename OptionsPanel.connect to init
 12/2/12 remove div around Options button in html
 12/2/12 add .optionsButton to css, style specific buttons in the Options panel, remove slider css workaround
 12/2/12 use contrib css for jquery.mobile
