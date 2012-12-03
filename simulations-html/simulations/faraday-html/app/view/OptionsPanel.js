@@ -50,8 +50,8 @@ define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
 
                 // Check boxes
                 PropertyCheckBox.connect( stage.seeInside, "seeInsideCheckBox", strings.seeInsideMagnet );
-                PropertyCheckBox.connect( stage.showField, "fieldCheckBox", strings.showField );
                 PropertyCheckBox.connect( model.compass.visible, "compassCheckBox", strings.showCompass );
+                PropertyCheckBox.connect( stage.showField, "fieldCheckBox", strings.showField );
                 PropertyCheckBox.connect( model.fieldMeter.visible, "meterCheckBox", strings.showFieldMeter );
 
                 var flipPolarityButton = document.getElementById( "flipPolarityButton" );
