@@ -27,8 +27,13 @@
 }
 
 /* buttons in the Options panel */
-.optionsButton {
+#optionsPanel .ui-btn {
     margin: 15px 15px;
+}
+
+/* Workaround to fix slider handle margins, messed up by #optionPanel .ui-btn */
+#strengthSliderDiv .ui-slider-handle {
+    margin: -15px 0px 0px -15px;
 }
 
 /* Hide the text field for the strength slider */
