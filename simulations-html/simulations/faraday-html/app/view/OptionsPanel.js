@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Control panel.
+ * Options panel.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
