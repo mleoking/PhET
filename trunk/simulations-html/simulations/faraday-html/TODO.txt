@@ -10,9 +10,9 @@ Features:
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
 - dipole model for bar magnet
+- use jquery css selectors for dom
 
 Questions:
-- why are button icons missing when using contrib/jquery.mobile-1.2.0.css?
 - what order do scripts need to be loaded? why are jquery and jquery.mobile special?
 - do I need to put jquery and jquery.mobile paths in faraday-config.js when they're loaded in faraday.html?
 - do I need to define(['jquery'],function($){...}) ?
