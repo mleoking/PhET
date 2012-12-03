@@ -3,12 +3,13 @@ define( [
             'easel',
             'common/ModelViewTransform2D',
             'common/Utils',
+            'model/Atom',
             'view/ParticleView',
             'view/AtomView',
             'view/BucketHole',
             'view/BucketFront',
             'view/ElectronShellView'
-        ], function ( _, Easel, ModelViewTransform2D, Utils, ParticleView, AtomView, BucketHole, BucketFront, ElectronShellView ) {
+        ], function ( _, Easel, ModelViewTransform2D, Utils, Atom, ParticleView, AtomView, BucketHole, BucketFront, ElectronShellView ) {
 
     function BuildAnAtomStage( canvas, model ) {
 
@@ -35,7 +36,7 @@ define( [
         root.addChild( atomView );
 
         // Add the electron shell.
-        var electronShell = new ElectronShellView( model.atom, mvt );
+        var electronShell = new ElectronShellView( model.atom, Atom.INNER_ELECTRON_SHELL_RADIUS, Atom.OUTER_ELECTRON_SHELL_RADIUS, mvt );
         root.addChild( electronShell );
 
         // Create and add the bucket holes where the idle particles will be kept.

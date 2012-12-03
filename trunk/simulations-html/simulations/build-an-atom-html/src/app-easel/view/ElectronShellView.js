@@ -6,31 +6,31 @@ define( [
 
         ], function ( _, Easel, Point2D ) {
 
-    var ElectronShellView = function ( atom, mvt ) {
-        this.initialize( atom, mvt );
+    var ElectronShellView = function ( atom, innerRadius, outerRadius, mvt ) {
+        this.initialize( atom, innerRadius, outerRadius, mvt );
     };
 
     var p = ElectronShellView.prototype;
 
     _.extend( p, Easel.Container.prototype );
 
-    p.initialize = function ( atom, mvt ) {
+    p.initialize = function ( atom, innerRadius, outerRadius, mvt ) {
         Easel.Container.prototype.initialize.call( this );
-        var innerRadius = mvt.modelToView( 80 );
+        var innerRadiusInView = mvt.modelToView( innerRadius );
         var innerRingShape = new Easel.Shape();
         innerRingShape.graphics
                 .beginStroke( "blue" )
                 .setStrokeStyle( 1 )
-                .drawEllipse( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2 )
+                .drawEllipse( -innerRadiusInView, -innerRadiusInView, innerRadiusInView * 2, innerRadiusInView * 2 )
                 .endStroke();
         this.addChild( innerRingShape );
 
-        var outerRadius = mvt.modelToView( 160 );
+        var outerRadiusInView = mvt.modelToView( outerRadius );
         var outerRingShape = new Easel.Shape();
         outerRingShape.graphics
                 .beginStroke( "blue" )
                 .setStrokeStyle( 1 )
-                .drawEllipse( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2 )
+                .drawEllipse( -outerRadiusInView, -outerRadiusInView, outerRadiusInView * 2, outerRadiusInView * 2 )
                 .endStroke();
         this.addChild( outerRingShape );
 
