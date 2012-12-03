@@ -17,18 +17,20 @@ define( [],
              */
             PropertyCheckBox.connect = function ( booleanProperty, id ) {
 
+                var checkBox = $( "#" + id ); // caution: this is actually a "wrapped set"
+
                 // Initial state
-                $( "#" + id ).attr( "checked", booleanProperty.get() ).checkboxradio( "refresh" );
+                checkBox.attr( "checked", booleanProperty.get() ).checkboxradio( "refresh" );
 
                 // sync model with check box
-                $( "#" + id ).bind( 'change', function () {
-                    booleanProperty.set( $( "#" + id ).attr( "checked" ) );
+                checkBox.bind( 'change', function () {
+                    booleanProperty.set( checkBox.attr( "checked" ) );
                 } );
 
                 // sync check box with model
                 var setChecked = function ( checked ) {
                     console.log( "setChecked" );
-                    $( "#" + id ).attr( "checked", checked ).checkboxradio( "refresh" );
+                    checkBox.attr( "checked", checked ).checkboxradio( "refresh" );
                 };
                 booleanProperty.addObserver( function ( checked ) {
                     setChecked( checked );
