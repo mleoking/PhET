@@ -29,7 +29,6 @@ define( [],
 
                 // sync check box with model
                 var setChecked = function ( checked ) {
-                    console.log( "setChecked" );
                     checkBox.attr( "checked", checked ).checkboxradio( "refresh" );
                 };
                 booleanProperty.addObserver( function ( checked ) {
