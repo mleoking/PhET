@@ -19,9 +19,6 @@ define( [],
 
                 var checkBox = $( "#" + id ); // caution: this is actually a "wrapped set"
 
-                // Initial state
-                checkBox.attr( "checked", booleanProperty.get() ).checkboxradio( "refresh" );
-
                 // sync model with check box
                 checkBox.bind( 'change', function () {
                     booleanProperty.set( checkBox.attr( "checked" ) );
