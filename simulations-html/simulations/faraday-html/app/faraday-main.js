@@ -11,10 +11,10 @@ require( [
              'common/Logger',
              'common/ModelViewTransform2D',
              'model/FaradayModel',
-             'view/ControlPanel',
+             'view/OptionsPanel',
              'view/FaradayStage'
          ],
-         function ( Easel, CanvasQuirks, Logger, ModelViewTransform2D, FaradayModel, ControlPanel, FaradayStage ) {
+         function ( Easel, CanvasQuirks, Logger, ModelViewTransform2D, FaradayModel, OptionsPanel, FaradayStage ) {
 
              Logger.enabled = true;
 
@@ -27,7 +27,7 @@ require( [
 
              var model = new FaradayModel();
              var stage = new FaradayStage( canvas, model );
-             ControlPanel.connect( model, stage );
+             OptionsPanel.connect( model, stage );
 
              // Animation loop ----------------------------------------------------------
 

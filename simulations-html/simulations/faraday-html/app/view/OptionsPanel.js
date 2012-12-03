@@ -8,11 +8,11 @@
 define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
         function ( PropertyCheckBox, strings ) {
 
-            function ControlPanel() {
+            function OptionsPanel() {
             }
 
             //TODO ??? this doesn't get called, but is recommended at http://jquerymobile.com/demos/1.2.0/docs/pages/popup/popup-panels.html
-            ControlPanel.resize = function () {
+            OptionsPanel.resize = function () {
                 // Make the options panel the same height as the window
                 $( "#optionsPanel" ).on(
                         {
@@ -27,9 +27,9 @@ define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
              * @param {FaradayModel} model
              * @param {FaradayStage} stage
              */
-            ControlPanel.connect = function ( model, stage ) {
+            OptionsPanel.connect = function ( model, stage ) {
 
-                ControlPanel.resize();
+                OptionsPanel.resize();
 
                 // Options panel title
                 var optionsCloseButtonLabel = document.getElementById( "optionsCloseButtonLabel" );
@@ -68,5 +68,5 @@ define( [ 'common/PropertyCheckBox', 'i18n!../../nls/faraday-strings' ],
                 };
             };
 
-            return ControlPanel;
+            return OptionsPanel;
         } );
