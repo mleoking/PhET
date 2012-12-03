@@ -30,6 +30,11 @@ define( [
             self.reconfigureNucleus( true );
             self.events.trigger( Atom.CONFIG_CHANGE_EVENT );
         }
+        else if ( particle.type === 'electron' ) {
+            var length = Math.random() > 0.5 ? Atom.INNER_ELECTRON_SHELL_RADIUS : Atom.OUTER_ELECTRON_SHELL_RADIUS;
+            var angle = Math.random() * 2 * Math.PI;
+            particle.setLocation( { x:( length * Math.cos( angle ) ), y:( length * Math.sin( angle ) ) } );
+        }
     };
 
     Atom.prototype.getNumProtons = function () {

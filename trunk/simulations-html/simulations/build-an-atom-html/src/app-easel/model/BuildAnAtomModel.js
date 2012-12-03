@@ -15,7 +15,7 @@ define( [
     var NUM_ELECTRONS = 11;
     var ELECTRON_COLOR = "blue";
     var NUCLEON_CAPTURE_RADIUS = 100;
-    var ELECTRON_CAPTURE_RADIUS = 150; // TODO: Coordinate with electron shells
+    var ELECTRON_CAPTURE_RADIUS = Atom.OUTER_ELECTRON_SHELL_RADIUS * 1.1;
     var BUCKET_WIDTH = 150;
 
     /**
