@@ -18,17 +18,20 @@
 
 <body id="theMainBody">
 <div data-role="page" id="tab1" class="tab">
-    <div data-role="header" data-position="fixed" id="tab1headerbar" data-theme="c" data-content-theme="c">
-        <!--<h1></h1>-->
-        <span class="ui-title"/>
+    <div data-role="controlgroup" data-type="horizontal" id="tab1controlgroup" style="margin: 10px; position: absolute;top:10px;left:10px">
+        <a href="#tab1" data-role="button" class="ui-btn-active ui-state-persist">Introduction</a>
+        <a href="#tab2" data-role="button" data-transition="none">Friction</a>
+        <a href="#tab3" data-role="button" data-transition="none">Track Playground</a>
+    </div>
+    <a href="#popupDialog" data-role="button" data-icon="star" data-rel="popup" data-position-to="window" data-inline="true" style="margin: 0px; position: absolute;top:10px;right:10px">PhET</a>
 
-        <div data-role="controlgroup" data-type="horizontal" id="tab1controlgroup" class="alignleft">
-            <a href="#tab1" data-role="button" class="ui-btn-active ui-state-persist">Introduction</a>
-            <a href="#tab2" data-role="button" data-transition="none">Friction</a>
-            <a href="#tab3" data-role="button" data-transition="none">Track Playground</a>
-        </div>
+    <!--<div data-role="header" data-position="fixed" id="tab1headerbar" data-theme="c" data-content-theme="c">-->
+    <div>
+        <!--<h1></h1>-->
+
+
         <!--<a href="index.html" data-role="button" data-icon="delete" class="ui-btn-left">Cancel</a>-->
-        <a href="#popupDialog" data-role="button" data-icon="star" class="ui-btn-right" data-rel="popup" data-position-to="window">PhET</a>
+
 
         <!--<div data-role="popup" id="tab1popupMenu" data-theme="b">-->
         <!--<ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="d">-->
