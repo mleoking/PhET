@@ -5,6 +5,8 @@ define( [
         ], function ( _, SharedConstants ) {
 
     Atom.CONFIG_CHANGE_EVENT = 'configurationChanged';
+    Atom.INNER_ELECTRON_SHELL_RADIUS = 80;
+    Atom.OUTER_ELECTRON_SHELL_RADIUS = 180;
 
     function Atom( xPos, yPos ) {
         this.xPos = xPos;
