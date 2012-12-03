@@ -2,7 +2,9 @@ TODO list for faraday
 
 Features:
 - slider is not working in template
-- set initial state of controls in Options panel
+- check boxes are not working in template
+- initial state of sliders and check boxes is not correct
+- sliders and check boxes are not responding to model changes
 - #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
 - fix layout of options panel header
 - overlap the "Options" button with the canvas (I'm doing this is css, but is it right?)
