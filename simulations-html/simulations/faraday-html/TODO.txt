@@ -1,16 +1,16 @@
 TODO list for faraday
 
 Features:
-- move options panel html to a template, do i18n there, then trigger
+- Options button template, i18n, trigger
+- Options panel template, i18n, trigger
 - #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
-- i18n: put string keys in html file, use to do string value lookup
 - fix layout of options panel header
 - overlap the "Options" button with the canvas (I'm doing this is css, but is it right?)
 - hide the "Options" button when the options panel is popped up (how does the app know?)
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
 - dipole model for bar magnet
-- use jquery css selectors for dom
+- use jquery css selectors for dom access
 
 Questions:
 - what order do scripts need to be loaded? why are jquery and jquery.mobile special?
