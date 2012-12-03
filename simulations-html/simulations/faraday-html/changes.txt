@@ -1,3 +1,4 @@
+12/2/12 use contrib css for jquery.mobile
 12/2/12 use jquery to reset sliders
 12/2/12 change contrib names to include "-phet" fork suffix
 12/2/12 rename ControlPanel -> OptionsPanel
