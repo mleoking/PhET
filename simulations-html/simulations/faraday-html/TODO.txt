@@ -11,6 +11,7 @@ Features:
 - move stuff to simulations-html/common
 - dipole model for bar magnet
 - use jquery css selectors for dom access
+- remove css workaround for "#strengthSliderDiv .ui-slider-handle"
 
 Questions:
 - what order do scripts need to be loaded? why are jquery and jquery.mobile special?
