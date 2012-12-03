@@ -28,11 +28,13 @@ define( [],
                     checkBox.checked = newValue;
                 } );
 
-                // i18n of check box label
-                var label = document.getElementById( id + "Label" );
-                if ( label instanceof HTMLElement ) {
-                    label.innerHTML = labelString;
-                }
+                /**
+                 * i18n of check box label, taking into account how jquery.mobile changes the DOM.
+                 * Original DOM: <label for="id" id="idLabel">key</label>
+                 * Jquery.mobile rewrite: <label for="id" id="idLabel"><span><span class="ui-btn-text>key</span></span></label>
+                 */
+                var labelId = id + "Label";
+                $( "#" + labelId + " span span.ui-btn-text *" ).replaceWith( labelString );
             };
 
             return PropertyCheckBox;
