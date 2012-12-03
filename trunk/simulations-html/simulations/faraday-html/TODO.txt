@@ -1,7 +1,6 @@
 TODO list for faraday
 
 Features:
-- strength slider doesn't reset (assigning to slider.value doesn't move the handle)
 - #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
 - can close-by-clicking-outside be disabled for popups?
 - i18n: put string keys in html file, use to do string value lookup
