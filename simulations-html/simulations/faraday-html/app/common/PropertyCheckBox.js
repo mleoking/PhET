@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 
 /**
- * Connects a boolean Property to an HTML check box.
+ * Connects a boolean Property to a jQuery Mobile check box.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
