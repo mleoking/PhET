@@ -1,3 +1,4 @@
+12/2/12 rename ControlPanel -> OptionsPanel
 12/2/12 add string and code for "Options" i18n
 12/2/12 put keys in html file, so I can see what's not getting translated
 12/2/12 fix i18n of check boxes, account for jquery.mobile dom changes
