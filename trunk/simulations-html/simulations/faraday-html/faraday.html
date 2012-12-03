@@ -28,37 +28,37 @@
     <!-- Options panel -->
     <div>
 
-        <!-- button to open the control panel -->
+        <!-- button to open the Options panel -->
         <div id="optionsButtonDiv">
-            <a href="#optionsPanel" data-rel="popup" data-transition="slide" data-direction="reverse" data-position-to="window" data-role="button" data-icon="gear" data-mini="true" data-inline="true">Options</a>
+            <a id="optionsButton" href="#optionsPanel" data-rel="popup" data-transition="slide" data-direction="reverse" data-position-to="window" data-role="button" data-icon="gear" data-mini="true" data-inline="true">options</a>
         </div>
 
-        <!-- the control panel is an overlay popup -->
+        <!-- the Options panel is an overlay popup -->
         <div data-role="popup" id="optionsPanel" data-corners="false" data-theme="none" data-shadow="false" data-tolerance="0,0">
 
-            <!-- control panel header with close (back) button -->
+            <!-- Options panel header with close (back) button -->
             <div class="ui-bar ui-bar-b">
-                <a data-role="button" data-icon="delete" data-iconpos="notext" data-theme="b" data-rel="back">X</a>
-                <h3>Options</h3>
+                <a id="optionsCloseButton" data-role="button" data-icon="delete" data-iconpos="notext" data-theme="b" data-rel="back">X</a>
+                <label for="optionsCloseButton" id="optionsCloseButtonLabel">options</label>
             </div>
 
             <!-- Magnet controls -->
             <div>
                 <!-- Magnet Strength slider -->
                 <div id="strengthSliderDiv">
-                    <label for="strengthSlider" id="strengthSliderLabel">Magnet Strength:</label>
+                    <label for="strengthSlider" id="strengthSliderLabel">magnetStrength</label>
                     <input type="range" name="strengthSlider" id="strengthSlider" value="150" min="0" max="300" data-highlight="true"/>
                 </div>
 
                 <!-- Flip Polarity button -->
                 <div>
-                    <button id="flipPolarityButton" type="reset">Flip Polarity</button>
+                    <button id="flipPolarityButton" type="reset">flipPolarity</button>
                 </div>
 
                 <!-- check boxes -->
                 <div>
                     <input id="seeInsideCheckBox" name="" type="checkbox"/>
-                    <label for="seeInsideCheckBox" id="seeInsideCheckBoxLabel">See Inside Magnet</label>
+                    <label for="seeInsideCheckBox" id="seeInsideCheckBoxLabel">seeInsideMagnet</label>
                 </div>
             </div>
 
@@ -68,15 +68,15 @@
             <div>
                 <div>
                     <input id="compassCheckBox" name="" type="checkbox"/>
-                    <label for="compassCheckBox" id="compassCheckBoxLabel">Show Compass</label>
+                    <label for="compassCheckBox" id="compassCheckBoxLabel">showCompass</label>
                 </div>
                 <div>
                     <input id="fieldCheckBox" name="" type="checkbox"/>
-                    <label for="fieldCheckBox" id="fieldCheckBoxLabel">Show Field</label>
+                    <label for="fieldCheckBox" id="fieldCheckBoxLabel">showField</label>
                 </div>
                 <div>
                     <input id="meterCheckBox" name="" type="checkbox"/>
-                    <label for="meterCheckBox" id="meterCheckBoxLabel">Show Field Meter</label>
+                    <label for="meterCheckBox" id="meterCheckBoxLabel">showFieldMeter</label>
                 </div>
             </div>
 
@@ -84,7 +84,7 @@
 
             <!-- Reset All button -->
             <div>
-                <button id="resetAllButton" data-theme="e" type="reset" data-icon="refresh">Reset All</button>
+                <button id="resetAllButton" data-theme="e" type="reset" data-icon="refresh">resetAll</button>
             </div>
         </div>
     </div>

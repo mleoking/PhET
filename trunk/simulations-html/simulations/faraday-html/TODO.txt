@@ -1,11 +1,10 @@
 TODO list for faraday
 
 Features:
-- why are button icons missing when using contrib/jquery.mobile-1.2.0.css?
 - strength slider doesn't reset (assigning to slider.value doesn't move the handle)
-- check boxes are not rendering correctly because i18n breaks jquery.mobile dom modifications
 - #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
 - can close-by-clicking-outside be disabled for popups?
+- i18n: put string keys in html file, use to do string value lookup
 - fix layout of options panel header
 - overlap the "Options" button with the canvas (I'm doing this is css, but is it right?)
 - hide the "Options" button when the options panel is popped up (how does the app know?)
@@ -14,6 +13,7 @@ Features:
 - dipole model for bar magnet
 
 Questions:
+- why are button icons missing when using contrib/jquery.mobile-1.2.0.css?
 - what order do scripts need to be loaded? why are jquery and jquery.mobile special?
 - do I need to put jquery and jquery.mobile paths in faraday-config.js when they're loaded in faraday.html?
 - do I need to define(['jquery'],function($){...}) ?
