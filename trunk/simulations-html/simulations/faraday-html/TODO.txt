@@ -2,9 +2,6 @@ TODO list for faraday
 
 Features:
 - slider is not working in template
-- check boxes are not working in template
-- initial state of sliders and check boxes is not correct
-- sliders and check boxes are not responding to model changes
 - jqm options panel rewrites the URL, conflicts with i18n
 - #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
 - fix layout of options panel header
@@ -22,6 +19,8 @@ Questions:
 - do I need to define(['jquery'],function($){...}) ?
 - can close-by-clicking-outside be disabled for popups?
 - why am I getting "not well-formed" errors when using tpl substitutions?
+- do <input> and <button> need to have 'name' attributes?
+- how does one find out what function to call for refreshing jqm?
 
 General:
 - widgets (jquery-mobile)
