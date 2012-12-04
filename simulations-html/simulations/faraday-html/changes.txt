@@ -1,3 +1,4 @@
+12/4/12 change canvas size and Option button placement to look better on ipad
 12/3/12 add some more space below strength slider
 12/3/12 specify options panel title by id instead of class in css
 12/3/12 consolidate a bit of css
