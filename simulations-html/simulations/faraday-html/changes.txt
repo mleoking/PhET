@@ -1,3 +1,4 @@
+12/3/12 encapsulate wiring of DOM ui-components to javascript in WidgetConnector
 12/3/12 remove unnecessary div's from options panel template
 12/3/12 use a single jquery selector when wiring up check boxes
 12/3/12 wire up check boxes using jquery selectors

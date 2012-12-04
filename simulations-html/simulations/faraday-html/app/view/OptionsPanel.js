@@ -6,12 +6,12 @@
  * @author Chris Malley (PixelZoom, Inc.)
  */
 define( [
-            'common/PropertyCheckBox',
+            'common/WidgetConnector',
             'i18n!../../nls/faraday-strings',
             'tpl!../../templates/optionsButton.html',
             'tpl!../../templates/optionsPanel.html'
         ],
-        function ( PropertyCheckBox, strings, optionsButtonTemplate, optionsPanelTemplate ) {
+        function ( WidgetConnector, strings, optionsButtonTemplate, optionsPanelTemplate ) {
 
             function OptionsPanel() {
             }
@@ -53,35 +53,26 @@ define( [
 
                 // Wire up DOM components ------------------------------------------------------
 
-                // Strength slider
-                var strengthSlider = document.getElementById( "strengthSlider" );
-                strengthSlider.change = function ( event ) {
-                    model.barMagnet.strength.set( strengthSlider.value );
-                };
-                model.barMagnet.strength.addObserver( function ( strength ) {
-                    //TODO: use jquery selectors everywhere
-                    $( "#strengthSlider" ).val( strength ).slider( "refresh" );
-                } );
+                // slider
+                WidgetConnector.connectSliderToProperty( "strengthSlider", model.barMagnet.strength );
 
-                // Check boxes
-                PropertyCheckBox.connect( stage.seeInside, "seeInsideCheckBox" );
-                PropertyCheckBox.connect( model.compass.visible, "compassCheckBox" );
-                PropertyCheckBox.connect( stage.showField, "fieldCheckBox" );
-                PropertyCheckBox.connect( model.fieldMeter.visible, "meterCheckBox" );
+                // check boxes
+                WidgetConnector.connectCheckBoxToProperty( "seeInsideCheckBox", stage.seeInside );
+                WidgetConnector.connectCheckBoxToProperty( "compassCheckBox", model.compass.visible );
+                WidgetConnector.connectCheckBoxToProperty( "fieldCheckBox", stage.showField );
+                WidgetConnector.connectCheckBoxToProperty( "meterCheckBox", model.fieldMeter.visible );
 
-                // Change the magnet's orientation
-                $( "#flipPolarityButton" ).bind( 'click',
-                                                 function () {
-                                                     model.barMagnet.orientation.set( model.barMagnet.orientation.get() + Math.PI );
-                                                     model.compass.startMovingNow();
-                                                 } );
-
-                // Reset the simulation
-                $( "#resetAllButton" ).bind( 'click',
-                                             function () {
-                                                 model.reset();
-                                                 stage.reset();
-                                             } );
+                // buttons
+                WidgetConnector.connectButtonToFunction( "flipPolarityButton",
+                                                         function () {
+                                                             model.barMagnet.orientation.set( model.barMagnet.orientation.get() + Math.PI );
+                                                             model.compass.startMovingNow();
+                                                         } );
+                WidgetConnector.connectButtonToFunction( "resetAllButton",
+                                                         function () {
+                                                             model.reset();
+                                                             stage.reset();
+                                                         } );
             };
 
             return OptionsPanel;

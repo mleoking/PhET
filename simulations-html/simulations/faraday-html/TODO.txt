@@ -2,6 +2,7 @@ TODO list for faraday
 
 Features:
 - slider is not working in template
+- address error causes by setting initial slider value (see last line of WidgetConnector.connectSliderToProperty)
 - jqm options panel rewrites the URL, conflicts with i18n
 - #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
 - fix layout of options panel header
