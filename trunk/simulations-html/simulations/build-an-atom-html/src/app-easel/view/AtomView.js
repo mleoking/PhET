@@ -29,6 +29,7 @@ define( [
     p.initialize = function ( atom, mvt ) {
         this.Container_initialize();
         this.atom = atom;
+        this.mvt = mvt;
 
         // Create the X where the nucleus goes.
         var x = new Easel.Shape();
@@ -45,13 +46,15 @@ define( [
 
         // Create the textual readouts for element name, stability, and charge.
         this.elementName = new Easel.Text( "", 'bold 36px Arial', 'red' );
+        this.elementName.y = 50;
         this.addChild( this.elementName );
-        this.stabilityIndicator = new Easel.Text( "", 'bold 28px Arial', 'black' );
-        this.stabilityIndicator.y = 50;
+        this.stabilityIndicator = new Easel.Text( "", 'bold 26px Arial', 'black' );
+        this.stabilityIndicator.y = 420;
         this.addChild( this.stabilityIndicator );
-        this.chargeIndicator = new Easel.Text( "", 'bold 28px Arial', 'black' );
-        this.chargeIndicator.y = 100;
-        this.addChild( this.chargeIndicator );
+        this.ionIndicator = new Easel.Text( "", 'bold 26px Arial', 'black' );
+        this.ionIndicator.x = 450;
+        this.ionIndicator.y = 150;
+        this.addChild( this.ionIndicator );
 
         // Update the textual indicators.
         var self = this;
@@ -59,34 +62,36 @@ define( [
 
             // Update element name.
             self.elementName.text = AtomIdentifier.getName( self.atom.getNumProtons() );
+            self.elementName.x = self.mvt.modelToView( new Point2D( 0, 0 ) ).x - self.elementName.getMeasuredWidth() / 2;
 
             // Update stability indicator.
-            if ( self.atom.getNumProtons() == 0 ){
+            if ( self.atom.getNumProtons() == 0 ) {
                 self.stabilityIndicator.text = "";
             }
-            else if ( AtomIdentifier.isStable( self.atom.getNumProtons(), self.atom.getNumNeutrons() ) ){
+            else if ( AtomIdentifier.isStable( self.atom.getNumProtons(), self.atom.getNumNeutrons() ) ) {
                 self.stabilityIndicator.text = "Stable";
             }
-            else{
+            else {
                 self.stabilityIndicator.text = "Unstable";
             }
+            self.stabilityIndicator.x = self.mvt.modelToView( new Point2D( 0, 0 ) ).x - self.stabilityIndicator.getMeasuredWidth() / 2;
 
             // Update charge indicator.
             console.log( "self.atom.getCharge()" + self.atom.getCharge() );
-            if ( self.atom.getNumProtons() == 0 ){
-                self.chargeIndicator.text = "";
+            if ( self.atom.getNumProtons() == 0 ) {
+                self.ionIndicator.text = "";
             }
-            else if ( self.atom.getCharge() == 0 ){
-                self.chargeIndicator.text = "Neutral Atom";
-                self.chargeIndicator.color = "black";
+            else if ( self.atom.getCharge() == 0 ) {
+                self.ionIndicator.text = "Neutral Atom";
+                self.ionIndicator.color = "black";
             }
-            else if ( self.atom.getCharge() < 0 ){
-                self.chargeIndicator.text = "-Ion";
-                self.chargeIndicator.color = "blue";
+            else if ( self.atom.getCharge() < 0 ) {
+                self.ionIndicator.text = "-Ion";
+                self.ionIndicator.color = "blue";
             }
-            else{
-                self.chargeIndicator.text = "+Ion";
-                self.chargeIndicator.color = "red";
+            else {
+                self.ionIndicator.text = "+Ion";
+                self.ionIndicator.color = "red";
             }
         } );
     };
