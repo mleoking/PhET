@@ -1,8 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 define( [
             'underscore',
-            'common/SharedConstants'
-        ], function ( _, SharedConstants ) {
+            'common/SharedConstants',
+            'common/Utils'
+        ], function ( _, SharedConstants, Utils ) {
 
     Atom.CONFIG_CHANGE_EVENT = 'configurationChanged';
     Atom.INNER_ELECTRON_SHELL_RADIUS = 80;
@@ -35,10 +36,13 @@ define( [
 
     Atom.prototype.addParticle = function ( particle ) {
 
+        var self = this;
+
         // Distinguish nucleons from electrons.
         if ( particle.type === 'proton' || particle.type === 'neutron' ) {
+
+            // Add this nucleon to the nucleus.
             this.nucleons.push( particle );
-            var self = this;
             particle.events.one( 'userGrabbed', function () {
                 self.nucleons = _.without( self.nucleons, particle );
                 self.reconfigureNucleus( true );
@@ -48,9 +52,35 @@ define( [
             self.events.trigger( Atom.CONFIG_CHANGE_EVENT );
         }
         else if ( particle.type === 'electron' ) {
-            var positionIndex = _.random( 0, 9 );
-            console.log( "positionIndex" + positionIndex );
-            particle.setLocation( { x:( this.electronPositions[ positionIndex ].x ), y:( this.electronPositions[ positionIndex ].y ) } );
+
+            // Add this electron to the electron shell.
+            var openPositions = this.electronPositions.filter( function ( pos ) {
+                return ( pos.electron === null )
+            } );
+            var sortedOpenPositions = openPositions.sort( function ( p1, p2 ) {
+                // Sort first by distance to particle.
+                return( Utils.distanceBetweenPoints( particle.x, particle.y, p1.x, p1.y ) - Utils.distanceBetweenPoints( particle.x, particle.y, p2.x, p2.y ));
+            } );
+            var sortedOpenPositions = sortedOpenPositions.sort( function ( p1, p2 ) {
+                // Sort second to put the inner shell positions at the front.
+                return( Utils.distanceBetweenPoints( 0, 0, p1.x, p1.y ) - Utils.distanceBetweenPoints( 0, 0, p2.x, p2.y ));
+            } );
+
+            if ( sortedOpenPositions.length === 0 ){
+                console.log( "Error: No open electron positions." );
+                return;
+            }
+            sortedOpenPositions[0].electron = particle;
+            particle.setLocation( { x:sortedOpenPositions[ 0 ].x, y:sortedOpenPositions[ 0 ].y } );
+            particle.events.one( 'userGrabbed', function () {
+                self.electrons = _.without( self.electrons, particle );
+                _.each( self.electronPositions, function( electronPosition ){
+                    if ( electronPosition.electron === particle ){
+                        electronPosition.electron = null;
+                    }
+                } );
+                self.events.trigger( Atom.CONFIG_CHANGE_EVENT );
+            } );
         }
     };
 
