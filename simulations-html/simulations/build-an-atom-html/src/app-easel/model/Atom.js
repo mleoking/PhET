@@ -53,6 +53,9 @@ define( [
         }
         else if ( particle.type === 'electron' ) {
 
+            // Add to list of electrons.
+            this.electrons.push( particle );
+
             // Add this electron to the electron shell.
             var openPositions = this.electronPositions.filter( function ( pos ) {
                 return ( pos.electron === null )
@@ -81,6 +84,7 @@ define( [
                 } );
                 self.events.trigger( Atom.CONFIG_CHANGE_EVENT );
             } );
+            self.events.trigger( Atom.CONFIG_CHANGE_EVENT );
         }
     };
 
@@ -104,13 +108,22 @@ define( [
         return numNeutrons;
     };
 
+    Atom.prototype.getNumElectrons = function () {
+        var numElectrons = 0;
+        _.each( this.electrons, function ( electron ) {
+            if ( electron.type === 'electron' ) {
+                numElectrons++;
+            }
+        } );
+        return numElectrons;
+    };
+
     Atom.prototype.getWeight = function () {
         return this.nucleons.length;
     };
 
     Atom.prototype.getCharge = function () {
-        var protons = this.getNumProtons();
-        return protons - this.electrons.length;
+        return this.getNumProtons() - this.getNumElectrons();
     };
 
     Atom.prototype.reconfigureNucleus = function ( moveImmediately ) {
