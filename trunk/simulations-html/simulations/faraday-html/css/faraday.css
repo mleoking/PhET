@@ -18,12 +18,7 @@
 #optionsPanel-popup {
     right: 0 !important;
     left: auto !important;
-}
-
-/* for the element with id="optionsPanel" */
-#optionsPanel {
     background: rgba(255, 255, 255, .75);
-    margin: -1px 0;
 }
 
 /* buttons in the Options panel */
