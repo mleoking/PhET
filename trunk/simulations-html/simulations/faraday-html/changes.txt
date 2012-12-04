@@ -1,3 +1,4 @@
+12/3/12 specify options panel title by id instead of class in css
 12/3/12 consolidate a bit of css
 12/3/12 move Options button up a bit, so that it's covered by overlay popup
 12/3/12 use <fieldset data-role="controlgroup"> for grouping some check boxes

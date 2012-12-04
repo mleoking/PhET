@@ -48,7 +48,7 @@ div.ui-slider {
     float: left;
 }
 
-.controlPanelTitle {
+#optionsPanelTitle {
     float: right;
     margin-top: 10px;
     margin-right:70px;
