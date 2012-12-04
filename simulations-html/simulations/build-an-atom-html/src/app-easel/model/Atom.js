@@ -63,10 +63,10 @@ define( [
             } );
             var sortedOpenPositions = sortedOpenPositions.sort( function ( p1, p2 ) {
                 // Sort second to put the inner shell positions at the front.
-                return( Utils.distanceBetweenPoints( 0, 0, p1.x, p1.y ) - Utils.distanceBetweenPoints( 0, 0, p2.x, p2.y ));
+                return( Math.round( Utils.distanceBetweenPoints( 0, 0, p1.x, p1.y ) - Utils.distanceBetweenPoints( 0, 0, p2.x, p2.y ) ) );
             } );
 
-            if ( sortedOpenPositions.length === 0 ){
+            if ( sortedOpenPositions.length === 0 ) {
                 console.log( "Error: No open electron positions." );
                 return;
             }
@@ -74,8 +74,8 @@ define( [
             particle.setLocation( { x:sortedOpenPositions[ 0 ].x, y:sortedOpenPositions[ 0 ].y } );
             particle.events.one( 'userGrabbed', function () {
                 self.electrons = _.without( self.electrons, particle );
-                _.each( self.electronPositions, function( electronPosition ){
-                    if ( electronPosition.electron === particle ){
+                _.each( self.electronPositions, function ( electronPosition ) {
+                    if ( electronPosition.electron === particle ) {
                         electronPosition.electron = null;
                     }
                 } );
