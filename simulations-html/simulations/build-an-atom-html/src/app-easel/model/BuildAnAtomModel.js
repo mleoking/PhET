@@ -12,7 +12,7 @@ define( [
     var PROTON_COLOR = "red";
     var NUM_NEUTRONS = 13;
     var NEUTRON_COLOR = "gray";
-    var NUM_ELECTRONS = 11;
+    var NUM_ELECTRONS = 10;
     var ELECTRON_COLOR = "rgb( 175, 238, 238)";
     var NUCLEON_CAPTURE_RADIUS = 100;
     var ELECTRON_CAPTURE_RADIUS = Atom.OUTER_ELECTRON_SHELL_RADIUS * 1.1;
