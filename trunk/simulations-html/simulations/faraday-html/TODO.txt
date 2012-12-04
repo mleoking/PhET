@@ -1,10 +1,13 @@
 TODO list for faraday
 
 HIGH:
+- dipole model for bar magnet
+- handle window resize (see ESP:tab.onResize or concentration:main.onResize), scale vs world-bounds
 
 MEDIUM:
+- investigate non-modal popups
+- investigate other patterns for Options panel
 - hide the "Options" button when pressed, show when popup is dismissed
-- dipole model for bar magnet
 
 LOW:
 - center title at top of Options panel (see css)
@@ -17,12 +20,10 @@ LOW:
 Questions:
 - what order do scripts need to be loaded? why are jq and jqm special?
 - can close-by-clicking-outside be disabled for popups? (data-dismissible="false" doesn't seem to work)
-- can we create a non-modal popup?
 - do <input> and <button> need to have 'name' attributes?
 - how does one find out what function to call for refreshing jqm?
 
 General:
-- handle window resize (see ESP:tab.onResize or concentration:main.onResize), scale vs world-bounds
 - data collection (SR's Analytics.js)
 - detecting mobile devices
 - Easel bounds
