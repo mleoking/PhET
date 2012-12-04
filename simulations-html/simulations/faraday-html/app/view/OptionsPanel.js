@@ -43,6 +43,12 @@ define( [
                         } );
                 $( "#optionsPanelDiv" ).append( $( optionsPanelFragment ) ).trigger( "create" );
 
+                /*
+                 * Workaround for jQuery.mobile bug,
+                 * see http://stackoverflow.com/questions/8088837/jquery-mobile-triggercreate-command-not-working
+                 */
+                $(".ui-page").trigger('pagecreate');
+
                 // Make the Options panel the same height as the window
                 $( "#optionsPanel" ).on(
                         {

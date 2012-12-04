@@ -1,3 +1,4 @@
+12/3/12 add workaround for jquery.mobile bug that was preventing slider rewrite (thanks SR!)
 12/3/12 i18n of title in options panel
 12/3/12 encapsulate wiring of DOM ui-components to javascript in WidgetConnector
 12/3/12 remove unnecessary div's from options panel template
