@@ -73,7 +73,10 @@ define( [
 
             // Update charge indicator.
             console.log( "self.atom.getCharge()" + self.atom.getCharge() );
-            if ( self.atom.getCharge() == 0 ){
+            if ( self.atom.getNumProtons() == 0 ){
+                self.chargeIndicator.text = "";
+            }
+            else if ( self.atom.getCharge() == 0 ){
                 self.chargeIndicator.text = "Neutral Atom";
                 self.chargeIndicator.color = "black";
             }
