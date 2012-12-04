@@ -14,6 +14,23 @@ define( [
         this.nucleons = [];
         this.electrons = [];
         this.events = $( {} );
+
+        // Initialize the positions where an electron can be placed.
+        this.electronPositions = new Array( 10 );
+        var angle = 0;
+        this.electronPositions[ 0 ] = { electron:null, x:Atom.INNER_ELECTRON_SHELL_RADIUS, y:0 };
+        angle += Math.PI;
+        this.electronPositions[ 1 ] = { electron:null, x:-Atom.INNER_ELECTRON_SHELL_RADIUS, y:0 };
+        var numSlotsInOuterShell = 8;
+        angle += Math.PI / numSlotsInOuterShell / 2; // Stagger inner and outer electron shell positions.
+        for ( var i = 0; i < numSlotsInOuterShell; i++ ) {
+            this.electronPositions[ i + 2 ] = {
+                electron:null,
+                x:Math.cos( angle ) * Atom.OUTER_ELECTRON_SHELL_RADIUS,
+                y:Math.sin( angle ) * Atom.OUTER_ELECTRON_SHELL_RADIUS
+            }
+            angle += Math.PI / numSlotsInOuterShell * 2;
+        }
     }
 
     Atom.prototype.addParticle = function ( particle ) {
@@ -31,9 +48,9 @@ define( [
             self.events.trigger( Atom.CONFIG_CHANGE_EVENT );
         }
         else if ( particle.type === 'electron' ) {
-            var length = Math.random() > 0.5 ? Atom.INNER_ELECTRON_SHELL_RADIUS : Atom.OUTER_ELECTRON_SHELL_RADIUS;
-            var angle = Math.random() * 2 * Math.PI;
-            particle.setLocation( { x:( length * Math.cos( angle ) ), y:( length * Math.sin( angle ) ) } );
+            var positionIndex = _.random( 0, 9 );
+            console.log( "positionIndex" + positionIndex );
+            particle.setLocation( { x:( this.electronPositions[ positionIndex ].x ), y:( this.electronPositions[ positionIndex ].y ) } );
         }
     };
 
