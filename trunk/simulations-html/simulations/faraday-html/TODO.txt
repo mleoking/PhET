@@ -8,6 +8,7 @@ MEDIUM:
 - dipole model for bar magnet
 
 LOW:
+- center title at top of Options panel (see css)
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
 - "not well-formed" errors for optionsButton.html template
