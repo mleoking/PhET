@@ -3,7 +3,7 @@ TODO list for faraday
 HIGH:
 
 MEDIUM:
-- hide the "Options" button when the options panel is popped up (how does the app know?)
+- hide the "Options" button when pressed, show when popup is dismissed
 - dipole model for bar magnet
 
 LOW:
@@ -16,7 +16,7 @@ LOW:
 
 Questions:
 - what order do scripts need to be loaded? why are jq and jqm special?
-- can close-by-clicking-outside be disabled for popups?
+- can close-by-clicking-outside be disabled for popups? (data-dismissible="false" doesn't seem to work)
 - do <input> and <button> need to have 'name' attributes?
 - how does one find out what function to call for refreshing jqm?
 
