@@ -67,8 +67,7 @@ define( [],
                 } );
 
                 // initial state
-                //TODO Error: cannot call methods on slider prior to initialization; attempted to call method 'refresh'
-//                setValue( numberProperty.get() );
+                setValue( numberProperty.get() );
             };
 
             return WidgetConnector;

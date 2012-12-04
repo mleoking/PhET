@@ -1,3 +1,4 @@
+12/3/13 SR fix: address error caused by setting initial slider value (see last line of WidgetConnector.connectSliderToProperty)
 12/3/12 SR fix: remove css workaround for "#strengthSliderDiv .ui-slider-handle"
 12/3/12 SR fix: layout of options panel header
 12/3/12 SR fix: slider is not being rewritten by jqm
