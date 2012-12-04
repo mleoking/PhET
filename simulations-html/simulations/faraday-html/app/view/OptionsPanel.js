@@ -32,6 +32,7 @@ define( [
                 // Add the Options panel to the DOM
                 var optionsPanelFragment = optionsPanelTemplate(
                         {
+                            options:strings.options,
                             magnetStrength:strings.magnetStrength,
                             flipPolarity:strings.flipPolarity,
                             seeInsideMagnet:strings.seeInsideMagnet,
