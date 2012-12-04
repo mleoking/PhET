@@ -1,18 +1,19 @@
 TODO list for faraday
 
-Features:
-- slider is not working in template
-- address error causes by setting initial slider value (see last line of WidgetConnector.connectSliderToProperty)
+HIGH:
+- slider is not being rewritten by jqm
+- address error caused by setting initial slider value (see last line of WidgetConnector.connectSliderToProperty)
 - jqm options panel rewrites the URL, conflicts with i18n
-- #optionsPanel resize in ControlPanel constructor doesn't seem to be happening
 - fix layout of options panel header
-- overlap the "Options" button with the canvas (I'm doing this is css, but is it right?)
+
+MEDIUM:
+- remove css workaround for "#strengthSliderDiv .ui-slider-handle"
 - hide the "Options" button when the options panel is popped up (how does the app know?)
+- dipole model for bar magnet
+
+LOW:
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
-- dipole model for bar magnet
-- use jquery css selectors for dom access
-- remove css workaround for "#strengthSliderDiv .ui-slider-handle"
 
 Questions:
 - what order do scripts need to be loaded? why are jquery and jquery.mobile special?
@@ -22,6 +23,7 @@ Questions:
 - why am I getting "not well-formed" errors when using tpl substitutions?
 - do <input> and <button> need to have 'name' attributes?
 - how does one find out what function to call for refreshing jqm?
+- overlap the "Options" button with the canvas (I'm doing this is css, but is it right?)
 
 General:
 - widgets (jquery-mobile)
