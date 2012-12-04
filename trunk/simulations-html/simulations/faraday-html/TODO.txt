@@ -1,7 +1,6 @@
 TODO list for faraday
 
 HIGH:
-- jqm options panel rewrites the URL, conflicts with i18n
 
 MEDIUM:
 - hide the "Options" button when the options panel is popped up (how does the app know?)
