@@ -1,3 +1,6 @@
+12/3/12 SR fix: remove css workaround for "#strengthSliderDiv .ui-slider-handle"
+12/3/12 SR fix: layout of options panel header
+12/3/12 SR fix: slider is not being rewritten by jqm
 12/3/12 add workaround for jquery.mobile bug that was preventing slider rewrite (thanks SR!)
 12/3/12 i18n of title in options panel
 12/3/12 encapsulate wiring of DOM ui-components to javascript in WidgetConnector
