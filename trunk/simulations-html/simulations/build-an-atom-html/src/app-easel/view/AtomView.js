@@ -75,12 +75,15 @@ define( [
             console.log( "self.atom.getCharge()" + self.atom.getCharge() );
             if ( self.atom.getCharge() == 0 ){
                 self.chargeIndicator.text = "Neutral Atom";
+                self.chargeIndicator.color = "black";
             }
             else if ( self.atom.getCharge() < 0 ){
                 self.chargeIndicator.text = "-Ion";
+                self.chargeIndicator.color = "blue";
             }
             else{
                 self.chargeIndicator.text = "+Ion";
+                self.chargeIndicator.color = "red";
             }
         } );
     };
