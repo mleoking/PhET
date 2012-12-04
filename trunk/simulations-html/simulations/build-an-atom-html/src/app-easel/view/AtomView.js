@@ -43,13 +43,24 @@ define( [
                 .endStroke();
         this.addChild( x );
 
-        // Create the textual readout of the element name.
+        // Create the textual readouts for element name, stability, and charge.
         this.elementName = new Easel.Text( "", 'bold 36px Arial', 'red' );
+        this.addChild( this.elementName );
         this.stabilityIndicator = new Easel.Text( "", 'bold 28px Arial', 'black' );
         this.stabilityIndicator.y = 50;
+        this.addChild( this.stabilityIndicator );
+        this.chargeIndicator = new Easel.Text( "", 'bold 28px Arial', 'black' );
+        this.chargeIndicator.y = 100;
+        this.addChild( this.chargeIndicator );
+
+        // Update the textual indicators.
         var self = this;
         atom.events.on( Atom.CONFIG_CHANGE_EVENT, function () {
+
+            // Update element name.
             self.elementName.text = AtomIdentifier.getName( self.atom.getNumProtons() );
+
+            // Update stability indicator.
             if ( self.atom.getNumProtons() == 0 ){
                 self.stabilityIndicator.text = "";
             }
@@ -59,10 +70,19 @@ define( [
             else{
                 self.stabilityIndicator.text = "Unstable";
             }
-        } );
 
-        this.addChild( this.elementName );
-        this.addChild( this.stabilityIndicator );
+            // Update charge indicator.
+            console.log( "self.atom.getCharge()" + self.atom.getCharge() );
+            if ( self.atom.getCharge() == 0 ){
+                self.chargeIndicator.text = "Neutral Atom";
+            }
+            else if ( self.atom.getCharge() < 0 ){
+                self.chargeIndicator.text = "-Ion";
+            }
+            else{
+                self.chargeIndicator.text = "+Ion";
+            }
+        } );
     };
 
     return AtomView;
