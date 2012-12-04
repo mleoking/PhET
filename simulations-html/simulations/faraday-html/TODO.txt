@@ -11,9 +11,11 @@ LOW:
 - compass/magnet collision detection (bounds computations)
 - move stuff to simulations-html/common
 - "not well-formed" errors for optionsButton.html template
+- cache needles at various angles (and alphas?) to improve performance
+- use css instead of <br> to add vertical space
 
 Questions:
-- what order do scripts need to be loaded? why are jquery and jquery.mobile special?
+- what order do scripts need to be loaded? why are jq and jqm special?
 - can close-by-clicking-outside be disabled for popups?
 - do <input> and <button> need to have 'name' attributes?
 - how does one find out what function to call for refreshing jqm?
