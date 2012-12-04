@@ -18,12 +18,9 @@ LOW:
 
 Questions:
 - what order do scripts need to be loaded? why are jquery and jquery.mobile special?
-- do I need to put jquery and jquery.mobile paths in faraday-config.js when they're loaded in faraday.html?
-- do I need to define(['jquery'],function($){...}) ?
 - can close-by-clicking-outside be disabled for popups?
 - do <input> and <button> need to have 'name' attributes?
 - how does one find out what function to call for refreshing jqm?
-- overlap the "Options" button with the canvas (I'm doing this is css, but is it right?)
 
 General:
 - apache server config for testing
