@@ -90,10 +90,11 @@ textarea {
   min-height: 100%;
 }
 
-#atom-construction-canvas {
-  -webkit-box-shadow: inset 0px 0px 6px 0px #000;
-          box-shadow: inset 0px 0px 6px 0px #000;
-}
+/* For debug - uncomment to show border of the canvas. */
+/*#atom-construction-canvas {*/
+  /*-webkit-box-shadow: inset 0px 0px 6px 0px #000;*/
+          /*box-shadow: inset 0px 0px 6px 0px #000;*/
+/*}*/
 
 /* ------------------------------ Widget Control Panel ------------------------------ */
 
