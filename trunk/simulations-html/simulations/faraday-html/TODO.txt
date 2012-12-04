@@ -22,7 +22,6 @@ Questions:
 - how does one find out what function to call for refreshing jqm?
 
 General:
-- apache server config for testing
 - handle window resize (see ESP:tab.onResize or concentration:main.onResize), scale vs world-bounds
 - data collection (SR's Analytics.js)
 - detecting mobile devices
