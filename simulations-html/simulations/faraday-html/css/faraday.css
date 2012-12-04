@@ -27,14 +27,8 @@
 }
 
 /* buttons in the Options panel */
-#optionsPanel .ui-btn {
+.controlPanelContents {
     margin: 15px 15px;
-}
-
-/*TODO make this go away, it relies on knowing the default margins for sliders */
-/* Workaround to fix slider handle margins, messed up by #optionPanel .ui-btn */
-#strengthSliderDiv .ui-slider-handle {
-    margin: -15px 0px 0px -15px;
 }
 
 /* Hide the text field for the strength slider */
@@ -50,7 +44,17 @@ div.ui-slider {
 /* Label centered above the Strength slider */
 #strengthSliderLabel {
     margin: 15px 0px 10px 0px;
-    font-family: Helvetica,Arial,sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
     font-weight: bold;
     text-align: center;
+}
+
+.alignleft {
+    float: left;
+}
+
+.controlPanelTitle {
+    float: right;
+    margin-top: 10px;
+    margin-right:70px;
 }
