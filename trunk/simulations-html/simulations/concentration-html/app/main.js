@@ -1,16 +1,16 @@
 define([
     'common/easel-custom',
-    'jquery',
     'common/util/object',
     'model/root',
     'model/crystal'
 ], function(
     Easel,
-    $,
     ObjectUtil,
     ConcentrationModel,
     Crystal
 ) {
+    console.log(new Easel.DisplayObject().set({ x: 100, y: 100, foo: 'bar' }))
+    
     $canvas = $(canvas);
     var stage = new Easel.Stage($canvas[0]),
         mainContainer = new Easel.Container();

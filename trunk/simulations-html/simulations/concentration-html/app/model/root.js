@@ -11,7 +11,7 @@ define([
     Shaker,
     Crystal,
     Solutes,
-    TubView
+    BeakerView
 ) {
     return ObjectUtil.classdef('ConcentrationRoot', Object, {
         initialize: function(container) {
@@ -29,7 +29,7 @@ define([
             this.solute = Solutes[0];
             
             this.container = container;
-            container.addChild(TubView.create(beaker.left, beaker.top, beaker.right, beaker.bottom));
+            container.addChild(BeakerView.build(beaker.left, beaker.top, beaker.right, beaker.bottom));
             this.shaker = new Shaker(this, (beaker.left + beaker.right) / 2, beaker.top - 20);
             container.addChild(this.shaker.sprite);
         },

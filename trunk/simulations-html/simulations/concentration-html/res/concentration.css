@@ -11,3 +11,76 @@ body, html {
     background: url('images/loading.gif') center no-repeat;  /* from http://preloaders.net */
     z-index: 1000;
 }
+
+.popup {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.33);
+}
+
+.popup .popup-content {
+    background: white;
+    border: 2px solid #445;
+    border-radius: 1em;
+    margin: 6% 12%;
+    max-height: 75%;
+    overflow: scroll;
+    box-shadow: 0 1em 2em rgba(0, 0, 0, 0.5);
+    padding-bottom: 1.2em;
+}
+
+.popup h2 {
+    margin: 0 0 0.5em 0;
+    padding: 0.4em 0.6em;
+    text-align: center;
+    background: #eee;
+    border-bottom: 1px solid #444;
+}
+
+.popup .credits {
+    margin: 1ex 1.6em;
+    padding-bottom: 1ex;
+    border-bottom: 1px solid #bbb;
+}
+
+.popup .credits .logo {
+    float: left;
+    margin-right: 1em;
+}
+
+.popup .credits .text {
+    overflow: hidden;  /* prevents float at left from creating ragged edge */
+}
+
+.popup .version {
+    margin: 1em 1.6em;
+}
+
+.popup .version p {
+    font-size: 85%;
+}
+
+.popup .section h3 {
+    margin: 1em;
+    margin-bottom: 0;
+    cursor: pointer;
+    padding: 0.4em 0.6em;
+    background: #eee;
+    border: 1px solid #ddd;
+    border-radius: 0.3em;
+}
+
+.popup .section h3:hover {
+    color: blue;
+    background-color: #eeeef4;
+}
+
+.popup .section .section-content {
+    display: none;
+    border: 1px solid white;  /* prevent jQuery slideToggle jumping */
+    margin: 0 1.6em;
+}

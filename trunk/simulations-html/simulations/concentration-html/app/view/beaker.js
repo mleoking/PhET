@@ -4,7 +4,7 @@ define([
     Easel
 ) {
     return {
-        create: function(left, top, right, bottom) {
+        build: function(left, top, right, bottom) {
             var width = right - left,
                 height = bottom - top;
             
@@ -12,11 +12,11 @@ define([
             beakerView.x = left;
             beakerView.y = top;
             
-            // Tub boundary
+            // beaker boundary
             var thickness = 5,
                 lip = height * 0.075;
             beakerView.addChild(
-                Easel.Shape.create({
+                new Easel.Shape().set({
                     strokeColor: 'black',
                     strokeWidth: thickness,
                     strokeCap: 'round',

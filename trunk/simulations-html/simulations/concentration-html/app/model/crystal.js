@@ -14,7 +14,7 @@ define([
             this.rotation = Math.random() * 360;
             
             var size = this.size = 5;
-            this.sprite = Easel.Shape.create({
+            this.sprite = new Easel.Shape().set({
                 fillColor: modelRoot.solute.saturatedColor,
                 strokeColor: 'rgba(0, 0, 0, 0.7)',
                 strokeWidth: 0.5,

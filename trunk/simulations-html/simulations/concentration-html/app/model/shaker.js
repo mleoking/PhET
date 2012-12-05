@@ -18,7 +18,7 @@ define([
             this.y = y;
             this.crystalsPending = 0;
             
-            this.sprite = Easel.Bitmap.create({
+            this.sprite = new Easel.Bitmap().set({
                 image: shakerImage,
                 rotation: -44,
                 scale: 0.75,
@@ -36,13 +36,17 @@ define([
             var xdelta = Math.min(20, x1 - this.x),
                 ydelta = Math.min(20, y1 - this.y),
                 totalToAdd = this.crystalsPending += Math.sqrt(xdelta * xdelta + ydelta * ydelta) / 10;
-
+            
+            var limitSpeed = function(max, x) {
+                return Math.min(max, Math.max(-max, x));
+            }
+            
             for(; this.crystalsPending > 0; this.crystalsPending--) {
                 var crystal = new Crystal(this.modelRoot);
                 crystal.x = this.x + xdelta * (this.crystalsPending / totalToAdd);
                 crystal.y = this.y + ydelta * (this.crystalsPending / totalToAdd);
-                crystal.dx = xdelta * Math.random() + Math.random() - 0.5;
-                crystal.dy = ydelta;
+                crystal.dx = limitSpeed(50, Math.min(0.1, xdelta * Math.random() + Math.random() - 0.5));
+                crystal.dy = limitSpeed(50, Math.min(0.1, ydelta));
                 crystal.drotation = (Math.random() - 0.5) * 10000;
                 
                 this.modelRoot.addCrystal(crystal);
