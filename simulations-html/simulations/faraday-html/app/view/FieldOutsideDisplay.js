@@ -60,7 +60,7 @@ define( [
                         grid.forEach( function ( item ) {
                             var vector = barMagnet.getFieldAt( mvt.viewToModel( item.location ) );
                             item.rotation = MathUtil.toDegrees( vector.getAngle() );
-                            item.alpha = Math.min( 1, barMagnet.strength.get() / barMagnet.strengthRange.max );
+                            item.alpha = Math.min( 1, vector.getMagnitude() / barMagnet.strengthRange.max );
                         } );
                     }
                 }
