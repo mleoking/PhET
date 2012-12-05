@@ -1,7 +1,6 @@
 TODO list for faraday
 
 HIGH:
-- dipole model for bar magnet
 - handle window resize (see ESP:tab.onResize or concentration:main.onResize), scale vs world-bounds
 
 MEDIUM:

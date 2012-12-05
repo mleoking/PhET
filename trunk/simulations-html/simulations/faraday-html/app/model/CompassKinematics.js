@@ -1,12 +1,19 @@
 // Copyright 2002-2012, University of Colorado
 
+/**
+ * Rotates the compass needle using the Verlet algorithm to mimic rotational kinematics.
+ * The needle must overcome inertia, and it has angular velocity and angular acceleration.
+ * This causes the needle to accelerate at it starts to move, and to wobble as it comes to rest.
+ *
+ * @author Chris Malley (PixelZoom, Inc.)
+ */
 define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
         function ( MathUtil, Compass, BarMagnet ) {
 
             function CompassKinematics( compass, barMagnet ) {
 
                 // constants
-                var SENSITIVITY = 0.01; // increase this to make the compass more sensitive to smaller fields
+                var SENSITIVITY = 0.0001; // increase this to make the compass more sensitive to smaller fields
                 var DAMPING = 0.08; // increase this to make the needle wobble less
                 var THRESHOLD = MathUtil.toRadians( 0.2 ); // angle at which the needle stops wobbling and snaps to the actual field orientation
 
@@ -23,6 +30,10 @@ define( [ 'common/MathUtil', 'model/Compass', 'model/BarMagnet' ],
 
                     var fieldVector = barMagnet.getFieldAt( compass.location.get() );
                     var magnitude = fieldVector.getMagnitude();
+                    if ( magnitude === 0 ) {
+                        return;
+                    }
+
                     var angle = fieldVector.getAngle();
 
                     // Difference between the field angle and the compass angle.

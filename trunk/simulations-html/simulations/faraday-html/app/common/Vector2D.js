@@ -28,6 +28,22 @@ define( [],
                 return Math.sqrt( this.x * this.x + this.y * this.y );
             };
 
+            /**
+             * @param {Number} angle in radians
+             * @return {Vector2D}
+             */
+            Vector2D.prototype.rotate = function( angle ) {
+               return Vector2D.createPolar( this.getMagnitude(), this.getAngle() + angle );
+            };
+
+            /**
+             * @param {Vector2D} vector vector to add
+             * @return {Vector2D}
+             */
+            Vector2D.prototype.plus = function( vector ) {
+                return new Vector2D( this.x + vector.x, this.y + vector.y );
+            }
+
             // @return {String}
             Vector2D.prototype.toString = function () {
                 return "[Vector2D (x=" + this.x + " y=" + this.y + ")]";
