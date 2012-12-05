@@ -2,6 +2,11 @@
 
 /**
  * Bar magnet model.
+ * <p>
+ * The B-field model used herein is a dipole-model that was originally used in the Java
+ * version of this sim (see DipoleMagnet.java, circa 7/16/2010). That model was found to have
+ * problems (see Unfuddle #2236) and was replaced in the Java sim. But it's good enough for
+ * our purposes here.
  *
  * @author Chris Malley (PixelZoom, Inc.)
  */
