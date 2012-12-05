@@ -24,8 +24,9 @@ public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
     public ForcesAndMotionBasicsApplication( PhetApplicationConfig config ) {
         super( config );
         addModule( new TugOfWarModule() );
-        addModule( new MotionModule( UserComponents.motionTab, Strings.MOTION, false ) );
-        addModule( new MotionModule( UserComponents.frictionTab, Strings.FRICTION, true ) );
+        addModule( new MotionModule( UserComponents.motionTab, Strings.MOTION, false, false ) );
+        addModule( new MotionModule( UserComponents.frictionTab, Strings.FRICTION, true, false ) );
+        addModule( new MotionModule( UserComponents.accelerationTab, Strings.ACCELERATION, true, true ) );
     }
 
     public static void main( String[] args ) {

@@ -39,9 +39,11 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
@@ -77,8 +79,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.BROWN;
 import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsApplication.TOOLBOX_COLOR;
-import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.showForcesCheckBoxIcon;
-import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.speedCheckBoxIcon;
+import static edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.UserComponents.*;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._isOnSkateboard;
 import static edu.colorado.phet.forcesandmotionbasics.motion.StackableNode._mass;
 import static fj.data.Option.some;
@@ -93,6 +94,7 @@ import static java.awt.geom.AffineTransform.getTranslateInstance;
 public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements StackableNodeContext {
 
     private final BooleanProperty showSpeedometer = new BooleanProperty( false );
+    private final BooleanProperty showAccelerometer = new BooleanProperty( false );
     private final Property<Boolean> showValues = new Property<Boolean>( false );
     private final BooleanProperty showForces = new BooleanProperty( true );
     private final PNode skateboard;
@@ -118,11 +120,16 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
     private final BooleanProperty showSumOfForces = new BooleanProperty( false );
     private final BooleanProperty dragging = new BooleanProperty( false );
     private int lastNumSpecks = -1;
+    private final boolean accelerometer;
 
     public MotionCanvas( final Resettable moduleContext, final IClock clock,
 
                          //True if tab 3 "friction"
-                         final boolean friction ) {
+                         final boolean friction,
+
+                         //True if tab 4 "acceleration"
+                         final boolean accelerometer ) {
+        this.accelerometer = accelerometer;
         this.friction = friction;
         final CompositeDoubleProperty massOfObjectsOnSkateboard = new CompositeDoubleProperty( new Function0<Double>() {
             public Double apply() {
@@ -290,10 +297,17 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 //        }}
         );
         final VBox vbox = friction ?
-                          new VBox( 0, VBox.LEFT_ALIGNED, showForcesPanel, indent( showSumOfForcesPanel ), indent( showValuesCheckBox ),
-                                    new PSwing( massCheckBox ),
-                                    speedControlPanel,
-                                    new FrictionSliderControl( model.frictionValue ) ) :
+                          ( accelerometer ?
+                            new VBox( 0, VBox.LEFT_ALIGNED, showForcesPanel, indent( showSumOfForcesPanel ), indent( showValuesCheckBox ),
+                                      new PSwing( massCheckBox ),
+                                      speedControlPanel,
+                                      createAccelerometerCheckBox(),
+                                      new FrictionSliderControl( model.frictionValue ) ) :
+                            new VBox( 0, VBox.LEFT_ALIGNED, showForcesPanel, indent( showSumOfForcesPanel ), indent( showValuesCheckBox ),
+                                      new PSwing( massCheckBox ),
+                                      speedControlPanel,
+                                      new FrictionSliderControl( model.frictionValue ) )
+                          ) :
                           new VBox( 0, VBox.LEFT_ALIGNED, showForcesPanel, indent( showValuesCheckBox ),
                                     new PSwing( massCheckBox ),
                                     speedControlPanel );
@@ -478,6 +492,27 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( speedometerNode );
 
+        PNode accelerometerNode = new VBox( 0, new PhetPText( Strings.ACCELERATION, new PhetFont( (int) ( 16 * 1.25 ) ) ), new AccelerometerNode( model.acceleration ), new PhetPText( "0" ) ) {{
+            showAccelerometer.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( final Boolean show ) {
+                    setVisible( show );
+                }
+            } );
+            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10 );
+
+            stack.addObserver( new VoidFunction1<List<StackableNode>>() {
+                public void apply( final List<StackableNode> stackableNodes ) {
+                    if ( stackableNodes.length() >= 3 ) {
+                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - getFullBounds().getWidth(), 10, 1, 0, 200 );
+                    }
+                    else {
+                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10, 1, 0, 200 );
+                    }
+                }
+            } );
+        }};
+        addChild( accelerometerNode );
+
         //If the user removes all the objects, the applied forces should be set to zero.
         //Necessary because the user can apply a constant force by using the text box
         //In the friction tab, also stop the background motion
@@ -495,6 +530,23 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                 sendModelMessage( ModelComponents.stack, ModelComponentTypes.modelElement, ModelActions.changed, parameterSet( ParameterKeys.mass, getMassOfObjectsOnSkateboard() ).with( ParameterKeys.items, stackToString( stackableNodes ) ) );
             }
         } );
+    }
+
+    //Creates the check box for turning the accelerometer on and off, only for the "acceleration" tab.
+    private PNode createAccelerometerCheckBox() {
+        final JCheckBox checkBox = new PropertyCheckBox( UserComponents.accelerometerCheckBox, Strings.ACCELERATION, showAccelerometer ) {{
+            setFont( DEFAULT_FONT );
+        }};
+        return new HBox( 15, new PSwing( checkBox ), new AccelerometerNode( model.acceleration ) {{
+            scale( 0.25 );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( final PInputEvent event ) {
+                    sendUserMessage( accelerometerCheckBoxIcon, button, pressed, parameterSet( isSelected, !showAccelerometer.get() ) );
+                    showAccelerometer.toggle();
+                }
+            } );
+        }} );
     }
 
     static final BufferedImage CLEAR = new BufferedImage( Images.ICE_OVERLAY.getWidth() / 8, 6, BufferedImage.TYPE_INT_ARGB_PRE );

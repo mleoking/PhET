@@ -30,6 +30,7 @@ class MotionModel {
     public final DoubleProperty velocity = new DoubleProperty( 0.0 );
     public final DoubleProperty position = new DoubleProperty( 0.0 );
     public final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
+    public final Property<Option<Double>> acceleration = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
     private final boolean friction;
     private final ObservableProperty<Double> massOfObjectsOnSkateboard;
     public final BooleanProperty fallen = new BooleanProperty( false );
@@ -72,6 +73,7 @@ class MotionModel {
 
         final double mass = massOfObjectsOnSkateboard.get();
         double acceleration = mass != 0 ? sumOfForces / mass : 0.0;
+        this.acceleration.set( new Some<Double>( acceleration ) );
 
         double newVelocity = velocity.get() + acceleration * dt;
 
