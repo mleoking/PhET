@@ -13,16 +13,18 @@ import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsSimSharing.U
  */
 public class MotionModule extends SimSharingPiccoloModule implements Resettable {
     private final boolean friction;
+    private final boolean accelerometer;
 
-    public MotionModule( UserComponents component, String title, boolean friction ) {
+    public MotionModule( UserComponents component, String title, boolean friction, boolean accelerometer ) {
         super( component, title, new ConstantDtClock() );
-        setSimulationPanel( new MotionCanvas( this, getClock(), friction ) );
+        setSimulationPanel( new MotionCanvas( this, getClock(), friction, accelerometer ) );
         setClockControlPanel( null );
         this.friction = friction;
+        this.accelerometer = accelerometer;
     }
 
     @Override public void reset() {
         super.reset();
-        setSimulationPanel( new MotionCanvas( this, getClock(), friction ) );
+        setSimulationPanel( new MotionCanvas( this, getClock(), friction, accelerometer ) );
     }
 }
