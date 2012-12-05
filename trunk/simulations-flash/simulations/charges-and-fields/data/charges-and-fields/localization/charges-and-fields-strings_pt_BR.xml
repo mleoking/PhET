@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--charges-and-fields-strings_bp.xml created Tue Jan 01 00:31:51 GMT-03:00 2002 using: charges-and-fields 1.00.00 (22386), translation-utility 1.09.00 (26682)-->
+<!--charges-and-fields-strings_pt_BR.xml created Tue Dec 04 07:55:11 BRST 2012 using: charges-and-fields 2.04.00 (52655), translation-utility 2.14.00 (69024) Out 9, 2012-->
 <SimStrings>
 <string key="directionOnly" value="Apenas direção"/>
 <string key="grid" value="Grade"/>
 <string key="clearAll" value="Limpar tudo"/>
+<string key="simTitle" value="Taxas e Campos"/>
 <string key="distanceUnit" value="m"/>
 <string key="showNumbers" value="Mostrar números"/>
 <string key="voltageUnit" value="V"/>
@@ -17,6 +18,7 @@
 <string key="plot" value="Plotar"/>
 <string key="equipotential" value="Equipotencial"/>
 <string key="angleUnit" value="deg"/>
+<string key="translation.credits" value="Renan Siqueira da Silva"/>
 <string key="showLoRes" value="Menor res. V"/>
 <string key="moreSpeedLessRes" value="Mais velocidade\menos res"/>
 <string key="tapeMeasure" value="Fita de medida"/>
