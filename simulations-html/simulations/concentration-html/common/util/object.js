@@ -1,5 +1,5 @@
 define([
-    'common/ie-support'
+    'common/polyfills'
 ], function(
 ) {
     return {
@@ -7,8 +7,11 @@ define([
             var newClass = function() {
                 this.initialize.apply(this, arguments);
             };
-
-            var newProto = newClass.prototype = new superclass();
+            
+            // Create a copy of superclass without calling its constructor
+            var bareSuper = function() {};
+            bareSuper.prototype = superclass.prototype;
+            var newProto = newClass.prototype = new bareSuper();
             
             // experimental debugging aid; may not actually be useful -PPC
             newProto._className = className;
