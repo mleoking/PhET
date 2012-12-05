@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_pt_BR.xml created Thu Jan 06 18:15:40 BRST 2011 using: calculus-grapher 2.03.00 (42751), translation-utility 2.09.00 (44031) Set 13, 2010-->
+<!--calculus-grapher-strings_pt_BR.xml created Tue Dec 04 07:38:22 BRST 2012 using: calculus-grapher 2.08.00 (55025), translation-utility 2.14.00 (69024) Out 9, 2012-->
 <SimStrings>
+<string key="integral" value="Integral"/>
 <string key="grid" value="Grade"/>
-<string key="smooth" value="Ajuste"/>
-<string key="sine" value="Seno"/>
-<string key="derivative" value="Derivada"/>
-<string key="offset" value="Deslocado"/>
-<string key="simTitle" value="Cálculo no Gráfico"/>
-<string key="hill" value="Pico"/>
 <string key="dragMe" value="Arraste-me!"/>
-<string key="undo" value="Desfazer"/>
-<string key="parabola" value="Parábola"/>
+<string key="hill" value="Pico"/>
+<string key="cursor" value="Cursor"/>
+<string key="simTitle" value="Cálculo no Gráfico"/>
+<string key="offset" value="Deslocado"/>
 <string key="freeform" value="Livre"/>
-<string key="tilt" value="Enclinado"/>
+<string key="pedestal" value="Pedestal"/>
 <string key="line" value="Linha"/>
+<string key="drawingTools" value="Ferramentas de desenho"/>
+<string key="zero" value="Zero"/>
+<string key="view" value="Ver"/>
+<string key="sine" value="Seno"/>
+<string key="smooth" value="Ajuste"/>
+<string key="tilt" value="Enclinado"/>
+<string key="parabola" value="Parábola"/>
+<string key="translation.credits" value="Renan Siqueira da SIlva"/>
+<string key="derivative" value="Derivada"/>
+<string key="undo" value="Desfazer"/>
 </SimStrings>
