@@ -166,6 +166,14 @@ public class LWJGLUtils {
     * error handling
     *----------------------------------------------------------------------------*/
 
+    public static boolean isMacJava7() {
+        return System.getProperty( "os.name" ).contains( "OS X" ) && System.getProperty( "java.version" ).split( "\\." )[1].equals( "7" );
+    }
+
+    public static void showMacJava7Warning( final Frame parentFrame ) {
+
+    }
+
     public static void showErrorDialog( final Frame parentFrame, final Throwable t ) {
         final ContextCapabilities capabilities = GLContext.getCapabilities();
         final String glslVersion = ( capabilities != null && capabilities.OpenGL20 ) ? glGetString( GL_SHADING_LANGUAGE_VERSION ) : "(none)";
