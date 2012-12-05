@@ -4,7 +4,7 @@ require.config({
     paths: {
         common: '../common',
         
-        easel:           '../../../contrib/easeljs-dev',
+        easel:           '../../../contrib/easel-dev',
         image:           '../../../contrib/image-0.2.1',
         underscore:      '../../../contrib/underscore-1.4.2',
     },
