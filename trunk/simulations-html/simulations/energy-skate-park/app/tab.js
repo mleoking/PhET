@@ -10,11 +10,17 @@ define( [
             'tpl!view/play-pause-flip-switch.html',
             'view/speedControlView',
             'tpl!view/navbar.html',
-            'view/easel-root'
-        ], function ( Easel, SkaterModel, Physics, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, SpeedControlView, navBar, createEaselRoot ) {
+            'view/easel-root',
+            'Property'
+        ], function ( Easel, SkaterModel, Physics, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, SpeedControlView, navBar, createEaselRoot, Property ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( id, running, sliderControls, analytics ) {
+
+      var self = this;
+      this.events = $({});
+
+      this.dt = new Property( 0.02 );
 
         //Rename element id so they will be unique across tabs
         //Unique ID for the elements
@@ -74,7 +80,7 @@ define( [
         var normalString = Strings.normal;
 
 
-        var speedControl = new SpeedControlView( Strings, this );
+        var speedControl = new SpeedControlView( Strings, this.dt );
         tab.append( speedControl.render() ).trigger( "create" );
 
 
@@ -108,11 +114,17 @@ define( [
         tab$( "returnSkaterButton" ).bind( "click", function () {
             skaterModel.returnSkater();
         } );
+
+
         tab$( "resetAllButton" ).bind( "click", function () {
             analytics.log( "resetAllButton", "button", "pressed" );
 
+            self.dt.set(0.02);
+
             //This line of code took a long to find.  You cannot simply attr("checked","").
-            _.each( elements, function ( element ) {tab$( element.dom ).removeAttr( "checked" ).checkboxradio( "refresh" )} );
+            _.each( elements, function ( element ) {
+              tab$( element.dom ).removeAttr( "checked" ).checkboxradio( "refresh" )
+            });
 
             root.resetAll();
             skaterModel.returnSkater();
@@ -190,16 +202,13 @@ define( [
 
         function moduleActive() {return $.mobile.activePage[0] == tab[0];}
 
-        this.dt = speedControl.getValue();
-        var self = this;
-
         Easel.Ticker.setFPS( 60 );
         Easel.Ticker.addListener( function () {
             if ( moduleActive() ) {
                 if ( !paused ) {
                     var subdivisions = 1;
                     for ( var i = 0; i < subdivisions; i++ ) {
-                        Physics.updatePhysics( skaterModel, groundHeight, root.splineLayer, self.dt / subdivisions );
+                        Physics.updatePhysics( skaterModel, groundHeight, root.splineLayer, self.dt.get() / subdivisions );
                     }
 
                     updateFrameRate();

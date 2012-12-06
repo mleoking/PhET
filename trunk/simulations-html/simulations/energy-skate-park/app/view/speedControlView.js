@@ -3,19 +3,35 @@ define([
   'tpl!view/speed-control.html'
 ], function( _, speedControlTmpl){
 
-  function SpeedControl( Strings, parentTab ){
+  function SpeedControl( Strings, dt ){
     this.Strings = Strings;
 
     this.$el = $('<div/>', { 'class': 'speedControl' });
 
+    var self = this;
+
+    function updateInput( value ){
+      // make sure that the unchecked checkbox is actually unchecked
+      self.$el.find('input:not([value="'+ value +'"])')
+        .attr('checked', false)
+        .checkboxradio('refresh');
+
+      // make sure the correct checkbox is checked
+      self.$el.find('[value="'+ value +'"]')
+        .attr('checked', true)
+        .checkboxradio( 'refresh' );
+    }
+
+    dt.addObserver( updateInput );
+
     this.$el.on('change', 'input', function(e){
       var speed = parseFloat( $(e.currentTarget).val(), 10);
-      parentTab.dt = speed;
+      dt.set( speed );
     });
+
   }
 
   SpeedControl.prototype.render = function(){
-
     var slowMotionString = this.Strings["slow.motion"];
     var normalString = this.Strings.normal;
 
