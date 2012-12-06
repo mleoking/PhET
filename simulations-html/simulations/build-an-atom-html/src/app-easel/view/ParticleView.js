@@ -18,12 +18,16 @@ define( [
         Easel.Shape.prototype.initialize.call( this );
 
         this.particle = particle;
+        var radius = particle.radius;
 
         this.graphics
                 .beginStroke( "black" )
-                .beginFill( particle.color )
+//                .beginFill( particle.color )
+//                .beginRadialGradientFill( [ "white, black"] , [0, 1], 0 , 0 , 0, 0, 0, 0 )
+//                .beginRadialGradientFill(["red", "blue"], [1, 0], -10, -10, 15, 10, 10, 10) // Working hard-coded gradient.
+                .beginRadialGradientFill([particle.color, "white"], [0.5, 1], 0, 0, radius * 2, -radius / 3, -radius / 3, radius / 8 )
                 .setStrokeStyle( 1 )
-                .drawCircle( 0, 0, particle.radius )
+                .drawCircle( 0, 0, radius )
                 .endFill();
 
         var centerInViewSpace = mvt.modelToView( new Point2D( particle.x, particle.y ) );
