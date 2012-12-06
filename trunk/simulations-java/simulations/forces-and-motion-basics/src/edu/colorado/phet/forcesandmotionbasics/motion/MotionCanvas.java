@@ -467,7 +467,7 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
         }};
         addChild( forcesNode );
 
-        SpeedometerNode speedometerNode = new SpeedometerNode( Strings.SPEED, 125, model.speed, STROBE_SPEED ) {{
+        final SpeedometerNode speedometerNode = new SpeedometerNode( Strings.SPEED, 125, model.speed, STROBE_SPEED ) {{
             showSpeedometer.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( final Boolean show ) {
                     setVisible( show );
@@ -476,19 +476,6 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
 
             //scale up so fonts and stroke thicknesses look good
             scale( 1.25 );
-
-            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10 );
-
-            stack.addObserver( new VoidFunction1<List<StackableNode>>() {
-                public void apply( final List<StackableNode> stackableNodes ) {
-                    if ( stackableNodes.length() >= 3 ) {
-                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - getFullBounds().getWidth(), 10, 1.25, 0, 200 );
-                    }
-                    else {
-                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10, 1.25, 0, 200 );
-                    }
-                }
-            } );
         }};
         addChild( speedometerNode );
 
@@ -498,20 +485,35 @@ public class MotionCanvas extends AbstractForcesAndMotionBasicsCanvas implements
                     setVisible( show );
                 }
             } );
-            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10 );
+//            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, speedometerNode.getFullBounds().getMaxY() );
+
+//            stack.addObserver( new VoidFunction1<List<StackableNode>>() {
+//                public void apply( final List<StackableNode> stackableNodes ) {
+//                    if ( stackableNodes.length() >= 3 ) {
+//                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - getFullBounds().getWidth(), 10, 1, 0, 200 );
+//                    }
+//                    else {
+//                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10, 1, 0, 200 );
+//                    }
+//                }
+//            } );
+        }};
+        addChild( accelerometerNode );
+
+        addChild( new VBox( 0, speedometerNode, accelerometerNode ) {{
+            setOffset( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 2 );
 
             stack.addObserver( new VoidFunction1<List<StackableNode>>() {
                 public void apply( final List<StackableNode> stackableNodes ) {
                     if ( stackableNodes.length() >= 3 ) {
-                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - getFullBounds().getWidth(), 10, 1, 0, 200 );
+                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2 - getFullBounds().getWidth(), 2, 1, 0, 200 );
                     }
                     else {
-                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 10, 1, 0, 200 );
+                        animateToPositionScaleRotation( STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2, 2, 1, 0, 200 );
                     }
                 }
             } );
-        }};
-        addChild( accelerometerNode );
+        }} );
 
         //If the user removes all the objects, the applied forces should be set to zero.
         //Necessary because the user can apply a constant force by using the text box
