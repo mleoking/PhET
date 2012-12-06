@@ -8,10 +8,10 @@ define( [
             'i18n!../../../common/phet/nls/phetcommon-strings',
             'tpl!view/control-panel.html',
             'tpl!view/play-pause-flip-switch.html',
-            'tpl!view/speed-control.html',
+            'view/speedControlView',
             'tpl!view/navbar.html',
             'view/easel-root'
-        ], function ( Easel, SkaterModel, Physics, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, speedControl, navBar, createEaselRoot ) {
+        ], function ( Easel, SkaterModel, Physics, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, SpeedControlView, navBar, createEaselRoot ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( id, running, sliderControls, analytics ) {
@@ -73,9 +73,10 @@ define( [
         var slowMotionString = Strings["slow.motion"];
         var normalString = Strings.normal;
 
-        //Class for CSS selector.  Use a class instead of ID so that different tabs don't have to come up with unique ID for the elements.\
-        var speedControlClass = "speedControl";
-        tab.append( $( speedControl( {elementClass: speedControlClass, slowMotion: slowMotionString, normal: normalString} ) ) ).trigger( "create" );
+
+        var speedControl = new SpeedControlView( Strings );
+        tab.append( speedControl.render() ).trigger( "create" );
+
 
         var text = controlPanelTemplate( {
                                              barGraph: Strings["plots.bar-graph"],
@@ -174,7 +175,11 @@ define( [
             $2.css( 'position', 'absolute' ).css( 'width', '200px' );
             var leftSideOfPlayPauseButton = (left + canvasW / 2 - $( 'div.ui-slider-switch' ).width() / 2);
             $2.css( 'left', leftSideOfPlayPauseButton + 'px' ).css( 'top', canvasH + top + headerBarHeight + 'px' );
-            $( "#" + id + " > ." + speedControlClass ).css( 'position', 'absolute' ).css( 'width', '200px' ).css( 'top', canvasH + top + headerBarHeight + 'px' ).css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
+            $( "#" + id + " > .speedControl")
+              .css( 'position', 'absolute' )
+              .css( 'width', '200px' )
+              .css( 'top', canvasH + top + headerBarHeight - 60 + 'px' )
+              .css( 'left', (leftSideOfPlayPauseButton - 350) + 'px' );
 
             stage.update();
         };
