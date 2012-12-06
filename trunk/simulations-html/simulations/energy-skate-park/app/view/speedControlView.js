@@ -17,7 +17,7 @@ define([
         .checkboxradio('refresh');
 
       // make sure the correct checkbox is checked
-      self.$el.find('[value="'+ value +'"]')
+      self.$('[value="'+ value +'"]')
         .attr('checked', true)
         .checkboxradio( 'refresh' );
     }
@@ -30,6 +30,10 @@ define([
     });
 
   }
+
+  SpeedControl.prototype.$ = function( selector ){
+    this.$el.find( selector );
+  };
 
   SpeedControl.prototype.render = function(){
     var slowMotionString = this.Strings["slow.motion"];
