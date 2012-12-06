@@ -28,7 +28,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/chemical-reactions/chemical-reactions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/chemical-reactions/chemical-reactions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" filepath="$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/circuit-construction-kit/circuit-construction-kit.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/circuit-construction-kit/circuit-construction-kit.iml" />
-      <module fileurl="file://$PROJECT_DIR$/team/cmalley/cmalley.iml" filepath="$PROJECT_DIR$/team/cmalley/cmalley.iml" />
+      <module fileurl="file://$PROJECT_DIR$/team/cmalley/java/cmalley.iml" filepath="$PROJECT_DIR$/team/cmalley/java/cmalley.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/collision/collision.iml" filepath="$PROJECT_DIR$/simulations-java/common/collision/collision.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/color-vision/color-vision.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/color-vision/color-vision.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-flash/common-as3/common-as3.iml" filepath="$PROJECT_DIR$/simulations-flash/common-as3/common-as3.iml" />
