@@ -6,7 +6,6 @@ HIGH:
 MEDIUM:
 - investigate non-modal popups
 - investigate other patterns for Options panel
-- hide the "Options" button when pressed, show when popup is dismissed
 
 LOW:
 - center title at top of Options panel (see css)

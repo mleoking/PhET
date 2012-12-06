@@ -25,9 +25,14 @@ define( [
 
                 // DOM modification ------------------------------------------------------------
 
-                // Add the Options button to the DOM
+                // Add the Options button to the DOM, hide it when it's clicked
                 var optionsButtonFragment = optionsButtonTemplate( { options:strings.options } );
-                $( "#optionsButtonDiv" ).append( $( optionsButtonFragment ) ).trigger( "create" );
+                var optionsButtonDiv = $( "#optionsButtonDiv" );
+                optionsButtonDiv.append( $( optionsButtonFragment ) ).trigger( "create" );
+                optionsButtonDiv.bind( 'click',
+                                       function () {
+                                           optionsButtonDiv.hide();
+                                       } );
 
                 // Add the Options panel to the DOM
                 var optionsPanelFragment = optionsPanelTemplate(
@@ -80,6 +85,14 @@ define( [
                                                              model.reset();
                                                              stage.reset();
                                                          } );
+
+                // When the panel is closed, make the Options button visible.
+                $( "#optionsPanel" ).bind(
+                        {
+                            popupafterclose:function ( event, ui ) {
+                                $( "#optionsButtonDiv" ).show();
+                            }
+                        } );
             };
 
             return OptionsPanel;

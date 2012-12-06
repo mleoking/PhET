@@ -1,3 +1,4 @@
+12/6/12 hide the "Options" button when pressed, show when popup closes
 12/4/12 fix bug in alpha computation for b-field visualization
 12/4/12 tune compass kinematics for dipole model
 12/4/12 implement dipole model for bar magnet (ported from DipoleMagnet.java, circa 7/16/2010)
