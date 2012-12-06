@@ -3,7 +3,6 @@ package edu.colorado.phet.forcesandmotionbasics.motion;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -24,7 +23,8 @@ public class AccelerometerNode extends PNode {
         final double height = 15;
         final double barWidth = 170;
         final double barSideInset = 7;
-        addChild( new PhetPPath( new RoundRectangle2D.Double( 0 - barSideInset, 0, barWidth + barSideInset * 2, height, 10, 10 ), new GradientPaint( 0, 4, Color.white, 0, (float) height, new Color( 207, 208, 210 ), true ), new BasicStroke( 1 ), Color.black ) );
+        final PhetPPath background = new PhetPPath( new RoundRectangle2D.Double( 0 - barSideInset, 0, barWidth + barSideInset * 2, height, 10, 10 ), new GradientPaint( 0, 4, Color.white, 0, (float) height, new Color( 207, 208, 210 ), true ) );
+        addChild( background );
 
         final boolean showBar = true;
         if ( showBar ) {
@@ -47,20 +47,22 @@ public class AccelerometerNode extends PNode {
         }
         final boolean showKnob = true;
         if ( showKnob ) {
-            addChild( new PhetPPath( new Ellipse2D.Double( barWidth / 2, 0, 25, height ), new GradientPaint( 0, 5, new Color( 248, 194, 216 ), 0, (float) height, new Color( 154, 105, 127 ), true ) ) {{
+            final double knobThickness = 1;
+            addChild( new PhetPPath( new Rectangle2D.Double( barWidth / 2, 0, knobThickness, height ), new GradientPaint( 0, 5, new Color( 248, 194, 216 ), 0, (float) height, new Color( 154, 105, 127 ), true ) ) {{
                 acceleration.addObserver( new VoidFunction1<Option<java.lang.Double>>() {
                     public void apply( final Option<java.lang.Double> doubles ) {
                         double value = doubles.getOrElse( 0.0 );
                         final double scaled = value * 4;
                         final double scaledValue = scaled;
-                        setPathTo( new Ellipse2D.Double( barWidth / 2 + scaledValue - height / 2, 0, height, height ) );
+                        setPathTo( new Rectangle2D.Double( barWidth / 2 + scaledValue - knobThickness / 2, 0, knobThickness, height ) );
                     }
                 } );
             }} );
         }
+        addChild( new PhetPPath( background.getPathReference(), new BasicStroke( 1 ), Color.black ) );
 
-        final double majorTickInset = 3;
-        final double minorTickInset = 4;
+        final double majorTickInset = 6;
+        final double minorTickInset = 7;
         addChild( new PhetPPath( new Line2D.Double( barWidth / 2, majorTickInset, barWidth / 2, height - majorTickInset ) ) );
         addChild( new PhetPPath( new Line2D.Double( 0, majorTickInset, 0, height - majorTickInset ) ) );
         addChild( new PhetPPath( new Line2D.Double( barWidth, majorTickInset, barWidth, height - majorTickInset ) ) );
