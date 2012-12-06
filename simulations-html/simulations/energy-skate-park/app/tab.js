@@ -15,12 +15,15 @@ define( [
         ], function ( Easel, SkaterModel, Physics, Speedometer, Strings, CommonStrings, controlPanelTemplate, playPauseFlipSwitch, SpeedControlView, navBar, createEaselRoot, Property ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
-    return function ( id, running, sliderControls, analytics ) {
+    function Tab( id, running, sliderControls, analytics ) {
 
       var self = this;
       this.events = $({});
 
       this.dt = new Property( 0.02 );
+
+
+      // TODO: remove these helpers
 
         //Rename element id so they will be unique across tabs
         //Unique ID for the elements
@@ -31,7 +34,11 @@ define( [
         //Get the jquery element with the name id+""+s
         function tab$( s ) {return $( getHashID( s ) );}
 
-        var canvasElement = $( '<canvas></canvas>' ).attr( "id", getID( "c" ) ).css( "position", "absolute" );//.css("width","100%" ).css("height","100%");
+
+      this.$el = $('#' + id);
+
+
+        var canvasElement = $( '<canvas></canvas>' ).attr( "id", getID( "c" ) ).css( "position", "absolute" );
         var tab = $( "#" + id );
         //Put canvas first as the background
         tab.prepend( canvasElement );
@@ -248,5 +255,7 @@ define( [
 //        onResize(); // initial position
 
         $( '#tab1popupMenu' ).on( {popupafterclose: function () {setTimeout( function () { $( '#popupDialog' ).popup( 'open' ) }, 100 );}} );
-    };
+    }
+
+    return Tab;
 } );

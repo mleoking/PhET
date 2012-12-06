@@ -125,3 +125,6 @@ body {
     vertical-align: middle;
     /*width: 300px;*/
 }
+
+
+canvas { position: absolute; }
