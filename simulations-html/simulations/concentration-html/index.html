@@ -19,8 +19,10 @@
             $(function() {
                 $('.popup').click(function(e) {
                     var $target = $(e.target)
-                    if($target.hasClass('popup')) // catch background clicks; ignore clicks inside
+                    if($target.hasClass('popup')) { // catch background clicks; ignore clicks inside
                         $target.fadeOut(200);
+                        createjs.Ticker.setPaused(false);
+                    }
                 });
 
                 $('.popup .section h3').click(function(e) {
@@ -29,6 +31,7 @@
                 
                 $('#about-button').click(function(e) {
                     e.preventDefault();
+                    createjs.Ticker.setPaused(true);
                     $('#about').fadeIn(100);
                 });
             })
