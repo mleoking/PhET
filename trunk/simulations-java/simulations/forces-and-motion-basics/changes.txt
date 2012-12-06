@@ -1,3 +1,4 @@
+# 1.00.02 (70997) Dec 5, 2012
 # 1.00.01 (70978) Dec 5, 2012
 Added accelerometer tab and check box
 # 1.00.00 (69441) Oct 23, 2012
