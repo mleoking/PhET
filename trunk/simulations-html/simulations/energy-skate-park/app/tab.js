@@ -74,7 +74,7 @@ define( [
         var normalString = Strings.normal;
 
 
-        var speedControl = new SpeedControlView( Strings );
+        var speedControl = new SpeedControlView( Strings, this );
         tab.append( speedControl.render() ).trigger( "create" );
 
 
@@ -190,14 +190,16 @@ define( [
 
         function moduleActive() {return $.mobile.activePage[0] == tab[0];}
 
+        this.dt = speedControl.getValue();
+        var self = this;
+
         Easel.Ticker.setFPS( 60 );
         Easel.Ticker.addListener( function () {
             if ( moduleActive() ) {
                 if ( !paused ) {
-                    var dt = 0.02;
                     var subdivisions = 1;
                     for ( var i = 0; i < subdivisions; i++ ) {
-                        Physics.updatePhysics( skaterModel, groundHeight, root.splineLayer, dt / subdivisions );
+                        Physics.updatePhysics( skaterModel, groundHeight, root.splineLayer, self.dt / subdivisions );
                     }
 
                     updateFrameRate();
