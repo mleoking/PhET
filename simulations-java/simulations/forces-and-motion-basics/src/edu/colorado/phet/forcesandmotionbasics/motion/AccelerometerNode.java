@@ -26,7 +26,7 @@ public class AccelerometerNode extends PNode {
         final double barSideInset = 7;
         addChild( new PhetPPath( new RoundRectangle2D.Double( 0 - barSideInset, 0, barWidth + barSideInset * 2, height, 10, 10 ), new GradientPaint( 0, 4, Color.white, 0, (float) height, new Color( 207, 208, 210 ), true ), new BasicStroke( 1 ), Color.black ) );
 
-        final boolean showBar = false;
+        final boolean showBar = true;
         if ( showBar ) {
             addChild( new PhetPPath( new Rectangle2D.Double( barWidth / 2, 0, 25, height ), new GradientPaint( 0, 5, new Color( 248, 194, 216 ), 0, (float) height, new Color( 154, 105, 127 ), true ) ) {{
                 acceleration.addObserver( new VoidFunction1<Option<java.lang.Double>>() {
