@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_mr.xml created Mon Jul 30 23:43:31 IST 2012 using: geometric-optics 2.05.00 (52650), translation-utility 2.13.00 (59150) Dec 8, 2011-->
+<SimStrings>
+<string key="draggableScreen" value="हलवता येणारा पडदा"/>
+<string key="draggableLens" value="हलवता येणारे  भिंग "/>
+<string key="screen" value="पडदा"/>
+<string key="draggableRuler" value="हलवता येणारी मोजपट्टी"/>
+<string key="simTitle" value="पकाशीय भूमिती"/>
+<string key="showHelp" value="मदत दर्शवा"/>
+<string key="moveMe" value="मला सरकवा"/>
+<string key="diameter" value="व्यास (मी)"/>
+<string key="ruler" value="मोजपट्टी"/>
+<string key="focalPoint" value="केंद्र बिंदू"/>
+<string key="curvatureRadius" value="वक्र त्रिज्या (मी)"/>
+<string key="changeObject" value="दुसरी वस्तू"/>
+<string key="principalRays" value="मुख्य किरण"/>
+<string key="marginalRays" value="सीमांत किरण"/>
+<string key="virtualImage" value="आभासी प्रतीमा"/>
+<string key="noRays" value="किरण नाही"/>
+<string key="secondSource" value="दुसरा बिंदू"/>
+<string key="hideHelp" value="मद्त लपवा"/>
+<string key="refractiveIndex" value="अपवर्तनांक"/>
+<string key="translation.credits" value="nyogi2004@gmail.com"/>
+<string key="manyRays" value="जास्त किरण"/>
+</SimStrings>
