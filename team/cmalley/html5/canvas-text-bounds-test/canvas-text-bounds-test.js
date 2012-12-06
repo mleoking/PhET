@@ -40,9 +40,8 @@ var renderText = function ( string, font, context, x, y ) {
 // text to render
 
 var context = document.getElementById( 'canvas' ).getContext( '2d' );
-renderText( "The quick brown fox jumps over the lazy dog", '28pt Comic Sans MS', context, 10, 10 );
-renderText( "AgYpMa", '32pt Arial', context, 10, 60 );
-renderText( "軌道遊樂場", '32pt Arial', context, 10, 120 ); // traditional Chinese (zh_TW)
-renderText( "الطاقة ضد الزمن", '32pt Arial', context, 10, 180 ); // Arabic (ar)
+renderText( "The quick brown fox jumps over the lazy dog", '28pt Comic Sans MS', context, 10, 60 );
+renderText( "\u0627\u0644\u062D\u0631\u0627\u0631\u064A\u0629", '32pt Arial', context, 10, 120 ); // Arabic (ar)
+renderText( "\u80FD\u91CF\u6ED1\u677F\u7AF6\u6280\u5834\uFF1A\u57FA\u790E", '32pt Arial', context, 10, 180 ); // traditional Chinese (zh_TW)
 
 
