@@ -1,4 +1,4 @@
-define( ['easel', 'underscore', 'view/EnergySkateParkRootNode'], function ( Easel, _, EnergySkateParkRootNode ) {
+define( ['easel', 'underscore', 'view/easel/EnergySkateParkRootNode'], function ( Easel, _, EnergySkateParkRootNode ) {
     function EnergySkateParkCanvas( $canvas, Strings, analytics, skaterModel, groundHeight, groundY ) {
         var self = this;
         $canvas[0].onselectstart = function () { return false; }; // IE
