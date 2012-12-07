@@ -1,11 +1,9 @@
-require( ['websocket-refresh',
-             "tpl!view/massSlider.html",
-             "tpl!view/frictionControls.html",
+require( ['WebsocketRefresh',
              '../../../common/phet/app/analytics/Analytics',
              'i18n!../nls/energy-skate-park-strings',
              'view/Tab',
              'easel'
-         ], function ( WebsocketRefresh, massSlider, frictionControls, Analytics, Strings, Tab, Easel ) {
+         ], function ( WebsocketRefresh, Analytics, Strings, Tab, Easel ) {
 
     WebsocketRefresh.listenForRefresh();
     var analytics = new Analytics();
