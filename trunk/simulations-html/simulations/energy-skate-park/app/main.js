@@ -11,6 +11,7 @@ require( ['util/WebsocketRefresh',
 
     var $container = $( '#container' );
     var tabs = ["tab1", "tab2", "tab3"];
+
     for ( var i = 0; i < tabs.length; i++ ) {
         var tab = tabs[i];
         $container.append( tabTemplate( {id: tab,
@@ -19,6 +20,15 @@ require( ['util/WebsocketRefresh',
                                             grid: Strings["controls.show-grid"],
                                             speed: Strings["properties.speed"]} ) );
         var $tab = $( "#" + tab );
-        new Tab( $tab, Easel, Strings, analytics ).render();
+        new Tab( $tab, Easel, Strings, analytics, function ( newTab ) {
+            for ( var j = 0; j < tabs.length; j++ ) {
+                var t = tabs[j];
+                $( "#" + t ).hide();
+            }
+            $( "#" + newTab ).show();
+        } ).render();
+        if ( i > 0 ) {
+            $tab.hide();
+        }
     }
 } );

@@ -1,5 +1,5 @@
 define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas', 'model/physics', 'model/Property'], function ( EnergySkateParkModel, _, EnergySkateParkCanvas, Physics, Property ) {
-    function Tab( $tab, Easel, Strings, analytics ) {
+    function Tab( $tab, Easel, Strings, analytics, tabChangeListener ) {
         var self = this;
         self.dt = new Property( 0.02 );
         var $canvas = $tab.find( 'canvas' );
@@ -24,10 +24,9 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
             }
             energySkateParkCanvas.render();
         } );
-
-        $tab.find( '.frictionTabButton' ).click( function () {
-            console.log( "hello" );
-        } );
+        $tab.find( '.introductionTabButton' ).click( function () {tabChangeListener( "tab1" );} );
+        $tab.find( '.frictionTabButton' ).click( function () {tabChangeListener( "tab2" );} );
+        $tab.find( '.trackPlaygroundTabButton' ).click( function () {tabChangeListener( "tab3" );} );
 
         //Wire up the buttons
         //Use fastButton to make sure they are highlighted and dispatched immediately (otherwise it takes a long time on ipad)
