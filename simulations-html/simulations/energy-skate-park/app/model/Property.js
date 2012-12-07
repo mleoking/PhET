@@ -42,7 +42,7 @@ define( [],
                  * @param value
                  */
 
-                // TODO: this should be refactored to use jQuery custom events.
+                    // TODO: this should be refactored to use jQuery custom events.
                 this.set = function ( value ) {
                     if ( value !== _value ) {
                         var oldValue = _value;
