@@ -1,4 +1,4 @@
-define( ['easel', ], function ( createjs ) {
+define( ['easel' ], function ( createjs ) {
 
     //Copied from C:\workingcopy\phet\svn-1.7\trunk\simulations-html\simulations\faraday-html\src\common\Inheritance.js
     //TODO: update to point to common version when commonized.

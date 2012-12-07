@@ -2,13 +2,13 @@
 define( ['easel',
             'model/skater-model',
             'view/skater-view',
-            'view/background',
+            'view/easel/Background',
             'spline',
             'model/physics',
             'view/easel-util',
             'view/pie-chart',
-            'view/grid',
-            'view/bar-chart',
+            'view/easel/Grid',
+            'view/easel/BarChart',
             'view/speedometer'
         ], function ( Easel, SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
 
