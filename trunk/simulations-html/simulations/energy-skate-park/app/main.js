@@ -3,36 +3,36 @@ require( ['util/WebsocketRefresh',
              'i18n!../nls/energy-skate-park-strings',
              'view/Tab',
              'easel',
-             'tpl!../tab.html'
-         ], function ( WebsocketRefresh, Analytics, Strings, Tab, Easel, tabTemplate ) {
+             'tpl!../tab.html',
+             'model/Property'
+         ], function ( WebsocketRefresh, Analytics, Strings, Tab, Easel, tabTemplate, Property ) {
 
     WebsocketRefresh.listenForRefresh();
     var analytics = new Analytics();
 
+    var tabs = ["introductionTab", "frictionTab", "trackPlaygroundTab"];
+
+    var activeTab = new Property( tabs[0] );
     var $container = $( '#container' );
-    var tabs = [
-        {id: "tab1", name: "introductionTabButton"},
-        {id: "tab2", name: "frictionTabButton"},
-        {id: "tab3", name: "trackPlaygroundTabButton"}
-    ];
 
     for ( var i = 0; i < tabs.length; i++ ) {
         var tab = tabs[i];
-        $container.append( tabTemplate( {id: tab.id,
+        $container.append( tabTemplate( {id: tab,
                                             barGraph: Strings["plots.bar-graph"],
                                             pieChart: Strings["pieChart"],
                                             grid: Strings["controls.show-grid"],
                                             speed: Strings["properties.speed"]} ) );
-        var $tab = $( "#" + tab.id );
-        new Tab( $tab, Easel, Strings, analytics, function ( newTab ) {
-            for ( var j = 0; j < tabs.length; j++ ) {
-                var t = tabs[j];
-                $( "#" + t.id ).hide();
-            }
-            $( "#" + newTab ).show();
-        }, tab.name ).render();
+        var $tab = $( "#" + tab );
+        new Tab( $tab, Easel, Strings, analytics, tab, activeTab ).render();
         if ( i > 0 ) {
             $tab.hide();
         }
     }
+
+    activeTab.addObserver( function ( newTab ) {
+        for ( var j = 0; j < tabs.length; j++ ) {
+            $( "#" + tabs[j] ).hide();
+        }
+        $( "#" + newTab ).show();
+    } );
 } );
