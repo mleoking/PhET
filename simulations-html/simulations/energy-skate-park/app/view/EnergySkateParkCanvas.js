@@ -1,11 +1,11 @@
-define( ['easel', 'underscore', 'view/easel-root'], function ( Easel, _, EaselRoot ) {
+define( ['easel', 'underscore', 'view/EnergySkateParkRootNode'], function ( Easel, _, EnergySkateParkRootNode ) {
     function EnergySkateParkCanvas( $canvas, Strings, analytics, skaterModel, groundHeight, groundY ) {
         var self = this;
         $canvas[0].onselectstart = function () { return false; }; // IE
         $canvas[0].onmousedown = function () { return false; }; // Mozilla
         console.log( $canvas );
 
-        this.root = EaselRoot( skaterModel, groundHeight, groundY, analytics );
+        this.root = EnergySkateParkRootNode( skaterModel, groundHeight, groundY, analytics );
 
         this.stage = new Easel.Stage( $canvas[0] );
         this.stage.mouseMoveOutside = true;
