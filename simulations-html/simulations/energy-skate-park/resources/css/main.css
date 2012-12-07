@@ -127,6 +127,24 @@ canvas {
     z-index: 10000;
 }
 
+/*Generated from http://charliepark.org/bootstrap_buttons/*/
+.reset-all-button {
+    background-color: hsl(36, 100%, 40%) !important;
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = "#ffad32", endColorstr = "#cc7a00");
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#ffad32), to(#cc7a00));
+    background-image: -moz-linear-gradient(top, #ffad32, #cc7a00);
+    background-image: -ms-linear-gradient(top, #ffad32, #cc7a00);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffad32), color-stop(100%, #cc7a00));
+    background-image: -webkit-linear-gradient(top, #ffad32, #cc7a00);
+    background-image: -o-linear-gradient(top, #ffad32, #cc7a00);
+    background-image: linear-gradient(#ffad32, #cc7a00);
+    border-color: #cc7a00 #cc7a00 hsl(36, 100%, 35%);
+    color: #333 !important;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.33);
+    -webkit-font-smoothing: antialiased;
+}
+
 /* ==========================================================================
 Helper classes
 ========================================================================== */
