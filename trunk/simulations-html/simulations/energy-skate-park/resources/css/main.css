@@ -82,6 +82,7 @@ textarea {
 .play-area {
 
     /*Fill the entire width, but do not create scroll bars*/
+    /*TODO-PLEASE: make 100% but make sure no sliders*/
     width: 99%;
     height: 99%;
     position: absolute;
