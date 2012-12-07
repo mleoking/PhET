@@ -1,6 +1,6 @@
 //One of the three tabs in Energy Skate Park
 define( ['easel',
-            'model/skater-model',
+            'model/Skater',
             'view/easel/SkaterView',
             'view/easel/Background',
             'view/easel/spline',
@@ -10,13 +10,13 @@ define( ['easel',
             'view/easel/Grid',
             'view/easel/BarChart',
             'view/easel/Speedometer'
-        ], function ( Easel, SkaterModel, Skater, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
+        ], function ( Easel, Skater, SkaterView, Background, Spline, Physics, EaselUtil, PieChart, Grid, BarChart, Speedometer ) {
 
     //id is the string that identifies the tab for this module, used for creating unique ids.
     return function ( skaterModel, groundHeight, groundY, analytics ) {
         var root = new createjs.Container();
 
-        var skater = Skater.createSkater( skaterModel, groundHeight, groundY, analytics );
+        var skater = SkaterView.createSkater( skaterModel, groundHeight, groundY, analytics );
 
         var splineLayer = Spline.createSplineLayer( groundHeight );
         root.addChild( Background.createBackground( groundHeight ) );
