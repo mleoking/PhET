@@ -9,7 +9,10 @@ require( ['util/WebsocketRefresh',
     var analytics = new Analytics();
 
     var $container = $( '#container' );
-    $container.append( tabTemplate() );
+    $container.append( tabTemplate( {barGraph: Strings["plots.bar-graph"],
+                                        pieChart: Strings["pieChart"],
+                                        grid: Strings["controls.show-grid"],
+                                        speed: Strings["properties.speed"]} ) );
 
     new Tab( $( "#tab1" ), Easel, Strings, analytics ).render();
 
