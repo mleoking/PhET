@@ -26,10 +26,22 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         } );
 
         //Wire up the buttons
-        new MBP.fastButton( $tab.find( '.barGraphButton' )[0], function ( e ) {model.barChartVisible.toggle();} );
-        new MBP.fastButton( $tab.find( '.pieChartButton' )[0], function ( e ) {model.pieChartVisible.toggle();} );
-        new MBP.fastButton( $tab.find( '.gridButton' )[0], function ( e ) {model.gridVisible.toggle();} );
-        new MBP.fastButton( $tab.find( '.speedometerButton' )[0], function ( e ) {model.speedometerVisible.toggle();} );
+        new MBP.fastButton( $tab.find( '.barGraphButton' )[0], function ( e ) {
+            model.barChartVisible.toggle();
+            $tab.find( '.barGraphButton' ).toggleClass( "js-active-button" );
+        } );
+        new MBP.fastButton( $tab.find( '.pieChartButton' )[0], function ( e ) {
+            model.pieChartVisible.toggle();
+            $tab.find( '.pieChartButton' ).toggleClass( "js-active-button" );
+        } );
+        new MBP.fastButton( $tab.find( '.gridButton' )[0], function ( e ) {
+            model.gridVisible.toggle();
+            $tab.find( '.gridButton' ).toggleClass( "js-active-button" );
+        } );
+        new MBP.fastButton( $tab.find( '.speedometerButton' )[0], function ( e ) {
+            model.speedometerVisible.toggle();
+            $tab.find( '.speedometerButton' ).toggleClass( "js-active-button" );
+        } );
     }
 
     Tab.prototype.$ = function ( selector ) {
