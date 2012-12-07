@@ -52,7 +52,6 @@
 }
 
 .play-area {
-    border: 1px solid #000;
     z-index: -1;
 }
 
@@ -67,7 +66,7 @@ canvas {
 
 .control-panel {
     position: absolute;
-    right: 0;
+    right: 20px;/*Prevent scroll bars*/
     padding: 10px;
     z-index: 10000;
 }
