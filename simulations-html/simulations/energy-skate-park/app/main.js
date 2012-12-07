@@ -2,16 +2,14 @@ require( ['util/WebsocketRefresh',
              '../../../common/phet/app/analytics/Analytics',
              'i18n!../nls/energy-skate-park-strings',
              'view/Tab',
-             'easel', 'tpl!../html/tab.html'
+             'easel', 'tpl!../tab.html'
          ], function ( WebsocketRefresh, Analytics, Strings, Tab, Easel, tabTemplate ) {
 
     WebsocketRefresh.listenForRefresh();
     var analytics = new Analytics();
 
     var $container = $( '#container' );
-    var tab = tabTemplate();
-    console.log( tab )
-    $container.append( tab );
+    $container.append( tabTemplate() );
 
     new Tab( $( "#tab1" ), Easel, Strings, analytics ).render();
 
