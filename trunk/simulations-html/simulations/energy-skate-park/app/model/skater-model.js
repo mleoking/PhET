@@ -8,6 +8,7 @@ define( ["model/vector2d"], function ( Vector2D ) {
         this.angle = 0;
         var that = this;
 
+        //TODO: move to prototype
         this.getKineticEnergy = function () { return 0.5 * that.mass * that.velocity.magnitudeSquared(); };
         this.getPotentialEnergy = function () {return that.mass * 9.8 * that.position.y;};
         this.getThermalEnergy = function () { return that.thermalEnergy; };

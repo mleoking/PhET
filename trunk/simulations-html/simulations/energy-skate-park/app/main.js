@@ -4,13 +4,14 @@ require( ['websocket-refresh',
              "tpl!view/frictionControls.html",
              '../../../common/phet/app/analytics/Analytics',
              'i18n!../nls/energy-skate-park-strings',
-             'view/Tab'
-         ], function ( WebsocketRefresh, Tabold, massSlider, frictionControls, Analytics, Strings, Tab ) {
+             'view/Tab',
+             'easel'
+         ], function ( WebsocketRefresh, Tabold, massSlider, frictionControls, Analytics, Strings, Tab, Easel ) {
 
     WebsocketRefresh.listenForRefresh();
     var analytics = new Analytics();
 
-    new Tab( $( "#tab1" ), Strings, analytics ).render();
+    new Tab( $( "#tab1" ), Easel, Strings, analytics ).render();
 
     //TODO: move page creation to here, so it reads like $("body").append($(createTab("tab1")))
 //    window.tab1 = new Tab( "tab1", true, massSlider( {id: "tab1"} ), analytics );

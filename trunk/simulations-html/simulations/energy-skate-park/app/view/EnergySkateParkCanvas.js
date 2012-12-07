@@ -1,24 +1,18 @@
-define( ['easel', 'underscore', 'model/skater-model', 'view/easel-root'], function ( Easel, _, SkaterModel, EaselRoot ) {
-    function EnergySkateParkCanvas( $canvas, Strings, analytics ) {
-
+define( ['easel', 'underscore', 'view/easel-root'], function ( Easel, _, EaselRoot ) {
+    function EnergySkateParkCanvas( $canvas, Strings, analytics, skaterModel, groundHeight, groundY ) {
+        var self = this;
         $canvas[0].onselectstart = function () { return false; }; // IE
         $canvas[0].onmousedown = function () { return false; }; // Mozilla
         console.log( $canvas );
 
-        var skaterModel = new SkaterModel();
-        var groundHeight = 116;
-        var groundY = 768 - groundHeight;
+        this.root = EaselRoot( skaterModel, groundHeight, groundY, analytics );
 
-        var root = EaselRoot( skaterModel, groundHeight, groundY, analytics );
-
-        var stage = new Easel.Stage( $canvas[0] );
-        stage.mouseMoveOutside = true;
-        stage.addChild( root );
-
-//        debugger
+        this.stage = new Easel.Stage( $canvas[0] );
+        this.stage.mouseMoveOutside = true;
+        this.stage.addChild( this.root );
 
         //Paint once after initialization
-        stage.update();
+        this.stage.update();
 
         //TODO: Rewrite this to use CSS
         function handleResize() {
@@ -34,9 +28,9 @@ define( ['easel', 'underscore', 'model/skater-model', 'view/easel-root'], functi
             var left = (width - canvasW) / 2;
             var top = (height - canvasH) / 2;
 
-            root.scaleX = root.scaleY = scale;
-            root.x = left;
-            root.y = top;
+            self.root.scaleX = self.root.scaleY = scale;
+            self.root.x = left;
+            self.root.y = top;
         }
 
         $( window ).resize( handleResize );
@@ -44,32 +38,16 @@ define( ['easel', 'underscore', 'model/skater-model', 'view/easel-root'], functi
         var paused = false;
         Easel.Ticker.setFPS( 60 );
         handleResize();
-        Easel.Ticker.addListener( function () {
-
-            if ( true ) {
-                stage.tick();
-            }
-//            console.log( $canvas.width() ); //            if ( moduleActive ) {
-//                if ( !paused ) {
-//                    var subdivisions = 1;
-//                    for ( var i = 0; i < subdivisions; i++ ) {
-//                        Physics.updatePhysics( skaterModel, groundHeight, root.splineLayer, self.dt.get() / subdivisions );
-//                    }
-//
-//                    updateFrameRate();
-//                    root.tick();
-//                }
-//                stage.tick();
-//            }
-        } );
 
         //Enable touch and prevent default
-        Easel.Touch.enable( stage, false, false );
+        Easel.Touch.enable( this.stage, false, false );
 
         //Necessary to enable MouseOver events
-        stage.enableMouseOver();
-
+        this.stage.enableMouseOver();
     }
 
+    EnergySkateParkCanvas.prototype.render = function () {
+        this.stage.tick();
+    };
     return EnergySkateParkCanvas;
 } );
