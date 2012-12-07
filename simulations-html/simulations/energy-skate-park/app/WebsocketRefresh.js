@@ -1,7 +1,7 @@
 //Listen for file changes for auto-refresh
 define( [], function () {
     return {
-        listenForRefresh:function () {
+        listenForRefresh: function () {
             if ( "WebSocket" in window ) {
                 // Let us open a web socket
                 var ws = new WebSocket( "ws://localhost:8887/echo" );
