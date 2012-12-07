@@ -10,7 +10,7 @@ require( ['websocket-refresh',
     WebsocketRefresh.listenForRefresh();
     var analytics = new Analytics();
 
-    var tab1 = new Tab( Strings );
+    new Tab( $( "#tab1" ), Strings, analytics ).render();
 
     //TODO: move page creation to here, so it reads like $("body").append($(createTab("tab1")))
 //    window.tab1 = new Tab( "tab1", true, massSlider( {id: "tab1"} ), analytics );
