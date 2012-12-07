@@ -17,33 +17,39 @@ define( ['easel', 'underscore', 'model/skater-model', 'view/easel-root'], functi
 
 //        debugger
 
-        var width = window.innerWidth;
-        var height = window.innerHeight;
-        var scale = Math.min( width / 1024, height / 768 );
-
-        var canvasW = scale * 1024;
-        var canvasH = scale * 768;
-
-        $canvas.attr( 'width', window.innerWidth );
-        $canvas.attr( 'height', window.innerHeight );
-
-        //Allow the canvas to fill the screen, but still center the content within the window.
-        root.scaleX = root.scaleY = scale;
-        root.x = 0;
-        root.y = 0;
-
         //Paint once after initialization
         stage.update();
 
+        //TODO: Rewrite this to use CSS
+        function handleResize() {
+            var width = window.innerWidth;
+            var height = window.innerHeight;
+            var scale = Math.min( width / 1024, height / 768 );
+            var canvasW = scale * 1024;
+            var canvasH = scale * 768;
 
+            //Allow the canvas to fill the screen, but still center the content within the window.
+            $canvas.attr( 'width', width );
+            $canvas.attr( 'height', height );
+            var left = (width - canvasW) / 2;
+            var top = (height - canvasH) / 2;
+
+            root.scaleX = root.scaleY = scale;
+            root.x = left;
+            root.y = top;
+        }
+
+        $( window ).resize( handleResize );
         var moduleActive = true;
         var paused = false;
         Easel.Ticker.setFPS( 60 );
+        handleResize();
         Easel.Ticker.addListener( function () {
+
             if ( true ) {
                 stage.tick();
             }
-//            if ( moduleActive ) {
+//            console.log( $canvas.width() ); //            if ( moduleActive ) {
 //                if ( !paused ) {
 //                    var subdivisions = 1;
 //                    for ( var i = 0; i < subdivisions; i++ ) {
