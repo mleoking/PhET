@@ -25,11 +25,28 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
             energySkateParkCanvas.render();
         } );
 
+        new MBP.fastButton( $tab.find( '.barGraphButton' )[0], function ( e ) {
+            e.preventDefault();
+            model.barChartVisible.toggle();
+        } );
+
         //Wire up the buttons
-        $tab.find( '.barGraphButton' ).click( function () {model.barChartVisible.toggle();} );
-        $tab.find( '.pieChartButton' ).click( function () {model.pieChartVisible.toggle();} );
-        $tab.find( '.gridButton' ).click( function () {model.gridVisible.toggle();} );
-        $tab.find( '.speedometerButton' ).click( function () {model.speedometerVisible.toggle();} );
+//        $tab.find( '.barGraphButton' ).click( function () {
+//            model.barChartVisible.toggle();
+//            return false;
+//        } );
+//        $tab.find( '.pieChartButton' ).click( function () {
+//            model.pieChartVisible.toggle();
+//            return false;
+//        } );
+//        $tab.find( '.gridButton' ).click( function () {
+//            model.gridVisible.toggle();
+//            return false;
+//        } );
+//        $tab.find( '.speedometerButton' ).click( function () {
+//            model.speedometerVisible.toggle();
+//            return false;
+//        } );
     }
 
     Tab.prototype.$ = function ( selector ) {
