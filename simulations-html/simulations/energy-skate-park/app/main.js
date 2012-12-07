@@ -1,12 +1,11 @@
 require( ['websocket-refresh',
-             'tab',
              "tpl!view/massSlider.html",
              "tpl!view/frictionControls.html",
              '../../../common/phet/app/analytics/Analytics',
              'i18n!../nls/energy-skate-park-strings',
              'view/Tab',
              'easel'
-         ], function ( WebsocketRefresh, Tabold, massSlider, frictionControls, Analytics, Strings, Tab, Easel ) {
+         ], function ( WebsocketRefresh, massSlider, frictionControls, Analytics, Strings, Tab, Easel ) {
 
     WebsocketRefresh.listenForRefresh();
     var analytics = new Analytics();
