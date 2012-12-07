@@ -27,7 +27,7 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
 
         //Wire up the buttons
         var $barGraphButton = $tab.find( '.barGraphButton' );
-        $barGraphButton.click( function () {model.barChartVisible.set( !model.barChartVisible.get() )} );
+        $barGraphButton.click( function () {model.barChartVisible.set( !model.barChartVisible.get() );} );
     }
 
     Tab.prototype.$ = function ( selector ) {
