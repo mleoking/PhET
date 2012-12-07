@@ -79,25 +79,35 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+.play-area {
 
-.header {
-  position: fixed;
-  top: 1em;
-  left: 1em;
+    /*Fill the entire width, but do not create scroll bars*/
+    width: 99%;
+    height: 99%;
+    position: absolute;
+    top: 0;
+    left: 0;
 
-  border: 1px solid #000;
-
-  width: 80%;
-  min-height: 200px;
-
-  z-index: 100;
+    /*Put the play area behind everything else*/
+    z-index: -1;
 }
 
+.header {
+    position: fixed;
+    top: 1em;
+    left: 1em;
 
+    border: 1px solid #000;
 
+    width: 80%;
+    min-height: 200px;
 
+    z-index: 100;
+}
 
-
+.play-area {
+    border: 1px solid #000;
+}
 
 /* ==========================================================================
 Helper classes
@@ -208,7 +218,7 @@ Helper classes
     /* Style adjustments for viewports that meet the condition */
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144 dpi) {
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi) {
     /* Style adjustments for high resolution devices */
 }
 
