@@ -40,7 +40,7 @@ define( ['easel', 'underscore', 'view/easel/EnergySkateParkRootNode'], function 
         handleResize();
 
         //Enable touch and prevent default
-        Easel.Touch.enable( this.stage, false, true );
+        Easel.Touch.enable( this.stage, false, false );
 
         //Necessary to enable MouseOver events
         this.stage.enableMouseOver();

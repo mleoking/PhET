@@ -28,6 +28,8 @@ define( ['model/EnergySkateParkModel', 'underscore', 'view/EnergySkateParkCanvas
         //Wire up the buttons
         $tab.find( '.barGraphButton' ).click( function () {model.barChartVisible.toggle();} );
         $tab.find( '.pieChartButton' ).click( function () {model.pieChartVisible.toggle();} );
+        $tab.find( '.gridButton' ).click( function () {model.gridVisible.toggle();} );
+        $tab.find( '.speedometerButton' ).click( function () {model.speedometerVisible.toggle();} );
     }
 
     Tab.prototype.$ = function ( selector ) {
