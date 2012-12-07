@@ -1,7 +1,7 @@
 //One of the three tabs in Energy Skate Park
 define( ['easel',
             'model/skater-model',
-            'view/skater-view',
+            'view/easel/SkaterView',
             'view/easel/Background',
             'spline',
             'model/physics',
