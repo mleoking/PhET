@@ -1,7 +1,6 @@
 define( ['underscore', 'view/EnergySkateParkCanvas'], function ( _, EnergySkateParkCanvas ) {
     function Tab( $tab, Strings, analytics ) {
         var $canvas = $tab.find( 'canvas' );
-        console.log( $canvas );
 
         new EnergySkateParkCanvas( $canvas, Strings, analytics );
     }

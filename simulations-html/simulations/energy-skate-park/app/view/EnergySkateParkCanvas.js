@@ -16,14 +16,19 @@ define( ['easel', 'underscore', 'model/skater-model', 'view/easel-root'], functi
         stage.addChild( root );
 
 //        debugger
-        var width = $canvas.width();
-        var height = $canvas.height();
+
+        var width = window.innerWidth;
+        var height = window.innerHeight;
         var scale = Math.min( width / 1024, height / 768 );
+
         var canvasW = scale * 1024;
         var canvasH = scale * 768;
 
+        $canvas.attr( 'width', window.innerWidth );
+        $canvas.attr( 'height', window.innerHeight );
+
         //Allow the canvas to fill the screen, but still center the content within the window.
-        root.scaleX = root.scaleY = scale / 4;
+        root.scaleX = root.scaleY = scale;
         root.x = 0;
         root.y = 0;
 
