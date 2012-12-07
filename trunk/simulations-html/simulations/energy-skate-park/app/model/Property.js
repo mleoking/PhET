@@ -74,6 +74,16 @@ define( [],
                 };
 
                 /**
+                 * Adds an observer and sends a notification message with the current value.
+                 * TODO: Discuss with team whether this should be merged into addObserver
+                 * @param observer
+                 */
+                this.observe = function ( observer ) {
+                    this.addObserver( observer );
+                    observer( this.get(), this.get() );
+                };
+
+                /**
                  * Removes an observer.
                  * If observer is not registered, this is a no-op.
                  *

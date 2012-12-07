@@ -5,6 +5,8 @@ define( ['model/vector2d', 'model/Skater', 'model/Property', 'model/BooleanPrope
         this.skater = new Skater();
         this.barChartVisible = new BooleanProperty( false );
         this.pieChartVisible = new BooleanProperty( false );
+        this.gridVisible = new BooleanProperty( false );
+        this.speedometerVisible = new BooleanProperty( false );
     }
 
     return EnergySkateParkModel;
