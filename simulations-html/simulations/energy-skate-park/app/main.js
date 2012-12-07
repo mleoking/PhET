@@ -1,4 +1,4 @@
-require( ['WebsocketRefresh',
+require( ['util/WebsocketRefresh',
              '../../../common/phet/app/analytics/Analytics',
              'i18n!../nls/energy-skate-park-strings',
              'view/Tab',
