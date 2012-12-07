@@ -1,10 +1,10 @@
-define( ['model/skater-model', 'underscore', 'view/EnergySkateParkCanvas', 'model/physics', 'Property'], function ( SkaterModel, _, EnergySkateParkCanvas, Physics, Property ) {
+define( ['model/Skater', 'underscore', 'view/EnergySkateParkCanvas', 'model/physics', 'Property'], function ( Skater, _, EnergySkateParkCanvas, Physics, Property ) {
     function Tab( $tab, Easel, Strings, analytics ) {
         var self = this;
         self.dt = new Property( 0.02 );
         var $canvas = $tab.find( 'canvas' );
 
-        var skaterModel = new SkaterModel();
+        var skaterModel = new Skater();
         var groundHeight = 116;
         var groundY = 768 - groundHeight;
 
